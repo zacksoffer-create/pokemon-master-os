@@ -1,0 +1,40 @@
+{
+ "id": "research-paul-battle-pyramid",
+ "kind": "research",
+ "added_on": "2026-10-19",
+ "provenance": "ingested",
+ "source": {
+  "title": "Web search in session: Paul and the Battle Pyramid (2026-10-19)",
+  "url": "https://serebii.net/anime/epiguide/shinou/596.shtml"
+ },
+ "summary": "Serebii's episode guide confirms Paul lost to Pyramid King Brandon. The record's region (filed as Kanto) still has no source; it's open as ASK-0014 in the agent sheet.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.paul.career.0.result",
+    "value": "challenged the Battle Pyramid and lost to Brandon",
+    "was": "challenged the Battle Pyramid and lost to Brandon (draft: confirm)",
+    "why": "Serebii's episode guide says Paul is defeated by Pyramid King Brandon"
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://serebii.net/anime/epiguide/shinou/596.shtml",
+   "id": "c1"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.paul.career.0.status",
+    "value": "result confirmed; region open (ASK-0014)",
+    "was": "draft: confirm",
+    "why": "the result now has a source; the region doesn't yet"
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://serebii.net/anime/epiguide/shinou/596.shtml",
+   "id": "c2"
+  }
+ ],
+ "status": "open"
+}

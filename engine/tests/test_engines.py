@@ -1,6 +1,7 @@
 """Regression tests: every verified fact the engines rely on. Run from engine/:
     python3 -I -m unittest discover -s tests -v
 Needs engine/data/pokeref.sqlite (python3 -I fetch_reference.py) and battle/node_modules (npm ci)."""
+import json
 import os
 import sys
 import tempfile
@@ -1015,6 +1016,161 @@ class TrainerPlaysheet(unittest.TestCase):
         a = _json.dumps(self.report(self.store, "paul", "sinnoh")["playsheet"], sort_keys=True, default=list)
         b = _json.dumps(self.report(self.store, "paul", "sinnoh")["playsheet"], sort_keys=True, default=list)
         self.assertEqual(a, b)
+
+
+class Intake(unittest.TestCase):
+    """The intake inbox (docs/INGEST.md): sources become cards of proposed claims; nothing reaches canon unapproved."""
+    def setUp(self):
+        import shutil
+        from ingest.cards import Inbox
+        self.tmp = tempfile.mkdtemp()
+        os.makedirs(os.path.join(self.tmp, "canon"))
+        for f in ("trainers.json", "build_library.json"):
+            shutil.copy(os.path.join(ENGINE, "canon", f), os.path.join(self.tmp, "canon", f))
+        self.inbox = Inbox(base=self.tmp)
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.tmp)
+
+    def _envelope(self):
+        """A hand-written test envelope in the analyzer's shape (not a model result)."""
+        return {"app": "test", "lens": "pokemon", "source": {"platform": "YOUTUBE", "url": "https://youtu.be/abc123xyz",
+                                                             "key": "abc123xyz", "creator": "A Nature Channel", "analysed": "video"},
+                "analysis": {"provider": "Gemini", "model": "test"},
+                "result": {"summary": "A Garchomp hunts at dusk.", "transcript": [], "on_screen_text": [],
+                           "observations": [], "limitations": [],
+                           "pokemon": {"videoType": "NATURE_DOCUMENTARY",
+                                       "species": [{"name": "Garchomp", "confidence": "HIGH"}],
+                                       "behaviors": [{"species": "Garchomp", "behavior": "hunts by gliding low over sand",
+                                                      "context": "dusk", "at": "00:42"}],
+                                       "habitats": [{"species": "Garchomp", "habitat": "desert caves", "time_of_day": "dusk",
+                                                     "at": "00:10"}],
+                                       "battle": [], "lore": [],
+                                       "builds": [{"species": "Garchomp", "moves": ["Earthquake", "Outrage"],
+                                                   "game_or_generation": "Platinum", "at": "02:00"}],
+                                       "style": {"narration_voice": "a calm, low narrator", "pacing": "slow",
+                                                 "tone": "reverent", "structure": ["dawn", "the hunt", "night"],
+                                                 "shots": [{"at": "00:05", "framing": "wide aerial", "camera_move": "slow push-in",
+                                                            "subject": "the dunes"}]}}}}
+
+    def test_an_envelope_becomes_one_card_of_proposed_claims_with_sources(self):
+        from ingest.media import to_card
+        card, made = to_card(self.inbox, self._envelope())
+        self.assertTrue(made)
+        kinds = [c["kind"] for c in card["claims"]]
+        self.assertEqual(kinds, ["field_note", "field_note", "build", "style_card"])
+        self.assertTrue(all(c["status"] == "proposed" for c in card["claims"]))
+        self.assertEqual(card["claims"][0]["source_ref"], "https://youtu.be/abc123xyz @ 00:42")
+        self.assertEqual(card["claims"][2]["data"]["generation"], 4)          # "Platinum" read as Gen 4
+        again, made = to_card(self.inbox, self._envelope())
+        self.assertFalse(made)                                                # the same video is the same card
+
+    def test_nothing_lands_until_approved_and_each_kind_lands_in_its_place(self):
+        from ingest.media import to_card
+        card, _ = to_card(self.inbox, self._envelope())
+        self.assertEqual(self.inbox.apply(), [])                              # nothing approved, nothing written
+        self.inbox.approve(card["id"])
+        out = self.inbox.apply()
+        self.assertEqual(len(out), 4)
+        with open(os.path.join(self.tmp, "canon", "field_notes.jsonl"), encoding="utf-8") as fh:
+            notes = [json.loads(l) for l in fh]
+        self.assertEqual((notes[0]["species"], notes[0]["provenance"], notes[0]["card"]),
+                         ("Garchomp", "ingested", card["id"]))
+        with open(os.path.join(self.tmp, "canon", "build_library.json"), encoding="utf-8") as fh:
+            lib = json.load(fh)["builds"]
+        new = [b for b in lib.values() if b.get("source", "").startswith("external: https://youtu.be/abc123xyz")]
+        self.assertEqual(len(new), 1)                                        # external, with its source
+        self.inbox.apply()
+        with open(os.path.join(self.tmp, "canon", "field_notes.jsonl"), encoding="utf-8") as fh:
+            self.assertEqual(len(fh.readlines()), 2)                          # applying twice doesn't duplicate
+
+    def test_a_claim_missing_what_its_kind_needs_waits_for_an_edit(self):
+        c = self.inbox.claim("build", {"species": "Garchomp", "moves": ["Earthquake"]})
+        card, _ = self.inbox.new("note", "chomp", {"title": "a note"}, "ingested", "", [c])
+        msg = self.inbox.approve(card["id"], "c1")
+        self.assertIn("needs generation", msg[0])
+        self.inbox.edit(card["id"], "c1", "generation", "4")
+        self.assertEqual(self.inbox.approve(card["id"], "c1"), [f"{card['id']}:c1 approved"])
+
+    def test_rejections_and_corrections(self):
+        fix = self.inbox.claim("correction", {"target": "canon/trainers.json:trainers.paul.career.0.status",
+                                              "value": "confirmed", "why": "Serebii episode guide"})
+        bad = self.inbox.claim("correction", {"target": "canon/trainers.json:trainers.paul.name", "value": "Shinji",
+                                              "why": "test"})
+        card, _ = self.inbox.new("note", "paul", {"title": "research"}, "ingested", "", [fix, bad])
+        self.inbox.approve(card["id"], "c1")
+        self.inbox.reject(card["id"], "c2", why="names stay as they are")
+        out = self.inbox.apply(card["id"])
+        self.assertEqual(len(out), 1)
+        with open(os.path.join(self.tmp, "canon", "trainers.json"), encoding="utf-8") as fh:
+            self.assertEqual(json.load(fh)["trainers"]["paul"]["career"][0]["status"], "confirmed")
+        self.assertEqual(self.inbox.load(card["id"])["claims"][1]["status"], "rejected")
+        rogue = self.inbox.claim("correction", {"target": "canon/trainers.json:trainers.paul.name", "value": "x",
+                                                "why": "x"})
+        card2, _ = self.inbox.new("note", "rogue", {"title": "x"}, "ingested", "", [rogue])
+        self.inbox.approve(card2["id"])
+        with self.assertRaises(PermissionError):                              # only allowed paths can change
+            self.inbox.apply(card2["id"])
+
+    def test_the_gemini_call_and_answer(self):
+        from ingest.media import Gemini, parse_response, platform_of, video_key
+        cfg = self.inbox.cfg
+        g = Gemini(cfg)
+        url, headers, body = g.request([{"file_data": {"file_uri": "https://youtu.be/abc123xyz"}}, {"text": "go"}])
+        self.assertTrue(url.endswith(f"/models/{cfg['gemini']['model']}:generateContent"))
+        self.assertEqual(body["generationConfig"]["responseMimeType"], "application/json")
+        self.assertIn("x-goog-api-key", headers)
+        result, usage, _ = parse_response({"candidates": [{"content": {"parts": [{"text": "```json\n{\"summary\": \"x\"}\n```"}]}}],
+                                           "usageMetadata": {"totalTokenCount": 10}})
+        self.assertEqual((result, usage["totalTokenCount"]), ({"summary": "x"}, 10))
+        self.assertTrue(platform_of("https://www.youtube.com/watch?v=abc", cfg)[1]["direct_to_model"])
+        self.assertFalse(platform_of("https://www.tiktok.com/@a/video/7696546463953718541", cfg)[1]["direct_to_model"])
+        self.assertEqual(video_key("https://www.tiktok.com/@a/video/7696546463953718541"), "7696546463953718541")
+
+    def test_without_a_key_it_says_so_and_writes_nothing(self):
+        from ingest.media import NotReady, analyze
+        saved = os.environ.pop(self.inbox.cfg["gemini"]["key_env"], None)
+        try:
+            with self.assertRaises(NotReady):
+                analyze(self.inbox.cfg, "pokemon", "video", "https://youtu.be/abc123xyz")
+        finally:
+            if saved:
+                os.environ[self.inbox.cfg["gemini"]["key_env"]] = saved
+        self.assertEqual(self.inbox.all(), [])
+
+    def test_a_food_os_envelope_has_the_same_core(self):
+        """Food OS and this analyzer share the envelope; a food-lens result simply has no pokemon block."""
+        from ingest.media import claims_from
+        food = {"source": {"platform": "TIKTOK", "url": "https://www.tiktok.com/@x/video/1"},
+                "result": {"summary": "a steakhouse", "transcript": [], "foodos": {"places": []}}}
+        self.assertEqual(claims_from(self.inbox, food, self.inbox.cfg["lenses"]["pokemon"]), [])
+
+    def test_a_paste_becomes_builds_read_by_the_engine(self):
+        from ingest.builds import to_card
+        paste = "Garchomp @ Life Orb\nAbility: Sand Veil\nEVs: 4 HP / 252 Atk / 252 Spe\nJolly Nature\n- Swords Dance\n- Earthquake\n- Outrage\n- Fire Fang"
+        card, _ = to_card(self.inbox, paste, "platinum")
+        c = card["claims"][0]
+        self.assertEqual((card["provenance"], c["data"]["generation"]), ("authored", 4))
+        self.assertIn("physical setup sweeper", c["note"])
+        self.assertIn("Swords Dance sweeper", c["note"])                     # its closest archetype
+        self.inbox.approve(card["id"])
+        self.inbox.apply(card["id"])
+        with open(os.path.join(self.tmp, "canon", "build_library.json"), encoding="utf-8") as fh:
+            mine = [b for b in json.load(fh)["builds"].values() if b.get("source") == "mine"]
+        self.assertEqual(mine[0]["species"], "Garchomp")
+
+    def test_the_documentary_kit_only_says_what_the_field_notes_support(self):
+        from ingest.docprompt import kit
+        from ingest.media import to_card
+        self.assertIn("no approved field notes", kit(self.inbox.cfg, "Garchomp", base=self.tmp)["error"])
+        card, _ = to_card(self.inbox, self._envelope())
+        self.inbox.approve(card["id"])
+        self.inbox.apply()
+        k = kit(self.inbox.cfg, "Garchomp", base=self.tmp)
+        self.assertIn("hunts by gliding low over sand", k["narration_brief"])
+        self.assertIn("wide aerial", k["shots"][0])
+        self.assertIn("https://youtu.be/abc123xyz @ 00:42", k["grounded_in"])
 
 
 if __name__ == "__main__":

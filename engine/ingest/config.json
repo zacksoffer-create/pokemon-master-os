@@ -1,0 +1,85 @@
+{
+ "_note": "The intake engine's settings (docs/INGEST.md). Everything that comes in (a video, a screenshot, a web page, a Showdown paste, a research result) becomes a card of proposed claims; nothing reaches canon until it's approved. The analyzer writes the same envelope Food OS writes (source, analysis, result with summary, transcript, on-screen text, observations, limitations), plus one block per lens, so a shared intake engine for every project can take this over later.",
+
+ "app": "Pokémon Master OS",
+ "version": "1",
+
+ "gemini": {
+  "_note": "Video, image and page analysis runs on Google's Gemini API, the same provider and model family Food OS uses. The key is read from the environment variable below (set it in the cloud environment's settings, never in chat or in a file). The API bills per token; Food OS's results record about 7,500 to 14,000 tokens per video.",
+  "key_env": "GEMINI_API_KEY",
+  "base": "https://generativelanguage.googleapis.com/v1beta",
+  "upload_base": "https://generativelanguage.googleapis.com/upload/v1beta",
+  "model": "gemini-3.8-flash",
+  "inline_max_bytes": 18000000,
+  "timeout_seconds": 300,
+  "poll_seconds": 3
+ },
+
+ "download": {
+  "_note": "TikTok, Instagram and other links are downloaded with yt-dlp, then uploaded to Gemini. YouTube links go to Gemini directly (no download). Each site's domain must be allowed in the environment's network settings.",
+  "tool": "yt-dlp",
+  "format": "mp4/best[ext=mp4]/best",
+  "max_filesize": "200M"
+ },
+
+ "platforms": {
+  "youtube": {"hosts": ["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be"], "direct_to_model": true},
+  "tiktok": {"hosts": ["tiktok.com", "www.tiktok.com", "vm.tiktok.com"], "direct_to_model": false},
+  "instagram": {"hosts": ["instagram.com", "www.instagram.com"], "direct_to_model": false}
+ },
+
+ "review": {
+  "_note": "Who approves. Everything goes through you by default. List a provenance here (e.g. 'cartridge') to let its claims approve themselves; leave it empty to see everything.",
+  "auto_approve_provenance": []
+ },
+
+ "store": {
+  "cards": "canon/inbox/cards",
+  "raw": "canon/inbox/raw"
+ },
+
+ "claims": {
+  "_note": "What a claim can be, and where an approved one lands. 'requires' lists the fields a claim must have before it can be approved (a build needs its generation; nothing external is trusted without a source).",
+  "field_note": {"lands_in": "canon/field_notes.jsonl", "requires": ["species", "note"], "label": "species field note (behavior, habitat, diet, social life)"},
+  "observation": {"lands_in": "canon/observations.jsonl", "requires": ["trainer", "pokemon", "move", "outcome"], "label": "battle observation"},
+  "build": {"lands_in": "canon/build_library.json", "requires": ["species", "moves", "generation"], "label": "a build (yours, or external with its source)"},
+  "lore": {"lands_in": "canon/lore.jsonl", "requires": ["subject", "fact"], "label": "a canon fact (show, games, manga), with its citation"},
+  "career": {"lands_in": "canon/trainers.json", "requires": ["trainer", "region", "event", "result"], "label": "a trainer's career record"},
+  "style_card": {"lands_in": "canon/video_styles.jsonl", "requires": ["name"], "label": "a video's style, for the documentary prompt kit"},
+  "correction": {"lands_in": "(the file it names)", "requires": ["target", "value", "why"], "label": "a correction to something already in canon"}
+ },
+
+ "corrections": {
+  "_note": "Which canon values a correction may change, as file + path patterns. Anything else is refused.",
+  "allowed": [
+   {"file": "canon/trainers.json", "path": "trainers.*.career.*.*"},
+   {"file": "canon/trainers.json", "path": "trainers.*.versions.*.signature_moves.*.*"},
+   {"file": "canon/trainers.json", "path": "trainers.*.versions.*.overrides.ace"},
+   {"file": "canon/build_library.json", "path": "builds.*.*"}
+  ]
+ },
+
+ "lenses": {
+  "_note": "A lens is what the analyzer is asked to look for. The core (summary, transcript, on-screen text, observations, limitations) is the same for every lens; the block is the lens's own.",
+  "pokemon": {
+   "block": "pokemon",
+   "video_types": ["NATURE_DOCUMENTARY", "ANIME_CLIP", "GAMEPLAY", "BATTLE", "TEAMBUILDING", "EXPLAINER", "FAN_ANIMATION", "OTHER"],
+   "prompt": "You are watching material for a Pokémon research archive (games, anime, manga, fan documentaries). Report only what the material shows or says, with a timestamp (mm:ss) for every item; never fill gaps from memory. Return one JSON object with exactly these keys:\n\nsummary: two sentences on what this is.\ntranscript: [{timestamp, text}] every spoken line, in order (narration and dialogue), in the original language with an English translation in brackets if it isn't English.\non_screen_text: [{timestamp, text}] captions, titles, menus, battle text.\nobservations: [{timestamp, text}] what is visible, shot by shot, in plain words.\nlimitations: [text] what the material doesn't show or can't settle.\npokemon: {\n  videoType: one of NATURE_DOCUMENTARY, ANIME_CLIP, GAMEPLAY, BATTLE, TEAMBUILDING, EXPLAINER, FAN_ANIMATION, OTHER,\n  species: [{name, evidence: [{from: speech|onscreen|visual|caption, text, at}], confidence: HIGH|MEDIUM|LOW}],\n  behaviors: [{species, behavior, context, at}]  (feeding, hunting, nesting, play, social, migration, defense, battle style),\n  habitats: [{species, habitat, time_of_day, weather, season, region_if_named, at}],\n  battle: [{trainer, pokemon, move, situation, outcome, at}]  (who used what, when, and what happened; situation is even, ahead or behind if you can tell),\n  builds: [{species, nickname, moves, item, ability, nature, evs, ivs, level, game_or_generation, at}]  (only when a set is shown or stated),\n  lore: [{subject, fact, episode_or_title, at}]  (canon facts the material states),\n  style: {narration_voice, narrator_perspective, pacing, music, tone, color_and_light, structure: [beats in order], shots: [{at, shot, framing, camera_move, subject}]},\n  creatorClaims: [text]  (opinions or claims the creator makes that the material doesn't prove),\n  notInVideo: [text]  (things a researcher would want that this doesn't show)\n}\nUse empty lists for anything absent. Names: official English Pokémon names.",
+   "claims_from": {
+    "behaviors": "field_note",
+    "habitats": "field_note",
+    "battle": "observation",
+    "builds": "build",
+    "lore": "lore",
+    "style": "style_card"
+   }
+  }
+ },
+
+ "doc_prompt": {
+  "_note": "The documentary prompt kit: a narration brief and shot-by-shot prompts for a video tool (Sora, Veo, Runway…), grounded in approved field notes and an approved style card. Edit the templates freely.",
+  "narration": "Write narration in the voice of {narration_voice}, {narrator_perspective}. Tone: {tone}. Pacing: {pacing}. Follow this structure: {structure}. The subject is {species} in {setting}. Everything the narration says about {species} must come from these field notes, nothing invented: {notes}. Length: about {seconds} seconds read aloud.",
+  "shot": "{framing} of {subject} ({species}) in {setting}, {camera_move}. {color_and_light}. Nature documentary realism, no on-screen text. Behavior: {behavior}.",
+  "default_seconds": 60
+ }
+}
