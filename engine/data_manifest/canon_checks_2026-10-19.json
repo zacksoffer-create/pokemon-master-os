@@ -1,0 +1,3812 @@
+{
+ "move_claims": [
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Flamethrower",
+   "exists_in_gen": true,
+   "native": [
+    "Cyndaquil:level-up@37",
+    "Cyndaquil:machine",
+    "Quilava:level-up@42",
+    "Quilava:machine",
+    "Typhlosion:level-up@42",
+    "Typhlosion:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Cyndaquil:level-up(vg8)",
+    "same-gen trade:Cyndaquil:level-up(vg9)",
+    "same-gen trade:Cyndaquil:machine(vg8)",
+    "same-gen trade:Cyndaquil:machine(vg9)",
+    "same-gen trade:Quilava:level-up(vg8)",
+    "same-gen trade:Quilava:level-up(vg9)",
+    "same-gen trade:Quilava:machine(vg8)",
+    "same-gen trade:Quilava:machine(vg9)",
+    "same-gen trade:Typhlosion:level-up(vg8)",
+    "same-gen trade:Typhlosion:level-up(vg9)",
+    "same-gen trade:Typhlosion:machine(vg8)",
+    "same-gen trade:Typhlosion:machine(vg9)",
+    "transfer:Cyndaquil:level-up(vg12)",
+    "transfer:Cyndaquil:level-up(vg13)",
+    "transfer:Cyndaquil:level-up(vg5)",
+    "transfer:Cyndaquil:level-up(vg6)",
+    "transfer:Cyndaquil:level-up(vg7)",
+    "transfer:Cyndaquil:machine(vg12)",
+    "transfer:Cyndaquil:machine(vg13)",
+    "transfer:Cyndaquil:machine(vg5)",
+    "transfer:Cyndaquil:machine(vg6)",
+    "transfer:Cyndaquil:machine(vg7)",
+    "transfer:Quilava:level-up(vg12)",
+    "transfer:Quilava:level-up(vg13)",
+    "transfer:Quilava:level-up(vg5)",
+    "transfer:Quilava:level-up(vg6)",
+    "transfer:Quilava:level-up(vg7)",
+    "transfer:Quilava:machine(vg12)",
+    "transfer:Quilava:machine(vg13)",
+    "transfer:Quilava:machine(vg5)",
+    "transfer:Quilava:machine(vg6)",
+    "transfer:Quilava:machine(vg7)",
+    "transfer:Typhlosion:level-up(vg12)",
+    "transfer:Typhlosion:level-up(vg13)",
+    "transfer:Typhlosion:level-up(vg5)",
+    "transfer:Typhlosion:level-up(vg6)",
+    "transfer:Typhlosion:level-up(vg7)",
+    "transfer:Typhlosion:machine(vg12)",
+    "transfer:Typhlosion:machine(vg13)",
+    "transfer:Typhlosion:machine(vg5)",
+    "transfer:Typhlosion:machine(vg6)",
+    "transfer:Typhlosion:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Extrasensory",
+   "exists_in_gen": true,
+   "native": [
+    "Cyndaquil:egg"
+   ],
+   "other_routes": [],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Thunder Punch",
+   "exists_in_gen": true,
+   "native": [
+    "Typhlosion:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Typhlosion:tutor(vg9)",
+    "transfer:Typhlosion:tutor(vg6)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Earthquake",
+   "exists_in_gen": true,
+   "native": [
+    "Typhlosion:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Typhlosion:machine(vg8)",
+    "same-gen trade:Typhlosion:machine(vg9)",
+    "transfer:Typhlosion:machine(vg12)",
+    "transfer:Typhlosion:machine(vg13)",
+    "transfer:Typhlosion:machine(vg5)",
+    "transfer:Typhlosion:machine(vg6)",
+    "transfer:Typhlosion:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Sunny Day",
+   "exists_in_gen": true,
+   "native": [
+    "Cyndaquil:machine",
+    "Quilava:machine",
+    "Typhlosion:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Cyndaquil:machine(vg8)",
+    "same-gen trade:Cyndaquil:machine(vg9)",
+    "same-gen trade:Quilava:machine(vg8)",
+    "same-gen trade:Quilava:machine(vg9)",
+    "same-gen trade:Typhlosion:machine(vg8)",
+    "same-gen trade:Typhlosion:machine(vg9)",
+    "transfer:Cyndaquil:machine(vg12)",
+    "transfer:Cyndaquil:machine(vg13)",
+    "transfer:Cyndaquil:machine(vg5)",
+    "transfer:Cyndaquil:machine(vg6)",
+    "transfer:Cyndaquil:machine(vg7)",
+    "transfer:Quilava:machine(vg12)",
+    "transfer:Quilava:machine(vg13)",
+    "transfer:Quilava:machine(vg5)",
+    "transfer:Quilava:machine(vg6)",
+    "transfer:Quilava:machine(vg7)",
+    "transfer:Typhlosion:machine(vg12)",
+    "transfer:Typhlosion:machine(vg13)",
+    "transfer:Typhlosion:machine(vg5)",
+    "transfer:Typhlosion:machine(vg6)",
+    "transfer:Typhlosion:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Solar Beam",
+   "exists_in_gen": true,
+   "native": [
+    "Typhlosion:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Typhlosion:machine(vg8)",
+    "same-gen trade:Typhlosion:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Eruption",
+   "exists_in_gen": true,
+   "native": [
+    "Cyndaquil:level-up@49",
+    "Quilava:level-up@57",
+    "Typhlosion:level-up@57"
+   ],
+   "other_routes": [
+    "same-gen trade:Cyndaquil:level-up(vg8)",
+    "same-gen trade:Cyndaquil:level-up(vg9)",
+    "same-gen trade:Quilava:level-up(vg8)",
+    "same-gen trade:Quilava:level-up(vg9)",
+    "same-gen trade:Typhlosion:level-up(vg8)",
+    "same-gen trade:Typhlosion:level-up(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Hidden Power",
+   "exists_in_gen": true,
+   "native": [
+    "Cyndaquil:machine",
+    "Quilava:machine",
+    "Typhlosion:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Cyndaquil:machine(vg8)",
+    "same-gen trade:Cyndaquil:machine(vg9)",
+    "same-gen trade:Quilava:machine(vg8)",
+    "same-gen trade:Quilava:machine(vg9)",
+    "same-gen trade:Typhlosion:machine(vg8)",
+    "same-gen trade:Typhlosion:machine(vg9)",
+    "transfer:Cyndaquil:machine(vg12)",
+    "transfer:Cyndaquil:machine(vg13)",
+    "transfer:Cyndaquil:machine(vg5)",
+    "transfer:Cyndaquil:machine(vg6)",
+    "transfer:Cyndaquil:machine(vg7)",
+    "transfer:Quilava:machine(vg12)",
+    "transfer:Quilava:machine(vg13)",
+    "transfer:Quilava:machine(vg5)",
+    "transfer:Quilava:machine(vg6)",
+    "transfer:Quilava:machine(vg7)",
+    "transfer:Typhlosion:machine(vg12)",
+    "transfer:Typhlosion:machine(vg13)",
+    "transfer:Typhlosion:machine(vg5)",
+    "transfer:Typhlosion:machine(vg6)",
+    "transfer:Typhlosion:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "move": "Focus Blast",
+   "exists_in_gen": true,
+   "native": [
+    "Typhlosion:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Typhlosion:machine(vg8)",
+    "same-gen trade:Typhlosion:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "move": "Dragon Dance",
+   "exists_in_gen": true,
+   "native": [
+    "Larvitar:egg"
+   ],
+   "other_routes": [
+    "same-gen trade:Larvitar:egg(vg8)",
+    "same-gen trade:Larvitar:egg(vg9)",
+    "transfer:Larvitar:egg(vg5)",
+    "transfer:Larvitar:egg(vg6)",
+    "transfer:Larvitar:egg(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "move": "Crunch",
+   "exists_in_gen": true,
+   "native": [
+    "Larvitar:level-up@37",
+    "Pupitar:level-up@41",
+    "Tyranitar:level-up@41"
+   ],
+   "other_routes": [
+    "same-gen trade:Larvitar:level-up(vg8)",
+    "same-gen trade:Larvitar:level-up(vg9)",
+    "same-gen trade:Pupitar:level-up(vg8)",
+    "same-gen trade:Pupitar:level-up(vg9)",
+    "same-gen trade:Tyranitar:level-up(vg8)",
+    "same-gen trade:Tyranitar:level-up(vg9)",
+    "transfer:Larvitar:level-up(vg12)",
+    "transfer:Larvitar:level-up(vg13)",
+    "transfer:Larvitar:level-up(vg5)",
+    "transfer:Larvitar:level-up(vg6)",
+    "transfer:Larvitar:level-up(vg7)",
+    "transfer:Pupitar:level-up(vg12)",
+    "transfer:Pupitar:level-up(vg13)",
+    "transfer:Pupitar:level-up(vg5)",
+    "transfer:Pupitar:level-up(vg6)",
+    "transfer:Pupitar:level-up(vg7)",
+    "transfer:Tyranitar:level-up(vg12)",
+    "transfer:Tyranitar:level-up(vg13)",
+    "transfer:Tyranitar:level-up(vg5)",
+    "transfer:Tyranitar:level-up(vg6)",
+    "transfer:Tyranitar:level-up(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "move": "Earthquake",
+   "exists_in_gen": true,
+   "native": [
+    "Larvitar:level-up@41",
+    "Larvitar:machine",
+    "Pupitar:level-up@47",
+    "Pupitar:machine",
+    "Tyranitar:level-up@47",
+    "Tyranitar:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Larvitar:level-up(vg8)",
+    "same-gen trade:Larvitar:level-up(vg9)",
+    "same-gen trade:Larvitar:machine(vg8)",
+    "same-gen trade:Larvitar:machine(vg9)",
+    "same-gen trade:Pupitar:level-up(vg8)",
+    "same-gen trade:Pupitar:level-up(vg9)",
+    "same-gen trade:Pupitar:machine(vg8)",
+    "same-gen trade:Pupitar:machine(vg9)",
+    "same-gen trade:Tyranitar:level-up(vg8)",
+    "same-gen trade:Tyranitar:level-up(vg9)",
+    "same-gen trade:Tyranitar:machine(vg8)",
+    "same-gen trade:Tyranitar:machine(vg9)",
+    "transfer:Larvitar:level-up(vg12)",
+    "transfer:Larvitar:level-up(vg13)",
+    "transfer:Larvitar:level-up(vg5)",
+    "transfer:Larvitar:level-up(vg6)",
+    "transfer:Larvitar:level-up(vg7)",
+    "transfer:Larvitar:machine(vg12)",
+    "transfer:Larvitar:machine(vg13)",
+    "transfer:Larvitar:machine(vg5)",
+    "transfer:Larvitar:machine(vg6)",
+    "transfer:Larvitar:machine(vg7)",
+    "transfer:Pupitar:level-up(vg12)",
+    "transfer:Pupitar:level-up(vg13)",
+    "transfer:Pupitar:level-up(vg5)",
+    "transfer:Pupitar:level-up(vg6)",
+    "transfer:Pupitar:level-up(vg7)",
+    "transfer:Pupitar:machine(vg12)",
+    "transfer:Pupitar:machine(vg13)",
+    "transfer:Pupitar:machine(vg5)",
+    "transfer:Pupitar:machine(vg6)",
+    "transfer:Pupitar:machine(vg7)",
+    "transfer:Tyranitar:level-up(vg12)",
+    "transfer:Tyranitar:level-up(vg13)",
+    "transfer:Tyranitar:level-up(vg5)",
+    "transfer:Tyranitar:level-up(vg6)",
+    "transfer:Tyranitar:level-up(vg7)",
+    "transfer:Tyranitar:machine(vg12)",
+    "transfer:Tyranitar:machine(vg13)",
+    "transfer:Tyranitar:machine(vg5)",
+    "transfer:Tyranitar:machine(vg6)",
+    "transfer:Tyranitar:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "move": "Outrage",
+   "exists_in_gen": true,
+   "native": [
+    "Larvitar:egg",
+    "Tyranitar:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Larvitar:egg(vg8)",
+    "same-gen trade:Larvitar:egg(vg9)",
+    "same-gen trade:Tyranitar:tutor(vg9)",
+    "transfer:Larvitar:egg(vg5)",
+    "transfer:Larvitar:egg(vg6)",
+    "transfer:Larvitar:egg(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "move": "Rock Slide",
+   "exists_in_gen": true,
+   "native": [
+    "Larvitar:level-up@14",
+    "Larvitar:machine",
+    "Pupitar:level-up@14",
+    "Pupitar:machine",
+    "Tyranitar:level-up@14",
+    "Tyranitar:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Larvitar:level-up(vg8)",
+    "same-gen trade:Larvitar:level-up(vg9)",
+    "same-gen trade:Larvitar:machine(vg8)",
+    "same-gen trade:Larvitar:machine(vg9)",
+    "same-gen trade:Pupitar:level-up(vg8)",
+    "same-gen trade:Pupitar:level-up(vg9)",
+    "same-gen trade:Pupitar:machine(vg8)",
+    "same-gen trade:Pupitar:machine(vg9)",
+    "same-gen trade:Tyranitar:level-up(vg8)",
+    "same-gen trade:Tyranitar:level-up(vg9)",
+    "same-gen trade:Tyranitar:machine(vg8)",
+    "same-gen trade:Tyranitar:machine(vg9)",
+    "transfer:Larvitar:level-up(vg12)",
+    "transfer:Larvitar:level-up(vg13)",
+    "transfer:Larvitar:level-up(vg5)",
+    "transfer:Larvitar:level-up(vg6)",
+    "transfer:Larvitar:level-up(vg7)",
+    "transfer:Larvitar:tutor(vg6)",
+    "transfer:Larvitar:tutor(vg7)",
+    "transfer:Pupitar:level-up(vg12)",
+    "transfer:Pupitar:level-up(vg13)",
+    "transfer:Pupitar:level-up(vg5)",
+    "transfer:Pupitar:level-up(vg6)",
+    "transfer:Pupitar:level-up(vg7)",
+    "transfer:Pupitar:tutor(vg6)",
+    "transfer:Pupitar:tutor(vg7)",
+    "transfer:Tyranitar:level-up(vg12)",
+    "transfer:Tyranitar:level-up(vg13)",
+    "transfer:Tyranitar:level-up(vg5)",
+    "transfer:Tyranitar:level-up(vg6)",
+    "transfer:Tyranitar:level-up(vg7)",
+    "transfer:Tyranitar:tutor(vg6)",
+    "transfer:Tyranitar:tutor(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "move": "Stone Edge",
+   "exists_in_gen": true,
+   "native": [
+    "Larvitar:level-up@46",
+    "Larvitar:machine",
+    "Pupitar:level-up@54",
+    "Pupitar:machine",
+    "Tyranitar:level-up@54",
+    "Tyranitar:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Larvitar:level-up(vg8)",
+    "same-gen trade:Larvitar:level-up(vg9)",
+    "same-gen trade:Larvitar:machine(vg8)",
+    "same-gen trade:Larvitar:machine(vg9)",
+    "same-gen trade:Pupitar:level-up(vg8)",
+    "same-gen trade:Pupitar:level-up(vg9)",
+    "same-gen trade:Pupitar:machine(vg8)",
+    "same-gen trade:Pupitar:machine(vg9)",
+    "same-gen trade:Tyranitar:level-up(vg8)",
+    "same-gen trade:Tyranitar:level-up(vg9)",
+    "same-gen trade:Tyranitar:machine(vg8)",
+    "same-gen trade:Tyranitar:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "move": "Earthquake",
+   "exists_in_gen": true,
+   "native": [
+    "Mamoswine:level-up@40",
+    "Mamoswine:machine",
+    "Piloswine:level-up@40",
+    "Piloswine:machine",
+    "Swinub:level-up@37",
+    "Swinub:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Mamoswine:level-up(vg8)",
+    "same-gen trade:Mamoswine:level-up(vg9)",
+    "same-gen trade:Mamoswine:machine(vg8)",
+    "same-gen trade:Mamoswine:machine(vg9)",
+    "same-gen trade:Piloswine:level-up(vg8)",
+    "same-gen trade:Piloswine:level-up(vg9)",
+    "same-gen trade:Piloswine:machine(vg8)",
+    "same-gen trade:Piloswine:machine(vg9)",
+    "same-gen trade:Swinub:level-up(vg8)",
+    "same-gen trade:Swinub:level-up(vg9)",
+    "same-gen trade:Swinub:machine(vg8)",
+    "same-gen trade:Swinub:machine(vg9)",
+    "transfer:Piloswine:machine(vg12)",
+    "transfer:Piloswine:machine(vg13)",
+    "transfer:Piloswine:machine(vg5)",
+    "transfer:Piloswine:machine(vg6)",
+    "transfer:Piloswine:machine(vg7)",
+    "transfer:Swinub:machine(vg12)",
+    "transfer:Swinub:machine(vg13)",
+    "transfer:Swinub:machine(vg5)",
+    "transfer:Swinub:machine(vg6)",
+    "transfer:Swinub:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "move": "Ancient Power",
+   "exists_in_gen": true,
+   "native": [
+    "Mamoswine:level-up@1",
+    "Mamoswine:tutor",
+    "Piloswine:level-up@1",
+    "Piloswine:tutor",
+    "Swinub:egg",
+    "Swinub:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Mamoswine:level-up(vg8)",
+    "same-gen trade:Mamoswine:level-up(vg9)",
+    "same-gen trade:Mamoswine:tutor(vg9)",
+    "same-gen trade:Piloswine:level-up(vg8)",
+    "same-gen trade:Piloswine:level-up(vg9)",
+    "same-gen trade:Piloswine:tutor(vg9)",
+    "same-gen trade:Swinub:egg(vg8)",
+    "same-gen trade:Swinub:egg(vg9)",
+    "same-gen trade:Swinub:tutor(vg9)",
+    "transfer:Swinub:9(vg13)",
+    "transfer:Swinub:egg(vg5)",
+    "transfer:Swinub:egg(vg6)",
+    "transfer:Swinub:egg(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "move": "Ice Fang",
+   "exists_in_gen": true,
+   "native": [
+    "Mamoswine:level-up@28",
+    "Piloswine:level-up@28"
+   ],
+   "other_routes": [
+    "same-gen trade:Mamoswine:level-up(vg8)",
+    "same-gen trade:Mamoswine:level-up(vg9)",
+    "same-gen trade:Piloswine:level-up(vg8)",
+    "same-gen trade:Piloswine:level-up(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "move": "Hail",
+   "exists_in_gen": true,
+   "native": [
+    "Mamoswine:level-up@25",
+    "Mamoswine:machine",
+    "Piloswine:machine",
+    "Swinub:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Mamoswine:level-up(vg8)",
+    "same-gen trade:Mamoswine:level-up(vg9)",
+    "same-gen trade:Mamoswine:machine(vg8)",
+    "same-gen trade:Mamoswine:machine(vg9)",
+    "same-gen trade:Piloswine:machine(vg8)",
+    "same-gen trade:Piloswine:machine(vg9)",
+    "same-gen trade:Swinub:machine(vg8)",
+    "same-gen trade:Swinub:machine(vg9)",
+    "transfer:Piloswine:machine(vg12)",
+    "transfer:Piloswine:machine(vg13)",
+    "transfer:Piloswine:machine(vg5)",
+    "transfer:Piloswine:machine(vg6)",
+    "transfer:Piloswine:machine(vg7)",
+    "transfer:Swinub:machine(vg12)",
+    "transfer:Swinub:machine(vg13)",
+    "transfer:Swinub:machine(vg5)",
+    "transfer:Swinub:machine(vg6)",
+    "transfer:Swinub:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "move": "Ice Shard",
+   "exists_in_gen": true,
+   "native": [
+    "Swinub:level-up@28"
+   ],
+   "other_routes": [
+    "same-gen trade:Swinub:level-up(vg8)",
+    "same-gen trade:Swinub:level-up(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Crobat",
+   "move": "Fly",
+   "exists_in_gen": true,
+   "native": [
+    "Crobat:machine",
+    "Golbat:machine",
+    "Zubat:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Crobat:machine(vg8)",
+    "same-gen trade:Crobat:machine(vg9)",
+    "same-gen trade:Golbat:machine(vg8)",
+    "same-gen trade:Golbat:machine(vg9)",
+    "same-gen trade:Zubat:machine(vg8)",
+    "same-gen trade:Zubat:machine(vg9)",
+    "transfer:Crobat:machine(vg12)",
+    "transfer:Crobat:machine(vg13)",
+    "transfer:Crobat:machine(vg5)",
+    "transfer:Crobat:machine(vg6)",
+    "transfer:Crobat:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Crobat",
+   "move": "Roost",
+   "exists_in_gen": true,
+   "native": [
+    "Crobat:machine",
+    "Golbat:machine",
+    "Zubat:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Crobat:machine(vg8)",
+    "same-gen trade:Crobat:machine(vg9)",
+    "same-gen trade:Golbat:machine(vg8)",
+    "same-gen trade:Golbat:machine(vg9)",
+    "same-gen trade:Zubat:machine(vg8)",
+    "same-gen trade:Zubat:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Crobat",
+   "move": "U-turn",
+   "exists_in_gen": true,
+   "native": [
+    "Crobat:machine",
+    "Golbat:machine",
+    "Zubat:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Crobat:machine(vg8)",
+    "same-gen trade:Crobat:machine(vg9)",
+    "same-gen trade:Golbat:machine(vg8)",
+    "same-gen trade:Golbat:machine(vg9)",
+    "same-gen trade:Zubat:machine(vg8)",
+    "same-gen trade:Zubat:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Crobat",
+   "move": "Toxic",
+   "exists_in_gen": true,
+   "native": [
+    "Crobat:machine",
+    "Golbat:machine",
+    "Zubat:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Crobat:machine(vg8)",
+    "same-gen trade:Crobat:machine(vg9)",
+    "same-gen trade:Golbat:machine(vg8)",
+    "same-gen trade:Golbat:machine(vg9)",
+    "same-gen trade:Zubat:machine(vg8)",
+    "same-gen trade:Zubat:machine(vg9)",
+    "transfer:Crobat:machine(vg12)",
+    "transfer:Crobat:machine(vg13)",
+    "transfer:Crobat:machine(vg5)",
+    "transfer:Crobat:machine(vg6)",
+    "transfer:Crobat:machine(vg7)",
+    "transfer:Golbat:machine(vg12)",
+    "transfer:Golbat:machine(vg13)",
+    "transfer:Golbat:machine(vg5)",
+    "transfer:Golbat:machine(vg6)",
+    "transfer:Golbat:machine(vg7)",
+    "transfer:Zubat:machine(vg12)",
+    "transfer:Zubat:machine(vg13)",
+    "transfer:Zubat:machine(vg5)",
+    "transfer:Zubat:machine(vg6)",
+    "transfer:Zubat:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Lapras",
+   "move": "Surf",
+   "exists_in_gen": true,
+   "native": [
+    "Lapras:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Lapras:machine(vg8)",
+    "same-gen trade:Lapras:machine(vg9)",
+    "transfer:Lapras:machine(vg12)",
+    "transfer:Lapras:machine(vg13)",
+    "transfer:Lapras:machine(vg5)",
+    "transfer:Lapras:machine(vg6)",
+    "transfer:Lapras:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Lapras",
+   "move": "Ice Beam",
+   "exists_in_gen": true,
+   "native": [
+    "Lapras:level-up@32",
+    "Lapras:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Lapras:level-up(vg8)",
+    "same-gen trade:Lapras:level-up(vg9)",
+    "same-gen trade:Lapras:machine(vg8)",
+    "same-gen trade:Lapras:machine(vg9)",
+    "transfer:Lapras:level-up(vg12)",
+    "transfer:Lapras:level-up(vg13)",
+    "transfer:Lapras:level-up(vg5)",
+    "transfer:Lapras:level-up(vg6)",
+    "transfer:Lapras:level-up(vg7)",
+    "transfer:Lapras:machine(vg12)",
+    "transfer:Lapras:machine(vg13)",
+    "transfer:Lapras:machine(vg5)",
+    "transfer:Lapras:machine(vg6)",
+    "transfer:Lapras:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Lapras",
+   "move": "Rest",
+   "exists_in_gen": true,
+   "native": [
+    "Lapras:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Lapras:machine(vg8)",
+    "same-gen trade:Lapras:machine(vg9)",
+    "transfer:Lapras:machine(vg12)",
+    "transfer:Lapras:machine(vg13)",
+    "transfer:Lapras:machine(vg5)",
+    "transfer:Lapras:machine(vg6)",
+    "transfer:Lapras:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Lapras",
+   "move": "Heal Bell",
+   "exists_in_gen": true,
+   "native": [
+    "Lapras:tutor"
+   ],
+   "other_routes": [
+    "transfer:Lapras:9(vg13)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Snorlax",
+   "move": "Body Slam",
+   "exists_in_gen": true,
+   "native": [
+    "Munchlax:level-up@33",
+    "Snorlax:level-up@33"
+   ],
+   "other_routes": [
+    "same-gen trade:Munchlax:level-up(vg8)",
+    "same-gen trade:Munchlax:level-up(vg9)",
+    "same-gen trade:Snorlax:level-up(vg8)",
+    "same-gen trade:Snorlax:level-up(vg9)",
+    "transfer:Snorlax:9(vg13)",
+    "transfer:Snorlax:level-up(vg12)",
+    "transfer:Snorlax:level-up(vg13)",
+    "transfer:Snorlax:level-up(vg5)",
+    "transfer:Snorlax:level-up(vg6)",
+    "transfer:Snorlax:level-up(vg7)",
+    "transfer:Snorlax:tutor(vg13)",
+    "transfer:Snorlax:tutor(vg6)",
+    "transfer:Snorlax:tutor(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Snorlax",
+   "move": "Rest",
+   "exists_in_gen": true,
+   "native": [
+    "Munchlax:machine",
+    "Snorlax:level-up@25",
+    "Snorlax:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Munchlax:machine(vg8)",
+    "same-gen trade:Munchlax:machine(vg9)",
+    "same-gen trade:Snorlax:level-up(vg8)",
+    "same-gen trade:Snorlax:level-up(vg9)",
+    "same-gen trade:Snorlax:machine(vg8)",
+    "same-gen trade:Snorlax:machine(vg9)",
+    "transfer:Snorlax:level-up(vg12)",
+    "transfer:Snorlax:level-up(vg13)",
+    "transfer:Snorlax:level-up(vg5)",
+    "transfer:Snorlax:level-up(vg6)",
+    "transfer:Snorlax:level-up(vg7)",
+    "transfer:Snorlax:machine(vg12)",
+    "transfer:Snorlax:machine(vg13)",
+    "transfer:Snorlax:machine(vg5)",
+    "transfer:Snorlax:machine(vg6)",
+    "transfer:Snorlax:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Snorlax",
+   "move": "Thunder Punch",
+   "exists_in_gen": true,
+   "native": [
+    "Munchlax:tutor",
+    "Snorlax:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Munchlax:tutor(vg9)",
+    "same-gen trade:Snorlax:tutor(vg9)",
+    "transfer:Snorlax:tutor(vg6)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "heartgold",
+   "species": "Snorlax",
+   "move": "Zen Headbutt",
+   "exists_in_gen": true,
+   "native": [
+    "Munchlax:egg",
+    "Munchlax:tutor",
+    "Snorlax:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Munchlax:egg(vg8)",
+    "same-gen trade:Munchlax:egg(vg9)",
+    "same-gen trade:Munchlax:tutor(vg9)",
+    "same-gen trade:Snorlax:tutor(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Infernape",
+   "move": "Close Combat",
+   "exists_in_gen": true,
+   "native": [
+    "Infernape:level-up@41",
+    "Monferno:level-up@36"
+   ],
+   "other_routes": [
+    "same-gen trade:Infernape:level-up(vg10)",
+    "same-gen trade:Infernape:level-up(vg8)",
+    "same-gen trade:Monferno:level-up(vg10)",
+    "same-gen trade:Monferno:level-up(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Infernape",
+   "move": "Flamethrower",
+   "exists_in_gen": true,
+   "native": [
+    "Chimchar:level-up@41",
+    "Chimchar:machine",
+    "Infernape:machine",
+    "Monferno:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Chimchar:level-up(vg10)",
+    "same-gen trade:Chimchar:level-up(vg8)",
+    "same-gen trade:Chimchar:machine(vg10)",
+    "same-gen trade:Chimchar:machine(vg8)",
+    "same-gen trade:Infernape:machine(vg10)",
+    "same-gen trade:Infernape:machine(vg8)",
+    "same-gen trade:Monferno:machine(vg10)",
+    "same-gen trade:Monferno:machine(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Infernape",
+   "move": "Mach Punch",
+   "exists_in_gen": true,
+   "native": [
+    "Infernape:level-up@14",
+    "Monferno:level-up@14"
+   ],
+   "other_routes": [
+    "same-gen trade:Infernape:level-up(vg10)",
+    "same-gen trade:Infernape:level-up(vg8)",
+    "same-gen trade:Monferno:level-up(vg10)",
+    "same-gen trade:Monferno:level-up(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Infernape",
+   "move": "Thunder Punch",
+   "exists_in_gen": true,
+   "native": [
+    "Chimchar:egg",
+    "Chimchar:tutor",
+    "Infernape:tutor",
+    "Monferno:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Chimchar:egg(vg10)",
+    "same-gen trade:Chimchar:egg(vg8)",
+    "same-gen trade:Chimchar:tutor(vg10)",
+    "same-gen trade:Infernape:tutor(vg10)",
+    "same-gen trade:Monferno:tutor(vg10)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Infernape",
+   "move": "Grass Knot",
+   "exists_in_gen": true,
+   "native": [
+    "Chimchar:machine",
+    "Infernape:machine",
+    "Monferno:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Chimchar:machine(vg10)",
+    "same-gen trade:Chimchar:machine(vg8)",
+    "same-gen trade:Infernape:machine(vg10)",
+    "same-gen trade:Infernape:machine(vg8)",
+    "same-gen trade:Monferno:machine(vg10)",
+    "same-gen trade:Monferno:machine(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Infernape",
+   "move": "U-turn",
+   "exists_in_gen": true,
+   "native": [
+    "Chimchar:machine",
+    "Infernape:machine",
+    "Monferno:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Chimchar:machine(vg10)",
+    "same-gen trade:Chimchar:machine(vg8)",
+    "same-gen trade:Infernape:machine(vg10)",
+    "same-gen trade:Infernape:machine(vg8)",
+    "same-gen trade:Monferno:machine(vg10)",
+    "same-gen trade:Monferno:machine(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Garchomp",
+   "move": "Earthquake",
+   "exists_in_gen": true,
+   "native": [
+    "Gabite:machine",
+    "Garchomp:machine",
+    "Gible:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gabite:machine(vg10)",
+    "same-gen trade:Gabite:machine(vg8)",
+    "same-gen trade:Garchomp:machine(vg10)",
+    "same-gen trade:Garchomp:machine(vg8)",
+    "same-gen trade:Gible:machine(vg10)",
+    "same-gen trade:Gible:machine(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Garchomp",
+   "move": "Dragon Claw",
+   "exists_in_gen": true,
+   "native": [
+    "Gabite:level-up@33",
+    "Gabite:machine",
+    "Garchomp:level-up@33",
+    "Garchomp:machine",
+    "Gible:level-up@27",
+    "Gible:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gabite:level-up(vg10)",
+    "same-gen trade:Gabite:level-up(vg8)",
+    "same-gen trade:Gabite:machine(vg10)",
+    "same-gen trade:Gabite:machine(vg8)",
+    "same-gen trade:Garchomp:level-up(vg10)",
+    "same-gen trade:Garchomp:level-up(vg8)",
+    "same-gen trade:Garchomp:machine(vg10)",
+    "same-gen trade:Garchomp:machine(vg8)",
+    "same-gen trade:Gible:level-up(vg10)",
+    "same-gen trade:Gible:level-up(vg8)",
+    "same-gen trade:Gible:machine(vg10)",
+    "same-gen trade:Gible:machine(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Garchomp",
+   "move": "Fire Fang",
+   "exists_in_gen": true,
+   "native": [
+    "Garchomp:level-up@1"
+   ],
+   "other_routes": [
+    "same-gen trade:Garchomp:level-up(vg10)",
+    "same-gen trade:Garchomp:level-up(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Garchomp",
+   "move": "Poison Jab",
+   "exists_in_gen": true,
+   "native": [
+    "Garchomp:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Garchomp:machine(vg10)",
+    "same-gen trade:Garchomp:machine(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Garchomp",
+   "move": "Aqua Tail",
+   "exists_in_gen": true,
+   "native": [
+    "Garchomp:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Garchomp:tutor(vg10)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Garchomp",
+   "move": "Outrage",
+   "exists_in_gen": true,
+   "native": [
+    "Gabite:tutor",
+    "Garchomp:tutor",
+    "Gible:egg",
+    "Gible:tutor"
+   ],
+   "other_routes": [
+    "same-gen trade:Gabite:tutor(vg10)",
+    "same-gen trade:Garchomp:tutor(vg10)",
+    "same-gen trade:Gible:egg(vg10)",
+    "same-gen trade:Gible:egg(vg8)",
+    "same-gen trade:Gible:tutor(vg10)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "platinum",
+   "species": "Garchomp",
+   "move": "Stone Edge",
+   "exists_in_gen": true,
+   "native": [
+    "Gabite:machine",
+    "Garchomp:machine",
+    "Gible:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gabite:machine(vg10)",
+    "same-gen trade:Gabite:machine(vg8)",
+    "same-gen trade:Garchomp:machine(vg10)",
+    "same-gen trade:Garchomp:machine(vg8)",
+    "same-gen trade:Gible:machine(vg10)",
+    "same-gen trade:Gible:machine(vg8)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "emerald",
+   "species": "Swampert",
+   "move": "Refresh",
+   "exists_in_gen": true,
+   "native": [
+    "Mudkip:egg"
+   ],
+   "other_routes": [
+    "same-gen trade:Mudkip:egg(vg5)",
+    "same-gen trade:Mudkip:egg(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Pikachu",
+   "move": "Volt Tackle",
+   "exists_in_gen": true,
+   "native": [
+    "Pichu:light-ball-egg"
+   ],
+   "other_routes": [
+    "same-gen trade:Pichu:light-ball-egg(vg8)",
+    "same-gen trade:Pichu:light-ball-egg(vg9)",
+    "transfer:Pichu:light-ball-egg(vg6)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Pikachu",
+   "move": "Quick Attack",
+   "exists_in_gen": true,
+   "native": [
+    "Pikachu:level-up@13"
+   ],
+   "other_routes": [
+    "same-gen trade:Pikachu:level-up(vg8)",
+    "same-gen trade:Pikachu:level-up(vg9)",
+    "transfer:Pikachu:level-up(vg12)",
+    "transfer:Pikachu:level-up(vg13)",
+    "transfer:Pikachu:level-up(vg5)",
+    "transfer:Pikachu:level-up(vg6)",
+    "transfer:Pikachu:level-up(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Pikachu",
+   "move": "Thunderbolt",
+   "exists_in_gen": true,
+   "native": [
+    "Pichu:machine",
+    "Pikachu:level-up@26",
+    "Pikachu:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Pichu:machine(vg8)",
+    "same-gen trade:Pichu:machine(vg9)",
+    "same-gen trade:Pikachu:level-up(vg8)",
+    "same-gen trade:Pikachu:level-up(vg9)",
+    "same-gen trade:Pikachu:machine(vg8)",
+    "same-gen trade:Pikachu:machine(vg9)",
+    "transfer:Pichu:machine(vg12)",
+    "transfer:Pichu:machine(vg13)",
+    "transfer:Pichu:machine(vg5)",
+    "transfer:Pichu:machine(vg6)",
+    "transfer:Pichu:machine(vg7)",
+    "transfer:Pikachu:level-up(vg12)",
+    "transfer:Pikachu:level-up(vg13)",
+    "transfer:Pikachu:level-up(vg5)",
+    "transfer:Pikachu:level-up(vg6)",
+    "transfer:Pikachu:level-up(vg7)",
+    "transfer:Pikachu:machine(vg12)",
+    "transfer:Pikachu:machine(vg13)",
+    "transfer:Pikachu:machine(vg5)",
+    "transfer:Pikachu:machine(vg6)",
+    "transfer:Pikachu:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Pikachu",
+   "move": "Iron Tail",
+   "exists_in_gen": true,
+   "native": [
+    "Pichu:machine",
+    "Pikachu:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Pichu:machine(vg8)",
+    "same-gen trade:Pichu:machine(vg9)",
+    "same-gen trade:Pikachu:machine(vg8)",
+    "same-gen trade:Pikachu:machine(vg9)",
+    "transfer:Pichu:machine(vg12)",
+    "transfer:Pichu:machine(vg13)",
+    "transfer:Pichu:machine(vg5)",
+    "transfer:Pichu:machine(vg6)",
+    "transfer:Pichu:machine(vg7)",
+    "transfer:Pikachu:machine(vg12)",
+    "transfer:Pikachu:machine(vg13)",
+    "transfer:Pikachu:machine(vg5)",
+    "transfer:Pikachu:machine(vg6)",
+    "transfer:Pikachu:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Dragonite",
+   "move": "Fly",
+   "exists_in_gen": true,
+   "native": [
+    "Dragonite:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Dragonite:machine(vg8)",
+    "same-gen trade:Dragonite:machine(vg9)",
+    "transfer:Dragonite:machine(vg12)",
+    "transfer:Dragonite:machine(vg13)",
+    "transfer:Dragonite:machine(vg5)",
+    "transfer:Dragonite:machine(vg6)",
+    "transfer:Dragonite:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Dragonite",
+   "move": "Roost",
+   "exists_in_gen": true,
+   "native": [
+    "Dragonite:level-up@1",
+    "Dragonite:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Dragonite:level-up(vg8)",
+    "same-gen trade:Dragonite:level-up(vg9)",
+    "same-gen trade:Dragonite:machine(vg8)",
+    "same-gen trade:Dragonite:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Dragonite",
+   "move": "Extreme Speed",
+   "exists_in_gen": true,
+   "native": [
+    "Dratini:egg"
+   ],
+   "other_routes": [],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Dragonite",
+   "move": "Dragon Claw",
+   "exists_in_gen": true,
+   "native": [
+    "Dragonite:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Dragonite:machine(vg8)",
+    "same-gen trade:Dragonite:machine(vg9)",
+    "transfer:Dragonite:machine(vg12)",
+    "transfer:Dragonite:machine(vg13)",
+    "transfer:Dragonite:machine(vg5)",
+    "transfer:Dragonite:machine(vg6)",
+    "transfer:Dragonite:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gyarados",
+   "move": "Waterfall",
+   "exists_in_gen": true,
+   "native": [
+    "Gyarados:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gyarados:machine(vg8)",
+    "same-gen trade:Gyarados:machine(vg9)",
+    "transfer:Gyarados:machine(vg12)",
+    "transfer:Gyarados:machine(vg13)",
+    "transfer:Gyarados:machine(vg5)",
+    "transfer:Gyarados:machine(vg6)",
+    "transfer:Gyarados:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gyarados",
+   "move": "Ice Fang",
+   "exists_in_gen": true,
+   "native": [
+    "Gyarados:level-up@32"
+   ],
+   "other_routes": [
+    "same-gen trade:Gyarados:level-up(vg8)",
+    "same-gen trade:Gyarados:level-up(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gyarados",
+   "move": "Earthquake",
+   "exists_in_gen": true,
+   "native": [
+    "Gyarados:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gyarados:machine(vg8)",
+    "same-gen trade:Gyarados:machine(vg9)",
+    "transfer:Gyarados:machine(vg12)",
+    "transfer:Gyarados:machine(vg13)",
+    "transfer:Gyarados:machine(vg5)",
+    "transfer:Gyarados:machine(vg6)",
+    "transfer:Gyarados:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gyarados",
+   "move": "Dragon Dance",
+   "exists_in_gen": true,
+   "native": [
+    "Gyarados:level-up@44"
+   ],
+   "other_routes": [
+    "same-gen trade:Gyarados:level-up(vg8)",
+    "same-gen trade:Gyarados:level-up(vg9)",
+    "transfer:Gyarados:level-up(vg12)",
+    "transfer:Gyarados:level-up(vg13)",
+    "transfer:Gyarados:level-up(vg5)",
+    "transfer:Gyarados:level-up(vg6)",
+    "transfer:Gyarados:level-up(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Empoleon",
+   "move": "Surf",
+   "exists_in_gen": true,
+   "native": [
+    "Empoleon:machine",
+    "Piplup:machine",
+    "Prinplup:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Empoleon:machine(vg8)",
+    "same-gen trade:Empoleon:machine(vg9)",
+    "same-gen trade:Piplup:machine(vg8)",
+    "same-gen trade:Piplup:machine(vg9)",
+    "same-gen trade:Prinplup:machine(vg8)",
+    "same-gen trade:Prinplup:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Empoleon",
+   "move": "Flash Cannon",
+   "exists_in_gen": true,
+   "native": [
+    "Empoleon:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Empoleon:machine(vg8)",
+    "same-gen trade:Empoleon:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Empoleon",
+   "move": "Aqua Jet",
+   "exists_in_gen": true,
+   "native": [
+    "Empoleon:level-up@36"
+   ],
+   "other_routes": [
+    "same-gen trade:Empoleon:level-up(vg8)",
+    "same-gen trade:Empoleon:level-up(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Empoleon",
+   "move": "Aqua Ring",
+   "exists_in_gen": true,
+   "native": [
+    "Piplup:egg"
+   ],
+   "other_routes": [
+    "same-gen trade:Piplup:egg(vg8)",
+    "same-gen trade:Piplup:egg(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gengar",
+   "move": "Shadow Ball",
+   "exists_in_gen": true,
+   "native": [
+    "Gastly:level-up@29",
+    "Gastly:machine",
+    "Gengar:level-up@33",
+    "Gengar:machine",
+    "Haunter:level-up@33",
+    "Haunter:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gastly:level-up(vg8)",
+    "same-gen trade:Gastly:level-up(vg9)",
+    "same-gen trade:Gastly:machine(vg8)",
+    "same-gen trade:Gastly:machine(vg9)",
+    "same-gen trade:Gengar:level-up(vg8)",
+    "same-gen trade:Gengar:level-up(vg9)",
+    "same-gen trade:Gengar:machine(vg8)",
+    "same-gen trade:Gengar:machine(vg9)",
+    "same-gen trade:Haunter:level-up(vg8)",
+    "same-gen trade:Haunter:level-up(vg9)",
+    "same-gen trade:Haunter:machine(vg8)",
+    "same-gen trade:Haunter:machine(vg9)",
+    "transfer:Gastly:level-up(vg7)",
+    "transfer:Gastly:machine(vg12)",
+    "transfer:Gastly:machine(vg13)",
+    "transfer:Gastly:machine(vg5)",
+    "transfer:Gastly:machine(vg6)",
+    "transfer:Gastly:machine(vg7)",
+    "transfer:Gengar:level-up(vg7)",
+    "transfer:Gengar:machine(vg12)",
+    "transfer:Gengar:machine(vg13)",
+    "transfer:Gengar:machine(vg5)",
+    "transfer:Gengar:machine(vg6)",
+    "transfer:Gengar:machine(vg7)",
+    "transfer:Haunter:level-up(vg7)",
+    "transfer:Haunter:machine(vg12)",
+    "transfer:Haunter:machine(vg13)",
+    "transfer:Haunter:machine(vg5)",
+    "transfer:Haunter:machine(vg6)",
+    "transfer:Haunter:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gengar",
+   "move": "Disable",
+   "exists_in_gen": true,
+   "native": [
+    "Gastly:egg"
+   ],
+   "other_routes": [],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gengar",
+   "move": "Dark Pulse",
+   "exists_in_gen": true,
+   "native": [
+    "Gastly:level-up@36",
+    "Gastly:machine",
+    "Gengar:level-up@44",
+    "Gengar:machine",
+    "Haunter:level-up@44",
+    "Haunter:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gastly:level-up(vg8)",
+    "same-gen trade:Gastly:level-up(vg9)",
+    "same-gen trade:Gastly:machine(vg8)",
+    "same-gen trade:Gastly:machine(vg9)",
+    "same-gen trade:Gengar:level-up(vg8)",
+    "same-gen trade:Gengar:level-up(vg9)",
+    "same-gen trade:Gengar:machine(vg8)",
+    "same-gen trade:Gengar:machine(vg9)",
+    "same-gen trade:Haunter:level-up(vg8)",
+    "same-gen trade:Haunter:level-up(vg9)",
+    "same-gen trade:Haunter:machine(vg8)",
+    "same-gen trade:Haunter:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Gengar",
+   "move": "Psychic",
+   "exists_in_gen": true,
+   "native": [
+    "Gastly:machine",
+    "Gengar:machine",
+    "Haunter:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Gastly:machine(vg8)",
+    "same-gen trade:Gastly:machine(vg9)",
+    "same-gen trade:Gengar:machine(vg8)",
+    "same-gen trade:Gengar:machine(vg9)",
+    "same-gen trade:Haunter:machine(vg8)",
+    "same-gen trade:Haunter:machine(vg9)",
+    "transfer:Gastly:machine(vg12)",
+    "transfer:Gastly:machine(vg13)",
+    "transfer:Gastly:machine(vg5)",
+    "transfer:Gastly:machine(vg6)",
+    "transfer:Gastly:machine(vg7)",
+    "transfer:Gengar:machine(vg12)",
+    "transfer:Gengar:machine(vg13)",
+    "transfer:Gengar:machine(vg5)",
+    "transfer:Gengar:machine(vg6)",
+    "transfer:Gengar:machine(vg7)",
+    "transfer:Haunter:machine(vg12)",
+    "transfer:Haunter:machine(vg13)",
+    "transfer:Haunter:machine(vg5)",
+    "transfer:Haunter:machine(vg6)",
+    "transfer:Haunter:machine(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Scizor",
+   "move": "Bullet Punch",
+   "exists_in_gen": true,
+   "native": [
+    "Scizor:level-up@1"
+   ],
+   "other_routes": [
+    "same-gen trade:Scizor:level-up(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Scizor",
+   "move": "U-turn",
+   "exists_in_gen": true,
+   "native": [
+    "Scizor:machine",
+    "Scyther:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Scizor:machine(vg8)",
+    "same-gen trade:Scizor:machine(vg9)",
+    "same-gen trade:Scyther:machine(vg8)",
+    "same-gen trade:Scyther:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Scizor",
+   "move": "Counter",
+   "exists_in_gen": true,
+   "native": [
+    "Scyther:egg"
+   ],
+   "other_routes": [
+    "same-gen trade:Scyther:egg(vg8)",
+    "same-gen trade:Scyther:egg(vg9)",
+    "transfer:Scizor:tutor(vg6)",
+    "transfer:Scizor:tutor(vg7)",
+    "transfer:Scyther:egg(vg5)",
+    "transfer:Scyther:egg(vg6)",
+    "transfer:Scyther:egg(vg7)",
+    "transfer:Scyther:tutor(vg6)",
+    "transfer:Scyther:tutor(vg7)"
+   ],
+   "verdict": "LEARNABLE"
+  },
+  {
+   "game": "soulsilver",
+   "species": "Scizor",
+   "move": "Roost",
+   "exists_in_gen": true,
+   "native": [
+    "Scizor:machine",
+    "Scyther:machine"
+   ],
+   "other_routes": [
+    "same-gen trade:Scizor:machine(vg8)",
+    "same-gen trade:Scizor:machine(vg9)",
+    "same-gen trade:Scyther:machine(vg8)",
+    "same-gen trade:Scyther:machine(vg9)"
+   ],
+   "verdict": "LEARNABLE"
+  }
+ ],
+ "fathers": [
+  {
+   "game": "heartgold",
+   "target": "Typhlosion",
+   "move": "Extrasensory",
+   "groups": [
+    "ground"
+   ],
+   "fathers": [
+    [
+     "Vulpix",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "level-up@44 (vg10)",
+      "level-up@44 (vg8)",
+      "level-up@44 (vg9)"
+     ]
+    ],
+    [
+     "Cyndaquil",
+     [
+      "egg (vg10)"
+     ]
+    ],
+    [
+     "Stantler",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Nuzleaf",
+     [
+      "level-up@49 (vg10)",
+      "level-up@49 (vg12)",
+      "level-up@49 (vg13)",
+      "level-up@49 (vg5)",
+      "level-up@49 (vg6)",
+      "level-up@49 (vg7)",
+      "level-up@49 (vg8)",
+      "level-up@49 (vg9)"
+     ]
+    ],
+    [
+     "Whismur",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Spoink",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "heartgold",
+   "target": "Tyranitar",
+   "move": "Outrage",
+   "groups": [
+    "monster"
+   ],
+   "fathers": [
+    [
+     "Venusaur",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Charmander",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Charizard",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Blastoise",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Nidoking",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Marowak",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Rhydon",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Lapras",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Snorlax",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Meganium",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Feraligatr",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Ampharos",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Larvitar",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Tyranitar",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Sceptile",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Swampert",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Exploud",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Aggron",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Tropius",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Torterra",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Rampardos",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Bastiodon",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Gible",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Gabite",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Garchomp",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Abomasnow",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Rhyperior",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "heartgold",
+   "target": "Tyranitar",
+   "move": "Dragon Dance",
+   "groups": [
+    "monster"
+   ],
+   "fathers": [
+    [
+     "Charmander",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Lapras",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Totodile",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Larvitar",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Tropius",
+     [
+      "egg (vg10)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "heartgold",
+   "target": "Mamoswine",
+   "move": "Ancient Power",
+   "groups": [
+    "ground"
+   ],
+   "fathers": [
+    [
+     "Diglett",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Rhyhorn",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Rhydon",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Wooper",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Quagsire",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Dunsparce",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "level-up@41 (vg10)",
+      "level-up@41 (vg8)",
+      "level-up@41 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Swinub",
+     [
+      "9 (vg13)",
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Piloswine",
+     [
+      "level-up@1 (vg10)",
+      "level-up@1 (vg8)",
+      "level-up@1 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Phanpy",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Donphan",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Mawile",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Numel",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Kecleon",
+     [
+      "level-up@49 (vg12)",
+      "level-up@49 (vg13)",
+      "level-up@49 (vg5)",
+      "level-up@49 (vg6)",
+      "level-up@49 (vg7)",
+      "level-up@55 (vg10)",
+      "level-up@55 (vg9)",
+      "level-up@64 (vg8)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Rhyperior",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Mamoswine",
+     [
+      "level-up@1 (vg10)",
+      "level-up@1 (vg8)",
+      "level-up@1 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "heartgold",
+   "target": "Mamoswine",
+   "move": "Ice Shard",
+   "groups": [
+    "ground"
+   ],
+   "fathers": [
+    [
+     "Seel",
+     [
+      "level-up@17 (vg10)",
+      "level-up@17 (vg8)",
+      "level-up@17 (vg9)"
+     ]
+    ],
+    [
+     "Dewgong",
+     [
+      "level-up@17 (vg10)",
+      "level-up@17 (vg8)",
+      "level-up@17 (vg9)"
+     ]
+    ],
+    [
+     "Sneasel",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "level-up@49 (vg10)",
+      "level-up@49 (vg8)",
+      "level-up@49 (vg9)"
+     ]
+    ],
+    [
+     "Swinub",
+     [
+      "level-up@28 (vg10)",
+      "level-up@28 (vg8)",
+      "level-up@28 (vg9)"
+     ]
+    ],
+    [
+     "Delibird",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Phanpy",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Glaceon",
+     [
+      "level-up@36 (vg10)",
+      "level-up@36 (vg8)",
+      "level-up@36 (vg9)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "platinum",
+   "target": "Infernape",
+   "move": "Thunder Punch",
+   "groups": [
+    "ground",
+    "humanshape"
+   ],
+   "fathers": [
+    [
+     "Pikachu",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Raichu",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Nidoking",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Mankey",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Primeape",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Abra",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Kadabra",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Alakazam",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Machop",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Machoke",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Machamp",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Drowzee",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Hypno",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Hitmonchan",
+     [
+      "level-up@26 (vg12)",
+      "level-up@26 (vg13)",
+      "level-up@26 (vg5)",
+      "level-up@26 (vg6)",
+      "level-up@26 (vg7)",
+      "level-up@31 (vg10)",
+      "level-up@31 (vg8)",
+      "level-up@31 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Rhydon",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Mr. Mime",
+     [
+      "9 (vg13)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Electabuzz",
+     [
+      "level-up@1 (vg12)",
+      "level-up@1 (vg13)",
+      "level-up@1 (vg5)",
+      "level-up@1 (vg6)",
+      "level-up@1 (vg7)",
+      "level-up@28 (vg10)",
+      "level-up@28 (vg8)",
+      "level-up@28 (vg9)",
+      "level-up@9 (vg12)",
+      "level-up@9 (vg13)",
+      "level-up@9 (vg5)",
+      "level-up@9 (vg6)",
+      "level-up@9 (vg7)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Magmar",
+     [
+      "9 (vg13)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Typhlosion",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Sentret",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Furret",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Flaaffy",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Ampharos",
+     [
+      "level-up@30 (vg10)",
+      "level-up@30 (vg12)",
+      "level-up@30 (vg13)",
+      "level-up@30 (vg5)",
+      "level-up@30 (vg6)",
+      "level-up@30 (vg7)",
+      "level-up@30 (vg8)",
+      "level-up@30 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Aipom",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Snubbull",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Granbull",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Teddiursa",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Ursaring",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Combusken",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Blaziken",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Ralts",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Kirlia",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Gardevoir",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Slakoth",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Vigoroth",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Slaking",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Whismur",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Loudred",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Exploud",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Makuhita",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Hariyama",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Sableye",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Mawile",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Meditite",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Medicham",
+     [
+      "level-up@1 (vg10)",
+      "level-up@1 (vg12)",
+      "level-up@1 (vg13)",
+      "level-up@1 (vg5)",
+      "level-up@1 (vg6)",
+      "level-up@1 (vg7)",
+      "level-up@1 (vg8)",
+      "level-up@1 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Volbeat",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Grumpig",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Spinda",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Cacnea",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Cacturne",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Zangoose",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Kecleon",
+     [
+      "tutor (vg10)",
+      "tutor (vg6)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Chimchar",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Monferno",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Infernape",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Pachirisu",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Ambipom",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Buneary",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Lopunny",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Lucario",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Croagunk",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Toxicroak",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Rhyperior",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Electivire",
+     [
+      "level-up@28 (vg10)",
+      "level-up@28 (vg8)",
+      "level-up@28 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Magmortar",
+     [
+      "level-up@1 (vg10)",
+      "level-up@1 (vg8)",
+      "level-up@1 (vg9)",
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ],
+    [
+     "Gallade",
+     [
+      "tutor (vg10)",
+      "tutor (vg9)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "emerald",
+   "target": "Swampert",
+   "move": "Refresh",
+   "groups": [
+    "monster",
+    "water1"
+   ],
+   "fathers": [
+    [
+     "Squirtle",
+     [
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)"
+     ]
+    ],
+    [
+     "Psyduck",
+     [
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)"
+     ]
+    ],
+    [
+     "Lickitung",
+     [
+      "level-up@51 (vg12)",
+      "level-up@51 (vg13)",
+      "level-up@51 (vg5)",
+      "level-up@51 (vg6)",
+      "level-up@51 (vg7)"
+     ]
+    ],
+    [
+     "Lapras",
+     [
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)"
+     ]
+    ],
+    [
+     "Snorlax",
+     [
+      "9 (vg13)"
+     ]
+    ],
+    [
+     "Corsola",
+     [
+      "level-up@17 (vg12)",
+      "level-up@17 (vg13)",
+      "level-up@17 (vg5)",
+      "level-up@17 (vg6)",
+      "level-up@17 (vg7)"
+     ]
+    ],
+    [
+     "Mudkip",
+     [
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)"
+     ]
+    ],
+    [
+     "Milotic",
+     [
+      "level-up@15 (vg12)",
+      "level-up@15 (vg13)",
+      "level-up@15 (vg5)",
+      "level-up@15 (vg6)",
+      "level-up@15 (vg7)"
+     ]
+    ],
+    [
+     "Clamperl",
+     [
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "soulsilver",
+   "target": "Gengar",
+   "move": "Disable",
+   "groups": [
+    "indeterminate"
+   ],
+   "fathers": [
+    [
+     "Grimer",
+     [
+      "level-up@12 (vg10)",
+      "level-up@12 (vg8)",
+      "level-up@12 (vg9)",
+      "level-up@8 (vg12)",
+      "level-up@8 (vg13)",
+      "level-up@8 (vg5)",
+      "level-up@8 (vg6)",
+      "level-up@8 (vg7)"
+     ]
+    ],
+    [
+     "Muk",
+     [
+      "level-up@12 (vg10)",
+      "level-up@12 (vg8)",
+      "level-up@12 (vg9)",
+      "level-up@8 (vg12)",
+      "level-up@8 (vg13)",
+      "level-up@8 (vg5)",
+      "level-up@8 (vg6)",
+      "level-up@8 (vg7)"
+     ]
+    ],
+    [
+     "Gastly",
+     [
+      "egg (vg10)"
+     ]
+    ],
+    [
+     "Ralts",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Castform",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Shuppet",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Duskull",
+     [
+      "level-up@5 (vg12)",
+      "level-up@5 (vg13)",
+      "level-up@5 (vg5)",
+      "level-up@5 (vg6)",
+      "level-up@5 (vg7)",
+      "level-up@6 (vg10)",
+      "level-up@6 (vg8)",
+      "level-up@6 (vg9)"
+     ]
+    ],
+    [
+     "Dusclops",
+     [
+      "level-up@1 (vg10)",
+      "level-up@1 (vg12)",
+      "level-up@1 (vg13)",
+      "level-up@1 (vg5)",
+      "level-up@1 (vg6)",
+      "level-up@1 (vg7)",
+      "level-up@1 (vg8)",
+      "level-up@1 (vg9)",
+      "level-up@5 (vg12)",
+      "level-up@5 (vg13)",
+      "level-up@5 (vg5)",
+      "level-up@5 (vg6)",
+      "level-up@5 (vg7)",
+      "level-up@6 (vg10)",
+      "level-up@6 (vg8)",
+      "level-up@6 (vg9)"
+     ]
+    ],
+    [
+     "Chimecho",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Drifloon",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Dusknoir",
+     [
+      "level-up@1 (vg10)",
+      "level-up@1 (vg8)",
+      "level-up@1 (vg9)",
+      "level-up@6 (vg10)",
+      "level-up@6 (vg8)",
+      "level-up@6 (vg9)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "soulsilver",
+   "target": "Scizor",
+   "move": "Counter",
+   "groups": [
+    "bug"
+   ],
+   "fathers": [
+    [
+     "Paras",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Parasect",
+     [
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Scyther",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Pineco",
+     [
+      "9 (vg13)",
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Forretress",
+     [
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Gligar",
+     [
+      "egg (vg10)",
+      "egg (vg5)",
+      "egg (vg6)",
+      "egg (vg7)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Scizor",
+     [
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Heracross",
+     [
+      "level-up@25 (vg10)",
+      "level-up@25 (vg8)",
+      "level-up@25 (vg9)",
+      "level-up@30 (vg12)",
+      "level-up@30 (vg13)",
+      "level-up@30 (vg5)",
+      "level-up@30 (vg6)",
+      "level-up@30 (vg7)",
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ],
+    [
+     "Volbeat",
+     [
+      "tutor (vg6)",
+      "tutor (vg7)"
+     ]
+    ]
+   ]
+  },
+  {
+   "game": "soulsilver",
+   "target": "Empoleon",
+   "move": "Aqua Ring",
+   "groups": [
+    "ground",
+    "water1"
+   ],
+   "fathers": [
+    [
+     "Squirtle",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Seel",
+     [
+      "level-up@23 (vg10)",
+      "level-up@23 (vg8)",
+      "level-up@23 (vg9)"
+     ]
+    ],
+    [
+     "Dewgong",
+     [
+      "level-up@23 (vg10)",
+      "level-up@23 (vg8)",
+      "level-up@23 (vg9)"
+     ]
+    ],
+    [
+     "Vaporeon",
+     [
+      "level-up@43 (vg10)",
+      "level-up@43 (vg8)",
+      "level-up@43 (vg9)"
+     ]
+    ],
+    [
+     "Marill",
+     [
+      "level-up@23 (vg10)",
+      "level-up@23 (vg8)",
+      "level-up@23 (vg9)"
+     ]
+    ],
+    [
+     "Azumarill",
+     [
+      "level-up@27 (vg10)",
+      "level-up@27 (vg8)",
+      "level-up@27 (vg9)"
+     ]
+    ],
+    [
+     "Corsola",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)",
+      "level-up@37 (vg10)",
+      "level-up@37 (vg8)",
+      "level-up@37 (vg9)"
+     ]
+    ],
+    [
+     "Mantine",
+     [
+      "level-up@46 (vg10)",
+      "level-up@46 (vg8)",
+      "level-up@46 (vg9)"
+     ]
+    ],
+    [
+     "Wingull",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Wailmer",
+     [
+      "egg (vg10)"
+     ]
+    ],
+    [
+     "Milotic",
+     [
+      "level-up@49 (vg10)",
+      "level-up@49 (vg8)",
+      "level-up@49 (vg9)"
+     ]
+    ],
+    [
+     "Spheal",
+     [
+      "egg (vg10)"
+     ]
+    ],
+    [
+     "Clamperl",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ],
+    [
+     "Gorebyss",
+     [
+      "level-up@24 (vg10)",
+      "level-up@24 (vg8)",
+      "level-up@24 (vg9)"
+     ]
+    ],
+    [
+     "Piplup",
+     [
+      "egg (vg10)",
+      "egg (vg8)",
+      "egg (vg9)"
+     ]
+    ]
+   ]
+  }
+ ],
+ "abilities": {
+  "crystal": {
+   "Feraligatr": [],
+   "Miltank": [],
+   "Donphan": [],
+   "Ampharos": [],
+   "Umbreon": [],
+   "Espeon": []
+  },
+  "firered": {
+   "Charizard": [
+    "Blaze"
+   ],
+   "Blastoise": [
+    "Torrent"
+   ],
+   "Venusaur": [
+    "Overgrow"
+   ],
+   "Alakazam": [
+    "Synchronize",
+    "Inner Focus"
+   ],
+   "Jolteon": [
+    "Volt Absorb"
+   ],
+   "Machamp": [
+    "Guts"
+   ]
+  },
+  "emerald": {
+   "Swampert": [
+    "Torrent"
+   ],
+   "Milotic": [
+    "Marvel Scale"
+   ],
+   "Altaria": [
+    "Natural Cure"
+   ],
+   "Arcanine": [
+    "Intimidate",
+    "Flash Fire"
+   ],
+   "Absol": [
+    "Pressure"
+   ],
+   "Meganium": [
+    "Overgrow"
+   ]
+  },
+  "platinum": {
+   "Infernape": [
+    "Blaze"
+   ],
+   "Weavile": [
+    "Pressure"
+   ],
+   "Roserade": [
+    "Natural Cure",
+    "Poison Point"
+   ],
+   "Lucario": [
+    "Steadfast",
+    "Inner Focus"
+   ],
+   "Garchomp": [
+    "Sand Veil"
+   ],
+   "Magnezone": [
+    "Magnet Pull",
+    "Sturdy"
+   ]
+  },
+  "soulsilver": {
+   "Pikachu": [
+    "Static"
+   ],
+   "Dragonite": [
+    "Inner Focus"
+   ],
+   "Infernape": [
+    "Blaze"
+   ],
+   "Empoleon": [
+    "Torrent"
+   ],
+   "Gengar": [
+    "Levitate"
+   ],
+   "Scizor": [
+    "Swarm",
+    "Technician"
+   ]
+  },
+  "heartgold": {
+   "Typhlosion": [
+    "Blaze"
+   ],
+   "Tyranitar": [
+    "Sand Stream"
+   ],
+   "Mamoswine": [
+    "Oblivious",
+    "Snow Cloak"
+   ],
+   "Crobat": [
+    "Inner Focus"
+   ],
+   "Lapras": [
+    "Water Absorb",
+    "Shell Armor"
+   ],
+   "Snorlax": [
+    "Immunity",
+    "Thick Fat"
+   ]
+  }
+ },
+ "hm_matrix": {
+  "crystal": {
+   "HM01 Cut": [
+    "Feraligatr",
+    "Umbreon",
+    "Espeon"
+   ],
+   "HM02 Fly": [],
+   "HM03 Surf": [
+    "Feraligatr",
+    "Miltank"
+   ],
+   "HM04 Strength": [
+    "Feraligatr",
+    "Miltank",
+    "Donphan",
+    "Ampharos"
+   ],
+   "HM05 Flash": [
+    "Ampharos",
+    "Umbreon",
+    "Espeon"
+   ],
+   "HM06 Whirlpool": [
+    "Feraligatr"
+   ],
+   "HM07 Waterfall": [],
+   "TM08 Rock Smash": [
+    "Feraligatr",
+    "Miltank",
+    "Donphan",
+    "Ampharos"
+   ],
+   "TM02 Headbutt": [
+    "Feraligatr",
+    "Miltank",
+    "Donphan",
+    "Ampharos",
+    "Umbreon",
+    "Espeon"
+   ]
+  },
+  "firered": {
+   "HM01 Cut": [
+    "Charizard",
+    "Venusaur"
+   ],
+   "HM02 Fly": [
+    "Charizard"
+   ],
+   "HM03 Surf": [
+    "Blastoise"
+   ],
+   "HM04 Strength": [
+    "Charizard",
+    "Blastoise",
+    "Venusaur",
+    "Machamp"
+   ],
+   "HM05 Flash": [
+    "Venusaur",
+    "Alakazam",
+    "Jolteon"
+   ],
+   "HM06 Rock Smash": [
+    "Charizard",
+    "Blastoise",
+    "Venusaur",
+    "Machamp"
+   ],
+   "HM07 Waterfall": [
+    "Blastoise"
+   ],
+   "HM08 Dive": [
+    "Blastoise"
+   ]
+  },
+  "emerald": {
+   "HM01 Cut": [
+    "Absol",
+    "Meganium"
+   ],
+   "HM02 Fly": [
+    "Altaria"
+   ],
+   "HM03 Surf": [
+    "Swampert",
+    "Milotic"
+   ],
+   "HM04 Strength": [
+    "Swampert",
+    "Arcanine",
+    "Absol",
+    "Meganium"
+   ],
+   "HM05 Flash": [
+    "Absol",
+    "Meganium"
+   ],
+   "HM06 Rock Smash": [
+    "Swampert",
+    "Altaria",
+    "Arcanine",
+    "Absol",
+    "Meganium"
+   ],
+   "HM07 Waterfall": [
+    "Swampert",
+    "Milotic"
+   ],
+   "HM08 Dive": [
+    "Swampert",
+    "Milotic"
+   ],
+   "TM43 Secret Power": [
+    "Swampert",
+    "Milotic",
+    "Altaria",
+    "Arcanine",
+    "Absol",
+    "Meganium"
+   ]
+  },
+  "platinum": {
+   "HM01 Cut": [
+    "Infernape",
+    "Weavile",
+    "Roserade",
+    "Garchomp"
+   ],
+   "HM02 Fly": [],
+   "HM03 Surf": [
+    "Weavile",
+    "Garchomp"
+   ],
+   "HM04 Strength": [
+    "Infernape",
+    "Weavile",
+    "Lucario",
+    "Garchomp"
+   ],
+   "HM05 Defog": [],
+   "HM06 Rock Smash": [
+    "Infernape",
+    "Weavile",
+    "Lucario",
+    "Garchomp"
+   ],
+   "HM07 Waterfall": [],
+   "HM08 Rock Climb": [
+    "Infernape",
+    "Lucario",
+    "Garchomp"
+   ],
+   "TM70 Flash": [
+    "Roserade",
+    "Magnezone"
+   ]
+  },
+  "soulsilver": {
+   "HM01 Cut": [
+    "Dragonite",
+    "Infernape",
+    "Empoleon",
+    "Scizor"
+   ],
+   "HM02 Fly": [
+    "Dragonite"
+   ],
+   "HM03 Surf": [
+    "Dragonite",
+    "Empoleon"
+   ],
+   "HM04 Strength": [
+    "Pikachu",
+    "Dragonite",
+    "Infernape",
+    "Empoleon",
+    "Gengar",
+    "Scizor"
+   ],
+   "HM05 Whirlpool": [
+    "Dragonite",
+    "Empoleon"
+   ],
+   "HM06 Rock Smash": [
+    "Pikachu",
+    "Dragonite",
+    "Infernape",
+    "Empoleon",
+    "Gengar",
+    "Scizor"
+   ],
+   "HM07 Waterfall": [
+    "Dragonite",
+    "Empoleon"
+   ],
+   "HM08 Rock Climb": [
+    "Infernape",
+    "Empoleon"
+   ],
+   "TM70 Flash": [
+    "Pikachu"
+   ],
+   "tutor/other Headbutt": [
+    "Pikachu",
+    "Dragonite",
+    "Infernape",
+    "Empoleon",
+    "Gengar",
+    "Scizor"
+   ]
+  },
+  "heartgold": {
+   "HM01 Cut": [
+    "Typhlosion",
+    "Tyranitar"
+   ],
+   "HM02 Fly": [
+    "Crobat"
+   ],
+   "HM03 Surf": [
+    "Tyranitar",
+    "Lapras",
+    "Snorlax"
+   ],
+   "HM04 Strength": [
+    "Typhlosion",
+    "Tyranitar",
+    "Mamoswine",
+    "Lapras",
+    "Snorlax"
+   ],
+   "HM05 Whirlpool": [
+    "Tyranitar",
+    "Lapras",
+    "Snorlax"
+   ],
+   "HM06 Rock Smash": [
+    "Typhlosion",
+    "Tyranitar",
+    "Mamoswine",
+    "Lapras",
+    "Snorlax"
+   ],
+   "HM07 Waterfall": [
+    "Lapras"
+   ],
+   "HM08 Rock Climb": [
+    "Typhlosion",
+    "Tyranitar",
+    "Mamoswine",
+    "Snorlax"
+   ],
+   "TM70 Flash": [],
+   "tutor/other Headbutt": [
+    "Typhlosion",
+    "Tyranitar",
+    "Mamoswine",
+    "Lapras",
+    "Snorlax"
+   ]
+  }
+ },
+ "wild": {
+  "Growlithe@emerald": [],
+  "Growlithe@firered": [
+   "kanto-route-7",
+   "kanto-route-8",
+   "pokemon-mansion/1f",
+   "pokemon-mansion/2f",
+   "pokemon-mansion/3f",
+   "pokemon-mansion/b1f"
+  ],
+  "Growlithe@leafgreen": [],
+  "Chikorita@emerald": [
+   "littleroot-town"
+  ],
+  "Feebas@emerald": [
+   "hoenn-route-119"
+  ],
+  "Absol@emerald": [
+   "hoenn-route-120"
+  ],
+  "Swablu@emerald": [
+   "hoenn-route-114",
+   "hoenn-route-115",
+   "sky-pillar/5f"
+  ],
+  "Larvitar@heartgold": [
+   "johto-safari-zone/mountain",
+   "mt-silver/1f",
+   "mt-silver/1f-top",
+   "mt-silver/2f",
+   "mt-silver/3f",
+   "mt-silver/4f"
+  ],
+  "Swinub@heartgold": [
+   "ice-path/1f",
+   "ice-path/b1f",
+   "ice-path/b2f",
+   "ice-path/b3f"
+  ],
+  "Lapras@heartgold": [
+   "johto-safari-zone/rocky-beach",
+   "union-cave/b2f"
+  ],
+  "Snorlax@heartgold": [
+   "kanto-route-11",
+   "kanto-route-12"
+  ],
+  "Gible@platinum": [
+   "sinnoh-victory-road/1f",
+   "sinnoh-victory-road/2f",
+   "sinnoh-victory-road/b1f",
+   "sinnoh-victory-road/inside",
+   "sinnoh-victory-road/inside-b1f",
+   "sinnoh-victory-road/inside-exit"
+  ],
+  "Sneasel@platinum": [
+   "acuity-lakefront",
+   "lake-acuity",
+   "sinnoh-route-216",
+   "sinnoh-route-217",
+   "snowpoint-temple/1f",
+   "snowpoint-temple/b1f"
+  ],
+  "Riolu@platinum": [
+   "iron-island/b2f-left"
+  ],
+  "Magnemite@platinum": [
+   "fuego-ironworks",
+   "sinnoh-route-222",
+   "sinnoh-victory-road/2f"
+  ],
+  "Budew@platinum": [
+   "eterna-forest",
+   "sinnoh-route-204/north-towards-floaroma-town",
+   "sinnoh-route-204/south-towards-jubilife-city",
+   "sinnoh-route-205/east-towards-eterna-city",
+   "sinnoh-route-208",
+   "sinnoh-route-209"
+  ],
+  "Phanpy@crystal": [
+   "johto-route-45",
+   "johto-route-46"
+  ],
+  "Mareep@crystal": [],
+  "Miltank@crystal": [
+   "johto-route-38",
+   "johto-route-39"
+  ],
+  "Eevee@crystal": [
+   "goldenrod-city/bills-house"
+  ],
+  "Dratini@soulsilver": [
+   "dragons-den",
+   "goldenrod-city/game-corner",
+   "johto-safari-zone/swamp"
+  ],
+  "Pikachu@soulsilver": [
+   "saffron-city/magnet-train-station",
+   "viridian-forest"
+  ],
+  "Scyther@soulsilver": [
+   "national-park"
+  ],
+  "Gastly@soulsilver": [
+   "bell-tower/10f",
+   "bell-tower/2f",
+   "bell-tower/3f",
+   "bell-tower/4f",
+   "bell-tower/5f",
+   "bell-tower/6f"
+  ],
+  "Piplup@soulsilver": [],
+  "Chimchar@soulsilver": []
+ },
+ "stats": {
+  "Typhlosion": {
+   "hp": 78,
+   "attack": 84,
+   "defense": 78,
+   "special-attack": 109,
+   "special-defense": 85,
+   "speed": 100
+  },
+  "Feraligatr": {
+   "hp": 85,
+   "attack": 105,
+   "defense": 100,
+   "special-attack": 79,
+   "special-defense": 83,
+   "speed": 78
+  },
+  "Absol": {
+   "hp": 65,
+   "attack": 130,
+   "defense": 60,
+   "special-attack": 75,
+   "special-defense": 60,
+   "speed": 75
+  },
+  "Altaria": {
+   "hp": 75,
+   "attack": 70,
+   "defense": 90,
+   "special-attack": 70,
+   "special-defense": 105,
+   "speed": 80
+  },
+  "Swampert": {
+   "hp": 100,
+   "attack": 110,
+   "defense": 90,
+   "special-attack": 85,
+   "special-defense": 90,
+   "speed": 60
+  },
+  "Umbreon": {
+   "hp": 95,
+   "attack": 65,
+   "defense": 110,
+   "special-attack": 60,
+   "special-defense": 130,
+   "speed": 65
+  },
+  "Gengar": {
+   "hp": 60,
+   "attack": 65,
+   "defense": 60,
+   "special-attack": 130,
+   "special-defense": 75,
+   "speed": 110
+  },
+  "Infernape": {
+   "hp": 76,
+   "attack": 104,
+   "defense": 71,
+   "special-attack": 104,
+   "special-defense": 71,
+   "speed": 108
+  },
+  "Snorlax": {
+   "hp": 160,
+   "attack": 110,
+   "defense": 65,
+   "special-attack": 65,
+   "special-defense": 110,
+   "speed": 30
+  },
+  "Lapras": {
+   "hp": 130,
+   "attack": 85,
+   "defense": 80,
+   "special-attack": 85,
+   "special-defense": 95,
+   "speed": 60
+  }
+ },
+ "type_damage_class_gen1_3": {
+  "normal": 2,
+  "fighting": 2,
+  "flying": 2,
+  "poison": 2,
+  "ground": 2,
+  "rock": 2,
+  "bug": 2,
+  "ghost": 2,
+  "steel": 2,
+  "fire": 3,
+  "water": 3,
+  "grass": 3,
+  "electric": 3,
+  "psychic": 3,
+  "ice": 3,
+  "dragon": 3,
+  "dark": 3
+ }
+}
