@@ -42,7 +42,13 @@ Plain data (`engine/canon/build_library.json`):
 - a neutral nature;
 - the first ability.
 
-**Legality** follows D-024: a move counts if the species can learn it. Moves learnable only in another game of the generation, by transfer, or not at all in that generation are **flagged** in the report, not rejected.
+**Legality is biological** (D-048): a move counts if the species can physically learn it, which means any one of these:
+- in this game;
+- in any other game of any generation (Ash's Charizard "learns Dragon Breath in Crystal (machine)");
+- the show;
+- a reason the build records.
+
+The report states the reason. Only a move with no reason at all is flagged.
 
 ## Layer 2: Trainers
 
@@ -74,7 +80,7 @@ Lore (Ash's Light Ball Pikachu, a Pokémon that refuses its ball) is data on a b
 
 ## Steps
 
-1. **Data model and trainer storage.** Done: the era layer, builds, trainers, stats from builds, legality flags, lore out of the code.
+1. **Data model and trainer storage.** Done: the era layer, builds, trainers, stats from builds, a stated reason for every move, lore out of the code. You're a Champion in every version.
 2. **The matrix and bulk tags.**
    - The matrix has their Pokémon down the side and the 17 attacking types across the top, from that game's chart.
    - Each cell gets a verdict: immune, resists, neutral, weak, very weak. Abilities rewrite the tier before the verdict.

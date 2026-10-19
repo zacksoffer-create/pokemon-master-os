@@ -20,6 +20,7 @@ import json
 import os
 from dataclasses import asdict, dataclass, field
 
+from refdb import VG
 from trainers.era import GAME_GEN, STATS, Era
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -50,6 +51,7 @@ class Build:
     friendship: int = None
     ribbons: list = field(default_factory=list)
     level: int = None
+    move_reasons: dict = field(default_factory=dict)   # {move: why it knows it} where the games don't say
     source: str = ""                 # "stock (authored)", "mine", "canon register", "cartridge: …", "anime (authored)"
     generation: int = None
     tier: str = None
@@ -201,8 +203,36 @@ class Store:
         f, used = self.filled(build, gen)
         return self.era.stats(build.species, gen, lvl, f["nature"], f["ivs"], f["evs"]), lvl, used
 
+    def move_basis(self, build, game):
+        """Why the build knows each move (D-048: legality is biological). For each move, the first that applies:
+        it learns it in this game; it learns it in another game of any generation; the build records a reason;
+        it's from the show. A move with none of these has no reason on record, and the report flags it."""
+        gen = GAME_GEN[game]
+        here = self.era.game_names()[VG[game]][0]
+        out = []
+        for mv in build.moves:
+            res = self.era.learn(build.species, mv, game)
+            if res["in_game"]:
+                r = res["in_game"][0]
+                how = f"level {r[3]}" if r[2] == "level-up" else r[2]
+                out.append({"move": mv, "basis": "this game", "reason": f"learns it in {here} ({how}, as {r[1]})"})
+                continue
+            anywhere = self.era.learn_anywhere(build.species, mv)
+            if anywhere:
+                best = min(anywhere, key=lambda r: (abs(r[1] - gen), r[1]))
+                how = f"level {best[3]}" if best[2] == "level-up" else best[2]
+                out.append({"move": mv, "basis": "another game", "reason": f"learns it in {best[0]} ({how})"})
+            elif mv in build.move_reasons:
+                out.append({"move": mv, "basis": "on record", "reason": build.move_reasons[mv]})
+            elif build.source.startswith("anime"):
+                out.append({"move": mv, "basis": "the show", "reason": "uses it in the show (draft: confirm)"})
+            else:
+                out.append({"move": mv, "basis": "none", "reason": "no reason on record"})
+        return out
+
     def check(self, build, game):
-        """Everything about a build the game's data disagrees with. Flags, not rejections (D-024)."""
+        """What needs a reason or a fix. Moves follow D-048 (legality is biological: any game, the show, or a
+        reason on record); only a move with no reason at all is flagged. The rest are data-range checks."""
         gen = GAME_GEN[game]
         v = self.config["validation"]
         flags = []
@@ -212,14 +242,9 @@ class Store:
             return [f"{build.species} isn't a species in our data"]
         if self.era.species_gen(build.species) > gen:
             flags.append(f"{build.species} doesn't exist yet in Gen {gen}")
-        for mv in build.moves:
-            res = self.era.learn(build.species, mv, game)
-            if not res["exists"]:
-                flags.append(f"{mv} doesn't exist in Gen {gen}")
-            elif not res["in_game"] and v["flag_moves_outside_game"]:
-                where = sorted({f"{r[0]} ({r[2]})" for r in res["elsewhere"]})
-                flags.append(f"{mv}: not learnable in {game.title()}" + (f"; elsewhere: {', '.join(where)}" if where else
-                                                                         "; not learnable in this generation at all"))
+        for b in self.move_basis(build, game):
+            if b["basis"] == "none":
+                flags.append(f"{b['move']}: {build.species} can't learn it in any game, and no reason is on record")
         if build.nature:
             try:
                 self.era.nature(build.nature)

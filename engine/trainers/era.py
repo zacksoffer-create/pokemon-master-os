@@ -154,6 +154,36 @@ class Era:
         return {"type": all_names[type_id], "class": dclass, "power": int(power) if power else 0,
                 "accuracy": int(acc) if acc else None}
 
+    @lru_cache(maxsize=None)
+    def game_names(self):
+        """{version group id: (display name, generation)} for every game in the data."""
+        pretty = {"red-blue": "Red/Blue", "gold-silver": "Gold/Silver", "ruby-sapphire": "Ruby/Sapphire",
+                  "firered-leafgreen": "FireRed/LeafGreen", "diamond-pearl": "Diamond/Pearl",
+                  "heartgold-soulsilver": "HeartGold/SoulSilver", "black-white": "Black/White",
+                  "black-2-white-2": "Black 2/White 2", "x-y": "X/Y", "omega-ruby-alpha-sapphire": "Omega Ruby/Alpha Sapphire",
+                  "sun-moon": "Sun/Moon", "ultra-sun-ultra-moon": "Ultra Sun/Ultra Moon",
+                  "lets-go-pikachu-lets-go-eevee": "Let's Go", "sword-shield": "Sword/Shield",
+                  "brilliant-diamond-shining-pearl": "Brilliant Diamond/Shining Pearl", "scarlet-violet": "Scarlet/Violet",
+                  "xd": "XD"}
+        return {int(i): (pretty.get(ident, ident.replace("-", " ").title()), int(g))
+                for i, ident, g in self.ref.q("SELECT id, identifier, generation_id FROM version_groups")}
+
+    def learn_anywhere(self, species, move):
+        """Every game where the species (or a pre-evolution) learns the move: [(game, generation, method, level)]."""
+        try:
+            sid, mid = self.ref.species_id(species), self.ref.move_id(move)
+        except KeyError:
+            return []
+        methods = {int(i): ident for i, ident in self.ref.q("SELECT id, identifier FROM pokemon_move_methods")}
+        names = self.game_names()
+        out = set()
+        for stage in self.ref.line(sid):
+            for vg, m, lvl in self.ref.q("SELECT version_group_id, pokemon_move_method_id, level FROM pokemon_moves "
+                                         "WHERE pokemon_id=? AND move_id=?", stage, mid):
+                game, gen = names[int(vg)]
+                out.add((game, gen, methods.get(int(m), str(m)), int(lvl or 0)))
+        return sorted(out, key=lambda r: (r[1], r[0], r[2]))
+
     def learn(self, species, move, game):
         """How a species learns a move in this game: {"in_game": [...routes], "elsewhere": [...], "exists": bool}.
         Routes come from PokeAPI learnsets: level-up, egg, tutor, TM/HM, through any pre-evolution."""

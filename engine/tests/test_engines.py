@@ -555,13 +555,18 @@ class TrainerReportData(unittest.TestCase):
         self.assertEqual((red[0].species, red[0].level, red[0].item, red[0].ivs["spe"], red[0].evs["atk"]),
                          ("Pikachu", 88, "Light Ball", 30, 0))           # the cartridge's own data
 
-    def test_moves_outside_the_game_are_flagged_not_rejected(self):
+    def test_move_legality_is_biological_with_a_reason(self):
+        """D-048: any game, the show, or a reason on record; only a move with no reason is flagged."""
         from trainers.model import Build
-        flags = self.store.check(Build(id="t", species="Pikachu", moves=["Surf", "Thunderbolt"]), "platinum")
-        self.assertEqual(len(flags), 1)
-        self.assertIn("not learnable in this generation", flags[0])
-        ash = self.store.team(self.store.version("ash", "kanto"))
-        self.assertTrue(any("Seismic Toss" in f for f in self.store.check(ash[1], "heartgold")))
+        zard = self.store.team(self.store.version("ash", "all-time"))[1]
+        basis = {b["move"]: b for b in self.store.move_basis(zard, "platinum")}
+        self.assertEqual(basis["Flamethrower"]["basis"], "this game")
+        self.assertEqual(basis["Dragon Breath"]["reason"], "learns it in Crystal (machine)")
+        self.assertEqual(self.store.check(zard, "platinum"), [])
+        mine = Build(id="t", species="Charizard", moves=["Ice Beam", "Flamethrower"])
+        self.assertEqual(len(self.store.check(mine, "platinum")), 1)              # no game teaches it, no reason given
+        mine.move_reasons = {"Ice Beam": "taught by a move tutor in my world"}
+        self.assertEqual(self.store.check(mine, "platinum"), [])
 
     def test_lore_is_data_not_engine_logic(self):
         """No code pairs a species with its lore item (Pikachu + Light Ball): that lives in data files."""

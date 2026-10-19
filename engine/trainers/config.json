@@ -17,8 +17,7 @@
   "nature": null
  },
  "validation": {
-  "_note": "Legality follows D-024: a move counts if the species can learn it. Moves learnable only in another game of the generation, or by transfer, are flagged in the report, not rejected.",
-  "flag_moves_outside_game": true,
+  "_note": "Move legality is biological (D-048): a move counts if the species can learn it in any game of any generation, or uses it in the show, or the build records a reason. The report states the reason; only a move with no reason at all is flagged.",
   "max_ev_per_stat": 255,
   "max_ev_total": 510,
   "max_iv": 31
