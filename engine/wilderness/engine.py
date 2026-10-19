@@ -7,6 +7,8 @@ Evidence is tiered and never blended:
   inference  type, size and habitat (weakest; a starting point for authoring)
   authored   Zack's approved world (fed in from canon; empty until decisions exist)
 """
+import json
+import os
 import re
 from dataclasses import dataclass
 
@@ -88,7 +90,8 @@ LORE_PATTERNS = {
 GAME_VERSIONS = {"crystal": [6, 4, 5], "firered": [10, 11, 9], "emerald": [9, 7, 8], "platinum": [14, 12, 13],
                  "heartgold": [15, 16, 14], "soulsilver": [16, 15, 14]}
 GEN24_VERSIONS = list(range(4, 17))
-SCENARIOS = {
+SCENARIOS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scenarios.json")
+DEFAULT_SCENARIOS = {
     "Mountain storm crossing": ["climbing", "cold_tolerance", "weather_handling", "light", "heat_source", "rescue"],
     "Open-sea crossing": ["water_travel", "rescue", "light", "scouting"],
     "A week at camp": ["foraging", "food_source", "cooking", "heat_source", "deterrence", "field_healing",
@@ -98,6 +101,16 @@ SCENARIOS = {
     "Night travel": ["night_travel", "light", "scouting", "danger_sense"],
     "Living in town": ["town_fit", "calming_presence"],
 }
+
+
+def load_scenarios():
+    """Situations live in scenarios.json so they can be edited without touching code."""
+    if os.path.exists(SCENARIOS_FILE):
+        return json.load(open(SCENARIOS_FILE, encoding="utf-8"))["scenarios"]
+    return DEFAULT_SCENARIOS
+
+
+SCENARIOS = load_scenarios()
 TIER_RANK = {"authored": 4, "cartridge": 3, "lore": 2, "inference": 1}
 
 
@@ -110,9 +123,10 @@ class Evidence:
 
 
 class WildernessEngine:
-    def __init__(self, db_path, authored=None):
+    def __init__(self, db_path, authored=None, proposals=None):
         self.ref = Ref(db_path)
-        self.authored = authored or {}   # {(game, species): [Evidence]} from approved canon
+        self.authored = authored or {}     # {(game, species): [Evidence]} from approved canon
+        self.proposals = proposals or []   # pending world records, shown but never counted
 
     def _knows_or_can_learn(self, species, move, game):
         try:
@@ -203,4 +217,6 @@ class WildernessEngine:
                 "ready": [c for c in needs if summary[c]["strength"] in ("authored", "cartridge")],
                 "story_only": [c for c in needs if summary[c]["strength"] in ("lore only", "inference only")],
                 "gaps": [c for c in needs if summary[c]["strength"] == "GAP"]}
-        return {"capabilities": summary, "scenarios": scenarios, "evidence": per_member}
+        names = {m.species for m in team.members}
+        pending = [p for p in self.proposals if p["game"] == team.game and p["species"] in names]
+        return {"capabilities": summary, "scenarios": scenarios, "evidence": per_member, "proposals": pending}

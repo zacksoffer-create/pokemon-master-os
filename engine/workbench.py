@@ -3,14 +3,28 @@ becomes another (the backbone of the pair/trio conversations)."""
 import rules
 from battle.engine import BattleEngine
 from breeding.engine import BreedingEngine
-from wilderness.engine import WildernessEngine
+from battle.benchmarks import Benchmarks
+from wilderness.engine import Evidence, WildernessEngine
+from wilderness.world import WorldStore
 
 
 class Workbench:
-    def __init__(self, db_path, authored=None):
+    def __init__(self, db_path, world_path=None):
+        self.db_path = db_path
+        self.world = WorldStore(world_path) if world_path else WorldStore()
         self.battle = BattleEngine(db_path)
+        self.benchmarks = Benchmarks(db_path, self.battle)
         self.breeding = BreedingEngine(db_path)
-        self.wild = WildernessEngine(db_path, authored)
+        self.wild = WildernessEngine(db_path, self.world.authored(), self.world.proposals())
+
+    def preview_world(self, team, ids):
+        """What the wilderness picture would be IF these proposals were approved. Nothing is saved."""
+        records = [r for r in self.world.proposals() if r["id"] in ids]
+        authored = {k: list(v) for k, v in self.world.authored().items()}
+        for r in records:
+            authored.setdefault((r["game"], r["species"]), []).append(
+                Evidence(r["capability"], "authored", f"{r['id']} (preview, not approved)", r["statement"]))
+        return WildernessEngine(self.db_path, authored).team_report(team)
 
     def analyze(self, team):
         return {"battle": self.battle.report(team), "wilderness": self.wild.team_report(team),

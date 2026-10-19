@@ -104,6 +104,59 @@ class Engines(unittest.TestCase):
         self.assertEqual(holders(Team.of("heartgold", HEARTGOLD), "air_travel"), ["Crobat"])
         self.assertIn("Miltank", holders(Team.of("crystal", CRYSTAL), "field_healing"))
 
+    # benchmarks (opponent teams straight from the games' code)
+    def test_benchmarks_load_every_game(self):
+        from battle.benchmarks import Benchmarks
+        bm = Benchmarks(DB, self.battle)
+        hg = {s["name"]: s for s in bm.load("heartgold")}
+        red = hg["Red"]["party"]
+        self.assertEqual((red[0]["species"], red[0]["level"], red[0]["item"]), ("Pikachu", 88, "lightball"))
+        self.assertIn("Volt Tackle", red[0]["moves"])
+        lance = {s["name"]: s for s in bm.load("crystal")}["Champion Lance"]["party"]
+        self.assertEqual(sum(p["species"] == "Dragonite" for p in lance), 3)
+        self.assertEqual(lance[0]["ivs"]["atk"], 26)            # Crystal Champion class DVs 13/12/13/13
+        self.assertIn("Garchomp", [p["species"] for p in {s["name"]: s for s in bm.load("platinum")}["Champion Cynthia"]["party"]])
+        self.assertIn("Milotic", [p["species"] for p in {s["name"]: s for s in bm.load("emerald")}["Champion Wallace"]["party"]])
+        self.assertEqual(len([s for s in bm.load("firered") if s["name"].startswith("Champion")]), 3)
+
+    def test_default_moves_are_last_four_level_up(self):
+        from battle.benchmarks import Benchmarks
+        self.assertEqual(Benchmarks(DB, self.battle).default_moves("Pidgey", "heartgold", 5), ["Tackle", "Sand Attack"])
+
+    def test_matchup_grid(self):
+        from battle.benchmarks import Benchmarks
+        bm = Benchmarks(DB, self.battle)
+        red = {s["name"]: s for s in bm.load("heartgold")}["Red"]
+        r = bm.matchups(Team.of("heartgold", HEARTGOLD), red)
+        self.assertEqual(len(r["grid"]), 6)
+        self.assertEqual(r["our_level"], 88)
+        cell = r["grid"][0]["vs"]["Mamoswine"]                  # Ground-type: Volt Tackle can't touch it
+        self.assertNotIn("Volt Tackle", cell["they_hit"])
+
+    # authored world
+    def test_world_needs_a_decision_and_preview_saves_nothing(self):
+        import tempfile
+        from wilderness.world import WorldStore
+        path = os.path.join(tempfile.mkdtemp(), "world.json")
+        ws = WorldStore(path)
+        rid = ws.propose("heartgold", "Typhlosion", "heat_source", "the camp's fire", "test")
+        with self.assertRaises(ValueError):
+            ws.decide([rid], "approved", decision=None)
+        self.assertEqual(ws.authored(), {})
+        ws.decide([rid], "approved", decision="D-TEST")
+        self.assertEqual(ws.authored()[("heartgold", "Typhlosion")][0].tier, "authored")
+
+    # multi-generation breeding
+    def test_lineage_planner(self):
+        p = self.breed.plan_lineage("Tyranitar", ["Dragon Dance", "Outrage"], "heartgold")
+        self.assertEqual(p["plans"][0]["steps"], 2)
+        fathers = {pl["father"] for pl in p["plans"]}
+        self.assertTrue(fathers & {"Lapras", "Feraligatr", "Charizard"})
+        t = self.breed.plan_lineage("Mamoswine", ["Ice Shard"], "heartgold")["timing"][0]
+        self.assertIn("Swinub at Lv 28", t)
+        self.assertIn("Lv 33", t)
+        self.assertTrue(self.breed.plan_lineage("Pikachu", ["Volt Tackle"], "soulsilver")["by_held_item"])
+
     # specimen engine
     def test_specimen_gen2_shiny_hidden_power(self):
         from specimen import Lab, Specimen

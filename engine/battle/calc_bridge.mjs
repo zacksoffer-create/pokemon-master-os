@@ -24,7 +24,7 @@ const results = input.map((req) => {
     const hp = res.defender.maxHP();
     return { desc: res.desc(), damage: [lo, hi],
              percent: [+(100 * lo / hp).toFixed(1), +(100 * hi / hp).toFixed(1)],
-             ko: res.kochance().text };
+             ko: res.kochance().text, attacker_speed: res.attacker.stats.spe, defender_speed: res.defender.stats.spe };
   } catch (err) {
     return { error: String(err.message ?? err) };
   }

@@ -25,9 +25,18 @@ CSV_TABLES = [
     "contest_types", "contest_type_names", "item_game_indices", "item_names",
     "pokemon_species_flavor_text", "pokemon_habitats", "type_efficacy", "type_efficacy_past",
 ]
-EXTRA = {  # independent cross-check sources
+PRET = "https://raw.githubusercontent.com/pret/"
+PLATINUM_TRAINERS = ["elite_four_aaron", "elite_four_bertha", "elite_four_flint", "elite_four_lucian",
+                     "champion_cynthia", "elite_four_aaron_rematch", "elite_four_bertha_rematch",
+                     "elite_four_flint_rematch", "elite_four_lucian_rematch", "champion_cynthia_rematch"]
+EXTRA = {  # independent cross-check sources, and in-game trainer teams straight from the games' code
     "showdown_learnsets.ts": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/learnsets.ts",
-}
+    "trainers/crystal_parties.asm": PRET + "pokecrystal/master/data/trainers/parties.asm",
+    "trainers/crystal_dvs.asm": PRET + "pokecrystal/master/data/trainers/dvs.asm",
+    "trainers/firered_trainer_parties.h": PRET + "pokefirered/master/src/data/trainer_parties.h",
+    "trainers/emerald_trainer_parties.h": PRET + "pokeemerald/master/src/data/trainer_parties.h",
+    "trainers/hgss_trainers.json": PRET + "pokeheartgold/master/files/poketool/trainer/trainers.json",
+} | {f"trainers/platinum_{t}.json": PRET + f"pokeplatinum/main/res/trainers/data/{t}.json" for t in PLATINUM_TRAINERS}
 
 
 def fetch(url, dest):
@@ -36,7 +45,7 @@ def fetch(url, dest):
 
 
 def main():
-    os.makedirs(RAW, exist_ok=True)
+    os.makedirs(os.path.join(RAW, "trainers"), exist_ok=True)
     os.makedirs(MANIFEST, exist_ok=True)
     targets = {f"{t}.csv": POKEAPI + f"{t}.csv" for t in CSV_TABLES} | EXTRA
     for name, url in targets.items():

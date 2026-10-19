@@ -12,6 +12,10 @@ Nothing in this file is canon. Questions are numbered so decisions can reference
 | **Q5** | Edge of "can be learned": in *that game*, or by the species in *any* game? | **Precedent set by D-028** (Feraligatr + Waterfall allowed). Handle any future case one at a time, recorded as an exception | `SPECIMEN_LAB.md` |
 | **Q4** | Typhlosion's nature under the July set (2 special + 2 physical moves) | Timid (older build) cuts Attack, which two of the July moves rely on | `MECHANICS_FINDINGS` §1 |
 
+## Awaiting your approval
+
+- **W-001 … W-015**: the HeartGold life roles from the handoff (§10), mapped to world capabilities in `engine/canon/world.json`. The words are yours; the mapping is mine. Approve, edit or reject each one. Nothing counts as authored until you do.
+
 ## Mechanical research queue
 
 - Which HMs each game *requires* to finish: Crystal Waterfall (~75%), Platinum Waterfall (~85%), Platinum Defog optional (~80%). Needs a source or Zack's memory of the playthrough.

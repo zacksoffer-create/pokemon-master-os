@@ -1,0 +1,51 @@
+{
+  "_note": "Situations the wilderness engine checks a team against. Edit freely; each lists the capabilities it needs.",
+  "scenarios": {
+    "Mountain storm crossing": [
+      "climbing",
+      "cold_tolerance",
+      "weather_handling",
+      "light",
+      "heat_source",
+      "rescue"
+    ],
+    "Open-sea crossing": [
+      "water_travel",
+      "rescue",
+      "light",
+      "scouting"
+    ],
+    "A week at camp": [
+      "foraging",
+      "food_source",
+      "cooking",
+      "heat_source",
+      "deterrence",
+      "field_healing",
+      "calming_presence"
+    ],
+    "Cave expedition": [
+      "light",
+      "clearing",
+      "hauling",
+      "escape",
+      "digging"
+    ],
+    "Emergency far from town": [
+      "field_healing",
+      "air_travel",
+      "rescue",
+      "escape"
+    ],
+    "Night travel": [
+      "night_travel",
+      "light",
+      "scouting",
+      "danger_sense"
+    ],
+    "Living in town": [
+      "town_fit",
+      "calming_presence"
+    ]
+  }
+}

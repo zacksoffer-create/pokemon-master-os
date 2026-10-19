@@ -85,6 +85,126 @@ class BreedingEngine:
                                      "first_father_learns_it": ch["source"][0]} for ch in c["chains"][:5]]
         return result
 
+    # --- multi-generation planning -------------------------------------------------
+    def _fam(self, sid):
+        return tuple(sorted(self.ref.family(sid)))
+
+    def _routes(self, fam, mid, vgs, methods):
+        return [(s, m, l, v) for s in fam for v in vgs for m, l in self.ref.methods(s, mid, v) if m in methods]
+
+    def _ctx(self, game):
+        vg = rules.GAME_VG[game]
+        gen = rules.GAME_GEN[game]
+        from refdb import TRANSFER_FROM, VG_GEN
+        gen_vgs = [v for v, g in VG_GEN.items() if g == gen]
+        src_vgs = gen_vgs + [v for v, g in VG_GEN.items() if g in TRANSFER_FROM.get(gen, [])]
+        return vg, gen_vgs, src_vgs
+
+    def _candidates(self, fam):
+        groups = {g for s in fam for g in self.ref.egg_groups(s) if g not in ("no-eggs", "ditto")}
+        out = set()
+        for g in groups:
+            for r in self.ref.q("SELECT p.species_id FROM pokemon_egg_groups p JOIN egg_groups e ON e.id=p.egg_group_id "
+                                "WHERE e.identifier=? AND p.species_id<=493", g):
+                f = self._fam(int(r[0]))
+                if any(self.ref.gender_rate(s) not in (-1, 8) for s in f):
+                    out.add(f)
+        return out
+
+    def _search(self, fam, need, game, depth, visited, memo):
+        key = (fam, need, depth)
+        if key in memo:
+            return memo[key]
+        vg, gen_vgs, src_vgs = self._ctx(game)
+        plans = []
+        for f in self._candidates(fam):
+            direct = {m: self._routes(f, m, src_vgs, ("level-up", "tutor", "machine")) for m in need}
+            inherit = frozenset(m for m in need if not direct[m])
+            if any(not self._routes(f, m, gen_vgs, ("egg",)) for m in inherit):
+                continue                                   # f can't even hatch with it
+            sub = None
+            if inherit:
+                if f == fam or f in visited or depth <= 1:
+                    continue
+                if not any(self.ref.gender_rate(s) not in (-1, 0) for s in f):
+                    continue                               # no female of f's line to hatch it from
+                subs = self._search(f, inherit, game, depth - 1, visited | {f}, memo)
+                if not subs:
+                    continue
+                sub = subs[0]
+            catchable = bool(self.ref.wild_in(self.ref.name(f[0]), game)) or any(
+                self.ref.wild_in(self.ref.name(s), game) for s in f)
+            stage = max(f, key=lambda s: (len([m for m in need if self._routes((s,), m, src_vgs,
+                                                                             ("level-up", "tutor", "machine"))]), s))
+            plans.append({"father": self.ref.name(stage),
+                          "family": [self.ref.name(s) for s in f],
+                          "learns_itself": {self.ref.move_name(m): [
+                              f"{self.ref.name(s)} {mm}{' L' + str(l) if mm == 'level-up' else ''} (vg{v})"
+                              for s, mm, l, v in sorted(set(direct[m]), key=lambda r: (r[0] != stage, r[3] != vg, r[3]))][:2]
+                              for m in need if direct[m]},
+                          "inherits": [self.ref.move_name(m) for m in inherit], "via": sub,
+                          "steps": 1 + (sub["steps"] if sub else 0), "catchable_in_game": catchable})
+        plans.sort(key=lambda p: (p["steps"], not p["catchable_in_game"], len(p["inherits"])))
+        memo[key] = plans[:5]
+        return memo[key]
+
+    def plan_lineage(self, species, moves, game, max_depth=3):
+        """Shortest lineage that hatches `species` knowing every egg move in `moves` at once.
+        The father must know them all together; anything he can't learn himself must be bred into him."""
+        vg, gen_vgs, src_vgs = self._ctx(game)
+        sid = self.ref.species_id(species)
+        fam = self._fam(sid)
+        mids = [self.ref.move_id(m) for m in moves]
+        light_ball = [m for m in mids if self._routes(fam, m, [vg], ("light-ball-egg",))]
+        egg = frozenset(m for m in mids if m not in light_ball and self._routes(fam, m, [vg], ("egg",)))
+        later = [self.ref.move_name(m) for m in mids if m not in egg and m not in light_ball]
+        result = {"target": species, "game": game, "egg_moves": [self.ref.move_name(m) for m in egg],
+                  "by_held_item": [f"{self.ref.move_name(m)}: either parent holds a Light Ball; no father needed"
+                                   for m in light_ball],
+                  "learn_after_hatching": later, "timing": [t for m in moves for t in self.timing(species, m, game)],
+                  "feasibility": self.feasibility(species, game)}
+        if len(egg) > 4:
+            result["plans"] = []
+            result["note"] = "more than four egg moves can't be carried at once"
+            return result
+        result["plans"] = self._search(fam, egg, game, max_depth, {fam}, {}) if egg else []
+        return result
+
+    @staticmethod
+    def render(plan):
+        """A lineage plan as numbered breeding steps, oldest generation first."""
+        chain, node = [], plan
+        while node:
+            chain.append(node)
+            node = node["via"]
+        lines = []
+        for i, step in enumerate(reversed(chain), 1):
+            own = "; ".join(f"{mv}: {r[0]}" for mv, r in step["learns_itself"].items())
+            inh = f" + inherited {', '.join(step['inherits'])}" if step["inherits"] else ""
+            lines.append(f"{i}. {step['father']} ♂ ({own or 'nothing of its own'}{inh})"
+                         f"{' [catchable here]' if step['catchable_in_game'] else ''}")
+        return lines
+
+    def timing(self, species, move, game):
+        """Warnings about *when* a move must be learned (before evolving, Light Ball, other game only)."""
+        vg = rules.GAME_VG[game]
+        res = self.ref.learn(species, move, vg)
+        native = [r for r in res["routes"] if r[0] == "native"]
+        notes = []
+        if any(m == "light-ball-egg" for _, _, m, _, _ in native):
+            notes.append(f"{res['move']}: a parent must hold a Light Ball when the egg is made")
+        final = self.ref.name(self.ref.species_id(species))
+        if native and all(m == "level-up" and st != final for _, st, m, _, _ in native):
+            st, lvl = min(((st, l) for _, st, m, l, _ in native), key=lambda x: x[1])
+            evo = self.ref.q("""SELECT e.minimum_level FROM pokemon_evolution e JOIN pokemon_species s ON s.id=e.evolved_species_id
+                WHERE s.evolves_from_species_id=? LIMIT 1""", self.ref.species_id(st))
+            when = f" before it evolves at Lv {evo[0][0]}" if evo and evo[0][0] else " before it evolves"
+            notes.append(f"{res['move']}: must be learned as {st} at Lv {lvl}{when}; later forms can't relearn it")
+        if not native and res["routes"]:
+            where = sorted({f"vg{v}" for *_, v in res["routes"]})
+            notes.append(f"{res['move']}: not learnable in {game} itself; only in {', '.join(where)} (trade/transfer)")
+        return notes
+
     def stock(self, targets):
         """Ranch roster: fathers that serve the most (species, move, game) targets at once."""
         serves = {}
