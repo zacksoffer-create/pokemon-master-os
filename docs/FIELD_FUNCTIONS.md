@@ -1,4 +1,4 @@
-# Field Functions: every game, worked through honestly (v1, 2026-10-19)
+# Field Functions: every game, worked through honestly (v2, 2026-10-19)
 
 **Zack's direction (D-026):** keep the HM rule as the ideal, address every game explicitly, and allow a principled exception where there's a real reason. HeartGold was designed with this in mind; the other games weren't fully thought through for it.
 
