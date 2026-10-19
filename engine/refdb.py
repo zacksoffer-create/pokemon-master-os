@@ -24,6 +24,9 @@ TABLES = [
     "pokemon_species_flavor_text", "pokemon_habitats", "type_efficacy", "type_efficacy_past",
     # ranch: greenhouse crops
     "berries",
+    # scouting: what every move does
+    "move_meta", "move_meta_stat_changes", "move_meta_categories", "move_meta_ailments", "move_flag_map",
+    "move_flags", "move_effect_prose", "move_changelog", "move_targets",
 ]
 
 # Version groups this project cares about (PokeAPI ids).

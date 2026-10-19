@@ -320,5 +320,100 @@ class JourneyLabRanch(unittest.TestCase):
         self.assertTrue(ev and "revive" in ev[0].detail)
 
 
+class ScoutingEngine(unittest.TestCase):
+    """The scouting engine's layers (docs/SCOUTING_ENGINE.md): move book, field, fights, profiles."""
+    @classmethod
+    def setUpClass(cls):
+        from battle.engine import BattleEngine
+        from battle.evaluate import Evaluator
+        from battle.moves import MoveBook
+        cls.battle = BattleEngine(DB)
+        cls.mb = MoveBook(cls.battle.ref)
+        cls.ev = Evaluator(cls.battle, cls.mb)
+
+    def c(self, species, moves, gen=4, **kw):
+        from battle.knowledge import Combatant
+        evs = {"hp": 252, "atk": 252, "def": 0, "spa": 0, "spd": 4, "spe": 0} if gen >= 3 else None
+        return Combatant(species=species, gen=gen, moves=moves, evs=kw.pop("evs", evs), name=species, **kw)
+
+    def fight(self, a, b, pa=None, pb=None, state=False):
+        from battle.evaluate import Fight, Plan
+        self.ev.prepare([a, b])
+        for _ in range(8):
+            before = self.ev.table.misses
+            f = Fight(self.ev, a, b, pa or Plan(), pb or Plan())
+            o = f.run()
+            if self.ev.table.misses == before:
+                return (o, f) if state else o
+            self.ev.table.fetch()
+        raise AssertionError("damage table never settled")
+
+    def plays(self, gen, move):
+        return {(p["play"], p.get("detail")) for p in self.mb.get(gen, move).plays}
+
+    def test_move_book_reads_plays_from_data(self):
+        self.assertIn(("boost", "atk +1, spe +1"), self.plays(4, "Dragon Dance"))
+        self.assertIn(("status", "badly poisoned"), self.plays(4, "Toxic"))
+        self.assertEqual(self.mb.get(4, "Rapid Spin").self_changes, {})     # its Speed boost is Gen 8
+        self.assertEqual(self.mb.get(2, "Growth").self_changes, {"spa": 1})
+        self.assertIn(("lock-in", "2-3 turns, then it's confused"), self.plays(4, "Outrage"))
+        self.assertIn(("cure", None), self.plays(3, "Refresh"))
+        self.assertIn(("taunt", None), self.plays(4, "Taunt"))
+
+    def test_usage_field_and_peak_defaults(self):
+        from battle.knowledge import from_build, usage_field
+        self.assertEqual([len(usage_field(g)) for g in (2, 3, 4)], [48, 57, 73])
+        lax = from_build(4, "Snorlax", {"moves": ["Body Slam", "Rest"], "nature": "Careful"},
+                         fill=lambda sp, rej: ["Earthquake", "Body Slam", "Crunch"])
+        self.assertEqual(lax.moves, ["Body Slam", "Rest", "Earthquake", "Crunch"])
+        self.assertEqual((lax.level, lax.evs["spe"], lax.ability), (100, 85, "Immunity"))
+        self.assertTrue(any("filled in" in a for a in lax.assumed) and any("could be Thick Fat" in a for a in lax.assumed))
+
+    def test_burn_halves_physical_hits_through_the_calculator(self):
+        out = self.battle.damage([{"gen": 4, "attacker": {"species": "Tyranitar", "level": 100, "status": s},
+                                   "defender": {"species": "Snorlax", "level": 100}, "move": "Crunch"} for s in ("", "brn")])
+        self.assertAlmostEqual(out[1]["percent"][0] * 2, out[0]["percent"][0], delta=0.5)
+        immune = self.battle.damage([{"gen": 4, "attacker": {"species": "Garchomp", "level": 100},
+                                      "defender": {"species": "Gengar", "level": 100}, "move": "Earthquake"}])[0]
+        self.assertEqual((immune["percent"], "error" in immune), ([0.0, 0.0], False))   # Levitate: 0, not an error
+
+    def test_fake_out_flinches_and_a_flinched_opening_waits(self):
+        from battle.evaluate import Plan
+        o = self.fight(self.c("Ambipom", ["Fake Out", "Return"], ability="Technician"),
+                       self.c("Snorlax", ["Curse", "Body Slam"]), pb=Plan(("Curse",)))
+        self.assertEqual(o.calls[0][:2], ("Fake Out", "Return"))
+        self.assertEqual(o.calls[1][:2], ("(flinched)", "Curse"))
+
+    def test_rest_sleeps_two_turns(self):
+        from battle.evaluate import Plan
+        o = self.fight(self.c("Snorlax", ["Rest", "Curse"]), self.c("Blissey", ["Seismic Toss"]), Plan(sustain=True))
+        calls = list(o.calls[0])
+        i = calls.index("Rest")
+        self.assertEqual(calls[i + 1:i + 3], ["(asleep)", "(asleep)"])
+
+    def test_substitute_blocks_status(self):
+        from battle.evaluate import Plan
+        o, f = self.fight(self.c("Jirachi", ["Substitute", "Psychic"]), self.c("Blissey", ["Thunder Wave", "Seismic Toss"]),
+                          Plan(("Substitute",)), Plan(("Thunder Wave",)), state=True)
+        self.assertEqual((o.calls[0][0], o.calls[1][0]), ("Substitute", "Thunder Wave"))   # Jirachi is faster
+        self.assertIsNone(f.A.status)
+
+    def test_setup_gets_credit_only_when_it_changes_the_fight(self):
+        from battle.knowledge import usage_field
+        blissey = [c for c in usage_field(4) if c.species == "Blissey"][0]
+        ttar = self.c("Tyranitar", ["Dragon Dance", "Crunch", "Earthquake", "Outrage"], item="Lum Berry")
+        m = self.ev.versus([ttar], [blissey])[(ttar.key, blissey.key)]
+        self.assertEqual((m.outcome.winner, m.straight.winner), ("A", "B"))
+        self.assertEqual(m.credits.get("build"), "decisive")
+        self.assertEqual(m.outcome.calls[0][0], "Dragon Dance")
+
+    def test_percentiles_and_philosophy(self):
+        from battle.profile import percentile, philosophy
+        self.assertEqual(percentile(5, [0, 0, 10, 10]), 50)
+        self.assertEqual(percentile(10, [0, 0, 10, 10]), 75)
+        line = philosophy({"pace": 95, "punch": 52, "risk": 10, "build": 60})
+        self.assertEqual([(k, pole) for k, pole, _ in line], [("pace", "strikes first"), ("risk", "safe")])
+
+
 if __name__ == "__main__":
     unittest.main()

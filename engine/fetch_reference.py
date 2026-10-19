@@ -25,7 +25,12 @@ CSV_TABLES = [
     "contest_types", "contest_type_names", "item_game_indices", "item_names",
     "pokemon_species_flavor_text", "pokemon_habitats", "type_efficacy", "type_efficacy_past",
     "berries",
+    "move_meta", "move_meta_stat_changes", "move_meta_categories", "move_meta_ailments", "move_flag_map",
+    "move_flags", "move_effect_prose", "move_changelog", "move_targets",
 ]
+# Smogon usage-stats sets (what players actually ran on Pokémon Showdown's ladder), MIT-licensed. The same package's
+# "dex" sets are Smogon's copyrighted analyses and are not kept.
+SMOGON_SETS = "https://registry.npmjs.org/@smogon/sets/-/sets-2.0.0.tgz"
 PRET = "https://raw.githubusercontent.com/pret/"
 PLATINUM_TRAINERS = ["elite_four_aaron", "elite_four_bertha", "elite_four_flint", "elite_four_lucian",
                      "champion_cynthia", "elite_four_aaron_rematch", "elite_four_bertha_rematch",
@@ -45,6 +50,25 @@ def fetch(url, dest):
         fh.write(resp.read())
 
 
+def fetch_smogon_sets():
+    """Keep only the MIT 'stats' source for Gen 2-4, one JSON per generation: {format: {species: {set: {...}}}}."""
+    import io
+    import json
+    import tarfile
+    with urllib.request.urlopen(SMOGON_SETS, timeout=120) as resp:
+        tar = tarfile.open(fileobj=io.BytesIO(resp.read()), mode="r:gz")
+    os.makedirs(os.path.join(RAW, "smogon"), exist_ok=True)
+    names = []
+    for gen in (2, 3, 4):
+        data = json.load(tar.extractfile(f"package/gen{gen}.json"))
+        stats = {fmt: v["stats"] for fmt, v in data.items() if isinstance(v, dict) and "stats" in v}
+        name = f"smogon/gen{gen}_usage_sets.json"
+        with open(os.path.join(RAW, name), "w", encoding="utf-8") as fh:
+            json.dump(stats, fh, ensure_ascii=False, sort_keys=True)
+        names.append(name)
+    return names
+
+
 def main():
     os.makedirs(os.path.join(RAW, "trainers"), exist_ok=True)
     os.makedirs(MANIFEST, exist_ok=True)
@@ -52,6 +76,7 @@ def main():
     for name, url in targets.items():
         fetch(url, os.path.join(RAW, name))
         print("fetched", name)
+    targets.update({n: SMOGON_SETS for n in fetch_smogon_sets()})
     with open(os.path.join(MANIFEST, "SHA256SUMS.txt"), "w") as out:
         for name in sorted(targets):
             digest = hashlib.sha256(open(os.path.join(RAW, name), "rb").read()).hexdigest()
