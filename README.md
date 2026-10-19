@@ -13,7 +13,8 @@ Zack's six-chapter Pokémon journey: canon, companions, breeding, and the app th
 | `docs/LEGACY_DATA_AUDIT.md` | the Drive spreadsheets and Apps Script: what works, what's broken, how to migrate |
 | `docs/POKEMON_DATA_SOURCES.md` | pinned datasets, source hierarchy, known gaps |
 | `docs/APP_PRODUCT_SPEC.md` | product vision, data model, architecture options, PKHeX bridge, roadmap |
-| `docs/QUESTIONS_AND_EXPERIMENTS.md` | open decisions (Q1–Q4), research queue, SoulSilver pair/trio audit |
+| `docs/FIELD_FUNCTIONS.md` | every game's HM/field coverage, gaps, options F1–F4 |
+| `docs/QUESTIONS_AND_EXPERIMENTS.md` | open decisions, research queue, SoulSilver pair/trio audit |
 
 `engine/`: reference-data prototype. `refdb.py` builds a SQLite DB from pinned PokeAPI CSVs and answers learnset, breeding-chain, ability, HM and encounter queries per version group. `canon_checks.py` is the first regression suite over canon claims.
 

@@ -1,6 +1,6 @@
-# App Product Spec: proposed redesign (v0.1, 2026-10-19)
+# App Product Spec: proposed redesign (v0.2, 2026-10-19)
 
-**Status:** PROPOSAL. Nothing here is user-approved; decisions needed are flagged with ❓.
+**Status:** PROPOSAL, except §6 (storage, D-025) and §7 (PKHeX standard, D-024), which are decided. Remaining open choices are flagged with ❓.
 
 ## 1. Core purpose
 
@@ -41,7 +41,7 @@ Chapter ─< Membership >─ Companion ─< Build ─< MoveDecision
    │            │            │          │
    │            │            │          └─ legality → EngineRun / Evidence
    │            │            ├─ BreedingPlan ─< BreedingStep
-   │            │            ├─ Instance (PKHeX materialization: .pk file, legality report)
+   │            │            ├─ Instance (PKHeX materialization: .pk file; legality report optional)
    │            │            └─ same_individual_as? (explicit, decided — never inferred from species)
    │            └─ life_role, battle_role, slot_order, status
    ├─ FieldFunction (function → cartridge move? → companion → permanent|temporary|world-only)
@@ -54,8 +54,7 @@ LegacyRow (file_id, tab, row, raw cells, imported_at) ─ Reconciliation (matche
 
 **Era-specific build schemas**: Gen 2 builds have `dvs`, `stat_exp` and no nature or ability. Gen 3–4 builds have `nature`, `ability`, `ivs`, `evs`, plus `encounter_type` (because PID/IV coupling depends on it). The v3 sheet used one flat schema for all eras; that's the source of several defects.
 
-**Build provenance tiers** (❓ Zack decides which are allowed — see §7):
-`performed-in-game` · `materialized-legal` (PKHeX-made, passes legality, with a documented plausible origin) · `beyond-cartridge` (illegal on purpose, always labeled).
+**Build validity (D-024):** valid = every move is learnable by the species. Origin, encounter and PKHeX legality are optional story notes (`performed-in-game` / `PKHeX-made` / `narrative-only`).
 
 ## 5. Screens (v1 → later)
 
@@ -67,47 +66,40 @@ LegacyRow (file_id, tab, row, raw cells, imported_at) ─ Reconciliation (matche
 6. **Companion**: the individual, not the species — lineage, learned moves, temperament (authoring candidates marked as such), relationships, PKHeX instance.
 7. **History & Sources**: decision ledger search ("why did we drop Gyarados?") and the legacy archive with reconciliation flags.
 
-## 6. Architecture options (❓ Zack chooses)
+## 6. Architecture: Google Drive + Sheets (decided, D-025)
 
-Constraints measured today:
-- Claude's Drive connector can **create** files but **cannot edit an existing file's contents** (metadata only). A Google Sheet therefore can't be the live store Claude writes into.
-- Gen I–IV learnsets are ~194k rows. As static JSON that's trivial in a browser; under Sheets formulas it's slow.
-- This container is ephemeral. Work persists only if pushed to GitHub, published as an Artifact, or saved to Drive.
+**Correction to v0.1:** v0.1 recommended a GitHub repo because Claude's Drive connector can't edit an existing file's contents. A **Google Sheets connector** is now available that reads *and writes* cells directly (`get_values`, `update_values`, `append_values`, `batchUpdate`). That removes the constraint, and Drive becomes the natural home.
 
-| | **A. Repo + static app (recommended)** | B. All-Google (Sheets + Apps Script) | C. Artifact-native |
-|---|---|---|---|
-| Canon store | YAML/JSON files in a private GitHub repo; every change is a commit linked to a Decision | New canon Google Sheet | the app's own built-in database |
-| Who edits | Claude Code (precise, diffable, tested) | Zack in Sheets; Claude only via a deployed Apps Script endpoint | Claude via the artifact data tool; Zack in-page |
-| History | git: complete, free | Drive version history (coarse) | must be designed (append-only rows) |
-| Reference data | built JSON, bundled | heavy tabs again | built JSON, bundled |
-| App | static page published as a **private claude.ai Artifact** (phone-friendly, no hosting) | Apps Script web app | same as A |
-| Drive's role | archive (legacy untouched) + dated read-only exports for browsing and for chat sessions | everything | archive + exports |
-| Risks | needs a GitHub account (free private repo) | Apps Script quotas, clasp/OAuth setup, slower UI, the v3 performance problem returns | newer platform; export discipline needed |
+| Piece | Where it lives | Who writes it |
+|---|---|---|
+| **Canon DB**: chapters, companions, memberships, builds, move decisions, field functions, characters, decisions, evidence | one new Google Sheet, `Pokémon Master Project — Canon DB`, one tab per entity, stable IDs in column A | Claude via the Sheets connector, **only after Zack approves**; Zack can also edit by hand |
+| **Decision ledger** | an append-only tab in the Canon DB | Claude appends; never edits past rows |
+| **Docs** (charter, field functions, audits) | Google Docs in the project folder | new version = new Doc; the old one moves to `History/` |
+| **Reference data** | not stored by hand. Built on demand from the pinned public datasets by `engine/refdb.py`; a small lookup slice can go into a `Reference` tab if dropdowns need it | build script |
+| **Engine code** | `Engine/` folder in Drive (plain files) | Claude |
+| **Legacy files** | where they are now, untouched | nobody |
+| **App** | a private claude.ai page built from the Canon DB and republished when canon changes | Claude |
 
-**Recommendation: A**, with C's in-page database as a later add-on if one-tap approvals from the phone become worth it. The reasons are practical: precise edits, real history, automated tests guarding HeartGold, and no servers or subscriptions. B is viable only if staying in Sheets matters more than reliability. That's a fair preference, but it should be chosen knowingly.
+Sizing: the personal canon is hundreds of rows (six chapters × six companions × builds × decisions), so Sheets is comfortable. The heavy learnset data (194k rows for Gen 1–4) stays *out* of Sheets; that's the v3 performance trap, not repeated.
 
-## 7. PKHeX: what it changes
+Protection without git: (1) Drive keeps version history on the Sheet; (2) the decision tab is append-only by convention, and every canon change cites a decision ID; (3) a `Locks` tab lists locked entities (HeartGold's six), and Claude refuses to write to them without a `reopen` decision; (4) periodic dated exports go to `History/`.
 
-PKHeX turns "can this exist?" from a grinding problem into a **choice about provenance**. That changes the app in four ways:
+## 7. PKHeX: the materializer, not the judge (D-024)
 
-1. **Legality has a final authority.** The engine here answers design questions ("can these four moves coexist, by what chain, in one save?"). PKHeX's legality checker answers "is this exact specimen legal?" (PID/IV method, met location, ball, egg data, gift-encounter moves). Don't rebuild PKHeX. Hand off to it.
-2. **Interchange via Showdown sets.** Every Build exports Showdown text → PKHeX *Import Showdown set from clipboard* → set met data / ball / OT → run the Legality check → paste the report back into the app as `Evidence` → save the `.pk` file to Drive, linked to an `Instance`. (If the PKHeX-Plugins **Auto-Legality Mod** is installed, it can generate the legal PID/IVs from a Showdown set automatically. Worth confirming what's installed.)
-3. **"Legal" ≠ "earned in this save."** PKHeX will happily approve a hatched Bulbasaur in a FireRed save that never had a parent to breed one. The app tracks both `pkhex_legal` and `save_plausible`, which is exactly the handoff's starter warning, made enforceable.
-4. **Battle testing becomes possible.** The same Showdown export lets chapter teams (and the rival's) be played against each other in gen-specific custom formats. That's a way to *test* "Every turn you survive is a mistake" rather than only describe it.
-
-**The philosophical fork (❓ Zack's decision):** the project's soul is *earned* mastery, and PKHeX makes everything free. Options:
-- **Legal-by-construction (recommended default):** PKHeX materializes a story that could have happened. Every companion passes legality *and* has a documented, save-plausible origin, so the breeding lineage still exists as story and plan; PKHeX just skips the 200 eggs. Each plan records whether it was `performed-in-game` or `materialized`.
-- **Legal-only:** pass PKHeX legality and nothing more is required.
-- **Canon-over-cartridge:** illegal-but-meaningful builds allowed, always labeled `beyond-cartridge`, never silent.
-- A hybrid is natural: legal-by-construction by default, with a few rituals actually performed in-game because they *mean* something (e.g., breeding HeartGold's Extrasensory Cyndaquil yourself).
+Zack's standard: **if the species can learn the move, it's valid. PKHeX legality doesn't gate anything.** What that means in practice:
+- **The engine's gate is learnability** (species × move × game, any method). Everything else it knows (egg-only moves on a starter, the encounter or ball, version exclusives, breeding chains) becomes *story material*, shown as notes and never as errors. Example: HeartGold's Typhlosion can be Elm's starter and know Extrasensory. The engine can still note that on a real cartridge it would be a bred Cyndaquil, if Zack ever wants that as a story.
+- **PKHeX makes the world real.** Each Build exports as a Showdown set; PKHeX imports it (*Import Showdown set from clipboard*) and Zack saves it into the game. PKHeX may mark a Pokémon as not legal. That's expected, and it doesn't matter for this project.
+- **Breeding keeps its meaning** as lineage, identity and story. Whether a chain was performed in-game or just narrated is optional metadata, not a requirement.
+- **Open edge (Q5):** "can be learned" in *that game* vs by the species in *any* game. Only one case in the project depends on it today (Crystal Feraligatr + Waterfall).
+- **Bonus still applies:** the same Showdown export lets chapter teams (and the rival) be battle-tested against each other in gen-specific formats.
 
 ## 8. Roadmap (each phase ends usable)
 
 | Phase | Delivers | Acceptance |
 |---|---|---|
 | **0 (done today)** | audit; reference engine prototype; canon regression checks; docs | checks reproducible from pinned data |
-| **1. Foundation** | repo; canon YAML for all six chapters (HeartGold locked, SoulSilver provisional); decision ledger seeded with IDs; raw legacy import with provenance; handoff §27's 17 acceptance tests as automated tests | `make test` green; a reference refresh can't alter canon (test proves it) |
+| **1. Foundation** | Drive project folder; Canon DB Sheet for all six chapters (HeartGold locked, SoulSilver provisional); decision ledger seeded with IDs; raw legacy import with provenance; handoff §27's 17 acceptance tests as automated tests | the 17 acceptance tests pass against the Canon DB; a reference refresh can't alter canon |
 | **2. Vertical slice** | Journey + HeartGold read-only team (conflicting build history side by side) + SoulSilver Decision Lab + Gen 4 Breeder Lab query + "Copy PKHeX set"; published as a private Artifact | opens on phone; HeartGold uneditable; every SoulSilver surface says *provisional*; Breeder Lab reproduces today's 10 known results |
-| **3. PKHeX loop & eras** | Instance records; PKHeX report ingestion; Gen 3 and Gen 2 schemas; pret ROM data as tie-breaker; Showdown team export for battle tests | a real HeartGold member round-trips: set → PKHeX → legal → recorded |
+| **3. PKHeX loop & eras** | Instance records; Gen 3 and Gen 2 schemas; pret ROM data as tie-breaker; Showdown team export for battle tests | a real HeartGold member round-trips: Build → Showdown set → PKHeX → in the save → Instance recorded |
 | **4. World & companions** | Field Matrix authoring; companion profiles; relationships; rival timeline; Danny record; proposal queue from conversations | "why was X rejected?" answerable for every past change |
 | **5. Polish & automation** | sprites; scheduled data refresh with diff report; dated Drive exports | refresh → diff report → no canon changes |

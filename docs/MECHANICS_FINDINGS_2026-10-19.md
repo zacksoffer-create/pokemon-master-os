@@ -3,6 +3,8 @@
 **What this is:** every move, ability, HM and acquisition claim in the master handoff, checked against data rather than memory.
 **Category:** Mechanical fact (source-backed). Interpretation is marked *Design note*. Nothing here changes canon by itself.
 
+> **Read with D-024 (decided after this report):** the project's only validity gate is *learnability*. Statements below about starters vs bred individuals, encounters, balls and save-plausibility describe a strictly legal cartridge. They're **story options, not constraints**.
+
 ## Sources and method
 
 | Source | What it gives | How used |

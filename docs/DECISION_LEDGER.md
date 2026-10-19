@@ -2,17 +2,17 @@
 
 Append-only. Never edit a past row's meaning; supersede it with a new row. IDs are stable references.
 **Source key:** `H§n` = master handoff section n (recovered conversation context, not verbatim transcripts) · `V3` = Pokemon Master Spreadsheet v3 · `S` = this session.
-Exact dates are given where the handoff gives them; `2026-07` means "July 2026, day not recovered."
+Exact dates are given where the handoff gives them; `2026-07` means "July 2026, day not recovered." `≤2026-01-08` = proven to exist by then (column A of v3 `Copy of Canon Builds`; v3 hasn't been modified since 2026-01-08).
 
 | ID | Date | Subject | Decision | Status | Author | Source | Supersedes |
 |---|---|---|---|---|---|---|---|
 | D-001 | 2025-12 | All six rosters as in v3 `Canon Builds` | historical drafts | ARCHIVE | — | V3; H§19.3 | — |
-| D-002 | ≤2026-07 | Crystal roster: Feraligatr · Miltank · Donphan · Ampharos · Umbreon · Espeon | established | WORKING CANON | Zack | H§6 | D-001 (Lapras) |
-| D-003 | ≤2026-07 | FireRed roster: Charizard · Blastoise · Venusaur · Alakazam · Jolteon · Machamp | established | WORKING CANON | Zack | H§7 | D-001 (Snorlax) |
-| D-004 | ≤2026-07 | Emerald roster: Swampert · Milotic · Altaria · Arcanine · Absol · Meganium | established | WORKING CANON | Zack | H§8 | D-001 (Metagross, Gardevoir) |
-| D-005 | ≤2026-07 | Platinum roster: Infernape · Weavile · Roserade · Lucario · Garchomp · Magnezone | established | WORKING CANON | Zack | H§9 | D-001 (Empoleon) |
-| D-006 | ≤2026-07 | **HeartGold roster: Typhlosion · Tyranitar · Mamoswine · Crobat · Lapras · Snorlax** | **sacred; do not reopen** | **LOCKED** | Zack | H§10 | D-001 (Milotic, Scizor) |
-| D-007 | 2026-07 | Former SoulSilver six: Pikachu · Dragonite · Gyarados · Empoleon · Gengar · Scizor, concept "Everything you do matters, and it is all wrong" | historical | ARCHIVE | Zack | H§11.1 | — |
+| D-002 | ≤2026-01-08 | Crystal roster: Feraligatr · Miltank · Donphan · Ampharos · Umbreon · Espeon | established | WORKING CANON | Zack | H§6 | D-001 (Lapras) |
+| D-003 | ≤2026-01-08 | FireRed roster: Charizard · Blastoise · Venusaur · Alakazam · Jolteon · Machamp | established | WORKING CANON | Zack | H§7 | D-001 (Snorlax) |
+| D-004 | ≤2026-01-08 | Emerald roster: Swampert · Milotic · Altaria · Arcanine · Absol · Meganium | established | WORKING CANON | Zack | H§8 | D-001 (Metagross, Gardevoir) |
+| D-005 | ≤2026-01-08 | Platinum roster: Infernape · Weavile · Roserade · Lucario · Garchomp · Magnezone | established | WORKING CANON | Zack | H§9 | D-001 (Empoleon) |
+| D-006 | ≤2026-01-08 | **HeartGold roster: Typhlosion · Tyranitar · Mamoswine · Crobat · Lapras · Snorlax** | **sacred; do not reopen** | **LOCKED** | Zack | H§10 | D-001 (Milotic, Scizor) |
+| D-007 | ≤2026-01-08 | Former SoulSilver six: Pikachu · Dragonite · Gyarados · Empoleon · Gengar · Scizor, concept "Everything you do matters, and it is all wrong" | historical | ARCHIVE | Zack | H§11.1 | — |
 | D-008 | 2026-07-14 | **SoulSilver wiped; all incumbency removed; every eligible non-legendary Gen I–IV Pokémon except HeartGold's six may be considered** | process rule | LOCKED | Zack | H§11.2 | D-007 |
 | D-009 | 2026-07 | SoulSilver reinterpreted: veteran, soulful, Brady-like, "We've been here before / Show us anything. We have an answer," equal in stature to HeartGold | philosophy | WORKING CANON | Zack | H§3, §11.2 | the cold-control reading |
 | D-010 | 2026-07-16 | SoulSilver rough starting six: Pikachu · Dragonite · Infernape · Empoleon · Gengar · Scizor | **starting point, not a lock** | PROVISIONAL | Zack | H§11.4 | — |
@@ -24,11 +24,14 @@ Exact dates are given where the handoff gives them; `2026-07` means "July 2026, 
 | D-016 | 2026-07 | Garchomp (Platinum): EQ / Dragon Claw / Fire Fang / Poison Jab; 4th slot still evaluative | working direction | WORKING | Zack | H§9 | V3 Outrage/Stone Edge set |
 | D-017 | 2026-07 | Garchomp Aqua Tail **rejected**: "versatility and another coverage option were weaker than making the opponent's decisions costly" | rejected | REJECTED | Zack | H§9 | — |
 | D-018 | 2026-07 | Field-function policy (team covers HMs; Surf & Fly universal minimums; no HM slaves; cartridge ≠ world) | rule, "going forward to every team" | WORKING CANON | Zack | H§12 | — |
-| D-019 | 2026-07 | Rival final six: Nidoking (constant) · Kingdra (Crystal) · Houndoom (FireRed) · Metagross (Emerald) · Gliscor (Platinum) · Salamence (SoulSilver) | canonical | WORKING CANON | Zack | H§17 | older Aerodactyl/Heracross drafts |
+| D-019 | 2026-07 | Rival final six: Nidoking (constant) · Kingdra (Crystal) · Houndoom (FireRed) · Metagross (Emerald) · Gliscor (Platinum) · Salamence (SoulSilver) | canonical | WORKING CANON | Zack | H§17; V3 Copy col A | the six species were already listed by 2026-01-08 with different chapter assignments; older Aerodactyl/Heracross drafts |
 | D-020 | 2025-12 | "HeartGold (Danny)": Raichu · Torterra · Combusken · Breloom · Flygon · Buizel | separate character, archival | ARCHIVE | — | V3; H§18 | — |
 | D-021 | 2026-07 | Brainstorm foundational members in **groups of two or three**; no shotgun full-roster swaps | process preference | WORKING CANON | Zack | H§4, §11.4 | — |
 | D-022 | 2026-10-07 | App decomposition (Rules Engine / Personal Canon / Journey & Companion / Workbench) + model Species → Companion → Membership → Build → MoveDecision | promising direction | PROPOSED | assistant | H§20 | — |
-| D-023 | 2026-10-19 | Zack has **PKHeX** and can create and import custom Pokémon | fact about tooling; policy open (Q2) | RECORDED | Zack | S | — |
+| D-023 | 2026-10-19 | Zack has **PKHeX** and can create and import custom Pokémon | fact about tooling | RECORDED | Zack | S | — |
+| D-024 | 2026-10-19 | **Learnability standard.** *"I don't care if PKHeX says it's legal or not — it's legal in the sense that it can be learned and that's what fits my narrative… I'm not entering competitions, I'm creating the world I want."* A move is valid for this project if the species can learn it. PKHeX legality, encounter/ball/origin constraints, egg-move-on-starter conflicts and save-plausibility **do not gate canon**; the engine reports them as story notes only. Example: HeartGold's Typhlosion can be Elm's starter *and* know Extrasensory. Open boundary: "learnable in that game" vs "learnable by the species in any game" (Q5) | standard | **LOCKED** | Zack | S | handoff §16's legal-build/provenance gating; APP_SPEC §7 "legal-by-construction" recommendation (not adopted) |
+| D-025 | 2026-10-19 | **Project home is Google Drive** (Gen 1–4 scope keeps it manageable). Canon data lives in a Google Sheet that Claude reads and writes through the Sheets connector; docs live in a Drive project folder | storage | **LOCKED** | Zack | S | APP_SPEC §6 GitHub recommendation (not adopted) |
+| D-026 | 2026-10-19 | **HM/field rule kept as the ideal; every game gets worked through explicitly**, with principled exceptions allowed where there's a real reason (*"I don't hate the rule, I just want to work through it"*) | process | WORKING CANON | Zack | S | resolves the framing of Q1; per-game choices F1–F4 open in `FIELD_FUNCTIONS.md` |
 
 ## Evidence recorded this session (mechanical facts, not decisions)
 
@@ -44,4 +47,9 @@ Exact dates are given where the handoff gives them; `2026-07` means "July 2026, 
 | E-008 | Mareep line not obtainable in Crystal except by trade | VERIFIED (ROM + PokeAPI) |
 | E-009 | Growlithe absent from Emerald; FireRed-exclusive | VERIFIED (PokeAPI) |
 | E-010 | No Sinnoh starters in HGSS → SoulSilver Infernape/Empoleon arrive by trade | VERIFIED (PokeAPI; knowledge) |
-| E-011 | Dragon's Den ExtremeSpeed Dratini not represented in either learnset dataset | UNVERIFIED → PKHeX |
+| E-011 | Dragon's Den ExtremeSpeed Dratini not represented in either learnset dataset | UNVERIFIED (encounter data) |
+| E-012 | v3 `Copy of Canon Builds`: column A was rewritten with the later rosters for every game (incl. sacred HeartGold, the former SoulSilver six and the rival six); columns B–P stayed in the original row order, so row *n*'s build belongs to `Canon Builds` row *n* | VERIFIED (Sheets read, full tab) |
+| E-013 | No Crystal, Platinum or HeartGold member can learn the missing field move (Crystal Fly/Waterfall, Platinum Fly/Defog/Waterfall, HG Flash) in any game ever, except Feraligatr–Waterfall (Gen 3+) | VERIFIED (PokeAPI, all version groups) |
+| E-014 | The Platinum Empoleon → Lucario swap removed the team's only Waterfall and Defog learner | VERIFIED (PokeAPI) |
+| E-015 | Crystal's overworld Waterfall check only requires that a party member knows the move (+ Rising Badge), not species compatibility | VERIFIED (ROM: `pokecrystal/engine/events/overworld.asm`) |
+| E-016 | Legacy legality formula: ⚠️ if any move isn't in that slot's MoveList, or there are duplicate moves, an empty slot, or no ability. Each slot reads its own MoveLists column (no shared-column bug). Breeding_Lab outputs are typed values, not formulas (computed by a script not visible anywhere) | VERIFIED (Sheets formulas) |

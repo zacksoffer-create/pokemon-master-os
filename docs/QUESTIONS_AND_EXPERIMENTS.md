@@ -6,12 +6,15 @@ Nothing in this file is canon. Questions are numbered so decisions can reference
 
 | # | Question | Why it matters now | Evidence |
 |---|---|---|---|
-| **Q1** | Does "Surf and Fly as permanent moves on every team" apply **retroactively** to Crystal and Platinum? | Neither six can learn Fly on cartridge; neither has a Waterfall learner. Options: (a) the rule is forward-only (SoulSilver and later detail work); (b) earlier chapters satisfy it via *world function* (Garchomp flies in its own Pokédex); (c) the rule stands and the earlier rosters must answer it. *Interpretation, not a proposal:* Crystal having no flyer may be *thematically right*, a first journey made on foot | `MECHANICS_FINDINGS` §5 |
-| **Q2** | PKHeX provenance policy: legal-by-construction / legal-only / canon-over-cartridge / hybrid? | It decides whether HeartGold's Extrasensory Typhlosion is "the starter's bred grandchild" or "a PKHeX'd starter" | `APP_PRODUCT_SPEC` §7 |
-| **Q3** | Storage: repo + static app (recommended) / all-Google / artifact-native? Do you have, or want, a GitHub account? | Without a persistent home, this container's work disappears | `APP_PRODUCT_SPEC` §6 |
+| **Q1** | HM/field rule for games designed before it existed | **IN PROGRESS** (D-026: keep the ideal, work through every game). Per-game choices F1–F4 | `FIELD_FUNCTIONS.md` |
+| ~~Q2~~ | PKHeX provenance policy | **RESOLVED by D-024**: learnability is the only gate | — |
+| ~~Q3~~ | Storage | **RESOLVED by D-025**: Google Drive + Sheets | — |
+| **Q5** | Edge of "can be learned": in *that game*, or by the species in *any* game? | Only one case in the project turns on it today: **Feraligatr + Waterfall in Crystal** (impossible in Gen 2, learnable from Gen 3 on, and it works on the Crystal cartridge if given) | `FIELD_FUNCTIONS.md` F2 |
 | **Q4** | Typhlosion's nature under the July set (2 special + 2 physical moves) | Timid (older build) cuts Attack, which two of the July moves rely on | `MECHANICS_FINDINGS` §1 |
 
 ## Mechanical research queue
+
+- Which HMs each game *requires* to finish: Crystal Waterfall (~75%), Platinum Waterfall (~85%), Platinum Defog optional (~80%). Needs a source or Zack's memory of the playthrough.
 
 - Dragon's Den Dratini + ExtremeSpeed in HGSS: confirm in PKHeX's encounter DB (neither dataset has it).
 - Story-mandatory HMs per game (Crystal Waterfall? Platinum Waterfall to reach the League? Platinum Defog?), each with a citation.
@@ -24,7 +27,7 @@ Nothing in this file is canon. Questions are numbered so decisions can reference
 - **SoulSilver's Infernape and Empoleon can only arrive by trade from a Sinnoh game**: HGSS has no Sinnoh starters. Is SoulSilver's Infernape *the* Platinum Infernape ("We've been here before," literally), or a different individual? There's no ban on repeats, and none being proposed.
 - **Emerald's Arcanine can only come from FireRed** (Growlithe is FireRed-exclusive and absent from Emerald).
 - **Crystal's Ampharos can only come by trade** (no Mareep line exists in Crystal, per the ROM data). A gift from someone? The rival? Story unknown.
-- **HeartGold's Extrasensory Typhlosion and Emerald's Refresh Swampert must be bred.** Neither can be the professor's starter on a legal cartridge.
+- HeartGold's Extrasensory Typhlosion and Emerald's Refresh Swampert would have to be bred *on a strictly legal cartridge*. **Under D-024 that's no longer a constraint**: each can be the professor's starter if the story wants it. Breeding stays available as a story choice, e.g. Milotic teaching Swampert Refresh.
 - Archive curiosity, *speculative*: the v3 sheet had **Empoleon in Platinum** before Lucario took the slot. A Platinum-era Empoleon who didn't make the final six, then traveled to Johto, would give the archive a story role. Offered only because it's interesting.
 
 ---

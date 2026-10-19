@@ -1,6 +1,6 @@
 # Current Canon Register (as of 2026-10-19)
 
-Tags: **[confirmed by user]** · **[accepted working direction]** · **[proposed]** (a review suggestion, not accepted) · **[historical]** (older source, kept as evidence) · **[rejected]** · ✔ = cartridge-legal per `MECHANICS_FINDINGS` · ⚠ = legal but with a provenance consequence.
+Tags: **[confirmed by user]** · **[accepted working direction]** · **[proposed]** (a review suggestion, not accepted) · **[historical]** (older source, kept as evidence) · **[rejected]** · ✔ = learnable (the project's only validity gate, D-024) · ⚠ = learnable, with a strict-cartridge story note (informational only).
 A roster lock is **not** a moveset lock. Conflicting sources are shown side by side, never merged.
 
 ---
@@ -10,7 +10,7 @@ A roster lock is **not** a moveset lock. Conflicting sources are shown side by s
 
 | Member | Life role (handoff) | Moves: newest source first | Nature / ability / item |
 |---|---|---|---|
-| Typhlosion | heat, dependable environmental authority | **[confirmed by user, July 2026]** Flamethrower / Extrasensory / Thunder Punch / Earthquake ✔⚠ (Extrasensory is egg-only, so this Typhlosion is bred, not the Elm starter) · [historical, earlier July prompt] Flamethrower / Extrasensory / Sunny Day / SolarBeam · [historical, sheet Jan 2026] Flamethrower / Extrasensory / Eruption / HP Grass (Dec 19: Will-O-Wisp in slot 3) · **Focus Blast [rejected]** | **open (Q4)**. Nature history: Jolly (v1 sheet, Dec 16–17, prep note *"Deliberately prepared through lineage move inher…"*, cut off by the connector) → Timid (v3 sheet + earlier July prompt). Timid fights the July set's two physical moves |
+| Typhlosion | heat, dependable environmental authority | **[confirmed by user, July 2026]** Flamethrower / Extrasensory / Thunder Punch / Earthquake ✔⚠ (Extrasensory is a Cyndaquil egg move. Under D-024 it can still be Elm's starter; being bred is an optional story) · [historical, earlier July prompt] Flamethrower / Extrasensory / Sunny Day / SolarBeam · [historical, sheet Jan 2026] Flamethrower / Extrasensory / Eruption / HP Grass (Dec 19: Will-O-Wisp in slot 3) · **Focus Blast [rejected]** | **open (Q4)**. Nature history: Jolly (v1 sheet, Dec 16–17, prep note *"Deliberately prepared through lineage move inher…"*, cut off by the connector) → Timid (v3 sheet + earlier July prompt). Timid fights the July set's two physical moves |
 | Tyranitar | mountain-scale power, excavation, heavy protection | [proposed, July 14] Dragon Dance / Crunch / Earthquake / Outrage + Lum Berry ✔⚠ (DD needs a 2-step breeding chain; Outrage also available from the HGSS tutor) · [historical, sheet] EQ / DD / Crunch / Rock Slide, Adamant, Leftovers | earlier prompt: Jolly / Sand Stream |
 | Mamoswine | ancient terrain, snow, hauling | [historical, earlier prompt + sheet] EQ / Ancient Power / Ice Fang / Hail · [proposed, July 14] **Ice Shard over Hail** ✔ (Swinub must learn it at Lv 28, before evolving; the old sheet engine couldn't even offer it) | Adamant / Snow Cloak / NeverMeltIce |
 | Crobat | reconnaissance, aerial travel, vigilance | Fly / Roost / U-turn / Toxic ✔. **Every source agrees**, the most stable build in the project | Jolly / Inner Focus / Black Sludge |
@@ -44,7 +44,7 @@ Pair/trio audit: see `QUESTIONS_AND_EXPERIMENTS.md`.
 | Lucario | no build in any source | open |
 | Magnezone | [historical, sheet] Thunderbolt / HP Fire / Flash Cannon / Substitute, Modest | not reaffirmed |
 
-Field gaps: **no Fly, no Defog, no Waterfall learner** (Q1). Archive: sheet has Empoleon instead of Lucario.
+Field gaps: **no Fly, no Defog, no Waterfall learner**. Defog and Waterfall were lost when Lucario replaced the January roster's Empoleon. Garchomp's Pokédex flight may be the world answer (`FIELD_FUNCTIONS.md` F3–F4). Archive: sheet has Empoleon instead of Lucario.
 
 ## Emerald: "We learned how to live out here." ◐ WORKING CANON (D-004)
 Swampert · Milotic · Altaria · Arcanine · Absol · Meganium.
@@ -59,7 +59,7 @@ Field: complete (Fly = Charizard only). Provenance: 4 of 6 need trades (two extr
 ## Crystal: first bonds ◐ WORKING CANON (D-002)
 Feraligatr · Miltank · Donphan · Ampharos · Umbreon · Espeon.
 No builds in any source. Gen 2 rules apply: no natures or abilities; DVs and Stat Exp; Water and Dark moves are special.
-Field: **no Fly, no Waterfall learner** (Q1). Flash = Ampharos, literally the light.
+Field: **no Fly, no Waterfall learner** (`FIELD_FUNCTIONS.md` F1–F2: a walked chapter? Feraligatr + temporary Waterfall?). Flash = Ampharos, literally the light.
 Provenance: **Ampharos can only arrive by trade** (no Mareep line exists in Crystal, per ROM data). The second Eevee comes from breeding with Ditto. Archive: sheet has Lapras instead of Ampharos.
 
 ---
@@ -76,6 +76,8 @@ Provenance: **Ampharos can only arrive by trade** (no Mareep line exists in Crys
 | Platinum | Gliscor | Salamence |
 | SoulSilver | Salamence | Aerodactyl |
 | HeartGold | — | Heracross |
+
+> The v3 `Copy of Canon Builds` (by 2026-01-08) already lists these six species, mapped Nidoking–Crystal, Kingdra–FireRed, Metagross–Emerald, Gliscor–Platinum, Houndoom–SoulSilver, Salamence–HeartGold. July's mapping supersedes it.
 
 > *Observation (not a claim about intent):* **Metagross** (your Emerald pick in the Jan sheet) and **Gliscor** (your SoulSilver pick in the Jan sheet) both became rival milestones by July. The rival now carries two companions your own journey let go. Worth asking whether that was deliberate, because it's a strong idea either way.
 
