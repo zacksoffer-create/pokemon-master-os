@@ -61,7 +61,7 @@ LegacyRow (file_id, tab, row, raw cells, imported_at) ─ Reconciliation (matche
 
 1. **Journey**: six chapter cards in story order with each thesis line, lock state and current six. Rival milestones run alongside.
 2. **Team**: six members, each showing life role, battle role, moves with status badges (`confirmed` / `working` / `historical` / `verify`) and a field-function strip. HeartGold shows a 🔒 and has no edit affordances. Build history appears side by side: Dec 2025 sheet vs July master prompt vs July 2026 preference.
-3. **Decision Lab** (SoulSilver first): pair/trio cards, each covering type synergy, field coverage, lore/world function, breeding knowledge, emotional role, and what the other four must then supply. Rejected options keep their reasons. Nothing becomes canon from this screen without an explicit decision.
+3. **Decision Lab** (SoulSilver first): pair/trio cards, each covering how the two cover each other's weaknesses, field coverage, lore/world function, breeding knowledge, emotional role, and what the other four must then supply. Rejected options keep their reasons. Nothing becomes canon from this screen without an explicit decision.
 4. **Breeder Lab**: target + game + moves → verdict, every route, shortest chains, timing traps (e.g., Ice Shard before Lv 33), whether it's doable in one save, and a **"Copy PKHeX set"** button.
 5. **Field Matrix**: per chapter, cartridge HMs vs world function vs who handles it. Gaps and single points of failure highlighted.
 6. **Companion**: the individual, not the species — lineage, learned moves, temperament (authoring candidates marked as such), relationships, PKHeX instance.
