@@ -24,9 +24,108 @@
  },
  "slider_scale": {
   "_note": "Authored sliders run 0-100. The left pole is 0, the right pole is 100.",
-  "offense": ["defensive", "offensive"],
-  "rigidity": ["flexible", "rigid"],
-  "bond": ["tool", "partnership"],
-  "risk": ["percentage player", "gambler"]
+  "offense": [
+   "defensive",
+   "offensive"
+  ],
+  "rigidity": [
+   "flexible",
+   "rigid"
+  ],
+  "bond": [
+   "tool",
+   "partnership"
+  ],
+  "risk": [
+   "percentage player",
+   "gambler"
+  ]
+ },
+ "verdicts": {
+  "_note": "How a type-chart multiplier becomes a word. Checked in order: the first rule that fits wins. Abilities rewrite the multiplier first.",
+  "rules": [
+   {
+    "verdict": "immune",
+    "at_most": 0
+   },
+   {
+    "verdict": "resists",
+    "below": 1
+   },
+   {
+    "verdict": "neutral",
+    "at_most": 1
+   },
+   {
+    "verdict": "weak",
+    "below": 4
+   },
+   {
+    "verdict": "very weak"
+   }
+  ]
+ },
+ "abilities": {
+  "_note": "Abilities that rewrite a matchup before the verdict: {ability: {attacking type: multiplier}}. 'super_effective' scales only super-effective hits; 'not_super_effective' replaces every hit that isn't. A Pokémon only gets an ability its species could have in that generation.",
+  "Levitate": {
+   "Ground": 0
+  },
+  "Flash Fire": {
+   "Fire": 0
+  },
+  "Water Absorb": {
+   "Water": 0
+  },
+  "Volt Absorb": {
+   "Electric": 0
+  },
+  "Motor Drive": {
+   "Electric": 0
+  },
+  "Dry Skin": {
+   "Water": 0,
+   "Fire": 1.25
+  },
+  "Thick Fat": {
+   "Fire": 0.5,
+   "Ice": 0.5
+  },
+  "Heatproof": {
+   "Fire": 0.5
+  },
+  "Filter": {
+   "super_effective": 0.75
+  },
+  "Solid Rock": {
+   "super_effective": 0.75
+  },
+  "Wonder Guard": {
+   "not_super_effective": 0
+  }
+ },
+ "bulk": {
+  "_note": "A row's bulk lean, from its real stats. Physical bulk is HP x Defense, special bulk is HP x Sp. Def; HP cancels out, so the test compares Defense with Sp. Def. If one is lower than the other by at least the threshold, the row is soft on that side.",
+  "threshold": 0.15,
+  "labels": {
+   "physical": "physically soft",
+   "special": "specially soft",
+   "even": "even"
+  },
+  "worse_from": {
+   "physical": "worse from physical attackers",
+   "special": "worse from special attackers"
+  },
+  "cell_note_on": [
+   "weak",
+   "very weak"
+  ]
+ },
+ "team": {
+  "_note": "The team summary, from the attacker's side. A gap is a type that hits this team hard; a strength is a type this team handles.",
+  "gap_if_weak_at_least": 3,
+  "gap_if_weak_and_uncovered_at_least": 2,
+  "strength_if_resisted_at_least": 3,
+  "strength_needs_no_weakness": true,
+  "bring_margin": 1
  }
 }

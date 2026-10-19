@@ -579,6 +579,33 @@ class TrainerReportData(unittest.TestCase):
         from battle.scouting import SIGNATURE_ITEMS
         self.assertEqual(SIGNATURE_ITEMS["Pikachu"], "Light Ball")            # read from battle/species_items.json
 
+    def test_matrix_verdicts_with_abilities_first(self):
+        from trainers.matrix import row
+        from trainers.model import Build
+        gengar = row(self.store, Build(id="t", species="Gengar", moves=["Shadow Ball"], ability="Levitate"), "platinum")
+        self.assertEqual((gengar["cells"]["Ground"]["verdict"], gengar["cells"]["Ground"]["before_ability"]), ("immune", "weak"))
+        self.assertEqual(gengar["cells"]["Psychic"]["verdict"], "weak")
+        lax = row(self.store, Build(id="t", species="Snorlax", moves=["Body Slam"], ability="Thick Fat"), "heartgold")
+        self.assertEqual((lax["cells"]["Fire"]["verdict"], lax["cells"]["Fighting"]["verdict"]), ("resists", "weak"))
+        shed = row(self.store, Build(id="t", species="Shedinja", moves=["Shadow Sneak"], ability="Wonder Guard"), "platinum")
+        self.assertEqual((shed["cells"]["Water"]["verdict"], shed["cells"]["Fire"]["verdict"]), ("immune", "weak"))
+        steel = row(self.store, Build(id="t", species="Steelix", moves=["Iron Tail"], ability="Sturdy"), "platinum")
+        self.assertEqual(steel["cells"]["Ghost"]["verdict"], "resists")             # Gen IV chart, not today's
+        chomp = row(self.store, self.store.library["stock/garchomp-sweeper"], "platinum")
+        self.assertEqual(chomp["cells"]["Ice"]["verdict"], "very weak")
+
+    def test_bulk_lean_and_team_summary(self):
+        import json as _json
+        from trainers.matrix import team_matrix
+        brock = team_matrix(self.store, self.store.version("brock"))
+        self.assertTrue(all(r["bulk"]["lean"] == "special" for r in brock["rows"]))
+        self.assertEqual(brock["summary"]["bring"], "special")
+        self.assertIn("worse from special attackers", brock["rows"][0]["cells"]["Water"]["note"])
+        self.assertIn("Grass", brock["summary"]["gaps"])
+        mine = team_matrix(self.store, self.store.version("me", "heartgold"))
+        self.assertEqual(mine["summary"]["gaps"][0], "Fighting")                      # four of the six are weak to it
+        _json.dumps(mine)                                                              # plain data, ready for Part 2
+
 
 if __name__ == "__main__":
     unittest.main()
