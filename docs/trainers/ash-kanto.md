@@ -52,6 +52,69 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 - Charizard: Seismic Toss: learns it in Emerald (tutor)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Pikachu | late-game cleaner (solid, 0.58) | revenge killer (solid) | – |
+| Charizard | tank (solid, 0.54) | bulky attacker (solid) | – |
+| Bulbasaur | wallbreaker (loose, 0.40) | – | – |
+| Squirtle | bulky setup (loose, 0.45) | wallbreaker (loose) | – |
+| Pidgeotto | revenge killer (loose, 0.48) | late-game cleaner (loose) | – |
+| Kingler | wallbreaker (loose, 0.49) | physical wall (loose) | – |
+
+## Career
+
+- Recent record: Indigo Plateau Conference: Top 16 (lost to Ritchie).
+
+## The ace
+
+- Ace: Pikachu (the most invested and a late-game cleaner).
+
+## Who they go to
+
+- Even game: Charizard is the workhorse (tank).
+- Ahead: Pikachu closes it out (late-game cleaner).
+- Behind: they turn to Charizard (wallbreaker).
+
+## What they can hit
+
+- They hit 10 of 17 types super-effectively; nothing they carry hits Dark, Dragon, Electric, Ghost, Normal, Poison or Psychic that way.
+- Bring Electric: they can't hit it super-effectively, and four of them are weak to it.
+- Psychic get through clean too.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Flamethrower (Charizard, 142) | 0 |
+| Dark | **none** | 0 |
+| Dragon | **none** | 0 |
+| Electric | **none** | 4 |
+| Fighting | Wing Attack (Pidgeotto, 90) | 0 |
+| Fire | Crabhammer (Kingler, 115) | 1 |
+| Flying | Thunderbolt (Pikachu, 134) | 1 |
+| Ghost | **none** | 0 |
+| Grass | Flamethrower (Charizard, 142) | 2 |
+| Ground | Solar Beam (Bulbasaur, 300) | 1 |
+| Ice | Flamethrower (Charizard, 142) | 2 |
+| Normal | **none** | 0 |
+| Poison | **none** | 0 |
+| Psychic | **none** | 1 |
+| Rock | Solar Beam (Bulbasaur, 300) | 2 |
+| Steel | Flamethrower (Charizard, 142) | 0 |
+| Water | Solar Beam (Bulbasaur, 300) | 1 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- Signature moves: Pikachu's Thunderbolt (his calling card from the first episode); Bulbasaur's Vine Whip (the move that does everything).
+
+## How aggressive the moveset is
+
+- Every move they carry finishes or sets up (9 of 9): nothing is there to wear you down.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Hyper Cutter (could be Shell Armor); ability Keen Eye (could be Tangled Feet); neutral nature.*
 
 **Notes:** Anime canon. Teams and movesets are drafts from the show, checked against the games' learnsets. Charizard disobeys through most of this era (lore).

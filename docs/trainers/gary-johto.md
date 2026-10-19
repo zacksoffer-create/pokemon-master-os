@@ -45,6 +45,70 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Water and Ground · **Strengths:** Bug and Poison · **Bring:** special attackers (1 physically soft, 2 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Blastoise | bulky attacker (solid, 0.61) | tank (solid) | – |
+| Arcanine | revenge killer (strong, 0.75) | pivot (strong) | – |
+| Nidoqueen | check / counter (loose, 0.47) | bulky attacker (loose) | – |
+| Magmar | wallbreaker (solid, 0.59) | – | – |
+| Golem | bulky attacker (strong, 0.67) | wallbreaker (solid) | – |
+| Scizor | physical setup sweeper (strong, 0.66) | bulky attacker (solid) | – |
+
+## Career
+
+- Recent record: Indigo Plateau Conference: out before the Top 16 (draft: confirm the round); Silver Conference: Top 16 (lost to Ash).
+
+## The ace
+
+- Ace: Golem (the widest coverage and a bulky attacker).
+
+## Who they go to
+
+- Even game: Arcanine is the workhorse (pivot).
+- Ahead: Arcanine closes it out (revenge killer).
+- Behind: they turn to Scizor (physical setup sweeper).
+
+## What they can hit
+
+- They hit 15 of 17 types super-effectively; nothing they carry hits Fighting or Water that way.
+- Bring Water: they can't hit it super-effectively, and four of them are weak to it.
+- Fighting get through clean too.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Fire Blast (Magmar, 153) | 0 |
+| Dark | Double Kick (Nidoqueen, 60) | 0 |
+| Dragon | Ice Beam (Blastoise, 95) | 0 |
+| Electric | Earthquake (Golem, 150) | 1 |
+| Fighting | **none** | 1 |
+| Fire | Earthquake (Golem, 150) | 1 |
+| Flying | Ice Beam (Blastoise, 95) | 0 |
+| Ghost | Bite (Arcanine, 60) | 0 |
+| Grass | Fire Blast (Magmar, 153) | 2 |
+| Ground | Hydro Pump (Blastoise, 144) | 4 |
+| Ice | Fire Blast (Magmar, 153) | 2 |
+| Normal | Double Kick (Nidoqueen, 60) | 0 |
+| Poison | Earthquake (Golem, 150) | 0 |
+| Psychic | Bite (Arcanine, 60) | 1 |
+| Rock | Earthquake (Golem, 150) | 2 |
+| Steel | Fire Blast (Magmar, 153) | 1 |
+| Water | **none** | 4 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- Signature moves: Blastoise's Hydro Pump (the Silver Conference duel with Charizard).
+
+## How aggressive the moveset is
+
+- Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.
+- The moveset reads more offensive than the slider's 60: trust the moves.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Intimidate (could be Flash Fire); ability Poison Point (could be Rivalry); ability Rock Head (could be Sturdy); ability Swarm (could be Technician); neutral nature.*
 
 **Notes:** Blue is the games' counterpart of Gary; kept as its own version. Movesets are low-confidence drafts; edit freely.

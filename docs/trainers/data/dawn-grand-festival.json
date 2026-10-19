@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "dawn",
  "trainer_name": "Dawn",
  "version": "grand-festival",
@@ -1305,5 +1305,565 @@
   ]
  },
  "roles": [],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Sinnoh",
+     "event": "Wallace Cup",
+     "kind": "contest",
+     "result": "won the Aqua Ribbon (beat May)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Grand Festival",
+     "kind": "contest",
+     "result": "runner-up (lost to Zoey)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Sinnoh"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Piplup",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.4516,
+     "confidence": "loose",
+     "margin": 0.4516,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "revenge killer (0.45, loose): Bide; attacks that use its better attacking stat: Bubble Beam; strong attacks (effective power 90+, with the stat it uses): Bubble Beam"
+   },
+   {
+    "species": "Togekiss",
+    "nickname": null,
+    "primary": {
+     "role": "phazer",
+     "name": "phazer",
+     "family": "support",
+     "score": 0.7338,
+     "confidence": "strong",
+     "margin": 0.0457,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_spreader",
+     "name": "status spreader",
+     "family": "support",
+     "score": 0.6881,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "phazer (0.73, strong): Yawn; overall bulk above 85% of the field"
+   },
+   {
+    "species": "Mamoswine",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6422,
+     "confidence": "solid",
+     "margin": 0.0093,
+     "clear": false
+    },
+    "secondary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6329,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.64, solid): Attack 317 (above 94% of the field); attacking moves: Ice Shard, Take Down, Ancient Power, Hidden Power; overall bulk above 61% of the field"
+   },
+   {
+    "species": "Pachirisu",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3652,
+     "confidence": "loose",
+     "margin": 0.3652,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.37, loose): strong attacks (effective power 90+, with the stat it uses): Discharge, Spark; Discharge (120); attacks that use its better attacking stat: Super Fang, Spark"
+   },
+   {
+    "species": "Buneary",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4123,
+     "confidence": "loose",
+     "margin": 0.4123,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.41, loose): Dizzy Punch (105); attacks that use its better attacking stat: Dizzy Punch, Jump Kick; strong attacks (effective power 90+, with the stat it uses): Dizzy Punch"
+   },
+   {
+    "species": "Ambipom",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5823,
+     "confidence": "solid",
+     "margin": 0.0983,
+     "clear": true
+    },
+    "secondary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.484,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.58, solid): strong attacks (effective power 90+, with the stat it uses): Double Hit, Swift, Fury Swipes; Double Hit (142); Attack 257 (above 70% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Buneary",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Buneary",
+     "slot": 5,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Ambipom",
+     "slot": 6,
+     "score": 0.47,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Mamoswine",
+     "slot": 3,
+     "score": 0.461,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.8
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Pachirisu",
+     "slot": 4,
+     "score": 0.419,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.118,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Piplup",
+     "slot": 1,
+     "score": 0.393,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.8
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Togekiss",
+     "slot": 2,
+     "score": 0.297,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.588,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "phazer",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Togekiss",
+    "role": "tank",
+    "fit": 0.572
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Mamoswine",
+    "role": "revenge killer",
+    "fit": 0.633
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Ambipom",
+    "role": "wallbreaker",
+    "fit": 0.524,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Ambipom",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Buneary",
+     "move_type": "Ice",
+     "power": 73,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Bubble Beam",
+     "member": "Piplup",
+     "move_type": "Water",
+     "power": 98,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Discharge",
+     "member": "Pachirisu",
+     "move_type": "Electric",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Bubble Beam",
+     "member": "Piplup",
+     "move_type": "Water",
+     "power": 98,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Ambipom",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Ambipom",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Ambipom",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Ambipom",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Discharge",
+     "member": "Pachirisu",
+     "move_type": "Electric",
+     "power": 120,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.765,
+   "covered_n": 13,
+   "types_n": 17,
+   "holes": [
+    "Electric",
+    "Ghost",
+    "Poison",
+    "Psychic"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 2
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Piplup",
+    "move": "Bubble Beam",
+    "why": "the first appeal she ever built",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Togekiss",
+    "move": "Aura Sphere",
+    "why": "the Grand Festival finisher",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Mamoswine",
+    "move": "Ice Shard",
+    "why": "the combination with Ancient Power",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 86,
+   "finishers": 12,
+   "attrition": 2,
+   "finisher_moves": [
+    "Bubble Beam (Piplup)",
+    "Bide (Piplup)",
+    "Aura Sphere (Togekiss)",
+    "Air Slash (Togekiss)",
+    "Ice Shard (Mamoswine)",
+    "Discharge (Pachirisu)",
+    "Spark (Pachirisu)",
+    "Dizzy Punch (Buneary)",
+    "Jump Kick (Buneary)",
+    "Double Hit (Ambipom)",
+    "Swift (Ambipom)",
+    "Fury Swipes (Ambipom)"
+   ],
+   "attrition_moves": [
+    "Yawn (Togekiss)",
+    "Sweet Kiss (Pachirisu)"
+   ],
+   "offense_authored": 50,
+   "offense_measured": 89,
+   "flag": {
+    "gap": 36,
+    "leans": "offensive",
+    "part1_flags_it": true
+   }
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Wallace Cup: won the Aqua Ribbon (beat May); Sinnoh Grand Festival: runner-up (lost to Zoey).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Buneary (a wallbreaker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Togekiss is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Mamoswine closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Ambipom (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 13 of 17 types super-effectively; nothing they carry hits Electric, Ghost, Poison or Psychic that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 4)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and two of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Piplup's Bubble Beam (the first appeal she ever built); Togekiss's Aura Sphere (the Grand Festival finisher); Mamoswine's Ice Shard (the combination with Ancient Power).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "86% of their moves finish or set up (12 of 14); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 86)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset leans offensive too: the same lean the slider check flags above.",
+     "rule": "aggr_same",
+     "trigger": "aggr_same_as_part1 == True (here True)"
+    }
+   ]
+  }
+ }
 }

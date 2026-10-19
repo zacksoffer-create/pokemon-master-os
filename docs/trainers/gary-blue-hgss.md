@@ -9,7 +9,7 @@
 | Bond (tool ↔ partnership) | 60 (partnership) | no signal | proud of them, not soft on them |
 | Risk (percentage player ↔ gambler) | 40 (percentage player) | 50 | plays the percentages |
 
-**Tags:** Gym Leader
+**Tags:** Gym Leader · Kanto Champion (former) (Indigo Plateau) · Elite Four Beaten (Indigo Plateau)
 
 ## Who they are
 
@@ -47,6 +47,70 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | **Pidgeot** Lv 100 (Keen Eye) | even | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
 
 **Gaps:** Ice and Rock · **Strengths:** none · **Bring:** special attackers (1 physically soft, 2 specially soft)
+
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Exeggutor | Trick Room setter (strong, 0.70) | wallbreaker (loose) | – |
+| Arcanine | pivot (solid, 0.61) | revenge killer (solid) | – |
+| Rhydon | wallbreaker (solid, 0.63) | bulky attacker (solid) | – |
+| Gyarados | physical setup sweeper (solid, 0.64) | check / counter (solid) | – |
+| Machamp | sponge / status absorber (loose, 0.50) | wallbreaker (loose) | – |
+| Pidgeot | phazer (solid, 0.50) | wallbreaker (loose) | – |
+
+## Career
+
+- Titles: Kanto Champion (former).
+- They've beaten an Elite Four: a long gauntlet doesn't wear them down.
+- Recent record: Indigo Plateau: beat the Elite Four and became Champion, then lost the title to Red.
+
+## The ace
+
+- Ace: Rhydon (set up by Exeggutor, the widest coverage and a wallbreaker).
+
+## Who they go to
+
+- Even game: Arcanine is the workhorse (pivot).
+- Ahead: Arcanine closes it out (revenge killer).
+- Behind: they turn to Gyarados (physical setup sweeper).
+
+## What they can hit
+
+- They hit 16 of 17 types super-effectively; nothing they carry hits Ghost that way.
+- Bring Ghost: they can't hit it super-effectively, and one of them is weak to it.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Flare Blitz (Arcanine, 180) | 1 |
+| Dark | Megahorn (Rhydon, 102) | 1 |
+| Dragon | Dragon Pulse (Arcanine, 83) | 0 |
+| Electric | Earthquake (Rhydon, 150) | 2 |
+| Fighting | Psychic (Exeggutor, 135) | 1 |
+| Fire | Earthquake (Rhydon, 150) | 1 |
+| Flying | Stone Edge (Rhydon, 120) | 2 |
+| Ghost | **none** | 1 |
+| Grass | Flare Blitz (Arcanine, 180) | 1 |
+| Ground | Leaf Storm (Exeggutor, 189) | 2 |
+| Ice | Flare Blitz (Arcanine, 180) | 3 |
+| Normal | Dynamic Punch (Machamp, 75) | 0 |
+| Poison | Earthquake (Rhydon, 150) | 1 |
+| Psychic | Megahorn (Rhydon, 102) | 1 |
+| Rock | Leaf Storm (Exeggutor, 189) | 3 |
+| Steel | Flare Blitz (Arcanine, 180) | 1 |
+| Water | Leaf Storm (Exeggutor, 189) | 2 |
+
+## Combos to watch
+
+- Watch the Trick Room: Exeggutor, Rhydon and Machamp turn Speed upside down for five turns. Hit the setter first or stall out the timer.
+
+## Signature moves
+
+- No signature moves authored for Blue, Viridian Gym (HeartGold).
+
+## How aggressive the moveset is
+
+- 83% of their moves finish or set up (15 of 18); the rest wear you down.
 
 *Defaults where nothing is recorded: neutral nature.*
 

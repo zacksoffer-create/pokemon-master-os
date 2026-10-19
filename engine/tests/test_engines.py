@@ -691,7 +691,7 @@ class TrainerReportData(unittest.TestCase):
         b = _json.dumps(build_report(self.store, "red"), sort_keys=True)
         self.assertEqual(a, b)
         rep = _json.loads(a)
-        self.assertEqual(rep["schema"], "trainer-report/1")
+        self.assertEqual(rep["schema"], "trainer-report/2")      # /2: Part 2's playsheet joined the report
         self.assertTrue({"sliders", "tags", "matrix", "plan"} <= set(rep))
         self.assertTrue({"gaps", "strengths", "bring", "per_type"} <= set(rep["matrix"]["summary"]))
 
@@ -889,6 +889,132 @@ class RoleSolver(unittest.TestCase):
                                                   generation=4)))
         open_build = Build(id="x", species="Snorlax", moves=["Curse", "Body Slam", "Rest", "Sleep Talk"])
         self.assertEqual(self.solver.distance(open_build, "platinum")["stock"]["differences"], [])   # open ≠ different
+
+
+class TrainerPlaysheet(unittest.TestCase):
+    """Part 2, steps 3-4: careers, the playsheet, combos and the aggression ratio, joined to the report."""
+    @classmethod
+    def setUpClass(cls):
+        from trainers.model import Store
+        from trainers.report import build_report
+        cls.store = Store()
+        cls.report = staticmethod(build_report)
+        cls.paul = build_report(cls.store, "paul", "sinnoh")
+
+    def _text(self, rep):
+        return [p["text"] for lines in rep["playsheet"]["text"].values() for p in lines]
+
+    def test_one_unified_report(self):
+        sh = self.paul["playsheet"]
+        self.assertEqual(self.paul["schema"], "trainer-report/2")
+        self.assertTrue({"career", "roles", "ace", "go_to", "type_read", "combos", "signature_moves", "aggression",
+                         "text"} <= set(sh))
+        self.assertEqual(len(sh["roles"]), 6)
+        ninjask = next(r for r in sh["roles"] if r["species"] == "Ninjask")
+        self.assertEqual(ninjask["primary"]["role"], "baton_pass_starter")
+
+    def test_career_tags_come_from_the_records_and_each_changes_a_line(self):
+        names = lambda rep: {t["name"] for t in rep["tags"]}
+        self.assertTrue({"Multi-Region Traveler", "Alola Champion", "Orange League Champion"} <= names(
+            self.report(self.store, "ash", "all-time")))
+        kanto = self.report(self.store, "ash", "kanto")
+        self.assertNotIn("Multi-Region Traveler", names(kanto))          # only the records Kanto Ash has lived
+        self.assertNotIn("Alola Champion", names(kanto))
+        self.assertIn("Elite Four Beaten", names(self.report(self.store, "red")))
+        for tid, vid, mark in (("ash", "all-time", "multi_region"), ("red", None, "elite_four"),
+                               ("cynthia", None, "champion")):
+            t = self.store.trainers[tid]
+            saved = t.career
+            on = self._text(self.report(self.store, tid, vid))
+            if mark == "multi_region":
+                t.career = [r for r in saved if r["region"] in ("Kanto", "World")]
+            else:
+                t.career = [{k: v for k, v in r.items() if k != ("elite_four" if mark == "elite_four" else "champion")}
+                            for r in saved]
+            try:
+                self.assertNotEqual(on, self._text(self.report(self.store, tid, vid)), f"{tid}: {mark} changes no line")
+            finally:
+                t.career = saved
+
+    def test_the_ace_shows_story_and_data_when_they_differ(self):
+        a = self.paul["playsheet"]["ace"]
+        self.assertEqual((a["authored"], a["derived"], a["agree"]), ("Electivire", "Torterra", False))
+        line = self.paul["playsheet"]["text"]["ace"][0]["text"]
+        self.assertTrue("Electivire" in line and "Torterra" in line)
+        red = self.report(self.store, "red")["playsheet"]["ace"]
+        self.assertEqual((red["derived"], red["agree"]), ("Pikachu", True))    # the Lv 88 Pikachu
+        self.assertEqual(self.report(self.store, "cynthia")["playsheet"]["ace"]["derived"], "Garchomp")
+
+    def test_go_to_by_game_state(self):
+        g = self.paul["playsheet"]["go_to"]
+        self.assertEqual((g["even"]["label"], g["ahead"]["label"], g["behind"]["label"]), ("workhorse", "cleaner", "gambit"))
+        self.assertTrue(all(g[s]["species"] for s in ("even", "ahead", "behind")))
+        lance = self.report(self.store, "lance")["playsheet"]["go_to"]["behind"]["last_resorts"]
+        self.assertIn({"species": "Gyarados", "moves": ["Flail"], "item": None}, lance)
+
+    def test_type_read_pairs_with_part_1(self):
+        brock = self.report(self.store, "brock")
+        tr = brock["playsheet"]["type_read"]
+        per = brock["matrix"]["summary"]["per_type"]
+        for r in tr["rows"]:
+            self.assertEqual(r["their_weak_to_it"], per[r["type"]]["weak_total"])
+        self.assertIn("Fighting", tr["holes"])
+        self.assertEqual(tr["bring"][0], {"type": "Fighting", "their_weak": 5})
+        self.assertEqual(tr["covered_n"] + len(tr["holes"]), 17)
+
+    def test_every_combo_has_a_sentence_and_fires_where_present(self):
+        from trainers.model import Build, Version
+        from trainers.playsheet import combos, read_team
+        from trainers.roles import RoleBook
+        ids = [c["id"] for c in self.store.config["playsheet"]["combos"]["list"]]
+        rules = {r["id"]: r for r in __import__("json").load(open(os.path.join(ENGINE, "trainers", "phrases.json")))["playsheet"]}
+        for cid in ids:
+            self.assertTrue(any(["combos", "has", cid] in r["when"] for r in rules.values()), cid)
+        self.assertEqual([c["id"] for c in self.paul["playsheet"]["combos"]], ["baton_chain"])
+        me = self.report(self.store, "me", "heartgold")["playsheet"]["combos"]
+        self.assertEqual([(c["id"], c["members"]) for c in me], [("dd_priority", ["Tyranitar"])])
+        B = lambda sp, moves, **k: Build(id=f"t/{sp}", species=sp, moves=moves, **k)
+        team = [B("Politoed", ["Rain Dance", "Surf", "Hypnosis", "Ice Beam"]),
+                B("Kingdra", ["Thunder", "Hydro Pump", "Draco Meteor", "Rain Dance"], ability="Swift Swim"),
+                B("Bronzong", ["Trick Room", "Gyro Ball", "Earthquake", "Explosion"], ivs={"spe": 0}),
+                B("Snorlax", ["Rest", "Sleep Talk", "Body Slam", "Earthquake"]),
+                B("Skarmory", ["Spikes", "Whirlwind", "Roost", "Toxic"]),
+                B("Breloom", ["Substitute", "Focus Punch", "Spore", "Seed Bomb"])]
+        version = Version(id="t", trainer="me", title="t", game="platinum", team_ref={})
+        book = RoleBook(self.store)
+        reads, weather = read_team(book, version, team)
+        found = {c["id"] for c in combos(self.store, book, reads, weather)}
+        self.assertTrue({"rain_swift_thunder", "sleep_absorb", "hazards_phaze", "sub_punch"} <= found, found)
+
+    def test_aggression_ratio_against_the_offense_slider(self):
+        brock = self.report(self.store, "brock")["playsheet"]["aggression"]
+        self.assertEqual((brock["flag"]["leans"], brock["flag"]["part1_flags_it"]), ("offensive", False))
+        self.assertIsNone(self.paul["playsheet"]["aggression"]["flag"])
+        v = self.store.version("paul", "sinnoh")
+        saved = v.sliders["offense"]["value"]
+        v.sliders["offense"]["value"] = 10                      # Part 1 now flags the same lean
+        try:
+            rep = self.report(self.store, "paul", "sinnoh")
+            self.assertTrue(rep["playsheet"]["aggression"]["flag"]["part1_flags_it"])
+            text = " ".join(p["text"] for p in rep["playsheet"]["text"]["aggression"])
+            self.assertIn("the same lean", text)                 # referred to, not flagged twice
+            self.assertNotIn("trust the moves", text)
+        finally:
+            v.sliders["offense"]["value"] = saved
+
+    def test_signature_moves_are_authored_and_checked_against_the_build(self):
+        sigs = self.report(self.store, "ash", "all-time")["playsheet"]["signature_moves"]
+        tackle = next(s for s in sigs if s["move"] == "Volt Tackle")
+        self.assertTrue(tackle["in_moveset"])
+        self.assertEqual(self.report(self.store, "brock")["playsheet"]["signature_moves"], [])
+        self.assertIn("No signature moves authored", " ".join(
+            p["text"] for p in self.report(self.store, "brock")["playsheet"]["text"]["signature"]))
+
+    def test_the_playsheet_is_deterministic(self):
+        import json as _json
+        a = _json.dumps(self.report(self.store, "paul", "sinnoh")["playsheet"], sort_keys=True, default=list)
+        b = _json.dumps(self.report(self.store, "paul", "sinnoh")["playsheet"], sort_keys=True, default=list)
+        self.assertEqual(a, b)
 
 
 if __name__ == "__main__":

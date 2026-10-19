@@ -49,7 +49,69 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** none · **Strengths:** Steel · **Bring:** physical attackers (1 physically soft, 0 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Swampert | check / counter (strong, 0.67) | bulky attacker (strong) | – |
+| Milotic | sponge / status absorber (strong, 0.78) | check / counter (strong) | – |
+| Altaria | mixed setup sweeper (strong, 0.72) | sponge / status absorber (solid) | – |
+| Arcanine | mixed setup sweeper (strong, 0.80) | special setup sweeper (strong) | – |
+| Absol | mixed setup sweeper (strong, 0.78) | physical setup sweeper (solid) | – |
+| Meganium | mixed setup sweeper (strong, 0.74) | physical setup sweeper (solid) | – |
+
+## Career
+
+- No career records on file for Emerald yet.
+
+## The ace
+
+- Ace: Absol (a mixed setup sweeper).
+
+## Who they go to
+
+- Even game: Swampert is the workhorse (tank).
+- Ahead: Arcanine closes it out (late-game cleaner).
+- Behind: they turn to Arcanine (mixed setup sweeper).
+
+## What they can hit
+
+- They hit 16 of 17 types super-effectively; nothing they carry hits Fighting that way.
+- Bring Fighting: they can't hit it super-effectively, and one of them is weak to it.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Overheat (Arcanine, 175) | 2 |
+| Dark | Brick Break (Swampert, 75) | 0 |
+| Dragon | Dragon Claw (Altaria, 120) | 1 |
+| Electric | Earthquake (Swampert, 150) | 1 |
+| Fighting | **none** | 1 |
+| Fire | Earthquake (Swampert, 150) | 1 |
+| Flying | Ice Beam (Milotic, 95) | 1 |
+| Ghost | Crunch (Arcanine, 74) | 0 |
+| Grass | Overheat (Arcanine, 175) | 2 |
+| Ground | Hydro Pump (Milotic, 144) | 1 |
+| Ice | Overheat (Arcanine, 175) | 2 |
+| Normal | Brick Break (Swampert, 75) | 0 |
+| Poison | Earthquake (Swampert, 150) | 1 |
+| Psychic | Crunch (Arcanine, 74) | 0 |
+| Rock | Earthquake (Swampert, 150) | 2 |
+| Steel | Overheat (Arcanine, 175) | 0 |
+| Water | Giga Drain (Meganium, 112) | 1 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- No signature moves authored for Emerald.
+
+## How aggressive the moveset is
+
+- 93% of their moves finish or set up (13 of 14); the rest wear you down.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Intimidate (could be Flash Fire); neutral nature.*
 
-**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.
+**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them. Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there.
 

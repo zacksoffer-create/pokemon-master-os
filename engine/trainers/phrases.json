@@ -1,5 +1,5 @@
 {
- "_note": "The trainer report's sentences (docs/TRAINER_REPORT.md). Same rules as the battle phrase book: conditions on the report's numbers, then a sentence with {placeholders}; within a group only the first match fires; a sentence never prints with an empty placeholder. Sections: who (who this trainer is), expect, beat, gap (where rigidity or recklessness leaves an opening). Per-trainer overrides in canon/trainers.json replace a section for named characters.",
+ "_note": "The trainer report's sentences (docs/TRAINER_REPORT.md). Same rules as the battle phrase book: conditions on the report's numbers, then a sentence with {placeholders}; within a group only the first match fires; a sentence never prints with an empty placeholder. Sections: who (who this trainer is), expect, beat, gap (where rigidity or recklessness leaves an opening). Per-trainer overrides in canon/trainers.json replace a section for named characters. Kind 'playsheet' (Part 2): career, ace, go_to, coverage, combos, signature, aggression.",
  "report": [
   {
    "id": "combo_off_rigid",
@@ -601,6 +601,415 @@
     ]
    ],
    "say": "{member} is {soft_label}, and they attack mostly from the {their_side} side."
+  }
+ ],
+ "playsheet": [
+  {
+   "id": "career_multi",
+   "section": "career",
+   "when": [
+    [
+     "multi_region",
+     "==",
+     true
+    ]
+   ],
+   "say": "{trainer} has competed across {regions_n} regions ({regions_str}): expect answers built against a wide field."
+  },
+  {
+   "id": "career_titles",
+   "section": "career",
+   "when": [
+    [
+     "titles_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Titles: {titles_str}."
+  },
+  {
+   "id": "career_e4",
+   "section": "career",
+   "when": [
+    [
+     "elite_four",
+     "==",
+     true
+    ]
+   ],
+   "say": "They've beaten an Elite Four: a long gauntlet doesn't wear them down."
+  },
+  {
+   "id": "career_record",
+   "section": "career",
+   "when": [
+    [
+     "record_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Recent record: {record_str}."
+  },
+  {
+   "id": "career_none",
+   "section": "career",
+   "when": [
+    [
+     "career_n",
+     "==",
+     0
+    ]
+   ],
+   "say": "No career records on file for {title} yet."
+  },
+  {
+   "id": "ace_disagree",
+   "section": "ace",
+   "when": [
+    [
+     "ace_authored",
+     "nonempty"
+    ]
+   ],
+   "say": "The story's ace is {ace_authored}; the data's is {ace} ({ace_why}). Plan for both.",
+   "group": "ace"
+  },
+  {
+   "id": "ace_agree",
+   "section": "ace",
+   "when": [
+    [
+     "ace_agrees",
+     "nonempty"
+    ]
+   ],
+   "say": "Ace: {ace}. The story and the data agree ({ace_why}).",
+   "group": "ace"
+  },
+  {
+   "id": "ace_derived",
+   "section": "ace",
+   "when": [],
+   "say": "Ace: {ace} ({ace_why}).",
+   "group": "ace"
+  },
+  {
+   "id": "goto_one",
+   "section": "go_to",
+   "when": [
+    [
+     "one_for_all",
+     "nonempty"
+    ]
+   ],
+   "say": "Everything runs through {one_for_all}: it's their answer whatever the score."
+  },
+  {
+   "id": "goto_even",
+   "section": "go_to",
+   "when": [
+    [
+     "one_for_all",
+     "empty"
+    ]
+   ],
+   "say": "Even game: {even_who} is the workhorse ({even_role})."
+  },
+  {
+   "id": "goto_ahead",
+   "section": "go_to",
+   "when": [
+    [
+     "one_for_all",
+     "empty"
+    ]
+   ],
+   "say": "Ahead: {ahead_who} closes it out ({ahead_role})."
+  },
+  {
+   "id": "goto_behind",
+   "section": "go_to",
+   "when": [
+    [
+     "one_for_all",
+     "empty"
+    ]
+   ],
+   "say": "Behind: they turn to {behind_who} ({behind_role})."
+  },
+  {
+   "id": "goto_last",
+   "section": "go_to",
+   "when": [
+    [
+     "last_resort_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Last resorts when it's slipping away: {last_resort_str}."
+  },
+  {
+   "id": "cover_full",
+   "section": "coverage",
+   "when": [
+    [
+     "holes_n",
+     "==",
+     0
+    ]
+   ],
+   "say": "They hit all {types_n} types super-effectively: no type is safe to bring.",
+   "group": "cover"
+  },
+  {
+   "id": "cover",
+   "section": "coverage",
+   "when": [
+    [
+     "holes_n",
+     ">",
+     0
+    ]
+   ],
+   "say": "They hit {covered_n} of {types_n} types super-effectively; nothing they carry hits {holes_str} that way.",
+   "group": "cover"
+  },
+  {
+   "id": "cover_bring",
+   "section": "coverage",
+   "when": [
+    [
+     "bring_type",
+     "nonempty"
+    ]
+   ],
+   "say": "Bring {bring_type}: they can't hit it super-effectively, and {bring_weak_str} weak to it."
+  },
+  {
+   "id": "cover_bring_more",
+   "section": "coverage",
+   "when": [
+    [
+     "bring_more",
+     "nonempty"
+    ]
+   ],
+   "say": "{bring_more} get through clean too."
+  },
+  {
+   "id": "combo_dd_priority",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "dd_priority"
+    ]
+   ],
+   "say": "Watch {combo_dd_priority}: one Dragon Dance, then priority or Outrage cleans up. Stop it before the dance."
+  },
+  {
+   "id": "combo_tr_slow",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "tr_slow"
+    ]
+   ],
+   "say": "Watch the Trick Room: {combo_tr_slow} turn Speed upside down for five turns. Hit the setter first or stall out the timer."
+  },
+  {
+   "id": "combo_toxic_stall",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "toxic_stall"
+    ]
+   ],
+   "say": "{combo_toxic_stall} plays Toxic, Protect and recovery: a clock you lose unless you hit hard or keep a cure for poison."
+  },
+  {
+   "id": "combo_hazards_phaze",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "hazards_phaze"
+    ]
+   ],
+   "say": "Hazards and phazing ({combo_hazards_phaze}): every forced switch costs you. Bring a spinner or end it fast."
+  },
+  {
+   "id": "combo_sash_gambit",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "sash_gambit"
+    ]
+   ],
+   "say": "{combo_sash_gambit}: Focus Sash and a low-HP gambit. Chip it first or break the Sash with a multi-hit move."
+  },
+  {
+   "id": "combo_choice_pivot",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "choice_pivot"
+    ]
+   ],
+   "say": "{combo_choice_pivot} locks into a Choice move and U-turns out: read the lock, punish the switch."
+  },
+  {
+   "id": "combo_rain",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "rain_swift_thunder"
+    ]
+   ],
+   "say": "Rain, Swift Swim and Thunder ({combo_rain_swift_thunder}): doubled Speed and a Thunder that never misses. Change the weather or wall it."
+  },
+  {
+   "id": "combo_baton",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "baton_chain"
+    ]
+   ],
+   "say": "{combo_baton_chain} passes boosts down the line: phaze, Haze or Taunt it before the pass."
+  },
+  {
+   "id": "combo_resttalk",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "sleep_absorb"
+    ]
+   ],
+   "say": "{combo_sleep_absorb} runs Rest and Sleep Talk: status won't stick, so hit it hard instead."
+  },
+  {
+   "id": "combo_subpunch",
+   "section": "combos",
+   "when": [
+    [
+     "combos",
+     "has",
+     "sub_punch"
+    ]
+   ],
+   "say": "{combo_sub_punch}: Substitute, then Focus Punch. Break the Sub with a multi-hit move or make it switch."
+  },
+  {
+   "id": "combo_none",
+   "section": "combos",
+   "when": [
+    [
+     "combos_n",
+     "==",
+     0
+    ]
+   ],
+   "say": "Nothing from the watch list."
+  },
+  {
+   "id": "sig",
+   "section": "signature",
+   "when": [
+    [
+     "signature_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Signature moves: {signature_str}."
+  },
+  {
+   "id": "sig_missing",
+   "section": "signature",
+   "when": [
+    [
+     "signature_missing",
+     "nonempty"
+    ]
+   ],
+   "say": "Not in this version's moveset: {signature_missing}."
+  },
+  {
+   "id": "sig_none",
+   "section": "signature",
+   "when": [
+    [
+     "signature_str",
+     "empty"
+    ]
+   ],
+   "say": "No signature moves authored for {title}."
+  },
+  {
+   "id": "aggr_all",
+   "section": "aggression",
+   "when": [
+    [
+     "aggression",
+     ">=",
+     100
+    ]
+   ],
+   "say": "Every move they carry finishes or sets up ({finishers_n} of {aggr_total}): nothing is there to wear you down.",
+   "group": "aggr"
+  },
+  {
+   "id": "aggr",
+   "section": "aggression",
+   "when": [
+    [
+     "aggression",
+     "!=",
+     null
+    ]
+   ],
+   "say": "{aggression}% of their moves finish or set up ({finishers_n} of {aggr_total}); the rest wear you down.",
+   "group": "aggr"
+  },
+  {
+   "id": "aggr_flag",
+   "section": "aggression",
+   "when": [
+    [
+     "aggr_flag",
+     "==",
+     true
+    ]
+   ],
+   "say": "The moveset reads more {aggr_leans} than the slider's {offense_authored}: trust the moves."
+  },
+  {
+   "id": "aggr_same",
+   "section": "aggression",
+   "when": [
+    [
+     "aggr_same_as_part1",
+     "==",
+     true
+    ]
+   ],
+   "say": "The moveset leans {aggr_leans} too: the same lean the slider check flags above."
   }
  ]
 }

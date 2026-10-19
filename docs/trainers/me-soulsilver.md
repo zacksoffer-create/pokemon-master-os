@@ -50,7 +50,68 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Ground · **Strengths:** Bug, Steel, Grass, Poison and Normal · **Bring:** special attackers (0 physically soft, 1 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Pikachu | revenge killer (solid, 0.64) | late-game cleaner (solid) | – |
+| Dragonite | check / counter (strong, 0.72) | bulky attacker (strong) | – |
+| Infernape | mixed setup sweeper (strong, 0.84) | physical setup sweeper (strong) | – |
+| Empoleon | check / counter (strong, 0.79) | bulky attacker (strong) | – |
+| Gengar | wallbreaker (solid, 0.53) | revenge killer (loose) | – |
+| Scizor | pivot (strong, 0.82) | check / counter (strong) | – |
+
+## Career
+
+- No career records on file for SoulSilver yet.
+
+## The ace
+
+- Ace: Infernape (the widest coverage and a mixed setup sweeper).
+
+## Who they go to
+
+- Even game: Scizor is the workhorse (pivot).
+- Ahead: Pikachu closes it out (revenge killer).
+- Behind: they turn to Infernape (mixed setup sweeper).
+
+## What they can hit
+
+- They hit all 17 types super-effectively: no type is safe to bring.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Overheat (Infernape, 189) | 0 |
+| Dark | Close Combat (Infernape, 180) | 1 |
+| Dragon | Dragon Claw (Dragonite, 120) | 1 |
+| Electric | Earthquake (Infernape, 100) | 1 |
+| Fighting | Fly (Dragonite, 128) | 1 |
+| Fire | Surf (Empoleon, 142) | 1 |
+| Flying | Volt Tackle (Pikachu, 180) | 1 |
+| Ghost | Shadow Ball (Gengar, 120) | 1 |
+| Grass | Overheat (Infernape, 189) | 0 |
+| Ground | Surf (Empoleon, 142) | 3 |
+| Ice | Overheat (Infernape, 189) | 1 |
+| Normal | Close Combat (Infernape, 180) | 0 |
+| Poison | Earthquake (Infernape, 100) | 0 |
+| Psychic | Shadow Ball (Gengar, 120) | 2 |
+| Rock | Close Combat (Infernape, 180) | 1 |
+| Steel | Overheat (Infernape, 189) | 0 |
+| Water | Volt Tackle (Pikachu, 180) | 1 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- No signature moves authored for SoulSilver.
+
+## How aggressive the moveset is
+
+- 85% of their moves finish or set up (17 of 20); the rest wear you down.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Swarm (could be Technician); neutral nature.*
 
-**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.
+**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them. Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there.
 

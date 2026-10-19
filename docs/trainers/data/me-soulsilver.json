@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "me",
  "trainer_name": "Zack",
  "version": "soulsilver",
@@ -10,7 +10,8 @@
  "status": "canon",
  "notes": [
   "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
-  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.",
+  "Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there."
  ],
  "sliders": {
   "offense": {
@@ -1327,5 +1328,519 @@
  "roles": [
   "Champion"
  ],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [],
+   "regions": [],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Pikachu",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6372,
+     "confidence": "solid",
+     "margin": 0.1258,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5114,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.64, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Volt Tackle, Quick Attack, Iron Tail"
+   },
+   {
+    "species": "Dragonite",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.7218,
+     "confidence": "strong",
+     "margin": 0.0594,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6624,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "check / counter (0.72, strong): Dragon/Flying (Inner Focus); overall bulk above 82% of the field; attacking moves: Fly, Extreme Speed, Dragon Claw"
+   },
+   {
+    "species": "Infernape",
+    "nickname": null,
+    "primary": {
+     "role": "mixed_setup_sweeper",
+     "name": "mixed setup sweeper",
+     "family": "offense",
+     "score": 0.844,
+     "confidence": "strong",
+     "margin": 0.0992,
+     "clear": true
+    },
+    "secondary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.7448,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "mixed setup sweeper (0.84, strong): Swords Dance; attacks on both sides: Earthquake, Close Combat, Overheat; types it hits super-effectively: Bug, Dark, Electric, Fire, Grass, Ice, Normal, Poison, Rock, Steel"
+   },
+   {
+    "species": "Empoleon",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.794,
+     "confidence": "strong",
+     "margin": 0.1352,
+     "clear": true
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6588,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "check / counter (0.79, strong): Water/Steel (Torrent); overall bulk above 76% of the field; attacking moves: Surf, Flash Cannon, Aqua Jet"
+   },
+   {
+    "species": "Gengar",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5315,
+     "confidence": "solid",
+     "margin": 0.0876,
+     "clear": true
+    },
+    "secondary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.4439,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.53, solid): strong attacks (effective power 90+, with the stat it uses): Shadow Ball, Psychic; Sp. Atk 317 (above 95% of the field); Shadow Ball (120)"
+   },
+   {
+    "species": "Scizor",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.8197,
+     "confidence": "strong",
+     "margin": 0.1205,
+     "clear": true
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6992,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "pivot (0.82, strong): U-turn; Bug/Steel (Swarm); overall bulk above 54% of the field"
+   }
+  ],
+  "ace": {
+   "derived": "Infernape",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Infernape",
+     "slot": 3,
+     "score": 0.597,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.588,
+      "role": 1.0
+     },
+     "helpers": [],
+     "role": "mixed setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Gengar",
+     "slot": 5,
+     "score": 0.453,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Pikachu",
+     "slot": 1,
+     "score": 0.453,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Empoleon",
+     "slot": 4,
+     "score": 0.367,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null
+    },
+    {
+     "species": "Dragonite",
+     "slot": 2,
+     "score": 0.367,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null
+    },
+    {
+     "species": "Scizor",
+     "slot": 6,
+     "score": 0.213,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Scizor",
+    "role": "pivot",
+    "fit": 0.82
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Pikachu",
+    "role": "revenge killer",
+    "fit": 0.637
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Infernape",
+    "role": "mixed setup sweeper",
+    "fit": 0.844,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Infernape",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Claw",
+     "member": "Dragonite",
+     "move_type": "Dragon",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 100,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Fly",
+     "member": "Dragonite",
+     "move_type": "Flying",
+     "power": 128,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Surf",
+     "member": "Empoleon",
+     "move_type": "Water",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Shadow Ball",
+     "member": "Gengar",
+     "move_type": "Ghost",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Surf",
+     "member": "Empoleon",
+     "move_type": "Water",
+     "power": 142,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Infernape",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 100,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Shadow Ball",
+     "member": "Gengar",
+     "move_type": "Ghost",
+     "power": 120,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Infernape",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 1.0,
+   "covered_n": 17,
+   "types_n": 17,
+   "holes": [],
+   "bring": []
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 85,
+   "finishers": 17,
+   "attrition": 3,
+   "finisher_moves": [
+    "Volt Tackle (Pikachu)",
+    "Quick Attack (Pikachu)",
+    "Thunderbolt (Pikachu)",
+    "Extreme Speed (Dragonite)",
+    "Dragon Claw (Dragonite)",
+    "Overheat (Infernape)",
+    "Earthquake (Infernape)",
+    "Close Combat (Infernape)",
+    "Swords Dance (Infernape)",
+    "Surf (Empoleon)",
+    "Flash Cannon (Empoleon)",
+    "Aqua Jet (Empoleon)",
+    "Shadow Ball (Gengar)",
+    "Dark Pulse (Gengar)",
+    "Psychic (Gengar)",
+    "Bullet Punch (Scizor)",
+    "U-turn (Scizor)"
+   ],
+   "attrition_moves": [
+    "Roost (Dragonite)",
+    "Aqua Ring (Empoleon)",
+    "Roost (Scizor)"
+   ],
+   "offense_authored": null,
+   "offense_measured": 89,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "No career records on file for SoulSilver yet.",
+     "rule": "career_none",
+     "trigger": "career_n == 0 (here 0)"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Infernape (the widest coverage and a mixed setup sweeper).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Scizor is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Pikachu closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Infernape (mixed setup sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit all 17 types super-effectively: no type is safe to bring.",
+     "rule": "cover_full",
+     "trigger": "holes_n == 0 (here 0)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for SoulSilver.",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "85% of their moves finish or set up (17 of 20); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 85)"
+    }
+   ]
+  }
+ }
 }

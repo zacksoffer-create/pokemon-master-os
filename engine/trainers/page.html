@@ -72,6 +72,7 @@ button { font: inherit; color: inherit; }
 .tag { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.82rem; padding: 3px 10px; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--paper); }
 .tag small { font-family: var(--font-body); font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--ink-2); margin-left: 4px; }
 .plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 0; border-top: 1px solid var(--rule-strong); }
+.plan section:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .plan section { padding: 12px 16px 14px; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); min-width: 0; }
 .plan h3 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
 .plan ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
@@ -111,6 +112,36 @@ tfoot td.gap b { border-bottom: 2px solid var(--pen); }
 .most { font-family: var(--font-hand); color: var(--pen); font-size: 1.1rem; }
 .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
 .section-head h2 { font-size: 1.45rem; text-transform: uppercase; }
+.sheet { display: grid; }
+.states { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); border-bottom: 1px solid var(--rule-strong); }
+.state { padding: 12px 16px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-width: 0; display: grid; gap: 2px; align-content: start; }
+.state .nm { font-family: var(--font-hand); font-size: 1.45rem; color: var(--pen); line-height: 1.1; }
+.state .sub { font-size: 0.8rem; color: var(--ink-2); }
+.state.ace { background: var(--paper); }
+.state.ace .nm { font-size: 1.7rem; }
+.state .story { font-family: var(--font-typed); font-size: 0.78rem; color: var(--warn); }
+.last { padding: 8px 16px; font-family: var(--font-typed); font-size: 0.82rem; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+.roles td { font-size: 0.86rem; }
+.roles td.who { min-width: 120px; padding-left: 16px; }
+.fam { font-family: var(--font-display); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.03em; padding: 2px 7px; border-radius: 3px; white-space: nowrap; display: inline-block; }
+.fam.offense { background: var(--tint-bad); color: var(--bad); }
+.fam.defense { background: var(--tint-zero); color: var(--ink); }
+.fam.support { background: var(--tint-good); color: var(--good); }
+.fam.utility { background: var(--tint-warn); color: var(--warn); }
+.conf { font-size: 0.72rem; color: var(--ink-2); margin-left: 4px; }
+.types { display: grid; grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); gap: 5px; padding: 12px 16px; }
+.tcell { border: 1px solid var(--rule); border-radius: 3px; padding: 4px 4px 3px; text-align: center; display: grid; gap: 1px; background: var(--card); }
+.tcell .t { font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.tcell .h { font-size: 0.66rem; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tcell.hole { background: var(--paper); border-style: dashed; border-color: var(--rule-strong); }
+.tcell.hole .h { color: var(--ink); font-weight: 600; }
+.tcell.bring { border: 2px solid var(--pen); border-radius: 50% / 40%; }
+.tcell.bring .t { color: var(--pen); }
+.meter { padding: 12px 16px; display: grid; grid-template-columns: minmax(90px, 140px) minmax(0, 1fr) minmax(40px, 60px); gap: 10px; align-items: center; border-bottom: 1px solid var(--rule); }
+.meter .bar { position: relative; height: 12px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--paper); overflow: visible; }
+.meter .fill { position: absolute; inset: 0 auto 0 0; background: var(--tint-bad); border-radius: 6px; }
+.meter .pin { position: absolute; top: -6px; width: 4px; height: 22px; margin-left: -2px; background: var(--pen); border-radius: 2px; }
+.meter .n { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; }
 footer { border-top: 3px double var(--rule-strong); padding-top: 12px; color: var(--ink-2); font-size: 0.8rem; display: grid; gap: 6px; max-width: 90ch; }
 footer p { margin: 0; }
 @media (max-width: 560px) {
@@ -123,9 +154,9 @@ footer p { margin: 0; }
 
 <div class="wrap">
   <header class="masthead">
-    <span class="label">Front office · Advance scouting · Part 1: how to attack them</span>
+    <span class="label">Front office · Advance scouting · how to attack them, and how they play</span>
     <h1>Trainer Scouting Reports</h1>
-    <p>Pick a trainer and a version. The folder shows who they are (four sliders, set from canon and judgment, with the team's own reading beside them), what to expect, how to beat them, and where their rigidity or recklessness leaves an opening. The matrix reads their team against every attacking type in that game's chart. No damage numbers and no simulation: the same team always gets the same report.</p>
+    <p>Pick a trainer and a version. The folder shows who they are (four sliders, set from canon and judgment, with the team's own reading beside them), what to expect, how to beat them, and where their rigidity or recklessness leaves an opening. The playsheet shows how they play: the ace, who they turn to when it's even, ahead or behind, every Pokémon's role, what they can hit, the combos to watch and how aggressive the moveset is. The matrix reads their team against every attacking type in that game's chart. No damage numbers and no simulation: the same team always gets the same report.</p>
   </header>
   <section class="pick" aria-label="Choose a trainer">
     <div class="row" id="trainers" role="group" aria-label="Trainer"></div>
@@ -133,7 +164,7 @@ footer p { margin: 0; }
   </section>
   <main id="main" class="wrap"></main>
   <footer>
-    <p>Data: our PokeAPI snapshot rolled back to each game's generation (type chart, typing, stats, abilities, learnsets); cartridge teams from the pret disassemblies. Every sentence is a rule in engine/trainers/phrases.json, and every threshold lives in engine/trainers/config.json. Proposed values are drafts until approved.</p>
+    <p>Data: our PokeAPI snapshot rolled back to each game's generation (type chart, typing, stats, abilities, learnsets); cartridge teams from the pret disassemblies. Every sentence is a rule in engine/trainers/phrases.json, every threshold lives in engine/trainers/config.json, and every role is defined once in engine/trainers/roles.json. Proposed values (sliders, careers, signature moves, anime movesets) are drafts until approved.</p>
   </footer>
 </div>
 
@@ -198,6 +229,36 @@ footer p { margin: 0; }
     if (used.length) items.push(`Defaults where nothing is recorded: ${esc(used.join("; "))}.`);
     return items.length ? `<div class="moves"><span class="label">Moves and reasons</span>${items.map((i) => `<span>${i}</span>`).join("")}</div>` : "";
   }
+  const PS = [["career", "Career"], ["ace", "The ace"], ["go_to", "Who they go to"], ["coverage", "What they can hit"],
+    ["combos", "Combos to watch"], ["signature", "Signature moves"], ["aggression", "How aggressive"]];
+  function playsheet(rep) {
+    const sh = rep.playsheet;
+    if (!sh) return "";
+    const g = sh.go_to, a = sh.ace;
+    const story = a.authored && !a.agree ? `<span class="story">the story says ${esc(a.authored)}</span>` : a.authored ? `<span class="sub">the story agrees</span>` : `<span class="sub">derived from the team</span>`;
+    const card = (k, title) => `<div class="state"><span class="label">${esc(title)} · ${esc(g[k].label)}</span><div class="nm">${esc(g[k].species || "none")}</div><div class="sub">${esc(g[k].role || "")}</div></div>`;
+    const last = g.behind.last_resorts.length ? `<div class="last">Last resorts: ${g.behind.last_resorts.map((x) => esc(x.species + ": " + x.moves.concat(x.item ? [x.item] : []).join(", "))).join(" · ")}</div>` : "";
+    const fam = (r) => r ? `<span class="fam ${esc(r.family)}">${esc(r.name)}</span><span class="conf">${esc(r.confidence)}</span>` : "–";
+    const roles = sh.roles.map((r) => `<tr><td class="who"><div class="nm">${esc(r.nickname || r.species)}</div></td><td>${fam(r.primary)}</td><td>${fam(r.secondary)}</td><td>${r.also.map((x) => `<span class="fam ${esc(x.family)}">${esc(x.name)}</span>`).join(" ") || "–"}</td></tr>`).join("");
+    const tr = sh.type_read, bring = new Set(tr.bring.map((b) => b.type));
+    const cells = tr.rows.map((r) => `<div class="tcell ${r.covered ? "" : "hole"} ${bring.has(r.type) ? "bring" : ""}" title="${esc(r.covered ? `${r.move} (${r.member}) hits ${r.type} super-effectively` : `nothing they carry hits ${r.type} super-effectively`)}; ${r.their_weak_to_it} of them weak to ${esc(r.type)}"><span class="t">${esc(SHORT(r.type))}</span><span class="h">${esc(r.covered ? r.move : "no answer")}</span><span class="h">${r.their_weak_to_it ? r.their_weak_to_it + " weak to it" : ""}</span></div>`).join("");
+    const ag = sh.aggression;
+    const meter = ag.ratio == null ? "" : `<div class="meter"><span class="label">Finish or set up${ag.offense_authored == null ? "" : `<br><small>pin: offense slider ${ag.offense_authored}</small>`}</span><div class="bar" role="img" aria-label="${ag.ratio}% of their moves finish or set up; the offense slider is ${ag.offense_authored ?? "not set"}"><span class="fill" style="width:${ag.ratio}%"></span>${ag.offense_authored == null ? "" : `<span class="pin" style="left:${ag.offense_authored}%"></span>`}</div><span class="n">${ag.ratio}%</span></div>`;
+    const text = PS.map(([id, title]) => {
+      const lines = (sh.text && sh.text[id]) || [];
+      return lines.length ? `<section><h3>${esc(title)}</h3><ul>${lines.map((p) => `<li title="${esc(p.rule)}: ${esc(p.trigger)}">${esc(p.text)}</li>`).join("")}</ul></section>` : "";
+    }).join("");
+    return `<div class="section-head"><h2>Playsheet</h2><span class="label">how they play · roles from engine/trainers/roles.json</span></div>
+      <div class="panel sheet">
+        <div class="states"><div class="state ace"><span class="label">The ace</span><div class="nm">${esc(a.derived || "none")}</div>${story}</div>${card("even", "Even")}${card("ahead", "Ahead")}${card("behind", "Behind")}</div>
+        ${last}
+        <div class="scroll"><table class="roles"><thead><tr><th>Pokémon</th><th>Primary role</th><th>Secondary</th><th>Also</th></tr></thead><tbody>${roles}</tbody></table></div>
+        <div class="mkey"><span>What they can hit: each type of Pokémon and their best super-effective answer to it</span><span>dashed: no answer</span><span>circled: bring it (no answer, and its own attacks hit some of them hard)</span></div>
+        <div class="types">${cells}</div>
+        ${meter}
+        <div class="plan">${text}</div>
+      </div>`;
+  }
   function exposure(rep) {
     if (rep.trainer === "me" || !DATA.mine.length) return "";
     const key = `${state.mine}|${rep.trainer}/${rep.version}`, e = DATA.exposures[key];
@@ -225,6 +286,7 @@ footer p { margin: 0; }
       ${tags ? `<div class="tags">${tags}</div>` : ""}
       <div class="plan">${plan}</div>
     </article>
+    ${playsheet(rep)}
     <div class="section-head"><h2>The matrix</h2><span class="label">their Pokémon against every attacking type · ${esc(rep.game)} chart</span></div>
     <div class="panel">${matrix(rep)}${moves(rep)}</div>
     ${exposure(rep)}`;

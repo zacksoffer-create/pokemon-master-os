@@ -46,6 +46,63 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Grass and Electric · **Strengths:** Water, Steel, Fire and Ice · **Bring:** special attackers (0 physically soft, 1 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Golduck | wallbreaker (loose, 0.35) | – | – |
+| Quagsire | weather setter (solid, 0.55) | bulky setup (loose) | – |
+| Lapras | bulky attacker (loose, 0.49) | tank (loose) | – |
+| Starmie | wallbreaker (loose, 0.29) | late-game cleaner (loose) | – |
+
+## The ace
+
+- Ace: Starmie (the highest level (54), the widest coverage and a wallbreaker).
+
+## Who they go to
+
+- Even game: Lapras is the workhorse (tank).
+- Ahead: Starmie closes it out (late-game cleaner).
+- Behind: they turn to Lapras (wallbreaker).
+
+## What they can hit
+
+- They hit 10 of 17 types super-effectively; nothing they carry hits Bug, Dark, Ghost, Ice, Normal, Psychic or Water that way.
+- Bring Bug: they can't hit it super-effectively, and one of them is weak to it.
+- Dark or Ghost get through clean too.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | **none** | 1 |
+| Dark | **none** | 1 |
+| Dragon | Ice Beam (Lapras, 142) | 0 |
+| Electric | Earthquake (Quagsire, 150) | 3 |
+| Fighting | Psychic (Golduck, 90) | 1 |
+| Fire | Earthquake (Quagsire, 150) | 0 |
+| Flying | Ice Beam (Lapras, 142) | 0 |
+| Ghost | **none** | 1 |
+| Grass | Ice Beam (Lapras, 142) | 4 |
+| Ground | Ice Beam (Lapras, 142) | 0 |
+| Ice | **none** | 0 |
+| Normal | **none** | 0 |
+| Poison | Earthquake (Quagsire, 150) | 0 |
+| Psychic | **none** | 0 |
+| Rock | Earthquake (Quagsire, 150) | 1 |
+| Steel | Earthquake (Quagsire, 150) | 0 |
+| Water | **none** | 0 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- No signature moves authored for Misty, Cerulean Gym (HeartGold).
+
+## How aggressive the moveset is
+
+- 73% of their moves finish or set up (8 of 11); the rest wear you down.
+
 *Defaults where nothing is recorded: neutral nature.*
 
 **Notes:** The games' Misty, read from the HeartGold cartridge.

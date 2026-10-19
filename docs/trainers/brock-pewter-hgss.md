@@ -52,6 +52,65 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Grass, Fighting, Ground, Water, Steel and Ice · **Strengths:** Normal, Flying, Poison, Fire and Rock · **Bring:** special attackers (0 physically soft, 5 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Graveler | wallbreaker (solid, 0.54) | bulky setup (loose) | – |
+| Rhyhorn | weather setter (loose, 0.49) | – | – |
+| Omastar | wallbreaker (loose, 0.47) | physical wall (loose) | – |
+| Onix | weather setter (solid, 0.52) | wallbreaker (loose) | – |
+| Kabutops | revenge killer (solid, 0.53) | late-game cleaner (loose) | – |
+
+## The ace
+
+- Ace: Onix (the highest level (54) and a weather setter).
+
+## Who they go to
+
+- Even game: Omastar is the workhorse (physical wall).
+- Ahead: Kabutops closes it out (revenge killer).
+- Behind: they turn to Graveler (wallbreaker).
+
+## What they can hit
+
+- They hit 9 of 17 types super-effectively; nothing they carry hits Dark, Dragon, Fighting, Ghost, Grass, Normal, Psychic or Water that way.
+- Bring Fighting: they can't hit it super-effectively, and five of them are weak to it.
+- Grass or Water get through clean too.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Rock Slide (Graveler, 101) | 0 |
+| Dark | **none** | 0 |
+| Dragon | **none** | 0 |
+| Electric | Earthquake (Graveler, 150) | 2 |
+| Fighting | **none** | 5 |
+| Fire | Earthquake (Graveler, 150) | 0 |
+| Flying | Rock Slide (Graveler, 101) | 0 |
+| Ghost | **none** | 0 |
+| Grass | **none** | 5 |
+| Ground | Brine (Omastar, 98) | 5 |
+| Ice | Rock Slide (Graveler, 101) | 3 |
+| Normal | **none** | 0 |
+| Poison | Earthquake (Graveler, 150) | 0 |
+| Psychic | **none** | 0 |
+| Rock | Earthquake (Graveler, 150) | 0 |
+| Steel | Earthquake (Graveler, 150) | 3 |
+| Water | **none** | 3 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- No signature moves authored for Brock, Pewter Gym (HeartGold).
+
+## How aggressive the moveset is
+
+- 90% of their moves finish or set up (9 of 10); the rest wear you down.
+- The moveset reads more offensive than the slider's 30: trust the moves.
+
 *Defaults where nothing is recorded: neutral nature.*
 
 **Notes:** The games' Brock, read from the HeartGold cartridge.

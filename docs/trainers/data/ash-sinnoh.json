@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "ash",
  "trainer_name": "Ash",
  "version": "sinnoh",
@@ -126,7 +126,26 @@
    ]
   }
  },
- "tags": [],
+ "tags": [
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ]
+  },
+  {
+   "id": "region_champion",
+   "name": "Orange League Champion",
+   "detail": [
+    "Orange League"
+   ]
+  }
+ ],
  "nature_clashes": [],
  "matrix": {
   "trainer": "ash",
@@ -1292,5 +1311,644 @@
   ]
  },
  "roles": [],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ritchie)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Orange Archipelago",
+     "event": "Orange League",
+     "kind": "league",
+     "result": "won (beat Drake)",
+     "title": "Orange League Champion",
+     "champion": true,
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Harrison)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "beat all seven Frontier Brains; offered a Frontier Brain post",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Ever Grande Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Tyson)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 4 (lost to Tobias)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Kanto",
+      "Orange Archipelago",
+      "Johto",
+      "Hoenn",
+      "Sinnoh"
+     ]
+    },
+    {
+     "id": "region_champion",
+     "name": "Orange League Champion",
+     "detail": [
+      "Orange League"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Pikachu",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6372,
+     "confidence": "solid",
+     "margin": 0.1258,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5114,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.64, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Quick Attack, Iron Tail, Volt Tackle"
+   },
+   {
+    "species": "Infernape",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.767,
+     "confidence": "strong",
+     "margin": 0.0972,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6698,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.77, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
+   },
+   {
+    "species": "Torterra",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6781,
+     "confidence": "strong",
+     "margin": 0.0973,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5808,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.68, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Rock Climb, Frenzy Plant, Energy Ball"
+   },
+   {
+    "species": "Staraptor",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7732,
+     "confidence": "strong",
+     "margin": 0.0816,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6916,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.77, strong): Quick Attack; Speed 257 (above 83% of the field); Attack 297 (above 87% of the field)"
+   },
+   {
+    "species": "Gliscor",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5428,
+     "confidence": "solid",
+     "margin": 0.0508,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.492,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "check / counter (0.54, solid): Ground/Flying (Hyper Cutter); overall bulk above 69% of the field; attacking moves: Fire Fang, Steel Wing, Night Slash, Giga Impact"
+   },
+   {
+    "species": "Buizel",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.5399,
+     "confidence": "solid",
+     "margin": 0.0059,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.534,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.54, solid): Aqua Jet; Speed 227 (above 61% of the field); attacks that use its better attacking stat: Water Gun, Water Pulse"
+   }
+  ],
+  "ace": {
+   "derived": "Pikachu",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Pikachu",
+     "slot": 1,
+     "score": 0.617,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Staraptor",
+     "slot": 4,
+     "score": 0.52,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Infernape",
+     "slot": 2,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Buizel",
+     "slot": 6,
+     "score": 0.487,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Torterra",
+     "slot": 3,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Gliscor",
+     "slot": 5,
+     "score": 0.332,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Staraptor",
+    "role": "pivot",
+    "fit": 0.641
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Staraptor",
+    "role": "revenge killer",
+    "fit": 0.773
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Staraptor",
+    "role": "wallbreaker",
+    "fit": 0.543,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Staraptor",
+     "move_type": "Fighting",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Punch",
+     "member": "Buizel",
+     "move_type": "Ice",
+     "power": 75,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Brave Bird",
+     "member": "Staraptor",
+     "move_type": "Flying",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Water Pulse",
+     "member": "Buizel",
+     "move_type": "Water",
+     "power": 85,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Gliscor",
+     "move_type": "Dark",
+     "power": 70,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Torterra",
+     "move_type": "Grass",
+     "power": 152,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Staraptor",
+     "move_type": "Fighting",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Gliscor",
+     "move_type": "Dark",
+     "power": 70,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Torterra",
+     "move_type": "Grass",
+     "power": 152,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 2
+    }
+   ],
+   "coverage": 1.0,
+   "covered_n": 17,
+   "types_n": 17,
+   "holes": [],
+   "bring": []
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Pikachu",
+    "move": "Volt Tackle",
+    "why": "learned at the Battle Frontier; his finisher by Sinnoh",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Infernape",
+    "move": "Flare Blitz",
+    "why": "the Blaze-powered finisher against Paul",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Staraptor",
+    "move": "Brave Bird",
+    "why": "the all-in strike",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 100,
+   "finishers": 14,
+   "attrition": 0,
+   "finisher_moves": [
+    "Thunderbolt (Pikachu)",
+    "Quick Attack (Pikachu)",
+    "Volt Tackle (Pikachu)",
+    "Flamethrower (Infernape)",
+    "Mach Punch (Infernape)",
+    "Flare Blitz (Infernape)",
+    "Leaf Storm (Torterra)",
+    "Energy Ball (Torterra)",
+    "Close Combat (Staraptor)",
+    "Brave Bird (Staraptor)",
+    "Aerial Ace (Staraptor)",
+    "Quick Attack (Staraptor)",
+    "Aqua Jet (Buizel)",
+    "Water Pulse (Buizel)"
+   ],
+   "attrition_moves": [],
+   "offense_authored": 70,
+   "offense_measured": 89,
+   "flag": {
+    "gap": 30,
+    "leans": "offensive",
+    "part1_flags_it": false
+   }
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Ash has competed across 5 regions (Kanto, Orange Archipelago, Johto, Hoenn and Sinnoh): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Titles: Orange League Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Battle Frontier: beat all seven Frontier Brains; offered a Frontier Brain post; Ever Grande Conference: Top 8 (lost to Tyson); Lily of the Valley Conference: Top 4 (lost to Tobias).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Pikachu (the most invested and a revenge killer).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Everything runs through Staraptor: it's their answer whatever the score.",
+     "rule": "goto_one",
+     "trigger": "one_for_all nonempty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit all 17 types super-effectively: no type is safe to bring.",
+     "rule": "cover_full",
+     "trigger": "holes_n == 0 (here 0)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Pikachu's Volt Tackle (learned at the Battle Frontier; his finisher by Sinnoh); Infernape's Flare Blitz (the Blaze-powered finisher against Paul); Staraptor's Brave Bird (the all-in strike).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "Every move they carry finishes or sets up (14 of 14): nothing is there to wear you down.",
+     "rule": "aggr_all",
+     "trigger": "aggression >= 100 (here 100)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 70: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
 }

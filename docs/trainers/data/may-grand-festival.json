@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "may",
  "trainer_name": "May",
  "version": "grand-festival",
@@ -131,7 +131,18 @@
    ]
   }
  },
- "tags": [],
+ "tags": [
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Hoenn",
+    "Kanto",
+    "Johto",
+    "Sinnoh"
+   ]
+  }
+ ],
  "nature_clashes": [],
  "matrix": {
   "trainer": "may",
@@ -1278,5 +1289,590 @@
   ]
  },
  "roles": [],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Hoenn",
+     "event": "Hoenn Grand Festival",
+     "kind": "contest",
+     "result": "Top 8 (lost to Drew)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Kanto Grand Festival",
+     "kind": "contest",
+     "result": "Top 8 (draft: confirm the round)",
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Johto",
+     "event": "Johto Grand Festival",
+     "kind": "contest",
+     "result": "competed (draft: confirm the result)",
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Wallace Cup",
+     "kind": "contest",
+     "result": "runner-up (lost to Dawn)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Hoenn",
+    "Kanto",
+    "Johto",
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Hoenn",
+      "Kanto",
+      "Johto",
+      "Sinnoh"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Blaziken",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6169,
+     "confidence": "solid",
+     "margin": 0.6169,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.62, solid): strong attacks (effective power 90+, with the stat it uses): Blaze Kick, Sky Uppercut, Flamethrower; Flamethrower (133); Attack 297 (above 87% of the field)"
+   },
+   {
+    "species": "Venusaur",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.618,
+     "confidence": "solid",
+     "margin": 0.0953,
+     "clear": true
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5227,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.62, solid): Sp. Atk 257 (above 77% of the field); attacking moves: Solar Beam, Vine Whip, Razor Leaf, Frenzy Plant; overall bulk above 66% of the field"
+   },
+   {
+    "species": "Wartortle",
+    "nickname": null,
+    "primary": {
+     "role": "hazard_remover",
+     "name": "hazard remover",
+     "family": "support",
+     "score": 0.715,
+     "confidence": "strong",
+     "margin": 0.3605,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3545,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "hazard remover (0.71, strong): Rapid Spin; attacking moves: Water Gun, Aqua Tail; Water (Torrent)"
+   },
+   {
+    "species": "Munchlax",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.4912,
+     "confidence": "loose",
+     "margin": 0.1084,
+     "clear": true
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.3828,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "bulky attacker (0.49, loose): attacking moves: Focus Punch, Tackle, Solar Beam; overall bulk above 64% of the field; attacks that use its better attacking stat: Focus Punch, Tackle"
+   },
+   {
+    "species": "Beautifly",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.2268,
+     "confidence": "loose",
+     "margin": 0.2268,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.23, loose): Sp. Atk 237 (above 62% of the field); Silver Wind (90); attacks that use its better attacking stat: Silver Wind, Gust"
+   },
+   {
+    "species": "Skitty",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.1661,
+     "confidence": "loose",
+     "margin": 0.1661,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.17, loose): attacks that use its better attacking stat: Tackle, Double Slap; Blizzard (73); types it hits super-effectively: Dragon, Flying, Grass, Ground"
+   }
+  ],
+  "ace": {
+   "derived": "Blaziken",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Blaziken",
+     "slot": 1,
+     "score": 0.646,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [
+      "Wartortle"
+     ],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Beautifly",
+     "slot": 5,
+     "score": 0.613,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.294,
+      "role": 0.9
+     },
+     "helpers": [
+      "Wartortle"
+     ],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Skitty",
+     "slot": 6,
+     "score": 0.596,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [
+      "Wartortle"
+     ],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Munchlax",
+     "slot": 4,
+     "score": 0.561,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.412,
+      "role": 0.7
+     },
+     "helpers": [
+      "Wartortle"
+     ],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Venusaur",
+     "slot": 2,
+     "score": 0.493,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.176,
+      "role": 0.7
+     },
+     "helpers": [
+      "Wartortle"
+     ],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Wartortle",
+     "slot": 3,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "hazard remover",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Venusaur",
+    "role": "bulky attacker",
+    "fit": 0.525
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": null,
+    "role": null,
+    "fit": 0.0
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Blaziken",
+    "role": "wallbreaker",
+    "fit": 0.555,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Blaziken",
+     "move_type": "Fire",
+     "power": 133,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Munchlax",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Blizzard",
+     "member": "Skitty",
+     "move_type": "Ice",
+     "power": 73,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Gust",
+     "member": "Beautifly",
+     "move_type": "Flying",
+     "power": 60,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Aqua Tail",
+     "member": "Wartortle",
+     "move_type": "Water",
+     "power": 119,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Blizzard",
+     "member": "Skitty",
+     "move_type": "Ice",
+     "power": 73,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Blaziken",
+     "move_type": "Fire",
+     "power": 133,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Munchlax",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Munchlax",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Silver Wind",
+     "member": "Beautifly",
+     "move_type": "Bug",
+     "power": 90,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Munchlax",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.824,
+   "covered_n": 14,
+   "types_n": 17,
+   "holes": [
+    "Electric",
+    "Ghost",
+    "Poison"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 2
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Blaziken",
+    "move": "Blaze Kick",
+    "why": "her ace's contest finisher",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Wartortle",
+    "move": "Rapid Spin",
+    "why": "spinning through every appeal",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 88,
+   "finishers": 7,
+   "attrition": 1,
+   "finisher_moves": [
+    "Blaze Kick (Blaziken)",
+    "Sky Uppercut (Blaziken)",
+    "Flamethrower (Blaziken)",
+    "Solar Beam (Venusaur)",
+    "Frenzy Plant (Venusaur)",
+    "Aqua Tail (Wartortle)",
+    "Silver Wind (Beautifly)"
+   ],
+   "attrition_moves": [
+    "Morning Sun (Beautifly)"
+   ],
+   "offense_authored": 55,
+   "offense_measured": 66,
+   "flag": {
+    "gap": 33,
+    "leans": "offensive",
+    "part1_flags_it": false
+   }
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "May has competed across 4 regions (Hoenn, Kanto, Johto and Sinnoh): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Kanto Grand Festival: Top 8 (draft: confirm the round); Johto Grand Festival: competed (draft: confirm the result); Wallace Cup: runner-up (lost to Dawn).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Blaziken (set up by Wartortle, the widest coverage and a wallbreaker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Venusaur is the workhorse (bulky attacker).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Blaziken (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 14 of 17 types super-effectively; nothing they carry hits Electric, Ghost or Poison that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 3)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and two of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Blaziken's Blaze Kick (her ace's contest finisher); Wartortle's Rapid Spin (spinning through every appeal).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "88% of their moves finish or set up (7 of 8); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 88)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 55: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
 }

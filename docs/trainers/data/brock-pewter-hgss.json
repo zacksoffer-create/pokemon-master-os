@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "brock",
  "trainer_name": "Brock",
  "version": "pewter-hgss",
@@ -1266,5 +1266,523 @@
  "roles": [
   "Gym Leader"
  ],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Pewter City Gym",
+     "kind": "gym",
+     "result": "Gym Leader",
+     "source": "games",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Graveler",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5421,
+     "confidence": "solid",
+     "margin": 0.1204,
+     "clear": true
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.4217,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.54, solid): Earthquake (150); strong attacks (effective power 90+, with the stat it uses): Rock Slide, Earthquake; attacks that use its better attacking stat: Rock Slide, Rollout, Earthquake"
+   },
+   {
+    "species": "Rhyhorn",
+    "nickname": null,
+    "primary": {
+     "role": "weather_setter",
+     "name": "weather setter",
+     "family": "support",
+     "score": 0.4907,
+     "confidence": "loose",
+     "margin": 0.4907,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "weather setter (0.49, loose): Sandstorm; attacking moves: Earthquake; overall bulk above 2% of the field"
+   },
+   {
+    "species": "Omastar",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.471,
+     "confidence": "loose",
+     "margin": 0.2739,
+     "clear": true
+    },
+    "secondary": {
+     "role": "physical_wall",
+     "name": "physical wall",
+     "family": "defense",
+     "score": 0.1971,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.47, loose): strong attacks (effective power 90+, with the stat it uses): Ancient Power, Brine; Sp. Atk 259 (above 80% of the field); Brine (98)"
+   },
+   {
+    "species": "Onix",
+    "nickname": null,
+    "primary": {
+     "role": "weather_setter",
+     "name": "weather setter",
+     "family": "support",
+     "score": 0.5175,
+     "confidence": "solid",
+     "margin": 0.3227,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.1948,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "weather setter (0.52, solid): Sandstorm; attacking moves: Iron Tail, Rock Slide; overall bulk above 3% of the field"
+   },
+   {
+    "species": "Kabutops",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.531,
+     "confidence": "solid",
+     "margin": 0.0524,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.4786,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "revenge killer (0.53, solid): Aqua Jet; Attack 259 (above 73% of the field); attacks that use its better attacking stat: Rock Slide, Aqua Jet"
+   }
+  ],
+  "ace": {
+   "derived": "Onix",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Onix",
+     "slot": 4,
+     "score": 0.629,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "weather setter",
+     "level": 54
+    },
+    {
+     "species": "Omastar",
+     "slot": 3,
+     "score": 0.611,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9,
+      "investment": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 53
+    },
+    {
+     "species": "Kabutops",
+     "slot": 5,
+     "score": 0.592,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9,
+      "investment": 0.8
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": 52
+    },
+    {
+     "species": "Graveler",
+     "slot": 1,
+     "score": 0.574,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9,
+      "investment": 0.7
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 51
+    },
+    {
+     "species": "Rhyhorn",
+     "slot": 2,
+     "score": 0.359,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.3,
+      "investment": 0.7
+     },
+     "helpers": [],
+     "role": "weather setter",
+     "level": 51
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Omastar",
+    "role": "physical wall",
+    "fit": 0.118
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Kabutops",
+    "role": "revenge killer",
+    "fit": 0.531
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Graveler",
+    "role": "wallbreaker",
+    "fit": 0.488,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Rock Slide",
+     "member": "Graveler",
+     "move_type": "Rock",
+     "power": 101,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Graveler",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 5
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Graveler",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Rock Slide",
+     "member": "Graveler",
+     "move_type": "Rock",
+     "power": 101,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 5
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Brine",
+     "member": "Omastar",
+     "move_type": "Water",
+     "power": 98,
+     "their_weak_to_it": 5
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Rock Slide",
+     "member": "Graveler",
+     "move_type": "Rock",
+     "power": 101,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Graveler",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Graveler",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Graveler",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Water",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    }
+   ],
+   "coverage": 0.529,
+   "covered_n": 9,
+   "types_n": 17,
+   "holes": [
+    "Dark",
+    "Dragon",
+    "Fighting",
+    "Ghost",
+    "Grass",
+    "Normal",
+    "Psychic",
+    "Water"
+   ],
+   "bring": [
+    {
+     "type": "Fighting",
+     "their_weak": 5
+    },
+    {
+     "type": "Grass",
+     "their_weak": 5
+    },
+    {
+     "type": "Water",
+     "their_weak": 3
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 90,
+   "finishers": 9,
+   "attrition": 1,
+   "finisher_moves": [
+    "Rock Slide (Graveler)",
+    "Earthquake (Graveler)",
+    "Earthquake (Rhyhorn)",
+    "Horn Drill (Rhyhorn)",
+    "Ancient Power (Omastar)",
+    "Brine (Omastar)",
+    "Rock Slide (Onix)",
+    "Rock Slide (Kabutops)",
+    "Aqua Jet (Kabutops)"
+   ],
+   "attrition_moves": [
+    "Protect (Omastar)"
+   ],
+   "offense_authored": 30,
+   "offense_measured": 47,
+   "flag": {
+    "gap": 60,
+    "leans": "offensive",
+    "part1_flags_it": false
+   }
+  },
+  "weather": [
+   "sand"
+  ],
+  "text": {
+   "career": [],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Onix (the highest level (54) and a weather setter).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Omastar is the workhorse (physical wall).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Kabutops closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Graveler (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 9 of 17 types super-effectively; nothing they carry hits Dark, Dragon, Fighting, Ghost, Grass, Normal, Psychic or Water that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 8)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Fighting: they can't hit it super-effectively, and five of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Grass or Water get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Brock, Pewter Gym (HeartGold).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "90% of their moves finish or set up (9 of 10); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 90)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 30: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
 }

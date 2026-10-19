@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "gary",
  "trainer_name": "Gary",
  "version": "johto",
@@ -1298,5 +1298,574 @@
   ]
  },
  "roles": [],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "out before the Top 16 (draft: confirm the round)",
+     "versions": [
+      "johto"
+     ],
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ash)",
+     "versions": [
+      "johto"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Johto"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Blastoise",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6061,
+     "confidence": "solid",
+     "margin": 0.0151,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.591,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.61, solid): overall bulk above 79% of the field; attacking moves: Hydro Pump, Skull Bash, Bite, Ice Beam; Sp. Atk 227 (above 56% of the field)"
+   },
+   {
+    "species": "Arcanine",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7488,
+     "confidence": "strong",
+     "margin": 0.0969,
+     "clear": true
+    },
+    "secondary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.6519,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.75, strong): Extreme Speed; Speed 247 (above 75% of the field); Attack 277 (above 80% of the field)"
+   },
+   {
+    "species": "Nidoqueen",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.4693,
+     "confidence": "loose",
+     "margin": 0.0046,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.4647,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "check / counter (0.47, loose): Poison/Ground (Poison Point); overall bulk above 67% of the field; attacking moves: Body Slam, Double Kick, Hyper Beam"
+   },
+   {
+    "species": "Magmar",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5949,
+     "confidence": "solid",
+     "margin": 0.5949,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.59, solid): Fire Blast (153); strong attacks (effective power 90+, with the stat it uses): Flamethrower, Fire Punch, Fire Blast; Sp. Atk 257 (above 77% of the field)"
+   },
+   {
+    "species": "Golem",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6678,
+     "confidence": "strong",
+     "margin": 0.1164,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5514,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.67, strong): Attack 277 (above 80% of the field); attacking moves: Rollout, Rock Throw, Mega Punch, Earthquake; overall bulk above 68% of the field"
+   },
+   {
+    "species": "Scizor",
+    "nickname": null,
+    "primary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.6595,
+     "confidence": "strong",
+     "margin": 0.0588,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6007,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "physical setup sweeper (0.66, strong): Swords Dance; Attack 317 (above 94% of the field); physical attacks: Steel Wing, Metal Claw, Quick Attack"
+   }
+  ],
+  "ace": {
+   "derived": "Golem",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Golem",
+     "slot": 5,
+     "score": 0.52,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Scizor",
+     "slot": 6,
+     "score": 0.462,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.118,
+      "role": 1.0
+     },
+     "helpers": [],
+     "role": "physical setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Magmar",
+     "slot": 4,
+     "score": 0.453,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Arcanine",
+     "slot": 2,
+     "score": 0.444,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.8
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Blastoise",
+     "slot": 1,
+     "score": 0.434,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Nidoqueen",
+     "slot": 3,
+     "score": 0.384,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Arcanine",
+    "role": "pivot",
+    "fit": 0.652
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Arcanine",
+    "role": "revenge killer",
+    "fit": 0.749
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Scizor",
+    "role": "physical setup sweeper",
+    "fit": 0.659,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Magmar",
+     "move_type": "Fire",
+     "power": 153,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Double Kick",
+     "member": "Nidoqueen",
+     "move_type": "Fighting",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Blastoise",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Golem",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Golem",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Blastoise",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Bite",
+     "member": "Arcanine",
+     "move_type": "Dark",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Magmar",
+     "move_type": "Fire",
+     "power": 153,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Magmar",
+     "move_type": "Fire",
+     "power": 153,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Double Kick",
+     "member": "Nidoqueen",
+     "move_type": "Fighting",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Golem",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Bite",
+     "member": "Arcanine",
+     "move_type": "Dark",
+     "power": 60,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Golem",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Magmar",
+     "move_type": "Fire",
+     "power": 153,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 4
+    }
+   ],
+   "coverage": 0.882,
+   "covered_n": 15,
+   "types_n": 17,
+   "holes": [
+    "Fighting",
+    "Water"
+   ],
+   "bring": [
+    {
+     "type": "Water",
+     "their_weak": 4
+    },
+    {
+     "type": "Fighting",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Blastoise",
+    "move": "Hydro Pump",
+    "why": "the Silver Conference duel with Charizard",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 100,
+   "finishers": 13,
+   "attrition": 0,
+   "finisher_moves": [
+    "Hydro Pump (Blastoise)",
+    "Ice Beam (Blastoise)",
+    "Fire Blast (Arcanine)",
+    "Extreme Speed (Arcanine)",
+    "Flamethrower (Arcanine)",
+    "Body Slam (Nidoqueen)",
+    "Flamethrower (Magmar)",
+    "Fire Punch (Magmar)",
+    "Fire Blast (Magmar)",
+    "Earthquake (Golem)",
+    "Steel Wing (Scizor)",
+    "Swords Dance (Scizor)",
+    "Quick Attack (Scizor)"
+   ],
+   "attrition_moves": [],
+   "offense_authored": 60,
+   "offense_measured": 67,
+   "flag": {
+    "gap": 40,
+    "leans": "offensive",
+    "part1_flags_it": false
+   }
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Indigo Plateau Conference: out before the Top 16 (draft: confirm the round); Silver Conference: Top 16 (lost to Ash).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Golem (the widest coverage and a bulky attacker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Arcanine is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Arcanine closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Scizor (physical setup sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 15 of 17 types super-effectively; nothing they carry hits Fighting or Water that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 2)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Water: they can't hit it super-effectively, and four of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Fighting get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Blastoise's Hydro Pump (the Silver Conference duel with Charizard).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.",
+     "rule": "aggr_all",
+     "trigger": "aggression >= 100 (here 100)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 60: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
 }

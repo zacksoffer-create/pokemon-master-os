@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "cynthia",
  "trainer_name": "Cynthia",
  "version": "champion-platinum",
@@ -131,6 +131,13 @@
     "Region Champion"
    ],
    "members": {}
+  },
+  {
+   "id": "region_champion",
+   "name": "Sinnoh Champion",
+   "detail": [
+    "Sinnoh League"
+   ]
   }
  ],
  "nature_clashes": [],
@@ -1305,5 +1312,545 @@
   "Champion",
   "Region Champion"
  ],
- "overrides": {}
+ "overrides": {
+  "ace": "Garchomp"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh League",
+     "kind": "league",
+     "result": "Champion",
+     "title": "Sinnoh Champion",
+     "champion": true,
+     "source": "games",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Sinnoh Champion",
+     "detail": [
+      "Sinnoh League"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Spiritomb",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.493,
+     "confidence": "loose",
+     "margin": 0.493,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.49, loose): strong attacks (effective power 90+, with the stat it uses): Dark Pulse, Psychic, Shadow Ball; Shadow Ball (120); attacks that use its better attacking stat: Dark Pulse, Psychic, Silver Wind, Shadow Ball"
+   },
+   {
+    "species": "Roserade",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5246,
+     "confidence": "solid",
+     "margin": 0.1191,
+     "clear": true
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.4055,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.52, solid): strong attacks (effective power 90+, with the stat it uses): Energy Ball, Sludge Bomb; Sludge Bomb (135); Sp. Atk 285 (above 88% of the field)"
+   },
+   {
+    "species": "Togekiss",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5815,
+     "confidence": "solid",
+     "margin": 0.005,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5765,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.58, solid): strong attacks (effective power 90+, with the stat it uses): Air Slash, Aura Sphere; Sp. Atk 275 (above 84% of the field); Air Slash (107)"
+   },
+   {
+    "species": "Lucario",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6388,
+     "confidence": "solid",
+     "margin": 0.0091,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6297,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.64, solid): Extreme Speed; Sp. Atk 265 (above 80% of the field); attacks that use its better attacking stat: Aura Sphere, Shadow Ball"
+   },
+   {
+    "species": "Milotic",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6123,
+     "confidence": "solid",
+     "margin": 0.0336,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.5787,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.61, solid): Water (Marvel Scale); overall bulk above 66% of the field; attacking moves: Surf, Ice Beam, Dragon Pulse"
+   },
+   {
+    "species": "Garchomp",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6203,
+     "confidence": "solid",
+     "margin": 0.0709,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5494,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.62, solid): Earthquake (150); strong attacks (effective power 90+, with the stat it uses): Dragon Rush, Earthquake; Attack 295 (above 84% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Garchomp",
+   "authored": "Garchomp",
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Garchomp",
+     "slot": 6,
+     "score": 0.676,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 62
+    },
+    {
+     "species": "Togekiss",
+     "slot": 3,
+     "score": 0.651,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.706,
+      "role": 0.9,
+      "investment": 0.8
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 60
+    },
+    {
+     "species": "Lucario",
+     "slot": 4,
+     "score": 0.628,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.588,
+      "role": 0.9,
+      "investment": 0.8
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": 60
+    },
+    {
+     "species": "Roserade",
+     "slot": 2,
+     "score": 0.521,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9,
+      "investment": 0.6
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 58
+    },
+    {
+     "species": "Spiritomb",
+     "slot": 1,
+     "score": 0.521,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9,
+      "investment": 0.6
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 58
+    },
+    {
+     "species": "Milotic",
+     "slot": 5,
+     "score": 0.341,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3,
+      "investment": 0.6
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": 58
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Togekiss",
+    "role": "tank",
+    "fit": 0.533
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Lucario",
+    "role": "revenge killer",
+    "fit": 0.639
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Garchomp",
+    "role": "wallbreaker",
+    "fit": 0.558,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Aura Sphere",
+     "member": "Lucario",
+     "move_type": "Fighting",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Rush",
+     "member": "Garchomp",
+     "move_type": "Dragon",
+     "power": 112,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Milotic",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Dark Pulse",
+     "member": "Spiritomb",
+     "move_type": "Dark",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Sludge Bomb",
+     "member": "Roserade",
+     "move_type": "Poison",
+     "power": 135,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Surf",
+     "member": "Milotic",
+     "move_type": "Water",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Aura Sphere",
+     "member": "Lucario",
+     "move_type": "Fighting",
+     "power": 135,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Aura Sphere",
+     "member": "Lucario",
+     "move_type": "Fighting",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Dark Pulse",
+     "member": "Spiritomb",
+     "move_type": "Dark",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Energy Ball",
+     "member": "Roserade",
+     "move_type": "Grass",
+     "power": 120,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 1.0,
+   "covered_n": 17,
+   "types_n": 17,
+   "holes": [],
+   "bring": []
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 94,
+   "finishers": 16,
+   "attrition": 1,
+   "finisher_moves": [
+    "Dark Pulse (Spiritomb)",
+    "Psychic (Spiritomb)",
+    "Shadow Ball (Spiritomb)",
+    "Energy Ball (Roserade)",
+    "Sludge Bomb (Roserade)",
+    "Extrasensory (Roserade)",
+    "Air Slash (Togekiss)",
+    "Aura Sphere (Togekiss)",
+    "Aura Sphere (Lucario)",
+    "Extreme Speed (Lucario)",
+    "Shadow Ball (Lucario)",
+    "Surf (Milotic)",
+    "Ice Beam (Milotic)",
+    "Dragon Pulse (Milotic)",
+    "Dragon Rush (Garchomp)",
+    "Earthquake (Garchomp)"
+   ],
+   "attrition_moves": [
+    "Toxic (Roserade)"
+   ],
+   "offense_authored": 65,
+   "offense_measured": 72,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Sinnoh Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Sinnoh League: Champion.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Garchomp. The story and the data agree (the highest level (62) and a wallbreaker).",
+     "rule": "ace_agree",
+     "trigger": "ace_agrees nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Togekiss is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Lucario closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Garchomp (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit all 17 types super-effectively: no type is safe to bring.",
+     "rule": "cover_full",
+     "trigger": "holes_n == 0 (here 0)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Champion Cynthia (Platinum).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "94% of their moves finish or set up (16 of 17); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 94)"
+    }
+   ]
+  }
+ }
 }

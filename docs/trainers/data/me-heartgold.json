@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "me",
  "trainer_name": "Zack",
  "version": "heartgold",
@@ -10,7 +10,8 @@
  "status": "canon",
  "notes": [
   "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
-  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.",
+  "Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there."
  ],
  "sliders": {
   "offense": {
@@ -1349,5 +1350,537 @@
  "roles": [
   "Champion"
  ],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [],
+   "regions": [],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Typhlosion",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.578,
+     "confidence": "solid",
+     "margin": 0.0119,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5661,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.58, solid): Sp. Atk 275 (above 84% of the field); attacking moves: Flamethrower, Extrasensory, Thunder Punch, Earthquake; overall bulk above 52% of the field"
+   },
+   {
+    "species": "Tyranitar",
+    "nickname": null,
+    "primary": {
+     "role": "weather_setter",
+     "name": "weather setter",
+     "family": "support",
+     "score": 0.833,
+     "confidence": "strong",
+     "margin": 0.0776,
+     "clear": false
+    },
+    "secondary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.7554,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "weather setter (0.83, strong): Sand Stream; overall bulk above 91% of the field; attacking moves: Crunch, Earthquake, Outrage"
+   },
+   {
+    "species": "Mamoswine",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7336,
+     "confidence": "strong",
+     "margin": 0.0552,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6784,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.73, strong): Ice Shard; Attack 348 (above 98% of the field); Speed 217 (above 53% of the field)"
+   },
+   {
+    "species": "Crobat",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.7961,
+     "confidence": "strong",
+     "margin": 0.1711,
+     "clear": true
+    },
+    "secondary": {
+     "role": "staller",
+     "name": "staller",
+     "family": "support",
+     "score": 0.625,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "pivot (0.80, strong): U-turn; Poison/Flying (Inner Focus); overall bulk above 56% of the field"
+   },
+   {
+    "species": "Lapras",
+    "nickname": null,
+    "primary": {
+     "role": "cleric",
+     "name": "cleric",
+     "family": "support",
+     "score": 0.7944,
+     "confidence": "strong",
+     "margin": 0.1614,
+     "clear": true
+    },
+    "secondary": {
+     "role": "special_wall",
+     "name": "special wall",
+     "family": "defense",
+     "score": 0.633,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "cleric (0.79, strong): Heal Bell; overall bulk above 95% of the field; Rest"
+   },
+   {
+    "species": "Snorlax",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.7585,
+     "confidence": "strong",
+     "margin": 0.0843,
+     "clear": true
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6742,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "bulky attacker (0.76, strong): overall bulk above 98% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Thunder Punch, Zen Headbutt"
+   }
+  ],
+  "ace": {
+   "derived": "Mamoswine",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Mamoswine",
+     "slot": 3,
+     "score": 0.713,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.647,
+      "role": 0.9
+     },
+     "helpers": [
+      "Lapras"
+     ],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Typhlosion",
+     "slot": 1,
+     "score": 0.713,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.647,
+      "role": 0.9
+     },
+     "helpers": [
+      "Lapras"
+     ],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Tyranitar",
+     "slot": 2,
+     "score": 0.706,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.471,
+      "role": 1.0
+     },
+     "helpers": [
+      "Lapras"
+     ],
+     "role": "weather setter",
+     "level": null
+    },
+    {
+     "species": "Snorlax",
+     "slot": 6,
+     "score": 0.51,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [
+      "Lapras"
+     ],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Lapras",
+     "slot": 5,
+     "score": 0.229,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "cleric",
+     "level": null
+    },
+    {
+     "species": "Crobat",
+     "slot": 4,
+     "score": 0.213,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Crobat",
+    "role": "pivot",
+    "fit": 0.796
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Mamoswine",
+    "role": "revenge killer",
+    "fit": 0.734
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Tyranitar",
+    "role": "physical setup sweeper",
+    "fit": 0.755,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Typhlosion",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "U-turn",
+     "member": "Crobat",
+     "move_type": "Bug",
+     "power": 70,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Lapras",
+     "move_type": "Ice",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Mamoswine",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Fly",
+     "member": "Crobat",
+     "move_type": "Flying",
+     "power": 128,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Mamoswine",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Lapras",
+     "move_type": "Ice",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Tyranitar",
+     "move_type": "Dark",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Typhlosion",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Surf",
+     "member": "Lapras",
+     "move_type": "Water",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Typhlosion",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Mamoswine",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Tyranitar",
+     "move_type": "Dark",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Mamoswine",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Mamoswine",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Thunder Punch",
+     "member": "Snorlax",
+     "move_type": "Electric",
+     "power": 75,
+     "their_weak_to_it": 3
+    }
+   ],
+   "coverage": 0.941,
+   "covered_n": 16,
+   "types_n": 17,
+   "holes": [
+    "Normal"
+   ],
+   "bring": []
+  },
+  "combos": [
+   {
+    "id": "dd_priority",
+    "name": "Dragon Dance with priority or Outrage",
+    "members": [
+     "Tyranitar"
+    ]
+   }
+  ],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 72,
+   "finishers": 13,
+   "attrition": 5,
+   "finisher_moves": [
+    "Flamethrower (Typhlosion)",
+    "Extrasensory (Typhlosion)",
+    "Earthquake (Typhlosion)",
+    "Dragon Dance (Tyranitar)",
+    "Crunch (Tyranitar)",
+    "Earthquake (Tyranitar)",
+    "Outrage (Tyranitar)",
+    "Earthquake (Mamoswine)",
+    "Ice Fang (Mamoswine)",
+    "Ice Shard (Mamoswine)",
+    "Surf (Lapras)",
+    "Ice Beam (Lapras)",
+    "Body Slam (Snorlax)"
+   ],
+   "attrition_moves": [
+    "Roost (Crobat)",
+    "Toxic (Crobat)",
+    "Rest (Lapras)",
+    "Heal Bell (Lapras)",
+    "Rest (Snorlax)"
+   ],
+   "offense_authored": null,
+   "offense_measured": 67,
+   "flag": null
+  },
+  "weather": [
+   "sand"
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "No career records on file for HeartGold (main) yet.",
+     "rule": "career_none",
+     "trigger": "career_n == 0 (here 0)"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Mamoswine (set up by Lapras, the widest coverage and a revenge killer).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Crobat is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Mamoswine closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Tyranitar (physical setup sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Normal that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 1)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Watch Tyranitar: one Dragon Dance, then priority or Outrage cleans up. Stop it before the dance.",
+     "rule": "combo_dd_priority",
+     "trigger": "combos has dd_priority (here ['dd_priority'])"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for HeartGold (main).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "72% of their moves finish or set up (13 of 18); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 72)"
+    }
+   ]
+  }
+ }
 }

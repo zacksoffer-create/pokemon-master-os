@@ -77,6 +77,7 @@ class Version:
     status: str = "proposed"
     overrides: dict = field(default_factory=dict)    # per-trainer text overrides for named characters
     notes: list = field(default_factory=list)        # lore and canon notes: data, never logic
+    signature_moves: list = field(default_factory=list)   # authored: [{pokemon, move, why, status}]
 
 
 @dataclass
@@ -85,6 +86,11 @@ class Trainer:
     name: str
     versions: dict
     notes: list = field(default_factory=list)
+    career: list = field(default_factory=list)      # records: {region, event, kind, result, title, versions…}
+
+    def career_for(self, version_id):
+        """The records this version has lived through (a record without 'versions' counts for all of them)."""
+        return [r for r in self.career if not r.get("versions") or version_id in r["versions"]]
 
 
 class Store:
@@ -103,9 +109,10 @@ class Store:
             versions = {vid: Version(id=vid, trainer=tid, title=v["title"], game=v["game"], team_ref=v["team"],
                                      sliders=v.get("sliders", {}), roles=v.get("roles", []), source=v.get("source", ""),
                                      status=v.get("status", "proposed"), overrides=v.get("overrides", {}),
-                                     notes=v.get("notes", []))
+                                     notes=v.get("notes", []), signature_moves=v.get("signature_moves", []))
                         for vid, v in t["versions"].items()}
-            self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=versions, notes=t.get("notes", []))
+            self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=versions, notes=t.get("notes", []),
+                                         career=t.get("career", []))
         self._scout = None
 
     # --- teams ----------------------------------------------------------------------------------------

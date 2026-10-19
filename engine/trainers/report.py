@@ -22,7 +22,10 @@ GAME_TITLE = {"crystal": "Crystal", "firered": "FireRed", "emerald": "Emerald", 
               "heartgold": "HeartGold", "soulsilver": "SoulSilver"}
 SECTIONS = [("who", "Who they are"), ("expect", "What to expect"), ("beat", "How to beat them"),
             ("gap", "Where their rigidity or recklessness leaves a gap")]
-SCHEMA = "trainer-report/1"
+SCHEMA = "trainer-report/2"        # /2: Part 2's playsheet joined the report
+PLAYSHEET = [("career", "Career"), ("ace", "The ace"), ("go_to", "Who they go to"),
+             ("coverage", "What they can hit"), ("combos", "Combos to watch"), ("signature", "Signature moves"),
+             ("aggression", "How aggressive the moveset is")]
 
 
 def join(items, word="and"):
@@ -169,7 +172,7 @@ def context(store, version, team, matrix, sliders, tag_list, clashes):
     return ctx
 
 
-def build_report(store, trainer_id, version_id=None, level=None):
+def build_report(store, trainer_id, version_id=None, level=None, playsheet=True):
     version = store.version(trainer_id, version_id)
     team = store.team(version)
     matrix = team_matrix(store, version, level=level, team=team)
@@ -183,11 +186,20 @@ def build_report(store, trainer_id, version_id=None, level=None):
     for sid, text in (version.overrides or {}).items():
         if sid in plan and isinstance(text, str):
             plan[sid] = [{"section": sid, "text": text, "rule": "override", "trigger": "per-trainer override"}]
-    return {"schema": SCHEMA, "trainer": trainer_id, "trainer_name": ctx["trainer"], "version": version.id,
-            "title": version.title, "game": version.game, "gen": GAME_GEN[version.game], "source": version.source,
-            "status": version.status, "notes": store.trainers[trainer_id].notes + version.notes,
-            "sliders": sliders, "tags": tag_list, "nature_clashes": clashes, "matrix": matrix, "plan": plan,
-            "roles": version.roles, "overrides": version.overrides}
+    rep = {"schema": SCHEMA, "trainer": trainer_id, "trainer_name": ctx["trainer"], "version": version.id,
+           "title": version.title, "game": version.game, "gen": GAME_GEN[version.game], "source": version.source,
+           "status": version.status, "notes": store.trainers[trainer_id].notes + version.notes,
+           "sliders": sliders, "tags": tag_list, "nature_clashes": clashes, "matrix": matrix, "plan": plan,
+           "roles": version.roles, "overrides": version.overrides}
+    if playsheet:
+        from trainers.playsheet import build_playsheet, context as sheet_context
+        from trainers.roles import RoleBook
+        sheet = build_playsheet(store, RoleBook(store), version, team, rep, level)
+        lines = book.speak("playsheet", sheet_context(store, rep, sheet))
+        sheet["text"] = {sid: [p for p in lines if p["section"] == sid] for sid, _ in PLAYSHEET}
+        rep["playsheet"] = sheet
+        rep["tags"] = tag_list + sheet["career"]["tags"]          # one tag list: Part 1's badges and the career's
+    return rep
 
 
 def exposure(store, mine, theirs, level=None):
@@ -269,12 +281,37 @@ def render(rep):
         out += [f"- {sp}: {b['move']}: {b['reason']}" for sp, b in reasons]
         out += [f"- {sp}: ⚑ {f}" for sp, f in flagged]
         out.append("")
+    if rep.get("playsheet"):
+        out += render_playsheet(rep["playsheet"])
     used = sorted({u for r in m["rows"] for u in r["defaults_used"]})
     if used:
         out += [f"*Defaults where nothing is recorded: {'; '.join(used)}.*", ""]
     if rep["notes"]:
         out += ["**Notes:** " + " ".join(rep["notes"]), ""]
     return "\n".join(out)
+
+
+def render_playsheet(sh):
+    """The playsheet half of the report (markdown lines)."""
+    out = ["# Playsheet", ""]
+    out += ["| Pokémon | Primary role | Secondary | Also |", "|---|---|---|---|"]
+    for r in sh["roles"]:
+        p, s2 = r["primary"], r["secondary"]
+        out.append(f"| {r['species']} | {p['name']} ({p['confidence']}, {p['score']:.2f}) | "
+                   f"{s2['name'] + ' (' + s2['confidence'] + ')' if s2 else '–'} | {join([a['name'] for a in r['also']]) or '–'} |")
+    out.append("")
+    for sid, title in PLAYSHEET:
+        lines = sh["text"].get(sid, [])
+        if lines:
+            out += [f"## {title}", ""] + [f"- {p['text']}" for p in lines] + [""]
+        if sid == "coverage":
+            tr = sh["type_read"]
+            out += ["| Type | Their best super-effective attack | Of them weak to it |", "|---|---|---|"]
+            for r in tr["rows"]:
+                hit = f"{r['move']} ({r['member']}, {r['power']})" if r["covered"] else "**none**"
+                out.append(f"| {r['type']} | {hit} | {r['their_weak_to_it']} |")
+            out.append("")
+    return out
 
 
 def render_exposure(exp, store):

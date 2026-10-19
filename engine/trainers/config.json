@@ -272,6 +272,25 @@
    "Region Champion": {
     "name": "Region Champion"
    }
+  },
+  "career": {
+   "_note": "Career tags (Part 2) read each trainer's career records in canon/trainers.json, limited to the records a version has lived through. Same rule as every tag: it counts only if it changes a line (tested).",
+   "multi_region": {
+    "name": "Multi-Region Traveler",
+    "rule": "competed in at least this many regions",
+    "regions_at_least": 3,
+    "not_regions": [
+     "World"
+    ]
+   },
+   "region_champion": {
+    "name": "{title}",
+    "rule": "a record marked champion; the tag is its title"
+   },
+   "elite_four_beaten": {
+    "name": "Elite Four Beaten",
+    "rule": "a record marked elite_four: beaten"
+   }
   }
  },
  "bands": {
@@ -302,5 +321,388 @@
  "exposure": {
   "_note": "Your team against their attack types: a type counts when they carry a damaging move of it with at least this power (fixed-damage and variable-power moves count).",
   "min_power": 50
+ },
+ "playsheet": {
+  "_note": "The trainer playsheet (Part 2): who the ace is, who they go to in each game state, every member's roles, what they can hit, the combos to watch, signature moves, and how aggressive the moveset is. Every list and threshold here; every sentence in trainers/phrases.json (kind 'playsheet').",
+  "ace": {
+   "_note": "The derived ace: each member scored on investment (recorded EVs, level against the team's top, friendship), support (teammates whose roles set it up), coverage (types it hits super-effectively) and role (how much its primary role wins games). An authored ace (a version's overrides.ace) is shown next to it when they differ.",
+   "weights": {
+    "investment": 1.5,
+    "support": 1.0,
+    "coverage": 1.0,
+    "role": 1.5
+   },
+   "role_value": {
+    "physical_setup_sweeper": 1.0,
+    "special_setup_sweeper": 1.0,
+    "mixed_setup_sweeper": 1.0,
+    "weather_sweeper": 1.0,
+    "wallbreaker": 0.9,
+    "late_game_cleaner": 0.9,
+    "revenge_killer": 0.8,
+    "lead_attacker": 0.7,
+    "bulky_attacker": 0.7,
+    "choice_locked_attacker": 0.7,
+    "bulky_setup": 0.8,
+    "lure": 0.6,
+    "tank": 0.5
+   },
+   "role_value_default": 0.3,
+   "support_full_at": 2,
+   "supports": {
+    "_note": "Which teammate roles set a member up. 'for' names the member's roles they help ('offense' means any offense role); 'needs' adds a condition on the member.",
+    "screens_setter": {
+     "for": [
+      "offense"
+     ]
+    },
+    "hazard_setter": {
+     "for": [
+      "offense"
+     ]
+    },
+    "baton_pass_starter": {
+     "for": [
+      "offense",
+      "bulky_setup"
+     ]
+    },
+    "hazard_remover": {
+     "for": [
+      "offense",
+      "defense"
+     ]
+    },
+    "cleric": {
+     "for": [
+      "offense",
+      "defense"
+     ]
+    },
+    "weather_setter": {
+     "for": [
+      "weather_sweeper"
+     ],
+     "needs": "its weather"
+    },
+    "trick_room_setter": {
+     "for": [
+      "offense"
+     ],
+     "needs": "slow"
+    },
+    "tailwind_setter": {
+     "for": [
+      "offense"
+     ]
+    },
+    "fake_out_support": {
+     "for": [
+      "offense"
+     ]
+    }
+   },
+   "slow_at_least": 0.6,
+   "level_window": 10,
+   "_level_note": "Level counts against the team's top: the top level reads 1, ten levels below reads 0 (cartridge trainers mark their ace by level)."
+  },
+  "go_to": {
+   "_note": "Who they turn to in each game state: the member whose roles fit it best (role score x the state's weight for that role). Behind also lists the last resorts: members carrying a move or item that only makes sense when losing.",
+   "even": {
+    "label": "workhorse",
+    "roles": {
+     "pivot": 1.0,
+     "tank": 1.0,
+     "lead_attacker": 0.9,
+     "bulky_attacker": 0.85,
+     "check_counter": 0.8,
+     "hazard_setter": 0.7,
+     "physical_wall": 0.6,
+     "special_wall": 0.6,
+     "staller": 0.6,
+     "suicide_lead": 0.6
+    }
+   },
+   "ahead": {
+    "label": "cleaner",
+    "roles": {
+     "late_game_cleaner": 1.0,
+     "revenge_killer": 1.0,
+     "choice_locked_attacker": 0.7,
+     "weather_sweeper": 0.7,
+     "trapper": 0.6
+    }
+   },
+   "behind": {
+    "label": "gambit",
+    "roles": {
+     "physical_setup_sweeper": 1.0,
+     "special_setup_sweeper": 1.0,
+     "mixed_setup_sweeper": 1.0,
+     "wallbreaker": 0.9,
+     "weather_sweeper": 0.8,
+     "bulky_setup": 0.8,
+     "lure": 0.6
+    },
+    "last_resort_moves": [
+     "Explosion",
+     "Self-Destruct",
+     "Destiny Bond",
+     "Endeavor",
+     "Memento",
+     "Reversal",
+     "Flail",
+     "Perish Song"
+    ],
+    "last_resort_items": [
+     "Focus Sash"
+    ]
+   }
+  },
+  "type_read": {
+   "_note": "For each attacking type of the game: the hardest-hitting super-effective attack the team carries against a Pokémon of that type, at decent power (power x accuracy x STAB, with the stat it uses; a two-turn move like Dig still hits, so its turn cost doesn't count here). Coverage is how many types they reach; holes are the rest, paired with Part 1's count of how many of them are weak to each.",
+   "min_power": 60
+  },
+  "combos": {
+   "_note": "Combos to watch, flagged where a team has them. scope 'member': every condition on one Pokémon; 'team': each condition met by anyone (members_at_least counts Pokémon that meet a sub-condition). Conditions: moves_any, category (a move category in trainers/roles.json), item_any, item_group, ability_any, weather (set by the team), signal_at_least (role signals).",
+   "list": [
+    {
+     "id": "dd_priority",
+     "name": "Dragon Dance with priority or Outrage",
+     "scope": "member",
+     "all": [
+      {
+       "moves_any": [
+        "Dragon Dance"
+       ]
+      },
+      {
+       "any": [
+        {
+         "category": "priority_attack"
+        },
+        {
+         "moves_any": [
+          "Outrage"
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "tr_slow",
+     "name": "Trick Room with slow hitters",
+     "scope": "team",
+     "all": [
+      {
+       "category": "trick_room"
+      },
+      {
+       "members_at_least": 2,
+       "where": {
+        "signal_at_least": {
+         "slow": 0.6,
+         "attack_best": 0.5
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "toxic_stall",
+     "name": "Toxic, Protect and recovery",
+     "scope": "member",
+     "all": [
+      {
+       "moves_any": [
+        "Toxic"
+       ]
+      },
+      {
+       "category": "protect"
+      },
+      {
+       "any": [
+        {
+         "category": "recovery"
+        },
+        {
+         "category": "rest"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "hazards_phaze",
+     "name": "Hazards with a phazer",
+     "scope": "team",
+     "all": [
+      {
+       "category": "hazard"
+      },
+      {
+       "category": "phaze"
+      }
+     ]
+    },
+    {
+     "id": "sash_gambit",
+     "name": "Focus Sash with Endeavor or Reversal",
+     "scope": "member",
+     "all": [
+      {
+       "item_any": [
+        "Focus Sash"
+       ]
+      },
+      {
+       "category": "hp_gambit"
+      }
+     ]
+    },
+    {
+     "id": "choice_pivot",
+     "name": "A Choice lock with a way out",
+     "scope": "member",
+     "all": [
+      {
+       "item_group": "choice"
+      },
+      {
+       "category": "pivot_move"
+      }
+     ]
+    },
+    {
+     "id": "rain_swift_thunder",
+     "name": "Rain, Swift Swim and Thunder",
+     "scope": "team",
+     "all": [
+      {
+       "weather": "rain"
+      },
+      {
+       "ability_any": [
+        "Swift Swim"
+       ]
+      },
+      {
+       "moves_any": [
+        "Thunder"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "baton_chain",
+     "name": "A Baton Pass chain",
+     "scope": "member",
+     "all": [
+      {
+       "category": "baton_pass"
+      },
+      {
+       "any": [
+        {
+         "category": "setup_physical"
+        },
+        {
+         "category": "setup_special"
+        },
+        {
+         "category": "setup_speed"
+        },
+        {
+         "category": "setup_defense"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sleep_absorb",
+     "name": "Rest and Sleep Talk",
+     "scope": "member",
+     "all": [
+      {
+       "category": "rest"
+      },
+      {
+       "category": "sleep_talk"
+      }
+     ]
+    },
+    {
+     "id": "sub_punch",
+     "name": "Substitute with Focus Punch",
+     "scope": "member",
+     "all": [
+      {
+       "category": "substitute"
+      },
+      {
+       "moves_any": [
+        "Focus Punch"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "aggression": {
+   "_note": "The aggression ratio: of the moves that finish (strong or priority attacks, setup, self-KOs, one-hit KOs) or wear down (status, residual damage, hazards, recovery, Protect, phazing, screens, Substitute, team healing, trapping), the share that finish. Compared with Part 1's offense slider; a gap this wide is flagged, unless Part 1 already flags the same lean.",
+   "finisher_categories": [
+    "priority_attack",
+    "setup_physical",
+    "setup_special",
+    "setup_speed",
+    "self_ko",
+    "ohko"
+   ],
+   "finisher_attack_at_least": 80,
+   "attrition_categories": [
+    "status_infliction",
+    "residual",
+    "hazard",
+    "recovery",
+    "rest",
+    "protect",
+    "phaze",
+    "screens",
+    "substitute",
+    "cleric",
+    "trap",
+    "anti_setup",
+    "confuse"
+   ],
+   "gap": 30
+  }
+ },
+ "observations": {
+  "_note": "Design only (Part 3 builds ingestion, and nothing lands without approval). One observation per line in canon/observations.jsonl: what a trainer did in one situation of one battle. Every fact carries where it came from and how many times it was seen.",
+  "fields": {
+   "trainer": "trainer id",
+   "version": "version id",
+   "battle": "a battle id (episode, cartridge fight, or your own log)",
+   "turn": "turn number",
+   "situation": "the game state (even, ahead, behind) and what was on the field",
+   "pokemon": "who acted",
+   "move": "what it did (a move, a switch, an item)",
+   "outcome": "what happened",
+   "source": "provenance (below)",
+   "source_ref": "where exactly (episode, file and line, log)",
+   "sample_size": "how many times this was seen (1 for a single event; n for a tally)",
+   "status": "proposed or approved"
+  },
+  "provenance": {
+   "authored": "you wrote it",
+   "cartridge": "read from the game's data (pret)",
+   "lore": "from the show or other canon, with a citation",
+   "derived": "computed by the engine from other facts",
+   "ingested": "imported from an outside source (Part 3), never trusted without a source_ref"
+  },
+  "flow": "propose -> approve: an ingested or derived observation is written with status 'proposed' and only counts once approved"
  }
 }

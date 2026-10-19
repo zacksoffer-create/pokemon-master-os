@@ -51,7 +51,68 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** none · **Strengths:** Fighting and Steel · **Bring:** physical attackers (2 physically soft, 0 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Charizard | mixed setup sweeper (strong, 0.83) | special setup sweeper (strong) | – |
+| Blastoise | hazard remover (strong, 0.82) | bulky attacker (solid) | – |
+| Venusaur | mixed setup sweeper (strong, 0.76) | physical setup sweeper (solid) | – |
+| Alakazam | special setup sweeper (strong, 0.81) | late-game cleaner (strong) | – |
+| Jolteon | mixed setup sweeper (strong, 0.77) | physical setup sweeper (solid) | – |
+| Machamp | physical setup sweeper (strong, 0.72) | bulky attacker (solid) | – |
+
+## Career
+
+- No career records on file for FireRed yet.
+
+## The ace
+
+- Ace: Machamp (set up by Blastoise, the widest coverage and a physical setup sweeper).
+
+## Who they go to
+
+- Even game: Blastoise is the workhorse (tank).
+- Ahead: Alakazam closes it out (late-game cleaner).
+- Behind: they turn to Charizard (mixed setup sweeper).
+
+## What they can hit
+
+- They hit all 17 types super-effectively: no type is safe to bring.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Overheat (Charizard, 189) | 1 |
+| Dark | Cross Chop (Machamp, 120) | 1 |
+| Dragon | Ice Beam (Blastoise, 95) | 0 |
+| Electric | Earthquake (Machamp, 100) | 2 |
+| Fighting | Psychic (Alakazam, 135) | 0 |
+| Fire | Surf (Blastoise, 142) | 1 |
+| Flying | Thunderbolt (Jolteon, 142) | 2 |
+| Ghost | Bite (Charizard, 60) | 1 |
+| Grass | Overheat (Charizard, 189) | 1 |
+| Ground | Petal Dance (Venusaur, 180) | 1 |
+| Ice | Overheat (Charizard, 189) | 1 |
+| Normal | Cross Chop (Machamp, 120) | 0 |
+| Poison | Psychic (Alakazam, 135) | 0 |
+| Psychic | Bite (Charizard, 60) | 2 |
+| Rock | Petal Dance (Venusaur, 180) | 1 |
+| Steel | Overheat (Charizard, 189) | 0 |
+| Water | Petal Dance (Venusaur, 180) | 1 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- No signature moves authored for FireRed.
+
+## How aggressive the moveset is
+
+- 94% of their moves finish or set up (16 of 17); the rest wear you down.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Synchronize (could be Inner Focus); neutral nature.*
 
-**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.
+**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them. Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there.
 

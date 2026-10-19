@@ -43,6 +43,62 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Ice and Water · **Strengths:** none · **Bring:** either attackers (0 physically soft, 0 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Nidoking | wallbreaker (loose, 0.20) | – | – |
+| Kangaskhan | revenge killer (solid, 0.53) | sponge / status absorber (loose) | – |
+| Honchkrow | special setup sweeper (loose, 0.49) | sponge / status absorber (loose) | – |
+| Nidoqueen | phazer (solid, 0.51) | wallbreaker (loose) | – |
+
+## The ace
+
+- Ace: Nidoqueen (the highest level (46), the widest coverage and a phazer).
+
+## Who they go to
+
+- Ahead: Kangaskhan closes it out (revenge killer).
+- Behind: they turn to Honchkrow (special setup sweeper).
+
+## What they can hit
+
+- They hit 11 of 17 types super-effectively; nothing they carry hits Bug, Fighting, Flying, Grass, Ground or Water that way.
+- Bring Ground: they can't hit it super-effectively, and two of them are weak to it.
+- Water or Fighting get through clean too.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | **none** | 0 |
+| Dark | Superpower (Nidoqueen, 120) | 0 |
+| Dragon | Outrage (Kangaskhan, 120) | 0 |
+| Electric | Earth Power (Nidoqueen, 125) | 1 |
+| Fighting | **none** | 1 |
+| Fire | Earth Power (Nidoqueen, 125) | 0 |
+| Flying | **none** | 0 |
+| Ghost | Dark Pulse (Honchkrow, 102) | 0 |
+| Grass | **none** | 0 |
+| Ground | **none** | 2 |
+| Ice | Superpower (Nidoqueen, 120) | 3 |
+| Normal | Superpower (Nidoqueen, 120) | 0 |
+| Poison | Earth Power (Nidoqueen, 125) | 0 |
+| Psychic | Dark Pulse (Honchkrow, 102) | 2 |
+| Rock | Earth Power (Nidoqueen, 125) | 1 |
+| Steel | Earth Power (Nidoqueen, 125) | 0 |
+| Water | **none** | 2 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- No signature moves authored for Giovanni (HeartGold Celebi event).
+
+## How aggressive the moveset is
+
+- 80% of their moves finish or set up (8 of 10); the rest wear you down.
+
 *Defaults where nothing is recorded: neutral nature.*
 
 **Notes:** Viridian Gym Leader and Team Rocket's boss (lore). The Gen IV version is the HeartGold/SoulSilver Celebi event. No gym in this version, so no Gym Leader tag here.

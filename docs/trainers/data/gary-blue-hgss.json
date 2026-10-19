@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "gary",
  "trainer_name": "Gary",
  "version": "blue-hgss",
@@ -147,6 +147,20 @@
     "Gym Leader"
    ],
    "members": {}
+  },
+  {
+   "id": "region_champion",
+   "name": "Kanto Champion (former)",
+   "detail": [
+    "Indigo Plateau"
+   ]
+  },
+  {
+   "id": "elite_four_beaten",
+   "name": "Elite Four Beaten",
+   "detail": [
+    "Indigo Plateau"
+   ]
   }
  ],
  "nature_clashes": [],
@@ -1333,5 +1347,605 @@
  "roles": [
   "Gym Leader"
  ],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau",
+     "kind": "league",
+     "result": "beat the Elite Four and became Champion, then lost the title to Red",
+     "title": "Kanto Champion (former)",
+     "champion": true,
+     "elite_four": "beaten",
+     "versions": [
+      "blue-hgss"
+     ],
+     "source": "games",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Viridian City Gym",
+     "kind": "gym",
+     "result": "Gym Leader",
+     "versions": [
+      "blue-hgss"
+     ],
+     "source": "games",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Kanto Champion (former)",
+     "detail": [
+      "Indigo Plateau"
+     ]
+    },
+    {
+     "id": "elite_four_beaten",
+     "name": "Elite Four Beaten",
+     "detail": [
+      "Indigo Plateau"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Exeggutor",
+    "nickname": null,
+    "primary": {
+     "role": "trick_room_setter",
+     "name": "Trick Room setter",
+     "family": "support",
+     "score": 0.6958,
+     "confidence": "strong",
+     "margin": 0.2244,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4714,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "Trick Room setter (0.70, strong): Trick Room; Speed 145 (slower than 90% of the field); overall bulk above 29% of the field"
+   },
+   {
+    "species": "Arcanine",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.6078,
+     "confidence": "solid",
+     "margin": 0.0463,
+     "clear": false
+    },
+    "secondary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.5615,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "pivot (0.61, solid): Intimidate; Fire (Intimidate); overall bulk above 36% of the field"
+   },
+   {
+    "species": "Rhydon",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6285,
+     "confidence": "solid",
+     "margin": 0.0585,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.57,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.63, solid): Earthquake (150); strong attacks (effective power 90+, with the stat it uses): Megahorn, Stone Edge, Earthquake; Attack 295 (above 84% of the field)"
+   },
+   {
+    "species": "Gyarados",
+    "nickname": null,
+    "primary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.6405,
+     "confidence": "solid",
+     "margin": 0.0883,
+     "clear": true
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5522,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "physical setup sweeper (0.64, solid): Dragon Dance; Attack 285 (above 82% of the field); physical attacks: Ice Fang, Waterfall, Return"
+   },
+   {
+    "species": "Machamp",
+    "nickname": null,
+    "primary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.4956,
+     "confidence": "loose",
+     "margin": 0.0035,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4921,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "sponge / status absorber (0.50, loose): Guts; overall bulk above 38% of the field; Fighting (Guts)"
+   },
+   {
+    "species": "Pidgeot",
+    "nickname": null,
+    "primary": {
+     "role": "phazer",
+     "name": "phazer",
+     "family": "support",
+     "score": 0.5,
+     "confidence": "solid",
+     "margin": 0.1962,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3038,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "phazer (0.50, solid): Whirlwind; overall bulk above 17% of the field"
+   }
+  ],
+  "ace": {
+   "derived": "Rhydon",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Rhydon",
+     "slot": 3,
+     "score": 0.751,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.706,
+      "role": 0.9,
+      "investment": 0.8
+     },
+     "helpers": [
+      "Exeggutor"
+     ],
+     "role": "wallbreaker",
+     "level": 58
+    },
+    {
+     "species": "Machamp",
+     "slot": 5,
+     "score": 0.679,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.647,
+      "role": 0.9,
+      "investment": 0.6
+     },
+     "helpers": [
+      "Exeggutor"
+     ],
+     "role": "sponge / status absorber",
+     "level": 56
+    },
+    {
+     "species": "Pidgeot",
+     "slot": 6,
+     "score": 0.605,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "phazer",
+     "level": 60
+    },
+    {
+     "species": "Arcanine",
+     "slot": 2,
+     "score": 0.539,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.8,
+      "investment": 0.8
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": 58
+    },
+    {
+     "species": "Exeggutor",
+     "slot": 1,
+     "score": 0.479,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.9,
+      "investment": 0.5
+     },
+     "helpers": [],
+     "role": "Trick Room setter",
+     "level": 55
+    },
+    {
+     "species": "Gyarados",
+     "slot": 4,
+     "score": 0.431,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 1.0,
+      "investment": 0.2
+     },
+     "helpers": [],
+     "role": "physical setup sweeper",
+     "level": 52
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Arcanine",
+    "role": "pivot",
+    "fit": 0.608
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Arcanine",
+    "role": "revenge killer",
+    "fit": 0.561
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Gyarados",
+    "role": "physical setup sweeper",
+    "fit": 0.64,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Megahorn",
+     "member": "Rhydon",
+     "move_type": "Bug",
+     "power": 102,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Pulse",
+     "member": "Arcanine",
+     "move_type": "Dragon",
+     "power": 83,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Rhydon",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Psychic",
+     "member": "Exeggutor",
+     "move_type": "Psychic",
+     "power": 135,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Rhydon",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Stone Edge",
+     "member": "Rhydon",
+     "move_type": "Rock",
+     "power": 120,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Exeggutor",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Dynamic Punch",
+     "member": "Machamp",
+     "move_type": "Fighting",
+     "power": 75,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Rhydon",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Megahorn",
+     "member": "Rhydon",
+     "move_type": "Bug",
+     "power": 102,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Exeggutor",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Exeggutor",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 2
+    }
+   ],
+   "coverage": 0.941,
+   "covered_n": 16,
+   "types_n": 17,
+   "holes": [
+    "Ghost"
+   ],
+   "bring": [
+    {
+     "type": "Ghost",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [
+   {
+    "id": "tr_slow",
+    "name": "Trick Room with slow hitters",
+    "members": [
+     "Exeggutor",
+     "Rhydon",
+     "Machamp"
+    ]
+   }
+  ],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 83,
+   "finishers": 15,
+   "attrition": 3,
+   "finisher_moves": [
+    "Leaf Storm (Exeggutor)",
+    "Psychic (Exeggutor)",
+    "Dragon Pulse (Arcanine)",
+    "Flare Blitz (Arcanine)",
+    "Extreme Speed (Arcanine)",
+    "Megahorn (Rhydon)",
+    "Stone Edge (Rhydon)",
+    "Earthquake (Rhydon)",
+    "Waterfall (Gyarados)",
+    "Dragon Dance (Gyarados)",
+    "Return (Gyarados)",
+    "Earthquake (Machamp)",
+    "Stone Edge (Machamp)",
+    "Return (Pidgeot)",
+    "Air Slash (Pidgeot)"
+   ],
+   "attrition_moves": [
+    "Hypnosis (Exeggutor)",
+    "Roar (Arcanine)",
+    "Whirlwind (Pidgeot)"
+   ],
+   "offense_authored": 65,
+   "offense_measured": 67,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Kanto Champion (former).",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "They've beaten an Elite Four: a long gauntlet doesn't wear them down.",
+     "rule": "career_e4",
+     "trigger": "elite_four == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Indigo Plateau: beat the Elite Four and became Champion, then lost the title to Red.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Rhydon (set up by Exeggutor, the widest coverage and a wallbreaker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Arcanine is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Arcanine closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Gyarados (physical setup sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Ghost that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 1)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Ghost: they can't hit it super-effectively, and one of them is weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Watch the Trick Room: Exeggutor, Rhydon and Machamp turn Speed upside down for five turns. Hit the setter first or stall out the timer.",
+     "rule": "combo_tr_slow",
+     "trigger": "combos has tr_slow (here ['tr_slow'])"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Blue, Viridian Gym (HeartGold).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "83% of their moves finish or set up (15 of 18); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 83)"
+    }
+   ]
+  }
+ }
 }

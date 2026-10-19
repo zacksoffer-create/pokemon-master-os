@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "red",
  "trainer_name": "Red",
  "version": "mt-silver",
@@ -178,6 +178,20 @@
     "Champion"
    ],
    "members": {}
+  },
+  {
+   "id": "region_champion",
+   "name": "Kanto Champion",
+   "detail": [
+    "Indigo Plateau"
+   ]
+  },
+  {
+   "id": "elite_four_beaten",
+   "name": "Elite Four Beaten",
+   "detail": [
+    "Indigo Plateau"
+   ]
   }
  ],
  "nature_clashes": [],
@@ -1354,5 +1368,576 @@
  "roles": [
   "Champion"
  ],
- "overrides": {}
+ "overrides": {
+  "ace": "Pikachu"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau",
+     "kind": "league",
+     "result": "beat the Elite Four and Blue; became Champion",
+     "title": "Kanto Champion",
+     "champion": true,
+     "elite_four": "beaten",
+     "source": "games",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Kanto Champion",
+     "detail": [
+      "Indigo Plateau"
+     ]
+    },
+    {
+     "id": "elite_four_beaten",
+     "name": "Elite Four Beaten",
+     "detail": [
+      "Indigo Plateau"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Pikachu",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6916,
+     "confidence": "strong",
+     "margin": 0.1362,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5554,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.69, strong): Quick Attack; Attack 290 (above 84% of the field); attacks that use its better attacking stat: Volt Tackle, Iron Tail, Quick Attack"
+   },
+   {
+    "species": "Lapras",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.522,
+     "confidence": "solid",
+     "margin": 0.0137,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5083,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.52, solid): overall bulk above 78% of the field; attacking moves: Blizzard, Brine, Psychic, Body Slam; attacks that use its better attacking stat: Blizzard, Brine, Psychic"
+   },
+   {
+    "species": "Snorlax",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6302,
+     "confidence": "solid",
+     "margin": 0.0039,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.6263,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.63, solid): overall bulk above 91% of the field; attacking moves: Shadow Ball, Crunch, Blizzard, Giga Impact; Attack 255 (above 66% of the field)"
+   },
+   {
+    "species": "Venusaur",
+    "nickname": null,
+    "primary": {
+     "role": "status_spreader",
+     "name": "status spreader",
+     "family": "support",
+     "score": 0.4788,
+     "confidence": "loose",
+     "margin": 0.0156,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.4632,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "status spreader (0.48, loose): Sleep Powder; non-attacking, non-setup moves: Sleep Powder; overall bulk above 41% of the field"
+   },
+   {
+    "species": "Charizard",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5717,
+     "confidence": "solid",
+     "margin": 0.5717,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.57, solid): strong attacks (effective power 90+, with the stat it uses): Flare Blitz, Air Slash, Dragon Pulse; Flare Blitz (144); Sp. Atk 253 (above 73% of the field)"
+   },
+   {
+    "species": "Blastoise",
+    "nickname": null,
+    "primary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.4981,
+     "confidence": "loose",
+     "margin": 0.0194,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.4787,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "tank (0.50, loose): attacking moves: Focus Blast, Hydro Cannon, Blizzard, Flash Cannon; overall bulk above 55% of the field; a same-type attack: Hydro Cannon"
+   }
+  ],
+  "ace": {
+   "derived": "Pikachu",
+   "authored": "Pikachu",
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Pikachu",
+     "slot": 1,
+     "score": 0.617,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": 88
+    },
+    {
+     "species": "Charizard",
+     "slot": 5,
+     "score": 0.521,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9,
+      "investment": 0.6
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 84
+    },
+    {
+     "species": "Blastoise",
+     "slot": 6,
+     "score": 0.508,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.588,
+      "role": 0.7,
+      "investment": 0.6
+     },
+     "helpers": [],
+     "role": "tank",
+     "level": 84
+    },
+    {
+     "species": "Venusaur",
+     "slot": 4,
+     "score": 0.437,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7,
+      "investment": 0.6
+     },
+     "helpers": [],
+     "role": "status spreader",
+     "level": 84
+    },
+    {
+     "species": "Snorlax",
+     "slot": 3,
+     "score": 0.401,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.7,
+      "investment": 0.4
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": 82
+    },
+    {
+     "species": "Lapras",
+     "slot": 2,
+     "score": 0.364,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.7,
+      "investment": 0.2
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": 80
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Snorlax",
+    "role": "tank",
+    "fit": 0.566
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Pikachu",
+    "role": "revenge killer",
+    "fit": 0.692
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Charizard",
+    "role": "wallbreaker",
+    "fit": 0.515,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Blast Burn",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 202,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Focus Blast",
+     "member": "Blastoise",
+     "move_type": "Fighting",
+     "power": 84,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Blizzard",
+     "member": "Lapras",
+     "move_type": "Ice",
+     "power": 126,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Hydro Cannon",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 202,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Snorlax",
+     "move_type": "Dark",
+     "power": 80,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Blast Burn",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 202,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 202,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Blast Burn",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 202,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Focus Blast",
+     "member": "Blastoise",
+     "move_type": "Fighting",
+     "power": 84,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Psychic",
+     "member": "Lapras",
+     "move_type": "Psychic",
+     "power": 90,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Snorlax",
+     "move_type": "Dark",
+     "power": 80,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 202,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Blast Burn",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 202,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 202,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.941,
+   "covered_n": 16,
+   "types_n": 17,
+   "holes": [
+    "Electric"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 3
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 95,
+   "finishers": 20,
+   "attrition": 1,
+   "finisher_moves": [
+    "Volt Tackle (Pikachu)",
+    "Quick Attack (Pikachu)",
+    "Thunderbolt (Pikachu)",
+    "Blizzard (Lapras)",
+    "Brine (Lapras)",
+    "Psychic (Lapras)",
+    "Body Slam (Lapras)",
+    "Crunch (Snorlax)",
+    "Giga Impact (Snorlax)",
+    "Sludge Bomb (Venusaur)",
+    "Giga Drain (Venusaur)",
+    "Frenzy Plant (Venusaur)",
+    "Flare Blitz (Charizard)",
+    "Air Slash (Charizard)",
+    "Blast Burn (Charizard)",
+    "Dragon Pulse (Charizard)",
+    "Focus Blast (Blastoise)",
+    "Hydro Cannon (Blastoise)",
+    "Blizzard (Blastoise)",
+    "Flash Cannon (Blastoise)"
+   ],
+   "attrition_moves": [
+    "Sleep Powder (Venusaur)"
+   ],
+   "offense_authored": 70,
+   "offense_measured": 67,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Kanto Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "They've beaten an Elite Four: a long gauntlet doesn't wear them down.",
+     "rule": "career_e4",
+     "trigger": "elite_four == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Indigo Plateau: beat the Elite Four and Blue; became Champion.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Pikachu. The story and the data agree (the highest level (88) and a revenge killer).",
+     "rule": "ace_agree",
+     "trigger": "ace_agrees nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Snorlax is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Pikachu closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Charizard (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Electric that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 1)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Red on Mt. Silver (HeartGold).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "95% of their moves finish or set up (20 of 21); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 95)"
+    }
+   ]
+  }
+ }
 }

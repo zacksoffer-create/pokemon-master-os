@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "ash",
  "trainer_name": "Ash",
  "version": "all-time",
@@ -154,6 +154,41 @@
     "Champion"
    ],
    "members": {}
+  },
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh",
+    "Unova",
+    "Kalos",
+    "Alola"
+   ]
+  },
+  {
+   "id": "region_champion",
+   "name": "Orange League Champion",
+   "detail": [
+    "Orange League"
+   ]
+  },
+  {
+   "id": "region_champion",
+   "name": "Alola Champion",
+   "detail": [
+    "Manalo Conference"
+   ]
+  },
+  {
+   "id": "region_champion",
+   "name": "Monarch (World Champion)",
+   "detail": [
+    "World Coronation Series"
+   ]
   }
  ],
  "nature_clashes": [],
@@ -1350,5 +1385,721 @@
  ],
  "overrides": {
   "ace": "Pikachu"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ritchie)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Orange Archipelago",
+     "event": "Orange League",
+     "kind": "league",
+     "result": "won (beat Drake)",
+     "title": "Orange League Champion",
+     "champion": true,
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Harrison)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "beat all seven Frontier Brains; offered a Frontier Brain post",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Ever Grande Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Tyson)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 4 (lost to Tobias)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Unova",
+     "event": "Vertress Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Cameron)",
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kalos",
+     "event": "Lumiose Conference",
+     "kind": "league",
+     "result": "runner-up (lost to Alain)",
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Alola",
+     "event": "Manalo Conference",
+     "kind": "league",
+     "result": "won (beat Gladion)",
+     "title": "Alola Champion",
+     "champion": true,
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "World",
+     "event": "World Coronation Series",
+     "kind": "tournament",
+     "result": "won the Masters Eight (beat Leon)",
+     "title": "Monarch (World Champion)",
+     "champion": true,
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh",
+    "Unova",
+    "Kalos",
+    "Alola"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Kanto",
+      "Orange Archipelago",
+      "Johto",
+      "Hoenn",
+      "Sinnoh",
+      "Unova",
+      "Kalos",
+      "Alola"
+     ]
+    },
+    {
+     "id": "region_champion",
+     "name": "Orange League Champion",
+     "detail": [
+      "Orange League"
+     ]
+    },
+    {
+     "id": "region_champion",
+     "name": "Alola Champion",
+     "detail": [
+      "Manalo Conference"
+     ]
+    },
+    {
+     "id": "region_champion",
+     "name": "Monarch (World Champion)",
+     "detail": [
+      "World Coronation Series"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Pikachu",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7597,
+     "confidence": "strong",
+     "margin": 0.1313,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6284,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.76, strong): Quick Attack; Attack 334 (above 97% of the field); Speed 237 (above 67% of the field)"
+   },
+   {
+    "species": "Charizard",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.578,
+     "confidence": "solid",
+     "margin": 0.0201,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5579,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.58, solid): Sp. Atk 275 (above 84% of the field); attacking moves: Flamethrower, Wing Attack, Seismic Toss, Dragon Breath; overall bulk above 52% of the field"
+   },
+   {
+    "species": "Sceptile",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7915,
+     "confidence": "strong",
+     "margin": 0.1492,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6423,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.79, strong): Quick Attack; Speed 297 (above 95% of the field); Sp. Atk 267 (above 82% of the field)"
+   },
+   {
+    "species": "Infernape",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.767,
+     "confidence": "strong",
+     "margin": 0.0972,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6698,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.77, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
+   },
+   {
+    "species": "Snorlax",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.7322,
+     "confidence": "strong",
+     "margin": 0.0692,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.663,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "bulky attacker (0.73, strong): overall bulk above 97% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Hyper Beam, Ice Punch, Focus Punch"
+   },
+   {
+    "species": "Heracross",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6506,
+     "confidence": "strong",
+     "margin": 0.0272,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6234,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.65, strong): Megahorn (153); strong attacks (effective power 90+, with the stat it uses): Megahorn, Brick Break; Attack 307 (above 91% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Pikachu",
+   "authored": "Pikachu",
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Pikachu",
+     "slot": 1,
+     "score": 0.617,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Charizard",
+     "slot": 2,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Heracross",
+     "slot": 6,
+     "score": 0.52,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Infernape",
+     "slot": 4,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Snorlax",
+     "slot": 5,
+     "score": 0.451,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Sceptile",
+     "slot": 3,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Snorlax",
+    "role": "bulky attacker",
+    "fit": 0.622
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Sceptile",
+    "role": "revenge killer",
+    "fit": 0.791
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Heracross",
+    "role": "wallbreaker",
+    "fit": 0.586,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Megahorn",
+     "member": "Heracross",
+     "move_type": "Bug",
+     "power": 153,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Punch",
+     "member": "Snorlax",
+     "move_type": "Ice",
+     "power": 75,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Wing Attack",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 74,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Heracross",
+     "move_type": "Dark",
+     "power": 70,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Sceptile",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Snorlax",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Megahorn",
+     "member": "Heracross",
+     "move_type": "Bug",
+     "power": 153,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Sceptile",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Sceptile",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 2
+    }
+   ],
+   "coverage": 1.0,
+   "covered_n": 17,
+   "types_n": 17,
+   "holes": [],
+   "bring": []
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Pikachu",
+    "move": "Thunderbolt",
+    "why": "the calling card",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Pikachu",
+    "move": "Volt Tackle",
+    "why": "the finisher",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Charizard",
+    "move": "Seismic Toss",
+    "why": "the grappling throw that beat the Orange League",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Sceptile",
+    "move": "Leaf Blade",
+    "why": "the twig-chewing blade",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 100,
+   "finishers": 13,
+   "attrition": 0,
+   "finisher_moves": [
+    "Volt Tackle (Pikachu)",
+    "Thunderbolt (Pikachu)",
+    "Quick Attack (Pikachu)",
+    "Flamethrower (Charizard)",
+    "Leaf Blade (Sceptile)",
+    "Quick Attack (Sceptile)",
+    "Leaf Storm (Sceptile)",
+    "Flamethrower (Infernape)",
+    "Mach Punch (Infernape)",
+    "Flare Blitz (Infernape)",
+    "Body Slam (Snorlax)",
+    "Megahorn (Heracross)",
+    "Brick Break (Heracross)"
+   ],
+   "attrition_moves": [],
+   "offense_authored": 75,
+   "offense_measured": 94,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Ash has competed across 8 regions (Kanto, Orange Archipelago, Johto, Hoenn, Sinnoh, Unova, Kalos and Alola): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Titles: Orange League Champion, Alola Champion and Monarch (World Champion).",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Lumiose Conference: runner-up (lost to Alain); Manalo Conference: won (beat Gladion); World Coronation Series: won the Masters Eight (beat Leon).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Pikachu. The story and the data agree (the most invested and a revenge killer).",
+     "rule": "ace_agree",
+     "trigger": "ace_agrees nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Snorlax is the workhorse (bulky attacker).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Sceptile closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Heracross (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit all 17 types super-effectively: no type is safe to bring.",
+     "rule": "cover_full",
+     "trigger": "holes_n == 0 (here 0)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Pikachu's Thunderbolt (the calling card); Pikachu's Volt Tackle (the finisher); Charizard's Seismic Toss (the grappling throw that beat the Orange League); Sceptile's Leaf Blade (the twig-chewing blade).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.",
+     "rule": "aggr_all",
+     "trigger": "aggression >= 100 (here 100)"
+    }
+   ]
+  }
  }
 }

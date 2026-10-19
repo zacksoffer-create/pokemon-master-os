@@ -9,7 +9,7 @@
 | Bond (tool ↔ partnership) | 75 (partnership) | no signal | a dragon tamer's respect |
 | Risk (percentage player ↔ gambler) | 55 (gambler) | 33 | will fire the big move |
 
-**Tags:** Cohesive (Hyper Beam) · Type-dominant (Flying) · Champion · Region Champion
+**Tags:** Cohesive (Hyper Beam) · Type-dominant (Flying) · Champion · Region Champion · Indigo Plateau Champion (Indigo Plateau)
 
 ## Who they are
 
@@ -50,6 +50,70 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
 
 **Gaps:** Rock, Ice, Electric and Dragon · **Strengths:** Ground, Bug, Fire, Fighting and Grass · **Bring:** physical attackers (1 physically soft, 0 specially soft)
+
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Gyarados | pivot (strong, 0.67) | check / counter (strong) | – |
+| Dragonite | bulky attacker (solid, 0.56) | check / counter (solid) | – |
+| Dragonite | bulky attacker (solid, 0.56) | check / counter (solid) | – |
+| Aerodactyl | wallbreaker (solid, 0.53) | late-game cleaner (solid) | – |
+| Charizard | wallbreaker (loose, 0.47) | – | – |
+| Dragonite | bulky attacker (solid, 0.56) | check / counter (solid) | – |
+
+## Career
+
+- Titles: Indigo Plateau Champion.
+- Recent record: Indigo Plateau: Champion.
+
+## The ace
+
+- The story's ace is Dragonite; the data's is Aerodactyl (the widest coverage and a wallbreaker). Plan for both.
+
+## Who they go to
+
+- Even game: Gyarados is the workhorse (pivot).
+- Ahead: Aerodactyl closes it out (late-game cleaner).
+- Behind: they turn to Aerodactyl (wallbreaker).
+- Last resorts when it's slipping away: Gyarados's Flail.
+
+## What they can hit
+
+- They hit 13 of 17 types super-effectively; nothing they carry hits Dark, Electric, Normal or Poison that way.
+- Bring Electric: they can't hit it super-effectively, and three of them are weak to it.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Air Slash (Charizard, 107) | 0 |
+| Dark | **none** | 0 |
+| Dragon | Outrage (Dragonite, 180) | 3 |
+| Electric | **none** | 3 |
+| Fighting | Air Slash (Charizard, 107) | 0 |
+| Fire | Waterfall (Gyarados, 120) | 0 |
+| Flying | Rock Slide (Aerodactyl, 101) | 0 |
+| Ghost | Crunch (Aerodactyl, 80) | 0 |
+| Grass | Air Slash (Charizard, 107) | 0 |
+| Ground | Waterfall (Gyarados, 120) | 0 |
+| Ice | Rock Slide (Aerodactyl, 101) | 4 |
+| Normal | **none** | 0 |
+| Poison | **none** | 0 |
+| Psychic | Crunch (Aerodactyl, 80) | 0 |
+| Rock | Waterfall (Gyarados, 120) | 6 |
+| Steel | Fire Blast (Dragonite, 79) | 1 |
+| Water | Thunder (Dragonite, 65) | 2 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- No signature moves authored for Champion Lance (HeartGold).
+
+## How aggressive the moveset is
+
+- 80% of their moves finish or set up (8 of 10); the rest wear you down.
 
 *Defaults where nothing is recorded: neutral nature.*
 

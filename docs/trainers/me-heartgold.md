@@ -52,7 +52,68 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Fighting, Rock, Water and Grass · **Strengths:** Poison · **Bring:** physical attackers (2 physically soft, 1 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Typhlosion | bulky attacker (solid, 0.58) | wallbreaker (solid) | – |
+| Tyranitar | weather setter (strong, 0.83) | physical setup sweeper (strong) | – |
+| Mamoswine | revenge killer (strong, 0.73) | wallbreaker (strong) | – |
+| Crobat | pivot (strong, 0.80) | staller (solid) | – |
+| Lapras | cleric (strong, 0.79) | special wall (solid) | – |
+| Snorlax | bulky attacker (strong, 0.76) | check / counter (strong) | – |
+
+## Career
+
+- No career records on file for HeartGold (main) yet.
+
+## The ace
+
+- Ace: Mamoswine (set up by Lapras, the widest coverage and a revenge killer).
+
+## Who they go to
+
+- Even game: Crobat is the workhorse (pivot).
+- Ahead: Mamoswine closes it out (revenge killer).
+- Behind: they turn to Tyranitar (physical setup sweeper).
+
+## What they can hit
+
+- They hit 16 of 17 types super-effectively; nothing they carry hits Normal that way.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Flamethrower (Typhlosion, 142) | 1 |
+| Dark | U-turn (Crobat, 70) | 0 |
+| Dragon | Ice Beam (Lapras, 142) | 0 |
+| Electric | Earthquake (Mamoswine, 150) | 2 |
+| Fighting | Fly (Crobat, 128) | 4 |
+| Fire | Earthquake (Mamoswine, 150) | 1 |
+| Flying | Ice Beam (Lapras, 142) | 0 |
+| Ghost | Crunch (Tyranitar, 120) | 0 |
+| Grass | Flamethrower (Typhlosion, 142) | 3 |
+| Ground | Surf (Lapras, 142) | 2 |
+| Ice | Flamethrower (Typhlosion, 142) | 1 |
+| Normal | **none** | 0 |
+| Poison | Earthquake (Mamoswine, 150) | 0 |
+| Psychic | Crunch (Tyranitar, 120) | 1 |
+| Rock | Earthquake (Mamoswine, 150) | 3 |
+| Steel | Earthquake (Mamoswine, 150) | 2 |
+| Water | Thunder Punch (Snorlax, 75) | 3 |
+
+## Combos to watch
+
+- Watch Tyranitar: one Dragon Dance, then priority or Outrage cleans up. Stop it before the dance.
+
+## Signature moves
+
+- No signature moves authored for HeartGold (main).
+
+## How aggressive the moveset is
+
+- 72% of their moves finish or set up (13 of 18); the rest wear you down.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; neutral nature.*
 
-**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.
+**Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them. Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there.
 

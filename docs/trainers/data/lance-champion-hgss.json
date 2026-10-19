@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "lance",
  "trainer_name": "Lance",
  "version": "champion-hgss",
@@ -180,6 +180,13 @@
     "Region Champion"
    ],
    "members": {}
+  },
+  {
+   "id": "region_champion",
+   "name": "Indigo Plateau Champion",
+   "detail": [
+    "Indigo Plateau"
+   ]
   }
  ],
  "nature_clashes": [],
@@ -1366,5 +1373,568 @@
   "Champion",
   "Region Champion"
  ],
- "overrides": {}
+ "overrides": {
+  "ace": "Dragonite"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto and Johto",
+     "event": "Indigo Plateau",
+     "kind": "league",
+     "result": "Champion",
+     "title": "Indigo Plateau Champion",
+     "champion": true,
+     "source": "games",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto and Johto"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Indigo Plateau Champion",
+     "detail": [
+      "Indigo Plateau"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Gyarados",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.6687,
+     "confidence": "strong",
+     "margin": 0.004,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6647,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "pivot (0.67, strong): Intimidate; Water/Flying (Intimidate); overall bulk above 53% of the field"
+   },
+   {
+    "species": "Dragonite",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5574,
+     "confidence": "solid",
+     "margin": 0.0177,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5397,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.56, solid): Attack 303 (above 89% of the field); attacking moves: Dragon Rush, Thunder, Hyper Beam; overall bulk above 60% of the field"
+   },
+   {
+    "species": "Dragonite",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5574,
+     "confidence": "solid",
+     "margin": 0.0177,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5397,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.56, solid): Attack 303 (above 89% of the field); attacking moves: Dragon Rush, Blizzard, Hyper Beam; overall bulk above 60% of the field"
+   },
+   {
+    "species": "Aerodactyl",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5296,
+     "confidence": "solid",
+     "margin": 0.0218,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5078,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.53, solid): strong attacks (effective power 90+, with the stat it uses): Aerial Ace, Rock Slide; Rock Slide (101); Attack 245 (above 61% of the field)"
+   },
+   {
+    "species": "Charizard",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4653,
+     "confidence": "loose",
+     "margin": 0.4653,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.47, loose): Sp. Atk 253 (above 73% of the field); Air Slash (107); attacks that use its better attacking stat: Shadow Claw, Dragon Claw, Fire Fang"
+   },
+   {
+    "species": "Dragonite",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5574,
+     "confidence": "solid",
+     "margin": 0.0177,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5397,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.56, solid): Attack 303 (above 89% of the field); attacking moves: Fire Blast, Outrage, Hyper Beam; overall bulk above 60% of the field"
+   }
+  ],
+  "ace": {
+   "derived": "Aerodactyl",
+   "authored": "Dragonite",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Aerodactyl",
+     "slot": 4,
+     "score": 0.616,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9,
+      "investment": 0.8
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 48
+    },
+    {
+     "species": "Charizard",
+     "slot": 5,
+     "score": 0.604,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9,
+      "investment": 0.8
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": 48
+    },
+    {
+     "species": "Dragonite",
+     "slot": 6,
+     "score": 0.569,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.7,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": 50
+    },
+    {
+     "species": "Dragonite",
+     "slot": 3,
+     "score": 0.527,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7,
+      "investment": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": 49
+    },
+    {
+     "species": "Dragonite",
+     "slot": 2,
+     "score": 0.515,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.7,
+      "investment": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": 49
+    },
+    {
+     "species": "Gyarados",
+     "slot": 1,
+     "score": 0.341,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3,
+      "investment": 0.6
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": 46
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Gyarados",
+    "role": "pivot",
+    "fit": 0.669
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Aerodactyl",
+    "role": "late-game cleaner",
+    "fit": 0.508
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Aerodactyl",
+    "role": "wallbreaker",
+    "fit": 0.477,
+    "last_resorts": [
+     {
+      "species": "Gyarados",
+      "moves": [
+       "Flail"
+      ],
+      "item": null
+     }
+    ]
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Outrage",
+     "member": "Dragonite",
+     "move_type": "Dragon",
+     "power": 180,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Waterfall",
+     "member": "Gyarados",
+     "move_type": "Water",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Rock Slide",
+     "member": "Aerodactyl",
+     "move_type": "Rock",
+     "power": 101,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Aerodactyl",
+     "move_type": "Dark",
+     "power": 80,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Waterfall",
+     "member": "Gyarados",
+     "move_type": "Water",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Rock Slide",
+     "member": "Aerodactyl",
+     "move_type": "Rock",
+     "power": 101,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Aerodactyl",
+     "move_type": "Dark",
+     "power": 80,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Waterfall",
+     "member": "Gyarados",
+     "move_type": "Water",
+     "power": 120,
+     "their_weak_to_it": 6
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Dragonite",
+     "move_type": "Fire",
+     "power": 79,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Thunder",
+     "member": "Dragonite",
+     "move_type": "Electric",
+     "power": 65,
+     "their_weak_to_it": 2
+    }
+   ],
+   "coverage": 0.765,
+   "covered_n": 13,
+   "types_n": 17,
+   "holes": [
+    "Dark",
+    "Electric",
+    "Normal",
+    "Poison"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 3
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 80,
+   "finishers": 8,
+   "attrition": 2,
+   "finisher_moves": [
+    "Waterfall (Gyarados)",
+    "Dragon Rush (Dragonite)",
+    "Dragon Rush (Dragonite)",
+    "Aerial Ace (Aerodactyl)",
+    "Crunch (Aerodactyl)",
+    "Rock Slide (Aerodactyl)",
+    "Air Slash (Charizard)",
+    "Outrage (Dragonite)"
+   ],
+   "attrition_moves": [
+    "Thunder Wave (Dragonite)",
+    "Thunder Wave (Dragonite)"
+   ],
+   "offense_authored": 80,
+   "offense_measured": 78,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Indigo Plateau Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Indigo Plateau: Champion.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Dragonite; the data's is Aerodactyl (the widest coverage and a wallbreaker). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Gyarados is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Aerodactyl closes it out (late-game cleaner).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Aerodactyl (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Last resorts when it's slipping away: Gyarados's Flail.",
+     "rule": "goto_last",
+     "trigger": "last_resort_str nonempty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 13 of 17 types super-effectively; nothing they carry hits Dark, Electric, Normal or Poison that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 4)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Champion Lance (HeartGold).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "80% of their moves finish or set up (8 of 10); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 80)"
+    }
+   ]
+  }
+ }
 }

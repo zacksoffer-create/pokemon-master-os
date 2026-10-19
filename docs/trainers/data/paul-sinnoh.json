@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "paul",
  "trainer_name": "Paul",
  "version": "sinnoh",
@@ -1317,5 +1317,571 @@
   ]
  },
  "roles": [],
- "overrides": {}
+ "overrides": {
+  "ace": "Electivire"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "challenged the Battle Pyramid and lost to Brandon (draft: confirm)",
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Ash in a full battle)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Sinnoh"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Electivire",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5502,
+     "confidence": "solid",
+     "margin": 0.0457,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5045,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.55, solid): Attack 303 (above 89% of the field); attacking moves: Thunder Punch, Giga Impact, Brick Break; attacks that use its better attacking stat: Thunder Punch, Giga Impact, Brick Break"
+   },
+   {
+    "species": "Torterra",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6781,
+     "confidence": "strong",
+     "margin": 0.0316,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6465,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.68, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Earthquake, Hyper Beam, Stone Edge"
+   },
+   {
+    "species": "Ninjask",
+    "nickname": null,
+    "primary": {
+     "role": "baton_pass_starter",
+     "name": "Baton Pass chain starter",
+     "family": "utility",
+     "score": 0.8569,
+     "confidence": "strong",
+     "margin": 0.8569,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "Baton Pass chain starter (0.86, strong): Baton Pass; Agility; Speed 377 (the top of the field)"
+   },
+   {
+    "species": "Froslass",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6471,
+     "confidence": "solid",
+     "margin": 0.1004,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5467,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.65, solid): Ice Shard; Speed 277 (above 91% of the field); attacks that use its better attacking stat: Blizzard, Shadow Ball"
+   },
+   {
+    "species": "Drapion",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5863,
+     "confidence": "solid",
+     "margin": 0.021,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5653,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.59, solid): Poison/Dark (Battle Armor); overall bulk above 57% of the field; attacking moves: Cross Poison, Thunder Fang, Ice Fang"
+   },
+   {
+    "species": "Gastrodon",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6543,
+     "confidence": "strong",
+     "margin": 0.0102,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6441,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.65, strong): attacking moves: Mud Bomb, Water Pulse, Hidden Power, Sludge Bomb; overall bulk above 72% of the field; Sp. Atk 241 (above 66% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Torterra",
+   "authored": "Electivire",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Torterra",
+     "slot": 2,
+     "score": 0.697,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.588,
+      "role": 0.9
+     },
+     "helpers": [
+      "Ninjask"
+     ],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Froslass",
+     "slot": 4,
+     "score": 0.629,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [
+      "Ninjask"
+     ],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Gastrodon",
+     "slot": 6,
+     "score": 0.561,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.412,
+      "role": 0.7
+     },
+     "helpers": [
+      "Ninjask"
+     ],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Electivire",
+     "slot": 1,
+     "score": 0.561,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.412,
+      "role": 0.7
+     },
+     "helpers": [
+      "Ninjask"
+     ],
+     "role": "bulky attacker",
+     "level": null
+    },
+    {
+     "species": "Drapion",
+     "slot": 5,
+     "score": 0.298,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null
+    },
+    {
+     "species": "Ninjask",
+     "slot": 3,
+     "score": 0.129,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.0,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "Baton Pass chain starter",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Gastrodon",
+    "role": "tank",
+    "fit": 0.6
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Froslass",
+    "role": "revenge killer",
+    "fit": 0.647
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Torterra",
+    "role": "wallbreaker",
+    "fit": 0.582,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Stone Edge",
+     "member": "Torterra",
+     "move_type": "Rock",
+     "power": 80,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Brick Break",
+     "member": "Electivire",
+     "move_type": "Fighting",
+     "power": 75,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Blizzard",
+     "member": "Froslass",
+     "move_type": "Ice",
+     "power": 126,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Torterra",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Torterra",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Blizzard",
+     "member": "Froslass",
+     "move_type": "Ice",
+     "power": 126,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Shadow Ball",
+     "member": "Froslass",
+     "move_type": "Ghost",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Blizzard",
+     "member": "Froslass",
+     "move_type": "Ice",
+     "power": 126,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Torterra",
+     "move_type": "Grass",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Stone Edge",
+     "member": "Torterra",
+     "move_type": "Rock",
+     "power": 80,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Brick Break",
+     "member": "Electivire",
+     "move_type": "Fighting",
+     "power": 75,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Torterra",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Shadow Ball",
+     "member": "Froslass",
+     "move_type": "Ghost",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Torterra",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Torterra",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Torterra",
+     "move_type": "Grass",
+     "power": 142,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 0.941,
+   "covered_n": 16,
+   "types_n": 17,
+   "holes": [
+    "Fighting"
+   ],
+   "bring": []
+  },
+  "combos": [
+   {
+    "id": "baton_chain",
+    "name": "A Baton Pass chain",
+    "members": [
+     "Ninjask"
+    ]
+   }
+  ],
+  "signature_moves": [
+   {
+    "pokemon": "Torterra",
+    "move": "Leaf Storm",
+    "why": "his heaviest hit",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Electivire",
+    "move": "Giga Impact",
+    "why": "raw power, whatever the cost",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Ninjask",
+    "move": "Baton Pass",
+    "why": "passing Speed boosts down the line",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 92,
+   "finishers": 12,
+   "attrition": 1,
+   "finisher_moves": [
+    "Thunder Punch (Electivire)",
+    "Leaf Storm (Torterra)",
+    "Earthquake (Torterra)",
+    "Stone Edge (Torterra)",
+    "Agility (Ninjask)",
+    "Blizzard (Froslass)",
+    "Ice Shard (Froslass)",
+    "Shadow Ball (Froslass)",
+    "Cross Poison (Drapion)",
+    "Mud Bomb (Gastrodon)",
+    "Water Pulse (Gastrodon)",
+    "Sludge Bomb (Gastrodon)"
+   ],
+   "attrition_moves": [
+    "Protect (Electivire)"
+   ],
+   "offense_authored": 85,
+   "offense_measured": 78,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon (draft: confirm); Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Electivire; the data's is Torterra (set up by Ninjask, the widest coverage and a bulky attacker). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Gastrodon is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Froslass closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Torterra (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Fighting that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 1)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Ninjask passes boosts down the line: phaze, Haze or Taunt it before the pass.",
+     "rule": "combo_baton",
+     "trigger": "combos has baton_chain (here ['baton_chain'])"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Torterra's Leaf Storm (his heaviest hit); Electivire's Giga Impact (raw power, whatever the cost); Ninjask's Baton Pass (passing Speed boosts down the line).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "92% of their moves finish or set up (12 of 13); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 92)"
+    }
+   ]
+  }
+ }
 }

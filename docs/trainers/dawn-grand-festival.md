@@ -45,6 +45,69 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Fighting · **Strengths:** Ghost · **Bring:** either attackers (1 physically soft, 1 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Piplup | revenge killer (loose, 0.45) | – | – |
+| Togekiss | phazer (strong, 0.73) | status spreader (strong) | – |
+| Mamoswine | bulky attacker (solid, 0.64) | revenge killer (solid) | – |
+| Pachirisu | wallbreaker (loose, 0.37) | – | – |
+| Buneary | wallbreaker (loose, 0.41) | – | – |
+| Ambipom | wallbreaker (solid, 0.58) | revenge killer (loose) | – |
+
+## Career
+
+- Recent record: Wallace Cup: won the Aqua Ribbon (beat May); Sinnoh Grand Festival: runner-up (lost to Zoey).
+
+## The ace
+
+- Ace: Buneary (a wallbreaker).
+
+## Who they go to
+
+- Even game: Togekiss is the workhorse (tank).
+- Ahead: Mamoswine closes it out (revenge killer).
+- Behind: they turn to Ambipom (wallbreaker).
+
+## What they can hit
+
+- They hit 13 of 17 types super-effectively; nothing they carry hits Electric, Ghost, Poison or Psychic that way.
+- Bring Electric: they can't hit it super-effectively, and two of them are weak to it.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Air Slash (Togekiss, 107) | 0 |
+| Dark | Focus Punch (Ambipom, 150) | 0 |
+| Dragon | Ice Beam (Buneary, 73) | 0 |
+| Electric | **none** | 2 |
+| Fighting | Air Slash (Togekiss, 107) | 3 |
+| Fire | Bubble Beam (Piplup, 98) | 1 |
+| Flying | Discharge (Pachirisu, 120) | 0 |
+| Ghost | **none** | 0 |
+| Grass | Air Slash (Togekiss, 107) | 2 |
+| Ground | Bubble Beam (Piplup, 98) | 1 |
+| Ice | Focus Punch (Ambipom, 150) | 1 |
+| Normal | Focus Punch (Ambipom, 150) | 0 |
+| Poison | **none** | 0 |
+| Psychic | **none** | 0 |
+| Rock | Focus Punch (Ambipom, 150) | 1 |
+| Steel | Focus Punch (Ambipom, 150) | 1 |
+| Water | Discharge (Pachirisu, 120) | 1 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- Signature moves: Piplup's Bubble Beam (the first appeal she ever built); Togekiss's Aura Sphere (the Grand Festival finisher); Mamoswine's Ice Shard (the combination with Ancient Power).
+
+## How aggressive the moveset is
+
+- 86% of their moves finish or set up (12 of 14); the rest wear you down.
+- The moveset leans offensive too: the same lean the slider check flags above.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Hustle (could be Serene Grace); ability Oblivious (could be Snow Cloak); ability Run Away (could be Klutz); ability Run Away (could be Pickup); ability Technician (could be Pickup); neutral nature.*
 
 **Notes:** Coordinator: her contest ribbons belong to her career (Part 2), not to these builds.

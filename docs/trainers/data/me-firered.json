@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "me",
  "trainer_name": "Zack",
  "version": "firered",
@@ -10,7 +10,8 @@
  "status": "canon",
  "notes": [
   "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
-  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.",
+  "Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there."
  ],
  "sliders": {
   "offense": {
@@ -1322,5 +1323,526 @@
  "roles": [
   "Champion"
  ],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [],
+   "regions": [],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Charizard",
+    "nickname": null,
+    "primary": {
+     "role": "mixed_setup_sweeper",
+     "name": "mixed setup sweeper",
+     "family": "offense",
+     "score": 0.8253,
+     "confidence": "strong",
+     "margin": 0.0628,
+     "clear": false
+    },
+    "secondary": {
+     "role": "special_setup_sweeper",
+     "name": "special setup sweeper",
+     "family": "offense",
+     "score": 0.7625,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "mixed setup sweeper (0.83, strong): Dragon Dance; attacks on both sides: Earthquake, Overheat, Bite; types it hits super-effectively: Bug, Electric, Fire, Ghost, Grass, Ice, Poison, Psychic, Rock, Steel"
+   },
+   {
+    "species": "Blastoise",
+    "nickname": null,
+    "primary": {
+     "role": "hazard_remover",
+     "name": "hazard remover",
+     "family": "support",
+     "score": 0.8206,
+     "confidence": "strong",
+     "margin": 0.2221,
+     "clear": true
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5985,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "hazard remover (0.82, strong): Rapid Spin; overall bulk above 86% of the field; attacking moves: Surf, Ice Beam"
+   },
+   {
+    "species": "Venusaur",
+    "nickname": null,
+    "primary": {
+     "role": "mixed_setup_sweeper",
+     "name": "mixed setup sweeper",
+     "family": "offense",
+     "score": 0.7608,
+     "confidence": "strong",
+     "margin": 0.1198,
+     "clear": true
+    },
+    "secondary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.641,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "mixed setup sweeper (0.76, strong): Swords Dance; attacks on both sides: Sludge Bomb, Earthquake, Petal Dance; types it hits super-effectively: Electric, Fire, Grass, Ground, Poison, Rock, Steel, Water"
+   },
+   {
+    "species": "Alakazam",
+    "nickname": null,
+    "primary": {
+     "role": "special_setup_sweeper",
+     "name": "special setup sweeper",
+     "family": "offense",
+     "score": 0.8085,
+     "confidence": "strong",
+     "margin": 0.1419,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6666,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "special setup sweeper (0.81, strong): Calm Mind; Sp. Atk 327 (above 98% of the field); special attacks: Psychic, Fire Punch, Ice Punch"
+   },
+   {
+    "species": "Jolteon",
+    "nickname": null,
+    "primary": {
+     "role": "mixed_setup_sweeper",
+     "name": "mixed setup sweeper",
+     "family": "offense",
+     "score": 0.7719,
+     "confidence": "strong",
+     "margin": 0.2284,
+     "clear": true
+    },
+    "secondary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.5435,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "mixed setup sweeper (0.77, strong): Curse; attacks on both sides: Iron Tail, Thunderbolt, Bite; Speed 317 (above 98% of the field)"
+   },
+   {
+    "species": "Machamp",
+    "nickname": null,
+    "primary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.7189,
+     "confidence": "strong",
+     "margin": 0.0868,
+     "clear": true
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6321,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "physical setup sweeper (0.72, strong): Bulk Up; Attack 317 (above 94% of the field); physical attacks: Cross Chop, Earthquake, Rock Slide"
+   }
+  ],
+  "ace": {
+   "derived": "Machamp",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Machamp",
+     "slot": 6,
+     "score": 0.739,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.588,
+      "role": 1.0
+     },
+     "helpers": [
+      "Blastoise"
+     ],
+     "role": "physical setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Charizard",
+     "slot": 1,
+     "score": 0.739,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.588,
+      "role": 1.0
+     },
+     "helpers": [
+      "Blastoise"
+     ],
+     "role": "mixed setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Alakazam",
+     "slot": 4,
+     "score": 0.723,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.529,
+      "role": 1.0
+     },
+     "helpers": [
+      "Blastoise"
+     ],
+     "role": "special setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Venusaur",
+     "slot": 3,
+     "score": 0.706,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.471,
+      "role": 1.0
+     },
+     "helpers": [
+      "Blastoise"
+     ],
+     "role": "mixed setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Jolteon",
+     "slot": 5,
+     "score": 0.672,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.353,
+      "role": 1.0
+     },
+     "helpers": [
+      "Blastoise"
+     ],
+     "role": "mixed setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Blastoise",
+     "slot": 2,
+     "score": 0.401,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "hazard remover",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Blastoise",
+    "role": "tank",
+    "fit": 0.546
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Alakazam",
+    "role": "late-game cleaner",
+    "fit": 0.667
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Charizard",
+    "role": "mixed setup sweeper",
+    "fit": 0.825,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Cross Chop",
+     "member": "Machamp",
+     "move_type": "Fighting",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Blastoise",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Machamp",
+     "move_type": "Ground",
+     "power": 100,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Psychic",
+     "member": "Alakazam",
+     "move_type": "Psychic",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Surf",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Thunderbolt",
+     "member": "Jolteon",
+     "move_type": "Electric",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Bite",
+     "member": "Charizard",
+     "move_type": "Dark",
+     "power": 60,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Petal Dance",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Cross Chop",
+     "member": "Machamp",
+     "move_type": "Fighting",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Psychic",
+     "member": "Alakazam",
+     "move_type": "Psychic",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Bite",
+     "member": "Charizard",
+     "move_type": "Dark",
+     "power": 60,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Petal Dance",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Petal Dance",
+     "member": "Venusaur",
+     "move_type": "Grass",
+     "power": 180,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 1.0,
+   "covered_n": 17,
+   "types_n": 17,
+   "holes": [],
+   "bring": []
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 94,
+   "finishers": 16,
+   "attrition": 1,
+   "finisher_moves": [
+    "Overheat (Charizard)",
+    "Earthquake (Charizard)",
+    "Dragon Dance (Charizard)",
+    "Surf (Blastoise)",
+    "Ice Beam (Blastoise)",
+    "Sludge Bomb (Venusaur)",
+    "Earthquake (Venusaur)",
+    "Petal Dance (Venusaur)",
+    "Swords Dance (Venusaur)",
+    "Psychic (Alakazam)",
+    "Calm Mind (Alakazam)",
+    "Thunderbolt (Jolteon)",
+    "Curse (Jolteon)",
+    "Cross Chop (Machamp)",
+    "Earthquake (Machamp)",
+    "Bulk Up (Machamp)"
+   ],
+   "attrition_moves": [
+    "Toxic (Blastoise)"
+   ],
+   "offense_authored": null,
+   "offense_measured": 89,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "No career records on file for FireRed yet.",
+     "rule": "career_none",
+     "trigger": "career_n == 0 (here 0)"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Machamp (set up by Blastoise, the widest coverage and a physical setup sweeper).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Blastoise is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Alakazam closes it out (late-game cleaner).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Charizard (mixed setup sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit all 17 types super-effectively: no type is safe to bring.",
+     "rule": "cover_full",
+     "trigger": "holes_n == 0 (here 0)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for FireRed.",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "94% of their moves finish or set up (16 of 17); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 94)"
+    }
+   ]
+  }
+ }
 }

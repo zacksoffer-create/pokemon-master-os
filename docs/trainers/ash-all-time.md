@@ -9,7 +9,7 @@
 | Bond (tool ↔ partnership) | 98 (partnership) | 100 | the partnership is the point |
 | Risk (percentage player ↔ gambler) | 75 (gambler) | 33 | reads percentage player |
 
-**Tags:** Champion
+**Tags:** Champion · Multi-Region Traveler (Kanto, Orange Archipelago, Johto, Hoenn, Sinnoh, Unova, Kalos and Alola) · Orange League Champion (Orange League) · Alola Champion (Manalo Conference) · Monarch (World Champion) (World Coronation Series)
 
 ## Who they are
 
@@ -55,6 +55,69 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 - Charizard: Seismic Toss: learns it in Emerald (tutor)
 - Charizard: Dragon Breath: learns it in Crystal (machine)
+
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Pikachu | revenge killer (strong, 0.76) | late-game cleaner (solid) | – |
+| Charizard | bulky attacker (solid, 0.58) | wallbreaker (solid) | – |
+| Sceptile | revenge killer (strong, 0.79) | late-game cleaner (solid) | – |
+| Infernape | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
+| Snorlax | bulky attacker (strong, 0.73) | sponge / status absorber (strong) | – |
+| Heracross | wallbreaker (strong, 0.65) | bulky attacker (solid) | – |
+
+## Career
+
+- Ash has competed across 8 regions (Kanto, Orange Archipelago, Johto, Hoenn, Sinnoh, Unova, Kalos and Alola): expect answers built against a wide field.
+- Titles: Orange League Champion, Alola Champion and Monarch (World Champion).
+- Recent record: Lumiose Conference: runner-up (lost to Alain); Manalo Conference: won (beat Gladion); World Coronation Series: won the Masters Eight (beat Leon).
+
+## The ace
+
+- Ace: Pikachu. The story and the data agree (the most invested and a revenge killer).
+
+## Who they go to
+
+- Even game: Snorlax is the workhorse (bulky attacker).
+- Ahead: Sceptile closes it out (revenge killer).
+- Behind: they turn to Heracross (wallbreaker).
+
+## What they can hit
+
+- They hit all 17 types super-effectively: no type is safe to bring.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Flare Blitz (Infernape, 180) | 1 |
+| Dark | Megahorn (Heracross, 153) | 0 |
+| Dragon | Ice Punch (Snorlax, 75) | 0 |
+| Electric | Dig (Infernape, 80) | 1 |
+| Fighting | Wing Attack (Charizard, 74) | 1 |
+| Fire | Dig (Infernape, 80) | 2 |
+| Flying | Volt Tackle (Pikachu, 180) | 3 |
+| Ghost | Night Slash (Heracross, 70) | 0 |
+| Grass | Flare Blitz (Infernape, 180) | 0 |
+| Ground | Leaf Storm (Sceptile, 189) | 2 |
+| Ice | Flare Blitz (Infernape, 180) | 1 |
+| Normal | Focus Punch (Snorlax, 150) | 0 |
+| Poison | Dig (Infernape, 80) | 1 |
+| Psychic | Megahorn (Heracross, 153) | 2 |
+| Rock | Leaf Storm (Sceptile, 189) | 1 |
+| Steel | Flare Blitz (Infernape, 180) | 0 |
+| Water | Leaf Storm (Sceptile, 189) | 2 |
+
+## Combos to watch
+
+- Nothing from the watch list.
+
+## Signature moves
+
+- Signature moves: Pikachu's Thunderbolt (the calling card); Pikachu's Volt Tackle (the finisher); Charizard's Seismic Toss (the grappling throw that beat the Orange League); Sceptile's Leaf Blade (the twig-chewing blade).
+
+## How aggressive the moveset is
+
+- Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.
 
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Immunity (could be Thick Fat); ability Swarm (could be Guts); neutral nature.*
 

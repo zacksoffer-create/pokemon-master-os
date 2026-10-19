@@ -1,5 +1,5 @@
 {
- "schema": "trainer-report/1",
+ "schema": "trainer-report/2",
  "trainer": "me",
  "trainer_name": "Zack",
  "version": "platinum",
@@ -10,7 +10,8 @@
  "status": "canon",
  "notes": [
   "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
-  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.",
+  "Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there."
  ],
  "sliders": {
   "offense": {
@@ -1347,5 +1348,543 @@
  "roles": [
   "Champion"
  ],
- "overrides": {}
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [],
+   "regions": [],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Infernape",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.767,
+     "confidence": "strong",
+     "margin": 0.0699,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6971,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.77, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
+   },
+   {
+    "species": "Weavile",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.8522,
+     "confidence": "strong",
+     "margin": 0.1003,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.7519,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.85, strong): Ice Shard; Speed 337 (above 99% of the field); Attack 297 (above 87% of the field)"
+   },
+   {
+    "species": "Roserade",
+    "nickname": null,
+    "primary": {
+     "role": "suicide_lead",
+     "name": "suicide lead",
+     "family": "utility",
+     "score": 0.77,
+     "confidence": "strong",
+     "margin": 0.0567,
+     "clear": false
+    },
+    "secondary": {
+     "role": "lead_attacker",
+     "name": "lead attacker",
+     "family": "offense",
+     "score": 0.7133,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "suicide lead (0.77, strong): Toxic Spikes; Focus Sash; Speed 260 (above 87% of the field)"
+   },
+   {
+    "species": "Lucario",
+    "nickname": null,
+    "primary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.7495,
+     "confidence": "strong",
+     "margin": 0.2074,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5421,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "physical setup sweeper (0.75, strong): Swords Dance; Attack 277 (above 80% of the field); physical attacks: Close Combat, Ice Punch, Earthquake"
+   },
+   {
+    "species": "Garchomp",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.664,
+     "confidence": "strong",
+     "margin": 0.0076,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6564,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "wallbreaker (0.66, strong): Earthquake (150); strong attacks (effective power 90+, with the stat it uses): Earthquake, Dragon Claw; Attack 317 (above 94% of the field)"
+   },
+   {
+    "species": "Magnezone",
+    "nickname": null,
+    "primary": {
+     "role": "trapper",
+     "name": "trapper",
+     "family": "support",
+     "score": 0.8875,
+     "confidence": "strong",
+     "margin": 0.2205,
+     "clear": true
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.667,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "trapper (0.89, strong): Magnet Pull; attacking moves: Thunderbolt, Hidden Power Fire, Flash Cannon; Sp. Atk 348 (above 98% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Lucario",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Lucario",
+     "slot": 4,
+     "score": 0.63,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.706,
+      "role": 1.0
+     },
+     "helpers": [],
+     "role": "physical setup sweeper",
+     "level": null
+    },
+    {
+     "species": "Weavile",
+     "slot": 2,
+     "score": 0.571,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.647,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Garchomp",
+     "slot": 5,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null
+    },
+    {
+     "species": "Infernape",
+     "slot": 1,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null
+    },
+    {
+     "species": "Roserade",
+     "slot": 3,
+     "score": 0.367,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "suicide lead",
+     "level": null
+    },
+    {
+     "species": "Magnezone",
+     "slot": 6,
+     "score": 0.246,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "trapper",
+     "level": null
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Roserade",
+    "role": "lead attacker",
+    "fit": 0.642
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Weavile",
+    "role": "revenge killer",
+    "fit": 0.852
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Lucario",
+    "role": "physical setup sweeper",
+    "fit": 0.75,
+    "last_resorts": [
+     {
+      "species": "Roserade",
+      "moves": [],
+      "item": "Focus Sash"
+     }
+    ]
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Infernape",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Claw",
+     "member": "Garchomp",
+     "move_type": "Dragon",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Thunderbolt",
+     "member": "Magnezone",
+     "move_type": "Electric",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Weavile",
+     "move_type": "Dark",
+     "power": 105,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Roserade",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Infernape",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Infernape",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Garchomp",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Weavile",
+     "move_type": "Dark",
+     "power": 105,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Roserade",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Infernape",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Roserade",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.941,
+   "covered_n": 16,
+   "types_n": 17,
+   "holes": [
+    "Fighting"
+   ],
+   "bring": [
+    {
+     "type": "Fighting",
+     "their_weak": 3
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 84,
+   "finishers": 16,
+   "attrition": 3,
+   "finisher_moves": [
+    "Close Combat (Infernape)",
+    "Flamethrower (Infernape)",
+    "Mach Punch (Infernape)",
+    "Ice Punch (Weavile)",
+    "Night Slash (Weavile)",
+    "Ice Shard (Weavile)",
+    "Leaf Storm (Roserade)",
+    "Sludge Bomb (Roserade)",
+    "Close Combat (Lucario)",
+    "Earthquake (Lucario)",
+    "Swords Dance (Lucario)",
+    "Earthquake (Garchomp)",
+    "Dragon Claw (Garchomp)",
+    "Poison Jab (Garchomp)",
+    "Thunderbolt (Magnezone)",
+    "Flash Cannon (Magnezone)"
+   ],
+   "attrition_moves": [
+    "Sleep Powder (Roserade)",
+    "Toxic Spikes (Roserade)",
+    "Substitute (Magnezone)"
+   ],
+   "offense_authored": null,
+   "offense_measured": 89,
+   "flag": null
+  },
+  "weather": [],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "No career records on file for Platinum yet.",
+     "rule": "career_none",
+     "trigger": "career_n == 0 (here 0)"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Lucario (the widest coverage and a physical setup sweeper).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Roserade is the workhorse (lead attacker).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Weavile closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Lucario (physical setup sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Last resorts when it's slipping away: Roserade's Focus Sash.",
+     "rule": "goto_last",
+     "trigger": "last_resort_str nonempty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Fighting that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 1)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Fighting: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Platinum.",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "84% of their moves finish or set up (16 of 19); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 84)"
+    }
+   ]
+  }
+ }
 }

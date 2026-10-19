@@ -49,6 +49,67 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Fire · **Strengths:** Poison · **Bring:** either attackers (1 physically soft, 1 specially soft)
 
+# Playsheet
+
+| Pokémon | Primary role | Secondary | Also |
+|---|---|---|---|
+| Electivire | bulky attacker (solid, 0.55) | check / counter (solid) | – |
+| Torterra | bulky attacker (strong, 0.68) | wallbreaker (solid) | – |
+| Ninjask | Baton Pass chain starter (strong, 0.86) | – | – |
+| Froslass | revenge killer (solid, 0.65) | late-game cleaner (solid) | – |
+| Drapion | check / counter (solid, 0.59) | tank (solid) | – |
+| Gastrodon | bulky attacker (strong, 0.65) | check / counter (solid) | – |
+
+## Career
+
+- Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon (draft: confirm); Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).
+
+## The ace
+
+- The story's ace is Electivire; the data's is Torterra (set up by Ninjask, the widest coverage and a bulky attacker). Plan for both.
+
+## Who they go to
+
+- Even game: Gastrodon is the workhorse (tank).
+- Ahead: Froslass closes it out (revenge killer).
+- Behind: they turn to Torterra (wallbreaker).
+
+## What they can hit
+
+- They hit 16 of 17 types super-effectively; nothing they carry hits Fighting that way.
+
+| Type | Their best super-effective attack | Of them weak to it |
+|---|---|---|
+| Bug | Stone Edge (Torterra, 80) | 1 |
+| Dark | Brick Break (Electivire, 75) | 1 |
+| Dragon | Blizzard (Froslass, 126) | 0 |
+| Electric | Earthquake (Torterra, 150) | 1 |
+| Fighting | **none** | 0 |
+| Fire | Earthquake (Torterra, 150) | 3 |
+| Flying | Blizzard (Froslass, 126) | 2 |
+| Ghost | Shadow Ball (Froslass, 120) | 1 |
+| Grass | Blizzard (Froslass, 126) | 1 |
+| Ground | Leaf Storm (Torterra, 142) | 2 |
+| Ice | Stone Edge (Torterra, 80) | 2 |
+| Normal | Brick Break (Electivire, 75) | 0 |
+| Poison | Earthquake (Torterra, 150) | 0 |
+| Psychic | Shadow Ball (Froslass, 120) | 0 |
+| Rock | Earthquake (Torterra, 150) | 2 |
+| Steel | Earthquake (Torterra, 150) | 1 |
+| Water | Leaf Storm (Torterra, 142) | 0 |
+
+## Combos to watch
+
+- Ninjask passes boosts down the line: phaze, Haze or Taunt it before the pass.
+
+## Signature moves
+
+- Signature moves: Torterra's Leaf Storm (his heaviest hit); Electivire's Giga Impact (raw power, whatever the cost); Ninjask's Baton Pass (passing Speed boosts down the line).
+
+## How aggressive the moveset is
+
+- 92% of their moves finish or set up (12 of 13); the rest wear you down.
+
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Battle Armor (could be Sniper); ability Sticky Hold (could be Storm Drain); neutral nature.*
 
 **Notes:** The acceptance test: he should read aggressive and rigid, with a bond that is demanding, not cold. Released Chimchar for not fitting his system (lore).

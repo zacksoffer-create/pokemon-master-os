@@ -1,11 +1,12 @@
 {
- "_note": "Trainers as trainer -> version -> team (docs/TRAINER_REPORT.md). Sliders run 0-100: offense (defensive 0, offensive 100), rigidity (flexible 0, rigid 100), bond (tool 0, partnership 100), risk (percentage player 0, gambler 100). Every authored value is a proposal with its reason until approved; cartridge teams are read from the games' data. Lore lives in notes and overrides, never in code.",
+ "_note": "Trainers as trainer -> version -> team (docs/TRAINER_REPORT.md). Sliders run 0-100: offense (defensive 0, offensive 100), rigidity (flexible 0, rigid 100), bond (tool 0, partnership 100), risk (percentage player 0, gambler 100). Every authored value is a proposal with its reason until approved; cartridge teams are read from the games' data. Lore lives in notes and overrides, never in code. Part 2 adds each trainer's career (records with region, event, result, title; 'versions' limits a record to the versions that have lived it; champion and elite_four marks feed the career tags) and each version's signature_moves (authored, proposed).",
  "trainers": {
   "me": {
    "name": "Zack",
    "notes": [
     "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
-    "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+    "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them.",
+    "Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there."
    ],
    "versions": {
     "heartgold": {
@@ -92,7 +93,8 @@
      ],
      "notes": []
     }
-   }
+   },
+   "career": []
   },
   "ash": {
    "name": "Ash",
@@ -136,6 +138,20 @@
      "roles": [],
      "notes": [
       "Charizard disobeys through most of this era (lore)."
+     ],
+     "signature_moves": [
+      {
+       "pokemon": "Pikachu",
+       "move": "Thunderbolt",
+       "why": "his calling card from the first episode",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Bulbasaur",
+       "move": "Vine Whip",
+       "why": "the move that does everything",
+       "status": "proposed"
+      }
      ]
     },
     "sinnoh": {
@@ -174,6 +190,26 @@
      "roles": [],
      "notes": [
       "Gible was also on the team; Buizel takes the sixth slot here."
+     ],
+     "signature_moves": [
+      {
+       "pokemon": "Pikachu",
+       "move": "Volt Tackle",
+       "why": "learned at the Battle Frontier; his finisher by Sinnoh",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Infernape",
+       "move": "Flare Blitz",
+       "why": "the Blaze-powered finisher against Paul",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Staraptor",
+       "move": "Brave Bird",
+       "why": "the all-in strike",
+       "status": "proposed"
+      }
      ]
     },
     "all-time": {
@@ -218,9 +254,155 @@
      "notes": [
       "Won the Orange League and, later, the Alola League and the World Coronation Series (lore).",
       "Greninja and later partners are left out: they aren't Gen IV species."
+     ],
+     "signature_moves": [
+      {
+       "pokemon": "Pikachu",
+       "move": "Thunderbolt",
+       "why": "the calling card",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Pikachu",
+       "move": "Volt Tackle",
+       "why": "the finisher",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Charizard",
+       "move": "Seismic Toss",
+       "why": "the grappling throw that beat the Orange League",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Sceptile",
+       "move": "Leaf Blade",
+       "why": "the twig-chewing blade",
+       "status": "proposed"
+      }
      ]
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ritchie)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Orange Archipelago",
+     "event": "Orange League",
+     "kind": "league",
+     "result": "won (beat Drake)",
+     "title": "Orange League Champion",
+     "champion": true,
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Harrison)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "beat all seven Frontier Brains; offered a Frontier Brain post",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Ever Grande Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Tyson)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 4 (lost to Tobias)",
+     "versions": [
+      "sinnoh",
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Unova",
+     "event": "Vertress Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Cameron)",
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kalos",
+     "event": "Lumiose Conference",
+     "kind": "league",
+     "result": "runner-up (lost to Alain)",
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Alola",
+     "event": "Manalo Conference",
+     "kind": "league",
+     "result": "won (beat Gladion)",
+     "title": "Alola Champion",
+     "champion": true,
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "World",
+     "event": "World Coronation Series",
+     "kind": "tournament",
+     "result": "won the Masters Eight (beat Leon)",
+     "title": "Monarch (World Champion)",
+     "champion": true,
+     "versions": [
+      "all-time"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ]
   },
   "red": {
    "name": "Red",
@@ -262,9 +444,25 @@
      ],
      "notes": [
       "Former Indigo Plateau Champion (lore)."
-     ]
+     ],
+     "overrides": {
+      "ace": "Pikachu"
+     }
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau",
+     "kind": "league",
+     "result": "beat the Elite Four and Blue; became Champion",
+     "title": "Kanto Champion",
+     "champion": true,
+     "elite_four": "beaten",
+     "source": "games",
+     "status": "proposed"
+    }
+   ]
   },
   "gary": {
    "name": "Gary",
@@ -308,6 +506,14 @@
      "roles": [],
      "notes": [
       "Movesets are low-confidence drafts; edit freely."
+     ],
+     "signature_moves": [
+      {
+       "pokemon": "Blastoise",
+       "move": "Hydro Pump",
+       "why": "the Silver Conference duel with Charizard",
+       "status": "proposed"
+      }
      ]
     },
     "blue-hgss": {
@@ -346,7 +552,56 @@
       "Was the Champion before Red (lore)."
      ]
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "out before the Top 16 (draft: confirm the round)",
+     "versions": [
+      "johto"
+     ],
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ash)",
+     "versions": [
+      "johto"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau",
+     "kind": "league",
+     "result": "beat the Elite Four and became Champion, then lost the title to Red",
+     "title": "Kanto Champion (former)",
+     "champion": true,
+     "elite_four": "beaten",
+     "versions": [
+      "blue-hgss"
+     ],
+     "source": "games",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Viridian City Gym",
+     "kind": "gym",
+     "result": "Gym Leader",
+     "versions": [
+      "blue-hgss"
+     ],
+     "source": "games",
+     "status": "proposed"
+    }
+   ]
   },
   "paul": {
    "name": "Paul",
@@ -390,9 +645,50 @@
      "roles": [],
      "notes": [
       "Released Chimchar for not fitting his system (lore)."
-     ]
+     ],
+     "signature_moves": [
+      {
+       "pokemon": "Torterra",
+       "move": "Leaf Storm",
+       "why": "his heaviest hit",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Electivire",
+       "move": "Giga Impact",
+       "why": "raw power, whatever the cost",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Ninjask",
+       "move": "Baton Pass",
+       "why": "passing Speed boosts down the line",
+       "status": "proposed"
+      }
+     ],
+     "overrides": {
+      "ace": "Electivire"
+     }
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "challenged the Battle Pyramid and lost to Brandon (draft: confirm)",
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Ash in a full battle)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ]
   },
   "brock": {
    "name": "Brock",
@@ -434,7 +730,17 @@
      ],
      "notes": []
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto",
+     "event": "Pewter City Gym",
+     "kind": "gym",
+     "result": "Gym Leader",
+     "source": "games",
+     "status": "proposed"
+    }
+   ]
   },
   "misty": {
    "name": "Misty",
@@ -476,7 +782,17 @@
      ],
      "notes": []
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto",
+     "event": "Cerulean City Gym",
+     "kind": "gym",
+     "result": "Gym Leader",
+     "source": "games",
+     "status": "proposed"
+    }
+   ]
   },
   "may": {
    "name": "May",
@@ -518,9 +834,57 @@
       }
      },
      "roles": [],
-     "notes": []
+     "notes": [],
+     "signature_moves": [
+      {
+       "pokemon": "Blaziken",
+       "move": "Blaze Kick",
+       "why": "her ace's contest finisher",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Wartortle",
+       "move": "Rapid Spin",
+       "why": "spinning through every appeal",
+       "status": "proposed"
+      }
+     ]
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Hoenn",
+     "event": "Hoenn Grand Festival",
+     "kind": "contest",
+     "result": "Top 8 (lost to Drew)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Kanto Grand Festival",
+     "kind": "contest",
+     "result": "Top 8 (draft: confirm the round)",
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Johto",
+     "event": "Johto Grand Festival",
+     "kind": "contest",
+     "result": "competed (draft: confirm the result)",
+     "source": "anime",
+     "status": "draft: confirm"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Wallace Cup",
+     "kind": "contest",
+     "result": "runner-up (lost to Dawn)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ]
   },
   "dawn": {
    "name": "Dawn",
@@ -562,9 +926,47 @@
       }
      },
      "roles": [],
-     "notes": []
+     "notes": [],
+     "signature_moves": [
+      {
+       "pokemon": "Piplup",
+       "move": "Bubble Beam",
+       "why": "the first appeal she ever built",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Togekiss",
+       "move": "Aura Sphere",
+       "why": "the Grand Festival finisher",
+       "status": "proposed"
+      },
+      {
+       "pokemon": "Mamoswine",
+       "move": "Ice Shard",
+       "why": "the combination with Ancient Power",
+       "status": "proposed"
+      }
+     ]
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Sinnoh",
+     "event": "Wallace Cup",
+     "kind": "contest",
+     "result": "won the Aqua Ribbon (beat May)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Grand Festival",
+     "kind": "contest",
+     "result": "runner-up (lost to Zoey)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ]
   },
   "lance": {
    "name": "Lance",
@@ -605,9 +1007,24 @@
       "Champion",
       "Region Champion"
      ],
-     "notes": []
+     "notes": [],
+     "overrides": {
+      "ace": "Dragonite"
+     }
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto and Johto",
+     "event": "Indigo Plateau",
+     "kind": "league",
+     "result": "Champion",
+     "title": "Indigo Plateau Champion",
+     "champion": true,
+     "source": "games",
+     "status": "proposed"
+    }
+   ]
   },
   "cynthia": {
    "name": "Cynthia",
@@ -648,9 +1065,24 @@
       "Champion",
       "Region Champion"
      ],
-     "notes": []
+     "notes": [],
+     "overrides": {
+      "ace": "Garchomp"
+     }
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh League",
+     "kind": "league",
+     "result": "Champion",
+     "title": "Sinnoh Champion",
+     "champion": true,
+     "source": "games",
+     "status": "proposed"
+    }
+   ]
   },
   "giovanni": {
    "name": "Giovanni",
@@ -692,7 +1124,17 @@
       "No gym in this version, so no Gym Leader tag here."
      ]
     }
-   }
+   },
+   "career": [
+    {
+     "region": "Kanto",
+     "event": "Viridian City Gym",
+     "kind": "gym",
+     "result": "Gym Leader; Team Rocket's boss",
+     "source": "games",
+     "status": "proposed"
+    }
+   ]
   }
  }
 }

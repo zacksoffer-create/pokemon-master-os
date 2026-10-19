@@ -104,8 +104,9 @@ class RoleBook:
             return info["class"] != "status" and info["drain"] < 0
         return False
 
-    def effective_power(self, mv, types, ability):
-        """Base power x accuracy x STAB x hits, with the config's adjustments. Ranks attacks; not a damage calc."""
+    def effective_power(self, mv, types, ability, turn_cost=True):
+        """Base power x accuracy x STAB x hits, with the config's adjustments (turn_cost=False leaves out the
+        discount for moves that cost a turn). Ranks attacks; not a damage calculation."""
         if mv["class"] == "status" or "attack" not in mv["categories"]:
             return 0.0
         p = self.power
@@ -122,7 +123,7 @@ class RoleBook:
         if mv["hits"]:
             lo, hi = mv["hits"]
             hits = hi if lo == hi else ab.get("multi_hit", p["multi_hit_average"])
-        return power * acc * stab * hits * p["factor"].get(mv["name"], 1.0)
+        return power * acc * stab * hits * (p["factor"].get(mv["name"], 1.0) if turn_cost else 1.0)
 
     @lru_cache(maxsize=None)
     def type_list(self, gen):
@@ -194,7 +195,8 @@ class RoleBook:
                 continue
             eff = self.effective_power(mv, types, filled["ability"])
             stat = stats["atk" if mv["class"] == "physical" else "spa"] / (max(stats["atk"], stats["spa"]) or 1)
-            moves.append({**mv, "eff": eff, "scaled": eff * stat})
+            plain = self.effective_power(mv, types, filled["ability"], turn_cost=False)
+            moves.append({**mv, "eff": eff, "scaled": eff * stat, "plain": plain * stat})
         phys = sum(m["eff"] for m in moves if m["class"] == "physical")
         spec = sum(m["eff"] for m in moves if m["class"] == "special")
         evs_recorded = bool(build.evs and sum(build.evs.values()))
