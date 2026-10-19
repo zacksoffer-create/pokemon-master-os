@@ -2,10 +2,11 @@
 
 Zack's six-chapter Pokémon journey: canon, companions, breeding, and the app that will hold them.
 
-**Start here:** `docs/PROJECT_CHARTER.md` → `docs/CANON_CURRENT.md` → `docs/QUESTIONS_AND_EXPERIMENTS.md`.
+**Start here:** `docs/PROJECT_CHARTER.md` → `docs/ARCHITECTURE.md` → `docs/CANON_CURRENT.md` → `docs/QUESTIONS_AND_EXPERIMENTS.md`.
 
 | Doc | What it holds |
 |---|---|
+| `docs/ARCHITECTURE.md` | the engine map: what each engine answers, status, build order |
 | `docs/PROJECT_CHARTER.md` | philosophy, the six chapters, authority rules, field-function policy, working agreement |
 | `docs/CANON_CURRENT.md` | current rosters, status, move status per member, historical versions |
 | `docs/DECISION_LEDGER.md` | append-only decisions (D-###) and recorded evidence (E-###) |
@@ -17,11 +18,18 @@ Zack's six-chapter Pokémon journey: canon, companions, breeding, and the app th
 | `docs/SPECIMEN_LAB.md` | the individual-Pokémon lab at PKHeX parity: fields per gen, derived mechanics, exports |
 | `docs/QUESTIONS_AND_EXPERIMENTS.md` | open decisions, research queue, SoulSilver pair/trio audit |
 
-`engine/`: reference-data prototype. `refdb.py` builds a SQLite DB from pinned PokeAPI CSVs and answers learnset, breeding-chain, ability, HM and encounter queries per version group. `canon_checks.py` is the first regression suite over canon claims. `specimen.py` is the Specimen Lab kernel (Gen 2–4 derivations, PID search, Showdown + PKHeX Batch Editor export).
+`engine/`: the engines (see `docs/ARCHITECTURE.md`).
+- `fetch_reference.py` + `refdb.py`: pinned reference data → SQLite
+- `rules.py`: generation rules
+- `team.py`: the shared team model
+- `specimen.py`, `battle/`, `breeding/`, `wilderness/`, `workbench.py`: the engines
+- `tests/`: 14 regression tests
+- `canon_checks.py`, `legacy_audit.py`: the audit scripts from day one
 
 ```
-python3 -I engine/refdb.py <raw_csv_dir> <db.sqlite>
-python3 -I engine/canon_checks.py engine <db.sqlite>
+python3 -I engine/fetch_reference.py
+cd engine/battle && npm ci && node dump_gen_data.mjs ../data_battle
+cd engine && python3 -I -m unittest discover -s tests -v
 ```
 
 **Never modified:** any original Google Drive file (all legacy access was read-only).
