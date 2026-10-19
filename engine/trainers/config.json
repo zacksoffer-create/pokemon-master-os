@@ -1,0 +1,33 @@
+{
+ "_note": "The trainer scouting report's editable settings (docs/TRAINER_REPORT.md). Every threshold and list the engine uses lives here, not in code. Steps 2-4 add the matrix verdicts, bulk threshold, slider signals and tags.",
+ "lens": {
+  "_note": "Gen IV is the primary lens: a version names its game, and that game's data (type chart, typing, stats, abilities, learnsets) is used.",
+  "default_game": "heartgold"
+ },
+ "level_scale": {
+  "_note": "Every row's stats are computed at this level unless a build records its own. Change it to read teams at another level.",
+  "default": 100,
+  "use_build_level": false
+ },
+ "defaults": {
+  "_note": "What a build gets when it leaves a field open. The report lists every default it used. Cartridge trainers keep the game's values (no EVs, their difficulty-scaled IVs).",
+  "ivs": 31,
+  "evs": "even",
+  "even_evs_each": 85,
+  "nature": null
+ },
+ "validation": {
+  "_note": "Legality follows D-024: a move counts if the species can learn it. Moves learnable only in another game of the generation, or by transfer, are flagged in the report, not rejected.",
+  "flag_moves_outside_game": true,
+  "max_ev_per_stat": 255,
+  "max_ev_total": 510,
+  "max_iv": 31
+ },
+ "slider_scale": {
+  "_note": "Authored sliders run 0-100. The left pole is 0, the right pole is 100.",
+  "offense": ["defensive", "offensive"],
+  "rigidity": ["flexible", "rigid"],
+  "bond": ["tool", "partnership"],
+  "risk": ["percentage player", "gambler"]
+ }
+}

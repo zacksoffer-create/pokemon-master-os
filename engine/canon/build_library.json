@@ -1,0 +1,673 @@
+{
+ "_note": "Builds as plain data (docs/TRAINER_REPORT.md): stock builds and the authored trainers' builds. Your journey builds stay in canon/builds.json and are read from there. Every authored build is a proposal until approved; anime movesets are drafts from the show and are checked against the game's learnsets (flags, not rejections, per D-024). Fields: species, moves, nickname, gender, nature, ivs, evs, item, ability, ball, friendship, ribbons, level, source, generation, tier, status, notes.",
+ "builds": {
+  "stock/garchomp-sweeper": {
+   "species": "Garchomp",
+   "moves": [
+    "Swords Dance",
+    "Earthquake",
+    "Dragon Claw",
+    "Fire Fang"
+   ],
+   "nature": "Jolly",
+   "evs": {
+    "atk": 252,
+    "def": 4,
+    "spe": 252
+   },
+   "item": "Life Orb",
+   "ability": "Sand Veil",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "OU",
+   "status": "proposed",
+   "notes": [
+    "Sweeper Garchomp: one Swords Dance, then sweep."
+   ]
+  },
+  "stock/garchomp-earthquake": {
+   "species": "Garchomp",
+   "moves": [
+    "Earthquake",
+    "Outrage",
+    "Stone Edge",
+    "Fire Fang"
+   ],
+   "nature": "Jolly",
+   "evs": {
+    "atk": 252,
+    "def": 4,
+    "spe": 252
+   },
+   "item": "Choice Scarf",
+   "ability": "Sand Veil",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "OU",
+   "status": "proposed",
+   "notes": [
+    "Earthquake Garchomp: Scarf speed, Earthquake first."
+   ]
+  },
+  "stock/garchomp-outrage": {
+   "species": "Garchomp",
+   "moves": [
+    "Outrage",
+    "Earthquake",
+    "Stone Edge",
+    "Fire Fang"
+   ],
+   "nature": "Adamant",
+   "evs": {
+    "atk": 252,
+    "hp": 4,
+    "spe": 252
+   },
+   "item": "Choice Band",
+   "ability": "Sand Veil",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "OU",
+   "status": "proposed",
+   "notes": [
+    "Outrage Garchomp: Banded Outrage, locked in on purpose."
+   ]
+  },
+  "ash-kanto/pikachu": {
+   "species": "Pikachu",
+   "moves": [
+    "Thunderbolt",
+    "Thunder",
+    "Quick Attack",
+    "Agility"
+   ],
+   "friendship": 255,
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Refuses its Poké Ball (lore): no ball recorded."
+   ]
+  },
+  "ash-kanto/charizard": {
+   "species": "Charizard",
+   "moves": [
+    "Flamethrower",
+    "Fire Spin",
+    "Seismic Toss",
+    "Slash"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Disobeyed Ash through most of Kanto (lore)."
+   ]
+  },
+  "ash-kanto/bulbasaur": {
+   "species": "Bulbasaur",
+   "moves": [
+    "Vine Whip",
+    "Razor Leaf",
+    "Tackle",
+    "Solar Beam"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-kanto/squirtle": {
+   "species": "Squirtle",
+   "moves": [
+    "Water Gun",
+    "Bubble",
+    "Skull Bash",
+    "Withdraw"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-kanto/pidgeotto": {
+   "species": "Pidgeotto",
+   "moves": [
+    "Gust",
+    "Quick Attack",
+    "Wing Attack",
+    "Sand Attack"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-kanto/kingler": {
+   "species": "Kingler",
+   "moves": [
+    "Crabhammer",
+    "Hyper Beam",
+    "Bubble",
+    "Stomp"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-sinnoh/pikachu": {
+   "species": "Pikachu",
+   "moves": [
+    "Thunderbolt",
+    "Quick Attack",
+    "Iron Tail",
+    "Volt Tackle"
+   ],
+   "friendship": 255,
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Refuses its Poké Ball (lore): no ball recorded."
+   ]
+  },
+  "ash-sinnoh/infernape": {
+   "species": "Infernape",
+   "moves": [
+    "Flamethrower",
+    "Mach Punch",
+    "Flare Blitz",
+    "Dig"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Came from Paul; Blaze is its story (lore)."
+   ]
+  },
+  "ash-sinnoh/torterra": {
+   "species": "Torterra",
+   "moves": [
+    "Leaf Storm",
+    "Rock Climb",
+    "Frenzy Plant",
+    "Energy Ball"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-sinnoh/staraptor": {
+   "species": "Staraptor",
+   "moves": [
+    "Close Combat",
+    "Brave Bird",
+    "Aerial Ace",
+    "Quick Attack"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-sinnoh/gliscor": {
+   "species": "Gliscor",
+   "moves": [
+    "Fire Fang",
+    "Steel Wing",
+    "Night Slash",
+    "Giga Impact"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: low confidence; edit freely."
+   ]
+  },
+  "ash-sinnoh/buizel": {
+   "species": "Buizel",
+   "moves": [
+    "Aqua Jet",
+    "Water Gun",
+    "Ice Punch",
+    "Water Pulse"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-all-time/pikachu": {
+   "species": "Pikachu",
+   "moves": [
+    "Volt Tackle",
+    "Thunderbolt",
+    "Iron Tail",
+    "Quick Attack"
+   ],
+   "item": "Light Ball",
+   "friendship": 255,
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Light Ball: project flavor from the brief, stored as data.",
+    "Refuses its Poké Ball (lore)."
+   ]
+  },
+  "ash-all-time/charizard": {
+   "species": "Charizard",
+   "moves": [
+    "Flamethrower",
+    "Wing Attack",
+    "Seismic Toss",
+    "Dragon Breath"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-all-time/sceptile": {
+   "species": "Sceptile",
+   "moves": [
+    "Leaf Blade",
+    "Bullet Seed",
+    "Quick Attack",
+    "Leaf Storm"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-all-time/infernape": {
+   "species": "Infernape",
+   "moves": [
+    "Flamethrower",
+    "Mach Punch",
+    "Flare Blitz",
+    "Dig"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-all-time/snorlax": {
+   "species": "Snorlax",
+   "moves": [
+    "Body Slam",
+    "Hyper Beam",
+    "Ice Punch",
+    "Focus Punch"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "ash-all-time/heracross": {
+   "species": "Heracross",
+   "moves": [
+    "Megahorn",
+    "Horn Attack",
+    "Brick Break",
+    "Night Slash"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: low confidence; edit freely."
+   ]
+  },
+  "paul-sinnoh/electivire": {
+   "species": "Electivire",
+   "moves": [
+    "Thunder Punch",
+    "Protect",
+    "Giga Impact",
+    "Brick Break"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "paul-sinnoh/torterra": {
+   "species": "Torterra",
+   "moves": [
+    "Leaf Storm",
+    "Earthquake",
+    "Hyper Beam",
+    "Stone Edge"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: medium confidence; edit freely."
+   ]
+  },
+  "paul-sinnoh/ninjask": {
+   "species": "Ninjask",
+   "moves": [
+    "Agility",
+    "Double Team",
+    "Baton Pass",
+    "Fury Cutter"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: low confidence; edit freely."
+   ]
+  },
+  "paul-sinnoh/froslass": {
+   "species": "Froslass",
+   "moves": [
+    "Blizzard",
+    "Ice Shard",
+    "Shadow Ball",
+    "Double Team"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "paul-sinnoh/drapion": {
+   "species": "Drapion",
+   "moves": [
+    "Pin Missile",
+    "Cross Poison",
+    "Thunder Fang",
+    "Ice Fang"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: medium confidence; edit freely."
+   ]
+  },
+  "paul-sinnoh/gastrodon": {
+   "species": "Gastrodon",
+   "moves": [
+    "Mud Bomb",
+    "Water Pulse",
+    "Hidden Power",
+    "Sludge Bomb"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: medium confidence; edit freely."
+   ]
+  },
+  "gary-johto/blastoise": {
+   "species": "Blastoise",
+   "moves": [
+    "Hydro Pump",
+    "Skull Bash",
+    "Bite",
+    "Ice Beam"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "gary-johto/arcanine": {
+   "species": "Arcanine",
+   "moves": [
+    "Fire Blast",
+    "Extreme Speed",
+    "Flamethrower",
+    "Bite"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "gary-johto/nidoqueen": {
+   "species": "Nidoqueen",
+   "moves": [
+    "Body Slam",
+    "Double Kick",
+    "Poison Sting",
+    "Hyper Beam"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: low confidence; edit freely."
+   ]
+  },
+  "gary-johto/magmar": {
+   "species": "Magmar",
+   "moves": [
+    "Flamethrower",
+    "Fire Punch",
+    "Smog",
+    "Fire Blast"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: low confidence; edit freely."
+   ]
+  },
+  "gary-johto/golem": {
+   "species": "Golem",
+   "moves": [
+    "Rollout",
+    "Rock Throw",
+    "Mega Punch",
+    "Earthquake"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: low confidence; edit freely."
+   ]
+  },
+  "gary-johto/scizor": {
+   "species": "Scizor",
+   "moves": [
+    "Steel Wing",
+    "Metal Claw",
+    "Swords Dance",
+    "Quick Attack"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: low confidence; edit freely."
+   ]
+  },
+  "may-grand-festival/blaziken": {
+   "species": "Blaziken",
+   "moves": [
+    "Blaze Kick",
+    "Fire Spin",
+    "Sky Uppercut",
+    "Flamethrower"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "may-grand-festival/venusaur": {
+   "species": "Venusaur",
+   "moves": [
+    "Solar Beam",
+    "Vine Whip",
+    "Razor Leaf",
+    "Frenzy Plant"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "may-grand-festival/wartortle": {
+   "species": "Wartortle",
+   "moves": [
+    "Water Gun",
+    "Rapid Spin",
+    "Bubble",
+    "Aqua Tail"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "may-grand-festival/munchlax": {
+   "species": "Munchlax",
+   "moves": [
+    "Focus Punch",
+    "Metronome",
+    "Tackle",
+    "Solar Beam"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "may-grand-festival/beautifly": {
+   "species": "Beautifly",
+   "moves": [
+    "Silver Wind",
+    "Morning Sun",
+    "Gust",
+    "String Shot"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "may-grand-festival/skitty": {
+   "species": "Skitty",
+   "moves": [
+    "Blizzard",
+    "Assist",
+    "Tackle",
+    "Double Slap"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "dawn-grand-festival/piplup": {
+   "species": "Piplup",
+   "moves": [
+    "Bubble Beam",
+    "Peck",
+    "Whirlpool",
+    "Bide"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "dawn-grand-festival/togekiss": {
+   "species": "Togekiss",
+   "moves": [
+    "Aura Sphere",
+    "Air Slash",
+    "Magical Leaf",
+    "Yawn"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed",
+   "notes": [
+    "Moves: medium confidence; edit freely."
+   ]
+  },
+  "dawn-grand-festival/mamoswine": {
+   "species": "Mamoswine",
+   "moves": [
+    "Ice Shard",
+    "Take Down",
+    "Ancient Power",
+    "Hidden Power"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "dawn-grand-festival/pachirisu": {
+   "species": "Pachirisu",
+   "moves": [
+    "Discharge",
+    "Super Fang",
+    "Sweet Kiss",
+    "Spark"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "dawn-grand-festival/buneary": {
+   "species": "Buneary",
+   "moves": [
+    "Ice Beam",
+    "Dizzy Punch",
+    "Bounce",
+    "Jump Kick"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  },
+  "dawn-grand-festival/ambipom": {
+   "species": "Ambipom",
+   "moves": [
+    "Double Hit",
+    "Focus Punch",
+    "Swift",
+    "Fury Swipes"
+   ],
+   "ball": "Poké Ball",
+   "source": "anime (authored)",
+   "generation": 4,
+   "status": "proposed"
+  }
+ }
+}

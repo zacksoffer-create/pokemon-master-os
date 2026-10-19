@@ -509,5 +509,71 @@ IVs: 30 SpA
         self.assertEqual(sc["Earthquake"], -15)    # Crystal: 20, a knockout -5, lowest wins (turned around here)
 
 
+class TrainerReportData(unittest.TestCase):
+    """The trainer scouting report, step 1 (docs/TRAINER_REPORT.md): the Gen IV data layer, builds and trainers."""
+    @classmethod
+    def setUpClass(cls):
+        from trainers.model import Store
+        cls.store = Store()
+        cls.era = cls.store.era
+
+    def test_type_chart_comes_from_pokeapi_and_matches_the_era(self):
+        for gen in (2, 3, 4):
+            chart, smogon = self.era.chart(gen), rules.gen_data(gen)["types"]
+            self.assertEqual({(a, d): chart[a][d] for a in chart for d in chart[a]},
+                             {(a, d): smogon[a].get(d, 1) for a in chart for d in chart[a]})
+        self.assertEqual(self.era.chart(4)["Ghost"]["Steel"], 0.5)      # Steel resisted Ghost and Dark through Gen V
+        self.assertNotIn("Fairy", self.era.chart(4))
+
+    def test_past_typing_and_stats(self):
+        self.assertEqual(self.era.types("Clefairy", 4), ("Normal",))
+        self.assertEqual(self.era.types("Rotom-Wash", 4), ("Electric", "Ghost"))
+        for sp in rules.gen_data(4)["species"].values():
+            try:
+                self.era.pokemon_id(sp["name"])
+            except KeyError:
+                continue                    # Smogon's fan-made CAP species and in-battle forms
+            self.assertEqual(self.era.types(sp["name"], 4), tuple(sp["types"]), sp["name"])
+            self.assertEqual(self.era.base_stats(sp["name"], 4), sp["bs"], sp["name"])
+
+    def test_stats_come_from_the_build_at_the_configured_level(self):
+        chomp = self.store.library["stock/garchomp-sweeper"]
+        stats, level, used = self.store.stats(chomp, "platinum")
+        self.assertEqual((level, stats["hp"], stats["atk"], stats["def"], stats["spe"]), (100, 357, 359, 227, 333))
+        self.assertEqual(self.store.stats(chomp, "platinum", level=50)[0]["spe"], 169)
+        self.assertEqual(used, ["IVs 31"])
+
+    def test_trainers_versions_and_teams(self):
+        self.assertEqual(len(self.store.trainers), 12)
+        for t in self.store.trainers.values():
+            for v in t.versions.values():
+                self.assertTrue(1 <= len(self.store.team(v)) <= 6, f"{t.id}/{v.id}")
+        paul = self.store.version("paul", "sinnoh")
+        self.assertTrue(paul.sliders["offense"]["value"] >= 70 and paul.sliders["rigidity"]["value"] >= 70)
+        self.assertIn("demanding, not cold", paul.sliders["bond"]["why"])
+        red = self.store.team(self.store.version("red"))
+        self.assertEqual((red[0].species, red[0].level, red[0].item, red[0].ivs["spe"], red[0].evs["atk"]),
+                         ("Pikachu", 88, "Light Ball", 30, 0))           # the cartridge's own data
+
+    def test_moves_outside_the_game_are_flagged_not_rejected(self):
+        from trainers.model import Build
+        flags = self.store.check(Build(id="t", species="Pikachu", moves=["Surf", "Thunderbolt"]), "platinum")
+        self.assertEqual(len(flags), 1)
+        self.assertIn("not learnable in this generation", flags[0])
+        ash = self.store.team(self.store.version("ash", "kanto"))
+        self.assertTrue(any("Seismic Toss" in f for f in self.store.check(ash[1], "heartgold")))
+
+    def test_lore_is_data_not_engine_logic(self):
+        """No code pairs a species with its lore item (Pikachu + Light Ball): that lives in data files."""
+        for folder in ("trainers", "battle"):
+            for name in os.listdir(os.path.join(ENGINE, folder)):
+                if name.endswith(".py"):
+                    with open(os.path.join(ENGINE, folder, name), encoding="utf-8") as fh:
+                        for line in fh:
+                            self.assertFalse('"Pikachu"' in line and '"Light Ball"' in line, f"{folder}/{name}: {line}")
+        from battle.scouting import SIGNATURE_ITEMS
+        self.assertEqual(SIGNATURE_ITEMS["Pikachu"], "Light Ball")            # read from battle/species_items.json
+
+
 if __name__ == "__main__":
     unittest.main()

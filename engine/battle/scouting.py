@@ -21,7 +21,8 @@ GAME_TITLE = {"crystal": "Crystal", "firered": "FireRed", "emerald": "Emerald", 
               "heartgold": "HeartGold", "soulsilver": "SoulSilver"}
 GAME_VERSION_IDS = {"crystal": [6], "firered": [10], "emerald": [9], "platinum": [14], "heartgold": [15],
                     "soulsilver": [16]}
-SIGNATURE_ITEMS = {"Pikachu": "Light Ball", "Marowak": "Thick Club", "Farfetch'd": "Stick"}   # species-only boosters
+with open(os.path.join(HERE, "species_items.json"), encoding="utf-8") as _fh:   # species-only boosters (data)
+    SIGNATURE_ITEMS = json.load(_fh)["items"]
 # Left out of a filled-in set: moves that need a recharge, a charge turn, a condition, or a faint to work.
 UNRELIABLE = {"Hyper Beam", "Giga Impact", "Blast Burn", "Frenzy Plant", "Hydro Cannon", "Rock Wrecker", "Roar of Time",
               "Solar Beam", "Sky Attack", "Skull Bash", "Razor Wind", "Focus Punch", "Dream Eater", "Explosion",

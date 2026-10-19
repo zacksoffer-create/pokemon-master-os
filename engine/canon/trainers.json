@@ -1,0 +1,685 @@
+{
+ "_note": "Trainers as trainer -> version -> team (docs/TRAINER_REPORT.md). Sliders run 0-100: offense (defensive 0, offensive 100), rigidity (flexible 0, rigid 100), bond (tool 0, partnership 100), risk (percentage player 0, gambler 100). Every authored value is a proposal with its reason until approved; cartridge teams are read from the games' data. Lore lives in notes and overrides, never in code.",
+ "trainers": {
+  "me": {
+   "name": "Me",
+   "notes": [
+    "The retired Champion (D-042). Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+   ],
+   "versions": {
+    "heartgold": {
+     "title": "HeartGold (main)",
+     "game": "heartgold",
+     "team": {
+      "lineup": "heartgold"
+     },
+     "source": "canon register (rosters.json + builds.json)",
+     "status": "canon",
+     "sliders": {},
+     "roles": [],
+     "notes": []
+    },
+    "soulsilver": {
+     "title": "SoulSilver",
+     "game": "soulsilver",
+     "team": {
+      "lineup": "soulsilver"
+     },
+     "source": "canon register (rosters.json + builds.json)",
+     "status": "canon",
+     "sliders": {},
+     "roles": [],
+     "notes": []
+    },
+    "platinum": {
+     "title": "Platinum",
+     "game": "platinum",
+     "team": {
+      "lineup": "platinum"
+     },
+     "source": "canon register (rosters.json + builds.json)",
+     "status": "canon",
+     "sliders": {},
+     "roles": [],
+     "notes": []
+    },
+    "crystal": {
+     "title": "Crystal",
+     "game": "crystal",
+     "team": {
+      "lineup": "crystal"
+     },
+     "source": "canon register (rosters.json + builds.json)",
+     "status": "canon",
+     "sliders": {},
+     "roles": [],
+     "notes": []
+    },
+    "firered": {
+     "title": "FireRed",
+     "game": "firered",
+     "team": {
+      "lineup": "firered"
+     },
+     "source": "canon register (rosters.json + builds.json)",
+     "status": "canon",
+     "sliders": {},
+     "roles": [],
+     "notes": []
+    },
+    "emerald": {
+     "title": "Emerald",
+     "game": "emerald",
+     "team": {
+      "lineup": "emerald"
+     },
+     "source": "canon register (rosters.json + builds.json)",
+     "status": "canon",
+     "sliders": {},
+     "roles": [],
+     "notes": []
+    }
+   }
+  },
+  "ash": {
+   "name": "Ash",
+   "notes": [
+    "Anime canon. Teams and movesets are drafts from the show, checked against the games' learnsets."
+   ],
+   "versions": {
+    "kanto": {
+     "title": "Kanto Ash (Indigo League)",
+     "game": "heartgold",
+     "source": "anime, Indigo League",
+     "status": "proposed",
+     "team": {
+      "builds": [
+       "ash-kanto/pikachu",
+       "ash-kanto/charizard",
+       "ash-kanto/bulbasaur",
+       "ash-kanto/squirtle",
+       "ash-kanto/pidgeotto",
+       "ash-kanto/kingler"
+      ]
+     },
+     "sliders": {
+      "offense": {
+       "value": 80,
+       "why": "charges in with his strongest attack"
+      },
+      "rigidity": {
+       "value": 40,
+       "why": "stubborn, but already improvising"
+      },
+      "bond": {
+       "value": 95,
+       "why": "partnership above everything"
+      },
+      "risk": {
+       "value": 85,
+       "why": "throws everything at long shots"
+      }
+     },
+     "roles": [],
+     "notes": [
+      "Charizard disobeys through most of this era (lore)."
+     ]
+    },
+    "sinnoh": {
+     "title": "Sinnoh Ash (Lily of the Valley)",
+     "game": "platinum",
+     "source": "anime, Diamond & Pearl",
+     "status": "proposed",
+     "team": {
+      "builds": [
+       "ash-sinnoh/pikachu",
+       "ash-sinnoh/infernape",
+       "ash-sinnoh/torterra",
+       "ash-sinnoh/staraptor",
+       "ash-sinnoh/gliscor",
+       "ash-sinnoh/buizel"
+      ]
+     },
+     "sliders": {
+      "offense": {
+       "value": 70,
+       "why": "still strikes first, now with planned combos"
+      },
+      "rigidity": {
+       "value": 25,
+       "why": "his most improvised era (Counter Shield, using the field)"
+      },
+      "bond": {
+       "value": 95,
+       "why": "partnership above everything"
+      },
+      "risk": {
+       "value": 70,
+       "why": "takes chances, but measured ones"
+      }
+     },
+     "roles": [],
+     "notes": [
+      "Gible was also on the team; Buizel takes the sixth slot here."
+     ]
+    },
+    "all-time": {
+     "title": "All-time Ash (Gen IV species)",
+     "game": "platinum",
+     "source": "anime, every era; Gen I-IV species only",
+     "status": "proposed",
+     "team": {
+      "builds": [
+       "ash-all-time/pikachu",
+       "ash-all-time/charizard",
+       "ash-all-time/sceptile",
+       "ash-all-time/infernape",
+       "ash-all-time/snorlax",
+       "ash-all-time/heracross"
+      ]
+     },
+     "sliders": {
+      "offense": {
+       "value": 75,
+       "why": "attacks first, with his strongest"
+      },
+      "rigidity": {
+       "value": 25,
+       "why": "improvises, uses the field"
+      },
+      "bond": {
+       "value": 98,
+       "why": "the partnership is the point"
+      },
+      "risk": {
+       "value": 75,
+       "why": "will gamble for the win"
+      }
+     },
+     "roles": [
+      "Champion"
+     ],
+     "overrides": {
+      "ace": "Pikachu"
+     },
+     "notes": [
+      "Won the Orange League and, later, the Alola League and the World Coronation Series (lore).",
+      "Greninja and later partners are left out: they aren't Gen IV species."
+     ]
+    }
+   }
+  },
+  "red": {
+   "name": "Red",
+   "notes": [
+    "The games' Red, read from the HeartGold cartridge."
+   ],
+   "versions": {
+    "mt-silver": {
+     "title": "Red on Mt. Silver (HeartGold)",
+     "game": "heartgold",
+     "source": "cartridge",
+     "status": "cartridge",
+     "team": {
+      "cartridge": {
+       "game": "heartgold",
+       "index": 260
+      }
+     },
+     "sliders": {
+      "offense": {
+       "value": 70,
+       "why": "a hard-hitting team with no tricks"
+      },
+      "rigidity": {
+       "value": 55,
+       "why": "the same six for years"
+      },
+      "bond": {
+       "value": 85,
+       "why": "Pikachu at his side since the start"
+      },
+      "risk": {
+       "value": 30,
+       "why": "takes the strongest safe move"
+      }
+     },
+     "roles": [
+      "Champion"
+     ],
+     "notes": [
+      "Former Indigo Plateau Champion (lore)."
+     ]
+    }
+   }
+  },
+  "gary": {
+   "name": "Gary",
+   "notes": [
+    "Blue is the games' counterpart of Gary; kept as its own version."
+   ],
+   "versions": {
+    "johto": {
+     "title": "Gary at the Silver Conference",
+     "game": "heartgold",
+     "source": "anime, Johto",
+     "status": "proposed",
+     "team": {
+      "builds": [
+       "gary-johto/blastoise",
+       "gary-johto/arcanine",
+       "gary-johto/nidoqueen",
+       "gary-johto/magmar",
+       "gary-johto/golem",
+       "gary-johto/scizor"
+      ]
+     },
+     "sliders": {
+      "offense": {
+       "value": 60,
+       "why": "polished, matchup-driven offense"
+      },
+      "rigidity": {
+       "value": 40,
+       "why": "adapts to the opponent, a researcher's mind"
+      },
+      "bond": {
+       "value": 70,
+       "why": "grew from a show-off into a partner"
+      },
+      "risk": {
+       "value": 40,
+       "why": "calculated more than reckless"
+      }
+     },
+     "roles": [],
+     "notes": [
+      "Movesets are low-confidence drafts; edit freely."
+     ]
+    },
+    "blue-hgss": {
+     "title": "Blue, Viridian Gym (HeartGold)",
+     "game": "heartgold",
+     "source": "cartridge",
+     "status": "cartridge",
+     "team": {
+      "cartridge": {
+       "game": "heartgold",
+       "index": 261
+      }
+     },
+     "sliders": {
+      "offense": {
+       "value": 65,
+       "why": "a balanced team that hits hard"
+      },
+      "rigidity": {
+       "value": 50,
+       "why": "a set lineup"
+      },
+      "bond": {
+       "value": 60,
+       "why": "proud of them, not soft on them"
+      },
+      "risk": {
+       "value": 40,
+       "why": "plays the percentages"
+      }
+     },
+     "roles": [
+      "Gym Leader"
+     ],
+     "notes": [
+      "Was the Champion before Red (lore)."
+     ]
+    }
+   }
+  },
+  "paul": {
+   "name": "Paul",
+   "notes": [
+    "The acceptance test: he should read aggressive and rigid, with a bond that is demanding, not cold."
+   ],
+   "versions": {
+    "sinnoh": {
+     "title": "Paul at Lily of the Valley",
+     "game": "platinum",
+     "source": "anime, Diamond & Pearl",
+     "status": "proposed",
+     "team": {
+      "builds": [
+       "paul-sinnoh/electivire",
+       "paul-sinnoh/torterra",
+       "paul-sinnoh/ninjask",
+       "paul-sinnoh/froslass",
+       "paul-sinnoh/drapion",
+       "paul-sinnoh/gastrodon"
+      ]
+     },
+     "sliders": {
+      "offense": {
+       "value": 85,
+       "why": "overwhelming power to win fast"
+      },
+      "rigidity": {
+       "value": 85,
+       "why": "a strict system: scout, train for one job, cut what doesn't fit"
+      },
+      "bond": {
+       "value": 60,
+       "why": "tough love: demanding, not cold"
+      },
+      "risk": {
+       "value": 30,
+       "why": "calculated, never reckless"
+      }
+     },
+     "roles": [],
+     "notes": [
+      "Released Chimchar for not fitting his system (lore)."
+     ]
+    }
+   }
+  },
+  "brock": {
+   "name": "Brock",
+   "notes": [
+    "The games' Brock, read from the HeartGold cartridge."
+   ],
+   "versions": {
+    "pewter-hgss": {
+     "title": "Brock, Pewter Gym (HeartGold)",
+     "game": "heartgold",
+     "source": "cartridge",
+     "status": "cartridge",
+     "team": {
+      "cartridge": {
+       "game": "heartgold",
+       "index": 253
+      }
+     },
+     "sliders": {
+      "offense": {
+       "value": 30,
+       "why": "rock walls that take the first hit"
+      },
+      "rigidity": {
+       "value": 70,
+       "why": "one type, one plan"
+      },
+      "bond": {
+       "value": 90,
+       "why": "a breeder who knows what each Pokémon needs (anime)"
+      },
+      "risk": {
+       "value": 20,
+       "why": "rock-solid and careful"
+      }
+     },
+     "roles": [
+      "Gym Leader"
+     ],
+     "notes": []
+    }
+   }
+  },
+  "misty": {
+   "name": "Misty",
+   "notes": [
+    "The games' Misty, read from the HeartGold cartridge."
+   ],
+   "versions": {
+    "cerulean-hgss": {
+     "title": "Misty, Cerulean Gym (HeartGold)",
+     "game": "heartgold",
+     "source": "cartridge",
+     "status": "cartridge",
+     "team": {
+      "cartridge": {
+       "game": "heartgold",
+       "index": 254
+      }
+     },
+     "sliders": {
+      "offense": {
+       "value": 65,
+       "why": "a fiery temper and fast water attacks"
+      },
+      "rigidity": {
+       "value": 55,
+       "why": "a water specialist"
+      },
+      "bond": {
+       "value": 85,
+       "why": "loves her Pokémon loudly"
+      },
+      "risk": {
+       "value": 50,
+       "why": "trusts her gut"
+      }
+     },
+     "roles": [
+      "Gym Leader"
+     ],
+     "notes": []
+    }
+   }
+  },
+  "may": {
+   "name": "May",
+   "notes": [
+    "Coordinator: her contest ribbons belong to her career (Part 2), not to these builds."
+   ],
+   "versions": {
+    "grand-festival": {
+     "title": "May (Kanto Grand Festival era)",
+     "game": "platinum",
+     "source": "anime, Advanced Generation",
+     "status": "proposed",
+     "team": {
+      "builds": [
+       "may-grand-festival/blaziken",
+       "may-grand-festival/venusaur",
+       "may-grand-festival/wartortle",
+       "may-grand-festival/munchlax",
+       "may-grand-festival/beautifly",
+       "may-grand-festival/skitty"
+      ]
+     },
+     "sliders": {
+      "offense": {
+       "value": 55,
+       "why": "showy attacks first"
+      },
+      "rigidity": {
+       "value": 30,
+       "why": "contest combos: creative and changing"
+      },
+      "bond": {
+       "value": 85,
+       "why": "raised most of them from the start"
+      },
+      "risk": {
+       "value": 55,
+       "why": "will try a flashy long shot"
+      }
+     },
+     "roles": [],
+     "notes": []
+    }
+   }
+  },
+  "dawn": {
+   "name": "Dawn",
+   "notes": [
+    "Coordinator: her contest ribbons belong to her career (Part 2), not to these builds."
+   ],
+   "versions": {
+    "grand-festival": {
+     "title": "Dawn (Sinnoh Grand Festival era)",
+     "game": "platinum",
+     "source": "anime, Diamond & Pearl",
+     "status": "proposed",
+     "team": {
+      "builds": [
+       "dawn-grand-festival/piplup",
+       "dawn-grand-festival/togekiss",
+       "dawn-grand-festival/mamoswine",
+       "dawn-grand-festival/pachirisu",
+       "dawn-grand-festival/buneary",
+       "dawn-grand-festival/ambipom"
+      ]
+     },
+     "sliders": {
+      "offense": {
+       "value": 50,
+       "why": "balanced: shows off, then strikes"
+      },
+      "rigidity": {
+       "value": 30,
+       "why": "contest combos: creative and changing"
+      },
+      "bond": {
+       "value": 85,
+       "why": "close with every one of them (Mamoswine took work)"
+      },
+      "risk": {
+       "value": 50,
+       "why": "\"No need to worry!\""
+      }
+     },
+     "roles": [],
+     "notes": []
+    }
+   }
+  },
+  "lance": {
+   "name": "Lance",
+   "notes": [
+    "The games' Lance, read from the HeartGold cartridge."
+   ],
+   "versions": {
+    "champion-hgss": {
+     "title": "Champion Lance (HeartGold)",
+     "game": "heartgold",
+     "source": "cartridge",
+     "status": "cartridge",
+     "team": {
+      "cartridge": {
+       "game": "heartgold",
+       "index": 244
+      }
+     },
+     "sliders": {
+      "offense": {
+       "value": 80,
+       "why": "dragons that Hyper Beam"
+      },
+      "rigidity": {
+       "value": 60,
+       "why": "dragons only"
+      },
+      "bond": {
+       "value": 75,
+       "why": "a dragon tamer's respect"
+      },
+      "risk": {
+       "value": 55,
+       "why": "will fire the big move"
+      }
+     },
+     "roles": [
+      "Champion",
+      "Region Champion"
+     ],
+     "notes": []
+    }
+   }
+  },
+  "cynthia": {
+   "name": "Cynthia",
+   "notes": [
+    "The games' Cynthia, read from the Platinum cartridge."
+   ],
+   "versions": {
+    "champion-platinum": {
+     "title": "Champion Cynthia (Platinum)",
+     "game": "platinum",
+     "source": "cartridge",
+     "status": "cartridge",
+     "team": {
+      "cartridge": {
+       "game": "platinum",
+       "file": "champion_cynthia"
+      }
+     },
+     "sliders": {
+      "offense": {
+       "value": 65,
+       "why": "strong attackers, no wasted turns"
+      },
+      "rigidity": {
+       "value": 20,
+       "why": "a balanced team that covers everything"
+      },
+      "bond": {
+       "value": 85,
+       "why": "calm trust in each partner"
+      },
+      "risk": {
+       "value": 30,
+       "why": "plays the percentages"
+      }
+     },
+     "roles": [
+      "Champion",
+      "Region Champion"
+     ],
+     "notes": []
+    }
+   }
+  },
+  "giovanni": {
+   "name": "Giovanni",
+   "notes": [
+    "Viridian Gym Leader and Team Rocket's boss (lore). The Gen IV version is the HeartGold/SoulSilver Celebi event."
+   ],
+   "versions": {
+    "celebi-event-hgss": {
+     "title": "Giovanni (HeartGold Celebi event)",
+     "game": "heartgold",
+     "source": "cartridge",
+     "status": "cartridge",
+     "team": {
+      "cartridge": {
+       "game": "heartgold",
+       "index": 700
+      }
+     },
+     "sliders": {
+      "offense": {
+       "value": 75,
+       "why": "ground-shaking power"
+      },
+      "rigidity": {
+       "value": 70,
+       "why": "control and fear"
+      },
+      "bond": {
+       "value": 15,
+       "why": "Pokémon are tools"
+      },
+      "risk": {
+       "value": 40,
+       "why": "patient, but ruthless"
+      }
+     },
+     "roles": [],
+     "notes": [
+      "No gym in this version, so no Gym Leader tag here."
+     ]
+    }
+   }
+  }
+ }
+}

@@ -26,8 +26,8 @@ from battle.moves import MoveBook  # noqa: E402
 from battle.phrases import Phrasebook  # noqa: E402
 from battle.playsheet import SITUATIONS, member_sheet, sheet as play_sheet, their_sheet  # noqa: E402
 from battle.profile import POLES, SLIDER_NAMES, SLIDERS, Profiler  # noqa: E402
-from battle.scouting import GAME_TITLE, SIGNATURE_ITEMS, Scouting, join  # noqa: E402
-from team import Member, Team  # noqa: E402
+from battle.scouting import GAME_TITLE, Scouting, join  # noqa: E402
+from team import Team  # noqa: E402
 
 DOCS = os.path.join(os.path.dirname(ENGINE), "docs", "scouting")
 METHOD = ("No grades: every line below is a phrase from the phrase book (engine/battle/phrasebook.json), triggered by "
@@ -128,16 +128,7 @@ def chapter_data(scout, lineup, coach=None):
         for s, wins in sh["anchors"]:
             record[s][0] += wins
             record[s][1] += len(sh["calls"]) - wins
-    notes = []
-    for mem in team.members:   # a signature item not on record (Pikachu's Light Ball): the record with it
-        item = SIGNATURE_ITEMS.get(mem.species)
-        if item and not mem.item:
-            alt = Team(game, [Member(m.species, moves=m.moves, nature=m.nature, ability=m.ability,
-                                     item=item if m is mem else m.item) for m in team.members])
-            wins = sum(dict(scout.grid.matchups(alt, o)["anchors"])[mem.species] for o in opponents)
-            w, l = record[mem.species]
-            notes.append(f"{mem.species} has no {item} on record: {w}-{l} against the league without it, "
-                         f"{wins}-{w + l - wins} with it.")
+    notes = []   # what-ifs like "with its Light Ball" are lineups (canon/lineups.json), not engine logic
     cards = [scout.report(sp, game, b, tuple(record[rules.species(team.gen, sp)["name"]])) for sp, b in lineup["members"]]
     return {"id": lineup["id"], "chapter": lineup["chapter"], "game": game, "title": lineup["title"],
             "thesis": lineup["thesis"], "status": lineup["status"], "decision": lineup["decision"],
