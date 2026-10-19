@@ -39,14 +39,14 @@ On a Gen 4 type chart (with Gengar's Gen 4 Levitate), the provisional six resolv
 | Pair | Covers each other | Shared weaknesses |
 |---|---|---|
 | Dragonite ↔ Empoleon | Empoleon takes Dragonite's Ice (×4), Rock, Dragon. Dragonite takes Empoleon's Fighting and Ground | none |
-| Scizor ↔ Infernape | Infernape takes Scizor's *only* weakness (Fire ×4). Scizor takes Infernape's Psychic | none |
+| Scizor ↔ Infernape | Infernape takes Scizor's *only* weakness (Fire ×4; Dragonite also resists it). Scizor takes Infernape's Psychic | none |
 | Gengar → Pikachu | Levitate makes Gengar immune to Pikachu's only weakness (Ground) | none |
 
-For comparison, the **former Gyarados + Empoleon** pairing shared an Electric weakness and doubled the water role, while the old six had no answer to Scizor's ×4 Fire weakness. The July 16 swap to Infernape fixed both, whether or not that was the reason.
+For comparison, the **July 16 Gyarados → Infernape swap** (mechanically, whatever the actual reason was): it removed Gyarados and Empoleon's shared Electric weakness; it traded a *third* Surf/Waterfall/Whirlpool member for a *second* Rock Climb learner (Empoleon had been the only one); and it added the team's only Fire type. (Scizor's ×4 Fire weakness was already covered before, by Dragonite and Gyarados, both of which resist Fire.)
 
 ### Playbook coverage (mechanical; "Show us anything. We have an answer.")
 - **Every member can carry a priority move** in HGSS: Quick Attack, ExtremeSpeed, Mach Punch, Aqua Jet, Sucker Punch, Bullet Punch.
-- **Gengar holds 9 of the 17 answers that only one member can learn** (Perish Song, Trick Room, Destiny Bond, Hypnosis, Disable, Trick, Sucker Punch…). Structurally it's the team's audible-caller.
+- **Gengar holds 7 of the 17 answers that only one member can learn**: Perish Song, Trick Room, Destiny Bond, Hypnosis, Disable, Trick and Sucker Punch. No other member holds more than 3. Structurally it's the team's audible-caller.
 - **Gap: team status care.** No member can learn Heal Bell, Aromatherapy or Refresh. HeartGold has Lapras's Heal Bell; Emerald has Swampert's Refresh. Alternates that would add it: **Lanturn** (Heal Bell) and **Mismagius** (Heal Bell, Shadow Sneak). One possible non-move answer is *preparation* (berries, medicine), which touches the equipment half-thought. Noting the connection only, not running with it.
 - Other absences: Rapid Spin/hazard control (Starmie adds it), Spikes (Skarmory), Whirlwind (Noctowl, Skarmory).
 
