@@ -1,0 +1,1337 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "gary",
+ "trainer_name": "Gary",
+ "version": "blue-hgss",
+ "title": "Blue, Viridian Gym (HeartGold)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "cartridge",
+ "status": "cartridge",
+ "notes": [
+  "Blue is the games' counterpart of Gary; kept as its own version.",
+  "Was the Champion before Red (lore)."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 65,
+   "why": "a balanced team that hits hard",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 100,
+     "members": [
+      "Exeggutor",
+      "Arcanine",
+      "Rhydon",
+      "Gyarados",
+      "Machamp",
+      "Pidgeot"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 67,
+     "members": [
+      "Arcanine",
+      "Rhydon",
+      "Gyarados",
+      "Machamp"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 33,
+     "members": [
+      "Arcanine",
+      "Pidgeot"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 50,
+   "why": "a set lineup",
+   "measured": 16,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Exeggutor",
+      "Pidgeot"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -34,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "choice",
+      "label": "Choice items",
+      "value": 0,
+      "members": []
+     },
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 33,
+      "members": [
+       "Exeggutor",
+       "Pidgeot"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 60,
+   "why": "proud of them, not soft on them",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 40,
+   "why": "plays the percentages",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Arcanine",
+      "Rhydon",
+      "Machamp"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "role",
+   "name": "Gym Leader",
+   "detail": [
+    "Gym Leader"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "gary",
+  "version": "blue-hgss",
+  "title": "Blue, Viridian Gym (HeartGold)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "cartridge:heartgold:261/0",
+    "species": "Exeggutor",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Psychic"
+    ],
+    "ability": "Chlorophyll",
+    "level": 100,
+    "stats": {
+     "hp": 330,
+     "atk": 225,
+     "def": 205,
+     "spa": 285,
+     "spd": 165,
+     "spe": 145
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 205,
+     "spd": 165,
+     "gap": 0.195
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Storm",
+     "Psychic",
+     "Hypnosis",
+     "Trick Room"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 47, as Exeggutor)"
+     },
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Exeggutor)"
+     },
+     {
+      "move": "Hypnosis",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Exeggutor)"
+     },
+     {
+      "move": "Trick Room",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Exeggutor)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #261"
+   },
+   {
+    "build": "cartridge:heartgold:261/1",
+    "species": "Arcanine",
+    "nickname": null,
+    "types": [
+     "Fire"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 320,
+     "atk": 255,
+     "def": 195,
+     "spa": 235,
+     "spd": 195,
+     "spe": 225
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 195,
+     "spd": 195,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Roar",
+     "Dragon Pulse",
+     "Flare Blitz",
+     "Extreme Speed"
+    ],
+    "move_basis": [
+     {
+      "move": "Roar",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Arcanine)"
+     },
+     {
+      "move": "Dragon Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Arcanine)"
+     },
+     {
+      "move": "Flare Blitz",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 48, as Growlithe)"
+     },
+     {
+      "move": "Extreme Speed",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 39, as Arcanine)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #261"
+   },
+   {
+    "build": "cartridge:heartgold:261/2",
+    "species": "Rhydon",
+    "nickname": null,
+    "types": [
+     "Ground",
+     "Rock"
+    ],
+    "ability": "Lightning Rod",
+    "level": 100,
+    "stats": {
+     "hp": 350,
+     "atk": 295,
+     "def": 275,
+     "spa": 125,
+     "spd": 125,
+     "spe": 115
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 275,
+     "spd": 125,
+     "gap": 0.545
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Megahorn",
+     "Stone Edge",
+     "Thunder Fang",
+     "Earthquake"
+    ],
+    "move_basis": [
+     {
+      "move": "Megahorn",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 57, as Rhydon)"
+     },
+     {
+      "move": "Stone Edge",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 45, as Rhydon)"
+     },
+     {
+      "move": "Thunder Fang",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Rhyhorn)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 49, as Rhydon)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #261"
+   },
+   {
+    "build": "cartridge:heartgold:261/3",
+    "species": "Gyarados",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Flying"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 330,
+     "atk": 285,
+     "def": 193,
+     "spa": 155,
+     "spd": 235,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 193,
+     "spd": 235,
+     "gap": 0.179
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from physical attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Ice Fang",
+     "Waterfall",
+     "Dragon Dance",
+     "Return"
+    ],
+    "move_basis": [
+     {
+      "move": "Ice Fang",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 32, as Gyarados)"
+     },
+     {
+      "move": "Waterfall",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Gyarados)"
+     },
+     {
+      "move": "Dragon Dance",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 44, as Gyarados)"
+     },
+     {
+      "move": "Return",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Gyarados)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #261"
+   },
+   {
+    "build": "cartridge:heartgold:261/4",
+    "species": "Machamp",
+    "nickname": null,
+    "types": [
+     "Fighting"
+    ],
+    "ability": "Guts",
+    "level": 100,
+    "stats": {
+     "hp": 320,
+     "atk": 295,
+     "def": 195,
+     "spa": 165,
+     "spd": 205,
+     "spe": 145
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 195,
+     "spd": 205,
+     "gap": 0.049
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Dynamic Punch",
+     "Earthquake",
+     "Stone Edge",
+     "Thunder Punch"
+    ],
+    "move_basis": [
+     {
+      "move": "Dynamic Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 51, as Machamp)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Machamp)"
+     },
+     {
+      "move": "Stone Edge",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Machamp)"
+     },
+     {
+      "move": "Thunder Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (tutor, as Machamp)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #261"
+   },
+   {
+    "build": "cartridge:heartgold:261/5",
+    "species": "Pidgeot",
+    "nickname": null,
+    "types": [
+     "Normal",
+     "Flying"
+    ],
+    "ability": "Keen Eye",
+    "level": 100,
+    "stats": {
+     "hp": 306,
+     "atk": 195,
+     "def": 185,
+     "spa": 175,
+     "spd": 175,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 185,
+     "spd": 175,
+     "gap": 0.054
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Return",
+     "Whirlwind",
+     "Air Slash",
+     "Mirror Move"
+    ],
+    "move_basis": [
+     {
+      "move": "Return",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Pidgeot)"
+     },
+     {
+      "move": "Whirlwind",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 17, as Pidgeot)"
+     },
+     {
+      "move": "Air Slash",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 62, as Pidgeot)"
+     },
+     {
+      "move": "Mirror Move",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 56, as Pidgeot)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #261"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Rhydon"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Rhydon"
+     ],
+     "covered_by": [
+      "Exeggutor",
+      "Gyarados"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Exeggutor",
+      "Machamp"
+     ],
+     "covered_by": [
+      "Rhydon"
+     ]
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Exeggutor"
+     ],
+     "covered_by": [
+      "Rhydon"
+     ]
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 1,
+     "immune": 2,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Arcanine",
+      "Rhydon"
+     ],
+     "covered_by": [
+      "Exeggutor",
+      "Gyarados",
+      "Pidgeot"
+     ]
+    },
+    "Rock": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Arcanine",
+      "Gyarados",
+      "Pidgeot"
+     ],
+     "covered_by": [
+      "Rhydon",
+      "Machamp"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Exeggutor"
+     ],
+     "covered_by": [
+      "Arcanine",
+      "Gyarados",
+      "Machamp",
+      "Pidgeot"
+     ]
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Exeggutor"
+     ],
+     "covered_by": [
+      "Pidgeot"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Rhydon"
+     ],
+     "covered_by": [
+      "Arcanine",
+      "Gyarados"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Exeggutor"
+     ],
+     "covered_by": [
+      "Arcanine",
+      "Rhydon",
+      "Gyarados"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Arcanine",
+      "Rhydon"
+     ],
+     "covered_by": [
+      "Exeggutor",
+      "Gyarados"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Rhydon"
+     ],
+     "covered_by": [
+      "Exeggutor",
+      "Arcanine",
+      "Pidgeot"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Gyarados",
+      "Pidgeot"
+     ],
+     "covered_by": [
+      "Exeggutor",
+      "Rhydon"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Machamp"
+     ],
+     "covered_by": [
+      "Exeggutor"
+     ]
+    },
+    "Ice": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Exeggutor",
+      "Rhydon",
+      "Pidgeot"
+     ],
+     "covered_by": [
+      "Arcanine"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Exeggutor"
+     ],
+     "covered_by": [
+      "Machamp"
+     ]
+    }
+   },
+   "gaps": [
+    "Ice",
+    "Rock"
+   ],
+   "strengths": [],
+   "soft": {
+    "physical": 1,
+    "special": 2,
+    "even": 3
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [
+     "Gyarados"
+    ],
+    "special": [
+     "Exeggutor",
+     "Rhydon"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Gary plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Gym Leader: a specialist's team built around one idea.",
+    "rule": "role_gym",
+    "trigger": "is_gym_leader == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (14 of 18 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Called rigid (50), but this team reads flexible (16): no Choice items; low move-type variety: Exeggutor and Pidgeot.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Ice: Exeggutor, Rhydon and Pidgeot are weak to it, and only Arcanine can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Rock (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Exeggutor to Bug; Rhydon to Water and Grass; Gyarados to Electric (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Exeggutor and Rhydon are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Arcanine's Flare Blitz (recoil); Rhydon's Stone Edge (80%); Machamp's Dynamic Punch (50%) and Stone Edge (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Gym Leader"
+ ],
+ "overrides": {}
+}

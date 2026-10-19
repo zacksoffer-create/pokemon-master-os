@@ -1,0 +1,1321 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "paul",
+ "trainer_name": "Paul",
+ "version": "sinnoh",
+ "title": "Paul at Lily of the Valley",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl",
+ "status": "proposed",
+ "notes": [
+  "The acceptance test: he should read aggressive and rigid, with a bond that is demanding, not cold.",
+  "Released Chimchar for not fitting his system (lore)."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 85,
+   "why": "overwhelming power to win fast",
+   "measured": 78,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Electivire",
+      "Torterra",
+      "Ninjask",
+      "Froslass",
+      "Gastrodon"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Electivire",
+      "Torterra",
+      "Froslass",
+      "Drapion",
+      "Gastrodon"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 67,
+     "members": [
+      "Electivire",
+      "Ninjask",
+      "Froslass",
+      "Drapion"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 85,
+   "why": "a strict system: scout, train for one job, cut what doesn't fit",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Ninjask",
+      "Froslass"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -52,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 33,
+      "members": [
+       "Ninjask",
+       "Froslass"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 60,
+   "why": "tough love: demanding, not cold",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 30,
+   "why": "calculated, never reckless",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Torterra",
+      "Froslass"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "paul",
+  "version": "sinnoh",
+  "title": "Paul at Lily of the Valley",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "paul-sinnoh/electivire",
+    "species": "Electivire",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Motor Drive",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 303,
+     "def": 191,
+     "spa": 247,
+     "spd": 227,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 191,
+     "spd": 227,
+     "gap": 0.159
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Motor Drive",
+      "before_ability": "resists"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunder Punch",
+     "Protect",
+     "Giga Impact",
+     "Brick Break"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunder Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Electivire)"
+     },
+     {
+      "move": "Protect",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Electivire)"
+     },
+     {
+      "move": "Giga Impact",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 67, as Electivire)"
+     },
+     {
+      "move": "Brick Break",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Electivire)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "paul-sinnoh/torterra",
+    "species": "Torterra",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Ground"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 275,
+     "def": 267,
+     "spa": 207,
+     "spd": 227,
+     "spe": 169
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 267,
+     "spd": 227,
+     "gap": 0.15
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Storm",
+     "Earthquake",
+     "Hyper Beam",
+     "Stone Edge"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 57, as Torterra)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 32, as Torterra)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Stone Edge",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "paul-sinnoh/ninjask",
+    "species": "Ninjask",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Flying"
+    ],
+    "ability": "Speed Boost",
+    "level": 100,
+    "stats": {
+     "hp": 284,
+     "atk": 237,
+     "def": 147,
+     "spa": 157,
+     "spd": 157,
+     "spe": 377
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 147,
+     "spd": 157,
+     "gap": 0.064
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Agility",
+     "Double Team",
+     "Baton Pass",
+     "Fury Cutter"
+    ],
+    "move_basis": [
+     {
+      "move": "Agility",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 38, as Ninjask)"
+     },
+     {
+      "move": "Double Team",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Ninjask)"
+     },
+     {
+      "move": "Baton Pass",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 45, as Ninjask)"
+     },
+     {
+      "move": "Fury Cutter",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Ninjask)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "paul-sinnoh/froslass",
+    "species": "Froslass",
+    "nickname": null,
+    "types": [
+     "Ice",
+     "Ghost"
+    ],
+    "ability": "Snow Cloak",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 217,
+     "def": 197,
+     "spa": 217,
+     "spd": 197,
+     "spe": 277
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 197,
+     "spd": 197,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Fighting": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Blizzard",
+     "Ice Shard",
+     "Shadow Ball",
+     "Double Team"
+    ],
+    "move_basis": [
+     {
+      "move": "Blizzard",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 51, as Froslass)"
+     },
+     {
+      "move": "Ice Shard",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Froslass)"
+     },
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Froslass)"
+     },
+     {
+      "move": "Double Team",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Froslass)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "paul-sinnoh/drapion",
+    "species": "Drapion",
+    "nickname": null,
+    "types": [
+     "Poison",
+     "Dark"
+    ],
+    "ability": "Battle Armor",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 237,
+     "def": 277,
+     "spa": 177,
+     "spd": 207,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 277,
+     "spd": 207,
+     "gap": 0.253
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Battle Armor (could be Sniper)"
+    ],
+    "moves": [
+     "Pin Missile",
+     "Cross Poison",
+     "Thunder Fang",
+     "Ice Fang"
+    ],
+    "move_basis": [
+     {
+      "move": "Pin Missile",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 12, as Drapion)"
+     },
+     {
+      "move": "Cross Poison",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 58, as Drapion)"
+     },
+     {
+      "move": "Thunder Fang",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Drapion)"
+     },
+     {
+      "move": "Ice Fang",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Drapion)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "paul-sinnoh/gastrodon",
+    "species": "Gastrodon",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Sticky Hold",
+    "level": 100,
+    "stats": {
+     "hp": 384,
+     "atk": 223,
+     "def": 193,
+     "spa": 241,
+     "spd": 221,
+     "spe": 135
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 193,
+     "spd": 221,
+     "gap": 0.127
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Sticky Hold (could be Storm Drain)"
+    ],
+    "moves": [
+     "Mud Bomb",
+     "Water Pulse",
+     "Hidden Power",
+     "Sludge Bomb"
+    ],
+    "move_basis": [
+     {
+      "move": "Mud Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 11, as Gastrodon)"
+     },
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Gastrodon)"
+     },
+     {
+      "move": "Hidden Power",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 16, as Gastrodon)"
+     },
+     {
+      "move": "Sludge Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Gastrodon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Froslass"
+     ]
+    },
+    "Fighting": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Ninjask",
+      "Froslass"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Torterra",
+      "Ninjask"
+     ],
+     "covered_by": [
+      "Electivire"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Froslass",
+      "Drapion",
+      "Gastrodon"
+     ]
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Electivire",
+      "Drapion"
+     ],
+     "covered_by": [
+      "Torterra",
+      "Ninjask"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Ninjask",
+      "Froslass"
+     ],
+     "covered_by": [
+      "Torterra",
+      "Gastrodon"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Torterra"
+     ],
+     "covered_by": [
+      "Ninjask",
+      "Froslass"
+     ]
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Froslass"
+     ],
+     "covered_by": [
+      "Drapion"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Froslass"
+     ],
+     "covered_by": [
+      "Electivire",
+      "Gastrodon"
+     ]
+    },
+    "Fire": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Torterra",
+      "Ninjask",
+      "Froslass"
+     ],
+     "covered_by": [
+      "Gastrodon"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Gastrodon"
+     ],
+     "covered_by": [
+      "Ninjask",
+      "Drapion"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 3,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Ninjask"
+     ],
+     "covered_by": [
+      "Electivire",
+      "Torterra",
+      "Gastrodon"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Drapion"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Torterra",
+      "Ninjask"
+     ],
+     "covered_by": [
+      "Froslass"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Froslass"
+     ],
+     "covered_by": [
+      "Drapion"
+     ]
+    }
+   },
+   "gaps": [
+    "Fire"
+   ],
+   "strengths": [
+    "Poison"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 1,
+    "even": 4
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [
+     "Electivire"
+    ],
+    "special": [
+     "Drapion"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Paul comes at you with force and runs it the same way every time: one plan, executed hard.",
+    "rule": "combo_off_rigid",
+    "trigger": "offense_band == high (here high); rigidity_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Close to their Pokémon, and demanding of them: tough love, not coldness.",
+    "rule": "bond_demanding",
+    "trigger": "bond_read == demanding (here demanding)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (11 physical, 8 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Electivire, Ninjask, Froslass and Drapion outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called rigid (85), but this team reads flexible (33): low move-type variety: Ninjask and Froslass.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Fire: Torterra, Ninjask and Froslass are weak to it, and only Gastrodon can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Torterra to Ice; Ninjask to Rock; Gastrodon to Grass (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Their bulk is even across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Electivire's Motor Drive changes Electric (from resists to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Poison: 3 of 6 resist Poison.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Rigid, and it shows: Ninjask and Froslass can't hit back outside their attack types. Once you've seen the plan, it won't change.",
+    "rule": "rigid_types",
+    "trigger": "rigidity_band == high (here high); few_types_str nonempty"
+   },
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Torterra's Stone Edge (80%); Froslass's Blizzard (70%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {}
+}

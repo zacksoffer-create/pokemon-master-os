@@ -1,0 +1,1331 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "me",
+ "trainer_name": "Zack",
+ "version": "soulsilver",
+ "title": "SoulSilver",
+ "game": "soulsilver",
+ "gen": 4,
+ "source": "canon register (rosters.json + builds.json)",
+ "status": "canon",
+ "notes": [
+  "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": null,
+   "why": null,
+   "measured": 89,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 100,
+     "members": [
+      "Pikachu",
+      "Dragonite",
+      "Infernape",
+      "Empoleon",
+      "Gengar",
+      "Scizor"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Pikachu",
+      "Dragonite",
+      "Infernape",
+      "Empoleon",
+      "Gengar",
+      "Scizor"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 67,
+     "members": [
+      "Pikachu",
+      "Dragonite",
+      "Infernape",
+      "Gengar"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": null,
+   "why": null,
+   "measured": 17,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 17,
+     "members": [
+      "Empoleon"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": null,
+   "why": null,
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": null,
+   "why": null,
+   "measured": 17,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 17,
+     "members": [
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "me",
+  "version": "soulsilver",
+  "title": "SoulSilver",
+  "game": "soulsilver",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "lineup:soulsilver/Pikachu",
+    "species": "Pikachu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 232,
+     "atk": 167,
+     "def": 117,
+     "spa": 157,
+     "spd": 137,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 117,
+     "spd": 137,
+     "gap": 0.146
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Volt Tackle",
+     "Quick Attack",
+     "Thunderbolt",
+     "Iron Tail"
+    ],
+    "move_basis": [
+     {
+      "move": "Volt Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (light-ball-egg, as Pichu)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 13, as Pikachu)"
+     },
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 26, as Pikachu)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Pikachu)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:soulsilver/Dragonite",
+    "species": "Dragonite",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Flying"
+    ],
+    "ability": "Inner Focus",
+    "level": 100,
+    "stats": {
+     "hp": 344,
+     "atk": 325,
+     "def": 247,
+     "spa": 257,
+     "spd": 257,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 247,
+     "spd": 257,
+     "gap": 0.039
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Fly",
+     "Roost",
+     "Extreme Speed",
+     "Dragon Claw"
+    ],
+    "move_basis": [
+     {
+      "move": "Fly",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Dragonite)"
+     },
+     {
+      "move": "Roost",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Dragonite)"
+     },
+     {
+      "move": "Extreme Speed",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Dratini)"
+     },
+     {
+      "move": "Dragon Claw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Dragonite)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:soulsilver/Infernape",
+    "species": "Infernape",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Fighting"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 314,
+     "atk": 265,
+     "def": 199,
+     "spa": 265,
+     "spd": 199,
+     "spe": 273
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 199,
+     "spd": 199,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Overheat",
+     "Earthquake",
+     "Close Combat",
+     "Swords Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Overheat",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Infernape)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Infernape)"
+     },
+     {
+      "move": "Close Combat",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 41, as Infernape)"
+     },
+     {
+      "move": "Swords Dance",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Infernape)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:soulsilver/Empoleon",
+    "species": "Empoleon",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Steel"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 330,
+     "atk": 229,
+     "def": 233,
+     "spa": 279,
+     "spd": 259,
+     "spe": 177
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 233,
+     "spd": 259,
+     "gap": 0.1
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Surf",
+     "Flash Cannon",
+     "Aqua Jet",
+     "Aqua Ring"
+    ],
+    "move_basis": [
+     {
+      "move": "Surf",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Empoleon)"
+     },
+     {
+      "move": "Flash Cannon",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Empoleon)"
+     },
+     {
+      "move": "Aqua Jet",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 36, as Empoleon)"
+     },
+     {
+      "move": "Aqua Ring",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Piplup)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:soulsilver/Gengar",
+    "species": "Gengar",
+    "nickname": null,
+    "types": [
+     "Ghost",
+     "Poison"
+    ],
+    "ability": "Levitate",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 187,
+     "def": 177,
+     "spa": 317,
+     "spd": 207,
+     "spe": 277
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 177,
+     "spd": 207,
+     "gap": 0.145
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Fighting": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Levitate",
+      "before_ability": "weak"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Shadow Ball",
+     "Disable",
+     "Dark Pulse",
+     "Psychic"
+    ],
+    "move_basis": [
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 33, as Gengar)"
+     },
+     {
+      "move": "Disable",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Gastly)"
+     },
+     {
+      "move": "Dark Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 44, as Gengar)"
+     },
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Gengar)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:soulsilver/Scizor",
+    "species": "Scizor",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Steel"
+    ],
+    "ability": "Swarm",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 317,
+     "def": 257,
+     "spa": 167,
+     "spd": 217,
+     "spe": 187
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 257,
+     "spd": 217,
+     "gap": 0.156
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Swarm (could be Technician)"
+    ],
+    "moves": [
+     "Bullet Punch",
+     "U-turn",
+     "Counter",
+     "Roost"
+    ],
+    "move_basis": [
+     {
+      "move": "Bullet Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Scizor)"
+     },
+     {
+      "move": "U-turn",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Scizor)"
+     },
+     {
+      "move": "Counter",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Scyther)"
+     },
+     {
+      "move": "Roost",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Scizor)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Empoleon",
+      "Gengar",
+      "Scizor"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Empoleon"
+     ],
+     "covered_by": [
+      "Dragonite",
+      "Gengar"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Infernape"
+     ],
+     "covered_by": [
+      "Pikachu",
+      "Empoleon"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 2,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Empoleon",
+      "Gengar",
+      "Scizor"
+     ]
+    },
+    "Ground": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Pikachu",
+      "Infernape",
+      "Empoleon"
+     ],
+     "covered_by": [
+      "Dragonite",
+      "Gengar"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Dragonite"
+     ],
+     "covered_by": [
+      "Empoleon"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Dragonite",
+      "Infernape",
+      "Empoleon",
+      "Gengar",
+      "Scizor"
+     ]
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Gengar"
+     ],
+     "covered_by": [
+      "Empoleon",
+      "Scizor"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Pikachu",
+      "Infernape",
+      "Empoleon",
+      "Scizor"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Scizor"
+     ],
+     "covered_by": [
+      "Dragonite",
+      "Infernape"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Infernape"
+     ],
+     "covered_by": [
+      "Dragonite",
+      "Empoleon"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Dragonite",
+      "Infernape",
+      "Gengar",
+      "Scizor"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Empoleon"
+     ],
+     "covered_by": [
+      "Pikachu"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Infernape",
+      "Gengar"
+     ],
+     "covered_by": [
+      "Empoleon",
+      "Scizor"
+     ]
+    },
+    "Ice": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Dragonite"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Empoleon",
+      "Scizor"
+     ]
+    },
+    "Dragon": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Dragonite"
+     ],
+     "covered_by": [
+      "Empoleon",
+      "Scizor"
+     ]
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Gengar"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Empoleon",
+      "Scizor"
+     ]
+    }
+   },
+   "gaps": [
+    "Ground"
+   ],
+   "strengths": [
+    "Bug",
+    "Steel",
+    "Grass",
+    "Poison",
+    "Normal"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 1,
+    "even": 5
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Scizor"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Zack comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "No sliders are set for this version yet, so this reads from the team's data alone.",
+    "rule": "unauthored",
+    "trigger": "authored_n == 0 (here 0)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Champion: they've won before and play like it.",
+    "rule": "role_champion",
+    "trigger": "is_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (12 physical, 7 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Pikachu, Dragonite, Infernape and Gengar outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Ground: Pikachu, Infernape and Empoleon are weak to it, and only Dragonite and Gengar can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Dragonite to Ice; Scizor to Fire (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Scizor is specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Gengar's Levitate changes Ground (from weak to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Bug, Steel or Grass: 5 of 6 resist Bug; 4 of 6 resist Steel; 4 of 6 resist Grass.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Pikachu's Volt Tackle (recoil) and Iron Tail (75%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion"
+ ],
+ "overrides": {}
+}

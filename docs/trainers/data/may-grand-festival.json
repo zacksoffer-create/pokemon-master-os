@@ -1,0 +1,1282 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "may",
+ "trainer_name": "May",
+ "version": "grand-festival",
+ "title": "May (Kanto Grand Festival era)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Advanced Generation",
+ "status": "proposed",
+ "notes": [
+  "Coordinator: her contest ribbons belong to her career (Part 2), not to these builds."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 55,
+   "why": "showy attacks first",
+   "measured": 66,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Blaziken",
+      "Venusaur",
+      "Munchlax",
+      "Beautifly",
+      "Skitty"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Blaziken",
+      "Venusaur",
+      "Wartortle",
+      "Munchlax",
+      "Skitty"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 33,
+     "members": [
+      "Blaziken",
+      "Venusaur"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 30,
+   "why": "contest combos: creative and changing",
+   "measured": 83,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 83,
+     "members": [
+      "Blaziken",
+      "Venusaur",
+      "Wartortle",
+      "Beautifly",
+      "Skitty"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": 53,
+    "team_leans": "rigid",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 83,
+      "members": [
+       "Blaziken",
+       "Venusaur",
+       "Wartortle",
+       "Beautifly",
+       "Skitty"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 85,
+   "why": "raised most of them from the start",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 55,
+   "why": "will try a flashy long shot",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Blaziken",
+      "Skitty"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "may",
+  "version": "grand-festival",
+  "title": "May (Kanto Grand Festival era)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "may-grand-festival/blaziken",
+    "species": "Blaziken",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Fighting"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 297,
+     "def": 197,
+     "spa": 277,
+     "spd": 197,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 197,
+     "spd": 197,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Blaze Kick",
+     "Fire Spin",
+     "Sky Uppercut",
+     "Flamethrower"
+    ],
+    "move_basis": [
+     {
+      "move": "Blaze Kick",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 36, as Blaziken)"
+     },
+     {
+      "move": "Fire Spin",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 25, as Torchic)"
+     },
+     {
+      "move": "Sky Uppercut",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 59, as Blaziken)"
+     },
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Blaziken)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "may-grand-festival/venusaur",
+    "species": "Venusaur",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 221,
+     "def": 223,
+     "spa": 257,
+     "spd": 257,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 223,
+     "spd": 257,
+     "gap": 0.132
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Solar Beam",
+     "Vine Whip",
+     "Razor Leaf",
+     "Frenzy Plant"
+    ],
+    "move_basis": [
+     {
+      "move": "Solar Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 53, as Venusaur)"
+     },
+     {
+      "move": "Vine Whip",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Venusaur)"
+     },
+     {
+      "move": "Razor Leaf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Venusaur)"
+     },
+     {
+      "move": "Frenzy Plant",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Venusaur)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "may-grand-festival/wartortle",
+    "species": "Wartortle",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 280,
+     "atk": 183,
+     "def": 217,
+     "spa": 187,
+     "spd": 217,
+     "spe": 173
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 217,
+     "spd": 217,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Gun",
+     "Rapid Spin",
+     "Bubble",
+     "Aqua Tail"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Wartortle)"
+     },
+     {
+      "move": "Rapid Spin",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Wartortle)"
+     },
+     {
+      "move": "Bubble",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Wartortle)"
+     },
+     {
+      "move": "Aqua Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 32, as Wartortle)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "may-grand-festival/munchlax",
+    "species": "Munchlax",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Pickup",
+    "level": 100,
+    "stats": {
+     "hp": 432,
+     "atk": 227,
+     "def": 137,
+     "spa": 137,
+     "spd": 227,
+     "spe": 67
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 137,
+     "spd": 227,
+     "gap": 0.396
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Pickup (could be Thick Fat)"
+    ],
+    "moves": [
+     "Focus Punch",
+     "Metronome",
+     "Tackle",
+     "Solar Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Focus Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Munchlax)"
+     },
+     {
+      "move": "Metronome",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Munchlax)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Munchlax)"
+     },
+     {
+      "move": "Solar Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Munchlax)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "may-grand-festival/beautifly",
+    "species": "Beautifly",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Flying"
+    ],
+    "ability": "Swarm",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 197,
+     "def": 157,
+     "spa": 237,
+     "spd": 157,
+     "spe": 187
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 157,
+     "spd": 157,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Silver Wind",
+     "Morning Sun",
+     "Gust",
+     "String Shot"
+    ],
+    "move_basis": [
+     {
+      "move": "Silver Wind",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 34, as Beautifly)"
+     },
+     {
+      "move": "Morning Sun",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Beautifly)"
+     },
+     {
+      "move": "Gust",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Beautifly)"
+     },
+     {
+      "move": "String Shot",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Wurmple)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "may-grand-festival/skitty",
+    "species": "Skitty",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Cute Charm",
+    "level": 100,
+    "stats": {
+     "hp": 262,
+     "atk": 147,
+     "def": 147,
+     "spa": 127,
+     "spd": 127,
+     "spe": 157
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 147,
+     "spd": 127,
+     "gap": 0.136
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Cute Charm (could be Normalize)"
+    ],
+    "moves": [
+     "Blizzard",
+     "Assist",
+     "Tackle",
+     "Double Slap"
+    ],
+    "move_basis": [
+     {
+      "move": "Blizzard",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Skitty)"
+     },
+     {
+      "move": "Assist",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 22, as Skitty)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Skitty)"
+     },
+     {
+      "move": "Double Slap",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 15, as Skitty)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Munchlax",
+      "Skitty"
+     ],
+     "covered_by": [
+      "Venusaur",
+      "Beautifly"
+     ]
+    },
+    "Flying": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Blaziken",
+      "Venusaur",
+      "Beautifly"
+     ],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Blaziken"
+     ],
+     "covered_by": [
+      "Beautifly"
+     ]
+    },
+    "Rock": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Beautifly"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Blaziken",
+      "Beautifly"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Munchlax",
+      "Skitty"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Blaziken",
+      "Wartortle"
+     ]
+    },
+    "Fire": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Venusaur",
+      "Beautifly"
+     ],
+     "covered_by": [
+      "Blaziken",
+      "Wartortle"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Blaziken"
+     ],
+     "covered_by": [
+      "Venusaur",
+      "Wartortle"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Wartortle"
+     ],
+     "covered_by": [
+      "Blaziken",
+      "Venusaur",
+      "Beautifly"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Wartortle",
+      "Beautifly"
+     ],
+     "covered_by": [
+      "Venusaur"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Blaziken",
+      "Venusaur"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Venusaur",
+      "Beautifly"
+     ],
+     "covered_by": [
+      "Blaziken",
+      "Wartortle"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Blaziken"
+     ]
+    }
+   },
+   "gaps": [
+    "Flying",
+    "Psychic"
+   ],
+   "strengths": [],
+   "soft": {
+    "physical": 1,
+    "special": 0,
+    "even": 5
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Munchlax"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "May adapts mid-battle.",
+    "rule": "rigid_low",
+    "trigger": "rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (10 physical, 10 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Called flexible (30), but this team reads rigid (83): low move-type variety: Blaziken, Venusaur, Wartortle, Beautifly and Skitty.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Flying: Blaziken, Venusaur and Beautifly are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Psychic (2 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Beautifly to Rock (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Munchlax is physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Blaziken's Fire Spin (70%); Skitty's Blizzard (70%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {}
+}

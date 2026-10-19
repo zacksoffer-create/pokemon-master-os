@@ -1,0 +1,606 @@
+{
+ "_note": "The trainer report's sentences (docs/TRAINER_REPORT.md). Same rules as the battle phrase book: conditions on the report's numbers, then a sentence with {placeholders}; within a group only the first match fires; a sentence never prints with an empty placeholder. Sections: who (who this trainer is), expect, beat, gap (where rigidity or recklessness leaves an opening). Per-trainer overrides in canon/trainers.json replace a section for named characters.",
+ "report": [
+  {
+   "id": "combo_off_rigid",
+   "section": "who",
+   "when": [
+    [
+     "offense_band",
+     "==",
+     "high"
+    ],
+    [
+     "rigidity_band",
+     "==",
+     "high"
+    ]
+   ],
+   "say": "{trainer} comes at you with force and runs it the same way every time: one plan, executed hard.",
+   "group": "combo"
+  },
+  {
+   "id": "combo_off_flex",
+   "section": "who",
+   "when": [
+    [
+     "offense_band",
+     "==",
+     "high"
+    ],
+    [
+     "rigidity_band",
+     "==",
+     "low"
+    ]
+   ],
+   "say": "{trainer} comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+   "group": "combo"
+  },
+  {
+   "id": "combo_def_rigid",
+   "section": "who",
+   "when": [
+    [
+     "offense_band",
+     "==",
+     "low"
+    ],
+    [
+     "rigidity_band",
+     "==",
+     "high"
+    ]
+   ],
+   "say": "{trainer} takes the first hit and grinds you down with a system that doesn't change.",
+   "group": "combo"
+  },
+  {
+   "id": "combo_def_flex",
+   "section": "who",
+   "when": [
+    [
+     "offense_band",
+     "==",
+     "low"
+    ],
+    [
+     "rigidity_band",
+     "==",
+     "low"
+    ]
+   ],
+   "say": "{trainer} takes the first hit and adjusts to you: a patient counter-puncher.",
+   "group": "combo"
+  },
+  {
+   "id": "off_high",
+   "section": "who",
+   "when": [
+    [
+     "offense_band",
+     "==",
+     "high"
+    ]
+   ],
+   "say": "{trainer} plays offense first.",
+   "group": "combo"
+  },
+  {
+   "id": "off_low",
+   "section": "who",
+   "when": [
+    [
+     "offense_band",
+     "==",
+     "low"
+    ]
+   ],
+   "say": "{trainer} plays defense first and makes you come to them.",
+   "group": "combo"
+  },
+  {
+   "id": "rigid_high",
+   "section": "who",
+   "when": [
+    [
+     "rigidity_band",
+     "==",
+     "high"
+    ]
+   ],
+   "say": "{trainer} sticks to a set plan.",
+   "group": "combo"
+  },
+  {
+   "id": "rigid_low",
+   "section": "who",
+   "when": [
+    [
+     "rigidity_band",
+     "==",
+     "low"
+    ]
+   ],
+   "say": "{trainer} adapts mid-battle.",
+   "group": "combo"
+  },
+  {
+   "id": "balanced",
+   "section": "who",
+   "when": [
+    [
+     "offense_band",
+     "==",
+     "mid"
+    ],
+    [
+     "rigidity_band",
+     "==",
+     "mid"
+    ]
+   ],
+   "say": "{trainer} sits in the middle: balanced between attack and defense, a plan with some give in it.",
+   "group": "combo"
+  },
+  {
+   "id": "bond_demanding",
+   "section": "who",
+   "when": [
+    [
+     "bond_read",
+     "==",
+     "demanding"
+    ]
+   ],
+   "say": "Close to their Pokémon, and demanding of them: tough love, not coldness.",
+   "group": "bond"
+  },
+  {
+   "id": "bond_partner",
+   "section": "who",
+   "when": [
+    [
+     "bond_read",
+     "==",
+     "partnership"
+    ]
+   ],
+   "say": "Their Pokémon fight as partners, not tools.",
+   "group": "bond"
+  },
+  {
+   "id": "bond_tool",
+   "section": "who",
+   "when": [
+    [
+     "bond_read",
+     "==",
+     "tool"
+    ]
+   ],
+   "say": "Their Pokémon are tools to them, used and replaced.",
+   "group": "bond"
+  },
+  {
+   "id": "bond_distant",
+   "section": "who",
+   "when": [
+    [
+     "bond_read",
+     "==",
+     "distant"
+    ]
+   ],
+   "say": "Keeps their Pokémon at arm's length.",
+   "group": "bond"
+  },
+  {
+   "id": "risk_high",
+   "section": "who",
+   "when": [
+    [
+     "risk_band",
+     "==",
+     "high"
+    ]
+   ],
+   "say": "A gambler: they'll reach for the long shot.",
+   "group": "risk"
+  },
+  {
+   "id": "risk_low",
+   "section": "who",
+   "when": [
+    [
+     "risk_band",
+     "==",
+     "low"
+    ]
+   ],
+   "say": "A percentage player: they take the safe, sure option.",
+   "group": "risk"
+  },
+  {
+   "id": "unauthored",
+   "section": "who",
+   "when": [
+    [
+     "authored_n",
+     "==",
+     0
+    ]
+   ],
+   "say": "No sliders are set for this version yet, so this reads from the team's data alone."
+  },
+  {
+   "id": "role_region",
+   "section": "expect",
+   "when": [
+    [
+     "is_region_champion",
+     "==",
+     true
+    ]
+   ],
+   "say": "A Region Champion: the last line of the league. Expect a team with no easy answers.",
+   "group": "role"
+  },
+  {
+   "id": "role_champion",
+   "section": "expect",
+   "when": [
+    [
+     "is_champion",
+     "==",
+     true
+    ]
+   ],
+   "say": "A Champion: they've won before and play like it.",
+   "group": "role"
+  },
+  {
+   "id": "role_gym",
+   "section": "expect",
+   "when": [
+    [
+     "is_gym_leader",
+     "==",
+     true
+    ]
+   ],
+   "say": "A Gym Leader: a specialist's team built around one idea.",
+   "group": "role"
+  },
+  {
+   "id": "type_dominant",
+   "section": "expect",
+   "when": [
+    [
+     "type_dominant_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Type-dominant: {type_dominant_str}. Everything you know about that type applies to most of their team."
+  },
+  {
+   "id": "cohesive",
+   "section": "expect",
+   "when": [
+    [
+     "cohesive_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Cohesive: {cohesive_str}. They share their tools, so one answer covers several of them."
+  },
+  {
+   "id": "side",
+   "section": "expect",
+   "when": [
+    [
+     "their_side",
+     "in",
+     [
+      "physical",
+      "special"
+     ]
+    ]
+   ],
+   "say": "They attack mostly from the {their_side} side ({their_side_n} of {their_attacks_n} attacks)."
+  },
+  {
+   "id": "side_mixed",
+   "section": "expect",
+   "when": [
+    [
+     "their_side",
+     "==",
+     "mixed"
+    ]
+   ],
+   "say": "Their attacks split between physical and special ({their_phys_n} physical, {their_spec_n} special)."
+  },
+  {
+   "id": "fast",
+   "section": "expect",
+   "when": [
+    [
+     "fast_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Fast where it counts: {fast_str} outspeed the typical Pokémon of the generation."
+  },
+  {
+   "id": "disagree_offense",
+   "section": "expect",
+   "when": [
+    [
+     "disagree_offense",
+     "nonempty"
+    ]
+   ],
+   "say": "Called {disagree_offense} ({disagree_offense_authored}), but this team reads {disagree_offense_reads} ({disagree_offense_measured}): {disagree_offense_because}."
+  },
+  {
+   "id": "disagree_rigidity",
+   "section": "expect",
+   "when": [
+    [
+     "disagree_rigidity",
+     "nonempty"
+    ]
+   ],
+   "say": "Called {disagree_rigidity} ({disagree_rigidity_authored}), but this team reads {disagree_rigidity_reads} ({disagree_rigidity_measured}): {disagree_rigidity_because}."
+  },
+  {
+   "id": "disagree_bond",
+   "section": "expect",
+   "when": [
+    [
+     "disagree_bond",
+     "nonempty"
+    ]
+   ],
+   "say": "Called {disagree_bond} ({disagree_bond_authored}), but this team reads {disagree_bond_reads} ({disagree_bond_measured}): {disagree_bond_because}."
+  },
+  {
+   "id": "disagree_risk",
+   "section": "expect",
+   "when": [
+    [
+     "disagree_risk",
+     "nonempty"
+    ]
+   ],
+   "say": "Called {disagree_risk} ({disagree_risk_authored}), but this team reads {disagree_risk_reads} ({disagree_risk_measured}): {disagree_risk_because}."
+  },
+  {
+   "id": "nature_clash",
+   "section": "expect",
+   "when": [
+    [
+     "nature_clash_str",
+     "nonempty"
+    ]
+   ],
+   "say": "{nature_clash_str}"
+  },
+  {
+   "id": "gap_top",
+   "section": "beat",
+   "when": [
+    [
+     "top_gap",
+     "nonempty"
+    ]
+   ],
+   "say": "Attack with {top_gap}: {top_gap_members} are weak to it{top_gap_cover}."
+  },
+  {
+   "id": "gap_more",
+   "section": "beat",
+   "when": [
+    [
+     "more_gaps_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Also open to {more_gaps_str}."
+  },
+  {
+   "id": "very_weak",
+   "section": "beat",
+   "when": [
+    [
+     "very_weak_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Biggest single openings: {very_weak_str}."
+  },
+  {
+   "id": "bring_side",
+   "section": "beat",
+   "when": [
+    [
+     "bring",
+     "in",
+     [
+      "physical",
+      "special"
+     ]
+    ]
+   ],
+   "say": "Bring a {bring} attacker: {soft_str} {soft_verb} {soft_label}."
+  },
+  {
+   "id": "bring_even",
+   "section": "beat",
+   "when": [
+    [
+     "bring",
+     "==",
+     "either"
+    ]
+   ],
+   "say": "Their bulk is even across the team: pick attackers by type, not by side."
+  },
+  {
+   "id": "abilities",
+   "section": "beat",
+   "when": [
+    [
+     "ability_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Watch the abilities: {ability_str}."
+  },
+  {
+   "id": "strengths",
+   "section": "beat",
+   "when": [
+    [
+     "strengths_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Don't lead with {strengths_str}: {strength_cover_str}."
+  },
+  {
+   "id": "rigid_types",
+   "section": "gap",
+   "when": [
+    [
+     "rigidity_band",
+     "==",
+     "high"
+    ],
+    [
+     "few_types_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Rigid, and it shows: {few_types_str} can't hit back outside {few_types_their} attack types. Once you've seen the plan, it won't change."
+  },
+  {
+   "id": "rigid_plan",
+   "section": "gap",
+   "when": [
+    [
+     "rigidity_band",
+     "==",
+     "high"
+    ],
+    [
+     "few_types_str",
+     "empty"
+    ]
+   ],
+   "say": "Rigid by philosophy more than by build: their sets have coverage, but the plan doesn't bend. Show them something it doesn't cover."
+  },
+  {
+   "id": "choice",
+   "section": "gap",
+   "when": [
+    [
+     "choice_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Choice-locked: {choice_str} commit to one move. Switch into it and they're stuck."
+  },
+  {
+   "id": "reckless",
+   "section": "gap",
+   "when": [
+    [
+     "risk_band",
+     "==",
+     "high"
+    ],
+    [
+     "gamble_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Reckless, and it shows: {gamble_str}. Their misses and recoil are your free turns."
+  },
+  {
+   "id": "gamble_anyway",
+   "section": "gap",
+   "when": [
+    [
+     "risk_band",
+     "!=",
+     "high"
+    ],
+    [
+     "gamble_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Even playing the percentages, they carry gambles: {gamble_str}."
+  },
+  {
+   "id": "no_gambles",
+   "section": "gap",
+   "when": [
+    [
+     "risk_band",
+     "==",
+     "low"
+    ],
+    [
+     "gamble_str",
+     "empty"
+    ]
+   ],
+   "say": "No gambles to wait out: they won't beat themselves, so you have to beat them."
+  },
+  {
+   "id": "flexible_covered",
+   "section": "gap",
+   "when": [
+    [
+     "rigidity_band",
+     "==",
+     "low"
+    ],
+    [
+     "gaps_n",
+     "==",
+     0
+    ]
+   ],
+   "say": "Flexible and well covered: no single trick beats them. Win the matchups one at a time."
+  }
+ ],
+ "exposure": [
+  {
+   "id": "exp_weak",
+   "section": "exposure",
+   "when": [
+    [
+     "hits_str",
+     "nonempty"
+    ]
+   ],
+   "say": "{member}: {hits_str}."
+  },
+  {
+   "id": "exp_soft",
+   "section": "exposure",
+   "when": [
+    [
+     "soft_match",
+     "==",
+     true
+    ]
+   ],
+   "say": "{member} is {soft_label}, and they attack mostly from the {their_side} side."
+  }
+ ]
+}

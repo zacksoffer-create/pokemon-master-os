@@ -1,0 +1,1351 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "me",
+ "trainer_name": "Zack",
+ "version": "platinum",
+ "title": "Platinum",
+ "game": "platinum",
+ "gen": 4,
+ "source": "canon register (rosters.json + builds.json)",
+ "status": "canon",
+ "notes": [
+  "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": null,
+   "why": null,
+   "measured": 89,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 100,
+     "members": [
+      "Infernape",
+      "Weavile",
+      "Roserade",
+      "Lucario",
+      "Garchomp",
+      "Magnezone"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Infernape",
+      "Weavile",
+      "Lucario",
+      "Garchomp",
+      "Magnezone"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Infernape",
+      "Weavile",
+      "Roserade",
+      "Lucario",
+      "Garchomp"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": null,
+   "why": null,
+   "measured": 8,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 17,
+     "members": [
+      "Roserade"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": null,
+   "why": null,
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": null,
+   "why": null,
+   "measured": 0,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "me",
+  "version": "platinum",
+  "title": "Platinum",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "lineup:platinum/Infernape",
+    "species": "Infernape",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Fighting"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 314,
+     "atk": 265,
+     "def": 199,
+     "spa": 265,
+     "spd": 199,
+     "spe": 273
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 199,
+     "spd": 199,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Close Combat",
+     "Flamethrower",
+     "Mach Punch",
+     "Thunder Punch"
+    ],
+    "move_basis": [
+     {
+      "move": "Close Combat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 41, as Infernape)"
+     },
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Infernape)"
+     },
+     {
+      "move": "Mach Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 14, as Infernape)"
+     },
+     {
+      "move": "Thunder Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Infernape)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:platinum/Weavile",
+    "species": "Weavile",
+    "nickname": null,
+    "types": [
+     "Dark",
+     "Ice"
+    ],
+    "ability": "Pressure",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 297,
+     "def": 187,
+     "spa": 132,
+     "spd": 227,
+     "spe": 337
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 227,
+     "gap": 0.176
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from physical attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat"
+    ],
+    "moves": [
+     "Ice Punch",
+     "Night Slash",
+     "Low Kick",
+     "Ice Shard"
+    ],
+    "move_basis": [
+     {
+      "move": "Ice Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Weavile)"
+     },
+     {
+      "move": "Night Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 35, as Weavile)"
+     },
+     {
+      "move": "Low Kick",
+      "basis": "another game",
+      "reason": "learns it in HeartGold/SoulSilver (tutor)"
+     },
+     {
+      "move": "Ice Shard",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 49, as Sneasel)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:platinum/Roserade",
+    "species": "Roserade",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 177,
+     "def": 167,
+     "spa": 307,
+     "spd": 267,
+     "spe": 260
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 167,
+     "spd": 267,
+     "gap": 0.375
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "ability Natural Cure (could be Poison Point)"
+    ],
+    "moves": [
+     "Leaf Storm",
+     "Sludge Bomb",
+     "Sleep Powder",
+     "Toxic Spikes"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Roselia)"
+     },
+     {
+      "move": "Sludge Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Roserade)"
+     },
+     {
+      "move": "Sleep Powder",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Roselia)"
+     },
+     {
+      "move": "Toxic Spikes",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Roselia)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:platinum/Lucario",
+    "species": "Lucario",
+    "nickname": null,
+    "types": [
+     "Fighting",
+     "Steel"
+    ],
+    "ability": "Steadfast",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 277,
+     "def": 197,
+     "spa": 287,
+     "spd": 197,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 197,
+     "spd": 197,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Steadfast (could be Inner Focus)"
+    ],
+    "moves": [
+     "Close Combat",
+     "Ice Punch",
+     "Earthquake",
+     "Swords Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Close Combat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 42, as Lucario)"
+     },
+     {
+      "move": "Ice Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Lucario)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Lucario)"
+     },
+     {
+      "move": "Swords Dance",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Lucario)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:platinum/Garchomp",
+    "species": "Garchomp",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Ground"
+    ],
+    "ability": "Sand Veil",
+    "level": 100,
+    "stats": {
+     "hp": 378,
+     "atk": 317,
+     "def": 247,
+     "spa": 217,
+     "spd": 227,
+     "spe": 261
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 247,
+     "spd": 227,
+     "gap": 0.081
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Earthquake",
+     "Dragon Claw",
+     "Fire Fang",
+     "Poison Jab"
+    ],
+    "move_basis": [
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Garchomp)"
+     },
+     {
+      "move": "Dragon Claw",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Garchomp)"
+     },
+     {
+      "move": "Fire Fang",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Garchomp)"
+     },
+     {
+      "move": "Poison Jab",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Garchomp)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:platinum/Magnezone",
+    "species": "Magnezone",
+    "nickname": null,
+    "types": [
+     "Electric",
+     "Steel"
+    ],
+    "ability": "Magnet Pull",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 177,
+     "def": 287,
+     "spa": 348,
+     "spd": 237,
+     "spe": 177
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 287,
+     "spd": 237,
+     "gap": 0.174
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "ability Magnet Pull (could be Sturdy)"
+    ],
+    "moves": [
+     "Thunderbolt",
+     "Hidden Power Fire",
+     "Flash Cannon",
+     "Substitute"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Magnezone)"
+     },
+     {
+      "move": "Hidden Power Fire",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Magnezone)"
+     },
+     {
+      "move": "Flash Cannon",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Magnezone)"
+     },
+     {
+      "move": "Substitute",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Magnezone)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    "Fighting": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Weavile",
+      "Lucario",
+      "Magnezone"
+     ],
+     "covered_by": [
+      "Roserade"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Infernape",
+      "Roserade"
+     ],
+     "covered_by": [
+      "Magnezone"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 2,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Lucario",
+      "Garchomp",
+      "Magnezone"
+     ]
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Infernape",
+      "Lucario",
+      "Magnezone"
+     ],
+     "covered_by": []
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Weavile"
+     ],
+     "covered_by": [
+      "Lucario",
+      "Garchomp",
+      "Magnezone"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Weavile"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Weavile",
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Weavile"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    "Fire": {
+     "weak": 4,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 4,
+     "covered": 2,
+     "weak_members": [
+      "Weavile",
+      "Roserade",
+      "Lucario",
+      "Magnezone"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Garchomp"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Infernape"
+     ],
+     "covered_by": [
+      "Roserade"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Infernape",
+      "Roserade",
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    "Electric": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Roserade",
+      "Garchomp",
+      "Magnezone"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Infernape",
+      "Roserade"
+     ],
+     "covered_by": [
+      "Weavile",
+      "Magnezone"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 0,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 4,
+     "weak_members": [
+      "Roserade",
+      "Garchomp"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Weavile",
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    "Dragon": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Garchomp"
+     ],
+     "covered_by": [
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Infernape",
+      "Weavile",
+      "Lucario",
+      "Magnezone"
+     ]
+    }
+   },
+   "gaps": [
+    "Fire",
+    "Ground",
+    "Fighting"
+   ],
+   "strengths": [
+    "Grass",
+    "Dark",
+    "Poison",
+    "Electric",
+    "Ghost"
+   ],
+   "soft": {
+    "physical": 2,
+    "special": 1,
+    "even": 3
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Weavile",
+     "Roserade"
+    ],
+    "special": [
+     "Magnezone"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Zack comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "No sliders are set for this version yet, so this reads from the team's data alone.",
+    "rule": "unauthored",
+    "trigger": "authored_n == 0 (here 0)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Champion: they've won before and play like it.",
+    "rule": "role_champion",
+    "trigger": "is_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (14 of 20 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Infernape, Weavile, Roserade, Lucario and Garchomp outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Fire: Weavile, Roserade, Lucario and Magnezone are weak to it, and only Infernape and Garchomp can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Ground (3 weak) and Fighting (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Weavile to Fighting; Garchomp to Ice; Magnezone to Ground (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Weavile and Roserade are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Grass, Dark or Poison: 4 of 6 resist Grass; 4 of 6 resist Dark; 3 of 6 resist Poison.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "No gambles to wait out: they won't beat themselves, so you have to beat them.",
+    "rule": "no_gambles",
+    "trigger": "risk_band == low (here low); gamble_str empty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion"
+ ],
+ "overrides": {}
+}

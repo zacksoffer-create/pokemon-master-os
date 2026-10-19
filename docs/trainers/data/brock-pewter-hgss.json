@@ -1,0 +1,1270 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "brock",
+ "trainer_name": "Brock",
+ "version": "pewter-hgss",
+ "title": "Brock, Pewter Gym (HeartGold)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "cartridge",
+ "status": "cartridge",
+ "notes": [
+  "The games' Brock, read from the HeartGold cartridge."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 30,
+   "why": "rock walls that take the first hit",
+   "measured": 47,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 80,
+     "members": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Kabutops"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 60,
+     "members": [
+      "Graveler",
+      "Omastar",
+      "Kabutops"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 70,
+   "why": "one type, one plan",
+   "measured": 30,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 60,
+     "members": [
+      "Graveler",
+      "Rhyhorn",
+      "Onix"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -40,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "choice",
+      "label": "Choice items",
+      "value": 0,
+      "members": []
+     },
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 60,
+      "members": [
+       "Graveler",
+       "Rhyhorn",
+       "Onix"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 90,
+   "why": "a breeder who knows what each Pokémon needs (anime)",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 20,
+   "why": "rock-solid and careful",
+   "measured": 40,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 40,
+     "members": [
+      "Rhyhorn",
+      "Onix"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Rock Slide"
+   ],
+   "members": {
+    "Rock Slide": [
+     "Graveler",
+     "Onix",
+     "Kabutops"
+    ]
+   }
+  },
+  {
+   "id": "type_dominant",
+   "name": "Type-dominant",
+   "detail": [
+    "Rock"
+   ],
+   "members": {
+    "Rock": [
+     "Graveler",
+     "Rhyhorn",
+     "Omastar",
+     "Onix",
+     "Kabutops"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Gym Leader",
+   "detail": [
+    "Gym Leader"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "brock",
+  "version": "pewter-hgss",
+  "title": "Brock, Pewter Gym (HeartGold)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "cartridge:heartgold:253/0",
+    "species": "Graveler",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Ground"
+    ],
+    "ability": "Rock Head",
+    "level": 100,
+    "stats": {
+     "hp": 244,
+     "atk": 219,
+     "def": 259,
+     "spa": 119,
+     "spd": 119,
+     "spe": 99
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 259,
+     "spd": 119,
+     "gap": 0.541
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Defense Curl",
+     "Rock Slide",
+     "Rollout",
+     "Earthquake"
+    ],
+    "move_basis": [
+     {
+      "move": "Defense Curl",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Graveler)"
+     },
+     {
+      "move": "Rock Slide",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Graveler)"
+     },
+     {
+      "move": "Rollout",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 22, as Graveler)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 33, as Graveler)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #253"
+   },
+   {
+    "build": "cartridge:heartgold:253/1",
+    "species": "Rhyhorn",
+    "nickname": null,
+    "types": [
+     "Ground",
+     "Rock"
+    ],
+    "ability": "Lightning Rod",
+    "level": 100,
+    "stats": {
+     "hp": 294,
+     "atk": 199,
+     "def": 219,
+     "spa": 89,
+     "spd": 89,
+     "spe": 79
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 219,
+     "spd": 89,
+     "gap": 0.594
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Sandstorm",
+     "Scary Face",
+     "Earthquake",
+     "Horn Drill"
+    ],
+    "move_basis": [
+     {
+      "move": "Sandstorm",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Rhyhorn)"
+     },
+     {
+      "move": "Scary Face",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 21, as Rhyhorn)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 49, as Rhyhorn)"
+     },
+     {
+      "move": "Horn Drill",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 37, as Rhyhorn)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #253"
+   },
+   {
+    "build": "cartridge:heartgold:253/2",
+    "species": "Omastar",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Water"
+    ],
+    "ability": "Swift Swim",
+    "level": 100,
+    "stats": {
+     "hp": 274,
+     "atk": 149,
+     "def": 279,
+     "spa": 259,
+     "spd": 169,
+     "spe": 139
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 279,
+     "spd": 169,
+     "gap": 0.394
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Ancient Power",
+     "Brine",
+     "Protect",
+     "Spike Cannon"
+    ],
+    "move_basis": [
+     {
+      "move": "Ancient Power",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 37, as Omastar)"
+     },
+     {
+      "move": "Brine",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 28, as Omastar)"
+     },
+     {
+      "move": "Protect",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 34, as Omastar)"
+     },
+     {
+      "move": "Spike Cannon",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 40, as Omastar)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #253"
+   },
+   {
+    "build": "cartridge:heartgold:253/3",
+    "species": "Onix",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Ground"
+    ],
+    "ability": "Rock Head",
+    "level": 100,
+    "stats": {
+     "hp": 204,
+     "atk": 119,
+     "def": 349,
+     "spa": 89,
+     "spd": 119,
+     "spe": 169
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 349,
+     "spd": 119,
+     "gap": 0.659
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Iron Tail",
+     "Rock Slide",
+     "Screech",
+     "Sandstorm"
+    ],
+    "move_basis": [
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 41, as Onix)"
+     },
+     {
+      "move": "Rock Slide",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Onix)"
+     },
+     {
+      "move": "Screech",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 6, as Onix)"
+     },
+     {
+      "move": "Sandstorm",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 22, as Onix)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #253"
+   },
+   {
+    "build": "cartridge:heartgold:253/4",
+    "species": "Kabutops",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Water"
+    ],
+    "ability": "Swift Swim",
+    "level": 100,
+    "stats": {
+     "hp": 254,
+     "atk": 259,
+     "def": 239,
+     "spa": 159,
+     "spd": 169,
+     "spe": 189
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 239,
+     "spd": 169,
+     "gap": 0.293
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Rock Slide",
+     "Aqua Jet",
+     "Endure",
+     "Giga Drain"
+    ],
+    "move_basis": [
+     {
+      "move": "Rock Slide",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Kabutops)"
+     },
+     {
+      "move": "Aqua Jet",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 31, as Kabutops)"
+     },
+     {
+      "move": "Endure",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 26, as Kabutops)"
+     },
+     {
+      "move": "Giga Drain",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Kabutops)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #253"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Onix",
+      "Kabutops"
+     ]
+    },
+    "Fighting": {
+     "weak": 5,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 5,
+     "covered": 0,
+     "weak_members": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Onix",
+      "Kabutops"
+     ],
+     "covered_by": []
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Onix",
+      "Kabutops"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Onix",
+      "Kabutops"
+     ]
+    },
+    "Ground": {
+     "weak": 5,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 5,
+     "covered": 0,
+     "weak_members": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Onix",
+      "Kabutops"
+     ],
+     "covered_by": []
+    },
+    "Rock": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Graveler",
+      "Rhyhorn",
+      "Onix"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Steel": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Graveler",
+      "Rhyhorn",
+      "Onix"
+     ],
+     "covered_by": []
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Onix",
+      "Kabutops"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 3,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Graveler",
+      "Rhyhorn",
+      "Onix"
+     ],
+     "covered_by": []
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 5,
+     "neutral": 0,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 5,
+     "covered": 0,
+     "weak_members": [
+      "Graveler",
+      "Rhyhorn",
+      "Omastar",
+      "Onix",
+      "Kabutops"
+     ],
+     "covered_by": []
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 0,
+     "immune": 3,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Omastar",
+      "Kabutops"
+     ],
+     "covered_by": [
+      "Graveler",
+      "Rhyhorn",
+      "Onix"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Graveler",
+      "Rhyhorn",
+      "Onix"
+     ],
+     "covered_by": [
+      "Omastar",
+      "Kabutops"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Grass",
+    "Fighting",
+    "Ground",
+    "Water",
+    "Steel",
+    "Ice"
+   ],
+   "strengths": [
+    "Normal",
+    "Flying",
+    "Poison",
+    "Fire",
+    "Rock"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 5,
+    "even": 0
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Graveler",
+     "Rhyhorn",
+     "Omastar",
+     "Onix",
+     "Kabutops"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Brock takes the first hit and grinds you down with a system that doesn't change.",
+    "rule": "combo_def_rigid",
+    "trigger": "offense_band == low (here low); rigidity_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Close to their Pokémon, and demanding of them: tough love, not coldness.",
+    "rule": "bond_demanding",
+    "trigger": "bond_read == demanding (here demanding)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Gym Leader: a specialist's team built around one idea.",
+    "rule": "role_gym",
+    "trigger": "is_gym_leader == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Type-dominant: Rock (5 of 5). Everything you know about that type applies to most of their team.",
+    "rule": "type_dominant",
+    "trigger": "type_dominant_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Rock Slide on Graveler, Onix and Kabutops. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (10 of 13 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Called rigid (70), but this team reads flexible (30): no Choice items; low move-type variety: Graveler, Rhyhorn and Onix.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Grass: Graveler, Rhyhorn, Omastar, Onix and Kabutops are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Fighting (5 weak), Ground (5 weak) and Water (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Graveler to Water and Grass; Rhyhorn to Water and Grass; Omastar to Grass; Onix to Water and Grass; Kabutops to Grass (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Graveler, Rhyhorn, Omastar, Onix and Kabutops are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Normal, Flying or Poison: 5 of 5 resist Normal; 5 of 5 resist Flying; 5 of 5 resist Poison.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Rigid, and it shows: Graveler, Rhyhorn and Onix can't hit back outside their attack types. Once you've seen the plan, it won't change.",
+    "rule": "rigid_types",
+    "trigger": "rigidity_band == high (here high); few_types_str nonempty"
+   },
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Rhyhorn's Horn Drill (one-hit KO, 30%); Onix's Iron Tail (75%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Gym Leader"
+ ],
+ "overrides": {}
+}

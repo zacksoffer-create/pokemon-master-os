@@ -1,0 +1,1296 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "ash",
+ "trainer_name": "Ash",
+ "version": "sinnoh",
+ "title": "Sinnoh Ash (Lily of the Valley)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl",
+ "status": "proposed",
+ "notes": [
+  "Anime canon. Teams and movesets are drafts from the show, checked against the games' learnsets.",
+  "Gible was also on the team; Buizel takes the sixth slot here."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 70,
+   "why": "still strikes first, now with planned combos",
+   "measured": 89,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Pikachu",
+      "Infernape",
+      "Torterra",
+      "Staraptor",
+      "Buizel"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Pikachu",
+      "Infernape",
+      "Torterra",
+      "Staraptor",
+      "Gliscor",
+      "Buizel"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Pikachu",
+      "Infernape",
+      "Staraptor",
+      "Gliscor",
+      "Buizel"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 25,
+   "why": "his most improvised era (Counter Shield, using the field)",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Torterra",
+      "Buizel"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 95,
+   "why": "partnership above everything",
+   "measured": 100,
+   "signals": [
+    {
+     "signal": "friendship",
+     "label": "high friendship",
+     "value": 100,
+     "members": [
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 70,
+   "why": "takes chances, but measured ones",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Pikachu",
+      "Infernape",
+      "Staraptor"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "ash",
+  "version": "sinnoh",
+  "title": "Sinnoh Ash (Lily of the Valley)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "ash-sinnoh/pikachu",
+    "species": "Pikachu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 232,
+     "atk": 167,
+     "def": 117,
+     "spa": 157,
+     "spd": 137,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 117,
+     "spd": 137,
+     "gap": 0.146
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunderbolt",
+     "Quick Attack",
+     "Iron Tail",
+     "Volt Tackle"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 26, as Pikachu)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Pikachu)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Pikachu)"
+     },
+     {
+      "move": "Volt Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (light-ball-egg, as Pichu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-sinnoh/infernape",
+    "species": "Infernape",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Fighting"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 314,
+     "atk": 265,
+     "def": 199,
+     "spa": 265,
+     "spd": 199,
+     "spe": 273
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 199,
+     "spd": 199,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Mach Punch",
+     "Flare Blitz",
+     "Dig"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Infernape)"
+     },
+     {
+      "move": "Mach Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 14, as Infernape)"
+     },
+     {
+      "move": "Flare Blitz",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 57, as Infernape)"
+     },
+     {
+      "move": "Dig",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Infernape)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-sinnoh/torterra",
+    "species": "Torterra",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Ground"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 275,
+     "def": 267,
+     "spa": 207,
+     "spd": 227,
+     "spe": 169
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 267,
+     "spd": 227,
+     "gap": 0.15
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Storm",
+     "Rock Climb",
+     "Frenzy Plant",
+     "Energy Ball"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 57, as Torterra)"
+     },
+     {
+      "move": "Rock Climb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Frenzy Plant",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Torterra)"
+     },
+     {
+      "move": "Energy Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-sinnoh/staraptor",
+    "species": "Staraptor",
+    "nickname": null,
+    "types": [
+     "Normal",
+     "Flying"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 297,
+     "def": 197,
+     "spa": 157,
+     "spd": 157,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 197,
+     "spd": 157,
+     "gap": 0.203
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Close Combat",
+     "Brave Bird",
+     "Aerial Ace",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Close Combat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 34, as Staraptor)"
+     },
+     {
+      "move": "Brave Bird",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 49, as Staraptor)"
+     },
+     {
+      "move": "Aerial Ace",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Staraptor)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Staraptor)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-sinnoh/gliscor",
+    "species": "Gliscor",
+    "nickname": null,
+    "types": [
+     "Ground",
+     "Flying"
+    ],
+    "ability": "Hyper Cutter",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 247,
+     "def": 307,
+     "spa": 147,
+     "spd": 207,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 307,
+     "spd": 207,
+     "gap": 0.326
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Hyper Cutter (could be Sand Veil)"
+    ],
+    "moves": [
+     "Fire Fang",
+     "Steel Wing",
+     "Night Slash",
+     "Giga Impact"
+    ],
+    "move_basis": [
+     {
+      "move": "Fire Fang",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Gliscor)"
+     },
+     {
+      "move": "Steel Wing",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Gliscor)"
+     },
+     {
+      "move": "Night Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 31, as Gliscor)"
+     },
+     {
+      "move": "Giga Impact",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Gliscor)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-sinnoh/buizel",
+    "species": "Buizel",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Swift Swim",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 187,
+     "def": 127,
+     "spa": 177,
+     "spd": 117,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 127,
+     "spd": 117,
+     "gap": 0.079
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Aqua Jet",
+     "Water Gun",
+     "Ice Punch",
+     "Water Pulse"
+    ],
+    "move_basis": [
+     {
+      "move": "Aqua Jet",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 21, as Buizel)"
+     },
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 6, as Buizel)"
+     },
+     {
+      "move": "Ice Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Buizel)"
+     },
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Buizel)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Gliscor"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Infernape",
+      "Torterra"
+     ],
+     "covered_by": [
+      "Pikachu"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Gliscor"
+     ]
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 1,
+     "immune": 2,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Pikachu",
+      "Infernape"
+     ],
+     "covered_by": [
+      "Torterra",
+      "Staraptor",
+      "Gliscor"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Staraptor"
+     ],
+     "covered_by": [
+      "Torterra"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Torterra"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Staraptor",
+      "Gliscor"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Staraptor"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Pikachu",
+      "Infernape",
+      "Buizel"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Torterra"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Buizel"
+     ]
+    },
+    "Water": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Infernape",
+      "Gliscor"
+     ],
+     "covered_by": [
+      "Buizel"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Buizel"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Staraptor"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 1,
+     "immune": 2,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Staraptor",
+      "Buizel"
+     ],
+     "covered_by": [
+      "Pikachu",
+      "Torterra",
+      "Gliscor"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Infernape"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 2,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Torterra",
+      "Staraptor",
+      "Gliscor"
+     ],
+     "covered_by": [
+      "Infernape",
+      "Buizel"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Infernape"
+     ]
+    }
+   },
+   "gaps": [
+    "Ice"
+   ],
+   "strengths": [
+    "Steel"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 2,
+    "even": 4
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Staraptor",
+     "Gliscor"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Ash comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A gambler: they'll reach for the long shot.",
+    "rule": "risk_high",
+    "trigger": "risk_band == high (here high)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (17 of 24 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Pikachu, Infernape, Staraptor, Gliscor and Buizel outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Ice: Torterra, Staraptor and Gliscor are weak to it, and only Infernape and Buizel can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Torterra to Ice; Gliscor to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Staraptor and Gliscor are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Steel: 3 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Reckless, and it shows: Pikachu's Iron Tail (75%) and Volt Tackle (recoil); Infernape's Flare Blitz (recoil); Staraptor's Brave Bird (recoil). Their misses and recoil are your free turns.",
+    "rule": "reckless",
+    "trigger": "risk_band == high (here high); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {}
+}

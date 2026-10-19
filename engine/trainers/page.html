@@ -1,0 +1,244 @@
+<title>Trainer Scouting Reports</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: the same front-office file as the Journey Scouting File. A trainer's folder: the header card with the four
+   sliders (authored pin, the team's reading as a ring), the tags, the written plan, then the matrix laid out like an
+   advance form (their Pokémon down the side, attacking types across, openings circled in pen). */
+:root {
+  --paper: #e9ede4; --card: #f8f9f4; --ink: #17232e; --ink-2: #4b5b67; --rule: #c6cfbf; --rule-strong: #93a094;
+  --accent: #2b4f9e; --accent-ink: #ffffff; --pen: #1f3b8a; --good: #2c7a4b; --warn: #a8701a; --bad: #b03a2c;
+  --tint-good: #d9ecdf; --tint-bad: #f3dcd6; --tint-zero: #cfd4d7; --tint-warn: #f3e6cc;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-typed: "Courier Prime", "Courier New", ui-monospace, monospace;
+  --font-hand: "Architects Daughter", "Comic Neue", "Segoe Print", cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
+    --accent: #86a6ef; --accent-ink: #0e1630; --pen: #9db7f5; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+    --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238; --tint-warn: #3d3220; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
+  --accent: #86a6ef; --accent-ink: #0e1630; --pen: #9db7f5; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+  --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238; --tint-warn: #3d3220; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 0.95rem; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 48px; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.wrap > * { min-width: 0; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.label { font-family: var(--font-display); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.masthead { padding-top: 26px; display: grid; gap: 6px; border-bottom: 3px double var(--rule-strong); padding-bottom: 14px; }
+.masthead h1 { font-size: 2.7rem; line-height: 1; text-transform: uppercase; }
+.masthead p { margin: 0; max-width: 72ch; color: var(--ink-2); }
+.pick { display: grid; gap: 8px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pill { border: 1px solid var(--rule-strong); background: var(--card); border-radius: 999px; padding: 5px 12px; font-family: var(--font-display); font-weight: 600; letter-spacing: 0.03em; cursor: pointer; }
+.pill[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.pill .k { font-family: var(--font-body); font-weight: 500; font-size: 0.72rem; opacity: 0.8; margin-left: 4px; }
+.panel { background: var(--card); border: 1px solid var(--rule-strong); border-radius: 3px; }
+.folder { display: grid; gap: 0; }
+.folder header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: baseline; padding: 14px 16px 10px; border-bottom: 2px solid var(--ink); }
+.folder header h2 { font-size: 2rem; text-transform: uppercase; line-height: 1; }
+.folder header .meta { color: var(--ink-2); font-size: 0.85rem; }
+.status { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); }
+.status.proposed { color: var(--warn); border-color: var(--warn); }
+.sliders { display: grid; gap: 2px; padding: 8px 16px 12px; }
+.slider { display: grid; grid-template-columns: minmax(80px, 100px) minmax(70px, 120px) minmax(90px, 1fr) minmax(70px, 120px); gap: 10px; align-items: center; padding: 6px 0; border-top: 1px solid var(--rule); }
+.slider .nm { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem; }
+.slider .pole { font-size: 0.78rem; color: var(--ink-2); }
+.slider .pole.l { text-align: right; }
+.track { position: relative; height: 10px; border: 1px solid var(--rule-strong); border-radius: 5px; background: var(--paper); }
+.track .mid { position: absolute; top: -3px; bottom: -3px; left: 50%; width: 1px; background: var(--rule-strong); }
+.track .pin { position: absolute; top: -6px; width: 4px; height: 20px; margin-left: -2px; background: var(--pen); border-radius: 2px; }
+.track .ring { position: absolute; top: -5px; width: 18px; height: 18px; margin-left: -9px; border: 2px solid var(--ink-2); border-radius: 50%; background: transparent; }
+.track.disagree .ring { border-color: var(--warn); }
+.slider .why { grid-column: 2 / -1; font-family: var(--font-typed); font-size: 0.8rem; color: var(--ink-2); }
+.slider .why b { color: var(--warn); font-weight: 700; }
+.key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.78rem; color: var(--ink-2); padding: 0 16px 10px; }
+.key i { display: inline-block; vertical-align: middle; margin-right: 4px; }
+.key .p { width: 4px; height: 14px; background: var(--pen); border-radius: 2px; }
+.key .r { width: 12px; height: 12px; border: 2px solid var(--ink-2); border-radius: 50%; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 14px; }
+.tag { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.82rem; padding: 3px 10px; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--paper); }
+.tag small { font-family: var(--font-body); font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--ink-2); margin-left: 4px; }
+.plan { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 0; border-top: 1px solid var(--rule-strong); }
+.plan section { padding: 12px 16px 14px; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); min-width: 0; }
+.plan h3 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+.plan ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.plan li { font-family: var(--font-typed); font-size: 0.88rem; }
+.plan li.override { color: var(--pen); font-family: var(--font-hand); font-size: 1rem; }
+.scroll { overflow-x: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.72rem; color: var(--ink-2); padding: 6px 4px; border-bottom: 1.5px solid var(--rule-strong); white-space: nowrap; }
+td { padding: 5px 4px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.matrix th.ty { text-align: center; min-width: 38px; }
+.matrix td.who { min-width: 150px; padding-left: 10px; }
+.who .nm { font-family: var(--font-hand); font-size: 1.15rem; color: var(--pen); line-height: 1.1; }
+.who .sub { font-size: 0.72rem; color: var(--ink-2); }
+.chip { font-family: var(--font-display); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
+.chip.physical, .chip.special { background: var(--tint-warn); color: var(--warn); }
+.chip.even { background: var(--tint-zero); color: var(--ink-2); }
+td.v { text-align: center; position: relative; }
+.v span { display: inline-block; min-width: 26px; padding: 0 3px; font-family: var(--font-hand); font-size: 0.95rem; line-height: 1.5; }
+.v.weak span { color: var(--pen); border: 1.5px solid var(--pen); border-radius: 50% / 46%; transform: rotate(-4deg); }
+.v.very-weak span { color: var(--pen); border: 3px double var(--pen); border-radius: 50% / 46%; transform: rotate(-4deg); font-weight: 700; }
+.v.resists span { color: var(--ink-2); opacity: 0.75; }
+.v.immune span { color: var(--ink-2); background: var(--tint-zero); border-radius: 3px; }
+.v.neutral span { color: var(--rule-strong); }
+.v .ab { position: absolute; top: 1px; right: 2px; font-size: 0.6rem; color: var(--warn); font-family: var(--font-display); }
+.v .soft { display: block; height: 3px; margin: 1px auto 0; width: 70%; background: var(--warn); border-radius: 2px; }
+tfoot td { font-family: var(--font-display); font-weight: 600; text-align: center; font-size: 0.85rem; color: var(--ink-2); border-top: 1.5px solid var(--rule-strong); }
+tfoot td.gap { color: var(--pen); }
+tfoot td.gap b { border-bottom: 2px solid var(--pen); }
+.mkey { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 8px 16px; font-size: 0.78rem; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+.sum { padding: 10px 16px 14px; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 0.9rem; }
+.sum b { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.04em; }
+.moves { padding: 0 16px 14px; font-size: 0.82rem; color: var(--ink-2); display: grid; gap: 3px; }
+.moves .flag { color: var(--bad); }
+.exposure { display: grid; gap: 10px; padding: 14px 16px; }
+.exposure ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.exposure li { font-family: var(--font-typed); font-size: 0.88rem; }
+.most { font-family: var(--font-hand); color: var(--pen); font-size: 1.1rem; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+.section-head h2 { font-size: 1.45rem; text-transform: uppercase; }
+footer { border-top: 3px double var(--rule-strong); padding-top: 12px; color: var(--ink-2); font-size: 0.8rem; display: grid; gap: 6px; max-width: 90ch; }
+footer p { margin: 0; }
+@media (max-width: 560px) {
+  .masthead h1 { font-size: 2rem; }
+  .slider { grid-template-columns: minmax(70px, 1fr) minmax(0, 2fr); }
+  .slider .pole { display: none; }
+  .slider .why { grid-column: 1 / -1; }
+}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <span class="label">Front office · Advance scouting · Part 1: how to attack them</span>
+    <h1>Trainer Scouting Reports</h1>
+    <p>Pick a trainer and a version. The folder shows who they are (four sliders, set from canon and judgment, with the team's own reading beside them), what to expect, how to beat them, and where their rigidity or recklessness leaves an opening. The matrix reads their team against every attacking type in that game's chart. No damage numbers and no simulation: the same team always gets the same report.</p>
+  </header>
+  <section class="pick" aria-label="Choose a trainer">
+    <div class="row" id="trainers" role="group" aria-label="Trainer"></div>
+    <div class="row" id="versions" role="group" aria-label="Version"></div>
+  </section>
+  <main id="main" class="wrap"></main>
+  <footer>
+    <p>Data: our PokeAPI snapshot rolled back to each game's generation (type chart, typing, stats, abilities, learnsets); cartridge teams from the pret disassemblies. Every sentence is a rule in engine/trainers/phrases.json, and every threshold lives in engine/trainers/config.json. Proposed values are drafts until approved.</p>
+  </footer>
+</div>
+
+<script type="application/json" id="data">/*DATA*/</script>
+<script>
+(function () {
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const MARK = { immune: "0", resists: "½", neutral: "·", weak: "2×", "very weak": "4×" };
+  const SHORT = (t) => t.slice(0, 3);
+  const SECTIONS = [["who", "Who they are"], ["expect", "What to expect"], ["beat", "How to beat them"], ["gap", "Where they leave a gap"]];
+  const trainers = [];
+  for (const r of DATA.reports) {
+    let t = trainers.find((x) => x.id === r.trainer);
+    if (!t) { t = { id: r.trainer, name: r.trainer_name, versions: [] }; trainers.push(t); }
+    t.versions.push(r);
+  }
+  let state = { trainer: "paul", version: null, mine: DATA.mine.length ? DATA.mine[0].id : null };
+  try { const saved = JSON.parse(localStorage.getItem("trainer-reports-v1") || "null"); if (saved) state = Object.assign(state, saved); } catch (e) {}
+  const hash = location.hash.replace("#", "");
+  if (hash) { const [t, v] = hash.split("."); if (trainers.some((x) => x.id === t)) { state.trainer = t; state.version = v || null; } }
+  const save = () => { try { localStorage.setItem("trainer-reports-v1", JSON.stringify(state)); } catch (e) {} };
+
+  function slider(name, s) {
+    const [lo, hi] = s.poles;
+    const pin = s.authored == null ? "" : `<span class="pin" style="left:${s.authored}%"></span>`;
+    const ring = s.measured == null ? "" : `<span class="ring" style="left:${s.measured}%"></span>`;
+    const said = s.authored == null ? "not set" : `${s.authored}`;
+    const read = s.measured == null ? "no signal" : `${s.measured}`;
+    const dis = s.disagreement ? ` · <b>team reads ${esc(s.disagreement.team_leans)}</b>` : "";
+    return `<div class="slider"><span class="nm">${esc(name)}</span><span class="pole l">${esc(lo)}</span>
+      <div class="track ${s.disagreement ? "disagree" : ""}" role="img" aria-label="${esc(name)}: set ${said}, team reads ${read}"><span class="mid"></span>${ring}${pin}</div>
+      <span class="pole">${esc(hi)}</span>
+      <span class="why">set ${said} · team reads ${read}${dis}${s.why ? " · " + esc(s.why) : ""}</span></div>`;
+  }
+  function matrix(rep) {
+    const m = rep.matrix, types = m.types, s = m.summary;
+    const head = `<tr><th>Their Pokémon</th><th>Bulk</th>${types.map((t) => `<th class="ty" title="${esc(t)}">${esc(SHORT(t))}</th>`).join("")}</tr>`;
+    const body = m.rows.map((r) => {
+      const cells = types.map((t) => {
+        const c = r.cells[t], cls = c.verdict.replace(" ", "-");
+        const title = `${t} against ${r.species}: ${c.verdict}${c.ability ? ` (${c.ability}; ${c.before_ability} without it)` : ""}${c.note ? `, ${c.note}` : ""}`;
+        return `<td class="v ${cls}" title="${esc(title)}"><span>${MARK[c.verdict]}</span>${c.ability ? `<span class="ab">ab</span>` : ""}${c.note ? `<i class="soft"></i>` : ""}</td>`;
+      }).join("");
+      return `<tr><td class="who"><div class="nm">${esc(r.nickname || r.species)}</div><div class="sub">Lv ${r.level} · ${esc(r.types.join("/"))}${r.ability ? " · " + esc(r.ability) : ""}</div></td>
+        <td><span class="chip ${r.bulk.lean}">${esc(r.bulk.label)}</span></td>${cells}</tr>`;
+    }).join("");
+    const foot = `<tr><td>Weak</td><td></td>${types.map((t) => { const p = s.per_type[t]; const gap = s.gaps.includes(t);
+      return `<td class="${gap ? "gap" : ""}" title="${p.weak_total} weak, ${p.covered} resist or immune">${gap ? `<b>${p.weak_total}</b>` : p.weak_total || ""}</td>`; }).join("")}</tr>`;
+    return `<div class="mkey"><span>2× weak, circled · 4× very weak, double ring · ½ resists · 0 immune · · neutral</span><span>ab: an ability changed it</span><span>orange bar: weak, and worse from the side this Pokémon is soft on</span><span>bottom row: how many are weak; underlined is a gap</span></div>
+      <div class="scroll"><table class="matrix"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table></div>
+      <div class="sum"><span><b>Gaps</b> ${esc(s.gaps.join(", ") || "none")}</span><span><b>Strengths</b> ${esc(s.strengths.join(", ") || "none")}</span><span><b>Bring</b> ${esc(s.bring)} attackers (${s.soft.physical} physically soft, ${s.soft.special} specially soft)</span></div>`;
+  }
+  function moves(rep) {
+    const items = [];
+    for (const r of rep.matrix.rows) {
+      for (const b of r.move_basis) if (b.basis !== "this game") items.push(`${esc(r.species)}: ${esc(b.move)}, ${esc(b.reason)}`);
+      for (const f of r.flags) items.push(`<span class="flag">${esc(r.species)}: ${esc(f)}</span>`);
+    }
+    const used = [...new Set(rep.matrix.rows.flatMap((r) => r.defaults_used))];
+    if (used.length) items.push(`Defaults where nothing is recorded: ${esc(used.join("; "))}.`);
+    return items.length ? `<div class="moves"><span class="label">Moves and reasons</span>${items.map((i) => `<span>${i}</span>`).join("")}</div>` : "";
+  }
+  function exposure(rep) {
+    if (rep.trainer === "me" || !DATA.mine.length) return "";
+    const key = `${state.mine}|${rep.trainer}/${rep.version}`, e = DATA.exposures[key];
+    const pick = DATA.mine.map((m) => `<button class="pill" data-mine="${esc(m.id)}" aria-pressed="${m.id === state.mine}">${esc(m.title)}</button>`).join("");
+    const body = !e ? "" : `<ul>${(e.lines.length ? e.lines : ["Nothing on their team hits your weak spots."]).map((l) => `<li>${esc(l)}</li>`).join("")}</ul>
+      ${e.most_exposed.length ? `<div class="most">Most exposed: ${esc(e.most_exposed.join(", "))}</div>` : ""}`;
+    return `<div class="section-head"><h2>Your team against them</h2><span class="label">their attack types against your rows · ${e ? esc(e.their_side) + " attackers" : ""}</span></div>
+      <div class="panel exposure"><div class="row" role="group" aria-label="Your team">${pick}</div>${body}</div>`;
+  }
+  function render() {
+    const t = trainers.find((x) => x.id === state.trainer) || trainers[0];
+    const rep = t.versions.find((v) => v.version === state.version) || t.versions[0];
+    state.trainer = t.id; state.version = rep.version;
+    $("#trainers").innerHTML = trainers.map((x) => `<button class="pill" data-trainer="${esc(x.id)}" aria-pressed="${x.id === t.id}">${esc(x.name)}</button>`).join("");
+    $("#versions").innerHTML = `<span class="label">Version</span>` + t.versions.map((v) => `<button class="pill" data-version="${esc(v.version)}" aria-pressed="${v.version === rep.version}">${esc(v.title)}<span class="k">${esc(v.game)}</span></button>`).join("");
+    const tags = rep.tags.map((g) => `<span class="tag">${esc(g.name)}${g.id !== "role" ? `<small>${esc(g.detail.join(", "))}</small>` : ""}</span>`).join("");
+    const plan = SECTIONS.map(([id, title]) => {
+      const lines = rep.plan[id] || [];
+      return lines.length ? `<section><h3>${esc(title)}</h3><ul>${lines.map((p) => `<li class="${p.rule === "override" ? "override" : ""}" title="${esc(p.rule)}: ${esc(p.trigger)}">${esc(p.text)}</li>`).join("")}</ul></section>` : "";
+    }).join("");
+    $("#main").innerHTML = `<article class="panel folder">
+      <header><h2>${esc(rep.title)}</h2><span class="meta">${esc(rep.trainer_name)} · ${esc(rep.game)} (Gen ${rep.gen}) · ${esc(rep.source)} <span class="status ${esc(rep.status)}">${esc(rep.status)}</span></span></header>
+      <div class="sliders">${Object.entries(rep.sliders).map(([k, s]) => slider(k, s)).join("")}</div>
+      <div class="key"><span><i class="p"></i>set from canon and judgment</span><span><i class="r"></i>what the team's data reads</span></div>
+      ${tags ? `<div class="tags">${tags}</div>` : ""}
+      <div class="plan">${plan}</div>
+    </article>
+    <div class="section-head"><h2>The matrix</h2><span class="label">their Pokémon against every attacking type · ${esc(rep.game)} chart</span></div>
+    <div class="panel">${matrix(rep)}${moves(rep)}</div>
+    ${exposure(rep)}`;
+    history.replaceState(null, "", `#${t.id}.${rep.version}`);
+    save();
+  }
+  document.addEventListener("click", (e) => {
+    const el = e.target.closest("[data-trainer],[data-version],[data-mine]");
+    if (!el) return;
+    if (el.dataset.trainer) { state.trainer = el.dataset.trainer; state.version = null; }
+    else if (el.dataset.version) state.version = el.dataset.version;
+    else if (el.dataset.mine) state.mine = el.dataset.mine;
+    render();
+  });
+  render();
+})();
+</script>

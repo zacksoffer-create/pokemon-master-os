@@ -1,0 +1,1058 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "misty",
+ "trainer_name": "Misty",
+ "version": "cerulean-hgss",
+ "title": "Misty, Cerulean Gym (HeartGold)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "cartridge",
+ "status": "cartridge",
+ "notes": [
+  "The games' Misty, read from the HeartGold cartridge."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 65,
+   "why": "a fiery temper and fast water attacks",
+   "measured": 42,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 75,
+     "members": [
+      "Golduck",
+      "Quagsire",
+      "Starmie"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 25,
+     "members": [
+      "Lapras"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 25,
+     "members": [
+      "Starmie"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 55,
+   "why": "a water specialist",
+   "measured": 38,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 75,
+     "members": [
+      "Golduck",
+      "Quagsire",
+      "Starmie"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 85,
+   "why": "loves her Pokémon loudly",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 50,
+   "why": "trusts her gut",
+   "measured": 0,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": {
+    "gap": -50,
+    "team_leans": "percentage player",
+    "because": [
+     {
+      "signal": "risky",
+      "label": "carries a gamble",
+      "value": 0,
+      "members": []
+     }
+    ]
+   },
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Water Pulse"
+   ],
+   "members": {
+    "Water Pulse": [
+     "Golduck",
+     "Quagsire",
+     "Lapras",
+     "Starmie"
+    ]
+   }
+  },
+  {
+   "id": "type_dominant",
+   "name": "Type-dominant",
+   "detail": [
+    "Water"
+   ],
+   "members": {
+    "Water": [
+     "Golduck",
+     "Quagsire",
+     "Lapras",
+     "Starmie"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Gym Leader",
+   "detail": [
+    "Gym Leader"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "misty",
+  "version": "cerulean-hgss",
+  "title": "Misty, Cerulean Gym (HeartGold)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "cartridge:heartgold:254/0",
+    "species": "Golduck",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Damp",
+    "level": 100,
+    "stats": {
+     "hp": 294,
+     "atk": 193,
+     "def": 185,
+     "spa": 219,
+     "spd": 189,
+     "spe": 199
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 185,
+     "spd": 189,
+     "gap": 0.021
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Pulse",
+     "Disable",
+     "Psych Up",
+     "Psychic"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 22, as Golduck)"
+     },
+     {
+      "move": "Disable",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 14, as Golduck)"
+     },
+     {
+      "move": "Psych Up",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 37, as Golduck)"
+     },
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Golduck)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #254"
+   },
+   {
+    "build": "cartridge:heartgold:254/1",
+    "species": "Quagsire",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Damp",
+    "level": 100,
+    "stats": {
+     "hp": 324,
+     "atk": 199,
+     "def": 199,
+     "spa": 159,
+     "spd": 159,
+     "spe": 99
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 199,
+     "spd": 159,
+     "gap": 0.201
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Pulse",
+     "Amnesia",
+     "Earthquake",
+     "Rain Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Quagsire)"
+     },
+     {
+      "move": "Amnesia",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 24, as Quagsire)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 36, as Quagsire)"
+     },
+     {
+      "move": "Rain Dance",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 41, as Quagsire)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #254"
+   },
+   {
+    "build": "cartridge:heartgold:254/2",
+    "species": "Lapras",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ice"
+    ],
+    "ability": "Water Absorb",
+    "level": 100,
+    "stats": {
+     "hp": 394,
+     "atk": 199,
+     "def": 189,
+     "spa": 199,
+     "spd": 219,
+     "spe": 149
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 189,
+     "spd": 219,
+     "gap": 0.137
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Water Absorb",
+      "before_ability": "resists"
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Pulse",
+     "Sing",
+     "Ice Beam",
+     "Body Slam"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 14, as Lapras)"
+     },
+     {
+      "move": "Sing",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Lapras)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 32, as Lapras)"
+     },
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 18, as Lapras)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #254"
+   },
+   {
+    "build": "cartridge:heartgold:254/3",
+    "species": "Starmie",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Psychic"
+    ],
+    "ability": "Illuminate",
+    "level": 100,
+    "stats": {
+     "hp": 254,
+     "atk": 179,
+     "def": 199,
+     "spa": 229,
+     "spd": 199,
+     "spe": 259
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 199,
+     "spd": 199,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Pulse",
+     "Confuse Ray",
+     "Recover",
+     "Ice Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Starmie)"
+     },
+     {
+      "move": "Confuse Ray",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 28, as Starmie)"
+     },
+     {
+      "move": "Recover",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Starmie)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Starmie)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #254"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Lapras"
+     ],
+     "covered_by": [
+      "Starmie"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Quagsire"
+     ]
+    },
+    "Ground": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Lapras"
+     ],
+     "covered_by": [
+      "Quagsire"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Starmie"
+     ],
+     "covered_by": []
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Starmie"
+     ],
+     "covered_by": []
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Golduck",
+      "Quagsire",
+      "Starmie"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Golduck",
+      "Quagsire",
+      "Starmie"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Golduck",
+      "Lapras",
+      "Starmie"
+     ]
+    },
+    "Grass": {
+     "weak": 3,
+     "very weak": 1,
+     "neutral": 0,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 4,
+     "covered": 0,
+     "weak_members": [
+      "Golduck",
+      "Quagsire",
+      "Lapras",
+      "Starmie"
+     ],
+     "covered_by": []
+    },
+    "Electric": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Golduck",
+      "Lapras",
+      "Starmie"
+     ],
+     "covered_by": [
+      "Quagsire"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Starmie"
+     ]
+    },
+    "Ice": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Golduck",
+      "Lapras",
+      "Starmie"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Starmie"
+     ],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Grass",
+    "Electric"
+   ],
+   "strengths": [
+    "Water",
+    "Steel",
+    "Fire",
+    "Ice"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 1,
+    "even": 3
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Quagsire"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Misty plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Gym Leader: a specialist's team built around one idea.",
+    "rule": "role_gym",
+    "trigger": "is_gym_leader == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Type-dominant: Water (4 of 4). Everything you know about that type applies to most of their team.",
+    "rule": "type_dominant",
+    "trigger": "type_dominant_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Water Pulse on Golduck, Quagsire, Lapras and Starmie. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the special side (7 of 9 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "expect",
+    "text": "Called gambler (50), but this team reads percentage player (0): no carries a gamble.",
+    "rule": "disagree_risk",
+    "trigger": "disagree_risk nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Grass: Golduck, Quagsire, Lapras and Starmie are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Electric (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Quagsire to Grass (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Quagsire is specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Water, Steel or Fire: 3 of 4 resist Water; 3 of 4 resist Steel; 3 of 4 resist Fire.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": []
+ },
+ "roles": [
+  "Gym Leader"
+ ],
+ "overrides": {}
+}

@@ -1,0 +1,1307 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "me",
+ "trainer_name": "Zack",
+ "version": "crystal",
+ "title": "Crystal",
+ "game": "crystal",
+ "gen": 2,
+ "source": "canon register (rosters.json + builds.json)",
+ "status": "canon",
+ "notes": [
+  "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": null,
+   "why": null,
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Feraligatr",
+      "Donphan",
+      "Ampharos",
+      "Espeon"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Feraligatr",
+      "Miltank",
+      "Donphan",
+      "Ampharos",
+      "Espeon"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Feraligatr",
+      "Miltank",
+      "Espeon"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": null,
+   "why": null,
+   "measured": 17,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 17,
+     "members": [
+      "Umbreon"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": null,
+   "why": null,
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": null,
+   "why": null,
+   "measured": 100,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 100,
+     "members": [
+      "Feraligatr",
+      "Miltank",
+      "Donphan",
+      "Ampharos",
+      "Umbreon",
+      "Espeon"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Curse",
+    "Dynamic Punch"
+   ],
+   "members": {
+    "Curse": [
+     "Feraligatr",
+     "Miltank",
+     "Donphan",
+     "Ampharos",
+     "Umbreon",
+     "Espeon"
+    ],
+    "Dynamic Punch": [
+     "Feraligatr",
+     "Miltank",
+     "Ampharos"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "me",
+  "version": "crystal",
+  "title": "Crystal",
+  "game": "crystal",
+  "gen": 2,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "lineup:crystal/Feraligatr",
+    "species": "Feraligatr",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": null,
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 267,
+     "def": 257,
+     "spa": 215,
+     "spd": 223,
+     "spe": 213
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 257,
+     "spd": 223,
+     "gap": 0.132
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Dynamic Punch",
+     "Ice Beam",
+     "Curse"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in Crystal (level 58, as Feraligatr)"
+     },
+     {
+      "move": "Dynamic Punch",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Feraligatr)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Crystal (tutor, as Feraligatr)"
+     },
+     {
+      "move": "Curse",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Feraligatr)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:crystal/Miltank",
+    "species": "Miltank",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": null,
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 217,
+     "def": 267,
+     "spa": 137,
+     "spd": 197,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 267,
+     "spd": 197,
+     "gap": 0.262
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Body Slam",
+     "Earthquake",
+     "Dynamic Punch",
+     "Curse"
+    ],
+    "move_basis": [
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in Crystal (level 43, as Miltank)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Miltank)"
+     },
+     {
+      "move": "Dynamic Punch",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Miltank)"
+     },
+     {
+      "move": "Curse",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Miltank)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:crystal/Donphan",
+    "species": "Donphan",
+    "nickname": null,
+    "types": [
+     "Ground"
+    ],
+    "ability": null,
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 297,
+     "def": 297,
+     "spa": 177,
+     "spd": 177,
+     "spe": 157
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 297,
+     "spd": 177,
+     "gap": 0.404
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Earthquake",
+     "Ancient Power",
+     "Double-Edge",
+     "Curse"
+    ],
+    "move_basis": [
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Crystal (level 49, as Donphan)"
+     },
+     {
+      "move": "Ancient Power",
+      "basis": "this game",
+      "reason": "learns it in Crystal (egg, as Phanpy)"
+     },
+     {
+      "move": "Double-Edge",
+      "basis": "this game",
+      "reason": "learns it in Crystal (level 49, as Phanpy)"
+     },
+     {
+      "move": "Curse",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Donphan)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:crystal/Ampharos",
+    "species": "Ampharos",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": null,
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 207,
+     "def": 207,
+     "spa": 287,
+     "spd": 237,
+     "spe": 167
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 207,
+     "spd": 237,
+     "gap": 0.127
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunderbolt",
+     "Dynamic Punch",
+     "Fire Punch",
+     "Curse"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in Crystal (tutor, as Ampharos)"
+     },
+     {
+      "move": "Dynamic Punch",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Ampharos)"
+     },
+     {
+      "move": "Fire Punch",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Ampharos)"
+     },
+     {
+      "move": "Curse",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Ampharos)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:crystal/Umbreon",
+    "species": "Umbreon",
+    "nickname": null,
+    "types": [
+     "Dark"
+    ],
+    "ability": null,
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 187,
+     "def": 277,
+     "spa": 177,
+     "spd": 317,
+     "spe": 187
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 277,
+     "spd": 317,
+     "gap": 0.126
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Iron Tail",
+     "Zap Cannon",
+     "Curse",
+     "Moonlight"
+    ],
+    "move_basis": [
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Umbreon)"
+     },
+     {
+      "move": "Zap Cannon",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Umbreon)"
+     },
+     {
+      "move": "Curse",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Umbreon)"
+     },
+     {
+      "move": "Moonlight",
+      "basis": "this game",
+      "reason": "learns it in Crystal (level 52, as Umbreon)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:crystal/Espeon",
+    "species": "Espeon",
+    "nickname": null,
+    "types": [
+     "Psychic"
+    ],
+    "ability": null,
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 187,
+     "def": 177,
+     "spa": 317,
+     "spd": 247,
+     "spe": 277
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 177,
+     "spd": 247,
+     "gap": 0.283
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Psychic",
+     "Bite",
+     "Zap Cannon",
+     "Curse"
+    ],
+    "move_basis": [
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in Crystal (level 47, as Espeon)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in Crystal (level 30, as Eevee)"
+     },
+     {
+      "move": "Zap Cannon",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Espeon)"
+     },
+     {
+      "move": "Curse",
+      "basis": "this game",
+      "reason": "learns it in Crystal (machine, as Espeon)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Miltank",
+      "Umbreon"
+     ],
+     "covered_by": [
+      "Espeon"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Ampharos"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Donphan"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Ampharos"
+     ],
+     "covered_by": []
+    },
+    "Rock": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Donphan"
+     ]
+    },
+    "Bug": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Umbreon",
+      "Espeon"
+     ],
+     "covered_by": []
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Espeon"
+     ],
+     "covered_by": [
+      "Miltank",
+      "Umbreon"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Feraligatr",
+      "Ampharos"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Feraligatr"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Donphan"
+     ],
+     "covered_by": [
+      "Feraligatr"
+     ]
+    },
+    "Grass": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Feraligatr",
+      "Donphan"
+     ],
+     "covered_by": []
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Feraligatr"
+     ],
+     "covered_by": [
+      "Donphan",
+      "Ampharos"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Umbreon",
+      "Espeon"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Donphan"
+     ],
+     "covered_by": [
+      "Feraligatr"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Espeon"
+     ],
+     "covered_by": [
+      "Umbreon"
+     ]
+    }
+   },
+   "gaps": [
+    "Bug",
+    "Grass"
+   ],
+   "strengths": [],
+   "soft": {
+    "physical": 1,
+    "special": 2,
+    "even": 3
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [
+     "Espeon"
+    ],
+    "special": [
+     "Miltank",
+     "Donphan"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Zack comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "A gambler: they'll reach for the long shot.",
+    "rule": "risk_high",
+    "trigger": "risk_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "No sliders are set for this version yet, so this reads from the team's data alone.",
+    "rule": "unauthored",
+    "trigger": "authored_n == 0 (here 0)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Champion: they've won before and play like it.",
+    "rule": "role_champion",
+    "trigger": "is_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Curse on Feraligatr, Miltank, Donphan, Ampharos, Umbreon and Espeon; Dynamic Punch on Feraligatr, Miltank and Ampharos. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (9 physical, 8 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Feraligatr, Miltank and Espeon outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Bug: Umbreon and Espeon are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Grass (2 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Miltank and Donphan are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Reckless, and it shows: Feraligatr's Hydro Pump (80%) and Dynamic Punch (50%); Miltank's Dynamic Punch (50%); Donphan's Double-Edge (recoil); Ampharos's Dynamic Punch (50%); Umbreon's Iron Tail (75%) and Zap Cannon (50%); Espeon's Zap Cannon (50%). Their misses and recoil are your free turns.",
+    "rule": "reckless",
+    "trigger": "risk_band == high (here high); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion"
+ ],
+ "overrides": {}
+}

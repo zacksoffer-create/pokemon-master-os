@@ -639,6 +639,70 @@ class TrainerReportData(unittest.TestCase):
         hot.sliders["offense"]["value"] = 50
         self.assertEqual(nature_clashes(self.store, hot, [bold]), [])
 
+    def _text(self, rep):
+        return [p["text"] for sec in rep["plan"].values() for p in sec]
+
+    def test_paul_reads_aggressive_rigid_and_demanding_not_cold(self):
+        from trainers.report import build_report
+        who = " ".join(p["text"] for p in build_report(self.store, "paul", "sinnoh")["plan"]["who"])
+        self.assertIn("comes at you with force", who)
+        self.assertIn("same way every time", who)
+        self.assertIn("demanding of them: tough love, not coldness", who)
+
+    def test_every_slider_and_tag_changes_a_sentence(self):
+        """A slider or tag earns its place only if it changes a line of the report (the brief's rule)."""
+        import copy
+        from trainers.report import build_report
+        v = self.store.version("paul", "sinnoh")
+        saved = copy.deepcopy(v.sliders)
+        try:
+            for k in ("offense", "rigidity", "bond", "risk"):
+                texts = []
+                for value in (10, 90):
+                    v.sliders = copy.deepcopy(saved)
+                    v.sliders[k]["value"] = value
+                    texts.append(self._text(build_report(self.store, "paul", "sinnoh")))
+                self.assertNotEqual(texts[0], texts[1], f"the {k} slider changes no sentence")
+        finally:
+            v.sliders = saved
+        tag_cfg = self.store.config["tags"]
+        for tid, tag, knob in (("brock", "cohesive", "min_members"), ("brock", "type_dominant", "min_members")):
+            on = self._text(build_report(self.store, tid))
+            saved_n = tag_cfg[tag][knob]
+            tag_cfg[tag][knob] = 99
+            try:
+                self.assertNotEqual(on, self._text(build_report(self.store, tid)), f"the {tag} tag changes no sentence")
+            finally:
+                tag_cfg[tag][knob] = saved_n
+        for tid in ("brock", "red", "lance"):
+            v = self.store.version(tid)
+            saved_roles = list(v.roles)
+            on = self._text(build_report(self.store, tid))
+            v.roles = []
+            try:
+                self.assertNotEqual(on, self._text(build_report(self.store, tid)), f"{tid}'s role tag changes no sentence")
+            finally:
+                v.roles = saved_roles
+
+    def test_reports_are_deterministic_and_ready_for_part_2(self):
+        import json as _json
+        from trainers.report import build_report
+        a = _json.dumps(build_report(self.store, "red"), sort_keys=True)
+        b = _json.dumps(build_report(self.store, "red"), sort_keys=True)
+        self.assertEqual(a, b)
+        rep = _json.loads(a)
+        self.assertEqual(rep["schema"], "trainer-report/1")
+        self.assertTrue({"sliders", "tags", "matrix", "plan"} <= set(rep))
+        self.assertTrue({"gaps", "strengths", "bring", "per_type"} <= set(rep["matrix"]["summary"]))
+
+    def test_exposure_shows_where_your_team_is_hit(self):
+        from trainers.report import exposure
+        e = exposure(self.store, ("me", "heartgold"), ("paul", "sinnoh"))
+        tyr = next(r for r in e["rows"] if r["member"] == "Tyranitar")
+        self.assertEqual(tyr["hits"][0]["verdict"], "very weak")          # Brick Break from Electivire
+        self.assertIn("Brick Break (Electivire)", tyr["hits"][0]["their_moves"])
+        self.assertEqual(e["most_exposed"][0], "Tyranitar")
+
 
 if __name__ == "__main__":
     unittest.main()

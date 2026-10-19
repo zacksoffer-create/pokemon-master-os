@@ -1,0 +1,1309 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "cynthia",
+ "trainer_name": "Cynthia",
+ "version": "champion-platinum",
+ "title": "Champion Cynthia (Platinum)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "cartridge",
+ "status": "cartridge",
+ "notes": [
+  "The games' Cynthia, read from the Platinum cartridge."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 65,
+   "why": "strong attackers, no wasted turns",
+   "measured": 72,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Roserade",
+      "Togekiss",
+      "Lucario",
+      "Garchomp"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Spiritomb",
+      "Roserade",
+      "Togekiss",
+      "Lucario",
+      "Milotic",
+      "Garchomp"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Roserade",
+      "Lucario",
+      "Garchomp"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 20,
+   "why": "a balanced team that covers everything",
+   "measured": 0,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 85,
+   "why": "calm trust in each partner",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 30,
+   "why": "plays the percentages",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Lucario",
+      "Garchomp"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  },
+  {
+   "id": "role",
+   "name": "Region Champion",
+   "detail": [
+    "Region Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "cynthia",
+  "version": "champion-platinum",
+  "title": "Champion Cynthia (Platinum)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "cartridge:platinum:champion_cynthia/0",
+    "species": "Spiritomb",
+    "nickname": null,
+    "types": [
+     "Ghost",
+     "Dark"
+    ],
+    "ability": "Pressure",
+    "level": 100,
+    "stats": {
+     "hp": 240,
+     "atk": 219,
+     "def": 251,
+     "spa": 219,
+     "spd": 251,
+     "spe": 105
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 251,
+     "spd": 251,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Fighting": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Dark Pulse",
+     "Psychic",
+     "Silver Wind",
+     "Shadow Ball"
+    ],
+    "move_basis": [
+     {
+      "move": "Dark Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 49, as Spiritomb)"
+     },
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Spiritomb)"
+     },
+     {
+      "move": "Silver Wind",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Spiritomb)"
+     },
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Spiritomb)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+   },
+   {
+    "build": "cartridge:platinum:champion_cynthia/1",
+    "species": "Roserade",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 260,
+     "atk": 175,
+     "def": 145,
+     "spa": 285,
+     "spd": 245,
+     "spe": 215
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 145,
+     "spd": 245,
+     "gap": 0.408
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Energy Ball",
+     "Sludge Bomb",
+     "Toxic",
+     "Extrasensory"
+    ],
+    "move_basis": [
+     {
+      "move": "Energy Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Roserade)"
+     },
+     {
+      "move": "Sludge Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Roserade)"
+     },
+     {
+      "move": "Toxic",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Roserade)"
+     },
+     {
+      "move": "Extrasensory",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Budew)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+   },
+   {
+    "build": "cartridge:platinum:champion_cynthia/2",
+    "species": "Togekiss",
+    "nickname": null,
+    "types": [
+     "Normal",
+     "Flying"
+    ],
+    "ability": "Hustle",
+    "level": 100,
+    "stats": {
+     "hp": 310,
+     "atk": 135,
+     "def": 225,
+     "spa": 275,
+     "spd": 265,
+     "spe": 195
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 225,
+     "spd": 265,
+     "gap": 0.151
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Air Slash",
+     "Aura Sphere",
+     "Water Pulse",
+     "Shock Wave"
+    ],
+    "move_basis": [
+     {
+      "move": "Air Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
+     },
+     {
+      "move": "Aura Sphere",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
+     },
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Togekiss)"
+     },
+     {
+      "move": "Shock Wave",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Togekiss)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+   },
+   {
+    "build": "cartridge:platinum:champion_cynthia/3",
+    "species": "Lucario",
+    "nickname": null,
+    "types": [
+     "Fighting",
+     "Steel"
+    ],
+    "ability": "Steadfast",
+    "level": 100,
+    "stats": {
+     "hp": 280,
+     "atk": 255,
+     "def": 175,
+     "spa": 265,
+     "spd": 175,
+     "spe": 215
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 175,
+     "spd": 175,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Aura Sphere",
+     "Extreme Speed",
+     "Shadow Ball",
+     "Stone Edge"
+    ],
+    "move_basis": [
+     {
+      "move": "Aura Sphere",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Lucario)"
+     },
+     {
+      "move": "Extreme Speed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 51, as Lucario)"
+     },
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Lucario)"
+     },
+     {
+      "move": "Stone Edge",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Lucario)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+   },
+   {
+    "build": "cartridge:platinum:champion_cynthia/4",
+    "species": "Milotic",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Marvel Scale",
+    "level": 100,
+    "stats": {
+     "hp": 330,
+     "atk": 155,
+     "def": 193,
+     "spa": 235,
+     "spd": 285,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 193,
+     "spd": 285,
+     "gap": 0.323
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Surf",
+     "Ice Beam",
+     "Mirror Coat",
+     "Dragon Pulse"
+    ],
+    "move_basis": [
+     {
+      "move": "Surf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Milotic)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Milotic)"
+     },
+     {
+      "move": "Mirror Coat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Feebas)"
+     },
+     {
+      "move": "Dragon Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Milotic)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+   },
+   {
+    "build": "cartridge:platinum:champion_cynthia/5",
+    "species": "Garchomp",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Ground"
+    ],
+    "ability": "Sand Veil",
+    "level": 100,
+    "stats": {
+     "hp": 356,
+     "atk": 295,
+     "def": 225,
+     "spa": 195,
+     "spd": 205,
+     "spe": 239
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 225,
+     "spd": 205,
+     "gap": 0.089
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Dragon Rush",
+     "Earthquake",
+     "Flamethrower",
+     "Giga Impact"
+    ],
+    "move_basis": [
+     {
+      "move": "Dragon Rush",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 55, as Garchomp)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Garchomp)"
+     },
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Garchomp)"
+     },
+     {
+      "move": "Giga Impact",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Garchomp)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Spiritomb",
+      "Lucario"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Lucario"
+     ],
+     "covered_by": [
+      "Spiritomb",
+      "Roserade"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Roserade"
+     ],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Spiritomb",
+      "Lucario",
+      "Garchomp"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Lucario"
+     ],
+     "covered_by": [
+      "Togekiss"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Togekiss"
+     ],
+     "covered_by": [
+      "Lucario",
+      "Garchomp"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Togekiss",
+      "Lucario"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Togekiss",
+      "Lucario"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Lucario",
+      "Milotic"
+     ]
+    },
+    "Fire": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Roserade",
+      "Lucario"
+     ],
+     "covered_by": [
+      "Milotic",
+      "Garchomp"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Roserade",
+      "Milotic"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Milotic"
+     ],
+     "covered_by": [
+      "Roserade",
+      "Togekiss",
+      "Lucario"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Togekiss",
+      "Milotic"
+     ],
+     "covered_by": [
+      "Roserade",
+      "Garchomp"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Roserade"
+     ],
+     "covered_by": [
+      "Spiritomb"
+     ]
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Roserade",
+      "Togekiss",
+      "Garchomp"
+     ],
+     "covered_by": [
+      "Lucario",
+      "Milotic"
+     ]
+    },
+    "Dragon": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Garchomp"
+     ],
+     "covered_by": [
+      "Lucario"
+     ]
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Lucario"
+     ]
+    }
+   },
+   "gaps": [
+    "Ice"
+   ],
+   "strengths": [
+    "Poison"
+   ],
+   "soft": {
+    "physical": 3,
+    "special": 0,
+    "even": 3
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Roserade",
+     "Togekiss",
+     "Milotic"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Cynthia comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Region Champion: the last line of the league. Expect a team with no easy answers.",
+    "rule": "role_region",
+    "trigger": "is_region_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the special side (18 of 23 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Roserade, Lucario and Garchomp outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Ice: Roserade, Togekiss and Garchomp are weak to it, and only Lucario and Milotic can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Garchomp to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Roserade, Togekiss and Milotic are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Poison: 3 of 6 resist Poison.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Lucario's Stone Edge (80%); Garchomp's Dragon Rush (75%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion",
+  "Region Champion"
+ ],
+ "overrides": {}
+}

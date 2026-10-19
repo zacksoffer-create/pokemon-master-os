@@ -81,19 +81,23 @@ Lore (Ash's Light Ball Pikachu, a Pokémon that refuses its ball) is data on a b
 ## Steps
 
 1. **Data model and trainer storage.** Done: the era layer, builds, trainers, stats from builds, a stated reason for every move, lore out of the code. You're a Champion in every version.
-2. **The matrix and bulk tags.**
-   - The matrix has their Pokémon down the side and the 17 attacking types across the top, from that game's chart.
-   - Each cell gets a verdict: immune, resists, neutral, weak, very weak. Abilities rewrite the tier before the verdict.
-   - Each row gets a bulk lean from its real stats: physically soft or specially soft at a 15% gap (configurable).
-   - A team summary of gaps and strengths says which kind of attacker to bring.
-3. **Sliders and tags.**
-   - Measured signals per slider, with disagreement notes and nature-clash lines.
-   - Cohesive, type-dominant and role tags.
-   - A test that every slider end and every tag changes at least one sentence.
-4. **Report text and output.**
-   - Slider-pole fragments and the four hand-written offense × rigidity combinations, plus per-trainer overrides.
-   - The three-part plan: what to expect, how to beat them, where their rigidity or recklessness leaves a gap.
-   - One structured data file per report for Part 2, plus the readable report.
-   - Your workflow: load your HeartGold team, pick a trainer, see where you're exposed.
+2. **The matrix and bulk tags.** Done (`trainers/matrix.py`):
+   - verdicts from the game's chart, with abilities applied first;
+   - bulk leans from real Defense vs Sp. Def;
+   - gaps, strengths and which side to attack from.
+3. **Sliders and tags.** Done (`trainers/sliders.py`). Each slider is measured as shares of the team from the brief's signals:
+   - **offense:** attack-heavy stats, mostly attacks, fast;
+   - **rigidity:** Choice items, narrow EVs, few attack types;
+   - **bond:** friendship, a partner's ball, ribbons, nicknames;
+   - **risk:** low accuracy, one-hit KO, recoil, self-KO, Life Orb.
 
-**Acceptance test:** Paul reads aggressive and rigid, with a bond that reads "demanding, not cold".
+   Missing data is never evidence: a plain Poké Ball or an unrecorded item counts for nothing either way. A gap of 30 or more between the authored and measured values is noted, naming the signals behind it. Nature-clash rules and the Cohesive, Type-dominant and role tags are in the config.
+4. **Report text and output.** Done (`trainers/report.py`, `trainers/phrases.json`, `engine/trainer_report.py`).
+   - **Who they are:** the four offense × rigidity combinations, single-pole fragments for the middle, bond read with rigidity, and risk.
+   - **The plan:** what to expect, how to beat them, and where their rigidity or recklessness leaves a gap.
+   - **Overrides:** per-trainer overrides replace a section.
+   - **Outputs:** every report is written to `docs/trainers/` (markdown) and `docs/trainers/data/` (plain data, schema `trainer-report/1`, for Part 2). The page is `docs/trainers/trainer_reports.html`.
+   - **Your workflow:** `trainer_report.py exposure me/heartgold --vs paul/sinnoh`, also on the page under "Your team against them".
+   - **Tests:** every slider and every tag changes at least one sentence; reports are deterministic.
+
+**Acceptance test (passing):** Paul reads "comes at you with force and runs it the same way every time" and "Close to their Pokémon, and demanding of them: tough love, not coldness." His team's data agrees he's aggressive. On rigidity it disagrees, and the report says so: his rigidity is his system, not his builds.

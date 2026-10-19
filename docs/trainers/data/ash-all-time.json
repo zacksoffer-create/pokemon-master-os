@@ -1,0 +1,1354 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "ash",
+ "trainer_name": "Ash",
+ "version": "all-time",
+ "title": "All-time Ash (Gen IV species)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, every era; Gen I-IV species only",
+ "status": "proposed",
+ "notes": [
+  "Anime canon. Teams and movesets are drafts from the show, checked against the games' learnsets.",
+  "Won the Orange League and, later, the Alola League and the World Coronation Series (lore).",
+  "Greninja and later partners are left out: they aren't Gen IV species."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 75,
+   "why": "attacks first, with his strongest",
+   "measured": 94,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 100,
+     "members": [
+      "Pikachu",
+      "Charizard",
+      "Sceptile",
+      "Infernape",
+      "Snorlax",
+      "Heracross"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Pikachu",
+      "Charizard",
+      "Sceptile",
+      "Infernape",
+      "Snorlax",
+      "Heracross"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Pikachu",
+      "Charizard",
+      "Sceptile",
+      "Infernape",
+      "Heracross"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 25,
+   "why": "improvises, uses the field",
+   "measured": 8,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 17,
+     "members": [
+      "Sceptile"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 98,
+   "why": "the partnership is the point",
+   "measured": 100,
+   "signals": [
+    {
+     "signal": "friendship",
+     "label": "high friendship",
+     "value": 100,
+     "members": [
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 75,
+   "why": "will gamble for the win",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Pikachu",
+      "Infernape"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -42,
+    "team_leans": "percentage player",
+    "because": [
+     {
+      "signal": "risky",
+      "label": "carries a gamble",
+      "value": 33,
+      "members": [
+       "Pikachu",
+       "Infernape"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "ash",
+  "version": "all-time",
+  "title": "All-time Ash (Gen IV species)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "ash-all-time/pikachu",
+    "species": "Pikachu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 232,
+     "atk": 167,
+     "def": 117,
+     "spa": 157,
+     "spd": 137,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 117,
+     "spd": 137,
+     "gap": 0.146
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Volt Tackle",
+     "Thunderbolt",
+     "Iron Tail",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Volt Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (light-ball-egg, as Pichu)"
+     },
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 26, as Pikachu)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Pikachu)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Pikachu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-all-time/charizard",
+    "species": "Charizard",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Flying"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 318,
+     "atk": 225,
+     "def": 213,
+     "spa": 275,
+     "spd": 227,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 213,
+     "spd": 227,
+     "gap": 0.062
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Wing Attack",
+     "Seismic Toss",
+     "Dragon Breath"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 42, as Charizard)"
+     },
+     {
+      "move": "Wing Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 36, as Charizard)"
+     },
+     {
+      "move": "Seismic Toss",
+      "basis": "another game",
+      "reason": "learns it in Emerald (tutor)"
+     },
+     {
+      "move": "Dragon Breath",
+      "basis": "another game",
+      "reason": "learns it in Crystal (machine)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-all-time/sceptile",
+    "species": "Sceptile",
+    "nickname": null,
+    "types": [
+     "Grass"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 227,
+     "def": 187,
+     "spa": 267,
+     "spd": 227,
+     "spe": 297
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 227,
+     "gap": 0.176
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Blade",
+     "Bullet Seed",
+     "Quick Attack",
+     "Leaf Storm"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Blade",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Sceptile)"
+     },
+     {
+      "move": "Bullet Seed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Sceptile)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Sceptile)"
+     },
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 67, as Sceptile)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-all-time/infernape",
+    "species": "Infernape",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Fighting"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 314,
+     "atk": 265,
+     "def": 199,
+     "spa": 265,
+     "spd": 199,
+     "spe": 273
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 199,
+     "spd": 199,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Mach Punch",
+     "Flare Blitz",
+     "Dig"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Infernape)"
+     },
+     {
+      "move": "Mach Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 14, as Infernape)"
+     },
+     {
+      "move": "Flare Blitz",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 57, as Infernape)"
+     },
+     {
+      "move": "Dig",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Infernape)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-all-time/snorlax",
+    "species": "Snorlax",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Immunity",
+    "level": 100,
+    "stats": {
+     "hp": 482,
+     "atk": 277,
+     "def": 187,
+     "spa": 187,
+     "spd": 277,
+     "spe": 117
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 277,
+     "gap": 0.325
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Immunity (could be Thick Fat)"
+    ],
+    "moves": [
+     "Body Slam",
+     "Hyper Beam",
+     "Ice Punch",
+     "Focus Punch"
+    ],
+    "move_basis": [
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Snorlax)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Snorlax)"
+     },
+     {
+      "move": "Ice Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Snorlax)"
+     },
+     {
+      "move": "Focus Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Snorlax)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "ash-all-time/heracross",
+    "species": "Heracross",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Fighting"
+    ],
+    "ability": "Swarm",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 307,
+     "def": 207,
+     "spa": 137,
+     "spd": 247,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 207,
+     "spd": 247,
+     "gap": 0.162
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Swarm (could be Guts)"
+    ],
+    "moves": [
+     "Megahorn",
+     "Horn Attack",
+     "Brick Break",
+     "Night Slash"
+    ],
+    "move_basis": [
+     {
+      "move": "Megahorn",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 55, as Heracross)"
+     },
+     {
+      "move": "Horn Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Heracross)"
+     },
+     {
+      "move": "Brick Break",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 19, as Heracross)"
+     },
+     {
+      "move": "Night Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Heracross)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Snorlax"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Heracross"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Sceptile",
+      "Infernape",
+      "Heracross"
+     ],
+     "covered_by": [
+      "Pikachu"
+     ]
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Sceptile"
+     ],
+     "covered_by": []
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Pikachu",
+      "Infernape"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Sceptile",
+      "Heracross"
+     ]
+    },
+    "Rock": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Charizard"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Infernape",
+      "Heracross"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Snorlax"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Pikachu",
+      "Charizard",
+      "Infernape"
+     ]
+    },
+    "Fire": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Sceptile",
+      "Heracross"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Infernape"
+     ]
+    },
+    "Water": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Charizard",
+      "Infernape"
+     ],
+     "covered_by": [
+      "Sceptile"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard",
+      "Sceptile",
+      "Infernape",
+      "Heracross"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Charizard"
+     ],
+     "covered_by": [
+      "Pikachu",
+      "Sceptile"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Infernape",
+      "Heracross"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Infernape"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Infernape",
+      "Heracross"
+     ]
+    }
+   },
+   "gaps": [
+    "Flying",
+    "Psychic"
+   ],
+   "strengths": [
+    "Grass",
+    "Steel"
+   ],
+   "soft": {
+    "physical": 3,
+    "special": 0,
+    "even": 3
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Sceptile",
+     "Snorlax",
+     "Heracross"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Ash comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A gambler: they'll reach for the long shot.",
+    "rule": "risk_high",
+    "trigger": "risk_band == high (here high)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Champion: they've won before and play like it.",
+    "rule": "role_champion",
+    "trigger": "is_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (18 of 24 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Pikachu, Charizard, Sceptile, Infernape and Heracross outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called gambler (75), but this team reads percentage player (33): carries a gamble: Pikachu and Infernape.",
+    "rule": "disagree_risk",
+    "trigger": "disagree_risk nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Flying: Sceptile, Infernape and Heracross are weak to it, and only Pikachu can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Psychic (2 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Charizard to Rock; Heracross to Flying (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Sceptile, Snorlax and Heracross are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Grass or Steel: 4 of 6 resist Grass; 3 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Reckless, and it shows: Pikachu's Volt Tackle (recoil) and Iron Tail (75%); Infernape's Flare Blitz (recoil). Their misses and recoil are your free turns.",
+    "rule": "reckless",
+    "trigger": "risk_band == high (here high); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion"
+ ],
+ "overrides": {
+  "ace": "Pikachu"
+ }
+}

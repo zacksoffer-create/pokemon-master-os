@@ -1,0 +1,990 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "giovanni",
+ "trainer_name": "Giovanni",
+ "version": "celebi-event-hgss",
+ "title": "Giovanni (HeartGold Celebi event)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "cartridge",
+ "status": "cartridge",
+ "notes": [
+  "Viridian Gym Leader and Team Rocket's boss (lore). The Gen IV version is the HeartGold/SoulSilver Celebi event.",
+  "No gym in this version, so no Gym Leader tag here."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 75,
+   "why": "ground-shaking power",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 75,
+     "members": [
+      "Nidoking",
+      "Kangaskhan",
+      "Honchkrow"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 75,
+     "members": [
+      "Nidoking",
+      "Kangaskhan",
+      "Nidoqueen"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 70,
+   "why": "control and fear",
+   "measured": 25,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 25,
+     "members": [
+      "Honchkrow"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -45,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 25,
+      "members": [
+       "Honchkrow"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 15,
+   "why": "Pokémon are tools",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 40,
+   "why": "patient, but ruthless",
+   "measured": 0,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": {
+    "gap": -40,
+    "team_leans": "percentage player",
+    "because": [
+     {
+      "signal": "risky",
+      "label": "carries a gamble",
+      "value": 0,
+      "members": []
+     }
+    ]
+   },
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "giovanni",
+  "version": "celebi-event-hgss",
+  "title": "Giovanni (HeartGold Celebi event)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "cartridge:heartgold:700/0",
+    "species": "Nidoking",
+    "nickname": null,
+    "types": [
+     "Poison",
+     "Ground"
+    ],
+    "ability": "Poison Point",
+    "level": 100,
+    "stats": {
+     "hp": 284,
+     "atk": 201,
+     "def": 171,
+     "spa": 187,
+     "spd": 167,
+     "spe": 187
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 171,
+     "spd": 167,
+     "gap": 0.023
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Focus Energy",
+     "Fury Attack",
+     "Double Kick",
+     "Shadow Claw"
+    ],
+    "move_basis": [
+     {
+      "move": "Focus Energy",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoking)"
+     },
+     {
+      "move": "Fury Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 20, as Nidorino)"
+     },
+     {
+      "move": "Double Kick",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoking)"
+     },
+     {
+      "move": "Shadow Claw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Nidoking)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #700"
+   },
+   {
+    "build": "cartridge:heartgold:700/1",
+    "species": "Kangaskhan",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Early Bird",
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 207,
+     "def": 177,
+     "spa": 97,
+     "spd": 177,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 177,
+     "spd": 177,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Dizzy Punch",
+     "Sucker Punch",
+     "Leer",
+     "Outrage"
+    ],
+    "move_basis": [
+     {
+      "move": "Dizzy Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 25, as Kangaskhan)"
+     },
+     {
+      "move": "Sucker Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 46, as Kangaskhan)"
+     },
+     {
+      "move": "Leer",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Kangaskhan)"
+     },
+     {
+      "move": "Outrage",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 37, as Kangaskhan)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #700"
+   },
+   {
+    "build": "cartridge:heartgold:700/2",
+    "species": "Honchkrow",
+    "nickname": null,
+    "types": [
+     "Dark",
+     "Flying"
+    ],
+    "ability": "Insomnia",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 267,
+     "def": 121,
+     "spa": 227,
+     "spd": 121,
+     "spe": 159
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 121,
+     "spd": 121,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Dark Pulse",
+     "Nasty Plot",
+     "Swagger",
+     "Shadow Ball"
+    ],
+    "move_basis": [
+     {
+      "move": "Dark Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 55, as Honchkrow)"
+     },
+     {
+      "move": "Nasty Plot",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 35, as Honchkrow)"
+     },
+     {
+      "move": "Swagger",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 25, as Honchkrow)"
+     },
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Honchkrow)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #700"
+   },
+   {
+    "build": "cartridge:heartgold:700/3",
+    "species": "Nidoqueen",
+    "nickname": null,
+    "types": [
+     "Poison",
+     "Ground"
+    ],
+    "ability": "Poison Point",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 181,
+     "def": 191,
+     "spa": 167,
+     "spd": 187,
+     "spe": 169
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 191,
+     "spd": 187,
+     "gap": 0.021
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Earth Power",
+     "Superpower",
+     "Crunch",
+     "Roar"
+    ],
+    "move_basis": [
+     {
+      "move": "Earth Power",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 43, as Nidoqueen)"
+     },
+     {
+      "move": "Superpower",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 58, as Nidoqueen)"
+     },
+     {
+      "move": "Crunch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 43, as Nidorina)"
+     },
+     {
+      "move": "Roar",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Nidoqueen)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #700"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Kangaskhan"
+     ],
+     "covered_by": [
+      "Nidoking",
+      "Nidoqueen"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Nidoking",
+      "Nidoqueen"
+     ]
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Nidoking",
+      "Nidoqueen"
+     ],
+     "covered_by": [
+      "Honchkrow"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Honchkrow"
+     ],
+     "covered_by": [
+      "Nidoking",
+      "Nidoqueen"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Nidoking",
+      "Nidoqueen"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Kangaskhan",
+      "Honchkrow"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Water": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Nidoking",
+      "Nidoqueen"
+     ],
+     "covered_by": []
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Honchkrow"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Honchkrow"
+     ],
+     "covered_by": [
+      "Nidoking",
+      "Nidoqueen"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Nidoking",
+      "Nidoqueen"
+     ],
+     "covered_by": [
+      "Honchkrow"
+     ]
+    },
+    "Ice": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Nidoking",
+      "Honchkrow",
+      "Nidoqueen"
+     ],
+     "covered_by": []
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Honchkrow"
+     ]
+    }
+   },
+   "gaps": [
+    "Ice",
+    "Water"
+   ],
+   "strengths": [],
+   "soft": {
+    "physical": 0,
+    "special": 0,
+    "even": 4
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Giovanni comes at you with force and runs it the same way every time: one plan, executed hard.",
+    "rule": "combo_off_rigid",
+    "trigger": "offense_band == high (here high); rigidity_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon are tools to them, used and replaced.",
+    "rule": "bond_tool",
+    "trigger": "bond_read == tool (here tool)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (8 of 11 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Called rigid (70), but this team reads flexible (25): low move-type variety: Honchkrow.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called percentage player (40), but this team reads percentage player (0): no carries a gamble.",
+    "rule": "disagree_risk",
+    "trigger": "disagree_risk nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Ice: Nidoking, Honchkrow and Nidoqueen are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Water (2 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Their bulk is even across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either)"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Rigid, and it shows: Honchkrow can't hit back outside its attack types. Once you've seen the plan, it won't change.",
+    "rule": "rigid_types",
+    "trigger": "rigidity_band == high (here high); few_types_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {}
+}

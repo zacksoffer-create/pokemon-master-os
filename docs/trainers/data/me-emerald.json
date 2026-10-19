@@ -1,0 +1,1321 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "me",
+ "trainer_name": "Zack",
+ "version": "emerald",
+ "title": "Emerald",
+ "game": "emerald",
+ "gen": 3,
+ "source": "canon register (rosters.json + builds.json)",
+ "status": "canon",
+ "notes": [
+  "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": null,
+   "why": null,
+   "measured": 78,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 50,
+     "members": [
+      "Swampert",
+      "Arcanine",
+      "Absol"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Swampert",
+      "Milotic",
+      "Altaria",
+      "Arcanine",
+      "Absol",
+      "Meganium"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Milotic",
+      "Altaria",
+      "Arcanine",
+      "Absol",
+      "Meganium"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": null,
+   "why": null,
+   "measured": 0,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": null,
+   "why": null,
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": null,
+   "why": null,
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Milotic",
+      "Arcanine",
+      "Meganium"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Earthquake",
+    "Ice Beam",
+    "Iron Tail"
+   ],
+   "members": {
+    "Earthquake": [
+     "Swampert",
+     "Altaria",
+     "Meganium"
+    ],
+    "Ice Beam": [
+     "Swampert",
+     "Milotic",
+     "Absol"
+    ],
+    "Iron Tail": [
+     "Milotic",
+     "Arcanine",
+     "Meganium"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "me",
+  "version": "emerald",
+  "title": "Emerald",
+  "game": "emerald",
+  "gen": 3,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "lineup:emerald/Swampert",
+    "species": "Swampert",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 362,
+     "atk": 277,
+     "def": 237,
+     "spa": 227,
+     "spd": 237,
+     "spe": 177
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 237,
+     "spd": 237,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Refresh",
+     "Earthquake",
+     "Ice Beam",
+     "Brick Break"
+    ],
+    "move_basis": [
+     {
+      "move": "Refresh",
+      "basis": "this game",
+      "reason": "learns it in Emerald (egg, as Mudkip)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Emerald (level 52, as Swampert)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Swampert)"
+     },
+     {
+      "move": "Brick Break",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Swampert)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:emerald/Milotic",
+    "species": "Milotic",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Marvel Scale",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 177,
+     "def": 215,
+     "spa": 257,
+     "spd": 307,
+     "spe": 219
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 215,
+     "spd": 307,
+     "gap": 0.3
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Ice Beam",
+     "Iron Tail",
+     "Recover"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in Emerald (level 40, as Milotic)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Milotic)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Milotic)"
+     },
+     {
+      "move": "Recover",
+      "basis": "this game",
+      "reason": "learns it in Emerald (level 30, as Milotic)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:emerald/Altaria",
+    "species": "Altaria",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Flying"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 197,
+     "def": 237,
+     "spa": 197,
+     "spd": 267,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 237,
+     "spd": 267,
+     "gap": 0.112
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Dragon Claw",
+     "Earthquake",
+     "Fire Blast",
+     "Dragon Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Dragon Claw",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Altaria)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Altaria)"
+     },
+     {
+      "move": "Fire Blast",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Altaria)"
+     },
+     {
+      "move": "Dragon Dance",
+      "basis": "this game",
+      "reason": "learns it in Emerald (level 40, as Altaria)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:emerald/Arcanine",
+    "species": "Arcanine",
+    "nickname": null,
+    "types": [
+     "Fire"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 277,
+     "def": 217,
+     "spa": 257,
+     "spd": 217,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 217,
+     "spd": 217,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Intimidate (could be Flash Fire)"
+    ],
+    "moves": [
+     "Overheat",
+     "Crunch",
+     "Iron Tail",
+     "Agility"
+    ],
+    "move_basis": [
+     {
+      "move": "Overheat",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Arcanine)"
+     },
+     {
+      "move": "Crunch",
+      "basis": "this game",
+      "reason": "learns it in Emerald (egg, as Growlithe)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Arcanine)"
+     },
+     {
+      "move": "Agility",
+      "basis": "this game",
+      "reason": "learns it in Emerald (level 43, as Growlithe)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:emerald/Absol",
+    "species": "Absol",
+    "nickname": null,
+    "types": [
+     "Dark"
+    ],
+    "ability": "Pressure",
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 317,
+     "def": 177,
+     "spa": 207,
+     "spd": 177,
+     "spe": 207
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 177,
+     "spd": 177,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Bite",
+     "Rock Slide",
+     "Ice Beam",
+     "Swords Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in Emerald (level 21, as Absol)"
+     },
+     {
+      "move": "Rock Slide",
+      "basis": "this game",
+      "reason": "learns it in Emerald (tutor, as Absol)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Absol)"
+     },
+     {
+      "move": "Swords Dance",
+      "basis": "this game",
+      "reason": "learns it in Emerald (level 26, as Absol)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:emerald/Meganium",
+    "species": "Meganium",
+    "nickname": null,
+    "types": [
+     "Grass"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 221,
+     "def": 257,
+     "spa": 223,
+     "spd": 257,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 257,
+     "spd": 257,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Giga Drain",
+     "Earthquake",
+     "Iron Tail",
+     "Swords Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Giga Drain",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Meganium)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Meganium)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Emerald (machine, as Meganium)"
+     },
+     {
+      "move": "Swords Dance",
+      "basis": "this game",
+      "reason": "learns it in Emerald (tutor, as Meganium)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Absol"
+     ],
+     "covered_by": [
+      "Altaria"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Meganium"
+     ],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Meganium"
+     ],
+     "covered_by": [
+      "Swampert"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Arcanine"
+     ],
+     "covered_by": [
+      "Altaria",
+      "Meganium"
+     ]
+    },
+    "Rock": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Altaria",
+      "Arcanine"
+     ],
+     "covered_by": [
+      "Swampert"
+     ]
+    },
+    "Bug": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Absol",
+      "Meganium"
+     ],
+     "covered_by": [
+      "Altaria",
+      "Arcanine"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Absol"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Swampert",
+      "Milotic",
+      "Arcanine"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Meganium"
+     ],
+     "covered_by": [
+      "Swampert",
+      "Milotic",
+      "Altaria",
+      "Arcanine"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Arcanine"
+     ],
+     "covered_by": [
+      "Milotic",
+      "Altaria",
+      "Meganium"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Swampert",
+      "Milotic"
+     ],
+     "covered_by": [
+      "Altaria",
+      "Arcanine",
+      "Meganium"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Milotic"
+     ],
+     "covered_by": [
+      "Swampert",
+      "Meganium"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Absol"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Altaria",
+      "Meganium"
+     ],
+     "covered_by": [
+      "Milotic",
+      "Arcanine"
+     ]
+    },
+    "Dragon": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Altaria"
+     ],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Absol"
+     ]
+    }
+   },
+   "gaps": [],
+   "strengths": [
+    "Steel"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 0,
+    "even": 5
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Milotic"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Zack comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "No sliders are set for this version yet, so this reads from the team's data alone.",
+    "rule": "unauthored",
+    "trigger": "authored_n == 0 (here 0)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Champion: they've won before and play like it.",
+    "rule": "role_champion",
+    "trigger": "is_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Earthquake on Swampert, Altaria and Meganium; Ice Beam on Swampert, Milotic and Absol; Iron Tail on Milotic, Arcanine and Meganium. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (8 physical, 10 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Milotic, Altaria, Arcanine, Absol and Meganium outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Swampert to Grass; Altaria to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Milotic is physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Steel: 3 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Milotic's Hydro Pump (80%) and Iron Tail (75%); Arcanine's Iron Tail (75%); Meganium's Iron Tail (75%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   },
+   {
+    "section": "gap",
+    "text": "Flexible and well covered: no single trick beats them. Win the matchups one at a time.",
+    "rule": "flexible_covered",
+    "trigger": "rigidity_band == low (here low); gaps_n == 0 (here 0)"
+   }
+  ]
+ },
+ "roles": [
+  "Champion"
+ ],
+ "overrides": {}
+}

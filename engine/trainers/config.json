@@ -273,5 +273,34 @@
     "name": "Region Champion"
    }
   }
+ },
+ "bands": {
+  "_note": "Where a 0-100 slider counts as low or high for the report's sentences (between is the middle).",
+  "low_at_most": 35,
+  "high_at_least": 65
+ },
+ "bond_read": {
+  "_note": "Bond is read with rigidity, never alone (it clusters high). Checked in order.",
+  "rules": [
+   {
+    "read": "tool",
+    "bond_at_most": 30
+   },
+   {
+    "read": "distant",
+    "bond_at_most": 45
+   },
+   {
+    "read": "demanding",
+    "rigidity_at_least": 65
+   },
+   {
+    "read": "partnership"
+   }
+  ]
+ },
+ "exposure": {
+  "_note": "Your team against their attack types: a type counts when they carry a damaging move of it with at least this power (fixed-damage and variable-power moves count).",
+  "min_power": 50
  }
 }

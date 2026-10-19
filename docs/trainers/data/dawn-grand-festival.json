@@ -1,0 +1,1309 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "dawn",
+ "trainer_name": "Dawn",
+ "version": "grand-festival",
+ "title": "Dawn (Sinnoh Grand Festival era)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl",
+ "status": "proposed",
+ "notes": [
+  "Coordinator: her contest ribbons belong to her career (Part 2), not to these builds."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 50,
+   "why": "balanced: shows off, then strikes",
+   "measured": 89,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Piplup",
+      "Togekiss",
+      "Mamoswine",
+      "Buneary",
+      "Ambipom"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Piplup",
+      "Togekiss",
+      "Mamoswine",
+      "Pachirisu",
+      "Buneary",
+      "Ambipom"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Togekiss",
+      "Mamoswine",
+      "Pachirisu",
+      "Buneary",
+      "Ambipom"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": 39,
+    "team_leans": "offensive",
+    "because": [
+     {
+      "signal": "attack_heavy",
+      "label": "attack-heavy stats",
+      "value": 83,
+      "members": [
+       "Piplup",
+       "Togekiss",
+       "Mamoswine",
+       "Buneary",
+       "Ambipom"
+      ]
+     },
+     {
+      "signal": "damage_moves",
+      "label": "mostly attacks",
+      "value": 100,
+      "members": [
+       "Piplup",
+       "Togekiss",
+       "Mamoswine",
+       "Pachirisu",
+       "Buneary",
+       "Ambipom"
+      ]
+     },
+     {
+      "signal": "fast",
+      "label": "fast",
+      "value": 83,
+      "members": [
+       "Togekiss",
+       "Mamoswine",
+       "Pachirisu",
+       "Buneary",
+       "Ambipom"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 30,
+   "why": "contest combos: creative and changing",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Pachirisu",
+      "Ambipom"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 85,
+   "why": "close with every one of them (Mamoswine took work)",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 50,
+   "why": "\"No need to worry!\"",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Piplup",
+      "Mamoswine",
+      "Ambipom"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "dawn",
+  "version": "grand-festival",
+  "title": "Dawn (Sinnoh Grand Festival era)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "dawn-grand-festival/piplup",
+    "species": "Piplup",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 268,
+     "atk": 159,
+     "def": 163,
+     "spa": 179,
+     "spd": 169,
+     "spe": 137
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 163,
+     "spd": 169,
+     "gap": 0.036
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Bubble Beam",
+     "Peck",
+     "Whirlpool",
+     "Bide"
+    ],
+    "move_basis": [
+     {
+      "move": "Bubble Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 18, as Piplup)"
+     },
+     {
+      "move": "Peck",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 15, as Piplup)"
+     },
+     {
+      "move": "Whirlpool",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 32, as Piplup)"
+     },
+     {
+      "move": "Bide",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 22, as Piplup)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "dawn-grand-festival/togekiss",
+    "species": "Togekiss",
+    "nickname": null,
+    "types": [
+     "Normal",
+     "Flying"
+    ],
+    "ability": "Hustle",
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 157,
+     "def": 247,
+     "spa": 297,
+     "spd": 287,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 247,
+     "spd": 287,
+     "gap": 0.139
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Hustle (could be Serene Grace)"
+    ],
+    "moves": [
+     "Aura Sphere",
+     "Air Slash",
+     "Magical Leaf",
+     "Yawn"
+    ],
+    "move_basis": [
+     {
+      "move": "Aura Sphere",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
+     },
+     {
+      "move": "Air Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
+     },
+     {
+      "move": "Magical Leaf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togetic)"
+     },
+     {
+      "move": "Yawn",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 15, as Togetic)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "dawn-grand-festival/mamoswine",
+    "species": "Mamoswine",
+    "nickname": null,
+    "types": [
+     "Ice",
+     "Ground"
+    ],
+    "ability": "Oblivious",
+    "level": 100,
+    "stats": {
+     "hp": 382,
+     "atk": 317,
+     "def": 217,
+     "spa": 197,
+     "spd": 177,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 217,
+     "spd": 177,
+     "gap": 0.184
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Oblivious (could be Snow Cloak)"
+    ],
+    "moves": [
+     "Ice Shard",
+     "Take Down",
+     "Ancient Power",
+     "Hidden Power"
+    ],
+    "move_basis": [
+     {
+      "move": "Ice Shard",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Swinub)"
+     },
+     {
+      "move": "Take Down",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 32, as Mamoswine)"
+     },
+     {
+      "move": "Ancient Power",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Mamoswine)"
+     },
+     {
+      "move": "Hidden Power",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Mamoswine)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "dawn-grand-festival/pachirisu",
+    "species": "Pachirisu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Run Away",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 147,
+     "def": 197,
+     "spa": 147,
+     "spd": 237,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 197,
+     "spd": 237,
+     "gap": 0.169
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Run Away (could be Pickup)"
+    ],
+    "moves": [
+     "Discharge",
+     "Super Fang",
+     "Sweet Kiss",
+     "Spark"
+    ],
+    "move_basis": [
+     {
+      "move": "Discharge",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Pachirisu)"
+     },
+     {
+      "move": "Super Fang",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Pachirisu)"
+     },
+     {
+      "move": "Sweet Kiss",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 25, as Pachirisu)"
+     },
+     {
+      "move": "Spark",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Pachirisu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "dawn-grand-festival/buneary",
+    "species": "Buneary",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Run Away",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 189,
+     "def": 145,
+     "spa": 145,
+     "spd": 169,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 145,
+     "spd": 169,
+     "gap": 0.142
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Run Away (could be Klutz)"
+    ],
+    "moves": [
+     "Ice Beam",
+     "Dizzy Punch",
+     "Bounce",
+     "Jump Kick"
+    ],
+    "move_basis": [
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Buneary)"
+     },
+     {
+      "move": "Dizzy Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 36, as Buneary)"
+     },
+     {
+      "move": "Bounce",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 46, as Buneary)"
+     },
+     {
+      "move": "Jump Kick",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 23, as Buneary)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "dawn-grand-festival/ambipom",
+    "species": "Ambipom",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Technician",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 257,
+     "def": 189,
+     "spa": 177,
+     "spd": 189,
+     "spe": 287
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 189,
+     "spd": 189,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Technician (could be Pickup)"
+    ],
+    "moves": [
+     "Double Hit",
+     "Focus Punch",
+     "Swift",
+     "Fury Swipes"
+    ],
+    "move_basis": [
+     {
+      "move": "Double Hit",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 32, as Ambipom)"
+     },
+     {
+      "move": "Focus Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ambipom)"
+     },
+     {
+      "move": "Swift",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 22, as Ambipom)"
+     },
+     {
+      "move": "Fury Swipes",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 18, as Ambipom)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Mamoswine",
+      "Buneary",
+      "Ambipom"
+     ],
+     "covered_by": []
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Pachirisu"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Mamoswine"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Pachirisu"
+     ],
+     "covered_by": [
+      "Togekiss"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Togekiss"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Togekiss"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 3,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Togekiss",
+      "Buneary",
+      "Ambipom"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Mamoswine"
+     ],
+     "covered_by": [
+      "Piplup",
+      "Pachirisu"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Mamoswine"
+     ],
+     "covered_by": [
+      "Piplup"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Mamoswine"
+     ],
+     "covered_by": [
+      "Piplup"
+     ]
+    },
+    "Grass": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Piplup",
+      "Mamoswine"
+     ],
+     "covered_by": [
+      "Togekiss"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Piplup",
+      "Togekiss"
+     ],
+     "covered_by": [
+      "Mamoswine",
+      "Pachirisu"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Togekiss"
+     ],
+     "covered_by": [
+      "Piplup"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Fighting"
+   ],
+   "strengths": [
+    "Ghost"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 1,
+    "even": 4
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [
+     "Pachirisu"
+    ],
+    "special": [
+     "Mamoswine"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Dawn adapts mid-battle.",
+    "rule": "rigid_low",
+    "trigger": "rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (12 physical, 10 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Togekiss, Mamoswine, Pachirisu, Buneary and Ambipom outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called offensive (50), but this team reads offensive (89): attack-heavy stats: Piplup, Togekiss, Mamoswine, Buneary and Ambipom; mostly attacks: Piplup, Togekiss, Mamoswine, Pachirisu, Buneary and Ambipom; fast: Togekiss, Mamoswine, Pachirisu, Buneary and Ambipom.",
+    "rule": "disagree_offense",
+    "trigger": "disagree_offense nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Fighting: Mamoswine, Buneary and Ambipom are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Their bulk is even across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Ghost: 3 of 6 resist Ghost.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Piplup's Whirlpool (70%); Mamoswine's Take Down (recoil); Ambipom's Fury Swipes (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {}
+}

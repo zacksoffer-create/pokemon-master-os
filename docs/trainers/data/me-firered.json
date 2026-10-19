@@ -1,0 +1,1326 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "me",
+ "trainer_name": "Zack",
+ "version": "firered",
+ "title": "FireRed",
+ "game": "firered",
+ "gen": 3,
+ "source": "canon register (rosters.json + builds.json)",
+ "status": "canon",
+ "notes": [
+  "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
+  "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": null,
+   "why": null,
+   "measured": 89,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Charizard",
+      "Venusaur",
+      "Alakazam",
+      "Jolteon",
+      "Machamp"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Charizard",
+      "Blastoise",
+      "Venusaur",
+      "Alakazam",
+      "Jolteon",
+      "Machamp"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Charizard",
+      "Blastoise",
+      "Venusaur",
+      "Alakazam",
+      "Jolteon"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": null,
+   "why": null,
+   "measured": 0,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": null,
+   "why": null,
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": null,
+   "why": null,
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Jolteon",
+      "Machamp"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Earthquake"
+   ],
+   "members": {
+    "Earthquake": [
+     "Charizard",
+     "Venusaur",
+     "Machamp"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "me",
+  "version": "firered",
+  "title": "FireRed",
+  "game": "firered",
+  "gen": 3,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "lineup:firered/Charizard",
+    "species": "Charizard",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Flying"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 318,
+     "atk": 225,
+     "def": 213,
+     "spa": 275,
+     "spd": 227,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 213,
+     "spd": 227,
+     "gap": 0.062
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Overheat",
+     "Earthquake",
+     "Bite",
+     "Dragon Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Overheat",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Charizard)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Charizard)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (egg, as Charmander)"
+     },
+     {
+      "move": "Dragon Dance",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (egg, as Charmander)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:firered/Blastoise",
+    "species": "Blastoise",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 320,
+     "atk": 200,
+     "def": 282,
+     "spa": 227,
+     "spd": 267,
+     "spe": 213
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 282,
+     "spd": 267,
+     "gap": 0.053
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat"
+    ],
+    "moves": [
+     "Surf",
+     "Ice Beam",
+     "Rapid Spin",
+     "Toxic"
+    ],
+    "move_basis": [
+     {
+      "move": "Surf",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Blastoise)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Blastoise)"
+     },
+     {
+      "move": "Rapid Spin",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (level 25, as Blastoise)"
+     },
+     {
+      "move": "Toxic",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Blastoise)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:firered/Venusaur",
+    "species": "Venusaur",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 221,
+     "def": 223,
+     "spa": 257,
+     "spd": 257,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 223,
+     "spd": 257,
+     "gap": 0.132
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Sludge Bomb",
+     "Earthquake",
+     "Petal Dance",
+     "Swords Dance"
+    ],
+    "move_basis": [
+     {
+      "move": "Sludge Bomb",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Venusaur)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Venusaur)"
+     },
+     {
+      "move": "Petal Dance",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (egg, as Bulbasaur)"
+     },
+     {
+      "move": "Swords Dance",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (tutor, as Venusaur)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:firered/Alakazam",
+    "species": "Alakazam",
+    "nickname": null,
+    "types": [
+     "Psychic"
+    ],
+    "ability": "Synchronize",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 157,
+     "def": 147,
+     "spa": 327,
+     "spd": 227,
+     "spe": 297
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 147,
+     "spd": 227,
+     "gap": 0.352
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Synchronize (could be Inner Focus)"
+    ],
+    "moves": [
+     "Psychic",
+     "Fire Punch",
+     "Ice Punch",
+     "Calm Mind"
+    ],
+    "move_basis": [
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (level 36, as Alakazam)"
+     },
+     {
+      "move": "Fire Punch",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (egg, as Abra)"
+     },
+     {
+      "move": "Ice Punch",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (egg, as Abra)"
+     },
+     {
+      "move": "Calm Mind",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (level 33, as Alakazam)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:firered/Jolteon",
+    "species": "Jolteon",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Volt Absorb",
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 187,
+     "def": 177,
+     "spa": 277,
+     "spd": 247,
+     "spe": 317
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 177,
+     "spd": 247,
+     "gap": 0.283
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Volt Absorb",
+      "before_ability": "resists"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunderbolt",
+     "Bite",
+     "Iron Tail",
+     "Curse"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Jolteon)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (level 30, as Eevee)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Jolteon)"
+     },
+     {
+      "move": "Curse",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (egg, as Eevee)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   },
+   {
+    "build": "lineup:firered/Machamp",
+    "species": "Machamp",
+    "nickname": null,
+    "types": [
+     "Fighting"
+    ],
+    "ability": "Guts",
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 317,
+     "def": 217,
+     "spa": 187,
+     "spd": 227,
+     "spe": 167
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 217,
+     "spd": 227,
+     "gap": 0.044
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Cross Chop",
+     "Earthquake",
+     "Rock Slide",
+     "Bulk Up"
+    ],
+    "move_basis": [
+     {
+      "move": "Cross Chop",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (level 46, as Machamp)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Machamp)"
+     },
+     {
+      "move": "Rock Slide",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (tutor, as Machamp)"
+     },
+     {
+      "move": "Bulk Up",
+      "basis": "this game",
+      "reason": "learns it in FireRed/LeafGreen (machine, as Machamp)"
+     }
+    ],
+    "flags": [],
+    "source": "canon register (canon/builds.json)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard",
+      "Venusaur",
+      "Alakazam"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Venusaur",
+      "Machamp"
+     ],
+     "covered_by": [
+      "Jolteon"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Jolteon"
+     ],
+     "covered_by": [
+      "Charizard"
+     ]
+    },
+    "Rock": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Charizard"
+     ],
+     "covered_by": [
+      "Machamp"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Alakazam"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Machamp"
+     ]
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Alakazam"
+     ],
+     "covered_by": []
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard",
+      "Blastoise",
+      "Jolteon"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Venusaur"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Blastoise"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Charizard"
+     ],
+     "covered_by": [
+      "Blastoise",
+      "Venusaur"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Blastoise"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Venusaur"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Charizard",
+      "Blastoise"
+     ],
+     "covered_by": [
+      "Venusaur",
+      "Jolteon"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Venusaur",
+      "Machamp"
+     ],
+     "covered_by": [
+      "Alakazam"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Venusaur"
+     ],
+     "covered_by": [
+      "Blastoise"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Alakazam"
+     ],
+     "covered_by": [
+      "Machamp"
+     ]
+    }
+   },
+   "gaps": [],
+   "strengths": [
+    "Fighting",
+    "Steel"
+   ],
+   "soft": {
+    "physical": 2,
+    "special": 0,
+    "even": 4
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Alakazam",
+     "Jolteon"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Zack comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "No sliders are set for this version yet, so this reads from the team's data alone.",
+    "rule": "unauthored",
+    "trigger": "authored_n == 0 (here 0)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Champion: they've won before and play like it.",
+    "rule": "role_champion",
+    "trigger": "is_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Earthquake on Charizard, Venusaur and Machamp. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (8 physical, 10 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Charizard, Blastoise, Venusaur, Alakazam and Jolteon outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Charizard to Rock (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Alakazam and Jolteon are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Jolteon's Volt Absorb changes Electric (from resists to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Fighting or Steel: 3 of 6 resist Fighting; 3 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Jolteon's Iron Tail (75%); Machamp's Cross Chop (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   },
+   {
+    "section": "gap",
+    "text": "Flexible and well covered: no single trick beats them. Win the matchups one at a time.",
+    "rule": "flexible_covered",
+    "trigger": "rigidity_band == low (here low); gaps_n == 0 (here 0)"
+   }
+  ]
+ },
+ "roles": [
+  "Champion"
+ ],
+ "overrides": {}
+}

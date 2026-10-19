@@ -1,0 +1,1302 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "gary",
+ "trainer_name": "Gary",
+ "version": "johto",
+ "title": "Gary at the Silver Conference",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "anime, Johto",
+ "status": "proposed",
+ "notes": [
+  "Blue is the games' counterpart of Gary; kept as its own version.",
+  "Movesets are low-confidence drafts; edit freely."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 60,
+   "why": "polished, matchup-driven offense",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Arcanine",
+      "Magmar",
+      "Golem",
+      "Scizor"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Blastoise",
+      "Arcanine",
+      "Nidoqueen",
+      "Magmar",
+      "Golem",
+      "Scizor"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 33,
+     "members": [
+      "Arcanine",
+      "Magmar"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 40,
+   "why": "adapts to the opponent, a researcher's mind",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Magmar",
+      "Scizor"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 70,
+   "why": "grew from a show-off into a partner",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 40,
+   "why": "calculated more than reckless",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Blastoise",
+      "Magmar"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "gary",
+  "version": "johto",
+  "title": "Gary at the Silver Conference",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "gary-johto/blastoise",
+    "species": "Blastoise",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 320,
+     "atk": 223,
+     "def": 257,
+     "spa": 227,
+     "spd": 267,
+     "spe": 213
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 257,
+     "spd": 267,
+     "gap": 0.037
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Skull Bash",
+     "Bite",
+     "Ice Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 60, as Blastoise)"
+     },
+     {
+      "move": "Skull Bash",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 39, as Blastoise)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 16, as Blastoise)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Blastoise)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "gary-johto/arcanine",
+    "species": "Arcanine",
+    "nickname": null,
+    "types": [
+     "Fire"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 277,
+     "def": 217,
+     "spa": 257,
+     "spd": 217,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 217,
+     "spd": 217,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Intimidate (could be Flash Fire)"
+    ],
+    "moves": [
+     "Fire Blast",
+     "Extreme Speed",
+     "Flamethrower",
+     "Bite"
+    ],
+    "move_basis": [
+     {
+      "move": "Fire Blast",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Arcanine)"
+     },
+     {
+      "move": "Extreme Speed",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 39, as Arcanine)"
+     },
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Arcanine)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Arcanine)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "gary-johto/nidoqueen",
+    "species": "Nidoqueen",
+    "nickname": null,
+    "types": [
+     "Poison",
+     "Ground"
+    ],
+    "ability": "Poison Point",
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 221,
+     "def": 231,
+     "spa": 207,
+     "spd": 227,
+     "spe": 209
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 231,
+     "spd": 227,
+     "gap": 0.017
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Poison Point (could be Rivalry)"
+    ],
+    "moves": [
+     "Body Slam",
+     "Double Kick",
+     "Poison Sting",
+     "Hyper Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 23, as Nidoqueen)"
+     },
+     {
+      "move": "Double Kick",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoqueen)"
+     },
+     {
+      "move": "Poison Sting",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoqueen)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Nidoqueen)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "gary-johto/magmar",
+    "species": "Magmar",
+    "nickname": null,
+    "types": [
+     "Fire"
+    ],
+    "ability": "Flame Body",
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 247,
+     "def": 171,
+     "spa": 257,
+     "spd": 227,
+     "spe": 243
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 171,
+     "spd": 227,
+     "gap": 0.247
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Fire Punch",
+     "Smog",
+     "Fire Blast"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 41, as Magmar)"
+     },
+     {
+      "move": "Fire Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 28, as Magmar)"
+     },
+     {
+      "move": "Smog",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Magmar)"
+     },
+     {
+      "move": "Fire Blast",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 54, as Magmar)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "gary-johto/golem",
+    "species": "Golem",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Ground"
+    ],
+    "ability": "Rock Head",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 277,
+     "def": 317,
+     "spa": 167,
+     "spd": 187,
+     "spe": 147
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 317,
+     "spd": 187,
+     "gap": 0.41
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Rock Head (could be Sturdy)"
+    ],
+    "moves": [
+     "Rollout",
+     "Rock Throw",
+     "Mega Punch",
+     "Earthquake"
+    ],
+    "move_basis": [
+     {
+      "move": "Rollout",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 22, as Golem)"
+     },
+     {
+      "move": "Rock Throw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 11, as Golem)"
+     },
+     {
+      "move": "Mega Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Geodude)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 33, as Golem)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   },
+   {
+    "build": "gary-johto/scizor",
+    "species": "Scizor",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Steel"
+    ],
+    "ability": "Swarm",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 317,
+     "def": 257,
+     "spa": 167,
+     "spd": 217,
+     "spe": 187
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 257,
+     "spd": 217,
+     "gap": 0.156
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Swarm (could be Technician)"
+    ],
+    "moves": [
+     "Steel Wing",
+     "Metal Claw",
+     "Swords Dance",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Steel Wing",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Scizor)"
+     },
+     {
+      "move": "Metal Claw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 21, as Scizor)"
+     },
+     {
+      "move": "Swords Dance",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 57, as Scizor)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Scizor)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (authored)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Golem",
+      "Scizor"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Golem"
+     ],
+     "covered_by": [
+      "Nidoqueen"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Golem"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Nidoqueen",
+      "Golem",
+      "Scizor"
+     ]
+    },
+    "Ground": {
+     "weak": 4,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 4,
+     "covered": 0,
+     "weak_members": [
+      "Arcanine",
+      "Nidoqueen",
+      "Magmar",
+      "Golem"
+     ],
+     "covered_by": []
+    },
+    "Rock": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Arcanine",
+      "Magmar"
+     ],
+     "covered_by": [
+      "Nidoqueen",
+      "Golem"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Arcanine",
+      "Nidoqueen",
+      "Magmar",
+      "Scizor"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Scizor"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Golem"
+     ],
+     "covered_by": [
+      "Blastoise",
+      "Arcanine",
+      "Magmar",
+      "Scizor"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Scizor"
+     ],
+     "covered_by": [
+      "Blastoise",
+      "Arcanine",
+      "Magmar",
+      "Golem"
+     ]
+    },
+    "Water": {
+     "weak": 3,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 4,
+     "covered": 1,
+     "weak_members": [
+      "Arcanine",
+      "Nidoqueen",
+      "Magmar",
+      "Golem"
+     ],
+     "covered_by": [
+      "Blastoise"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Blastoise",
+      "Golem"
+     ],
+     "covered_by": [
+      "Arcanine",
+      "Magmar",
+      "Scizor"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Blastoise"
+     ],
+     "covered_by": [
+      "Nidoqueen",
+      "Golem"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Nidoqueen"
+     ],
+     "covered_by": [
+      "Scizor"
+     ]
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 4,
+     "weak_members": [
+      "Nidoqueen",
+      "Golem"
+     ],
+     "covered_by": [
+      "Blastoise",
+      "Arcanine",
+      "Magmar",
+      "Scizor"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Scizor"
+     ]
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Scizor"
+     ]
+    }
+   },
+   "gaps": [
+    "Water",
+    "Ground"
+   ],
+   "strengths": [
+    "Bug",
+    "Poison"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 2,
+    "even": 3
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [
+     "Magmar"
+    ],
+    "special": [
+     "Golem",
+     "Scizor"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Gary sits in the middle: balanced between attack and defense, a plan with some give in it.",
+    "rule": "balanced",
+    "trigger": "offense_band == mid (here mid); rigidity_band == mid (here mid)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (15 physical, 8 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Water: Arcanine, Nidoqueen, Magmar and Golem are weak to it, and only Blastoise can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Ground (4 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Golem to Water and Grass; Scizor to Fire (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Golem and Scizor are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Bug or Poison: 4 of 6 resist Bug; 3 of 6 resist Poison.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Blastoise's Hydro Pump (80%); Magmar's Smog (70%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {}
+}

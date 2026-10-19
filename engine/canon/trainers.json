@@ -2,7 +2,7 @@
  "_note": "Trainers as trainer -> version -> team (docs/TRAINER_REPORT.md). Sliders run 0-100: offense (defensive 0, offensive 100), rigidity (flexible 0, rigid 100), bond (tool 0, partnership 100), risk (percentage player 0, gambler 100). Every authored value is a proposal with its reason until approved; cartridge teams are read from the games' data. Lore lives in notes and overrides, never in code.",
  "trainers": {
   "me": {
-   "name": "Me",
+   "name": "Zack",
    "notes": [
     "The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag.",
     "Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them."

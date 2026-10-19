@@ -1,0 +1,1358 @@
+{
+ "schema": "trainer-report/1",
+ "trainer": "red",
+ "trainer_name": "Red",
+ "version": "mt-silver",
+ "title": "Red on Mt. Silver (HeartGold)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "cartridge",
+ "status": "cartridge",
+ "notes": [
+  "The games' Red, read from the HeartGold cartridge.",
+  "Former Indigo Plateau Champion (lore)."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 70,
+   "why": "a hard-hitting team with no tricks",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Pikachu",
+      "Snorlax",
+      "Venusaur",
+      "Charizard"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Pikachu",
+      "Lapras",
+      "Snorlax",
+      "Venusaur",
+      "Charizard",
+      "Blastoise"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 33,
+     "members": [
+      "Pikachu",
+      "Charizard"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 55,
+   "why": "the same six for years",
+   "measured": 8,
+   "signals": [
+    {
+     "signal": "choice",
+     "label": "Choice items",
+     "value": 0,
+     "members": []
+    },
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 17,
+     "members": [
+      "Venusaur"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -47,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "choice",
+      "label": "Choice items",
+      "value": 0,
+      "members": []
+     },
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 17,
+      "members": [
+       "Venusaur"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 85,
+   "why": "Pikachu at his side since the start",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 30,
+   "why": "takes the strongest safe move",
+   "measured": 83,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 83,
+     "members": [
+      "Pikachu",
+      "Lapras",
+      "Snorlax",
+      "Charizard",
+      "Blastoise"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": 53,
+    "team_leans": "gambler",
+    "because": [
+     {
+      "signal": "risky",
+      "label": "carries a gamble",
+      "value": 83,
+      "members": [
+       "Pikachu",
+       "Lapras",
+       "Snorlax",
+       "Charizard",
+       "Blastoise"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Blizzard"
+   ],
+   "members": {
+    "Blizzard": [
+     "Lapras",
+     "Snorlax",
+     "Blastoise"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "red",
+  "version": "mt-silver",
+  "title": "Red on Mt. Silver (HeartGold)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "cartridge:heartgold:260/0",
+    "species": "Pikachu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 210,
+     "atk": 145,
+     "def": 95,
+     "spa": 135,
+     "spd": 115,
+     "spe": 215
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 95,
+     "spd": 115,
+     "gap": 0.174
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Volt Tackle",
+     "Iron Tail",
+     "Quick Attack",
+     "Thunderbolt"
+    ],
+    "move_basis": [
+     {
+      "move": "Volt Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (light-ball-egg, as Pichu)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Pikachu)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 13, as Pikachu)"
+     },
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 26, as Pikachu)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #260"
+   },
+   {
+    "build": "cartridge:heartgold:260/1",
+    "species": "Lapras",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ice"
+    ],
+    "ability": "Water Absorb",
+    "level": 100,
+    "stats": {
+     "hp": 400,
+     "atk": 205,
+     "def": 195,
+     "spa": 205,
+     "spd": 225,
+     "spe": 155
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 195,
+     "spd": 225,
+     "gap": 0.133
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Water Absorb",
+      "before_ability": "resists"
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Blizzard",
+     "Brine",
+     "Psychic",
+     "Body Slam"
+    ],
+    "move_basis": [
+     {
+      "move": "Blizzard",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Lapras)"
+     },
+     {
+      "move": "Brine",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 37, as Lapras)"
+     },
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Lapras)"
+     },
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 18, as Lapras)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #260"
+   },
+   {
+    "build": "cartridge:heartgold:260/2",
+    "species": "Snorlax",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Immunity",
+    "level": 100,
+    "stats": {
+     "hp": 460,
+     "atk": 255,
+     "def": 165,
+     "spa": 165,
+     "spd": 255,
+     "spe": 95
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 165,
+     "spd": 255,
+     "gap": 0.353
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Shadow Ball",
+     "Crunch",
+     "Blizzard",
+     "Giga Impact"
+    ],
+    "move_basis": [
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Snorlax)"
+     },
+     {
+      "move": "Crunch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 44, as Snorlax)"
+     },
+     {
+      "move": "Blizzard",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Snorlax)"
+     },
+     {
+      "move": "Giga Impact",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 49, as Snorlax)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #260"
+   },
+   {
+    "build": "cartridge:heartgold:260/3",
+    "species": "Venusaur",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 300,
+     "atk": 199,
+     "def": 201,
+     "spa": 235,
+     "spd": 235,
+     "spe": 195
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 201,
+     "spd": 235,
+     "gap": 0.145
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Sludge Bomb",
+     "Giga Drain",
+     "Sleep Powder",
+     "Frenzy Plant"
+    ],
+    "move_basis": [
+     {
+      "move": "Sludge Bomb",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Venusaur)"
+     },
+     {
+      "move": "Giga Drain",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Venusaur)"
+     },
+     {
+      "move": "Sleep Powder",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 13, as Venusaur)"
+     },
+     {
+      "move": "Frenzy Plant",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (tutor, as Venusaur)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #260"
+   },
+   {
+    "build": "cartridge:heartgold:260/4",
+    "species": "Charizard",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Flying"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 296,
+     "atk": 203,
+     "def": 191,
+     "spa": 253,
+     "spd": 205,
+     "spe": 235
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 191,
+     "spd": 205,
+     "gap": 0.068
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Flare Blitz",
+     "Air Slash",
+     "Blast Burn",
+     "Dragon Pulse"
+    ],
+    "move_basis": [
+     {
+      "move": "Flare Blitz",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 66, as Charizard)"
+     },
+     {
+      "move": "Air Slash",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Charizard)"
+     },
+     {
+      "move": "Blast Burn",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (tutor, as Charizard)"
+     },
+     {
+      "move": "Dragon Pulse",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Charizard)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #260"
+   },
+   {
+    "build": "cartridge:heartgold:260/5",
+    "species": "Blastoise",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 298,
+     "atk": 201,
+     "def": 235,
+     "spa": 205,
+     "spd": 245,
+     "spe": 191
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 235,
+     "spd": 245,
+     "gap": 0.041
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "neutral nature"
+    ],
+    "moves": [
+     "Focus Blast",
+     "Hydro Cannon",
+     "Blizzard",
+     "Flash Cannon"
+    ],
+    "move_basis": [
+     {
+      "move": "Focus Blast",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Blastoise)"
+     },
+     {
+      "move": "Hydro Cannon",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (tutor, as Blastoise)"
+     },
+     {
+      "move": "Blizzard",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Blastoise)"
+     },
+     {
+      "move": "Flash Cannon",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Blastoise)"
+     }
+    ],
+    "flags": [],
+    "source": "cartridge: pret/pokeheartgold trainers.json #260"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Lapras",
+      "Snorlax"
+     ],
+     "covered_by": [
+      "Venusaur",
+      "Charizard"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Venusaur"
+     ],
+     "covered_by": [
+      "Pikachu"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Pikachu"
+     ],
+     "covered_by": [
+      "Charizard"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Lapras",
+      "Charizard"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Snorlax"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Pikachu",
+      "Charizard",
+      "Blastoise"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Venusaur"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Blastoise"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Charizard"
+     ],
+     "covered_by": [
+      "Lapras",
+      "Venusaur",
+      "Blastoise"
+     ]
+    },
+    "Grass": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Lapras",
+      "Blastoise"
+     ],
+     "covered_by": [
+      "Venusaur",
+      "Charizard"
+     ]
+    },
+    "Electric": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Lapras",
+      "Charizard",
+      "Blastoise"
+     ],
+     "covered_by": [
+      "Pikachu",
+      "Venusaur"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Venusaur"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Venusaur"
+     ],
+     "covered_by": [
+      "Lapras",
+      "Blastoise"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Electric",
+    "Rock"
+   ],
+   "strengths": [
+    "Steel"
+   ],
+   "soft": {
+    "physical": 2,
+    "special": 0,
+    "even": 4
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Pikachu",
+     "Snorlax"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Red plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Champion: they've won before and play like it.",
+    "rule": "role_champion",
+    "trigger": "is_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Blizzard on Lapras, Snorlax and Blastoise. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the special side (16 of 23 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "expect",
+    "text": "Called rigid (55), but this team reads flexible (8): no Choice items; low move-type variety: Venusaur.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called percentage player (30), but this team reads gambler (83): carries a gamble: Pikachu, Lapras, Snorlax, Charizard and Blastoise.",
+    "rule": "disagree_risk",
+    "trigger": "disagree_risk nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Electric: Lapras, Charizard and Blastoise are weak to it, and only Pikachu and Venusaur can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Rock (2 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Charizard to Rock (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Pikachu and Snorlax are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Steel: 3 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Pikachu's Volt Tackle (recoil) and Iron Tail (75%); Lapras's Blizzard (70%); Snorlax's Blizzard (70%); Charizard's Flare Blitz (recoil); Blastoise's Focus Blast (70%) and Blizzard (70%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion"
+ ],
+ "overrides": {}
+}
