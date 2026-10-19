@@ -132,7 +132,7 @@ class BattleEngine:
         for sid, sp in rules.gen_data(gen)["species"].items():
             if sid not in final:   # not fully evolved, out of this generation's dex, or an alternate form
                 continue
-            abil = list(sp["abilities"].values()) if gen >= 3 else []
+            abil = rules.abilities(gen, sp["name"])
             top = max(rules.effectiveness(gen, a["type"], sp["types"],
                                           rules.best_defensive_ability(gen, sp["types"], a["type"], abil))
                       for a in attacks)

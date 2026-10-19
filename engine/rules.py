@@ -1,8 +1,9 @@
 """Generation rules shared by every engine (Gen 2-4).
 
-Battle data is Smogon's per-generation tables (data_battle/gen{2,3,4}.json, exported by
-battle/dump_gen_data.mjs from @smogon/calc). Before Gen 4 a damaging move's category comes
-from its type; Gen 4 stores it per move. Abilities exist from Gen 3.
+Battle data (types, stats, moves) is Smogon's per-generation tables (data_battle/gen{2,3,4}.json,
+exported by battle/dump_gen_data.mjs from @smogon/calc). Abilities come from PokeAPI, era-correct.
+Before Gen 4 a damaging move's category comes from its type; Gen 4 stores it per move.
+Abilities exist from Gen 3.
 """
 import json
 import os
@@ -49,8 +50,19 @@ def move(gen, name):
     return gen_data(gen)["moves"][to_id(name)]
 
 
+@lru_cache(maxsize=1)
+def _ref():
+    from refdb import Ref
+    return Ref(os.path.join(HERE, "data", "pokeref.sqlite"))
+
+
+@lru_cache(maxsize=None)
 def abilities(gen, name):
-    return list(species(gen, name)["abilities"].values()) if gen >= 3 else []
+    """Every ability the species had in that generation, from PokeAPI (Smogon's calc data keeps
+    only the first ability, so it can't be the source here). Gen 2 has none."""
+    if gen < 3:
+        return []
+    return _ref().abilities(species(gen, name)["name"], gen)
 
 
 def category(gen, name):
