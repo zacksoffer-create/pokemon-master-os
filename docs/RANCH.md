@@ -36,9 +36,9 @@ Written in the past tense (D-042): the journey is over, every companion is retir
 
 ---
 
-## 2b. The Glasshouse: hatchery and greenhouse in one building (proposed)
+## 2b. The Glasshouse: hatchery and greenhouse in one building (approved, D-045)
 
-*Asked for in D-041: "build a hatchery from scratch… interweave a hatchery and a greenhouse." It stays a proposal until you approve it. The design lives in `canon/ranch.json` (designs.hatchery_greenhouse) and the engine is `ranch/hatchery.py`.*
+*Asked for in D-041 ("build a hatchery from scratch… interweave a hatchery and a greenhouse") and **approved in D-045**. Two of its jobs are still story-only; they're proposed as world records W-016 (Meganium, gardener) and W-017 (Miltank, the nursery's milk). The design lives in `canon/ranch.json` (designs.hatchery_greenhouse) and the engine is `ranch/hatchery.py`.*
 
 **The idea.** Blackthorn sits against the Ice Path, so eggs and plants both need heat, and at a Champion's ranch the heat comes from Pokémon. A **Magcargo hearth** sits at the core (its Pokédex: *"Its body temperature is roughly 18,000 degrees F"*, and rain on it *"instantly turn[s] into steam, cloaking the area in a thick fog"*, which also makes it a humidifier). The egg racks ring the hearth. The greenhouse rings wrap around the egg racks and live on the same heat. **Ampharos lights everything** through the dark months; its tail has been a beacon *"since ancient times."* In the games eggs hatch by being walked, so **the walk that hatches them runs through the crop rows: the egg walk is the harvest walk.**
 
@@ -142,7 +142,7 @@ Magnezone is the one resident that can't pass egg moves at all: it's genderless 
 1. ~~Is Blackthorn the headquarters?~~ **Yes (D-041).**
 2. **Which satellite: Sevii Islands or the Battle Zone?** Either one covers the volcano and the sea.
 3. **Confirm the D-038 reading** (a stud of each target line, not the last father in the chain).
-4. **The Glasshouse:** approve, change or reject (§2b). Approving Meganium as gardener and Miltank as the nursery's milk would close its two story-only jobs.
+4. ~~The Glasshouse~~ **approved (D-045).** Next: approve W-016 (Meganium, gardener) and W-017 (Miltank, the nursery's milk) to close its two story-only jobs.
 5. **Day-Care details**, later: who gets invited, what the preserve looks like, how long clients' Pokémon stay.
 
 ---

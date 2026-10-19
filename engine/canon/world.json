@@ -180,6 +180,28 @@
       "status": "approved",
       "decision": "D-033",
       "reason": ""
+    },
+    {
+      "id": "W-016",
+      "game": "emerald",
+      "species": "Meganium",
+      "capability": "plant_care",
+      "statement": "The Glasshouse's gardener: tends the berry rings and Apricorn trees, and brings back plants that fail.",
+      "source": "Pokédex (FireRed/Silver): 'Its breath has the power to revive dead grass and plants.' Glasshouse design (D-045)",
+      "note": "closes the Glasshouse's plant-care job",
+      "status": "proposed",
+      "decision": null
+    },
+    {
+      "id": "W-017",
+      "game": "crystal",
+      "species": "Miltank",
+      "capability": "food_source",
+      "statement": "The nursery's milk: hatchlings' first meals come from Miltank.",
+      "source": "Pokédex (SoulSilver): 'If it is around babies, the milk it produces contains much more nutrition than usual.' Glasshouse design (D-045)",
+      "note": "closes the nursery yard's food job",
+      "status": "proposed",
+      "decision": null
     }
   ]
 }

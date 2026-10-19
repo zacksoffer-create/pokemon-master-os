@@ -3,6 +3,7 @@
 Needs engine/data/pokeref.sqlite (python3 -I fetch_reference.py) and battle/node_modules (npm ci)."""
 import os
 import sys
+import tempfile
 import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -236,7 +237,7 @@ class Ranch(unittest.TestCase):
 
 
 class JourneyLabRanch(unittest.TestCase):
-    """Scouting reports (D-043), the studbook (D-044) and the Glasshouse (hatchery-greenhouse proposal)."""
+    """Scouting reports (D-043, D-046), the studbook (D-044) and the Glasshouse (D-045)."""
 
     @classmethod
     def setUpClass(cls):
@@ -246,43 +247,54 @@ class JourneyLabRanch(unittest.TestCase):
         cls.scout = Scouting(BattleEngine(DB))
         cls.book = Studbook(DB)
 
-    def test_scouting_scale(self):
-        from battle.scouting import to_grade
-        self.assertEqual([to_grade(0), to_grade(1), to_grade(-1), to_grade(4), to_grade(0.26)], [50, 60, 40, 80, 55])
+    def test_phrases_are_triggered_by_numbers(self):
+        snorlax = self.scout.report("Snorlax", "heartgold", {"moves": ["Body Slam", "Rest", "Thunder Punch", "Zen Headbutt"],
+                                                             "ability": "Thick Fat", "item": "Leftovers"}, (27, 5))
+        fired = {p["rule"]: p for p in snorlax["phrases"]}
+        self.assertIn("speed_slow", fired)                       # base 30: near the bottom of Gen 4
+        self.assertIn("speed_pct", fired["speed_slow"]["trigger"])
+        self.assertIn("behind_rest", fired)
+        self.assertIn("prod_anchor", fired)                      # 27 of 32 against the league
+        self.assertIn("Fire and Ice moves only do half", fired["ability_note"]["text"])
+        self.assertEqual(sum(p["section"] == "philosophy" for p in snorlax["phrases"]), 1)   # a group fires once
+        self.assertNotIn("grades", snorlax)                      # D-046: no grades
 
-    def test_scouting_report_grades_era_correctly(self):
-        snorlax = self.scout.report("Snorlax", "heartgold", {"moves": ["Body Slam", "Rest", "Thunder Punch", "Zen Headbutt"]})
-        self.assertEqual(snorlax["grades"]["present"]["spec_bulk"], 80)
-        self.assertEqual(snorlax["grades"]["present"]["speed"], 30)
-        self.assertIn("Salamence", self.scout.comps("Garchomp", 4))
-        # Gen 3 splits by type: Absol's Bite is special there, so a Bite + Rock Slide set is mixed
-        absol = self.scout.report("Absol", "emerald", {"moves": ["Bite", "Rock Slide"]})
-        self.assertTrue(absol["damage_profile"].startswith("mixed"))
+    def test_phrase_with_a_hole_never_prints(self):
+        import json as _json
+        from battle.phrases import Phrasebook
+        path = os.path.join(tempfile.mkdtemp(), "book.json")
+        with open(path, "w") as fh:
+            _json.dump({"player": [{"id": "a", "section": "s", "when": [], "say": "Holds {item}."},
+                                   {"id": "b", "section": "s", "when": [["x", ">=", 2]], "say": "x is {x}."}]}, fh)
+        book = Phrasebook(path)
+        self.assertEqual(book.speak("player", {"item": None, "x": 1}), [])
+        self.assertEqual([p["rule"] for p in book.speak("player", {"item": "Leftovers", "x": 3})], ["a", "b"])
 
-    def test_scouting_card_v2(self):
-        typh = self.scout.report("Typhlosion", "heartgold",
-                                 {"moves": ["Flamethrower", "Extrasensory", "Thunder Punch", "Earthquake"]})
-        flame = typh["arsenal"][0]
-        self.assertEqual((flame["move"], flame["tags"][:2]), ("Flamethrower", ["out pitch", "STAB"]))
-        self.assertTrue(20 <= flame["grade"] <= 80)
-        self.assertEqual(len(typh["type_chart"]), 17)
-        self.assertFalse({"Groudon", "Palkia", "Dialga"} & {t["species"] for t in typh["trouble"]})   # no legendaries
-        snorlax = self.scout.report("Snorlax", "heartgold", {"moves": ["Body Slam", "Rest", "Thunder Punch", "Zen Headbutt"]})
-        self.assertEqual(snorlax["role"], "wall")
-        garchomp = self.scout.report("Garchomp", "platinum", {"moves": ["Earthquake", "Dragon Claw", "Fire Fang", "Poison Jab"]})
-        self.assertIn("4x weak to Ice", garchomp["risk"]["reasons"])
-        self.assertTrue(garchomp["take"].startswith("Plus power"))
+    def test_gen3_type_split_shows_in_tendencies(self):
+        # Bite is special in Gen 3, so a Bite + Rock Slide set hits from both sides
+        absol = self.scout.report("Absol", "emerald", {"moves": ["Bite", "Rock Slide", "Swords Dance", "Ice Beam"]})
+        self.assertTrue(any(p["rule"].startswith("lean_mixed") for p in absol["phrases"]))
+
+    def test_trainer_philosophy_comes_from_the_game(self):
+        from battle.benchmarks import Benchmarks
+        bench = Benchmarks(DB, self.scout.battle)
+        lucian = [o for o in bench.load("platinum") if o["name"] == "Lucian"][0]
+        ctx = self.scout.trainer_context(lucian)
+        self.assertTrue(ctx.get("ai_setup_first_turn"))         # Platinum's own AI flag for Lucian
+        self.assertEqual((ctx["heal_items_n"], ctx["heal_item"]), (2, "Full Restore"))
+        red = [o for o in bench.load("heartgold") if o["name"] == "Red"][0]
+        self.assertEqual(self.scout.trainer_context(red)["heal_items_n"], 4)
+
+    def test_filled_set_skips_rejected_and_unreliable_moves(self):
+        filled = self.scout.strongest_set("Typhlosion", "heartgold", rejected=["Focus Blast"])
+        self.assertNotIn("Focus Blast", filled)
+        self.assertNotIn("Blast Burn", filled)
 
     def test_what_if_opponents_are_built_at_peak(self):
         from battle.scouting import Scouting
         opp = Scouting.as_opponent("heartgold", [Member("Lapras", moves=["Surf"], nature="Calm")])
         mon = opp["party"][0]
         self.assertEqual((mon["level"], mon["ivs"]["spa"], mon["nature"]), (100, 31, "Calm"))
-
-    def test_peak_set_skips_rejected_and_unreliable_moves(self):
-        peak = self.scout.peak_moveset("Typhlosion", "heartgold", rejected=["Focus Blast"])
-        self.assertNotIn("Focus Blast", peak)
-        self.assertNotIn("Blast Burn", peak)
 
     def test_journey_breeding_web(self):
         roles = {e["species"]: e for e in self.book.roles()}

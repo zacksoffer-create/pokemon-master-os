@@ -41,6 +41,12 @@ BENCHMARK_SETS = {
 }
 
 
+def clean_line(text):
+    """A trainer's battle line as it reads on screen (control codes and line breaks removed)."""
+    text = re.sub(r"\{[^}]*\}", "", text.replace("\\n", " ").replace("\\r", " ").replace("\n", " ").replace("\r", " "))
+    return " ".join(text.split())
+
+
 def mon_id(raw):
     s = rules.to_id(re.sub(r"^(SPECIES|MOVE|ITEM)_", "", raw))
     return NAME_FIXES.get(s, s)
@@ -149,15 +155,22 @@ class Benchmarks:
                                    {s: p.get("iv_scale", 0) * 31 // 255 for s in ("hp", "atk", "def", "spa", "spd", "spe")})
                          for p in d["party"]]
                 out.append({"name": name, "game": game, "party": party,
-                            "source": f"pret/pokeplatinum res/trainers/data/{fname}.json"})
+                            "source": f"pret/pokeplatinum res/trainers/data/{fname}.json",
+                            "ai_flags": d.get("ai_flags", []), "items": d.get("items", []),
+                            "messages": [{"type": msg["type"], "text": clean_line(" ".join(msg.get("en_US", [])))}
+                                         for msg in d.get("messages", [])]})
         elif game in ("heartgold", "soulsilver"):
             trainers = json.load(open(os.path.join(RAW, "hgss_trainers.json"), encoding="utf-8"))["trainers"]
             for name, idx in HGSS.items():
                 party = [self._mon(game, p["species"], p["level"], p.get("moves", []), p.get("item"),
                                    {s: p.get("difficulty", 0) * 31 // 255 for s in ("hp", "atk", "def", "spa", "spd", "spe")})
                          for p in trainers[idx]["party"]]
+                tr = trainers[idx]
                 out.append({"name": name, "game": game, "party": party,
-                            "source": f"pret/pokeheartgold files/poketool/trainer/trainers.json #{idx}"})
+                            "source": f"pret/pokeheartgold files/poketool/trainer/trainers.json #{idx}",
+                            "ai_flags": tr.get("ai_flags", 0), "items": tr.get("items", []),
+                            "messages": [{"type": msg["type"], "text": clean_line(msg.get("message", ""))}
+                                         for msg in tr.get("messages", [])]})
         return out
 
     # --- matchups -----------------------------------------------------------------
@@ -207,6 +220,8 @@ class Benchmarks:
                                         for i in retry])
             for i, r in zip(retry, fixed):
                 results[i] = r
+        web = [{"side": side, "theirs": oi, "ours": ui, "move": mv, "min": r["percent"][0], "max": r["percent"][1]}
+               for (side, oi, ui, mv), r in zip(index, results) if "error" not in r]
         best = {}
         for (side, oi, ui, mv), r in zip(index, results):
             if "error" in r:
@@ -236,5 +251,6 @@ class Benchmarks:
         threats = [r["opponent"] for r in grid if not r["answers"]]
         anchors = sorted(((s, sum(r["vs"][s]["wins"] for r in grid)) for s in grid[0]["vs"]), key=lambda x: -x[1])
         return {"opponent": opponent["name"], "source": opponent["source"], "our_level": ours[0]["level"],
-                "our_movesets": {u["species"]: u["moves"] for u in ours},
+                "our_movesets": {u["species"]: u["moves"] for u in ours}, "our_names": [u["species"] for u in ours],
+                "web": web,   # every damaging move, both directions: the matchup web the scouting report reads
                 "grid": grid, "threats": threats, "anchors": anchors}

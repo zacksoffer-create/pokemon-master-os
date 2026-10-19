@@ -1,0 +1,21 @@
+{
+ "_note": "Characters and lineups for scouting (D-046). Every canon chapter is a lineup automatically (rosters.json + builds.json). Add variations here: start from a base lineup, then change a character's build, swap one Pokémon for another, or list the six outright. A build can be written inline or point to a named character. Every variation gets its own self-scout, advance reports, game plans and a seat in the what-if league.",
+ "characters": {
+  "typhlosion-january": {"species": "Typhlosion", "moves": ["Flamethrower", "Extrasensory", "Eruption", "Hidden Power Grass"], "nature": "Timid", "source": "January 2026 sheet (historical)"},
+  "tyranitar-sheet": {"species": "Tyranitar", "moves": ["Earthquake", "Dragon Dance", "Crunch", "Rock Slide"], "nature": "Adamant", "item": "Leftovers", "source": "sheet build (historical)"},
+  "pikachu-light-ball": {"species": "Pikachu", "moves": ["Volt Tackle", "Quick Attack", "Thunderbolt", "Iron Tail"], "item": "Light Ball", "source": "former six moves, with the item that defines the species"},
+  "gyarados-former": {"species": "Gyarados", "moves": ["Waterfall", "Ice Fang", "Earthquake", "Dragon Dance"], "source": "SoulSilver former six (historical)"}
+ },
+ "variations": [
+  {"id": "heartgold-january-typhlosion", "base": "heartgold", "title": "Typhlosion's January build", "change": {"Typhlosion": "typhlosion-january"},
+   "why": "The January sheet's special Typhlosion (Eruption, Hidden Power Grass, Timid) in place of the July set"},
+  {"id": "heartgold-sheet-tyranitar", "base": "heartgold", "title": "Tyranitar's sheet build", "change": {"Tyranitar": "tyranitar-sheet"},
+   "why": "Rock Slide and Leftovers instead of Outrage and Lum Berry"},
+  {"id": "soulsilver-light-ball", "base": "soulsilver", "title": "Pikachu with its Light Ball", "change": {"Pikachu": "pikachu-light-ball"},
+   "why": "The one item that changes Pikachu's whole read"},
+  {"id": "soulsilver-former-six", "base": "soulsilver", "title": "The former six (Gyarados)", "swap": {"Infernape": "gyarados-former"},
+   "why": "SoulSilver before July 16: Gyarados instead of Infernape"},
+  {"id": "platinum-january", "base": "platinum", "title": "January sheet (Empoleon)", "swap": {"Lucario": {"species": "Empoleon"}},
+   "why": "The January roster had Empoleon where Lucario is now (and with it, Waterfall and Defog)"}
+ ]
+}

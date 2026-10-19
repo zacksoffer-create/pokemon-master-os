@@ -256,7 +256,7 @@
   ],
   "designs": {
     "hatchery_greenhouse": {
-      "status": "proposed",
+      "status": "approved (D-045)",
       "name": "The Glasshouse",
       "site": "S-JOHTO",
       "idea": "One building where eggs and plants share everything. Blackthorn sits against the Ice Path, so both need heat, and the heat comes from Pokémon. A Magcargo hearth at the core keeps the eggs warm; the greenhouse rings wrap around it and live on the same heat. Ampharos lights both through the winter. Eggs hatch by being walked, so the walk that hatches them runs through the crop rows: the egg walk is the harvest walk.",
@@ -346,7 +346,11 @@
           "sitrus-berry"
         ],
         "note": "Medicine berries for the clinic and the nursery, plus every berry a canon build holds (read from builds.json). Apricorns for Kurt's Poké Balls grow outside the glass."
-      }
+      },
+      "open_proposals": [
+        "W-016 Meganium as gardener (plant care)",
+        "W-017 Miltank as the nursery's milk (food source)"
+      ]
     }
   },
   "breeding_program": [
@@ -435,7 +439,7 @@
   ],
   "authoring_questions": [
     "Which satellite: Sevii Islands or the Battle Zone? The headquarters needs one, for a volcano and the sea.",
-    "The Glasshouse (designs.hatchery_greenhouse) is a proposal: approve, change or reject it.",
+    "Approve W-016 (Meganium, gardener) and W-017 (Miltank, the nursery's milk) to fully staff the Glasshouse.",
     "The Day-Care preserve: who gets invited, and what clients' Pokémon experience there (later; not urgent)."
   ]
 }

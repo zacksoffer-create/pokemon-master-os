@@ -1,0 +1,1541 @@
+{
+ "_note": "The phrase book (D-046). Numbers from the engine trigger these phrases, the way the games turn a Pokémon's best IV into its characteristic. Edit freely: rules fire in order; within a group only the first match fires; a phrase with an empty placeholder is skipped. Ops: >= <= > < == != in notin has empty nonempty. Metrics are listed in battle/scouting.py (metrics, opponent_context, trainer_context).",
+ "player": [
+  {
+   "id": "phil_momentum",
+   "section": "philosophy",
+   "when": [
+    [
+     "setup_str",
+     "nonempty"
+    ],
+    [
+     "power_pct",
+     ">=",
+     0.6
+    ]
+   ],
+   "say": "Win on momentum: take one free turn for {setup_str}, then everything goes through.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_pivot",
+   "section": "philosophy",
+   "when": [
+    [
+     "pivot_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Keep the matchups moving: hit with {pivot_str} and hand the turn to the right teammate.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_attrition",
+   "section": "philosophy",
+   "when": [
+    [
+     "recovery_str",
+     "nonempty"
+    ],
+    [
+     "max_bulk_pct",
+     ">=",
+     0.6
+    ]
+   ],
+   "say": "Win the long game: take the hit, heal with {recovery_str}, and make the other side break first.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_strike_first",
+   "section": "philosophy",
+   "when": [
+    [
+     "speed_pct",
+     ">=",
+     0.7
+    ],
+    [
+     "power_pct",
+     ">=",
+     0.6
+    ]
+   ],
+   "say": "Strike first and strike hard.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_closer",
+   "section": "philosophy",
+   "when": [
+    [
+     "priority_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Finish what the others start: {priority_str} cleans up after the damage is done.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_cripple",
+   "section": "philosophy",
+   "when": [
+    [
+     "status_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Weaken first, win later: {status_str} before the real swings.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_no_safe_switch",
+   "section": "philosophy",
+   "when": [
+    [
+     "coverage_n",
+     ">=",
+     10
+    ]
+   ],
+   "say": "Leave nowhere to hide: it has a super-effective answer for {coverage_n} of 17 types.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_wall",
+   "section": "philosophy",
+   "when": [
+    [
+     "min_bulk_pct",
+     ">=",
+     0.6
+    ]
+   ],
+   "say": "Be the wall: absorb what the other side throws and hit back steadily.",
+   "group": "philosophy"
+  },
+  {
+   "id": "phil_straight",
+   "section": "philosophy",
+   "when": [],
+   "say": "Straight ahead: the best hit, every turn.",
+   "group": "philosophy"
+  },
+  {
+   "id": "speed_elite",
+   "section": "tendencies",
+   "when": [
+    [
+     "speed_pct",
+     ">=",
+     0.9
+    ]
+   ],
+   "say": "Rarely gets outrun: faster than {speed_pct:.0%} of the fully evolved Pokémon in its generation.",
+   "group": "speed"
+  },
+  {
+   "id": "speed_fast",
+   "section": "tendencies",
+   "when": [
+    [
+     "speed_pct",
+     ">=",
+     0.65
+    ]
+   ],
+   "say": "Usually swings first: {speed_pct:.0%} of its generation is slower.",
+   "group": "speed"
+  },
+  {
+   "id": "speed_mid",
+   "section": "tendencies",
+   "when": [
+    [
+     "speed_pct",
+     ">=",
+     0.35
+    ]
+   ],
+   "say": "Middle of the pack on speed: who hits first depends on the matchup.",
+   "group": "speed"
+  },
+  {
+   "id": "speed_slow",
+   "section": "tendencies",
+   "when": [
+    [
+     "speed_pct",
+     "<",
+     0.35
+    ]
+   ],
+   "say": "Expects to take the first hit: only {speed_pct:.0%} of its generation is slower.",
+   "group": "speed"
+  },
+  {
+   "id": "lean_mixed_cut",
+   "section": "tendencies",
+   "when": [
+    [
+     "lean",
+     "==",
+     "mixed"
+    ],
+    [
+     "nature_cut_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Hits from both sides ({phys_str} physical, {spec_str} special), and its {nature} nature takes something off {nature_cut_str}.",
+   "group": "lean"
+  },
+  {
+   "id": "lean_mixed_open",
+   "section": "tendencies",
+   "when": [
+    [
+     "lean",
+     "==",
+     "mixed"
+    ],
+    [
+     "nature_open",
+     "==",
+     true
+    ]
+   ],
+   "say": "Hits from both sides ({phys_str} physical, {spec_str} special). Its nature isn't set yet, and the wrong one blunts half the set.",
+   "group": "lean"
+  },
+  {
+   "id": "lean_mixed",
+   "section": "tendencies",
+   "when": [
+    [
+     "lean",
+     "==",
+     "mixed"
+    ]
+   ],
+   "say": "Hits from both sides: {phys_str} physical, {spec_str} special.",
+   "group": "lean"
+  },
+  {
+   "id": "lean_physical",
+   "section": "tendencies",
+   "when": [
+    [
+     "lean",
+     "==",
+     "physical"
+    ]
+   ],
+   "say": "Every attack runs off its Attack stat.",
+   "group": "lean"
+  },
+  {
+   "id": "lean_special",
+   "section": "tendencies",
+   "when": [
+    [
+     "lean",
+     "==",
+     "special"
+    ]
+   ],
+   "say": "Every attack runs off its Sp. Atk.",
+   "group": "lean"
+  },
+  {
+   "id": "out_pitch",
+   "section": "tendencies",
+   "when": [
+    [
+     "out_pitch",
+     "nonempty"
+    ]
+   ],
+   "say": "Out pitch: {out_pitch}."
+  },
+  {
+   "id": "power_top",
+   "section": "tendencies",
+   "when": [
+    [
+     "power_pct",
+     ">=",
+     0.85
+    ]
+   ],
+   "say": "Raw power near the top of its generation.",
+   "group": "power"
+  },
+  {
+   "id": "power_light",
+   "section": "tendencies",
+   "when": [
+    [
+     "power_pct",
+     "<=",
+     0.25
+    ]
+   ],
+   "say": "A light hitter: its best attacking stat sits in the bottom quarter of its generation.",
+   "group": "power"
+  },
+  {
+   "id": "bulk_both",
+   "section": "tendencies",
+   "when": [
+    [
+     "min_bulk_pct",
+     ">=",
+     0.75
+    ]
+   ],
+   "say": "Hard to move from either side: top-quarter bulk against physical and special hits.",
+   "group": "bulk"
+  },
+  {
+   "id": "bulk_glass",
+   "section": "tendencies",
+   "when": [
+    [
+     "min_bulk_pct",
+     "<=",
+     0.25
+    ]
+   ],
+   "say": "Glass on one side: it can't afford to take many hits there.",
+   "group": "bulk"
+  },
+  {
+   "id": "bulk_contact",
+   "section": "tendencies",
+   "when": [
+    [
+     "bulk_lean",
+     "==",
+     "physical"
+    ]
+   ],
+   "say": "Built for contact: it takes physical hits much better than special ones.",
+   "group": "bulk"
+  },
+  {
+   "id": "bulk_beams",
+   "section": "tendencies",
+   "when": [
+    [
+     "bulk_lean",
+     "==",
+     "special"
+    ]
+   ],
+   "say": "Shrugs off special attacks far better than physical ones.",
+   "group": "bulk"
+  },
+  {
+   "id": "recoil",
+   "section": "tendencies",
+   "when": [
+    [
+     "recoil_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Pays for its power: {recoil_str} costs it HP."
+  },
+  {
+   "id": "lock_in",
+   "section": "tendencies",
+   "when": [
+    [
+     "lock_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Commits: {lock_str} locks it in for two or three turns."
+  },
+  {
+   "id": "charge",
+   "section": "tendencies",
+   "when": [
+    [
+     "charge_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Telegraphs: {charge_str} takes a turn to land."
+  },
+  {
+   "id": "shaky",
+   "section": "tendencies",
+   "when": [
+    [
+     "shaky_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Can miss when it matters: {shaky_str}."
+  },
+  {
+   "id": "item",
+   "section": "tendencies",
+   "when": [
+    [
+     "item_note",
+     "nonempty"
+    ]
+   ],
+   "say": "Holds {item}: {item_note}."
+  },
+  {
+   "id": "signature_missing",
+   "section": "tendencies",
+   "when": [
+    [
+     "signature_missing",
+     "nonempty"
+    ]
+   ],
+   "say": "Plays without its {signature_missing}. With it, it's a different player."
+  },
+  {
+   "id": "ahead_setup",
+   "section": "when_ahead",
+   "when": [
+    [
+     "setup_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Ahead, it takes the free turn for {setup_str}.",
+   "group": "ahead"
+  },
+  {
+   "id": "ahead_status",
+   "section": "when_ahead",
+   "when": [
+    [
+     "status_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Ahead, it spends the lead on {status_str}.",
+   "group": "ahead"
+  },
+  {
+   "id": "ahead_hazards",
+   "section": "when_ahead",
+   "when": [
+    [
+     "hazard_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Ahead, it lays {hazard_str}.",
+   "group": "ahead"
+  },
+  {
+   "id": "ahead_swing",
+   "section": "when_ahead",
+   "when": [
+    [
+     "out_pitch",
+     "nonempty"
+    ]
+   ],
+   "say": "Ahead, it keeps throwing {out_pitch}.",
+   "group": "ahead"
+  },
+  {
+   "id": "ahead_close",
+   "section": "when_ahead",
+   "when": [
+    [
+     "priority_str",
+     "nonempty"
+    ]
+   ],
+   "say": "With the other side low, {priority_str} closes the door before they can answer."
+  },
+  {
+   "id": "behind_rest",
+   "section": "when_behind",
+   "when": [
+    [
+     "has_rest",
+     "==",
+     true
+    ]
+   ],
+   "say": "Behind, it sleeps it off with Rest and comes back at full health.",
+   "group": "behind"
+  },
+  {
+   "id": "behind_heal",
+   "section": "when_behind",
+   "when": [
+    [
+     "recovery_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Behind, it heals with {recovery_str}.",
+   "group": "behind"
+  },
+  {
+   "id": "behind_pivot",
+   "section": "when_behind",
+   "when": [
+    [
+     "pivot_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Behind, it gets out on its own terms with {pivot_str}.",
+   "group": "behind"
+  },
+  {
+   "id": "behind_glass",
+   "section": "when_behind",
+   "when": [
+    [
+     "min_bulk_pct",
+     "<=",
+     0.3
+    ]
+   ],
+   "say": "Behind, it has no way back. Get it out before it's caught low.",
+   "group": "behind"
+  },
+  {
+   "id": "behind_bulk",
+   "section": "when_behind",
+   "when": [
+    [
+     "max_bulk_pct",
+     ">=",
+     0.7
+    ]
+   ],
+   "say": "Even behind, it can eat one more hit.",
+   "group": "behind"
+  },
+  {
+   "id": "behind_swing",
+   "section": "when_behind",
+   "when": [],
+   "say": "Behind, it swings for the KO and hopes it lands first.",
+   "group": "behind"
+  },
+  {
+   "id": "behind_priority",
+   "section": "when_behind",
+   "when": [
+    [
+     "priority_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Even low, {priority_str} gets one more hit in first."
+  },
+  {
+   "id": "behind_blaze",
+   "section": "when_behind",
+   "when": [
+    [
+     "ability",
+     "in",
+     [
+      "Blaze",
+      "Torrent",
+      "Overgrow",
+      "Swarm"
+     ]
+    ]
+   ],
+   "say": "Low on HP, {ability} kicks in and its same-type hits get stronger."
+  },
+  {
+   "id": "feeds_on",
+   "section": "vs_types",
+   "when": [
+    [
+     "coverage_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Feeds on {coverage_str}."
+  },
+  {
+   "id": "cant_touch",
+   "section": "vs_types",
+   "when": [
+    [
+     "walls_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Struggles to hurt {walls_str}."
+  },
+  {
+   "id": "does_nothing",
+   "section": "vs_types",
+   "when": [
+    [
+     "zero_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Can't touch {zero_str} at all."
+  },
+  {
+   "id": "fatal_hole",
+   "section": "vs_types",
+   "when": [
+    [
+     "fours_str",
+     "nonempty"
+    ]
+   ],
+   "say": "One fatal hole: {fours_str} hits it four times as hard."
+  },
+  {
+   "id": "holes",
+   "section": "vs_types",
+   "when": [
+    [
+     "holes_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Look out for {holes_str}."
+  },
+  {
+   "id": "free_switch",
+   "section": "vs_types",
+   "when": [
+    [
+     "immune_str",
+     "nonempty"
+    ]
+   ],
+   "say": "A free switch-in against {immune_str}."
+  },
+  {
+   "id": "ability_note",
+   "section": "vs_moves",
+   "when": [
+    [
+     "ability_note",
+     "nonempty"
+    ],
+    [
+     "ability",
+     "notin",
+     [
+      "Blaze",
+      "Torrent",
+      "Overgrow",
+      "Swarm"
+     ]
+    ]
+   ],
+   "say": "{ability}: {ability_note}."
+  },
+  {
+   "id": "toxic_immune",
+   "section": "vs_moves",
+   "when": [
+    [
+     "toxic_immune",
+     "==",
+     true
+    ]
+   ],
+   "say": "Toxic and poison do nothing to it."
+  },
+  {
+   "id": "rest_cures",
+   "section": "vs_moves",
+   "when": [
+    [
+     "has_rest",
+     "==",
+     true
+    ]
+   ],
+   "say": "Any status it picks up, Rest wipes away."
+  },
+  {
+   "id": "status_care",
+   "section": "vs_moves",
+   "when": [
+    [
+     "status_care_str",
+     "nonempty"
+    ]
+   ],
+   "say": "It cleans up status for the whole team with {status_care_str}."
+  },
+  {
+   "id": "phazer",
+   "section": "vs_moves",
+   "when": [
+    [
+     "phaze_str",
+     "nonempty"
+    ]
+   ],
+   "say": "If the other side sets up, it forces them out with {phaze_str}."
+  },
+  {
+   "id": "protects",
+   "section": "vs_moves",
+   "when": [
+    [
+     "protect_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Stalls with {protect_str}."
+  },
+  {
+   "id": "beat_it",
+   "section": "how_to_beat",
+   "when": [
+    [
+     "trouble_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Hit it with something it can't hit back: {trouble_str} are the classic answers."
+  },
+  {
+   "id": "prod_anchor",
+   "section": "production",
+   "when": [
+    [
+     "record_pct",
+     ">=",
+     0.8
+    ]
+   ],
+   "say": "Won {record_w} of {record_n} one-on-ones against the league. An anchor.",
+   "group": "production"
+  },
+  {
+   "id": "prod_starter",
+   "section": "production",
+   "when": [
+    [
+     "record_pct",
+     ">=",
+     0.6
+    ]
+   ],
+   "say": "Won {record_w} of {record_n} one-on-ones against the league. A reliable starter.",
+   "group": "production"
+  },
+  {
+   "id": "prod_even",
+   "section": "production",
+   "when": [
+    [
+     "record_pct",
+     ">=",
+     0.45
+    ]
+   ],
+   "say": "Broke about even against the league ({record_w}-{record_l}).",
+   "group": "production"
+  },
+  {
+   "id": "prod_spots",
+   "section": "production",
+   "when": [
+    [
+     "record_pct",
+     ">=",
+     0
+    ]
+   ],
+   "say": "Struggled against the league ({record_w}-{record_l}). Pick its spots.",
+   "group": "production"
+  },
+  {
+   "id": "comps",
+   "section": "makeup",
+   "when": [
+    [
+     "comps_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Plays like {comps_str}."
+  },
+  {
+   "id": "makeup",
+   "section": "makeup",
+   "when": [
+    [
+     "makeup",
+     "nonempty"
+    ]
+   ],
+   "say": "Pokédex, {game_title}: “{makeup}”"
+  }
+ ],
+ "opponent": [
+  {
+   "id": "o_lead",
+   "section": "order",
+   "when": [
+    [
+     "is_lead",
+     "==",
+     true
+    ]
+   ],
+   "say": "Leads off."
+  },
+  {
+   "id": "o_last",
+   "section": "order",
+   "when": [
+    [
+     "is_last",
+     "==",
+     true
+    ]
+   ],
+   "say": "Last in the order."
+  },
+  {
+   "id": "o_swings_first_all",
+   "section": "tendencies",
+   "when": [
+    [
+     "moves_first_n",
+     ">=",
+     5
+    ]
+   ],
+   "say": "Swings first against almost everyone you have ({moves_first_n} of {our_n}).",
+   "group": "speed"
+  },
+  {
+   "id": "o_swings_first",
+   "section": "tendencies",
+   "when": [
+    [
+     "moves_first_n",
+     ">=",
+     3
+    ]
+   ],
+   "say": "Moves first against {moves_first_str}.",
+   "group": "speed"
+  },
+  {
+   "id": "o_slow",
+   "section": "tendencies",
+   "when": [
+    [
+     "moves_first_n",
+     "==",
+     0
+    ]
+   ],
+   "say": "You move first, every time.",
+   "group": "speed"
+  },
+  {
+   "id": "o_some_first",
+   "section": "tendencies",
+   "when": [
+    [
+     "moves_first_n",
+     ">=",
+     1
+    ]
+   ],
+   "say": "Gets the jump on {moves_first_str}.",
+   "group": "speed"
+  },
+  {
+   "id": "o_go_to",
+   "section": "tendencies",
+   "when": [
+    [
+     "main_move",
+     "nonempty"
+    ]
+   ],
+   "say": "Its go-to: {main_move} (its best hit on {main_targets}).",
+   "group": "go_to"
+  },
+  {
+   "id": "o_alt",
+   "section": "tendencies",
+   "when": [
+    [
+     "alt_moves_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Otherwise: {alt_moves_str}."
+  },
+  {
+   "id": "o_mixed",
+   "section": "tendencies",
+   "when": [
+    [
+     "lean",
+     "==",
+     "mixed"
+    ]
+   ],
+   "say": "Hits from both sides ({phys_str} physical, {spec_str} special): no single wall stops it."
+  },
+  {
+   "id": "o_item",
+   "section": "tendencies",
+   "when": [
+    [
+     "item_note",
+     "nonempty"
+    ]
+   ],
+   "say": "Holds {item}: {item_note}."
+  },
+  {
+   "id": "o_setup",
+   "section": "when_ahead",
+   "when": [
+    [
+     "setup_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Given a free turn, it sets up with {setup_str}."
+  },
+  {
+   "id": "o_status",
+   "section": "when_ahead",
+   "when": [
+    [
+     "status_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Expect {status_str} early."
+  },
+  {
+   "id": "o_priority",
+   "section": "when_ahead",
+   "when": [
+    [
+     "priority_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Once you're low, {priority_str} finishes you."
+  },
+  {
+   "id": "o_heal",
+   "section": "when_behind",
+   "when": [
+    [
+     "recovery_str",
+     "nonempty"
+    ]
+   ],
+   "say": "When it's low, it heals itself with {recovery_str}."
+  },
+  {
+   "id": "o_risky",
+   "section": "when_behind",
+   "when": [
+    [
+     "risky_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Cornered, it can take one of yours down with it ({risky_str})."
+  },
+  {
+   "id": "o_ability",
+   "section": "vs_moves",
+   "when": [
+    [
+     "ability_note",
+     "nonempty"
+    ]
+   ],
+   "say": "{ability}: {ability_note}."
+  },
+  {
+   "id": "o_phazer",
+   "section": "vs_moves",
+   "when": [
+    [
+     "phaze_str",
+     "nonempty"
+    ]
+   ],
+   "say": "If you set up, it forces you out with {phaze_str}."
+  },
+  {
+   "id": "o_protect",
+   "section": "vs_moves",
+   "when": [
+    [
+     "protect_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Stalls with {protect_str}."
+  },
+  {
+   "id": "o_holes",
+   "section": "how_to_attack",
+   "when": [
+    [
+     "holes_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Hit it with {holes_str}."
+  },
+  {
+   "id": "o_call",
+   "section": "how_to_attack",
+   "when": [
+    [
+     "call_str",
+     "nonempty"
+    ]
+   ],
+   "say": "The call: {call_str}."
+  },
+  {
+   "id": "o_backup",
+   "section": "how_to_attack",
+   "when": [
+    [
+     "backup_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Backup: {backup_str}."
+  },
+  {
+   "id": "o_dont",
+   "section": "how_to_attack",
+   "when": [
+    [
+     "ko_us_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Keep {ko_us_str} away from it: one hit and they're gone."
+  },
+  {
+   "id": "o_blind_one",
+   "section": "how_to_attack",
+   "when": [
+    [
+     "blind_n",
+     "==",
+     1
+    ]
+   ],
+   "say": "Its blind spot: {blind_str} takes almost nothing from it."
+  },
+  {
+   "id": "o_blind",
+   "section": "how_to_attack",
+   "when": [
+    [
+     "blind_str",
+     "nonempty"
+    ],
+    [
+     "blind_n",
+     ">=",
+     2
+    ]
+   ],
+   "say": "Its blind spot: {blind_str} take almost nothing from it."
+  },
+  {
+   "id": "o_no_answer",
+   "section": "how_to_attack",
+   "when": [
+    [
+     "no_answer",
+     "==",
+     true
+    ]
+   ],
+   "say": "Nobody you have wins this one-on-one. Hit it hard before it sets the pace, and trade."
+  }
+ ],
+ "trainer": [
+  {
+   "id": "t_order",
+   "section": "order",
+   "when": [
+    [
+     "party_str",
+     "nonempty"
+    ]
+   ],
+   "say": "{party_str}."
+  },
+  {
+   "id": "t_lead",
+   "section": "order",
+   "when": [
+    [
+     "our_lead",
+     "nonempty"
+    ]
+   ],
+   "say": "Lead with {our_lead}: it handles their opener."
+  },
+  {
+   "id": "t_switch",
+   "section": "order",
+   "when": [
+    [
+     "switch_rule",
+     "nonempty"
+    ]
+   ],
+   "say": "{switch_rule}"
+  },
+  {
+   "id": "t_best",
+   "section": "philosophy",
+   "when": [
+    [
+     "their_best",
+     "nonempty"
+    ]
+   ],
+   "say": "Their best player: {their_best}, which beats {their_best_beats} of your {our_n}."
+  },
+  {
+   "id": "t_bag",
+   "section": "bag",
+   "when": [
+    [
+     "heal_items_n",
+     ">=",
+     1
+    ]
+   ],
+   "say": "{heal_items_n} × {heal_item} in the bag."
+  },
+  {
+   "id": "t_heal_rule",
+   "section": "bag",
+   "when": [
+    [
+     "heal_rule",
+     "nonempty"
+    ],
+    [
+     "heal_items_n",
+     ">=",
+     1
+    ]
+   ],
+   "say": "{heal_rule}"
+  },
+  {
+   "id": "t_anchor",
+   "section": "philosophy",
+   "when": [
+    [
+     "anchor",
+     "nonempty"
+    ]
+   ],
+   "say": "Your last one standing: {anchor}."
+  },
+  {
+   "id": "t_no_answer",
+   "section": "philosophy",
+   "when": [
+    [
+     "no_answer_str",
+     "nonempty"
+    ]
+   ],
+   "say": "No clean answer on your side for {no_answer_str}."
+  },
+  {
+   "id": "t_msg_last",
+   "section": "dialogue",
+   "when": [
+    [
+     "msg_trmsg_last_battler",
+     "nonempty"
+    ]
+   ],
+   "say": "Down to the last Pokémon: “{msg_trmsg_last_battler}”"
+  },
+  {
+   "id": "t_msg_half",
+   "section": "dialogue",
+   "when": [
+    [
+     "msg_trmsg_last_battler_half_hp",
+     "nonempty"
+    ]
+   ],
+   "say": "Last Pokémon at half HP: “{msg_trmsg_last_battler_half_hp}”"
+  },
+  {
+   "id": "t_msg_last_hgss",
+   "section": "dialogue",
+   "when": [
+    [
+     "msg_trmsg_last_poke",
+     "nonempty"
+    ]
+   ],
+   "say": "Down to the last Pokémon: “{msg_trmsg_last_poke}”"
+  },
+  {
+   "id": "t_msg_half_hgss",
+   "section": "dialogue",
+   "when": [
+    [
+     "msg_trmsg_last_poke_half",
+     "nonempty"
+    ]
+   ],
+   "say": "Last Pokémon at half HP: “{msg_trmsg_last_poke_half}”"
+  }
+ ],
+ "self": [
+  {
+   "id": "s_momentum",
+   "section": "identity",
+   "when": [
+    [
+     "setup_n",
+     ">=",
+     2
+    ]
+   ],
+   "say": "Win on momentum: {setup_str} turn one free turn into a sweep.",
+   "group": "identity"
+  },
+  {
+   "id": "s_grind",
+   "section": "identity",
+   "when": [
+    [
+     "healers_n",
+     ">=",
+     2
+    ]
+   ],
+   "say": "Outlast them: {healers_str} stay in and make the other side run out first.",
+   "group": "identity"
+  },
+  {
+   "id": "s_slug",
+   "section": "identity",
+   "when": [],
+   "say": "Hit hard every turn and trade well.",
+   "group": "identity"
+  },
+  {
+   "id": "s_anchor",
+   "section": "identity",
+   "when": [
+    [
+     "anchor",
+     "nonempty"
+    ]
+   ],
+   "say": "The anchor: {anchor}."
+  },
+  {
+   "id": "s_repertoire",
+   "section": "good_at",
+   "when": [
+    [
+     "pitch_types_n",
+     ">=",
+     1
+    ]
+   ],
+   "say": "{pitch_types_n} attack types in the repertoire. The main ones: {pitch_types_str}."
+  },
+  {
+   "id": "s_reach_all",
+   "section": "good_at",
+   "when": [
+    [
+     "reach_n",
+     ">=",
+     16
+    ]
+   ],
+   "say": "Nothing is safe: {reach_n} of 17 types take super-effective hits from this club.",
+   "group": "reach"
+  },
+  {
+   "id": "s_reach",
+   "section": "good_at",
+   "when": [
+    [
+     "missing_str",
+     "nonempty"
+    ]
+   ],
+   "say": "{reach_n} of 17 types take super-effective hits; nothing on the club hits {missing_str} hard.",
+   "group": "reach"
+  },
+  {
+   "id": "s_pace",
+   "section": "good_at",
+   "when": [
+    [
+     "fastest",
+     "nonempty"
+    ]
+   ],
+   "say": "{fastest} sets the pace; {slowest} expects to take the first hit."
+  },
+  {
+   "id": "s_closers",
+   "section": "good_at",
+   "when": [
+    [
+     "closers_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Closers: {closers_str}."
+  },
+  {
+   "id": "s_pivots",
+   "section": "good_at",
+   "when": [
+    [
+     "pivots_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Pivots: {pivots_str}."
+  },
+  {
+   "id": "s_status",
+   "section": "good_at",
+   "when": [
+    [
+     "status_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Status: {status_str}."
+  },
+  {
+   "id": "s_holes",
+   "section": "soft",
+   "when": [
+    [
+     "holes_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Shared holes: {holes_str}."
+  },
+  {
+   "id": "s_no_holes",
+   "section": "soft",
+   "when": [
+    [
+     "holes_str",
+     "empty"
+    ]
+   ],
+   "say": "No shared hole: no type hits three of the club super-effectively."
+  },
+  {
+   "id": "s_note",
+   "section": "scouts_note",
+   "when": [
+    [
+     "notes_str",
+     "nonempty"
+    ]
+   ],
+   "say": "{notes_str}"
+  }
+ ],
+ "plan": [
+  {
+   "id": "p_lead",
+   "section": "plan_lead",
+   "when": [
+    [
+     "lead",
+     "nonempty"
+    ],
+    [
+     "their_lead",
+     "nonempty"
+    ]
+   ],
+   "say": "Lead {lead}: it handles their {their_lead}."
+  },
+  {
+   "id": "p_switch",
+   "section": "plan_lead",
+   "when": [
+    [
+     "switch_rule",
+     "nonempty"
+    ]
+   ],
+   "say": "{switch_rule}"
+  },
+  {
+   "id": "p_assign",
+   "section": "plan_assign",
+   "when": [
+    [
+     "assign_str",
+     "nonempty"
+    ]
+   ],
+   "say": "{assign_str}."
+  },
+  {
+   "id": "p_unassigned",
+   "section": "plan_assign",
+   "when": [
+    [
+     "unassigned_str",
+     "nonempty"
+    ]
+   ],
+   "say": "No clean answer for {unassigned_str}: hit it hard before it moves and trade."
+  },
+  {
+   "id": "p_k_vs_heals",
+   "section": "plan_keys",
+   "when": [
+    [
+     "heal_items_n",
+     ">=",
+     1
+    ],
+    [
+     "k_n",
+     ">=",
+     1
+    ]
+   ],
+   "say": "They carry {heal_items_n} × {heal_item}, so finish in one hit where you can: {k_str}.",
+   "group": "heals"
+  },
+  {
+   "id": "p_heals_long",
+   "section": "plan_keys",
+   "when": [
+    [
+     "heal_items_n",
+     ">=",
+     1
+    ]
+   ],
+   "say": "They carry {heal_items_n} × {heal_item} and nothing on your side knocks out in one hit: expect long fights.",
+   "group": "heals"
+  },
+  {
+   "id": "p_bait",
+   "section": "plan_keys",
+   "when": [
+    [
+     "bait_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Free turns: {bait_str}."
+  },
+  {
+   "id": "p_status",
+   "section": "plan_keys",
+   "when": [
+    [
+     "status_targets_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Status lands on {status_targets_str}."
+  },
+  {
+   "id": "p_anchor",
+   "section": "plan_keys",
+   "when": [
+    [
+     "anchor",
+     "nonempty"
+    ]
+   ],
+   "say": "If it comes down to one: {anchor}."
+  },
+  {
+   "id": "p_their_setup",
+   "section": "plan_watch",
+   "when": [
+    [
+     "their_setup_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Don't give {their_setup_str} a free turn."
+  },
+  {
+   "id": "p_setup_first",
+   "section": "plan_watch",
+   "when": [
+    [
+     "ai_setup_first_turn",
+     "==",
+     true
+    ],
+    [
+     "their_setup_str",
+     "nonempty"
+    ]
+   ],
+   "say": "Their AI is set to boost on its first turn: hit the set-up Pokémon before it gets going."
+  },
+  {
+   "id": "p_danger",
+   "section": "plan_watch",
+   "when": [
+    [
+     "their_best_dont",
+     "nonempty"
+    ]
+   ],
+   "say": "Their most dangerous player: {their_best}. Keep {their_best_dont} away from it."
+  }
+ ]
+}

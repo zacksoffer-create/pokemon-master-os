@@ -2,11 +2,11 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
 <style>
-/* Layout: a front-office scouting file. A ledger-paper ground, form-stock cards ruled like the old scouting
-   forms (tools in Present / Peak columns on the 20-80 scale), typed entries, and blue-pencil marks for what matters.
-   Call sheets read like a laminated play sheet: situation boxes around one big call table. */
+/* Layout: a front-office scouting file. Ledger-paper ground; scouting reports on form stock, ruled into labeled rows
+   (philosophy, tendencies, ahead, behind, types, moves) with typed entries; call sheets laid out like a pitcher's
+   advance report: one row per opposing player, symbols in the margin, holes circled, the plan in pen. */
 :root {
   --paper: #e9ede4;
   --card: #f8f9f4;
@@ -16,42 +16,37 @@
   --rule-strong: #93a094;
   --accent: #2b4f9e;
   --accent-ink: #ffffff;
+  --pen: #1f3b8a;
   --good: #2c7a4b;
   --warn: #a8701a;
   --bad: #b03a2c;
-  --g-low: #8f9aa1;
-  --g-avg: #6b7a84;
   --tint-good: #d9ecdf;
   --tint-bad: #f3dcd6;
   --tint-zero: #cfd4d7;
   --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --font-body: "Barlow", "Segoe UI", system-ui, sans-serif;
   --font-typed: "Courier Prime", "Courier New", ui-monospace, monospace;
+  --font-hand: "Architects Daughter", "Comic Neue", "Segoe Print", cursive;
   --step--1: 0.8rem; --step-0: 0.95rem; --step-1: 1.15rem; --step-2: 1.45rem; --step-3: 2rem; --step-4: 2.7rem;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
-    --accent: #86a6ef; --accent-ink: #0e1630; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
-    --g-low: #5d6b74; --g-avg: #7e8d97; --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238;
+    --accent: #86a6ef; --accent-ink: #0e1630; --pen: #9db7f5; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+    --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
-  --accent: #86a6ef; --accent-ink: #0e1630; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
-  --g-low: #5d6b74; --g-avg: #7e8d97; --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238;
+  --accent: #86a6ef; --accent-ink: #0e1630; --pen: #9db7f5; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+  --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: var(--step-0);
-  line-height: 1.45;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 0 48px;
 }
 .wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
@@ -63,146 +58,137 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-wrap: bala
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* masthead */
 .masthead { padding-top: 26px; display: grid; gap: 6px; border-bottom: 3px double var(--rule-strong); padding-bottom: 14px; }
-.masthead .dept { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+.masthead .dept { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; justify-content: space-between; }
 .masthead h1 { font-size: var(--step-4); line-height: 1; text-transform: uppercase; }
-.masthead p { margin: 0; max-width: 70ch; color: var(--ink-2); }
+.masthead p { margin: 0; max-width: 72ch; color: var(--ink-2); }
+.switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--step--1); color: var(--ink-2); }
+.switch input { accent-color: var(--accent); width: 16px; height: 16px; }
 
-/* tabs */
 .tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--rule-strong); }
-.tab {
-  background: none; border: 1px solid transparent; border-bottom: none; padding: 8px 14px 7px;
-  font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); text-transform: uppercase;
-  letter-spacing: 0.04em; color: var(--ink-2); cursor: pointer; border-radius: 4px 4px 0 0; position: relative; top: 1px;
-}
+.tab { background: none; border: 1px solid transparent; border-bottom: none; padding: 8px 14px 7px; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-2); cursor: pointer; border-radius: 4px 4px 0 0; position: relative; top: 1px; }
 .tab:hover { color: var(--ink); }
 .tab[aria-selected="true"] { background: var(--card); border-color: var(--rule-strong); color: var(--ink); }
 .tab .sub { display: block; font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 0.02em; text-transform: none; font-weight: 500; color: var(--ink-2); }
 .subtabs { display: flex; gap: 6px; flex-wrap: wrap; }
-.pill {
-  border: 1px solid var(--rule-strong); background: var(--card); border-radius: 999px; padding: 5px 12px;
-  font-family: var(--font-display); font-weight: 600; letter-spacing: 0.03em; cursor: pointer; font-size: var(--step-0);
-}
+.pill { border: 1px solid var(--rule-strong); background: var(--card); border-radius: 999px; padding: 5px 12px; font-family: var(--font-display); font-weight: 600; letter-spacing: 0.03em; cursor: pointer; font-size: var(--step-0); }
 .pill[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 
-/* team header */
-.teamhead { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; }
-.ofp-big { border: 2px solid var(--accent); border-radius: 50%; width: 92px; height: 92px; display: grid; place-content: center; text-align: center; color: var(--accent); }
-.ofp-big b { font-family: var(--font-display); font-size: 2.3rem; line-height: 1; }
-.ofp-big span { font-size: 0.68rem; font-family: var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+.teamhead { display: grid; gap: 10px; }
 .teamhead h2 { font-size: var(--step-3); text-transform: uppercase; }
 .teamhead .meta { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--ink-2); }
-.notes { display: grid; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; max-width: 80ch; }
-.notes li { padding-left: 14px; position: relative; }
-.notes li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--rule-strong); }
-.notes li.key::before { background: var(--accent); }
+.panel, .card, .sheet { background: var(--card); border: 1px solid var(--rule-strong); border-radius: 3px; }
+.panel { padding: 14px 16px; }
 
-/* tables */
+/* phrases: the form rows */
+.rows { display: grid; grid-template-columns: minmax(96px, 150px) minmax(0, 1fr); }
+.rows > .k { padding: 9px 12px 9px 14px; border-top: 1px solid var(--rule); font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--step--1); color: var(--ink-2); }
+.rows > .v { padding: 8px 14px 9px 0; border-top: 1px solid var(--rule); min-width: 0; display: grid; gap: 4px; }
+.ph { margin: 0; }
+.ph .trig { display: none; font-family: var(--font-typed); font-size: 0.72rem; color: var(--ink-2); margin-left: 6px; }
+.show-triggers .ph .trig { display: inline; }
+.ph .trig::before { content: "▸ "; }
+.philo { font-family: var(--font-typed); font-size: 1rem; line-height: 1.5; padding: 10px 14px 12px; }
+.quote { font-style: italic; }
+
+/* depth chart */
 .scroll { overflow-x: auto; min-width: 0; }
 table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
 th { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--step--1); color: var(--ink-2); text-align: left; padding: 6px 8px; border-bottom: 1.5px solid var(--rule-strong); white-space: nowrap; }
-td { padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td { padding: 7px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 td.c, th.c { text-align: center; }
-.depth tr { cursor: pointer; }
+.depth tbody tr { cursor: pointer; }
 .depth tbody tr:hover td { background: color-mix(in srgb, var(--accent) 7%, transparent); }
-.sheet-card, .card, .panel { background: var(--card); border: 1px solid var(--rule-strong); border-radius: 3px; }
-.panel { padding: 14px 16px; }
+.depth .phil { font-family: var(--font-typed); font-size: 0.88rem; }
 
-/* grade chips */
-.g { display: inline-block; min-width: 2.1em; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; border-radius: 3px; padding: 0 4px; }
-.g-low { color: var(--g-low); }
-.g-avg { color: var(--ink); }
-.g-plus { color: var(--good); }
-.g-elite { color: var(--accent-ink); background: var(--accent); }
-.risk { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8rem; padding: 1px 7px; border-radius: 3px; border: 1px solid currentColor; white-space: nowrap; }
-.risk.low { color: var(--good); } .risk.medium { color: var(--warn); } .risk.high { color: var(--bad); }
-
-/* player cards: the scouting form */
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 18px; }
-.card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; scroll-margin-top: 16px; }
+/* scouting report card */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 540px), 1fr)); gap: 18px; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr); scroll-margin-top: 16px; }
 .card .top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 12px 14px 10px; border-bottom: 2px solid var(--ink); }
 .card .top h3 { font-size: var(--step-3); line-height: 1; text-transform: uppercase; }
 .card .idline { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 4px; color: var(--ink-2); font-size: var(--step--1); }
-.card .ofp { text-align: center; }
-.card .ofp .ring { border: 2px solid var(--accent); color: var(--accent); border-radius: 50%; width: 62px; height: 62px; display: grid; place-content: center; font-family: var(--font-display); font-weight: 700; font-size: 1.7rem; line-height: 1; }
-.card .ofp .peak { font-size: 0.72rem; color: var(--ink-2); font-family: var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
-.formrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); border-bottom: 1px solid var(--rule); }
-.formrow > div { padding: 7px 14px; border-right: 1px solid var(--rule); min-width: 0; }
-.formrow > div:last-child { border-right: none; }
-.formrow .label { display: block; margin-bottom: 2px; }
-.take { padding: 10px 14px; border-bottom: 1px solid var(--rule); font-family: var(--font-typed); font-size: 0.9rem; line-height: 1.5; }
-.section { padding: 10px 14px 12px; border-bottom: 1px solid var(--rule); display: grid; gap: 8px; min-width: 0; }
-.section:last-child { border-bottom: none; }
-.tools { display: grid; grid-template-columns: minmax(84px, auto) 2.4em 2.4em 1fr; align-items: center; gap: 4px 10px; }
-.tools .h { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem; color: var(--ink-2); }
-.bar { position: relative; height: 10px; border-radius: 2px; background: repeating-linear-gradient(90deg, transparent 0 calc(100% / 6 - 1px), var(--rule) calc(100% / 6 - 1px) calc(100% / 6)); border: 1px solid var(--rule); }
-.bar .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 1px; }
-.bar .avg { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1.5px; background: var(--rule-strong); }
-.bar .pk { position: absolute; top: -4px; bottom: -4px; width: 3px; background: var(--accent); border-radius: 1px; }
-.fill.g-low { background: var(--g-low); } .fill.g-avg { background: var(--g-avg); } .fill.g-plus { background: var(--good); } .fill.g-elite { background: var(--accent); }
-.arsenal td { font-size: 0.88rem; }
-.arsenal .mv { font-weight: 600; white-space: nowrap; }
-.tag { display: inline-block; font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid var(--rule-strong); border-radius: 3px; padding: 0 5px; margin: 0 3px 2px 0; color: var(--ink-2); white-space: nowrap; }
-.tag.out { border-color: var(--accent); color: var(--accent); }
-.typechart { display: grid; grid-template-columns: 64px repeat(17, minmax(22px, 1fr)); gap: 2px; font-size: 0.68rem; min-width: 470px; }
-.typechart .rh { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-2); align-self: center; font-size: 0.7rem; }
-.typechart .th { font-family: var(--font-display); text-transform: uppercase; text-align: center; color: var(--ink-2); writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; font-size: 0.66rem; letter-spacing: 0.04em; height: 52px; }
-.typechart .cell { text-align: center; padding: 3px 0; border-radius: 2px; font-family: var(--font-display); font-weight: 600; background: var(--paper); color: var(--ink-2); }
+.card .rec { text-align: right; }
+.card .rec b { font-family: var(--font-display); font-size: 1.6rem; line-height: 1; display: block; }
+.build { padding: 8px 14px; font-size: 0.85rem; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+.build b { color: var(--ink); font-weight: 600; }
+.typechart { display: grid; grid-template-columns: 52px repeat(17, minmax(22px, 1fr)); gap: 2px; font-size: 0.68rem; min-width: 450px; margin-top: 4px; }
+.typechart .rh { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-2); align-self: center; font-size: 0.68rem; }
+.typechart .th { font-family: var(--font-display); text-transform: uppercase; text-align: center; color: var(--ink-2); writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; font-size: 0.64rem; letter-spacing: 0.04em; height: 48px; }
+.typechart .cell { text-align: center; padding: 2px 0; border-radius: 2px; font-family: var(--font-display); font-weight: 600; background: var(--paper); color: var(--ink-2); }
 .cell.good { background: var(--tint-good); color: var(--good); }
 .cell.bad { background: var(--tint-bad); color: var(--bad); }
 .cell.zero { background: var(--tint-zero); color: var(--ink-2); }
 .cell.x4 { outline: 1.5px solid currentColor; outline-offset: -1.5px; }
-.facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0; }
-.facts dt { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--step--1); color: var(--ink-2); padding-top: 2px; }
-.facts dd { margin: 0; min-width: 0; }
 
-/* call sheets: the laminated play sheet */
-.sheet-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
-.sheet-card header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding: 12px 14px; background: var(--ink); color: var(--card); border-radius: 2px 2px 0 0; }
-.sheet-card header h3 { font-size: var(--step-2); text-transform: uppercase; }
-.sheet-card header .src { font-size: var(--step--1); opacity: 0.8; font-family: var(--font-typed); }
-.situations { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; border-bottom: 1px solid var(--rule-strong); }
-.sit { padding: 10px 14px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-width: 0; }
-.sit .label { display: block; margin-bottom: 3px; }
-.sit.go { box-shadow: inset 4px 0 0 var(--good); }
-.sit.caution { box-shadow: inset 4px 0 0 var(--warn); }
-.sit.stop { box-shadow: inset 4px 0 0 var(--bad); }
-.calls td { font-size: 0.9rem; }
-.calls .they { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; text-transform: uppercase; white-space: nowrap; }
-.calls .call b { font-weight: 600; }
-.calls .their { color: var(--ink-2); font-size: 0.8rem; margin-top: 2px; }
-.calls .none { color: var(--bad); font-weight: 600; }
-.dont { color: var(--bad); }
+/* call sheet: the advance report */
+.sheet header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; padding: 12px 14px; border-bottom: 2px solid var(--ink); }
+.sheet .opp { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.sheet .opp .hand { font-family: var(--font-hand); font-size: 1.7rem; color: var(--pen); border-bottom: 1.5px solid var(--ink); padding: 0 10px; line-height: 1.2; }
+.sheet .vs { background: var(--ink); color: var(--card); font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 12px; font-size: 1.05rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 7px 14px; border-bottom: 1px solid var(--rule); font-size: var(--step--1); color: var(--ink-2); }
+.legend b { font-family: var(--font-hand); color: var(--pen); font-size: 1rem; font-weight: 400; }
+.advance td { border-bottom: 1px solid var(--rule-strong); }
+.advance .who { min-width: 150px; }
+.advance .who .nm { font-family: var(--font-hand); font-size: 1.25rem; color: var(--pen); line-height: 1.1; }
+.advance .who .lv { font-size: var(--step--1); color: var(--ink-2); }
+.marks { font-family: var(--font-hand); color: var(--pen); font-size: 1.05rem; letter-spacing: 0.08em; }
+.lean { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border: 1.5px solid var(--pen); border-radius: 50%; font-family: var(--font-hand); color: var(--pen); font-size: 0.9rem; margin-left: 4px; }
+.circ { display: inline-block; font-family: var(--font-hand); color: var(--pen); border: 1.5px solid var(--pen); border-radius: 50% / 45%; padding: 0 7px; margin: 0 3px 4px 0; transform: rotate(-3deg); white-space: nowrap; }
+.plan { font-family: var(--font-hand); color: var(--pen); text-transform: uppercase; font-size: 0.86rem; line-height: 1.35; min-width: 260px; }
+.plan .no { color: var(--bad); }
+.firstcol { font-family: var(--font-hand); color: var(--pen); font-size: 1.05rem; white-space: nowrap; }
+.trainer { display: grid; }
+.detail { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 14px; }
+.detail .card h3 { font-size: var(--step-2); }
+
+/* the advance form */
+.form { font-variant-numeric: tabular-nums; }
+.form th.ty { text-align: center; font-size: 0.72rem; padding: 6px 4px; }
+.form th.ty span { display: block; font-family: var(--font-body); font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 0.64rem; color: var(--ink-2); white-space: normal; min-width: 44px; }
+.form td { vertical-align: middle; }
+.form td.tc { text-align: center; padding: 6px 3px; position: relative; min-width: 46px; }
+.hn { font-family: var(--font-hand); color: var(--pen); font-size: 1rem; display: inline-block; padding: 0 5px; line-height: 1.5; }
+.hn.se { border: 1.5px solid var(--pen); border-radius: 50% / 46%; transform: rotate(-4deg); }
+.hn.res { color: var(--ink-2); opacity: 0.7; }
+.mk { position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-family: var(--font-hand); font-size: 0.72rem; color: var(--bad); line-height: 1; }
+.mk.two { color: var(--pen); }
+.chase { font-family: var(--font-hand); color: var(--pen); font-size: 0.86rem; text-transform: uppercase; }
+.repertoire td:first-child { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.lineups { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.lineups .label { margin-right: 4px; }
+.why { color: var(--ink-2); font-size: var(--step--1); }
+.plan-panel .rows > .k { color: var(--accent); }
 
 /* league */
 .matrix td, .matrix th { text-align: center; }
 .matrix td.self { background: var(--paper); color: var(--ink-2); }
 .heat { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+.won { color: var(--good); } .lost { color: var(--ink-2); }
 .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
 .section-head h2 { font-size: var(--step-2); text-transform: uppercase; }
 footer { border-top: 3px double var(--rule-strong); padding-top: 12px; color: var(--ink-2); font-size: var(--step--1); display: grid; gap: 6px; max-width: 90ch; }
 footer p { margin: 0; }
 @media (max-width: 560px) {
   .masthead h1 { font-size: var(--step-3); }
-  .teamhead { grid-template-columns: 1fr; }
-  .ofp-big { width: 74px; height: 74px; }
-  .tools { grid-template-columns: minmax(70px, auto) 2.2em 2.2em 1fr; }
+  .rows { grid-template-columns: minmax(0, 1fr); }
+  .rows > .k { padding-bottom: 0; }
+  .rows > .v { padding: 4px 14px 10px; border-top: none; }
 }
-@media (prefers-reduced-motion: no-preference) { .card, .sheet-card { transition: box-shadow 0.2s; } .card:target { box-shadow: 0 0 0 3px var(--accent); } }
+@media (prefers-reduced-motion: no-preference) { .card { transition: box-shadow 0.2s; } }
 </style>
 
-<div class="wrap">
+<div class="wrap" id="root">
   <header class="masthead">
-    <div class="dept"><span class="label">Front office · Scouting department</span><span class="label" id="gen"></span></div>
+    <div class="dept"><span class="label">Front office · Scouting department · <span id="gen"></span></span>
+      <label class="switch" for="triggers"><input type="checkbox" id="triggers"> Show the triggers</label></div>
     <h1>Journey Scouting File</h1>
-    <p>Every team from the journey, graded the way a scout grades a player and planned the way a coordinator plans a game. Tools are on the 20–80 scale and era-adjusted. Each call sheet comes from exact damage against the game's real Elite Four and champions.</p>
+    <p>Every team from the journey, and any variation of it, read the way a front office reads a series. The advance report shows how to attack each of their Pokémon with each attack type you throw. The self-scout covers what your club is good at and what it's trying to do. The game plan puts the two together. There are no grades: each line is a phrase triggered by the numbers. Switch on <b>Show the triggers</b> to see which number fired it.</p>
   </header>
   <nav class="tabs" id="tabs" role="tablist" aria-label="Chapters"></nav>
   <main id="main" class="wrap"></main>
   <footer>
-    <p id="scale"></p>
-    <p>Sources: Smogon's damage calculator (@smogon/calc 0.12.0) for every damage range; opponents' teams, moves, levels, items and IVs read from the games' own code (pret disassemblies of Crystal, FireRed, Emerald, Platinum, HeartGold/SoulSilver); species, moves and Pokédex data from PokeAPI. Builds and rosters from the project canon (decision D-043). Grades rank a Pokémon against its own generation; the what-if league puts every team under Gen 4 rules at Lv 100.</p>
+    <p id="method"></p>
+    <p>Sources: Smogon's damage calculator (@smogon/calc 0.12.0) for every damage range; opponents' teams, moves, items, AI flags, bags and battle lines read from the games' own code (pret disassemblies of Crystal, FireRed, Emerald, Platinum, HeartGold/SoulSilver); species, moves and Pokédex text from PokeAPI. The phrase book lives at engine/battle/phrasebook.json (<span id="rulecount"></span> rules) and can be edited. Decisions D-043 and D-046.</p>
   </footer>
 </div>
 
@@ -212,170 +198,167 @@ footer p { margin: 0; }
   const DATA = JSON.parse(document.getElementById("data").textContent);
   const $ = (s, el = document) => el.querySelector(s);
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const TOOLS = [["power", "Power"], ["speed", "Speed"], ["phys_bulk", "Phys. bulk"], ["spec_bulk", "Spec. bulk"], ["coverage", "Coverage"], ["utility", "Utility"]];
   const SHORT = { Normal: "Nor", Fire: "Fir", Water: "Wat", Electric: "Ele", Grass: "Gra", Ice: "Ice", Fighting: "Fig", Poison: "Poi", Ground: "Gro", Flying: "Fly", Psychic: "Psy", Bug: "Bug", Rock: "Roc", Ghost: "Gho", Dragon: "Dra", Dark: "Dar", Steel: "Ste" };
-  const gclass = (g) => (g == null ? "" : g >= 70 ? "g-elite" : g >= 55 ? "g-plus" : g >= 45 ? "g-avg" : "g-low");
-  const chip = (g) => (g == null ? "—" : `<span class="g ${gclass(g)}">${g}</span>`);
-  const mult = (x) => (x === 0 ? "0" : x === 0.5 ? "½" : x === 0.25 ? "¼" : x === 1 ? "1" : (Math.round(x * 100) / 100).toString());
+  const ORDER = { player: ["philosophy", "tendencies", "when_ahead", "when_behind", "vs_types", "vs_moves", "how_to_beat", "production", "makeup"],
+    self: ["identity", "good_at", "soft", "scouts_note"],
+    trainer: ["order", "philosophy", "bag", "dialogue"],
+    plan: ["plan_lead", "plan_assign", "plan_keys", "plan_watch"],
+    opponent: ["order", "tendencies", "when_ahead", "when_behind", "vs_moves", "how_to_attack"] };
+  const mult = (x) => (x === 0 ? "0" : x === 0.5 ? "½" : x === 0.25 ? "¼" : String(Math.round(x * 100) / 100));
   const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const group = (ps) => ps.reduce((m, p) => ((m[p.section] = m[p.section] || []).push(p), m), {});
+  const byId = Object.fromEntries(DATA.lineups.map((l) => [l.id, l]));
 
-  let state = { tab: "heartgold", view: "cards", sheet: 0 };
-  try { const saved = JSON.parse(localStorage.getItem("scouting-file") || "null"); if (saved) state = Object.assign(state, saved); } catch (e) {}
+  let state = { tab: "heartgold", lineup: {}, view: "opponents", sheet: 0, triggers: false };
+  try { const saved = JSON.parse(localStorage.getItem("scouting-file-v3") || "null"); if (saved) state = Object.assign(state, saved); } catch (e) {}
   const hash = location.hash.replace("#", "");
-  if (hash && (hash === "league" || DATA.chapters.some((c) => c.game === hash))) state.tab = hash;
-  const save = () => { try { localStorage.setItem("scouting-file", JSON.stringify(state)); } catch (e) {} };
-
+  if (hash && (hash === "league" || DATA.chapters.includes(hash))) state.tab = hash;
+  const save = () => { try { localStorage.setItem("scouting-file-v3", JSON.stringify(state)); } catch (e) {} };
   $("#gen").textContent = "Filed " + DATA.generated;
-  $("#scale").textContent = DATA.scale;
+  $("#method").textContent = DATA.method;
+  $("#rulecount").textContent = DATA.rules;
 
-  function renderTabs() {
-    const tabs = DATA.chapters.map((c) => [c.game, c.title, `${c.thesis} · ${c.status}`]).concat([["league", "What-if league", "every team at its peak"]]);
-    $("#tabs").innerHTML = tabs.map(([k, t, sub]) =>
-      `<button class="tab" role="tab" id="tab-${k}" aria-selected="${state.tab === k}" data-tab="${k}">${esc(t)}<span class="sub">${esc(sub)}</span></button>`).join("");
+  const phrase = (p) => `<p class="ph">${esc(p.text)}<span class="trig">${esc(p.rule)}: ${esc(p.trigger)}</span></p>`;
+  function rows(phrases, kind, extra = {}) {
+    const g = group(phrases);
+    return `<div class="rows">` + ORDER[kind].filter((s) => g[s] || extra[s]).map((s) =>
+      `<div class="k">${esc(DATA.sections[s] || s)}</div><div class="v">${(g[s] || []).map(phrase).join("")}${extra[s] || ""}</div>`).join("") + `</div>`;
   }
-
-  function toolBars(c) {
-    const p = c.grades.present, k = c.grades.peak;
-    return `<div class="tools"><span class="h">Tool</span><span class="h">Pres</span><span class="h">Peak</span><span class="h">20 · · · 50 · · · 80</span>` +
-      TOOLS.map(([key, name]) => {
-        const w = ((p[key] - 20) / 60) * 100, pk = ((k[key] - 20) / 60) * 100;
-        return `<span>${name}</span><span class="num">${chip(p[key])}</span><span class="num">${k[key] !== p[key] ? chip(k[key]) : "<span class='g g-low'>·</span>"}</span>` +
-          `<span class="bar" aria-hidden="true"><span class="fill ${gclass(p[key])}" style="width:${w}%"></span><span class="avg"></span>${k[key] !== p[key] ? `<span class="pk" style="left:calc(${pk}% - 1.5px)"></span>` : ""}</span>`;
-      }).join("") + `</div>`;
-  }
-
   function typeChart(c) {
     const tc = c.type_chart;
     const head = `<span></span>` + tc.map((t) => `<span class="th">${SHORT[t.type]}</span>`).join("");
-    const off = `<span class="rh">Its hits</span>` + tc.map((t) => {
-      const cls = t.offense === 0 ? "zero" : t.offense > 1 ? "good" : "";
-      return `<span class="cell ${cls}" title="${esc(t.type)}: best hit ${mult(t.offense)}× (${esc(t.best_move || "none")})">${mult(t.offense)}</span>`;
-    }).join("");
-    const def = `<span class="rh">Hits it</span>` + tc.map((t) => {
-      const cls = t.defense === 0 ? "zero" : t.defense > 1 ? "bad" : t.defense < 1 ? "good" : "";
-      return `<span class="cell ${cls} ${t.defense >= 4 ? "x4" : ""}" title="${esc(t.type)} attacks do ${mult(t.defense)}×">${mult(t.defense)}</span>`;
-    }).join("");
+    const off = `<span class="rh">Its hits</span>` + tc.map((t) => `<span class="cell ${t.offense === 0 ? "zero" : t.offense > 1 ? "good" : ""}" title="${esc(t.type)}: its best hit ${mult(t.offense)}× (${esc(t.best_move || "none")})">${mult(t.offense)}</span>`).join("");
+    const def = `<span class="rh">Hits it</span>` + tc.map((t) => `<span class="cell ${t.defense === 0 ? "zero" : t.defense > 1 ? "bad" : t.defense < 1 ? "good" : ""} ${t.defense >= 4 ? "x4" : ""}" title="${esc(t.type)} attacks do ${mult(t.defense)}×">${mult(t.defense)}</span>`).join("");
     return `<div class="scroll"><div class="typechart" role="img" aria-label="Type chart for ${esc(c.species)}">${head}${off}${def}</div></div>`;
   }
-
-  function arsenal(c) {
-    return `<div class="scroll"><table class="arsenal"><thead><tr><th>Pitch</th><th>Type</th><th>Kind</th><th class="c">Pwr</th><th class="c">Acc</th><th class="c">Grade</th><th>Job</th></tr></thead><tbody>` +
-      c.arsenal.map((a) => `<tr><td class="mv">${esc(a.move)}</td><td>${esc(a.type)}</td><td>${esc(a.category)}</td><td class="c num">${a.power ?? "—"}</td><td class="c num">${a.accuracy}</td><td class="c">${chip(a.grade)}</td>` +
-        `<td>${a.tags.map((t) => `<span class="tag ${t === "out pitch" ? "out" : ""}">${esc(t)}</span>`).join("")}${a.adds_coverage.length ? `<span class="their"> adds ${esc(a.adds_coverage.join(", "))}</span>` : ""}</td></tr>`).join("") +
-      `</tbody></table></div>`;
-  }
-
   function card(c) {
-    const [w, l] = c.record;
-    const risk = `<span class="risk ${c.risk.level}">${c.risk.level} risk</span>`;
-    const peakSet = c.peak_moves.join(" / ") !== c.moves.join(" / ") && JSON.stringify(c.grades.peak) !== JSON.stringify(c.grades.present);
+    const g = group(c.phrases);
+    const build = [`<b>${esc(c.moves.join(" / "))}</b>`, c.nature, c.ability, c.item ? "@ " + c.item : null].filter(Boolean).map(String).join(" · ");
     return `<article class="card" id="card-${slug(c.species)}">
       <div class="top"><div><h3>${esc(c.species)}</h3>
-        <div class="idline"><span>${esc(c.types.join(" / "))}</span><span class="num">${c.body.height_m} m · ${c.body.weight_kg} kg</span><span>${esc(DATA.titles[c.game])}</span></div></div>
-        <div class="ofp"><div class="ring num" title="Overall: present">${c.ofp.present}</div><div class="peak">OFP · peak ${c.ofp.peak}</div></div></div>
-      <div class="formrow"><div><span class="label">Projects as</span>${esc(c.role)}</div><div><span class="label">Risk</span>${risk}</div><div><span class="label">1v1 vs the league</span><span class="num"><b>${w}-${l}</b></span></div><div><span class="label">Build</span><span style="font-size:.85rem">${esc(c.build_source)}</span></div></div>
-      <div class="take">${esc(c.take)}${c.risk.reasons.length ? ` <span style="color:var(--ink-2)">Risk: ${esc(c.risk.reasons.join("; "))}.</span>` : ""}</div>
-      <div class="section"><span class="label">Tools · present / peak</span>${toolBars(c)}</div>
-      <div class="section"><span class="label">Arsenal</span>${arsenal(c)}</div>
-      <div class="section"><span class="label">Splits by type</span>${typeChart(c)}</div>
-      <div class="section"><dl class="facts">
-        <dt>Pitch mix</dt><dd>${c.pitch_mix.Physical} physical · ${c.pitch_mix.Special} special · ${c.pitch_mix.Status} status <span style="color:var(--ink-2)">(${esc(c.damage_profile)})</span></dd>
-        <dt>Approach</dt><dd>${esc(c.approach.join("; "))}</dd>
-        <dt>Splits</dt><dd>sturdier against ${esc(c.splits.better_vs)}</dd>
-        <dt>Tough matchups</dt><dd>${c.trouble.length ? c.trouble.map((t) => `${esc(t.species)} <span style="color:var(--ink-2)">(${t.hits_it})</span>`).join(", ") : "none in its generation"}</dd>
-        ${peakSet ? `<dt>Peak set</dt><dd>${esc(c.peak_moves.join(" / "))}</dd>` : ""}
-        <dt>Comps</dt><dd>${esc(c.comps.join(", "))}</dd>
-      </dl></div>
+        <div class="idline"><span>${esc(c.types.join(" / "))}</span><span class="num">${c.body.height_m} m · ${c.body.weight_kg} kg</span></div></div>
+        <div class="rec"><b class="num">${c.record[0]}-${c.record[1]}</b><span class="label">vs the league</span></div></div>
+      <div class="build">${build}<br><span style="font-size:.78rem">${esc(c.build_source)}</span></div>
+      <div class="philo">${(g.philosophy || []).map(phrase).join("")}</div>
+      ${rows(c.phrases.filter((p) => p.section !== "philosophy"), "player", { vs_types: typeChart(c) })}
     </article>`;
   }
 
-  function depth(ch) {
-    const rows = [...ch.cards].sort((a, b) => b.ofp.present - a.ofp.present);
-    return `<div class="panel scroll"><table class="depth"><thead><tr><th>Player</th><th class="c">OFP</th><th>Role</th>${TOOLS.map(([, n]) => `<th class="c">${n}</th>`).join("")}<th class="c">Risk</th><th class="c">1v1</th></tr></thead><tbody>` +
-      rows.map((c) => `<tr data-card="${slug(c.species)}" tabindex="0"><td><b>${esc(c.species)}</b></td><td class="c">${chip(c.ofp.present)}</td><td>${esc(c.role)}</td>` +
-        TOOLS.map(([k]) => `<td class="c">${chip(c.grades.present[k])}</td>`).join("") +
-        `<td class="c"><span class="risk ${c.risk.level}">${c.risk.level}</span></td><td class="c num"><b>${c.record[0]}-${c.record[1]}</b></td></tr>`).join("") +
-      `</tbody></table></div>`;
+  /* the advance form: their Pokémon down the side, your attack types across the top */
+  function advanceForm(lu, sh) {
+    const A = sh.advance, types = A.pitch_types;
+    const sym = (s) => (s.swings_first ? "★" : "") + (s.priority ? "—" : "") + (s.sets_up ? "↑" : "") + (s.heals ? "+" : "");
+    const leanLetter = { physical: "P", special: "S", mixed: "M", status: "–" };
+    const head = `<tr><th>Their player</th><th class="c">1st</th><th class="c">Beats</th>` +
+      types.map((t) => `<th class="ty" title="${esc(t.throwers.join(", "))}">${esc(SHORT[t.type])}<span>${esc([...new Set(t.throwers.map((x) => x.split(" (")[0]))].join(", "))}</span></th>`).join("") +
+      `<th>Softer vs</th><th>Takes status</th><th>Free turn</th><th>Go-to plan</th></tr>`;
+    const body = A.rows.map((a, i) => {
+      const r = sh.calls[i];
+      const cells = types.map((t) => {
+        const c = a.cells[t.type];
+        if (!c) return `<td class="tc"><span class="hn res">·</span></td>`;
+        const cls = c.se ? "se" : c.resisted || c.immune ? "res" : "";
+        const mark = c.k ? `<span class="mk">K</span>` : c.two ? `<span class="mk two">2</span>` : "";
+        return `<td class="tc" title="${esc(c.move)} from ${esc(c.by)}: ${c.pct}-${c.max}%${c.se ? " · super-effective" : c.resisted ? " · resisted" : ""}">${mark}<span class="hn ${cls}">${Math.round(c.pct)}</span></td>`;
+      }).join("");
+      const bait = a.setup_bait.length ? a.setup_bait.map((b) => `${b.member}: ${b.move}`).join("; ") : "—";
+      return `<tr><td class="who"><span class="marks">${sym(r.symbols)}</span><div class="nm">${esc(a.species)}<span class="lean" title="${esc(r.symbols.lean)} attacker">${leanLetter[r.symbols.lean]}</span></div><div class="lv">Lv ${a.level}${a.item ? " · " + esc(a.item) : ""}</div></td>
+        <td class="firstcol c">${r.moves_first_n}/${r.our_n}</td><td class="firstcol c">${r.beats_n}/${r.our_n}</td>${cells}
+        <td class="chase">${esc(a.softer_vs)}</td><td class="chase">${esc(a.takes_status)}</td><td class="chase">${esc(bait)}</td><td class="plan">${planFor(r)}</td></tr>`;
+    }).join("");
+    return `<div class="scroll"><table class="advance form"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+  }
+  function planFor(r) {
+    const bits = [];
+    if (r.call) bits.push(`${r.call.member}: ${r.call.we_hit}`);
+    else bits.push(`<span class="no">No clean answer: hit it first and trade</span>`);
+    if (r.backup) bits.push(`Backup ${r.backup.member}`);
+    const g = group(r.phrases);
+    const goTo = (g.tendencies || []).find((p) => p.rule === "o_go_to");
+    if (goTo) bits.push(goTo.text.replace(/^Its go-to: /, "It throws ").replace(/\.$/, ""));
+    const ahead = (g.when_ahead || [])[0]; if (ahead) bits.push(ahead.text.replace(/\.$/, ""));
+    const behind = (g.when_behind || [])[0]; if (behind) bits.push(behind.text.replace(/\.$/, ""));
+    if (r.dont_send.length) bits.push(`<span class="no">Keep ${esc(r.dont_send.join(", "))} away</span>`);
+    return bits.map((b) => (b.startsWith("<span") ? b : esc(b))).join(". ") + ".";
   }
 
-  function sheet(sh) {
-    const sit = (cls, label, body) => `<div class="sit ${cls}"><span class="label">${label}</span>${body}</div>`;
-    const op = sh.opener;
-    const sits = [
-      sit("go", "Opener", op ? `They lead <b>${esc(op.they_send)}</b>. ${op.call ? `Call <b>${esc(op.call)}</b>` : `<span class="none">Nobody wins it 1v1</span>`}` : "—"),
-      sit("go", "Lead with", `<b>${esc(sh.lead)}</b>`),
-      sit("caution", "Their best player", sh.their_best ? `<b>${esc(sh.their_best.species)}</b>, beats ${sh.their_best.beats} of ours` : "—"),
-      sit("caution", "If they set up", sh.if_they_set_up.length ? sh.if_they_set_up.map((x) => `<div><b>${esc(x.they_send)}</b> (${esc(x.move)}): ${esc(x.answer)}</div>`).join("") : "Nobody on their side sets up"),
-      sit("go", "Closers", sh.closers.length ? esc(sh.closers.join("; ")) : "No priority moves"),
-      sit("go", "Last one standing", `<b>${esc(sh.last_one_standing)}</b>`),
-      sit(sh.no_answer.length ? "stop" : "go", "No answer", sh.no_answer.length ? `<span class="none">${esc(sh.no_answer.join(", "))}</span>` : "Every one of theirs has an answer"),
-    ].join("");
-    const rows = sh.calls.map((r) => `<tr><td><div class="they">${esc(r.they_send)}</div><div class="their">${esc(r.their_moves.join(" · "))}${r.their_item ? " @ " + esc(r.their_item) : ""}</div></td>` +
-      `<td class="call">${r.call_detail ? `<b>${esc(r.call_detail.member)}</b>: ${esc(r.call_detail.we_hit)}<div class="their">takes ${esc(r.call_detail.they_hit)} · ${esc(r.call_detail.hits_to_ko)} hits · ${r.call_detail.moves_first ? "moves first" : "moves second"}</div>` : `<span class="none">No clean answer</span>`}</td>` +
-      `<td>${esc(r.backup || "—")}</td><td class="dont">${esc(r.dont_send.join(", ") || "—")}</td></tr>`).join("");
-    return `<section class="sheet-card"><header><h3>vs ${esc(sh.opponent)} · Lv ${sh.level}</h3><span class="src">${esc(sh.source)}</span></header>
-      <div class="situations">${sits}</div>
-      <div class="scroll"><table class="calls"><thead><tr><th>They send</th><th>The call</th><th>Backup</th><th>Don't send (KO'd in one hit)</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+  function opponents(lu) {
+    const idx = Math.min(state.sheet, lu.sheets.length - 1), sh = lu.sheets[idx];
+    const picker = `<div class="subtabs" role="group" aria-label="Opponent">${lu.sheets.map((s, i) => `<button class="pill" data-sheet="${i}" aria-pressed="${i === idx}">${esc(s.opponent)}</button>`).join("")}</div>`;
+    const detail = sh.calls.map((r) => `<article class="card"><div class="top"><div><h3>${esc(r.species)}</h3><div class="idline"><span>Lv ${r.level}</span><span>${esc(r.their_moves.join(" · "))}</span></div></div></div>${rows(r.phrases, "opponent")}</article>`).join("");
+    return picker + `<section class="sheet">
+      <header><div class="opp"><span class="label">Opponent</span><span class="hand">${esc(sh.opponent)}</span><span class="label">Lv ${sh.level} · ${esc(DATA.generated)}</span></div><span class="vs">vs. ${esc(lu.title)}</span></header>
+      <div class="legend"><span><b>★</b> swings first on most of your club</span><span><b>—</b> has priority</span><span><b>↑</b> sets up</span><span><b>+</b> heals itself</span><span><b class="lean" style="font-size:.75rem">P</b> physical · S special · M mixed</span><span>numbers: your best hit of that type, % of its HP (lowest roll)</span><span><b class="hn se" style="font-size:.85rem">63</b> super-effective</span><span><b style="color:var(--bad)">K</b> knocks it out in one hit · <b>2</b> in two</span><span><b>1st</b> how many of yours it beats to the first hit · <b>Beats</b> how many of yours it wins against</span></div>
+      ${advanceForm(lu, sh)}
+    </section>
+    <div class="panel plan-panel" style="padding:0"><div class="philo"><span class="label">Game plan · ${esc(lu.title)} vs ${esc(sh.opponent)}</span></div>${rows(sh.plan.phrases, "plan")}</div>
+    <div class="panel" style="padding:0"><div class="philo"><span class="label">The trainer · from the game's own data</span></div>${rows(sh.trainer_phrases, "trainer")}</div>
+    <div class="section-head"><h2>Their players, one by one</h2><span class="label">${esc(sh.source)}</span></div>
+    <div class="detail">${detail}</div>`;
   }
 
-  function chapter(ch) {
-    const sheetIdx = Math.min(state.sheet, ch.sheets.length - 1);
-    const notes = [...ch.scouts_notes.map((n) => [true, n]), ...ch.defensive_flags.map((n) => [false, "Defensive flag: " + n]),
-      [false, "Hits nothing super-effectively: " + (ch.no_super_effective_hit.join(", ") || "none")],
-      [false, "Speed order: " + ch.speed_order.map(([s, b]) => `${s} ${b}`).join(", ")]];
-    const head = `<section class="teamhead"><div class="ofp-big"><b class="num">${ch.ofp.present}</b><span>Team OFP</span><span>peak ${ch.ofp.peak}</span></div>
-      <div><h2>${esc(ch.title)}</h2><div class="meta"><span>Thesis: ${esc(ch.thesis)}</span><span>Roster: ${esc(ch.status)} (${esc(ch.decision)})</span></div>
-      <ul class="notes">${notes.map(([k, n]) => `<li class="${k ? "key" : ""}">${esc(n)}</li>`).join("")}</ul></div></section>`;
-    const sub = `<div class="subtabs" role="group" aria-label="View"><button class="pill" data-view="cards" aria-pressed="${state.view === "cards"}">Depth chart & player cards</button><button class="pill" data-view="sheets" aria-pressed="${state.view === "sheets"}">Call sheets (${ch.sheets.length})</button></div>`;
-    let body;
-    if (state.view === "sheets") {
-      body = `<div class="subtabs" role="group" aria-label="Opponent">${ch.sheets.map((s, i) => `<button class="pill" data-sheet="${i}" aria-pressed="${i === sheetIdx}">${esc(s.opponent)}</button>`).join("")}</div>${sheet(ch.sheets[sheetIdx])}`;
-    } else {
-      body = `<div class="section-head"><h2>Depth chart</h2><span class="label">Tap a player for the full report</span></div>${depth(ch)}<div class="cards">${ch.cards.map(card).join("")}</div>`;
-    }
-    return head + sub + body;
+  function selfScout(lu) {
+    const S = lu.self_scout;
+    const rep = `<div class="scroll"><table class="repertoire"><thead><tr><th>Attack type</th><th>Who throws it</th></tr></thead><tbody>` +
+      S.repertoire.map((r) => `<tr><td>${esc(r.type)}</td><td>${esc(r.throwers.map((x) => `${x.member} (${x.move})`).join(", "))}</td></tr>`).join("") + `</tbody></table></div>`;
+    const depthRows = [...lu.cards].sort((a, b) => b.record[0] - a.record[0]).map((c) =>
+      `<tr data-card="${slug(c.species)}" tabindex="0"><td><b>${esc(c.species)}</b></td><td class="phil">${(group(c.phrases).philosophy || []).map((p) => esc(p.text)).join(" ")}</td><td class="c num"><b>${c.record[0]}-${c.record[1]}</b></td></tr>`).join("");
+    return `<div class="panel" style="padding:0"><div class="philo"><span class="label">Self-scout · what we're good at and what we're trying to do</span></div>${rows(S.phrases, "self", { good_at: rep })}</div>
+      <div class="section-head"><h2>Depth chart</h2><span class="label">Tap a player for the full report</span></div>
+      <div class="panel scroll"><table class="depth"><thead><tr><th>Player</th><th>Philosophy</th><th class="c">vs the league</th></tr></thead><tbody>${depthRows}</tbody></table></div>
+      <div class="cards">${lu.cards.map(card).join("")}</div>`;
+  }
+
+  function chapter(game) {
+    const options = DATA.lineups.filter((l) => l.chapter === game);
+    const lu = byId[state.lineup[game]] || options[0];
+    const pick = `<div class="lineups" role="group" aria-label="Lineup"><span class="label">Lineup</span>${options.map((l) => `<button class="pill" data-lineup="${esc(l.id)}" aria-pressed="${l.id === lu.id}">${esc(l.variation ? l.variation.title : "As it stands")}</button>`).join("")}</div>`;
+    const head = `<section class="teamhead"><h2>${esc(lu.title)}</h2><div class="meta"><span>Thesis: ${esc(lu.thesis)}</span><span>${lu.variation ? "Variation: " + esc(lu.variation.why || "") : "Roster: " + esc(lu.status) + " (" + esc(lu.decision) + ")"}</span></div>${pick}
+      <div class="meta">${lu.cards.map((c) => `<span>${esc(c.species)}: ${esc(c.moves.join(" / "))}</span>`).join("")}</div></section>`;
+    const sub = `<div class="subtabs" role="group" aria-label="View"><button class="pill" data-view="opponents" aria-pressed="${state.view === "opponents"}">Opponents · advance reports & game plans</button><button class="pill" data-view="self" aria-pressed="${state.view === "self"}">Self-scout · our club</button></div>`;
+    return head + sub + (state.view === "self" ? selfScout(lu) : opponents(lu));
   }
 
   function league() {
-    const L = DATA.league, teams = L.standings.map((s) => s.team);
-    const title = (k) => DATA.titles[k];
-    const stand = `<div class="panel scroll"><table><thead><tr><th>#</th><th>Team</th><th class="c">Series won</th><th class="c">1v1 W-L</th><th class="c">Pct</th></tr></thead><tbody>` +
-      L.standings.map((s, i) => `<tr><td class="num">${i + 1}</td><td><b>${esc(title(s.team))}</b></td><td class="c num">${s.series_won} of ${teams.length - 1}</td><td class="c num">${s.wins}-${s.losses}</td><td class="c num">${s.pct.toFixed(3).replace(/^0/, "")}</td></tr>`).join("") + `</tbody></table></div>`;
-    const cell = (a, b) => {
-      if (a === b) return `<td class="self">—</td>`;
-      const w = L.matrix[a][b], o = L.matrix[b][a];
-      const cls = w > o ? "g-plus" : w < o ? "g-low" : "g-avg";
-      return `<td title="${esc(title(a))} wins ${w} of 36 one-on-ones against ${esc(title(b))}; ${esc(title(b))} wins ${o} the other way"><span class="heat ${cls}">${w}</span></td>`;
-    };
-    const matrix = `<div class="panel scroll"><table class="matrix"><thead><tr><th>Row beats column</th>${teams.map((t) => `<th>${esc(title(t))}</th>`).join("")}</tr></thead><tbody>` +
-      teams.map((a) => `<tr><th>${esc(title(a))}</th>${teams.map((b) => cell(a, b)).join("")}</tr>`).join("") + `</tbody></table></div>`;
-    return `<section class="teamhead"><div class="ofp-big"><b>6</b><span>teams</span></div><div><h2>What-if league</h2>
-      <div class="meta"><span>${esc(L.rules)}</span></div>
-      <ul class="notes"><li class="key">Every journey team meets every other at the peak of its powers: Lv 100, the same Gen 4 rules, builds as recorded. A team's score is how many of the 36 one-on-ones it wins. It's a matchup read, not a simulated battle.</li>
-      <li>A series goes to the team that wins more of the 36 one-on-ones than its opponent does in return.</li></ul></div></section>
+    const L = DATA.league, teams = L.standings.map((s) => s.team), t = (k) => DATA.titles[k] || k;
+    const stand = `<div class="panel scroll"><table><thead><tr><th>#</th><th>Lineup</th><th class="c">Series won</th><th class="c">1v1 W-L</th></tr></thead><tbody>` +
+      L.standings.map((s, i) => `<tr><td class="num">${i + 1}</td><td><b>${esc(t(s.team))}</b></td><td class="c num">${s.series_won} of ${teams.length - 1}</td><td class="c num">${s.wins}-${s.losses}</td></tr>`).join("") + `</tbody></table></div>`;
+    const cell = (a, b) => a === b ? `<td class="self">—</td>` :
+      `<td title="${esc(t(a))} wins ${L.matrix[a][b]} of 36 one-on-ones against ${esc(t(b))}; ${esc(t(b))} wins ${L.matrix[b][a]} the other way"><span class="heat ${L.matrix[a][b] > L.matrix[b][a] ? "won" : "lost"}">${L.matrix[a][b]}</span></td>`;
+    const matrix = `<div class="panel scroll"><table class="matrix"><thead><tr><th>Row vs column</th>${teams.map((x) => `<th>${esc(t(x))}</th>`).join("")}</tr></thead><tbody>` +
+      teams.map((a) => `<tr><th>${esc(t(a))}</th>${teams.map((b) => cell(a, b)).join("")}</tr>`).join("") + `</tbody></table></div>`;
+    return `<section class="teamhead"><h2>What-if league</h2><div class="meta"><span>${esc(L.rules)}</span></div>
+      <div class="panel"><p class="ph" style="max-width:72ch">Every lineup, canon and variation, meets every other at the peak of its powers: Lv 100, the same Gen 4 rules, builds as recorded. A lineup's score is how many of the 36 one-on-ones it wins; a series goes to the side that wins more of them. It's a matchup read, not a simulated battle.</p></div></section>
       <div class="section-head"><h2>Standings</h2></div>${stand}
-      <div class="section-head"><h2>Head to head</h2><span class="label">Wins out of 36 · green = won the series</span></div>${matrix}`;
+      <div class="section-head"><h2>Head to head</h2><span class="label">One-on-ones won out of 36 · green = won the series</span></div>${matrix}`;
   }
 
+  function renderTabs() {
+    const tabs = DATA.chapters.map((g) => { const l = DATA.lineups.find((x) => x.id === g); return [g, DATA.titles[g], `${l.thesis} · ${l.status}`]; })
+      .concat([["league", "What-if league", "every lineup at its peak"]]);
+    $("#tabs").innerHTML = tabs.map(([k, ti, sub]) => `<button class="tab" role="tab" aria-selected="${state.tab === k}" data-tab="${k}">${esc(ti)}<span class="sub">${esc(sub)}</span></button>`).join("");
+  }
   function render() {
     renderTabs();
-    const ch = DATA.chapters.find((c) => c.game === state.tab);
-    $("#main").innerHTML = ch ? chapter(ch) : league();
+    $("#main").innerHTML = state.tab === "league" ? league() : chapter(state.tab);
+    document.getElementById("root").classList.toggle("show-triggers", !!state.triggers);
+    $("#triggers").checked = !!state.triggers;
     save();
   }
-
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-tab],[data-view],[data-sheet],[data-card]");
-    if (!t) return;
-    if (t.dataset.tab) { state.tab = t.dataset.tab; state.sheet = 0; history.replaceState(null, "", "#" + state.tab); render(); }
-    else if (t.dataset.view) { state.view = t.dataset.view; render(); }
-    else if (t.dataset.sheet) { state.sheet = +t.dataset.sheet; render(); }
-    else if (t.dataset.card) { const el = document.getElementById("card-" + t.dataset.card); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+    const el = e.target.closest("[data-tab],[data-view],[data-sheet],[data-card],[data-lineup]");
+    if (!el) return;
+    if (el.dataset.tab) { state.tab = el.dataset.tab; state.sheet = 0; history.replaceState(null, "", "#" + state.tab); render(); }
+    else if (el.dataset.lineup) { state.lineup[state.tab] = el.dataset.lineup; render(); }
+    else if (el.dataset.view) { state.view = el.dataset.view; render(); }
+    else if (el.dataset.sheet) { state.sheet = +el.dataset.sheet; render(); }
+    else if (el.dataset.card) { const c = document.getElementById("card-" + el.dataset.card); if (c) c.scrollIntoView({ behavior: "smooth", block: "start" }); }
   });
   document.addEventListener("keydown", (e) => {
-    const t = e.target.closest && e.target.closest("[data-card]");
-    if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); t.click(); }
+    const el = e.target.closest && e.target.closest("[data-card]");
+    if (el && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); el.click(); }
   });
+  $("#triggers").addEventListener("change", (e) => { state.triggers = e.target.checked; render(); });
   render();
 })();
 </script>
