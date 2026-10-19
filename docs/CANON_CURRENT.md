@@ -44,7 +44,7 @@ Pair/trio audit: see `QUESTIONS_AND_EXPERIMENTS.md`.
 | Lucario | no build in any source | open |
 | Magnezone | [historical, sheet] Thunderbolt / HP Fire / Flash Cannon / Substitute, Modest | not reaffirmed |
 
-Field gaps: **no Fly, no Defog, no Waterfall learner**. Defog and Waterfall were lost when Lucario replaced the January roster's Empoleon. Garchomp's Pokédex flight may be the world answer (`FIELD_FUNCTIONS.md` F3–F4). Archive: sheet has Empoleon instead of Lucario.
+Field: **no Fly by design** (D-029: *"flying isn't super practical in Platinum because it's city based"*). **Waterfall + Defog: revisit** (D-030); both were lost when Lucario replaced the January roster's Empoleon. Archive: sheet has Empoleon instead of Lucario.
 
 ## Emerald: "We learned how to live out here." ◐ WORKING CANON (D-004)
 Swampert · Milotic · Altaria · Arcanine · Absol · Meganium.
@@ -59,7 +59,7 @@ Field: complete (Fly = Charizard only). Provenance: 4 of 6 need trades (two extr
 ## Crystal: first bonds ◐ WORKING CANON (D-002)
 Feraligatr · Miltank · Donphan · Ampharos · Umbreon · Espeon.
 No builds in any source. Gen 2 rules apply: no natures or abilities; DVs and Stat Exp; Water and Dark moves are special.
-Field: **no Fly, no Waterfall learner** (`FIELD_FUNCTIONS.md` F1–F2: a walked chapter? Feraligatr + temporary Waterfall?). Flash = Ampharos, literally the light.
+Field: **Fly is a real hole** (D-027, open roster question). **Waterfall: Feraligatr, via PKHeX** (D-028). Flash = Ampharos, literally the light.
 Provenance: **Ampharos can only arrive by trade** (no Mareep line exists in Crystal, per ROM data). The second Eevee comes from breeding with Ditto. Archive: sheet has Lapras instead of Ampharos.
 
 ---

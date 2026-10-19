@@ -17,6 +17,9 @@ TABLES = [
     "pokemon_types", "pokemon_types_past", "types", "encounters", "location_areas",
     "locations", "location_names", "pokemon_evolution", "evolution_triggers",
     "pokemon_stats", "stats", "move_damage_classes",
+    # specimen-level data
+    "pokemon_stats_past", "natures", "nature_names", "characteristics", "characteristic_text",
+    "contest_types", "contest_type_names", "item_game_indices", "item_names",
 ]
 
 # Version groups this project cares about (PokeAPI ids).

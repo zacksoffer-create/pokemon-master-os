@@ -1,4 +1,4 @@
-# Field Functions: every game, worked through honestly (v2, 2026-10-19)
+# Field Functions: every game, worked through honestly (v3, 2026-10-19)
 
 **Zack's direction (D-026):** keep the HM rule as the ideal, address every game explicitly, and allow a principled exception where there's a real reason. HeartGold was designed with this in mind; the other games weren't fully thought through for it.
 
@@ -101,12 +101,19 @@ Each one fits its chapter's thesis.
 
 ## Decisions this needs (per game, Zack's call)
 
-| # | Decision | Options |
+| # | Decision | Zack's call (2026-10-19) |
 |---|---|---|
-| F1 | Crystal Fly | walked chapter (A) / roster question (B) |
-| F2 | Crystal Waterfall | PKHeX temporary move on Feraligatr (A) / helper (B) |
-| F3 | Platinum Fly + Defog | Garchomp's world flight covers them? |
-| F4 | Platinum Waterfall | helper as ferry (A) / Lucario–Empoleon question (B) |
+| F1 | Crystal Fly | **a real hole** (D-027). Open roster question for Crystal |
+| F2 | Crystal Waterfall | **Feraligatr gets Waterfall** via PKHeX (D-028) |
+| F3 | Platinum Fly | **no Fly by design**: *"flying isn't super practical in Platinum because it's city based"* (D-029). Garchomp doesn't count as the flyer |
+| F4 | Platinum Waterfall + Defog | **revisit** (D-030). Open design work |
+
+**Where this leaves the field picture:**
+- **Crystal** still needs a Fly answer; Waterfall is solved.
+- **Platinum** has a principled no-Fly; Waterfall and Defog are open.
+- **Everything else is complete.**
+
+> A note for the Platinum revisit (critic hat, not a counter-decision): Sinnoh has plenty of wilderness (Mt. Coronet, the snow routes, Route 210's fog), so "city-based" may be less about geography and more about how this team moves: ground-level, direct, fast. Worth writing the exact reasoning down when we revisit, so it survives the next roster change.
 
 ## Confidence notes
 "Required to finish" isn't in any dataset I can reach. Bulbapedia is blocked from this environment, and Emerald is the only one of these games with machine-readable randomizer logic. Crystal Waterfall (~75%), Platinum Waterfall (~85%) and Platinum Defog-optional (~80%) still need a source or your memory of the playthrough.

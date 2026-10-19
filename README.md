@@ -13,10 +13,11 @@ Zack's six-chapter Pokémon journey: canon, companions, breeding, and the app th
 | `docs/LEGACY_DATA_AUDIT.md` | the Drive spreadsheets and Apps Script: what works, what's broken, how to migrate |
 | `docs/POKEMON_DATA_SOURCES.md` | pinned datasets, source hierarchy, known gaps |
 | `docs/APP_PRODUCT_SPEC.md` | product vision, data model, architecture options, PKHeX bridge, roadmap |
-| `docs/FIELD_FUNCTIONS.md` | every game's HM/field coverage, gaps, options F1–F4 |
+| `docs/FIELD_FUNCTIONS.md` | every game's HM/field coverage, gaps and decisions F1–F4 |
+| `docs/SPECIMEN_LAB.md` | the individual-Pokémon lab at PKHeX parity: fields per gen, derived mechanics, exports |
 | `docs/QUESTIONS_AND_EXPERIMENTS.md` | open decisions, research queue, SoulSilver pair/trio audit |
 
-`engine/`: reference-data prototype. `refdb.py` builds a SQLite DB from pinned PokeAPI CSVs and answers learnset, breeding-chain, ability, HM and encounter queries per version group. `canon_checks.py` is the first regression suite over canon claims.
+`engine/`: reference-data prototype. `refdb.py` builds a SQLite DB from pinned PokeAPI CSVs and answers learnset, breeding-chain, ability, HM and encounter queries per version group. `canon_checks.py` is the first regression suite over canon claims. `specimen.py` is the Specimen Lab kernel (Gen 2–4 derivations, PID search, Showdown + PKHeX Batch Editor export).
 
 ```
 python3 -I engine/refdb.py <raw_csv_dir> <db.sqlite>

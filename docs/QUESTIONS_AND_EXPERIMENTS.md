@@ -6,10 +6,10 @@ Nothing in this file is canon. Questions are numbered so decisions can reference
 
 | # | Question | Why it matters now | Evidence |
 |---|---|---|---|
-| **Q1** | HM/field rule for games designed before it existed | **IN PROGRESS** (D-026: keep the ideal, work through every game). Per-game choices F1–F4 | `FIELD_FUNCTIONS.md` |
+| **Q1** | HM/field rule for games designed before it existed | **MOSTLY DECIDED** (D-026–D-030). Two items remain: **Crystal needs a Fly answer** (D-027) and **Platinum Waterfall + Defog** need a revisit (D-030) | `FIELD_FUNCTIONS.md` |
 | ~~Q2~~ | PKHeX provenance policy | **RESOLVED by D-024**: learnability is the only gate | — |
 | ~~Q3~~ | Storage | **RESOLVED by D-025**: Google Drive + Sheets | — |
-| **Q5** | Edge of "can be learned": in *that game*, or by the species in *any* game? | Only one case in the project turns on it today: **Feraligatr + Waterfall in Crystal** (impossible in Gen 2, learnable from Gen 3 on, and it works on the Crystal cartridge if given) | `FIELD_FUNCTIONS.md` F2 |
+| **Q5** | Edge of "can be learned": in *that game*, or by the species in *any* game? | **Precedent set by D-028** (Feraligatr + Waterfall allowed). Handle any future case one at a time, recorded as an exception | `SPECIMEN_LAB.md` |
 | **Q4** | Typhlosion's nature under the July set (2 special + 2 physical moves) | Timid (older build) cuts Attack, which two of the July moves rely on | `MECHANICS_FINDINGS` §1 |
 
 ## Mechanical research queue

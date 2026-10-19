@@ -63,7 +63,7 @@ LegacyRow (file_id, tab, row, raw cells, imported_at) ─ Reconciliation (matche
 3. **Decision Lab** (SoulSilver first): pair/trio cards, each covering how the two cover each other's weaknesses, field coverage, lore/world function, breeding knowledge, emotional role, and what the other four must then supply. Rejected options keep their reasons. Nothing becomes canon from this screen without an explicit decision.
 4. **Breeder Lab**: target + game + moves → verdict, every route, shortest chains, timing traps (e.g., Ice Shard before Lv 33), whether it's doable in one save, and a **"Copy PKHeX set"** button.
 5. **Field Matrix**: per chapter, cartridge HMs vs world function vs who handles it. Gaps and single points of failure highlighted.
-6. **Companion**: the individual, not the species — lineage, learned moves, temperament (authoring candidates marked as such), relationships, PKHeX instance.
+6. **Companion + Specimen Lab** (D-031): the individual at **PKHeX parity**. Every editable field for its generation, every derived consequence explained (stats, gender/shiny/nature from PID or DVs, Hidden Power, the summary-screen characteristic, nature flavors), breeding-stock role, and exports (Showdown set + PKHeX Batch Editor script). Full spec: `SPECIMEN_LAB.md`.
 7. **History & Sources**: decision ledger search ("why did we drop Gyarados?") and the legacy archive with reconciliation flags.
 
 ## 6. Architecture: Google Drive + Sheets (decided, D-025)
@@ -99,7 +99,7 @@ Zack's standard: **if the species can learn the move, it's valid. PKHeX legality
 |---|---|---|
 | **0 (done today)** | audit; reference engine prototype; canon regression checks; docs | checks reproducible from pinned data |
 | **1. Foundation** | Drive project folder; Canon DB Sheet for all six chapters (HeartGold locked, SoulSilver provisional); decision ledger seeded with IDs; raw legacy import with provenance; handoff §27's 17 acceptance tests as automated tests | the 17 acceptance tests pass against the Canon DB; a reference refresh can't alter canon |
-| **2. Vertical slice** | Journey + HeartGold read-only team (conflicting build history side by side) + SoulSilver Decision Lab + Gen 4 Breeder Lab query + "Copy PKHeX set"; published as a private Artifact | opens on phone; HeartGold uneditable; every SoulSilver surface says *provisional*; Breeder Lab reproduces today's 10 known results |
+| **2. Vertical slice** | Journey + HeartGold read-only team (conflicting build history side by side) + SoulSilver Decision Lab + **Specimen Lab for one HeartGold member** + Gen 4 Breeder Lab query + "Copy to PKHeX" (Showdown + Batch Editor); published as a private Artifact | opens on phone; HeartGold uneditable; every SoulSilver surface says *provisional*; Breeder Lab reproduces today's 10 known results |
 | **3. PKHeX loop & eras** | Instance records; Gen 3 and Gen 2 schemas; pret ROM data as tie-breaker; Showdown team export for battle tests | a real HeartGold member round-trips: Build → Showdown set → PKHeX → in the save → Instance recorded |
 | **4. World & companions** | Field Matrix authoring; companion profiles; relationships; rival timeline; Danny record; proposal queue from conversations | "why was X rejected?" answerable for every past change |
 | **5. Polish & automation** | sprites; scheduled data refresh with diff report; dated Drive exports | refresh → diff report → no canon changes |
