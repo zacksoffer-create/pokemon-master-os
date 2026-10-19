@@ -117,13 +117,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Dewgong L52 | Blastoise: Surf 15.8-18.7% | Machamp: Cross Chop 109.9-129.8% | — |
-| Cloyster L51 | Venusaur: Petal Dance 128.3-151.2% | Blastoise: Surf 37.8-44.9% | — |
-| Slowbro L52 | Blastoise: Surf 17-20.5% | Venusaur: Petal Dance 60.8-71.6% | — |
-| Jynx L54 | Blastoise: Surf 35.3-42% | Machamp: Cross Chop 108.7-128% | — |
+| Dewgong L52 | Machamp: Cross Chop 109.9-129.8% | Jolteon: Thunderbolt 78.4-92.4% | — |
+| Cloyster L51 | Venusaur: Petal Dance 128.3-151.2% | Alakazam: Psychic 106.3-125.2% | — |
+| Slowbro L52 | Venusaur: Petal Dance 60.8-71.6% | Jolteon: Thunderbolt 87.5-103.4% | — |
+| Jynx L54 | Machamp: Cross Chop 108.7-128% | Charizard: Overheat 125.3-148% | — |
 | Lapras L54 | Machamp: Cross Chop 81.8-96.4% | Jolteon: Thunderbolt 58.6-69.1% | — |
 
-- **Opener:** they lead Dewgong L52; call Blastoise: Surf 15.8-18.7%
+- **Opener:** they lead Dewgong L52; call Machamp: Cross Chop 109.9-129.8%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Jolteon 5, Machamp 5, Blastoise 4, Venusaur 3, Alakazam 3, Charizard 2
 - **No answer:** none
@@ -133,9 +133,9 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Onix L51 | Blastoise: Surf 373.2-439.3% | Venusaur: Petal Dance 318.8-375% | — |
-| Hitmonchan L53 | Venusaur: Sludge Bomb 47.3-55.7% | Alakazam: Psychic 108.4-128.2% | — |
-| Hitmonlee L53 | Machamp: Cross Chop 103.1-121.4% | Charizard: Overheat 69.5-82.4% | — |
-| Onix L54 | Blastoise: Surf 339.8-400% | Charizard: Overheat 76.3-89.8% | — |
+| Hitmonchan L53 | Alakazam: Psychic 108.4-128.2% | Machamp: Cross Chop 76.3-90.1% | — |
+| Hitmonlee L53 | Machamp: Cross Chop 103.1-121.4% | Alakazam: Psychic 108.4-128.2% | — |
+| Onix L54 | Blastoise: Surf 339.8-400% | Venusaur: Petal Dance 288.1-339% | — |
 | Machamp L56 | Alakazam: Psychic 89.6-106% | Charizard: Overheat 58.5-68.9% | — |
 
 - **Opener:** they lead Onix L51; call Blastoise: Surf 373.2-439.3%
@@ -147,13 +147,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Gengar L54 | Blastoise: Surf 50.3-60% | Charizard: Overheat 91-107.6% | — |
-| Golbat L54 | Blastoise: Ice Beam 60.9-72% | Charizard: Overheat 82-96.9% | — |
+| Gengar L54 | Alakazam: Psychic 140.7-165.5% | Blastoise: Surf 50.3-60% | — |
+| Golbat L54 | Jolteon: Thunderbolt 111.8-131.7% | Alakazam: Psychic 126.7-149.1% | — |
 | Haunter L53 | Alakazam: Psychic 207.1-244.4% | Charizard: Overheat 134.9-159.5% | — |
-| Arbok L56 | Machamp: Earthquake 100.7-118.7% | Charizard: Overheat 81.3-96% | — |
-| Gengar L58 | Charizard: Overheat 79.4-93.5% | Blastoise: Surf 43.9-52.3% | — |
+| Arbok L56 | Machamp: Earthquake 100.7-118.7% | Alakazam: Psychic 126.7-149.3% | — |
+| Gengar L58 | Alakazam: Psychic 122.6-144.5% | Charizard: Overheat 79.4-93.5% | — |
 
-- **Opener:** they lead Gengar L54; call Blastoise: Surf 50.3-60%
+- **Opener:** they lead Gengar L54; call Alakazam: Psychic 140.7-165.5%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Charizard 5, Blastoise 5, Alakazam 5, Jolteon 5, Machamp 5, Venusaur 2
 - **No answer:** none
@@ -165,7 +165,7 @@
 | Gyarados L56 | Jolteon: Thunderbolt 158.2-186.2% | Machamp: Rock Slide 58.2-68.8% | — |
 | Dragonair L54 | Blastoise: Ice Beam 76.7-90.4% | Charizard: Overheat 50.7-60.3% | — |
 | Dragonair L54 | Blastoise: Ice Beam 76.7-90.4% | Charizard: Overheat 50.7-60.3% | — |
-| Aerodactyl L58 | Blastoise: Surf 82.6-97.8% | Jolteon: Thunderbolt 102.8-121.3% | Charizard |
+| Aerodactyl L58 | Jolteon: Thunderbolt 102.8-121.3% | Blastoise: Surf 82.6-97.8% | Charizard |
 | Dragonite L60 | Blastoise: Ice Beam 77.7-91.4% | — | Alakazam |
 
 - **Opener:** they lead Gyarados L56; call Jolteon: Thunderbolt 158.2-186.2%
@@ -178,7 +178,7 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Pidgeot L59 | Jolteon: Thunderbolt 110.8-130.8% | Blastoise: Ice Beam 60.5-71.4% | — |
-| Alakazam L57 | Alakazam: Fire Punch 38.8-46.3% | Jolteon: Thunderbolt 61.9-73.5% | — |
+| Alakazam L57 | Jolteon: Thunderbolt 61.9-73.5% | Charizard: Overheat 89.8-106.1% | — |
 | Rhydon L59 | Blastoise: Surf 217.5-255.9% | Venusaur: Petal Dance 183.4-216.1% | Charizard, Jolteon |
 | Arcanine L59 | Blastoise: Surf 77.2-91.2% | Charizard: Earthquake 54.4-64.2% | — |
 | Exeggutor L61 | Charizard: Overheat 149.3-175.6% | Venusaur: Sludge Bomb 62-73.2% | — |
@@ -194,11 +194,11 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Pidgeot L59 | Jolteon: Thunderbolt 110.8-130.8% | Blastoise: Ice Beam 60.5-71.4% | — |
-| Alakazam L57 | Alakazam: Fire Punch 38.8-46.3% | Jolteon: Thunderbolt 61.9-73.5% | — |
+| Alakazam L57 | Jolteon: Thunderbolt 61.9-73.5% | Charizard: Overheat 89.8-106.1% | — |
 | Rhydon L59 | Blastoise: Surf 217.5-255.9% | Venusaur: Petal Dance 183.4-216.1% | Charizard, Jolteon |
 | Gyarados L59 | Jolteon: Thunderbolt 155.3-182.9% | Machamp: Rock Slide 56.8-67.3% | — |
 | Arcanine L61 | Blastoise: Surf 72.4-85.4% | Charizard: Earthquake 51.3-60.3% | — |
-| Venusaur L63 | Charizard: Overheat 108.8-128.5% | Venusaur: Sludge Bomb 32.1-37.8% | — |
+| Venusaur L63 | Charizard: Overheat 108.8-128.5% | Alakazam: Psychic 84.5-99.5% | — |
 
 - **Opener:** they lead Pidgeot L59; call Jolteon: Thunderbolt 110.8-130.8%
 - **Closers (priority):** none
@@ -210,11 +210,11 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Pidgeot L59 | Jolteon: Thunderbolt 110.8-130.8% | Blastoise: Ice Beam 60.5-71.4% | — |
-| Alakazam L57 | Alakazam: Fire Punch 38.8-46.3% | Jolteon: Thunderbolt 61.9-73.5% | — |
+| Alakazam L57 | Jolteon: Thunderbolt 61.9-73.5% | Charizard: Overheat 89.8-106.1% | — |
 | Rhydon L59 | Blastoise: Surf 217.5-255.9% | Venusaur: Petal Dance 183.4-216.1% | Charizard, Jolteon |
 | Exeggutor L59 | Charizard: Overheat 158.8-186.9% | Venusaur: Sludge Bomb 66.3-78.4% | — |
 | Gyarados L61 | Jolteon: Thunderbolt 145.9-171.7% | Machamp: Rock Slide 53.7-63.4% | — |
-| Charizard L63 | Blastoise: Surf 70.5-83.2% | Machamp: Rock Slide 114.2-134.7% | — |
+| Charizard L63 | Machamp: Rock Slide 114.2-134.7% | Blastoise: Surf 70.5-83.2% | — |
 
 - **Opener:** they lead Pidgeot L59; call Jolteon: Thunderbolt 110.8-130.8%
 - **Closers (priority):** none

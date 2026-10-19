@@ -117,13 +117,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Xatu L40 | Snorlax: Thunder Punch 61.4-73.7% | Tyranitar: Crunch 117.5-138.6% | — |
-| Jynx L41 | Tyranitar: Crunch 181-213.8% | Snorlax: Body Slam 81-96.6% | — |
+| Xatu L40 | Tyranitar: Crunch 117.5-138.6% | Mamoswine: Ice Fang 101.8-121.1% | — |
+| Jynx L41 | Tyranitar: Crunch 181-213.8% | Mamoswine: Earthquake 119.8-142.2% | — |
 | Exeggutor L41 | Tyranitar: Crunch 80.9-95% | Lapras: Ice Beam 80.9-95% | — |
-| Slowbro L41 | Snorlax: Thunder Punch 34-41.1% | Tyranitar: Crunch 63.8-76.6% | — |
+| Slowbro L41 | Tyranitar: Crunch 63.8-76.6% | Snorlax: Thunder Punch 34-41.1% | — |
 | Xatu L42 | Tyranitar: Crunch 107.6-127.7% | Snorlax: Thunder Punch 57.1-68.9% | — |
 
-- **Opener:** they lead Xatu L40; call Snorlax: Thunder Punch 61.4-73.7%
+- **Opener:** they lead Xatu L40; call Tyranitar: Crunch 117.5-138.6%
 - **Closers (priority):** Mamoswine: Ice Shard
 - **Anchors (1v1 wins):** Tyranitar 5, Snorlax 5, Typhlosion 4, Mamoswine 4, Lapras 4, Crobat 2
 - **No answer:** none
@@ -132,13 +132,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Ariados L40 | Crobat: Fly 98.3-118.6% | Tyranitar: Crunch 61.9-73.7% | — |
-| Venomoth L41 | Tyranitar: Crunch 67.5-80% | Snorlax: Zen Headbutt 75-90% | — |
+| Ariados L40 | Typhlosion: Flamethrower 139-164.4% | Crobat: Fly 98.3-118.6% | — |
+| Venomoth L41 | Typhlosion: Flamethrower 111.7-135% | Crobat: Fly 110-130% | — |
 | Forretress L43 | Typhlosion: Flamethrower 233.8-280% | — | Mamoswine, Crobat, Snorlax |
-| Muk L42 | Tyranitar: Earthquake 73.7-86.8% | Mamoswine: Earthquake 118.4-139.5% | — |
-| Crobat L44 | Tyranitar: Outrage 43-50.7% | Lapras: Ice Beam 71.8-84.5% | — |
+| Muk L42 | Mamoswine: Earthquake 118.4-139.5% | Tyranitar: Earthquake 73.7-86.8% | — |
+| Crobat L44 | Lapras: Ice Beam 71.8-84.5% | Mamoswine: Ice Fang 73.2-88.7% | — |
 
-- **Opener:** they lead Ariados L40; call Crobat: Fly 98.3-118.6%
+- **Opener:** they lead Ariados L40; call Typhlosion: Flamethrower 139-164.4%
 - **Closers (priority):** Mamoswine: Ice Shard
 - **Anchors (1v1 wins):** Typhlosion 5, Tyranitar 4, Mamoswine 4, Crobat 4, Snorlax 4, Lapras 3
 - **No answer:** none
@@ -148,8 +148,8 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Hitmontop L42 | Crobat: Fly 92.5-109.4% | Snorlax: Zen Headbutt 64.2-77.4% | — |
-| Hitmonlee L42 | Crobat: Fly 143.4-171.7% | Typhlosion: Extrasensory 56.6-67.9% | Tyranitar |
-| Hitmonchan L42 | Tyranitar: Outrage 67-79.2% | Snorlax: Zen Headbutt 75.5-90.6% | — |
+| Hitmonlee L42 | Crobat: Fly 143.4-171.7% | Mamoswine: Earthquake 118.9-139.6% | Tyranitar |
+| Hitmonchan L42 | Crobat: Fly 109.4-130.2% | Tyranitar: Outrage 67-79.2% | — |
 | Onix L43 | Mamoswine: Earthquake 106.3-125% | Lapras: Surf 350-416.7% | — |
 | Machamp L46 | Mamoswine: Earthquake 55.3-65.8% | Crobat: Fly 67.1-80.3% | Tyranitar |
 
@@ -162,13 +162,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Umbreon L42 | Tyranitar: Outrage 38.2-45.1% | Snorlax: Body Slam 34-40.3% | — |
-| Vileplume L42 | Crobat: Fly 86.6-103.9% | Typhlosion: Flamethrower 100.8-119.7% | — |
+| Umbreon L42 | Mamoswine: Earthquake 50.7-60.4% | Tyranitar: Outrage 38.2-45.1% | — |
+| Vileplume L42 | Typhlosion: Flamethrower 100.8-119.7% | Crobat: Fly 86.6-103.9% | — |
 | Gengar L45 | Crobat: Fly 54.9-66.4% | Typhlosion: Extrasensory 63.9-77% | Tyranitar |
-| Murkrow L44 | Tyranitar: Outrage 90-106.7% | Mamoswine: Ice Fang 156.7-186.7% | — |
-| Houndoom L47 | Tyranitar: Earthquake 106.4-126.2% | Snorlax: Body Slam 57.4-68.1% | — |
+| Murkrow L44 | Mamoswine: Ice Fang 156.7-186.7% | Lapras: Ice Beam 146.7-175% | — |
+| Houndoom L47 | Tyranitar: Earthquake 106.4-126.2% | Mamoswine: Earthquake 170.2-201.4% | — |
 
-- **Opener:** they lead Umbreon L42; call Tyranitar: Outrage 38.2-45.1%
+- **Opener:** they lead Umbreon L42; call Mamoswine: Earthquake 50.7-60.4%
 - **Closers (priority):** Mamoswine: Ice Shard
 - **Anchors (1v1 wins):** Typhlosion 5, Crobat 5, Snorlax 5, Tyranitar 4, Mamoswine 4, Lapras 4
 - **No answer:** none
@@ -177,14 +177,14 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Gyarados L46 | Lapras: Ice Beam 31.8-38.2% | Snorlax: Thunder Punch 104.5-124.8% | — |
+| Gyarados L46 | Snorlax: Thunder Punch 104.5-124.8% | Typhlosion: Thunder Punch 84.1-99.4% | — |
 | Dragonite L49 | Mamoswine: Ice Fang 135.8-163% | Lapras: Ice Beam 121-143.2% | — |
 | Dragonite L49 | Mamoswine: Ice Fang 135.8-163% | Lapras: Ice Beam 121-143.2% | — |
-| Aerodactyl L48 | Tyranitar: Outrage 57.7-68.5% | Mamoswine: Ice Fang 102-120.8% | — |
+| Aerodactyl L48 | Mamoswine: Ice Fang 102-120.8% | Tyranitar: Outrage 57.7-68.5% | — |
 | Charizard L48 | Tyranitar: Crunch 51-59.9% | Snorlax: Thunder Punch 53.1-63.9% | — |
-| Dragonite L50 | Tyranitar: Outrage 73.5-86.7% | Mamoswine: Ice Fang 130.1-154.2% | — |
+| Dragonite L50 | Mamoswine: Ice Fang 130.1-154.2% | Lapras: Ice Beam 115.7-137.3% | — |
 
-- **Opener:** they lead Gyarados L46; call Lapras: Ice Beam 31.8-38.2%
+- **Opener:** they lead Gyarados L46; call Snorlax: Thunder Punch 104.5-124.8%
 - **Closers (priority):** Mamoswine: Ice Shard
 - **Anchors (1v1 wins):** Lapras 6, Tyranitar 5, Mamoswine 5, Snorlax 3, Typhlosion 2, Crobat 2
 - **No answer:** none
@@ -194,8 +194,8 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Pikachu L88 | Tyranitar: Earthquake 217.2-255.9% | Snorlax: Body Slam 116.1-137.1% | — |
-| Lapras L80 | Snorlax: Thunder Punch 42.2-50.3% | Tyranitar: Crunch 40.4-47.8% | — |
-| Snorlax L82 | Tyranitar: Crunch 39.6-46.7% | Mamoswine: Earthquake 53-62.5% | — |
+| Lapras L80 | Mamoswine: Earthquake 54-63.7% | Snorlax: Thunder Punch 42.2-50.3% | — |
+| Snorlax L82 | Mamoswine: Earthquake 53-62.5% | Tyranitar: Crunch 39.6-46.7% | — |
 | Venusaur L84 | Crobat: Fly 75.9-90.1% | Snorlax: Zen Headbutt 53.8-63.2% | Mamoswine |
 | Charizard L84 | Snorlax: Thunder Punch 53.6-63.2% | Tyranitar: Crunch 50.8-60% | Mamoswine |
 | Blastoise L84 | Snorlax: Thunder Punch 43.8-51.8% | — | Mamoswine |

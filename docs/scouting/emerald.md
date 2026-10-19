@@ -118,7 +118,7 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Mightyena L46 | Swampert: Brick Break 63.4-74.6% | Milotic: Hydro Pump 77.6-91.8% | — |
-| Shiftry L48 | Absol: Ice Beam 53.8-63.3% | Milotic: Ice Beam 67.7-79.7% | — |
+| Shiftry L48 | Arcanine: Overheat 148.1-174.7% | Absol: Ice Beam 53.8-63.3% | — |
 | Cacturne L46 | Arcanine: Overheat 179.9-211.9% | Altaria: Fire Blast 76.9-91% | — |
 | Crawdaunt L48 | Meganium: Giga Drain 70.5-83.3% | Swampert: Brick Break 52.3-62.1% | — |
 | Absol L49 | Milotic: Hydro Pump 72.3-85.4% | Swampert: Brick Break 65.7-77.4% | — |
@@ -132,13 +132,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Dusclops L48 | Absol: Bite 42.7-50.9% | Milotic: Hydro Pump 52.7-62.7% | — |
+| Dusclops L48 | Milotic: Hydro Pump 52.7-62.7% | Arcanine: Overheat 61.8-73.6% | — |
 | Banette L49 | Absol: Bite 61-72.1% | Milotic: Hydro Pump 75-89% | — |
 | Sableye L50 | Swampert: Earthquake 63.2-75.2% | Milotic: Hydro Pump 77.6-92% | — |
 | Banette L49 | Milotic: Hydro Pump 75-89% | Arcanine: Overheat 87.5-103.7% | — |
-| Dusclops L51 | Swampert: Earthquake 43.6-51.3% | Milotic: Hydro Pump 47.9-56.4% | — |
+| Dusclops L51 | Arcanine: Overheat 54.7-65% | Swampert: Earthquake 43.6-51.3% | — |
 
-- **Opener:** they lead Dusclops L48; call Absol: Bite 42.7-50.9%
+- **Opener:** they lead Dusclops L48; call Milotic: Hydro Pump 52.7-62.7%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Swampert 5, Milotic 5, Arcanine 5, Absol 5, Altaria 4, Meganium 4
 - **No answer:** none
@@ -148,8 +148,8 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Sealeo L50 | Swampert: Earthquake 55.2-65.5% | Meganium: Giga Drain 53.3-63% | — |
-| Glalie L50 | Milotic: Hydro Pump 58.7-69.7% | Arcanine: Overheat 135.5-160% | Altaria |
-| Sealeo L52 | Swampert: Brick Break 52.6-62% | Arcanine: Iron Tail 34.5-40.9% | Altaria |
+| Glalie L50 | Arcanine: Overheat 135.5-160% | Milotic: Hydro Pump 58.7-69.7% | Altaria |
+| Sealeo L52 | Swampert: Brick Break 52.6-62% | Absol: Rock Slide 59.6-70.2% | Altaria |
 | Glalie L52 | Arcanine: Overheat 128.1-151.3% | Meganium: Iron Tail 53.1-62.5% | Milotic, Altaria, Absol |
 | Walrein L53 | Swampert: Brick Break 37.2-43.9% | Milotic: Hydro Pump 19.9-23.5% | Altaria |
 
@@ -179,7 +179,7 @@
 |---|---|---|---|
 | Wailord L57 | Swampert: Earthquake 47.5-56.1% | Milotic: Hydro Pump 26.3-30.9% | Altaria, Arcanine |
 | Tentacruel L55 | Swampert: Earthquake 122.9-144.7% | Meganium: Earthquake 64.7-76.5% | — |
-| Ludicolo L56 | Altaria: Dragon Claw 23.8-28.5% | Meganium: Giga Drain 20.3-24.4% | — |
+| Ludicolo L56 | Arcanine: Overheat 54.1-64% | Altaria: Dragon Claw 23.8-28.5% | — |
 | Whiscash L56 | Milotic: Hydro Pump 51-60.2% | Meganium: Giga Drain 90.8-106.8% | — |
 | Gyarados L56 | **no answer** | — | — |
 | Milotic L58 | Swampert: Earthquake 43.4-51% | Milotic: Hydro Pump 16.3-19.4% | — |
@@ -193,14 +193,14 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Skarmory L77 | Milotic: Hydro Pump 65.7-77.6% | Arcanine: Overheat 153.8-181% | — |
-| Claydol L75 | Meganium: Giga Drain 40.9-48.5% | Milotic: Hydro Pump 92.4-109.1% | — |
-| Aggron L76 | Meganium: Earthquake 56.7-67% | Milotic: Hydro Pump 147.4-174% | — |
-| Cradily L76 | Meganium: Iron Tail 42.5-50% | Milotic: Ice Beam 43.8-51.7% | — |
-| Armaldo L76 | Swampert: Earthquake 42.6-50.2% | Milotic: Hydro Pump 112.6-132.7% | — |
-| Metagross L78 | Swampert: Earthquake 63.1-74.6% | Arcanine: Overheat 110.6-130.5% | — |
+| Skarmory L77 | Arcanine: Overheat 153.8-181% | Milotic: Hydro Pump 65.7-77.6% | — |
+| Claydol L75 | Milotic: Hydro Pump 92.4-109.1% | Arcanine: Overheat 54-63.6% | — |
+| Aggron L76 | Milotic: Hydro Pump 147.4-174% | Swampert: Earthquake 105.6-124.7% | — |
+| Cradily L76 | Arcanine: Iron Tail 54.2-64.2% | Meganium: Iron Tail 42.5-50% | — |
+| Armaldo L76 | Milotic: Hydro Pump 112.6-132.7% | Arcanine: Overheat 65.5-77.1% | — |
+| Metagross L78 | Arcanine: Overheat 110.6-130.5% | Swampert: Earthquake 63.1-74.6% | — |
 
-- **Opener:** they lead Skarmory L77; call Milotic: Hydro Pump 65.7-77.6%
+- **Opener:** they lead Skarmory L77; call Arcanine: Overheat 153.8-181%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Milotic 6, Arcanine 6, Swampert 5, Meganium 4, Altaria 3, Absol 3
 - **No answer:** none

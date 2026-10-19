@@ -117,13 +117,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Xatu L40 | Umbreon: Zap Cannon 75.5-89.1% | Espeon: Zap Cannon 121.8-143.6% | — |
-| Jynx L41 | Umbreon: Iron Tail 125.7-148.7% | Espeon: Bite 54.9-65.5% | — |
-| Exeggutor L41 | Umbreon: Iron Tail 27-32.1% | Espeon: Bite 62-73% | — |
-| Slowbro L41 | Umbreon: Zap Cannon 53.3-62.8% | Espeon: Zap Cannon 86.9-102.2% | — |
-| Xatu L42 | Umbreon: Zap Cannon 68.7-81.7% | Espeon: Zap Cannon 112.2-132.2% | — |
+| Xatu L40 | Espeon: Zap Cannon 121.8-143.6% | Ampharos: Thunderbolt 159.1-187.3% | — |
+| Jynx L41 | Umbreon: Iron Tail 125.7-148.7% | Donphan: Earthquake 137.2-161.9% | — |
+| Exeggutor L41 | Espeon: Bite 62-73% | Feraligatr: Ice Beam 70.8-83.2% | — |
+| Slowbro L41 | Ampharos: Thunderbolt 112.4-132.8% | Umbreon: Zap Cannon 53.3-62.8% | — |
+| Xatu L42 | Espeon: Zap Cannon 112.2-132.2% | Ampharos: Thunderbolt 146.1-172.2% | — |
 
-- **Opener:** they lead Xatu L40; call Umbreon: Zap Cannon 75.5-89.1%
+- **Opener:** they lead Xatu L40; call Espeon: Zap Cannon 121.8-143.6%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Feraligatr 5, Miltank 5, Donphan 5, Ampharos 5, Umbreon 5, Espeon 5
 - **No answer:** none
@@ -132,13 +132,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Ariados L40 | Umbreon: Zap Cannon 44.7-53.5% | Ampharos: Fire Punch 100.9-119.3% | — |
-| Venomoth L41 | Umbreon: Iron Tail 45.3-53.8% | Espeon: Psychic 158.1-186.3% | — |
+| Ariados L40 | Ampharos: Fire Punch 100.9-119.3% | Espeon: Psychic 196.5-231.6% | — |
+| Venomoth L41 | Espeon: Psychic 158.1-186.3% | Ampharos: Fire Punch 81.2-95.7% | — |
 | Forretress L43 | Ampharos: Fire Punch 172.2-203.2% | Feraligatr: Hydro Pump 81-95.2% | Espeon |
 | Muk L42 | Donphan: Earthquake 127.5-150.3% | Miltank: Earthquake 65.8-77.9% | — |
-| Crobat L44 | Ampharos: Thunderbolt 115.2-136.2% | Donphan: Ancient Power 51.4-60.9% | — |
+| Crobat L44 | Ampharos: Thunderbolt 115.2-136.2% | Espeon: Psychic 119.6-140.6% | — |
 
-- **Opener:** they lead Ariados L40; call Umbreon: Zap Cannon 44.7-53.5%
+- **Opener:** they lead Ariados L40; call Ampharos: Fire Punch 100.9-119.3%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Feraligatr 5, Ampharos 5, Miltank 4, Donphan 4, Umbreon 4, Espeon 4
 - **No answer:** none
@@ -147,13 +147,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Hitmontop L42 | Donphan: Earthquake 84.5-100% | Miltank: Body Slam 55.3-65% | — |
+| Hitmontop L42 | Espeon: Psychic 139.8-165% | Donphan: Earthquake 84.5-100% | — |
 | Hitmonlee L42 | Espeon: Psychic 139.8-165% | Donphan: Earthquake 134-158.3% | — |
 | Hitmonchan L42 | Espeon: Psychic 139.8-165% | Ampharos: Thunderbolt 67-79.6% | — |
-| Onix L43 | Donphan: Earthquake 117.4-139.1% | Umbreon: Iron Tail 55.4-65.2% | — |
+| Onix L43 | Donphan: Earthquake 117.4-139.1% | Feraligatr: Hydro Pump 598.9-704.3% | — |
 | Machamp L46 | Espeon: Psychic 111.5-131.1% | Donphan: Earthquake 62.2-73.6% | — |
 
-- **Opener:** they lead Hitmontop L42; call Donphan: Earthquake 84.5-100%
+- **Opener:** they lead Hitmontop L42; call Espeon: Psychic 139.8-165%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Feraligatr 5, Donphan 5, Ampharos 5, Espeon 5, Miltank 4, Umbreon 4
 - **No answer:** none
@@ -162,13 +162,13 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Umbreon L42 | Umbreon: Iron Tail 23.6-28.5% | Feraligatr: Dynamic Punch 64.6-76.4% | — |
-| Vileplume L42 | Ampharos: Fire Punch 69.3-81.9% | Umbreon: Iron Tail 33.1-39.4% | — |
-| Gengar L45 | Miltank: Earthquake 97.5-114.8% | Umbreon: Iron Tail 42.6-50.8% | — |
+| Umbreon L42 | Feraligatr: Dynamic Punch 64.6-76.4% | Miltank: Dynamic Punch 54.2-63.9% | — |
+| Vileplume L42 | Espeon: Psychic 133.9-157.5% | Ampharos: Fire Punch 69.3-81.9% | — |
+| Gengar L45 | Donphan: Earthquake 189.3-223% | Espeon: Psychic 151.6-178.7% | — |
 | Murkrow L44 | Umbreon: Zap Cannon 110-130% | Feraligatr: Ice Beam 121.7-143.3% | — |
 | Houndoom L47 | Feraligatr: Hydro Pump 115.6-136.2% | Donphan: Earthquake 178-209.9% | — |
 
-- **Opener:** they lead Umbreon L42; call Umbreon: Iron Tail 23.6-28.5%
+- **Opener:** they lead Umbreon L42; call Feraligatr: Dynamic Punch 64.6-76.4%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Feraligatr 5, Miltank 5, Donphan 5, Ampharos 5, Umbreon 5, Espeon 5
 - **No answer:** none
@@ -177,11 +177,11 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Gyarados L44 | Umbreon: Zap Cannon 110.9-130.6% | Miltank: Body Slam 50.3-59.9% | — |
-| Dragonite L47 | Feraligatr: Ice Beam 111.8-131.6% | Miltank: Body Slam 40.1-47.4% | — |
-| Dragonite L47 | Feraligatr: Ice Beam 111.8-131.6% | Miltank: Body Slam 40.1-47.4% | — |
-| Aerodactyl L46 | Feraligatr: Hydro Pump 150.4-177% | Donphan: Ancient Power 75.5-89.2% | — |
-| Charizard L46 | Feraligatr: Hydro Pump 137.2-162% | Umbreon: Zap Cannon 65.7-77.4% | — |
+| Gyarados L44 | Umbreon: Zap Cannon 110.9-130.6% | Ampharos: Thunderbolt 236.1-277.6% | — |
+| Dragonite L47 | Feraligatr: Ice Beam 111.8-131.6% | Ampharos: Thunderbolt 53.3-63.2% | — |
+| Dragonite L47 | Feraligatr: Ice Beam 111.8-131.6% | Ampharos: Thunderbolt 53.3-63.2% | — |
+| Aerodactyl L46 | Feraligatr: Hydro Pump 150.4-177% | Ampharos: Thunderbolt 151.8-178.4% | — |
+| Charizard L46 | Feraligatr: Hydro Pump 137.2-162% | Ampharos: Thunderbolt 138.7-163.5% | — |
 | Dragonite L50 | Feraligatr: Ice Beam 100.6-118.5% | Miltank: Body Slam 35.2-41.4% | — |
 
 - **Opener:** they lead Gyarados L44; call Umbreon: Zap Cannon 110.9-130.6%
@@ -193,12 +193,12 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Pikachu L81 | Donphan: Earthquake 387.1-455.3% | Ampharos: Dynamic Punch 92.9-109.4% | — |
-| Espeon L73 | Umbreon: Iron Tail 49-58.1% | Espeon: Bite 62.6-73.7% | — |
+| Pikachu L81 | Donphan: Earthquake 387.1-455.3% | Miltank: Earthquake 194.1-228.2% | — |
+| Espeon L73 | Donphan: Earthquake 111.1-130.8% | Espeon: Bite 62.6-73.7% | — |
 | Snorlax L75 | Donphan: Earthquake 57.5-67.6% | Feraligatr: Dynamic Punch 69.1-81.5% | — |
 | Venusaur L77 | Espeon: Psychic 108.7-128.1% | Ampharos: Fire Punch 55.8-65.8% | — |
-| Charizard L77 | Feraligatr: Hydro Pump 122.8-144.7% | Umbreon: Zap Cannon 57.9-68.4% | — |
-| Blastoise L77 | Feraligatr: Dynamic Punch 35.2-41.7% | Ampharos: Thunderbolt 101.7-120% | — |
+| Charizard L77 | Feraligatr: Hydro Pump 122.8-144.7% | Ampharos: Thunderbolt 123.7-145.6% | — |
+| Blastoise L77 | Ampharos: Thunderbolt 101.7-120% | Espeon: Zap Cannon 78.3-92.2% | — |
 
 - **Opener:** they lead Pikachu L81; call Donphan: Earthquake 387.1-455.3%
 - **Closers (priority):** none
@@ -209,12 +209,12 @@
 
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
-| Dragonair L37 | Umbreon: Iron Tail 48-57% | Feraligatr: Ice Beam 95-112% | — |
-| Dragonair L37 | Umbreon: Iron Tail 48-57% | Miltank: Body Slam 69-82% | — |
-| Dragonair L37 | Umbreon: Iron Tail 48-57% | Feraligatr: Ice Beam 95-112% | — |
-| Kingdra L40 | Ampharos: Thunderbolt 55.9-66.1% | Feraligatr: Dynamic Punch 37.3-44.1% | — |
+| Dragonair L37 | Donphan: Earthquake 105-124% | Feraligatr: Ice Beam 95-112% | — |
+| Dragonair L37 | Donphan: Earthquake 105-124% | Miltank: Body Slam 69-82% | — |
+| Dragonair L37 | Donphan: Earthquake 105-124% | Feraligatr: Ice Beam 95-112% | — |
+| Kingdra L40 | Ampharos: Thunderbolt 55.9-66.1% | Espeon: Psychic 56.8-66.9% | — |
 
-- **Opener:** they lead Dragonair L37; call Umbreon: Iron Tail 48-57%
+- **Opener:** they lead Dragonair L37; call Donphan: Earthquake 105-124%
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Feraligatr 4, Miltank 4, Ampharos 4, Umbreon 4, Espeon 4, Donphan 3
 - **No answer:** none
@@ -224,11 +224,11 @@
 | They send | The call | Backup | Don't send (KO'd in one hit) |
 |---|---|---|---|
 | Sneasel L45 | Umbreon: Iron Tail 129.7-153.2% | Feraligatr: Dynamic Punch 349.5-410.8% | — |
-| Crobat L48 | Ampharos: Thunderbolt 136.1-160.5% | Donphan: Ancient Power 59.9-70.7% | — |
+| Crobat L48 | Ampharos: Thunderbolt 136.1-160.5% | Espeon: Psychic 142.2-167.3% | — |
 | Magneton L45 | Donphan: Earthquake 374.8-441.1% | Ampharos: Fire Punch 118.7-140.2% | — |
-| Gengar L46 | Miltank: Earthquake 126.3-149.2% | Umbreon: Iron Tail 55.9-66.1% | — |
-| Alakazam L46 | Umbreon: Iron Tail 73.5-86.7% | Espeon: Bite 82.3-97.3% | — |
-| Meganium L50 | Ampharos: Fire Punch 57.4-67.6% | Umbreon: Iron Tail 26.4-31.8% | — |
+| Gengar L46 | Miltank: Earthquake 126.3-149.2% | Donphan: Earthquake 246.6-289.8% | — |
+| Alakazam L46 | Miltank: Body Slam 105.3-124.8% | Donphan: Earthquake 161.1-189.4% | — |
+| Meganium L50 | Ampharos: Fire Punch 57.4-67.6% | Espeon: Psychic 55.4-65.5% | — |
 
 - **Opener:** they lead Sneasel L45; call Umbreon: Iron Tail 129.7-153.2%
 - **Closers (priority):** none
