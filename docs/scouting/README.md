@@ -7,6 +7,14 @@ The journey is over (D-042), so these read like a front office's file on clubs t
 - **The page:** *Journey Scouting File* (`scouting_file.html`, a private artifact). It has a tab for each chapter plus the what-if league. Switch on **Show the triggers** to see which rule fired each line and the number that fired it. Rebuild it with `python3 -I engine/battle/scouting_report.py --page`.
 - **The packets:** one markdown file per chapter, built from the same data: [Crystal](crystal.md) · [FireRed](firered.md) · [Emerald](emerald.md) · [Platinum](platinum.md) · [SoulSilver](soulsilver.md) · [HeartGold](heartgold.md).
 
+## The engine underneath (docs/SCOUTING_ENGINE.md)
+
+Every result in the file comes from the scouting engine. Each one-on-one is played out: our best plan against their best answer, with Smogon's calculator for every hit at the lowest roll. The engine counts setup, status, healing, Substitute, Protect, weather and items. Every move lands, and the odds are kept. Two views read it directly:
+- **Coach profile** (self-scout): eight sliders, each a share of the club's fights against what real players ran in that generation (Smogon's usage sets): Pace, Punch, Run/pass, Build-up, Sustain, Disruption, Risk, Script. Each comes with a percentile against random teams drawn from that field. The philosophy line names the sliders furthest from the middle. These are tendencies, not grades.
+- **Play sheet** (self-scout) and **game plan by situation** (opponents): the call in seven situations, from the opening script to the two-minute drill, for us and for them. Coach settings (`canon/lineups.json` → `coaches`) change the calls, not the profile.
+
+To try a team of your own, write it as Showdown text (or export it from PKHeX) and run `python3 -I engine/lab.py profile my_team.txt` or `python3 -I engine/lab.py scout my_team.txt --vs trainer:heartgold:red`.
+
 ## The phrase book: how numbers become sentences
 
 The rules live in `engine/battle/phrasebook.json` as plain data you can edit. Each rule has four parts:
@@ -22,7 +30,7 @@ The numbers it reads:
 - **The moveset:** which side its attacks come from (with Gen 3's type-based split, so Bite is special there), its setup, recovery, status, pivot, priority, phazing, recoil, lock-in, charge-up and low-accuracy moves, and its best hit.
 - **The type picture:** what it hits super-effectively, what it can't touch, its holes and immunities.
 - **Ability and item effects.**
-- **Its record against the league.**
+- **Its record against the league** (each one-on-one played out by the engine).
 - **Its Pokédex entry** for that game.
 - **For opponents, the game's own data:** the trainer's AI flags, bag and battle lines, read straight from the games' code.
 
@@ -60,4 +68,4 @@ Below the rows, each of their Pokémon gets its own tendencies: order, speed aga
 
 ## The what-if league
 
-This is the "what if Ash used everyone at their peak" question. Every journey team meets every other at Lv 100, under the same Gen 4 rules, with builds as recorded. A team's score is how many of the 36 one-on-ones it wins. It's a matchup read, not a simulated battle.
+This is the "what if Ash used everyone at their peak" question. Every journey team meets every other at Lv 100, under the same Gen 4 rules, with builds as recorded and the engine's peak defaults where nothing is recorded (IVs 31, EVs 85 in every stat). A team's score is how many of the 36 one-on-ones it wins. Each one-on-one is played out by the engine; it isn't a six-on-six battle. A lineup with no builds on record (Crystal) plays the engine's own strongest sets, so its result reads the engine's choices, not the journey's.

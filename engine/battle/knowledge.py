@@ -40,6 +40,7 @@ class Combatant:
     nature: str = None
     evs: dict = None
     ivs: dict = None
+    ai: tuple = ()                       # a game's trainer: its AI flags (battle/trainer_policy.py picks its moves)
     name: str = ""                       # a label: "Tyranitar (HeartGold)", "Snorlax (gen4ou usage)"
     source: str = ""
     assumed: list = field(default_factory=list)
@@ -48,7 +49,7 @@ class Combatant:
     def key(self):
         """Identifies the battle-relevant spec (two Combatants with the same key fight the same)."""
         return json.dumps([self.species, self.gen, self.level, self.ability, self.item, self.nature, self.evs,
-                           self.ivs, sorted(self.moves)], sort_keys=True)
+                           self.ivs, sorted(self.moves)] + ([sorted(self.ai)] if self.ai else []), sort_keys=True)
 
     def calc(self):
         """The spec the damage calculator takes."""

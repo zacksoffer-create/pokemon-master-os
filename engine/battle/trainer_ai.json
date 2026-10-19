@@ -1,5 +1,12 @@
 {
- "_note": "The games' own trainer AI, as the scouting engine reads it. Filled from the pret disassemblies; see sources.",
+ "_note": "The games' own trainer AI, as the scouting engine reads it: flag meanings, the HGSS bitmask, which flags each benchmark trainer has, when the AI uses items and switches, and when its battle lines fire. Researched from the pret disassemblies (2026-10-19); every entry cites its source file and lines. battle/trainer_policy.py turns the flags into move choices.",
+ "_sources": {
+  "pokeplatinum": "06c6e9a0348da283be8d9225d0bec03c349ff5c2",
+  "pokeheartgold": "6988158691eb6178cff697cda0428045ddcba5fb",
+  "pokecrystal": "unknown",
+  "pokefirered": "unknown",
+  "pokeemerald": "unknown"
+ },
  "healing_items": [
   "Full Restore",
   "Max Potion",
@@ -11,7 +18,1428 @@
   "Max Revive",
   "Revive"
  ],
- "switching_phrase": {},
- "items_phrase": {},
- "gen4_bits": {}
+ "switching_phrase": {
+  "2": "It rarely switches: only when the matchup looks bad and its bench has something immune to your last attack that hits you super-effectively.",
+  "3": "It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.",
+  "4": "It stays in unless Perish Song is about to end, nothing it has can touch you, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively."
+ },
+ "items_phrase": {
+  "2": "It only reaches for the bag with its highest-level Pokémon: never above half HP, always at a quarter or less.",
+  "3": "It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks.",
+  "4": "It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks."
+ },
+ "gen4_bits": {
+  "AI_FLAG_BASIC": 1,
+  "AI_FLAG_EVAL_ATTACK": 2,
+  "AI_FLAG_EXPERT": 4,
+  "AI_FLAG_SETUP_FIRST_TURN": 8,
+  "AI_FLAG_RISKY": 16,
+  "AI_FLAG_PRIORITIZE_EXTREMES": 32,
+  "AI_FLAG_BATON_PASS": 64,
+  "AI_FLAG_TAG_STRATEGY": 128,
+  "AI_FLAG_CHECK_HP": 256,
+  "AI_FLAG_WEATHER": 512,
+  "AI_FLAG_HARRASSMENT": 1024,
+  "AI_FLAG_ROAMING_POKEMON": 536870912,
+  "AI_FLAG_SAFARI": 1073741824,
+  "AI_FLAG_CATCH_TUTORIAL": 2147483648
+ },
+ "flags": {
+  "AI_FLAG_BASIC": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Rules out moves that would fail or do nothing: attacks the target is immune to (by type, or by abilities like Levitate, Volt Absorb, Flash Fire, Wonder Guard, Soundproof), status moves on a target that already has a status or is behind Safeguard, stat boosts that are already maxed, screens, hazards or weather that are already up, and similar. These get a big penalty (-10 or -12), so they are almost never picked.",
+   "policy": {
+    "avoids_useless": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:52-1566 (score helpers 1567-1622); flag table pokeplatinum/src/battle/trainer_ai/script.s:17-49; HGSS uses the same table: pokeheartgold/asm/overlay_10_trainer_ai.s:9810-9818 (32-word header, decoded in notes), flag loop pokeheartgold/asm/overlay_10_trainer_ai.s:7-60"
+  },
+  "AI_FLAG_EVAL_ATTACK": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Looks at damage. If a move's best damage roll would knock the target out it gets +4 (+6 if it is a Quick Attack-style first-strike move); any other attack that is not the hardest-hitting one gets -1. A 4x super-effective move gets +2 about 69% of the time, and Explosion, Focus Punch and Sucker Punch are usually marked down by 2.",
+   "policy": {
+    "prefers_kill": true,
+    "prefers_strongest": true,
+    "prefers_priority_to_finish": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:6353-6416"
+  },
+  "AI_FLAG_EXPERT": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Move-by-move judgement for about 150 move effects. Examples: healing moves are favoured below 70% HP but get -8 when its Pokemon is faster than the target (as written in the code); stat-raising moves get +2 half the time at full HP and are usually marked down at 70% HP or less (always below 40%); Explosion becomes more likely as its own HP drops; draining moves are avoided against resistant targets. Most nudges are small (+/-1 to 3) and many are dice rolls.",
+   "policy": {
+    "heals_when_low": {
+     "hp_below_pct": 70
+    },
+    "uses_status": true,
+    "checks_hp": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:1623-6352 (dispatch 1623-1811; Explosion 1841-1885; stat-up 1978-2008; recovery 2628-2679)"
+  },
+  "AI_FLAG_SETUP_FIRST_TURN": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "On the very first turn of the battle only, stat-raising, stat-lowering, screen, Substitute, Leech Seed, confusion and similar set-up or status moves get +2, 69% of the time.",
+   "policy": {
+    "setup_first_turn": true,
+    "uses_status": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:6417-6498"
+  },
+  "AI_FLAG_RISKY": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Half the time gives +2 to gamble moves: sleep moves, Explosion/Self-Destruct, one-hit-KO moves, high-critical-hit moves, confusion, Metronome, Counter/Mirror Coat/Metal Burst, Destiny Bond, Swagger, Attract, Belly Drum, Focus Punch, Sucker Punch and the like.",
+   "policy": {
+    "risky": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:6521-6563"
+  },
+  "AI_FLAG_PRIORITIZE_EXTREMES": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "About 61% of the time gives +2 to moves whose damage the AI does not compare: status moves (power 0 or 1) and a list of special attacks (Explosion/Self-Destruct, Dream Eater, two-turn and recharge moves, Spit Up, Focus Punch, Sucker Punch, Superpower, Eruption-type, half-recoil moves). Fixed-damage and variable-power moves are compared in Gen 4, so they don't get this bonus. Despite the name it does not favour the strongest attack.",
+   "policy": {
+    "uses_status": true,
+    "risky": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:6499-6520; lists pokeplatinum/src/battle/trainer_ai/trainer_ai.c:30-62; comparison rule pokeplatinum/src/battle/trainer_ai/trainer_ai.c:1012-1062"
+  },
+  "AI_FLAG_BATON_PASS": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Supports a Baton Pass plan when it has teammates left; only non-attacking moves are affected, and if it doesn't know Baton Pass this is skipped about 31% of the time. Set-up moves get +5 on the battle's first turn, -10 if its HP is under 60%, otherwise +1, and most of them also get +3 first. Protect gets +2 unless it was used last turn (-2). Baton Pass itself gets -2 on turn 1, then +1 to +3 once Attack or Sp. Atk is boosted.",
+   "policy": {
+    "baton_pass": true,
+    "setup_first_turn": true,
+    "checks_hp": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:6564-6636"
+  },
+  "AI_FLAG_TAG_STRATEGY": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Double-battle teamwork: avoids hitting its partner with spread moves the partner is weak to (e.g. Earthquake -10), favours weather, Gravity, Trick Room, Follow Me and Helping Hand when they suit both Pokemon, and gives small bonuses to super-effective or partner-boosted attacks. Always switched on in double battles.",
+   "policy": {
+    "tag_strategy": true,
+    "prefers_super_effective": true,
+    "weather": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:6637-7695; forced on in doubles pokeplatinum/src/battle/trainer_ai/trainer_ai.c:252-255 (HGSS: pokeheartgold/src/battle/trainer_ai.c:44-46)"
+  },
+  "AI_FLAG_CHECK_HP": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Picks moves that suit its own and the target's HP: above 70% HP it shies away from Explosion, healing, Rest, Destiny Bond, Flail-type and Endure-type moves; at 30-70% and below 30% it shies away from stat changes and set-up; against a low-HP target it avoids slow status and set-up moves. Each matching move gets -2 about 80% of the time.",
+   "policy": {
+    "checks_hp": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:7696-7978"
+  },
+  "AI_FLAG_WEATHER": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Meant to make the trainer open with a weather move (+5) on the first turn when that weather is not already active. As written, any move falls through to the Sunny Day check, so on the first turn every move gets +5 unless the sun is already out (inferred); the net effect is mostly that a weather move whose weather is already up loses out.",
+   "policy": {
+    "weather": true,
+    "setup_first_turn": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:7979-8020"
+  },
+  "AI_FLAG_HARRASSMENT": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Half the time gives +2 to annoying moves: sleep, poison, paralysis, burn, confusion, stat-lowering moves, Leech Seed, Encore, Spite, Spikes / Toxic Spikes, Attract, Torment, Embargo, Knock Off, Captivate and similar.",
+   "policy": {
+    "uses_status": true,
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:8021-8072"
+  },
+  "AI_FLAG_ROAMING_POKEMON": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Not a trainer flag: used for roaming wild Pokemon, which simply run away unless trapped (Mean Look, a binding move, Shadow Tag, or Arena Trap without Levitate).",
+   "policy": {},
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:8073-8090; set for roamer battles pokeplatinum/src/battle/trainer_ai/trainer_ai.c:245-247"
+  },
+  "AI_FLAG_SAFARI": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Not a trainer flag: Safari Zone behaviour (watch or flee).",
+   "policy": {
+    "random": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:8091-8095"
+  },
+  "AI_FLAG_CATCH_TUTORIAL": {
+   "gens": [
+    4
+   ],
+   "games": [
+    "platinum",
+    "heartgold",
+    "soulsilver"
+   ],
+   "does": "Not a trainer flag: the catching-tutorial Pokemon flees once the target is at 20% HP or less.",
+   "policy": {
+    "checks_hp": true
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/script.s:8096-8104"
+  },
+  "AI_SCRIPT_CHECK_BAD_MOVE": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Rules out moves that would fail or do nothing: attacks the target is immune to (by type, Levitate, Volt Absorb, Water Absorb, Flash Fire, Wonder Guard, Soundproof), status on an already-statused target, maxed stat boosts, screens or weather already up, and so on (-10 to -12). Emerald adds a few checks FireRed lacks, such as Safeguard and one-hit-KO immunity.",
+   "policy": {
+    "avoids_useless": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:51-599; pokefirered/data/battle_ai_scripts.s:52-603 (Emerald-only lines are commented 'Improvement in Emerald')"
+  },
+  "AI_SCRIPT_TRY_TO_FAINT": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Looks at damage. A move that would knock the target out (using a random 85-100% damage roll) gets +4, or +6 for a Quick Attack-style move, except Explosion; any other attack that is not the hardest-hitting gets -1. Emerald also gives a 4x super-effective move +2 about 69% of the time.",
+   "policy": {
+    "prefers_kill": true,
+    "prefers_strongest": true,
+    "prefers_priority_to_finish": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:2616-2637; pokefirered/data/battle_ai_scripts.s:2767-2790; kill/damage checks pokeemerald/src/battle_ai_script_commands.c:1174-1235,1743-1767"
+  },
+  "AI_SCRIPT_CHECK_VIABILITY": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Move-by-move judgement for most move effects (the Gen 3 ancestor of Gen 4's EXPERT). Healing moves are favoured below 70% HP but get -8 when its Pokemon is faster than the target (as written); stat boosts are favoured at high HP; Explosion is weighed against its own HP; many nudges are dice rolls.",
+   "policy": {
+    "heals_when_low": {
+     "hp_below_pct": 70
+    },
+    "uses_status": true,
+    "checks_hp": true,
+    "random": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:652-2615 (heal logic 1324-1352); pokefirered/data/battle_ai_scripts.s:653-2766 (heal logic 1395-1427)"
+  },
+  "AI_SCRIPT_SETUP_FIRST_TURN": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "On the very first turn only, stat-changing, screen, Substitute, Leech Seed, confusion and similar moves get +2, 69% of the time.",
+   "policy": {
+    "setup_first_turn": true,
+    "uses_status": true,
+    "random": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:2638-2706; pokefirered/data/battle_ai_scripts.s:2791-2859"
+  },
+  "AI_SCRIPT_RISKY": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Half the time gives +2 to gamble moves: sleep, Explosion, Mirror Move, one-hit-KO moves, high-crit moves, confusion, Metronome, Psywave, Counter/Mirror Coat, Destiny Bond, Swagger, Attract, Present, Belly Drum, Focus Punch, Revenge, Teeter Dance and similar.",
+   "policy": {
+    "risky": true,
+    "random": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:2718-2748; pokefirered/data/battle_ai_scripts.s:2869-2899"
+  },
+  "AI_SCRIPT_PREFER_POWER_EXTREMES": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald"
+   ],
+   "does": "About 61% of the time gives +2 to moves whose damage is not compared: status moves, 0- or 1-power moves and a list of special effects (Explosion, Dream Eater, charge-up moves, Hyper Beam-type, Spit Up, Focus Punch, Superpower, Eruption, Overheat).",
+   "policy": {
+    "uses_status": true,
+    "risky": true,
+    "random": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:2707-2717; ignored-effect list pokeemerald/src/battle_ai_script_commands.c:266-281"
+  },
+  "AI_SCRIPT_PREFER_STRONGEST_MOVE": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "firered",
+    "leafgreen"
+   ],
+   "does": "FireRed/LeafGreen's name for the same bit-5 script as Emerald's PREFER_POWER_EXTREMES. Despite the name, it gives +2 (about 61% of the time) only to moves whose damage is not compared, such as status moves and fixed-damage moves, not to the strongest attack.",
+   "policy": {
+    "uses_status": true,
+    "risky": true,
+    "random": true
+   },
+   "source": "pokefirered/data/battle_ai_scripts.s:2860-2868; pokefirered/include/constants/battle_ai.h:42; list pokefirered/src/battle_ai_script_commands.c:245-259"
+  },
+  "AI_SCRIPT_PREFER_BATON_PASS": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Supports a Baton Pass plan when teammates remain; only moves whose damage isn't compared (mostly status moves) are affected, and without Baton Pass this is skipped about 31% of the time. FireRed just gives them +3 (about 92% of the time). Emerald adds a turn-based rule for set-up moves (+5 on the battle's first turn, -10 under 60% HP, otherwise +1), gives Protect +2 unless it was used last turn, and favours Baton Pass itself once Attack or Sp. Atk is boosted (-2 on turn 1).",
+   "policy": {
+    "baton_pass": true,
+    "random": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:2749-2795; pokefirered/data/battle_ai_scripts.s:2900-2948"
+  },
+  "AI_SCRIPT_DOUBLE_BATTLE": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Emerald double-battle teamwork: avoids Earthquake/Magnitude when they would hurt the partner, uses Skill Swap, Helping Hand and fire/electric moves sensibly around the partner's abilities. Emerald adds it automatically in doubles. In FireRed/LeafGreen the script is empty and is never added automatically.",
+   "policy": {
+    "tag_strategy": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:2796-2934; pokefirered/data/battle_ai_scripts.s:2949-2951; auto-add pokeemerald/src/battle_ai_script_commands.c:378-379"
+  },
+  "AI_SCRIPT_HP_AWARE": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Picks moves that suit its own and the target's HP: above 70% HP it avoids Explosion, healing, Rest, Destiny Bond, Flail, Endure, Memento, Overheat; at 31-70% and at 30% or less it avoids stat changes and set-up; against a low-HP target it avoids slow status and set-up moves. Each match gets -2 about 80% of the time.",
+   "policy": {
+    "checks_hp": true,
+    "random": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:2935-3198; pokefirered/data/battle_ai_scripts.s:2953-3215"
+  },
+  "AI_SCRIPT_TRY_SUNNY_DAY_START": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald"
+   ],
+   "does": "Gives Sunny Day +5 on its Pokemon's first turn out. A check before that reads a leftover result instead of a fresh one (marked as a bug in the source), so whether it fires depends on earlier script state.",
+   "policy": {
+    "weather": true,
+    "setup_first_turn": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:3199-3210"
+  },
+  "AI_SCRIPT_UNKNOWN": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "firered",
+    "leafgreen"
+   ],
+   "does": "FireRed/LeafGreen's name for bit 9: the same Sunny-Day-on-first-turn script as Emerald's TRY_SUNNY_DAY_START (+5), with the same check on a leftover result.",
+   "policy": {
+    "weather": true,
+    "setup_first_turn": true
+   },
+   "source": "pokefirered/data/battle_ai_scripts.s:3216-3225"
+  },
+  "AI_SCRIPT_ROAMING": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Not a trainer flag: roaming wild Pokemon flee unless trapped.",
+   "policy": {},
+   "source": "pokeemerald/data/battle_ai_scripts.s:3211-3225; pokefirered/data/battle_ai_scripts.s:3226-3241"
+  },
+  "AI_SCRIPT_SAFARI": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Not a trainer flag: Safari Zone Pokemon watch or randomly flee.",
+   "policy": {
+    "random": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:3226-3232; pokefirered/data/battle_ai_scripts.s:3242-3249"
+  },
+  "AI_SCRIPT_FIRST_BATTLE": {
+   "gens": [
+    3
+   ],
+   "games": [
+    "emerald",
+    "firered",
+    "leafgreen"
+   ],
+   "does": "Not a trainer flag: the very first wild battle's Pokemon flees once the player's Pokemon is at 20% HP or less.",
+   "policy": {
+    "checks_hp": true
+   },
+   "source": "pokeemerald/data/battle_ai_scripts.s:3233-3240; pokefirered/data/battle_ai_scripts.s:3250-3257"
+  },
+  "AI_BASIC": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Rules out moves a separate redundancy check marks as useless right now (the source comments name healing moves, weather moves and Dream Eater as examples) and status-only moves (sleep, poison, paralysis, Toxic) when the player already has a status or is behind Safeguard. Each gets a +10 penalty (in Crystal a higher score is worse).",
+   "policy": {
+    "avoids_useless": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:4-66; status list pokecrystal/data/battle/ai/status_only_effects.asm; penalty pokecrystal/engine/battle/ai/scoring.asm:3234-3238"
+  },
+  "AI_SETUP": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Half the time strongly favours stat-raising moves on its Pokemon's first turn out, and stat-lowering moves on the player's Pokemon's first turn out; otherwise discourages them about 88% of the time.",
+   "policy": {
+    "setup_first_turn": true,
+    "random": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:69-141"
+  },
+  "AI_TYPES": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Rules out moves the player's Pokemon is immune to, slightly favours super-effective attacks, and slightly discourages not-very-effective attacks if it has another damaging move of a different type.",
+   "policy": {
+    "prefers_super_effective": true,
+    "avoids_useless": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:144-231"
+  },
+  "AI_OFFENSIVE": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Discourages every move that does no damage.",
+   "policy": {
+    "uses_status": false
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:234-258"
+  },
+  "AI_SMART": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Situation-specific rules for about 80 move effects. Examples: healing moves are strongly favoured below 25% HP (90% of the time) and discouraged above 50%; a first-strike move is strongly favoured when its Pokemon is slower and the move would KO; Thief is avoided; Reflect/Light Screen are avoided unless at full HP; Toxic and Leech Seed are avoided when the player is below 50% HP.",
+   "policy": {
+    "heals_when_low": {
+     "hp_below_pct": 25
+    },
+    "prefers_priority_to_finish": true,
+    "checks_hp": true,
+    "uses_status": true,
+    "random": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:261-2700 (handler table 309-390; heal 941-962; first-strike 1628-1657; Thief 1659-1665)"
+  },
+  "AI_OPPORTUNIST": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "When its Pokemon is low on HP, stops wasting turns on stall moves (stat changes, screens, Substitute, Leech Seed and similar): always below 25% HP, half the time at 25-50%, never above 50%.",
+   "policy": {
+    "checks_hp": true,
+    "random": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:2881-2928; list pokecrystal/data/battle/ai/stall_moves.asm"
+  },
+  "AI_AGGRESSIVE": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Works out which attack does the most damage and slightly discourages every other damaging move, except fixed-damage moves and reckless moves (Self-Destruct, Thrash-type, multi-hit moves).",
+   "policy": {
+    "prefers_strongest": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:2931-3037 (damage calc 3038-3055); list pokecrystal/data/battle/ai/reckless_moves.asm"
+  },
+  "AI_CAUTIOUS": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "After its first turn, discourages residual moves (Mist, Leech Seed, Poison Powder, Stun Spore, Thunder Wave, Focus Energy, Bide, Poison Gas, Transform, Conversion, Substitute, Spikes) about 90% of the time (a documented bug can make it skip some).",
+   "policy": {
+    "random": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:3057-3097; list pokecrystal/data/battle/ai/residual_moves.asm; bug pokecrystal/docs/bugs_and_glitches.md:1333"
+  },
+  "AI_STATUS": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Rules out status moves and attacks that can't affect the player's Pokemon: poison moves on Poison types, and sleep/paralysis moves or attacks the target's type is immune to.",
+   "policy": {
+    "avoids_useless": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:3100-3159"
+  },
+  "AI_RISKY": {
+   "gens": [
+    2
+   ],
+   "games": [
+    "crystal"
+   ],
+   "does": "Strongly favours any attack that would knock out the player's Pokemon. Self-Destruct/Explosion and one-hit-KO moves are left out of this at full HP and about 80% of the time otherwise, so despite the name it does not seek out gambles.",
+   "policy": {
+    "prefers_kill": true,
+    "checks_hp": true,
+    "risky": false,
+    "random": true
+   },
+   "source": "pokecrystal/engine/battle/ai/scoring.asm:3162-3229; list pokecrystal/data/battle/ai/risky_effects.asm"
+  }
+ },
+ "trainer_flags": {
+  "crystal": {
+   "FALKNER": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "WHITNEY": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "BUGSY": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "MORTY": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "PRYCE": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "JASMINE": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "CHUCK": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "CLAIR": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "RIVAL1": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "WILL": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "BRUNO": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "KAREN": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "KOGA": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "CHAMPION LANCE": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "BROCK": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "MISTY": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "LT_SURGE": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "ERIKA": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "JANINE": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "SABRINA": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "RIVAL2": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "BLAINE": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "RED": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "BLUE": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "COOLTRAINERM": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "COOLTRAINERF": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "CAL": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "MYSTICALMAN": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_SMART",
+    "AI_AGGRESSIVE",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "EXECUTIVEM": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_TYPES",
+    "AI_SMART",
+    "AI_OPPORTUNIST",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "EXECUTIVEF": [
+    "AI_BASIC",
+    "AI_SETUP",
+    "AI_TYPES",
+    "AI_SMART",
+    "AI_OPPORTUNIST",
+    "AI_CAUTIOUS",
+    "AI_STATUS",
+    "AI_RISKY"
+   ],
+   "POKEMON_PROF": [
+    "AI_BASIC",
+    "AI_AGGRESSIVE",
+    "AI_STATUS"
+   ]
+  },
+  "firered": {
+   "TRAINER_ELITE_FOUR_LORELEI": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ELITE_FOUR_BRUNO": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ELITE_FOUR_AGATHA": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ELITE_FOUR_LANCE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_CHAMPION_FIRST_SQUIRTLE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_CHAMPION_FIRST_BULBASAUR": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_CHAMPION_FIRST_CHARMANDER": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ELITE_FOUR_LORELEI_2": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ELITE_FOUR_BRUNO_2": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ELITE_FOUR_AGATHA_2": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ELITE_FOUR_LANCE_2": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_CHAMPION_REMATCH_SQUIRTLE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_CHAMPION_REMATCH_BULBASAUR": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_CHAMPION_REMATCH_CHARMANDER": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_BROCK": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_MISTY": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_LT_SURGE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_ERIKA": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_KOGA": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_SABRINA": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_BLAINE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_LEADER_GIOVANNI": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ]
+  },
+  "emerald": {
+   "TRAINER_PHOEBE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_GLACIA": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_DRAKE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_WALLACE": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_STEVEN": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_ROXANNE_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_BRAWLY_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_WATTSON_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_FLANNERY_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_NORMAN_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_TATE_AND_LIZA_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_JUAN_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY"
+   ],
+   "TRAINER_SIDNEY": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY",
+    "AI_SCRIPT_SETUP_FIRST_TURN"
+   ],
+   "TRAINER_WINONA_1": [
+    "AI_SCRIPT_CHECK_BAD_MOVE",
+    "AI_SCRIPT_TRY_TO_FAINT",
+    "AI_SCRIPT_CHECK_VIABILITY",
+    "AI_SCRIPT_RISKY"
+   ]
+  },
+  "heartgold_soulsilver": {
+   "Falkner (20, 3)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK"
+   ],
+   "Bugsy (21, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Whitney (30, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Morty (31, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Pryce (32, 519)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_WEATHER"
+   ],
+   "Jasmine (33, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Chuck (34, 5)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EXPERT"
+   ],
+   "Clair (35, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Will (245, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Karen (246, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Koga (247, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Bruno (418, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Champion Lance (244, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Red (260, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Blue (261, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Erika (256, 519)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_WEATHER"
+   ],
+   "Blaine (259, 519)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_WEATHER"
+   ],
+   "Silver early battles (1/263/266/267/269/270, 35)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_PRIORITIZE_EXTREMES"
+   ],
+   "Silver later battles (264/268/271/272/285-289/489-491/735-737, 7)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Silver other battles (2/3/265, 1)": [
+    "AI_FLAG_BASIC"
+   ],
+   "Whitney rematch (714, 15)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_SETUP_FIRST_TURN"
+   ],
+   "Sabrina rematch (725, 15)": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_SETUP_FIRST_TURN"
+   ]
+  },
+  "platinum": {
+   "Cynthia": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Aaron": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Bertha": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Flint": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ],
+   "Lucian": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_SETUP_FIRST_TURN"
+   ],
+   "Candice": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "_sources": {
+   "crystal": "pokecrystal/data/trainers/attributes.asm:5-405 (one entry per class in constants/trainer_constants.asm order; e.g. Will 65-69, Bruno 77-81, Karen 83-87, Koga 89-93, Champion/Lance 95-99, Rival2 251-255, Red 377-381); CHAMPION class = LANCE per pokecrystal/constants/trainer_constants.asm:91-92",
+   "firered": "pokefirered/src/data/trainers.h aiFlags lines: Lorelei 4102, Bruno 4112, Agatha 4122, Lance 4132, Champion first 4382/4392/4402, E4 rematch 7352/7362/7372/7382, Champion rematch 7392/7402/7412, Brock 4142, Misty 4152, Surge 4162, Erika 4172, Koga 4182, Blaine 4192, Sabrina 4202, Giovanni 3502 (champion trainerName in data is the rival placeholder 'TERRY')",
+   "emerald": "pokeemerald/src/data/trainers.h aiFlags lines: Sidney 3144, Phoebe 3156, Glacia 3168, Drake 3180, Wallace 4032, Steven 9660, Roxanne 3192, Brawly 3204, Wattson 3216, Flannery 3228, Norman 3240, Winona 3252, Tate&Liza 3264, Juan 3276",
+   "heartgold_soulsilver": "pokeheartgold/files/poketool/trainer/trainers.json ai_flags lines: Falkner 822, Bugsy 875, Whitney 1269, Morty 1326, Pryce 1413, Jasmine 1485, Chuck 1557, Clair 1614, Lance 10212, Will 10329, Karen 10431, Koga 10533, Red 11496, Blue 11611, Bruno 19013, Silver 18/11760/11844, Whitney rematch 32316, Sabrina rematch 33614; decoded with gen4_bits",
+   "platinum": "pokeplatinum/res/trainers/data/{champion_cynthia,elite_four_aaron,elite_four_bertha,elite_four_flint,elite_four_lucian,leader_candice}.json ai_flags (line 10 for Cynthia, line 8 otherwise); fetched at commit 06c6e9a0"
+  }
+ },
+ "items_use": {
+  "2": {
+   "rule": "Items come from the trainer CLASS (two slots), each usable once. The AI only tries an item when it has decided not to switch, never in the Battle Tower, and only while its active Pokemon is the highest-level Pokemon in its party (ties count). Every class has CONTEXT_USE, which means: potions and Full Restore are never used above 50% HP, always used at 25% HP or less, and used about 20% of the time between 25% and 50%. Full Restore and Full Heal are also used when the Pokemon is asleep or frozen, and half the time when badly poisoned for 4+ turns. X items, Dire Hit and Guard Spec are used half the time on the Pokemon's first turn out and never later.",
+   "details": {
+    "hp_thresholds": {
+     "never_above_pct": 50,
+     "always_at_or_below_pct": 25,
+     "chance_between_25_and_50": "about 20% (Random < 20 percent - 1)"
+    },
+    "highest_level_only": true,
+    "full_restore_extra": "if the HP rule says no, still used when asleep/frozen, or 50% when Toxic counter >= 4",
+    "x_items": "first turn out only; 50% chance (CONTEXT_USE path)",
+    "class_items": {
+     "FALKNER": [],
+     "WHITNEY": [],
+     "BUGSY": [],
+     "MORTY": [],
+     "PRYCE": [
+      "HYPER_POTION"
+     ],
+     "JASMINE": [
+      "HYPER_POTION"
+     ],
+     "CHUCK": [
+      "FULL_HEAL"
+     ],
+     "CLAIR": [
+      "FULL_HEAL",
+      "HYPER_POTION"
+     ],
+     "RIVAL1": [],
+     "RIVAL2": [],
+     "WILL": [
+      "MAX_POTION"
+     ],
+     "BRUNO": [
+      "MAX_POTION"
+     ],
+     "KAREN": [
+      "FULL_HEAL",
+      "MAX_POTION"
+     ],
+     "KOGA": [
+      "FULL_HEAL",
+      "FULL_RESTORE"
+     ],
+     "CHAMPION LANCE": [
+      "FULL_HEAL",
+      "FULL_RESTORE"
+     ],
+     "BROCK": [
+      "HYPER_POTION"
+     ],
+     "MISTY": [
+      "FULL_HEAL"
+     ],
+     "LT_SURGE": [
+      "HYPER_POTION"
+     ],
+     "ERIKA": [
+      "HYPER_POTION"
+     ],
+     "JANINE": [
+      "DIRE_HIT"
+     ],
+     "SABRINA": [
+      "HYPER_POTION"
+     ],
+     "BLAINE": [
+      "MAX_POTION",
+      "FULL_HEAL"
+     ],
+     "RED": [
+      "FULL_RESTORE",
+      "FULL_RESTORE"
+     ],
+     "BLUE": [
+      "FULL_RESTORE",
+      "FULL_RESTORE"
+     ]
+    },
+    "class_item_switch_attrs": "every class in attributes.asm is CONTEXT_USE; bosses are CONTEXT_USE | SWITCH_SOMETIMES",
+    "known_bug": "after item 1 is used the AI can read its base-reward byte as an item ID",
+    "randomness": true
+   },
+   "source": "pokecrystal/engine/battle/ai/items.asm:1-45 (entry), 155-272 (AI_TryItem, highest-level check 242-272), 273-525 (per-item rules; heal 346-380; status 295-326; X items 493-517); HP helpers pokecrystal/engine/battle/ai/scoring.asm:2701-2800; class items pokecrystal/data/trainers/attributes.asm:5-405; bug pokecrystal/docs/bugs_and_glitches.md:1504-1512"
+  },
+  "3": {
+   "rule": "Emerald and FireRed/LeafGreen share the same logic. The trainer's item slots (empty ones skipped) are checked in order; the first item whose condition holds is used and removed. Slot 1 is always eligible; slot n (n = 2..4) only once the number of Pokemon still able to fight is at most (item count - n + 2). Full Restore: HP below 25%. Potions: HP below 25%, or HP missing is more than the potion heals (so a Potion is used once more than 20 HP is missing). Status cures: when that status is present. X items and Dire Hit: only on the Pokemon's first turn out (always used then). Guard Spec: first turn and no Mist. No randomness. Items are only tried when the AI is not switching, and only in normal trainer battles (not link, Battle Tower/Frontier, e-Reader, secret bases).",
+   "details": {
+    "full_restore_hp_below_pct": 25,
+    "potion_hp_below_pct": 25,
+    "potion_alt_trigger": "maxHP - HP > heal amount (Potion 20, Super Potion 50, Hyper Potion 200, Max Potion 255 sentinel)",
+    "slot_gating": "slot index i (0-based) usable when i == 0 or alive_mons <= item_count - i + 1",
+    "x_items_first_turn_only": true,
+    "randomness": false,
+    "stops_after_first_item": true
+   },
+   "source": "pokeemerald/src/battle_ai_switch_items.c:808-944 (gating 840, Full Restore 857-863, potions 864-872); pokefirered/src/battle_ai_switch_items.c:562-674 (gating 580); item load pokeemerald/src/battle_ai_script_commands.c:283-310, pokefirered/src/battle_ai_script_commands.c:262-287; amounts pokeemerald/src/data/pokemon/item_effects.h:1-45, pokeemerald/item_effects_const.h:56"
+  },
+  "4": {
+   "rule": "Same shape as Gen 3. Item slots are checked in order: Full Restore when HP is below 25%; other HP items when HP is below 25% or the HP missing is more than the item heals; status items when that status (sleep, poison, burn, freeze, paralysis, confusion) is present; X items, Dire Hit and Guard Spec (no Mist) only on the Pokemon's first turn out. No randomness. Not used under Embargo, and an AI partner on the player's side never uses items. Slot gating: Platinum allows slot i (0-based) when i == 0 or alive_mons <= item_count - i + 1; HGSS's assembly uses alive_mons <= item_count - i (one stricter, inferred). HGSS returns right after the first item it uses.",
+   "details": {
+    "full_restore_hp_below_pct": 25,
+    "potion_hp_below_pct": 25,
+    "potion_alt_trigger": "maxHP - HP > item's HP-restore amount",
+    "slot_gating_platinum": "i == 0 or alive_mons <= item_count - i + 1",
+    "slot_gating_hgss": "i == 0 or alive_mons <= item_count - i (inferred from asm)",
+    "x_items_first_turn_only": true,
+    "randomness": false,
+    "example": "Lance/Red/Blue in HGSS carry 4 Full Restores (trainers.json); with 6 Pokemon, slot 1 is usable at any time and later slots unlock as the party shrinks"
+   },
+   "source": "pokeplatinum/src/battle/trainer_ai/trainer_ai.c:4056-4199 (gating 4091-4092; Full Restore 4099-4104; HP items 4105-4117; X items 4156-4184); first-turn test = pokeplatinum/src/battle/trainer_ai/trainer_ai.c:2480-2491 with pokeplatinum/src/battle/battle_lib.c:2117; item load pokeplatinum/src/battle/battle_controller_player.c:4796-4815; HGSS pokeheartgold/asm/overlay_10_trainer_ai.s:9299-9808 (gating 9398-9409, Full Restore 9418-9435, HP items 9436-9480, early return 9768-9787); HGSS struct offsets pokeheartgold/include/battle/battle.h:121-151"
+  }
+ },
+ "switching": {
+  "2": {
+   "rule": "Checked before items and moves. No switch if the can't-escape flag is set or its Pokemon is wrapped. If Perish Song is at 1, it switches with top urgency. Otherwise it scores how its current Pokemon matches up (the player's revealed moves vs its types, and its moves vs the player's types). Only if that matchup is bad does it look for a bench Pokemon that is immune to the player's last attack and has a super-effective move, or has at least 1/4 HP, resists the player and has a super-effective move. Bosses (SWITCH_SOMETIMES) then switch about 20% / 50% / 80% of the time for low / medium / top urgency (SWITCH_OFTEN about 50% / 78% / 96%; SWITCH_RARELY about 8% / 12% / 22%). After a faint, the replacement is the first Pokemon with a super-effective move against the player's Pokemon, else one the player's types are not super-effective against, else a random one (inferred from assembly).",
+   "source": "pokecrystal/engine/battle/ai/items.asm:1-148; pokecrystal/engine/battle/ai/switch.asm:1-291 (CheckAbleToSwitch 176-291); pokecrystal/constants/battle_constants.asm:33; pokecrystal/engine/battle/core.asm:3174-3206, 3240-3424"
+  },
+  "3": {
+   "rule": "Trainer battles only, checked before items. No switch if wrapped, Mean Looked, rooted by Ingrain, facing Shadow Tag or Arena Trap, or a Steel type facing Magnet Pull (Emerald also never switches in the Battle Arena). Needs a healthy bench Pokemon. In order: (1) Perish Song about to finish: switch. (2) Singles vs Wonder Guard with no super-effective move: switch to a bench Pokemon with one (2/3 chance per such move). (3) Hit by a Fire/Water/Electric attack: switch to a bench Pokemon with Flash Fire / Water Absorb / Volt Absorb (50%), usually skipped if it has a super-effective move. (4) Asleep with Natural Cure at 50%+ HP: often switches. Then it stays in if it has a super-effective move (90% per move) or has 4+ total stat boosts. Otherwise (5) a bench Pokemon immune to the last attack that also has a super-effective move (1/2 chance per move), or (6) one that resists it with a super-effective move (1/3 per move). The replacement for 'best pick' switches and after a faint is the bench Pokemon whose types take the MOST damage from the opponent's types (flagged as a possible bug in the source) as long as it has a super-effective move, otherwise the one that would deal the most damage.",
+   "source": "pokeemerald/src/battle_ai_switch_items.c:20-526 (ShouldSwitch 429-526), 528-603, 629-790; pokefirered/src/battle_ai_switch_items.c:17-356, 358-402, 428-544"
+  },
+  "4": {
+   "rule": "Same order as Gen 3 with one extra step. No switch if trapped, Ingrained, facing Shadow Tag or Arena Trap, or a Steel type next to Magnet Pull; needs a bench Pokemon. (1) Perish Song about to finish. (2) Singles vs Wonder Guard with no super-effective move: bench Pokemon with one, 2/3 per move. (3) NEW: every one of its damaging moves (needs at least 2) has no effect on the opponents: switch to a bench Pokemon with a super-effective damaging move (2/3 per move), else one with a normally-effective move (1/2 per move). (4) Absorbing ability for the last Fire/Water/Electric hit (50%). (5) Asleep with Natural Cure at 50%+ HP. Then it stays in if it has a super-effective move (90% per move) or 4+ total stat boosts. Otherwise (6) bench Pokemon immune to the last hit with a super-effective move (1/2 per move) or (7) resisting it (1/3 per move). The replacement for a post-KO style switch is picked by best offensive type matchup with a super-effective move, else by most damage (a documented score overflow can pick the wrong Pokemon). HGSS's assembly calls the same eight checks in the same order with the same odds.",
+   "source": "pokeplatinum/src/battle/trainer_ai/trainer_ai.c:3263-3987 (ShouldSwitch 3894-3987), PickCommand 3989-4040; pokeplatinum/src/battle/battle_lib.c:7923-8089; pokeplatinum/docs/bugs_and_glitches.md:136-150; HGSS pokeheartgold/asm/overlay_10_trainer_ai.s:8913-9172 (helper calls 9069-9165), 9175-9297"
+  }
+ },
+ "messages": {
+  "4": {
+   "TRMSG_FIRST_DAMAGE / TRMSG_HIT_POKE_FIRST_TIME (HGSS)": "the first time the trainer's active Pokemon takes damage (once per battle)",
+   "TRMSG_ACTIVE_BATTLER_HALF_HP / TRMSG_CURRENT_POKE_HALF (HGSS)": "the trainer's active Pokemon is at half HP or less (once per Pokemon)",
+   "TRMSG_LAST_BATTLER / TRMSG_LAST_POKE (HGSS)": "the trainer is down to their last Pokemon (only one party member with HP left)",
+   "TRMSG_LAST_BATTLER_HALF_HP / TRMSG_LAST_POKE_HALF (HGSS)": "that last Pokemon is at half HP or less",
+   "TRMSG_DEFEAT / TRMSG_LOSE (HGSS)": "the trainer has lost (HGSS header: 'When the NPC loses')",
+   "TRMSG_WIN (HGSS 20, Platinum 100)": "the trainer beat the player (inferred from the name and its use for the frontier win message)",
+   "_when_checked": "start of the battle and start of every turn, single trainer battles only (not doubles, link or Frontier); at most one message per check, in the order listed",
+   "_source": "pokeplatinum/src/battle/battle_lib.c:50-52,1862-1972; pokeplatinum/src/battle/battle_controller_player.c:236-250,1845-1858; pokeplatinum/src/battle/battle_lib.c:157-158 (flags reset per Pokemon); pokeplatinum/generated/trainer_message_types.txt:1-21; pokeplatinum/src/battle/battle_system.c:1592-1620; pokeheartgold/src/battle/overlay_12_0224E4FC.c:1597-1688; pokeheartgold/include/constants/trainers.h:768-798"
+  },
+  "3": {
+   "STRINGID_TRAINER1LOSETEXT": "end of battle when the player wins: the trainer slides in and says their defeat line",
+   "STRINGID_TRAINER1WINTEXT": "end of battle when the player loses: Emerald Battle Frontier / Trainer Hill; FireRed rival battles and Trainer Tower",
+   "STRINGID_TRAINER2LOSETEXT / STRINGID_TRAINER2WINTEXT": "same, for the second trainer in two-trainer battles",
+   "_note": "no mid-battle trainer lines were found in the vanilla Gen 3 battle scripts checked",
+   "_source": "pokeemerald/data/battle_scripts_1.s:2919-2995; pokefirered/data/battle_scripts_1.s:2911-2990 (both fetched from master)"
+  }
+ },
+ "notes": [
+  "Commits: pokeplatinum 06c6e9a0348da283be8d9225d0bec03c349ff5c2 and pokeheartgold 6988158691eb6178cff697cda0428045ddcba5fb come from raw/git/*/.git/packed-refs. Commits for the local pokecrystal/pokefirered/pokeemerald trees are unknown: there is no git metadata and the GitHub API was not reachable from this session. raw/pokeemerald/data/battle_scripts_1.s and raw/pokefirered/data/battle_scripts_1.s were fetched from master (commit unknown). The six Platinum trainer JSONs under raw/pokeplatinum/res/trainers/data/ were fetched at commit 06c6e9a0.",
+  "Gen 4 bit order: generated/ai_flags.txt is a metang 'mask' with --no-auto (generated/meson.build:17), and the generated header was not available. Bit values were taken from how the code uses them: TrainerAI_MainSingles tests bit 0 and shifts right (trainer_ai.c:297-308), and script slot i of FlagTable (script.s:17-49) is indexed by that shift count, so BASIC=1<<0 ... HARRASSMENT=1<<10, ROAMING=1<<29, SAFARI=1<<30, CATCH_TUTORIAL=1<<31. HGSS matches: AI_DOUBLES=(1<<7)=TAG_STRATEGY and AI_29=(1<<29)=roamer (include/constants/battle.h:558-561, src/battle/trainer_ai.c:38-46). AI_FLAG_NONE (0), AI_FLAG_ALL and AI_FLAG_UNUSED_11..28 (all point to Terminate) are left out of gen4_bits.",
+  "HGSS script check: the rodata at overlay_10_trainer_ai.s:9810+ decodes to a 32-word table [0x20, 0x20A3, 0x9F2, 0x20E2, 0x213D, 0x2130, 0x2163, 0x21C6, 0x27CA, 0x28E6, 0x2918, 0x296E x18, 0x2947, 0x2960, 0x2964]. Word 0x20 begins with opcode 0x51 (IfTargetIsPartner) followed by IfMoveEqualTo (0x17) on move 0x5A (Fissure), which is exactly how Platinum's Basic_Main starts. The relative layout (Expert before EvalAttack, PrioritizeExtremes before Risky) also matches Platinum. So the HGSS flags were read as Platinum's scripts. Small per-move differences inside the HGSS scripts were not checked.",
+  "HGSS trainers.json ai_flags values seen: 0, 1, 3, 5, 7, 13, 15, 33, 35, 69, 71, 513, 517, 519. All of them decode cleanly with gen4_bits (e.g. 7 = BASIC|EVAL_ATTACK|EXPERT, the same set Platinum's Cynthia and E4 JSONs list; 519 adds WEATHER).",
+  "Gen 3 naming trap: Emerald defines bit1=TRY_TO_FAINT, bit2=CHECK_VIABILITY, bit5=PREFER_POWER_EXTREMES, bit9=TRY_SUNNY_DAY_START. FireRed defines bit1=CHECK_VIABILITY, bit2=TRY_TO_FAINT, bit5=PREFER_STRONGEST_MOVE, bit9=UNKNOWN (include/constants/battle_ai.h in each). Each game's script table matches its own names (emerald data/battle_ai_scripts.s:17-49, firered 18-50), so a NAME means the same behaviour in both games, but raw bit values differ for bits 1 and 2. All the boss trainers listed have both bits set anyway.",
+  "Move choice: Gen 3 and Gen 4 start each usable move at 100, add up all the flag scripts, and pick the highest score, breaking ties at random (platinum trainer_ai.c:211-343; emerald battle_ai_script_commands.c:312-446). Crystal starts at 20 and picks the LOWEST score, breaking ties at random (engine/battle/ai/move.asm:18-199). FireRed's tie-break checks 'greater than' before 'equal', so the move that first sets a new best is counted twice and wins ties about twice as often (inferred; firered battle_ai_script_commands.c:389-406, compare Emerald's comment at 431).",
+  "Gen 4 kill checks use the move's maximum non-critical damage roll (USE_MAX_DAMAGE). Gen 3 uses a per-move random 85-100% roll chosen when the turn's AI starts (emerald battle_ai_script_commands.c:340-341, 1743-1767). Crystal's AI_RISKY / AI_SMART use the normal damage formula with STAB (scoring.asm:3038-3055).",
+  "Healing-move logic in Gen 3 CHECK_VIABILITY and Gen 4 EXPERT gives -8 when the AI's Pokemon is not slower than the target. This is surprising, but both the Emerald/FireRed scripts (if_target_faster, else score -8) and pret's Platinum comment (script.s:2640-2650) say so. Macro semantics were not checked further.",
+  "AI_FLAG_WEATHER (Platinum script.s:7979-8020): after the four weather-effect checks the script falls through into Weather_Sun, so non-weather moves also reach the +5 on the first turn unless it is sunny (inferred by reading; not listed in pokeplatinum docs/bugs_and_glitches.md).",
+  "Platinum TrainerAI_ShouldUseItem (trainer_ai.c:4091-4196) has no early exit as decompiled: once one item qualifies, every later eligible slot is also cleared and usedItem ends up as the last one (inferred). HGSS's assembly returns right after the first item (overlay_10_trainer_ai.s:9768-9787). Treat Platinum multi-item consumption as uncertain.",
+  "HGSS item-slot gating (overlay_10_trainer_ai.s:9398-9409) compares alive_mons > item_count - i, where Platinum and Gen 3 use item_count - i + 1. 0x3CD was confirmed as the trainer item count by mapping HGSS TrainerAIData (include/battle/battle.h:121-151: trainer items at +0x68, counts at +0x99, with the base at 0x334 because items are read at 0x39C). This is inferred from assembly.",
+  "Gen 4 Max Potion: the HP-restore amount comes from item data that was not downloaded, so the 'missing HP > amount' trigger for Max Potion was not verified (Gen 3 stores 255 as a 'full' sentinel).",
+  "Platinum comments in TrainerAI_ShouldSwitch say 33% / 25% for the last two switch checks, but the code rolls 1-in-2 and 1-in-3 per qualifying move (trainer_ai.c:3973-3983 vs 3727-3807). The comment in AI_OnlyIneffectiveMoves says 'more than 1 attacking move, do not switch', but the code returns early when there are FEWER than 2 (trainer_ai.c:3412-3415). Values in this file follow the code.",
+  "Crystal: the Battle Tower uses Falkner's AI layers and no items (move.asm:67-72, items.asm:156-159). Crystal's AI_Redundant (called by AI_BASIC) lives in engine/battle/ai/redundant.asm, which was not downloaded; AI_BASIC's description relies on the comments in scoring.asm:4-7.",
+  "Crystal AI_SWITCH percentages assume pokecrystal's 'percent' macro is x*255/100 (macro file not downloaded); the switch odds are approximate.",
+  "Gen 4 trainer messages: the 'shown' flags are stored as values 2/3/4 but tested as bitmasks (battle_lib.c:50-52; HGSS uses literal 2/3/4), so LAST_BATTLER (3) also blocks a later ACTIVE_BATTLER_HALF_HP on the same Pokemon (inferred, harmless). Messages only happen in single trainer battles.",
+  "Gen 3: Emerald forces CHECK_BAD_MOVE|CHECK_VIABILITY|TRY_TO_FAINT in Frontier, e-Reader, Trainer Hill and secret-base battles and ORs both trainers' flags in two-trainer battles (battle_ai_script_commands.c:361-380). FireRed forces the same three in Trainer Tower / e-Reader / Battle Tower / secret base and for scripted legendaries (battle_ai_script_commands.c:323-360).",
+  "trainer_flags adds 'heartgold_soulsilver', 'platinum' and '_sources' beyond the requested crystal/firered/emerald keys, since the same benchmark trainers exist in HGSS. HGSS keys give 'name (trainer index, raw ai_flags)'. Crystal flags are per trainer CLASS (Will/Koga/etc. are one-trainer classes; COOLTRAINERM/F, CAL, MYSTICALMAN, EXECUTIVEM/F and POKEMON_PROF are included for reference).",
+  "messages has no Gen 2 entry: Crystal has no in-battle trainer-message table in the files checked."
+ ]
 }

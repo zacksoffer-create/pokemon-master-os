@@ -1,10 +1,47 @@
 # Scouting packet: Emerald (adaptation)
 
-*Roster status: working (D-004). No grades: every line below is a phrase from the phrase book (engine/battle/phrasebook.json), triggered by numbers the engine measures, the way the games turn a Pokémon's best IV into its characteristic. Speed, power and bulk are measured against every fully evolved Pokémon of the same generation. Opponents' philosophy comes from the game's own trainer AI flags, bag and battle lines. Records are the benchmark 1v1 grid at the opponent's top level, with exact damage from Smogon's calculator. Not a simulation.*
+*Roster status: working (D-004). No grades: every line below is a phrase from the phrase book (engine/battle/phrasebook.json), triggered by numbers the engine measures, the way the games turn a Pokémon's best IV into its characteristic. Speed, power and bulk are measured against every fully evolved Pokémon of the same generation. Opponents' philosophy comes from the game's own trainer AI flags, bag and battle lines. Every one-on-one is played out by the scouting engine (docs/SCOUTING_ENGINE.md): our best plan against their best answer, Smogon's calculator for every hit at the lowest roll, every move landing, the odds kept. Against a game's trainers we meet them at their top level; the coach profile is measured against that generation's Smogon OU usage field at Lv 100.*
 
 ## Self-scout
 
-- **What we're trying to do:** Win on momentum: Altaria, Arcanine, Absol and Meganium turn one free turn into a sweep. The anchor: Swampert.
+### Coach profile
+
+Against the Gen 3 OU usage field (57 Smogon sets): **straight-up (p1), chips (p8), builds first (p73)**. 99-21-222 in 342 one-on-ones. A slider is a share of those fights; p is the percentile among 2,000 random six-Pokémon teams drawn from the field.
+
+| Slider | ◀ | Value | ▶ | Percentile |
+|---|---|---|---|---|
+| Pace | absorbs first | 58 | strikes first | p32 |
+| Punch | chips | 39 | knocks out | p8 |
+| Run / pass | special | 40 | physical | p30 |
+| Build-up | hits now | 20 | builds first | p73 |
+| Sustain | no healing | 2 | heals and resets | p50 |
+| Disruption | straight-up | 0 | disruptive | p1 |
+| Risk | safe | 36 | gambler | p72 |
+| Script | adaptive | 47 | scripted | p45 |
+
+| Player | W-D-L | Pace | Punch | Run / pass | Build-up | Sustain | Disruption | Risk | Script |
+|---|---|---|---|---|---|---|---|---|---|
+| Swampert | 23-5-29 | 47 (p25) | 47 (p37) | 69 (p60) | 0 (p31) | 5 (p85) | 0 (p27) | 0 (p3) | 49 (p61) |
+| Milotic | 25-5-27 | 65 (p45) | 49 (p39) | 8 (p35) | 0 (p31) | 9 (p88) | 0 (p27) | 77 (p96) | 72 (p90) |
+| Altaria | 8-5-44 | 58 (p39) | 23 (p17) | 36 (p42) | 26 (p68) | 0 (p41) | 0 (p27) | 18 (p39) | 30 (p5) |
+| Arcanine | 19-2-36 | 75 (p63) | 54 (p46) | 12 (p37) | 32 (p74) | 0 (p41) | 0 (p27) | 72 (p96) | 63 (p82) |
+| Absol | 9-0-48 | 53 (p31) | 32 (p23) | 51 (p58) | 30 (p70) | 0 (p41) | 0 (p27) | 19 (p40) | 33 (p14) |
+| Meganium | 15-4-38 | 51 (p28) | 28 (p21) | 65 (p60) | 35 (p79) | 0 (p41) | 0 (p27) | 28 (p53) | 35 (p18) |
+
+**Play sheet** (its most common call in each situation, against the field):
+
+| Player | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|
+| Swampert | Earthquake (51%) | Earthquake (51%) | Earthquake (51%) | Earthquake (54%) | Earthquake (51%) | Earthquake (51%) | Earthquake (53%) |
+| Milotic | Hydro Pump (74%) | Hydro Pump (74%) | Hydro Pump (65%) | Ice Beam (65%) | Hydro Pump (72%) | Hydro Pump (68%) | Ice Beam (47%) |
+| Altaria | Dragon Claw (39%) | Dragon Claw (46%) | Dragon Claw (46%) | Dragon Claw (54%) | Dragon Claw (46%) | Dragon Claw (44%) | Dragon Claw (53%) |
+| Arcanine | Overheat (63%) | Overheat (84%) | Overheat (77%) | Crunch (58%) | Overheat (84%) | Overheat (82%) | Crunch (47%) |
+| Absol | Ice Beam (37%) | Ice Beam (40%) | Ice Beam (46%) | Ice Beam (58%) | Ice Beam (40%) | Rock Slide (47%) | Ice Beam (51%) |
+| Meganium | Swords Dance (35%) | Earthquake (40%) | Earthquake (42%) | Earthquake (42%) | Giga Drain (47%) | Earthquake (39%) | Giga Drain (49%) |
+
+*Assumed where nothing is on record: EVs 85 in every stat; IVs 31; ability Intimidate (could be Flash Fire); level 100 (the peak); neutral nature.*
+
+- **What we're trying to do:** Win on momentum: Altaria, Arcanine, Absol and Meganium turn one free turn into a sweep. The anchor: Milotic.
 - **What we're good at:** 10 attack types in the repertoire. The main ones: Ice (Absol, Milotic and Swampert), Ground (Altaria, Meganium and Swampert), Steel (Arcanine, Meganium and Milotic) and Fire (Altaria and Arcanine). Nothing is safe: 16 of 17 types take super-effective hits from this club. Arcanine sets the pace; Swampert expects to take the first hit.
 - **Where we're soft:** No shared hole: no type hits three of the club super-effectively.
 
@@ -25,12 +62,12 @@
 
 | Player | Philosophy | 1v1 vs the league | Build |
 |---|---|---|---|
-| **Swampert** | Leave nowhere to hide: it has a super-effective answer for 12 of 17 types. | 28-4 | established example (one move known); slots 2-4 filled in by the engine |
-| **Milotic** | Win the long game: take the hit, heal with Recover, and make the other side break first. | 28-4 | no build on record: the engine filled in its strongest set |
+| **Milotic** | Win the long game: take the hit, heal with Recover, and make the other side break first. | 31-1 | no build on record: the engine filled in its strongest set |
+| **Swampert** | Leave nowhere to hide: it has a super-effective answer for 12 of 17 types. | 29-3 | established example (one move known); slots 2-4 filled in by the engine |
+| **Meganium** | Be the wall: absorb what the other side throws and hit back steadily. | 28-4 | no build on record: the engine filled in its strongest set |
+| **Absol** | Win on momentum: take one free turn for Swords Dance, then everything goes through. | 24-8 | no build on record: the engine filled in its strongest set |
 | **Arcanine** | Win on momentum: take one free turn for Agility, then everything goes through. | 22-10 | no build on record: the engine filled in its strongest set |
-| **Meganium** | Be the wall: absorb what the other side throws and hit back steadily. | 22-10 | no build on record: the engine filled in its strongest set |
-| **Altaria** | Straight ahead: the best hit, every turn. | 17-15 | no build on record: the engine filled in its strongest set |
-| **Absol** | Win on momentum: take one free turn for Swords Dance, then everything goes through. | 16-16 | no build on record: the engine filled in its strongest set |
+| **Altaria** | Straight ahead: the best hit, every turn. | 21-11 | no build on record: the engine filled in its strongest set |
 
 ## Scouting reports
 
@@ -44,7 +81,7 @@
 - **Against types:** Feeds on Dark, Dragon, Electric, Fire, Flying, Grass, Ground, Ice, Normal, Poison, Rock and Steel. One fatal hole: Grass hits it four times as hard. Look out for Grass (×4). A free switch-in against Electric.
 - **Against moves:** It cleans up status for the whole team with Refresh.
 - **How you beat it:** Hit it with something it can't hit back: Ludicolo are the classic answers.
-- **Production:** Won 28 of 32 one-on-ones against the league. An anchor.
+- **Production:** Won 29 of 32 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Feraligatr, Poliwrath and Walrein. Pokédex, Emerald: “If it senses the approach of a storm and a tidal wave, it protects its seaside nest by piling up boulders. It swims as fast as a jet ski.”
 
 ### Milotic (Water), Emerald
@@ -57,7 +94,7 @@
 - **Against types:** Feeds on Dragon, Fire, Flying, Grass, Ground, Ice and Rock. Struggles to hurt Water. Look out for Electric (×2) and Grass (×2).
 - **Against moves:** Marvel Scale: a status condition makes it sturdier.
 - **How you beat it:** Hit it with something it can't hit back: Jolteon, Electrode, Manectric and Electabuzz are the classic answers.
-- **Production:** Won 28 of 32 one-on-ones against the league. An anchor.
+- **Production:** Won 31 of 32 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Politoed, Ludicolo and Tentacruel. Pokédex, Emerald: “It is said to live at the bottom of large lakes. Considered to be the most beautiful of all POKéMON, it has been depicted in paintings and statues.”
 
 ### Altaria (Dragon/Flying), Emerald
@@ -70,7 +107,7 @@
 - **Against types:** Feeds on Bug, Dragon, Electric, Fire, Grass, Ice, Poison, Rock and Steel. One fatal hole: Ice hits it four times as hard. Look out for Ice (×4), Rock (×2) and Dragon (×2). A free switch-in against Ground.
 - **Against moves:** Natural Cure: switching out cures its status.
 - **How you beat it:** Hit it with something it can't hit back: Cloyster, Walrein, Lapras and Dewgong are the classic answers.
-- **Production:** Broke about even against the league (17-15).
+- **Production:** Won 21 of 32 one-on-ones against the league. A reliable starter.
 - **Makeup:** Plays like Meganium, Kingdra and Blastoise. Pokédex, Emerald: “It hums in a beautiful soprano voice. It flies among white clouds in the blue sky. It launches intensely hot fireballs from its mouth.”
 
 ### Arcanine (Fire), Emerald
@@ -96,7 +133,7 @@
 - **Against types:** Feeds on Bug, Dragon, Fire, Flying, Ghost, Grass, Ground, Ice and Psychic. Struggles to hurt Steel. Look out for Fighting (×2) and Bug (×2). A free switch-in against Psychic.
 - **Against moves:** Pressure: your moves burn extra PP.
 - **How you beat it:** Hit it with something it can't hit back: Heracross, Hitmonlee, Primeape and Blaziken are the classic answers.
-- **Production:** Broke about even against the league (16-16).
+- **Production:** Won 24 of 32 one-on-ones against the league. A reliable starter.
 - **Makeup:** Plays like Banette, Crawdaunt and Breloom. Pokédex, Emerald: “It sharply senses even subtle changes in the sky and the land to predict natural disasters. It is a long-lived POKéMON that has a life-span of 100 years.”
 
 ### Meganium (Grass), Emerald
@@ -108,70 +145,80 @@
 - **When it's behind:** Even behind, it can eat one more hit. Low on HP, Overgrow kicks in and its same-type hits get stronger.
 - **Against types:** Feeds on Electric, Fire, Ground, Ice, Poison, Rock, Steel and Water. Look out for Fire (×2), Ice (×2), Poison (×2), Flying (×2) and Bug (×2).
 - **How you beat it:** Hit it with something it can't hit back: Ninjask, Gengar, Salamence and Crobat are the classic answers.
-- **Production:** Won 22 of 32 one-on-ones against the league. A reliable starter.
+- **Production:** Won 28 of 32 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Blastoise, Venusaur and Ludicolo. Pokédex, Emerald: “The fragrance of a MEGANIUM’s flower soothes and calms emotions. In battle, it gives off more of its becalming scent to blunt the foe’s fighting spirit.”
 
 ## Call sheets
 
 ### Call sheet vs Sidney (Lv 49, pret/pokeemerald src/data/trainer_parties.h sParty_Sidney)
 
-- **Order:** Mightyena (Lv 46), Shiftry (Lv 48), Cacturne (Lv 46), Crawdaunt (Lv 48), Absol (Lv 49). Lead with Swampert: it handles their opener.
-- **Philosophy:** Their best player: Crawdaunt, which beats 2 of your 6. Your last one standing: Swampert.
+- **Order:** Mightyena (Lv 46), Shiftry (Lv 48), Cacturne (Lv 46), Crawdaunt (Lv 48), Absol (Lv 49). Lead with Meganium: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. It's coded to set up on its first turn. Their best player: Crawdaunt, which beats 1 of your 6. Your last one standing: Swampert.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Mightyena L46 | Roar · Double-Edge · Sand Attack · Crunch | Swampert: Brick Break 63.4-74.6% | Milotic: Hydro Pump 77.6-91.8% | — |
-| Shiftry L48 | Torment · Double Team · Swagger · Extrasensory | Arcanine: Overheat 148.1-174.7% | Absol: Ice Beam 53.8-63.3% | — |
-| Cacturne L46 | Leech Seed · Feint Attack · Needle Arm · Cotton Spore | Arcanine: Overheat 179.9-211.9% | Altaria: Fire Blast 76.9-91% | — |
-| Crawdaunt L48 | Surf · Swords Dance · Strength · Facade | Meganium: Giga Drain 70.5-83.3% | Swampert: Brick Break 52.3-62.1% | — |
-| Absol L49 | Aerial Ace · Rock Slide · Swords Dance · Slash @ Sitrus Berry | Milotic: Hydro Pump 72.3-85.4% | Swampert: Brick Break 65.7-77.4% | — |
+| Mightyena L46 | Roar · Double-Edge · Sand Attack · Crunch | Meganium: Giga Drain 36.6-43.3% | Arcanine: Overheat 97-114.9% | — |
+| Shiftry L48 | Torment · Double Team · Swagger · Extrasensory | Arcanine: Overheat 158.9-187.3% | Milotic: Ice Beam 72.8-86.1% | — |
+| Cacturne L46 | Leech Seed · Feint Attack · Needle Arm · Cotton Spore | Milotic: Ice Beam 89.6-106% | Absol: Ice Beam 71.6-85.1% | — |
+| Crawdaunt L48 | Surf · Swords Dance · Strength · Facade | Swampert: Brick Break 57.6-68.2% | Meganium: Giga Drain 77.3-90.9% | — |
+| Absol L49 | Aerial Ace · Rock Slide · Swords Dance · Slash @ Sitrus Berry | Swampert: Earthquake 70.1-83.2% | Meganium: Earthquake 37.2-44.5% | — |
 
 **Mightyena L46**
 
 - **Order:** Leads off.
-- **Tendencies:** Gets the jump on Swampert. Its go-to: Double-Edge (its best hit on Swampert, Milotic, Altaria, Arcanine, Absol and Meganium). Hits from both sides (Double-Edge physical, Crunch special): no single wall stops it.
+- **Tendencies:** You move first, every time. Its go-to: Double-Edge (its best hit on Swampert, Milotic, Altaria, Arcanine, Absol and Meganium). Hits from both sides (Double-Edge physical, Crunch special): no single wall stops it.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in. If you set up, it forces you out with Roar.
-- **How to attack it:** Hit it with Fighting. The call: Swampert: Brick Break 63.4-74.6%. Backup: Milotic: Hydro Pump 77.6-91.8%. Its blind spot: Swampert and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Fighting. The call: Meganium: Giga Drain 36.6-43.3%. Backup: Arcanine: Overheat 97-114.9%. Its blind spot: Swampert, Milotic, Altaria, Arcanine and Meganium take almost nothing from it.
 
 **Shiftry L48**
 
-- **Tendencies:** Gets the jump on Swampert and Absol. Its go-to: Extrasensory (its best hit on Swampert, Milotic, Altaria, Arcanine and Meganium).
+- **Tendencies:** You move first, every time. Its go-to: Extrasensory (its best hit on Swampert, Milotic, Altaria, Arcanine and Meganium).
 - **Against moves:** Chlorophyll: doubles its Speed in sun.
-- **How to attack it:** Hit it with Fighting, Fire and Ice. The call: Arcanine: Overheat 148.1-174.7%. Backup: Absol: Ice Beam 53.8-63.3%. Its blind spot: Swampert, Milotic, Altaria, Arcanine, Absol and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Fire and Ice. The call: Arcanine: Overheat 158.9-187.3%. Backup: Milotic: Ice Beam 72.8-86.1%. Its blind spot: Swampert, Milotic, Altaria, Arcanine, Absol and Meganium take almost nothing from it.
 
 **Cacturne L46**
 
 - **Tendencies:** You move first, every time. Its go-to: Needle Arm (its best hit on Swampert, Milotic and Absol). Otherwise: Feint Attack against Altaria, Arcanine and Meganium.
 - **When it's behind:** When it's low, it heals itself with Leech Seed.
 - **Against moves:** Sand Veil: harder to hit in a sandstorm.
-- **How to attack it:** Hit it with Fighting, Fire and Ice. The call: Arcanine: Overheat 179.9-211.9%. Backup: Altaria: Fire Blast 76.9-91%. Its blind spot: Altaria, Arcanine and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Fire and Ice. The call: Milotic: Ice Beam 89.6-106%. Backup: Absol: Ice Beam 71.6-85.1%. Its blind spot: Altaria, Arcanine and Meganium take almost nothing from it.
 
 **Crawdaunt L48**
 
 - **Tendencies:** You move first, every time. Its go-to: Surf (its best hit on Swampert, Arcanine and Absol). Otherwise: Strength against Milotic, Altaria and Meganium. Hits from both sides (Strength and Facade physical, Surf special): no single wall stops it.
 - **When it's ahead:** Given a free turn, it sets up with Swords Dance.
-- **How to attack it:** Hit it with Fighting and Grass. The call: Meganium: Giga Drain 70.5-83.3%. Backup: Swampert: Brick Break 52.3-62.1%. Its blind spot: Milotic, Altaria and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Fighting and Grass. The call: Swampert: Brick Break 57.6-68.2%. Backup: Meganium: Giga Drain 77.3-90.9%. Its blind spot: Swampert, Milotic, Altaria and Meganium take almost nothing from it.
 
 **Absol L49**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Swampert and Absol. Its go-to: Rock Slide (its best hit on Milotic, Altaria, Arcanine and Absol). Otherwise: Slash against Swampert; Aerial Ace against Meganium. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** You move first, every time. Its go-to: Rock Slide (its best hit on Milotic, Altaria, Arcanine and Absol). Otherwise: Slash against Swampert; Aerial Ace against Meganium. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Given a free turn, it sets up with Swords Dance.
 - **Against moves:** Pressure: your moves burn extra PP.
-- **How to attack it:** Hit it with Fighting. The call: Milotic: Hydro Pump 72.3-85.4%. Backup: Swampert: Brick Break 65.7-77.4%. Its blind spot: Swampert and Milotic take almost nothing from it.
+- **How to attack it:** Hit it with Fighting. The call: Swampert: Earthquake 70.1-83.2%. Backup: Meganium: Earthquake 37.2-44.5%. Its blind spot: Swampert and Milotic take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Mightyena | Meganium (W) | Swords Dance / Sand Attack | Giga Drain / Double-Edge | Giga Drain / Double-Edge | Giga Drain / Double-Edge | Giga Drain / Double-Edge | Giga Drain / Double-Edge | Giga Drain / Double-Edge |
+| Shiftry | Arcanine (W) | Overheat / Double Team | Overheat / Extrasensory | Overheat / Extrasensory | Overheat / Extrasensory | Overheat / Extrasensory | Overheat / Extrasensory | Overheat / Extrasensory |
+| Cacturne | Milotic (W) | Ice Beam / Leech Seed | Ice Beam / Needle Arm | Ice Beam / Needle Arm | Ice Beam / Needle Arm | Ice Beam / Needle Arm | Ice Beam / Needle Arm | Ice Beam / Needle Arm |
+| Crawdaunt | Swampert (W) | Brick Break / Swords Dance | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf |
+| Absol | Swampert (W) | Brick Break / Swords Dance | Brick Break / Slash | Earthquake / Slash | Earthquake / Slash | Brick Break / Slash | Brick Break / Slash | Earthquake / Slash |
 
 ### Call sheet vs Phoebe (Lv 51, pret/pokeemerald src/data/trainer_parties.h sParty_Phoebe)
 
-- **Order:** Dusclops (Lv 48), Banette (Lv 49), Sableye (Lv 50), Banette (Lv 49), Dusclops (Lv 51). Lead with Milotic: it handles their opener.
-- **Philosophy:** Their best player: Dusclops, which beats 2 of your 6. Your last one standing: Swampert.
+- **Order:** Dusclops (Lv 48), Banette (Lv 49), Sableye (Lv 50), Banette (Lv 49), Dusclops (Lv 51). Lead with Arcanine: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Dusclops, which beats 1 of your 6. Your last one standing: Swampert.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Dusclops L48 | Shadow Punch · Confuse Ray · Curse · Protect | Milotic: Hydro Pump 52.7-62.7% | Arcanine: Overheat 61.8-73.6% | — |
-| Banette L49 | Shadow Ball · Grudge · Will-O-Wisp · Feint Attack | Absol: Bite 61-72.1% | Milotic: Hydro Pump 75-89% | — |
-| Sableye L50 | Shadow Ball · Double Team · Night Shade · Feint Attack | Swampert: Earthquake 63.2-75.2% | Milotic: Hydro Pump 77.6-92% | — |
-| Banette L49 | Shadow Ball · Psychic · Thunderbolt · Facade | Milotic: Hydro Pump 75-89% | Arcanine: Overheat 87.5-103.7% | — |
-| Dusclops L51 | Shadow Ball · Ice Beam · Rock Slide · Earthquake @ Sitrus Berry | Arcanine: Overheat 54.7-65% | Swampert: Earthquake 43.6-51.3% | — |
+| Dusclops L48 | Shadow Punch · Confuse Ray · Curse · Protect | Arcanine: Overheat 66.4-79.1% | Swampert: Earthquake 50.9-60.9% | — |
+| Banette L49 | Shadow Ball · Grudge · Will-O-Wisp · Feint Attack | Arcanine: Overheat 95.6-113.2% | Absol: Bite 68.4-80.9% | — |
+| Sableye L50 | Shadow Ball · Double Team · Night Shade · Feint Attack | Swampert: Earthquake 68.8-81.6% | Meganium: Giga Drain 38.4-45.6% | — |
+| Banette L49 | Shadow Ball · Psychic · Thunderbolt · Facade | Arcanine: Overheat 95.6-113.2% | Absol: Bite 68.4-80.9% | — |
+| Dusclops L51 | Shadow Ball · Ice Beam · Rock Slide · Earthquake @ Sitrus Berry | Swampert: Earthquake 46.2-54.7% | Absol: Bite 43.6-51.3% | — |
 
 **Dusclops L48**
 
@@ -179,233 +226,285 @@
 - **Tendencies:** You move first, every time. Its go-to: Shadow Punch (its best hit on Swampert, Milotic, Altaria, Arcanine, Absol and Meganium).
 - **When it's ahead:** Expect Confuse Ray early.
 - **Against moves:** Pressure: your moves burn extra PP. Stalls with Protect.
-- **How to attack it:** Hit it with Dark. The call: Milotic: Hydro Pump 52.7-62.7%. Backup: Arcanine: Overheat 61.8-73.6%. Its blind spot: Swampert, Milotic, Altaria, Arcanine, Absol and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Dark. The call: Arcanine: Overheat 66.4-79.1%. Backup: Swampert: Earthquake 50.9-60.9%. Its blind spot: Swampert, Milotic, Altaria, Arcanine, Absol and Meganium take almost nothing from it.
 
 **Banette L49**
 
-- **Tendencies:** Gets the jump on Swampert. Its go-to: Shadow Ball (its best hit on Swampert, Milotic, Altaria, Arcanine, Absol and Meganium). Hits from both sides (Shadow Ball physical, Feint Attack special): no single wall stops it.
+- **Tendencies:** You move first, every time. Its go-to: Shadow Ball (its best hit on Swampert, Milotic, Altaria, Arcanine, Absol and Meganium). Hits from both sides (Shadow Ball physical, Feint Attack special): no single wall stops it.
 - **When it's ahead:** Expect Will-O-Wisp early.
 - **Against moves:** Insomnia: it can't be put to sleep.
-- **How to attack it:** Hit it with Dark. The call: Absol: Bite 61-72.1%. Backup: Milotic: Hydro Pump 75-89%. Its blind spot: Absol takes almost nothing from it.
+- **How to attack it:** Hit it with Dark. The call: Arcanine: Overheat 95.6-113.2%. Backup: Absol: Bite 68.4-80.9%. Its blind spot: Absol takes almost nothing from it.
 
 **Sableye L50**
 
 - **Tendencies:** You move first, every time. Its go-to: Night Shade (its best hit on Swampert, Milotic, Altaria, Arcanine, Absol and Meganium). Hits from both sides (Shadow Ball physical, Feint Attack special): no single wall stops it.
 - **Against moves:** Keen Eye: its accuracy can't be lowered.
-- **How to attack it:** The call: Swampert: Earthquake 63.2-75.2%. Backup: Milotic: Hydro Pump 77.6-92%.
+- **How to attack it:** The call: Swampert: Earthquake 68.8-81.6%. Backup: Meganium: Giga Drain 38.4-45.6%.
 
 **Banette L49**
 
-- **Tendencies:** Gets the jump on Swampert. Its go-to: Shadow Ball (its best hit on Swampert, Milotic, Altaria, Arcanine and Meganium). Otherwise: Thunderbolt against Absol. Hits from both sides (Shadow Ball and Facade physical, Psychic and Thunderbolt special): no single wall stops it.
+- **Tendencies:** You move first, every time. Its go-to: Shadow Ball (its best hit on Swampert, Milotic, Altaria, Arcanine and Meganium). Otherwise: Thunderbolt against Absol. Hits from both sides (Shadow Ball and Facade physical, Psychic and Thunderbolt special): no single wall stops it.
 - **Against moves:** Insomnia: it can't be put to sleep.
-- **How to attack it:** Hit it with Dark. The call: Milotic: Hydro Pump 75-89%. Backup: Arcanine: Overheat 87.5-103.7%.
+- **How to attack it:** Hit it with Dark. The call: Arcanine: Overheat 95.6-113.2%. Backup: Absol: Bite 68.4-80.9%. Its blind spot: Absol takes almost nothing from it.
 
 **Dusclops L51**
 
 - **Order:** Last in the order.
 - **Tendencies:** You move first, every time. Its go-to: Shadow Ball (its best hit on Swampert and Milotic). Otherwise: Ice Beam against Altaria and Meganium; Earthquake against Arcanine and Absol. Hits from both sides (Shadow Ball, Rock Slide and Earthquake physical, Ice Beam special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Pressure: your moves burn extra PP.
-- **How to attack it:** Hit it with Dark. The call: Arcanine: Overheat 54.7-65%. Backup: Swampert: Earthquake 43.6-51.3%. Its blind spot: Swampert and Milotic take almost nothing from it.
+- **How to attack it:** Hit it with Dark. The call: Swampert: Earthquake 46.2-54.7%. Backup: Absol: Bite 43.6-51.3%. Its blind spot: Swampert and Milotic take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Dusclops | Arcanine (W) | Crunch / Shadow Punch | Crunch / Shadow Punch | Crunch / Shadow Punch | Crunch / Shadow Punch | Crunch / Shadow Punch | Crunch / Shadow Punch | Crunch / Shadow Punch |
+| Banette | Arcanine (W) | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball |
+| Sableye | Swampert (W) | Earthquake / Night Shade | Earthquake / Night Shade | Earthquake / Night Shade | Earthquake / Night Shade | Earthquake / Night Shade | Earthquake / Night Shade | Earthquake / Night Shade |
+| Banette | Arcanine (W) | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball | Crunch / Shadow Ball |
+| Dusclops | Swampert (W) | Earthquake / Shadow Ball | Earthquake / Shadow Ball | Earthquake / Shadow Ball | Earthquake / Shadow Ball | Earthquake / Shadow Ball | Earthquake / Shadow Ball | Earthquake / Shadow Ball |
 
 ### Call sheet vs Glacia (Lv 53, pret/pokeemerald src/data/trainer_parties.h sParty_Glacia)
 
-- **Order:** Sealeo (Lv 50), Glalie (Lv 50), Sealeo (Lv 52), Glalie (Lv 52), Walrein (Lv 53). Lead with Swampert: it handles their opener.
-- **Philosophy:** Their best player: Glalie, which beats 4 of your 6. Your last one standing: Swampert.
+- **Order:** Sealeo (Lv 50), Glalie (Lv 50), Sealeo (Lv 52), Glalie (Lv 52), Walrein (Lv 53). Lead with Meganium: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Walrein, which beats 2 of your 6. Your last one standing: Swampert.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Sealeo L50 | Encore · Body Slam · Hail · Ice Ball | Swampert: Earthquake 55.2-65.5% | Meganium: Giga Drain 53.3-63% | — |
-| Glalie L50 | Light Screen · Crunch · Icy Wind · Ice Beam | Arcanine: Overheat 135.5-160% | Milotic: Hydro Pump 58.7-69.7% | Altaria |
-| Sealeo L52 | Attract · Double-Edge · Hail · Blizzard | Swampert: Brick Break 52.6-62% | Absol: Rock Slide 59.6-70.2% | Altaria |
-| Glalie L52 | Shadow Ball · Explosion · Hail · Ice Beam | Arcanine: Overheat 128.1-151.3% | Meganium: Iron Tail 53.1-62.5% | Milotic, Altaria, Absol |
-| Walrein L53 | Surf · Body Slam · Ice Beam · Sheer Cold @ Sitrus Berry | Swampert: Brick Break 37.2-43.9% | Milotic: Hydro Pump 19.9-23.5% | Altaria |
+| Sealeo L50 | Encore · Body Slam · Hail · Ice Ball | Meganium: Giga Drain 58.2-69.1% | Swampert: Brick Break 60.6-71.5% | — |
+| Glalie L50 | Light Screen · Crunch · Icy Wind · Ice Beam | Swampert: Brick Break 58.1-68.4% | Arcanine: Overheat 147.7-174.2% | — |
+| Sealeo L52 | Attract · Double-Edge · Hail · Blizzard | Swampert: Brick Break 56.1-66.7% | Meganium: Giga Drain 54.4-64.3% | Altaria |
+| Glalie L52 | Shadow Ball · Explosion · Hail · Ice Beam | Swampert: Earthquake 53.8-63.8% | Meganium: Iron Tail 58.1-68.8% | Absol |
+| Walrein L53 | Surf · Body Slam · Ice Beam · Sheer Cold @ Sitrus Berry | Swampert: Brick Break 39.8-46.9% | Meganium: Giga Drain 38.8-45.9% | Altaria |
 
 **Sealeo L50**
 
 - **Order:** Leads off.
 - **Tendencies:** You move first, every time. Its go-to: Body Slam (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Ice Ball against Altaria and Meganium. Hits from both sides (Body Slam physical, Ice Ball special): no single wall stops it.
 - **Against moves:** Thick Fat: Fire and Ice moves only do half.
-- **How to attack it:** Hit it with Fighting, Grass and Rock. The call: Swampert: Earthquake 55.2-65.5%. Backup: Meganium: Giga Drain 53.3-63%. Its blind spot: Swampert, Milotic, Arcanine, Absol and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Grass and Rock. The call: Meganium: Giga Drain 58.2-69.1%. Backup: Swampert: Brick Break 60.6-71.5%. Its blind spot: Swampert, Milotic, Arcanine, Absol and Meganium take almost nothing from it.
 
 **Glalie L50**
 
-- **Tendencies:** Gets the jump on Swampert and Absol. Its go-to: Ice Beam (its best hit on Swampert, Altaria, Absol and Meganium). Otherwise: Crunch against Milotic and Arcanine.
+- **Tendencies:** Gets the jump on Swampert. Its go-to: Ice Beam (its best hit on Swampert, Altaria, Absol and Meganium). Otherwise: Crunch against Milotic and Arcanine.
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Fighting, Fire, Rock and Steel. The call: Arcanine: Overheat 135.5-160%. Backup: Milotic: Hydro Pump 58.7-69.7%. Keep Altaria away from it: one hit and they're gone. Its blind spot: Milotic and Arcanine take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Fire, Rock and Steel. The call: Swampert: Brick Break 58.1-68.4%. Backup: Arcanine: Overheat 147.7-174.2%. Its blind spot: Swampert, Milotic and Arcanine take almost nothing from it.
 
 **Sealeo L52**
 
 - **Tendencies:** You move first, every time. Its go-to: Blizzard (its best hit on Swampert, Altaria, Absol and Meganium). Otherwise: Double-Edge against Milotic and Arcanine. Hits from both sides (Double-Edge physical, Blizzard special): no single wall stops it.
 - **Against moves:** Thick Fat: Fire and Ice moves only do half.
-- **How to attack it:** Hit it with Fighting, Grass and Rock. The call: Swampert: Brick Break 52.6-62%. Backup: Absol: Rock Slide 59.6-70.2%. Keep Altaria away from it: one hit and they're gone. Its blind spot: Milotic and Arcanine take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Grass and Rock. The call: Swampert: Brick Break 56.1-66.7%. Backup: Meganium: Giga Drain 54.4-64.3%. Keep Altaria away from it: one hit and they're gone. Its blind spot: Milotic and Arcanine take almost nothing from it.
 
 **Glalie L52**
 
-- **Tendencies:** Gets the jump on Swampert and Absol. Its go-to: Explosion (its best hit on Swampert, Milotic, Arcanine, Absol and Meganium). Otherwise: Ice Beam against Altaria. Hits from both sides (Shadow Ball and Explosion physical, Ice Beam special): no single wall stops it.
+- **Tendencies:** Gets the jump on Swampert. Its go-to: Explosion (its best hit on Swampert, Milotic, Arcanine, Absol and Meganium). Otherwise: Ice Beam against Altaria. Hits from both sides (Shadow Ball and Explosion physical, Ice Beam special): no single wall stops it.
 - **When it's behind:** Cornered, it can take one of yours down with it (Explosion).
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Fighting, Fire, Rock and Steel. The call: Arcanine: Overheat 128.1-151.3%. Backup: Meganium: Iron Tail 53.1-62.5%. Keep Milotic, Altaria, Arcanine and Absol away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Fighting, Fire, Rock and Steel. The call: Swampert: Earthquake 53.8-63.8%. Backup: Meganium: Iron Tail 58.1-68.8%. Keep Absol away from it: one hit and they're gone.
 
 **Walrein L53**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Swampert. Its go-to: Surf (its best hit on Swampert, Arcanine and Absol). Otherwise: Ice Beam against Altaria and Meganium; Body Slam against Milotic. Hits from both sides (Body Slam physical, Surf and Ice Beam special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** You move first, every time. Its go-to: Surf (its best hit on Swampert, Arcanine and Absol). Otherwise: Ice Beam against Altaria and Meganium; Body Slam against Milotic. Hits from both sides (Body Slam physical, Surf and Ice Beam special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Thick Fat: Fire and Ice moves only do half.
-- **How to attack it:** Hit it with Fighting, Grass and Rock. The call: Swampert: Brick Break 37.2-43.9%. Backup: Milotic: Hydro Pump 19.9-23.5%. Keep Altaria away from it: one hit and they're gone. Its blind spot: Milotic takes almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Grass and Rock. The call: Swampert: Brick Break 39.8-46.9%. Backup: Meganium: Giga Drain 38.8-45.9%. Keep Altaria away from it: one hit and they're gone. Its blind spot: Milotic takes almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Sealeo | Meganium (W) | Giga Drain / Ice Ball | Giga Drain / Ice Ball | Giga Drain / Ice Ball | Giga Drain / Ice Ball | Giga Drain / Ice Ball | Giga Drain / Ice Ball | Giga Drain / Ice Ball |
+| Glalie | Swampert (W) | Brick Break / Ice Beam | Brick Break / Ice Beam | Brick Break / Ice Beam | Brick Break / Ice Beam | Brick Break / Ice Beam | Brick Break / Ice Beam | Brick Break / Ice Beam |
+| Sealeo | Swampert (W) | Brick Break / Blizzard | Brick Break / Blizzard | Brick Break / Blizzard | Brick Break / Blizzard | Brick Break / Blizzard | Brick Break / Blizzard | Brick Break / Blizzard |
+| Glalie | Swampert (W) | Brick Break / Explosion | Brick Break / Explosion | Earthquake / Explosion | Earthquake / Ice Beam | Brick Break / Explosion | Brick Break / Explosion | Earthquake / Explosion |
+| Walrein | Swampert (W) | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf | Brick Break / Surf |
 
 ### Call sheet vs Drake (Lv 55, pret/pokeemerald src/data/trainer_parties.h sParty_Drake)
 
-- **Order:** Shelgon (Lv 52), Altaria (Lv 54), Kingdra (Lv 53), Flygon (Lv 53), Salamence (Lv 55). Lead with Swampert: it handles their opener.
-- **Philosophy:** Their best player: Salamence, which beats 4 of your 6. Your last one standing: Swampert.
+- **Order:** Shelgon (Lv 52), Altaria (Lv 54), Kingdra (Lv 53), Flygon (Lv 53), Salamence (Lv 55). Lead with Milotic: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Salamence, which beats 3 of your 6. Your last one standing: Swampert.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Shelgon L52 | Rock Tomb · Dragon Claw · Protect · Double-Edge | Swampert: Ice Beam 86.2-102.1% | Milotic: Ice Beam 99.3-117.2% | — |
-| Altaria L54 | Double-Edge · Dragon Breath · Dragon Dance · Aerial Ace | Swampert: Ice Beam 86.3-101.9% | Milotic: Ice Beam 96.9-114.3% | — |
-| Kingdra L53 | Smokescreen · Dragon Dance · Surf · Body Slam | Altaria: Dragon Claw 52.5-62% | Swampert: Earthquake 46.2-55.1% | — |
-| Flygon L53 | Flamethrower · Crunch · Dragon Breath · Earthquake | Swampert: Ice Beam 106.1-125.2% | Milotic: Ice Beam 122.7-144.8% | — |
-| Salamence L55 | Flamethrower · Dragon Claw · Rock Slide · Crunch @ Sitrus Berry | Milotic: Ice Beam 102.2-120.4% | Swampert: Ice Beam 89.2-105.4% | — |
+| Shelgon L52 | Rock Tomb · Dragon Claw · Protect · Double-Edge | Milotic: Ice Beam 107.6-126.9% | Altaria: Dragon Claw 105.5-124.1% | — |
+| Altaria L54 | Double-Edge · Dragon Breath · Dragon Dance · Aerial Ace | Milotic: Ice Beam 105.6-124.2% | Swampert: Ice Beam 95-111.8% | — |
+| Kingdra L53 | Smokescreen · Dragon Dance · Surf · Body Slam | Altaria: Dragon Claw 57.6-68.4% | Meganium: Earthquake 26.6-31.6% | — |
+| Flygon L53 | Flamethrower · Crunch · Dragon Breath · Earthquake | Swampert: Ice Beam 118.4-139.9% | Milotic: Ice Beam 133.1-157.1% | — |
+| Salamence L55 | Flamethrower · Dragon Claw · Rock Slide · Crunch @ Sitrus Berry | Milotic: Ice Beam 111.3-131.2% | Swampert: Ice Beam 98.4-116.1% | — |
 
 **Shelgon L52**
 
 - **Order:** Leads off.
 - **Tendencies:** You move first, every time. Its go-to: Double-Edge (its best hit on Swampert, Milotic, Arcanine, Absol and Meganium). Otherwise: Dragon Claw against Altaria. Hits from both sides (Rock Tomb and Double-Edge physical, Dragon Claw special): no single wall stops it.
 - **Against moves:** Rock Head: no recoil damage. Stalls with Protect.
-- **How to attack it:** Hit it with Dragon and Ice. The call: Swampert: Ice Beam 86.2-102.1%. Backup: Milotic: Ice Beam 99.3-117.2%. Its blind spot: Swampert and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Dragon and Ice. The call: Milotic: Ice Beam 107.6-126.9%. Backup: Altaria: Dragon Claw 105.5-124.1%. Its blind spot: Swampert, Milotic, Arcanine and Meganium take almost nothing from it.
 
 **Altaria L54**
 
-- **Tendencies:** Gets the jump on Swampert and Absol. Its go-to: Double-Edge (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Dragon Breath against Altaria; Aerial Ace against Meganium. Hits from both sides (Double-Edge and Aerial Ace physical, Dragon Breath special): no single wall stops it.
+- **Tendencies:** Gets the jump on Swampert. Its go-to: Double-Edge (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Dragon Breath against Altaria; Aerial Ace against Meganium. Hits from both sides (Double-Edge and Aerial Ace physical, Dragon Breath special): no single wall stops it.
 - **When it's ahead:** Given a free turn, it sets up with Dragon Dance.
 - **Against moves:** Natural Cure: switching out cures its status.
-- **How to attack it:** Hit it with Dragon, Ice and Rock. The call: Swampert: Ice Beam 86.3-101.9%. Backup: Milotic: Ice Beam 96.9-114.3%. Its blind spot: Swampert, Milotic and Arcanine take almost nothing from it.
+- **How to attack it:** Hit it with Dragon, Ice and Rock. The call: Milotic: Ice Beam 105.6-124.2%. Backup: Swampert: Ice Beam 95-111.8%. Its blind spot: Swampert, Milotic and Arcanine take almost nothing from it.
 
 **Kingdra L53**
 
-- **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Surf (its best hit on Swampert, Arcanine and Absol). Otherwise: Body Slam against Milotic, Altaria and Meganium. Hits from both sides (Body Slam physical, Surf special): no single wall stops it.
+- **Tendencies:** Gets the jump on Swampert. Its go-to: Surf (its best hit on Swampert, Arcanine and Absol). Otherwise: Body Slam against Milotic, Altaria and Meganium. Hits from both sides (Body Slam physical, Surf special): no single wall stops it.
 - **When it's ahead:** Given a free turn, it sets up with Dragon Dance.
 - **Against moves:** Swift Swim: doubles its Speed in rain.
-- **How to attack it:** Hit it with Dragon. The call: Altaria: Dragon Claw 52.5-62%. Backup: Swampert: Earthquake 46.2-55.1%. Its blind spot: Milotic, Altaria and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Dragon. The call: Altaria: Dragon Claw 57.6-68.4%. Backup: Meganium: Earthquake 26.6-31.6%. Its blind spot: Milotic, Altaria and Meganium take almost nothing from it.
 
 **Flygon L53**
 
-- **Tendencies:** Swings first against almost everyone you have (6 of 6). Its go-to: Earthquake (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Dragon Breath against Altaria; Flamethrower against Meganium. Hits from both sides (Earthquake physical, Flamethrower, Crunch and Dragon Breath special): no single wall stops it.
+- **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Earthquake (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Dragon Breath against Altaria; Flamethrower against Meganium. Hits from both sides (Earthquake physical, Flamethrower, Crunch and Dragon Breath special): no single wall stops it.
 - **Against moves:** Levitate: Ground moves miss it entirely.
-- **How to attack it:** Hit it with Dragon and Ice. The call: Swampert: Ice Beam 106.1-125.2%. Backup: Milotic: Ice Beam 122.7-144.8%.
+- **How to attack it:** Hit it with Dragon and Ice. The call: Swampert: Ice Beam 118.4-139.9%. Backup: Milotic: Ice Beam 133.1-157.1%.
 
 **Salamence L55**
 
 - **Order:** Last in the order.
-- **Tendencies:** Swings first against almost everyone you have (6 of 6). Its go-to: Dragon Claw (its best hit on Swampert, Altaria and Absol). Otherwise: Rock Slide against Milotic and Arcanine; Flamethrower against Meganium. Hits from both sides (Rock Slide physical, Flamethrower, Dragon Claw and Crunch special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Dragon Claw (its best hit on Swampert, Altaria and Absol). Otherwise: Rock Slide against Milotic and Arcanine; Flamethrower against Meganium. Hits from both sides (Rock Slide physical, Flamethrower, Dragon Claw and Crunch special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Dragon, Ice and Rock. The call: Milotic: Ice Beam 102.2-120.4%. Backup: Swampert: Ice Beam 89.2-105.4%.
+- **How to attack it:** Hit it with Dragon, Ice and Rock. The call: Milotic: Ice Beam 111.3-131.2%. Backup: Swampert: Ice Beam 98.4-116.1%. Its blind spot: Milotic takes almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Shelgon | Milotic (W) | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge |
+| Altaria | Milotic (W) | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge | Ice Beam / Double-Edge |
+| Kingdra | Altaria (W) | Dragon Claw / Body Slam | Dragon Claw / Body Slam | Dragon Claw / Body Slam | Dragon Claw / Body Slam | Dragon Claw / Body Slam | Dragon Claw / Body Slam | Dragon Claw / Body Slam |
+| Flygon | Swampert (W) | Ice Beam / Earthquake | Ice Beam / Earthquake | Ice Beam / Earthquake | Ice Beam / Earthquake | Ice Beam / Earthquake | Ice Beam / Earthquake | Ice Beam / Earthquake |
+| Salamence | Milotic (W) | Ice Beam / Rock Slide | Ice Beam / Rock Slide | Ice Beam / Rock Slide | Ice Beam / Dragon Claw | Ice Beam / Rock Slide | Ice Beam / Rock Slide | Ice Beam / Rock Slide |
 
 ### Call sheet vs Champion Wallace (Lv 58, pret/pokeemerald src/data/trainer_parties.h sParty_Wallace)
 
-- **Order:** Wailord (Lv 57), Tentacruel (Lv 55), Ludicolo (Lv 56), Whiscash (Lv 56), Gyarados (Lv 56), Milotic (Lv 58). Lead with Swampert: it handles their opener.
-- **Philosophy:** Their best player: Gyarados, which beats 6 of your 6. Your last one standing: Swampert. No clean answer on your side for Gyarados L56.
+- **Order:** Wailord (Lv 57), Tentacruel (Lv 55), Ludicolo (Lv 56), Whiscash (Lv 56), Gyarados (Lv 56), Milotic (Lv 58). Lead with Meganium: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Milotic, which beats 4 of your 6. Your last one standing: Meganium.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Wailord L57 | Rain Dance · Water Spout · Double-Edge · Blizzard | Swampert: Earthquake 47.5-56.1% | Milotic: Hydro Pump 26.3-30.9% | Altaria, Arcanine |
-| Tentacruel L55 | Toxic · Hydro Pump · Sludge Bomb · Ice Beam | Swampert: Earthquake 122.9-144.7% | Meganium: Earthquake 64.7-76.5% | — |
-| Ludicolo L56 | Giga Drain · Surf · Leech Seed · Double Team | Arcanine: Overheat 54.1-64% | Altaria: Dragon Claw 23.8-28.5% | — |
-| Whiscash L56 | Earthquake · Surf · Amnesia · Hyper Beam | Milotic: Hydro Pump 51-60.2% | Meganium: Giga Drain 90.8-106.8% | — |
-| Gyarados L56 | Dragon Dance · Earthquake · Hyper Beam · Surf | **no clean answer** | — | — |
-| Milotic L58 | Recover · Surf · Ice Beam · Toxic @ Sitrus Berry | Swampert: Earthquake 43.4-51% | Milotic: Hydro Pump 16.3-19.4% | — |
+| Wailord L57 | Rain Dance · Water Spout · Double-Edge · Blizzard | Meganium: Giga Drain 50-59% | Swampert: Earthquake 51.1-60.4% | — |
+| Tentacruel L55 | Toxic · Hydro Pump · Sludge Bomb · Ice Beam | Swampert: Earthquake 132.9-156.5% | Meganium: Earthquake 70.6-83.5% | — |
+| Ludicolo L56 | Giga Drain · Surf · Leech Seed · Double Team | Meganium: Giga Drain 22.7-26.7% | Altaria: Dragon Claw 26.2-31.4% | — |
+| Whiscash L56 | Earthquake · Surf · Amnesia · Hyper Beam | Meganium: Giga Drain 99-116.5% | Swampert: Earthquake 48.5-57.3% | — |
+| Gyarados L56 | Dragon Dance · Earthquake · Hyper Beam · Surf | Meganium: Giga Drain 20.6-24.3% | Milotic: Ice Beam 23.8-28.6% | — |
+| Milotic L58 | Recover · Surf · Ice Beam · Toxic @ Sitrus Berry | Swampert: Earthquake 46.9-55.6% | Meganium: Giga Drain 31.6-37.8% | — |
 
 **Wailord L57**
 
 - **Order:** Leads off.
 - **Tendencies:** You move first, every time. Its go-to: Water Spout (its best hit on Swampert, Arcanine and Absol). Otherwise: Blizzard against Altaria and Meganium; Double-Edge against Milotic. Hits from both sides (Double-Edge physical, Water Spout and Blizzard special): no single wall stops it.
-- **How to attack it:** Hit it with Grass. The call: Swampert: Earthquake 47.5-56.1%. Backup: Milotic: Hydro Pump 26.3-30.9%. Keep Altaria and Arcanine away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Grass. The call: Meganium: Giga Drain 50-59%. Backup: Swampert: Earthquake 51.1-60.4%. Its blind spot: Milotic takes almost nothing from it.
 
 **Tentacruel L55**
 
 - **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Hydro Pump (its best hit on Swampert, Arcanine and Absol). Otherwise: Sludge Bomb against Milotic and Meganium; Ice Beam against Altaria. Hits from both sides (Sludge Bomb physical, Hydro Pump and Ice Beam special): no single wall stops it.
 - **When it's ahead:** Expect Toxic early.
 - **Against moves:** Clear Body: its stats can't be lowered.
-- **How to attack it:** Hit it with Ground. The call: Swampert: Earthquake 122.9-144.7%. Backup: Meganium: Earthquake 64.7-76.5%.
+- **How to attack it:** Hit it with Ground. The call: Swampert: Earthquake 132.9-156.5%. Backup: Meganium: Earthquake 70.6-83.5%. Its blind spot: Milotic takes almost nothing from it.
 
 **Ludicolo L56**
 
-- **Tendencies:** Gets the jump on Swampert. Its go-to: Surf (its best hit on Altaria, Arcanine, Absol and Meganium). Otherwise: Giga Drain against Swampert and Milotic.
+- **Tendencies:** You move first, every time. Its go-to: Surf (its best hit on Altaria, Arcanine, Absol and Meganium). Otherwise: Giga Drain against Swampert and Milotic.
 - **When it's behind:** When it's low, it heals itself with Leech Seed.
 - **Against moves:** Swift Swim: doubles its Speed in rain.
-- **How to attack it:** The call: Arcanine: Overheat 54.1-64%. Backup: Altaria: Dragon Claw 23.8-28.5%. Its blind spot: Altaria and Meganium take almost nothing from it.
+- **How to attack it:** The call: Meganium: Giga Drain 22.7-26.7%. Backup: Altaria: Dragon Claw 26.2-31.4%. Its blind spot: Altaria and Meganium take almost nothing from it.
 
 **Whiscash L56**
 
 - **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Hyper Beam against Altaria and Meganium. Hits from both sides (Earthquake and Hyper Beam physical, Surf special): no single wall stops it.
 - **When it's ahead:** Given a free turn, it sets up with Amnesia.
-- **How to attack it:** Hit it with Grass. The call: Milotic: Hydro Pump 51-60.2%. Backup: Meganium: Giga Drain 90.8-106.8%.
+- **How to attack it:** Hit it with Grass. The call: Meganium: Giga Drain 99-116.5%. Backup: Swampert: Earthquake 48.5-57.3%. Its blind spot: Swampert and Meganium take almost nothing from it.
 
 **Gyarados L56**
 
-- **Tendencies:** Gets the jump on Swampert and Absol. Its go-to: Hyper Beam (its best hit on Swampert, Milotic, Altaria, Absol and Meganium). Otherwise: Earthquake against Arcanine. Hits from both sides (Earthquake and Hyper Beam physical, Surf special): no single wall stops it.
+- **Tendencies:** Gets the jump on Swampert. Its go-to: Hyper Beam (its best hit on Swampert, Milotic, Altaria, Absol and Meganium). Otherwise: Earthquake against Arcanine. Hits from both sides (Earthquake and Hyper Beam physical, Surf special): no single wall stops it.
 - **When it's ahead:** Given a free turn, it sets up with Dragon Dance.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Rock. Nobody you have wins this one-on-one. Hit it hard before it sets the pace, and trade.
+- **How to attack it:** Hit it with Rock. The call: Meganium: Giga Drain 20.6-24.3%. Backup: Milotic: Ice Beam 23.8-28.6%.
 
 **Milotic L58**
 
 - **Order:** Last in the order.
-- **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Surf (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Ice Beam against Altaria and Meganium. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Gets the jump on Swampert. Its go-to: Surf (its best hit on Swampert, Milotic, Arcanine and Absol). Otherwise: Ice Beam against Altaria and Meganium. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Expect Toxic early.
 - **When it's behind:** When it's low, it heals itself with Recover.
 - **Against moves:** Marvel Scale: a status condition makes it sturdier.
-- **How to attack it:** Hit it with Grass. The call: Swampert: Earthquake 43.4-51%. Backup: Milotic: Hydro Pump 16.3-19.4%. Its blind spot: Milotic takes almost nothing from it.
+- **How to attack it:** Hit it with Grass. The call: Swampert: Earthquake 46.9-55.6%. Backup: Meganium: Giga Drain 31.6-37.8%. Its blind spot: Milotic takes almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Wailord | Meganium (W) | Giga Drain / Blizzard | Giga Drain / Blizzard | Giga Drain / Blizzard | Giga Drain / Water Spout | Giga Drain / Blizzard | Giga Drain / Blizzard | Giga Drain / Blizzard |
+| Tentacruel | Swampert (W) | Earthquake / Hydro Pump | Earthquake / Hydro Pump | Earthquake / Hydro Pump | Earthquake / Hydro Pump | Earthquake / Hydro Pump | Earthquake / Hydro Pump | Earthquake / Hydro Pump |
+| Ludicolo | Meganium (W) | Giga Drain / Surf | Giga Drain / Surf | Giga Drain / Surf | Giga Drain / Surf | Giga Drain / Surf | Giga Drain / Surf | Giga Drain / Surf |
+| Whiscash | Meganium (W) | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam |
+| Gyarados | Meganium (W) | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam | Giga Drain / Hyper Beam |
+| Milotic | Swampert (W) | Earthquake / Surf | Earthquake / Surf | Earthquake / Surf | Earthquake / Surf | Earthquake / Surf | Earthquake / Surf | Earthquake / Surf |
 
 ### Call sheet vs Steven (Lv 78, pret/pokeemerald src/data/trainer_parties.h sParty_Steven)
 
-- **Order:** Skarmory (Lv 77), Claydol (Lv 75), Aggron (Lv 76), Cradily (Lv 76), Armaldo (Lv 76), Metagross (Lv 78). Lead with Arcanine: it handles their opener.
-- **Philosophy:** Their best player: Metagross, which beats 3 of your 6. Your last one standing: Milotic.
+- **Order:** Skarmory (Lv 77), Claydol (Lv 75), Aggron (Lv 76), Cradily (Lv 76), Armaldo (Lv 76), Metagross (Lv 78). Lead with Swampert: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Cradily, which beats 3 of your 6. Your last one standing: Milotic.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Skarmory L77 | Toxic · Aerial Ace · Spikes · Steel Wing | Arcanine: Overheat 153.8-181% | Milotic: Hydro Pump 65.7-77.6% | — |
-| Claydol L75 | Reflect · Light Screen · Ancient Power · Earthquake | Milotic: Hydro Pump 92.4-109.1% | Arcanine: Overheat 54-63.6% | — |
-| Aggron L76 | Thunder · Earthquake · Solar Beam · Dragon Claw | Milotic: Hydro Pump 147.4-174% | Swampert: Earthquake 105.6-124.7% | — |
-| Cradily L76 | Giga Drain · Ancient Power · Ingrain · Confuse Ray | Arcanine: Iron Tail 54.2-64.2% | Meganium: Iron Tail 42.5-50% | — |
-| Armaldo L76 | Water Pulse · Ancient Power · Aerial Ace · Slash | Milotic: Hydro Pump 112.6-132.7% | Arcanine: Overheat 65.5-77.1% | — |
-| Metagross L78 | Earthquake · Psychic · Meteor Mash · Shadow Ball @ Sitrus Berry | Arcanine: Overheat 110.6-130.5% | Swampert: Earthquake 63.1-74.6% | — |
+| Skarmory L77 | Toxic · Aerial Ace · Spikes · Steel Wing | Swampert: Ice Beam 33.8-40% | Absol: Ice Beam 30.5-36.2% | — |
+| Claydol L75 | Reflect · Light Screen · Ancient Power · Earthquake | Meganium: Giga Drain 44.4-52.5% | Swampert: Ice Beam 47-55.6% | — |
+| Aggron L76 | Thunder · Earthquake · Solar Beam · Dragon Claw | Swampert: Earthquake 115.3-135.8% | Meganium: Earthquake 61.4-72.6% | — |
+| Cradily L76 | Giga Drain · Ancient Power · Ingrain · Confuse Ray | Milotic: Ice Beam 47.1-55.8% | Absol: Ice Beam 38.8-45.8% | — |
+| Armaldo L76 | Water Pulse · Ancient Power · Aerial Ace · Slash | Swampert: Earthquake 45.7-53.8% | Milotic: Hydro Pump 123.3-145.3% | — |
+| Metagross L78 | Earthquake · Psychic · Meteor Mash · Shadow Ball @ Sitrus Berry | Swampert: Earthquake 69.1-81.4% | Arcanine: Overheat 119.5-140.7% | — |
 
 **Skarmory L77**
 
 - **Order:** Leads off.
-- **Tendencies:** Gets the jump on Swampert. Its go-to: Aerial Ace (its best hit on Swampert, Milotic, Arcanine and Meganium). Otherwise: Steel Wing against Altaria and Absol.
+- **Tendencies:** You move first, every time. Its go-to: Aerial Ace (its best hit on Swampert, Milotic, Arcanine and Meganium). Otherwise: Steel Wing against Altaria and Absol.
 - **When it's ahead:** Expect Toxic early.
 - **Against moves:** Keen Eye: its accuracy can't be lowered.
-- **How to attack it:** Hit it with Fire. The call: Arcanine: Overheat 153.8-181%. Backup: Milotic: Hydro Pump 65.7-77.6%. Its blind spot: Swampert, Milotic, Altaria and Arcanine take almost nothing from it.
+- **How to attack it:** Hit it with Fire. The call: Swampert: Ice Beam 33.8-40%. Backup: Absol: Ice Beam 30.5-36.2%. Its blind spot: Swampert, Milotic, Altaria and Arcanine take almost nothing from it.
 
 **Claydol L75**
 
 - **Tendencies:** Gets the jump on Swampert. Its go-to: Earthquake (its best hit on Swampert, Milotic, Arcanine, Absol and Meganium). Otherwise: Ancient Power against Altaria.
 - **Against moves:** Levitate: Ground moves miss it entirely.
-- **How to attack it:** Hit it with Dark, Grass, Ice and Water. The call: Milotic: Hydro Pump 92.4-109.1%. Backup: Arcanine: Overheat 54-63.6%. Its blind spot: Swampert, Altaria and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Dark, Grass, Ice and Water. The call: Meganium: Giga Drain 44.4-52.5%. Backup: Swampert: Ice Beam 47-55.6%. Its blind spot: Swampert, Milotic, Altaria and Meganium take almost nothing from it.
 
 **Aggron L76**
 
 - **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Arcanine, Absol and Meganium). Otherwise: Solar Beam against Swampert; Thunder against Milotic; Dragon Claw against Altaria. Hits from both sides (Earthquake physical, Thunder, Solar Beam and Dragon Claw special): no single wall stops it.
 - **Against moves:** Sturdy: one-hit KO moves fail.
-- **How to attack it:** Hit it with Fighting, Ground and Water. The call: Milotic: Hydro Pump 147.4-174%. Backup: Swampert: Earthquake 105.6-124.7%. Its blind spot: Altaria and Meganium take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Ground and Water. The call: Swampert: Earthquake 115.3-135.8%. Backup: Meganium: Earthquake 61.4-72.6%. Its blind spot: Milotic, Altaria and Meganium take almost nothing from it.
 
 **Cradily L76**
 
 - **Tendencies:** You move first, every time. Its go-to: Giga Drain (its best hit on Swampert, Milotic and Absol). Otherwise: Ancient Power against Altaria, Arcanine and Meganium. Hits from both sides (Ancient Power physical, Giga Drain special): no single wall stops it.
 - **When it's ahead:** Expect Confuse Ray early.
 - **When it's behind:** When it's low, it heals itself with Ingrain.
-- **How to attack it:** Hit it with Fighting, Ice and Steel. The call: Arcanine: Iron Tail 54.2-64.2%. Backup: Meganium: Iron Tail 42.5-50%. Its blind spot: Meganium takes almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Ice and Steel. The call: Milotic: Ice Beam 47.1-55.8%. Backup: Absol: Ice Beam 38.8-45.8%. Its blind spot: Milotic, Absol and Meganium take almost nothing from it.
 
 **Armaldo L76**
 
 - **Tendencies:** You move first, every time. Its go-to: Ancient Power (its best hit on Milotic, Altaria, Arcanine and Absol). Otherwise: Slash against Swampert; Aerial Ace against Meganium. Hits from both sides (Ancient Power, Aerial Ace and Slash physical, Water Pulse special): no single wall stops it.
-- **How to attack it:** Hit it with Rock, Steel and Water. The call: Milotic: Hydro Pump 112.6-132.7%. Backup: Arcanine: Overheat 65.5-77.1%. Its blind spot: Swampert takes almost nothing from it.
+- **How to attack it:** Hit it with Rock, Steel and Water. The call: Swampert: Earthquake 45.7-53.8%. Backup: Milotic: Hydro Pump 123.3-145.3%. Its blind spot: Swampert and Milotic take almost nothing from it.
 
 **Metagross L78**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Swampert. Its go-to: Meteor Mash (its best hit on Altaria, Absol and Meganium). Otherwise: Earthquake against Milotic and Arcanine; Psychic against Swampert. Hits from both sides (Earthquake, Meteor Mash and Shadow Ball physical, Psychic special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Swampert, Milotic and Arcanine). Otherwise: Meteor Mash against Altaria, Absol and Meganium. Hits from both sides (Earthquake, Meteor Mash and Shadow Ball physical, Psychic special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Clear Body: its stats can't be lowered.
-- **How to attack it:** Hit it with Fire and Ground. The call: Arcanine: Overheat 110.6-130.5%. Backup: Swampert: Earthquake 63.1-74.6%.
+- **How to attack it:** Hit it with Fire and Ground. The call: Swampert: Earthquake 69.1-81.4%. Backup: Arcanine: Overheat 119.5-140.7%.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Skarmory | Swampert (W) | Ice Beam / Aerial Ace | Ice Beam / Aerial Ace | Ice Beam / Aerial Ace | Ice Beam / Aerial Ace | Ice Beam / Aerial Ace | Ice Beam / Aerial Ace | Ice Beam / Aerial Ace |
+| Claydol | Meganium (W) | Giga Drain / Earthquake | Giga Drain / Earthquake | Giga Drain / Earthquake | Giga Drain / Earthquake | Giga Drain / Earthquake | Giga Drain / Earthquake | Giga Drain / Earthquake |
+| Aggron | Swampert (W) | Earthquake / Solar Beam | Earthquake / Solar Beam | Earthquake / Solar Beam | Earthquake / Solar Beam | Earthquake / Solar Beam | Earthquake / Solar Beam | Earthquake / Solar Beam |
+| Cradily | Milotic (W) | Ice Beam / Giga Drain | Ice Beam / Giga Drain | Ice Beam / Giga Drain | Ice Beam / Giga Drain | Ice Beam / Giga Drain | Ice Beam / Giga Drain | Ice Beam / Giga Drain |
+| Armaldo | Swampert (W) | Earthquake / Slash | Earthquake / Slash | Earthquake / Slash | Earthquake / Slash | Earthquake / Slash | Earthquake / Slash | Earthquake / Slash |
+| Metagross | Swampert (W) | Earthquake / Earthquake | Earthquake / Earthquake | Earthquake / Earthquake | Earthquake / Earthquake | Earthquake / Earthquake | Earthquake / Earthquake | Earthquake / Earthquake |
 

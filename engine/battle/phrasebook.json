@@ -1099,6 +1099,87 @@
    "say": "{party_str}."
   },
   {
+   "id": "t_ai_gen4",
+   "section": "philosophy",
+   "group": "ai_style",
+   "when": [
+    [
+     "gen",
+     "==",
+     4
+    ],
+    [
+     "ai_eval_attack",
+     "==",
+     true
+    ],
+    [
+     "ai_expert",
+     "==",
+     true
+    ]
+   ],
+   "say": "Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you, and it rarely sets up below 70% HP."
+  },
+  {
+   "id": "t_ai_gen3",
+   "section": "philosophy",
+   "group": "ai_style",
+   "when": [
+    [
+     "gen",
+     "==",
+     3
+    ],
+    [
+     "ai_try_to_faint",
+     "==",
+     true
+    ],
+    [
+     "ai_check_viability",
+     "==",
+     true
+    ]
+   ],
+   "say": "Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you."
+  },
+  {
+   "id": "t_ai_gen2",
+   "section": "philosophy",
+   "group": "ai_style",
+   "when": [
+    [
+     "gen",
+     "==",
+     2
+    ],
+    [
+     "ai_risky",
+     "==",
+     true
+    ],
+    [
+     "ai_aggressive",
+     "==",
+     true
+    ]
+   ],
+   "say": "Its AI jumps on any knockout, otherwise throws its strongest hit, heals only under a quarter of its HP, and stops setting up after its first turn."
+  },
+  {
+   "id": "t_ai_setup_first",
+   "section": "philosophy",
+   "when": [
+    [
+     "ai_setup_first_turn",
+     "==",
+     true
+    ]
+   ],
+   "say": "It's coded to set up on its first turn."
+  },
+  {
    "id": "t_lead",
    "section": "order",
    "when": [

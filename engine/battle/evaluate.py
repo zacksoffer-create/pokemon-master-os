@@ -75,6 +75,16 @@ FAMILY_OF = {"boost": "build", "protect-sub": "build", "screen": "build", "weath
              "status": "disrupt", "debuff": "disrupt", "taunt": "disrupt"}
 
 
+# The coach settings (prescriptive; play sheets use them, the descriptive profile never does).
+COACH = {
+    "aggression": "0-100, default 50: how much accuracy counts when picking an attack (100 ignores it, 0 counts it twice)",
+    "patience": "0-100: the most HP it will have lost and still set up (boosts, Substitute, screens, weather)",
+    "heal_line": "0-100: heal at or under this HP %, even if the next hit wouldn't knock it out",
+    "risk_tolerance": "0-100: the lowest accuracy it calls when a surer attack is available",
+    "tempo": "'finish' (priority only to finish) or 'any' (default: whenever it's the best attack)",
+}
+
+
 def stage_mult(n):
     return (2 + n) / 2 if n >= 0 else 2 / (2 - n)
 
@@ -192,6 +202,7 @@ class Outcome:
     first_hit: str                  # who landed the first damaging hit: "A", "B" or ""
     used: tuple                     # (families A actually used, families B used)
     notes: frozenset = frozenset()
+    log: tuple = ()                 # (turn, A's call, B's call, A's HP, B's HP, who went first) per turn
 
     def value(self):
         """How good this is for A. Who wins first, then the odds, then the margin, then the speed of it."""
@@ -248,6 +259,7 @@ class Side:
     opening: bool = False           # this turn's move came from the opening
     pp: dict = field(default_factory=dict)
     kinds: dict = field(default_factory=dict)
+    coach: dict = field(default_factory=dict)   # prescriptive settings (play sheets only; see COACH)
     odds: float = 1.0
     calls: list = field(default_factory=list)
     used: set = field(default_factory=set)
@@ -258,14 +270,16 @@ class Side:
 
 
 class Fight:
-    def __init__(self, ev, a, b, plan_a, plan_b, a_first_on_tie=True):
+    def __init__(self, ev, a, b, plan_a, plan_b, a_first_on_tie=True, coach_a=None, coach_b=None):
         self.ev, self.gen = ev, a.gen
         self.A, self.B = ev.side(a, "A", plan_a), ev.side(b, "B", plan_b)
+        self.A.coach, self.B.coach = dict(coach_a or {}), dict(coach_b or {})
         self.tie_a = a_first_on_tie
         self.weather, self.weather_left = None, None
         self.notes = set()
         self.first_hit = ""
         self.turn = 0
+        self.log = []
         self.start()
 
     # --- helpers ---------------------------------------------------------------------------------------------
@@ -300,9 +314,16 @@ class Fight:
 
     def damage(self, u, t, name):
         """(min %, abs min) of u's move against t right now, before Substitute."""
+        return self._damage(u, t, name)[::2]
+
+    def damage_hi(self, u, t, name):
+        """The top roll, in % (what the games' AI checks for a knockout)."""
+        return self._damage(u, t, name)[1]
+
+    def _damage(self, u, t, name):
         mv = u.moves[name]
         if mv.category == "Status":
-            return 0.0, 0
+            return 0.0, 0.0, 0
         phys = mv.category == "Physical"
         ast = u.st["atk" if phys else "spa"]
         dst = t.st["def" if phys else "spd"]
@@ -312,10 +333,10 @@ class Fight:
         dstat = CALC_STATUS[t.status] if t.status and (t.ability == "Marvel Scale"
                                                          or name in ("Smelling Salts", "Wake-Up Slap")) else ""
         pinch = PINCH.get(u.ability) == mv.type and u.hp <= 100 / 3
-        lo, _, absmin = self.ev.table.get((u.c.key, t.c.key, name, ast, dst, astat, dstat, self.weather or "", pinch))
+        lo, hi, absmin = self.ev.table.get((u.c.key, t.c.key, name, ast, dst, astat, dstat, self.weather or "", pinch))
         if t.screens.get(mv.category):
-            lo, absmin = lo / 2, absmin // 2
-        return lo, absmin
+            lo, hi, absmin = lo / 2, hi / 2, absmin // 2
+        return lo, hi, absmin
 
     def usable(self, s):
         out = [m for m in s.moves if s.pp.get(m, 0) > 0 and m not in ("Struggle",)]
@@ -459,6 +480,9 @@ class Fight:
         usable = self.usable(u)
         if usable == ["Struggle"] or len(usable) == 1 and u.choice:
             return usable[0]
+        if u.c.ai:                                   # a game's trainer: the cartridge's own move scoring
+            from battle import trainer_policy
+            return trainer_policy.choose(self, u, t, u.c.ai)
         plan = u.plan
         inc, tm = self.incoming(u, t)
         attacks = self.attacks(u)
@@ -473,7 +497,7 @@ class Fight:
             kills = [m for m in attacks if self.damage(u, t, m)[0] >= need]
             if kills:
                 kills.sort(key=lambda m: (not self.acts_first(u, m, t, tm), -self.accuracy(u, t, u.moves[m]),
-                                          self.recoil_of(u, m)))
+                                          self.recoil_of(u, m), -self.damage(u, t, m)[0]))
                 m = kills[0]
                 if self.acts_first(u, m, t, tm) or inc < u.hp:
                     return m
@@ -489,14 +513,17 @@ class Fight:
                 if k == "encore" and t.last and t.last in t.moves and not t.moves[t.last].damaging and not t.lock:
                     return self.tagged(u, m, "disrupt")
         # 4. sustain: heal, Rest, cure, Protect while the foe's poison ticks
-        if plan.sustain:
+        if plan.sustain or u.coach.get("heal_line") is not None:
             m = self.sustain(u, t, inc, tm, usable)
             if m:
                 return self.tagged(u, m, "sustain")
         # 5. the opening
+        patience = u.coach.get("patience")
         while u.opener_i < len(plan.opener):
             m = plan.opener[u.opener_i]
             u.opener_i += 1
+            if patience is not None and FAMILY_OF.get(self.kind(u, m)) == "build" and (100 - u.hp) + inc > patience:
+                continue                             # it won't take that much to set up
             if m in usable and self.valid(u, t, m):
                 u.opening = True
                 return self.tagged(u, m, FAMILY_OF.get(self.kind(u, m), "build"))
@@ -513,6 +540,11 @@ class Fight:
         # 8. the attack with the fewest expected turns to a KO
         scored = [(self.attack_score(u, t, m), m) for m in attacks]
         scored = [x for x in scored if x[0][0] < math.inf]
+        floor = u.coach.get("risk_tolerance")
+        if floor is not None and any(self.accuracy(u, t, u.moves[m]) * 100 >= floor for _, m in scored):
+            scored = [x for x in scored if self.accuracy(u, t, u.moves[x[1]]) * 100 >= floor]
+        if u.coach.get("tempo") == "finish" and any(self.priority(u, m) <= 0 for _, m in scored):
+            scored = [x for x in scored if self.priority(u, x[1]) <= 0]
         if scored:
             return min(scored)[1]
         for m in usable:   # nothing hurts it: anything that does something
@@ -539,7 +571,8 @@ class Fight:
         turns += (n - 1) if "recharge" in mv.flags else 0
         acc = max(self.accuracy(u, t, mv), 0.01)
         drop = sum(-v for v in mv.self_changes.values() if v < 0) if mv.damaging else 0
-        return (turns / acc, -acc, self.recoil_of(u, m), drop, -d)
+        k = 2 - u.coach.get("aggression", 50) / 50   # 50: hits ÷ accuracy; 100: ignores accuracy; 0: counts it twice
+        return (turns / acc ** k, -acc, self.recoil_of(u, m), drop, -d)
 
     def losing(self, u, t, inc, tm):
         mine = min((self.attack_score(u, t, m)[0] for m in self.attacks(u)), default=math.inf)
@@ -579,6 +612,9 @@ class Fight:
         res = max(0.0, self.residual(u))
         hit = inc + res
         danger = (u.hp <= hit) if first else (inc < u.hp <= 2 * inc + res)
+        line = u.coach.get("heal_line")
+        if line is not None and u.hp <= line and (first or u.hp > inc):
+            danger, hit = True, max(hit, 0.01)
         kinds = {m: self.kind(u, m) for m in usable}
         # cure a status that's costing HP or speed
         if u.status in ("toxic", "poison", "burn", "paralysis") and not danger:
@@ -939,6 +975,9 @@ class Fight:
                     break
             if A.hp > 0 and B.hp > 0:
                 self.end_turn()
+            self.log.append((self.turn, A.calls[-1] if len(A.calls) >= self.turn else "—",
+                             B.calls[-1] if len(B.calls) >= self.turn else "—", round(A.hp, 1), round(B.hp, 1),
+                             "A" if a_first else "B"))
             if A.hp <= 0 or B.hp <= 0:
                 winner = "draw" if A.hp <= 0 and B.hp <= 0 else "A" if B.hp <= 0 else "B"
                 return self.outcome(winner)
@@ -949,7 +988,7 @@ class Fight:
         A, B = self.A, self.B
         return Outcome(winner, self.turn, (round(A.hp, 1), round(B.hp, 1)), (A.odds, B.odds),
                        (tuple(A.calls), tuple(B.calls)), self.first_hit, (frozenset(A.used), frozenset(B.used)),
-                       frozenset(self.notes))
+                       frozenset(self.notes), tuple(self.log))
 
 
 # --- the evaluator ----------------------------------------------------------------------------------------------
@@ -1017,16 +1056,19 @@ class Evaluator:
         moves.setdefault("Struggle", self.mb.get(c.gen, "Struggle"))
         st = self.stats[c.key]
         s = Side(c=c, tag=tag, plan=plan, moves=moves, maxhp=st["hp"], spe=st["stats"]["spe"],
-                 item=c.item, ability=c.ability)
+                 item=st.get("item") or c.item, ability=st.get("ability") or c.ability)   # the calculator's names
         s.pp = {m: int(mv.pp * PP_UPS) if mv.pp else 1 for m, mv in moves.items()}
         s.kinds = {m: self.kind(mv, c) for m, mv in moves.items()}
-        s.sash = c.item == "Focus Sash"
+        s.sash = s.item == "Focus Sash"
         return s
 
     def plans(self, c):
-        """Every plan this combatant could run: attacking only, then its openings with its habits switched on."""
+        """Every plan this combatant could run: attacking only, then its openings with its habits switched on.
+        A game's trainer has one: its moves come from the game's AI (battle/trainer_policy.py)."""
         mvs = [self.mb.get(c.gen, m) for m in c.moves]
         kinds = {mv.name: self.kind(mv, c) for mv in mvs}
+        if c.ai:
+            return [Plan()], kinds
         has = lambda *ks: [mv.name for mv in mvs if kinds[mv.name] in ks]
         habits = dict(build=bool(has("boost")), disrupt=bool(has("phaze", "haze", "encore")),
                       sustain=bool(has("heal", "cure", "protect")))
@@ -1062,8 +1104,8 @@ class Evaluator:
         if "speed tie" in o.notes:
             o2 = Fight(self, a, b, pa, pb, a_first_on_tie=False).run()
             if o2.winner != o.winner:
-                o = Outcome("draw", max(o.turns, o2.turns), o.hp, (o.odds[0] * 0.5, o.odds[1] * 0.5), o.calls,
-                            o.first_hit, o.used, o.notes | {"a coin flip: the speed tie decides it"})
+                o = replace(o, winner="draw", turns=max(o.turns, o2.turns), odds=(o.odds[0] * 0.5, o.odds[1] * 0.5),
+                            notes=o.notes | {"a coin flip: the speed tie decides it"})
         if self.table.misses == misses:
             self._fights[key] = o
         return o

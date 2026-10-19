@@ -400,9 +400,10 @@ class ScoutingEngine(unittest.TestCase):
 
     def test_setup_gets_credit_only_when_it_changes_the_fight(self):
         from battle.knowledge import usage_field
-        blissey = [c for c in usage_field(4) if c.species == "Blissey"][0]
-        ttar = self.c("Tyranitar", ["Dragon Dance", "Crunch", "Earthquake", "Outrage"], item="Lum Berry")
-        m = self.ev.versus([ttar], [blissey])[(ttar.key, blissey.key)]
+        zapdos = [c for c in usage_field(4) if c.species == "Zapdos"][0]
+        ttar = self.c("Tyranitar", ["Dragon Dance", "Crunch", "Earthquake", "Outrage"], item="Lum Berry",
+                      ability="Sand Stream")
+        m = self.ev.versus([ttar], [zapdos])[(ttar.key, zapdos.key)]
         self.assertEqual((m.outcome.winner, m.straight.winner), ("A", "B"))
         self.assertEqual(m.credits.get("build"), "decisive")
         self.assertEqual(m.outcome.calls[0][0], "Dragon Dance")
@@ -413,6 +414,99 @@ class ScoutingEngine(unittest.TestCase):
         self.assertEqual(percentile(10, [0, 0, 10, 10]), 75)
         line = philosophy({"pace": 95, "punch": 52, "risk": 10, "build": 60})
         self.assertEqual([(k, pole) for k, pole, _ in line], [("pace", "strikes first"), ("risk", "safe")])
+
+    def test_showdown_paste_round_trip(self):
+        from battle.knowledge import from_build
+        from battle.paste import export, parse
+        text = """Rex (Tyranitar) (F) @ Lum Berry
+Ability: Sand Stream
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+IVs: 30 SpA
+- Dragon Dance
+- Crunch
+- Hidden Power [Fire]
+- Earthquake"""
+        b = parse(text)[0]
+        self.assertEqual((b["nickname"], b["species"], b["gender"], b["item"], b["nature"]),
+                         ("Rex", "Tyranitar", "F", "Lum Berry", "Jolly"))
+        self.assertEqual((b["evs"], b["ivs"]), ({"atk": 252, "spd": 4, "spe": 252}, {"spa": 30}))
+        self.assertIn("Hidden Power Fire", b["moves"])
+        out = export(from_build(4, b["species"], b), nickname="Rex")
+        for line in ("Rex (Tyranitar) @ Lum Berry", "Jolly Nature", "- Hidden Power [Fire]", "IVs: 30 SpA"):
+            self.assertIn(line, out)
+
+    def test_coach_heal_line_changes_the_call(self):
+        from battle.evaluate import Matchup, Plan
+        from battle.playsheet import calls
+        lax, foe = self.c("Snorlax", ["Rest", "Body Slam"], item="Leftovers"), self.c("Blissey", ["Seismic Toss"])
+        self.ev.prepare([lax, foe])
+        job = lambda coach: (lax, foe, Plan(), Plan(), "third_long", coach, "A")
+        neutral, coached = calls(self.ev, [job({}), job({"heal_line": 50})])
+        self.assertEqual((neutral, coached), ("Body Slam", "Rest"))   # at 30%, a Seismic Toss isn't a KO threat
+
+    def test_report_grid_reads_the_engine(self):
+        from battle.benchmarks import Benchmarks
+        from battle.grid import EngineGrid
+        from team import Member, Team
+        grid = EngineGrid(self.ev)
+        red = [t for t in Benchmarks(DB, self.battle).load("heartgold") if t["name"] == "Red"][0]
+        team = Team("heartgold", [Member("Tyranitar", moves=["Dragon Dance", "Crunch", "Earthquake", "Stone Edge"]),
+                                  Member("Lapras", moves=["Surf", "Ice Beam", "Thunderbolt", "Rest"])])
+        m = grid.matchups(team, red)
+        self.assertEqual(m["our_level"], max(p["level"] for p in red["party"]))     # met at their top level
+        cell = m["grid"][0]["vs"]["Tyranitar"]
+        self.assertTrue({"wins", "value", "plan", "we_hit", "hits_to_ko"} <= set(cell))
+        self.assertTrue(any(w["side"] == "them" for w in m["web"]))
+        self.assertEqual(m["theirs"][0].evs["atk"], 0)                              # trainers keep cartridge stats
+
+    def test_lab_builds_lineups_and_rejects_unknown_coach_settings(self):
+        import lab
+        gen, team, label, coach = lab.Lab().team("heartgold")
+        self.assertEqual((gen, len(team), label), (4, 6, "HeartGold"))
+        self.assertTrue(all(c.level == 100 for c in team))
+        self.assertEqual(lab.coach_arg("heal_line=40,tempo=finish"), {"heal_line": 40.0, "tempo": "finish"})
+        with self.assertRaises(SystemExit):
+            lab.coach_arg("courage=90")
+
+    def test_trainers_carry_their_games_ai_flags(self):
+        from battle.benchmarks import Benchmarks
+        bench = Benchmarks(DB, self.battle)
+        flags = lambda game, name: [t for t in bench.load(game) if t["name"] == name][0].get("ai_flags")
+        self.assertIn("AI_RISKY", flags("crystal", "Red"))
+        self.assertIn("AI_SCRIPT_SETUP_FIRST_TURN", flags("emerald", "Sidney"))
+        self.assertIn("AI_SCRIPT_TRY_TO_FAINT", flags("firered", "Lorelei"))
+        self.assertEqual(flags("heartgold", "Red"), 7)                     # HGSS: a bitmask, BASIC|EVAL_ATTACK|EXPERT
+
+    def test_game_ai_scores_moves_like_the_cartridge(self):
+        from battle.evaluate import Fight, Plan
+        from battle import trainer_policy
+        gen4 = ("AI_FLAG_BASIC", "AI_FLAG_EVAL_ATTACK", "AI_FLAG_EXPERT")
+        us = self.c("Lapras", ["Surf", "Ice Beam"])
+        them = self.c("Starmie", ["Surf", "Thunderbolt", "Recover", "Thunder Wave"], ai=gen4)
+        self.ev.prepare([us, them])
+        for _ in range(4):
+            f = Fight(self.ev, us, them, Plan(), Plan())
+            f.B.hp = 60.0
+            sc = trainer_policy.scores(f, f.B, f.A, gen4)
+            if not self.ev.table.missing:
+                break
+            self.ev.table.fetch()
+        self.assertEqual(sc["Recover"], 92)        # Expert: no healing while it's the faster one (-8)
+        self.assertEqual(sc["Surf"], 90)           # Basic: Lapras's Water Absorb makes it do nothing (-10)
+        self.assertEqual(sc["Thunderbolt"], 100)   # its hardest hit, untouched
+        crystal = ("AI_BASIC", "AI_RISKY", "AI_AGGRESSIVE")
+        weak = self.c("Pikachu", ["Thunderbolt"], gen=2)
+        cry = self.c("Snorlax", ["Body Slam", "Earthquake"], gen=2, ai=crystal)
+        self.ev.prepare([weak, cry])
+        for _ in range(4):
+            f = Fight(self.ev, weak, cry, Plan(), Plan())
+            f.A.hp = 10.0
+            sc = trainer_policy.scores(f, f.B, f.A, crystal)
+            if not self.ev.table.missing:
+                break
+            self.ev.table.fetch()
+        self.assertEqual(sc["Earthquake"], -15)    # Crystal: 20, a knockout -5, lowest wins (turned around here)
 
 
 if __name__ == "__main__":

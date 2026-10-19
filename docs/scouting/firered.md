@@ -1,10 +1,47 @@
 # Scouting packet: FireRed (confidence)
 
-*Roster status: working (D-003). No grades: every line below is a phrase from the phrase book (engine/battle/phrasebook.json), triggered by numbers the engine measures, the way the games turn a Pokémon's best IV into its characteristic. Speed, power and bulk are measured against every fully evolved Pokémon of the same generation. Opponents' philosophy comes from the game's own trainer AI flags, bag and battle lines. Records are the benchmark 1v1 grid at the opponent's top level, with exact damage from Smogon's calculator. Not a simulation.*
+*Roster status: working (D-003). No grades: every line below is a phrase from the phrase book (engine/battle/phrasebook.json), triggered by numbers the engine measures, the way the games turn a Pokémon's best IV into its characteristic. Speed, power and bulk are measured against every fully evolved Pokémon of the same generation. Opponents' philosophy comes from the game's own trainer AI flags, bag and battle lines. Every one-on-one is played out by the scouting engine (docs/SCOUTING_ENGINE.md): our best plan against their best answer, Smogon's calculator for every hit at the lowest roll, every move landing, the odds kept. Against a game's trainers we meet them at their top level; the coach profile is measured against that generation's Smogon OU usage field at Lv 100.*
 
 ## Self-scout
 
-- **What we're trying to do:** Win on momentum: Charizard, Venusaur, Alakazam, Jolteon and Machamp turn one free turn into a sweep. The anchor: Blastoise.
+### Coach profile
+
+Against the Gen 3 OU usage field (57 Smogon sets): **builds first (p94), no healing (p15), special (p15)**. 127-25-190 in 342 one-on-ones. A slider is a share of those fights; p is the percentile among 2,000 random six-Pokémon teams drawn from the field.
+
+| Slider | ◀ | Value | ▶ | Percentile |
+|---|---|---|---|---|
+| Pace | absorbs first | 65 | strikes first | p55 |
+| Punch | chips | 45 | knocks out | p19 |
+| Run / pass | special | 33 | physical | p15 |
+| Build-up | hits now | 30 | builds first | p94 |
+| Sustain | no healing | 0 | heals and resets | p15 |
+| Disruption | straight-up | 5 | disruptive | p16 |
+| Risk | safe | 25 | gambler | p30 |
+| Script | adaptive | 43 | scripted | p19 |
+
+| Player | W-D-L | Pace | Punch | Run / pass | Build-up | Sustain | Disruption | Risk | Script |
+|---|---|---|---|---|---|---|---|---|---|
+| Charizard | 20-4-33 | 68 (p52) | 61 (p57) | 24 (p40) | 39 (p80) | 0 (p41) | 0 (p27) | 23 (p45) | 39 (p32) |
+| Blastoise | 26-5-26 | 63 (p44) | 37 (p24) | 0 (p17) | 0 (p31) | 0 (p41) | 30 (p85) | 30 (p55) | 54 (p68) |
+| Venusaur | 19-6-32 | 54 (p34) | 35 (p23) | 66 (p60) | 28 (p70) | 0 (p41) | 0 (p27) | 32 (p58) | 28 (p4) |
+| Alakazam | 17-6-34 | 72 (p56) | 47 (p37) | 0 (p17) | 39 (p80) | 0 (p41) | 0 (p27) | 0 (p3) | 39 (p32) |
+| Jolteon | 14-2-41 | 84 (p74) | 28 (p21) | 7 (p35) | 28 (p70) | 0 (p41) | 0 (p27) | 12 (p37) | 53 (p65) |
+| Machamp | 31-2-24 | 46 (p24) | 60 (p55) | 100 (p82) | 44 (p84) | 0 (p41) | 0 (p27) | 54 (p79) | 44 (p46) |
+
+**Play sheet** (its most common call in each situation, against the field):
+
+| Player | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|
+| Charizard | Overheat (47%) | Overheat (72%) | Overheat (68%) | Earthquake (44%) | Overheat (86%) | Overheat (67%) | Overheat (60%) |
+| Blastoise | Surf (56%) | Surf (75%) | Surf (75%) | Surf (75%) | Surf (81%) | Surf (75%) | Surf (81%) |
+| Venusaur | Petal Dance (32%) | Sludge Bomb (40%) | Sludge Bomb (40%) | Sludge Bomb (42%) | Petal Dance (46%) | Petal Dance (39%) | Petal Dance (46%) |
+| Alakazam | Calm Mind (39%) | Psychic (56%) | Psychic (56%) | Psychic (56%) | Psychic (56%) | Psychic (56%) | Psychic (56%) |
+| Jolteon | Thunderbolt (56%) | Thunderbolt (72%) | Thunderbolt (72%) | Thunderbolt (75%) | Thunderbolt (72%) | Thunderbolt (72%) | Thunderbolt (75%) |
+| Machamp | Bulk Up (44%) | Cross Chop (40%) | Earthquake (44%) | Earthquake (70%) | Cross Chop (40%) | Cross Chop (40%) | Earthquake (51%) |
+
+*Assumed where nothing is on record: EVs 85 in every stat; IVs 31; ability Synchronize (could be Inner Focus); level 100 (the peak); neutral nature.*
+
+- **What we're trying to do:** Win on momentum: Charizard, Venusaur, Alakazam, Jolteon and Machamp turn one free turn into a sweep. The anchor: Alakazam.
 - **What we're good at:** 12 attack types in the repertoire. The main ones: Ground (Charizard, Machamp and Venusaur), Fire (Alakazam and Charizard), Ice (Alakazam and Blastoise) and Dark (Charizard and Jolteon). Nothing is safe: 17 of 17 types take super-effective hits from this club. Jolteon sets the pace; Machamp expects to take the first hit. Status: Blastoise.
 - **Where we're soft:** No shared hole: no type hits three of the club super-effectively.
 
@@ -27,12 +64,12 @@
 
 | Player | Philosophy | 1v1 vs the league | Build |
 |---|---|---|---|
-| **Blastoise** | Weaken first, win later: Toxic before the real swings. | 32-6 | historical (sheet) |
-| **Machamp** | Win on momentum: take one free turn for Bulk Up, then everything goes through. | 30-8 | no build on record: the engine filled in its strongest set |
-| **Alakazam** | Win on momentum: take one free turn for Calm Mind, then everything goes through. | 29-9 | no build on record: the engine filled in its strongest set |
-| **Jolteon** | Win on momentum: take one free turn for Curse, then everything goes through. | 29-9 | no build on record: the engine filled in its strongest set |
-| **Charizard** | Win on momentum: take one free turn for Dragon Dance, then everything goes through. | 25-13 | no build on record: the engine filled in its strongest set |
-| **Venusaur** | Straight ahead: the best hit, every turn. | 22-16 | no build on record: the engine filled in its strongest set |
+| **Alakazam** | Win on momentum: take one free turn for Calm Mind, then everything goes through. | 38-0 | no build on record: the engine filled in its strongest set |
+| **Blastoise** | Weaken first, win later: Toxic before the real swings. | 37-1 | historical (sheet) |
+| **Jolteon** | Win on momentum: take one free turn for Curse, then everything goes through. | 34-4 | no build on record: the engine filled in its strongest set |
+| **Machamp** | Win on momentum: take one free turn for Bulk Up, then everything goes through. | 33-5 | no build on record: the engine filled in its strongest set |
+| **Venusaur** | Straight ahead: the best hit, every turn. | 26-12 | no build on record: the engine filled in its strongest set |
+| **Charizard** | Win on momentum: take one free turn for Dragon Dance, then everything goes through. | 24-14 | no build on record: the engine filled in its strongest set |
 
 ## Scouting reports
 
@@ -45,7 +82,7 @@
 - **When it's behind:** Behind, it swings for the KO and hopes it lands first. Low on HP, Blaze kicks in and its same-type hits get stronger.
 - **Against types:** Feeds on Bug, Electric, Fire, Ghost, Grass, Ice, Poison, Psychic, Rock and Steel. One fatal hole: Rock hits it four times as hard. Look out for Rock (×4), Water (×2) and Electric (×2). A free switch-in against Ground.
 - **How you beat it:** Hit it with something it can't hit back: Aerodactyl, Armaldo, Cradily and Shuckle are the classic answers.
-- **Production:** Won 25 of 38 one-on-ones against the league. A reliable starter.
+- **Production:** Won 24 of 38 one-on-ones against the league. A reliable starter.
 - **Makeup:** Plays like Typhlosion, Zapdos and Xatu. Pokédex, FireRed: “Its wings can carry this POKéMON close to an altitude of 4,600 feet. It blows out fire at very high temperatures.”
 
 ### Blastoise (Water), FireRed
@@ -57,7 +94,7 @@
 - **When it's behind:** Even behind, it can eat one more hit. Low on HP, Torrent kicks in and its same-type hits get stronger.
 - **Against types:** Feeds on Dragon, Fire, Flying, Grass, Ground and Rock. Look out for Electric (×2) and Grass (×2).
 - **How you beat it:** Hit it with something it can't hit back: Jolteon, Electrode, Manectric and Electabuzz are the classic answers.
-- **Production:** Won 32 of 38 one-on-ones against the league. An anchor.
+- **Production:** Won 37 of 38 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Kingdra, Meganium and Poliwrath. Pokédex, FireRed: “It crushes its foe under its heavy body to cause fainting. In a pinch, it will withdraw inside its shell.”
 
 ### Venusaur (Grass/Poison), FireRed
@@ -70,7 +107,7 @@
 - **Against types:** Feeds on Electric, Fire, Grass, Ground, Poison, Rock, Steel and Water. Look out for Fire (×2), Ice (×2), Flying (×2) and Psychic (×2).
 - **Against moves:** Toxic and poison do nothing to it.
 - **How you beat it:** Hit it with something it can't hit back: Alakazam, Ninjask, Espeon and Aerodactyl are the classic answers.
-- **Production:** Broke about even against the league (22-16).
+- **Production:** Won 26 of 38 one-on-ones against the league. A reliable starter.
 - **Makeup:** Plays like Ludicolo, Meganium and Nidoqueen. Pokédex, FireRed: “A bewitching aroma wafts from its flower. The fragrance becalms those engaged in a battle.”
 
 ### Alakazam (Psychic), FireRed
@@ -83,7 +120,7 @@
 - **Against types:** Feeds on Bug, Dragon, Fighting, Flying, Grass, Ground, Ice, Poison and Steel. Look out for Bug (×2), Ghost (×2) and Dark (×2).
 - **Against moves:** Synchronize: it passes its status back.
 - **How you beat it:** Hit it with something it can't hit back: Sharpedo, Houndoom, Absol and Tyranitar are the classic answers.
-- **Production:** Won 29 of 38 one-on-ones against the league. A reliable starter.
+- **Production:** Won 38 of 38 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Espeon, Jynx and Gengar. Pokédex, FireRed: “It does not like physical attacks very much. Instead, it freely uses extra sensory powers to defeat foes.”
 
 ### Jolteon (Electric), FireRed
@@ -96,7 +133,7 @@
 - **Against types:** Feeds on Flying, Ghost, Ice, Psychic, Rock and Water. Look out for Ground (×2). A free switch-in against Electric.
 - **Against moves:** Volt Absorb: Electric moves heal it instead.
 - **How you beat it:** Hit it with something it can't hit back: Dugtrio, Flygon, Nidoking and Donphan are the classic answers.
-- **Production:** Won 29 of 38 one-on-ones against the league. A reliable starter.
+- **Production:** Won 34 of 38 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Electabuzz, Raikou and Electrode. Pokédex, FireRed: “If it is angered or startled, the fur all over its body bristles like sharp needles that pierce foes.”
 
 ### Machamp (Fighting), FireRed
@@ -109,358 +146,431 @@
 - **Against types:** Feeds on Bug, Dark, Electric, Fire, Flying, Ice, Normal, Poison, Rock and Steel. Look out for Flying (×2) and Psychic (×2).
 - **Against moves:** Guts: a status condition makes it hit harder.
 - **How you beat it:** Hit it with something it can't hit back: Alakazam, Espeon, Starmie and Gardevoir are the classic answers.
-- **Production:** Won 30 of 38 one-on-ones against the league. A reliable starter.
+- **Production:** Won 33 of 38 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Ursaring, Heracross and Breloom. Pokédex, FireRed: “Its four ruggedly developed arms can launch a flurry of 1,000 punches in just two seconds.”
 
 ## Call sheets
 
 ### Call sheet vs Lorelei (Lv 54, pret/pokefirered src/data/trainer_parties.h sParty_EliteFourLorelei)
 
-- **Order:** Dewgong (Lv 52), Cloyster (Lv 51), Slowbro (Lv 52), Jynx (Lv 54), Lapras (Lv 54). Lead with Machamp: it handles their opener.
-- **Philosophy:** Their best player: Lapras, which beats 4 of your 6. Your last one standing: Jolteon.
+- **Order:** Dewgong (Lv 52), Cloyster (Lv 51), Slowbro (Lv 52), Jynx (Lv 54), Lapras (Lv 54). Lead with Blastoise: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Lapras, which beats 2 of your 6. Your last one standing: Blastoise.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Dewgong L52 | Ice Beam · Surf · Hail · Safeguard | Machamp: Cross Chop 109.9-129.8% | Jolteon: Thunderbolt 78.4-92.4% | — |
-| Cloyster L51 | Spikes · Protect · Hail · Dive | Venusaur: Petal Dance 128.3-151.2% | Alakazam: Psychic 106.3-125.2% | — |
-| Slowbro L52 | Ice Beam · Surf · Amnesia · Yawn | Venusaur: Petal Dance 60.8-71.6% | Jolteon: Thunderbolt 87.5-103.4% | — |
-| Jynx L54 | Ice Punch · Double Slap · Lovely Kiss · Attract | Machamp: Cross Chop 108.7-128% | Charizard: Overheat 125.3-148% | — |
-| Lapras L54 | Confuse Ray · Ice Beam · Surf · Body Slam @ Sitrus Berry | Machamp: Cross Chop 81.8-96.4% | Jolteon: Thunderbolt 58.6-69.1% | — |
+| Dewgong L52 | Ice Beam · Surf · Hail · Safeguard | Blastoise: Surf 17-20.5% | Jolteon: Thunderbolt 84.2-99.4% | — |
+| Cloyster L51 | Spikes · Protect · Hail · Dive | Venusaur: Petal Dance 140.2-165.4% | Alakazam: Psychic 112.6-133.1% | — |
+| Slowbro L52 | Ice Beam · Surf · Amnesia · Yawn | Blastoise: Surf 19.3-22.7% | Jolteon: Thunderbolt 95.5-112.5% | — |
+| Jynx L54 | Ice Punch · Double Slap · Lovely Kiss · Attract | Blastoise: Surf 38.7-46% | Alakazam: Fire Punch 57.3-68% | — |
+| Lapras L54 | Confuse Ray · Ice Beam · Surf · Body Slam @ Sitrus Berry | Jolteon: Thunderbolt 63.2-74.5% | Alakazam: Psychic 35-41.4% | — |
 
 **Dewgong L52**
 
 - **Order:** Leads off.
 - **Tendencies:** Gets the jump on Machamp. Its go-to: Ice Beam (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Surf against Charizard.
 - **Against moves:** Thick Fat: Fire and Ice moves only do half.
-- **How to attack it:** Hit it with Electric, Fighting, Grass and Rock. The call: Machamp: Cross Chop 109.9-129.8%. Backup: Jolteon: Thunderbolt 78.4-92.4%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Electric, Fighting, Grass and Rock. The call: Blastoise: Surf 17-20.5%. Backup: Jolteon: Thunderbolt 84.2-99.4%. Its blind spot: Blastoise, Jolteon and Machamp take almost nothing from it.
 
 **Cloyster L51**
 
-- **Tendencies:** Gets the jump on Machamp. Its go-to: Dive (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
+- **Tendencies:** You move first, every time. Its go-to: Dive (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **Against moves:** Stalls with Protect.
-- **How to attack it:** Hit it with Electric, Fighting, Grass and Rock. The call: Venusaur: Petal Dance 128.3-151.2%. Backup: Alakazam: Psychic 106.3-125.2%. Its blind spot: Blastoise, Venusaur, Alakazam, Jolteon and Machamp take almost nothing from it.
+- **How to attack it:** Hit it with Electric, Fighting, Grass and Rock. The call: Venusaur: Petal Dance 140.2-165.4%. Backup: Alakazam: Psychic 112.6-133.1%. Its blind spot: Blastoise, Venusaur, Alakazam, Jolteon and Machamp take almost nothing from it.
 
 **Slowbro L52**
 
 - **Tendencies:** You move first, every time. Its go-to: Surf (its best hit on Charizard, Blastoise, Alakazam, Jolteon and Machamp). Otherwise: Ice Beam against Venusaur.
 - **When it's ahead:** Given a free turn, it sets up with Amnesia. Expect Yawn early.
-- **How to attack it:** Hit it with Dark, Electric and Grass. The call: Venusaur: Petal Dance 60.8-71.6%. Backup: Jolteon: Thunderbolt 87.5-103.4%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Dark, Electric and Grass. The call: Blastoise: Surf 19.3-22.7%. Backup: Jolteon: Thunderbolt 95.5-112.5%. Its blind spot: Blastoise takes almost nothing from it.
 
 **Jynx L54**
 
 - **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Ice Punch (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **When it's ahead:** Expect Lovely Kiss early.
-- **How to attack it:** Hit it with Dark, Fire, Rock and Steel. The call: Machamp: Cross Chop 108.7-128%. Backup: Charizard: Overheat 125.3-148%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Dark, Fire, Rock and Steel. The call: Blastoise: Surf 38.7-46%. Backup: Alakazam: Fire Punch 57.3-68%. Its blind spot: Blastoise takes almost nothing from it.
 
 **Lapras L54**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Machamp. Its go-to: Ice Beam (its best hit on Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Surf against Charizard; Body Slam against Blastoise. Hits from both sides (Body Slam physical, Ice Beam and Surf special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** You move first, every time. Its go-to: Ice Beam (its best hit on Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Surf against Charizard; Body Slam against Blastoise. Hits from both sides (Body Slam physical, Ice Beam and Surf special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Expect Confuse Ray early.
 - **Against moves:** Water Absorb: Water moves heal it instead.
-- **How to attack it:** Hit it with Electric, Fighting, Grass and Rock. The call: Machamp: Cross Chop 81.8-96.4%. Backup: Jolteon: Thunderbolt 58.6-69.1%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Electric, Fighting, Grass and Rock. The call: Jolteon: Thunderbolt 63.2-74.5%. Backup: Alakazam: Psychic 35-41.4%. Its blind spot: Blastoise takes almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Dewgong | Blastoise (W) | Surf / Ice Beam | Surf / Ice Beam | Surf / Ice Beam | Surf / Ice Beam | Surf / Ice Beam | Surf / Ice Beam | Surf / Ice Beam |
+| Cloyster | Venusaur (W) | Petal Dance / Dive | Petal Dance / Dive | Petal Dance / Dive | Petal Dance / Dive | Petal Dance / Dive | Petal Dance / Dive | Petal Dance / Dive |
+| Slowbro | Blastoise (W) | Surf / Surf | Surf / Surf | Surf / Surf | Surf / Surf | Surf / Surf | Surf / Surf | Surf / Surf |
+| Jynx | Blastoise (W) | Surf / Ice Punch | Surf / Ice Punch | Surf / Ice Punch | Surf / Ice Punch | Surf / Ice Punch | Surf / Ice Punch | Surf / Ice Punch |
+| Lapras | Jolteon (W) | Thunderbolt / Ice Beam | Thunderbolt / Ice Beam | Thunderbolt / Ice Beam | Thunderbolt / Ice Beam | Thunderbolt / Ice Beam | Thunderbolt / Ice Beam | Thunderbolt / Ice Beam |
 
 ### Call sheet vs Bruno (Lv 56, pret/pokefirered src/data/trainer_parties.h sParty_EliteFourBruno)
 
-- **Order:** Onix (Lv 51), Hitmonchan (Lv 53), Hitmonlee (Lv 53), Onix (Lv 54), Machamp (Lv 56). Lead with Blastoise: it handles their opener.
-- **Philosophy:** Their best player: Machamp, which beats 3 of your 6. Your last one standing: Charizard.
+- **Order:** Onix (Lv 51), Hitmonchan (Lv 53), Hitmonlee (Lv 53), Onix (Lv 54), Machamp (Lv 56). Lead with Blastoise: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Machamp, which beats 2 of your 6. Your last one standing: Blastoise.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Onix L51 | Earthquake · Rock Tomb · Iron Tail · Roar | Blastoise: Surf 373.2-439.3% | Venusaur: Petal Dance 318.8-375% | — |
-| Hitmonchan L53 | Sky Uppercut · Mach Punch · Rock Tomb · Counter | Alakazam: Psychic 108.4-128.2% | Machamp: Cross Chop 76.3-90.1% | — |
-| Hitmonlee L53 | Mega Kick · Foresight · Brick Break · Facade | Machamp: Cross Chop 103.1-121.4% | Alakazam: Psychic 108.4-128.2% | — |
-| Onix L54 | Double-Edge · Earthquake · Iron Tail · Sand Tomb | Blastoise: Surf 339.8-400% | Venusaur: Petal Dance 288.1-339% | — |
-| Machamp L56 | Cross Chop · Bulk Up · Scary Face · Rock Tomb @ Sitrus Berry | Alakazam: Psychic 89.6-106% | Charizard: Overheat 58.5-68.9% | — |
+| Onix L51 | Earthquake · Rock Tomb · Iron Tail · Roar | Blastoise: Surf 412.5-485.7% | Venusaur: Petal Dance 345.5-407.1% | — |
+| Hitmonchan L53 | Sky Uppercut · Mach Punch · Rock Tomb · Counter | Alakazam: Psychic 116.8-137.4% | Venusaur: Sludge Bomb 51.1-60.3% | — |
+| Hitmonlee L53 | Mega Kick · Foresight · Brick Break · Facade | Alakazam: Psychic 116.8-137.4% | Venusaur: Sludge Bomb 69.5-82.4% | — |
+| Onix L54 | Double-Edge · Earthquake · Iron Tail · Sand Tomb | Blastoise: Surf 374.6-440.7% | Venusaur: Petal Dance 313.6-369.5% | — |
+| Machamp L56 | Cross Chop · Bulk Up · Scary Face · Rock Tomb @ Sitrus Berry | Alakazam: Psychic 97.3-114.8% | Venusaur: Sludge Bomb 34.4-41% | — |
 
 **Onix L51**
 
 - **Order:** Leads off.
-- **Tendencies:** Gets the jump on Machamp. Its go-to: Earthquake (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard.
+- **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard.
 - **Against moves:** Rock Head: no recoil damage. If you set up, it forces you out with Roar.
-- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 373.2-439.3%. Backup: Venusaur: Petal Dance 318.8-375%. Its blind spot: Blastoise, Venusaur and Machamp take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 412.5-485.7%. Backup: Venusaur: Petal Dance 345.5-407.1%. Its blind spot: Blastoise, Venusaur and Machamp take almost nothing from it.
 
 **Hitmonchan L53**
 
 - **Tendencies:** Gets the jump on Machamp. Its go-to: Sky Uppercut (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard.
 - **When it's ahead:** Once you're low, Mach Punch finishes you.
 - **Against moves:** Keen Eye: its accuracy can't be lowered.
-- **How to attack it:** Hit it with Psychic. The call: Alakazam: Psychic 108.4-128.2%. Backup: Machamp: Cross Chop 76.3-90.1%. Its blind spot: Venusaur takes almost nothing from it.
+- **How to attack it:** Hit it with Psychic. The call: Alakazam: Psychic 116.8-137.4%. Backup: Venusaur: Sludge Bomb 51.1-60.3%. Its blind spot: Blastoise and Venusaur take almost nothing from it.
 
 **Hitmonlee L53**
 
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Mega Kick (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Mega Kick (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **Against moves:** Limber: it can't be paralyzed.
-- **How to attack it:** Hit it with Psychic. The call: Machamp: Cross Chop 103.1-121.4%. Backup: Alakazam: Psychic 108.4-128.2%.
+- **How to attack it:** Hit it with Psychic. The call: Alakazam: Psychic 116.8-137.4%. Backup: Venusaur: Sludge Bomb 69.5-82.4%. Its blind spot: Blastoise takes almost nothing from it.
 
 **Onix L54**
 
 - **Tendencies:** Gets the jump on Machamp. Its go-to: Earthquake (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Double-Edge against Charizard.
 - **Against moves:** Rock Head: no recoil damage.
-- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 339.8-400%. Backup: Venusaur: Petal Dance 288.1-339%. Its blind spot: Charizard, Blastoise, Venusaur and Machamp take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 374.6-440.7%. Backup: Venusaur: Petal Dance 313.6-369.5%. Its blind spot: Charizard, Blastoise, Venusaur and Machamp take almost nothing from it.
 
 **Machamp L56**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Machamp. Its go-to: Cross Chop (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** You move first, every time. Its go-to: Cross Chop (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Given a free turn, it sets up with Bulk Up.
 - **Against moves:** Guts: a status condition makes it hit harder.
-- **How to attack it:** Hit it with Psychic. The call: Alakazam: Psychic 89.6-106%. Backup: Charizard: Overheat 58.5-68.9%.
+- **How to attack it:** Hit it with Psychic. The call: Alakazam: Psychic 97.3-114.8%. Backup: Venusaur: Sludge Bomb 34.4-41%. Its blind spot: Venusaur takes almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Onix | Blastoise (W) | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake |
+| Hitmonchan | Alakazam (W) | Psychic / Sky Uppercut | Psychic / Sky Uppercut | Psychic / Sky Uppercut | Psychic / Sky Uppercut | Psychic / Sky Uppercut | Psychic / Sky Uppercut | Psychic / Sky Uppercut |
+| Hitmonlee | Alakazam (W) | Psychic / Mega Kick | Psychic / Mega Kick | Psychic / Mega Kick | Psychic / Facade | Psychic / Mega Kick | Psychic / Mega Kick | Psychic / Facade |
+| Onix | Blastoise (W) | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake |
+| Machamp | Alakazam (W) | Psychic / Cross Chop | Psychic / Cross Chop | Psychic / Cross Chop | Psychic / Cross Chop | Psychic / Cross Chop | Psychic / Cross Chop | Psychic / Cross Chop |
 
 ### Call sheet vs Agatha (Lv 58, pret/pokefirered src/data/trainer_parties.h sParty_EliteFourAgatha)
 
-- **Order:** Gengar (Lv 54), Golbat (Lv 54), Haunter (Lv 53), Arbok (Lv 56), Gengar (Lv 58). Lead with Alakazam: it handles their opener.
-- **Philosophy:** Their best player: Golbat, which beats 1 of your 6. Your last one standing: Charizard.
+- **Order:** Gengar (Lv 54), Golbat (Lv 54), Haunter (Lv 53), Arbok (Lv 56), Gengar (Lv 58). Lead with Alakazam: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Haunter, which beats 1 of your 6. Your last one standing: Charizard.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Gengar L54 | Shadow Punch · Confuse Ray · Toxic · Double Team | Alakazam: Psychic 140.7-165.5% | Blastoise: Surf 50.3-60% | — |
-| Golbat L54 | Confuse Ray · Poison Fang · Air Cutter · Bite | Jolteon: Thunderbolt 111.8-131.7% | Alakazam: Psychic 126.7-149.1% | — |
-| Haunter L53 | Hypnosis · Dream Eater · Curse · Mean Look | Alakazam: Psychic 207.1-244.4% | Charizard: Overheat 134.9-159.5% | — |
-| Arbok L56 | Sludge Bomb · Screech · Iron Tail · Bite | Machamp: Earthquake 100.7-118.7% | Alakazam: Psychic 126.7-149.3% | — |
-| Gengar L58 | Shadow Ball · Sludge Bomb · Hypnosis · Nightmare @ Sitrus Berry | Alakazam: Psychic 122.6-144.5% | Charizard: Overheat 79.4-93.5% | — |
+| Gengar L54 | Shadow Punch · Confuse Ray · Toxic · Double Team | Alakazam: Psychic 151-177.9% | Charizard: Overheat 97.9-115.9% | — |
+| Golbat L54 | Confuse Ray · Poison Fang · Air Cutter · Bite | Alakazam: Psychic 136-160.2% | Jolteon: Thunderbolt 121.1-142.9% | — |
+| Haunter L53 | Hypnosis · Dream Eater · Curse · Mean Look | Alakazam: Psychic 222.2-261.9% | Blastoise: Surf 81-96% | — |
+| Arbok L56 | Sludge Bomb · Screech · Iron Tail · Bite | Alakazam: Psychic 136-160% | Venusaur: Earthquake 75.3-89.3% | — |
+| Gengar L58 | Shadow Ball · Sludge Bomb · Hypnosis · Nightmare @ Sitrus Berry | Alakazam: Psychic 131.6-154.8% | Blastoise: Surf 47.7-56.8% | — |
 
 **Gengar L54**
 
 - **Order:** Leads off.
-- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Shadow Punch (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
+- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Shadow Punch (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **When it's ahead:** Expect Confuse Ray or Toxic early.
 - **Against moves:** Levitate: Ground moves miss it entirely.
-- **How to attack it:** Hit it with Dark and Psychic. The call: Alakazam: Psychic 140.7-165.5%. Backup: Blastoise: Surf 50.3-60%. Its blind spot: Charizard, Blastoise, Venusaur, Jolteon and Machamp take almost nothing from it.
+- **How to attack it:** Hit it with Dark and Psychic. The call: Alakazam: Psychic 151-177.9%. Backup: Charizard: Overheat 97.9-115.9%. Its blind spot: Charizard, Blastoise, Venusaur, Jolteon and Machamp take almost nothing from it.
 
 **Golbat L54**
 
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Air Cutter (its best hit on Charizard, Blastoise, Venusaur, Alakazam and Machamp). Otherwise: Poison Fang against Jolteon. Hits from both sides (Poison Fang and Air Cutter physical, Bite special): no single wall stops it.
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Air Cutter (its best hit on Charizard, Blastoise, Venusaur, Alakazam and Machamp). Otherwise: Poison Fang against Jolteon. Hits from both sides (Poison Fang and Air Cutter physical, Bite special): no single wall stops it.
 - **When it's ahead:** Expect Confuse Ray early.
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Electric, Ice, Psychic and Rock. The call: Jolteon: Thunderbolt 111.8-131.7%. Backup: Alakazam: Psychic 126.7-149.1%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
+- **How to attack it:** Hit it with Electric, Ice, Psychic and Rock. The call: Alakazam: Psychic 136-160.2%. Backup: Jolteon: Thunderbolt 121.1-142.9%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
 
 **Haunter L53**
 
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Dream Eater (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Dream Eater (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **When it's ahead:** Expect Hypnosis early.
 - **Against moves:** Levitate: Ground moves miss it entirely.
-- **How to attack it:** Hit it with Dark and Psychic. The call: Alakazam: Psychic 207.1-244.4%. Backup: Charizard: Overheat 134.9-159.5%. Its blind spot: Blastoise and Alakazam take almost nothing from it.
+- **How to attack it:** Hit it with Dark and Psychic. The call: Alakazam: Psychic 222.2-261.9%. Backup: Blastoise: Surf 81-96%. Its blind spot: Charizard, Blastoise, Alakazam and Jolteon take almost nothing from it.
 
 **Arbok L56**
 
 - **Tendencies:** Gets the jump on Machamp. Its go-to: Sludge Bomb (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Hits from both sides (Sludge Bomb and Iron Tail physical, Bite special): no single wall stops it.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Ground and Psychic. The call: Machamp: Earthquake 100.7-118.7%. Backup: Alakazam: Psychic 126.7-149.3%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Ground and Psychic. The call: Alakazam: Psychic 136-160%. Backup: Venusaur: Earthquake 75.3-89.3%. Its blind spot: Blastoise takes almost nothing from it.
 
 **Gengar L58**
 
 - **Order:** Last in the order.
-- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Sludge Bomb (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Shadow Ball against Alakazam. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Sludge Bomb (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Shadow Ball against Alakazam. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Expect Hypnosis early.
 - **Against moves:** Levitate: Ground moves miss it entirely.
-- **How to attack it:** Hit it with Dark and Psychic. The call: Alakazam: Psychic 122.6-144.5%. Backup: Charizard: Overheat 79.4-93.5%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Dark and Psychic. The call: Alakazam: Psychic 131.6-154.8%. Backup: Blastoise: Surf 47.7-56.8%. Its blind spot: Charizard, Blastoise, Venusaur and Machamp take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Gengar | Alakazam (W) | Psychic / Shadow Punch | Psychic / Shadow Punch | Psychic / Shadow Punch | Psychic / Shadow Punch | Psychic / Shadow Punch | Psychic / Shadow Punch | Psychic / Shadow Punch |
+| Golbat | Alakazam (W) | Psychic / Air Cutter | Psychic / Air Cutter | Psychic / Air Cutter | Psychic / Poison Fang | Psychic / Air Cutter | Psychic / Air Cutter | Psychic / Air Cutter |
+| Haunter | Alakazam (W) | Psychic / Dream Eater | Psychic / Dream Eater | Psychic / Dream Eater | Psychic / Dream Eater | Psychic / Dream Eater | Psychic / Dream Eater | Psychic / Dream Eater |
+| Arbok | Alakazam (W) | Psychic / Sludge Bomb | Psychic / Sludge Bomb | Psychic / Sludge Bomb | Psychic / Sludge Bomb | Psychic / Sludge Bomb | Psychic / Sludge Bomb | Psychic / Sludge Bomb |
+| Gengar | Alakazam (W) | Psychic / Shadow Ball | Psychic / Shadow Ball | Psychic / Shadow Ball | Psychic / Shadow Ball | Psychic / Shadow Ball | Psychic / Shadow Ball | Psychic / Shadow Ball |
 
 ### Call sheet vs Lance (Lv 60, pret/pokefirered src/data/trainer_parties.h sParty_EliteFourLance)
 
-- **Order:** Gyarados (Lv 56), Dragonair (Lv 54), Dragonair (Lv 54), Aerodactyl (Lv 58), Dragonite (Lv 60). Lead with Jolteon: it handles their opener.
-- **Philosophy:** Their best player: Dragonite, which beats 5 of your 6. Your last one standing: Blastoise.
+- **Order:** Gyarados (Lv 56), Dragonair (Lv 54), Dragonair (Lv 54), Aerodactyl (Lv 58), Dragonite (Lv 60). Lead with Jolteon: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Dragonite, which beats 3 of your 6. Your last one standing: Blastoise.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Gyarados L56 | Hyper Beam · Dragon Rage · Twister · Bite | Jolteon: Thunderbolt 158.2-186.2% | Machamp: Rock Slide 58.2-68.8% | — |
-| Dragonair L54 | Hyper Beam · Safeguard · Dragon Rage · Outrage | Blastoise: Ice Beam 76.7-90.4% | Charizard: Overheat 50.7-60.3% | — |
-| Dragonair L54 | Hyper Beam · Safeguard · Thunder Wave · Outrage | Blastoise: Ice Beam 76.7-90.4% | Charizard: Overheat 50.7-60.3% | — |
-| Aerodactyl L58 | Hyper Beam · Ancient Power · Wing Attack · Scary Face | Jolteon: Thunderbolt 102.8-121.3% | Blastoise: Surf 82.6-97.8% | Charizard |
-| Dragonite L60 | Hyper Beam · Safeguard · Outrage · Wing Attack @ Sitrus Berry | Blastoise: Ice Beam 77.7-91.4% | — | Alakazam |
+| Gyarados L56 | Hyper Beam · Dragon Rage · Twister · Bite | Jolteon: Thunderbolt 172.5-203.2% | Blastoise: Ice Beam 23.3-27.5% | — |
+| Dragonair L54 | Hyper Beam · Safeguard · Dragon Rage · Outrage | Blastoise: Ice Beam 84.9-100% | Machamp: Cross Chop 96.6-113.7% | — |
+| Dragonair L54 | Hyper Beam · Safeguard · Thunder Wave · Outrage | Blastoise: Ice Beam 84.9-100% | Machamp: Cross Chop 96.6-113.7% | — |
+| Aerodactyl L58 | Hyper Beam · Ancient Power · Wing Attack · Scary Face | Jolteon: Thunderbolt 111.2-131.5% | Blastoise: Surf 91.6-107.9% | — |
+| Dragonite L60 | Hyper Beam · Safeguard · Outrage · Wing Attack @ Sitrus Berry | Blastoise: Ice Beam 84.3-99.5% | Jolteon: Thunderbolt 38.6-45.7% | — |
 
 **Gyarados L56**
 
 - **Order:** Leads off.
 - **Tendencies:** Gets the jump on Machamp. Its go-to: Hyper Beam (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Hits from both sides (Hyper Beam physical, Twister and Bite special): no single wall stops it.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Electric and Rock. The call: Jolteon: Thunderbolt 158.2-186.2%. Backup: Machamp: Rock Slide 58.2-68.8%.
+- **How to attack it:** Hit it with Electric and Rock. The call: Jolteon: Thunderbolt 172.5-203.2%. Backup: Blastoise: Ice Beam 23.3-27.5%.
 
 **Dragonair L54**
 
-- **Tendencies:** Gets the jump on Machamp. Its go-to: Hyper Beam (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Hits from both sides (Hyper Beam physical, Outrage special): no single wall stops it.
+- **Tendencies:** You move first, every time. Its go-to: Hyper Beam (its best hit on Charizard, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Dragon Rage against Blastoise. Hits from both sides (Hyper Beam physical, Outrage special): no single wall stops it.
 - **Against moves:** Shed Skin: it can shake off status between turns.
-- **How to attack it:** Hit it with Ice. The call: Blastoise: Ice Beam 76.7-90.4%. Backup: Charizard: Overheat 50.7-60.3%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Ice. The call: Blastoise: Ice Beam 84.9-100%. Backup: Machamp: Cross Chop 96.6-113.7%. Its blind spot: Blastoise, Venusaur and Machamp take almost nothing from it.
 
 **Dragonair L54**
 
-- **Tendencies:** Gets the jump on Machamp. Its go-to: Hyper Beam (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Hits from both sides (Hyper Beam physical, Outrage special): no single wall stops it.
+- **Tendencies:** You move first, every time. Its go-to: Hyper Beam (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Hits from both sides (Hyper Beam physical, Outrage special): no single wall stops it.
 - **When it's ahead:** Expect Thunder Wave early.
 - **Against moves:** Shed Skin: it can shake off status between turns.
-- **How to attack it:** Hit it with Ice. The call: Blastoise: Ice Beam 76.7-90.4%. Backup: Charizard: Overheat 50.7-60.3%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Ice. The call: Blastoise: Ice Beam 84.9-100%. Backup: Machamp: Cross Chop 96.6-113.7%. Its blind spot: Blastoise, Venusaur and Machamp take almost nothing from it.
 
 **Aerodactyl L58**
 
-- **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Hyper Beam (its best hit on Blastoise, Alakazam and Jolteon). Otherwise: Wing Attack against Venusaur and Machamp; Ancient Power against Charizard.
+- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Hyper Beam (its best hit on Blastoise, Alakazam and Jolteon). Otherwise: Wing Attack against Venusaur and Machamp; Ancient Power against Charizard.
 - **Against moves:** Rock Head: no recoil damage.
-- **How to attack it:** Hit it with Electric, Ice, Rock, Steel and Water. The call: Jolteon: Thunderbolt 102.8-121.3%. Backup: Blastoise: Surf 82.6-97.8%. Keep Charizard away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Electric, Ice, Rock, Steel and Water. The call: Jolteon: Thunderbolt 111.2-131.5%. Backup: Blastoise: Surf 91.6-107.9%.
 
 **Dragonite L60**
 
 - **Order:** Last in the order.
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Hyper Beam (its best hit on Charizard, Blastoise, Alakazam and Jolteon). Otherwise: Wing Attack against Venusaur and Machamp. Hits from both sides (Hyper Beam and Wing Attack physical, Outrage special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Hyper Beam (its best hit on Charizard, Blastoise, Alakazam and Jolteon). Otherwise: Wing Attack against Venusaur and Machamp. Hits from both sides (Hyper Beam and Wing Attack physical, Outrage special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Ice and Rock. The call: Blastoise: Ice Beam 77.7-91.4%. Keep Alakazam away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Ice and Rock. The call: Blastoise: Ice Beam 84.3-99.5%. Backup: Jolteon: Thunderbolt 38.6-45.7%.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Gyarados | Jolteon (W) | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Dragon Rage | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam |
+| Dragonair | Blastoise (W) | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Dragon Rage | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam |
+| Dragonair | Blastoise (W) | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam |
+| Aerodactyl | Jolteon (W) | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Ancient Power | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Ancient Power |
+| Dragonite | Blastoise (W) | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Outrage | Ice Beam / Hyper Beam | Ice Beam / Hyper Beam | Ice Beam / Outrage |
 
 ### Call sheet vs Champion (rival, Squirtle variant) (Lv 63, pret/pokefirered src/data/trainer_parties.h sParty_ChampionFirstSquirtle)
 
-- **Order:** Pidgeot (Lv 59), Alakazam (Lv 57), Rhydon (Lv 59), Arcanine (Lv 59), Exeggutor (Lv 61), Blastoise (Lv 63). Lead with Jolteon: it handles their opener.
-- **Philosophy:** Their best player: Blastoise, which beats 4 of your 6. Your last one standing: Blastoise.
+- **Order:** Pidgeot (Lv 59), Alakazam (Lv 57), Rhydon (Lv 59), Arcanine (Lv 59), Exeggutor (Lv 61), Blastoise (Lv 63). Lead with Jolteon: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Alakazam, which beats 2 of your 6. Your last one standing: Blastoise.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Pidgeot L59 | Aerial Ace · Feather Dance · Sand Attack · Whirlwind | Jolteon: Thunderbolt 110.8-130.8% | Blastoise: Ice Beam 60.5-71.4% | — |
-| Alakazam L57 | Psychic · Future Sight · Recover · Reflect | Jolteon: Thunderbolt 61.9-73.5% | Charizard: Overheat 89.8-106.1% | — |
-| Rhydon L59 | Take Down · Earthquake · Rock Tomb · Scary Face | Blastoise: Surf 217.5-255.9% | Venusaur: Petal Dance 183.4-216.1% | Charizard, Jolteon |
-| Arcanine L59 | Extreme Speed · Flamethrower · Roar · Bite | Blastoise: Surf 77.2-91.2% | Charizard: Earthquake 54.4-64.2% | — |
-| Exeggutor L61 | Giga Drain · Egg Bomb · Sleep Powder · Light Screen | Charizard: Overheat 149.3-175.6% | Venusaur: Sludge Bomb 62-73.2% | — |
-| Blastoise L63 | Hydro Pump · Rain Dance · Skull Bash · Bite @ Sitrus Berry | Venusaur: Petal Dance 50-59.4% | Jolteon: Thunderbolt 72.4-85.4% | — |
+| Pidgeot L59 | Aerial Ace · Feather Dance · Sand Attack · Whirlwind | Jolteon: Thunderbolt 119.5-140.5% | Blastoise: Ice Beam 65.9-77.8% | — |
+| Alakazam L57 | Psychic · Future Sight · Recover · Reflect | Alakazam: Fire Punch 41.5-49% | Charizard: Overheat 97.3-115% | — |
+| Rhydon L59 | Take Down · Earthquake · Rock Tomb · Scary Face | Blastoise: Surf 238.4-280.6% | Venusaur: Petal Dance 199.5-235.1% | Jolteon |
+| Arcanine L59 | Extreme Speed · Flamethrower · Roar · Bite | Blastoise: Surf 85-100.5% | Jolteon: Thunderbolt 51.8-61.1% | — |
+| Exeggutor L61 | Giga Drain · Egg Bomb · Sleep Powder · Light Screen | Venusaur: Sludge Bomb 67.8-80% | Blastoise: Ice Beam 60.5-71.2% | — |
+| Blastoise L63 | Hydro Pump · Rain Dance · Skull Bash · Bite @ Sitrus Berry | Venusaur: Petal Dance 53.6-63.5% | Alakazam: Psychic 43.8-51.6% | — |
 
 **Pidgeot L59**
 
 - **Order:** Leads off.
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Aerial Ace (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Aerial Ace (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **Against moves:** Keen Eye: its accuracy can't be lowered. If you set up, it forces you out with Whirlwind.
-- **How to attack it:** Hit it with Electric, Ice and Rock. The call: Jolteon: Thunderbolt 110.8-130.8%. Backup: Blastoise: Ice Beam 60.5-71.4%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
+- **How to attack it:** Hit it with Electric, Ice and Rock. The call: Jolteon: Thunderbolt 119.5-140.5%. Backup: Blastoise: Ice Beam 65.9-77.8%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
 
 **Alakazam L57**
 
-- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Psychic (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Future Sight against Alakazam.
+- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Psychic (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Future Sight against Alakazam.
 - **When it's behind:** When it's low, it heals itself with Recover.
 - **Against moves:** Synchronize: it passes its status back.
-- **How to attack it:** Hit it with Dark. The call: Jolteon: Thunderbolt 61.9-73.5%. Backup: Charizard: Overheat 89.8-106.1%.
+- **How to attack it:** Hit it with Dark. The call: Alakazam: Fire Punch 41.5-49%. Backup: Charizard: Overheat 97.3-115%. Its blind spot: Alakazam takes almost nothing from it.
 
 **Rhydon L59**
 
 - **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard.
-- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 217.5-255.9%. Backup: Venusaur: Petal Dance 183.4-216.1%. Keep Charizard and Jolteon away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 238.4-280.6%. Backup: Venusaur: Petal Dance 199.5-235.1%. Keep Jolteon away from it: one hit and they're gone.
 
 **Arcanine L59**
 
-- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Flamethrower (its best hit on Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Extreme Speed against Charizard and Blastoise. Hits from both sides (Extreme Speed physical, Flamethrower and Bite special): no single wall stops it.
+- **Tendencies:** Moves first against Charizard, Blastoise and Machamp. Its go-to: Flamethrower (its best hit on Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Extreme Speed against Charizard and Blastoise. Hits from both sides (Extreme Speed physical, Flamethrower and Bite special): no single wall stops it.
 - **When it's ahead:** Once you're low, Extreme Speed finishes you.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in. If you set up, it forces you out with Roar.
-- **How to attack it:** Hit it with Ground, Rock and Water. The call: Blastoise: Surf 77.2-91.2%. Backup: Charizard: Earthquake 54.4-64.2%. Its blind spot: Charizard and Blastoise take almost nothing from it.
+- **How to attack it:** Hit it with Ground, Rock and Water. The call: Blastoise: Surf 85-100.5%. Backup: Jolteon: Thunderbolt 51.8-61.1%. Its blind spot: Charizard and Blastoise take almost nothing from it.
 
 **Exeggutor L61**
 
 - **Tendencies:** You move first, every time. Its go-to: Egg Bomb (its best hit on Charizard, Venusaur, Alakazam and Jolteon). Otherwise: Giga Drain against Blastoise and Machamp. Hits from both sides (Egg Bomb physical, Giga Drain special): no single wall stops it.
 - **When it's ahead:** Expect Sleep Powder early.
 - **Against moves:** Chlorophyll: doubles its Speed in sun.
-- **How to attack it:** Hit it with Dark, Fire, Ice and Poison. The call: Charizard: Overheat 149.3-175.6%. Backup: Venusaur: Sludge Bomb 62-73.2%.
+- **How to attack it:** Hit it with Dark, Fire, Ice and Poison. The call: Venusaur: Sludge Bomb 67.8-80%. Backup: Blastoise: Ice Beam 60.5-71.2%. Its blind spot: Charizard, Venusaur and Machamp take almost nothing from it.
 
 **Blastoise L63**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Blastoise and Machamp. Its go-to: Hydro Pump (its best hit on Charizard, Alakazam, Jolteon and Machamp). Otherwise: Skull Bash against Blastoise and Venusaur. Hits from both sides (Skull Bash physical, Hydro Pump and Bite special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Hydro Pump (its best hit on Charizard, Alakazam, Jolteon and Machamp). Otherwise: Skull Bash against Blastoise and Venusaur. Hits from both sides (Skull Bash physical, Hydro Pump and Bite special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Torrent: Water moves hit harder when it's low.
-- **How to attack it:** Hit it with Electric and Grass. The call: Venusaur: Petal Dance 50-59.4%. Backup: Jolteon: Thunderbolt 72.4-85.4%. Its blind spot: Blastoise and Venusaur take almost nothing from it.
+- **How to attack it:** Hit it with Electric and Grass. The call: Venusaur: Petal Dance 53.6-63.5%. Backup: Alakazam: Psychic 43.8-51.6%. Its blind spot: Blastoise and Venusaur take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Pidgeot | Jolteon (W) | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace |
+| Alakazam | Alakazam (W) | Calm Mind / Future Sight | Fire Punch / Future Sight | Fire Punch / Future Sight | Fire Punch / Future Sight | Fire Punch / Recover | Fire Punch / Future Sight | Fire Punch / Future Sight |
+| Rhydon | Blastoise (W) | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake |
+| Arcanine | Blastoise (W) | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed |
+| Exeggutor | Venusaur (W) | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb |
+| Blastoise | Venusaur (W) | Petal Dance / Skull Bash | Petal Dance / Skull Bash | Petal Dance / Skull Bash | Petal Dance / Skull Bash | Petal Dance / Hydro Pump | Petal Dance / Skull Bash | Petal Dance / Hydro Pump |
 
 ### Call sheet vs Champion (rival, Bulbasaur variant) (Lv 63, pret/pokefirered src/data/trainer_parties.h sParty_ChampionFirstBulbasaur)
 
-- **Order:** Pidgeot (Lv 59), Alakazam (Lv 57), Rhydon (Lv 59), Gyarados (Lv 59), Arcanine (Lv 61), Venusaur (Lv 63). Lead with Jolteon: it handles their opener.
-- **Philosophy:** Their best player: Venusaur, which beats 3 of your 6. Your last one standing: Blastoise.
+- **Order:** Pidgeot (Lv 59), Alakazam (Lv 57), Rhydon (Lv 59), Gyarados (Lv 59), Arcanine (Lv 61), Venusaur (Lv 63). Lead with Jolteon: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Alakazam, which beats 2 of your 6. Your last one standing: Alakazam.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Pidgeot L59 | Aerial Ace · Feather Dance · Sand Attack · Whirlwind | Jolteon: Thunderbolt 110.8-130.8% | Blastoise: Ice Beam 60.5-71.4% | — |
-| Alakazam L57 | Psychic · Future Sight · Recover · Reflect | Jolteon: Thunderbolt 61.9-73.5% | Charizard: Overheat 89.8-106.1% | — |
-| Rhydon L59 | Take Down · Earthquake · Rock Tomb · Scary Face | Blastoise: Surf 217.5-255.9% | Venusaur: Petal Dance 183.4-216.1% | Charizard, Jolteon |
-| Gyarados L59 | Hydro Pump · Dragon Rage · Bite · Thrash | Jolteon: Thunderbolt 155.3-182.9% | Machamp: Rock Slide 56.8-67.3% | — |
-| Arcanine L61 | Extreme Speed · Flamethrower · Roar · Bite | Blastoise: Surf 72.4-85.4% | Charizard: Earthquake 51.3-60.3% | — |
-| Venusaur L63 | Solar Beam · Synthesis · Sunny Day · Growth @ Sitrus Berry | Charizard: Overheat 108.8-128.5% | Alakazam: Psychic 84.5-99.5% | — |
+| Pidgeot L59 | Aerial Ace · Feather Dance · Sand Attack · Whirlwind | Jolteon: Thunderbolt 119.5-140.5% | Blastoise: Ice Beam 65.9-77.8% | — |
+| Alakazam L57 | Psychic · Future Sight · Recover · Reflect | Alakazam: Fire Punch 41.5-49% | Charizard: Overheat 97.3-115% | — |
+| Rhydon L59 | Take Down · Earthquake · Rock Tomb · Scary Face | Blastoise: Surf 238.4-280.6% | Venusaur: Petal Dance 199.5-235.1% | Jolteon |
+| Gyarados L59 | Hydro Pump · Dragon Rage · Bite · Thrash | Jolteon: Thunderbolt 168.8-199% | Venusaur: Sludge Bomb 38.7-45.7% | — |
+| Arcanine L61 | Extreme Speed · Flamethrower · Roar · Bite | Blastoise: Surf 79.9-94.5% | Alakazam: Psychic 53.8-63.8% | — |
+| Venusaur L63 | Solar Beam · Synthesis · Sunny Day · Growth @ Sitrus Berry | Alakazam: Psychic 90.7-106.7% | Venusaur: Sludge Bomb 35.8-42.5% | — |
 
 **Pidgeot L59**
 
 - **Order:** Leads off.
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Aerial Ace (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Aerial Ace (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **Against moves:** Keen Eye: its accuracy can't be lowered. If you set up, it forces you out with Whirlwind.
-- **How to attack it:** Hit it with Electric, Ice and Rock. The call: Jolteon: Thunderbolt 110.8-130.8%. Backup: Blastoise: Ice Beam 60.5-71.4%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
+- **How to attack it:** Hit it with Electric, Ice and Rock. The call: Jolteon: Thunderbolt 119.5-140.5%. Backup: Blastoise: Ice Beam 65.9-77.8%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
 
 **Alakazam L57**
 
-- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Psychic (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Future Sight against Alakazam.
+- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Psychic (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Future Sight against Alakazam.
 - **When it's behind:** When it's low, it heals itself with Recover.
 - **Against moves:** Synchronize: it passes its status back.
-- **How to attack it:** Hit it with Dark. The call: Jolteon: Thunderbolt 61.9-73.5%. Backup: Charizard: Overheat 89.8-106.1%.
+- **How to attack it:** Hit it with Dark. The call: Alakazam: Fire Punch 41.5-49%. Backup: Charizard: Overheat 97.3-115%. Its blind spot: Alakazam takes almost nothing from it.
 
 **Rhydon L59**
 
 - **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard.
-- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 217.5-255.9%. Backup: Venusaur: Petal Dance 183.4-216.1%. Keep Charizard and Jolteon away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 238.4-280.6%. Backup: Venusaur: Petal Dance 199.5-235.1%. Keep Jolteon away from it: one hit and they're gone.
 
 **Gyarados L59**
 
 - **Tendencies:** Gets the jump on Machamp. Its go-to: Thrash (its best hit on Venusaur, Alakazam and Jolteon). Otherwise: Hydro Pump against Charizard and Machamp; Dragon Rage against Blastoise. Hits from both sides (Thrash physical, Hydro Pump and Bite special): no single wall stops it.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Electric and Rock. The call: Jolteon: Thunderbolt 155.3-182.9%. Backup: Machamp: Rock Slide 56.8-67.3%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Electric and Rock. The call: Jolteon: Thunderbolt 168.8-199%. Backup: Venusaur: Sludge Bomb 38.7-45.7%. Its blind spot: Blastoise, Venusaur and Machamp take almost nothing from it.
 
 **Arcanine L61**
 
 - **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Flamethrower (its best hit on Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Extreme Speed against Charizard and Blastoise. Hits from both sides (Extreme Speed physical, Flamethrower and Bite special): no single wall stops it.
 - **When it's ahead:** Once you're low, Extreme Speed finishes you.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in. If you set up, it forces you out with Roar.
-- **How to attack it:** Hit it with Ground, Rock and Water. The call: Blastoise: Surf 72.4-85.4%. Backup: Charizard: Earthquake 51.3-60.3%. Its blind spot: Charizard and Blastoise take almost nothing from it.
+- **How to attack it:** Hit it with Ground, Rock and Water. The call: Blastoise: Surf 79.9-94.5%. Backup: Alakazam: Psychic 53.8-63.8%. Its blind spot: Charizard and Blastoise take almost nothing from it.
 
 **Venusaur L63**
 
 - **Order:** Last in the order.
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Solar Beam (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** You move first, every time. Its go-to: Solar Beam (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Given a free turn, it sets up with Growth.
 - **When it's behind:** When it's low, it heals itself with Synthesis.
 - **Against moves:** Overgrow: Grass moves hit harder when it's low.
-- **How to attack it:** Hit it with Fire, Ice and Psychic. The call: Charizard: Overheat 108.8-128.5%. Backup: Alakazam: Psychic 84.5-99.5%. Its blind spot: Charizard and Venusaur take almost nothing from it.
+- **How to attack it:** Hit it with Fire, Ice and Psychic. The call: Alakazam: Psychic 90.7-106.7%. Backup: Venusaur: Sludge Bomb 35.8-42.5%. Its blind spot: Charizard and Venusaur take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Pidgeot | Jolteon (W) | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace |
+| Alakazam | Alakazam (W) | Calm Mind / Future Sight | Fire Punch / Future Sight | Fire Punch / Future Sight | Fire Punch / Future Sight | Fire Punch / Recover | Fire Punch / Future Sight | Fire Punch / Future Sight |
+| Rhydon | Blastoise (W) | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake |
+| Gyarados | Jolteon (W) | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Hydro Pump | Thunderbolt / Thrash |
+| Arcanine | Blastoise (W) | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed | Surf / Extreme Speed |
+| Venusaur | Alakazam (W) | Psychic / Solar Beam | Psychic / Solar Beam | Psychic / Solar Beam | Psychic / Solar Beam | Psychic / Synthesis | Psychic / Solar Beam | Psychic / Solar Beam |
 
 ### Call sheet vs Champion (rival, Charmander variant) (Lv 63, pret/pokefirered src/data/trainer_parties.h sParty_ChampionFirstCharmander)
 
-- **Order:** Pidgeot (Lv 59), Alakazam (Lv 57), Rhydon (Lv 59), Exeggutor (Lv 59), Gyarados (Lv 61), Charizard (Lv 63). Lead with Jolteon: it handles their opener.
-- **Philosophy:** Their best player: Gyarados, which beats 3 of your 6. Your last one standing: Blastoise.
+- **Order:** Pidgeot (Lv 59), Alakazam (Lv 57), Rhydon (Lv 59), Exeggutor (Lv 59), Gyarados (Lv 61), Charizard (Lv 63). Lead with Jolteon: it handles their opener. It stays in unless Perish Song is about to end, it can't touch a Wonder Guard, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you. Their best player: Alakazam, which beats 2 of your 6. Your last one standing: Blastoise.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Pidgeot L59 | Aerial Ace · Feather Dance · Sand Attack · Whirlwind | Jolteon: Thunderbolt 110.8-130.8% | Blastoise: Ice Beam 60.5-71.4% | — |
-| Alakazam L57 | Psychic · Future Sight · Recover · Reflect | Jolteon: Thunderbolt 61.9-73.5% | Charizard: Overheat 89.8-106.1% | — |
-| Rhydon L59 | Take Down · Earthquake · Rock Tomb · Scary Face | Blastoise: Surf 217.5-255.9% | Venusaur: Petal Dance 183.4-216.1% | Charizard, Jolteon |
-| Exeggutor L59 | Giga Drain · Egg Bomb · Sleep Powder · Light Screen | Charizard: Overheat 158.8-186.9% | Venusaur: Sludge Bomb 66.3-78.4% | — |
-| Gyarados L61 | Hydro Pump · Dragon Rage · Bite · Thrash | Jolteon: Thunderbolt 145.9-171.7% | Machamp: Rock Slide 53.7-63.4% | — |
-| Charizard L63 | Fire Blast · Aerial Ace · Slash · Fire Spin @ Sitrus Berry | Machamp: Rock Slide 114.2-134.7% | Blastoise: Surf 70.5-83.2% | — |
+| Pidgeot L59 | Aerial Ace · Feather Dance · Sand Attack · Whirlwind | Jolteon: Thunderbolt 119.5-140.5% | Blastoise: Ice Beam 65.9-77.8% | — |
+| Alakazam L57 | Psychic · Future Sight · Recover · Reflect | Alakazam: Fire Punch 41.5-49% | Charizard: Overheat 97.3-115% | — |
+| Rhydon L59 | Take Down · Earthquake · Rock Tomb · Scary Face | Blastoise: Surf 238.4-280.6% | Venusaur: Petal Dance 199.5-235.1% | Jolteon |
+| Exeggutor L59 | Giga Drain · Egg Bomb · Sleep Powder · Light Screen | Venusaur: Sludge Bomb 72.4-85.4% | Jolteon: Bite 50.3-59.3% | — |
+| Gyarados L61 | Hydro Pump · Dragon Rage · Bite · Thrash | Jolteon: Thunderbolt 159-187.3% | Venusaur: Sludge Bomb 36.1-42.9% | — |
+| Charizard L63 | Fire Blast · Aerial Ace · Slash · Fire Spin @ Sitrus Berry | Blastoise: Surf 77.4-91.6% | Alakazam: Psychic 52.1-61.6% | — |
 
 **Pidgeot L59**
 
 - **Order:** Leads off.
-- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Aerial Ace (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Aerial Ace (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp).
 - **Against moves:** Keen Eye: its accuracy can't be lowered. If you set up, it forces you out with Whirlwind.
-- **How to attack it:** Hit it with Electric, Ice and Rock. The call: Jolteon: Thunderbolt 110.8-130.8%. Backup: Blastoise: Ice Beam 60.5-71.4%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
+- **How to attack it:** Hit it with Electric, Ice and Rock. The call: Jolteon: Thunderbolt 119.5-140.5%. Backup: Blastoise: Ice Beam 65.9-77.8%. Its blind spot: Charizard, Blastoise and Jolteon take almost nothing from it.
 
 **Alakazam L57**
 
-- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Psychic (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Future Sight against Alakazam.
+- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Psychic (its best hit on Charizard, Blastoise, Venusaur, Jolteon and Machamp). Otherwise: Future Sight against Alakazam.
 - **When it's behind:** When it's low, it heals itself with Recover.
 - **Against moves:** Synchronize: it passes its status back.
-- **How to attack it:** Hit it with Dark. The call: Jolteon: Thunderbolt 61.9-73.5%. Backup: Charizard: Overheat 89.8-106.1%.
+- **How to attack it:** Hit it with Dark. The call: Alakazam: Fire Punch 41.5-49%. Backup: Charizard: Overheat 97.3-115%. Its blind spot: Alakazam takes almost nothing from it.
 
 **Rhydon L59**
 
 - **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Otherwise: Rock Tomb against Charizard.
-- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 217.5-255.9%. Backup: Venusaur: Petal Dance 183.4-216.1%. Keep Charizard and Jolteon away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Fighting, Grass, Ground, Ice, Steel and Water. The call: Blastoise: Surf 238.4-280.6%. Backup: Venusaur: Petal Dance 199.5-235.1%. Keep Jolteon away from it: one hit and they're gone.
 
 **Exeggutor L59**
 
 - **Tendencies:** You move first, every time. Its go-to: Egg Bomb (its best hit on Charizard, Venusaur, Alakazam and Jolteon). Otherwise: Giga Drain against Blastoise and Machamp. Hits from both sides (Egg Bomb physical, Giga Drain special): no single wall stops it.
 - **When it's ahead:** Expect Sleep Powder early.
 - **Against moves:** Chlorophyll: doubles its Speed in sun.
-- **How to attack it:** Hit it with Dark, Fire, Ice and Poison. The call: Charizard: Overheat 158.8-186.9%. Backup: Venusaur: Sludge Bomb 66.3-78.4%. Its blind spot: Venusaur and Machamp take almost nothing from it.
+- **How to attack it:** Hit it with Dark, Fire, Ice and Poison. The call: Venusaur: Sludge Bomb 72.4-85.4%. Backup: Jolteon: Bite 50.3-59.3%. Its blind spot: Charizard, Venusaur and Machamp take almost nothing from it.
 
 **Gyarados L61**
 
-- **Tendencies:** Gets the jump on Blastoise and Machamp. Its go-to: Thrash (its best hit on Blastoise, Venusaur, Alakazam and Jolteon). Otherwise: Hydro Pump against Charizard and Machamp. Hits from both sides (Thrash physical, Hydro Pump and Bite special): no single wall stops it.
+- **Tendencies:** Gets the jump on Machamp. Its go-to: Thrash (its best hit on Venusaur, Alakazam and Jolteon). Otherwise: Hydro Pump against Charizard and Machamp; Dragon Rage against Blastoise. Hits from both sides (Thrash physical, Hydro Pump and Bite special): no single wall stops it.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Electric and Rock. The call: Jolteon: Thunderbolt 145.9-171.7%. Backup: Machamp: Rock Slide 53.7-63.4%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Electric and Rock. The call: Jolteon: Thunderbolt 159-187.3%. Backup: Venusaur: Sludge Bomb 36.1-42.9%. Its blind spot: Blastoise and Venusaur take almost nothing from it.
 
 **Charizard L63**
 
 - **Order:** Last in the order.
-- **Tendencies:** Moves first against Charizard, Blastoise, Venusaur and Machamp. Its go-to: Fire Blast (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Hits from both sides (Aerial Ace and Slash physical, Fire Blast special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Moves first against Blastoise, Venusaur and Machamp. Its go-to: Fire Blast (its best hit on Charizard, Blastoise, Venusaur, Alakazam, Jolteon and Machamp). Hits from both sides (Aerial Ace and Slash physical, Fire Blast special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Blaze: Fire moves hit harder when it's low.
-- **How to attack it:** Hit it with Electric, Rock and Water. The call: Machamp: Rock Slide 114.2-134.7%. Backup: Blastoise: Surf 70.5-83.2%. Its blind spot: Blastoise takes almost nothing from it.
+- **How to attack it:** Hit it with Electric, Rock and Water. The call: Blastoise: Surf 77.4-91.6%. Backup: Alakazam: Psychic 52.1-61.6%. Its blind spot: Charizard and Blastoise take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Pidgeot | Jolteon (W) | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace | Thunderbolt / Aerial Ace |
+| Alakazam | Alakazam (W) | Calm Mind / Future Sight | Fire Punch / Future Sight | Fire Punch / Future Sight | Fire Punch / Future Sight | Fire Punch / Recover | Fire Punch / Future Sight | Fire Punch / Future Sight |
+| Rhydon | Blastoise (W) | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake | Surf / Earthquake |
+| Exeggutor | Venusaur (W) | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb | Sludge Bomb / Egg Bomb |
+| Gyarados | Jolteon (W) | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Thrash | Thunderbolt / Hydro Pump | Thunderbolt / Thrash |
+| Charizard | Blastoise (W) | Surf / Fire Blast | Surf / Fire Blast | Surf / Fire Blast | Surf / Fire Blast | Surf / Fire Blast | Surf / Fire Blast | Surf / Fire Blast |
 

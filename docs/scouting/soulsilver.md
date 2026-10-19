@@ -1,13 +1,50 @@
 # Scouting packet: SoulSilver (experience)
 
-*Roster status: provisional (D-010). No grades: every line below is a phrase from the phrase book (engine/battle/phrasebook.json), triggered by numbers the engine measures, the way the games turn a Pokémon's best IV into its characteristic. Speed, power and bulk are measured against every fully evolved Pokémon of the same generation. Opponents' philosophy comes from the game's own trainer AI flags, bag and battle lines. Records are the benchmark 1v1 grid at the opponent's top level, with exact damage from Smogon's calculator. Not a simulation.*
+*Roster status: provisional (D-010). No grades: every line below is a phrase from the phrase book (engine/battle/phrasebook.json), triggered by numbers the engine measures, the way the games turn a Pokémon's best IV into its characteristic. Speed, power and bulk are measured against every fully evolved Pokémon of the same generation. Opponents' philosophy comes from the game's own trainer AI flags, bag and battle lines. Every one-on-one is played out by the scouting engine (docs/SCOUTING_ENGINE.md): our best plan against their best answer, Smogon's calculator for every hit at the lowest roll, every move landing, the odds kept. Against a game's trainers we meet them at their top level; the coach profile is measured against that generation's Smogon OU usage field at Lv 100.*
 
 ## Self-scout
+
+### Coach profile
+
+Against the Gen 4 OU usage field (73 Smogon sets): **chips (p4), straight-up (p5), scripted (p94)**. 123-11-304 in 438 one-on-ones. A slider is a share of those fights; p is the percentile among 2,000 random six-Pokémon teams drawn from the field.
+
+| Slider | ◀ | Value | ▶ | Percentile |
+|---|---|---|---|---|
+| Pace | absorbs first | 50 | strikes first | p19 |
+| Punch | chips | 38 | knocks out | p4 |
+| Run / pass | special | 54 | physical | p41 |
+| Build-up | hits now | 2 | builds first | p36 |
+| Sustain | no healing | 5 | heals and resets | p70 |
+| Disruption | straight-up | 0 | disruptive | p5 |
+| Risk | safe | 12 | gambler | p10 |
+| Script | adaptive | 60 | scripted | p94 |
+
+| Player | W-D-L | Pace | Punch | Run / pass | Build-up | Sustain | Disruption | Risk | Script |
+|---|---|---|---|---|---|---|---|---|---|
+| Pikachu | 2-2-69 | 45 (p32) | 22 (p12) | 67 (p42) | 0 (p41) | 0 (p38) | 0 (p35) | 44 (p77) | 34 (p10) |
+| Dragonite | 21-5-47 | 41 (p23) | 41 (p34) | 100 (p74) | 0 (p41) | 11 (p86) | 0 (p35) | 16 (p45) | 84 (p95) |
+| Infernape | 27-2-44 | 60 (p57) | 74 (p66) | 53 (p38) | 14 (p84) | 0 (p38) | 0 (p35) | 10 (p40) | 38 (p17) |
+| Empoleon | 36-0-37 | 37 (p21) | 34 (p32) | 4 (p34) | 0 (p41) | 12 (p87) | 0 (p35) | 0 (p3) | 74 (p92) |
+| Gengar | 12-0-61 | 56 (p51) | 34 (p32) | 0 (p16) | 0 (p41) | 0 (p38) | 0 (p35) | 1 (p20) | 62 (p86) |
+| Scizor | 25-2-46 | 58 (p54) | 20 (p12) | 100 (p74) | 0 (p41) | 7 (p82) | 0 (p35) | 0 (p3) | 66 (p88) |
+
+**Play sheet** (its most common call in each situation, against the field):
+
+| Player | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|
+| Pikachu | Volt Tackle (53%) | Volt Tackle (53%) | Thunderbolt (42%) | Thunderbolt (66%) | Volt Tackle (53%) | Volt Tackle (55%) | Thunderbolt (56%) |
+| Dragonite | Dragon Claw (95%) | Dragon Claw (95%) | Dragon Claw (86%) | Dragon Claw (56%) | Dragon Claw (93%) | Dragon Claw (96%) | Dragon Claw (55%) |
+| Infernape | Overheat (45%) | Overheat (53%) | Overheat (48%) | Close Combat (55%) | Overheat (60%) | Overheat (53%) | Close Combat (45%) |
+| Empoleon | Surf (84%) | Surf (84%) | Surf (84%) | Surf (66%) | Surf (78%) | Surf (84%) | Surf (51%) |
+| Gengar | Shadow Ball (74%) | Shadow Ball (74%) | Shadow Ball (74%) | Shadow Ball (74%) | Shadow Ball (74%) | Shadow Ball (74%) | Shadow Ball (74%) |
+| Scizor | U-turn (77%) | U-turn (77%) | U-turn (74%) | U-turn (58%) | U-turn (93%) | U-turn (77%) | U-turn (77%) |
+
+*Assumed where nothing is on record: EVs 85 in every stat; IVs 31; ability Swarm (could be Technician); level 100 (the peak); neutral nature.*
 
 - **What we're trying to do:** Outlast them: Dragonite, Empoleon and Scizor stay in and make the other side run out first. The anchor: Dragonite.
 - **What we're good at:** 13 attack types in the repertoire. The main ones: Steel (Empoleon, Pikachu and Scizor), Normal (Dragonite and Pikachu), Fire (Infernape) and Water (Empoleon). Nothing is safe: 17 of 17 types take super-effective hits from this club. Gengar sets the pace; Empoleon expects to take the first hit. Closers: Pikachu, Dragonite, Empoleon and Scizor.
 - **Where we're soft:** Shared holes: Ground (Pikachu, Infernape and Empoleon).
-- **Scout's note:** Pikachu has no Light Ball on record: 5-27 against the league without it, 17-15 with it.
+- **Scout's note:** Pikachu has no Light Ball on record: 9-23 against the league without it, 21-11 with it.
 
 | Attack type | Who throws it |
 |---|---|
@@ -29,12 +66,12 @@
 
 | Player | Philosophy | 1v1 vs the league | Build |
 |---|---|---|---|
-| **Dragonite** | Win the long game: take the hit, heal with Roost, and make the other side break first. | 25-7 | historical (former six) |
-| **Empoleon** | Win the long game: take the hit, heal with Aqua Ring, and make the other side break first. | 25-7 | historical (former six) |
-| **Infernape** | Leave nowhere to hide: it has a super-effective answer for 10 of 17 types. | 22-10 | no build on record: the engine filled in its strongest set |
-| **Scizor** | Keep the matchups moving: hit with U-turn and hand the turn to the right teammate. | 20-12 | historical (former six) |
-| **Gengar** | Strike first and strike hard. | 19-13 | historical (former six) |
-| **Pikachu** | Finish what the others start: Quick Attack cleans up after the damage is done. | 5-27 | historical (former six) |
+| **Dragonite** | Win the long game: take the hit, heal with Roost, and make the other side break first. | 28-4 | historical (former six) |
+| **Empoleon** | Win the long game: take the hit, heal with Aqua Ring, and make the other side break first. | 27-5 | historical (former six) |
+| **Scizor** | Keep the matchups moving: hit with U-turn and hand the turn to the right teammate. | 26-6 | historical (former six) |
+| **Gengar** | Strike first and strike hard. | 25-7 | historical (former six) |
+| **Infernape** | Leave nowhere to hide: it has a super-effective answer for 10 of 17 types. | 24-8 | no build on record: the engine filled in its strongest set |
+| **Pikachu** | Finish what the others start: Quick Attack cleans up after the damage is done. | 9-23 | historical (former six) |
 
 ## Scouting reports
 
@@ -48,7 +85,7 @@
 - **Against types:** Feeds on Flying and Water. Look out for Ground (×2).
 - **Against moves:** Static: touching it can paralyze you.
 - **How you beat it:** Hit it with something it can't hit back: Garchomp, Dugtrio, Flygon and Gliscor are the classic answers.
-- **Production:** Struggled against the league (5-27). Pick its spots.
+- **Production:** Struggled against the league (9-23). Pick its spots.
 - **Makeup:** Plays like Delibird, Plusle and Luvdisc. Pokédex, SoulSilver: “It raises its tail to check its surroundings. The tail is sometimes struck by lightning in this pose.”
 
 ### Dragonite (Dragon/Flying), SoulSilver
@@ -61,7 +98,7 @@
 - **Against types:** Feeds on Bug, Dragon, Fighting and Grass. Struggles to hurt Steel. One fatal hole: Ice hits it four times as hard. Look out for Ice (×4), Rock (×2) and Dragon (×2). A free switch-in against Ground.
 - **Against moves:** Inner Focus: it never flinches.
 - **How you beat it:** Hit it with something it can't hit back: Weavile, Jynx, Mamoswine and Glaceon are the classic answers.
-- **Production:** Won 25 of 32 one-on-ones against the league. A reliable starter.
+- **Production:** Won 28 of 32 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Salamence, Garchomp and Tyranitar. Pokédex, SoulSilver: “This marine Pokémon has an impressive build that lets it freely fly over raging seas without trouble.”
 
 ### Infernape (Fire/Fighting), SoulSilver
@@ -73,7 +110,7 @@
 - **When it's behind:** Behind, it swings for the KO and hopes it lands first. Low on HP, Blaze kicks in and its same-type hits get stronger.
 - **Against types:** Feeds on Bug, Dark, Electric, Fire, Grass, Ice, Normal, Poison, Rock and Steel. Look out for Water (×2), Ground (×2), Flying (×2) and Psychic (×2).
 - **How you beat it:** Hit it with something it can't hit back: Alakazam, Espeon, Aerodactyl and Salamence are the classic answers.
-- **Production:** Won 22 of 32 one-on-ones against the league. A reliable starter.
+- **Production:** Won 24 of 32 one-on-ones against the league. A reliable starter.
 - **Makeup:** Plays like Lucario, Arcanine and Charizard. Pokédex, SoulSilver: “It tosses its enemies around with agility. It uses all its limbs to fight in its own unique style.”
 
 ### Empoleon (Water/Steel), SoulSilver
@@ -86,7 +123,7 @@
 - **Against types:** Feeds on Fire, Ground, Ice and Rock. Struggles to hurt Water. Look out for Electric (×2), Fighting (×2) and Ground (×2). A free switch-in against Poison.
 - **Against moves:** Toxic and poison do nothing to it.
 - **How you beat it:** Hit it with something it can't hit back: Jolteon, Garchomp, Electrode and Electivire are the classic answers.
-- **Production:** Won 25 of 32 one-on-ones against the league. A reliable starter.
+- **Production:** Won 27 of 32 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Politoed, Heatran and Walrein. Pokédex, SoulSilver: “It avoids unnecessary disputes, but it will decimate anything that threatens its pride.”
 
 ### Gengar (Ghost/Poison), SoulSilver
@@ -99,7 +136,7 @@
 - **Against types:** Feeds on Fighting, Ghost, Poison and Psychic. Struggles to hurt Dark and Steel. Look out for Psychic (×2), Ghost (×2) and Dark (×2). A free switch-in against Normal, Fighting and Ground.
 - **Against moves:** Levitate: Ground moves miss it entirely. Toxic and poison do nothing to it.
 - **How you beat it:** Hit it with something it can't hit back: Weavile, Sharpedo, Houndoom and Absol are the classic answers.
-- **Production:** Broke about even against the league (19-13).
+- **Production:** Won 25 of 32 one-on-ones against the league. A reliable starter.
 - **Makeup:** Plays like Espeon, Roserade and Mismagius. Pokédex, SoulSilver: “To steal the life of its target, it slips into the prey’s shadow and silently waits for an opportunity.”
 
 ### Scizor (Bug/Steel), SoulSilver
@@ -112,101 +149,111 @@
 - **Against types:** Feeds on Dark, Grass, Ice, Psychic and Rock. Struggles to hurt Fire and Steel. One fatal hole: Fire hits it four times as hard. Look out for Fire (×4). A free switch-in against Poison.
 - **Against moves:** Toxic and poison do nothing to it.
 - **How you beat it:** Hit it with something it can't hit back: Infernape, Charizard, Typhlosion and Magmortar are the classic answers.
-- **Production:** Won 20 of 32 one-on-ones against the league. A reliable starter.
+- **Production:** Won 26 of 32 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Pinsir, Armaldo and Heracross. Pokédex, SoulSilver: “Its wings are not used for flying. They are flapped at high speed to adjust its body temperature.”
 
 ## Call sheets
 
 ### Call sheet vs Will (Lv 42, pret/pokeheartgold files/poketool/trainer/trainers.json #245)
 
-- **Order:** Xatu (Lv 40), Jynx (Lv 41), Exeggutor (Lv 41), Slowbro (Lv 41), Xatu (Lv 42). Lead with Gengar: it handles their opener.
-- **Philosophy:** Their best player: Jynx, which beats 2 of your 6. Your last one standing: Dragonite.
-- **The bag:** 2 × Full Restore in the bag.
+- **Order:** Xatu (Lv 40), Jynx (Lv 41), Exeggutor (Lv 41), Slowbro (Lv 41), Xatu (Lv 42). Lead with Gengar: it handles their opener. It stays in unless Perish Song is about to end, nothing it has can touch you, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you, and it rarely sets up below 70% HP. Their best player: Jynx, which beats 1 of your 6. Your last one standing: Dragonite.
+- **The bag:** 2 × Full Restore in the bag. It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks.
 - **What they say:** Down to the last Pokémon: “We Psychics don’t give up even when we’re down to the last Pokémon. That’s what makes us so formidable!” Last Pokémon at half HP: “Until we hit zero, our power is limitless. I’m not giving up yet!”
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Xatu L40 | U-turn · Me First · Confuse Ray · Psychic | Gengar: Shadow Ball 115.8-136.8% | Empoleon: Surf 58.8-71.1% | — |
-| Jynx L41 | Double Slap · Lovely Kiss · Ice Punch · Psychic | Scizor: U-turn 155.2-182.8% | Infernape: Overheat 124.1-146.6% | Gengar |
-| Exeggutor L41 | Reflect · Hypnosis · Egg Bomb · Psychic | Scizor: U-turn 136.2-161.7% | Infernape: Overheat 137.6-163.1% | Gengar, Pikachu |
-| Slowbro L41 | Curse · Amnesia · Water Pulse · Psychic | Scizor: U-turn 55.3-65.2% | Gengar: Shadow Ball 82.3-97.9% | — |
-| Xatu L42 | Aerial Ace · Ominous Wind · Confuse Ray · Psychic @ Sitrus Berry | Gengar: Shadow Ball 105.9-126.1% | Empoleon: Surf 53.8-63.9% | — |
+| Xatu L40 | U-turn · Me First · Confuse Ray · Psychic | Gengar: Shadow Ball 121.1-143.9% | Dragonite: Fly 69.3-82.5% | — |
+| Jynx L41 | Double Slap · Lovely Kiss · Ice Punch · Psychic | Infernape: Overheat 134.5-160.3% | Empoleon: Flash Cannon 82.8-98.3% | — |
+| Exeggutor L41 | Reflect · Hypnosis · Egg Bomb · Psychic | Gengar: Shadow Ball 102.1-120.6% | Scizor: U-turn 144.7-173% | — |
+| Slowbro L41 | Curse · Amnesia · Water Pulse · Psychic | Scizor: U-turn 59.6-72.3% | Empoleon: Surf 23.4-27.7% | — |
+| Xatu L42 | Aerial Ace · Ominous Wind · Confuse Ray · Psychic @ Sitrus Berry | Gengar: Shadow Ball 112.6-132.8% | Empoleon: Surf 58.8-70.6% | — |
 
 **Xatu L40**
 
 - **Order:** Leads off.
-- **Tendencies:** Moves first against Pikachu, Dragonite, Empoleon and Scizor. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor). Hits from both sides (U-turn physical, Psychic special): no single wall stops it.
+- **Tendencies:** Gets the jump on Empoleon and Scizor. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor). Hits from both sides (U-turn physical, Psychic special): no single wall stops it.
 - **When it's ahead:** Expect Confuse Ray early.
 - **Against moves:** Synchronize: it passes its status back.
-- **How to attack it:** Hit it with Dark, Electric and Ghost. The call: Gengar: Shadow Ball 115.8-136.8%. Backup: Empoleon: Surf 58.8-71.1%. Its blind spot: Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Dark, Electric and Ghost. The call: Gengar: Shadow Ball 121.1-143.9%. Backup: Dragonite: Fly 69.3-82.5%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
 
 **Jynx L41**
 
-- **Tendencies:** Moves first against Pikachu, Dragonite, Empoleon and Scizor. Its go-to: Psychic (its best hit on Pikachu, Infernape, Empoleon, Gengar and Scizor). Otherwise: Ice Punch against Dragonite. Hits from both sides (Ice Punch physical, Psychic special): no single wall stops it.
+- **Tendencies:** Moves first against Dragonite, Empoleon and Scizor. Its go-to: Psychic (its best hit on Pikachu, Infernape, Empoleon, Gengar and Scizor). Otherwise: Ice Punch against Dragonite. Hits from both sides (Ice Punch physical, Psychic special): no single wall stops it.
 - **When it's ahead:** Expect Lovely Kiss early.
-- **How to attack it:** Hit it with Bug, Dark, Fire, Ghost and Steel. The call: Scizor: U-turn 155.2-182.8%. Backup: Infernape: Overheat 124.1-146.6%. Keep Gengar away from it: one hit and they're gone. Its blind spot: Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Bug, Dark, Fire, Ghost and Steel. The call: Infernape: Overheat 134.5-160.3%. Backup: Empoleon: Flash Cannon 82.8-98.3%. Its blind spot: Empoleon and Scizor take almost nothing from it.
 
 **Exeggutor L41**
 
 - **Tendencies:** You move first, every time. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor). Hits from both sides (Egg Bomb physical, Psychic special): no single wall stops it.
 - **When it's ahead:** Expect Hypnosis early.
 - **Against moves:** Chlorophyll: doubles its Speed in sun.
-- **How to attack it:** Hit it with Bug, Dark, Fire, Flying and Ghost. The call: Scizor: U-turn 136.2-161.7%. Backup: Infernape: Overheat 137.6-163.1%. Keep Pikachu, Infernape and Gengar away from it: one hit and they're gone. Its blind spot: Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Bug, Dark, Fire, Flying and Ghost. The call: Gengar: Shadow Ball 102.1-120.6%. Backup: Scizor: U-turn 144.7-173%. Its blind spot: Empoleon and Scizor take almost nothing from it.
 
 **Slowbro L41**
 
 - **Tendencies:** You move first, every time. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon and Gengar). Otherwise: Water Pulse against Scizor.
 - **When it's ahead:** Given a free turn, it sets up with Curse or Amnesia.
-- **How to attack it:** Hit it with Bug, Dark, Electric and Ghost. The call: Scizor: U-turn 55.3-65.2%. Backup: Gengar: Shadow Ball 82.3-97.9%. Its blind spot: Empoleon takes almost nothing from it.
+- **How to attack it:** Hit it with Bug, Dark, Electric and Ghost. The call: Scizor: U-turn 59.6-72.3%. Backup: Empoleon: Surf 23.4-27.7%. Its blind spot: Empoleon and Scizor take almost nothing from it.
 
 **Xatu L42**
 
 - **Order:** Last in the order.
-- **Tendencies:** Moves first against Pikachu, Dragonite, Empoleon and Scizor. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor). Hits from both sides (Aerial Ace physical, Ominous Wind and Psychic special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Moves first against Dragonite, Empoleon and Scizor. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon and Gengar). Otherwise: Aerial Ace against Scizor. Hits from both sides (Aerial Ace physical, Ominous Wind and Psychic special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Expect Confuse Ray early.
 - **Against moves:** Synchronize: it passes its status back.
-- **How to attack it:** Hit it with Dark, Electric and Ghost. The call: Gengar: Shadow Ball 105.9-126.1%. Backup: Empoleon: Surf 53.8-63.9%. Its blind spot: Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Dark, Electric and Ghost. The call: Gengar: Shadow Ball 112.6-132.8%. Backup: Empoleon: Surf 58.8-70.6%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Xatu | Gengar (W) | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic |
+| Jynx | Infernape (W) | Close Combat / Psychic | Close Combat / Psychic | Close Combat / Psychic | Close Combat / Psychic | Close Combat / Psychic | Close Combat / Psychic | Close Combat / Psychic |
+| Exeggutor | Gengar (W) | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic |
+| Slowbro | Scizor (W) | U-turn / Water Pulse | U-turn / Water Pulse | U-turn / Water Pulse | U-turn / Water Pulse | U-turn / Water Pulse | U-turn / Water Pulse | U-turn / Water Pulse |
+| Xatu | Gengar (W) | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic | Shadow Ball / Psychic |
 
 ### Call sheet vs Koga (Lv 44, pret/pokeheartgold files/poketool/trainer/trainers.json #247)
 
-- **Order:** Ariados (Lv 40), Venomoth (Lv 41), Forretress (Lv 43), Muk (Lv 42), Crobat (Lv 44). Lead with Gengar: it handles their opener.
-- **Philosophy:** Their best player: Forretress, which beats 3 of your 6. Your last one standing: Empoleon.
-- **The bag:** 2 × Full Restore in the bag.
+- **Order:** Ariados (Lv 40), Venomoth (Lv 41), Forretress (Lv 43), Muk (Lv 42), Crobat (Lv 44). Lead with Gengar: it handles their opener. It stays in unless Perish Song is about to end, nothing it has can touch you, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you, and it rarely sets up below 70% HP. Their best player: Crobat, which beats 2 of your 6. Your last one standing: Dragonite.
+- **The bag:** 2 × Full Restore in the bag. It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks.
 - **What they say:** Down to the last Pokémon: “One Pokémon left? Ha ha ha! I’ve been counting on this one from the very beginning!” Last Pokémon at half HP: “Ooooof...”
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Ariados L40 | Poison Jab · Spider Web · Baton Pass · Giga Drain | Gengar: Psychic 101.7-120.3% | Dragonite: Fly 139-164.4% | — |
-| Venomoth L41 | Supersonic · Gust · Psychic · Toxic | Dragonite: Fly 151.7-180% | Infernape: Overheat 161.7-191.7% | — |
-| Forretress L43 | Protect · Swift · Explosion · Toxic Spikes | Infernape: Overheat 335.4-396.9% | Empoleon: Surf 60-71.5% | Pikachu, Dragonite |
-| Muk L42 | Minimize · Screech · Gunk Shot · Toxic @ Black Sludge | Gengar: Psychic 51.3-61.8% | Dragonite: Fly 50-59.2% | Pikachu |
-| Crobat L44 | Double Team · Quick Attack · Wing Attack · Poison Fang @ Sitrus Berry | Gengar: Psychic 63.4-74.6% | Empoleon: Surf 43-51.4% | — |
+| Ariados L40 | Poison Jab · Spider Web · Baton Pass · Giga Drain | Gengar: Psychic 108.5-128.8% | Scizor: Bullet Punch 33.1-39% | — |
+| Venomoth L41 | Supersonic · Gust · Psychic · Toxic | Empoleon: Surf 62.5-73.3% | Scizor: Bullet Punch 35-42.5% | — |
+| Forretress L43 | Protect · Swift · Explosion · Toxic Spikes | Empoleon: Surf 64.6-76.9% | Gengar: Shadow Ball 30.8-36.9% | Pikachu |
+| Muk L42 | Minimize · Screech · Gunk Shot · Toxic @ Black Sludge | Gengar: Psychic 55.3-65.8% | Infernape: Earthquake 64.5-76.3% | Pikachu |
+| Crobat L44 | Double Team · Quick Attack · Wing Attack · Poison Fang @ Sitrus Berry | Empoleon: Surf 47.2-55.6% | Dragonite: Fly 51.4-61.3% | — |
 
 **Ariados L40**
 
 - **Order:** Leads off.
 - **Tendencies:** You move first, every time. Its go-to: Poison Jab (its best hit on Pikachu, Dragonite, Infernape and Gengar). Otherwise: Giga Drain against Empoleon and Scizor. Hits from both sides (Poison Jab physical, Giga Drain special): no single wall stops it.
 - **Against moves:** Swarm: Bug moves hit harder when it's low.
-- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Gengar: Psychic 101.7-120.3%. Backup: Dragonite: Fly 139-164.4%. Its blind spot: Dragonite, Empoleon, Gengar and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Gengar: Psychic 108.5-128.8%. Backup: Scizor: Bullet Punch 33.1-39%. Its blind spot: Dragonite, Empoleon, Gengar and Scizor take almost nothing from it.
 
 **Venomoth L41**
 
-- **Tendencies:** Gets the jump on Dragonite and Empoleon. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor).
+- **Tendencies:** Gets the jump on Empoleon. Its go-to: Psychic (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor).
 - **When it's ahead:** Expect Toxic early.
-- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Dragonite: Fly 151.7-180%. Backup: Infernape: Overheat 161.7-191.7%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Empoleon: Surf 62.5-73.3%. Backup: Scizor: Bullet Punch 35-42.5%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
 
 **Forretress L43**
 
 - **Tendencies:** You move first, every time. Its go-to: Explosion (its best hit on Pikachu, Dragonite, Infernape, Empoleon and Scizor). Hits from both sides (Explosion physical, Swift special): no single wall stops it.
 - **When it's behind:** Cornered, it can take one of yours down with it (Explosion).
 - **Against moves:** Sturdy: one-hit KO moves fail. Stalls with Protect.
-- **How to attack it:** Hit it with Fire. The call: Infernape: Overheat 335.4-396.9%. Backup: Empoleon: Surf 60-71.5%. Keep Pikachu, Dragonite and Infernape away from it: one hit and they're gone. Its blind spot: Gengar takes almost nothing from it.
+- **How to attack it:** Hit it with Fire. The call: Empoleon: Surf 64.6-76.9%. Backup: Gengar: Shadow Ball 30.8-36.9%. Keep Pikachu and Infernape away from it: one hit and they're gone. Its blind spot: Gengar takes almost nothing from it.
 
 **Muk L42**
 
 - **Tendencies:** You move first, every time. Its go-to: Gunk Shot (its best hit on Pikachu, Dragonite, Infernape and Gengar). Holds Black Sludge: it heals a little every turn.
 - **When it's ahead:** Expect Toxic early.
-- **How to attack it:** Hit it with Ground and Psychic. The call: Gengar: Psychic 51.3-61.8%. Backup: Dragonite: Fly 50-59.2%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Empoleon, Gengar and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Ground and Psychic. The call: Gengar: Psychic 55.3-65.8%. Backup: Infernape: Earthquake 64.5-76.3%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Empoleon, Gengar and Scizor take almost nothing from it.
 
 **Crobat L44**
 
@@ -214,71 +261,91 @@
 - **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Wing Attack (its best hit on Dragonite, Infernape, Empoleon, Gengar and Scizor). Otherwise: Poison Fang against Pikachu. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Once you're low, Quick Attack finishes you.
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Electric and Psychic. The call: Gengar: Psychic 63.4-74.6%. Backup: Empoleon: Surf 43-51.4%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Electric and Psychic. The call: Empoleon: Surf 47.2-55.6%. Backup: Dragonite: Fly 51.4-61.3%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Ariados | Gengar (W) | Psychic / Poison Jab | Psychic / Poison Jab | Psychic / Poison Jab | Psychic / Poison Jab | Psychic / Poison Jab | Psychic / Poison Jab | Psychic / Poison Jab |
+| Venomoth | Empoleon (W) | Surf / Psychic | Surf / Psychic | Surf / Psychic | Aqua Jet / Psychic | Surf / Psychic | Surf / Psychic | Aqua Jet / Psychic |
+| Forretress | Empoleon (W) | Surf / Protect | Surf / Protect | Surf / Explosion | Surf / Explosion | Surf / Protect | Surf / Protect | Surf / Explosion |
+| Muk | Gengar (W) | Psychic / Gunk Shot | Psychic / Gunk Shot | Psychic / Gunk Shot | Psychic / Gunk Shot | Psychic / Gunk Shot | Psychic / Gunk Shot | Psychic / Gunk Shot |
+| Crobat | Empoleon (W) | Surf / Wing Attack | Surf / Wing Attack | Surf / Wing Attack | Surf / Wing Attack | Surf / Wing Attack | Surf / Wing Attack | Surf / Wing Attack |
 
 ### Call sheet vs Bruno (Lv 46, pret/pokeheartgold files/poketool/trainer/trainers.json #418)
 
-- **Order:** Hitmontop (Lv 42), Hitmonlee (Lv 42), Hitmonchan (Lv 42), Onix (Lv 43), Machamp (Lv 46). Lead with Dragonite: it handles their opener.
-- **Philosophy:** Their best player: Hitmonlee, which beats 3 of your 6. Your last one standing: Dragonite.
-- **The bag:** 2 × Full Restore in the bag.
+- **Order:** Hitmontop (Lv 42), Hitmonlee (Lv 42), Hitmonchan (Lv 42), Onix (Lv 43), Machamp (Lv 46). Lead with Gengar: it handles their opener. It stays in unless Perish Song is about to end, nothing it has can touch you, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you, and it rarely sets up below 70% HP. Their best player: Hitmonlee, which beats 3 of your 6. Your last one standing: Dragonite.
+- **The bag:** 2 × Full Restore in the bag. It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks.
 - **What they say:** Down to the last Pokémon: “Fight as hard as you can ’til you faint!” Last Pokémon at half HP: “We’re standing firm!”
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Hitmontop L42 | Counter · Quick Attack · Dig · Triple Kick | Dragonite: Fly 126.4-152.8% | Gengar: Psychic 73.6-88.7% | Pikachu |
-| Hitmonlee L42 | Swagger · Focus Energy · High Jump Kick · Blaze Kick | Dragonite: Fly 200-237.7% | Infernape: Close Combat 107.5-127.4% | Pikachu |
-| Hitmonchan L42 | Thunder Punch · Ice Punch · Fire Punch · Bullet Punch | Dragonite: Fly 149.1-177.4% | Infernape: Close Combat 79.2-94.3% | — |
-| Onix L43 | Dragon Breath · Earthquake · Sandstorm · Rock Slide | Gengar: Shadow Ball 106.3-125% | Empoleon: Surf 441.7-525% | Pikachu |
-| Machamp L46 | Rock Slide · Foresight · Revenge · Cross Chop @ Sitrus Berry | Dragonite: Fly 94.7-111.8% | Gengar: Psychic 59.2-69.7% | Pikachu |
+| Hitmontop L42 | Counter · Quick Attack · Dig · Triple Kick | Gengar: Psychic 79.2-94.3% | Empoleon: Surf 54.7-66% | — |
+| Hitmonlee L42 | Swagger · Focus Energy · High Jump Kick · Blaze Kick | Infernape: Close Combat 117-138.7% | Gengar: Psychic 79.2-94.3% | — |
+| Hitmonchan L42 | Thunder Punch · Ice Punch · Fire Punch · Bullet Punch | Infernape: Close Combat 87.7-102.8% | Gengar: Psychic 79.2-94.3% | — |
+| Onix L43 | Dragon Breath · Earthquake · Sandstorm · Rock Slide | Infernape: Close Combat 106.3-125% | Empoleon: Surf 475-562.5% | — |
+| Machamp L46 | Rock Slide · Foresight · Revenge · Cross Chop @ Sitrus Berry | Infernape: Overheat 61.2-71.7% | Scizor: Bullet Punch 21.7-26.3% | Pikachu |
 
 **Hitmontop L42**
 
 - **Order:** Leads off.
-- **Tendencies:** Gets the jump on Dragonite and Empoleon. Its go-to: Dig (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Quick Attack against Dragonite.
+- **Tendencies:** Gets the jump on Dragonite. Its go-to: Dig (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Quick Attack against Dragonite.
 - **When it's ahead:** Once you're low, Quick Attack finishes you.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Flying and Psychic. The call: Dragonite: Fly 126.4-152.8%. Backup: Gengar: Psychic 73.6-88.7%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Dragonite, Gengar and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Flying and Psychic. The call: Gengar: Psychic 79.2-94.3%. Backup: Empoleon: Surf 54.7-66%. Its blind spot: Dragonite, Gengar and Scizor take almost nothing from it.
 
 **Hitmonlee L42**
 
 - **Tendencies:** Gets the jump on Empoleon. Its go-to: High Jump Kick (its best hit on Pikachu, Dragonite, Infernape and Empoleon). Otherwise: Blaze Kick against Gengar and Scizor.
 - **Against moves:** Limber: it can't be paralyzed.
-- **How to attack it:** Hit it with Flying and Psychic. The call: Dragonite: Fly 200-237.7%. Backup: Infernape: Close Combat 107.5-127.4%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Dragonite takes almost nothing from it.
+- **How to attack it:** Hit it with Flying and Psychic. The call: Infernape: Close Combat 117-138.7%. Backup: Gengar: Psychic 79.2-94.3%. Its blind spot: Dragonite takes almost nothing from it.
 
 **Hitmonchan L42**
 
-- **Tendencies:** Gets the jump on Empoleon. Its go-to: Thunder Punch (its best hit on Infernape, Empoleon and Gengar). Otherwise: Ice Punch against Pikachu and Dragonite; Fire Punch against Scizor.
+- **Tendencies:** You move first, every time. Its go-to: Thunder Punch (its best hit on Infernape, Empoleon and Gengar). Otherwise: Ice Punch against Pikachu and Dragonite; Fire Punch against Scizor.
 - **When it's ahead:** Once you're low, Bullet Punch finishes you.
 - **Against moves:** Keen Eye: its accuracy can't be lowered.
-- **How to attack it:** Hit it with Flying and Psychic. The call: Dragonite: Fly 149.1-177.4%. Backup: Infernape: Close Combat 79.2-94.3%. Its blind spot: Infernape takes almost nothing from it.
+- **How to attack it:** Hit it with Flying and Psychic. The call: Infernape: Close Combat 87.7-102.8%. Backup: Gengar: Psychic 79.2-94.3%. Its blind spot: Infernape and Gengar take almost nothing from it.
 
 **Onix L43**
 
-- **Tendencies:** Gets the jump on Empoleon. Its go-to: Earthquake (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Rock Slide against Dragonite and Gengar. Hits from both sides (Earthquake and Rock Slide physical, Dragon Breath special): no single wall stops it.
+- **Tendencies:** You move first, every time. Its go-to: Earthquake (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Rock Slide against Dragonite and Gengar. Hits from both sides (Earthquake and Rock Slide physical, Dragon Breath special): no single wall stops it.
 - **Against moves:** Rock Head: no recoil damage.
-- **How to attack it:** Hit it with Fighting, Ground, Steel and Water. The call: Gengar: Shadow Ball 106.3-125%. Backup: Empoleon: Surf 441.7-525%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Gengar and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Ground, Steel and Water. The call: Infernape: Close Combat 106.3-125%. Backup: Empoleon: Surf 475-562.5%. Its blind spot: Dragonite, Gengar and Scizor take almost nothing from it.
 
 **Machamp L46**
 
 - **Order:** Last in the order.
 - **Tendencies:** You move first, every time. Its go-to: Cross Chop (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Rock Slide against Dragonite and Gengar. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Guts: a status condition makes it hit harder.
-- **How to attack it:** Hit it with Flying and Psychic. The call: Dragonite: Fly 94.7-111.8%. Backup: Gengar: Psychic 59.2-69.7%. Keep Pikachu away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Flying and Psychic. The call: Infernape: Overheat 61.2-71.7%. Backup: Scizor: Bullet Punch 21.7-26.3%. Keep Pikachu away from it: one hit and they're gone.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Hitmontop | Gengar (W) | Psychic / Counter | Psychic / Counter | Psychic / Counter | Psychic / Counter | Psychic / Counter | Psychic / Counter | Psychic / Counter |
+| Hitmonlee | Infernape (W) | Close Combat / High Jump Kick | Close Combat / High Jump Kick | Close Combat / High Jump Kick | Close Combat / High Jump Kick | Close Combat / High Jump Kick | Close Combat / High Jump Kick | Close Combat / High Jump Kick |
+| Hitmonchan | Infernape (W) | Swords Dance / Thunder Punch | Close Combat / Thunder Punch | Close Combat / Thunder Punch | Close Combat / Thunder Punch | Overheat / Thunder Punch | Close Combat / Thunder Punch | Close Combat / Thunder Punch |
+| Onix | Infernape (W) | Close Combat / Earthquake | Close Combat / Earthquake | Close Combat / Earthquake | Close Combat / Earthquake | Close Combat / Earthquake | Close Combat / Earthquake | Close Combat / Earthquake |
+| Machamp | Infernape (W) | Swords Dance / Cross Chop | Close Combat / Cross Chop | Close Combat / Cross Chop | Close Combat / Revenge | Close Combat / Cross Chop | Close Combat / Cross Chop | Close Combat / Revenge |
 
 ### Call sheet vs Karen (Lv 47, pret/pokeheartgold files/poketool/trainer/trainers.json #246)
 
-- **Order:** Umbreon (Lv 42), Vileplume (Lv 42), Gengar (Lv 45), Murkrow (Lv 44), Houndoom (Lv 47). Lead with Scizor: it handles their opener.
-- **Philosophy:** Their best player: Houndoom, which beats 3 of your 6. Your last one standing: Dragonite.
-- **The bag:** 2 × Full Restore in the bag.
+- **Order:** Umbreon (Lv 42), Vileplume (Lv 42), Gengar (Lv 45), Murkrow (Lv 44), Houndoom (Lv 47). Lead with Infernape: it handles their opener. It stays in unless Perish Song is about to end, nothing it has can touch you, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you, and it rarely sets up below 70% HP. Their best player: Houndoom, which beats 3 of your 6. Your last one standing: Dragonite.
+- **The bag:** 2 × Full Restore in the bag. It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks.
 - **What they say:** Down to the last Pokémon: “This is far from being backed into a corner!” Last Pokémon at half HP: “You’re no ordinary Trainer to have gotten this far.”
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Umbreon L42 | Double Team · Confuse Ray · Feint Attack · Payback | Scizor: U-turn 63.9-76.4% | Infernape: Close Combat 93.1-109.7% | — |
-| Vileplume L42 | Stun Spore · Acid · Moonlight · Petal Dance | Dragonite: Fly 119.7-141.7% | Infernape: Overheat 143.3-170.1% | — |
-| Gengar L45 | Lick · Spite · Focus Blast · Destiny Bond | Gengar: Shadow Ball 109.8-132.8% | Dragonite: Fly 76.2-91% | — |
-| Murkrow L44 | Pluck · Whirlwind · Sucker Punch · Feint Attack | Dragonite: Fly 100.8-120% | Infernape: Overheat 127.5-150.8% | — |
-| Houndoom L47 | Nasty Plot · Dark Pulse · Flamethrower · Crunch @ Sitrus Berry | Infernape: Close Combat 154.6-184.4% | Dragonite: Fly 72.3-85.8% | Scizor, Pikachu |
+| Umbreon L42 | Double Team · Confuse Ray · Feint Attack · Payback | Infernape: Close Combat 100-118.1% | Scizor: U-turn 70.8-83.3% | — |
+| Vileplume L42 | Stun Spore · Acid · Moonlight · Petal Dance | Scizor: U-turn 48-57.5% | Gengar: Psychic 80.3-94.5% | — |
+| Gengar L45 | Lick · Spite · Focus Blast · Destiny Bond | Gengar: Shadow Ball 119.7-142.6% | Dragonite: Fly 82-96.7% | — |
+| Murkrow L44 | Pluck · Whirlwind · Sucker Punch · Feint Attack | Pikachu: Volt Tackle 151.7-180% | Infernape: Overheat 138.3-163.3% | — |
+| Houndoom L47 | Nasty Plot · Dark Pulse · Flamethrower · Crunch @ Sitrus Berry | Infernape: Close Combat 167.4-200% | Empoleon: Surf 97.9-116.3% | Scizor |
 
 **Umbreon L42**
 
@@ -286,7 +353,7 @@
 - **Tendencies:** You move first, every time. Its go-to: Payback (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor).
 - **When it's ahead:** Expect Confuse Ray early.
 - **Against moves:** Synchronize: it passes its status back.
-- **How to attack it:** Hit it with Bug and Fighting. The call: Scizor: U-turn 63.9-76.4%. Backup: Infernape: Close Combat 93.1-109.7%. Its blind spot: Dragonite, Infernape, Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Bug and Fighting. The call: Infernape: Close Combat 100-118.1%. Backup: Scizor: U-turn 70.8-83.3%. Its blind spot: Dragonite, Infernape, Empoleon and Scizor take almost nothing from it.
 
 **Vileplume L42**
 
@@ -294,137 +361,169 @@
 - **When it's ahead:** Expect Stun Spore early.
 - **When it's behind:** When it's low, it heals itself with Moonlight.
 - **Against moves:** Chlorophyll: doubles its Speed in sun.
-- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Dragonite: Fly 119.7-141.7%. Backup: Infernape: Overheat 143.3-170.1%. Its blind spot: Dragonite, Infernape, Empoleon, Gengar and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Scizor: U-turn 48-57.5%. Backup: Gengar: Psychic 80.3-94.5%. Its blind spot: Dragonite, Infernape, Empoleon, Gengar and Scizor take almost nothing from it.
 
 **Gengar L45**
 
 - **Tendencies:** Moves first against Pikachu, Dragonite and Empoleon. Its go-to: Focus Blast (its best hit on Pikachu, Dragonite, Infernape, Empoleon and Scizor). Otherwise: Lick against Gengar.
 - **When it's behind:** Cornered, it can take one of yours down with it (Destiny Bond).
 - **Against moves:** Levitate: Ground moves miss it entirely.
-- **How to attack it:** Hit it with Dark, Ghost and Psychic. The call: Gengar: Shadow Ball 109.8-132.8%. Backup: Dragonite: Fly 76.2-91%. Its blind spot: Dragonite and Gengar take almost nothing from it.
+- **How to attack it:** Hit it with Dark, Ghost and Psychic. The call: Gengar: Shadow Ball 119.7-142.6%. Backup: Dragonite: Fly 82-96.7%. Its blind spot: Dragonite and Gengar take almost nothing from it.
 
 **Murkrow L44**
 
-- **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Sucker Punch (its best hit on Pikachu, Dragonite, Empoleon and Gengar). Otherwise: Pluck against Infernape and Scizor.
+- **Tendencies:** Gets the jump on Scizor. Its go-to: Sucker Punch (its best hit on Pikachu, Dragonite, Empoleon and Gengar). Otherwise: Pluck against Infernape and Scizor.
 - **When it's ahead:** Once you're low, Sucker Punch finishes you.
 - **Against moves:** Insomnia: it can't be put to sleep. If you set up, it forces you out with Whirlwind.
-- **How to attack it:** Hit it with Electric. The call: Dragonite: Fly 100.8-120%. Backup: Infernape: Overheat 127.5-150.8%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Electric. The call: Pikachu: Volt Tackle 151.7-180%. Backup: Infernape: Overheat 138.3-163.3%. Its blind spot: Dragonite, Empoleon and Scizor take almost nothing from it.
 
 **Houndoom L47**
 
 - **Order:** Last in the order.
-- **Tendencies:** Moves first against Pikachu, Dragonite, Empoleon and Scizor. Its go-to: Flamethrower (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Dark Pulse against Dragonite and Gengar. Hits from both sides (Crunch physical, Dark Pulse and Flamethrower special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Moves first against Dragonite, Empoleon and Scizor. Its go-to: Flamethrower (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Dark Pulse against Dragonite and Gengar. Hits from both sides (Crunch physical, Dark Pulse and Flamethrower special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **When it's ahead:** Given a free turn, it sets up with Nasty Plot.
-- **How to attack it:** Hit it with Fighting, Ground and Water. The call: Infernape: Close Combat 154.6-184.4%. Backup: Dragonite: Fly 72.3-85.8%. Keep Pikachu and Scizor away from it: one hit and they're gone. Its blind spot: Infernape takes almost nothing from it.
+- **How to attack it:** Hit it with Fighting, Ground and Water. The call: Infernape: Close Combat 167.4-200%. Backup: Empoleon: Surf 97.9-116.3%. Keep Scizor away from it: one hit and they're gone. Its blind spot: Infernape takes almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Umbreon | Infernape (W) | Close Combat / Payback | Close Combat / Payback | Close Combat / Payback | Close Combat / Payback | Close Combat / Payback | Close Combat / Payback | Close Combat / Payback |
+| Vileplume | Scizor (W) | U-turn / Petal Dance | U-turn / Petal Dance | U-turn / Petal Dance | U-turn / Petal Dance | U-turn / Moonlight | U-turn / Petal Dance | U-turn / Moonlight |
+| Gengar | Gengar (W) | Shadow Ball / Lick | Shadow Ball / Lick | Shadow Ball / Lick | Shadow Ball / Lick | Shadow Ball / Lick | Shadow Ball / Lick | Shadow Ball / Lick |
+| Murkrow | Pikachu (W) | Thunderbolt / Whirlwind | Thunderbolt / Whirlwind | Thunderbolt / Sucker Punch | Thunderbolt / Sucker Punch | Thunderbolt / Whirlwind | Thunderbolt / Whirlwind | Thunderbolt / Sucker Punch |
+| Houndoom | Infernape (W) | Close Combat / Flamethrower | Close Combat / Flamethrower | Close Combat / Flamethrower | Close Combat / Flamethrower | Close Combat / Flamethrower | Close Combat / Flamethrower | Close Combat / Flamethrower |
 
 ### Call sheet vs Champion Lance (Lv 50, pret/pokeheartgold files/poketool/trainer/trainers.json #244)
 
-- **Order:** Gyarados (Lv 46), Dragonite (Lv 49), Dragonite (Lv 49), Aerodactyl (Lv 48), Charizard (Lv 48), Dragonite (Lv 50). Lead with Pikachu: it handles their opener.
-- **Philosophy:** Their best player: Dragonite, which beats 6 of your 6. Your last one standing: Empoleon. No clean answer on your side for Dragonite L50.
-- **The bag:** 4 × Full Restore in the bag.
+- **Order:** Gyarados (Lv 46), Dragonite (Lv 49), Dragonite (Lv 49), Aerodactyl (Lv 48), Charizard (Lv 48), Dragonite (Lv 50). Lead with Pikachu: it handles their opener. It stays in unless Perish Song is about to end, nothing it has can touch you, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you, and it rarely sets up below 70% HP. Their best player: Dragonite, which beats 4 of your 6. Your last one standing: Dragonite.
+- **The bag:** 4 × Full Restore in the bag. It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks.
 - **What they say:** Down to the last Pokémon: “All right! I thought this would never happen!” Last Pokémon at half HP: “I never give up, no matter what. You must be the same?”
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Gyarados L46 | Flail · Dragon Pulse · Waterfall · Ice Fang | Pikachu: Volt Tackle 145.2-170.7% | Dragonite: Fly 55.4-65.6% | — |
-| Dragonite L49 | Thunder Wave · Dragon Rush · Thunder · Hyper Beam | Dragonite: Dragon Claw 77.8-92.6% | — | Pikachu |
-| Dragonite L49 | Thunder Wave · Dragon Rush · Blizzard · Hyper Beam | Empoleon: Flash Cannon 31.5-37.7% | — | Dragonite, Pikachu |
-| Aerodactyl L48 | Aerial Ace · Crunch · Rock Slide · Thunder Fang | Empoleon: Surf 104.7-124.8% | Scizor: Bullet Punch 56.4-68.5% | — |
-| Charizard L48 | Shadow Claw · Air Slash · Dragon Claw · Fire Fang | Empoleon: Surf 95.2-114.3% | Dragonite: Fly 57.1-67.3% | — |
-| Dragonite L50 | Fire Blast · Safeguard · Outrage · Hyper Beam @ Sitrus Berry | **no clean answer** | — | Dragonite, Pikachu, Scizor |
+| Gyarados L46 | Flail · Dragon Pulse · Waterfall · Ice Fang | Pikachu: Volt Tackle 163.1-193.6% | Empoleon: Surf 21.7-26.1% | — |
+| Dragonite L49 | Thunder Wave · Dragon Rush · Thunder · Hyper Beam | Scizor: Bullet Punch 20.4-24.7% | Dragonite: Dragon Claw 82.7-97.5% | Pikachu |
+| Dragonite L49 | Thunder Wave · Dragon Rush · Blizzard · Hyper Beam | Empoleon: Flash Cannon 34-40.7% | Scizor: Bullet Punch 20.4-24.7% | Pikachu |
+| Aerodactyl L48 | Aerial Ace · Crunch · Rock Slide · Thunder Fang | Scizor: Bullet Punch 60.4-72.5% | Empoleon: Surf 112.8-134.2% | — |
+| Charizard L48 | Shadow Claw · Air Slash · Dragon Claw · Fire Fang | Empoleon: Surf 103.4-122.4% | Pikachu: Volt Tackle 85.7-102% | — |
+| Dragonite L50 | Fire Blast · Safeguard · Outrage · Hyper Beam @ Sitrus Berry | Empoleon: Flash Cannon 32.5-38.6% | Dragonite: Dragon Claw 79.5-94% | Scizor, Pikachu |
 
 **Gyarados L46**
 
 - **Order:** Leads off.
-- **Tendencies:** Gets the jump on Empoleon and Scizor. Its go-to: Waterfall (its best hit on Pikachu, Infernape, Empoleon, Gengar and Scizor). Otherwise: Ice Fang against Dragonite. Hits from both sides (Waterfall and Ice Fang physical, Dragon Pulse special): no single wall stops it.
+- **Tendencies:** Gets the jump on Empoleon. Its go-to: Waterfall (its best hit on Pikachu, Infernape, Empoleon, Gengar and Scizor). Otherwise: Ice Fang against Dragonite. Hits from both sides (Waterfall and Ice Fang physical, Dragon Pulse special): no single wall stops it.
 - **Against moves:** Intimidate: your Attack drops the moment it comes in.
-- **How to attack it:** Hit it with Electric. The call: Pikachu: Volt Tackle 145.2-170.7%. Backup: Dragonite: Fly 55.4-65.6%. Its blind spot: Empoleon takes almost nothing from it.
+- **How to attack it:** Hit it with Electric. The call: Pikachu: Volt Tackle 163.1-193.6%. Backup: Empoleon: Surf 21.7-26.1%. Its blind spot: Empoleon takes almost nothing from it.
 
 **Dragonite L49**
 
 - **Tendencies:** Gets the jump on Empoleon. Its go-to: Dragon Rush (its best hit on Pikachu, Dragonite, Infernape and Gengar). Otherwise: Thunder against Empoleon and Scizor. Hits from both sides (Dragon Rush physical, Thunder and Hyper Beam special): no single wall stops it.
 - **When it's ahead:** Expect Thunder Wave early.
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Dragon. The call: Dragonite: Dragon Claw 77.8-92.6%. Keep Pikachu away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Dragon. The call: Scizor: Bullet Punch 20.4-24.7%. Backup: Dragonite: Dragon Claw 82.7-97.5%. Keep Pikachu away from it: one hit and they're gone.
 
 **Dragonite L49**
 
 - **Tendencies:** Gets the jump on Empoleon. Its go-to: Dragon Rush (its best hit on Pikachu, Infernape, Empoleon, Gengar and Scizor). Otherwise: Blizzard against Dragonite. Hits from both sides (Dragon Rush physical, Blizzard and Hyper Beam special): no single wall stops it.
 - **When it's ahead:** Expect Thunder Wave early.
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Dragon. The call: Empoleon: Flash Cannon 31.5-37.7%. Keep Pikachu and Dragonite away from it: one hit and they're gone. Its blind spot: Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Dragon. The call: Empoleon: Flash Cannon 34-40.7%. Backup: Scizor: Bullet Punch 20.4-24.7%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Empoleon and Scizor take almost nothing from it.
 
 **Aerodactyl L48**
 
 - **Tendencies:** Swings first against almost everyone you have (5 of 6). Its go-to: Rock Slide (its best hit on Pikachu, Dragonite and Scizor). Otherwise: Aerial Ace against Infernape; Thunder Fang against Empoleon; Crunch against Gengar.
 - **Against moves:** Rock Head: no recoil damage.
-- **How to attack it:** Hit it with Electric, Steel and Water. The call: Empoleon: Surf 104.7-124.8%. Backup: Scizor: Bullet Punch 56.4-68.5%.
+- **How to attack it:** Hit it with Electric, Steel and Water. The call: Scizor: Bullet Punch 60.4-72.5%. Backup: Empoleon: Surf 112.8-134.2%. Its blind spot: Scizor takes almost nothing from it.
 
 **Charizard L48**
 
-- **Tendencies:** Moves first against Pikachu, Dragonite and Empoleon. Its go-to: Fire Fang (its best hit on Pikachu, Empoleon and Scizor). Otherwise: Dragon Claw against Dragonite; Air Slash against Infernape; Shadow Claw against Gengar. Hits from both sides (Shadow Claw, Dragon Claw and Fire Fang physical, Air Slash special): no single wall stops it.
+- **Tendencies:** Gets the jump on Dragonite and Empoleon. Its go-to: Fire Fang (its best hit on Pikachu, Empoleon and Scizor). Otherwise: Dragon Claw against Dragonite; Air Slash against Infernape; Shadow Claw against Gengar. Hits from both sides (Shadow Claw, Dragon Claw and Fire Fang physical, Air Slash special): no single wall stops it.
 - **Against moves:** Blaze: Fire moves hit harder when it's low.
-- **How to attack it:** Hit it with Electric and Water. The call: Empoleon: Surf 95.2-114.3%. Backup: Dragonite: Fly 57.1-67.3%. Its blind spot: Empoleon takes almost nothing from it.
+- **How to attack it:** Hit it with Electric and Water. The call: Empoleon: Surf 103.4-122.4%. Backup: Pikachu: Volt Tackle 85.7-102%. Its blind spot: Empoleon takes almost nothing from it.
 
 **Dragonite L50**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Dragonite and Empoleon. Its go-to: Outrage (its best hit on Pikachu, Dragonite, Infernape, Empoleon and Gengar). Otherwise: Fire Blast against Scizor. Hits from both sides (Outrage physical, Fire Blast and Hyper Beam special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
+- **Tendencies:** Gets the jump on Empoleon. Its go-to: Outrage (its best hit on Pikachu, Dragonite, Infernape, Empoleon and Gengar). Otherwise: Fire Blast against Scizor. Hits from both sides (Outrage physical, Fire Blast and Hyper Beam special): no single wall stops it. Holds Sitrus Berry: it heals once when it drops to half.
 - **Against moves:** Inner Focus: it never flinches.
-- **How to attack it:** Hit it with Dragon. Keep Pikachu, Dragonite and Scizor away from it: one hit and they're gone. Nobody you have wins this one-on-one. Hit it hard before it sets the pace, and trade.
+- **How to attack it:** Hit it with Dragon. The call: Empoleon: Flash Cannon 32.5-38.6%. Backup: Dragonite: Dragon Claw 79.5-94%. Keep Pikachu and Scizor away from it: one hit and they're gone.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Gyarados | Pikachu (W) | Thunderbolt / Waterfall | Thunderbolt / Waterfall | Thunderbolt / Waterfall | Thunderbolt / Waterfall | Thunderbolt / Waterfall | Thunderbolt / Waterfall | Thunderbolt / Waterfall |
+| Dragonite | Scizor (W) | Bullet Punch / Thunder | Bullet Punch / Thunder | Bullet Punch / Thunder | Bullet Punch / Thunder | Roost / Thunder | Bullet Punch / Thunder | U-turn / Thunder |
+| Dragonite | Empoleon (W) | Flash Cannon / Dragon Rush | Flash Cannon / Dragon Rush | Flash Cannon / Dragon Rush | Flash Cannon / Dragon Rush | Flash Cannon / Dragon Rush | Flash Cannon / Dragon Rush | Flash Cannon / Dragon Rush |
+| Aerodactyl | Scizor (W) | Bullet Punch / Rock Slide | Bullet Punch / Rock Slide | Bullet Punch / Rock Slide | Bullet Punch / Rock Slide | Bullet Punch / Rock Slide | Bullet Punch / Rock Slide | Bullet Punch / Rock Slide |
+| Charizard | Empoleon (W) | Surf / Fire Fang | Surf / Fire Fang | Surf / Fire Fang | Aqua Jet / Fire Fang | Surf / Fire Fang | Surf / Fire Fang | Aqua Jet / Fire Fang |
+| Dragonite | Empoleon (W) | Flash Cannon / Outrage | Flash Cannon / Outrage | Flash Cannon / Outrage | Flash Cannon / Outrage | Aqua Ring / Outrage | Flash Cannon / Outrage | Flash Cannon / Outrage |
 
 ### Call sheet vs Red (Lv 88, pret/pokeheartgold files/poketool/trainer/trainers.json #260)
 
-- **Order:** Pikachu (Lv 88), Lapras (Lv 80), Snorlax (Lv 82), Venusaur (Lv 84), Charizard (Lv 84), Blastoise (Lv 84). Lead with Dragonite: it handles their opener.
-- **Philosophy:** Their best player: Blastoise, which beats 6 of your 6. Your last one standing: Infernape. No clean answer on your side for Blastoise L84.
-- **The bag:** 4 × Full Restore in the bag.
+- **Order:** Pikachu (Lv 88), Lapras (Lv 80), Snorlax (Lv 82), Venusaur (Lv 84), Charizard (Lv 84), Blastoise (Lv 84). Lead with Dragonite: it handles their opener. It stays in unless Perish Song is about to end, nothing it has can touch you, or a bench Pokémon absorbs or resists what just hit it and hits back super-effectively.
+- **Philosophy:** Its AI scores every move: a knockout first (priority if it has one), otherwise its hardest hit; it won't heal while it's faster than you, and it rarely sets up below 70% HP. Their best player: Snorlax, which beats 3 of your 6. Your last one standing: Infernape.
+- **The bag:** 4 × Full Restore in the bag. It uses a Full Restore the moment a Pokémon drops below a quarter of its HP; more items unlock as its party shrinks.
 
 | They send | Their moves | The call | Backup | Don't send |
 |---|---|---|---|---|
-| Pikachu L88 | Volt Tackle · Iron Tail · Quick Attack · Thunderbolt @ Light Ball | Dragonite: Dragon Claw 129.6-153.2% | Scizor: U-turn 110.2-130.6% | — |
-| Lapras L80 | Blizzard · Brine · Psychic · Body Slam | Infernape: Close Combat 96.9-114.3% | Pikachu: Volt Tackle 57.8-68.9% | Dragonite |
-| Snorlax L82 | Shadow Ball · Crunch · Blizzard · Giga Impact | Infernape: Close Combat 95-112.4% | Scizor: U-turn 33.5-39.8% | Pikachu |
-| Venusaur L84 | Sludge Bomb · Giga Drain · Sleep Powder · Frenzy Plant | Dragonite: Fly 106.7-126.5% | Infernape: Overheat 113.8-135.2% | Pikachu |
-| Charizard L84 | Flare Blitz · Air Slash · Blast Burn · Dragon Pulse | Dragonite: Fly 56.8-67.2% | Empoleon: Surf 94.4-112.8% | Pikachu, Scizor |
-| Blastoise L84 | Focus Blast · Hydro Cannon · Blizzard · Flash Cannon | **no clean answer** | — | Pikachu, Infernape |
+| Pikachu L88 | Volt Tackle · Iron Tail · Quick Attack · Thunderbolt @ Light Ball | Dragonite: Dragon Claw 138.7-163.4% | Infernape: Earthquake 188.2-222.6% | — |
+| Lapras L80 | Blizzard · Brine · Psychic · Body Slam | Infernape: Close Combat 105-123.6% | Empoleon: Flash Cannon 31.7-37.9% | Dragonite |
+| Snorlax L82 | Shadow Ball · Crunch · Blizzard · Giga Impact | Infernape: Close Combat 102.9-121.9% | Scizor: U-turn 35.9-42.7% | Pikachu |
+| Venusaur L84 | Sludge Bomb · Giga Drain · Sleep Powder · Frenzy Plant | Scizor: U-turn 43.1-51.4% | Gengar: Psychic 63.2-75.1% | Pikachu |
+| Charizard L84 | Flare Blitz · Air Slash · Blast Burn · Dragon Pulse | Empoleon: Surf 101.6-120.8% | Gengar: Shadow Ball 49.2-58% | Pikachu, Scizor |
+| Blastoise L84 | Focus Blast · Hydro Cannon · Blizzard · Flash Cannon | Scizor: U-turn 37.1-44.2% | Gengar: Shadow Ball 41-49% | — |
 
 **Pikachu L88**
 
 - **Order:** Leads off.
-- **Tendencies:** Moves first against Dragonite, Empoleon and Scizor. Its go-to: Volt Tackle (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor). Hits from both sides (Volt Tackle, Iron Tail and Quick Attack physical, Thunderbolt special): no single wall stops it. Holds Light Ball: its attacks hit twice as hard.
+- **Tendencies:** Gets the jump on Empoleon and Scizor. Its go-to: Volt Tackle (its best hit on Pikachu, Dragonite, Infernape, Empoleon, Gengar and Scizor). Hits from both sides (Volt Tackle, Iron Tail and Quick Attack physical, Thunderbolt special): no single wall stops it. Holds Light Ball: its attacks hit twice as hard.
 - **When it's ahead:** Once you're low, Quick Attack finishes you.
 - **Against moves:** Static: touching it can paralyze you.
-- **How to attack it:** Hit it with Ground. The call: Dragonite: Dragon Claw 129.6-153.2%. Backup: Scizor: U-turn 110.2-130.6%.
+- **How to attack it:** Hit it with Ground. The call: Dragonite: Dragon Claw 138.7-163.4%. Backup: Infernape: Earthquake 188.2-222.6%.
 
 **Lapras L80**
 
-- **Tendencies:** You move first, every time. Its go-to: Blizzard (its best hit on Pikachu, Dragonite and Gengar). Otherwise: Brine against Infernape, Empoleon and Scizor. Hits from both sides (Body Slam physical, Blizzard, Brine and Psychic special): no single wall stops it.
+- **Tendencies:** You move first, every time. Its go-to: Brine (its best hit on Infernape, Empoleon and Scizor). Otherwise: Blizzard against Pikachu and Dragonite; Psychic against Gengar. Hits from both sides (Body Slam physical, Blizzard, Brine and Psychic special): no single wall stops it.
 - **Against moves:** Water Absorb: Water moves heal it instead.
-- **How to attack it:** Hit it with Electric and Fighting. The call: Infernape: Close Combat 96.9-114.3%. Backup: Pikachu: Volt Tackle 57.8-68.9%. Keep Dragonite away from it: one hit and they're gone. Its blind spot: Empoleon and Scizor take almost nothing from it.
+- **How to attack it:** Hit it with Electric and Fighting. The call: Infernape: Close Combat 105-123.6%. Backup: Empoleon: Flash Cannon 31.7-37.9%. Keep Dragonite away from it: one hit and they're gone. Its blind spot: Empoleon and Scizor take almost nothing from it.
 
 **Snorlax L82**
 
 - **Tendencies:** You move first, every time. Its go-to: Giga Impact (its best hit on Pikachu, Infernape, Empoleon and Scizor). Otherwise: Blizzard against Dragonite; Crunch against Gengar. Hits from both sides (Crunch and Giga Impact physical, Shadow Ball and Blizzard special): no single wall stops it.
 - **Against moves:** Immunity: it can't be poisoned.
-- **How to attack it:** Hit it with Fighting. The call: Infernape: Close Combat 95-112.4%. Backup: Scizor: U-turn 33.5-39.8%. Keep Pikachu away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Fighting. The call: Infernape: Close Combat 102.9-121.9%. Backup: Scizor: U-turn 35.9-42.7%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Empoleon and Scizor take almost nothing from it.
 
 **Venusaur L84**
 
-- **Tendencies:** Gets the jump on Empoleon and Scizor. Its go-to: Frenzy Plant (its best hit on Pikachu, Empoleon, Gengar and Scizor). Otherwise: Sludge Bomb against Dragonite and Infernape.
+- **Tendencies:** Gets the jump on Empoleon. Its go-to: Frenzy Plant (its best hit on Pikachu, Empoleon, Gengar and Scizor). Otherwise: Sludge Bomb against Dragonite and Infernape.
 - **When it's ahead:** Expect Sleep Powder early.
 - **Against moves:** Overgrow: Grass moves hit harder when it's low.
-- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Dragonite: Fly 106.7-126.5%. Backup: Infernape: Overheat 113.8-135.2%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Scizor takes almost nothing from it.
+- **How to attack it:** Hit it with Fire, Flying and Psychic. The call: Scizor: U-turn 43.1-51.4%. Backup: Gengar: Psychic 63.2-75.1%. Keep Pikachu away from it: one hit and they're gone. Its blind spot: Dragonite and Scizor take almost nothing from it.
 
 **Charizard L84**
 
-- **Tendencies:** Moves first against Pikachu, Dragonite and Empoleon. Its go-to: Blast Burn (its best hit on Pikachu, Empoleon, Gengar and Scizor). Otherwise: Dragon Pulse against Dragonite; Air Slash against Infernape. Hits from both sides (Flare Blitz physical, Air Slash, Blast Burn and Dragon Pulse special): no single wall stops it.
+- **Tendencies:** Gets the jump on Dragonite and Empoleon. Its go-to: Blast Burn (its best hit on Pikachu, Empoleon, Gengar and Scizor). Otherwise: Dragon Pulse against Dragonite; Air Slash against Infernape. Hits from both sides (Flare Blitz physical, Air Slash, Blast Burn and Dragon Pulse special): no single wall stops it.
 - **Against moves:** Blaze: Fire moves hit harder when it's low.
-- **How to attack it:** Hit it with Electric and Water. The call: Dragonite: Fly 56.8-67.2%. Backup: Empoleon: Surf 94.4-112.8%. Keep Pikachu and Scizor away from it: one hit and they're gone.
+- **How to attack it:** Hit it with Electric and Water. The call: Empoleon: Surf 101.6-120.8%. Backup: Gengar: Shadow Ball 49.2-58%. Keep Pikachu and Scizor away from it: one hit and they're gone.
 
 **Blastoise L84**
 
 - **Order:** Last in the order.
-- **Tendencies:** Gets the jump on Empoleon and Scizor. Its go-to: Hydro Cannon (its best hit on Pikachu, Infernape, Gengar and Scizor). Otherwise: Blizzard against Dragonite; Focus Blast against Empoleon.
+- **Tendencies:** Gets the jump on Empoleon. Its go-to: Hydro Cannon (its best hit on Pikachu, Infernape, Gengar and Scizor). Otherwise: Blizzard against Dragonite; Focus Blast against Empoleon.
 - **Against moves:** Torrent: Water moves hit harder when it's low.
-- **How to attack it:** Hit it with Electric. Keep Pikachu and Infernape away from it: one hit and they're gone. Nobody you have wins this one-on-one. Hit it hard before it sets the pace, and trade.
+- **How to attack it:** Hit it with Electric. The call: Scizor: U-turn 37.1-44.2%. Backup: Gengar: Shadow Ball 41-49%.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Pikachu | Dragonite (W) | Dragon Claw / Volt Tackle | Dragon Claw / Volt Tackle | Dragon Claw / Volt Tackle | Dragon Claw / Thunderbolt | Dragon Claw / Volt Tackle | Dragon Claw / Volt Tackle | Dragon Claw / Thunderbolt |
+| Lapras | Infernape (W) | Close Combat / Brine | Close Combat / Brine | Close Combat / Brine | Close Combat / Brine | Close Combat / Brine | Close Combat / Brine | Close Combat / Brine |
+| Snorlax | Infernape (W) | Close Combat / Giga Impact | Close Combat / Giga Impact | Close Combat / Giga Impact | Close Combat / Giga Impact | Close Combat / Giga Impact | Close Combat / Giga Impact | Close Combat / Giga Impact |
+| Venusaur | Scizor (W) | U-turn / Frenzy Plant | U-turn / Frenzy Plant | U-turn / Frenzy Plant | U-turn / Frenzy Plant | U-turn / Frenzy Plant | U-turn / Frenzy Plant | U-turn / Frenzy Plant |
+| Charizard | Empoleon (W) | Surf / Blast Burn | Surf / Blast Burn | Surf / Blast Burn | Aqua Jet / Flare Blitz | Surf / Blast Burn | Surf / Blast Burn | Aqua Jet / Flare Blitz |
+| Blastoise | Scizor (W) | U-turn / Hydro Cannon | U-turn / Hydro Cannon | U-turn / Hydro Cannon | U-turn / Hydro Cannon | U-turn / Hydro Cannon | U-turn / Hydro Cannon | U-turn / Hydro Cannon |
 

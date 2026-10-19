@@ -95,10 +95,11 @@ def join(items, word="and"):
 
 
 class Scouting:
-    def __init__(self, battle, benchmarks=None, phrasebook=None):
+    def __init__(self, battle, benchmarks=None, phrasebook=None, grid=None):
         self.battle = battle
         self.ref = battle.ref
         self.bench = benchmarks
+        self.grid = grid or benchmarks   # the matchup grid: the scouting engine's fights (battle/grid.py), else the old count
         self.book = phrasebook or Phrasebook()
         self._pop = {}
         with open(os.path.join(HERE, "trainer_ai.json"), encoding="utf-8") as fh:
@@ -410,7 +411,7 @@ class Scouting:
     def call_sheet(self, team, opponent):
         """The game plan against one trainer: the trainer's philosophy (from the game's AI flags, bag and
         battle lines), then each of their Pokémon in send-out order with its tendencies and how to attack it."""
-        m = self.bench.matchups(team, opponent)
+        m = self.grid.matchups(team, opponent)
         trainer = self.trainer_context(opponent)
         rows = []
         for i, (r, o) in enumerate(zip(m["grid"], opponent["party"])):
@@ -451,7 +452,10 @@ class Scouting:
 
     @staticmethod
     def _margin(v):
-        """Wins first, then the quickest win (fewest of our hits), then the widest margin."""
+        """Wins first, then the evaluation layer's ranking when the fight was played out; else the quickest win
+        (fewest of our hits), then the widest margin."""
+        if "value" in v:
+            return (v["wins"], tuple(v["value"]))
         ours, theirs = (int(x) for x in v["hits_to_ko"].split(" vs "))
         return (v["wins"], -ours, theirs - ours, v["moves_first"])
 
@@ -596,18 +600,26 @@ class Scouting:
         how many of the 36 one-on-one matchups it wins. Not a simulation: the same benchmark grid."""
         labels = list(teams)
         matrix = {a: {} for a in labels}
+        drawn = {a: {} for a in labels}
         for a in labels:
             for b in labels:
                 if a != b:
-                    res = self.bench.matchups(Team("heartgold", teams[a]), self.as_opponent(b, teams[b]))
+                    res = self.grid.matchups(Team("heartgold", teams[a]), self.as_opponent(b, teams[b]))
                     matrix[a][b] = sum(v["wins"] for r in res["grid"] for v in r["vs"].values())
+                    drawn[a][b] = sum(bool(v.get("draw")) for r in res["grid"] for v in r["vs"].values())
         standings = []
         for a in labels:
             won, played = sum(matrix[a].values()), 36 * (len(labels) - 1)
-            standings.append({"team": a, "wins": won, "losses": played - won, "pct": round(won / played, 3),
+            draws = sum(drawn[a].values())
+            standings.append({"team": a, "wins": won, "draws": draws, "losses": played - won - draws,
+                              "pct": round(won / played, 3),
                               "series_won": sum(1 for b in labels if b != a and matrix[a][b] > matrix[b][a])})
         standings.sort(key=lambda r: (-r["series_won"], -r["pct"]))
-        return {"rules": "Lv 100, Gen 4 rules, 31 IVs, no EVs, builds as recorded", "standings": standings, "matrix": matrix}
+        played_out = self.grid is not self.bench
+        rules_line = ("Lv 100, Gen 4 rules, IVs 31, EVs 85 in every stat unless recorded, builds as recorded; each "
+                      "one-on-one played out by the scouting engine" if played_out else
+                      "Lv 100, Gen 4 rules, 31 IVs, no EVs, builds as recorded")
+        return {"rules": rules_line, "standings": standings, "matrix": matrix, "draws": drawn}
 
     # --- rendering -------------------------------------------------------------------------------
     SECTION_TITLES = {"philosophy": "Philosophy", "tendencies": "Tendencies", "when_ahead": "When it's ahead",

@@ -46,7 +46,7 @@ POLES = {"pace": ("absorbs first", "strikes first"), "punch": ("chips", "knocks 
          "risk": ("safe", "gambler"), "script": ("adaptive", "scripted")}
 RISKY_PLAYS = {"recoil", "lock-in", "charge", "recharge", "self-ko"}
 # Bump when a definition in the evaluation or profile layer changes, so cached field baselines are rebuilt.
-ENGINE_VERSION = "eval-2"
+ENGINE_VERSION = "eval-3"
 
 
 def member_sliders(matchups, movebook):

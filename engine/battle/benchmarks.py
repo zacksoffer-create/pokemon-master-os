@@ -25,6 +25,9 @@ NAME_FIXES = {"psychicm": "psychic", "faintattack": "feintattack", "hijumpkick":
 HGSS = {"Will": 245, "Koga": 247, "Bruno": 418, "Karen": 246, "Champion Lance": 244, "Red": 260,
         "Will (rematch)": 702, "Koga (rematch)": 703, "Bruno (rematch)": 704, "Karen (rematch)": 705,
         "Champion Lance (rematch)": 701}
+# Crystal gives AI layers to trainer classes (data/trainers/attributes.asm): benchmark name -> class.
+AI_KEYS = {"crystal": {"Will": "WILL", "Koga": "KOGA", "Bruno": "BRUNO", "Karen": "KAREN", "Champion Lance": "CHAMPION LANCE",
+                       "Red": "RED", "Clair": "CLAIR", "Rival Silver (strongest team)": "RIVAL2"}}
 BENCHMARK_SETS = {
     "crystal": [("Will", "Will"), ("Koga", "Koga"), ("Bruno", "Bruno"), ("Karen", "Karen"),
                 ("Champion Lance", "Champion"), ("Red", "Red"), ("Clair", "Clair")],
@@ -124,7 +127,23 @@ class Benchmarks:
         return parties
 
     def load(self, game):
-        """[{name, game, source, party: [{species, level, moves, item, ivs}]}] for this game."""
+        """[{name, game, source, party: [{species, level, moves, item, ivs}], ai_flags, ...}] for this game."""
+        out = self._load(game)
+        flags = self.trainer_flags().get(game, {})
+        for tr in out:   # Gen 2-3 keep their AI flags outside the party data: by class (Crystal) or trainer symbol
+            if "ai_flags" not in tr:
+                key = AI_KEYS.get(game, {}).get(tr["name"]) or tr.get("_symbol")
+                if key in flags:
+                    tr["ai_flags"] = list(flags[key])
+            tr.pop("_symbol", None)
+        return out
+
+    @staticmethod
+    def trainer_flags():
+        with open(os.path.join(HERE, "trainer_ai.json"), encoding="utf-8") as fh:
+            return json.load(fh).get("trainer_flags", {})
+
+    def _load(self, game):
         out = []
         if game == "crystal":
             groups, dvs = self._crystal()
@@ -147,7 +166,8 @@ class Benchmarks:
                                                              ("hp", "atk", "def", "spa", "spd", "spe")})
                          for iv, lvl, sp, item, mv in parties[sym]]
                 out.append({"name": name, "game": game, "party": party,
-                            "source": f"pret/poke{game} src/data/trainer_parties.h {sym}"})
+                            "source": f"pret/poke{game} src/data/trainer_parties.h {sym}",
+                            "_symbol": "TRAINER_" + re.sub(r"(?<!^)(?=[A-Z])", "_", sym.replace("sParty_", "")).upper()})
         elif game == "platinum":
             for name, fname in BENCHMARK_SETS["platinum"]:
                 d = json.load(open(os.path.join(RAW, f"platinum_{fname}.json"), encoding="utf-8"))

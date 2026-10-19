@@ -159,6 +159,30 @@ td.c, th.c { text-align: center; }
 .why { color: var(--ink-2); font-size: var(--step--1); }
 .plan-panel .rows > .k { color: var(--accent); }
 
+/* coach profile: sliders like a ratings card, with where the club sits among the field */
+.coach { display: grid; gap: 4px; padding: 6px 14px 12px; }
+.slider { display: grid; grid-template-columns: minmax(84px, 110px) minmax(64px, 110px) minmax(80px, 1fr) minmax(64px, 110px) 74px; gap: 8px; align-items: center; padding: 3px 0; border-top: 1px solid var(--rule); }
+.slider .nm { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: var(--step--1); }
+.slider .pole { font-size: 0.78rem; color: var(--ink-2); }
+.slider .pole.l { text-align: right; }
+.track { position: relative; height: 12px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--paper); }
+.track .fill { position: absolute; inset: 0 auto 0 0; background: color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 6px 0 0 6px; }
+.track .mid { position: absolute; top: -3px; bottom: -3px; left: 50%; width: 1px; background: var(--rule-strong); }
+.track .pin { position: absolute; top: -5px; width: 3px; height: 20px; margin-left: -1.5px; background: var(--pen); border-radius: 2px; }
+.slider .val { font-family: var(--font-typed); font-size: 0.82rem; text-align: right; white-space: nowrap; }
+.pct { font-family: var(--font-hand); color: var(--pen); }
+.phil-line { font-family: var(--font-hand); color: var(--pen); font-size: 1.3rem; line-height: 1.3; padding: 4px 14px 0; }
+.sit th { white-space: normal; min-width: 92px; }
+.sit td { font-size: 0.86rem; }
+.sit .we { font-family: var(--font-hand); color: var(--pen); font-size: 0.98rem; line-height: 1.2; display: block; }
+.sit .they { color: var(--ink-2); font-size: 0.78rem; display: block; }
+.sit .sh { color: var(--ink-2); font-size: 0.72rem; }
+.res-A { color: var(--good); } .res-B { color: var(--bad); } .res-draw { color: var(--warn); }
+@media (max-width: 560px) {
+  .slider { grid-template-columns: minmax(70px, 1fr) minmax(0, 2fr) 64px; }
+  .slider .pole { display: none; }
+}
+
 /* league */
 .matrix td, .matrix th { text-align: center; }
 .matrix td.self { background: var(--paper); color: var(--ink-2); }
@@ -182,13 +206,13 @@ footer p { margin: 0; }
     <div class="dept"><span class="label">Front office · Scouting department · <span id="gen"></span></span>
       <label class="switch" for="triggers"><input type="checkbox" id="triggers"> Show the triggers</label></div>
     <h1>Journey Scouting File</h1>
-    <p>Every team from the journey, and any variation of it, read the way a front office reads a series. The advance report shows how to attack each of their Pokémon with each attack type you throw. The self-scout covers what your club is good at and what it's trying to do. The game plan puts the two together. There are no grades: each line is a phrase triggered by the numbers. Switch on <b>Show the triggers</b> to see which number fired it.</p>
+    <p>Every team from the journey, and any variation of it, read the way a front office reads a series. The advance report shows how to attack each of their Pokémon with each attack type you throw. The self-scout covers what your club is good at and what it's trying to do: its coach profile, as sliders against what real players ran, and its play sheet. The game plan puts the two together, situation by situation. There are no grades: each line is a phrase triggered by the numbers. Switch on <b>Show the triggers</b> to see which number fired it.</p>
   </header>
   <nav class="tabs" id="tabs" role="tablist" aria-label="Chapters"></nav>
   <main id="main" class="wrap"></main>
   <footer>
     <p id="method"></p>
-    <p>Sources: Smogon's damage calculator (@smogon/calc 0.12.0) for every damage range; opponents' teams, moves, items, AI flags, bags and battle lines read from the games' own code (pret disassemblies of Crystal, FireRed, Emerald, Platinum, HeartGold/SoulSilver); species, moves and Pokédex text from PokeAPI. The phrase book lives at engine/battle/phrasebook.json (<span id="rulecount"></span> rules) and can be edited. Decisions D-043 and D-046.</p>
+    <p>Sources: Smogon's damage calculator (@smogon/calc 0.12.0) for every damage range; Smogon's usage-stats sets (@smogon/sets 2.0.0, MIT) for the field; opponents' teams, moves, items, AI flags, bags and battle lines read from the games' own code (pret disassemblies of Crystal, FireRed, Emerald, Platinum, HeartGold/SoulSilver); species, moves and Pokédex text from PokeAPI. The phrase book lives at engine/battle/phrasebook.json (<span id="rulecount"></span> rules) and can be edited. Decisions D-043 and D-046.</p>
   </footer>
 </div>
 
@@ -210,10 +234,10 @@ footer p { margin: 0; }
   const byId = Object.fromEntries(DATA.lineups.map((l) => [l.id, l]));
 
   let state = { tab: "heartgold", lineup: {}, view: "opponents", sheet: 0, triggers: false };
-  try { const saved = JSON.parse(localStorage.getItem("scouting-file-v3") || "null"); if (saved) state = Object.assign(state, saved); } catch (e) {}
+  try { const saved = JSON.parse(localStorage.getItem("scouting-file-v4") || "null"); if (saved) state = Object.assign(state, saved); } catch (e) {}
   const hash = location.hash.replace("#", "");
   if (hash && (hash === "league" || DATA.chapters.includes(hash))) state.tab = hash;
-  const save = () => { try { localStorage.setItem("scouting-file-v3", JSON.stringify(state)); } catch (e) {} };
+  const save = () => { try { localStorage.setItem("scouting-file-v4", JSON.stringify(state)); } catch (e) {} };
   $("#gen").textContent = "Filed " + DATA.generated;
   $("#method").textContent = DATA.method;
   $("#rulecount").textContent = DATA.rules;
@@ -292,9 +316,51 @@ footer p { margin: 0; }
       ${advanceForm(lu, sh)}
     </section>
     <div class="panel plan-panel" style="padding:0"><div class="philo"><span class="label">Game plan · ${esc(lu.title)} vs ${esc(sh.opponent)}</span></div>${rows(sh.plan.phrases, "plan")}</div>
+    ${bySituation(sh)}
     <div class="panel" style="padding:0"><div class="philo"><span class="label">The trainer · from the game's own data</span></div>${rows(sh.trainer_phrases, "trainer")}</div>
     <div class="section-head"><h2>Their players, one by one</h2><span class="label">${esc(sh.source)}</span></div>
     <div class="detail">${detail}</div>`;
+  }
+
+  const MARK = { A: "W", B: "L", draw: "D" };
+  function sliderRow(def, value, pct) {
+    return `<div class="slider"><span class="nm">${esc(def.name)}</span><span class="pole l">${esc(def.left)}</span>
+      <div class="track" role="img" aria-label="${esc(def.name)}: ${Math.round(value)} of 100, percentile ${pct} against the field"><span class="fill" style="width:${value}%"></span><span class="mid"></span><span class="pin" style="left:${value}%"></span></div>
+      <span class="pole">${esc(def.right)}</span><span class="val">${Math.round(value)} · <span class="pct">p${pct}</span></span></div>`;
+  }
+  function coachProfile(lu) {
+    const P = lu.profile;
+    if (!P) return "";
+    const phil = P.philosophy.length ? P.philosophy.map(([k, pole, pc]) => `${esc(pole)} (p${pc})`).join(" · ") : "close to the field's middle on every slider";
+    const r = P.record;
+    const sliders = DATA.sliders.map((d) => sliderRow(d, P.sliders[d.id], P.percentiles[d.id])).join("");
+    const names = Object.keys(P.members);
+    const memHead = `<tr><th>Player</th><th class="c">W-D-L</th>${DATA.sliders.map((d) => `<th class="c">${esc(d.name)}</th>`).join("")}</tr>`;
+    const memRows = names.map((n) => { const m = P.members[n], rr = m.record;
+      return `<tr><td><b>${esc(n)}</b></td><td class="c num">${rr.won}-${rr.drew}-${rr.lost}</td>${DATA.sliders.map((d) => `<td class="c num" title="${esc(d.name)} ${m.sliders[d.id]} · percentile ${m.percentiles[d.id]} among the field's players${m.decisive && m.decisive[d.id] !== undefined ? " · decisive in " + m.decisive[d.id] + "%" : ""}">${Math.round(m.sliders[d.id])} <span class="pct">p${m.percentiles[d.id]}</span></td>`).join("")}</tr>`; }).join("");
+    const sitHead = `<tr><th>Player</th>${DATA.situations.map((x) => `<th title="${esc(x.state)}">${esc(x.name)}</th>`).join("")}</tr>`;
+    const sitRows = names.map((n) => { const sh = P.members[n].play_sheet;
+      return `<tr><td><b>${esc(n)}</b></td>${DATA.situations.map((x) => { const c = sh[x.id]; const also = c.also.map(([m, p]) => `${m} ${p}%`).join(", ");
+        return `<td title="${esc(also ? "also: " + also : "")}"><span class="we">${esc(c.call)}</span><span class="sh">${c.share}% of the field</span></td>`; }).join("")}</tr>`; }).join("");
+    const assumed = [...new Set(names.flatMap((n) => P.members[n].assumed))];
+    const coach = Object.keys(P.coach || {}).length ? "Coach settings: " + Object.entries(P.coach).map(([k, v]) => `${k} ${v}`).join(", ") + "." : "No coach settings on record: the play sheet is the engine's neutral call.";
+    return `<div class="panel" style="padding:0"><div class="philo"><span class="label">Coach profile · tendencies against the Gen ${P.gen} OU usage field (${P.field_n} Smogon sets), no grades</span></div>
+      <div class="phil-line">${phil}</div>
+      <div class="coach">${sliders}</div>
+      <div class="philo" style="padding-top:0"><p class="ph">${r.won}-${r.drew}-${r.lost} in ${r.of} one-on-ones against the field, each played out: our best plan against their best answer. A slider is a share of those fights; p is where the club sits among 2,000 random six-Pokémon teams drawn from the field.</p></div></div>
+      <div class="section-head"><h2>The players' sliders</h2><span class="label">value · percentile among the field's players (hover for how often it's decisive)</span></div>
+      <div class="panel scroll"><table>${memHead}${memRows}</table></div>
+      <div class="section-head"><h2>Play sheet</h2><span class="label">its most common call in each situation, against the field · hover a situation for the state</span></div>
+      <div class="panel scroll"><table class="sit">${sitHead}${sitRows}</table><p class="ph why" style="margin-top:8px">${esc(coach)} ${assumed.length ? "Assumed where nothing is on record: " + esc(assumed.join("; ")) + "." : ""}</p></div>`;
+  }
+  function bySituation(sh) {
+    if (!sh.situations) return "";
+    const head = `<tr><th>Their player</th><th>We send</th>${DATA.situations.map((x) => `<th title="${esc(x.state)}">${esc(x.name)}</th>`).join("")}</tr>`;
+    const body = sh.situations.map((r) => `<tr><td class="who"><div class="nm">${esc(r.theirs)}</div></td>
+      <td><b>${esc(r.send)}</b> <span class="res-${r.result}">${MARK[r.result]}</span><div class="why">${esc(r.plan)}${r.turns ? " · " + r.turns + (r.turns === 1 ? " turn" : " turns") : ""}</div></td>
+      ${DATA.situations.map((x) => `<td><span class="we">${esc(r.ours[x.id] || "—")}</span><span class="they">they: ${esc(r.their[x.id] || "—")}</span></td>`).join("")}</tr>`).join("");
+    return `<div class="section-head"><h2>Game plan by situation</h2><span class="label">our call in pen, theirs below · hover a situation for the state</span></div>
+      <div class="panel scroll"><table class="sit advance">${head}${body}</table></div>`;
   }
 
   function selfScout(lu) {
@@ -303,7 +369,7 @@ footer p { margin: 0; }
       S.repertoire.map((r) => `<tr><td>${esc(r.type)}</td><td>${esc(r.throwers.map((x) => `${x.member} (${x.move})`).join(", "))}</td></tr>`).join("") + `</tbody></table></div>`;
     const depthRows = [...lu.cards].sort((a, b) => b.record[0] - a.record[0]).map((c) =>
       `<tr data-card="${slug(c.species)}" tabindex="0"><td><b>${esc(c.species)}</b></td><td class="phil">${(group(c.phrases).philosophy || []).map((p) => esc(p.text)).join(" ")}</td><td class="c num"><b>${c.record[0]}-${c.record[1]}</b></td></tr>`).join("");
-    return `<div class="panel" style="padding:0"><div class="philo"><span class="label">Self-scout · what we're good at and what we're trying to do</span></div>${rows(S.phrases, "self", { good_at: rep })}</div>
+    return coachProfile(lu) + `<div class="panel" style="padding:0"><div class="philo"><span class="label">Self-scout · what we're good at and what we're trying to do</span></div>${rows(S.phrases, "self", { good_at: rep })}</div>
       <div class="section-head"><h2>Depth chart</h2><span class="label">Tap a player for the full report</span></div>
       <div class="panel scroll"><table class="depth"><thead><tr><th>Player</th><th>Philosophy</th><th class="c">vs the league</th></tr></thead><tbody>${depthRows}</tbody></table></div>
       <div class="cards">${lu.cards.map(card).join("")}</div>`;
@@ -321,14 +387,14 @@ footer p { margin: 0; }
 
   function league() {
     const L = DATA.league, teams = L.standings.map((s) => s.team), t = (k) => DATA.titles[k] || k;
-    const stand = `<div class="panel scroll"><table><thead><tr><th>#</th><th>Lineup</th><th class="c">Series won</th><th class="c">1v1 W-L</th></tr></thead><tbody>` +
-      L.standings.map((s, i) => `<tr><td class="num">${i + 1}</td><td><b>${esc(t(s.team))}</b></td><td class="c num">${s.series_won} of ${teams.length - 1}</td><td class="c num">${s.wins}-${s.losses}</td></tr>`).join("") + `</tbody></table></div>`;
+    const stand = `<div class="panel scroll"><table><thead><tr><th>#</th><th>Lineup</th><th class="c">Series won</th><th class="c">1v1 W-D-L</th></tr></thead><tbody>` +
+      L.standings.map((s, i) => `<tr><td class="num">${i + 1}</td><td><b>${esc(t(s.team))}</b></td><td class="c num">${s.series_won} of ${teams.length - 1}</td><td class="c num">${s.wins}-${s.draws ?? 0}-${s.losses}</td></tr>`).join("") + `</tbody></table></div>`;
     const cell = (a, b) => a === b ? `<td class="self">—</td>` :
       `<td title="${esc(t(a))} wins ${L.matrix[a][b]} of 36 one-on-ones against ${esc(t(b))}; ${esc(t(b))} wins ${L.matrix[b][a]} the other way"><span class="heat ${L.matrix[a][b] > L.matrix[b][a] ? "won" : "lost"}">${L.matrix[a][b]}</span></td>`;
     const matrix = `<div class="panel scroll"><table class="matrix"><thead><tr><th>Row vs column</th>${teams.map((x) => `<th>${esc(t(x))}</th>`).join("")}</tr></thead><tbody>` +
       teams.map((a) => `<tr><th>${esc(t(a))}</th>${teams.map((b) => cell(a, b)).join("")}</tr>`).join("") + `</tbody></table></div>`;
     return `<section class="teamhead"><h2>What-if league</h2><div class="meta"><span>${esc(L.rules)}</span></div>
-      <div class="panel"><p class="ph" style="max-width:72ch">Every lineup, canon and variation, meets every other at the peak of its powers: Lv 100, the same Gen 4 rules, builds as recorded. A lineup's score is how many of the 36 one-on-ones it wins; a series goes to the side that wins more of them. It's a matchup read, not a simulated battle.</p></div></section>
+      <div class="panel"><p class="ph" style="max-width:72ch">Every lineup, canon and variation, meets every other at the peak of its powers: Lv 100, the same Gen 4 rules, builds as recorded. A lineup's score is how many of the 36 one-on-ones it wins; a series goes to the side that wins more of them. Each one-on-one is played out by the scouting engine (best plan against best answer), not a six-on-six battle.</p></div></section>
       <div class="section-head"><h2>Standings</h2></div>${stand}
       <div class="section-head"><h2>Head to head</h2><span class="label">One-on-ones won out of 36 · green = won the series</span></div>${matrix}`;
   }

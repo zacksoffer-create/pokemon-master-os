@@ -17,5 +17,7 @@
    "why": "SoulSilver before July 16: Gyarados instead of Infernape"},
   {"id": "platinum-january", "base": "platinum", "title": "January sheet (Empoleon)", "swap": {"Lucario": {"species": "Empoleon"}},
    "why": "The January roster had Empoleon where Lucario is now (and with it, Waterfall and Defog)"}
- ]
+ ],
+ "_coaches_note": "Coach settings per lineup id (docs/SCOUTING_ENGINE.md, layer 4): aggression, patience, heal_line, risk_tolerance (0-100) and tempo ('finish' or 'any'). They change play sheets, not profiles. Empty until you set them: a coach's setting is a decision, so the engine never fills one in.",
+ "coaches": {}
 }
