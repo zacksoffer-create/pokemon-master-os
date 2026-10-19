@@ -15,7 +15,9 @@ Nothing in this file is canon. Questions are numbered so decisions can reference
 ## Authored world
 
 - ~~W-001 … W-015~~: **approved** (D-033). HeartGold is fully ready for the mountain storm, open sea, cave, emergency and night-travel situations.
-- Open: food and cooking at camp, team by team (D-034, low priority). "Town life" is replaced by the ranch (D-035).
+- Open: food and cooking at camp, team by team (D-034, low priority). The engine lists each game's real food systems (`wilderness/camp_life.json`).
+- **Ranch (D-035): five authoring questions** in `RANCH.md` §5: sites, who retires there, named vs working breeding stock, who runs it, open or private. Four sites are proposed (Blackthorn highlands, Sevii Islands, Route 117 + Lavaridge, Resort Area villa + Battle Zone); none is approved.
+- Verify: Platinum villa price (believed 50,000,000); whether Shuckle's Berry Juice trick survives past Gen 2; where Platinum hands out the Old Gateau; Aprijuice details.
 
 ## Mechanical research queue
 

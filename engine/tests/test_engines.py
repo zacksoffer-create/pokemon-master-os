@@ -35,6 +35,12 @@ class Rules(unittest.TestCase):
         self.assertEqual(rules.effectiveness(3, "Electric", ["Water"], "Motor Drive"), 2)   # Gen 4 ability
         self.assertEqual(rules.abilities(2, "Typhlosion"), [])
 
+    def test_abilities_list_every_option_of_the_era(self):
+        # Smogon's calc data keeps only the first ability; these come from PokeAPI with past-generation rows
+        self.assertEqual(rules.abilities(4, "Snorlax"), ["Immunity", "Thick Fat"])
+        self.assertIn("Snow Cloak", rules.abilities(4, "Mamoswine"))
+        self.assertEqual(rules.abilities(4, "Garchomp"), ["Sand Veil"])
+
     def test_era_base_stats(self):
         self.assertEqual(rules.species(2, "Ampharos")["bs"]["def"], 75)
         self.assertEqual(rules.species(4, "Roserade")["bs"]["def"], 55)
@@ -163,6 +169,52 @@ class Engines(unittest.TestCase):
         card = Lab(DB).derive(Specimen("Feraligatr", "crystal", dvs={"atk": 15, "def": 10, "spe": 10, "spc": 10}))
         self.assertTrue(card["shiny"])
         self.assertEqual(card["hidden_power"], "Dragon 69")
+
+
+class Ranch(unittest.TestCase):
+    """The breeding ranch (D-035) and camp life (D-034)."""
+
+    @classmethod
+    def setUpClass(cls):
+        from ranch.habitat import HabitatEngine
+        from ranch.planner import RanchPlanner
+        from wilderness.camp_life import CampLife
+        from wilderness.engine import WildernessEngine
+        cls.habitat, cls.ranch = HabitatEngine(DB), RanchPlanner(DB)
+        cls.camp = CampLife(WildernessEngine(DB))
+
+    def test_symbol_names_resolve(self):
+        self.assertEqual(self.habitat.ref.species_id("Nidoran♂"), 32)
+        self.assertEqual(self.habitat.ref.species_id("Nidoran♀"), 29)
+
+    def test_habitat_profiles(self):
+        lapras = self.habitat.profile("Lapras")
+        self.assertEqual((lapras.zones[0], lapras.climate, lapras.water), ("coast_sea", "cold", "sea"))
+        self.assertIn("via Piloswine", self.habitat.profile("Mamoswine").evidence[0])   # Gen 4 inherits the line's habitat
+        self.assertEqual(self.habitat.profile("Snorlax").size, "huge")
+
+    def test_home_site_and_hatchery_staff(self):
+        self.assertEqual(self.ranch.home_site(self.habitat.profile("Lapras")), "S-KANTO")
+        staff = {s["species"] for s in self.ranch.suggest_staff("egg_care")}
+        self.assertTrue({"Magcargo", "Camerupt", "Magmortar"} <= staff)
+
+    def test_fathers_from_the_same_generation_come_first(self):
+        # Volbeat only has Counter from Emerald's tutor; Heracross learns it in HGSS itself
+        plan = self.ranch.breeding.plan_lineage("Scizor", ["Counter"], "soulsilver")["plans"][0]
+        self.assertEqual(plan["father"], "Heracross")
+        self.assertTrue(plan["native"])
+
+    def test_camp_life_catalog_matches_the_games(self):
+        self.assertIn("MiracleBerry", self.camp.berries("crystal"))
+        self.assertEqual(len(self.camp.berries("platinum")), 64)
+        for game in rules.GAME_GEN:
+            for system in self.camp.systems(game):
+                self.assertEqual(system["items_missing_in_gen"], [], f"{game}: {system['id']}")
+
+    def test_lore_exclusions(self):
+        # "it absorbs their heat" is the opposite of a heat source
+        heat = [e for e in self.camp.wild.evidence("Gengar", "crystal") if e.capability == "heat_source"]
+        self.assertEqual(heat, [])
 
 
 if __name__ == "__main__":

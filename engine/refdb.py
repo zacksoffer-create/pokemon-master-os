@@ -73,7 +73,7 @@ LEGACY_SPECIES_ALIASES = {"venesaur": "venusaur", "gyrados": "gyarados"}
 
 def slug(name):
     s = (name.strip().lower().replace("’", "").replace("'", "").replace(".", "")
-         .replace(" ", "-").replace("é", "e"))
+         .replace(" ", "-").replace("é", "e").replace("♂", "-m").replace("♀", "-f"))
     if s.startswith("hidden-power"):
         return "hidden-power"
     return LEGACY_MOVE_ALIASES.get(s.replace("-", ""), LEGACY_MOVE_ALIASES.get(s, s))

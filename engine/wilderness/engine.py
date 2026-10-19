@@ -77,7 +77,7 @@ LORE_PATTERNS = {
     "water_travel": r"\bswim|\bseas?\b|\bocean|ferr(?:y|ies)|carr(?:y|ies) people",
     "hauling": r"\bcarr(?:y|ies)\b|\bhaul|\blift",
     "digging": r"\bdig|\bburrow|\btunnel",
-    "heat_source": r"\bheat\b|\bwarm|\bflames?\b",
+    "heat_source": r"\bheat\b|\bwarmth\b|\bhot\b|\bflames?\b",
     "cold_tolerance": r"\bcold\b|\bsnow|\bice\b|\bfreez",
     "danger_sense": r"\bsens(?:e|es|ing)\b|\bpredict|\bdisaster|\bdanger",
     "scouting": r"through walls|\bkeen\b|far away|\bdistan",
@@ -86,6 +86,10 @@ LORE_PATTERNS = {
     "cooking": r"\broast|\bcook|\bbak(?:e|es)\b",
     "field_healing": r"\bheal|\bcures?\b|\brestor",
     "night_travel": r"\bnight\b|\bin the dark|\bdarkness\b",
+}
+# A sentence that matches one of these is not evidence for the capability ("steals heat", "turned warm").
+LORE_EXCLUDE = {
+    "heat_source": r"(?:steal|absorb)\w* .{0,25}heat|\bcool",
 }
 GAME_VERSIONS = {"crystal": [6, 4, 5], "firered": [10, 11, 9], "emerald": [9, 7, 8], "platinum": [14, 12, 13],
                  "heartgold": [15, 16, 14], "soulsilver": [16, 15, 14]}
@@ -165,8 +169,10 @@ class WildernessEngine:
             text = rows.get(v)
             if not text:
                 continue
+            sentences = re.split(r"(?<=[.!?])\s+", text)
             for cap, pat in LORE_PATTERNS.items():
-                if cap not in seen and re.search(pat, text, re.I):
+                if cap not in seen and any(re.search(pat, x, re.I) and not re.search(LORE_EXCLUDE.get(cap, "$^"), x, re.I)
+                                           for x in sentences):
                     seen.add(cap)
                     out.append(Evidence(cap, "lore", f"Pokédex ({names[v]})", text))
         return out

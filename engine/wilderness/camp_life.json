@@ -1,0 +1,193 @@
+{
+  "_note": "Camp life (D-034): the food and cooking each game actually has. 'cartridge' = the game has it; 'believed' = remembered, still to check against the game. Which of these a team uses is authored per team, because it depends on the team. Items are checked against PokeAPI by the engine.",
+  "systems": [
+    {
+      "id": "berry_trees",
+      "games": [
+        "crystal",
+        "heartgold",
+        "soulsilver"
+      ],
+      "tier": "cartridge",
+      "what": "Fixed berry trees along routes; each gives a berry once a day.",
+      "items": [
+        "oran-berry",
+        "sitrus-berry",
+        "lum-berry",
+        "leppa-berry",
+        "cheri-berry",
+        "chesto-berry",
+        "pecha-berry",
+        "rawst-berry",
+        "aspear-berry",
+        "persim-berry"
+      ]
+    },
+    {
+      "id": "apricorns_and_kurt",
+      "games": [
+        "crystal",
+        "heartgold",
+        "soulsilver"
+      ],
+      "tier": "cartridge",
+      "what": "Apricorn trees, one Apricorn a day. Kurt in Azalea Town turns them into Poké Balls: Red into Level Ball, Blue into Lure Ball, Yellow into Moon Ball, Green into Friend Ball, Pink into Love Ball, White into Fast Ball, Black into Heavy Ball.",
+      "items": [
+        "red-apricorn",
+        "blue-apricorn",
+        "yellow-apricorn",
+        "green-apricorn",
+        "pink-apricorn",
+        "white-apricorn",
+        "black-apricorn"
+      ]
+    },
+    {
+      "id": "aprijuice",
+      "games": [
+        "heartgold",
+        "soulsilver"
+      ],
+      "tier": "believed",
+      "what": "Apricorns blended into Aprijuice at the Pokéathlon Dome; it changes a Pokémon's Pokéathlon performance.",
+      "items": [
+        "apricorn-box"
+      ]
+    },
+    {
+      "id": "moomoo_milk",
+      "games": [
+        "crystal",
+        "firered",
+        "emerald",
+        "platinum",
+        "heartgold",
+        "soulsilver"
+      ],
+      "tier": "cartridge",
+      "what": "Bottled milk that restores HP. Johto's comes from the MooMoo Farm on Route 39, where a sick Miltank needs berries.",
+      "items": [
+        "moomoo-milk"
+      ]
+    },
+    {
+      "id": "berry_juice",
+      "games": [
+        "crystal"
+      ],
+      "tier": "believed",
+      "what": "A Shuckle holding a berry can turn it into Berry Juice (Cianwood's Shuckle). Whether later games keep the trick: verify.",
+      "items": [
+        "berry-juice"
+      ]
+    },
+    {
+      "id": "soft_soil_planting",
+      "games": [
+        "emerald",
+        "platinum"
+      ],
+      "tier": "cartridge",
+      "what": "Plant berries in soft soil, water them, and harvest several of the same berry days later. Platinum adds mulch to change growth speed.",
+      "items": []
+    },
+    {
+      "id": "pokeblocks",
+      "games": [
+        "emerald"
+      ],
+      "tier": "cartridge",
+      "what": "Berries blended into Pokéblocks with the Berry Blender in Lilycove; fed to raise contest condition (and to bring out Feebas's beauty for Milotic).",
+      "items": []
+    },
+    {
+      "id": "poffins",
+      "games": [
+        "platinum"
+      ],
+      "tier": "cartridge",
+      "what": "Berries cooked into Poffins at the Poffin House in Hearthome City; fed to raise contest condition. The closest thing the games have to cooking.",
+      "items": [
+        "poffin-case"
+      ]
+    },
+    {
+      "id": "honey",
+      "games": [
+        "platinum",
+        "heartgold",
+        "soulsilver"
+      ],
+      "tier": "cartridge",
+      "what": "Honey slathered on sweet-scented trees draws out wild Pokémon; Combee with Honey Gather collect it.",
+      "items": [
+        "honey"
+      ]
+    },
+    {
+      "id": "rage_candy_bar",
+      "games": [
+        "crystal",
+        "heartgold",
+        "soulsilver"
+      ],
+      "tier": "cartridge",
+      "what": "Mahogany Town's specialty; heals every status problem.",
+      "items": [
+        "rage-candy-bar"
+      ]
+    },
+    {
+      "id": "lava_cookie",
+      "games": [
+        "emerald"
+      ],
+      "tier": "cartridge",
+      "what": "Lavaridge Town's specialty, sold at the foot of Mt. Chimney; heals every status problem.",
+      "items": [
+        "lava-cookie"
+      ]
+    },
+    {
+      "id": "old_gateau",
+      "games": [
+        "platinum"
+      ],
+      "tier": "believed",
+      "what": "Sinnoh's old-fashioned cake; heals every status problem (where Platinum hands it out: verify).",
+      "items": [
+        "old-gateau"
+      ]
+    },
+    {
+      "id": "drinks",
+      "games": [
+        "crystal",
+        "firered",
+        "emerald",
+        "platinum",
+        "heartgold",
+        "soulsilver"
+      ],
+      "tier": "cartridge",
+      "what": "Fresh Water, Soda Pop and Lemonade from vending machines (Celadon rooftop and elsewhere).",
+      "items": [
+        "fresh-water",
+        "soda-pop",
+        "lemonade"
+      ]
+    }
+  ],
+  "gen2_berry_names": {
+    "oran-berry": "Berry",
+    "sitrus-berry": "Gold Berry",
+    "lum-berry": "MiracleBerry",
+    "leppa-berry": "MysteryBerry",
+    "cheri-berry": "PRZCureBerry",
+    "chesto-berry": "Mint Berry",
+    "pecha-berry": "PSNCureBerry",
+    "rawst-berry": "Ice Berry",
+    "aspear-berry": "Burnt Berry",
+    "persim-berry": "Bitter Berry"
+  }
+}

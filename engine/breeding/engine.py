@@ -132,6 +132,8 @@ class BreedingEngine:
                 if not subs:
                     continue
                 sub = subs[0]
+            native = all(any(r[3] in gen_vgs for r in direct[m]) for m in need if direct[m]) and (
+                sub is None or sub["native"])                # no Pal Park / Time Capsule transfer needed
             catchable = bool(self.ref.wild_in(self.ref.name(f[0]), game)) or any(
                 self.ref.wild_in(self.ref.name(s), game) for s in f)
             stage = max(f, key=lambda s: (len([m for m in need if self._routes((s,), m, src_vgs,
@@ -143,8 +145,9 @@ class BreedingEngine:
                               for s, mm, l, v in sorted(set(direct[m]), key=lambda r: (r[0] != stage, r[3] != vg, r[3]))][:2]
                               for m in need if direct[m]},
                           "inherits": [self.ref.move_name(m) for m in inherit], "via": sub,
-                          "steps": 1 + (sub["steps"] if sub else 0), "catchable_in_game": catchable})
-        plans.sort(key=lambda p: (p["steps"], not p["catchable_in_game"], len(p["inherits"])))
+                          "steps": 1 + (sub["steps"] if sub else 0), "native": native,
+                          "catchable_in_game": catchable})
+        plans.sort(key=lambda p: (p["steps"], not p["native"], not p["catchable_in_game"], len(p["inherits"])))
         memo[key] = plans[:5]
         return memo[key]
 

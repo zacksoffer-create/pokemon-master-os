@@ -1,0 +1,107 @@
+{
+  "_note": "Canon rosters for the engines. Source of truth: docs/CANON_CURRENT.md + DECISION_LEDGER (and, later, the Drive Canon Sheet). Engines read this; they never edit it.",
+  "chapters": [
+    {
+      "order": 1,
+      "game": "crystal",
+      "status": "working",
+      "decision": "D-002",
+      "thesis": "attachment",
+      "roster": [
+        "Feraligatr",
+        "Miltank",
+        "Donphan",
+        "Ampharos",
+        "Umbreon",
+        "Espeon"
+      ]
+    },
+    {
+      "order": 2,
+      "game": "firered",
+      "status": "working",
+      "decision": "D-003",
+      "thesis": "confidence",
+      "roster": [
+        "Charizard",
+        "Blastoise",
+        "Venusaur",
+        "Alakazam",
+        "Jolteon",
+        "Machamp"
+      ]
+    },
+    {
+      "order": 3,
+      "game": "emerald",
+      "status": "working",
+      "decision": "D-004",
+      "thesis": "adaptation",
+      "roster": [
+        "Swampert",
+        "Milotic",
+        "Altaria",
+        "Arcanine",
+        "Absol",
+        "Meganium"
+      ]
+    },
+    {
+      "order": 4,
+      "game": "platinum",
+      "status": "working",
+      "decision": "D-005",
+      "thesis": "initiative",
+      "roster": [
+        "Infernape",
+        "Weavile",
+        "Roserade",
+        "Lucario",
+        "Garchomp",
+        "Magnezone"
+      ]
+    },
+    {
+      "order": 5,
+      "game": "soulsilver",
+      "status": "provisional",
+      "decision": "D-010",
+      "thesis": "experience",
+      "roster": [
+        "Pikachu",
+        "Dragonite",
+        "Infernape",
+        "Empoleon",
+        "Gengar",
+        "Scizor"
+      ]
+    },
+    {
+      "order": 6,
+      "game": "heartgold",
+      "status": "locked",
+      "decision": "D-006",
+      "thesis": "completeness",
+      "roster": [
+        "Typhlosion",
+        "Tyranitar",
+        "Mamoswine",
+        "Crobat",
+        "Lapras",
+        "Snorlax"
+      ]
+    }
+  ],
+  "rival": {
+    "status": "working",
+    "decision": "D-019",
+    "roster": [
+      "Nidoking",
+      "Kingdra",
+      "Houndoom",
+      "Metagross",
+      "Gliscor",
+      "Salamence"
+    ]
+  }
+}

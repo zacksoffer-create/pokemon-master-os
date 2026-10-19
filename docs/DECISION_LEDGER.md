@@ -64,4 +64,8 @@ Exact dates are given where the handoff gives them; `2026-07` means "July 2026, 
 | E-017 | Gen 2 stores no ball, nature, ability or PID (PKHeX `GBPKM` placeholders); gender and shininess derive from DVs; DV16 = Atk<<12 \| Def<<8 \| Spe<<4 \| Spc | VERIFIED (PKHeX source) |
 | E-018 | PKHeX Batch Editor syntax: `.Prop=Value` sets, `=Prop=Value` / `!Prop=Value` filter | VERIFIED (PKHeX `StringInstruction.cs`) |
 | E-019 | Pre-Gen-6 base stats differ for canon species (Ampharos Def 75, Alakazam SpD 85, Roserade Def 55) | VERIFIED (PokeAPI `pokemon_stats_past`) |
+| E-020 | No companion in any of the six chapters has Flame Body or Magma Armor; fully evolved Gen 1–4 holders are Magcargo, Camerupt (Magma Armor) and Magmortar (Flame Body) | VERIFIED (PokeAPI abilities, era-correct) |
+| E-021 | SoulSilver Scizor's Counter: Heracross learns it at Lv 25 in HGSS (Route 33, Azalea); Volbeat only via Emerald's tutor + Pal Park | VERIFIED (PokeAPI learnsets) |
+| E-022 | Pikachu, HeartGold Pokédex: "roasts hard berries with electricity to make them tender enough to eat"; Magmar, HeartGold: "blows scorching flames to make the environment suitable for itself" | VERIFIED (PokeAPI flavor text) |
+| E-023 | Gen 2 berries are the modern berries under old names (Berry = Oran, Gold Berry = Sitrus, MiracleBerry = Lum …); Lava Cookie and Old Gateau don't exist in Gen 2 | VERIFIED (PokeAPI item_game_indices) |
 | E-016 | Legacy legality formula: ⚠️ if any move isn't in that slot's MoveList, or there are duplicate moves, an empty slot, or no ability. Each slot reads its own MoveLists column (no shared-column bug). Breeding_Lab outputs are typed values, not formulas (computed by a script not visible anywhere) | VERIFIED (Sheets formulas) |
