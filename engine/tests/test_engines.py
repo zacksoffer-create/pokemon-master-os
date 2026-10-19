@@ -235,5 +235,58 @@ class Ranch(unittest.TestCase):
         self.assertEqual(heat, [])
 
 
+class JourneyLabRanch(unittest.TestCase):
+    """Scouting reports (D-043), the studbook (D-044) and the Glasshouse (hatchery-greenhouse proposal)."""
+
+    @classmethod
+    def setUpClass(cls):
+        from battle.engine import BattleEngine
+        from battle.scouting import Scouting
+        from breeding.studbook import Studbook
+        cls.scout = Scouting(BattleEngine(DB))
+        cls.book = Studbook(DB)
+
+    def test_scouting_scale(self):
+        from battle.scouting import to_grade
+        self.assertEqual([to_grade(0), to_grade(1), to_grade(-1), to_grade(4), to_grade(0.26)], [50, 60, 40, 80, 55])
+
+    def test_scouting_report_grades_era_correctly(self):
+        snorlax = self.scout.report("Snorlax", "heartgold", {"moves": ["Body Slam", "Rest", "Thunder Punch", "Zen Headbutt"]})
+        self.assertEqual(snorlax["grades"]["present"]["spec_bulk"], 80)
+        self.assertEqual(snorlax["grades"]["present"]["speed"], 30)
+        self.assertIn("Salamence", self.scout.comps("Garchomp", 4))
+        # Gen 3 splits by type: Absol's Bite is special there, so a Bite + Rock Slide set is mixed
+        absol = self.scout.report("Absol", "emerald", {"moves": ["Bite", "Rock Slide"]})
+        self.assertTrue(absol["damage_profile"].startswith("mixed"))
+
+    def test_peak_set_skips_rejected_and_unreliable_moves(self):
+        peak = self.scout.peak_moveset("Typhlosion", "heartgold", rejected=["Focus Blast"])
+        self.assertNotIn("Focus Blast", peak)
+        self.assertNotIn("Blast Burn", peak)
+
+    def test_journey_breeding_web(self):
+        roles = {e["species"]: e for e in self.book.roles()}
+        self.assertTrue(all(e["roles"] for e in roles.values()))              # D-044: everyone is a parent or product
+        self.assertIn("dam (female-only line)", roles["Miltank"]["roles"])
+        self.assertTrue(roles["Magnezone"]["roles"][0].startswith("Ditto line"))
+        # Tyranitar's Dragon Dance can stay inside the journey: Dragonite teaches Lapras, Lapras passes it on
+        self.assertIn("Dragonite → Lapras", roles["Tyranitar"]["journey_chains"]["Dragon Dance"])
+        self.assertEqual(roles["Swampert"]["bred_moves"], {"Refresh": ["Milotic"]})
+
+    def test_hatchery_numbers(self):
+        from ranch.hatchery import Hatchery
+        from ranch.planner import RanchPlanner
+        h = Hatchery(RanchPlanner(DB))
+        egg = h.egg_card("Tyranitar")
+        self.assertEqual((egg["line"], egg["cycles"], egg["steps"], egg["steps_with_flame_body"]), ("Larvitar", 40, 10200, 5100))
+        lum = [c for c in h.crops() if c["berry"] == "Lum Berry"][0]
+        self.assertEqual((lum["hours_to_harvest"], lum["why"]), (48, "held by HeartGold Tyranitar"))
+
+    def test_plant_care_lore(self):
+        from wilderness.engine import WildernessEngine
+        ev = [e for e in WildernessEngine(DB).evidence("Meganium", "emerald") if e.capability == "plant_care"]
+        self.assertTrue(ev and "revive" in ev[0].detail)
+
+
 if __name__ == "__main__":
     unittest.main()

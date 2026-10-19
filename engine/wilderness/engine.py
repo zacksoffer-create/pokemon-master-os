@@ -22,7 +22,8 @@ CAPABILITIES = {
     "environment": {"light": "light in caves and at night", "heat_source": "fire and warmth",
                     "cold_tolerance": "working in snow and ice", "weather_handling": "fog, sand, hail"},
     "sustenance": {"foraging": "finding items, food or Pokémon", "food_source": "producing food",
-                   "cooking": "preparing food", "field_healing": "healing a teammate outside battle"},
+                   "cooking": "preparing food", "field_healing": "healing a teammate outside battle",
+                   "plant_care": "growing and tending plants"},
     "shelter": {"camp_making": "making a base or shelter", "egg_care": "keeping eggs warm"},
     "safety": {"scouting": "seeing far or through obstacles", "danger_sense": "sensing danger early",
                "deterrence": "keeping wild Pokémon away", "rescue": "saving people in trouble",
@@ -86,6 +87,7 @@ LORE_PATTERNS = {
     "cooking": r"\broast|\bcook|\bbak(?:e|es)\b",
     "field_healing": r"\bheal|\bcures?\b|\brestor",
     "night_travel": r"\bnight\b|\bin the dark|\bdarkness\b",
+    "plant_care": r"revive (?:dead )?(?:grass|plants|flowers)|(?:plants|flowers|trees) (?:grow|bloom)|scatters pollen",
 }
 # A sentence that matches one of these is not evidence for the capability ("steals heat", "turned warm").
 LORE_EXCLUDE = {

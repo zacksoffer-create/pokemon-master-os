@@ -17,7 +17,9 @@ Nothing in this file is canon. Questions are numbered so decisions can reference
 - ~~W-001 … W-015~~: **approved** (D-033). HeartGold is fully ready for the mountain storm, open sea, cave, emergency and night-travel situations.
 - Open: food and cooking at camp, team by team (D-034, low priority). The engine lists each game's real food systems (`wilderness/camp_life.json`).
 - ~~Ranch's five shape questions~~: **answered** (D-036 to D-040): one headquarters, fates open, keep only the final stud, Pokémon and people, private with an exclusive open Day-Care preserve.
-- **Ranch, still open:** (1) Is Blackthorn the headquarters? (2) Which one satellite, Sevii Islands or the Battle Zone? The census shows the headquarters lacks a volcano and the sea. (3) Confirm the D-038 reading (a stud of each target line, not the last father in the chain). (4) Day-Care details: who's invited and how it runs (later).
+- **Ranch, still open:** (1) ~~Is Blackthorn the headquarters?~~ **Yes (D-041).** (2) Which one satellite, Sevii Islands or the Battle Zone? (3) Confirm the D-038 reading (a stud of each target line). (4) The Glasshouse proposal: approve, change or reject. (5) Day-Care details (later).
+- **Breeding lab (D-044):** genders of the companions (they decide who fathers and who mothers); which outside fathers become part of the story (Nuzleaf for Extrasensory, Muk for Disable, Bellossom-line for Leaf Storm); Dragonite's ExtremeSpeed traces to the Dragon's Den Dratini, behind the new headquarters (believed; verify in PKHeX).
+- **Scouting (D-043):** Typhlosion's nature (Q4) now shows up as a "mixed attacker" flag in its report; Pikachu's Light Ball (E-026) belongs in the SoulSilver conversation.
 - Verify: Platinum villa price (believed 50,000,000); whether Shuckle's Berry Juice trick survives past Gen 2; where Platinum hands out the Old Gateau; Aprijuice details.
 
 ## Mechanical research queue

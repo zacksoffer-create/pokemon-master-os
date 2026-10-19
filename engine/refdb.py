@@ -22,6 +22,8 @@ TABLES = [
     "contest_types", "contest_type_names", "item_game_indices", "item_names",
     # wilderness / lore data
     "pokemon_species_flavor_text", "pokemon_habitats", "type_efficacy", "type_efficacy_past",
+    # ranch: greenhouse crops
+    "berries",
 ]
 
 # Version groups this project cares about (PokeAPI ids).

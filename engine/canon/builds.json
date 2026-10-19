@@ -1,0 +1,200 @@
+{
+  "_note": "Movesets per companion as the canon register (docs/CANON_CURRENT.md) records them, newest source, with its status label. A roster lock is not a moveset lock. Engines read this; a missing build means 'no source', and the engines fall back to the strongest learnable set and say so.",
+  "heartgold": {
+    "Typhlosion": {
+      "moves": [
+        "Flamethrower",
+        "Extrasensory",
+        "Thunder Punch",
+        "Earthquake"
+      ],
+      "status": "confirmed by user, July 2026",
+      "nature_note": "open (Q4)",
+      "rejected": [
+        "Focus Blast"
+      ]
+    },
+    "Tyranitar": {
+      "moves": [
+        "Dragon Dance",
+        "Crunch",
+        "Earthquake",
+        "Outrage"
+      ],
+      "status": "proposed, July 14",
+      "item": "Lum Berry"
+    },
+    "Mamoswine": {
+      "moves": [
+        "Earthquake",
+        "Ancient Power",
+        "Ice Fang",
+        "Ice Shard"
+      ],
+      "status": "proposed, July 14",
+      "nature": "Adamant",
+      "ability": "Snow Cloak",
+      "item": "NeverMeltIce"
+    },
+    "Crobat": {
+      "moves": [
+        "Fly",
+        "Roost",
+        "U-turn",
+        "Toxic"
+      ],
+      "status": "every source agrees",
+      "nature": "Jolly",
+      "ability": "Inner Focus",
+      "item": "Black Sludge"
+    },
+    "Lapras": {
+      "moves": [
+        "Surf",
+        "Ice Beam",
+        "Rest",
+        "Heal Bell"
+      ],
+      "status": "proposed, July 14",
+      "nature": "Calm",
+      "ability": "Water Absorb",
+      "item": "Leftovers"
+    },
+    "Snorlax": {
+      "moves": [
+        "Body Slam",
+        "Rest",
+        "Thunder Punch",
+        "Zen Headbutt"
+      ],
+      "status": "proposed, July 14",
+      "nature": "Careful",
+      "ability": "Thick Fat",
+      "item": "Leftovers"
+    }
+  },
+  "soulsilver": {
+    "Pikachu": {
+      "moves": [
+        "Volt Tackle",
+        "Quick Attack",
+        "Thunderbolt",
+        "Iron Tail"
+      ],
+      "status": "historical (former six)"
+    },
+    "Dragonite": {
+      "moves": [
+        "Fly",
+        "Roost",
+        "Extreme Speed",
+        "Dragon Claw"
+      ],
+      "status": "historical (former six)"
+    },
+    "Empoleon": {
+      "moves": [
+        "Surf",
+        "Flash Cannon",
+        "Aqua Jet",
+        "Aqua Ring"
+      ],
+      "status": "historical (former six)"
+    },
+    "Gengar": {
+      "moves": [
+        "Shadow Ball",
+        "Disable",
+        "Dark Pulse",
+        "Psychic"
+      ],
+      "status": "historical (former six)"
+    },
+    "Scizor": {
+      "moves": [
+        "Bullet Punch",
+        "U-turn",
+        "Counter",
+        "Roost"
+      ],
+      "status": "historical (former six)"
+    }
+  },
+  "platinum": {
+    "Infernape": {
+      "moves": [
+        "Close Combat",
+        "Flamethrower",
+        "Mach Punch",
+        "Thunder Punch"
+      ],
+      "status": "accepted working direction (D-015)"
+    },
+    "Garchomp": {
+      "moves": [
+        "Earthquake",
+        "Dragon Claw",
+        "Fire Fang",
+        "Poison Jab"
+      ],
+      "status": "accepted working direction (D-016); 4th slot evaluative",
+      "rejected": [
+        "Aqua Tail"
+      ]
+    },
+    "Weavile": {
+      "moves": [
+        "Ice Punch",
+        "Night Slash",
+        "Low Kick",
+        "Ice Shard"
+      ],
+      "status": "historical (sheet), not reaffirmed",
+      "nature": "Jolly"
+    },
+    "Roserade": {
+      "moves": [
+        "Leaf Storm",
+        "Sludge Bomb",
+        "Sleep Powder",
+        "Toxic Spikes"
+      ],
+      "status": "historical (sheet), not reaffirmed",
+      "nature": "Timid",
+      "item": "Focus Sash"
+    },
+    "Magnezone": {
+      "moves": [
+        "Thunderbolt",
+        "Hidden Power Fire",
+        "Flash Cannon",
+        "Substitute"
+      ],
+      "status": "historical (sheet), not reaffirmed",
+      "nature": "Modest"
+    }
+  },
+  "firered": {
+    "Blastoise": {
+      "moves": [
+        "Surf",
+        "Ice Beam",
+        "Rapid Spin",
+        "Toxic"
+      ],
+      "status": "historical (sheet)",
+      "nature": "Bold",
+      "ability": "Torrent",
+      "item": "Leftovers"
+    }
+  },
+  "emerald": {
+    "Swampert": {
+      "moves": [
+        "Refresh"
+      ],
+      "status": "established example (one move known)"
+    }
+  },
+  "crystal": {}
+}

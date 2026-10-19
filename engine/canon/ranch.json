@@ -6,7 +6,7 @@
     "decision": "D-036",
     "rule": "One headquarters. Satellites only where the headquarters can't give a resident its land.",
     "headquarters": "S-JOHTO",
-    "headquarters_status": "proposed (structure decided, location not yet approved)",
+    "headquarters_status": "approved (D-041)",
     "satellites": [],
     "satellites_status": "not chosen: the census shows one is needed (Sevii Islands or the Battle Zone)"
   },
@@ -34,7 +34,7 @@
     {
       "id": "S-JOHTO",
       "region": "Johto",
-      "status": "proposed",
+      "status": "approved (D-041)",
       "name": "Blackthorn highlands (headquarters)",
       "anchor": "Route 45 and Route 44, between Blackthorn City and Dark Cave",
       "offers": [
@@ -254,6 +254,101 @@
       "people": []
     }
   ],
+  "designs": {
+    "hatchery_greenhouse": {
+      "status": "proposed",
+      "name": "The Glasshouse",
+      "site": "S-JOHTO",
+      "idea": "One building where eggs and plants share everything. Blackthorn sits against the Ice Path, so both need heat, and the heat comes from Pokémon. A Magcargo hearth at the core keeps the eggs warm; the greenhouse rings wrap around it and live on the same heat. Ampharos lights both through the winter. Eggs hatch by being walked, so the walk that hatches them runs through the crop rows: the egg walk is the harvest walk.",
+      "loop_steps": 255,
+      "loop_note": "proposed: one lap of the hatching loop = one Gen 4 egg cycle (255 steps), so an egg's cycle count is its lap count",
+      "hires": [
+        "Magcargo"
+      ],
+      "rooms": [
+        {
+          "name": "Hearth hall",
+          "what": "the incubation core: egg racks in rings around a Magcargo hearth, sorted by line",
+          "needs": [
+            "egg_care",
+            "heat_source",
+            "calming_presence"
+          ],
+          "people": [
+            "head breeder"
+          ]
+        },
+        {
+          "name": "Glasshouse rings",
+          "what": "berry beds and Apricorn trees wrapped around the hearth, warmed by it and lit by Ampharos in the dark months",
+          "needs": [
+            "plant_care",
+            "light",
+            "heat_source",
+            "foraging"
+          ],
+          "people": [
+            "orchard keeper"
+          ]
+        },
+        {
+          "name": "Hatching loop",
+          "what": "the walking path that winds through the glasshouse rows; eggs are carried around it until they hatch",
+          "needs": [
+            "calming_presence",
+            "hauling"
+          ],
+          "people": [
+            "nursery hands"
+          ]
+        },
+        {
+          "name": "Nursery yard",
+          "what": "where hatchlings take their first steps and first meals: berries from the rings, Miltank's milk",
+          "needs": [
+            "field_healing",
+            "food_source",
+            "calming_presence",
+            "deterrence"
+          ],
+          "people": [
+            "nursery hands"
+          ]
+        },
+        {
+          "name": "Cold vault",
+          "what": "cut into the Ice Path rock: the seed vault and the berry store",
+          "needs": [
+            "cold_tolerance"
+          ],
+          "people": []
+        },
+        {
+          "name": "Studbook office",
+          "what": "pedigrees and the full PKHeX card of every egg that hatches",
+          "needs": [],
+          "people": [
+            "archivist"
+          ]
+        }
+      ],
+      "crops": {
+        "medicine": [
+          "cheri-berry",
+          "chesto-berry",
+          "pecha-berry",
+          "rawst-berry",
+          "aspear-berry",
+          "leppa-berry",
+          "oran-berry",
+          "persim-berry",
+          "lum-berry",
+          "sitrus-berry"
+        ],
+        "note": "Medicine berries for the clinic and the nursery, plus every berry a canon build holds (read from builds.json). Apricorns for Kurt's Poké Balls grow outside the glass."
+      }
+    }
+  },
   "breeding_program": [
     {
       "species": "Typhlosion",
@@ -339,8 +434,8 @@
     }
   ],
   "authoring_questions": [
-    "Is Blackthorn (Route 45 / Dark Cave / Ice Path / Dragon's Den) the headquarters, or somewhere else?",
-    "Which satellite, if any: the census shows the headquarters needs one, for a volcano and the sea.",
+    "Which satellite: Sevii Islands or the Battle Zone? The headquarters needs one, for a volcano and the sea.",
+    "The Glasshouse (designs.hatchery_greenhouse) is a proposal: approve, change or reject it.",
     "The Day-Care preserve: who gets invited, and what clients' Pokémon experience there (later; not urgent)."
   ]
 }

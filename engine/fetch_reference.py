@@ -24,6 +24,7 @@ CSV_TABLES = [
     "pokemon_stats_past", "natures", "nature_names", "characteristics", "characteristic_text",
     "contest_types", "contest_type_names", "item_game_indices", "item_names",
     "pokemon_species_flavor_text", "pokemon_habitats", "type_efficacy", "type_efficacy_past",
+    "berries",
 ]
 PRET = "https://raw.githubusercontent.com/pret/"
 PLATINUM_TRAINERS = ["elite_four_aaron", "elite_four_bertha", "elite_four_flint", "elite_four_lucian",

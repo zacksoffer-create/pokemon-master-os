@@ -131,13 +131,13 @@ class RanchPlanner:
                             "native_region": self.habitat.profile(sp, gen).native_region})
         return sorted(out, key=lambda x: (x["native_region"], x["species"]))[:limit]
 
-    def staffing(self, residents):
+    def staffing(self, residents, facilities=None):
         """Per facility: Pokémon the games (or authored canon) back for each job, Pokédex story candidates,
         the people roles, open jobs, and jobs that hang on a single species."""
         best = {r["id"]: self._best_evidence(r["species"], r["game"]) for r in residents}
         species = {r["id"]: r["species"] for r in residents}
         out = {}
-        for f in self.design["facilities"]:
+        for f in facilities or self.design["facilities"]:
             jobs, story = {}, {}
             for c in f["needs"]:
                 for rid, ev in best.items():
@@ -149,7 +149,8 @@ class RanchPlanner:
                     if entry not in target.setdefault(c, []):
                         target[c].append(entry)
             single = {c: v[0] for c, v in jobs.items() if len({x.split(" (")[0] for x in v}) == 1}
-            out[f["name"]] = {"access": f["access"], "people": f["people"], "pokemon": jobs, "story_candidates": story,
+            out[f["name"]] = {"access": f.get("access", "private"), "people": f["people"], "pokemon": jobs,
+                              "story_candidates": story,
                               "open_jobs": [c for c in f["needs"] if c not in jobs], "single_species": single}
         return out
 

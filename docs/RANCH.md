@@ -1,9 +1,9 @@
-# The Champion's Ranch (v2, 2026-10-19)
+# The Champion's Ranch (v3, 2026-10-19)
 
-**Decisions:** D-035 (the vision) and D-036 to D-040 (its shape). *"Think of it more like end game is a breeding ranch… for a Pokémon champion with unlimited money with unlimited land… and obviously with the power of Pokémon… that's kinda a big goal of this too."*
+**Decisions:** D-035 (the vision), D-036 to D-040 (its shape), D-041 (Blackthorn) and D-042 (the past-tense frame). *"Think of it more like end game is a breeding ranch… for a Pokémon champion with unlimited money with unlimited land… and obviously with the power of Pokémon… that's kinda a big goal of this too."*
 **Related:** camp life (D-034) lives inside it as the kitchen and orchard.
 
-This is the endgame of the whole saga: where companions can retire, where the canon's lineages end up, and where the breeding keeps going. As with the other pillars, **the engine says what the ranch has to hold, and you decide what it looks like.**
+Written in the past tense (D-042): the journey is over, every companion is retired, and the ranch is the centerpiece of the present. It's where the canon's lineages ended up and where the breeding goes on (the lab, D-044). As with the other pillars, **the engine says what the ranch has to hold, and you decide what it looks like.**
 
 ---
 
@@ -21,7 +21,7 @@ This is the endgame of the whole saga: where companions can retire, where the ca
 
 ## 2. What it looks like now
 
-**The headquarters (proposed: Blackthorn highlands, Johto).** One stretch of road between Blackthorn City and Dark Cave has a mountain road with a river (Route 45), a cave system, a lake (Route 44), real ice (Ice Path) and a sacred site (Dragon's Den). Three chapters are Johto chapters. With one HQ, **41 of the 45 possible residents live there.**
+**The headquarters: Blackthorn highlands, Johto (approved, D-041).** One stretch of road between Blackthorn City and Dark Cave has a mountain road with a river (Route 45), a cave system, a lake (Route 44), real ice (Ice Path) and a sacred site (Dragon's Den). Three chapters are Johto chapters. With one HQ, **41 of the 45 possible residents live there.**
 
 **One satellite, for the two things Johto doesn't have.** The HQ has no volcano and no sea. Lapras needs the sea, and both Infernape (plus the Infernape stud) need volcanic ground. **One satellite covers both, and either of two works:**
 - **Sevii Islands (Kanto):** Mt. Ember with the Ember Spa hot spring, the open sea, and Lapras's home region.
@@ -33,6 +33,44 @@ This is the endgame of the whole saga: where companions can retire, where the ca
 - **Clinic, kitchen and orchard, works, transport, security, climate.**
 
 **The Day-Care preserve is the one open part.** Think of the games' Day-Care, gazillionaire edition. It doesn't take walk-ins: it's exclusive, small and by invitation. Clients' Pokémon don't sit in a pen. They live in real habitat on a protected piece of the land, cared for by keepers and by the ranch's own Pokémon. That's the preserve side; the day-care side is that their trainers come back for them. In the census it's a separate facility with its own staffing, so it can be designed on its own.
+
+---
+
+## 2b. The Glasshouse: hatchery and greenhouse in one building (proposed)
+
+*Asked for in D-041: "build a hatchery from scratch… interweave a hatchery and a greenhouse." It stays a proposal until you approve it. The design lives in `canon/ranch.json` (designs.hatchery_greenhouse) and the engine is `ranch/hatchery.py`.*
+
+**The idea.** Blackthorn sits against the Ice Path, so eggs and plants both need heat, and at a Champion's ranch the heat comes from Pokémon. A **Magcargo hearth** sits at the core (its Pokédex: *"Its body temperature is roughly 18,000 degrees F"*, and rain on it *"instantly turn[s] into steam, cloaking the area in a thick fog"*, which also makes it a humidifier). The egg racks ring the hearth. The greenhouse rings wrap around the egg racks and live on the same heat. **Ampharos lights everything** through the dark months; its tail has been a beacon *"since ancient times."* In the games eggs hatch by being walked, so **the walk that hatches them runs through the crop rows: the egg walk is the harvest walk.**
+
+| Room | What it is | Staff the games back (or you approved) | Open |
+|---|---|---|---|
+| **Hearth hall** | incubation core: egg racks around the Magcargo hearth, sorted by line | egg care: **Magcargo** (Magma Armor, hired) · heat: Typhlosion (W-001) · calm: Snorlax (W-015) | — |
+| **Glasshouse rings** | berry beds and Apricorn trees around the hearth | light: **Ampharos** (Flash; ten other residents can learn it too) · heat: Typhlosion · harvest: Headbutt crew | **plant care**: story only. **Meganium** is the natural gardener (*"its breath has the power to revive dead grass and plants"*) |
+| **Hatching loop** | the path through the rows; eggs are carried around it until they hatch | calm: Snorlax · carrying: Strength crew | — |
+| **Nursery yard** | first steps and first meals | healing: Miltank (Milk Drink), Lapras (W-013) · watch: Arcanine (Intimidate), Tyranitar (W-003) | **food source**: story only. Miltank (SoulSilver Pokédex: *"If it is around babies, the milk it produces contains much more nutrition than usual"*) |
+| **Cold vault** | cut into the Ice Path rock: seed vault and berry store | cold: Mamoswine (W-004) | — |
+| **Studbook office** | pedigrees and full PKHeX cards for every hatch | people: archivist | — |
+
+**The hatching loop, in numbers.** Gen 4 counts hatch time in egg cycles of 255 steps, and Magcargo's Magma Armor makes each cycle pass twice as fast. Proposal: **one lap of the loop = one egg cycle**, so an egg's cycle count is its lap count.
+
+| Stud line | Egg cycles = laps | Steps | With Magcargo |
+|---|---|---|---|
+| Larvitar | 40 | 10,200 | 20 laps |
+| Scyther | 25 | 6,375 | 13 laps |
+| Cyndaquil, Gastly, Piplup, Mudkip, Chimchar, Sneasel, Budew | 20 | 5,100 | 10 laps |
+
+**The crop plan (Gen 4 berry data).** Medicine for the clinic and the nursery, plus every berry a canon build holds:
+
+| Berry | Why | Hours to harvest | Per plant | Watering |
+|---|---|---|---|---|
+| Cheri, Chesto, Pecha, Rawst, Aspear | status cures | 12 | up to 5 | heavy |
+| Leppa, Oran, Persim | PP, HP, confusion | 16 | up to 5 | heavy |
+| Sitrus | HP | 32 | up to 5 | light |
+| Lum | held by HeartGold Tyranitar | 48 | up to 5 | medium |
+
+Apricorns for Kurt's Poké Balls grow outside the glass. That matters to the studbook, because a ball is part of every PKHeX card.
+
+**Single points of failure in the building:** the Magcargo hire (egg care), Typhlosion (heat), Snorlax (calm) and Mamoswine (cold). Each is the only one holding its job.
 
 ---
 
@@ -101,10 +139,11 @@ Magnezone is the one resident that can't pass egg moves at all: it's genderless 
 
 ## 6. Still open
 
-1. **Is Blackthorn the headquarters?** It's proposed. Alternatives on file: Lake of Rage, or Mt. Silver and Route 28.
+1. ~~Is Blackthorn the headquarters?~~ **Yes (D-041).**
 2. **Which satellite: Sevii Islands or the Battle Zone?** Either one covers the volcano and the sea.
-3. **Confirm the D-038 reading.** I took "final breeding stock product" to mean a stud of the target line (Larvitar's line with Dragon Dance and Outrage). The other reading is "keep the last father in the chain" (the Feraligatr carrying Dragon Dance). The stud is the more useful one, since every future egg is then one step.
-4. **Day-Care details**, later: who gets invited, what the preserve looks like, how long clients' Pokémon stay.
+3. **Confirm the D-038 reading** (a stud of each target line, not the last father in the chain).
+4. **The Glasshouse:** approve, change or reject (§2b). Approving Meganium as gardener and Miltank as the nursery's milk would close its two story-only jobs.
+5. **Day-Care details**, later: who gets invited, what the preserve looks like, how long clients' Pokémon stay.
 
 ---
 
