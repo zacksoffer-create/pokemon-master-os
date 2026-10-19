@@ -1,130 +1,136 @@
-# The Champion's Ranch (v1, 2026-10-19)
+# The Champion's Ranch (v2, 2026-10-19)
 
-**Decision:** D-035. *"Think of it more like end game is a breeding ranch… for a Pokémon champion with unlimited money with unlimited land in as many places, regions 1–4, and obviously with the power of Pokémon… that's kinda a big goal of this too."*
+**Decisions:** D-035 (the vision) and D-036 to D-040 (its shape). *"Think of it more like end game is a breeding ranch… for a Pokémon champion with unlimited money with unlimited land… and obviously with the power of Pokémon… that's kinda a big goal of this too."*
 **Related:** camp life (D-034) lives inside it as the kitchen and orchard.
 
-This is the endgame of the whole saga. Every chapter's companions retire somewhere, and every lineage the canon used (Extrasensory Cyndaquil, Dragon Dance Larvitar, Refresh Mudkip) had real fathers behind it. The ranch is where all of them live, and where the breeding keeps going.
-
-Like the other pillars, it's built engine-first: **the engine says what the ranch has to hold; you decide what it looks like.** Sites, scale and story are authored. Nothing below is canon until you approve it.
+This is the endgame of the whole saga: where companions can retire, where the canon's lineages end up, and where the breeding keeps going. As with the other pillars, **the engine says what the ranch has to hold, and you decide what it looks like.**
 
 ---
 
-## 1. What it could look like
+## 1. The shape (decided)
 
-Unlimited money and land, four regions, and Pokémon doing the work. Each part below is tied to something real: a game mechanic, a Pokédex line, or one of your approved world records.
-
-**Four estates, one ranch.** Each region gets a site picked for its terrain, not its scenery. They're linked the way a Champion would travel: Charizard, Dragonite, Altaria and Crobat fly people between them (Fly, plus your record W-008), and Lapras carries the heavy and the precious across the sea (W-010). Alakazam's Teleport is the emergency exit back to base.
-
-**The nursery is the heart of it.** Pens are laid out by egg group, because that's who can breed with whom. The census says the Field pen is the biggest by far (17 of 43 residents), then Monster (11) and Water 1 (10). The hatchery runs on Flame Body or Magma Armor, which in the games makes eggs hatch in half the time. **None of your 36 companions has either ability**, so the hatchery is the one job that needs outside staff (§4).
-
-**The land builds itself.** 31 residents can use Strength, 21 can dig and 36 can clear land with Cut or Rock Smash. Tyranitar does the excavation (W-002), Mamoswine hauls (W-005), and the works crew is never short of hands.
-
-**Climate is a Pokémon job.** The Ice residents (Lapras, Mamoswine, Weavile and Dewgong from the stock) hold the snowfields and the cold cellars. The hatchery and hot springs sit on volcanic ground with the Fire residents. Magmar's own HeartGold Pokédex entry is basically a climate-control job description: *"It dislikes cold places, so it blows scorching flames to make the environment suitable for itself."*
-
-**The orchard and kitchen (camp life, grown up).** Every berry Gen 4 has (64 of them, from the data), an Apricorn grove for Kurt's seven Poké Balls, a dairy around Miltank (Milk Drink is a real field heal) and honey trees. The best kitchen hire is already on the roster: Pikachu's HeartGold Pokédex says *"This intelligent Pokémon roasts hard berries with electricity to make them tender enough to eat."*
-
-**The clinic and the watch.** Miltank and Lapras heal (Milk Drink, plus W-013) and Snorlax is the calm presence in the room (W-015). Arcanine's Intimidate and Tyranitar (W-003) keep wild Pokémon away, and Crobat scouts and senses danger (W-007, W-009).
-
-**The archive.** Every individual's full PKHeX card (the Specimen engine) and every lineage tree, kept as a studbook. The project already does this; at the ranch it becomes a building.
-
----
-
-## 2. How the engine thinks about it
-
-```
-canon/rosters.json ─┐                       ┌─ habitat profile per resident (ranch/habitat.py)
-canon/ranch.json ───┼─► RanchPlanner.census ─┼─ home site per resident
-canon/world.json ───┘   (ranch/planner.py)   ├─ staffing per facility (wilderness evidence, cartridge/authored only)
-                                             ├─ staff proposals for gaps (game-backed abilities)
-                                             └─ breeding program (lineage planner, fathers become residents)
-```
-
-- **Habitat profile** (`ranch/habitat.py`). Each species gets:
-  - **zones**, primary first. They come from the Gen 3 Pokédex habitat; Gen 4 species inherit their line's (Mamoswine comes via Piloswine). Then type, then Pokédex lore. The 12 zones are meadow, forest, highlands, caverns, volcanic, snowfield, wetland, lakes & rivers, coast & sea, skies, sanctuary and homestead.
-  - **climate** (warm or cold) and **water** (fresh or sea).
-  - **size class**, from height and weight.
-  - **native region**, from the species' generation.
-- **Home site.** A resident lives at its native region's site if that site offers its primary zone. If not, it goes to any site that does.
-- **Staffing.** Each facility needs certain capabilities. Only game-backed (cartridge) or authored evidence counts as staff. Lore is listed separately as story candidates, and type-based guesses don't count at all.
-- **Breeding program.** For each lineage the canon calls for, the lineage planner finds the shortest chain of fathers. A father who isn't already a companion joins the ranch as breeding stock.
-- The output goes to `data_manifest/ranch_census.json`. Rebuild it with `python3 -I ranch/report.py`.
-
-**Planner fix made while building this:** fathers who learn the move in the game's own generation now rank ahead of fathers who need a cross-generation transfer. Scizor's Counter father in SoulSilver was Volbeat, who only learns it from Emerald's tutor. Now it's **Heracross, who learns it at Lv 25 in HGSS** and lives on Route 33.
-
----
-
-## 3. The census (all 36 companions + 7 breeding stock = 43 residents)
-
-### Proposed sites and who lives there
-
-| Site (proposed) | Why this land | Residents |
+| | Decision | What it means for the engine |
 |---|---|---|
-| **Johto: Blackthorn highlands (HQ)**: Route 45/44, Dark Cave, Ice Path, Dragon's Den | home of three chapters; mountains, caves, river, ice and a shrine on one stretch of road | **17**: the Crystal six, Typhlosion, Tyranitar, Crobat, Scizor, Meganium, Dragonite, Blastoise, Empoleon + Heracross, Azumarill, Bellossom |
-| **Kanto: Sevii Islands estate**: Mt. Ember + Ember Spa, Berry Forest, Icefall Cave, Four Island Day-Care | almost every terrain, a volcano with a hot spring, a berry forest and its own Day-Care | **13**: Charizard, Venusaur, Alakazam, Jolteon, Machamp, Arcanine, Pikachu, Gengar, Lapras, Snorlax + Kingdra, Muk, Dewgong |
-| **Hoenn: Route 117 gardens + Lavaridge springs** | Hoenn's Day-Care among flower beds; geothermal ground | **5**: Swampert, Milotic, Altaria, Absol + Nuzleaf |
-| **Sinnoh: Resort Area villa + Battle Zone** | the game's own house for a rich trainer (bought in Platinum; the 50,000,000 price is believed, not checked); Stark Mountain volcano | **8**: the Platinum six, SoulSilver's Infernape, Mamoswine |
+| D-036 | **One headquarters** | Everyone lives at HQ unless HQ lacks their land; satellites exist only to fill that gap |
+| D-037 | **Companions' fates stay open**: ranch, family, the wild or the rival | Every companion counts as a *possible* resident, and nobody is assigned. The census flags jobs that depend on one companion choosing the ranch |
+| D-038 | **Build the lineage, keep only the final product** | Fathers used along the way aren't kept. The ranch keeps one **stud** per line: a male of the target line who knows the whole egg-move set *(my reading; see §6)* |
+| D-039 | **Staff are Pokémon and people** | Each facility lists Pokémon jobs (backed by the games or your approved world records) and people roles (placeholders to author) |
+| D-040 | **Private ranch, open Day-Care** | Only the Day-Care preserve is open: exclusive, small, run like a wildlife preserve with a day-care side. The rest is private |
 
-**Four residents don't fit their home region's proposed site.** Blastoise and Dragonite (Kanto) and Empoleon (Sinnoh) need fresh water, which the Sevii and Battle Zone proposals don't have, so they move to Johto. Kingdra (Johto) needs the sea, so it moves to Sevii. Either that's fine, or the Kanto and Sinnoh sites want a lake (Lake Acuity is already listed as a Sinnoh alternative).
+---
 
-### What the land has to provide
+## 2. What it looks like now
+
+**The headquarters (proposed: Blackthorn highlands, Johto).** One stretch of road between Blackthorn City and Dark Cave has a mountain road with a river (Route 45), a cave system, a lake (Route 44), real ice (Ice Path) and a sacred site (Dragon's Den). Three chapters are Johto chapters. With one HQ, **41 of the 45 possible residents live there.**
+
+**One satellite, for the two things Johto doesn't have.** The HQ has no volcano and no sea. Lapras needs the sea, and both Infernape (plus the Infernape stud) need volcanic ground. **One satellite covers both, and either of two works:**
+- **Sevii Islands (Kanto):** Mt. Ember with the Ember Spa hot spring, the open sea, and Lapras's home region.
+- **Battle Zone (Sinnoh):** Stark Mountain and the sea, Infernape's home region, and Platinum's villa for a rich trainer.
+
+**The private ranch** is most of it:
+- **Nursery and hatchery.** Pens by egg group; Field is the biggest at 15 species, then Monster 11 and Water 1 at 7.
+- **Studbook and archive.** Every individual's full PKHeX card and every lineage tree.
+- **Clinic, kitchen and orchard, works, transport, security, climate.**
+
+**The Day-Care preserve is the one open part.** Think of the games' Day-Care, gazillionaire edition. It doesn't take walk-ins: it's exclusive, small and by invitation. Clients' Pokémon don't sit in a pen. They live in real habitat on a protected piece of the land, cared for by keepers and by the ranch's own Pokémon. That's the preserve side; the day-care side is that their trainers come back for them. In the census it's a separate facility with its own staffing, so it can be designed on its own.
+
+---
+
+## 3. The breeding program under D-038
+
+Each lineage is built once. The ranch keeps the **final product**: a male of that line who already knows the full egg-move set. He can sire every future egg of that line in **one step**, with no chain to rebuild. The fathers used to build him go home (or wherever the story sends them).
+
+| Target | Egg moves | Built with (not kept) | Kept |
+|---|---|---|---|
+| HeartGold Typhlosion | Extrasensory | Nuzleaf | **Typhlosion-line stud** ♂ |
+| HeartGold Tyranitar | Dragon Dance + Outrage | Kingdra → Feraligatr | **Tyranitar-line stud** ♂ (both moves) |
+| SoulSilver Gengar | Disable | Muk | **Gengar-line stud** ♂ |
+| SoulSilver Scizor | Counter | Heracross | **Scizor-line stud** ♂ |
+| SoulSilver Empoleon | Aqua Ring | Azumarill | **Empoleon-line stud** ♂ |
+| SoulSilver Pikachu | Volt Tackle | none | **a Light Ball** (the move comes from the held item, not a father) |
+| Emerald Swampert | Refresh | Milotic | **Swampert-line stud** ♂ |
+| Platinum Infernape | Thunder Punch | Ampharos | **Infernape-line stud** ♂ |
+| Platinum Weavile | Ice Shard | Dewgong | **Weavile-line stud** ♂ |
+| Platinum Roserade | Leaf Storm + Sleep Powder | Bellossom (Sleep Powder learned as Gloom, Lv 17) | **Roserade-line stud** ♂ (both moves) |
+
+That's **9 studs and one Light Ball.** Two story notes:
+- **A male companion could *be* the stud.** If your HeartGold Tyranitar is male and knows Dragon Dance and Outrage, he's already the final product. That depends on D-037 (does he retire here?) and on his gender, which isn't decided.
+- **A stud breeds beyond his own line.** He can pass his moves to any line in his egg group that has them as egg moves. For example, the Tyranitar stud shares the Monster group with ten other resident species.
+
+Magnezone is the one resident that can't pass egg moves at all: it's genderless and breeds only with Ditto.
+
+---
+
+## 4. The census (36 companions + 9 studs = 45 possible residents)
 
 | | |
 |---|---|
-| Primary zones | meadow 10 · highlands 8 · lakes & rivers 7 · forest 5 · homestead 5 · caverns 3 · coast & sea 3 · volcanic 2 |
-| Size | small 8 · medium 25 · **large 8** (Feraligatr, Arcanine, Lapras, Mamoswine, Tyranitar, Magnezone, Dragonite, Kingdra) · **huge 2** (Snorlax, Milotic) |
-| Water | sea: Lapras, Dewgong, Kingdra · fresh: Feraligatr, Milotic, Swampert, Blastoise, Empoleon, Azumarill |
-| Climate | warm: Arcanine, Charizard, Typhlosion, both Infernape · cold: Lapras, Mamoswine, Weavile, Dewgong |
-| Nursery pens (egg group) | **Field 17** · Monster 11 · Water 1 10 · Dragon 6 · Grass 5 · Human-Like 4 · Fairy 3 · Flying 2 · Amorphous 2 · Bug 2 · Mineral 1 |
-| Can't pass egg moves | Magnezone (genderless: it breeds only with Ditto) |
+| Where they live | **HQ 41** · satellite 4 (Lapras; Infernape ×2 + stud) |
+| Primary land | meadow 12 · highlands 9 · lakes & rivers 8 · forest 4 · caverns 4 · homestead 4 · volcanic 3 · coast & sea 1 |
+| Size | small 6 · medium 29 · **large 8** · **huge 2** (Snorlax, Milotic) |
+| Water | sea: Lapras · fresh: Feraligatr, Milotic, Swampert, Blastoise, Empoleon, plus the Empoleon and Swampert studs |
+| Climate | warm: Arcanine, Charizard, Typhlosion, both Infernape, and the two Fire studs · cold: Lapras, Mamoswine, Weavile, plus the Weavile stud |
+| Nursery pens | **Field 15** · Monster 11 · Water 1 7 · Dragon 5 · Human-Like 4 · Grass 3 · Flying 2 · Fairy 2 · Mineral, Amorphous, Bug 1 each |
 
-### Breeding program (lineages the canon already uses)
+## 5. Facilities and staff
 
-| Target | Egg moves | Fathers, oldest first | Already a companion? |
-|---|---|---|---|
-| HeartGold Typhlosion | Extrasensory | Nuzleaf (Lv 49; Johto Safari Zone) | no |
-| HeartGold Tyranitar | Dragon Dance + Outrage | Kingdra (DD) → **Feraligatr** (Outrage tutor) | **Feraligatr** |
-| SoulSilver Gengar | Disable | Muk (Lv 12) | no |
-| SoulSilver Scizor | Counter | Heracross (Lv 25) | no |
-| SoulSilver Empoleon | Aqua Ring | Azumarill (Lv 27) | no |
-| SoulSilver Pikachu | Volt Tackle | none: a parent holds a Light Ball | — |
-| Emerald Swampert | Refresh | **Milotic** (Lv 15) | **Milotic** |
-| Platinum Infernape | Thunder Punch | **Ampharos** (tutor) | **Ampharos** |
-| Platinum Weavile | Ice Shard | Dewgong (Lv 17) | no |
-| Platinum Roserade | Leaf Storm + Sleep Powder | Bellossom (Leaf Storm Lv 53; Sleep Powder must be learned as Gloom at Lv 17, before the Sun Stone) | no |
+| Facility | Access | People (to author) | Pokémon, backed by the games or your world records | Open job |
+|---|---|---|---|---|
+| Nursery & hatchery | private | head breeder | calm: Snorlax (W-015) | **egg care**: no companion has Flame Body or Magma Armor. Hire **Magcargo** (Johto native, Magma Armor) for the HQ |
+| Studbook & archive | private | archivist | — | — |
+| **Day-Care preserve** | **open, exclusive** | Day-Care keepers | calm: Snorlax · deterrence: Arcanine (Intimidate), Tyranitar (W-003) · healing: Miltank (Milk Drink), Lapras (W-013) · foraging: 20 | — |
+| Clinic | private | Pokémon nurse | Miltank, Lapras, Snorlax | — |
+| Kitchen & orchard | private | cook, orchard keeper | foraging 20 · heat: Typhlosion (W-001) | food source, cooking: authored per D-034. Pokédex candidates: Miltank's milk; Pikachu, who *"roasts hard berries with electricity"* |
+| Works | private | ranch hands | Strength 26 · Dig 16 · Cut/Rock Smash 30 | — |
+| Transport | private | — | air: Charizard, Altaria, Dragonite (Fly) and Crobat (W-008) · Surf 12 · Dig/Teleport 17 | — |
+| Security & watch | private | wardens | Arcanine, Tyranitar · scouting and danger sense: Crobat (W-007, W-009) | — |
+| Climate | private | — | heat: Typhlosion · cold: Mamoswine (W-004) · weather: Garchomp (Sand Veil), Mamoswine (Snow Cloak) | — |
 
-Three companions are also fathers of other chapters' Pokémon: Feraligatr, Milotic and Ampharos. At the ranch that stops being a coincidence and becomes family history.
+**Jobs that hang on one companion.** Because fates are open, these jobs need that companion to choose the ranch, or you author a replacement or hire one:
 
----
+| Companion | Covers |
+|---|---|
+| **Snorlax** | the calm presence in the nursery, the Day-Care and the clinic |
+| **Crobat** | all the scouting and danger sense |
+| **Typhlosion** | the only authored heat source, for the kitchen and climate (the other Fire residents would count once you author them) |
+| **Mamoswine** | the only authored cold handler |
 
-## 4. Gaps and staff proposals
-
-| Facility | Covered by game or authored canon | Gap | Proposal |
-|---|---|---|---|
-| Nursery & hatchery | calm: Snorlax (W-015) | **egg care**: no companion has Flame Body or Magma Armor | **Magcargo** (Johto, Magma Armor) for the HQ · **Camerupt** (Hoenn, Magma Armor; lives in volcano craters) for Lavaridge · **Magmortar** (Sinnoh, Flame Body) for Stark Mountain |
-| Kitchen & orchard | foraging: 26 residents (Headbutt, Sweet Scent, overworld abilities) · heat: Typhlosion (W-001) | **food source, cooking**: no game mechanic exists for these | authored, per D-034. Pokédex candidates: Miltank (milk), Pikachu (roasts berries) |
-| Climate | Typhlosion heat (W-001), Mamoswine cold (W-004) + Snow Cloak, Garchomp Sand Veil | — | Charizard, Arcanine and both Infernape are Fire-types but only count as heat once authored |
-| Clinic | Miltank (Milk Drink), Lapras (W-013), Snorlax (W-015) | — | |
-| Works | Strength 31 · Dig 21 · Cut/Rock Smash 36 | — | |
-| Transport | air ×4 (Fly: Charizard, Altaria, Dragonite; Crobat W-008) · Surf ×15 · Dig/Teleport ×22 | — | |
-| Security & watch | Arcanine (Intimidate), Tyranitar (W-003), Muk (Stench), Crobat (W-007, W-009) | — | |
+*Staffing is counted ranch-wide for now. Lapras lives at the satellite, but it is also transport.*
 
 ---
 
-## 5. Questions only you can answer
+## 6. Still open
 
-1. **Sites:** one HQ plus satellites, or a full estate in every region? The four above are proposals, each with alternatives listed in `canon/ranch.json`.
-2. **Who retires there:** do all 36 companions end up at the ranch, or do some stay with family, go back to the wild, or go with the rival?
-3. **Breeding stock:** named residents with stories (Nuzleaf as the father of your Typhlosion line), or working animals who come and go?
-4. **Who runs it:** Pokémon staff, people, or both? The hatchery needs at least one Flame Body or Magma Armor resident either way.
-5. **Open or private:** does the ranch take visitors, train new trainers, or run a public Day-Care?
+1. **Is Blackthorn the headquarters?** It's proposed. Alternatives on file: Lake of Rage, or Mt. Silver and Route 28.
+2. **Which satellite: Sevii Islands or the Battle Zone?** Either one covers the volcano and the sea.
+3. **Confirm the D-038 reading.** I took "final breeding stock product" to mean a stud of the target line (Larvitar's line with Dragon Dance and Outrage). The other reading is "keep the last father in the chain" (the Feraligatr carrying Dragon Dance). The stud is the more useful one, since every future egg is then one step.
+4. **Day-Care details**, later: who gets invited, what the preserve looks like, how long clients' Pokémon stay.
 
-## 6. Camp life (D-034, small, inside the kitchen)
+---
 
-`wilderness/camp_life.py` plus the editable `camp_life.json`. For each game it lists what food systems actually exist, and every item is checked against PokeAPI. That check already caught two of my mistakes: Lava Cookie and Old Gateau aren't Gen 2 items.
+## 7. How the engine thinks about it
 
-- **Crystal and HGSS:** berry trees, Apricorns and Kurt, MooMoo Milk and the Rage Candy Bar. HGSS adds Honey and Aprijuice. Crystal's berries keep their own names (Berry, Gold Berry, MiracleBerry…).
+```
+canon/rosters.json ─┐                       ┌─ habitat profile per resident (ranch/habitat.py)
+canon/ranch.json ───┼─► RanchPlanner.census ─┼─ home site: HQ first, satellite only for missing land
+canon/world.json ───┘   (ranch/planner.py)   ├─ fewest satellites that cover what HQ lacks
+                                             ├─ facilities from ranch.json: access, people, Pokémon jobs,
+                                             │  open jobs, jobs that hang on one species, hire proposals
+                                             └─ breeding program: fathers used → the stud that's kept
+```
+
+- **Habitat profile.** Zones (primary first) come from the Gen 3 Pokédex habitat; Gen 4 species inherit their line's, so Mamoswine comes via Piloswine. After that come type, then Pokédex lore. Each profile also has climate, water, size class and native region.
+- **Staffing.** Only game-backed or authored evidence makes someone staff. Lore is listed as story candidates, and type alone counts for nothing.
+- **Facilities live in `canon/ranch.json`.** Their access, needs and people roles are editable there, not in code.
+- Rebuild the census with `python3 -I ranch/report.py`. It writes `data_manifest/ranch_census.json`.
+
+## 8. Camp life (D-034, small, inside the kitchen)
+
+`wilderness/camp_life.py` plus the editable `camp_life.json`. For each game it lists the food systems that really exist, and every item is checked against PokeAPI. That check caught two of my mistakes: Lava Cookie and Old Gateau aren't Gen 2 items.
+
+- **Crystal and HGSS:** berry trees, Apricorns and Kurt, MooMoo Milk, the Rage Candy Bar. HGSS adds Honey and Aprijuice. Crystal's berries keep their own names (Berry, Gold Berry, MiracleBerry…).
 - **FireRed:** 43 berries, plus MooMoo Milk and drinks.
-- **Emerald:** soft-soil planting, Pokéblocks and the Lava Cookie.
-- **Platinum:** soft soil with mulch, Poffins (the closest thing to real cooking), Honey and the Old Gateau.
+- **Emerald:** soft-soil planting, Pokéblocks, the Lava Cookie.
+- **Platinum:** soft soil with mulch, Poffins (the closest thing to real cooking), Honey, the Old Gateau.
 
-For any team it lists who forages, who produces food, who cooks and who brings heat, each at its evidence tier. What a team actually eats is authored per team, because, in your words, it depends on the team.
+For any team it lists who forages, who produces food, who cooks and who brings heat, each at its evidence tier. What a team actually eats is authored per team.

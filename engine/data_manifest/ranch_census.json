@@ -1,10 +1,18 @@
 {
+ "shape": {
+  "shape": "One headquarters. Satellites only where the headquarters can't give a resident its land.",
+  "residents_policy": "Left open: any companion may retire to the ranch, stay with family, go back to the wild or go with the rival. Nobody is assigned; the census counts every companion as a possible resident.",
+  "stock_policy": "Build the lineage, keep only the final product: one male of each target line who knows the whole egg-move set (the stud). The fathers used along the way are not kept. A line whose move comes from a held item keeps the item instead.",
+  "staffing_policy": "Both Pokémon and people. Pokémon jobs come from game-backed or authored capabilities; people roles are placeholders to author.",
+  "access": "Private ranch with one open feature: the Day-Care, a 'gazillionaire edition' of the games' Day-Care. Super exclusive and small, run like a wildlife preserve with a day-care side. Everything else is private."
+ },
  "residents": [
   {
    "id": "crystal:Feraligatr",
    "species": "Feraligatr",
    "game": "crystal",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -12,6 +20,7 @@
    "species": "Miltank",
    "game": "crystal",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -19,6 +28,7 @@
    "species": "Donphan",
    "game": "crystal",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -26,6 +36,7 @@
    "species": "Ampharos",
    "game": "crystal",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -33,6 +44,7 @@
    "species": "Umbreon",
    "game": "crystal",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -40,6 +52,7 @@
    "species": "Espeon",
    "game": "crystal",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -47,6 +60,7 @@
    "species": "Charizard",
    "game": "firered",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -54,6 +68,7 @@
    "species": "Blastoise",
    "game": "firered",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -61,6 +76,7 @@
    "species": "Venusaur",
    "game": "firered",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -68,6 +84,7 @@
    "species": "Alakazam",
    "game": "firered",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -75,6 +92,7 @@
    "species": "Jolteon",
    "game": "firered",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -82,6 +100,7 @@
    "species": "Machamp",
    "game": "firered",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -89,6 +108,7 @@
    "species": "Swampert",
    "game": "emerald",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -96,6 +116,7 @@
    "species": "Milotic",
    "game": "emerald",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -103,6 +124,7 @@
    "species": "Altaria",
    "game": "emerald",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -110,6 +132,7 @@
    "species": "Arcanine",
    "game": "emerald",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -117,6 +140,7 @@
    "species": "Absol",
    "game": "emerald",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -124,6 +148,7 @@
    "species": "Meganium",
    "game": "emerald",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -131,6 +156,7 @@
    "species": "Infernape",
    "game": "platinum",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -138,6 +164,7 @@
    "species": "Weavile",
    "game": "platinum",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -145,6 +172,7 @@
    "species": "Roserade",
    "game": "platinum",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -152,6 +180,7 @@
    "species": "Lucario",
    "game": "platinum",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -159,6 +188,7 @@
    "species": "Garchomp",
    "game": "platinum",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -166,6 +196,7 @@
    "species": "Magnezone",
    "game": "platinum",
    "role": "companion",
+   "fate": "open",
    "status": "working"
   },
   {
@@ -173,6 +204,7 @@
    "species": "Pikachu",
    "game": "soulsilver",
    "role": "companion",
+   "fate": "open",
    "status": "provisional"
   },
   {
@@ -180,6 +212,7 @@
    "species": "Dragonite",
    "game": "soulsilver",
    "role": "companion",
+   "fate": "open",
    "status": "provisional"
   },
   {
@@ -187,6 +220,7 @@
    "species": "Infernape",
    "game": "soulsilver",
    "role": "companion",
+   "fate": "open",
    "status": "provisional"
   },
   {
@@ -194,6 +228,7 @@
    "species": "Empoleon",
    "game": "soulsilver",
    "role": "companion",
+   "fate": "open",
    "status": "provisional"
   },
   {
@@ -201,6 +236,7 @@
    "species": "Gengar",
    "game": "soulsilver",
    "role": "companion",
+   "fate": "open",
    "status": "provisional"
   },
   {
@@ -208,6 +244,7 @@
    "species": "Scizor",
    "game": "soulsilver",
    "role": "companion",
+   "fate": "open",
    "status": "provisional"
   },
   {
@@ -215,6 +252,7 @@
    "species": "Typhlosion",
    "game": "heartgold",
    "role": "companion",
+   "fate": "open",
    "status": "locked"
   },
   {
@@ -222,6 +260,7 @@
    "species": "Tyranitar",
    "game": "heartgold",
    "role": "companion",
+   "fate": "open",
    "status": "locked"
   },
   {
@@ -229,6 +268,7 @@
    "species": "Mamoswine",
    "game": "heartgold",
    "role": "companion",
+   "fate": "open",
    "status": "locked"
   },
   {
@@ -236,6 +276,7 @@
    "species": "Crobat",
    "game": "heartgold",
    "role": "companion",
+   "fate": "open",
    "status": "locked"
   },
   {
@@ -243,6 +284,7 @@
    "species": "Lapras",
    "game": "heartgold",
    "role": "companion",
+   "fate": "open",
    "status": "locked"
   },
   {
@@ -250,56 +292,80 @@
    "species": "Snorlax",
    "game": "heartgold",
    "role": "companion",
+   "fate": "open",
    "status": "locked"
   },
   {
-   "id": "stock:Nuzleaf",
-   "species": "Nuzleaf",
+   "id": "stud:Typhlosion",
+   "species": "Typhlosion",
    "game": "heartgold",
-   "role": "breeding stock",
-   "status": "father for heartgold:Typhlosion"
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Extrasensory"
   },
   {
-   "id": "stock:Kingdra",
-   "species": "Kingdra",
+   "id": "stud:Tyranitar",
+   "species": "Tyranitar",
    "game": "heartgold",
-   "role": "breeding stock",
-   "status": "father for heartgold:Tyranitar"
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Outrage, Dragon Dance"
   },
   {
-   "id": "stock:Muk",
-   "species": "Muk",
+   "id": "stud:Gengar",
+   "species": "Gengar",
    "game": "soulsilver",
-   "role": "breeding stock",
-   "status": "father for soulsilver:Gengar"
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Disable"
   },
   {
-   "id": "stock:Heracross",
-   "species": "Heracross",
+   "id": "stud:Scizor",
+   "species": "Scizor",
    "game": "soulsilver",
-   "role": "breeding stock",
-   "status": "father for soulsilver:Scizor"
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Counter"
   },
   {
-   "id": "stock:Azumarill",
-   "species": "Azumarill",
+   "id": "stud:Empoleon",
+   "species": "Empoleon",
    "game": "soulsilver",
-   "role": "breeding stock",
-   "status": "father for soulsilver:Empoleon"
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Aqua Ring"
   },
   {
-   "id": "stock:Dewgong",
-   "species": "Dewgong",
+   "id": "stud:Swampert",
+   "species": "Swampert",
+   "game": "emerald",
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Refresh"
+  },
+  {
+   "id": "stud:Infernape",
+   "species": "Infernape",
    "game": "platinum",
-   "role": "breeding stock",
-   "status": "father for platinum:Weavile"
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Thunder Punch"
   },
   {
-   "id": "stock:Bellossom",
-   "species": "Bellossom",
+   "id": "stud:Weavile",
+   "species": "Weavile",
    "game": "platinum",
-   "role": "breeding stock",
-   "status": "father for platinum:Roserade"
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Ice Shard"
+  },
+  {
+   "id": "stud:Roserade",
+   "species": "Roserade",
+   "game": "platinum",
+   "role": "stud",
+   "fate": "kept",
+   "status": "♂ knowing Leaf Storm, Sleep Powder"
   }
  ],
  "profiles": {
@@ -939,128 +1005,175 @@
     "Normal type"
    ]
   },
-  "stock:Nuzleaf": {
-   "species": "Nuzleaf",
-   "native_region": "Hoenn",
-   "zones": [
-    "forest",
-    "sanctuary"
-   ],
-   "climate": "any",
-   "water": "none",
-   "size": "small",
-   "height_m": 1.0,
-   "weight_kg": 28.0,
-   "evidence": [
-    "Pokédex habitat: forest",
-    "Dark type"
-   ]
-  },
-  "stock:Kingdra": {
-   "species": "Kingdra",
+  "stud:Typhlosion": {
+   "species": "Typhlosion",
    "native_region": "Johto",
    "zones": [
-    "coast_sea",
-    "highlands",
-    "caverns"
+    "meadow",
+    "volcanic",
+    "highlands"
    ],
-   "climate": "any",
-   "water": "sea",
-   "size": "large",
-   "height_m": 1.8,
-   "weight_kg": 152.0,
-   "evidence": [
-    "Pokédex habitat: sea",
-    "Dragon type",
-    "Pokédex lore mentions caverns"
-   ]
-  },
-  "stock:Muk": {
-   "species": "Muk",
-   "native_region": "Kanto",
-   "zones": [
-    "homestead",
-    "wetland",
-    "forest"
-   ],
-   "climate": "any",
+   "climate": "warm",
    "water": "none",
    "size": "medium",
-   "height_m": 1.2,
-   "weight_kg": 30.0,
+   "height_m": 1.7,
+   "weight_kg": 79.5,
    "evidence": [
-    "Pokédex habitat: urban",
-    "Poison type",
-    "Pokédex lore mentions forest"
+    "Pokédex habitat: grassland",
+    "Fire type",
+    "Pokédex lore mentions highlands"
    ]
   },
-  "stock:Heracross": {
-   "species": "Heracross",
+  "stud:Tyranitar": {
+   "species": "Tyranitar",
    "native_region": "Johto",
    "zones": [
-    "forest",
-    "meadow"
+    "highlands",
+    "sanctuary",
+    "lakes_rivers"
+   ],
+   "climate": "any",
+   "water": "none",
+   "size": "large",
+   "height_m": 2.0,
+   "weight_kg": 202.0,
+   "evidence": [
+    "Pokédex habitat: mountain",
+    "Dark type",
+    "Pokédex lore mentions lakes rivers"
+   ]
+  },
+  "stud:Gengar": {
+   "species": "Gengar",
+   "native_region": "Kanto",
+   "zones": [
+    "caverns",
+    "sanctuary",
+    "wetland",
+    "highlands"
    ],
    "climate": "any",
    "water": "none",
    "size": "medium",
    "height_m": 1.5,
-   "weight_kg": 54.0,
+   "weight_kg": 40.5,
    "evidence": [
-    "Pokédex habitat: forest",
-    "Fighting type"
+    "Pokédex habitat: cave",
+    "Ghost type",
+    "Poison type",
+    "Pokédex lore mentions highlands"
    ]
   },
-  "stock:Azumarill": {
-   "species": "Azumarill",
-   "native_region": "Johto",
-   "zones": [
-    "lakes_rivers"
-   ],
-   "climate": "any",
-   "water": "fresh",
-   "size": "small",
-   "height_m": 0.8,
-   "weight_kg": 28.5,
-   "evidence": [
-    "Pokédex habitat: waters-edge"
-   ]
-  },
-  "stock:Dewgong": {
-   "species": "Dewgong",
-   "native_region": "Kanto",
-   "zones": [
-    "coast_sea",
-    "snowfield"
-   ],
-   "climate": "cold",
-   "water": "sea",
-   "size": "medium",
-   "height_m": 1.7,
-   "weight_kg": 120.0,
-   "evidence": [
-    "Pokédex habitat: sea",
-    "Ice type"
-   ]
-  },
-  "stock:Bellossom": {
-   "species": "Bellossom",
+  "stud:Scizor": {
+   "species": "Scizor",
    "native_region": "Johto",
    "zones": [
     "meadow",
-    "forest"
+    "forest",
+    "highlands"
+   ],
+   "climate": "any",
+   "water": "none",
+   "size": "medium",
+   "height_m": 1.8,
+   "weight_kg": 118.0,
+   "evidence": [
+    "Pokédex habitat: grassland",
+    "Bug type",
+    "Steel type"
+   ]
+  },
+  "stud:Empoleon": {
+   "species": "Empoleon",
+   "native_region": "Sinnoh",
+   "zones": [
+    "lakes_rivers",
+    "highlands"
+   ],
+   "climate": "any",
+   "water": "fresh",
+   "size": "medium",
+   "height_m": 1.7,
+   "weight_kg": 84.5,
+   "evidence": [
+    "Water type",
+    "Steel type"
+   ]
+  },
+  "stud:Swampert": {
+   "species": "Swampert",
+   "native_region": "Hoenn",
+   "zones": [
+    "lakes_rivers",
+    "highlands"
+   ],
+   "climate": "any",
+   "water": "fresh",
+   "size": "medium",
+   "height_m": 1.5,
+   "weight_kg": 81.9,
+   "evidence": [
+    "Pokédex habitat: waters-edge",
+    "Ground type"
+   ]
+  },
+  "stud:Infernape": {
+   "species": "Infernape",
+   "native_region": "Sinnoh",
+   "zones": [
+    "volcanic",
+    "meadow"
+   ],
+   "climate": "warm",
+   "water": "none",
+   "size": "medium",
+   "height_m": 1.2,
+   "weight_kg": 55.0,
+   "evidence": [
+    "Fire type",
+    "Fighting type"
+   ]
+  },
+  "stud:Weavile": {
+   "species": "Weavile",
+   "native_region": "Sinnoh",
+   "zones": [
+    "forest",
+    "sanctuary",
+    "snowfield"
+   ],
+   "climate": "cold",
+   "water": "none",
+   "size": "medium",
+   "height_m": 1.1,
+   "weight_kg": 34.0,
+   "evidence": [
+    "Pokédex habitat: forest (via Sneasel)",
+    "Dark type",
+    "Ice type"
+   ]
+  },
+  "stud:Roserade": {
+   "species": "Roserade",
+   "native_region": "Sinnoh",
+   "zones": [
+    "meadow",
+    "forest",
+    "wetland"
    ],
    "climate": "any",
    "water": "none",
    "size": "small",
-   "height_m": 0.4,
-   "weight_kg": 5.8,
+   "height_m": 0.9,
+   "weight_kg": 14.5,
    "evidence": [
-    "Pokédex habitat: grassland",
-    "Grass type"
+    "Pokédex habitat: grassland (via Roselia)",
+    "Grass type",
+    "Poison type"
    ]
   }
  },
+ "headquarters": "S-JOHTO",
  "sites": {
   "S-JOHTO": [
    "crystal:Feraligatr",
@@ -1069,49 +1182,67 @@
    "crystal:Ampharos",
    "crystal:Umbreon",
    "crystal:Espeon",
-   "firered:Blastoise",
-   "emerald:Meganium",
-   "soulsilver:Dragonite",
-   "soulsilver:Empoleon",
-   "soulsilver:Scizor",
-   "heartgold:Typhlosion",
-   "heartgold:Tyranitar",
-   "heartgold:Crobat",
-   "stock:Heracross",
-   "stock:Azumarill",
-   "stock:Bellossom"
-  ],
-  "S-KANTO": [
    "firered:Charizard",
+   "firered:Blastoise",
    "firered:Venusaur",
    "firered:Alakazam",
    "firered:Jolteon",
    "firered:Machamp",
-   "emerald:Arcanine",
-   "soulsilver:Pikachu",
-   "soulsilver:Gengar",
-   "heartgold:Lapras",
-   "heartgold:Snorlax",
-   "stock:Kingdra",
-   "stock:Muk",
-   "stock:Dewgong"
-  ],
-  "S-HOENN": [
    "emerald:Swampert",
    "emerald:Milotic",
    "emerald:Altaria",
+   "emerald:Arcanine",
    "emerald:Absol",
-   "stock:Nuzleaf"
-  ],
-  "S-SINNOH": [
-   "platinum:Infernape",
+   "emerald:Meganium",
    "platinum:Weavile",
    "platinum:Roserade",
    "platinum:Lucario",
    "platinum:Garchomp",
    "platinum:Magnezone",
+   "soulsilver:Pikachu",
+   "soulsilver:Dragonite",
+   "soulsilver:Empoleon",
+   "soulsilver:Gengar",
+   "soulsilver:Scizor",
+   "heartgold:Typhlosion",
+   "heartgold:Tyranitar",
+   "heartgold:Mamoswine",
+   "heartgold:Crobat",
+   "heartgold:Snorlax",
+   "stud:Typhlosion",
+   "stud:Tyranitar",
+   "stud:Gengar",
+   "stud:Scizor",
+   "stud:Empoleon",
+   "stud:Swampert",
+   "stud:Weavile",
+   "stud:Roserade"
+  ],
+  "satellite (S-KANTO or S-SINNOH)": [
+   "platinum:Infernape",
    "soulsilver:Infernape",
-   "heartgold:Mamoswine"
+   "heartgold:Lapras",
+   "stud:Infernape"
+  ]
+ },
+ "satellite_options": {
+  "hq_lacks": {
+   "coast_sea": [
+    "heartgold:Lapras"
+   ],
+   "volcanic": [
+    "platinum:Infernape",
+    "soulsilver:Infernape",
+    "stud:Infernape"
+   ]
+  },
+  "minimum": [
+   [
+    "S-KANTO"
+   ],
+   [
+    "S-SINNOH"
+   ]
   ]
  },
  "zones_primary": {
@@ -1125,14 +1256,15 @@
    "platinum:Lucario",
    "platinum:Roserade",
    "soulsilver:Scizor",
-   "stock:Bellossom"
+   "stud:Roserade",
+   "stud:Scizor",
+   "stud:Typhlosion"
   ],
   "forest": [
    "emerald:Altaria",
    "platinum:Weavile",
    "soulsilver:Pikachu",
-   "stock:Heracross",
-   "stock:Nuzleaf"
+   "stud:Weavile"
   ],
   "highlands": [
    "crystal:Donphan",
@@ -1142,16 +1274,19 @@
    "heartgold:Snorlax",
    "heartgold:Tyranitar",
    "platinum:Garchomp",
-   "platinum:Magnezone"
+   "platinum:Magnezone",
+   "stud:Tyranitar"
   ],
   "caverns": [
    "heartgold:Crobat",
    "heartgold:Mamoswine",
-   "soulsilver:Gengar"
+   "soulsilver:Gengar",
+   "stud:Gengar"
   ],
   "volcanic": [
    "platinum:Infernape",
-   "soulsilver:Infernape"
+   "soulsilver:Infernape",
+   "stud:Infernape"
   ],
   "lakes_rivers": [
    "crystal:Feraligatr",
@@ -1160,19 +1295,17 @@
    "firered:Blastoise",
    "soulsilver:Dragonite",
    "soulsilver:Empoleon",
-   "stock:Azumarill"
+   "stud:Empoleon",
+   "stud:Swampert"
   ],
   "coast_sea": [
-   "heartgold:Lapras",
-   "stock:Dewgong",
-   "stock:Kingdra"
+   "heartgold:Lapras"
   ],
   "homestead": [
    "crystal:Espeon",
    "crystal:Umbreon",
    "firered:Alakazam",
-   "firered:Jolteon",
-   "stock:Muk"
+   "firered:Jolteon"
   ]
  },
  "native_regions": {
@@ -1189,8 +1322,7 @@
    "soulsilver:Dragonite",
    "soulsilver:Gengar",
    "soulsilver:Pikachu",
-   "stock:Dewgong",
-   "stock:Muk"
+   "stud:Gengar"
   ],
   "Johto": [
    "crystal:Ampharos",
@@ -1204,17 +1336,16 @@
    "heartgold:Typhlosion",
    "heartgold:Tyranitar",
    "soulsilver:Scizor",
-   "stock:Azumarill",
-   "stock:Bellossom",
-   "stock:Heracross",
-   "stock:Kingdra"
+   "stud:Scizor",
+   "stud:Typhlosion",
+   "stud:Tyranitar"
   ],
   "Hoenn": [
    "emerald:Absol",
    "emerald:Altaria",
    "emerald:Milotic",
    "emerald:Swampert",
-   "stock:Nuzleaf"
+   "stud:Swampert"
   ],
   "Sinnoh": [
    "heartgold:Mamoswine",
@@ -1225,7 +1356,11 @@
    "platinum:Roserade",
    "platinum:Weavile",
    "soulsilver:Empoleon",
-   "soulsilver:Infernape"
+   "soulsilver:Infernape",
+   "stud:Empoleon",
+   "stud:Infernape",
+   "stud:Roserade",
+   "stud:Weavile"
   ]
  },
  "sizes": {
@@ -1235,9 +1370,7 @@
    "firered:Jolteon",
    "platinum:Roserade",
    "soulsilver:Pikachu",
-   "stock:Azumarill",
-   "stock:Bellossom",
-   "stock:Nuzleaf"
+   "stud:Roserade"
   ],
   "medium": [
    "crystal:Ampharos",
@@ -1262,9 +1395,13 @@
    "soulsilver:Gengar",
    "soulsilver:Infernape",
    "soulsilver:Scizor",
-   "stock:Dewgong",
-   "stock:Heracross",
-   "stock:Muk"
+   "stud:Empoleon",
+   "stud:Gengar",
+   "stud:Infernape",
+   "stud:Scizor",
+   "stud:Swampert",
+   "stud:Typhlosion",
+   "stud:Weavile"
   ],
   "large": [
    "crystal:Feraligatr",
@@ -1274,7 +1411,7 @@
    "heartgold:Tyranitar",
    "platinum:Magnezone",
    "soulsilver:Dragonite",
-   "stock:Kingdra"
+   "stud:Tyranitar"
   ],
   "huge": [
    "emerald:Milotic",
@@ -1283,9 +1420,7 @@
  },
  "water": {
   "sea": [
-   "heartgold:Lapras",
-   "stock:Dewgong",
-   "stock:Kingdra"
+   "heartgold:Lapras"
   ],
   "fresh": [
    "crystal:Feraligatr",
@@ -1293,7 +1428,8 @@
    "emerald:Swampert",
    "firered:Blastoise",
    "soulsilver:Empoleon",
-   "stock:Azumarill"
+   "stud:Empoleon",
+   "stud:Swampert"
   ]
  },
  "climate": {
@@ -1302,327 +1438,421 @@
    "firered:Charizard",
    "heartgold:Typhlosion",
    "platinum:Infernape",
-   "soulsilver:Infernape"
+   "soulsilver:Infernape",
+   "stud:Infernape",
+   "stud:Typhlosion"
   ],
   "cold": [
    "heartgold:Lapras",
    "heartgold:Mamoswine",
    "platinum:Weavile",
-   "stock:Dewgong"
+   "stud:Weavile"
   ]
  },
- "staffing": {
+ "facilities": {
   "nursery & hatchery": {
-   "calming_presence": [
-    "Snorlax (authored: W-015 (D-033))"
-   ]
+   "access": "private",
+   "people": [
+    "head breeder"
+   ],
+   "pokemon": {
+    "calming_presence": [
+     "Snorlax (authored: W-015 (D-033))"
+    ]
+   },
+   "story_candidates": {
+    "calming_presence": [
+     "Venusaur (lore: Pokédex (emerald))",
+     "Machamp (lore: Pokédex (sapphire))",
+     "Milotic (lore: Pokédex (sapphire))",
+     "Meganium (lore: Pokédex (emerald))",
+     "Infernape (lore: Pokédex (diamond))",
+     "Dragonite (lore: Pokédex (ruby))",
+     "Lapras (lore: Pokédex (heartgold))"
+    ]
+   },
+   "open_jobs": [
+    "egg_care"
+   ],
+   "single_species": {
+    "calming_presence": "Snorlax (authored: W-015 (D-033))"
+   }
+  },
+  "studbook & archive": {
+   "access": "private",
+   "people": [
+    "archivist"
+   ],
+   "pokemon": {},
+   "story_candidates": {},
+   "open_jobs": [],
+   "single_species": {}
+  },
+  "day-care preserve": {
+   "access": "open (exclusive)",
+   "people": [
+    "Day-Care keepers"
+   ],
+   "pokemon": {
+    "calming_presence": [
+     "Snorlax (authored: W-015 (D-033))"
+    ],
+    "deterrence": [
+     "Arcanine (cartridge: Intimidate (overworld ability))",
+     "Tyranitar (authored: W-003 (D-033))"
+    ],
+    "field_healing": [
+     "Miltank (cartridge: Milk Drink (field move))",
+     "Lapras (authored: W-013 (D-033))"
+    ],
+    "foraging": [
+     "Feraligatr (cartridge: Headbutt (field move))",
+     "Miltank (cartridge: Headbutt (field move))",
+     "Donphan (cartridge: Headbutt (field move))",
+     "Ampharos (cartridge: Headbutt (field move))",
+     "Umbreon (cartridge: Headbutt (field move))",
+     "Espeon (cartridge: Headbutt (field move))",
+     "Venusaur (cartridge: Sweet Scent (field move))",
+     "Roserade (cartridge: Sweet Scent (field move))",
+     "Magnezone (cartridge: Magnet Pull (overworld ability))",
+     "Pikachu (cartridge: Headbutt (field move))",
+     "Dragonite (cartridge: Headbutt (field move))",
+     "Infernape (cartridge: Headbutt (field move))",
+     "Empoleon (cartridge: Headbutt (field move))",
+     "Gengar (cartridge: Headbutt (field move))",
+     "Scizor (cartridge: Headbutt (field move))",
+     "Typhlosion (cartridge: Headbutt (field move))",
+     "Tyranitar (cartridge: Headbutt (field move))",
+     "Mamoswine (cartridge: Headbutt (field move))",
+     "Lapras (cartridge: Headbutt (field move))",
+     "Snorlax (cartridge: Headbutt (field move))"
+    ]
+   },
+   "story_candidates": {
+    "calming_presence": [
+     "Venusaur (lore: Pokédex (emerald))",
+     "Machamp (lore: Pokédex (sapphire))",
+     "Milotic (lore: Pokédex (sapphire))",
+     "Meganium (lore: Pokédex (emerald))",
+     "Infernape (lore: Pokédex (diamond))",
+     "Dragonite (lore: Pokédex (ruby))",
+     "Lapras (lore: Pokédex (heartgold))"
+    ],
+    "field_healing": [
+     "Meganium (lore: Pokédex (silver))"
+    ]
+   },
+   "open_jobs": [],
+   "single_species": {
+    "calming_presence": "Snorlax (authored: W-015 (D-033))"
+   }
   },
   "clinic": {
-   "field_healing": [
-    "Miltank (cartridge: Milk Drink (field move))",
-    "Lapras (authored: W-013 (D-033))"
+   "access": "private",
+   "people": [
+    "Pokémon nurse"
    ],
-   "calming_presence": [
-    "Snorlax (authored: W-015 (D-033))"
-   ]
+   "pokemon": {
+    "field_healing": [
+     "Miltank (cartridge: Milk Drink (field move))",
+     "Lapras (authored: W-013 (D-033))"
+    ],
+    "calming_presence": [
+     "Snorlax (authored: W-015 (D-033))"
+    ]
+   },
+   "story_candidates": {
+    "field_healing": [
+     "Meganium (lore: Pokédex (silver))"
+    ],
+    "calming_presence": [
+     "Venusaur (lore: Pokédex (emerald))",
+     "Machamp (lore: Pokédex (sapphire))",
+     "Milotic (lore: Pokédex (sapphire))",
+     "Meganium (lore: Pokédex (emerald))",
+     "Infernape (lore: Pokédex (diamond))",
+     "Dragonite (lore: Pokédex (ruby))",
+     "Lapras (lore: Pokédex (heartgold))"
+    ]
+   },
+   "open_jobs": [],
+   "single_species": {
+    "calming_presence": "Snorlax (authored: W-015 (D-033))"
+   }
   },
   "kitchen & orchard": {
-   "foraging": [
-    "Feraligatr (cartridge: Headbutt (field move))",
-    "Miltank (cartridge: Headbutt (field move))",
-    "Donphan (cartridge: Headbutt (field move))",
-    "Ampharos (cartridge: Headbutt (field move))",
-    "Umbreon (cartridge: Headbutt (field move))",
-    "Espeon (cartridge: Headbutt (field move))",
-    "Venusaur (cartridge: Sweet Scent (field move))",
-    "Roserade (cartridge: Sweet Scent (field move))",
-    "Magnezone (cartridge: Magnet Pull (overworld ability))",
-    "Pikachu (cartridge: Headbutt (field move))",
-    "Dragonite (cartridge: Headbutt (field move))",
-    "Infernape (cartridge: Headbutt (field move))",
-    "Empoleon (cartridge: Headbutt (field move))",
-    "Gengar (cartridge: Headbutt (field move))",
-    "Scizor (cartridge: Headbutt (field move))",
-    "Typhlosion (cartridge: Headbutt (field move))",
-    "Tyranitar (cartridge: Headbutt (field move))",
-    "Mamoswine (cartridge: Headbutt (field move))",
-    "Lapras (cartridge: Headbutt (field move))",
-    "Snorlax (cartridge: Headbutt (field move))",
-    "Nuzleaf (cartridge: Headbutt (field move))",
-    "Kingdra (cartridge: Headbutt (field move))",
-    "Muk (cartridge: Sticky Hold (overworld ability))",
-    "Heracross (cartridge: Headbutt (field move))",
-    "Azumarill (cartridge: Headbutt (field move))",
-    "Bellossom (cartridge: Sweet Scent (field move))"
+   "access": "private",
+   "people": [
+    "cook",
+    "orchard keeper"
    ],
-   "heat_source": [
-    "Typhlosion (authored: W-001 (D-033))"
-   ]
+   "pokemon": {
+    "foraging": [
+     "Feraligatr (cartridge: Headbutt (field move))",
+     "Miltank (cartridge: Headbutt (field move))",
+     "Donphan (cartridge: Headbutt (field move))",
+     "Ampharos (cartridge: Headbutt (field move))",
+     "Umbreon (cartridge: Headbutt (field move))",
+     "Espeon (cartridge: Headbutt (field move))",
+     "Venusaur (cartridge: Sweet Scent (field move))",
+     "Roserade (cartridge: Sweet Scent (field move))",
+     "Magnezone (cartridge: Magnet Pull (overworld ability))",
+     "Pikachu (cartridge: Headbutt (field move))",
+     "Dragonite (cartridge: Headbutt (field move))",
+     "Infernape (cartridge: Headbutt (field move))",
+     "Empoleon (cartridge: Headbutt (field move))",
+     "Gengar (cartridge: Headbutt (field move))",
+     "Scizor (cartridge: Headbutt (field move))",
+     "Typhlosion (cartridge: Headbutt (field move))",
+     "Tyranitar (cartridge: Headbutt (field move))",
+     "Mamoswine (cartridge: Headbutt (field move))",
+     "Lapras (cartridge: Headbutt (field move))",
+     "Snorlax (cartridge: Headbutt (field move))"
+    ],
+    "heat_source": [
+     "Typhlosion (authored: W-001 (D-033))"
+    ]
+   },
+   "story_candidates": {
+    "food_source": [
+     "Miltank (lore: Pokédex (crystal))",
+     "Venusaur (lore: Pokédex (emerald))"
+    ],
+    "cooking": [
+     "Pikachu (lore: Pokédex (heartgold))"
+    ],
+    "heat_source": [
+     "Charizard (lore: Pokédex (leafgreen))",
+     "Altaria (lore: Pokédex (emerald))"
+    ]
+   },
+   "open_jobs": [
+    "food_source",
+    "cooking"
+   ],
+   "single_species": {
+    "heat_source": "Typhlosion (authored: W-001 (D-033))"
+   }
   },
   "works (building & upkeep)": {
-   "hauling": [
-    "Feraligatr (cartridge: Strength (field move))",
-    "Miltank (cartridge: Strength (field move))",
-    "Donphan (cartridge: Strength (field move))",
-    "Ampharos (cartridge: Strength (field move))",
-    "Charizard (cartridge: Strength (field move))",
-    "Blastoise (cartridge: Strength (field move))",
-    "Venusaur (cartridge: Strength (field move))",
-    "Machamp (cartridge: Strength (field move))",
-    "Swampert (cartridge: Strength (field move))",
-    "Arcanine (cartridge: Strength (field move))",
-    "Absol (cartridge: Strength (field move))",
-    "Meganium (cartridge: Strength (field move))",
-    "Infernape (cartridge: Strength (field move))",
-    "Weavile (cartridge: Strength (field move))",
-    "Lucario (cartridge: Strength (field move))",
-    "Garchomp (cartridge: Strength (field move))",
-    "Pikachu (cartridge: Strength (field move))",
-    "Dragonite (cartridge: Strength (field move))",
-    "Infernape (cartridge: Strength (field move))",
-    "Empoleon (cartridge: Strength (field move))",
-    "Gengar (cartridge: Strength (field move))",
-    "Scizor (cartridge: Strength (field move))",
-    "Typhlosion (cartridge: Strength (field move))",
-    "Tyranitar (cartridge: Strength (field move))",
-    "Mamoswine (authored: W-005 (D-033))",
-    "Lapras (cartridge: Strength (field move))",
-    "Snorlax (cartridge: Strength (field move))",
-    "Nuzleaf (cartridge: Strength (field move))",
-    "Muk (cartridge: Strength (field move))",
-    "Heracross (cartridge: Strength (field move))",
-    "Azumarill (cartridge: Strength (field move))"
+   "access": "private",
+   "people": [
+    "ranch hands"
    ],
-   "digging": [
-    "Feraligatr (cartridge: Dig (field move))",
-    "Charizard (cartridge: Dig (field move))",
-    "Blastoise (cartridge: Dig (field move))",
-    "Jolteon (cartridge: Dig (field move))",
-    "Machamp (cartridge: Dig (field move))",
-    "Swampert (cartridge: Dig (field move))",
-    "Arcanine (cartridge: Dig (field move))",
-    "Infernape (cartridge: Dig (field move))",
-    "Weavile (cartridge: Dig (field move))",
-    "Lucario (cartridge: Dig (field move))",
-    "Garchomp (cartridge: Dig (field move))",
-    "Pikachu (cartridge: Dig (field move))",
-    "Infernape (cartridge: Dig (field move))",
-    "Empoleon (cartridge: Dig (field move))",
-    "Typhlosion (cartridge: Dig (field move))",
-    "Tyranitar (authored: W-002 (D-033))",
-    "Mamoswine (cartridge: Dig (field move))",
-    "Nuzleaf (cartridge: Dig (field move))",
-    "Muk (cartridge: Dig (field move))",
-    "Heracross (cartridge: Dig (field move))",
-    "Azumarill (cartridge: Dig (field move))"
-   ],
-   "clearing": [
-    "Feraligatr (cartridge: Cut (field move))",
-    "Miltank (cartridge: Rock Smash (field move))",
-    "Donphan (cartridge: Rock Smash (field move))",
-    "Ampharos (cartridge: Rock Smash (field move))",
-    "Umbreon (cartridge: Cut (field move))",
-    "Espeon (cartridge: Cut (field move))",
-    "Charizard (cartridge: Cut (field move))",
-    "Blastoise (cartridge: Rock Smash (field move))",
-    "Venusaur (cartridge: Cut (field move))",
-    "Machamp (cartridge: Rock Smash (field move))",
-    "Swampert (cartridge: Rock Smash (field move))",
-    "Altaria (cartridge: Rock Smash (field move))",
-    "Arcanine (cartridge: Rock Smash (field move))",
-    "Absol (cartridge: Cut (field move))",
-    "Meganium (cartridge: Cut (field move))",
-    "Infernape (cartridge: Cut (field move))",
-    "Weavile (cartridge: Cut (field move))",
-    "Roserade (cartridge: Cut (field move))",
-    "Lucario (cartridge: Rock Smash (field move))",
-    "Garchomp (cartridge: Cut (field move))",
-    "Pikachu (cartridge: Rock Smash (field move))",
-    "Dragonite (cartridge: Cut (field move))",
-    "Infernape (cartridge: Cut (field move))",
-    "Empoleon (cartridge: Cut (field move))",
-    "Gengar (cartridge: Rock Smash (field move))",
-    "Scizor (cartridge: Cut (field move))",
-    "Typhlosion (cartridge: Cut (field move))",
-    "Tyranitar (cartridge: Cut (field move))",
-    "Mamoswine (cartridge: Rock Smash (field move))",
-    "Lapras (cartridge: Rock Smash (field move))",
-    "Snorlax (cartridge: Rock Smash (field move))",
-    "Nuzleaf (cartridge: Cut (field move))",
-    "Muk (cartridge: Rock Smash (field move))",
-    "Heracross (cartridge: Cut (field move))",
-    "Azumarill (cartridge: Rock Smash (field move))",
-    "Bellossom (cartridge: Cut (field move))"
-   ]
+   "pokemon": {
+    "hauling": [
+     "Feraligatr (cartridge: Strength (field move))",
+     "Miltank (cartridge: Strength (field move))",
+     "Donphan (cartridge: Strength (field move))",
+     "Ampharos (cartridge: Strength (field move))",
+     "Charizard (cartridge: Strength (field move))",
+     "Blastoise (cartridge: Strength (field move))",
+     "Venusaur (cartridge: Strength (field move))",
+     "Machamp (cartridge: Strength (field move))",
+     "Swampert (cartridge: Strength (field move))",
+     "Arcanine (cartridge: Strength (field move))",
+     "Absol (cartridge: Strength (field move))",
+     "Meganium (cartridge: Strength (field move))",
+     "Infernape (cartridge: Strength (field move))",
+     "Weavile (cartridge: Strength (field move))",
+     "Lucario (cartridge: Strength (field move))",
+     "Garchomp (cartridge: Strength (field move))",
+     "Pikachu (cartridge: Strength (field move))",
+     "Dragonite (cartridge: Strength (field move))",
+     "Empoleon (cartridge: Strength (field move))",
+     "Gengar (cartridge: Strength (field move))",
+     "Scizor (cartridge: Strength (field move))",
+     "Typhlosion (cartridge: Strength (field move))",
+     "Tyranitar (cartridge: Strength (field move))",
+     "Mamoswine (authored: W-005 (D-033))",
+     "Lapras (cartridge: Strength (field move))",
+     "Snorlax (cartridge: Strength (field move))"
+    ],
+    "digging": [
+     "Feraligatr (cartridge: Dig (field move))",
+     "Charizard (cartridge: Dig (field move))",
+     "Blastoise (cartridge: Dig (field move))",
+     "Jolteon (cartridge: Dig (field move))",
+     "Machamp (cartridge: Dig (field move))",
+     "Swampert (cartridge: Dig (field move))",
+     "Arcanine (cartridge: Dig (field move))",
+     "Infernape (cartridge: Dig (field move))",
+     "Weavile (cartridge: Dig (field move))",
+     "Lucario (cartridge: Dig (field move))",
+     "Garchomp (cartridge: Dig (field move))",
+     "Pikachu (cartridge: Dig (field move))",
+     "Empoleon (cartridge: Dig (field move))",
+     "Typhlosion (cartridge: Dig (field move))",
+     "Tyranitar (authored: W-002 (D-033))",
+     "Mamoswine (cartridge: Dig (field move))"
+    ],
+    "clearing": [
+     "Feraligatr (cartridge: Cut (field move))",
+     "Miltank (cartridge: Rock Smash (field move))",
+     "Donphan (cartridge: Rock Smash (field move))",
+     "Ampharos (cartridge: Rock Smash (field move))",
+     "Umbreon (cartridge: Cut (field move))",
+     "Espeon (cartridge: Cut (field move))",
+     "Charizard (cartridge: Cut (field move))",
+     "Blastoise (cartridge: Rock Smash (field move))",
+     "Venusaur (cartridge: Cut (field move))",
+     "Machamp (cartridge: Rock Smash (field move))",
+     "Swampert (cartridge: Rock Smash (field move))",
+     "Altaria (cartridge: Rock Smash (field move))",
+     "Arcanine (cartridge: Rock Smash (field move))",
+     "Absol (cartridge: Cut (field move))",
+     "Meganium (cartridge: Cut (field move))",
+     "Infernape (cartridge: Cut (field move))",
+     "Weavile (cartridge: Cut (field move))",
+     "Roserade (cartridge: Cut (field move))",
+     "Lucario (cartridge: Rock Smash (field move))",
+     "Garchomp (cartridge: Cut (field move))",
+     "Pikachu (cartridge: Rock Smash (field move))",
+     "Dragonite (cartridge: Cut (field move))",
+     "Empoleon (cartridge: Cut (field move))",
+     "Gengar (cartridge: Rock Smash (field move))",
+     "Scizor (cartridge: Cut (field move))",
+     "Typhlosion (cartridge: Cut (field move))",
+     "Tyranitar (cartridge: Cut (field move))",
+     "Mamoswine (cartridge: Rock Smash (field move))",
+     "Lapras (cartridge: Rock Smash (field move))",
+     "Snorlax (cartridge: Rock Smash (field move))"
+    ]
+   },
+   "story_candidates": {
+    "digging": [
+     "Snorlax (lore: Pokédex (soulsilver))"
+    ]
+   },
+   "open_jobs": [],
+   "single_species": {}
   },
   "transport": {
-   "water_travel": [
-    "Feraligatr (cartridge: Surf (field move))",
-    "Miltank (cartridge: Surf (field move))",
-    "Blastoise (cartridge: Surf (field move))",
-    "Swampert (cartridge: Surf (field move))",
-    "Milotic (cartridge: Surf (field move))",
-    "Weavile (cartridge: Surf (field move))",
-    "Garchomp (cartridge: Surf (field move))",
-    "Dragonite (cartridge: Surf (field move))",
-    "Empoleon (cartridge: Surf (field move))",
-    "Tyranitar (cartridge: Surf (field move))",
-    "Lapras (authored: W-010 (D-033))",
-    "Snorlax (cartridge: Surf (field move))",
-    "Kingdra (cartridge: Surf (field move))",
-    "Azumarill (cartridge: Surf (field move))",
-    "Dewgong (cartridge: Surf (field move))"
-   ],
-   "escape": [
-    "Feraligatr (cartridge: Dig (field move))",
-    "Charizard (cartridge: Dig (field move))",
-    "Blastoise (cartridge: Dig (field move))",
-    "Alakazam (cartridge: Teleport (field move))",
-    "Jolteon (cartridge: Dig (field move))",
-    "Machamp (cartridge: Dig (field move))",
-    "Swampert (cartridge: Dig (field move))",
-    "Arcanine (cartridge: Dig (field move))",
-    "Infernape (cartridge: Dig (field move))",
-    "Weavile (cartridge: Dig (field move))",
-    "Lucario (cartridge: Dig (field move))",
-    "Garchomp (cartridge: Dig (field move))",
-    "Pikachu (cartridge: Dig (field move))",
-    "Infernape (cartridge: Dig (field move))",
-    "Empoleon (cartridge: Dig (field move))",
-    "Typhlosion (cartridge: Dig (field move))",
-    "Tyranitar (cartridge: Dig (field move))",
-    "Mamoswine (cartridge: Dig (field move))",
-    "Nuzleaf (cartridge: Dig (field move))",
-    "Muk (cartridge: Dig (field move))",
-    "Heracross (cartridge: Dig (field move))",
-    "Azumarill (cartridge: Dig (field move))"
-   ],
-   "air_travel": [
-    "Charizard (cartridge: Fly (field move))",
-    "Altaria (cartridge: Fly (field move))",
-    "Dragonite (cartridge: Fly (field move))",
-    "Crobat (authored: W-008 (D-033))"
-   ]
+   "access": "private",
+   "people": [],
+   "pokemon": {
+    "air_travel": [
+     "Charizard (cartridge: Fly (field move))",
+     "Altaria (cartridge: Fly (field move))",
+     "Dragonite (cartridge: Fly (field move))",
+     "Crobat (authored: W-008 (D-033))"
+    ],
+    "water_travel": [
+     "Feraligatr (cartridge: Surf (field move))",
+     "Miltank (cartridge: Surf (field move))",
+     "Blastoise (cartridge: Surf (field move))",
+     "Swampert (cartridge: Surf (field move))",
+     "Milotic (cartridge: Surf (field move))",
+     "Weavile (cartridge: Surf (field move))",
+     "Garchomp (cartridge: Surf (field move))",
+     "Dragonite (cartridge: Surf (field move))",
+     "Empoleon (cartridge: Surf (field move))",
+     "Tyranitar (cartridge: Surf (field move))",
+     "Lapras (authored: W-010 (D-033))",
+     "Snorlax (cartridge: Surf (field move))"
+    ],
+    "escape": [
+     "Feraligatr (cartridge: Dig (field move))",
+     "Charizard (cartridge: Dig (field move))",
+     "Blastoise (cartridge: Dig (field move))",
+     "Alakazam (cartridge: Teleport (field move))",
+     "Jolteon (cartridge: Dig (field move))",
+     "Machamp (cartridge: Dig (field move))",
+     "Swampert (cartridge: Dig (field move))",
+     "Arcanine (cartridge: Dig (field move))",
+     "Infernape (cartridge: Dig (field move))",
+     "Weavile (cartridge: Dig (field move))",
+     "Lucario (cartridge: Dig (field move))",
+     "Garchomp (cartridge: Dig (field move))",
+     "Pikachu (cartridge: Dig (field move))",
+     "Empoleon (cartridge: Dig (field move))",
+     "Typhlosion (cartridge: Dig (field move))",
+     "Tyranitar (cartridge: Dig (field move))",
+     "Mamoswine (cartridge: Dig (field move))"
+    ]
+   },
+   "story_candidates": {
+    "air_travel": [
+     "Machamp (lore: Pokédex (leafgreen))",
+     "Garchomp (lore: Pokédex (diamond))",
+     "Scizor (lore: Pokédex (soulsilver))"
+    ],
+    "water_travel": [
+     "Ampharos (lore: Pokédex (crystal))"
+    ]
+   },
+   "open_jobs": [],
+   "single_species": {}
   },
   "security & watch": {
-   "deterrence": [
-    "Arcanine (cartridge: Intimidate (overworld ability))",
-    "Tyranitar (authored: W-003 (D-033))",
-    "Muk (cartridge: Stench (overworld ability))"
+   "access": "private",
+   "people": [
+    "wardens"
    ],
-   "scouting": [
-    "Crobat (authored: W-007 (D-033))"
-   ],
-   "danger_sense": [
-    "Crobat (authored: W-009 (D-033))"
-   ]
+   "pokemon": {
+    "deterrence": [
+     "Arcanine (cartridge: Intimidate (overworld ability))",
+     "Tyranitar (authored: W-003 (D-033))"
+    ],
+    "scouting": [
+     "Crobat (authored: W-007 (D-033))"
+    ],
+    "danger_sense": [
+     "Crobat (authored: W-009 (D-033))"
+    ]
+   },
+   "story_candidates": {
+    "scouting": [
+     "Ampharos (lore: Pokédex (crystal))",
+     "Blastoise (lore: Pokédex (emerald))"
+    ],
+    "danger_sense": [
+     "Espeon (lore: Pokédex (crystal))",
+     "Alakazam (lore: Pokédex (gold))",
+     "Swampert (lore: Pokédex (emerald))",
+     "Arcanine (lore: Pokédex (silver))",
+     "Absol (lore: Pokédex (emerald))",
+     "Lucario (lore: Pokédex (platinum))",
+     "Scizor (lore: Pokédex (platinum))"
+    ]
+   },
+   "open_jobs": [],
+   "single_species": {
+    "scouting": "Crobat (authored: W-007 (D-033))",
+    "danger_sense": "Crobat (authored: W-009 (D-033))"
+   }
   },
   "climate": {
-   "weather_handling": [
-    "Garchomp (cartridge: Sand Veil (overworld ability))",
-    "Mamoswine (cartridge: Snow Cloak (overworld ability))"
-   ],
-   "heat_source": [
-    "Typhlosion (authored: W-001 (D-033))"
-   ],
-   "cold_tolerance": [
-    "Mamoswine (authored: W-004 (D-033))"
-   ]
+   "access": "private",
+   "people": [],
+   "pokemon": {
+    "heat_source": [
+     "Typhlosion (authored: W-001 (D-033))"
+    ],
+    "cold_tolerance": [
+     "Mamoswine (authored: W-004 (D-033))"
+    ],
+    "weather_handling": [
+     "Garchomp (cartridge: Sand Veil (overworld ability))",
+     "Mamoswine (cartridge: Snow Cloak (overworld ability))"
+    ]
+   },
+   "story_candidates": {
+    "heat_source": [
+     "Charizard (lore: Pokédex (leafgreen))",
+     "Altaria (lore: Pokédex (emerald))"
+    ],
+    "cold_tolerance": [
+     "Weavile (lore: Pokédex (diamond))",
+     "Empoleon (lore: Pokédex (platinum))"
+    ]
+   },
+   "open_jobs": [],
+   "single_species": {
+    "heat_source": "Typhlosion (authored: W-001 (D-033))",
+    "cold_tolerance": "Mamoswine (authored: W-004 (D-033))"
+   }
   }
- },
- "story_candidates": {
-  "nursery & hatchery": {
-   "calming_presence": [
-    "Venusaur (lore: Pokédex (emerald))",
-    "Machamp (lore: Pokédex (sapphire))",
-    "Milotic (lore: Pokédex (sapphire))",
-    "Meganium (lore: Pokédex (emerald))",
-    "Infernape (lore: Pokédex (diamond))",
-    "Dragonite (lore: Pokédex (ruby))",
-    "Infernape (lore: Pokédex (diamond))",
-    "Lapras (lore: Pokédex (heartgold))"
-   ]
-  },
-  "clinic": {
-   "calming_presence": [
-    "Venusaur (lore: Pokédex (emerald))",
-    "Machamp (lore: Pokédex (sapphire))",
-    "Milotic (lore: Pokédex (sapphire))",
-    "Meganium (lore: Pokédex (emerald))",
-    "Infernape (lore: Pokédex (diamond))",
-    "Dragonite (lore: Pokédex (ruby))",
-    "Infernape (lore: Pokédex (diamond))",
-    "Lapras (lore: Pokédex (heartgold))"
-   ],
-   "field_healing": [
-    "Meganium (lore: Pokédex (silver))"
-   ]
-  },
-  "kitchen & orchard": {
-   "food_source": [
-    "Miltank (lore: Pokédex (crystal))",
-    "Venusaur (lore: Pokédex (emerald))",
-    "Heracross (lore: Pokédex (soulsilver))"
-   ],
-   "heat_source": [
-    "Charizard (lore: Pokédex (leafgreen))",
-    "Altaria (lore: Pokédex (emerald))"
-   ],
-   "cooking": [
-    "Pikachu (lore: Pokédex (heartgold))"
-   ]
-  },
-  "works (building & upkeep)": {
-   "digging": [
-    "Snorlax (lore: Pokédex (soulsilver))"
-   ]
-  },
-  "transport": {
-   "water_travel": [
-    "Ampharos (lore: Pokédex (crystal))"
-   ],
-   "air_travel": [
-    "Machamp (lore: Pokédex (leafgreen))",
-    "Garchomp (lore: Pokédex (diamond))",
-    "Scizor (lore: Pokédex (soulsilver))"
-   ]
-  },
-  "security & watch": {
-   "scouting": [
-    "Ampharos (lore: Pokédex (crystal))",
-    "Blastoise (lore: Pokédex (emerald))",
-    "Heracross (lore: Pokédex (pearl))"
-   ],
-   "danger_sense": [
-    "Espeon (lore: Pokédex (crystal))",
-    "Alakazam (lore: Pokédex (gold))",
-    "Swampert (lore: Pokédex (emerald))",
-    "Arcanine (lore: Pokédex (silver))",
-    "Absol (lore: Pokédex (emerald))",
-    "Lucario (lore: Pokédex (platinum))",
-    "Scizor (lore: Pokédex (platinum))"
-   ]
-  },
-  "climate": {
-   "heat_source": [
-    "Charizard (lore: Pokédex (leafgreen))",
-    "Altaria (lore: Pokédex (emerald))"
-   ],
-   "cold_tolerance": [
-    "Weavile (lore: Pokédex (diamond))",
-    "Empoleon (lore: Pokédex (platinum))",
-    "Dewgong (lore: Pokédex (platinum))"
-   ]
-  }
- },
- "staffing_gaps": {
-  "nursery & hatchery": [
-   "egg_care"
-  ],
-  "kitchen & orchard": [
-   "food_source",
-   "cooking"
-  ]
  },
  "staff_proposals": {
   "egg_care": [
@@ -1648,7 +1878,6 @@
    "Absol",
    "Ampharos",
    "Arcanine",
-   "Dewgong",
    "Donphan",
    "Empoleon",
    "Espeon",
@@ -1657,7 +1886,6 @@
    "Lucario",
    "Mamoswine",
    "Miltank",
-   "Nuzleaf",
    "Pikachu",
    "Typhlosion",
    "Umbreon",
@@ -1677,13 +1905,10 @@
    "Venusaur"
   ],
   "Water 1": [
-   "Azumarill",
    "Blastoise",
-   "Dewgong",
    "Dragonite",
    "Empoleon",
    "Feraligatr",
-   "Kingdra",
    "Lapras",
    "Milotic",
    "Swampert"
@@ -1693,15 +1918,7 @@
    "Charizard",
    "Dragonite",
    "Garchomp",
-   "Kingdra",
    "Milotic"
-  ],
-  "Grass": [
-   "Bellossom",
-   "Meganium",
-   "Nuzleaf",
-   "Roserade",
-   "Venusaur"
   ],
   "Human-Like": [
    "Alakazam",
@@ -1709,25 +1926,27 @@
    "Lucario",
    "Machamp"
   ],
-  "Fairy": [
-   "Azumarill",
-   "Pikachu",
-   "Roserade"
+  "Grass": [
+   "Meganium",
+   "Roserade",
+   "Venusaur"
   ],
   "Flying": [
    "Altaria",
    "Crobat"
   ],
-  "Amorphous": [
-   "Gengar",
-   "Muk"
-  ],
-  "Bug": [
-   "Heracross",
-   "Scizor"
+  "Fairy": [
+   "Pikachu",
+   "Roserade"
   ],
   "Mineral": [
    "Magnezone"
+  ],
+  "Amorphous": [
+   "Gengar"
+  ],
+  "Bug": [
+   "Scizor"
   ]
  },
  "no_inherited_egg_moves": [
@@ -1741,13 +1960,19 @@
     "Extrasensory"
    ],
    "source": "HeartGold canon; bred origin optional story (D-024)",
-   "fathers": [
+   "fathers_used": [
     "Nuzleaf"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Typhlosion",
+    "sex": "male",
+    "knows": [
+     "Extrasensory"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": []
+   "timing": []
   },
   {
    "target": "heartgold:Tyranitar",
@@ -1757,16 +1982,21 @@
     "Outrage"
    ],
    "source": "HeartGold July 14 proposed set",
-   "fathers": [
+   "fathers_used": [
     "Kingdra",
     "Feraligatr"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Tyranitar",
+    "sex": "male",
+    "knows": [
+     "Outrage",
+     "Dragon Dance"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": [
-    "Feraligatr"
-   ]
+   "timing": []
   },
   {
    "target": "soulsilver:Gengar",
@@ -1775,13 +2005,19 @@
     "Disable"
    ],
    "source": "SoulSilver precedent (provisional)",
-   "fathers": [
+   "fathers_used": [
     "Muk"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Gengar",
+    "sex": "male",
+    "knows": [
+     "Disable"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": []
+   "timing": []
   },
   {
    "target": "soulsilver:Scizor",
@@ -1790,13 +2026,19 @@
     "Counter"
    ],
    "source": "SoulSilver precedent (provisional)",
-   "fathers": [
+   "fathers_used": [
     "Heracross"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Scizor",
+    "sex": "male",
+    "knows": [
+     "Counter"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": []
+   "timing": []
   },
   {
    "target": "soulsilver:Empoleon",
@@ -1805,13 +2047,19 @@
     "Aqua Ring"
    ],
    "source": "SoulSilver precedent (provisional)",
-   "fathers": [
+   "fathers_used": [
     "Azumarill"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Empoleon",
+    "sex": "male",
+    "knows": [
+     "Aqua Ring"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": []
+   "timing": []
   },
   {
    "target": "soulsilver:Pikachu",
@@ -1820,15 +2068,16 @@
     "Volt Tackle"
    ],
    "source": "SoulSilver Pikachu (provisional)",
-   "fathers": [],
-   "by_held_item": [
-    "Volt Tackle: either parent holds a Light Ball; no father needed"
-   ],
+   "fathers_used": [],
+   "kept": {
+    "kind": "item",
+    "item": "Light Ball",
+    "note": "Volt Tackle: either parent holds a Light Ball; no father needed"
+   },
    "after_hatching": [],
    "timing": [
     "Volt Tackle: a parent must hold a Light Ball when the egg is made"
-   ],
-   "father_is_companion": []
+   ]
   },
   {
    "target": "emerald:Swampert",
@@ -1837,15 +2086,19 @@
     "Refresh"
    ],
    "source": "Emerald established example",
-   "fathers": [
+   "fathers_used": [
     "Milotic"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Swampert",
+    "sex": "male",
+    "knows": [
+     "Refresh"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": [
-    "Milotic"
-   ]
+   "timing": []
   },
   {
    "target": "platinum:Infernape",
@@ -1854,15 +2107,19 @@
     "Thunder Punch"
    ],
    "source": "Platinum D-015 (egg or tutor)",
-   "fathers": [
+   "fathers_used": [
     "Ampharos"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Infernape",
+    "sex": "male",
+    "knows": [
+     "Thunder Punch"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": [
-    "Ampharos"
-   ]
+   "timing": []
   },
   {
    "target": "platinum:Weavile",
@@ -1871,13 +2128,19 @@
     "Ice Shard"
    ],
    "source": "Platinum sheet set (historical, not reaffirmed)",
-   "fathers": [
+   "fathers_used": [
     "Dewgong"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Weavile",
+    "sex": "male",
+    "knows": [
+     "Ice Shard"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": []
+   "timing": []
   },
   {
    "target": "platinum:Roserade",
@@ -1887,20 +2150,25 @@
     "Sleep Powder"
    ],
    "source": "Platinum sheet set (historical, not reaffirmed)",
-   "fathers": [
+   "fathers_used": [
     "Bellossom"
    ],
-   "by_held_item": [],
+   "kept": {
+    "kind": "stud",
+    "species": "Roserade",
+    "sex": "male",
+    "knows": [
+     "Leaf Storm",
+     "Sleep Powder"
+    ]
+   },
    "after_hatching": [],
-   "timing": [],
-   "father_is_companion": []
+   "timing": []
   }
  ],
  "authoring_questions": [
-  "Which sites? One headquarters plus satellites, or a site in every region? (proposals above)",
-  "Do all 36 companions retire to the ranch, or do some stay with family, in the wild or with the rival?",
-  "Is the breeding stock kept for good (named residents with stories) or rotated (working animals)?",
-  "Who runs it day to day: staff Pokémon, people, or both? (the planner proposes staff for gaps)",
-  "Is the ranch open (visitors, trainers, a Day-Care for the public) or private?"
+  "Is Blackthorn (Route 45 / Dark Cave / Ice Path / Dragon's Den) the headquarters, or somewhere else?",
+  "Which satellite, if any: the census shows the headquarters needs one, for a volcano and the sea.",
+  "The Day-Care preserve: who gets invited, and what clients' Pokémon experience there (later; not urgent)."
  ]
 }

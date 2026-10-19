@@ -194,9 +194,27 @@ class Ranch(unittest.TestCase):
         self.assertEqual(self.habitat.profile("Snorlax").size, "huge")
 
     def test_home_site_and_hatchery_staff(self):
+        # one headquarters (D-036): everyone lives there unless it lacks their land
+        self.assertEqual(self.ranch.home_site(self.habitat.profile("Typhlosion")), "S-JOHTO")
         self.assertEqual(self.ranch.home_site(self.habitat.profile("Lapras")), "S-KANTO")
         staff = {s["species"] for s in self.ranch.suggest_staff("egg_care")}
         self.assertTrue({"Magcargo", "Camerupt", "Magmortar"} <= staff)
+
+    def test_one_satellite_covers_the_headquarters_gaps(self):
+        prof = {c["id"]: self.habitat.profile(c["species"]) for c in self.ranch.companions()}
+        options = self.ranch.satellite_options(prof)
+        self.assertEqual(sorted(options["hq_lacks"]), ["coast_sea", "volcanic"])
+        self.assertEqual(options["minimum"], [["S-KANTO"], ["S-SINNOH"]])
+
+    def test_program_keeps_only_the_final_product(self):
+        # D-038: the lineage's fathers are used, not kept; the ranch keeps a stud of the target line
+        t = self.ranch.program_entry({"species": "Tyranitar", "game": "heartgold",
+                                      "moves": ["Dragon Dance", "Outrage"], "source": "test"})
+        self.assertEqual(t["fathers_used"], ["Kingdra", "Feraligatr"])
+        self.assertEqual((t["kept"]["kind"], t["kept"]["species"], t["kept"]["sex"]), ("stud", "Tyranitar", "male"))
+        self.assertEqual(sorted(t["kept"]["knows"]), ["Dragon Dance", "Outrage"])
+        p = self.ranch.program_entry({"species": "Pikachu", "game": "soulsilver", "moves": ["Volt Tackle"], "source": "test"})
+        self.assertEqual(p["kept"]["kind"], "item")
 
     def test_fathers_from_the_same_generation_come_first(self):
         # Volbeat only has Counter from Emerald's tutor; Heracross learns it in HGSS itself

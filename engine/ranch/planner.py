@@ -1,15 +1,18 @@
 """Ranch planner: the Champion's breeding ranch (D-035) as a system.
 
 Inputs are canon: the rosters (canon/rosters.json), the ranch design (canon/ranch.json) and the
-authored world (canon/world.json). The census answers:
-  - who lives there: every companion from every chapter, plus the breeding stock the canon's lineages need
-  - what land they need: zones, climate, water and size, and which proposed site fits each resident
-  - who can run it: each facility's jobs, the residents the games back for them, and staff proposals for gaps
-  - the breeding program: each lineage the canon calls for, its fathers, and which fathers are already residents
-Nothing here decides the ranch; sites, scale and story are authored.
+authored world (canon/world.json). The design fixes the shape (D-036 to D-040):
+  - one headquarters; satellites only for land it can't give (D-036)
+  - companions' fates are open, so every companion is a *possible* resident (D-037)
+  - the breeding program keeps only its final product, one stud per line (D-038)
+  - staff are Pokémon and people (D-039); the Day-Care preserve is the only open part (D-040)
+The census answers who could live there, what land they need, which satellites the headquarters needs,
+who can run each facility (and which jobs hang on a single Pokémon), and what the breeding program keeps.
+Nothing here decides the ranch; site locations and story are authored.
 """
 import json
 import os
+from itertools import combinations
 
 import rules
 from breeding.engine import BreedingEngine
@@ -19,15 +22,6 @@ from wilderness.world import WorldStore
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CANON = os.path.join(os.path.dirname(HERE), "canon")
-FACILITIES = {
-    "nursery & hatchery": ["egg_care", "calming_presence"],
-    "clinic": ["field_healing", "calming_presence"],
-    "kitchen & orchard": ["foraging", "food_source", "cooking", "heat_source"],
-    "works (building & upkeep)": ["hauling", "digging", "clearing"],
-    "transport": ["air_travel", "water_travel", "escape"],
-    "security & watch": ["deterrence", "scouting", "danger_sense"],
-    "climate": ["heat_source", "cold_tolerance", "weather_handling"],
-}
 DEX_MAX = 493
 EGG_GROUP_NAMES = {"monster": "Monster", "water1": "Water 1", "bug": "Bug", "flying": "Flying", "ground": "Field",
                    "fairy": "Fairy", "plant": "Grass", "humanshape": "Human-Like", "water3": "Water 3",
@@ -45,53 +39,70 @@ class RanchPlanner:
             self.rosters = json.load(fh)
         with open(os.path.join(canon_dir, "ranch.json"), encoding="utf-8") as fh:
             self.design = json.load(fh)
+        self.sites = {s["id"]: s for s in self.design["sites"]}
+        self.hq = self.design["shape"]["headquarters"]
 
-    # --- who lives there -----------------------------------------------------------
+    # --- who could live there ------------------------------------------------------
     def companions(self):
+        """Every companion, as a possible resident: where each one ends up is left open (D-037)."""
         return [{"id": f"{ch['game']}:{sp}", "species": sp, "game": ch["game"], "role": "companion",
-                 "status": ch["status"]} for ch in self.rosters["chapters"] for sp in ch["roster"]]
+                 "fate": "open", "status": ch["status"]} for ch in self.rosters["chapters"] for sp in ch["roster"]]
 
     def breeding_program(self):
-        """Each lineage the canon asks for, with its shortest chain of fathers (oldest first)."""
-        companions = {c["species"] for c in self.companions()}
-        program = []
-        for t in self.design["breeding_program"]:
-            plan = self.breeding.plan_lineage(t["species"], t["moves"], t["game"])
-            chain, node = [], plan["plans"][0] if plan["plans"] else None
-            while node:
-                chain.append(node["father"])
-                node = node["via"]
-            fathers = list(reversed(chain))
-            program.append({"target": f"{t['game']}:{t['species']}", "game": t["game"], "moves": t["moves"],
-                            "source": t["source"], "fathers": fathers, "by_held_item": plan["by_held_item"],
-                            "after_hatching": plan["learn_after_hatching"], "timing": plan["timing"],
-                            "father_is_companion": [f for f in fathers if f in companions]})
-        return program
+        return [self.program_entry(t) for t in self.design["breeding_program"]]
+
+    def program_entry(self, t):
+        """One lineage the canon asks for: the fathers used to build it (not kept) and what the ranch
+        keeps (D-038): one male of the target line who knows the whole egg-move set, or the held item."""
+        plan = self.breeding.plan_lineage(t["species"], t["moves"], t["game"])
+        chain, node = [], plan["plans"][0] if plan["plans"] else None
+        while node:
+            chain.append(node["father"])
+            node = node["via"]
+        sid = self.ref.species_id(t["species"])
+        has_males = any(self.ref.gender_rate(s) not in (-1, 8) for s in self.ref.family(sid))
+        if plan["egg_moves"] and has_males:
+            kept = {"kind": "stud", "species": t["species"], "sex": "male", "knows": plan["egg_moves"]}
+        elif plan["by_held_item"]:
+            kept = {"kind": "item", "item": "Light Ball", "note": plan["by_held_item"][0]}
+        else:
+            kept = {"kind": "none", "note": "no egg moves to carry"}
+        return {"target": f"{t['game']}:{t['species']}", "game": t["game"], "moves": t["moves"],
+                "source": t["source"], "fathers_used": list(reversed(chain)), "kept": kept,
+                "after_hatching": plan["learn_after_hatching"], "timing": plan["timing"]}
 
     def residents(self, program=None):
         program = self.breeding_program() if program is None else program
-        out = self.companions()
-        have = {c["species"] for c in out}
-        for p in program:
-            for f in p["fathers"]:
-                if f not in have:
-                    have.add(f)
-                    out.append({"id": f"stock:{f}", "species": f, "game": p["game"], "role": "breeding stock",
-                                "status": f"father for {p['target']}"})
-        return out
+        studs = [{"id": f"stud:{p['kept']['species']}", "species": p["kept"]["species"], "game": p["game"],
+                  "role": "stud", "fate": "kept", "status": f"♂ knowing {', '.join(p['kept']['knows'])}"}
+                 for p in program if p["kept"]["kind"] == "stud"]
+        return self.companions() + studs
 
     # --- what land they need ---------------------------------------------------------
-    def home_site(self, profile):
-        """The proposed site for a resident: its native region's site if that offers its primary zone,
-        else any site that does, else its native region's site."""
-        sites = self.design["sites"]
+    def home_site(self, profile, satellites=None):
+        """The headquarters if it offers the resident's primary zone; otherwise a satellite that does,
+        its native region's first."""
         primary = profile.zones[0] if profile.zones else "meadow"
-        native = [s for s in sites if s["region"] == profile.native_region]
-        for pool in (native, sites):
-            for s in pool:
-                if primary in s["offers"]:
-                    return s["id"]
-        return native[0]["id"] if native else None
+        if primary in self.sites[self.hq]["offers"]:
+            return self.hq
+        pool = [self.sites[s] for s in (satellites or [s for s in self.sites if s != self.hq])]
+        for s in sorted(pool, key=lambda s: s["region"] != profile.native_region):
+            if primary in s["offers"]:
+                return s["id"]
+        return None
+
+    def satellite_options(self, profiles):
+        """Smallest sets of satellites that give every resident its primary zone."""
+        missing = sorted({p.zones[0] for p in profiles.values()
+                          if p.zones and p.zones[0] not in self.sites[self.hq]["offers"]})
+        needs = {z: sorted(rid for rid, p in profiles.items() if p.zones and p.zones[0] == z) for z in missing}
+        candidates = [s for s in self.sites if s != self.hq]
+        for k in range(len(candidates) + 1):
+            sets = [c for c in combinations(candidates, k)
+                    if all(any(z in self.sites[s]["offers"] for s in c) for z in missing)]
+            if sets:
+                return {"hq_lacks": needs, "minimum": [list(c) for c in sets]}
+        return {"hq_lacks": needs, "minimum": [], "uncovered": missing}
 
     # --- who can run it ----------------------------------------------------------------
     def _best_evidence(self, species, game):
@@ -120,45 +131,63 @@ class RanchPlanner:
                             "native_region": self.habitat.profile(sp, gen).native_region})
         return sorted(out, key=lambda x: (x["native_region"], x["species"]))[:limit]
 
+    def staffing(self, residents):
+        """Per facility: Pokémon the games (or authored canon) back for each job, Pokédex story candidates,
+        the people roles, open jobs, and jobs that hang on a single species."""
+        best = {r["id"]: self._best_evidence(r["species"], r["game"]) for r in residents}
+        species = {r["id"]: r["species"] for r in residents}
+        out = {}
+        for f in self.design["facilities"]:
+            jobs, story = {}, {}
+            for c in f["needs"]:
+                for rid, ev in best.items():
+                    e = ev.get(c)
+                    if not e or e.tier == "inference":
+                        continue
+                    target = jobs if TIER_RANK[e.tier] >= TIER_RANK["cartridge"] else story
+                    entry = f"{species[rid]} ({e.tier}: {e.source})"
+                    if entry not in target.setdefault(c, []):
+                        target[c].append(entry)
+            single = {c: v[0] for c, v in jobs.items() if len({x.split(" (")[0] for x in v}) == 1}
+            out[f["name"]] = {"access": f["access"], "people": f["people"], "pokemon": jobs, "story_candidates": story,
+                              "open_jobs": [c for c in f["needs"] if c not in jobs], "single_species": single}
+        return out
+
     # --- the census --------------------------------------------------------------------
     def census(self):
         program = self.breeding_program()
         res = self.residents(program)
         prof = {r["id"]: self.habitat.profile(r["species"]) for r in res}
-        sites = {s["id"]: [] for s in self.design["sites"]}
+        options = self.satellite_options(prof)
+        chosen = self.design["shape"].get("satellites")          # empty until Zack picks one
+        pending = "satellite (" + " or ".join("+".join(o) for o in options["minimum"]) + ")"
+        sites = {self.hq: []}
         for rid, p in prof.items():
-            sites.setdefault(self.home_site(p), []).append(rid)
+            home = self.home_site(p, chosen)
+            sites.setdefault(home if chosen or home == self.hq else pending, []).append(rid)
         zones = {z: sorted(rid for rid, p in prof.items() if p.zones and p.zones[0] == z) for z in ZONES}
-        staff, lore = {f: {} for f in FACILITIES}, {f: {} for f in FACILITIES}
-        for r in res:
-            best = self._best_evidence(r["species"], r["game"])
-            for f, caps in FACILITIES.items():
-                for c in caps:
-                    if c not in best:
-                        continue
-                    e = best[c]
-                    target = staff if TIER_RANK[e.tier] >= TIER_RANK["cartridge"] else lore
-                    if e.tier != "inference":
-                        target[f].setdefault(c, []).append(f"{r['species']} ({e.tier}: {e.source})")
-        gaps = {f: [c for c in caps if c not in staff[f]] for f, caps in FACILITIES.items()}
-        proposals = {c: self.suggest_staff(c) for c in sorted({c for v in gaps.values() for c in v})}
+        staff = self.staffing(res)
+        open_jobs = sorted({c for f in staff.values() for c in f["open_jobs"]})
         groups = {}
         for r in res:
             for g in self.ref.breeding_groups(r["species"]):
-                groups.setdefault(EGG_GROUP_NAMES.get(g, g), []).append(r["species"])
+                groups.setdefault(EGG_GROUP_NAMES.get(g, g), set()).add(r["species"])
         no_egg_moves = sorted({r["species"] for r in res
                                if not self.breeding.feasibility(r["species"], r["game"]).get("egg_moves_possible", False)})
         return {
-            "residents": res, "profiles": prof, "sites": sites,
+            "shape": {k: self.design[k]["rule"] for k in ("shape", "residents_policy", "stock_policy",
+                                                           "staffing_policy", "access")},
+            "residents": res, "profiles": prof, "headquarters": self.hq, "sites": {k: v for k, v in sites.items() if v},
+            "satellite_options": options,
             "zones_primary": {z: v for z, v in zones.items() if v},
             "native_regions": {reg: sorted(rid for rid, p in prof.items() if p.native_region == reg)
                                for reg in ("Kanto", "Johto", "Hoenn", "Sinnoh")},
             "sizes": {s: sorted(rid for rid, p in prof.items() if p.size == s) for s in ("small", "medium", "large", "huge")},
             "water": {w: sorted(rid for rid, p in prof.items() if p.water == w) for w in ("sea", "fresh")},
             "climate": {c: sorted(rid for rid, p in prof.items() if p.climate == c) for c in ("warm", "cold")},
-            "staffing": staff, "story_candidates": lore, "staffing_gaps": {f: v for f, v in gaps.items() if v},
-            "staff_proposals": {c: v for c, v in proposals.items() if v},
-            "egg_group_pens": {g: sorted(set(v)) for g, v in sorted(groups.items(), key=lambda x: -len(set(x[1])))},
+            "facilities": staff,
+            "staff_proposals": {c: v for c in open_jobs if (v := self.suggest_staff(c))},
+            "egg_group_pens": {g: sorted(v) for g, v in sorted(groups.items(), key=lambda x: -len(x[1]))},
             "no_inherited_egg_moves": no_egg_moves, "breeding_program": program,
             "authoring_questions": self.design["authoring_questions"],
         }

@@ -1,7 +1,35 @@
 {
-  "_note": "The Champion's breeding ranch (D-035). Sites are PROPOSALS until Zack approves them with a decision ID; the planner shows what they would hold but never decides. Game facts marked 'believed' still need checking against the cartridge.",
+  "_note": "The Champion's breeding ranch (D-035). Its shape is decided (D-036 to D-040). Site locations stay PROPOSALS until Zack approves them; the planner shows what they would hold but never decides. Game facts marked 'believed' still need checking against the cartridge.",
   "decision": "D-035",
-  "premise": "Endgame of the whole saga: a Pokémon Champion with unlimited money and unlimited land, in as many places as wanted across Kanto, Johto, Hoenn and Sinnoh, with Pokémon doing the work. Home for every past companion and for the breeding stock that made them.",
+  "premise": "Endgame of the whole saga: a Pokémon Champion with unlimited money and unlimited land across Kanto, Johto, Hoenn and Sinnoh, with Pokémon doing the work. Home for any past companion who retires there, and for the breeding stock the canon's lineages produced.",
+  "shape": {
+    "decision": "D-036",
+    "rule": "One headquarters. Satellites only where the headquarters can't give a resident its land.",
+    "headquarters": "S-JOHTO",
+    "headquarters_status": "proposed (structure decided, location not yet approved)",
+    "satellites": [],
+    "satellites_status": "not chosen: the census shows one is needed (Sevii Islands or the Battle Zone)"
+  },
+  "residents_policy": {
+    "decision": "D-037",
+    "rule": "Left open: any companion may retire to the ranch, stay with family, go back to the wild or go with the rival. Nobody is assigned; the census counts every companion as a possible resident."
+  },
+  "stock_policy": {
+    "decision": "D-038",
+    "status": "working",
+    "rule": "Build the lineage, keep only the final product: one male of each target line who knows the whole egg-move set (the stud). The fathers used along the way are not kept. A line whose move comes from a held item keeps the item instead."
+  },
+  "staffing_policy": {
+    "decision": "D-039",
+    "rule": "Both Pokémon and people. Pokémon jobs come from game-backed or authored capabilities; people roles are placeholders to author."
+  },
+  "access": {
+    "decision": "D-040",
+    "rule": "Private ranch with one open feature: the Day-Care, a 'gazillionaire edition' of the games' Day-Care. Super exclusive and small, run like a wildlife preserve with a day-care side. Everything else is private.",
+    "open": [
+      "day-care preserve"
+    ]
+  },
   "sites": [
     {
       "id": "S-JOHTO",
@@ -9,7 +37,17 @@
       "status": "proposed",
       "name": "Blackthorn highlands (headquarters)",
       "anchor": "Route 45 and Route 44, between Blackthorn City and Dark Cave",
-      "offers": ["highlands", "lakes_rivers", "caverns", "snowfield", "sanctuary", "meadow", "forest", "skies", "homestead"],
+      "offers": [
+        "highlands",
+        "lakes_rivers",
+        "caverns",
+        "snowfield",
+        "sanctuary",
+        "meadow",
+        "forest",
+        "skies",
+        "homestead"
+      ],
       "game_facts": [
         "Route 45 is a mountain road with a river; Dark Cave opens onto it (cartridge)",
         "Ice Path links Blackthorn to Mahogany (cartridge)",
@@ -17,8 +55,12 @@
         "Route 44 has a lake and grass (cartridge)"
       ],
       "why": "Home region of three chapters (Crystal, HeartGold, SoulSilver). One stretch of road gives mountains, a cave system, a river, real ice and a sacred site.",
-      "alternatives": ["Lake of Rage and Route 43 (a huge lake and open grassland)", "Mt. Silver and Route 28 (the endgame mountain, snow at the summit in HGSS)"],
-      "heritage": "Route 34 Day-Care in Goldenrod, Johto's breeding house (cartridge)"
+      "alternatives": [
+        "Lake of Rage and Route 43 (a huge lake and open grassland)",
+        "Mt. Silver and Route 28 (the endgame mountain, snow at the summit in HGSS)"
+      ],
+      "heritage": "Route 34 Day-Care in Goldenrod, Johto's breeding house (cartridge)",
+      "role": "headquarters"
     },
     {
       "id": "S-KANTO",
@@ -26,7 +68,17 @@
       "status": "proposed",
       "name": "Sevii Islands estate",
       "anchor": "One to Seven Island (FireRed postgame)",
-      "offers": ["volcanic", "forest", "snowfield", "caverns", "meadow", "coast_sea", "highlands", "sanctuary", "homestead"],
+      "offers": [
+        "volcanic",
+        "forest",
+        "snowfield",
+        "caverns",
+        "meadow",
+        "coast_sea",
+        "highlands",
+        "sanctuary",
+        "homestead"
+      ],
       "game_facts": [
         "Mt. Ember volcano and the Ember Spa hot spring on Kindle Road, One Island (cartridge)",
         "Berry Forest on Three Island (cartridge)",
@@ -36,8 +88,11 @@
         "Seel and Dewgong live in Icefall Cave (cartridge encounter data)"
       ],
       "why": "An archipelago that already has almost every terrain, a volcano with a hot spring, a berry forest and its own Day-Care. FireRed's chapter ends here.",
-      "alternatives": ["Route 5 Day-Care and the Kanto mainland"],
-      "heritage": "Four Island Day-Care (cartridge)"
+      "alternatives": [
+        "Route 5 Day-Care and the Kanto mainland"
+      ],
+      "heritage": "Four Island Day-Care (cartridge)",
+      "role": "satellite"
     },
     {
       "id": "S-HOENN",
@@ -45,14 +100,25 @@
       "status": "proposed",
       "name": "Route 117 gardens and Lavaridge springs",
       "anchor": "Route 117 (Verdanturf) with a second parcel at Lavaridge Town and Route 112",
-      "offers": ["meadow", "lakes_rivers", "forest", "volcanic", "highlands", "homestead"],
+      "offers": [
+        "meadow",
+        "lakes_rivers",
+        "forest",
+        "volcanic",
+        "highlands",
+        "homestead"
+      ],
       "game_facts": [
         "The Hoenn Day-Care is on Route 117, among flower beds and a pond (cartridge)",
         "Lavaridge Town has hot springs below Mt. Chimney (cartridge)"
       ],
       "why": "Hoenn's breeding home plus geothermal ground for the hatchery and the Fire residents.",
-      "alternatives": ["Route 119 rainforest by the Weather Institute (rain, river, waterfall)", "Fortree City treetops (Altaria, Flying residents)"],
-      "heritage": "Route 117 Day-Care (cartridge)"
+      "alternatives": [
+        "Route 119 rainforest by the Weather Institute (rain, river, waterfall)",
+        "Fortree City treetops (Altaria, Flying residents)"
+      ],
+      "heritage": "Route 117 Day-Care (cartridge)",
+      "role": "satellite"
     },
     {
       "id": "S-SINNOH",
@@ -60,7 +126,16 @@
       "status": "proposed",
       "name": "Resort Area villa and the Battle Zone",
       "anchor": "Platinum's Resort Area villa, with land across the Battle Zone (Routes 225-230, Stark Mountain)",
-      "offers": ["coast_sea", "volcanic", "highlands", "forest", "meadow", "caverns", "homestead", "skies"],
+      "offers": [
+        "coast_sea",
+        "volcanic",
+        "highlands",
+        "forest",
+        "meadow",
+        "caverns",
+        "homestead",
+        "skies"
+      ],
       "game_facts": [
         "The Villa in the Resort Area can be bought in Platinum (believed: 50,000,000 Pokédollars; verify)",
         "Stark Mountain is a volcano in the Battle Zone (cartridge)",
@@ -68,27 +143,204 @@
         "Route 216 and 217 lie under constant snow (cartridge)"
       ],
       "why": "The game's own house for a rich trainer, which fits a Champion with unlimited money. The Battle Zone adds sea, cliffs, desert and a volcano.",
-      "alternatives": ["Solaceon Town Day-Care and Ruins", "Route 217 and Lake Acuity snowfields for cold-climate residents"],
-      "heritage": "Solaceon Day-Care (cartridge)"
+      "alternatives": [
+        "Solaceon Town Day-Care and Ruins",
+        "Route 217 and Lake Acuity snowfields for cold-climate residents"
+      ],
+      "heritage": "Solaceon Day-Care (cartridge)",
+      "role": "satellite"
+    }
+  ],
+  "facilities": [
+    {
+      "name": "nursery & hatchery",
+      "access": "private",
+      "needs": [
+        "egg_care",
+        "calming_presence"
+      ],
+      "people": [
+        "head breeder"
+      ]
+    },
+    {
+      "name": "studbook & archive",
+      "access": "private",
+      "needs": [],
+      "people": [
+        "archivist"
+      ]
+    },
+    {
+      "name": "day-care preserve",
+      "access": "open (exclusive)",
+      "needs": [
+        "calming_presence",
+        "deterrence",
+        "field_healing",
+        "foraging"
+      ],
+      "people": [
+        "Day-Care keepers"
+      ]
+    },
+    {
+      "name": "clinic",
+      "access": "private",
+      "needs": [
+        "field_healing",
+        "calming_presence"
+      ],
+      "people": [
+        "Pokémon nurse"
+      ]
+    },
+    {
+      "name": "kitchen & orchard",
+      "access": "private",
+      "needs": [
+        "foraging",
+        "food_source",
+        "cooking",
+        "heat_source"
+      ],
+      "people": [
+        "cook",
+        "orchard keeper"
+      ]
+    },
+    {
+      "name": "works (building & upkeep)",
+      "access": "private",
+      "needs": [
+        "hauling",
+        "digging",
+        "clearing"
+      ],
+      "people": [
+        "ranch hands"
+      ]
+    },
+    {
+      "name": "transport",
+      "access": "private",
+      "needs": [
+        "air_travel",
+        "water_travel",
+        "escape"
+      ],
+      "people": []
+    },
+    {
+      "name": "security & watch",
+      "access": "private",
+      "needs": [
+        "deterrence",
+        "scouting",
+        "danger_sense"
+      ],
+      "people": [
+        "wardens"
+      ]
+    },
+    {
+      "name": "climate",
+      "access": "private",
+      "needs": [
+        "heat_source",
+        "cold_tolerance",
+        "weather_handling"
+      ],
+      "people": []
     }
   ],
   "breeding_program": [
-    {"species": "Typhlosion", "game": "heartgold", "moves": ["Extrasensory"], "source": "HeartGold canon; bred origin optional story (D-024)"},
-    {"species": "Tyranitar", "game": "heartgold", "moves": ["Dragon Dance", "Outrage"], "source": "HeartGold July 14 proposed set"},
-    {"species": "Gengar", "game": "soulsilver", "moves": ["Disable"], "source": "SoulSilver precedent (provisional)"},
-    {"species": "Scizor", "game": "soulsilver", "moves": ["Counter"], "source": "SoulSilver precedent (provisional)"},
-    {"species": "Empoleon", "game": "soulsilver", "moves": ["Aqua Ring"], "source": "SoulSilver precedent (provisional)"},
-    {"species": "Pikachu", "game": "soulsilver", "moves": ["Volt Tackle"], "source": "SoulSilver Pikachu (provisional)"},
-    {"species": "Swampert", "game": "emerald", "moves": ["Refresh"], "source": "Emerald established example"},
-    {"species": "Infernape", "game": "platinum", "moves": ["Thunder Punch"], "source": "Platinum D-015 (egg or tutor)"},
-    {"species": "Weavile", "game": "platinum", "moves": ["Ice Shard"], "source": "Platinum sheet set (historical, not reaffirmed)"},
-    {"species": "Roserade", "game": "platinum", "moves": ["Leaf Storm", "Sleep Powder"], "source": "Platinum sheet set (historical, not reaffirmed)"}
+    {
+      "species": "Typhlosion",
+      "game": "heartgold",
+      "moves": [
+        "Extrasensory"
+      ],
+      "source": "HeartGold canon; bred origin optional story (D-024)"
+    },
+    {
+      "species": "Tyranitar",
+      "game": "heartgold",
+      "moves": [
+        "Dragon Dance",
+        "Outrage"
+      ],
+      "source": "HeartGold July 14 proposed set"
+    },
+    {
+      "species": "Gengar",
+      "game": "soulsilver",
+      "moves": [
+        "Disable"
+      ],
+      "source": "SoulSilver precedent (provisional)"
+    },
+    {
+      "species": "Scizor",
+      "game": "soulsilver",
+      "moves": [
+        "Counter"
+      ],
+      "source": "SoulSilver precedent (provisional)"
+    },
+    {
+      "species": "Empoleon",
+      "game": "soulsilver",
+      "moves": [
+        "Aqua Ring"
+      ],
+      "source": "SoulSilver precedent (provisional)"
+    },
+    {
+      "species": "Pikachu",
+      "game": "soulsilver",
+      "moves": [
+        "Volt Tackle"
+      ],
+      "source": "SoulSilver Pikachu (provisional)"
+    },
+    {
+      "species": "Swampert",
+      "game": "emerald",
+      "moves": [
+        "Refresh"
+      ],
+      "source": "Emerald established example"
+    },
+    {
+      "species": "Infernape",
+      "game": "platinum",
+      "moves": [
+        "Thunder Punch"
+      ],
+      "source": "Platinum D-015 (egg or tutor)"
+    },
+    {
+      "species": "Weavile",
+      "game": "platinum",
+      "moves": [
+        "Ice Shard"
+      ],
+      "source": "Platinum sheet set (historical, not reaffirmed)"
+    },
+    {
+      "species": "Roserade",
+      "game": "platinum",
+      "moves": [
+        "Leaf Storm",
+        "Sleep Powder"
+      ],
+      "source": "Platinum sheet set (historical, not reaffirmed)"
+    }
   ],
   "authoring_questions": [
-    "Which sites? One headquarters plus satellites, or a site in every region? (proposals above)",
-    "Do all 36 companions retire to the ranch, or do some stay with family, in the wild or with the rival?",
-    "Is the breeding stock kept for good (named residents with stories) or rotated (working animals)?",
-    "Who runs it day to day: staff Pokémon, people, or both? (the planner proposes staff for gaps)",
-    "Is the ranch open (visitors, trainers, a Day-Care for the public) or private?"
+    "Is Blackthorn (Route 45 / Dark Cave / Ice Path / Dragon's Den) the headquarters, or somewhere else?",
+    "Which satellite, if any: the census shows the headquarters needs one, for a volcano and the sea.",
+    "The Day-Care preserve: who gets invited, and what clients' Pokémon experience there (later; not urgent)."
   ]
 }
