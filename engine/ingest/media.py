@@ -16,8 +16,8 @@ How each source reaches the model:
 - **Video and image files** (a Drive download, a screenshot): uploaded or sent inline.
 - **Web pages:** fetched and reduced to text.
 
-Needs the GEMINI_API_KEY environment variable (set in the cloud environment's settings) and the hosts allowed in its
-network settings; `intake.py status` says what's missing. Nothing here invents a result: if the model can't be
+Needs a Gemini key (a network secret on the environment, or the GEMINI_API_KEY variable) and the hosts allowed in
+its network settings; `intake.py status` says what's missing. Nothing here invents a result: if the model can't be
 reached, the command says why and writes nothing.
 """
 import base64
@@ -49,19 +49,34 @@ class NotReady(RuntimeError):
 
 # --- the model ------------------------------------------------------------------------------------------
 class Gemini:
+    """The key comes one of two ways: a network secret on the environment (the agent proxy adds the
+    x-goog-api-key header to requests for generativelanguage.googleapis.com, so the session never sees it), or
+    the GEMINI_API_KEY environment variable. With neither, Gemini refuses and the command says how to add one."""
+
     def __init__(self, cfg):
         self.g = cfg["gemini"]
         self.key = os.environ.get(self.g["key_env"])
 
     def ready(self):
-        if not self.key:
-            raise NotReady(f"no Gemini key: set {self.g['key_env']} in the cloud environment's settings "
-                           "(Network secrets or environment variables), then start a new session")
+        return True                                     # a network secret is invisible here; Gemini's answer decides
+
+    def auth(self):
+        return {"x-goog-api-key": self.key} if self.key else {}
+
+    def check(self):
+        """(ok, message): one cheap call that says whether the key reaches Gemini."""
+        try:
+            _, raw = self._call(f"{self.g['base']}/models?pageSize=1", self.auth(), None, "GET")
+            return True, "Gemini answers (key " + ("from GEMINI_API_KEY" if self.key else "added by the network secret") + ")"
+        except NotReady as e:
+            return False, str(e)
+        except RuntimeError as e:
+            return False, str(e)
 
     def request(self, parts):
         """The generateContent call: (url, headers, body). Kept separate so it can be checked without a call."""
         url = f"{self.g['base']}/models/{self.g['model']}:generateContent"
-        headers = {"Content-Type": "application/json", "x-goog-api-key": self.key or ""}
+        headers = {"Content-Type": "application/json", **self.auth()}
         body = {"contents": [{"role": "user", "parts": parts}],
                 "generationConfig": {"responseMimeType": "application/json"}}
         return url, headers, body
@@ -72,7 +87,12 @@ class Gemini:
             with urllib.request.urlopen(req, timeout=self.g["timeout_seconds"]) as r:
                 return r.headers, r.read()
         except urllib.error.HTTPError as e:
-            raise RuntimeError(f"Gemini said {e.code}: {e.read()[:400].decode('utf-8', 'replace')}") from None
+            body = e.read()[:400].decode("utf-8", "replace")
+            if e.code in (400, 401, 403) and ("API key" in body or "PERMISSION_DENIED" in body or "UNAUTHENTICATED" in body):
+                raise NotReady("Gemini refused the request: no valid key reached it. Add the network secret "
+                               "(header x-goog-api-key on generativelanguage.googleapis.com) or the "
+                               f"{self.g['key_env']} environment variable, in the cloud environment's settings") from None
+            raise RuntimeError(f"Gemini said {e.code}: {body}") from None
         except urllib.error.URLError as e:
             raise NotReady(f"can't reach {urllib.parse.urlparse(url).hostname} ({e.reason}): allow it in the "
                            "environment's network settings") from None
@@ -89,18 +109,18 @@ class Gemini:
         size = os.path.getsize(path)
         start = {"X-Goog-Upload-Protocol": "resumable", "X-Goog-Upload-Command": "start",
                  "X-Goog-Upload-Header-Content-Length": str(size), "X-Goog-Upload-Header-Content-Type": mime,
-                 "Content-Type": "application/json", "x-goog-api-key": self.key}
+                 "Content-Type": "application/json", **self.auth()}
         h, _ = self._call(f"{self.g['upload_base']}/files", start,
                           json.dumps({"file": {"display_name": os.path.basename(path)}}).encode())
         upload_url = h.get("X-Goog-Upload-URL") or h.get("x-goog-upload-url")
         with open(path, "rb") as fh:
             _, raw = self._call(upload_url, {"Content-Length": str(size), "X-Goog-Upload-Offset": "0",
-                                             "X-Goog-Upload-Command": "upload, finalize"}, fh.read())
+                                             "X-Goog-Upload-Command": "upload, finalize", **self.auth()}, fh.read())
         info = json.loads(raw)["file"]
         deadline = time.time() + self.g["timeout_seconds"]
         while info.get("state") == "PROCESSING" and time.time() < deadline:
             time.sleep(self.g["poll_seconds"])
-            _, raw = self._call(f"{self.g['base']}/{info['name']}", {"x-goog-api-key": self.key}, None, "GET")
+            _, raw = self._call(f"{self.g['base']}/{info['name']}", self.auth(), None, "GET")
             info = json.loads(raw)
         if info.get("state") not in (None, "ACTIVE"):
             raise RuntimeError(f"Gemini couldn't process {os.path.basename(path)} (state {info.get('state')})")

@@ -39,10 +39,12 @@ def target(text):
 
 def status(inbox):
     cfg = inbox.cfg
-    key = os.environ.get(cfg["gemini"]["key_env"])
-    print(f"Gemini key ({cfg['gemini']['key_env']}): {'set' if key else 'not set: add it in the cloud environment settings'}")
-    hosts = ["generativelanguage.googleapis.com", "www.youtube.com", "www.tiktok.com", "www.instagram.com",
-             "bulbapedia.bulbagarden.net", "www.serebii.net", "www.smogon.com", "pokemondb.net"]
+    from ingest.media import Gemini
+    ok, msg = Gemini(cfg).check()
+    print(f"Gemini: {msg}")
+    hosts = ["www.youtube.com", "www.tiktok.com", "www.instagram.com", "bulbapedia.bulbagarden.net",
+             "archives.bulbagarden.net", "www.serebii.net", "www.smogon.com", "pokemondb.net", "www.pokemon.com",
+             "replay.pokemonshowdown.com"]
     for h in hosts:
         try:
             urllib.request.urlopen(urllib.request.Request(f"https://{h}/", method="HEAD"), timeout=8)

@@ -1120,7 +1120,6 @@ class Intake(unittest.TestCase):
         url, headers, body = g.request([{"file_data": {"file_uri": "https://youtu.be/abc123xyz"}}, {"text": "go"}])
         self.assertTrue(url.endswith(f"/models/{cfg['gemini']['model']}:generateContent"))
         self.assertEqual(body["generationConfig"]["responseMimeType"], "application/json")
-        self.assertIn("x-goog-api-key", headers)
         result, usage, _ = parse_response({"candidates": [{"content": {"parts": [{"text": "```json\n{\"summary\": \"x\"}\n```"}]}}],
                                            "usageMetadata": {"totalTokenCount": 10}})
         self.assertEqual((result, usage["totalTokenCount"]), ({"summary": "x"}, 10))
@@ -1129,11 +1128,22 @@ class Intake(unittest.TestCase):
         self.assertEqual(video_key("https://www.tiktok.com/@a/video/7696546463953718541"), "7696546463953718541")
 
     def test_without_a_key_it_says_so_and_writes_nothing(self):
-        from ingest.media import NotReady, analyze
+        """No key in the session (a network secret would add it on the way out): Gemini's refusal becomes a
+        plain 'add the key' message, and nothing is written."""
+        import io
+        import urllib.error
+        import urllib.request
+        from unittest import mock
+        from ingest.media import Gemini, NotReady, analyze
         saved = os.environ.pop(self.inbox.cfg["gemini"]["key_env"], None)
+        refusal = urllib.error.HTTPError("https://generativelanguage.googleapis.com", 403, "Forbidden", {},
+                                         io.BytesIO(b'{"error": {"status": "PERMISSION_DENIED", "message": "Method doesn\'t allow unregistered callers"}}'))
         try:
-            with self.assertRaises(NotReady):
-                analyze(self.inbox.cfg, "pokemon", "video", "https://youtu.be/abc123xyz")
+            self.assertEqual(Gemini(self.inbox.cfg).request([])[1].get("x-goog-api-key"), None)   # left to the proxy
+            with mock.patch.object(urllib.request, "urlopen", side_effect=refusal):
+                with self.assertRaises(NotReady) as ctx:
+                    analyze(self.inbox.cfg, "pokemon", "video", "https://youtu.be/abc123xyz")
+            self.assertIn("network secret", str(ctx.exception))
         finally:
             if saved:
                 os.environ[self.inbox.cfg["gemini"]["key_env"]] = saved

@@ -77,10 +77,62 @@ It combines an approved **style card** (from a video you liked: narration voice,
 
 ## What it needs (environment settings)
 
-- **Gemini key:** add `GEMINI_API_KEY` in the cloud environment's settings, under Network secrets (or as an environment variable). Never paste it into chat or a file. `generativelanguage.googleapis.com` is already reachable. Gemini bills per token; Food OS's results record about 7,500 to 14,000 tokens per video.
-- **Network:** allow `www.youtube.com`, `tiktok.com`, `instagram.com` (downloads); `bulbapedia.bulbagarden.net`, `archives.bulbagarden.net`, `serebii.net`, `www.serebii.net`, `www.smogon.com`, `pokemondb.net` (pages). YouTube analysis doesn't need YouTube allowed, because Gemini fetches the link itself.
-- **yt-dlp:** `pip install yt-dlp` (it installs here; package managers are allowed).
-- **Check:** `intake.py status` says what's ready.
+Open the settings from the session: the arrow next to the session title, then **Edit cloud environment**.
+
+**Network access:** set it to **Custom**, tick **Also include default list of common package managers**, and paste this into **Allowed domains** (one per line; `*.` covers every subdomain). It reaches running sessions within about a minute.
+
+```
+*.bulbagarden.net
+serebii.net
+*.serebii.net
+smogon.com
+*.smogon.com
+pokemondb.net
+*.pokemondb.net
+pokemon.com
+*.pokemon.com
+pokemonshowdown.com
+*.pokemonshowdown.com
+pokeapi.co
+*.pokeapi.co
+youtube.com
+*.youtube.com
+youtu.be
+*.googlevideo.com
+*.ytimg.com
+tiktok.com
+*.tiktok.com
+*.tiktokcdn.com
+*.tiktokcdn-us.com
+*.tiktokv.com
+instagram.com
+*.instagram.com
+*.cdninstagram.com
+*.fbcdn.net
+generativelanguage.googleapis.com
+```
+
+**The Gemini key:** add it as a network secret, so the proxy attaches it and the session never sees it.
+- Path: **Network secrets** → **Add secret**.
+- **Name:** `Gemini`.
+- **Allowed websites:** `generativelanguage.googleapis.com`.
+- **Custom headers:** rename `Authorization` to `x-goog-api-key`, clear the `Bearer` prefix, paste the key as the value.
+- **Add** saves it immediately.
+- Without a Network secrets section (or with the one-host short form), put `GEMINI_API_KEY=<key>` under **Environment variables** instead. It's readable by anyone using the environment, and it reaches a session after a restart.
+- Gemini bills per token; Food OS's results record about 7,500 to 14,000 tokens per video.
+
+**yt-dlp for TikTok and Instagram:** add this to the **Setup script** so every new session has it (it's installed in the current one already):
+
+```
+#!/bin/bash
+pip install --quiet --upgrade yt-dlp || true
+```
+
+**Check:** `python3 -I engine/intake.py status` tries Gemini with the key and every site.
+
+**Caveats:**
+- Instagram often refuses logged-out downloads. When it does, save the Reel into the Drive Inbox's Videos folder and ingest the file.
+- If a TikTok download names a host that isn't on the list, add that host.
 
 ## Later (the shared intake engine)
 
