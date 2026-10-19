@@ -606,6 +606,39 @@ class TrainerReportData(unittest.TestCase):
         self.assertEqual(mine["summary"]["gaps"][0], "Fighting")                      # four of the six are weak to it
         _json.dumps(mine)                                                              # plain data, ready for Part 2
 
+    def _measure(self, tid, vid=None):
+        from trainers.matrix import team_matrix
+        from trainers.sliders import measure
+        v = self.store.version(tid, vid)
+        team = self.store.team(v)
+        return measure(self.store, v, team_matrix(self.store, v, team=team), team)
+
+    def test_measured_sliders_and_disagreements(self):
+        paul = self._measure("paul", "sinnoh")
+        self.assertTrue(paul["offense"]["measured"] >= 70 and paul["offense"]["disagreement"] is None)
+        self.assertIsNone(paul["bond"]["measured"])                      # missing data is never evidence
+        self.assertEqual(paul["rigidity"]["disagreement"]["team_leans"], "flexible")
+        red = self._measure("red")
+        self.assertEqual(red["risk"]["disagreement"]["team_leans"], "gambler")
+        self.assertIn("Lapras", red["risk"]["signals"][0]["members"])    # Blizzard at 70% accuracy
+        kanto = self._measure("ash", "kanto")
+        self.assertEqual(kanto["rigidity"]["disagreement"]["team_leans"], "rigid")   # one- and two-type movesets
+        self.assertEqual(kanto["bond"]["measured"], 100)                 # Pikachu's friendship is the only signal
+
+    def test_tags_and_nature_clashes(self):
+        from trainers.matrix import team_matrix
+        from trainers.model import Build, Version
+        from trainers.sliders import nature_clashes, tags
+        v = self.store.version("brock")
+        team = self.store.team(v)
+        names = {t["name"]: t["detail"] for t in tags(self.store, v, team, team_matrix(self.store, v, team=team))}
+        self.assertEqual((names["Cohesive"], names["Type-dominant"], names["Gym Leader"]), (["Rock Slide"], ["Rock"], ["Gym Leader"]))
+        bold = Build(id="t", species="Snorlax", moves=["Body Slam"], nature="Bold")
+        hot = Version(id="t", trainer="t", title="t", game="platinum", team_ref={}, sliders={"offense": {"value": 80}})
+        self.assertEqual(len(nature_clashes(self.store, hot, [bold])), 1)
+        hot.sliders["offense"]["value"] = 50
+        self.assertEqual(nature_clashes(self.store, hot, [bold]), [])
+
 
 if __name__ == "__main__":
     unittest.main()

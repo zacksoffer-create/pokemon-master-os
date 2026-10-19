@@ -17,6 +17,7 @@ from functools import lru_cache
 from refdb import VG, VG_GEN, Ref, slug
 
 STATS = ("hp", "atk", "def", "spa", "spd", "spe")
+SPECIAL_TYPES = {"Fire", "Water", "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"}   # before Gen IV
 STAT_ID = {1: "hp", 2: "atk", 3: "def", 4: "spa", 5: "spd", 6: "spe"}
 GAME_GEN = {g: VG_GEN[vg] for g, vg in VG.items()}
 
@@ -138,6 +139,7 @@ class Era:
     def item_name(self, item):
         return self.item_lookup(item) or str(item)
 
+    @lru_cache(maxsize=None)
     def move_info(self, move, gen):
         """(type, damage class, power, accuracy) as the generation had it (PokeAPI move_changelog rolled back)."""
         mid = self.ref.move_id(move)
@@ -151,8 +153,27 @@ class Era:
                 power = ch["power"] if ch["power"] is not None and power == row[1] else power
                 acc = ch["accuracy"] if ch["accuracy"] is not None and acc == row[2] else acc
         all_names = {int(r[0]): r[1].capitalize() for r in self.ref.q("SELECT id, identifier FROM types")}
+        meta = self.ref.q("SELECT mm.drain, c.identifier FROM move_meta mm LEFT JOIN move_meta_categories c "
+                          "ON c.id=mm.meta_category_id WHERE mm.move_id=?", mid)
+        effect = self.ref.q("SELECT p.short_effect FROM moves m JOIN move_effect_prose p ON p.move_effect_id=m.effect_id "
+                            "AND p.local_language_id=9 WHERE m.id=?", mid)
+        words = move.split()
+        if len(words) == 3 and words[0].lower() == "hidden" and words[2].capitalize() in all_names.values():
+            type_id = next(i for i, n in all_names.items() if n == words[2].capitalize())   # "Hidden Power Fire"
+            power = power if power and int(power) > 1 else 70
+        if gen < 4 and dclass != "status":   # Gen II-III: physical or special by type
+            dclass = "special" if all_names[type_id] in SPECIAL_TYPES else "physical"
         return {"type": all_names[type_id], "class": dclass, "power": int(power) if power else 0,
-                "accuracy": int(acc) if acc else None}
+                "accuracy": int(acc) if acc else None, "drain": int(meta[0][0] or 0) if meta else 0,
+                "meta": (meta[0][1] if meta else None) or "unique", "effect": (effect[0][0] if effect else "") or ""}
+
+    @lru_cache(maxsize=None)
+    def fully_evolved(self, gen):
+        """Every fully evolved species that existed in this generation (default forms)."""
+        top = {2: 251, 3: 386, 4: 493}[gen]
+        return [r[0] for r in self.ref.q(
+            "SELECT s.identifier FROM pokemon_species s WHERE CAST(s.id AS INT)<=? AND NOT EXISTS "
+            "(SELECT 1 FROM pokemon_species c WHERE c.evolves_from_species_id=s.id AND CAST(c.id AS INT)<=?)", top, top)]
 
     @lru_cache(maxsize=None)
     def game_names(self):

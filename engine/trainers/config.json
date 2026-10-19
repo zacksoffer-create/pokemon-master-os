@@ -127,5 +127,151 @@
   "strength_if_resisted_at_least": 3,
   "strength_needs_no_weakness": true,
   "bring_margin": 1
+ },
+ "signals": {
+  "_note": "How the engine measures each slider from the team's data, to check the authored value. Every signal is a share of the team (0-100): how many members show it. A slider's measured value is the average of its signals that have data; a signal with no data on the team is left out, and a slider with none says 'no signal'. Weights are equal unless set. Missing data is never evidence: a member with no item recorded doesn't count for or against Choice items; a plain ball, no ribbons or no nickname say nothing about bond.",
+  "offense": {
+   "attack_heavy": {
+    "label": "attack-heavy stats",
+    "rule": "best attacking stat is higher than the average of its two defenses"
+   },
+   "damage_moves": {
+    "label": "mostly attacks",
+    "rule": "at least this many of its moves deal damage",
+    "min_damaging": 3
+   },
+   "fast": {
+    "label": "fast",
+    "rule": "Speed at or above the median fully evolved Pokémon of its generation, same level and defaults"
+   }
+  },
+  "rigidity": {
+   "choice": {
+    "label": "Choice items",
+    "items": [
+     "Choice Band",
+     "Choice Specs",
+     "Choice Scarf"
+    ]
+   },
+   "narrow_evs": {
+    "label": "narrow EV spreads",
+    "rule": "at least this share of its EVs in two stats (only builds with recorded EVs)",
+    "share": 0.9
+   },
+   "few_attack_types": {
+    "label": "low move-type variety",
+    "rule": "its attacks cover at most this many types",
+    "max_types": 2
+   }
+  },
+  "bond": {
+   "friendship": {
+    "label": "high friendship",
+    "min": 200
+   },
+   "ball": {
+    "label": "a partner's ball (Luxury, Friend, Heal, Cherish, Premier)",
+    "balls": [
+     "Luxury Ball",
+     "Friend Ball",
+     "Heal Ball",
+     "Cherish Ball",
+     "Premier Ball"
+    ]
+   },
+   "ribbons": {
+    "label": "ribbons"
+   },
+   "nickname": {
+    "label": "nicknames"
+   }
+  },
+  "risk": {
+   "risky": {
+    "label": "carries a gamble",
+    "rule": "a move under this accuracy, a one-hit KO move, recoil, a self-KO move, or one of these items",
+    "accuracy_below": 85,
+    "items": [
+     "Life Orb"
+    ]
+   }
+  }
+ },
+ "disagreement": {
+  "_note": "When the measured value is at least this far from the authored one, the report notes it and names the signals behind it.",
+  "gap": 30
+ },
+ "nature_clash": {
+  "_note": "A nature that pulls against its trainer gets a line. Each rule: a slider and a side ('high' at or above 'at', 'low' at or below it), and the nature stats that clash. Only builds with a recorded nature are read.",
+  "rules": [
+   {
+    "slider": "offense",
+    "side": "high",
+    "at": 65,
+    "raises_any": [
+     "def",
+     "spd"
+    ],
+    "lowers_any": [
+     "atk",
+     "spa"
+    ],
+    "line": "{species} has a {nature} nature: built to take hits, on a trainer who wants to deal them."
+   },
+   {
+    "slider": "offense",
+    "side": "low",
+    "at": 35,
+    "raises_any": [
+     "atk",
+     "spa"
+    ],
+    "lowers_any": [
+     "def",
+     "spd"
+    ],
+    "line": "{species} has a {nature} nature: built to hit hard, on a trainer who'd rather absorb first."
+   },
+   {
+    "slider": "risk",
+    "side": "low",
+    "at": 30,
+    "raises_any": [
+     "atk",
+     "spa",
+     "spe"
+    ],
+    "lowers_any": [
+     "def",
+     "spd"
+    ],
+    "line": "{species} has a {nature} nature, trading bulk for power: a gamble on a percentage player's team."
+   }
+  ]
+ },
+ "tags": {
+  "_note": "Badges: simple rules that fire on thresholds. A tag earns its place only if it changes a line of the report (tested).",
+  "cohesive": {
+   "name": "Cohesive",
+   "rule": "at least this many members share a move",
+   "min_members": 3
+  },
+  "type_dominant": {
+   "name": "Type-dominant",
+   "rule": "at least this many members share a type",
+   "min_members": 4
+  },
+  "roles": {
+   "Gym Leader": {
+    "name": "Gym Leader"
+   },
+   "Champion": {
+    "name": "Champion"
+   },
+   "Region Champion": {
+    "name": "Region Champion"
+   }
+  }
  }
 }
