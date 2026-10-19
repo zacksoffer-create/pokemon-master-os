@@ -259,6 +259,26 @@ class JourneyLabRanch(unittest.TestCase):
         absol = self.scout.report("Absol", "emerald", {"moves": ["Bite", "Rock Slide"]})
         self.assertTrue(absol["damage_profile"].startswith("mixed"))
 
+    def test_scouting_card_v2(self):
+        typh = self.scout.report("Typhlosion", "heartgold",
+                                 {"moves": ["Flamethrower", "Extrasensory", "Thunder Punch", "Earthquake"]})
+        flame = typh["arsenal"][0]
+        self.assertEqual((flame["move"], flame["tags"][:2]), ("Flamethrower", ["out pitch", "STAB"]))
+        self.assertTrue(20 <= flame["grade"] <= 80)
+        self.assertEqual(len(typh["type_chart"]), 17)
+        self.assertFalse({"Groudon", "Palkia", "Dialga"} & {t["species"] for t in typh["trouble"]})   # no legendaries
+        snorlax = self.scout.report("Snorlax", "heartgold", {"moves": ["Body Slam", "Rest", "Thunder Punch", "Zen Headbutt"]})
+        self.assertEqual(snorlax["role"], "wall")
+        garchomp = self.scout.report("Garchomp", "platinum", {"moves": ["Earthquake", "Dragon Claw", "Fire Fang", "Poison Jab"]})
+        self.assertIn("4x weak to Ice", garchomp["risk"]["reasons"])
+        self.assertTrue(garchomp["take"].startswith("Plus power"))
+
+    def test_what_if_opponents_are_built_at_peak(self):
+        from battle.scouting import Scouting
+        opp = Scouting.as_opponent("heartgold", [Member("Lapras", moves=["Surf"], nature="Calm")])
+        mon = opp["party"][0]
+        self.assertEqual((mon["level"], mon["ivs"]["spa"], mon["nature"]), (100, 31, "Calm"))
+
     def test_peak_set_skips_rejected_and_unreliable_moves(self):
         peak = self.scout.peak_moveset("Typhlosion", "heartgold", rejected=["Focus Blast"])
         self.assertNotIn("Focus Blast", peak)

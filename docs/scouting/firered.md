@@ -1,17 +1,17 @@
 # Scouting packet: FireRed (confidence)
 
-*Roster status: working (D-003). Grades are on the 20-80 scouting scale (50 = average, 60 plus, 70 plus-plus, 80 elite), measured against every fully evolved Pokémon of Gen 3, so packets from different games compare like era-adjusted stats. Present = the build on record; peak = the best of that and its strongest learnable set (D-024). Not a simulation: the 1v1 record is the benchmark grid at the opponent's top level.*
+*Roster status: working (D-003). Grades are on the 20-80 scouting scale (50 = average, 60 plus, 70 plus-plus, 80 elite), measured against every fully evolved Pokémon of the same generation, so packets from different games compare like era-adjusted stats. Present = the build on record; peak = the best of that and its strongest learnable set (D-024). Not a simulation: the 1v1 record is the benchmark grid at the opponent's top level.*
 
 ## Depth chart (team OFP 51 present / 51 peak)
 
-| | OFP | Power | Speed | Bulk (P/S) | Coverage | Utility | 1v1 vs the league | Build |
-|---|---|---|---|---|---|---|---|---|
-| **Alakazam** | 53/53 | 65 | 65 | 35/45 | 55 | 40 | 29-9 | no build on record: strongest learnable set |
-| **Charizard** | 52/52 | 55 | 60 | 50/50 | 55 | 40 | 25-13 | no build on record: strongest learnable set |
-| **Machamp** | 52/52 | 65 | 45 | 55/55 | 55 | 40 | 30-8 | no build on record: strongest learnable set |
-| **Jolteon** | 51/51 | 55 | 70 | 40/50 | 45 | 40 | 29-9 | no build on record: strongest learnable set |
-| **Blastoise** | 49/51 | 45 | 50 | 55/55 | 45/55 | 50 | 32-6 | historical (sheet) |
-| **Venusaur** | 48/48 | 50 | 50 | 50/55 | 50 | 40 | 22-16 | no build on record: strongest learnable set |
+| | OFP | Role | Power | Speed | Bulk (P/S) | Coverage | Utility | Risk | 1v1 vs the league | Build |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **Alakazam** | 53/53 | setup sweeper | 65 | 65 | 35/45 | 55 | 40 | medium | 29-9 | no build on record: strongest learnable set |
+| **Charizard** | 52/52 | attacker | 55 | 60 | 50/50 | 55 | 40 | medium | 25-13 | no build on record: strongest learnable set |
+| **Machamp** | 52/52 | setup sweeper | 65 | 45 | 55/55 | 55 | 40 | medium | 30-8 | no build on record: strongest learnable set |
+| **Jolteon** | 51/51 | attacker | 55 | 70 | 40/50 | 45 | 40 | medium | 29-9 | no build on record: strongest learnable set |
+| **Blastoise** | 49/51 | utility | 45 | 50 | 55/55 | 45/55 | 50 | low | 32-6 | historical (sheet) |
+| **Venusaur** | 48/48 | attacker | 50 | 50 | 50/55 | 50 | 40 | low | 22-16 | no build on record: strongest learnable set |
 
 ## Team tendencies
 
@@ -22,93 +22,142 @@
 ## Player cards
 
 ### Charizard (Fire/Flying), FireRed
-**OFP 52 / 52** (present / peak) · build: no build on record: strongest learnable set
+**OFP 52 / 52** (present / peak) · **role:** attacker · **risk:** medium (4x weak to Rock) · build: no build on record: strongest learnable set
+
+> Above-average power, plus speed, average bulk. Projects as an attacker. Out pitch: Overheat (65). Gets in trouble against Aerodactyl, Armaldo, Cradily.
 
 | Power | Speed | Phys. bulk | Spec. bulk | Coverage | Utility |
 |---|---|---|---|---|---|
 | 55 | 60 | 50 | 50 | 55 | 40 |
 
-- **Moves:** Overheat / Earthquake / Bite / Dragon Dance
-- **Out pitch:** Overheat · **pitch mix:** 1 physical, 2 special, 1 status (mixed attacker; nature not set: any nature that cuts Attack or Sp. Atk weakens half the set)
+| Pitch | Type | Kind | Power | Acc. | Grade | Job |
+|---|---|---|---|---|---|---|
+| Overheat | Fire | Special | 140 | 90 | 65 | out pitch, STAB |
+| Earthquake | Ground | Physical | 100 | 100 | 40 | coverage (adds Electric, Fire, Poison, Rock) |
+| Bite | Dark | Special | 60 | 100 | 35 | coverage (adds Ghost, Psychic) |
+| Dragon Dance | Dragon | Status | — | 100 | — | setup |
+
+- **Pitch mix:** 1 physical, 2 special, 1 status (mixed attacker; nature not set: any nature that cuts Attack or Sp. Atk weakens half the set)
 - **Approach:** sets up, then sweeps
 - **Splits:** sturdier against special hitters
-- **Hits super-effectively:** 10 types
 - **Weak to:** Rock ×4, Water ×2, Electric ×2 · **immune:** Ground
+- **Tough matchups:** Aerodactyl (hits it x4), Armaldo (hits it x4), Cradily (hits it x4), Shuckle (hits it x4), Sharpedo (hits it x2)
 - **Comps:** Typhlosion, Zapdos, Xatu
 
 ### Blastoise (Water), FireRed
-**OFP 49 / 51** (present / peak) · build: historical (sheet)
+**OFP 49 / 51** (present / peak) · **role:** utility · **risk:** low · build: historical (sheet)
+
+> Fringe-average power, average speed, above-average bulk. Projects as an utility. Out pitch: Surf (50). Gets in trouble against Jolteon, Electrode, Manectric.
 
 | Power | Speed | Phys. bulk | Spec. bulk | Coverage | Utility |
 |---|---|---|---|---|---|
 | 45 | 50 | 55 | 55 | 45 / 55 | 50 |
 
-- **Moves:** Surf / Ice Beam / Rapid Spin / Toxic · **peak set:** Hydro Pump / Brick Break / Ice Beam / Rest
-- **Out pitch:** Surf · **pitch mix:** 1 physical, 2 special, 1 status (special attacker)
+| Pitch | Type | Kind | Power | Acc. | Grade | Job |
+|---|---|---|---|---|---|---|
+| Surf | Water | Special | 95 | 100 | 50 | out pitch, STAB |
+| Ice Beam | Ice | Special | 95 | 100 | 40 | coverage (adds Dragon, Flying, Grass) |
+| Rapid Spin | Normal | Physical | 20 | 100 | 25 | coverage |
+| Toxic | Poison | Status | — | 90 | — | status |
+
+- **Peak set:** Hydro Pump / Brick Break / Ice Beam / Rest
+- **Pitch mix:** 1 physical, 2 special, 1 status (special attacker)
 - **Approach:** cripples first
 - **Splits:** sturdier against special hitters
-- **Hits super-effectively:** 6 types (peak set: 10)
 - **Weak to:** Electric ×2, Grass ×2
+- **Tough matchups:** Jolteon (hits it x2), Electrode (hits it x2), Manectric (hits it x2), Electabuzz (hits it x2), Magneton (hits it x2)
 - **Comps:** Kingdra, Meganium, Poliwrath
 
 ### Venusaur (Grass/Poison), FireRed
-**OFP 48 / 48** (present / peak) · build: no build on record: strongest learnable set
+**OFP 48 / 48** (present / peak) · **role:** attacker · **risk:** low · build: no build on record: strongest learnable set
+
+> Average power, average speed, average bulk. Projects as an attacker. Out pitch: Sludge Bomb (45). Gets in trouble against Alakazam, Ninjask, Espeon.
 
 | Power | Speed | Phys. bulk | Spec. bulk | Coverage | Utility |
 |---|---|---|---|---|---|
 | 50 | 50 | 50 | 55 | 50 | 40 |
 
-- **Moves:** Sludge Bomb / Earthquake / Petal Dance / Swords Dance
-- **Out pitch:** Sludge Bomb · **pitch mix:** 2 physical, 1 special, 1 status (mixed attacker; nature not set: any nature that cuts Attack or Sp. Atk weakens half the set)
+| Pitch | Type | Kind | Power | Acc. | Grade | Job |
+|---|---|---|---|---|---|---|
+| Sludge Bomb | Poison | Physical | 90 | 100 | 45 | out pitch, STAB |
+| Earthquake | Ground | Physical | 100 | 100 | 40 | coverage (adds Electric, Fire, Poison, Steel) |
+| Petal Dance | Grass | Special | 70 | 100 | 45 | STAB |
+| Swords Dance | Normal | Status | — | 100 | — | setup |
+
+- **Pitch mix:** 2 physical, 1 special, 1 status (mixed attacker; nature not set: any nature that cuts Attack or Sp. Atk weakens half the set)
 - **Approach:** sets up, then sweeps
 - **Splits:** sturdier against special hitters
-- **Hits super-effectively:** 8 types
 - **Weak to:** Fire ×2, Ice ×2, Flying ×2, Psychic ×2
+- **Tough matchups:** Alakazam (hits it x2), Ninjask (hits it x2), Espeon (hits it x2), Aerodactyl (hits it x2), Salamence (hits it x2)
 - **Comps:** Ludicolo, Meganium, Nidoqueen
 
 ### Alakazam (Psychic), FireRed
-**OFP 53 / 53** (present / peak) · build: no build on record: strongest learnable set
+**OFP 53 / 53** (present / peak) · **role:** setup sweeper · **risk:** medium (frail on one side) · build: no build on record: strongest learnable set
+
+> Plus power, plus speed, below-average bulk. Projects as a setup sweeper. Out pitch: Psychic (60). Gets in trouble against Sharpedo, Houndoom, Absol.
 
 | Power | Speed | Phys. bulk | Spec. bulk | Coverage | Utility |
 |---|---|---|---|---|---|
 | 65 | 65 | 35 | 45 | 55 | 40 |
 
-- **Moves:** Psychic / Fire Punch / Ice Punch / Calm Mind
-- **Out pitch:** Psychic · **pitch mix:** 0 physical, 3 special, 1 status (special attacker)
+| Pitch | Type | Kind | Power | Acc. | Grade | Job |
+|---|---|---|---|---|---|---|
+| Psychic | Psychic | Special | 90 | 100 | 60 | out pitch, STAB |
+| Fire Punch | Fire | Special | 75 | 100 | 45 | coverage (adds Bug, Grass, Ice, Steel) |
+| Ice Punch | Ice | Special | 75 | 100 | 45 | coverage (adds Dragon, Flying, Grass, Ground) |
+| Calm Mind | Psychic | Status | — | 100 | — | setup |
+
+- **Pitch mix:** 0 physical, 3 special, 1 status (special attacker)
 - **Approach:** sets up, then sweeps
 - **Splits:** sturdier against special hitters
-- **Hits super-effectively:** 9 types
 - **Weak to:** Bug ×2, Ghost ×2, Dark ×2
+- **Tough matchups:** Sharpedo (hits it x2), Houndoom (hits it x2), Absol (hits it x2), Tyranitar (hits it x2), Banette (hits it x2)
 - **Comps:** Espeon, Jynx, Gengar
 
 ### Jolteon (Electric), FireRed
-**OFP 51 / 51** (present / peak) · build: no build on record: strongest learnable set
+**OFP 51 / 51** (present / peak) · **role:** attacker · **risk:** medium (frail on one side) · build: no build on record: strongest learnable set
+
+> Above-average power, plus-plus speed, fringe-average bulk. Projects as an attacker. Out pitch: Thunderbolt (55). Gets in trouble against Dugtrio, Flygon, Nidoking.
 
 | Power | Speed | Phys. bulk | Spec. bulk | Coverage | Utility |
 |---|---|---|---|---|---|
 | 55 | 70 | 40 | 50 | 45 | 40 |
 
-- **Moves:** Thunderbolt / Bite / Iron Tail / Curse
-- **Out pitch:** Thunderbolt · **pitch mix:** 1 physical, 2 special, 1 status (mixed attacker; nature not set: any nature that cuts Attack or Sp. Atk weakens half the set)
+| Pitch | Type | Kind | Power | Acc. | Grade | Job |
+|---|---|---|---|---|---|---|
+| Thunderbolt | Electric | Special | 95 | 100 | 55 | out pitch, STAB |
+| Bite | Dark | Special | 60 | 100 | 35 | coverage (adds Ghost, Psychic) |
+| Iron Tail | Steel | Physical | 100 | 75 | 35 | coverage (adds Ice, Rock) |
+| Curse | ??? | Status | — | 100 | — | setup |
+
+- **Pitch mix:** 1 physical, 2 special, 1 status (mixed attacker; nature not set: any nature that cuts Attack or Sp. Atk weakens half the set)
 - **Approach:** sets up, then sweeps
 - **Splits:** sturdier against special hitters
-- **Hits super-effectively:** 6 types
 - **Weak to:** Ground ×2 · **immune:** Electric
+- **Tough matchups:** Dugtrio (hits it x2), Flygon (hits it x2), Nidoking (hits it x2), Donphan (hits it x2), Swampert (hits it x2)
 - **Comps:** Electabuzz, Raikou, Electrode
 
 ### Machamp (Fighting), FireRed
-**OFP 52 / 52** (present / peak) · build: no build on record: strongest learnable set
+**OFP 52 / 52** (present / peak) · **role:** setup sweeper · **risk:** medium (out pitch is 80% accurate) · build: no build on record: strongest learnable set
+
+> Plus power, fringe-average speed, above-average bulk. Projects as a setup sweeper. Out pitch: Cross Chop (55). Gets in trouble against Alakazam, Espeon, Starmie.
 
 | Power | Speed | Phys. bulk | Spec. bulk | Coverage | Utility |
 |---|---|---|---|---|---|
 | 65 | 45 | 55 | 55 | 55 | 40 |
 
-- **Moves:** Cross Chop / Earthquake / Rock Slide / Bulk Up
-- **Out pitch:** Cross Chop · **pitch mix:** 3 physical, 0 special, 1 status (physical attacker)
+| Pitch | Type | Kind | Power | Acc. | Grade | Job |
+|---|---|---|---|---|---|---|
+| Cross Chop | Fighting | Physical | 100 | 80 | 55 | out pitch, STAB |
+| Earthquake | Ground | Physical | 100 | 100 | 50 | coverage (adds Electric, Fire, Poison) |
+| Rock Slide | Rock | Physical | 75 | 90 | 40 | coverage (adds Bug, Fire, Flying) |
+| Bulk Up | Fighting | Status | — | 100 | — | setup |
+
+- **Pitch mix:** 3 physical, 0 special, 1 status (physical attacker)
 - **Approach:** sets up, then sweeps
 - **Splits:** sturdier against special hitters
-- **Hits super-effectively:** 10 types
 - **Weak to:** Flying ×2, Psychic ×2
+- **Tough matchups:** Alakazam (hits it x2), Espeon (hits it x2), Starmie (hits it x2), Gardevoir (hits it x2), Mr. Mime (hits it x2)
 - **Comps:** Ursaring, Heracross, Breloom
 
 ## Call sheets
@@ -124,6 +173,9 @@
 | Lapras L54 | Machamp: Cross Chop 81.8-96.4% | Jolteon: Thunderbolt 58.6-69.1% | — |
 
 - **Opener:** they lead Dewgong L52; call Machamp: Cross Chop 109.9-129.8%
+- **Lead with:** Jolteon · **their best player:** Lapras L54 (beats 4 of ours)
+- **If Slowbro L52 sets up (Amnesia):** Venusaur: Petal Dance 60.8-71.6%
+- **Last one standing:** Jolteon
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Jolteon 5, Machamp 5, Blastoise 4, Venusaur 3, Alakazam 3, Charizard 2
 - **No answer:** none
@@ -139,6 +191,9 @@
 | Machamp L56 | Alakazam: Psychic 89.6-106% | Charizard: Overheat 58.5-68.9% | — |
 
 - **Opener:** they lead Onix L51; call Blastoise: Surf 373.2-439.3%
+- **Lead with:** Charizard · **their best player:** Machamp L56 (beats 3 of ours)
+- **If Machamp L56 sets up (Bulk Up):** Alakazam: Psychic 89.6-106%
+- **Last one standing:** Charizard
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Charizard 5, Venusaur 5, Alakazam 5, Blastoise 4, Machamp 4, Jolteon 1
 - **No answer:** none
@@ -154,6 +209,8 @@
 | Gengar L58 | Alakazam: Psychic 122.6-144.5% | Charizard: Overheat 79.4-93.5% | — |
 
 - **Opener:** they lead Gengar L54; call Alakazam: Psychic 140.7-165.5%
+- **Lead with:** Charizard · **their best player:** Golbat L54 (beats 1 of ours)
+- **Last one standing:** Charizard
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Charizard 5, Blastoise 5, Alakazam 5, Jolteon 5, Machamp 5, Venusaur 2
 - **No answer:** none
@@ -169,6 +226,8 @@
 | Dragonite L60 | Blastoise: Ice Beam 77.7-91.4% | — | Alakazam |
 
 - **Opener:** they lead Gyarados L56; call Jolteon: Thunderbolt 158.2-186.2%
+- **Lead with:** Jolteon · **their best player:** Dragonite L60 (beats 5 of ours)
+- **Last one standing:** Blastoise
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Blastoise 4, Jolteon 4, Machamp 4, Venusaur 3, Charizard 2, Alakazam 2
 - **No answer:** none
@@ -185,6 +244,8 @@
 | Blastoise L63 | Venusaur: Petal Dance 50-59.4% | Jolteon: Thunderbolt 72.4-85.4% | — |
 
 - **Opener:** they lead Pidgeot L59; call Jolteon: Thunderbolt 110.8-130.8%
+- **Lead with:** Blastoise · **their best player:** Blastoise L63 (beats 4 of ours)
+- **Last one standing:** Blastoise
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Blastoise 5, Alakazam 5, Jolteon 5, Charizard 4, Venusaur 3, Machamp 3
 - **No answer:** none
@@ -201,6 +262,9 @@
 | Venusaur L63 | Charizard: Overheat 108.8-128.5% | Alakazam: Psychic 84.5-99.5% | — |
 
 - **Opener:** they lead Pidgeot L59; call Jolteon: Thunderbolt 110.8-130.8%
+- **Lead with:** Blastoise · **their best player:** Venusaur L63 (beats 3 of ours)
+- **If Venusaur L63 sets up (Growth):** Charizard: Overheat 108.8-128.5%
+- **Last one standing:** Blastoise
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Blastoise 5, Alakazam 5, Charizard 4, Jolteon 4, Machamp 4, Venusaur 3
 - **No answer:** none
@@ -217,6 +281,8 @@
 | Charizard L63 | Machamp: Rock Slide 114.2-134.7% | Blastoise: Surf 70.5-83.2% | — |
 
 - **Opener:** they lead Pidgeot L59; call Jolteon: Thunderbolt 110.8-130.8%
+- **Lead with:** Blastoise · **their best player:** Gyarados L61 (beats 3 of ours)
+- **Last one standing:** Blastoise
 - **Closers (priority):** none
 - **Anchors (1v1 wins):** Blastoise 5, Jolteon 5, Machamp 5, Alakazam 4, Charizard 3, Venusaur 3
 - **No answer:** none

@@ -188,6 +188,7 @@ class Benchmarks:
         zero_evs = {s: 0 for s in ("hp", "atk", "def", "spa", "spd", "spe")}
         for oi, o in enumerate(opponent["party"]):
             foe = {"species": o["species"], "level": o["level"], "ivs": o["ivs"], "evs": zero_evs, "item": o["item"]}
+            foe.update({k: o[k] for k in ("nature", "ability") if o.get(k)})   # set when the opponent is a built team
             for ui, u in enumerate(ours):
                 me = {k: v for k, v in u.items() if k != "moves" and v is not None}
                 for mv in u["moves"]:

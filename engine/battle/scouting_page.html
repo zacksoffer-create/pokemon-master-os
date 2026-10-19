@@ -1,0 +1,381 @@
+<title>Journey Scouting File</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: a front-office scouting file. A ledger-paper ground, form-stock cards ruled like the old scouting
+   forms (tools in Present / Peak columns on the 20-80 scale), typed entries, and blue-pencil marks for what matters.
+   Call sheets read like a laminated play sheet: situation boxes around one big call table. */
+:root {
+  --paper: #e9ede4;
+  --card: #f8f9f4;
+  --ink: #17232e;
+  --ink-2: #4b5b67;
+  --rule: #c6cfbf;
+  --rule-strong: #93a094;
+  --accent: #2b4f9e;
+  --accent-ink: #ffffff;
+  --good: #2c7a4b;
+  --warn: #a8701a;
+  --bad: #b03a2c;
+  --g-low: #8f9aa1;
+  --g-avg: #6b7a84;
+  --tint-good: #d9ecdf;
+  --tint-bad: #f3dcd6;
+  --tint-zero: #cfd4d7;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-typed: "Courier Prime", "Courier New", ui-monospace, monospace;
+  --step--1: 0.8rem; --step-0: 0.95rem; --step-1: 1.15rem; --step-2: 1.45rem; --step-3: 2rem; --step-4: 2.7rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
+    --accent: #86a6ef; --accent-ink: #0e1630; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+    --g-low: #5d6b74; --g-avg: #7e8d97; --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
+  --accent: #86a6ef; --accent-ink: #0e1630; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+  --g-low: #5d6b74; --g-avg: #7e8d97; --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #2a3238;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.wrap > *, .teamhead > div { min-width: 0; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: 0.01em; }
+.label { font-family: var(--font-display); font-weight: 600; font-size: var(--step--1); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); }
+.typed { font-family: var(--font-typed); }
+.num { font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* masthead */
+.masthead { padding-top: 26px; display: grid; gap: 6px; border-bottom: 3px double var(--rule-strong); padding-bottom: 14px; }
+.masthead .dept { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+.masthead h1 { font-size: var(--step-4); line-height: 1; text-transform: uppercase; }
+.masthead p { margin: 0; max-width: 70ch; color: var(--ink-2); }
+
+/* tabs */
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--rule-strong); }
+.tab {
+  background: none; border: 1px solid transparent; border-bottom: none; padding: 8px 14px 7px;
+  font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--ink-2); cursor: pointer; border-radius: 4px 4px 0 0; position: relative; top: 1px;
+}
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { background: var(--card); border-color: var(--rule-strong); color: var(--ink); }
+.tab .sub { display: block; font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 0.02em; text-transform: none; font-weight: 500; color: var(--ink-2); }
+.subtabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill {
+  border: 1px solid var(--rule-strong); background: var(--card); border-radius: 999px; padding: 5px 12px;
+  font-family: var(--font-display); font-weight: 600; letter-spacing: 0.03em; cursor: pointer; font-size: var(--step-0);
+}
+.pill[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* team header */
+.teamhead { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; }
+.ofp-big { border: 2px solid var(--accent); border-radius: 50%; width: 92px; height: 92px; display: grid; place-content: center; text-align: center; color: var(--accent); }
+.ofp-big b { font-family: var(--font-display); font-size: 2.3rem; line-height: 1; }
+.ofp-big span { font-size: 0.68rem; font-family: var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; }
+.teamhead h2 { font-size: var(--step-3); text-transform: uppercase; }
+.teamhead .meta { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--ink-2); }
+.notes { display: grid; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; max-width: 80ch; }
+.notes li { padding-left: 14px; position: relative; }
+.notes li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--rule-strong); }
+.notes li.key::before { background: var(--accent); }
+
+/* tables */
+.scroll { overflow-x: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--step--1); color: var(--ink-2); text-align: left; padding: 6px 8px; border-bottom: 1.5px solid var(--rule-strong); white-space: nowrap; }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td.c, th.c { text-align: center; }
+.depth tr { cursor: pointer; }
+.depth tbody tr:hover td { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.sheet-card, .card, .panel { background: var(--card); border: 1px solid var(--rule-strong); border-radius: 3px; }
+.panel { padding: 14px 16px; }
+
+/* grade chips */
+.g { display: inline-block; min-width: 2.1em; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; border-radius: 3px; padding: 0 4px; }
+.g-low { color: var(--g-low); }
+.g-avg { color: var(--ink); }
+.g-plus { color: var(--good); }
+.g-elite { color: var(--accent-ink); background: var(--accent); }
+.risk { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8rem; padding: 1px 7px; border-radius: 3px; border: 1px solid currentColor; white-space: nowrap; }
+.risk.low { color: var(--good); } .risk.medium { color: var(--warn); } .risk.high { color: var(--bad); }
+
+/* player cards: the scouting form */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 18px; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; scroll-margin-top: 16px; }
+.card .top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 12px 14px 10px; border-bottom: 2px solid var(--ink); }
+.card .top h3 { font-size: var(--step-3); line-height: 1; text-transform: uppercase; }
+.card .idline { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 4px; color: var(--ink-2); font-size: var(--step--1); }
+.card .ofp { text-align: center; }
+.card .ofp .ring { border: 2px solid var(--accent); color: var(--accent); border-radius: 50%; width: 62px; height: 62px; display: grid; place-content: center; font-family: var(--font-display); font-weight: 700; font-size: 1.7rem; line-height: 1; }
+.card .ofp .peak { font-size: 0.72rem; color: var(--ink-2); font-family: var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+.formrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); border-bottom: 1px solid var(--rule); }
+.formrow > div { padding: 7px 14px; border-right: 1px solid var(--rule); min-width: 0; }
+.formrow > div:last-child { border-right: none; }
+.formrow .label { display: block; margin-bottom: 2px; }
+.take { padding: 10px 14px; border-bottom: 1px solid var(--rule); font-family: var(--font-typed); font-size: 0.9rem; line-height: 1.5; }
+.section { padding: 10px 14px 12px; border-bottom: 1px solid var(--rule); display: grid; gap: 8px; min-width: 0; }
+.section:last-child { border-bottom: none; }
+.tools { display: grid; grid-template-columns: minmax(84px, auto) 2.4em 2.4em 1fr; align-items: center; gap: 4px 10px; }
+.tools .h { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem; color: var(--ink-2); }
+.bar { position: relative; height: 10px; border-radius: 2px; background: repeating-linear-gradient(90deg, transparent 0 calc(100% / 6 - 1px), var(--rule) calc(100% / 6 - 1px) calc(100% / 6)); border: 1px solid var(--rule); }
+.bar .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 1px; }
+.bar .avg { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1.5px; background: var(--rule-strong); }
+.bar .pk { position: absolute; top: -4px; bottom: -4px; width: 3px; background: var(--accent); border-radius: 1px; }
+.fill.g-low { background: var(--g-low); } .fill.g-avg { background: var(--g-avg); } .fill.g-plus { background: var(--good); } .fill.g-elite { background: var(--accent); }
+.arsenal td { font-size: 0.88rem; }
+.arsenal .mv { font-weight: 600; white-space: nowrap; }
+.tag { display: inline-block; font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid var(--rule-strong); border-radius: 3px; padding: 0 5px; margin: 0 3px 2px 0; color: var(--ink-2); white-space: nowrap; }
+.tag.out { border-color: var(--accent); color: var(--accent); }
+.typechart { display: grid; grid-template-columns: 64px repeat(17, minmax(22px, 1fr)); gap: 2px; font-size: 0.68rem; min-width: 470px; }
+.typechart .rh { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-2); align-self: center; font-size: 0.7rem; }
+.typechart .th { font-family: var(--font-display); text-transform: uppercase; text-align: center; color: var(--ink-2); writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; font-size: 0.66rem; letter-spacing: 0.04em; height: 52px; }
+.typechart .cell { text-align: center; padding: 3px 0; border-radius: 2px; font-family: var(--font-display); font-weight: 600; background: var(--paper); color: var(--ink-2); }
+.cell.good { background: var(--tint-good); color: var(--good); }
+.cell.bad { background: var(--tint-bad); color: var(--bad); }
+.cell.zero { background: var(--tint-zero); color: var(--ink-2); }
+.cell.x4 { outline: 1.5px solid currentColor; outline-offset: -1.5px; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0; }
+.facts dt { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: var(--step--1); color: var(--ink-2); padding-top: 2px; }
+.facts dd { margin: 0; min-width: 0; }
+
+/* call sheets: the laminated play sheet */
+.sheet-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+.sheet-card header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding: 12px 14px; background: var(--ink); color: var(--card); border-radius: 2px 2px 0 0; }
+.sheet-card header h3 { font-size: var(--step-2); text-transform: uppercase; }
+.sheet-card header .src { font-size: var(--step--1); opacity: 0.8; font-family: var(--font-typed); }
+.situations { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; border-bottom: 1px solid var(--rule-strong); }
+.sit { padding: 10px 14px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-width: 0; }
+.sit .label { display: block; margin-bottom: 3px; }
+.sit.go { box-shadow: inset 4px 0 0 var(--good); }
+.sit.caution { box-shadow: inset 4px 0 0 var(--warn); }
+.sit.stop { box-shadow: inset 4px 0 0 var(--bad); }
+.calls td { font-size: 0.9rem; }
+.calls .they { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; text-transform: uppercase; white-space: nowrap; }
+.calls .call b { font-weight: 600; }
+.calls .their { color: var(--ink-2); font-size: 0.8rem; margin-top: 2px; }
+.calls .none { color: var(--bad); font-weight: 600; }
+.dont { color: var(--bad); }
+
+/* league */
+.matrix td, .matrix th { text-align: center; }
+.matrix td.self { background: var(--paper); color: var(--ink-2); }
+.heat { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+.section-head h2 { font-size: var(--step-2); text-transform: uppercase; }
+footer { border-top: 3px double var(--rule-strong); padding-top: 12px; color: var(--ink-2); font-size: var(--step--1); display: grid; gap: 6px; max-width: 90ch; }
+footer p { margin: 0; }
+@media (max-width: 560px) {
+  .masthead h1 { font-size: var(--step-3); }
+  .teamhead { grid-template-columns: 1fr; }
+  .ofp-big { width: 74px; height: 74px; }
+  .tools { grid-template-columns: minmax(70px, auto) 2.2em 2.2em 1fr; }
+}
+@media (prefers-reduced-motion: no-preference) { .card, .sheet-card { transition: box-shadow 0.2s; } .card:target { box-shadow: 0 0 0 3px var(--accent); } }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="dept"><span class="label">Front office · Scouting department</span><span class="label" id="gen"></span></div>
+    <h1>Journey Scouting File</h1>
+    <p>Every team from the journey, graded the way a scout grades a player and planned the way a coordinator plans a game. Tools are on the 20–80 scale and era-adjusted. Each call sheet comes from exact damage against the game's real Elite Four and champions.</p>
+  </header>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Chapters"></nav>
+  <main id="main" class="wrap"></main>
+  <footer>
+    <p id="scale"></p>
+    <p>Sources: Smogon's damage calculator (@smogon/calc 0.12.0) for every damage range; opponents' teams, moves, levels, items and IVs read from the games' own code (pret disassemblies of Crystal, FireRed, Emerald, Platinum, HeartGold/SoulSilver); species, moves and Pokédex data from PokeAPI. Builds and rosters from the project canon (decision D-043). Grades rank a Pokémon against its own generation; the what-if league puts every team under Gen 4 rules at Lv 100.</p>
+  </footer>
+</div>
+
+<script type="application/json" id="data">/*DATA*/</script>
+<script>
+(function () {
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const $ = (s, el = document) => el.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const TOOLS = [["power", "Power"], ["speed", "Speed"], ["phys_bulk", "Phys. bulk"], ["spec_bulk", "Spec. bulk"], ["coverage", "Coverage"], ["utility", "Utility"]];
+  const SHORT = { Normal: "Nor", Fire: "Fir", Water: "Wat", Electric: "Ele", Grass: "Gra", Ice: "Ice", Fighting: "Fig", Poison: "Poi", Ground: "Gro", Flying: "Fly", Psychic: "Psy", Bug: "Bug", Rock: "Roc", Ghost: "Gho", Dragon: "Dra", Dark: "Dar", Steel: "Ste" };
+  const gclass = (g) => (g == null ? "" : g >= 70 ? "g-elite" : g >= 55 ? "g-plus" : g >= 45 ? "g-avg" : "g-low");
+  const chip = (g) => (g == null ? "—" : `<span class="g ${gclass(g)}">${g}</span>`);
+  const mult = (x) => (x === 0 ? "0" : x === 0.5 ? "½" : x === 0.25 ? "¼" : x === 1 ? "1" : (Math.round(x * 100) / 100).toString());
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+  let state = { tab: "heartgold", view: "cards", sheet: 0 };
+  try { const saved = JSON.parse(localStorage.getItem("scouting-file") || "null"); if (saved) state = Object.assign(state, saved); } catch (e) {}
+  const hash = location.hash.replace("#", "");
+  if (hash && (hash === "league" || DATA.chapters.some((c) => c.game === hash))) state.tab = hash;
+  const save = () => { try { localStorage.setItem("scouting-file", JSON.stringify(state)); } catch (e) {} };
+
+  $("#gen").textContent = "Filed " + DATA.generated;
+  $("#scale").textContent = DATA.scale;
+
+  function renderTabs() {
+    const tabs = DATA.chapters.map((c) => [c.game, c.title, `${c.thesis} · ${c.status}`]).concat([["league", "What-if league", "every team at its peak"]]);
+    $("#tabs").innerHTML = tabs.map(([k, t, sub]) =>
+      `<button class="tab" role="tab" id="tab-${k}" aria-selected="${state.tab === k}" data-tab="${k}">${esc(t)}<span class="sub">${esc(sub)}</span></button>`).join("");
+  }
+
+  function toolBars(c) {
+    const p = c.grades.present, k = c.grades.peak;
+    return `<div class="tools"><span class="h">Tool</span><span class="h">Pres</span><span class="h">Peak</span><span class="h">20 · · · 50 · · · 80</span>` +
+      TOOLS.map(([key, name]) => {
+        const w = ((p[key] - 20) / 60) * 100, pk = ((k[key] - 20) / 60) * 100;
+        return `<span>${name}</span><span class="num">${chip(p[key])}</span><span class="num">${k[key] !== p[key] ? chip(k[key]) : "<span class='g g-low'>·</span>"}</span>` +
+          `<span class="bar" aria-hidden="true"><span class="fill ${gclass(p[key])}" style="width:${w}%"></span><span class="avg"></span>${k[key] !== p[key] ? `<span class="pk" style="left:calc(${pk}% - 1.5px)"></span>` : ""}</span>`;
+      }).join("") + `</div>`;
+  }
+
+  function typeChart(c) {
+    const tc = c.type_chart;
+    const head = `<span></span>` + tc.map((t) => `<span class="th">${SHORT[t.type]}</span>`).join("");
+    const off = `<span class="rh">Its hits</span>` + tc.map((t) => {
+      const cls = t.offense === 0 ? "zero" : t.offense > 1 ? "good" : "";
+      return `<span class="cell ${cls}" title="${esc(t.type)}: best hit ${mult(t.offense)}× (${esc(t.best_move || "none")})">${mult(t.offense)}</span>`;
+    }).join("");
+    const def = `<span class="rh">Hits it</span>` + tc.map((t) => {
+      const cls = t.defense === 0 ? "zero" : t.defense > 1 ? "bad" : t.defense < 1 ? "good" : "";
+      return `<span class="cell ${cls} ${t.defense >= 4 ? "x4" : ""}" title="${esc(t.type)} attacks do ${mult(t.defense)}×">${mult(t.defense)}</span>`;
+    }).join("");
+    return `<div class="scroll"><div class="typechart" role="img" aria-label="Type chart for ${esc(c.species)}">${head}${off}${def}</div></div>`;
+  }
+
+  function arsenal(c) {
+    return `<div class="scroll"><table class="arsenal"><thead><tr><th>Pitch</th><th>Type</th><th>Kind</th><th class="c">Pwr</th><th class="c">Acc</th><th class="c">Grade</th><th>Job</th></tr></thead><tbody>` +
+      c.arsenal.map((a) => `<tr><td class="mv">${esc(a.move)}</td><td>${esc(a.type)}</td><td>${esc(a.category)}</td><td class="c num">${a.power ?? "—"}</td><td class="c num">${a.accuracy}</td><td class="c">${chip(a.grade)}</td>` +
+        `<td>${a.tags.map((t) => `<span class="tag ${t === "out pitch" ? "out" : ""}">${esc(t)}</span>`).join("")}${a.adds_coverage.length ? `<span class="their"> adds ${esc(a.adds_coverage.join(", "))}</span>` : ""}</td></tr>`).join("") +
+      `</tbody></table></div>`;
+  }
+
+  function card(c) {
+    const [w, l] = c.record;
+    const risk = `<span class="risk ${c.risk.level}">${c.risk.level} risk</span>`;
+    const peakSet = c.peak_moves.join(" / ") !== c.moves.join(" / ") && JSON.stringify(c.grades.peak) !== JSON.stringify(c.grades.present);
+    return `<article class="card" id="card-${slug(c.species)}">
+      <div class="top"><div><h3>${esc(c.species)}</h3>
+        <div class="idline"><span>${esc(c.types.join(" / "))}</span><span class="num">${c.body.height_m} m · ${c.body.weight_kg} kg</span><span>${esc(DATA.titles[c.game])}</span></div></div>
+        <div class="ofp"><div class="ring num" title="Overall: present">${c.ofp.present}</div><div class="peak">OFP · peak ${c.ofp.peak}</div></div></div>
+      <div class="formrow"><div><span class="label">Projects as</span>${esc(c.role)}</div><div><span class="label">Risk</span>${risk}</div><div><span class="label">1v1 vs the league</span><span class="num"><b>${w}-${l}</b></span></div><div><span class="label">Build</span><span style="font-size:.85rem">${esc(c.build_source)}</span></div></div>
+      <div class="take">${esc(c.take)}${c.risk.reasons.length ? ` <span style="color:var(--ink-2)">Risk: ${esc(c.risk.reasons.join("; "))}.</span>` : ""}</div>
+      <div class="section"><span class="label">Tools · present / peak</span>${toolBars(c)}</div>
+      <div class="section"><span class="label">Arsenal</span>${arsenal(c)}</div>
+      <div class="section"><span class="label">Splits by type</span>${typeChart(c)}</div>
+      <div class="section"><dl class="facts">
+        <dt>Pitch mix</dt><dd>${c.pitch_mix.Physical} physical · ${c.pitch_mix.Special} special · ${c.pitch_mix.Status} status <span style="color:var(--ink-2)">(${esc(c.damage_profile)})</span></dd>
+        <dt>Approach</dt><dd>${esc(c.approach.join("; "))}</dd>
+        <dt>Splits</dt><dd>sturdier against ${esc(c.splits.better_vs)}</dd>
+        <dt>Tough matchups</dt><dd>${c.trouble.length ? c.trouble.map((t) => `${esc(t.species)} <span style="color:var(--ink-2)">(${t.hits_it})</span>`).join(", ") : "none in its generation"}</dd>
+        ${peakSet ? `<dt>Peak set</dt><dd>${esc(c.peak_moves.join(" / "))}</dd>` : ""}
+        <dt>Comps</dt><dd>${esc(c.comps.join(", "))}</dd>
+      </dl></div>
+    </article>`;
+  }
+
+  function depth(ch) {
+    const rows = [...ch.cards].sort((a, b) => b.ofp.present - a.ofp.present);
+    return `<div class="panel scroll"><table class="depth"><thead><tr><th>Player</th><th class="c">OFP</th><th>Role</th>${TOOLS.map(([, n]) => `<th class="c">${n}</th>`).join("")}<th class="c">Risk</th><th class="c">1v1</th></tr></thead><tbody>` +
+      rows.map((c) => `<tr data-card="${slug(c.species)}" tabindex="0"><td><b>${esc(c.species)}</b></td><td class="c">${chip(c.ofp.present)}</td><td>${esc(c.role)}</td>` +
+        TOOLS.map(([k]) => `<td class="c">${chip(c.grades.present[k])}</td>`).join("") +
+        `<td class="c"><span class="risk ${c.risk.level}">${c.risk.level}</span></td><td class="c num"><b>${c.record[0]}-${c.record[1]}</b></td></tr>`).join("") +
+      `</tbody></table></div>`;
+  }
+
+  function sheet(sh) {
+    const sit = (cls, label, body) => `<div class="sit ${cls}"><span class="label">${label}</span>${body}</div>`;
+    const op = sh.opener;
+    const sits = [
+      sit("go", "Opener", op ? `They lead <b>${esc(op.they_send)}</b>. ${op.call ? `Call <b>${esc(op.call)}</b>` : `<span class="none">Nobody wins it 1v1</span>`}` : "—"),
+      sit("go", "Lead with", `<b>${esc(sh.lead)}</b>`),
+      sit("caution", "Their best player", sh.their_best ? `<b>${esc(sh.their_best.species)}</b>, beats ${sh.their_best.beats} of ours` : "—"),
+      sit("caution", "If they set up", sh.if_they_set_up.length ? sh.if_they_set_up.map((x) => `<div><b>${esc(x.they_send)}</b> (${esc(x.move)}): ${esc(x.answer)}</div>`).join("") : "Nobody on their side sets up"),
+      sit("go", "Closers", sh.closers.length ? esc(sh.closers.join("; ")) : "No priority moves"),
+      sit("go", "Last one standing", `<b>${esc(sh.last_one_standing)}</b>`),
+      sit(sh.no_answer.length ? "stop" : "go", "No answer", sh.no_answer.length ? `<span class="none">${esc(sh.no_answer.join(", "))}</span>` : "Every one of theirs has an answer"),
+    ].join("");
+    const rows = sh.calls.map((r) => `<tr><td><div class="they">${esc(r.they_send)}</div><div class="their">${esc(r.their_moves.join(" · "))}${r.their_item ? " @ " + esc(r.their_item) : ""}</div></td>` +
+      `<td class="call">${r.call_detail ? `<b>${esc(r.call_detail.member)}</b>: ${esc(r.call_detail.we_hit)}<div class="their">takes ${esc(r.call_detail.they_hit)} · ${esc(r.call_detail.hits_to_ko)} hits · ${r.call_detail.moves_first ? "moves first" : "moves second"}</div>` : `<span class="none">No clean answer</span>`}</td>` +
+      `<td>${esc(r.backup || "—")}</td><td class="dont">${esc(r.dont_send.join(", ") || "—")}</td></tr>`).join("");
+    return `<section class="sheet-card"><header><h3>vs ${esc(sh.opponent)} · Lv ${sh.level}</h3><span class="src">${esc(sh.source)}</span></header>
+      <div class="situations">${sits}</div>
+      <div class="scroll"><table class="calls"><thead><tr><th>They send</th><th>The call</th><th>Backup</th><th>Don't send (KO'd in one hit)</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+  }
+
+  function chapter(ch) {
+    const sheetIdx = Math.min(state.sheet, ch.sheets.length - 1);
+    const notes = [...ch.scouts_notes.map((n) => [true, n]), ...ch.defensive_flags.map((n) => [false, "Defensive flag: " + n]),
+      [false, "Hits nothing super-effectively: " + (ch.no_super_effective_hit.join(", ") || "none")],
+      [false, "Speed order: " + ch.speed_order.map(([s, b]) => `${s} ${b}`).join(", ")]];
+    const head = `<section class="teamhead"><div class="ofp-big"><b class="num">${ch.ofp.present}</b><span>Team OFP</span><span>peak ${ch.ofp.peak}</span></div>
+      <div><h2>${esc(ch.title)}</h2><div class="meta"><span>Thesis: ${esc(ch.thesis)}</span><span>Roster: ${esc(ch.status)} (${esc(ch.decision)})</span></div>
+      <ul class="notes">${notes.map(([k, n]) => `<li class="${k ? "key" : ""}">${esc(n)}</li>`).join("")}</ul></div></section>`;
+    const sub = `<div class="subtabs" role="group" aria-label="View"><button class="pill" data-view="cards" aria-pressed="${state.view === "cards"}">Depth chart & player cards</button><button class="pill" data-view="sheets" aria-pressed="${state.view === "sheets"}">Call sheets (${ch.sheets.length})</button></div>`;
+    let body;
+    if (state.view === "sheets") {
+      body = `<div class="subtabs" role="group" aria-label="Opponent">${ch.sheets.map((s, i) => `<button class="pill" data-sheet="${i}" aria-pressed="${i === sheetIdx}">${esc(s.opponent)}</button>`).join("")}</div>${sheet(ch.sheets[sheetIdx])}`;
+    } else {
+      body = `<div class="section-head"><h2>Depth chart</h2><span class="label">Tap a player for the full report</span></div>${depth(ch)}<div class="cards">${ch.cards.map(card).join("")}</div>`;
+    }
+    return head + sub + body;
+  }
+
+  function league() {
+    const L = DATA.league, teams = L.standings.map((s) => s.team);
+    const title = (k) => DATA.titles[k];
+    const stand = `<div class="panel scroll"><table><thead><tr><th>#</th><th>Team</th><th class="c">Series won</th><th class="c">1v1 W-L</th><th class="c">Pct</th></tr></thead><tbody>` +
+      L.standings.map((s, i) => `<tr><td class="num">${i + 1}</td><td><b>${esc(title(s.team))}</b></td><td class="c num">${s.series_won} of ${teams.length - 1}</td><td class="c num">${s.wins}-${s.losses}</td><td class="c num">${s.pct.toFixed(3).replace(/^0/, "")}</td></tr>`).join("") + `</tbody></table></div>`;
+    const cell = (a, b) => {
+      if (a === b) return `<td class="self">—</td>`;
+      const w = L.matrix[a][b], o = L.matrix[b][a];
+      const cls = w > o ? "g-plus" : w < o ? "g-low" : "g-avg";
+      return `<td title="${esc(title(a))} wins ${w} of 36 one-on-ones against ${esc(title(b))}; ${esc(title(b))} wins ${o} the other way"><span class="heat ${cls}">${w}</span></td>`;
+    };
+    const matrix = `<div class="panel scroll"><table class="matrix"><thead><tr><th>Row beats column</th>${teams.map((t) => `<th>${esc(title(t))}</th>`).join("")}</tr></thead><tbody>` +
+      teams.map((a) => `<tr><th>${esc(title(a))}</th>${teams.map((b) => cell(a, b)).join("")}</tr>`).join("") + `</tbody></table></div>`;
+    return `<section class="teamhead"><div class="ofp-big"><b>6</b><span>teams</span></div><div><h2>What-if league</h2>
+      <div class="meta"><span>${esc(L.rules)}</span></div>
+      <ul class="notes"><li class="key">Every journey team meets every other at the peak of its powers: Lv 100, the same Gen 4 rules, builds as recorded. A team's score is how many of the 36 one-on-ones it wins. It's a matchup read, not a simulated battle.</li>
+      <li>A series goes to the team that wins more of the 36 one-on-ones than its opponent does in return.</li></ul></div></section>
+      <div class="section-head"><h2>Standings</h2></div>${stand}
+      <div class="section-head"><h2>Head to head</h2><span class="label">Wins out of 36 · green = won the series</span></div>${matrix}`;
+  }
+
+  function render() {
+    renderTabs();
+    const ch = DATA.chapters.find((c) => c.game === state.tab);
+    $("#main").innerHTML = ch ? chapter(ch) : league();
+    save();
+  }
+
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-tab],[data-view],[data-sheet],[data-card]");
+    if (!t) return;
+    if (t.dataset.tab) { state.tab = t.dataset.tab; state.sheet = 0; history.replaceState(null, "", "#" + state.tab); render(); }
+    else if (t.dataset.view) { state.view = t.dataset.view; render(); }
+    else if (t.dataset.sheet) { state.sheet = +t.dataset.sheet; render(); }
+    else if (t.dataset.card) { const el = document.getElementById("card-" + t.dataset.card); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  });
+  document.addEventListener("keydown", (e) => {
+    const t = e.target.closest && e.target.closest("[data-card]");
+    if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); t.click(); }
+  });
+  render();
+})();
+</script>
