@@ -88,16 +88,16 @@ Complete. The only uncovered field move is **TM70 Flash**, which is optional and
 ## An interpretive thread (offered, not a rule)
 **A history of flight across the journey:**
 
-| Chapter | Flight |
-|---|---|
-| Crystal | none: the walked journey |
-| FireRed | Charizard: first flight, heroic |
-| Emerald | Altaria: flight as part of living out here |
-| Platinum | Garchomp: jet speed the cartridge never catalogued |
-| SoulSilver | Dragonite: rescue over the sea |
-| HeartGold | Crobat: quiet, everyday mobility |
+| Chapter | Flight | That chapter's own Pokédex (VERIFIED, PokeAPI flavor text) |
+|---|---|---|
+| Crystal | none: the walked journey | Feraligatr: *"its powerful hind legs enable it to move quickly, even on the ground."* Ampharos: *"the light from its bright, shiny tail can be seen from far away on the ocean's surface."* |
+| FireRed | Charizard: first flight, heroic | *"Its wings can carry this POKéMON close to an altitude of 4,600 feet."* |
+| Emerald | Altaria: flight as part of living out here | *"It hums in a beautiful soprano voice. It flies among white clouds in the blue sky."* |
+| Platinum | Garchomp: jet speed the cartridge never catalogued | *"…its wings create blades of wind that can fell nearby trees"* (Platinum); *"It flies at sonic speed"* (Diamond) |
+| SoulSilver | Dragonite: rescue over the sea | *"…lets it freely fly over raging seas without trouble."* (HeartGold: *"rescues drowning people"*) |
+| HeartGold | Crobat: quiet, everyday mobility | *"It flies so silently through the dark on its four wings that it may not be noticed even when nearby."* |
 
-Each one fits its chapter's thesis. (Altaria, Crobat and Charizard dex text is still to be pulled before quoting anything.)
+Each one fits its chapter's thesis.
 
 ## Decisions this needs (per game, Zack's call)
 
