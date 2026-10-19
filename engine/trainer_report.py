@@ -5,6 +5,8 @@
     python3 -I trainer_report.py exposure me/heartgold --vs paul/sinnoh [--json]   # where your team is exposed
     python3 -I trainer_report.py all                               # every report -> docs/trainers/ (markdown + data)
     python3 -I trainer_report.py page                              # the Trainer Scouting Reports page
+    python3 -I trainer_report.py roles me/heartgold                # Part 2: each member's roles, and why
+    python3 -I trainer_report.py roles stock/skarmory --game platinum   # one library build's roles
 
 Options: --level N reads every row at level N (the config's level scale otherwise).
 Deterministic: the same trainer and team always produce the same report. No damage calculations, no simulation.
@@ -81,13 +83,38 @@ def write_page(store, path=None, level=None):
     print("wrote", path)
 
 
+def roles(store, who, game=None, level=None, as_json=False):
+    """Each build's roles: a library build ("stock/skarmory") or every member of a version ("paul/sinnoh")."""
+    from trainers.roles import RoleBook
+    book = RoleBook(store)
+    if who in store.library:
+        builds, game = [store.library[who]], game or store.config["lens"]["default_game"]
+    else:
+        v = store.version(*ref(who))
+        builds, game = store.team(v), game or v.game
+    out = [book.classify(b, game, level) for b in builds]
+    if as_json:
+        print(json.dumps(out, indent=1, ensure_ascii=False, default=sorted))
+        return
+    for b, r in zip(builds, out):
+        p, s = r["primary"], r["secondary"]
+        head = f"{b.species}: {p['name']} ({p['confidence']}, {p['score']:.2f})"
+        if s:
+            head += f", then {s['name']} ({s['confidence']}, {s['score']:.2f})"
+        if r["also"]:
+            head += "; also " + ", ".join(a["name"] for a in r["also"])
+        print(head)
+        print("   " + book.line(r))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["list", "report", "exposure", "all", "page"])
+    ap.add_argument("cmd", choices=["list", "report", "exposure", "all", "page", "roles"])
     ap.add_argument("who", nargs="*")
     ap.add_argument("--vs")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--level", type=int)
+    ap.add_argument("--game", help="the game to read a library build in (roles)")
     a = ap.parse_args(argv)
     store = Store()
     if a.cmd == "list":
@@ -104,6 +131,8 @@ def main(argv=None):
         write_all(store, a.level)
     elif a.cmd == "page":
         write_page(store, a.who[0] if a.who else None, a.level)
+    elif a.cmd == "roles":
+        roles(store, a.who[0], a.game, a.level, a.json)
 
 
 if __name__ == "__main__":

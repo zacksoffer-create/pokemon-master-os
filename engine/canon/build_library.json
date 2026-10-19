@@ -1,5 +1,5 @@
 {
- "_note": "Builds as plain data (docs/TRAINER_REPORT.md): stock builds and the authored trainers' builds. Your journey builds stay in canon/builds.json and are read from there. Every authored build is a proposal until approved; anime movesets are drafts from the show and are checked against the game's learnsets (flags, not rejections, per D-024). Fields: species, moves, nickname, gender, nature, ivs, evs, item, ability, ball, friendship, ribbons, level, source, generation, tier, status, notes.",
+ "_note": "Builds as plain data (docs/TRAINER_REPORT.md): stock builds and the authored trainers' builds. Your journey builds stay in canon/builds.json and are read from there. Every authored build is a proposal until approved; anime movesets are drafts from the show and are checked against the game's learnsets (flags, not rejections, per D-024). Fields: species, moves, nickname, gender, nature, ivs, evs, item, ability, ball, friendship, ribbons, level, source, generation, tier, status, notes. Stock builds are the archetype library (Part 2): each has a name, the role it is meant for, a source, a generation and a tier ('unrated' until a source rates it; nothing external is trusted without a source).",
  "builds": {
   "stock/garchomp-sweeper": {
    "species": "Garchomp",
@@ -19,11 +19,13 @@
    "ability": "Sand Veil",
    "source": "stock (authored)",
    "generation": 4,
-   "tier": "OU",
+   "tier": "unrated",
    "status": "proposed",
    "notes": [
     "Sweeper Garchomp: one Swords Dance, then sweep."
-   ]
+   ],
+   "name": "Swords Dance sweeper",
+   "role": "physical_setup_sweeper"
   },
   "stock/garchomp-earthquake": {
    "species": "Garchomp",
@@ -43,11 +45,13 @@
    "ability": "Sand Veil",
    "source": "stock (authored)",
    "generation": 4,
-   "tier": "OU",
+   "tier": "unrated",
    "status": "proposed",
    "notes": [
     "Earthquake Garchomp: Scarf speed, Earthquake first."
-   ]
+   ],
+   "name": "Choice Scarf revenge killer",
+   "role": "revenge_killer"
   },
   "stock/garchomp-outrage": {
    "species": "Garchomp",
@@ -67,11 +71,13 @@
    "ability": "Sand Veil",
    "source": "stock (authored)",
    "generation": 4,
-   "tier": "OU",
+   "tier": "unrated",
    "status": "proposed",
    "notes": [
     "Outrage Garchomp: Banded Outrage, locked in on purpose."
-   ]
+   ],
+   "name": "Choice Band wallbreaker",
+   "role": "wallbreaker"
   },
   "ash-kanto/pikachu": {
    "species": "Pikachu",
@@ -667,6 +673,796 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
+   "status": "proposed"
+  },
+  "stock/gyarados-dd": {
+   "name": "Dragon Dance sweeper",
+   "role": "physical_setup_sweeper",
+   "species": "Gyarados",
+   "moves": [
+    "Dragon Dance",
+    "Waterfall",
+    "Earthquake",
+    "Stone Edge"
+   ],
+   "nature": "Adamant",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Life Orb",
+   "ability": "Intimidate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/mismagius-np": {
+   "name": "Nasty Plot sweeper",
+   "role": "special_setup_sweeper",
+   "species": "Mismagius",
+   "moves": [
+    "Nasty Plot",
+    "Shadow Ball",
+    "Thunderbolt",
+    "Hidden Power Fighting"
+   ],
+   "nature": "Timid",
+   "evs": {
+    "spa": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Life Orb",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/weavile": {
+   "name": "Ice Shard and Pursuit revenge killer",
+   "role": "revenge_killer",
+   "species": "Weavile",
+   "moves": [
+    "Ice Shard",
+    "Pursuit",
+    "Night Slash",
+    "Low Kick"
+   ],
+   "nature": "Jolly",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Life Orb",
+   "ability": "Pressure",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/skarmory": {
+   "name": "Spikes and Whirlwind wall",
+   "role": "hazard_setter",
+   "species": "Skarmory",
+   "moves": [
+    "Spikes",
+    "Whirlwind",
+    "Roost",
+    "Brave Bird"
+   ],
+   "nature": "Impish",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Keen Eye",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/blissey": {
+   "name": "Softboiled and Aromatherapy special wall",
+   "role": "special_wall",
+   "species": "Blissey",
+   "moves": [
+    "Softboiled",
+    "Seismic Toss",
+    "Toxic",
+    "Aromatherapy"
+   ],
+   "nature": "Calm",
+   "evs": {
+    "hp": 252,
+    "spd": 252,
+    "def": 4
+   },
+   "item": "Leftovers",
+   "ability": "Natural Cure",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/starmie": {
+   "name": "Rapid Spin support",
+   "role": "hazard_remover",
+   "species": "Starmie",
+   "moves": [
+    "Rapid Spin",
+    "Surf",
+    "Thunderbolt",
+    "Recover"
+   ],
+   "nature": "Timid",
+   "evs": {
+    "spa": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Leftovers",
+   "ability": "Natural Cure",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/azelf": {
+   "name": "Stealth Rock, Taunt, Explosion lead",
+   "role": "suicide_lead",
+   "species": "Azelf",
+   "moves": [
+    "Stealth Rock",
+    "Taunt",
+    "Explosion",
+    "Fire Blast"
+   ],
+   "nature": "Naive",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "spa": 4
+   },
+   "item": "Focus Sash",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/bronzong": {
+   "name": "Trick Room setter",
+   "role": "trick_room_setter",
+   "species": "Bronzong",
+   "moves": [
+    "Trick Room",
+    "Gyro Ball",
+    "Earthquake",
+    "Explosion"
+   ],
+   "nature": "Relaxed",
+   "evs": {
+    "hp": 252,
+    "atk": 252,
+    "def": 4
+   },
+   "item": "Leftovers",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed",
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 0,
+    "def": 31
+   }
+  },
+  "stock/kingdra": {
+   "name": "Rain Dance sweeper",
+   "role": "weather_sweeper",
+   "species": "Kingdra",
+   "moves": [
+    "Rain Dance",
+    "Hydro Pump",
+    "Draco Meteor",
+    "Surf"
+   ],
+   "nature": "Modest",
+   "evs": {
+    "spa": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Damp Rock",
+   "ability": "Swift Swim",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/ninjask": {
+   "name": "Swords Dance and Substitute Baton Passer",
+   "role": "baton_pass_starter",
+   "species": "Ninjask",
+   "moves": [
+    "Swords Dance",
+    "Substitute",
+    "Protect",
+    "Baton Pass"
+   ],
+   "nature": "Jolly",
+   "evs": {
+    "hp": 252,
+    "spe": 252,
+    "atk": 4
+   },
+   "item": "Leftovers",
+   "ability": "Speed Boost",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/dugtrio": {
+   "name": "Arena Trap with Choice Band",
+   "role": "trapper",
+   "species": "Dugtrio",
+   "moves": [
+    "Earthquake",
+    "Stone Edge",
+    "Sucker Punch",
+    "Aerial Ace"
+   ],
+   "nature": "Jolly",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Choice Band",
+   "ability": "Arena Trap",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/suicune": {
+   "name": "Calm Mind Rest/Sleep Talk",
+   "role": "bulky_setup",
+   "species": "Suicune",
+   "moves": [
+    "Calm Mind",
+    "Surf",
+    "Rest",
+    "Sleep Talk"
+   ],
+   "nature": "Bold",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Pressure",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/snorlax": {
+   "name": "Curse Rest/Sleep Talk",
+   "role": "bulky_setup",
+   "species": "Snorlax",
+   "moves": [
+    "Curse",
+    "Body Slam",
+    "Rest",
+    "Sleep Talk"
+   ],
+   "nature": "Careful",
+   "evs": {
+    "hp": 252,
+    "spd": 252,
+    "def": 4
+   },
+   "item": "Leftovers",
+   "ability": "Thick Fat",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/uxie": {
+   "name": "dual screens",
+   "role": "screens_setter",
+   "species": "Uxie",
+   "moves": [
+    "Reflect",
+    "Light Screen",
+    "U-turn",
+    "Stealth Rock"
+   ],
+   "nature": "Impish",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Light Clay",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/hippowdon": {
+   "name": "sand, Stealth Rock and Roar",
+   "role": "weather_setter",
+   "species": "Hippowdon",
+   "moves": [
+    "Stealth Rock",
+    "Slack Off",
+    "Earthquake",
+    "Roar"
+   ],
+   "nature": "Impish",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/breloom": {
+   "name": "Spore with Poison Heal",
+   "role": "status_spreader",
+   "species": "Breloom",
+   "moves": [
+    "Spore",
+    "Seed Bomb",
+    "Mach Punch",
+    "Stone Edge"
+   ],
+   "nature": "Adamant",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Toxic Orb",
+   "ability": "Poison Heal",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/scizor": {
+   "name": "Choice Band U-turn and Bullet Punch",
+   "role": "pivot",
+   "species": "Scizor",
+   "moves": [
+    "U-turn",
+    "Bullet Punch",
+    "Superpower",
+    "Pursuit"
+   ],
+   "nature": "Adamant",
+   "evs": {
+    "hp": 248,
+    "atk": 252,
+    "spd": 8
+   },
+   "item": "Choice Band",
+   "ability": "Technician",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/gliscor": {
+   "name": "Toxic and Protect stall",
+   "role": "staller",
+   "species": "Gliscor",
+   "moves": [
+    "Toxic",
+    "Protect",
+    "Earthquake",
+    "Roost"
+   ],
+   "nature": "Impish",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Hyper Cutter",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/rotom": {
+   "name": "Will-O-Wisp spinblocker",
+   "role": "spinblocker",
+   "species": "Rotom",
+   "moves": [
+    "Will-O-Wisp",
+    "Thunderbolt",
+    "Shadow Ball",
+    "Pain Split"
+   ],
+   "nature": "Bold",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/ttar-fire": {
+   "name": "Choice Band with a Fire Blast lure",
+   "role": "lure",
+   "species": "Tyranitar",
+   "moves": [
+    "Crunch",
+    "Stone Edge",
+    "Fire Blast",
+    "Pursuit"
+   ],
+   "nature": "Lonely",
+   "evs": {
+    "atk": 252,
+    "spa": 64,
+    "spe": 192
+   },
+   "item": "Choice Band",
+   "ability": "Sand Stream",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/ambipom": {
+   "name": "Fake Out and U-turn",
+   "role": "lead_attacker",
+   "species": "Ambipom",
+   "moves": [
+    "Fake Out",
+    "U-turn",
+    "Return",
+    "Taunt"
+   ],
+   "nature": "Jolly",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Silk Scarf",
+   "ability": "Technician",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/vaporeon": {
+   "name": "Wish and Protect with Heal Bell",
+   "role": "cleric",
+   "species": "Vaporeon",
+   "moves": [
+    "Wish",
+    "Protect",
+    "Surf",
+    "Heal Bell"
+   ],
+   "nature": "Bold",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Water Absorb",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/swampert": {
+   "name": "Stealth Rock and Roar",
+   "role": "phazer",
+   "species": "Swampert",
+   "moves": [
+    "Earthquake",
+    "Ice Beam",
+    "Roar",
+    "Stealth Rock"
+   ],
+   "nature": "Relaxed",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Torrent",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/lucario": {
+   "name": "Swords Dance and Extreme Speed",
+   "role": "late_game_cleaner",
+   "species": "Lucario",
+   "moves": [
+    "Swords Dance",
+    "Extreme Speed",
+    "Close Combat",
+    "Crunch"
+   ],
+   "nature": "Adamant",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Life Orb",
+   "ability": "Inner Focus",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/latias": {
+   "name": "Choice Specs with Trick",
+   "role": "stallbreaker",
+   "species": "Latias",
+   "moves": [
+    "Draco Meteor",
+    "Surf",
+    "Thunderbolt",
+    "Trick"
+   ],
+   "nature": "Timid",
+   "evs": {
+    "spa": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Choice Specs",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/gengar": {
+   "name": "Taunt with Life Orb",
+   "role": "stallbreaker",
+   "species": "Gengar",
+   "moves": [
+    "Taunt",
+    "Shadow Ball",
+    "Focus Blast",
+    "Thunderbolt"
+   ],
+   "nature": "Timid",
+   "evs": {
+    "spa": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Life Orb",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/infernape": {
+   "name": "Focus Sash and Fake Out lead",
+   "role": "lead_attacker",
+   "species": "Infernape",
+   "moves": [
+    "Fake Out",
+    "Close Combat",
+    "Flamethrower",
+    "Grass Knot"
+   ],
+   "nature": "Naive",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "spa": 4
+   },
+   "item": "Focus Sash",
+   "ability": "Blaze",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/tyranitar-tank": {
+   "name": "specially bulky sand attacker",
+   "role": "tank",
+   "species": "Tyranitar",
+   "moves": [
+    "Stone Edge",
+    "Crunch",
+    "Earthquake",
+    "Fire Blast"
+   ],
+   "nature": "Sassy",
+   "evs": {
+    "hp": 252,
+    "spd": 252,
+    "def": 4
+   },
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/hippo-wall": {
+   "name": "Slack Off physical wall",
+   "role": "physical_wall",
+   "species": "Hippowdon",
+   "moves": [
+    "Slack Off",
+    "Earthquake",
+    "Toxic",
+    "Whirlwind"
+   ],
+   "nature": "Impish",
+   "evs": {
+    "hp": 252,
+    "spd": 4,
+    "def": 252
+   },
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/togekiss-tw": {
+   "name": "Tailwind support",
+   "role": "tailwind_setter",
+   "species": "Togekiss",
+   "moves": [
+    "Tailwind",
+    "Air Slash",
+    "Aura Sphere",
+    "Roost"
+   ],
+   "nature": "Timid",
+   "evs": {
+    "hp": 252,
+    "spe": 252,
+    "spa": 4
+   },
+   "item": "Leftovers",
+   "ability": "Serene Grace",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/snorlax-band": {
+   "name": "Choice Band attacker",
+   "role": "bulky_attacker",
+   "species": "Snorlax",
+   "moves": [
+    "Return",
+    "Earthquake",
+    "Crunch",
+    "Self-Destruct"
+   ],
+   "nature": "Adamant",
+   "evs": {
+    "hp": 252,
+    "atk": 252,
+    "def": 4
+   },
+   "item": "Choice Band",
+   "ability": "Thick Fat",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/heracross-guts": {
+   "name": "Guts with Flame Orb",
+   "role": "wallbreaker",
+   "species": "Heracross",
+   "moves": [
+    "Close Combat",
+    "Megahorn",
+    "Stone Edge",
+    "Night Slash"
+   ],
+   "nature": "Jolly",
+   "evs": {
+    "atk": 252,
+    "spe": 252,
+    "hp": 4
+   },
+   "item": "Flame Orb",
+   "ability": "Guts",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/bronzong-def": {
+   "name": "Stealth Rock and Hypnosis check",
+   "role": "check_counter",
+   "species": "Bronzong",
+   "moves": [
+    "Gyro Ball",
+    "Earthquake",
+    "Hypnosis",
+    "Stealth Rock"
+   ],
+   "nature": "Relaxed",
+   "evs": {
+    "hp": 252,
+    "spd": 128,
+    "def": 128
+   },
+   "item": "Leftovers",
+   "ability": "Levitate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
+   "status": "proposed"
+  },
+  "stock/salamence-mix": {
+   "name": "mixed Dragon Dance",
+   "role": "mixed_setup_sweeper",
+   "species": "Salamence",
+   "moves": [
+    "Dragon Dance",
+    "Draco Meteor",
+    "Earthquake",
+    "Fire Blast"
+   ],
+   "nature": "Naive",
+   "evs": {
+    "atk": 252,
+    "spa": 4,
+    "spe": 252
+   },
+   "item": "Life Orb",
+   "ability": "Intimidate",
+   "source": "stock (authored)",
+   "generation": 4,
+   "tier": "unrated",
    "status": "proposed"
   }
  }

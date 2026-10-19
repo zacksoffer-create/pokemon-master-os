@@ -10,8 +10,11 @@ The source of truth is the PokeAPI tables we already load (engine/data/pokeref.s
 - learnsets are `pokemon_moves`, per game (version group), with egg moves, tutors, TMs and pre-evolutions.
 
 A past row says "through generation G, it was this": for a generation g, the earliest past row with G >= g wins.
-Smogon's per-generation tables are a cross-check only (tests compare the two).
+Smogon's per-generation tables are a cross-check only (tests compare the two). Where the snapshot is known to miss a
+change (Gen V's priority renumbering), trainers/era_corrections.json records the exception and why (E-031).
 """
+import json
+import os
 from functools import lru_cache
 
 from refdb import VG, VG_GEN, Ref, slug
@@ -20,6 +23,23 @@ STATS = ("hp", "atk", "def", "spa", "spd", "spe")
 SPECIAL_TYPES = {"Fire", "Water", "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"}   # before Gen IV
 STAT_ID = {1: "hp", 2: "atk", 3: "def", 4: "spa", 5: "spd", 6: "spe"}
 GAME_GEN = {g: VG_GEN[vg] for g, vg in VG.items()}
+
+
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "era_corrections.json"), encoding="utf-8") as _fh:
+    _CORRECTIONS = json.load(_fh)
+_STAGES = {"one": 1, "two": 2, "three": 3}
+_STAT_WORDS = {"attack": "atk", "defense": "def", "special attack": "spa", "special defense": "spd", "speed": "spe"}
+
+
+def _prose_stat_changes(prose):
+    """"Raises the user's Special Attack by one stage." → {"spa": 1}. Only the plain one-clause form."""
+    import re
+    m = re.match(r"(Raises|Lowers) the user.s ([A-Za-z ]+?) by (one|two|three) stages?\.", prose)
+    if not m:
+        return {}
+    sign = 1 if m.group(1) == "Raises" else -1
+    stats = [w.strip().lower() for w in m.group(2).replace(" and ", ", ").split(",") if w.strip()]
+    return {_STAT_WORDS[w]: sign * _STAGES[m.group(3)] for w in stats if w in _STAT_WORDS}
 
 
 class Era:
@@ -98,9 +118,11 @@ class Era:
             base[STAT_ID[int(s)]] = int(v)                     # descending: the earliest applicable row wins
         return base
 
+    @lru_cache(maxsize=None)
     def abilities(self, name, gen):
         return self.ref.abilities(name, gen)
 
+    @lru_cache(maxsize=None)
     def nature(self, name):
         """(raised stat, lowered stat) or (None, None) for a neutral nature."""
         if not name:
@@ -141,31 +163,82 @@ class Era:
 
     @lru_cache(maxsize=None)
     def move_info(self, move, gen):
-        """(type, damage class, power, accuracy) as the generation had it (PokeAPI move_changelog rolled back)."""
+        """A move as the generation had it (PokeAPI move_changelog rolled back): type, damage class, power, accuracy,
+        priority, target, drain/recoil, meta category, effect text, stat changes, ailment and hit count."""
         mid = self.ref.move_id(move)
-        row = self.ref.q("SELECT m.type_id, m.power, m.accuracy, d.identifier FROM moves m "
-                         "JOIN move_damage_classes d ON d.id=m.damage_class_id WHERE m.id=?", mid)[0]
+        row = self.ref.q("SELECT m.type_id, m.power, m.accuracy, d.identifier, m.priority, t.identifier FROM moves m "
+                         "JOIN move_damage_classes d ON d.id=m.damage_class_id "
+                         "LEFT JOIN move_targets t ON t.id=m.target_id WHERE m.id=?", mid)[0]
         type_id, power, acc, dclass = int(row[0]), row[1], row[2], row[3]
+        priority, target = int(row[4] or 0), row[5]
+        effect_id = int(self.ref.q("SELECT effect_id FROM moves WHERE id=?", mid)[0][0] or 0)
+        current_effect = effect_id
         vg_of_gen = max(v for v, g in VG_GEN.items() if g == gen)
         for ch in self.ref.q("SELECT * FROM move_changelog WHERE move_id=? ORDER BY CAST(changed_in_version_group_id AS INT)", mid):
             if int(ch["changed_in_version_group_id"]) > vg_of_gen:   # a row holds the values before that change
                 type_id = int(ch["type_id"]) if ch["type_id"] is not None and type_id == int(row[0]) else type_id
                 power = ch["power"] if ch["power"] is not None and power == row[1] else power
                 acc = ch["accuracy"] if ch["accuracy"] is not None and acc == row[2] else acc
+                priority = int(ch["priority"]) if ch["priority"] is not None and priority == int(row[4] or 0) else priority
+                effect_id = int(ch["effect_id"]) if ch["effect_id"] is not None and effect_id == current_effect else effect_id
+        fix = _CORRECTIONS["priority"].get(move)
+        if fix and fix.get("from_gen", 1) <= gen <= fix["through_gen"]:
+            priority = fix["priority"]                          # trainers/era_corrections.json (E-031)
         all_names = {int(r[0]): r[1].capitalize() for r in self.ref.q("SELECT id, identifier FROM types")}
-        meta = self.ref.q("SELECT mm.drain, c.identifier FROM move_meta mm LEFT JOIN move_meta_categories c "
+        meta = self.ref.q("SELECT mm.drain, c.identifier, mm.min_hits, mm.max_hits FROM move_meta mm LEFT JOIN move_meta_categories c "
                           "ON c.id=mm.meta_category_id WHERE mm.move_id=?", mid)
-        effect = self.ref.q("SELECT p.short_effect FROM moves m JOIN move_effect_prose p ON p.move_effect_id=m.effect_id "
-                            "AND p.local_language_id=9 WHERE m.id=?", mid)
+        effect = self.ref.q("SELECT short_effect FROM move_effect_prose WHERE move_effect_id=? AND local_language_id=9",
+                            effect_id)
         words = move.split()
         if len(words) == 3 and words[0].lower() == "hidden" and words[2].capitalize() in all_names.values():
             type_id = next(i for i, n in all_names.items() if n == words[2].capitalize())   # "Hidden Power Fire"
             power = power if power and int(power) > 1 else 70
         if gen < 4 and dclass != "status":   # Gen II-III: physical or special by type
             dclass = "special" if all_names[type_id] in SPECIAL_TYPES else "physical"
+        changes = self._stat_changes(mid, effect_id, current_effect, (effect[0][0] if effect else "") or "")
+        ail = self.ref.q("SELECT a.identifier FROM move_meta mm JOIN move_meta_ailments a ON a.id=mm.meta_ailment_id "
+                         "WHERE mm.move_id=?", mid)
         return {"type": all_names[type_id], "class": dclass, "power": int(power) if power else 0,
                 "accuracy": int(acc) if acc else None, "drain": int(meta[0][0] or 0) if meta else 0,
-                "meta": (meta[0][1] if meta else None) or "unique", "effect": (effect[0][0] if effect else "") or ""}
+                "meta": (meta[0][1] if meta else None) or "unique", "effect": (effect[0][0] if effect else "") or "",
+                "priority": priority, "target": target or "", "stat_changes": changes,
+                "ailment": (ail[0][0] if ail else None),
+                "hits": (int(meta[0][2]), int(meta[0][3])) if meta and meta[0][2] and meta[0][3] else None}
+
+    def _stat_changes(self, mid, effect_id, current_effect, prose):
+        """The stat stages a move changes. PokeAPI keeps only today's (move_meta_stat_changes), so when the move's
+        effect was different in this generation (Growth raised only Special Attack before Gen V; Tail Glow raised it
+        two stages, not three), read them from another move that still has the old effect, else from its prose."""
+        source = mid
+        if effect_id != current_effect:
+            same = self.ref.q("SELECT id FROM moves WHERE effect_id=? AND id<>? ORDER BY id", effect_id, mid)
+            if not same:
+                return _prose_stat_changes(prose)
+            source = int(same[0][0])
+        return {STAT_ID.get(int(sid), "other"): int(ch) for sid, ch in self.ref.q(
+            "SELECT stat_id, change FROM move_meta_stat_changes WHERE move_id=?", source)}
+
+    @lru_cache(maxsize=None)
+    def item_gen(self, item):
+        """The first generation the item exists in (PokeAPI item_game_indices), or None when it never had an index."""
+        name = self.item_lookup(item)
+        if not name:
+            return None
+        rows = self.ref.q("SELECT MIN(CAST(g.generation_id AS INT)) FROM item_game_indices g JOIN item_names n "
+                          "ON n.item_id=g.item_id AND n.local_language_id=9 WHERE n.name=?", name)
+        return int(rows[0][0]) if rows and rows[0][0] is not None else None
+
+    @lru_cache(maxsize=None)
+    def learnable(self, species, game):
+        """Every move the species can learn in this game (any route, through pre-evolutions), by English name."""
+        sid = self.ref.species_id(species)
+        vg = VG[game]
+        out = set()
+        for stage in self.ref.line(sid):
+            for (name,) in self.ref.q("SELECT n.name FROM pokemon_moves pm JOIN move_names n ON n.move_id=pm.move_id "
+                                      "AND n.local_language_id=9 WHERE pm.pokemon_id=? AND pm.version_group_id=?", stage, vg):
+                out.add(name)
+        return sorted(out)
 
     @lru_cache(maxsize=None)
     def fully_evolved(self, gen):

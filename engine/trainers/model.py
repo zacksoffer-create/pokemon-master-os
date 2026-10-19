@@ -39,6 +39,8 @@ def load_config():
 class Build:
     id: str
     species: str
+    name: str = None                 # an archetype's name ("Swords Dance sweeper")
+    role: str = None                 # the role an archetype is meant for (trainers/roles.json id)
     moves: list = field(default_factory=list)
     nickname: str = None
     gender: str = None

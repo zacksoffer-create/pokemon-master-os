@@ -704,5 +704,87 @@ class TrainerReportData(unittest.TestCase):
         self.assertEqual(e["most_exposed"][0], "Tyranitar")
 
 
+class RoleEngine(unittest.TestCase):
+    """Part 2 (docs/TRAINER_REPORT.md): the role engine. One source of truth (trainers/roles.json)."""
+    @classmethod
+    def setUpClass(cls):
+        from trainers.model import Store
+        from trainers.roles import RoleBook
+        cls.store = Store()
+        cls.book = RoleBook(cls.store)
+
+    def test_move_categories_come_from_the_games_data(self):
+        cat = lambda m: self.book.move(m, 4)["categories"]
+        self.assertEqual(cat("Dragon Dance") >= {"setup_physical", "setup_speed"}, True)
+        self.assertEqual(self.book.move("Growth", 4)["stat_changes"], {"spa": 1})     # Attack too only from Gen V
+        self.assertEqual(self.book.move("Tail Glow", 4)["stat_changes"], {"spa": 2})  # +3 only from Gen V
+        self.assertTrue({"setup_physical", "setup_defense"} <= cat("Curse"))
+        self.assertIn("recovery", cat("Roost"))
+        self.assertIn("phaze", cat("Roar"))
+        self.assertIn("self_ko", cat("Explosion"))
+        self.assertIn("hazard_removal", cat("Rapid Spin"))
+        self.assertIn("sleep", cat("Spore"))
+        self.assertNotIn("priority_attack", cat("Fake Out"))
+        self.assertEqual(self.book.move("Extreme Speed", 4)["priority"], 1)    # E-031: +2 only from Gen V
+
+    def test_every_role_reads_only_defined_signals(self):
+        sig = set(self.book.signal_defs)
+        cats = set(self.book.categories)
+        keys = lambda k: [p for g in k.split("|") for p in g.split("&")]
+        for rid, role in self.book.roles.items():
+            self.assertIn(role["family"], self.book.cfg["families"], rid)
+            self.assertIn(role.get("ev_template"), self.book.cfg["ev_templates"], rid)
+            for k in list(role["weights"]) + [s for alt in role["requires"] for s in alt]:
+                for part in keys(k):
+                    self.assertIn(part, sig, f"{rid}: {part}")
+        for name, spec in self.book.signal_defs.items():
+            if spec["kind"] == "moves":
+                for c in (spec["category"] if isinstance(spec["category"], list) else [spec["category"]]):
+                    self.assertIn(c, cats, name)
+            if spec["kind"] == "item":
+                self.assertIn(spec["group"], self.book.items, name)
+            if spec["kind"] == "ability":
+                self.assertIn(spec["group"], self.book.abilities, name)
+        self.assertEqual(len(self.book.roles), 34)
+        self.assertEqual({r["family"] for r in self.book.roles.values()}, {"offense", "defense", "support", "utility"})
+
+    def test_stock_archetypes_read_as_the_role_they_are_built_for(self):
+        stock = [b for b in self.store.library.values() if b.role]
+        top2 = 0
+        for b in stock:
+            r = self.book.classify(b, "platinum")
+            ranked = [x["role"] for x in r["roles"]]
+            self.assertIn(b.role, ranked[:3], f"{b.id}: {ranked[:3]}")
+            top2 += b.role in ranked[:2]
+        self.assertGreaterEqual(top2 / len(stock), 0.85)
+        chomp = self.book.classify(self.store.library["stock/garchomp-sweeper"], "platinum")
+        self.assertEqual(chomp["primary"]["role"], "physical_setup_sweeper")
+        why = chomp["roles"][0]["because"][0]
+        self.assertEqual((why["signal"], why["evidence"]), ("setup_physical|setup_speed", ["Swords Dance"]))
+
+    def test_missing_data_is_never_evidence(self):
+        from trainers.model import Build
+        bare = Build(id="t/ttar", species="Tyranitar", moves=["Crunch", "Stone Edge", "Fire Blast", "Pursuit"])
+        r = self.book.classify(bare, "platinum")
+        self.assertEqual(r["signals"]["lure"], 0.0)            # default EVs aren't off-side investment
+        bare.evs, bare.nature = {"atk": 252, "spa": 64, "spe": 192}, "Lonely"
+        self.assertEqual(self.book.classify(bare, "platinum")["signals"]["lure"], 1.0)
+
+    def test_a_weather_sweeper_needs_its_weather(self):
+        from trainers.model import Build
+        dra = Build(id="t/kingdra", species="Kingdra", moves=["Hydro Pump", "Draco Meteor", "Surf", "Ice Beam"],
+                    nature="Modest", evs={"spa": 252, "spe": 252, "hp": 4}, ability="Swift Swim")
+        alone = self.book.classify(dra, "platinum")
+        self.assertEqual(alone["signals"]["weather_sweep"], 0.0)
+        with_rain = self.book.classify(dra, "platinum", team_weather={"rain"})
+        self.assertEqual(with_rain["primary"]["role"], "weather_sweeper")
+
+    def test_classification_is_deterministic(self):
+        import json as _json
+        b = self.store.library["stock/skarmory"]
+        self.assertEqual(_json.dumps(self.book.classify(b, "platinum"), sort_keys=True, default=list),
+                         _json.dumps(self.book.classify(b, "platinum"), sort_keys=True, default=list))
+
+
 if __name__ == "__main__":
     unittest.main()
