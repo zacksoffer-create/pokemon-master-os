@@ -14,6 +14,20 @@
 | Raw PokeAPI CSVs uploaded to Drive (`pokemon_moves.csv` 8.3 MB, `pokemon.csv`, `pokemon_species.csv`, `pokemon_evolution.csv`, `pokemon_move_methods.csv`) | | 2025-12-15 | the manual data-download step this redesign replaces. Snapshot ≈ 2021 (ends at species 898) |
 | Templates: `Canon_Builds_Template.xlsx`, `Canon_Breeding_Stock_Template.xlsx`, `BreedingLab_Option2_Tabs.xlsx`, `Breeding_Lab_New_Tabs.xlsx` | | 2025-12-16/17 | schema prototypes |
 
+## 1a. Timeline (full detail: `legacy/LINEAGE_TIMELINE.md`)
+
+| When (UTC) | What happened |
+|---|---|
+| Dec 15, early | raw PokeAPI/Veekun CSVs downloaded and uploaded by hand |
+| Dec 15, afternoon | generated roster template (BuildStep2) + bound Apps Script "formula installer" (last edited 19:29Z) |
+| Dec 15 → 16 | "LOCKED ENGINE" snapshots; **first legality output** (✅/⚠️ + "Reason") in "Pokemon Master" / "Script Working Properly" |
+| Dec 16 → 17 | v1 "everything" branch (natures, prep summary, overlay Breeding Lab: *Cyndaquil + Extrasensory → donor Vulpix*, correct except that Vulpix is SoulSilver-exclusive); v2 forked from the clean engine; "Option 2: Max Egg-Move Bundles" Breeding Lab |
+| Dec 17 21:54 | v3 created as a copy of final v2 |
+| Dec 19 | v3 BACKUP ENGINE WORKING (47 Canon Builds rows; Breeding Lab accepts up to 3 required moves); v3 BLANK |
+| 2026-01-07 / 08 | Canon Builds grows to 53 rows × 22 columns (balls, locations, levels; Danny added); `Copy of Canon Builds` (Lapras/Snorlax relabel) |
+
+**Best last known-good engine:** `v3 (BACKUP ENGINE WORKING)` `1MyYTRsFkNx2hQlNBL_u16C10BhUJgJWQYN7eMDtW4cg` (inherits the Breeding Lab baby bug). Cleanest engine-only baseline: `v2 (ENGINE WORKING DO NOT TOUCH)`. Also not in the handoff: `TeamDashboard_FeatureSheets.xlsx` (Dec 16, type chart and Crystal dashboard, all `#REF!`, never merged).
+
 ## 2. How the old engine actually works (from recovered source)
 
 It's a **formula installer**. Six functions are run by hand from the script editor. There are no triggers, menus or custom functions. They write data-validation dropdowns and `FILTER/SORT/UNIQUE` formulas, and from then on the sheet's formulas do the live work. The final rule (`rebuildEggMovesUsingPokemonSpecies`) is:
@@ -32,7 +46,7 @@ It's a **formula installer**. Six functions are run by hand from the script edit
 | # | Defect | Effect on canon |
 |---|---|---|
 | 1 | Pre-evolution level-up/TM moves are never offered (only own learnset + root egg moves) | **Mamoswine Ice Shard (D-014) can't even be selected.** It's Swinub-only in Gen 4 |
-| 2 | Breeding keyed on the baby form, whose egg group is "No Eggs" | **Observed:** v3's Riolu + Vacuum Wave + Cross Chop shows "max bundle size 0", while the real answer is a male Machop-line father (one egg). **Inferred** (the root-form logic is in the script; the Breeding Lab formulas aren't visible): the same failure for every baby-form line. That would include Snorlax (Munchlax), Pikachu (Pichu), Roserade (Budew) and Lucario (Riolu) |
+| 2 | Breeding keyed on the baby form, whose egg group is "No Eggs" | **Observed twice:** v3's Riolu + Vacuum Wave + Cross Chop shows "max bundle size 0" (the real answer is a male Machop-line father, one egg), and v2's backup maps Pikachu to donor "Mime Jr / no-eggs". It likely affects every baby-form line, including Snorlax (Munchlax), Pikachu (Pichu), Roserade (Budew) and Lucario (Riolu) |
 | 3 | No same-generation cross-game routes, no transfers, no timing rules, no gift/encounter constraints | can't tell "legal" from "legal only via HGSS" or "only before evolving" |
 | 4 | No co-legality of a full moveset with its encounter | the sheet's starter Typhlosion with Extrasensory, wild Pikachu with Volt Tackle, and wild Roserade with Leaf Storm + Sleep Powder all pass silently |
 | 5 | Reference data includes version groups 1–20 and 114 alternate forms (Megas, Alolan…) while claiming Gen I–IV | Gen 4 dropdowns can contain non-Gen-4 content |
