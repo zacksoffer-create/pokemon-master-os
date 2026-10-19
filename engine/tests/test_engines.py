@@ -754,7 +754,8 @@ class RoleEngine(unittest.TestCase):
         for b in stock:
             r = self.book.classify(b, "platinum")
             ranked = [x["role"] for x in r["roles"]]
-            self.assertIn(b.role, ranked[:3], f"{b.id}: {ranked[:3]}")
+            listed = ranked[:3] + [a["role"] for a in r["also"]]      # a multi-role Pokémon lists every job
+            self.assertIn(b.role, listed, f"{b.id}: {listed}")
             top2 += b.role in ranked[:2]
         self.assertGreaterEqual(top2 / len(stock), 0.85)
         chomp = self.book.classify(self.store.library["stock/garchomp-sweeper"], "platinum")
@@ -784,6 +785,110 @@ class RoleEngine(unittest.TestCase):
         b = self.store.library["stock/skarmory"]
         self.assertEqual(_json.dumps(self.book.classify(b, "platinum"), sort_keys=True, default=list),
                          _json.dumps(self.book.classify(b, "platinum"), sort_keys=True, default=list))
+
+
+class RoleSolver(unittest.TestCase):
+    """Part 2, step 2: role → build, species → archetypes, locks, and the round trip."""
+    @classmethod
+    def setUpClass(cls):
+        from trainers.model import Store
+        from trainers.roles import RoleBook
+        from trainers.solver import Solver
+        cls.store = Store()
+        cls.book = RoleBook(cls.store)
+        cls.solver = Solver(cls.book)
+
+    def test_round_trip_every_suggested_build_classifies_back_to_its_role(self):
+        cases = [("Garchomp", "physical_setup_sweeper"), ("Garchomp", "revenge_killer"), ("Garchomp", "wallbreaker"),
+                 ("Skarmory", "hazard_setter"), ("Bronzong", "trick_room_setter"), ("Starmie", "hazard_remover"),
+                 ("Kingdra", "weather_sweeper"), ("Vaporeon", "cleric"), ("Uxie", "screens_setter"),
+                 ("Gliscor", "staller"), ("Jirachi", "pivot"), ("Ninjask", "baton_pass_starter"),
+                 ("Smeargle", "suicide_lead")]
+        for species, role in cases:
+            r = self.solver.solve(species, role, "platinum")
+            self.assertTrue(r["reached"], f"{species} {role}")
+            from trainers.model import Build
+            b = Build(id="rt", **{k: v for k, v in r["build"].items() if k != "id"})
+            again = self.book.classify(b, "platinum")
+            self.assertEqual(again["primary"]["role"], role, f"{species}: {again['primary']}")
+            self.assertEqual(r["dead_moves"], [], species)
+            self.assertTrue(r["export"]["legal"], f"{species}: {r['export']['conflicts']}")   # legal in Platinum
+
+    def test_suggestions_look_like_the_builds_people_run(self):
+        sd = self.solver.solve("Garchomp", "physical_setup_sweeper", "platinum")["build"]
+        self.assertEqual((sd["nature"], sd["item"]), ("Jolly", "Life Orb"))
+        self.assertTrue({"Swords Dance", "Earthquake"} <= set(sd["moves"]))
+        self.assertEqual(self.solver.solve("Garchomp", "revenge_killer", "platinum")["build"]["item"], "Choice Scarf")
+        self.assertEqual(self.solver.solve("Garchomp", "wallbreaker", "platinum")["build"]["item"], "Choice Band")
+        dd = self.solver.solve("Gyarados", "physical_setup_sweeper", "platinum")["build"]
+        self.assertIn("Dragon Dance", dd["moves"])
+
+    def test_alternatives_carry_their_tradeoffs(self):
+        r = self.solver.solve("Garchomp", "physical_setup_sweeper", "platinum")
+        adamant = next(a for a in r["alternatives"]["nature"] if a["value"] == "Adamant")
+        self.assertEqual(adamant["trade"], ["Attack 359 → 394", "Speed 333 → 303"])       # Jolly vs Adamant
+        sd_slot = next(m for m in r["alternatives"]["moves"] if m["move"] == "Swords Dance")
+        self.assertFalse(sd_slot["instead"][0]["keeps_role"])                                # the load-bearing slot
+
+    def test_locks_are_kept_and_checked(self):
+        r = self.solver.solve("Garchomp", "physical_setup_sweeper", "platinum", locks={"item": "Choice Scarf"})
+        self.assertEqual(r["build"]["item"], "Choice Scarf")
+        self.assertFalse(r["reached"])                          # a Choice lock and a setup move don't mix
+        r = self.solver.solve("Skarmory", "hazard_setter", "platinum",
+                              locks={"nature": "Impish", "evs": {"hp": 252, "def": 252, "spd": 4}})
+        self.assertEqual((r["build"]["nature"], r["build"]["evs"]["def"]), ("Impish", 252))
+        self.assertEqual(r["dead_moves"], [])                   # never a do-nothing move to pull another role down
+        flags = self.solver.check_locks("Garchomp", "platinum", {"moves": ["Sludge Bomb"], "item": "Choice Scarf"})
+        self.assertEqual(flags, ["Sludge Bomb: Garchomp can't learn it in this game"])
+        self.assertIn("Choice Scarf doesn't exist in Gen 3",
+                      self.solver.check_locks("Salamence", "emerald", {"item": "Choice Scarf"}))
+
+    def test_unreachable_roles_say_what_they_need(self):
+        r = self.solver.solve("Gengar", "special_setup_sweeper", "platinum")
+        self.assertIsNone(r["build"])
+        self.assertIn("Special Attack setup or Speed setup", r["unreachable"])
+        self.assertIn("Ghost type", self.solver.solve("Garchomp", "spinblocker", "platinum")["unreachable"])
+
+    def test_suggestions_stay_legal_for_the_game(self):
+        self.assertNotIn("Choice Scarf", self.solver.items("Salamence", 3))   # Gen IV item, not in Emerald
+        self.assertNotIn("Black Sludge", self.solver.items("Garchomp", 4))    # only worth it on a Poison type
+        self.assertIn("Black Sludge", self.solver.items("Crobat", 4))
+        self.assertNotIn("Light Ball", self.solver.items("Raichu", 4))        # species items only for their species
+        self.assertIn("Spore", self.era_learnable("Smeargle"))                # Sketch (era_corrections.json)
+        legal = self.solver.legal_moves("Garchomp", "platinum")
+        self.assertNotIn("Dragon Dance", legal)
+        anywhere = self.solver.legal_moves("Garchomp", "platinum", scope="any")
+        self.assertEqual(set(legal) - set(anywhere), set())
+
+    def era_learnable(self, species):
+        return self.store.era.learnable(species, "platinum")
+
+    def test_hidden_power_sets_its_ivs(self):
+        from trainers.solver import hidden_power, hp_ivs
+        for t in ("Fire", "Ice", "Ground", "Fighting", "Grass"):
+            ivs = hp_ivs(t, {s: 31 for s in ("hp", "atk", "def", "spa", "spd", "spe")})
+            self.assertEqual(hidden_power(ivs), (t, 70))
+            self.assertTrue(all(v in (30, 31) for v in ivs.values()))
+        tr = hp_ivs("Fire", {"hp": 31, "atk": 31, "def": 31, "spa": 31, "spd": 31, "spe": 0})
+        self.assertLessEqual(tr["spe"], 3)                       # a Trick Room build keeps its Speed low
+
+    def test_archetypes_distance_and_the_external_rule(self):
+        import copy
+        from trainers.model import Build
+        a = self.solver.archetypes("Garchomp", "platinum", derived=False)
+        self.assertEqual({x["id"] for x in a["library"]},
+                         {"stock/garchomp-sweeper", "stock/garchomp-earthquake", "stock/garchomp-outrage"})
+        self.assertTrue(all(x["source"] and x["generation"] for x in a["library"]))
+        mine = copy.deepcopy(self.store.library["stock/garchomp-sweeper"])
+        mine.id, mine.source, mine.item = "mine/chomp", "mine", "Choice Band"
+        d = self.solver.distance(mine, "platinum")
+        self.assertEqual(d["stock"]["line"], "Swords Dance sweeper, differs on item (Choice Band → Life Orb)")
+        self.assertFalse(self.solver.trusted(Build(id="x", species="Garchomp", source="external:")))
+        self.assertFalse(self.solver.trusted(Build(id="x", species="Garchomp", source="external: a forum post")))
+        self.assertTrue(self.solver.trusted(Build(id="x", species="Garchomp", source="external: a forum post",
+                                                  generation=4)))
+        open_build = Build(id="x", species="Snorlax", moves=["Curse", "Body Slam", "Rest", "Sleep Talk"])
+        self.assertEqual(self.solver.distance(open_build, "platinum")["stock"]["differences"], [])   # open ≠ different
 
 
 if __name__ == "__main__":

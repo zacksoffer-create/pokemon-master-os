@@ -55,7 +55,8 @@ class RoleBook:
         self.roles = live(self.cfg["roles"])
         self.signal_defs = live(self.cfg["signals"])
         self.categories = live(self.cfg["move_categories"])
-        self.items = live(self.cfg["item_groups"])
+        self.items = {k: v for k, v in live(self.cfg["item_groups"]).items() if k != "for_types"}
+        self.item_types = self.cfg["item_groups"].get("for_types", {})
         self.abilities = live(self.cfg["ability_groups"])
         self.power = self.cfg["power"]
         self.by_name = live(self.cfg["stat_changes_by_name"])
@@ -155,6 +156,7 @@ class RoleBook:
         out["bulk_both"] = st["hp"] * math.sqrt(st["def"] * st["spd"])
         return out
 
+    @lru_cache(maxsize=None)
     def typing_score(self, types, ability, gen):
         spec = self.signal_defs["typing"]
         w = spec.get("weights", {"immune": 2, "resist": 1, "weak": -1, "very_weak": -2})
@@ -190,7 +192,9 @@ class RoleBook:
                 mv = self.move(m, gen)
             except (KeyError, IndexError):
                 continue
-            moves.append({**mv, "eff": self.effective_power(mv, types, filled["ability"])})
+            eff = self.effective_power(mv, types, filled["ability"])
+            stat = stats["atk" if mv["class"] == "physical" else "spa"] / (max(stats["atk"], stats["spa"]) or 1)
+            moves.append({**mv, "eff": eff, "scaled": eff * stat})
         phys = sum(m["eff"] for m in moves if m["class"] == "physical")
         spec = sum(m["eff"] for m in moves if m["class"] == "special")
         evs_recorded = bool(build.evs and sum(build.evs.values()))
@@ -205,6 +209,7 @@ class RoleBook:
         return {"build": build, "game": game, "gen": gen, "level": level, "stats": stats, "types": types,
                 "filled": filled, "item": item, "ability": filled["ability"], "moves": moves, "matching": matching,
                 "defaults_used": used, "evs_recorded": evs_recorded,
+                "own_weather": self.weather_of(build.moves, filled["ability"]),
                 "weather": set(self.weather_of(build.moves, filled["ability"])) | set(team_weather or ())}
 
     def _investment(self, filled, evs_recorded=True):
@@ -242,7 +247,9 @@ class RoleBook:
             elif kind == "bulk_pct":
                 key = "bulk_" + spec["side"]
                 side = {"both": "overall"}.get(spec["side"], spec["side"])
-                out[name] = (_pct(shape[key], pool[key]), [f"{side} bulk above {round(100 * _pct(shape[key], pool[key]))}% of the field"])
+                v = _pct(shape[key], pool[key])
+                rel = "the top of the field" if v >= 0.995 else f"above {round(100 * v)}% of the field"
+                out[name] = (v, [f"{side} bulk {rel}"])
             elif kind == "typing_pct":
                 sc = self.typing_score(ctx["types"], ctx["ability"], ctx["gen"])
                 out[name] = (_pct(sc, pool["typing"]), ["/".join(ctx["types"]) + (f" ({ctx['ability']})" if ctx["ability"] else "")])
@@ -252,7 +259,8 @@ class RoleBook:
                 out[name] = (1.0 if up and ok else 0.0, [ctx["filled"]["nature"]] if up and ok else [])
             elif kind == "evs":
                 total = sum(evs.get(s, 0) for s in stats_named)
-                out[name] = (min(1.0, total / spec["full_at"]), [f"{total} EVs"] if total else [])
+                words = spec["label"] if spec["label"].startswith("EVs") else spec["label"].replace(" EVs", "") + " EVs"
+                out[name] = (min(1.0, total / spec["full_at"]), [f"{total} {words}"] if total else [])
             elif kind == "iv_low":
                 low = ivs.get(spec["stat"], 31) <= spec["at_most"]
                 out[name] = (1.0 if low else 0.0, [f"{spec['stat']} IV {ivs.get(spec['stat'])}"] if low else [])
@@ -266,7 +274,8 @@ class RoleBook:
                 hit = [t for t in ctx["types"] if t in spec["types"]]
                 out[name] = (1.0 if hit else 0.0, hit)
             elif kind == "attacks":
-                pool_ = [m for m in attacks if m["eff"] >= spec["min_power"]]
+                pw = "scaled" if spec.get("scaled") else "eff"
+                pool_ = [m for m in attacks if m[pw] >= spec["min_power"]]
                 c = spec["class"]
                 if c == "mixed":
                     p = [m["name"] for m in pool_ if m["class"] == "physical"]
@@ -281,14 +290,24 @@ class RoleBook:
                 ev = [m["name"] for m in attacks if m["type"] in ctx["types"] and m["eff"] >= spec["min_power"]]
                 out[name] = (1.0 if ev else 0.0, ev)
             elif kind == "best_power":
-                best = max(attacks, key=lambda m: (m["eff"], m["name"]), default=None)
-                out[name] = (min(1.0, best["eff"] / spec["full_at"]) if best else 0.0,
-                             [f"{best['name']} ({round(best['eff'])})"] if best else [])
+                pw = "scaled" if spec.get("scaled") else "eff"
+                best = max(attacks, key=lambda m: (m[pw], m["name"]), default=None)
+                out[name] = (min(1.0, best[pw] / spec["full_at"]) if best else 0.0,
+                             [f"{best['name']} ({round(best[pw])})"] if best else [])
+            elif kind == "matched_setup":
+                ev = [m["name"] for m in moves if m["categories"] & set(SETUP[:3]) and
+                      (m["stat_changes"].get(ctx["matching"], 0) > 0 or set(k for k, v in m["stat_changes"].items()
+                                                                             if v > 0) == {"spe"})]
+                out[name] = (min(1.0, len(ev) / spec["full_at"]), ev)
             elif kind == "coverage":
                 hit = self.covered(attacks, ctx["gen"], spec["min_power"])
                 out[name] = (min(1.0, len(hit) / spec["full_at"]), sorted(hit))
             elif kind == "weather_sweep":
-                ev = [f"{a} with {w}" for w, a in self._weather_users(ctx) if a in self.weathers[w]["sweep_abilities"]]
+                ev = []
+                for w, a in self._weather_users(ctx):
+                    if a in self.weathers[w]["sweep_abilities"]:
+                        ev.append(f"{a} with {w}")
+                        ev += [m for m in ctx["own_weather"].get(w, []) if m in ctx["build"].moves]   # what sets it
                 out[name] = (1.0 if ev else 0.0, ev)
             elif kind == "weather_boosted":
                 ev = []
@@ -305,8 +324,9 @@ class RoleBook:
                 out[name] = (min(1.0, len(ev) / spec["full_at"]), ev)
             elif kind == "moves":
                 want = spec["category"] if isinstance(spec["category"], list) else [spec["category"]]
-                ev = [m["name"] for m in moves if m["categories"] & set(want)]
-                out[name] = (min(1.0, len(ev) / spec["full_at"]), ev)
+                hit = [m for m in moves if m["categories"] & set(want)]
+                count = sum((m["accuracy"] or 100) / 100 if m["class"] == "status" else 1.0 for m in hit)
+                out[name] = (min(1.0, count / spec["full_at"]) * spec.get("scale", 1.0), [m["name"] for m in hit])
             else:
                 raise ValueError(f"signal {name}: unknown kind {kind}")
         return out
@@ -315,12 +335,13 @@ class RoleBook:
         """The single defending types at least one of these attacks hits super-effectively, at decent power."""
         out = set()
         for m in attacks:
-            if m["eff"] < min_power:
-                continue
-            for t in self.type_list(gen):
-                if self.era.multiplier(m["type"], [t], gen) >= 2:
-                    out.add(t)
+            if m["eff"] >= min_power:
+                out |= self.super_effective(m["type"], gen)
         return out
+
+    @lru_cache(maxsize=None)
+    def super_effective(self, attack_type, gen):
+        return frozenset(t for t in self.type_list(gen) if self.era.multiplier(attack_type, [t], gen) >= 2)
 
     def weather_of(self, moves, ability):
         """The weathers a build sets itself: {weather: what sets it}."""
@@ -370,6 +391,17 @@ class RoleBook:
             return min(p[0] for p in parts), [e for p in parts for e in p[1]]
         return sig[key]
 
+    def gate_progress(self, role_id, sig):
+        """How close a build is to a role's gate, 0-1 (1: met). Steers the solver toward a role it can't score yet."""
+        best = 0.0
+        for alt in self.roles[role_id]["requires"]:
+            parts = []
+            for s, m in alt.items():
+                v = self.value(s, sig)[0]
+                parts.append(1.0 if v > m else (v / m if m else 0.0) * 0.99)
+            best = max(best, sum(parts) / len(parts))
+        return best
+
     def label(self, key):
         if "|" in key:
             return " or ".join(self.label(k) for k in key.split("|"))
@@ -377,7 +409,7 @@ class RoleBook:
             return " with ".join(self.label(k) for k in key.split("&"))
         return self.signal_defs[key]["label"]
 
-    def score(self, role_id, sig):
+    def score(self, role_id, sig, explain=True):
         role = self.roles[role_id]
         gate = None
         for alt in role["requires"]:
@@ -385,6 +417,8 @@ class RoleBook:
                 gate = alt
                 break
         if gate is None:
+            if not explain:
+                return {"role": role_id, "score": 0.0, "fit": 0.0}
             need = [" and ".join(self.label(s) for s in alt) for alt in role["requires"]]
             return {"role": role_id, "name": role["name"], "family": role["family"], "score": 0.0, "fit": 0.0,
                     "because": [], "against": [], "needs": need}
@@ -392,6 +426,8 @@ class RoleBook:
         parts = [(s, w, *self.value(s, sig)) for s, w in role["weights"].items()]
         raw = sum(w * v for _, w, v, _ in parts)
         fit = max(0.0, min(1.0, raw / pos))
+        if not explain:
+            return {"role": role_id, "score": round(fit * role.get("prior", 1.0), 4), "fit": round(fit, 4)}
         because = sorted((p for p in parts if p[1] > 0 and p[2] > 0), key=lambda p: (-p[1] * p[2], p[0]))
         against = sorted((p for p in parts if p[1] < 0 and p[2] > 0), key=lambda p: (p[1] * p[2], p[0]))
         fmt = lambda s, w, v, ev: {"signal": s, "label": self.label(s), "value": round(v, 3), "weight": w,

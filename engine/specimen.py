@@ -36,6 +36,15 @@ GEN2_SHINY_ATK = {2, 3, 6, 7, 10, 11, 14, 15}
 EXCEPTIONS = {("crystal", "feraligatr", "waterfall"): "D-028 (learnable from Gen 3; works on the Crystal cartridge)"}
 
 
+def _sketch():
+    """Smeargle's Sketch rule (trainers/era_corrections.json): PokeAPI lists Sketch only, not what it copies."""
+    import json
+    import os
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "trainers", "era_corrections.json"),
+              encoding="utf-8") as fh:
+        return json.load(fh)["sketch"]
+
+
 @dataclass
 class Specimen:
     species: str
@@ -204,9 +213,14 @@ class Lab:
         card = {"species": sp.species, "game": sp.game, "gen": gen, "level": sp.level,
                 "era_base_stats": base, "notes": [], "conflicts": []}
         # learnability gate (D-024)
+        sketch = _sketch()
         for mv in sp.moves:
             res = self.r.learn(sp.species, mv, vg)
             if res["routes"]:
+                continue
+            if sp.species in sketch["species"] and mv not in sketch["cannot_sketch"] and res.get("move_exists", True) \
+                    and int(self.r.q("SELECT generation_id FROM moves WHERE id=?", self.r.move_id(mv))[0][0]) <= gen:
+                card["notes"].append(f"{mv}: by Sketch")
                 continue
             key = (game, sp.species.lower(), self.r.q("SELECT identifier FROM moves WHERE id=?",
                                                       self.r.move_id(mv))[0][0])

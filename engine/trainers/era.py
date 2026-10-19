@@ -228,12 +228,24 @@ class Era:
                           "ON n.item_id=g.item_id AND n.local_language_id=9 WHERE n.name=?", name)
         return int(rows[0][0]) if rows and rows[0][0] is not None else None
 
+    def sketches(self, species):
+        return species in _CORRECTIONS["sketch"]["species"]
+
+    @lru_cache(maxsize=None)
+    def sketchable(self, gen):
+        """Every move Sketch can copy in this generation (era_corrections.json "sketch")."""
+        skip = set(_CORRECTIONS["sketch"]["cannot_sketch"])
+        return sorted(n for (n,) in self.ref.q("SELECT n.name FROM moves m JOIN move_names n ON n.move_id=m.id AND "
+                                               "n.local_language_id=9 WHERE CAST(m.generation_id AS INT)<=? AND "
+                                               "CAST(m.id AS INT)<10000", gen) if n not in skip)
+
     @lru_cache(maxsize=None)
     def learnable(self, species, game):
-        """Every move the species can learn in this game (any route, through pre-evolutions), by English name."""
+        """Every move the species can learn in this game (any route, through pre-evolutions), by English name.
+        Smeargle adds every move Sketch can copy in the generation."""
         sid = self.ref.species_id(species)
         vg = VG[game]
-        out = set()
+        out = set(self.sketchable(GAME_GEN[game])) if self.sketches(species) else set()
         for stage in self.ref.line(sid):
             for (name,) in self.ref.q("SELECT n.name FROM pokemon_moves pm JOIN move_names n ON n.move_id=pm.move_id "
                                       "AND n.local_language_id=9 WHERE pm.pokemon_id=? AND pm.version_group_id=?", stage, vg):
@@ -286,5 +298,8 @@ class Era:
         except KeyError:
             return {"in_game": [], "elsewhere": [], "exists": False}
         routes = res["routes"]
-        return {"in_game": [r for r in routes if r[0] == "native"], "elsewhere": [r for r in routes if r[0] != "native"],
+        native = [r for r in routes if r[0] == "native"]
+        if not native and self.sketches(species) and move in self.sketchable(GAME_GEN[game]):
+            native = [("native", species, "sketch", 0)]             # era_corrections.json "sketch"
+        return {"in_game": native, "elsewhere": [r for r in routes if r[0] != "native"],
                 "exists": res["move_exists"]}

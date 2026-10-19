@@ -2,10 +2,45 @@
  "_note": "Corrections to the PokeAPI snapshot where it's known to be missing a change (E-031). PokeAPI is the source of truth; an entry here is a documented exception, never a guess. Each says what PokeAPI has, what the generation had, and why.",
  "priority": {
   "_note": "PokeAPI's move_changelog doesn't record Gen V's priority renumbering, so it gives today's values for Gen IV. 'through_gen' is the last generation the listed priority applies to.",
-  "Extreme Speed": {"priority": 1, "through_gen": 4, "why": "+1 in Gen II-IV; +2 from Gen V (PokeAPI has +2 with no changelog row)"},
-  "Fake Out": {"priority": 1, "through_gen": 4, "why": "+1 in Gen III-IV; +3 from Gen V (PokeAPI has +3 with no changelog row)"},
-  "Protect": {"priority": 3, "through_gen": 4, "from_gen": 3, "why": "+3 in Gen III-IV; +4 from Gen V"},
-  "Detect": {"priority": 3, "through_gen": 4, "from_gen": 3, "why": "+3 in Gen III-IV; +4 from Gen V"},
-  "Endure": {"priority": 3, "through_gen": 4, "from_gen": 3, "why": "+3 in Gen III-IV; +4 from Gen V"}
+  "Extreme Speed": {
+   "priority": 1,
+   "through_gen": 4,
+   "why": "+1 in Gen II-IV; +2 from Gen V (PokeAPI has +2 with no changelog row)"
+  },
+  "Fake Out": {
+   "priority": 1,
+   "through_gen": 4,
+   "why": "+1 in Gen III-IV; +3 from Gen V (PokeAPI has +3 with no changelog row)"
+  },
+  "Protect": {
+   "priority": 3,
+   "through_gen": 4,
+   "from_gen": 3,
+   "why": "+3 in Gen III-IV; +4 from Gen V"
+  },
+  "Detect": {
+   "priority": 3,
+   "through_gen": 4,
+   "from_gen": 3,
+   "why": "+3 in Gen III-IV; +4 from Gen V"
+  },
+  "Endure": {
+   "priority": 3,
+   "through_gen": 4,
+   "from_gen": 3,
+   "why": "+3 in Gen III-IV; +4 from Gen V"
+  }
+ },
+ "sketch": {
+  "_note": "Smeargle learns moves by Sketch, which PokeAPI's learnsets don't list (it shows Sketch only). In the games Sketch copies any move it sees, so every move that exists by the generation is learnable in that game, except the ones Sketch can't copy.",
+  "species": [
+   "Smeargle"
+  ],
+  "cannot_sketch": [
+   "Chatter",
+   "Struggle",
+   "Sketch"
+  ],
+  "why": "Sketch (game mechanic): Struggle and Chatter can't be Sketched; Sketch itself fails"
  }
 }
