@@ -1,0 +1,1038 @@
+{
+ "id": "film-gen2ou-field-gen2ou-2026-10-19-2259c25710",
+ "kind": "film",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Showdown replays: Gen 2 OU, the field",
+  "url": "https://replay.pokemonshowdown.com/?format=gen2ou",
+  "replays": [
+   "gen2ou-2701239677",
+   "gen2ou-2701196884",
+   "gen2ou-2701190188",
+   "gen2ou-2701127613",
+   "smogtours-gen2ou-982348",
+   "gen2ou-2700702478",
+   "gen2ou-2700698182",
+   "gen2ou-2700690091",
+   "gen2ou-2700648324",
+   "smogtours-gen2ou-982068",
+   "smogtours-gen2ou-982079",
+   "smogtours-gen2ou-982012",
+   "gen2ou-2700601305",
+   "gen2ou-2700553148",
+   "smogtours-gen2ou-981766",
+   "smogtours-gen2ou-981611",
+   "smogtours-gen2ou-981618",
+   "smogtours-gen2ou-981601",
+   "smogtours-gen2ou-981587",
+   "smogtours-gen2ou-981494",
+   "smogtours-gen2ou-981476",
+   "smogtours-gen2ou-981465",
+   "smogtours-gen2ou-981459",
+   "smogtours-gen2ou-981447",
+   "gen2ou-2700244591",
+   "gen2ou-2700211390",
+   "gen2ou-2700205041",
+   "gen2ou-2700171407",
+   "smogtours-gen2ou-981268",
+   "smogtours-gen2ou-981250",
+   "smogtours-gen2ou-981228",
+   "smogtours-gen2ou-981185",
+   "gen2ou-2700089907",
+   "smogtours-gen2ou-981025",
+   "smogtours-gen2ou-981018",
+   "gen2ou-2700024149",
+   "smogtours-gen2ou-980996",
+   "smogtours-gen2ou-980988",
+   "gen2ou-2700001528",
+   "gen2ou-2699994308",
+   "gen2ou-2699893530",
+   "gen2ou-2699837471",
+   "gen2ou-2699786979",
+   "smogtours-gen2ou-980858",
+   "gen2ou-2699786348",
+   "smogtours-gen2ou-980855",
+   "smogtours-gen2ou-980851",
+   "smogtours-gen2ou-980838",
+   "smogtours-gen2ou-980834",
+   "smogtours-gen2ou-980826",
+   "smogtours-gen2ou-980829",
+   "smogtours-gen2ou-980820",
+   "smogtours-gen2ou-980812",
+   "smogtours-gen2ou-980654",
+   "gen2ou-2699122419",
+   "smogtours-gen2ou-980351",
+   "gen2ou-2698621045",
+   "gen2ou-2698341074",
+   "gen2ou-2698239104",
+   "gen2ou-2698043428",
+   "gen2ou-2697850440",
+   "gen2ou-2697841605",
+   "gen2ou-2697674745",
+   "gen2ou-2697663923",
+   "gen2ou-2697658815",
+   "gen2ou-2697641179",
+   "gen2ou-2697607048",
+   "gen2ou-2697608378",
+   "gen2ou-2697530714",
+   "gen2ou-2697372355",
+   "gen2ou-2697366970",
+   "gen2ou-2697364219",
+   "gen2ou-2697357922",
+   "gen2ou-2697361023",
+   "gen2ou-2697315917",
+   "gen2ou-2697323053",
+   "gen2ou-2697318027",
+   "gen2ou-2697304507",
+   "gen2ou-2697305704",
+   "gen2ou-2697206899"
+  ],
+  "dates": [
+   "2026-10-12",
+   "2026-10-19"
+  ],
+  "ratings": [
+   1000,
+   1447
+  ],
+  "trainer": "field:gen2ou"
+ },
+ "summary": "80 Gen 2 OU battles: 33 observations, 12 builds. Filed under field:gen2ou.",
+ "claims": [
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "all states",
+    "pokemon": "team",
+    "move": "finishing moves",
+    "outcome": "67% of finishing-or-wearing choices finish (2853 vs 1419); even 63%, ahead 68%, behind 71%",
+    "sample_size": 4272,
+    "value": 67,
+    "by_state": {
+     "even": 63,
+     "ahead": 68,
+     "behind": 71
+    }
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701239677 | https://replay.pokemonshowdown.com/gen2ou-2701239677 | https://replay.pokemonshowdown.com/gen2ou-2701196884",
+   "id": "c1"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Snorlax",
+    "move": "Curse",
+    "outcome": "led 31 of 160 (19%), won 52%; first move Curse 10 of 31",
+    "sample_size": 31
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981601",
+   "id": "c2"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Zapdos",
+    "move": "Thunder",
+    "outcome": "led 18 of 160 (11%), won 39%; first move Thunder 9 of 18",
+    "sample_size": 18
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982068",
+   "id": "c3"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Exeggutor",
+    "move": "Sleep Powder",
+    "outcome": "led 11 of 160 (7%), won 36%; first move Sleep Powder 4 of 11",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981618 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981494",
+   "id": "c4"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Hypno",
+    "move": "Hypnosis",
+    "outcome": "led 11 of 160 (7%), won 64%; first move Hypnosis 6 of 11",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2700601305 | https://replay.pokemonshowdown.com/gen2ou-2700244591 | https://replay.pokemonshowdown.com/gen2ou-2699786979",
+   "id": "c5"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Forretress",
+    "move": "Spikes",
+    "outcome": "led 11 of 160 (7%), won 36%; first move Spikes 5 of 11",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2700601305 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981618 | https://replay.pokemonshowdown.com/gen2ou-2700089907",
+   "id": "c6"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Raikou",
+    "move": "Thunder",
+    "outcome": "led 9 of 160 (6%), won 33%; first move Thunder 4 of 9",
+    "sample_size": 9
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982348 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982068 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "id": "c7"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Snorlax",
+    "move": "Double-Edge",
+    "outcome": "chosen when even in 57 battles (155 times, of 4090 choices when even); 14 knockouts",
+    "sample_size": 57
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982348",
+   "id": "c8"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Cloyster",
+    "move": "Spikes",
+    "outcome": "chosen when even in 53 battles (71 times, of 4090 choices when even)",
+    "sample_size": 53
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982348 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012",
+   "id": "c9"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Snorlax",
+    "move": "Curse",
+    "outcome": "chosen when even in 45 battles (108 times, of 4090 choices when even)",
+    "sample_size": 45
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982348",
+   "id": "c10"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Snorlax",
+    "move": "Double-Edge",
+    "outcome": "chosen when ahead in 18 battles (49 times, of 2208 choices when ahead); 5 knockouts",
+    "sample_size": 18
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "id": "c11"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Zapdos",
+    "move": "Thunder",
+    "outcome": "chosen when ahead in 17 battles (40 times, of 2208 choices when ahead); 6 knockouts",
+    "sample_size": 17
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982068",
+   "id": "c12"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Cloyster",
+    "move": "Surf",
+    "outcome": "chosen when ahead in 14 battles (34 times, of 2208 choices when ahead); 4 knockouts",
+    "sample_size": 14
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981618 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981601",
+   "id": "c13"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Snorlax",
+    "move": "Double-Edge",
+    "outcome": "chosen when behind in 24 battles (103 times, of 2173 choices when behind); 11 knockouts",
+    "sample_size": 24
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982068 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012",
+   "id": "c14"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Snorlax",
+    "move": "Rest",
+    "outcome": "chosen when behind in 18 battles (56 times, of 2173 choices when behind)",
+    "sample_size": 18
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982068 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981611",
+   "id": "c15"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Snorlax",
+    "move": "Sleep Talk",
+    "outcome": "chosen when behind in 16 battles (66 times, of 2173 choices when behind)",
+    "sample_size": 16
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982068 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012",
+   "id": "c16"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Snorlax",
+    "move": "Double-Edge",
+    "outcome": "brought in after a faint 67 times; opened with Double-Edge 11",
+    "sample_size": 67
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012",
+   "id": "c17"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Zapdos",
+    "move": "Thunder",
+    "outcome": "brought in after a faint 46 times; opened with Thunder 16",
+    "sample_size": 46
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981766 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981465",
+   "id": "c18"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Raikou",
+    "move": "Thunder",
+    "outcome": "brought in after a faint 29 times; opened with Thunder 6",
+    "sample_size": 29
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982348 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982079",
+   "id": "c19"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Cloyster",
+    "move": "Surf",
+    "outcome": "brought in after a faint 27 times; opened with Surf 6",
+    "sample_size": 27
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981601 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981476",
+   "id": "c20"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Gengar",
+    "move": "Thunderbolt",
+    "outcome": "brought in after a faint 26 times; opened with Thunderbolt 7",
+    "sample_size": 26
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981611 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981618",
+   "id": "c21"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Snorlax",
+    "move": "Double-Edge",
+    "outcome": "closed 11 wins",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982068 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012",
+   "id": "c22"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Zapdos",
+    "move": "Thunder",
+    "outcome": "closed 10 wins",
+    "sample_size": 10
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981465 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981185",
+   "id": "c23"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Charizard",
+    "move": "Fire Blast",
+    "outcome": "closed 4 wins",
+    "sample_size": 4
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2700698182 | https://replay.pokemonshowdown.com/gen2ou-2700211390 | https://replay.pokemonshowdown.com/gen2ou-2700024149",
+   "id": "c24"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Gengar",
+    "move": "Explosion",
+    "outcome": "closed 4 wins",
+    "sample_size": 4
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-981601 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981494 | https://replay.pokemonshowdown.com/smogtours-gen2ou-980851",
+   "id": "c25"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Snorlax",
+    "move": "kept in back",
+    "outcome": "held back in 12 battles",
+    "sample_size": 12
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/gen2ou-2700024149 | https://replay.pokemonshowdown.com/smogtours-gen2ou-980988",
+   "id": "c26"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Zapdos",
+    "move": "kept in back",
+    "outcome": "held back in 10 battles",
+    "sample_size": 10
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-981025 | https://replay.pokemonshowdown.com/smogtours-gen2ou-980996 | https://replay.pokemonshowdown.com/gen2ou-2699837471",
+   "id": "c27"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Marowak",
+    "move": "kept in back",
+    "outcome": "held back in 8 battles",
+    "sample_size": 8
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981494 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981018",
+   "id": "c28"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Vaporeon",
+    "move": "kept in back",
+    "outcome": "held back in 6 battles",
+    "sample_size": 6
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982348 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981459 | https://replay.pokemonshowdown.com/gen2ou-2700171407",
+   "id": "c29"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "facing Snorlax",
+    "pokemon": "Skarmory",
+    "move": "switch in",
+    "outcome": "switched in 80 times facing Snorlax",
+    "sample_size": 80
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982068 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "id": "c30"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "facing Zapdos",
+    "pokemon": "Snorlax",
+    "move": "switch in",
+    "outcome": "switched in 69 times facing Zapdos",
+    "sample_size": 69
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701190188 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982348 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982068",
+   "id": "c31"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "facing Cloyster",
+    "pokemon": "Zapdos",
+    "move": "switch in",
+    "outcome": "switched in 36 times facing Cloyster",
+    "sample_size": 36
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982348 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982079 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981601",
+   "id": "c32"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen2ou",
+    "version": null,
+    "battle": "Showdown Gen 2 OU (80 battles)",
+    "format": "gen2ou",
+    "gen": 2,
+    "turn": null,
+    "situation": "facing Skarmory",
+    "pokemon": "Zapdos",
+    "move": "switch in",
+    "outcome": "switched in 45 times facing Skarmory",
+    "sample_size": 45
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982068 | https://replay.pokemonshowdown.com/smogtours-gen2ou-982012 | https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "id": "c33"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Snorlax",
+    "moves": [
+     "Double-Edge",
+     "Curse",
+     "Earthquake",
+     "Rest"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "bulky_setup",
+    "name": "bulky setup, then bulky attacker (Gen 2 OU, 57 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 57 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Sleep Talk, Lovely Kiss, Self-Destruct"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701196884",
+   "note": "bulky setup, then bulky attacker, won 39% of 57",
+   "id": "c34"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Snorlax",
+    "moves": [
+     "Curse",
+     "Body Slam",
+     "Rest",
+     "Sleep Talk"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "bulky_setup",
+    "name": "bulky setup, then sponge / status absorber (Gen 2 OU, 12 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 12 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Flamethrower, Thunder, Self-Destruct"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "note": "bulky setup, then sponge / status absorber, won 58% of 12",
+   "id": "c35"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Snorlax",
+    "moves": [
+     "Double-Edge",
+     "Sleep Talk",
+     "Rest",
+     "Surf"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "status_absorber",
+    "name": "sponge / status absorber (Gen 2 OU, 8 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 8 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Thunder"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-981611",
+   "note": "sponge / status absorber, won 38% of 8",
+   "id": "c36"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Snorlax",
+    "moves": [
+     "Double-Edge",
+     "Self-Destruct",
+     "Thunder",
+     "Earthquake"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "bulky_attacker",
+    "name": "bulky attacker, then tank (Gen 2 OU, 4 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 4 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Lovely Kiss"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-980996",
+   "note": "bulky attacker, then tank, won 75% of 4",
+   "id": "c37"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Snorlax",
+    "moves": [
+     "Belly Drum",
+     "Body Slam",
+     "Earthquake",
+     "Rest"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "bulky_setup",
+    "name": "bulky setup, then bulky attacker (Gen 2 OU, 3 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 3 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Lovely Kiss"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982068",
+   "note": "bulky setup, then bulky attacker, won 33% of 3",
+   "id": "c38"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Zapdos",
+    "moves": [
+     "Hidden Power",
+     "Thunder",
+     "Sleep Talk",
+     "Rest"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "status_absorber",
+    "name": "sponge / status absorber (Gen 2 OU, 34 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 34 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Thunderbolt, Drill Peck, Reflect"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2701190188",
+   "note": "sponge / status absorber, won 56% of 34",
+   "id": "c39"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Zapdos",
+    "moves": [
+     "Whirlwind",
+     "Thunder",
+     "Hidden Power",
+     "Thunder Wave"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "check_counter",
+    "name": "check / counter, then phazer (Gen 2 OU, 9 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 9 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Thunderbolt"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "note": "check / counter, then phazer, won 44% of 9",
+   "id": "c40"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Zapdos",
+    "moves": [
+     "Thunderbolt",
+     "Hidden Power",
+     "Protect",
+     "Whirlwind"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "check_counter",
+    "name": "check / counter (Gen 2 OU, 7 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 7 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Drill Peck"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-980858",
+   "note": "check / counter, won 86% of 7",
+   "id": "c41"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Cloyster",
+    "moves": [
+     "Spikes",
+     "Toxic",
+     "Surf",
+     "Explosion"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "hazard_setter",
+    "name": "hazard setter (Gen 2 OU, 51 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 51 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Ice Beam"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982079",
+   "note": "hazard setter, won 49% of 51",
+   "id": "c42"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Cloyster",
+    "moves": [
+     "Spikes",
+     "Rapid Spin",
+     "Surf",
+     "Protect"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "hazard_setter",
+    "name": "hazard setter, then hazard remover (Gen 2 OU, 4 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 4 Gen 2 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-980858",
+   "note": "hazard setter, then hazard remover, won 100% of 4",
+   "id": "c43"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Tyranitar",
+    "moves": [
+     "Rock Slide",
+     "Pursuit",
+     "Roar",
+     "Crunch"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "bulky_attacker",
+    "name": "bulky attacker, then trapper (Gen 2 OU, 10 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 10 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Fire Blast, Dynamic Punch"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen2ou-2698341074",
+   "note": "bulky attacker, then trapper, won 40% of 10",
+   "id": "c44"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Tyranitar",
+    "moves": [
+     "Rock Slide",
+     "Curse",
+     "Roar",
+     "Rest"
+    ],
+    "item": "Leftovers",
+    "generation": 2,
+    "role": "bulky_setup",
+    "name": "bulky setup (Gen 2 OU, 5 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 5 Gen 2 OU battles; moves no battle showed are open",
+     "also seen: Flamethrower, Hidden Power"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen2ou-982068",
+   "note": "bulky setup, won 40% of 5",
+   "id": "c45"
+  }
+ ],
+ "status": "open",
+ "raw": "canon/inbox/raw/film-gen2ou-field-gen2ou-2026-10-19-2259c25710.json"
+}

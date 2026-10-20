@@ -33,6 +33,7 @@ Built separately for Pokémon for now. It uses the same analysis envelope as Foo
 - **Builds** (`intake.py paste team.txt --game platinum [--external "where from"]`): each set is read by the engine on the way in (its roles, why it knows each move, flags, the closest archetype). Builds are yours unless `--external` names a source.
 - **Research** (`intake.py results tabs.json`): the agent sheet's RESULTS tabs, with one card per research job.
 - **By hand** (`intake.py card claims.json`): a card written in a session, e.g. a finding from a web search.
+- **Game film** (`intake.py film --format gen4ou --count 150 [--user NAME] [--trainer me]`): public Showdown replays read turn by turn by the film room (`docs/FILM.md`). One study becomes one card of observation tallies (leads, order, choices by game state, aggression) and build variants.
 
 ## The analysis envelope (shared with Food OS)
 

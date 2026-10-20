@@ -94,11 +94,29 @@ class Ref:
 
     # --- identity -------------------------------------------------------
     def species_id(self, name):
+        """The species of a name. A form ("Rotom-Heat", "Shaymin-Sky") is its species; a cosmetic form PokeAPI
+        doesn't list ("Gastrodon-East", "Burmy-Sandy") is read as its base species."""
         s = slug(name)
-        r = self.q("SELECT id FROM pokemon_species WHERE identifier=?", LEGACY_SPECIES_ALIASES.get(s, s))
-        if not r:
-            raise KeyError(name)
-        return int(r[0]["id"])
+        s = LEGACY_SPECIES_ALIASES.get(s, s)
+        r = self.q("SELECT id FROM pokemon_species WHERE identifier=?", s)
+        if r:
+            return int(r[0]["id"])
+        r = self.q("SELECT species_id FROM pokemon WHERE identifier=?", s)
+        if r:
+            return int(r[0]["species_id"])
+        while "-" in s:
+            s = s.rsplit("-", 1)[0]
+            r = self.q("SELECT id FROM pokemon_species WHERE identifier=?", s)
+            if r:
+                return int(r[0]["id"])
+        raise KeyError(name)
+
+    def pokemon_id(self, name):
+        """The form's own PokeAPI pokemon id where it has one (its abilities can differ), else the species'."""
+        r = self.q("SELECT id FROM pokemon WHERE identifier=?", slug(name))
+        if r:
+            return int(r[0]["id"])
+        return int(self.q("SELECT id FROM pokemon WHERE species_id=? AND is_default=1", self.species_id(name))[0]["id"])
 
     def move_id(self, name):
         r = self.q("SELECT id FROM moves WHERE identifier=?", slug(name))
@@ -271,7 +289,7 @@ class Ref:
 
     # --- abilities ------------------------------------------------------
     def abilities(self, species, gen):
-        sid = self.species_id(species)
+        sid = self.pokemon_id(species)
         past = self.q("SELECT generation_id, ability_id, is_hidden, slot FROM pokemon_abilities_past "
                       "WHERE pokemon_id=? ORDER BY CAST(generation_id AS INT)", sid)
         cur = {int(r["slot"]): r["ability_id"] for r in

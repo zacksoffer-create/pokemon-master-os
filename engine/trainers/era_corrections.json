@@ -42,5 +42,11 @@
    "Sketch"
   ],
   "why": "Sketch (game mechanic): Struggle and Chatter can't be Sketched; Sketch itself fails"
+ },
+ "type_forms": {
+  "_note": "Forms PokeAPI's pokemon table doesn't list, whose type is in the name: Arceus-Bug is Bug (Multitype with its Plate). Showdown replays and usage stats name them this way.",
+  "species": [
+   "Arceus"
+  ]
  }
 }

@@ -87,6 +87,9 @@ class Era:
 
     @lru_cache(maxsize=None)
     def types(self, name, gen):
+        base, _, suffix = name.partition("-")
+        if base in _CORRECTIONS["type_forms"]["species"] and suffix.capitalize() in self.type_names(gen).values():
+            return (suffix.capitalize(),)
         pid = self.pokemon_id(name)
         rows = self.ref.q("SELECT generation_id, type_id, slot FROM pokemon_types_past WHERE pokemon_id=? "
                           "ORDER BY CAST(generation_id AS INT)", pid)

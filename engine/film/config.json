@@ -1,0 +1,194 @@
+{
+ "_note": "The film room (docs/FILM.md): public Pokémon Showdown replays read turn by turn. Every switch and move is a row with the game state when it happened; every Pokémon keeps the order it came in, the order it used its moves, and every part of its build the battle revealed. Nothing here is canon: a study becomes a card in the intake inbox, and only approved claims land.",
+ "sources": {
+  "_note": "Showdown's public replay server. Search returns up to 51 replays a page, newest first; 'before' (an upload time) pages back. Smogon tournament games come back in the same search with ids starting 'smogtours-': no ladder rating, but the highest level of play. Replays are public records; chat lines are never stored.",
+  "search": "https://replay.pokemonshowdown.com/search.json",
+  "replay": "https://replay.pokemonshowdown.com/{id}.json",
+  "user_agent": "Mozilla/5.0 (research archive)",
+  "timeout_seconds": 30,
+  "pause_seconds": 0.4,
+  "tournament_prefix": "smogtours-",
+  "max_pages": 40
+ },
+ "store": {
+  "_note": "Fetched replays are cached exactly as Showdown sent them (data/ is rebuilt by fetching and never committed). A study is saved beside them for the page and the cards.",
+  "raw": "data/raw/showdown_replays",
+  "studies": "data/derived/film"
+ },
+ "formats": {
+  "_note": "The formats the room reads, the generation each is, and the game the role engine reads its sets in (the era: moves, types, abilities).",
+  "gen4ou": {
+   "gen": 4,
+   "game": "platinum",
+   "label": "Gen 4 OU"
+  },
+  "gen4uu": {
+   "gen": 4,
+   "game": "platinum",
+   "label": "Gen 4 UU"
+  },
+  "gen4ubers": {
+   "gen": 4,
+   "game": "platinum",
+   "label": "Gen 4 Ubers"
+  },
+  "gen3ou": {
+   "gen": 3,
+   "game": "emerald",
+   "label": "Gen 3 OU"
+  },
+  "gen2ou": {
+   "gen": 2,
+   "game": "crystal",
+   "label": "Gen 2 OU"
+  }
+ },
+ "state": {
+  "_note": "The game state from the side about to act, before it acts. Ahead or behind on Pokémon left first; when the count is level, the side up by at least hp_margin of a Pokémon's HP (summed across the team, unseen members counted healthy) is ahead.",
+  "ahead_by_alive": 1,
+  "hp_margin": 1.0
+ },
+ "order": {
+  "_note": "How the room reads order. The lead comes in before turn 1. A member 'held back' is one first seen after this share of the battle had passed. The closer lands the battle's last knockout.",
+  "held_back_after": 0.5
+ },
+ "actions": {
+  "_note": "What each chosen action counts as, for the action mix by game state. A move is read through the role engine's move categories (trainers/roles.json); the first group it matches names it. Aggression uses the playsheet's own finisher and attrition lists (trainers/config.json playsheet.aggression), so a measured ratio and a moveset's ratio mean the same thing.",
+  "groups": [
+   {
+    "id": "hazard",
+    "categories": [
+     "hazard"
+    ]
+   },
+   {
+    "id": "hazard_removal",
+    "categories": [
+     "hazard_removal"
+    ]
+   },
+   {
+    "id": "setup",
+    "categories": [
+     "setup_physical",
+     "setup_special",
+     "setup_speed",
+     "setup_defense"
+    ]
+   },
+   {
+    "id": "recovery",
+    "categories": [
+     "recovery",
+     "rest",
+     "sleep_talk"
+    ]
+   },
+   {
+    "id": "status",
+    "categories": [
+     "status_infliction",
+     "sleep",
+     "confuse",
+     "residual"
+    ]
+   },
+   {
+    "id": "protect",
+    "categories": [
+     "protect",
+     "substitute"
+    ]
+   },
+   {
+    "id": "phaze",
+    "categories": [
+     "phaze"
+    ]
+   },
+   {
+    "id": "pivot",
+    "categories": [
+     "pivot_move",
+     "baton_pass"
+    ]
+   },
+   {
+    "id": "self_ko",
+    "categories": [
+     "self_ko",
+     "destiny_bond"
+    ]
+   },
+   {
+    "id": "disrupt",
+    "categories": [
+     "trick",
+     "taunt",
+     "encore",
+     "anti_setup",
+     "counter"
+    ]
+   },
+   {
+    "id": "support",
+    "categories": [
+     "screens",
+     "cleric",
+     "trap",
+     "partial_trap",
+     "trick_room",
+     "weather",
+     "tailwind"
+    ]
+   },
+   {
+    "id": "attack",
+    "categories": [
+     "attack",
+     "hp_gambit"
+    ]
+   }
+  ],
+  "locked_tags": [
+   "[from]lockedmove",
+   "[from] lockedmove"
+  ],
+  "called_from": [
+   "Sleep Talk",
+   "Metronome",
+   "Assist",
+   "Copycat",
+   "Mirror Move",
+   "Me First",
+   "Magic Coat",
+   "Snatch",
+   "Nature Power"
+  ]
+ },
+ "study": {
+  "_note": "What a study keeps. A revealed set is the moves, item and ability one Pokémon showed in one battle; it's read only when it showed at least min_moves_to_read moves (fewer reads as noise). A species' variants are its revealed sets clustered by what they share: a set joins the variant whose consensus moves (and item) it overlaps most, if the overlap (shared / the smaller of the two) is at least variant_overlap; otherwise it starts a new one. Fuller sets are placed first. Each variant is then read through the role engine. A team's shape counts only teams with at most shape_max_unread members too little seen. Top plays count once per battle, so one long game can't swamp them. Cores are two Pokémon on the same team.",
+  "min_battles_for_set": 3,
+  "min_pair_battles": 3,
+  "top": 12,
+  "min_moves_to_read": 2,
+  "variant_overlap": 0.75,
+  "shape_max_unread": 1
+ },
+ "cards": {
+  "_note": "What a study proposes to canon. Observations are tallies (sample_size is how many battles or times it was seen), each citing up to examples_per_claim of the battles it happened in; per_kind caps how many of each kind a card carries. Builds are variants seen in enough battles. A player mapped to a trainer id here files under that trainer (your own Showdown name to 'me'); anyone else as 'showdown:<name>', a field study as 'field:<format>'.",
+  "players": {},
+  "observation_min_seen": 2,
+  "max_builds": 12,
+  "examples_per_claim": 3,
+  "per_kind": {
+   "lead": 6,
+   "held_back": 4,
+   "closer": 4,
+   "after_faint": 5,
+   "state": 3,
+   "switch": 4,
+   "aggression": 1
+  }
+ }
+}

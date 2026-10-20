@@ -17,7 +17,11 @@ team. It joins the Part 1 report, so the scouting report stays one film-room doc
 Plain data out (schema in the report); every sentence comes from trainers/phrases.json (kind "playsheet").
 Deterministic. No simulation, no damage calculation.
 """
+import json
+import os
+
 from trainers.era import GAME_GEN
+from trainers.model import CANON
 from trainers.roles import live
 
 
@@ -112,6 +116,15 @@ def ace(store, book, reads):
                      "parts": {k: round(v, 3) for k, v in parts.items()}, "helpers": helpers,
                      "role": cl["primary"]["name"], "level": b.level})
     rows.sort(key=lambda r: (-r["score"], -(r["level"] or 0), -r["slot"]))
+    builds = [b for b, *_ in reads]
+    if cfg.get("cartridge_marks_ace") and builds and all(b.source.startswith("cartridge") for b in builds):
+        top = [r for r in rows if r["level"] == top_level]
+        if len(top) == 1:
+            top[0]["marked_by_game"] = True
+            rows.remove(top[0])
+            rows.insert(0, top[0])
+    for r in rows:
+        r["sent_out"] = "lead" if r["slot"] == 1 else "last" if r["slot"] == len(rows) else f"#{r['slot']}"
     return rows
 
 
@@ -245,6 +258,80 @@ def aggression(store, book, reads, report):
             "offense_authored": authored, "offense_measured": off["measured"], "flag": flag}
 
 
+# --- on film ---------------------------------------------------------------------------------------------
+FILM_KINDS = (("lead", "lead"), ("even", "even"), ("ahead", "ahead"), ("behind", "behind"),
+              ("after a faint", "after_faint"), ("closing (the battle's last knockout)", "closers"),
+              ("held back (first in after half the battle)", "held_back"))
+
+
+def observed(store, version, path=None):
+    """What approved observations (canon/observations.jsonl) say this trainer actually does, in this version or
+    this version's generation (a Showdown study files by format and generation). Empty until something's approved."""
+    path = path or os.path.join(CANON, "observations.jsonl")
+    gen = GAME_GEN[version.game]
+    out = {"n": 0, "battles": [], "aggression": None, "by_state_aggression": None}
+    for _, key in FILM_KINDS:
+        out[key] = []
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8") as fh:
+        rows = [json.loads(line) for line in fh if line.strip()]
+    for o in rows:
+        if o.get("trainer") != version.trainer:
+            continue
+        if not (o.get("version") == version.id or (o.get("version") is None and o.get("gen") == gen)):
+            continue
+        out["n"] += 1
+        if o.get("battle") and o["battle"] not in out["battles"]:
+            out["battles"].append(o["battle"])
+        if o.get("situation") == "all states" and o.get("value") is not None:
+            out["aggression"], out["by_state_aggression"] = o["value"], o.get("by_state")
+            continue
+        for situation, key in FILM_KINDS:
+            if o.get("situation") == situation:
+                out[key].append({"pokemon": o["pokemon"], "move": o["move"], "n": o.get("sample_size") or 1,
+                                 "outcome": o.get("outcome")})
+    for _, key in FILM_KINDS:
+        out[key].sort(key=lambda x: -x["n"])
+    return out
+
+
+def film_lines(sheet):
+    """The playsheet's 'on film' lines: what the battles show, beside what the team and the story say."""
+    f = sheet["observed"]
+    if not f["n"]:
+        return []
+    top = lambda key: f[key][0] if f[key] else None
+    lines = []
+    lead = top("lead")
+    if lead:
+        lines.append(f"Leads with {lead['pokemon']} ({lead['outcome']}).")
+    for st in ("even", "ahead", "behind"):
+        t = top(st)
+        if t:
+            derived = sheet["go_to"][st]["species"]
+            same = " — the same one the team read picks" if t["pokemon"] == derived else (
+                f"; the team read picks {derived}" if derived else "")
+            lines.append(f"When {st}, turns to {t['pokemon']}'s {t['move']} ({t['outcome']}){same}.")
+    c = top("closers")
+    if c:
+        ace = sheet["ace"]["derived"]
+        lines.append(f"Closes with {c['pokemon']} ({c['outcome']})" + (
+            f", where the ace read says {ace}." if ace and ace != c["pokemon"] else "."))
+    h = top("held_back")
+    if h:
+        lines.append(f"Holds {h['pokemon']} back ({h['outcome']}).")
+    a = top("after_faint")
+    if a:
+        lines.append(f"After a faint, sends in {a['pokemon']} ({a['outcome']}).")
+    if f["aggression"] is not None:
+        ag = sheet["aggression"]
+        lines.append(f"On film, {f['aggression']}% of their finishing-or-wearing choices finish; the moveset reads "
+                     f"{ag['ratio']}%" + (f" and the offense slider is {ag['offense_authored']}." if ag["offense_authored"] is not None else "."))
+    lines.append("From: " + "; ".join(f["battles"][:3]) + ".")
+    return lines
+
+
 # --- the playsheet --------------------------------------------------------------------------------------
 def build_playsheet(store, book, version, team, report, level=None):
     trainer = store.trainers[version.trainer]
@@ -258,12 +345,16 @@ def build_playsheet(store, book, version, team, report, level=None):
     for s in version.signature_moves:
         on = next((b for b in team if b.species == s["pokemon"]), None)
         sigs.append({**s, "on_team": on is not None, "in_moveset": bool(on and s["move"] in on.moves)})
-    return {"career": car, "roles": roles,
-            "ace": {"derived": aces[0]["species"] if aces else None, "authored": authored_ace,
-                    "agree": authored_ace in (None, aces[0]["species"] if aces else None), "ranking": aces},
-            "go_to": go_to(store, book, reads), "type_read": type_read(store, book, reads, report),
-            "combos": combos(store, book, reads, weather), "signature_moves": sigs,
-            "aggression": aggression(store, book, reads, report), "weather": sorted(weather)}
+    sheet = {"career": car, "roles": roles,
+             "ace": {"derived": aces[0]["species"] if aces else None, "authored": authored_ace,
+                     "agree": authored_ace in (None, aces[0]["species"] if aces else None), "ranking": aces},
+             "go_to": go_to(store, book, reads), "type_read": type_read(store, book, reads, report),
+             "combos": combos(store, book, reads, weather), "signature_moves": sigs,
+             "aggression": aggression(store, book, reads, report), "weather": sorted(weather),
+             "observed": observed(store, version)}
+    sheet["aggression"]["observed"] = sheet["observed"]["aggression"]
+    sheet["film"] = film_lines(sheet)
+    return sheet
 
 
 def context(store, report, sheet):

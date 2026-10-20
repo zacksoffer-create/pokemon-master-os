@@ -300,6 +300,8 @@ def render_playsheet(sh):
         out.append(f"| {r['species']} | {p['name']} ({p['confidence']}, {p['score']:.2f}) | "
                    f"{s2['name'] + ' (' + s2['confidence'] + ')' if s2 else '–'} | {join([a['name'] for a in r['also']]) or '–'} |")
     out.append("")
+    if sh.get("film"):
+        out += ["## On film", ""] + [f"- {line}" for line in sh["film"]] + [""]
     for sid, title in PLAYSHEET:
         lines = sh["text"].get(sid, [])
         if lines:

@@ -1,0 +1,1036 @@
+{
+ "id": "film-gen3ou-field-gen3ou-2026-10-20-2389d05f02",
+ "kind": "film",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Showdown replays: Gen 3 OU, the field",
+  "url": "https://replay.pokemonshowdown.com/?format=gen3ou",
+  "replays": [
+   "gen3ou-2701344964",
+   "gen3ou-2701343930",
+   "gen3ou-2701342961",
+   "gen3ou-2701341672",
+   "gen3ou-2701338061",
+   "gen3ou-2701339609",
+   "gen3ou-2701336286",
+   "smogtours-gen3ou-982562",
+   "gen3ou-2701334850",
+   "gen3ou-2701334447",
+   "gen3ou-2701331445",
+   "gen3ou-2701328790",
+   "gen3ou-2701329405",
+   "smogtours-gen3ou-982558",
+   "smogtours-gen3ou-982551",
+   "gen3ou-2701316827",
+   "gen3ou-2701315650",
+   "gen3ou-2701314631",
+   "gen3ou-2701302373",
+   "gen3ou-2701301318",
+   "smogtours-gen3ou-982544",
+   "gen3ou-2701300080",
+   "gen3ou-2701297852",
+   "gen3ou-2701296536",
+   "smogtours-gen3ou-982541",
+   "smogtours-gen3ou-982537",
+   "gen3ou-2701289976",
+   "gen3ou-2701290008",
+   "gen3ou-2701288349",
+   "smogtours-gen3ou-982533",
+   "gen3ou-2701287519",
+   "gen3ou-2701286430",
+   "gen3ou-2701283904",
+   "gen3ou-2701283267",
+   "gen3ou-2701281710",
+   "gen3ou-2701280381",
+   "gen3ou-2701276287",
+   "gen3ou-2701274989",
+   "gen3ou-2701274761",
+   "gen3ou-2701273219",
+   "gen3ou-2701270583",
+   "gen3ou-2701265095",
+   "gen3ou-2701264814",
+   "gen3ou-2701262555",
+   "gen3ou-2701256278",
+   "gen3ou-2701248835",
+   "gen3ou-2701245454",
+   "gen3ou-2701236758",
+   "gen3ou-2701235702",
+   "gen3ou-2701233591",
+   "gen3ou-2701231572",
+   "gen3ou-2701227496",
+   "gen3ou-2701221397",
+   "gen3ou-2701217163",
+   "gen3ou-2701214325",
+   "gen3ou-2701211304",
+   "gen3ou-2701198141",
+   "gen3ou-2701210046",
+   "gen3ou-2701208545",
+   "gen3ou-2701206295",
+   "gen3ou-2701205454",
+   "gen3ou-2701204350",
+   "gen3ou-2701203606",
+   "gen3ou-2701201340",
+   "gen3ou-2701197088",
+   "gen3ou-2701195518",
+   "gen3ou-2701192693",
+   "gen3ou-2701190898",
+   "smogtours-gen3ou-982492",
+   "gen3ou-2701180278",
+   "gen3ou-2701176356",
+   "gen3ou-2701178089",
+   "smogtours-gen3ou-982490",
+   "gen3ou-2701143098",
+   "gen3ou-2701140113",
+   "gen3ou-2701125465",
+   "gen3ou-2701124028",
+   "gen3ou-2701121089",
+   "gen3ou-2701117905",
+   "gen3ou-2701121232"
+  ],
+  "dates": [
+   "2026-10-19",
+   "2026-10-20"
+  ],
+  "ratings": [
+   1040,
+   1745
+  ],
+  "trainer": "field:gen3ou"
+ },
+ "summary": "80 Gen 3 OU battles: 33 observations, 12 builds. Filed under field:gen3ou.",
+ "claims": [
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "all states",
+    "pokemon": "team",
+    "move": "finishing moves",
+    "outcome": "62% of finishing-or-wearing choices finish (1866 vs 1132); even 61%, ahead 58%, behind 68%",
+    "sample_size": 2998,
+    "value": 62,
+    "by_state": {
+     "even": 61,
+     "ahead": 58,
+     "behind": 68
+    }
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701343930",
+   "id": "c1"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Zapdos",
+    "move": "Substitute",
+    "outcome": "led 25 of 160 (16%), won 48%; first move Substitute 6 of 25",
+    "sample_size": 25
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701331445 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982558 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982551",
+   "id": "c2"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Tyranitar",
+    "move": "Rock Slide",
+    "outcome": "led 20 of 160 (12%), won 40%; first move Rock Slide 3 of 20",
+    "sample_size": 20
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701343930 | https://replay.pokemonshowdown.com/gen3ou-2701341672 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982562",
+   "id": "c3"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Suicune",
+    "move": "Ice Beam",
+    "outcome": "led 14 of 160 (9%), won 64%; first move Ice Beam 4 of 14",
+    "sample_size": 14
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701300080 | https://replay.pokemonshowdown.com/gen3ou-2701289976 | https://replay.pokemonshowdown.com/gen3ou-2701286430",
+   "id": "c4"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Metagross",
+    "move": "Meteor Mash",
+    "outcome": "led 11 of 160 (7%), won 73%; first move Meteor Mash 4 of 11",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/gen3ou-2701286430 | https://replay.pokemonshowdown.com/gen3ou-2701283904",
+   "id": "c5"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Skarmory",
+    "move": "Spikes",
+    "outcome": "led 10 of 160 (6%), won 70%; first move Spikes 4 of 10",
+    "sample_size": 10
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701342961 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982558",
+   "id": "c6"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Dugtrio",
+    "move": "Earthquake",
+    "outcome": "led 9 of 160 (6%), won 89%; first move Earthquake 5 of 9",
+    "sample_size": 9
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701343930 | https://replay.pokemonshowdown.com/gen3ou-2701341672 | https://replay.pokemonshowdown.com/gen3ou-2701338061",
+   "id": "c7"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Skarmory",
+    "move": "Spikes",
+    "outcome": "chosen when even in 29 battles (63 times, of 2323 choices when even)",
+    "sample_size": 29
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701342961 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982562",
+   "id": "c8"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Metagross",
+    "move": "Meteor Mash",
+    "outcome": "chosen when even in 25 battles (38 times, of 2323 choices when even); 9 knockouts",
+    "sample_size": 25
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/gen3ou-2701331445 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982558",
+   "id": "c9"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Zapdos",
+    "move": "Thunderbolt",
+    "outcome": "chosen when even in 21 battles (47 times, of 2323 choices when even); 8 knockouts",
+    "sample_size": 21
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982558 | https://replay.pokemonshowdown.com/gen3ou-2701300080",
+   "id": "c10"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Skarmory",
+    "move": "Spikes",
+    "outcome": "chosen when ahead in 17 battles (41 times, of 1452 choices when ahead)",
+    "sample_size": 17
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701338061 | https://replay.pokemonshowdown.com/gen3ou-2701302373 | https://replay.pokemonshowdown.com/gen3ou-2701301318",
+   "id": "c11"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Blissey",
+    "move": "Soft-Boiled",
+    "outcome": "chosen when ahead in 13 battles (24 times, of 1452 choices when ahead)",
+    "sample_size": 13
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701342961 | https://replay.pokemonshowdown.com/gen3ou-2701336286",
+   "id": "c12"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Magneton",
+    "move": "Thunderbolt",
+    "outcome": "chosen when ahead in 11 battles (14 times, of 1452 choices when ahead); 5 knockouts",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701341672 | https://replay.pokemonshowdown.com/gen3ou-2701338061 | https://replay.pokemonshowdown.com/gen3ou-2701336286",
+   "id": "c13"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Metagross",
+    "move": "Meteor Mash",
+    "outcome": "chosen when behind in 16 battles (39 times, of 1467 choices when behind); 10 knockouts",
+    "sample_size": 16
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/gen3ou-2701314631",
+   "id": "c14"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Zapdos",
+    "move": "Thunderbolt",
+    "outcome": "chosen when behind in 13 battles (56 times, of 1467 choices when behind); 5 knockouts",
+    "sample_size": 13
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/gen3ou-2701302373 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982544",
+   "id": "c15"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Skarmory",
+    "move": "Roar",
+    "outcome": "chosen when behind in 13 battles (19 times, of 1467 choices when behind)",
+    "sample_size": 13
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701341672 | https://replay.pokemonshowdown.com/gen3ou-2701339609 | https://replay.pokemonshowdown.com/gen3ou-2701336286",
+   "id": "c16"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Salamence",
+    "move": "Dragon Claw",
+    "outcome": "brought in after a faint 42 times; opened with Dragon Claw 7",
+    "sample_size": 42
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701343930 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982551 | https://replay.pokemonshowdown.com/gen3ou-2701314631",
+   "id": "c17"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Zapdos",
+    "move": "Thunderbolt",
+    "outcome": "brought in after a faint 39 times; opened with Thunderbolt 18",
+    "sample_size": 39
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/gen3ou-2701316827 | https://replay.pokemonshowdown.com/gen3ou-2701302373",
+   "id": "c18"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Metagross",
+    "move": "Agility",
+    "outcome": "brought in after a faint 38 times; opened with Agility 12",
+    "sample_size": 38
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701314631 | https://replay.pokemonshowdown.com/gen3ou-2701300080",
+   "id": "c19"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Dugtrio",
+    "move": "Earthquake",
+    "outcome": "brought in after a faint 33 times; opened with Earthquake 23",
+    "sample_size": 33
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701336286 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982558",
+   "id": "c20"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Tyranitar",
+    "move": "Dragon Dance",
+    "outcome": "brought in after a faint 33 times; opened with Dragon Dance 9",
+    "sample_size": 33
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982558 | https://replay.pokemonshowdown.com/gen3ou-2701301318",
+   "id": "c21"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Metagross",
+    "move": "Meteor Mash",
+    "outcome": "closed 8 wins",
+    "sample_size": 8
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701289976 | https://replay.pokemonshowdown.com/gen3ou-2701273219 | https://replay.pokemonshowdown.com/gen3ou-2701233591",
+   "id": "c22"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Dugtrio",
+    "move": "Earthquake",
+    "outcome": "closed 6 wins",
+    "sample_size": 6
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701343930 | https://replay.pokemonshowdown.com/gen3ou-2701341672 | https://replay.pokemonshowdown.com/gen3ou-2701339609",
+   "id": "c23"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Salamence",
+    "move": "Hidden Power",
+    "outcome": "closed 6 wins",
+    "sample_size": 6
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982544 | https://replay.pokemonshowdown.com/gen3ou-2701280381 | https://replay.pokemonshowdown.com/gen3ou-2701214325",
+   "id": "c24"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Suicune",
+    "move": "Hydro Pump",
+    "outcome": "closed 5 wins",
+    "sample_size": 5
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701316827 | https://replay.pokemonshowdown.com/gen3ou-2701300080 | https://replay.pokemonshowdown.com/gen3ou-2701281710",
+   "id": "c25"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Tyranitar",
+    "move": "kept in back",
+    "outcome": "held back in 17 battles",
+    "sample_size": 17
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982551 | https://replay.pokemonshowdown.com/gen3ou-2701315650 | https://replay.pokemonshowdown.com/gen3ou-2701301318",
+   "id": "c26"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Metagross",
+    "move": "kept in back",
+    "outcome": "held back in 14 battles",
+    "sample_size": 14
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701300080 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982541 | https://replay.pokemonshowdown.com/gen3ou-2701289976",
+   "id": "c27"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Salamence",
+    "move": "kept in back",
+    "outcome": "held back in 12 battles",
+    "sample_size": 12
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701314631 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982544",
+   "id": "c28"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Snorlax",
+    "move": "kept in back",
+    "outcome": "held back in 11 battles",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701344964 | https://replay.pokemonshowdown.com/gen3ou-2701297852 | https://replay.pokemonshowdown.com/gen3ou-2701289976",
+   "id": "c29"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "facing Skarmory",
+    "pokemon": "Zapdos",
+    "move": "switch in",
+    "outcome": "switched in 15 times facing Skarmory",
+    "sample_size": 15
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/gen3ou-2701316827 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982537",
+   "id": "c30"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "facing Zapdos",
+    "pokemon": "Blissey",
+    "move": "switch in",
+    "outcome": "switched in 22 times facing Zapdos",
+    "sample_size": 22
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/gen3ou-2701302373 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982544",
+   "id": "c31"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "facing Blissey",
+    "pokemon": "Blissey",
+    "move": "switch in",
+    "outcome": "switched in 21 times facing Blissey",
+    "sample_size": 21
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701341672 | https://replay.pokemonshowdown.com/gen3ou-2701338061 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982562",
+   "id": "c32"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:gen3ou",
+    "version": null,
+    "battle": "Showdown Gen 3 OU (80 battles)",
+    "format": "gen3ou",
+    "gen": 3,
+    "turn": null,
+    "situation": "facing Metagross",
+    "pokemon": "Skarmory",
+    "move": "switch in",
+    "outcome": "switched in 13 times facing Metagross",
+    "sample_size": 13
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982562 | https://replay.pokemonshowdown.com/smogtours-gen3ou-982558 | https://replay.pokemonshowdown.com/gen3ou-2701296536",
+   "id": "c33"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Metagross",
+    "moves": [
+     "Meteor Mash",
+     "Earthquake",
+     "Agility",
+     "Rock Slide"
+    ],
+    "item": "Leftovers",
+    "generation": 3,
+    "role": "physical_setup_sweeper",
+    "name": "physical setup sweeper, then bulky attacker (Gen 3 OU, 20 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 20 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Explosion, Protect"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701231572",
+   "note": "physical setup sweeper, then bulky attacker, won 65% of 20",
+   "id": "c34"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Metagross",
+    "moves": [
+     "Meteor Mash",
+     "Explosion"
+    ],
+    "item": "Leftovers",
+    "generation": 3,
+    "role": "check_counter",
+    "name": "check / counter (Gen 3 OU, 4 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 4 Gen 3 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701331445",
+   "note": "check / counter, won 50% of 4",
+   "id": "c35"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Metagross",
+    "moves": [
+     "Meteor Mash",
+     "Protect",
+     "Earthquake",
+     "Toxic"
+    ],
+    "item": "Leftovers",
+    "generation": 3,
+    "role": "bulky_attacker",
+    "name": "bulky attacker, then check / counter (Gen 3 OU, 3 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 3 Gen 3 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982492",
+   "note": "bulky attacker, then check / counter, won 33% of 3",
+   "id": "c36"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Metagross",
+    "moves": [
+     "Explosion",
+     "Thunder Punch",
+     "Earthquake"
+    ],
+    "item": "Leftovers",
+    "generation": 3,
+    "role": "check_counter",
+    "name": "check / counter (Gen 3 OU, 3 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 3 Gen 3 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701256278",
+   "note": "check / counter, won 67% of 3",
+   "id": "c37"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Tyranitar",
+    "moves": [
+     "Rock Slide",
+     "Dragon Dance",
+     "Earthquake",
+     "Hidden Power"
+    ],
+    "item": "Leftovers",
+    "ability": "Sand Stream",
+    "generation": 3,
+    "role": "weather_setter",
+    "name": "weather setter, then bulky attacker (Gen 3 OU, 17 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 17 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Substitute, Focus Punch, Double-Edge"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982533",
+   "note": "weather setter, then bulky attacker, won 29% of 17",
+   "id": "c38"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Tyranitar",
+    "moves": [
+     "Crunch",
+     "Pursuit",
+     "Fire Blast",
+     "Brick Break"
+    ],
+    "item": "Leftovers",
+    "ability": "Sand Stream",
+    "generation": 3,
+    "role": "weather_setter",
+    "name": "weather setter, then bulky attacker (Gen 3 OU, 7 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 7 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Earthquake"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701210046",
+   "note": "weather setter, then bulky attacker, won 43% of 7",
+   "id": "c39"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Tyranitar",
+    "moves": [
+     "Rock Slide",
+     "Focus Punch",
+     "Substitute"
+    ],
+    "item": "Leftovers",
+    "ability": "Sand Stream",
+    "generation": 3,
+    "role": "weather_setter",
+    "name": "weather setter, then bulky attacker (Gen 3 OU, 3 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 3 Gen 3 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701231572",
+   "note": "weather setter, then bulky attacker, won 67% of 3",
+   "id": "c40"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Skarmory",
+    "moves": [
+     "Spikes",
+     "Roar",
+     "Toxic",
+     "Protect"
+    ],
+    "item": "Leftovers",
+    "generation": 3,
+    "role": "phazer",
+    "name": "phazer, then hazard setter (Gen 3 OU, 29 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 29 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Drill Peck"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982558",
+   "note": "phazer, then hazard setter, won 59% of 29",
+   "id": "c41"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Skarmory",
+    "moves": [
+     "Spikes",
+     "Drill Peck",
+     "Taunt",
+     "Roar"
+    ],
+    "item": "Leftovers",
+    "generation": 3,
+    "role": "hazard_setter",
+    "name": "hazard setter, then phazer (Gen 3 OU, 13 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 13 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Hidden Power, Thief"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982551",
+   "note": "hazard setter, then phazer, won 46% of 13",
+   "id": "c42"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Salamence",
+    "moves": [
+     "Rock Slide",
+     "Dragon Dance",
+     "Hidden Power",
+     "Brick Break"
+    ],
+    "item": "Leftovers",
+    "ability": "Intimidate",
+    "generation": 3,
+    "role": "physical_setup_sweeper",
+    "name": "physical setup sweeper (Gen 3 OU, 14 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 14 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Earthquake, Dragon Claw"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen3ou-982537",
+   "note": "physical setup sweeper, won 57% of 14",
+   "id": "c43"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Salamence",
+    "moves": [
+     "Fire Blast",
+     "Dragon Claw",
+     "Hidden Power",
+     "Brick Break"
+    ],
+    "item": "Leftovers",
+    "ability": "Intimidate",
+    "generation": 3,
+    "role": "pivot",
+    "name": "pivot, then bulky attacker (Gen 3 OU, 13 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 13 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Rock Slide"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701264814",
+   "note": "pivot, then bulky attacker, won 54% of 13",
+   "id": "c44"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Snorlax",
+    "moves": [
+     "Self-Destruct",
+     "Body Slam",
+     "Shadow Ball",
+     "Focus Punch"
+    ],
+    "item": "Leftovers",
+    "generation": 3,
+    "role": "bulky_attacker",
+    "name": "bulky attacker, then tank (Gen 3 OU, 19 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 19 Gen 3 OU battles; moves no battle showed are open",
+     "also seen: Earthquake, Counter, Brick Break"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/gen3ou-2701287519",
+   "note": "bulky attacker, then tank, won 74% of 19",
+   "id": "c45"
+  }
+ ],
+ "status": "open",
+ "raw": "canon/inbox/raw/film-gen3ou-field-gen3ou-2026-10-20-2389d05f02.json"
+}

@@ -141,6 +141,7 @@ tfoot td.gap b { border-bottom: 2px solid var(--pen); }
 .meter .bar { position: relative; height: 12px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--paper); overflow: visible; }
 .meter .fill { position: absolute; inset: 0 auto 0 0; background: var(--tint-bad); border-radius: 6px; }
 .meter .pin { position: absolute; top: -6px; width: 4px; height: 22px; margin-left: -2px; background: var(--pen); border-radius: 2px; }
+.meter .pin.film { background: var(--warn); }
 .meter .n { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; }
 footer { border-top: 3px double var(--rule-strong); padding-top: 12px; color: var(--ink-2); font-size: 0.8rem; display: grid; gap: 6px; max-width: 90ch; }
 footer p { margin: 0; }
@@ -243,7 +244,8 @@ footer p { margin: 0; }
     const tr = sh.type_read, bring = new Set(tr.bring.map((b) => b.type));
     const cells = tr.rows.map((r) => `<div class="tcell ${r.covered ? "" : "hole"} ${bring.has(r.type) ? "bring" : ""}" title="${esc(r.covered ? `${r.move} (${r.member}) hits ${r.type} super-effectively` : `nothing they carry hits ${r.type} super-effectively`)}; ${r.their_weak_to_it} of them weak to ${esc(r.type)}"><span class="t">${esc(SHORT(r.type))}</span><span class="h">${esc(r.covered ? r.move : "no answer")}</span><span class="h">${r.their_weak_to_it ? r.their_weak_to_it + " weak to it" : ""}</span></div>`).join("");
     const ag = sh.aggression;
-    const meter = ag.ratio == null ? "" : `<div class="meter"><span class="label">Finish or set up${ag.offense_authored == null ? "" : `<br><small>pin: offense slider ${ag.offense_authored}</small>`}</span><div class="bar" role="img" aria-label="${ag.ratio}% of their moves finish or set up; the offense slider is ${ag.offense_authored ?? "not set"}"><span class="fill" style="width:${ag.ratio}%"></span>${ag.offense_authored == null ? "" : `<span class="pin" style="left:${ag.offense_authored}%"></span>`}</div><span class="n">${ag.ratio}%</span></div>`;
+    const meter = ag.ratio == null ? "" : `<div class="meter"><span class="label">Finish or set up${ag.offense_authored == null ? "" : `<br><small>pin: offense slider ${ag.offense_authored}</small>`}</span><div class="bar" role="img" aria-label="${ag.ratio}% of their moves finish or set up; the offense slider is ${ag.offense_authored ?? "not set"}"><span class="fill" style="width:${ag.ratio}%"></span>${ag.offense_authored == null ? "" : `<span class="pin" style="left:${ag.offense_authored}%"></span>`}${ag.observed == null ? "" : `<span class="pin film" title="on film: ${ag.observed}%" style="left:${ag.observed}%"></span>`}</div><span class="n">${ag.ratio}%${ag.observed == null ? "" : ` · film ${ag.observed}%`}</span></div>`;
+    const film = sh.film && sh.film.length ? `<section><h3>On film</h3><ul>${sh.film.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></section>` : "";
     const text = PS.map(([id, title]) => {
       const lines = (sh.text && sh.text[id]) || [];
       return lines.length ? `<section><h3>${esc(title)}</h3><ul>${lines.map((p) => `<li title="${esc(p.rule)}: ${esc(p.trigger)}">${esc(p.text)}</li>`).join("")}</ul></section>` : "";
@@ -256,7 +258,7 @@ footer p { margin: 0; }
         <div class="mkey"><span>What they can hit: each type of Pokémon and their best super-effective answer to it</span><span>dashed: no answer</span><span>circled: bring it (no answer, and its own attacks hit some of them hard)</span></div>
         <div class="types">${cells}</div>
         ${meter}
-        <div class="plan">${text}</div>
+        <div class="plan">${text}${film}</div>
       </div>`;
   }
   function exposure(rep) {

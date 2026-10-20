@@ -1,0 +1,990 @@
+{
+ "id": "film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f",
+ "kind": "film",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Showdown replays: Gen 4 OU, the field",
+  "url": "https://replay.pokemonshowdown.com/?format=gen4ou",
+  "replays": [
+   "smogtours-gen4ou-982469",
+   "smogtours-gen4ou-982466",
+   "smogtours-gen4ou-982462",
+   "smogtours-gen4ou-982302",
+   "smogtours-gen4ou-982244",
+   "smogtours-gen4ou-982000",
+   "smogtours-gen4ou-982023",
+   "smogtours-gen4ou-981973",
+   "smogtours-gen4ou-982005",
+   "smogtours-gen4ou-981962",
+   "smogtours-gen4ou-981861",
+   "smogtours-gen4ou-981827",
+   "smogtours-gen4ou-981815",
+   "smogtours-gen4ou-981776",
+   "smogtours-gen4ou-981772",
+   "smogtours-gen4ou-981765",
+   "smogtours-gen4ou-981743",
+   "smogtours-gen4ou-981721",
+   "smogtours-gen4ou-981691",
+   "smogtours-gen4ou-981682",
+   "smogtours-gen4ou-981658",
+   "smogtours-gen4ou-981650",
+   "smogtours-gen4ou-981629",
+   "smogtours-gen4ou-981625",
+   "smogtours-gen4ou-981615",
+   "smogtours-gen4ou-981602",
+   "smogtours-gen4ou-981593",
+   "smogtours-gen4ou-981560",
+   "smogtours-gen4ou-981559",
+   "smogtours-gen4ou-981549",
+   "smogtours-gen4ou-981547",
+   "smogtours-gen4ou-981544",
+   "smogtours-gen4ou-981538",
+   "smogtours-gen4ou-981475",
+   "smogtours-gen4ou-981472",
+   "smogtours-gen4ou-981405",
+   "smogtours-gen4ou-981389",
+   "smogtours-gen4ou-981378",
+   "smogtours-gen4ou-981373",
+   "smogtours-gen4ou-981363"
+  ],
+  "dates": [
+   "2026-10-17",
+   "2026-10-19"
+  ],
+  "ratings": null,
+  "trainer": "field:smogtours-gen4ou"
+ },
+ "summary": "40 Gen 4 OU battles: 33 observations, 12 builds. Filed under field:smogtours-gen4ou.",
+ "claims": [
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "all states",
+    "pokemon": "team",
+    "move": "finishing moves",
+    "outcome": "65% of finishing-or-wearing choices finish (1090 vs 593); even 62%, ahead 62%, behind 71%",
+    "sample_size": 1683,
+    "value": 65,
+    "by_state": {
+     "even": 62,
+     "ahead": 62,
+     "behind": 71
+    }
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466",
+   "id": "c1"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Gyarados",
+    "move": "Thunder Wave",
+    "outcome": "led 9 of 80 (11%), won 67%; first move Thunder Wave 3 of 9",
+    "sample_size": 9
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023",
+   "id": "c2"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Zapdos",
+    "move": "U-turn",
+    "outcome": "led 8 of 80 (10%), won 38%; first move U-turn 3 of 8",
+    "sample_size": 8
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861",
+   "id": "c3"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Tyranitar",
+    "move": "Toxic",
+    "outcome": "led 7 of 80 (9%), won 14%; first move Toxic 2 of 7",
+    "sample_size": 7
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981827 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981772 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765",
+   "id": "c4"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Roserade",
+    "move": "Toxic Spikes",
+    "outcome": "led 6 of 80 (8%), won 33%; first move Toxic Spikes 3 of 6",
+    "sample_size": 6
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981650 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981625",
+   "id": "c5"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Azelf",
+    "move": "U-turn",
+    "outcome": "led 6 of 80 (8%), won 50%; first move U-turn 3 of 6",
+    "sample_size": 6
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
+   "id": "c6"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": 1,
+    "situation": "lead",
+    "pokemon": "Empoleon",
+    "move": "Hydro Pump",
+    "outcome": "led 5 of 80 (6%), won 40%; first move Hydro Pump 2 of 5",
+    "sample_size": 5
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981815 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981682",
+   "id": "c7"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Tyranitar",
+    "move": "Crunch",
+    "outcome": "chosen when even in 13 battles (19 times, of 1241 choices when even); 5 knockouts",
+    "sample_size": 13
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
+   "id": "c8"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Gyarados",
+    "move": "Waterfall",
+    "outcome": "chosen when even in 10 battles (19 times, of 1241 choices when even); 1 knockouts",
+    "sample_size": 10
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981973",
+   "id": "c9"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "even",
+    "pokemon": "Skarmory",
+    "move": "Spikes",
+    "outcome": "chosen when even in 10 battles (14 times, of 1241 choices when even)",
+    "sample_size": 10
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244",
+   "id": "c10"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Starmie",
+    "move": "Rapid Spin",
+    "outcome": "chosen when ahead in 9 battles (13 times, of 840 choices when ahead)",
+    "sample_size": 9
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
+   "id": "c11"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Tyranitar",
+    "move": "Crunch",
+    "outcome": "chosen when ahead in 7 battles (23 times, of 840 choices when ahead); 6 knockouts",
+    "sample_size": 7
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981772 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981743 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
+   "id": "c12"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "ahead",
+    "pokemon": "Starmie",
+    "move": "Recover",
+    "outcome": "chosen when ahead in 5 battles (7 times, of 840 choices when ahead)",
+    "sample_size": 5
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981772",
+   "id": "c13"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Flygon",
+    "move": "U-turn",
+    "outcome": "chosen when behind in 10 battles (15 times, of 832 choices when behind); 4 knockouts",
+    "sample_size": 10
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
+   "id": "c14"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Tyranitar",
+    "move": "Crunch",
+    "outcome": "chosen when behind in 9 battles (15 times, of 832 choices when behind); 8 knockouts",
+    "sample_size": 9
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023",
+   "id": "c15"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "behind",
+    "pokemon": "Latias",
+    "move": "Draco Meteor",
+    "outcome": "chosen when behind in 8 battles (12 times, of 832 choices when behind); 4 knockouts",
+    "sample_size": 8
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
+   "id": "c16"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Flygon",
+    "move": "U-turn",
+    "outcome": "brought in after a faint 30 times; opened with U-turn 16",
+    "sample_size": 30
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982005 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861",
+   "id": "c17"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Jirachi",
+    "move": "Iron Head",
+    "outcome": "brought in after a faint 24 times; opened with Iron Head 5",
+    "sample_size": 24
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981962 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981827",
+   "id": "c18"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Latias",
+    "move": "Draco Meteor",
+    "outcome": "brought in after a faint 23 times; opened with Draco Meteor 12",
+    "sample_size": 23
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023",
+   "id": "c19"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Tyranitar",
+    "move": "Crunch",
+    "outcome": "brought in after a faint 21 times; opened with Crunch 7",
+    "sample_size": 21
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
+   "id": "c20"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "after a faint",
+    "pokemon": "Infernape",
+    "move": "Close Combat",
+    "outcome": "brought in after a faint 18 times; opened with Close Combat 6",
+    "sample_size": 18
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244",
+   "id": "c21"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Tyranitar",
+    "move": "Crunch",
+    "outcome": "closed 4 wins",
+    "sample_size": 4
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981721 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981625",
+   "id": "c22"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Jirachi",
+    "move": "Psychic",
+    "outcome": "closed 4 wins",
+    "sample_size": 4
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981658 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981629 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981615",
+   "id": "c23"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Latias",
+    "move": "Draco Meteor",
+    "outcome": "closed 3 wins",
+    "sample_size": 3
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981559 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981475",
+   "id": "c24"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "closing (the battle's last knockout)",
+    "pokemon": "Scizor",
+    "move": "Bullet Punch",
+    "outcome": "closed 3 wins",
+    "sample_size": 3
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981363",
+   "id": "c25"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Latias",
+    "move": "kept in back",
+    "outcome": "held back in 10 battles",
+    "sample_size": 10
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981682",
+   "id": "c26"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Scizor",
+    "move": "kept in back",
+    "outcome": "held back in 9 battles",
+    "sample_size": 9
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982005",
+   "id": "c27"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Tyranitar",
+    "move": "kept in back",
+    "outcome": "held back in 8 battles",
+    "sample_size": 8
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981962",
+   "id": "c28"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "held back (first in after half the battle)",
+    "pokemon": "Jirachi",
+    "move": "kept in back",
+    "outcome": "held back in 7 battles",
+    "sample_size": 7
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981962 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981658",
+   "id": "c29"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "facing Heatran",
+    "pokemon": "Tyranitar",
+    "move": "switch in",
+    "outcome": "switched in 11 times facing Heatran",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861",
+   "id": "c30"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "facing Latias",
+    "pokemon": "Jirachi",
+    "move": "switch in",
+    "outcome": "switched in 11 times facing Latias",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302",
+   "id": "c31"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "facing Jirachi",
+    "pokemon": "Jirachi",
+    "move": "switch in",
+    "outcome": "switched in 7 times facing Jirachi",
+    "sample_size": 7
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981721 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981593",
+   "id": "c32"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "field:smogtours-gen4ou",
+    "version": null,
+    "battle": "Showdown Gen 4 OU (40 battles)",
+    "format": "gen4ou",
+    "gen": 4,
+    "turn": null,
+    "situation": "facing Zapdos",
+    "pokemon": "Nidoqueen",
+    "move": "switch in",
+    "outcome": "switched in 11 times facing Zapdos",
+    "sample_size": 11
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982244",
+   "id": "c33"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Tyranitar",
+    "moves": [
+     "Pursuit",
+     "Crunch",
+     "Superpower",
+     "Toxic"
+    ],
+    "item": "Leftovers",
+    "ability": "Sand Stream",
+    "generation": 4,
+    "role": "weather_setter",
+    "name": "weather setter, then bulky attacker (Gen 4 OU, 10 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 10 Gen 4 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
+   "note": "weather setter, then bulky attacker, won 60% of 10",
+   "id": "c34"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Tyranitar",
+    "moves": [
+     "Dragon Dance",
+     "Crunch",
+     "Earthquake",
+     "Ice Punch"
+    ],
+    "item": "Chople Berry",
+    "ability": "Sand Stream",
+    "generation": 4,
+    "role": "weather_setter",
+    "name": "weather setter, then physical setup sweeper (Gen 4 OU, 5 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 5 Gen 4 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981475",
+   "note": "weather setter, then physical setup sweeper, won 60% of 5",
+   "id": "c35"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Latias",
+    "moves": [
+     "Draco Meteor",
+     "Surf",
+     "Calm Mind",
+     "Hidden Power"
+    ],
+    "item": "Life Orb",
+    "ability": "Levitate",
+    "generation": 4,
+    "role": "special_setup_sweeper",
+    "name": "special setup sweeper (Gen 4 OU, 4 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 4 Gen 4 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981544",
+   "note": "special setup sweeper, won 50% of 4",
+   "id": "c36"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Jirachi",
+    "moves": [
+     "Body Slam",
+     "Iron Head",
+     "Protect",
+     "Wish"
+    ],
+    "item": "Leftovers",
+    "generation": 4,
+    "role": "cleric",
+    "name": "cleric, then check / counter (Gen 4 OU, 7 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 7 Gen 4 OU battles; moves no battle showed are open",
+     "also seen: Fire Punch, Substitute"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981629",
+   "note": "cleric, then check / counter, won 14% of 7",
+   "id": "c37"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Jirachi",
+    "moves": [
+     "Iron Head",
+     "Stealth Rock",
+     "U-turn",
+     "Thunder Wave"
+    ],
+    "item": "Leftovers",
+    "generation": 4,
+    "role": "pivot",
+    "name": "pivot, then hazard setter (Gen 4 OU, 5 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
+     "also seen: Fire Punch, Thunder, Body Slam"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466",
+   "note": "pivot, then hazard setter, won 60% of 5",
+   "id": "c38"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Jirachi",
+    "moves": [
+     "Psychic",
+     "Calm Mind",
+     "Thunderbolt"
+    ],
+    "item": "Leftovers",
+    "generation": 4,
+    "role": "special_setup_sweeper",
+    "name": "special setup sweeper, then bulky setup (Gen 4 OU, 4 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 4 Gen 4 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
+   "note": "special setup sweeper, then bulky setup, won 25% of 4",
+   "id": "c39"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Heatran",
+    "moves": [
+     "Stealth Rock",
+     "Fire Blast",
+     "Explosion",
+     "Dragon Pulse"
+    ],
+    "item": "Shuca Berry",
+    "generation": 4,
+    "role": "hazard_setter",
+    "name": "hazard setter, then check / counter (Gen 4 OU, 7 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 7 Gen 4 OU battles; moves no battle showed are open",
+     "also seen: Hidden Power"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981560",
+   "note": "hazard setter, then check / counter, won 43% of 7",
+   "id": "c40"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Heatran",
+    "moves": [
+     "Earth Power",
+     "Fire Blast",
+     "Explosion"
+    ],
+    "generation": 4,
+    "role": "check_counter",
+    "name": "check / counter, then wallbreaker (Gen 4 OU, 3 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 3 Gen 4 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981765",
+   "note": "check / counter, then wallbreaker, won 67% of 3",
+   "id": "c41"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Gyarados",
+    "moves": [
+     "Thunder Wave",
+     "Waterfall",
+     "Return",
+     "Dragon Dance"
+    ],
+    "item": "Leftovers",
+    "ability": "Intimidate",
+    "generation": 4,
+    "role": "physical_setup_sweeper",
+    "name": "physical setup sweeper (Gen 4 OU, 6 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 6 Gen 4 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
+   "note": "physical setup sweeper, won 67% of 6",
+   "id": "c42"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Gyarados",
+    "moves": [
+     "Waterfall",
+     "Earthquake",
+     "Outrage"
+    ],
+    "ability": "Intimidate",
+    "generation": 4,
+    "role": "check_counter",
+    "name": "check / counter, then pivot (Gen 4 OU, 3 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 3 Gen 4 OU battles; moves no battle showed are open"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981602",
+   "note": "check / counter, then pivot, won 33% of 3",
+   "id": "c43"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Starmie",
+    "moves": [
+     "Rapid Spin",
+     "Recover",
+     "Thunder Wave",
+     "Hydro Pump"
+    ],
+    "item": "Leftovers",
+    "ability": "Natural Cure",
+    "generation": 4,
+    "role": "hazard_remover",
+    "name": "hazard remover (Gen 4 OU, 10 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 10 Gen 4 OU battles; moves no battle showed are open",
+     "also seen: Surf"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
+   "note": "hazard remover, won 50% of 10",
+   "id": "c44"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Scizor",
+    "moves": [
+     "Swords Dance",
+     "Bullet Punch",
+     "Roost",
+     "Superpower"
+    ],
+    "item": "Leftovers",
+    "generation": 4,
+    "role": "bulky_setup",
+    "name": "bulky setup (Gen 4 OU, 5 battles)",
+    "tier": "unrated",
+    "notes": [
+     "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
+     "also seen: U-turn, Bug Bite"
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
+   "note": "bulky setup, won 40% of 5",
+   "id": "c45"
+  }
+ ],
+ "status": "open",
+ "raw": "canon/inbox/raw/film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f.json"
+}

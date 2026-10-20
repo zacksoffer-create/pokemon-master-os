@@ -945,6 +945,8 @@ class TrainerPlaysheet(unittest.TestCase):
         red = self.report(self.store, "red")["playsheet"]["ace"]
         self.assertEqual((red["derived"], red["agree"]), ("Pikachu", True))    # the Lv 88 Pikachu
         self.assertEqual(self.report(self.store, "cynthia")["playsheet"]["ace"]["derived"], "Garchomp")
+        lance = self.report(self.store, "lance")["playsheet"]["ace"]           # the game marks its ace by level
+        self.assertEqual((lance["derived"], lance["ranking"][0]["sent_out"], lance["agree"]), ("Dragonite", "last", True))
 
     def test_go_to_by_game_state(self):
         g = self.paul["playsheet"]["go_to"]
@@ -1208,6 +1210,228 @@ class Intake(unittest.TestCase):
         self.assertIn("wide aerial", k["shots"][0])
         self.assertIn("https://youtu.be/abc123xyz @ 00:42", k["grounded_in"])
 
+
+FILM_LOG = """|player|p1|Alice|1|1500
+|player|p2|Bob|2|1450
+|teamsize|p1|3
+|teamsize|p2|3
+|gen|4
+|tier|[Gen 4] OU
+|start
+|switch|p1a: Rocky|Swampert, M|100/100
+|switch|p2a: Gengar|Gengar, M|100/100
+|turn|1
+|c|Alice|good luck
+|move|p2a: Gengar|Trick|p1a: Rocky
+|-activate|p2a: Gengar|move: Trick|[of] p1a: Rocky
+|-item|p1a: Rocky|Choice Scarf|[from] move: Trick
+|-item|p2a: Gengar|Leftovers|[from] move: Trick
+|move|p1a: Rocky|Stealth Rock|p2a: Gengar
+|-sidestart|p2: Bob|move: Stealth Rock
+|upkeep
+|turn|2
+|switch|p2a: Tar|Tyranitar, F|100/100
+|-damage|p2a: Tar|88/100|[from] Stealth Rock
+|-weather|Sandstorm|[from] ability: Sand Stream|[of] p2a: Tar
+|move|p1a: Rocky|Earthquake|p2a: Tar
+|-supereffective|p2a: Tar
+|-damage|p2a: Tar|20/100
+|upkeep
+|turn|3
+|move|p1a: Rocky|Earthquake|p2a: Tar
+|-damage|p2a: Tar|0 fnt
+|faint|p2a: Tar
+|upkeep
+|switch|p2a: Gengar|Gengar, M|100/100
+|-damage|p2a: Gengar|88/100|[from] Stealth Rock
+|turn|4
+|move|p2a: Gengar|Explosion|p1a: Rocky
+|-damage|p1a: Rocky|0 fnt
+|faint|p2a: Gengar
+|faint|p1a: Rocky
+|upkeep
+|switch|p1a: Zap|Zapdos|100/100
+|switch|p2a: Bird|Skarmory, F|100/100
+|turn|5
+|move|p1a: Zap|U-turn|p2a: Bird
+|-resisted|p2a: Bird
+|-damage|p2a: Bird|95/100
+|switch|p1a: Jira|Jirachi|100/100|[from] U-turn
+|move|p2a: Bird|Brave Bird|p1a: Jira
+|-resisted|p1a: Jira
+|-damage|p1a: Jira|80/100
+|-damage|p2a: Bird|90/100|[from] Recoil
+|-heal|p1a: Jira|86/100|[from] item: Leftovers
+|upkeep
+|turn|6
+|move|p1a: Jira|Iron Head|p2a: Bird
+|-resisted|p2a: Bird
+|-damage|p2a: Bird|0 fnt
+|faint|p2a: Bird
+|win|Alice
+"""
+
+
+class FilmRoom(unittest.TestCase):
+    """The film room (docs/FILM.md): Showdown replays read turn by turn. FILM_LOG is a hand-written log in
+    Showdown's protocol (not a real battle), built to exercise every rule once."""
+    @classmethod
+    def setUpClass(cls):
+        import copy
+        from film.replays import load_config
+        from film.study import Reader
+        from trainers.model import Store
+        from trainers.roles import RoleBook
+        from trainers.solver import Solver
+        cls.cfg = copy.deepcopy(load_config())
+        cls.store = Store()
+        cls.book = RoleBook(cls.store)
+        cls.reader = Reader(cls.store, cls.book, Solver(cls.book), cls.cfg)
+
+    def battle(self):
+        from film.study import parse_replay
+        return parse_replay({"id": "gen4ou-1", "log": FILM_LOG, "formatid": "gen4ou", "uploadtime": 1792000000},
+                            self.reader, 4, self.cfg)
+
+    def test_order_builds_and_who_did_what(self):
+        b = self.battle()
+        p1, p2 = b["sides"]["p1"], b["sides"]["p2"]
+        self.assertEqual((p1["order"], p2["order"]), (["Swampert", "Zapdos", "Jirachi"], ["Gengar", "Tyranitar", "Skarmory"]))
+        self.assertEqual((b["winner"], b["turns"], b["last_ko"]["species"]), ("p1", 6, "Jirachi"))
+        mon = {m["species"]: m for s in (p1, p2) for m in s["members"]}
+        self.assertEqual(mon["Swampert"]["item"], "Leftovers")          # a Trick reveals both starting items
+        self.assertEqual(mon["Gengar"]["item"], "Choice Scarf")
+        self.assertEqual((mon["Tyranitar"]["ability"], mon["Jirachi"]["item"]), ("Sand Stream", "Leftovers"))
+        self.assertEqual(mon["Swampert"]["moves"], ["Stealth Rock", "Earthquake"])   # first-shown order
+        self.assertEqual(mon["Swampert"]["uses"]["Earthquake"], 2)
+        self.assertEqual(mon["Gengar"]["fainted_by"], "self: Explosion")
+        self.assertEqual(mon["Swampert"]["fainted_by"], "Gengar (Explosion)")     # Explosion's knockout is Gengar's
+        self.assertEqual([k["target"] for k in mon["Swampert"]["kos"]], ["Tyranitar"])
+        self.assertEqual([st["in"] for st in mon["Gengar"]["stints"]], ["lead", "forced"])
+        self.assertEqual(mon["Jirachi"]["stints"][0]["in"], "pivot")             # U-turn brought it in
+        switches = [(r["side"], r["how"]) for r in b["rows"] if r["kind"] == "switch"]
+        self.assertEqual(switches, [("p2", "voluntary"), ("p2", "forced"), ("p1", "forced"), ("p2", "forced"), ("p1", "pivot")])
+        boom = next(r for r in b["rows"] if r.get("move") == "Explosion")
+        self.assertEqual((boom["before"]["state"], boom["before"]["alive"], boom["group"]), ("behind", 2, "self_ko"))
+        self.assertNotIn("good luck", json.dumps(b))                          # chat is never stored
+
+    def test_a_study_reads_order_builds_and_game_state(self):
+        from film.study import Study
+        st = Study(self.reader, "gen4ou", self.cfg["formats"]["gen4ou"], who="Alice")
+        st.add(self.battle())
+        r = st.result()
+        self.assertEqual((r["battles"], r["wins"], r["win_rate"]), (1, 1, 100))
+        self.assertEqual(r["leads"][0]["species"], "Swampert")
+        self.assertEqual(r["leads"][0]["first_move"][0]["name"], "Stealth Rock")
+        self.assertEqual(r["order"]["closers"][0]["name"], "Jirachi")
+        self.assertEqual({h["name"] for h in r["order"]["held_back"]}, {"Zapdos", "Jirachi"})
+        self.assertEqual(r["pressure"]["after_faint"][0]["species"], "Zapdos")
+        swampert = next(c for c in r["sets"] if c["species"] == "Swampert")
+        self.assertEqual(swampert["variants"][0]["item"], "Leftovers")
+        self.assertIn("hazard setter", swampert["variants"][0]["name"])
+        self.assertIsNotNone(r["aggression"]["ratio"])
+        self.assertEqual(r["examples"]["lead|Swampert"], ["gen4ou-1"])
+
+    def test_variants_split_on_what_sets_share(self):
+        from film.study import Study
+        st = Study(self.reader, "gen4ou", self.cfg["formats"]["gen4ou"])
+        rows = [(["Stealth Rock", "Crunch", "Pursuit", "Thunder Wave"], "Leftovers"),
+                (["Crunch", "Pursuit"], None), (["Stealth Rock", "Crunch", "Earthquake"], "Leftovers"),
+                (["Dragon Dance", "Crunch", "Earthquake", "Stone Edge"], "Life Orb"), (["Dragon Dance", "Stone Edge"], None),
+                (["Crunch"], None)]
+        for i, (moves, item) in enumerate(rows):
+            st.sets["Tyranitar"].append({"moves": moves, "item": item, "ability": "Sand Stream", "battle": f"b{i}", "won": i % 2 == 0})
+        variants, unread = st.variants("Tyranitar")
+        self.assertEqual(unread, 1)                                        # one move shown: too little to read
+        self.assertEqual([v["battles"] for v in variants], [3, 2])
+        self.assertIn("Stealth Rock", variants[0]["moves"])
+        self.assertIn("Dragon Dance", variants[1]["moves"])
+        self.assertEqual(variants[1]["item"], "Life Orb")
+
+    def test_a_study_becomes_a_card_filed_under_its_trainer(self):
+        import copy
+        import shutil
+        from film.cards import to_card
+        from film.study import Study
+        from ingest.cards import Inbox
+        cfg = copy.deepcopy(self.cfg)
+        cfg["cards"]["players"] = {"alice": "me"}
+        cfg["cards"]["observation_min_seen"] = 1
+        tmp = tempfile.mkdtemp()
+        try:
+            os.makedirs(os.path.join(tmp, "canon"))
+            for f in ("trainers.json", "build_library.json"):
+                shutil.copy(os.path.join(ENGINE, "canon", f), os.path.join(tmp, "canon", f))
+            inbox = Inbox(base=tmp)
+            st = Study(self.reader, "gen4ou", cfg["formats"]["gen4ou"], who="Alice")
+            st.add(self.battle())
+            card, made = to_card(inbox, cfg, st.result())
+            obs = [c for c in card["claims"] if c["kind"] == "observation"]
+            self.assertTrue(made and obs)
+            self.assertTrue(all(c["data"]["trainer"] == "me" and c["data"]["gen"] == 4 for c in obs))
+            lead = next(c for c in obs if c["data"]["situation"] == "lead")
+            self.assertEqual((lead["data"]["pokemon"], lead["data"]["move"]), ("Swampert", "Stealth Rock"))
+            self.assertEqual(lead["source_ref"], "https://replay.pokemonshowdown.com/gen4ou-1")
+            self.assertTrue(all(c["status"] == "proposed" for c in card["claims"]))   # nothing lands unapproved
+            builds = [c for c in card["claims"] if c["kind"] == "build"]
+            self.assertTrue(all(c["data"]["generation"] == 4 for c in builds))
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_approved_observations_show_on_the_playsheet(self):
+        from trainers.playsheet import film_lines, observed
+        v = self.store.version("me", "platinum")
+        tmp = tempfile.mkdtemp()
+        path = os.path.join(tmp, "observations.jsonl")
+        rows = [{"trainer": "me", "version": None, "gen": 4, "battle": "Showdown Gen 4 OU, Alice (9 battles)",
+                 "situation": "lead", "pokemon": "Swampert", "move": "Stealth Rock", "outcome": "led 7 of 9", "sample_size": 7},
+                {"trainer": "me", "version": None, "gen": 4, "battle": "Showdown Gen 4 OU, Alice (9 battles)",
+                 "situation": "all states", "pokemon": "team", "move": "finishing moves", "outcome": "61%", "value": 61,
+                 "sample_size": 80},
+                {"trainer": "me", "version": None, "gen": 3, "situation": "lead", "pokemon": "Metagross", "move": "x",
+                 "outcome": "other generation", "sample_size": 9},
+                {"trainer": "ash", "version": None, "gen": 4, "situation": "lead", "pokemon": "Pikachu", "move": "x",
+                 "outcome": "someone else", "sample_size": 9}]
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(json.dumps(r) for r in rows))
+        f = observed(self.store, v, path)
+        self.assertEqual((f["n"], f["aggression"], [x["pokemon"] for x in f["lead"]]), (2, 61, ["Swampert"]))
+        sheet = {"observed": f, "go_to": {s: {"species": None} for s in ("even", "ahead", "behind")},
+                 "ace": {"derived": "Typhlosion"}, "aggression": {"ratio": 55, "offense_authored": 70}}
+        lines = film_lines(sheet)
+        self.assertIn("Leads with Swampert", lines[0])
+        self.assertTrue(any("61%" in l and "55%" in l for l in lines))
+        import shutil
+        shutil.rmtree(tmp)
+
+    def test_search_filters_and_the_cache(self):
+        from unittest import mock
+        from film import replays
+        cfg = self.cfg
+        page = [{"id": "gen4ou-5", "rating": 1100, "uploadtime": 5}, {"id": "smogtours-gen4ou-4", "uploadtime": 4},
+                {"id": "gen4ou-3", "rating": 1500, "uploadtime": 3}, {"id": "gen4ou-2", "rating": 1600, "private": 1, "uploadtime": 2}]
+        with mock.patch.object(replays, "search", return_value=page):
+            self.assertEqual([e["id"] for e in replays.collect(cfg, "gen4ou", min_rating=1300, pages=1)],
+                             ["smogtours-gen4ou-4", "gen4ou-3"])          # tournament games pass the rating floor
+            self.assertEqual([e["id"] for e in replays.collect(cfg, "gen4ou", tournaments=True, pages=1)],
+                             ["smogtours-gen4ou-4"])
+        tmp = tempfile.mkdtemp()
+        with mock.patch.object(replays, "_get", return_value={"id": "gen4ou-9", "log": "|turn|1", "password": None}) as call:
+            replays.fetch(cfg, "gen4ou-9", base=tmp)
+            replays.fetch(cfg, "gen4ou-9", base=tmp)
+        self.assertEqual(call.call_count, 1)                               # the second read is the cache
+        self.assertEqual(replays.player_id("Mr_D15951"), "mrd15951")
+        import shutil
+        shutil.rmtree(tmp)
+
+    def test_forms_read_as_their_species(self):
+        from refdb import Ref
+        ref = Ref(os.path.join(ENGINE, "data", "pokeref.sqlite"))
+        self.assertEqual(ref.species_id("Rotom-Heat"), ref.species_id("Rotom"))
+        self.assertEqual(ref.species_id("Gastrodon-East"), ref.species_id("Gastrodon"))
+        self.assertEqual(ref.abilities("Shaymin-Sky", 4), ["Serene Grace"])
+        self.assertEqual(ref.abilities("Shaymin", 4), ["Natural Cure"])
+        self.assertEqual(self.store.era.types("Arceus-Bug", 4), ("Bug",))
 
 if __name__ == "__main__":
     unittest.main()

@@ -14,6 +14,7 @@
     python3 -I intake.py approve CARD[:c2]   |   reject CARD[:c2] --why "…"   |   edit CARD:c2 generation 4
     python3 -I intake.py apply [CARD]                            # write approved claims into canon
     python3 -I intake.py doc-prompt Garchomp [--style "…"] [--setting "…"] [--seconds 60]
+    python3 -I intake.py film --format gen4ou --count 60 [--user NAME] [--trainer me]   # Showdown replays → a card
 
 Nothing reaches canon without approval. Every claim keeps its exact source (a link and timestamp, a file, a page).
 """
@@ -61,6 +62,10 @@ def status(inbox):
 
 
 def main(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    if argv and argv[0] == "film":                     # the film room's own options (film_room.py card)
+        import film_room
+        return film_room.main(["card"] + argv[1:])
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=["status", "video", "image", "page", "envelope", "paste", "card", "asks", "results",
                                     "list", "show", "approve", "reject", "edit", "apply", "doc-prompt"])

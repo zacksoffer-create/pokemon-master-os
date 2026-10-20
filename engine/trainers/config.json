@@ -404,7 +404,9 @@
    },
    "slow_at_least": 0.6,
    "level_window": 10,
-   "_level_note": "Level counts against the team's top: the top level reads 1, ten levels below reads 0 (cartridge trainers mark their ace by level)."
+   "_level_note": "Level counts against the team's top: the top level reads 1, ten levels below reads 0 (cartridge trainers mark their ace by level).",
+  "cartridge_marks_ace": true,
+  "_cartridge_note": "A game's own trainer sends its party out in order and marks its ace by level: when exactly one member of a cartridge team stands at the top level (Lance's Lv 50 Dragonite, Cynthia's Lv 62 Garchomp, Red's Lv 88 Pikachu), that member is the derived ace, whatever the scores say. The ranking still shows every score, and each row carries its slot (the send-out order)."
   },
   "go_to": {
    "_note": "Who they turn to in each game state: the member whose roles fit it best (role score x the state's weight for that role). Behind also lists the last resorts: members carrying a move or item that only makes sense when losing.",
