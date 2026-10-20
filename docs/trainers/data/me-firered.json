@@ -194,7 +194,9 @@
      "label": "even",
      "def": 213,
      "spd": 227,
-     "gap": 0.062
+     "physical_pct": 0.49,
+     "special_pct": 0.61,
+     "gap": 0.12
     },
     "cells": {
      "Normal": {
@@ -320,11 +322,13 @@
      "spe": 213
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 282,
      "spd": 267,
-     "gap": 0.053
+     "physical_pct": 0.86,
+     "special_pct": 0.81,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -454,7 +458,9 @@
      "label": "even",
      "def": 223,
      "spd": 257,
-     "gap": 0.132
+     "physical_pct": 0.58,
+     "special_pct": 0.77,
+     "gap": 0.19
     },
     "cells": {
      "Normal": {
@@ -584,7 +590,9 @@
      "label": "physically soft",
      "def": 147,
      "spd": 227,
-     "gap": 0.352
+     "physical_pct": 0.05,
+     "special_pct": 0.4,
+     "gap": 0.35
     },
     "cells": {
      "Normal": {
@@ -718,7 +726,9 @@
      "label": "physically soft",
      "def": 177,
      "spd": 247,
-     "gap": 0.283
+     "physical_pct": 0.19,
+     "special_pct": 0.6,
+     "gap": 0.41
     },
     "cells": {
      "Normal": {
@@ -847,11 +857,13 @@
      "spe": 167
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 217,
      "spd": 227,
-     "gap": 0.044
+     "physical_pct": 0.62,
+     "special_pct": 0.69,
+     "gap": 0.07
     },
     "cells": {
      "Normal": {
@@ -1220,7 +1232,9 @@
    "soft": {
     "physical": 2,
     "special": 0,
-    "even": 4
+    "even": 2,
+    "frail": 0,
+    "sturdy": 2
    },
    "bring": "physical",
    "soft_members": {
@@ -1962,6 +1976,12 @@
     },
     "checks": [
      {
+      "species": "Aerodactyl",
+      "beats": 92,
+      "score": 69,
+      "n": 21
+     },
+     {
       "species": "Blissey",
       "beats": 72,
       "score": 45,
@@ -1972,12 +1992,6 @@
       "beats": 68,
       "score": 41,
       "n": 50
-     },
-     {
-      "species": "Skarmory",
-      "beats": 14,
-      "score": -7,
-      "n": 42
      }
     ]
    },
@@ -2078,7 +2092,7 @@
    "Charizard: on 5.3% of gen3ou teams (2026-09, rated 1630+), usually Hidden Power Grass, Substitute, Focus Punch, Fire Blast @ Leftovers (Hasty 4 Atk / 252 SpA / 252 Spe). What beats it: Jolteon 89%, Starmie 79%, Aerodactyl 74%.",
    "Blastoise: on 0.7% of gen3ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Ice Beam, Roar @ Leftovers (Bold 252 HP / 148 Def / 68 SpA / 40 Spe). What beats it: Venusaur 94%, Raikou 91%, Zapdos 80%.",
    "Venusaur: on 1.6% of gen3ou teams (2026-09, rated 1630+), usually Sleep Powder, Leech Seed, Giga Drain, Hidden Power Fire @ Leftovers (Timid 8 HP / 248 SpA / 112 SpD / 140 Spe). What beats it: Aerodactyl 72%, Celebi 71%, Salamence 66%.",
-   "Alakazam: on 0.8% of gen3ou teams (2026-09, rated 1630+), usually Psychic, Fire Punch, Hidden Power Grass, Encore @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 72%, Tyranitar 68%, Skarmory 14%.",
+   "Alakazam: on 0.8% of gen3ou teams (2026-09, rated 1630+), usually Psychic, Fire Punch, Hidden Power Grass, Encore @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Aerodactyl 92%, Blissey 72%, Tyranitar 68%.",
    "Jolteon: on 7.7% of gen3ou teams (2026-09, rated 1630+), usually Thunderbolt, Baton Pass, Hidden Power Grass, Thunder Wave @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 89%, Registeel 85%, Snorlax 82%.",
    "Machamp: on 1.4% of gen3ou teams (2026-09, rated 1630+), usually Rock Slide, Bulk Up, Hidden Power Ghost, Cross Chop @ Leftovers (Adamant 76 HP / 216 Atk / 216 Spe). What beats it: Metagross 79%, Aerodactyl 79%, Salamence 70%."
   ],

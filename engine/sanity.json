@@ -1,0 +1,54 @@
+{
+ "_note": "Known facts the engine has to get right, each checked by engine/sanity.py (docs/SANITY.md). A fact here is something the games or Smogon's calc settle, never a judgment call. Add one whenever a report says something that turns out wrong, so it can't come back.",
+ "bulk": {
+  "_note": "Where a Pokémon's bulk reads in the trainer matrix (trainers/matrix.py), at level 100 on the default spread. 'not' means it must not read that way.",
+  "facts": [
+   {"species": "Snorlax", "game": "platinum", "not": "physical", "why": "65 Defense on 160 HP out-bulks most of the field physically"},
+   {"species": "Snorlax", "game": "crystal", "not": "physical", "why": "the same in Gen 2"},
+   {"species": "Lapras", "game": "platinum", "not": "physical", "why": "130 HP carries its 80 Defense"},
+   {"species": "Blissey", "game": "platinum", "is": "physical", "why": "255 HP can't carry 10 Defense"},
+   {"species": "Chansey", "game": "crystal", "is": "physical", "why": "the same in Gen 2"},
+   {"species": "Skarmory", "game": "platinum", "is": "special", "why": "140 Defense, 70 Sp. Def"},
+   {"species": "Cloyster", "game": "platinum", "is": "special", "why": "180 Defense, 45 Sp. Def"},
+   {"species": "Ninjask", "game": "platinum", "is": "frail", "why": "61 HP and low defenses on both sides"},
+   {"species": "Tyranitar", "game": "platinum", "is": "sturdy", "why": "100/110/100"}
+  ]
+ },
+ "data": {
+  "_note": "The generation's own numbers, rolled back from today's (PokeAPI's past tables).",
+  "base_stats": [
+   {"species": "Alakazam", "gen": 4, "stat": "spd", "value": 85, "why": "95 from Gen 6"},
+   {"species": "Pikachu", "gen": 4, "stat": "def", "value": 30, "why": "40 from Gen 6"},
+   {"species": "Clefable", "gen": 4, "stat": "spa", "value": 85, "why": "95 from Gen 6"},
+   {"species": "Beedrill", "gen": 4, "stat": "atk", "value": 80, "why": "90 from Gen 6"},
+   {"species": "Arbok", "gen": 4, "stat": "atk", "value": 85, "why": "95 from Gen 7"}
+  ],
+  "types": [
+   {"species": "Clefable", "gen": 4, "types": ["Normal"], "why": "Fairy from Gen 6"},
+   {"species": "Granbull", "gen": 2, "types": ["Normal"], "why": "Fairy from Gen 6"},
+   {"species": "Magnezone", "gen": 4, "types": ["Electric", "Steel"], "why": ""},
+   {"species": "Rotom-Wash", "gen": 4, "types": ["Electric", "Ghost"], "why": "Electric/Water from Gen 5"}
+  ],
+  "abilities": [
+   {"species": "Gengar", "gen": 4, "abilities": ["Levitate"], "why": "Cursed Body is Gen 7"},
+   {"species": "Infernape", "gen": 4, "abilities": ["Blaze"], "why": "Iron Fist is a Gen 5 hidden ability"},
+   {"species": "Garchomp", "gen": 4, "abilities": ["Sand Veil"], "why": "Rough Skin is a Gen 5 hidden ability"},
+   {"species": "Machamp", "gen": 3, "abilities": ["Guts"], "why": "No Guard arrives in Gen 4"}
+  ],
+  "item_gen": [
+   {"item": "Life Orb", "gen": 4}, {"item": "Choice Scarf", "gen": 4}, {"item": "Choice Band", "gen": 3},
+   {"item": "Leftovers", "gen": 2}, {"item": "Salac Berry", "gen": 3}
+  ],
+  "move_gen": [
+   {"move": "Close Combat", "gen": 4}, {"move": "Volt Tackle", "gen": 3}, {"move": "Crunch", "gen": 2},
+   {"move": "U-turn", "gen": 4}, {"move": "Dragon Dance", "gen": 3}
+  ],
+  "learnable": [
+   {"species": "Rotom-Heat", "move": "Overheat", "game": "platinum", "why": "learned on changing form"},
+   {"species": "Espeon", "move": "Growth", "game": "crystal", "why": "a Gen 2 event Eevee (New York City Pokémon Center)"},
+   {"species": "Quagsire", "move": "Belly Drum", "game": "crystal", "why": "a Gen 2 event Wooper"},
+   {"species": "Golem", "move": "Rapid Spin", "game": "crystal", "why": "a Gen 2 event Geodude"},
+   {"species": "Nidoking", "move": "Lovely Kiss", "game": "crystal", "why": "a Gen 2 event Nidoran♂"}
+  ]
+ }
+}

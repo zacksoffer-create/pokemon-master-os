@@ -186,11 +186,13 @@
      "spe": 105
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 251,
      "spd": 251,
-     "gap": 0.0
+     "physical_pct": 0.36,
+     "special_pct": 0.3,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -319,7 +321,9 @@
      "label": "physically soft",
      "def": 145,
      "spd": 245,
-     "gap": 0.408
+     "physical_pct": 0.02,
+     "special_pct": 0.39,
+     "gap": 0.37
     },
     "cells": {
      "Normal": {
@@ -448,11 +452,13 @@
      "spe": 195
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "even",
+     "label": "even",
      "def": 225,
      "spd": 265,
-     "gap": 0.151
+     "physical_pct": 0.49,
+     "special_pct": 0.72,
+     "gap": 0.23
     },
     "cells": {
      "Normal": {
@@ -477,8 +483,7 @@
      },
      "Rock": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Bug": {
       "verdict": "resists",
@@ -506,8 +511,7 @@
      },
      "Electric": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Psychic": {
       "verdict": "neutral",
@@ -515,8 +519,7 @@
      },
      "Ice": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Dragon": {
       "verdict": "neutral",
@@ -580,11 +583,13 @@
      "spe": 215
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 175,
      "spd": 175,
-     "gap": 0.0
+     "physical_pct": 0.11,
+     "special_pct": 0.08,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -708,11 +713,13 @@
      "spe": 197
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "even",
+     "label": "even",
      "def": 193,
      "spd": 285,
-     "gap": 0.323
+     "physical_pct": 0.41,
+     "special_pct": 0.89,
+     "gap": 0.48
     },
     "cells": {
      "Normal": {
@@ -761,13 +768,11 @@
      },
      "Grass": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Electric": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Psychic": {
       "verdict": "neutral",
@@ -843,7 +848,9 @@
      "label": "even",
      "def": 225,
      "spd": 205,
-     "gap": 0.089
+     "physical_pct": 0.7,
+     "special_pct": 0.59,
+     "gap": 0.11
     },
     "cells": {
      "Normal": {
@@ -1217,16 +1224,16 @@
     "Poison"
    ],
    "soft": {
-    "physical": 3,
+    "physical": 1,
     "special": 0,
-    "even": 3
+    "even": 3,
+    "frail": 2,
+    "sturdy": 0
    },
-   "bring": "physical",
+   "bring": "either",
    "soft_members": {
     "physical": [
-     "Roserade",
-     "Togekiss",
-     "Milotic"
+     "Roserade"
     ],
     "special": []
    }
@@ -1288,9 +1295,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a physical attacker: Roserade, Togekiss and Milotic are physically soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here physical)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Roserade (physically soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",
@@ -1839,10 +1846,10 @@
       "n": 83
      },
      {
-      "species": "Dragonite",
-      "beats": 79,
-      "score": 53,
-      "n": 42
+      "species": "Empoleon",
+      "beats": 83,
+      "score": 55,
+      "n": 29
      }
     ]
    },
@@ -1873,6 +1880,12 @@
     },
     "checks": [
      {
+      "species": "Clefable",
+      "beats": 89,
+      "score": 64,
+      "n": 23
+     },
+     {
       "species": "Metagross",
       "beats": 85,
       "score": 62,
@@ -1883,12 +1896,6 @@
       "beats": 80,
       "score": 62,
       "n": 71
-     },
-     {
-      "species": "Infernape",
-      "beats": 79,
-      "score": 50,
-      "n": 30
      }
     ]
    },
@@ -1929,6 +1936,12 @@
       "beats": 54,
       "score": 25,
       "n": 46
+     },
+     {
+      "species": "Jirachi",
+      "beats": 48,
+      "score": 10,
+      "n": 28
      }
     ]
    },
@@ -1971,10 +1984,10 @@
       "n": 70
      },
      {
-      "species": "Gyarados",
-      "beats": 54,
+      "species": "Jirachi",
+      "beats": 53,
       "score": 41,
-      "n": 211
+      "n": 267
      }
     ]
    },
@@ -2005,26 +2018,32 @@
     },
     "checks": [
      {
+      "species": "Latias",
+      "beats": 68,
+      "score": 30,
+      "n": 24
+     },
+     {
       "species": "Jirachi",
       "beats": 50,
       "score": 20,
       "n": 43
      },
      {
-      "species": "Gyarados",
-      "beats": 26,
-      "score": -3,
-      "n": 35
+      "species": "Starmie",
+      "beats": 52,
+      "score": 9,
+      "n": 21
      }
     ]
    }
   ],
   "ladder_lines": [
-   "Spiritomb: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Pursuit, Will-O-Wisp, Sucker Punch, Pain Split @ Leftovers (Adamant 252 HP / 252 Atk / 4 Def). What beats it: Tyranitar 80%, Heatran 78%, Dragonite 79%.",
-   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.",
-   "Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.",
-   "Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.",
-   "Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Jirachi 50%, Gyarados 26%."
+   "Spiritomb: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Pursuit, Will-O-Wisp, Sucker Punch, Pain Split @ Leftovers (Adamant 252 HP / 252 Atk / 4 Def). What beats it: Tyranitar 80%, Heatran 78%, Empoleon 83%.",
+   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Clefable 89%, Metagross 85%, Jirachi 80%.",
+   "Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%, Jirachi 48%.",
+   "Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Jirachi 53%.",
+   "Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Latias 68%, Jirachi 50%, Starmie 52%."
   ],
   "text": {
    "career": [

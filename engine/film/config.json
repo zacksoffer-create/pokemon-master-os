@@ -194,14 +194,14 @@
   }
  },
  "usage": {
-  "_note": "Smogon's monthly usage statistics (film/usage.py): smogon.com/stats, the 'chaos' JSON per format and rating cutoff. Public statistics about real play, cited per use. The cutoff is the rating floor of the battles counted (0, 1500, 1630 or 1760). Shares under floor % are left out; checks need at least checks_min_n matchups.",
+  "_note": "Smogon's monthly usage statistics (film/usage.py): smogon.com/stats, the 'chaos' JSON per format and rating cutoff. Public statistics about real play, cited per use. The cutoff is the rating floor of the battles counted (0, 1500, 1630 or 1760). Shares under floor % are left out; checks need more than checks_min_n matchups, Smogon's own cutoff (its moveset files list a check only past 20), and rank on the unrounded score.",
   "index": "https://www.smogon.com/stats/",
   "chaos": "https://www.smogon.com/stats/{month}/chaos/{fmt}-{cutoff}.json",
   "cutoff": 1630,
   "top": 6,
   "top_spreads": 6,
   "floor": 3.0,
-  "checks_min_n": 30,
+  "checks_min_n": 20,
   "checks_top": 4,
   "formats_by_gen": {
    "4": "gen4ou",

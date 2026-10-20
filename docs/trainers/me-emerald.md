@@ -26,7 +26,7 @@
 ## How to beat them
 
 - Biggest single openings: Swampert to Grass; Altaria to Ice (four times the damage).
-- Bring a physical attacker: Milotic is physically soft.
+- No side of their bulk stands out as soft across the team: pick attackers by type, not by side.
 - Don't lead with Steel: 3 of 6 resist Steel.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -40,14 +40,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Swampert** Lv 100 (Torrent) | even | · | · | · | ½ | · | ½ | · | · | ½ | ½ | · | 4× | 0 | · | · | · | · |
-| **Milotic** Lv 100 (Marvel Scale) | physically soft | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
-| **Altaria** Lv 100 (Natural Cure) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
-| **Arcanine** Lv 100 (Intimidate) | even | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
-| **Absol** Lv 100 (Pressure) | even | · | 2× | · | · | · | · | 2× | ½ | · | · | · | · | · | 0 | · | · | ½ |
-| **Meganium** Lv 100 (Overgrow) | even | · | · | 2× | 2× | ½ | · | 2× | · | · | 2× | ½ | ½ | ½ | · | 2× | · | · |
+| **Swampert** Lv 100 (Torrent) | bulky both ways | · | · | · | ½ | · | ½ | · | · | ½ | ½ | · | 4× | 0 | · | · | · | · |
+| **Milotic** Lv 100 (Marvel Scale) | bulky both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Altaria** Lv 100 (Natural Cure) | bulky both ways | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
+| **Arcanine** Lv 100 (Intimidate) | bulky both ways | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
+| **Absol** Lv 100 (Pressure) | frail both ways | · | 2× | · | · | · | · | 2× | ½ | · | · | · | · | · | 0 | · | · | ½ |
+| **Meganium** Lv 100 (Overgrow) | bulky both ways | · | · | 2× | 2× | ½ | · | 2× | · | · | 2× | ½ | ½ | ½ | · | 2× | · | · |
 
-**Gaps:** none · **Strengths:** Steel · **Bring:** physical attackers (1 physically soft, 0 specially soft)
+**Gaps:** none · **Strengths:** Steel · **Bring:** attackers by type (0 physically soft, 0 specially soft, 1 frail, 5 bulky both ways)
 
 # Playsheet
 
@@ -66,7 +66,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 - Milotic: on 4.2% of gen3ou teams (2026-09, rated 1630+), usually Recover, Surf, Toxic, Refresh @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Venusaur 90%, Snorlax 77%, Zapdos 72%.
 - Altaria: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Rest, Dragon Dance, Heal Bell, Perish Song @ Leftovers (Jolly 48 HP / 200 Def / 24 SpD / 236 Spe). What beats it: Tyranitar 72%, Blissey 73%, Gengar 76%.
 - Arcanine: on 0.9% of gen3ou teams (2026-09, rated 0+), usually Extreme Speed, Overheat, Hidden Power Fighting, Fire Blast @ Leftovers (Rash 4 HP / 64 Def / 248 SpA / 192 Spe). What beats it: Suicune 79%, Milotic 85%, Flygon 80%.
-- Absol: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Shadow Ball, Double-Edge, Hidden Power Fighting, Swords Dance @ Choice Band (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Aerodactyl 80%, Heracross 81%.
+- Absol: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Shadow Ball, Double-Edge, Hidden Power Fighting, Swords Dance @ Choice Band (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Aerodactyl 80%, Forretress 83%.
 - Meganium: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Giga Drain, Reflect, Toxic @ Leftovers (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Salamence 73%, Charizard 74%, Skarmory 53%.
 
 ## Career

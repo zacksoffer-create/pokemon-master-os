@@ -29,7 +29,7 @@
 - Attack with Fighting: Tyranitar, Mamoswine, Lapras and Snorlax are weak to it, and only Crobat can take it.
 - Also open to Rock (3 weak), Water (3 weak) and Grass (3 weak).
 - Biggest single openings: Tyranitar to Fighting (four times the damage).
-- Bring a physical attacker: Lapras and Snorlax are physically soft.
+- No side of their bulk stands out as soft across the team: pick attackers by type, not by side.
 - Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune); Snorlax's Thick Fat changes Fire and Ice (from neutral to resists).
 - Don't lead with Poison: 3 of 6 resist Poison.
 
@@ -44,13 +44,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Typhlosion** Lv 100 (Blaze) | even | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
-| **Tyranitar** Lv 100 (Sand Stream) | even | ½ | 4× | ½ | ½ | 2× | · | 2× | ½ | 2× | ½ | 2× | 2× | · | 0 | · | · | ½ |
-| **Mamoswine** Lv 100 (Snow Cloak) | specially soft | · | 2× | · | ½ | · | · | · | · | 2× | 2× | 2× | 2× | 0 | · | · | · | · |
+| **Tyranitar** Lv 100 (Sand Stream) | bulky both ways | ½ | 4× | ½ | ½ | 2× | · | 2× | ½ | 2× | ½ | 2× | 2× | · | 0 | · | · | ½ |
+| **Mamoswine** Lv 100 (Snow Cloak) | even | · | 2× | · | ½ | · | · | · | · | 2× | 2× | 2× | 2× | 0 | · | · | · | · |
 | **Crobat** Lv 100 (Inner Focus) | even | · | ½ | · | ½ | 0 | 2× | ½ | · | · | · | · | ½ | 2× | 2× | 2× | · | · |
-| **Lapras** Lv 100 (Water Absorb) | physically soft | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
-| **Snorlax** Lv 100 (Thick Fat) | physically soft | · | 2× | · | · | · | · | · | 0 | · | ½* | · | · | · | · | ½* | · | · |
+| **Lapras** Lv 100 (Water Absorb) | bulky both ways | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
+| **Snorlax** Lv 100 (Thick Fat) | bulky both ways | · | 2× | · | · | · | · | · | 0 | · | ½* | · | · | · | · | ½* | · | · |
 
-**Gaps:** Fighting, Rock, Water and Grass · **Strengths:** Poison · **Bring:** physical attackers (2 physically soft, 1 specially soft)
+**Gaps:** Fighting, Rock, Water and Grass · **Strengths:** Poison · **Bring:** attackers by type (0 physically soft, 0 specially soft, 0 frail, 3 bulky both ways)
 
 # Playsheet
 
@@ -65,12 +65,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Typhlosion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Eruption, Flamethrower, Focus Blast, Extrasensory @ Choice Scarf (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Latias 94%, Gyarados 89%, Tyranitar 78%.
-- Tyranitar: on 53.3% of gen4ou teams (2026-09, rated 1630+), usually Crunch, Pursuit, Superpower, Stone Edge @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Breloom 82%, Lucario 80%, Rhyperior 85%.
+- Typhlosion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Eruption, Flamethrower, Focus Blast, Extrasensory @ Choice Scarf (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Latias 94%, Gyarados 89%, Kingdra 90%.
+- Tyranitar: on 53.3% of gen4ou teams (2026-09, rated 1630+), usually Crunch, Pursuit, Superpower, Stone Edge @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Breloom 82%, Rhyperior 85%, Lucario 80%.
 - Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.
 - Crobat: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Taunt, U-turn, Roost @ Black Sludge (Jolly 252 HP / 112 Def / 144 Spe). What beats it: Magnezone 95%, Zapdos 92%, Metagross 86%.
 - Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.
-- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.
+- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Hariyama 86%, Infernape 68%.
 
 ## Career
 

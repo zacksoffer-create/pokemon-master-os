@@ -88,6 +88,8 @@ def claims_for(inbox, cfg, r, trainer):
             data = {"species": c["species"], "moves": v["moves"], "item": v["item"], "ability": v["ability"],
                     "generation": r["gen"], "role": v["role"],
                     "name": f"{v['name']} ({r['label']}, {v['battles']} battles)", "tier": "unrated",
+                    "move_reasons": {m: f"used in Showdown {r['label']} battles, which Showdown's validator accepted"
+                                     for m in v["moves"]},
                     "notes": [f"revealed in {v['battles']} {r['label']} battles"
                               + (f" by {r['who']}" if r["who"] else "") + "; moves no battle showed are open",
                               *([f"also seen: {', '.join(v['also'])}"] if v["also"] else [])]}

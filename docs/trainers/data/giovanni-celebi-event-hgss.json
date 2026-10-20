@@ -172,11 +172,13 @@
      "spe": 187
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 171,
      "spd": 167,
-     "gap": 0.023
+     "physical_pct": 0.1,
+     "special_pct": 0.06,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -300,11 +302,13 @@
      "spe": 197
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 177,
      "spd": 177,
-     "gap": 0.0
+     "physical_pct": 0.3,
+     "special_pct": 0.27,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -429,11 +433,13 @@
      "spe": 159
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 121,
      "spd": 121,
-     "gap": 0.0
+     "physical_pct": 0.02,
+     "special_pct": 0.01,
+     "gap": 0.01
     },
     "cells": {
      "Normal": {
@@ -558,11 +564,13 @@
      "spe": 169
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 191,
      "spd": 187,
-     "gap": 0.021
+     "physical_pct": 0.29,
+     "special_pct": 0.2,
+     "gap": 0.09
     },
     "cells": {
      "Normal": {
@@ -912,7 +920,9 @@
    "soft": {
     "physical": 0,
     "special": 0,
-    "even": 4
+    "even": 0,
+    "frail": 4,
+    "sturdy": 0
    },
    "bring": "either",
    "soft_members": {
@@ -971,9 +981,9 @@
    },
    {
     "section": "beat",
-    "text": "Their bulk is even across the team: pick attackers by type, not by side.",
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
     "rule": "bring_even",
-    "trigger": "bring == either (here either)"
+    "trigger": "bring == either (here either); lone_soft_str empty"
    }
   ],
   "gap": [
@@ -1440,10 +1450,10 @@
       "n": 43
      },
      {
-      "species": "Gengar",
-      "beats": 74,
-      "score": 50,
-      "n": 54
+      "species": "Kingdra",
+      "beats": 84,
+      "score": 55,
+      "n": 25
      }
     ]
    },
@@ -1486,10 +1496,10 @@
       "n": 42
      },
      {
-      "species": "Jirachi",
-      "beats": 67,
-      "score": 34,
-      "n": 33
+      "species": "Bronzong",
+      "beats": 79,
+      "score": 46,
+      "n": 24
      }
     ]
    },
@@ -1587,8 +1597,8 @@
    }
   ],
   "ladder_lines": [
-   "Nidoking: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Ice Beam, Thunderbolt, Superpower, Megahorn @ Custap Berry (Naive 252 Atk / 4 SpA / 252 Spe). What beats it: Starmie 82%, Swampert 81%, Gengar 74%.",
-   "Kangaskhan: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Sucker Punch, Earthquake, Return, Fake Out @ Life Orb (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 83%, Skarmory 81%, Jirachi 67%.",
+   "Nidoking: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Ice Beam, Thunderbolt, Superpower, Megahorn @ Custap Berry (Naive 252 Atk / 4 SpA / 252 Spe). What beats it: Starmie 82%, Swampert 81%, Kingdra 84%.",
+   "Kangaskhan: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Sucker Punch, Earthquake, Return, Fake Out @ Life Orb (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 83%, Skarmory 81%, Bronzong 79%.",
    "Honchkrow: on 1.0% of gen4ou teams (2026-09, rated 0+), usually Sucker Punch, Superpower, Brave Bird, Heat Wave @ Life Orb (Naughty 252 Atk / 4 SpA / 252 Spe). What beats it: Zapdos 87%, Jirachi 61%, Infernape 63%.",
    "Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%."
   ],

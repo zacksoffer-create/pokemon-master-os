@@ -26,7 +26,7 @@
 
 - Attack with Ice: Torterra, Staraptor and Gliscor are weak to it, and only Infernape and Buizel can take it.
 - Biggest single openings: Torterra to Ice; Gliscor to Ice (four times the damage).
-- Bring a special attacker: Staraptor and Gliscor are specially soft.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Staraptor (specially soft).
 - Don't lead with Steel: 3 of 6 resist Steel.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -39,14 +39,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Pikachu** Lv 100 (Static) | even | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
-| **Infernape** Lv 100 (Blaze) | even | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
-| **Torterra** Lv 100 (Overgrow) | even | · | · | 2× | · | ½ | ½ | 2× | · | · | 2× | · | · | 0 | · | 4× | · | · |
+| **Pikachu** Lv 100 (Static) | frail both ways | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
+| **Infernape** Lv 100 (Blaze) | frail both ways | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
+| **Torterra** Lv 100 (Overgrow) | bulky both ways | · | · | 2× | · | ½ | ½ | 2× | · | · | 2× | · | · | 0 | · | 4× | · | · |
 | **Staraptor** Lv 100 (Intimidate) | specially soft | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
-| **Gliscor** Lv 100 (Hyper Cutter) | specially soft | · | ½ | · | ½ | 0 | · | ½ | · | · | · | 2× | · | 0 | · | 4× | · | · |
-| **Buizel** Lv 100 (Swift Swim) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Gliscor** Lv 100 (Hyper Cutter) | even | · | ½ | · | ½ | 0 | · | ½ | · | · | · | 2× | · | 0 | · | 4× | · | · |
+| **Buizel** Lv 100 (Swift Swim) | frail both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 
-**Gaps:** Ice · **Strengths:** Steel · **Bring:** special attackers (0 physically soft, 2 specially soft)
+**Gaps:** Ice · **Strengths:** Steel · **Bring:** attackers by type (0 physically soft, 1 specially soft, 3 frail, 1 bulky both ways)
 
 # Playsheet
 
@@ -67,7 +67,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## On the ladder
 
 - Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
-- Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.
+- Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Dragonite 93%, Latias 71%.
 - Staraptor: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Close Combat, U-turn, Return @ Choice Scarf (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Jirachi 76%, Metagross 77%, Skarmory 77%.
 - Gliscor: on 6.2% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Roost, Ice Fang, Taunt @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Starmie 88%, Latias 78%, Gyarados 76%.
 

@@ -188,12 +188,9 @@ class Store:
             used.append(f"IVs {d['ivs']}")
         evs = build.evs
         if not evs:
-            if d["evs"] == "even":
-                evs = {s: d["even_evs_each"] for s in STATS}
-                used.append(f"EVs {d['even_evs_each']} in every stat")
-            else:
-                evs = {s: 0 for s in STATS}
-                used.append("no EVs")
+            evs = self.default_evs(gen)
+            used.append("stat experience maxed in every stat" if gen <= 2 else
+                        f"EVs {d['even_evs_each']} in every stat" if d["evs"] == "even" else "no EVs")
         if not build.nature:
             used.append("neutral nature")
         ability = build.ability
@@ -204,6 +201,12 @@ class Store:
                 used.append(f"ability {ability} (could be {', '.join(options[1:])})")
         return {"ivs": {s: ivs.get(s, d["ivs"]) for s in STATS}, "evs": {s: evs.get(s, 0) for s in STATS},
                 "nature": build.nature, "ability": ability}, used
+
+    def default_evs(self, gen):
+        """What an open EV field reads as (config defaults): stat experience maxed in Gen I-II, the even spread after."""
+        d = self.config["defaults"]
+        each = d["stat_exp_each"] if gen <= 2 else d["even_evs_each"] if d["evs"] == "even" else 0
+        return {s: each for s in STATS}
 
     def stats(self, build, game, level=None):
         gen = GAME_GEN[game]
@@ -269,6 +272,44 @@ class Store:
             flags.append(f"{build.species} can't have {build.ability} in Gen {gen}")
         if build.friendship is not None and not 0 <= build.friendship <= 255:
             flags.append(f"friendship {build.friendship} is out of range")
-        if build.item and not self.era.item_lookup(build.item):
-            flags.append(f"item {build.item} isn't in our data")
+        g2 = v["gen2_items"]
+        if build.item:
+            name = self.era.item_lookup(build.item)
+            if gen <= 2 and (name or build.item) in g2["renamed"]:
+                flags.append(f"{build.item} is the Gen III name; Gen II calls it {g2['renamed'][name or build.item]}")
+            elif gen >= 3 and build.item in g2["only"]:
+                flags.append(f"{build.item} is Gen II's alone")
+            elif not name and build.item not in g2["only"]:
+                flags.append(f"item {build.item} isn't in our data")
+            elif name and (self.era.item_gen(build.item) or 0) > gen:
+                flags.append(f"{name} doesn't exist until Gen {self.era.item_gen(build.item)}")
+        for mv in build.moves:
+            try:
+                first = self.era.move_gen(mv)
+            except KeyError:
+                flags.append(f"{mv} isn't a move in our data")
+                continue
+            if first > gen:
+                flags.append(f"{mv} doesn't exist until Gen {first}")
+        if len(build.moves) > v["max_moves"]:
+            flags.append(f"{len(build.moves)} moves, over {v['max_moves']}")
+        dupes = sorted({m for m in build.moves if build.moves.count(m) > 1})
+        if dupes:
+            flags.append(f"{', '.join(dupes)} listed twice")
+        if gen <= 2:
+            if build.ability:
+                flags.append(f"Gen {gen} has no abilities ({build.ability})")
+            if build.nature:
+                flags.append(f"Gen {gen} has no natures ({build.nature})")
+            for name, block in (("EVs", build.evs), ("IVs", build.ivs)):
+                if block and block.get("spa", 0) != block.get("spd", 0):
+                    flags.append(f"Gen {gen} has one Special stat: Sp. Atk and Sp. Def {name} must match "
+                                 f"({block.get('spa', 0)} and {block.get('spd', 0)})")
+        bound = self.config.get("species_items", {})
+        if build.item and (self.era.item_lookup(build.item) or build.item) in bound:
+            owners = bound[self.era.item_lookup(build.item) or build.item]
+            if not any(build.species.lower().startswith(o.lower()) for o in owners):
+                flags.append(f"{build.item} does nothing for {build.species} (only {', '.join(owners)})")
+        if build.level is not None and not 1 <= build.level <= 100:
+            flags.append(f"level {build.level} is out of range")
         return flags

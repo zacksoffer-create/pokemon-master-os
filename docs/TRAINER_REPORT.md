@@ -83,7 +83,8 @@ Lore (Ash's Light Ball Pikachu, a Pokémon that refuses its ball) is data on a b
 1. **Data model and trainer storage.** Done: the era layer, builds, trainers, stats from builds, a stated reason for every move, lore out of the code. You're a Champion in every version.
 2. **The matrix and bulk tags.** Done (`trainers/matrix.py`):
    - verdicts from the game's chart, with abilities applied first;
-   - bulk leans from real Defense vs Sp. Def;
+   - bulk placed in the field: physical bulk (HP × Defense) and special bulk (HP × Sp. Def) from real stats, against every fully evolved Pokémon of the generation at the same level. A side is soft only when it sits low in the field (below 40%) and well under the other side; both low is frail, both high is bulky both ways. HP counts, so Snorlax reads bulky both ways (E-037);
+   - "bring a physical (or special) attacker" needs at least two members soft on that side; one soft member is named on its own;
    - gaps, strengths and which side to attack from.
 3. **Sliders and tags.** Done (`trainers/sliders.py`). Each slider is measured as shares of the team from the brief's signals:
    - **offense:** attack-heavy stats, mostly attacks, fast;

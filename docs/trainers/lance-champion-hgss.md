@@ -29,7 +29,7 @@
 - Attack with Rock: Gyarados, Dragonite, Dragonite, Aerodactyl, Charizard and Dragonite are weak to it, and nobody on the team resists it.
 - Also open to Ice (4 weak), Electric (3 weak) and Dragon (3 weak).
 - Biggest single openings: Gyarados to Electric; Dragonite to Ice; Dragonite to Ice; Charizard to Rock; Dragonite to Ice (four times the damage).
-- Bring a physical attacker: Gyarados is physically soft.
+- No side of their bulk stands out as soft across the team: pick attackers by type, not by side.
 - Don't lead with Ground, Bug or Fire: 6 of 6 resist Ground; 6 of 6 resist Bug; 6 of 6 resist Fire.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -42,14 +42,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Gyarados** Lv 100 (Intimidate) | physically soft | · | ½ | · | · | 0 | 2× | ½ | · | ½ | ½ | ½ | · | 4× | · | · | · | · |
+| **Gyarados** Lv 100 (Intimidate) | even | · | ½ | · | · | 0 | 2× | ½ | · | ½ | ½ | ½ | · | 4× | · | · | · | · |
 | **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
 | **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
-| **Aerodactyl** Lv 100 (Rock Head) | even | ½ | · | ½ | ½ | 0 | 2× | ½ | · | 2× | ½ | 2× | · | 2× | · | 2× | · | · |
-| **Charizard** Lv 100 (Blaze) | even | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
+| **Aerodactyl** Lv 100 (Rock Head) | frail both ways | ½ | · | ½ | ½ | 0 | 2× | ½ | · | 2× | ½ | 2× | · | 2× | · | 2× | · | · |
+| **Charizard** Lv 100 (Blaze) | frail both ways | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
 | **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
 
-**Gaps:** Rock, Ice, Electric and Dragon · **Strengths:** Ground, Bug, Fire, Fighting and Grass · **Bring:** physical attackers (1 physically soft, 0 specially soft)
+**Gaps:** Rock, Ice, Electric and Dragon · **Strengths:** Ground, Bug, Fire, Fighting and Grass · **Bring:** attackers by type (0 physically soft, 0 specially soft, 2 frail, 0 bulky both ways)
 
 # Playsheet
 
@@ -64,12 +64,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%.
-- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
-- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
-- Aerodactyl: on 2.5% of gen4ou teams (2026-09, rated 1630+), usually Taunt, Earthquake, Stealth Rock, Stone Edge @ Focus Sash (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Metagross 82%, Jirachi 70%, Tyranitar 60%.
+- Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Rotom-Wash 67%, Rotom-Heat 70%.
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.
+- Aerodactyl: on 2.5% of gen4ou teams (2026-09, rated 1630+), usually Taunt, Earthquake, Stealth Rock, Stone Edge @ Focus Sash (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Donphan 91%, Metagross 82%, Swampert 85%.
 - Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.
-- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.
 
 ## Career
 

@@ -174,11 +174,13 @@
      "spe": 247
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "even",
+     "label": "even",
      "def": 191,
      "spd": 227,
-     "gap": 0.159
+     "physical_pct": 0.33,
+     "special_pct": 0.53,
+     "gap": 0.2
     },
     "cells": {
      "Normal": {
@@ -199,8 +201,7 @@
      },
      "Ground": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Rock": {
       "verdict": "neutral",
@@ -308,11 +309,13 @@
      "spe": 169
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 267,
      "spd": 227,
-     "gap": 0.15
+     "physical_pct": 0.87,
+     "special_pct": 0.69,
+     "gap": 0.18
     },
     "cells": {
      "Normal": {
@@ -439,11 +442,13 @@
      "spe": 377
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 147,
      "spd": 157,
-     "gap": 0.064
+     "physical_pct": 0.05,
+     "special_pct": 0.05,
+     "gap": 0.0
     },
     "cells": {
      "Normal": {
@@ -564,11 +569,13 @@
      "spe": 277
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 197,
      "spd": 197,
-     "gap": 0.0
+     "physical_pct": 0.32,
+     "special_pct": 0.28,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -693,7 +700,9 @@
      "label": "specially soft",
      "def": 277,
      "spd": 207,
-     "gap": 0.253
+     "physical_pct": 0.75,
+     "special_pct": 0.37,
+     "gap": 0.38
     },
     "cells": {
      "Normal": {
@@ -826,7 +835,9 @@
      "label": "even",
      "def": 193,
      "spd": 221,
-     "gap": 0.127
+     "physical_pct": 0.59,
+     "special_pct": 0.77,
+     "gap": 0.18
     },
     "cells": {
      "Normal": {
@@ -1201,15 +1212,15 @@
     "Poison"
    ],
    "soft": {
-    "physical": 1,
+    "physical": 0,
     "special": 1,
-    "even": 4
+    "even": 2,
+    "frail": 2,
+    "sturdy": 1
    },
    "bring": "either",
    "soft_members": {
-    "physical": [
-     "Electivire"
-    ],
+    "physical": [],
     "special": [
      "Drapion"
     ]
@@ -1272,9 +1283,9 @@
    },
    {
     "section": "beat",
-    "text": "Their bulk is even across the team: pick attackers by type, not by side.",
-    "rule": "bring_even",
-    "trigger": "bring == either (here either)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Drapion (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",
@@ -1911,6 +1922,18 @@
       "beats": 53,
       "score": 21,
       "n": 40
+     },
+     {
+      "species": "Rotom-Wash",
+      "beats": 49,
+      "score": 8,
+      "n": 23
+     },
+     {
+      "species": "Jirachi",
+      "beats": 40,
+      "score": 3,
+      "n": 28
      }
     ]
    },
@@ -1947,16 +1970,16 @@
       "n": 42
      },
      {
+      "species": "Dragonite",
+      "beats": 93,
+      "score": 72,
+      "n": 27
+     },
+     {
       "species": "Latias",
       "beats": 71,
       "score": 48,
       "n": 59
-     },
-     {
-      "species": "Gyarados",
-      "beats": 65,
-      "score": 36,
-      "n": 43
      }
     ]
    },
@@ -1987,6 +2010,12 @@
     },
     "checks": [
      {
+      "species": "Donphan",
+      "beats": 86,
+      "score": 59,
+      "n": 28
+     },
+     {
       "species": "Metagross",
       "beats": 79,
       "score": 52,
@@ -1997,12 +2026,6 @@
       "beats": 67,
       "score": 39,
       "n": 45
-     },
-     {
-      "species": "Gyarados",
-      "beats": 64,
-      "score": 37,
-      "n": 50
      }
     ]
    },
@@ -2045,19 +2068,19 @@
       "n": 40
      },
      {
-      "species": "Celebi",
-      "beats": 72,
-      "score": 47,
-      "n": 50
+      "species": "Roserade",
+      "beats": 83,
+      "score": 55,
+      "n": 29
      }
     ]
    }
   ],
   "ladder_lines": [
-   "Electivire: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Punch, Thunder Punch, Earthquake, Taunt @ Expert Belt (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 53%.",
-   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.",
-   "Drapion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Toxic Spikes, Crunch, Swords Dance @ Black Sludge (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Latias 67%, Gyarados 64%.",
-   "Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Celebi 72%."
+   "Electivire: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Punch, Thunder Punch, Earthquake, Taunt @ Expert Belt (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 53%, Rotom-Wash 49%, Jirachi 40%.",
+   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Dragonite 93%, Latias 71%.",
+   "Drapion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Toxic Spikes, Crunch, Swords Dance @ Black Sludge (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Donphan 86%, Metagross 79%, Latias 67%.",
+   "Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Roserade 83%."
   ],
   "text": {
    "career": [

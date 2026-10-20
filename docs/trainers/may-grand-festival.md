@@ -27,7 +27,7 @@
 - Attack with Flying: Blaziken, Venusaur and Beautifly are weak to it, and nobody on the team resists it.
 - Also open to Psychic (2 weak).
 - Biggest single openings: Beautifly to Rock (four times the damage).
-- Bring a physical attacker: Munchlax is physically soft.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Munchlax (physically soft).
 
 ## Where their rigidity or recklessness leaves a gap
 
@@ -41,12 +41,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Blaziken** Lv 100 (Blaze) | even | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
 | **Venusaur** Lv 100 (Overgrow) | even | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
-| **Wartortle** Lv 100 (Torrent) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Wartortle** Lv 100 (Torrent) | frail both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 | **Munchlax** Lv 100 (Pickup) | physically soft | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
-| **Beautifly** Lv 100 (Swarm) | even | · | ½ | 2× | · | 0 | 4× | ½ | · | · | 2× | · | ½ | 2× | · | 2× | · | · |
-| **Skitty** Lv 100 (Cute Charm) | even | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Beautifly** Lv 100 (Swarm) | frail both ways | · | ½ | 2× | · | 0 | 4× | ½ | · | · | 2× | · | ½ | 2× | · | 2× | · | · |
+| **Skitty** Lv 100 (Cute Charm) | frail both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
 
-**Gaps:** Flying and Psychic · **Strengths:** none · **Bring:** physical attackers (1 physically soft, 0 specially soft)
+**Gaps:** Flying and Psychic · **Strengths:** none · **Bring:** attackers by type (1 physically soft, 0 specially soft, 3 frail, 0 bulky both ways)
 
 # Playsheet
 
@@ -61,8 +61,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Blaziken: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Vacuum Wave, Superpower, Fire Blast, Hidden Power Ice @ Life Orb (Naive 80 Atk / 176 SpA / 252 Spe). What beats it: Starmie 84%, Latias 77%, Flygon 69%.
-- Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Zapdos 55%, Jirachi 50%, Starmie 16%.
+- Blaziken: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Vacuum Wave, Superpower, Fire Blast, Hidden Power Ice @ Life Orb (Naive 80 Atk / 176 SpA / 252 Spe). What beats it: Starmie 84%, Latias 77%, Milotic 86%.
+- Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Infernape 81%, Skarmory 73%, Heatran 69%.
 
 ## Career
 

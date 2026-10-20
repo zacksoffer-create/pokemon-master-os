@@ -213,7 +213,9 @@
      "label": "specially soft",
      "def": 205,
      "spd": 165,
-     "gap": 0.195
+     "physical_pct": 0.46,
+     "special_pct": 0.15,
+     "gap": 0.31
     },
     "cells": {
      "Normal": {
@@ -344,11 +346,13 @@
      "spe": 225
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 195,
      "spd": 195,
-     "gap": 0.0
+     "physical_pct": 0.39,
+     "special_pct": 0.36,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -477,7 +481,9 @@
      "label": "specially soft",
      "def": 275,
      "spd": 125,
-     "gap": 0.545
+     "physical_pct": 0.88,
+     "special_pct": 0.03,
+     "gap": 0.85
     },
     "cells": {
      "Normal": {
@@ -608,11 +614,13 @@
      "spe": 197
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "even",
+     "label": "even",
      "def": 193,
      "spd": 235,
-     "gap": 0.179
+     "physical_pct": 0.41,
+     "special_pct": 0.66,
+     "gap": 0.24
     },
     "cells": {
      "Normal": {
@@ -637,8 +645,7 @@
      },
      "Rock": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Bug": {
       "verdict": "resists",
@@ -666,8 +673,7 @@
      },
      "Electric": {
       "verdict": "very weak",
-      "multiplier": 4.0,
-      "note": "worse from physical attackers"
+      "multiplier": 4.0
      },
      "Psychic": {
       "verdict": "neutral",
@@ -742,7 +748,9 @@
      "label": "even",
      "def": 195,
      "spd": 205,
-     "gap": 0.049
+     "physical_pct": 0.39,
+     "special_pct": 0.42,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -867,11 +875,13 @@
      "spe": 217
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 185,
      "spd": 175,
-     "gap": 0.054
+     "physical_pct": 0.26,
+     "special_pct": 0.14,
+     "gap": 0.12
     },
     "cells": {
      "Normal": {
@@ -1258,15 +1268,15 @@
    ],
    "strengths": [],
    "soft": {
-    "physical": 1,
+    "physical": 0,
     "special": 2,
-    "even": 3
+    "even": 2,
+    "frail": 2,
+    "sturdy": 0
    },
    "bring": "special",
    "soft_members": {
-    "physical": [
-     "Gyarados"
-    ],
+    "physical": [],
     "special": [
      "Exeggutor",
      "Rhydon"
@@ -1962,16 +1972,16 @@
       "n": 167
      },
      {
+      "species": "Suicune",
+      "beats": 84,
+      "score": 55,
+      "n": 25
+     },
+     {
       "species": "Heatran",
       "beats": 73,
       "score": 52,
       "n": 77
-     },
-     {
-      "species": "Gyarados",
-      "beats": 64,
-      "score": 47,
-      "n": 126
      }
     ]
    },
@@ -2008,10 +2018,10 @@
       "n": 817
      },
      {
-      "species": "Zapdos",
-      "beats": 65,
+      "species": "Rotom-Wash",
+      "beats": 67,
       "score": 54,
-      "n": 263
+      "n": 212
      },
      {
       "species": "Rotom-Heat",
@@ -2024,8 +2034,8 @@
   ],
   "ladder_lines": [
    "Exeggutor: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Explosion, Psychic, Solar Beam, Hidden Power Fire @ Life Orb (Naive 252 HP / 4 SpA / 252 Spe). What beats it: Heatran 77%, Tyranitar 49%, Latias 45%.",
-   "Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.",
-   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%."
+   "Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Suicune 84%, Heatran 73%.",
+   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Rotom-Wash 67%, Rotom-Heat 70%."
   ],
   "text": {
    "career": [

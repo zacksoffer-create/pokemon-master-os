@@ -29,7 +29,7 @@
 - Attack with Flying: Sceptile, Infernape and Heracross are weak to it, and only Pikachu can take it.
 - Also open to Psychic (2 weak).
 - Biggest single openings: Charizard to Rock; Heracross to Flying (four times the damage).
-- Bring a physical attacker: Sceptile, Snorlax and Heracross are physically soft.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Sceptile (physically soft).
 - Don't lead with Grass or Steel: 4 of 6 resist Grass; 3 of 6 resist Steel.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -42,14 +42,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Pikachu** Lv 100 (Static) | even | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
+| **Pikachu** Lv 100 (Static) | frail both ways | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
 | **Charizard** Lv 100 (Blaze) | even | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
 | **Sceptile** Lv 100 (Overgrow) | physically soft | · | · | 2× | 2× | ½ | · | 2× | · | · | 2× | ½ | ½ | ½ | · | 2× | · | · |
-| **Infernape** Lv 100 (Blaze) | even | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
-| **Snorlax** Lv 100 (Immunity) | physically soft | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
-| **Heracross** Lv 100 (Swarm) | physically soft | · | ½ | 4× | · | ½ | · | ½ | · | · | 2× | · | ½ | · | 2× | · | · | ½ |
+| **Infernape** Lv 100 (Blaze) | frail both ways | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
+| **Snorlax** Lv 100 (Immunity) | bulky both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Heracross** Lv 100 (Swarm) | even | · | ½ | 4× | · | ½ | · | ½ | · | · | 2× | · | ½ | · | 2× | · | · | ½ |
 
-**Gaps:** Flying and Psychic · **Strengths:** Grass and Steel · **Bring:** physical attackers (3 physically soft, 0 specially soft)
+**Gaps:** Flying and Psychic · **Strengths:** Grass and Steel · **Bring:** attackers by type (1 physically soft, 0 specially soft, 2 frail, 1 bulky both ways)
 
 **Moves and reasons** (D-048):
 
@@ -71,9 +71,9 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## On the ladder
 
 - Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.
-- Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Dragonite 67%, Metagross 61%, Lucario 69%.
+- Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 82%, Dragonite 67%, Metagross 61%.
 - Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
-- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.
+- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Hariyama 86%, Infernape 68%.
 - Heracross: on 2.0% of gen4ou teams (2026-09, rated 0+), usually Close Combat, Megahorn, Stone Edge, Swords Dance @ Choice Scarf (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Dragonite 69%, Gliscor 70%, Jirachi 63%.
 
 ## Career

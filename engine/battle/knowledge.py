@@ -84,6 +84,8 @@ def from_build(gen, species, build, fill=None, level=100, name="", source=""):
     ivs = build.get("ivs")
     if not ivs:
         assumed.append("IVs 31" if gen >= 3 else "DVs 15")
+    if gen <= 2 and not build.get("evs"):
+        assumed.append("stat experience maxed")      # the calc's own Gen I-II default, and trainers/model.py's
     evs = build.get("evs")
     if gen >= 3 and not evs:
         evs = dict(EVEN_EVS)

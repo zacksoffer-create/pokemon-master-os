@@ -436,6 +436,22 @@
    "say": "Bring a {bring} attacker: {soft_str} {soft_verb} {soft_label}."
   },
   {
+   "id": "bring_lone",
+   "section": "beat",
+   "when": [
+    [
+     "bring",
+     "==",
+     "either"
+    ],
+    [
+     "lone_soft_str",
+     "nonempty"
+    ]
+   ],
+   "say": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: {lone_soft_str}."
+  },
+  {
    "id": "bring_even",
    "section": "beat",
    "when": [
@@ -443,9 +459,13 @@
      "bring",
      "==",
      "either"
+    ],
+    [
+     "lone_soft_str",
+     "empty"
     ]
    ],
-   "say": "Their bulk is even across the team: pick attackers by type, not by side."
+   "say": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side."
   },
   {
    "id": "abilities",

@@ -235,11 +235,13 @@
      "spe": 197
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "even",
+     "label": "even",
      "def": 193,
      "spd": 235,
-     "gap": 0.179
+     "physical_pct": 0.41,
+     "special_pct": 0.66,
+     "gap": 0.24
     },
     "cells": {
      "Normal": {
@@ -264,8 +266,7 @@
      },
      "Rock": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Bug": {
       "verdict": "resists",
@@ -293,8 +294,7 @@
      },
      "Electric": {
       "verdict": "very weak",
-      "multiplier": 4.0,
-      "note": "worse from physical attackers"
+      "multiplier": 4.0
      },
      "Psychic": {
       "verdict": "neutral",
@@ -370,7 +370,9 @@
      "label": "even",
      "def": 225,
      "spd": 235,
-     "gap": 0.043
+     "physical_pct": 0.57,
+     "special_pct": 0.62,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -499,7 +501,9 @@
      "label": "even",
      "def": 225,
      "spd": 235,
-     "gap": 0.043
+     "physical_pct": 0.57,
+     "special_pct": 0.62,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -624,11 +628,13 @@
      "spe": 295
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 165,
      "spd": 185,
-     "gap": 0.108
+     "physical_pct": 0.11,
+     "special_pct": 0.17,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -753,11 +759,13 @@
      "spe": 235
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 191,
      "spd": 205,
-     "gap": 0.068
+     "physical_pct": 0.26,
+     "special_pct": 0.32,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -886,7 +894,9 @@
      "label": "even",
      "def": 225,
      "spd": 235,
-     "gap": 0.043
+     "physical_pct": 0.57,
+     "special_pct": 0.62,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -1268,15 +1278,15 @@
     "Grass"
    ],
    "soft": {
-    "physical": 1,
+    "physical": 0,
     "special": 0,
-    "even": 5
+    "even": 4,
+    "frail": 2,
+    "sturdy": 0
    },
-   "bring": "physical",
+   "bring": "either",
    "soft_members": {
-    "physical": [
-     "Gyarados"
-    ],
+    "physical": [],
     "special": []
    }
   }
@@ -1349,9 +1359,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a physical attacker: Gyarados is physically soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here physical)"
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either); lone_soft_str empty"
    },
    {
     "section": "beat",
@@ -1905,10 +1915,10 @@
       "n": 817
      },
      {
-      "species": "Zapdos",
-      "beats": 65,
+      "species": "Rotom-Wash",
+      "beats": 67,
       "score": 54,
-      "n": 263
+      "n": 212
      },
      {
       "species": "Rotom-Heat",
@@ -1945,6 +1955,12 @@
     },
     "checks": [
      {
+      "species": "Mamoswine",
+      "beats": 93,
+      "score": 71,
+      "n": 22
+     },
+     {
       "species": "Lucario",
       "beats": 65,
       "score": 45,
@@ -1955,12 +1971,6 @@
       "beats": 65,
       "score": 45,
       "n": 96
-     },
-     {
-      "species": "Latias",
-      "beats": 52,
-      "score": 39,
-      "n": 247
      }
     ]
    },
@@ -1991,6 +2001,12 @@
     },
     "checks": [
      {
+      "species": "Mamoswine",
+      "beats": 93,
+      "score": 71,
+      "n": 22
+     },
+     {
       "species": "Lucario",
       "beats": 65,
       "score": 45,
@@ -2001,12 +2017,6 @@
       "beats": 65,
       "score": 45,
       "n": 96
-     },
-     {
-      "species": "Latias",
-      "beats": 52,
-      "score": 39,
-      "n": 247
      }
     ]
    },
@@ -2037,22 +2047,22 @@
     },
     "checks": [
      {
+      "species": "Donphan",
+      "beats": 91,
+      "score": 68,
+      "n": 24
+     },
+     {
       "species": "Metagross",
       "beats": 82,
       "score": 57,
       "n": 40
      },
      {
-      "species": "Jirachi",
-      "beats": 70,
-      "score": 40,
-      "n": 36
-     },
-     {
-      "species": "Tyranitar",
-      "beats": 60,
-      "score": 26,
-      "n": 34
+      "species": "Swampert",
+      "beats": 85,
+      "score": 55,
+      "n": 21
      }
     ]
    },
@@ -2129,6 +2139,12 @@
     },
     "checks": [
      {
+      "species": "Mamoswine",
+      "beats": 93,
+      "score": 71,
+      "n": 22
+     },
+     {
       "species": "Lucario",
       "beats": 65,
       "score": 45,
@@ -2139,23 +2155,17 @@
       "beats": 65,
       "score": 45,
       "n": 96
-     },
-     {
-      "species": "Latias",
-      "beats": 52,
-      "score": 39,
-      "n": 247
      }
     ]
    }
   ],
   "ladder_lines": [
-   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%.",
-   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.",
-   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.",
-   "Aerodactyl: on 2.5% of gen4ou teams (2026-09, rated 1630+), usually Taunt, Earthquake, Stealth Rock, Stone Edge @ Focus Sash (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Metagross 82%, Jirachi 70%, Tyranitar 60%.",
+   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Rotom-Wash 67%, Rotom-Heat 70%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.",
+   "Aerodactyl: on 2.5% of gen4ou teams (2026-09, rated 1630+), usually Taunt, Earthquake, Stealth Rock, Stone Edge @ Focus Sash (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Donphan 91%, Metagross 82%, Swampert 85%.",
    "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.",
-   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%."
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%."
   ],
   "text": {
    "career": [

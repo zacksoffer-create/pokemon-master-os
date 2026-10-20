@@ -133,7 +133,7 @@ class RoleBook:
     @lru_cache(maxsize=None)
     def pool(self, gen, level):
         d = self.store.config["defaults"]
-        evs = {s: d["even_evs_each"] if d["evs"] == "even" else 0 for s in STATS}
+        evs = self.store.default_evs(gen)
         ivs = {s: d["ivs"] for s in STATS}
         cols = {k: [] for k in (*STATS, "best_attack", "bulk_physical", "bulk_special", "bulk_both", "typing")}
         for sp in self.era.fully_evolved(gen):
@@ -184,7 +184,7 @@ class RoleBook:
             stats[s] = int(stats[s] * x)
         rule = mult["items"].get(item or "")
         if rule and build.species in rule["species"]:
-            for s, x in rule["stats"].items():
+            for s, x in rule.get("by_gen", {}).get(str(gen), rule["stats"]).items():
                 stats[s] = int(stats[s] * x)
         types = self.era.types(build.species, gen)
         moves = []

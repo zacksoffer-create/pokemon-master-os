@@ -23,7 +23,7 @@
 ## How to beat them
 
 - Attack with Fighting: Mamoswine, Buneary and Ambipom are weak to it, and nobody on the team resists it.
-- Their bulk is even across the team: pick attackers by type, not by side.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Pachirisu (physically soft).
 - Don't lead with Ghost: 3 of 6 resist Ghost.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -36,14 +36,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Piplup** Lv 100 (Torrent) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
-| **Togekiss** Lv 100 (Hustle) | even | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
-| **Mamoswine** Lv 100 (Oblivious) | specially soft | · | 2× | · | ½ | · | · | · | · | 2× | 2× | 2× | 2× | 0 | · | · | · | · |
+| **Piplup** Lv 100 (Torrent) | frail both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Togekiss** Lv 100 (Hustle) | bulky both ways | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
+| **Mamoswine** Lv 100 (Oblivious) | even | · | 2× | · | ½ | · | · | · | · | 2× | 2× | 2× | 2× | 0 | · | · | · | · |
 | **Pachirisu** Lv 100 (Run Away) | physically soft | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
-| **Buneary** Lv 100 (Run Away) | even | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
-| **Ambipom** Lv 100 (Technician) | even | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Buneary** Lv 100 (Run Away) | frail both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Ambipom** Lv 100 (Technician) | frail both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
 
-**Gaps:** Fighting · **Strengths:** Ghost · **Bring:** either attackers (1 physically soft, 1 specially soft)
+**Gaps:** Fighting · **Strengths:** Ghost · **Bring:** attackers by type (1 physically soft, 0 specially soft, 3 frail, 1 bulky both ways)
 
 # Playsheet
 
@@ -58,7 +58,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.
+- Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%, Jirachi 48%.
 - Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.
 - Ambipom: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Fake Out, U-turn, Low Kick, Taunt @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 82%, Aerodactyl 79%, Skarmory 77%.
 

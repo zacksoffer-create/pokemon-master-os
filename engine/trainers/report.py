@@ -127,6 +127,8 @@ def context(store, version, team, matrix, sliders, tag_list, clashes):
                    soft_label=cfg["bulk"]["labels"][s["bring"]])
     else:
         ctx["bring"] = "either"
+        ctx["lone_soft_str"] = join([f"{m} ({cfg['bulk']['labels'][k]})" for k in ("physical", "special")
+                                     for m in s["soft_members"][k]])
     abil = []
     for r in rows:
         changed = [t for t, c in r["cells"].items() if c.get("ability")]
@@ -273,7 +275,9 @@ def render(rep):
         out.append(f"| **{r['species']}** Lv {r['level']} ({r['ability']}) | {r['bulk']['label']} | " + " | ".join(cells) + " |")
     s = m["summary"]
     out += ["", f"**Gaps:** {join(s['gaps']) or 'none'} · **Strengths:** {join(s['strengths']) or 'none'} · "
-                f"**Bring:** {s['bring']} attackers ({s['soft']['physical']} physically soft, {s['soft']['special']} specially soft)", ""]
+                f"**Bring:** {s['bring'] + ' attackers' if s['bring'] != 'either' else 'attackers by type'} "
+                f"({s['soft']['physical']} physically soft, {s['soft']['special']} specially soft, {s['soft']['frail']} frail, "
+                f"{s['soft']['sturdy']} bulky both ways)", ""]
     flagged = [(r["species"], f) for r in m["rows"] for f in r["flags"]]
     reasons = [(r["species"], b) for r in m["rows"] for b in r["move_basis"] if b["basis"] != "this game"]
     if reasons or flagged:

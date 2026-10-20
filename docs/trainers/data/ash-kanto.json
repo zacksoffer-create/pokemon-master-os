@@ -204,11 +204,13 @@
      "spe": 237
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 117,
      "spd": 137,
-     "gap": 0.146
+     "physical_pct": 0.0,
+     "special_pct": 0.0,
+     "gap": 0.0
     },
     "cells": {
      "Normal": {
@@ -339,7 +341,9 @@
      "label": "even",
      "def": 213,
      "spd": 227,
-     "gap": 0.062
+     "physical_pct": 0.47,
+     "special_pct": 0.58,
+     "gap": 0.11
     },
     "cells": {
      "Normal": {
@@ -466,11 +470,13 @@
      "spe": 147
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 155,
      "spd": 187,
-     "gap": 0.171
+     "physical_pct": 0.02,
+     "special_pct": 0.06,
+     "gap": 0.04
     },
     "cells": {
      "Normal": {
@@ -483,8 +489,7 @@
      },
      "Flying": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Poison": {
       "verdict": "neutral",
@@ -512,8 +517,7 @@
      },
      "Fire": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Water": {
       "verdict": "resists",
@@ -529,13 +533,11 @@
      },
      "Psychic": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Ice": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Dragon": {
       "verdict": "neutral",
@@ -600,11 +602,13 @@
      "spe": 143
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 187,
      "spd": 185,
-     "gap": 0.011
+     "physical_pct": 0.08,
+     "special_pct": 0.06,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -731,11 +735,13 @@
      "spe": 199
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 167,
      "spd": 157,
-     "gap": 0.06
+     "physical_pct": 0.09,
+     "special_pct": 0.05,
+     "gap": 0.04
     },
     "cells": {
      "Normal": {
@@ -866,7 +872,9 @@
      "label": "specially soft",
      "def": 287,
      "spd": 157,
-     "gap": 0.453
+     "physical_pct": 0.67,
+     "special_pct": 0.03,
+     "gap": 0.64
     },
     "cells": {
      "Normal": {
@@ -1236,15 +1244,15 @@
     "Steel"
    ],
    "soft": {
-    "physical": 1,
+    "physical": 0,
     "special": 1,
-    "even": 4
+    "even": 1,
+    "frail": 4,
+    "sturdy": 0
    },
    "bring": "either",
    "soft_members": {
-    "physical": [
-     "Bulbasaur"
-    ],
+    "physical": [],
     "special": [
      "Kingler"
     ]
@@ -1313,9 +1321,9 @@
    },
    {
     "section": "beat",
-    "text": "Their bulk is even across the team: pick attackers by type, not by side.",
-    "rule": "bring_even",
-    "trigger": "bring == either (here either)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Kingler (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",

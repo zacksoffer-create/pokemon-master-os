@@ -175,11 +175,13 @@
      "spe": 273
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 199,
      "spd": 199,
-     "gap": 0.0
+     "physical_pct": 0.4,
+     "special_pct": 0.36,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -310,7 +312,9 @@
      "label": "physically soft",
      "def": 187,
      "spd": 227,
-     "gap": 0.176
+     "physical_pct": 0.25,
+     "special_pct": 0.48,
+     "gap": 0.23
     },
     "cells": {
      "Normal": {
@@ -445,7 +449,9 @@
      "label": "physically soft",
      "def": 167,
      "spd": 267,
-     "gap": 0.375
+     "physical_pct": 0.09,
+     "special_pct": 0.62,
+     "gap": 0.53
     },
     "cells": {
      "Normal": {
@@ -576,11 +582,13 @@
      "spe": 237
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 197,
      "spd": 197,
-     "gap": 0.0
+     "physical_pct": 0.32,
+     "special_pct": 0.28,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -708,11 +716,13 @@
      "spe": 261
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 247,
      "spd": 227,
-     "gap": 0.081
+     "physical_pct": 0.86,
+     "special_pct": 0.8,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -839,11 +849,13 @@
      "spe": 177
     },
     "bulk": {
-     "lean": "special",
-     "label": "specially soft",
+     "lean": "even",
+     "label": "even",
      "def": 287,
      "spd": 237,
-     "gap": 0.174
+     "physical_pct": 0.79,
+     "special_pct": 0.55,
+     "gap": 0.24
     },
     "cells": {
      "Normal": {
@@ -852,8 +864,7 @@
      },
      "Fighting": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Flying": {
       "verdict": "resists",
@@ -865,8 +876,7 @@
      },
      "Ground": {
       "verdict": "very weak",
-      "multiplier": 4.0,
-      "note": "worse from special attackers"
+      "multiplier": 4.0
      },
      "Rock": {
       "verdict": "resists",
@@ -886,8 +896,7 @@
      },
      "Fire": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Water": {
       "verdict": "neutral",
@@ -1248,8 +1257,10 @@
    ],
    "soft": {
     "physical": 2,
-    "special": 1,
-    "even": 3
+    "special": 0,
+    "even": 1,
+    "frail": 2,
+    "sturdy": 1
    },
    "bring": "physical",
    "soft_members": {
@@ -1257,9 +1268,7 @@
      "Weavile",
      "Roserade"
     ],
-    "special": [
-     "Magnezone"
-    ]
+    "special": []
    }
   }
  },
@@ -1875,47 +1884,47 @@
    },
    {
     "species": "Weavile",
-    "usage": 4.2,
+    "usage": 1.8,
     "format": "gen4ou",
     "month": "2026-09",
-    "cutoff": 0,
+    "cutoff": 1630,
     "moves": [
      "Ice Shard",
-     "Night Slash",
      "Low Kick",
-     "Ice Punch"
+     "Night Slash",
+     "Pursuit"
     ],
-    "item": "Life Orb",
+    "item": "Lum Berry",
     "spread": {
      "nature": "Jolly",
      "evs": {
-      "hp": 4,
+      "hp": 0,
       "atk": 252,
       "def": 0,
       "spa": 0,
-      "spd": 0,
+      "spd": 4,
       "spe": 252
      },
-     "share": 56.7
+     "share": 47.9
     },
     "checks": [
      {
-      "species": "Metagross",
-      "beats": 79,
-      "score": 71,
-      "n": 380
+      "species": "Scizor",
+      "beats": 74,
+      "score": 39,
+      "n": 25
      },
      {
-      "species": "Bronzong",
-      "beats": 81,
-      "score": 70,
-      "n": 178
+      "species": "Jirachi",
+      "beats": 69,
+      "score": 29,
+      "n": 21
      },
      {
-      "species": "Skarmory",
-      "beats": 76,
-      "score": 66,
-      "n": 307
+      "species": "Latias",
+      "beats": 27,
+      "score": -8,
+      "n": 27
      }
     ]
    },
@@ -1946,6 +1955,12 @@
     },
     "checks": [
      {
+      "species": "Clefable",
+      "beats": 89,
+      "score": 64,
+      "n": 23
+     },
+     {
       "species": "Metagross",
       "beats": 85,
       "score": 62,
@@ -1956,12 +1971,6 @@
       "beats": 80,
       "score": 62,
       "n": 71
-     },
-     {
-      "species": "Infernape",
-      "beats": 79,
-      "score": 50,
-      "n": 30
      }
     ]
    },
@@ -2004,10 +2013,10 @@
       "n": 70
      },
      {
-      "species": "Gyarados",
-      "beats": 54,
+      "species": "Jirachi",
+      "beats": 53,
       "score": 41,
-      "n": 211
+      "n": 267
      }
     ]
    },
@@ -2060,9 +2069,9 @@
   ],
   "ladder_lines": [
    "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
-   "Weavile: on 4.2% of gen4ou teams (2026-09, rated 0+), usually Ice Shard, Night Slash, Low Kick, Ice Punch @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 79%, Bronzong 81%, Skarmory 76%.",
-   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.",
-   "Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.",
+   "Weavile: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Shard, Low Kick, Night Slash, Pursuit @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Scizor 74%, Jirachi 69%, Latias 27%.",
+   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Clefable 89%, Metagross 85%, Jirachi 80%.",
+   "Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Jirachi 53%.",
    "Magnezone: on 10.1% of gen4ou teams (2026-09, rated 1630+), usually Thunderbolt, Hidden Power Fire, Thunder Wave, Explosion @ Choice Scarf (Timid 4 Atk / 252 SpA / 252 Spe). What beats it: Heatran 78%, Hippowdon 86%, Tyranitar 67%."
   ],
   "text": {

@@ -223,7 +223,9 @@
      "label": "specially soft",
      "def": 259,
      "spd": 119,
-     "gap": 0.541
+     "physical_pct": 0.41,
+     "special_pct": 0.0,
+     "gap": 0.4
     },
     "cells": {
      "Normal": {
@@ -358,7 +360,9 @@
      "label": "specially soft",
      "def": 219,
      "spd": 89,
-     "gap": 0.594
+     "physical_pct": 0.42,
+     "special_pct": 0.0,
+     "gap": 0.42
     },
     "cells": {
      "Normal": {
@@ -493,7 +497,9 @@
      "label": "specially soft",
      "def": 279,
      "spd": 169,
-     "gap": 0.394
+     "physical_pct": 0.64,
+     "special_pct": 0.06,
+     "gap": 0.58
     },
     "cells": {
      "Normal": {
@@ -626,7 +632,9 @@
      "label": "specially soft",
      "def": 349,
      "spd": 119,
-     "gap": 0.659
+     "physical_pct": 0.54,
+     "special_pct": 0.0,
+     "gap": 0.54
     },
     "cells": {
      "Normal": {
@@ -761,7 +769,9 @@
      "label": "specially soft",
      "def": 239,
      "spd": 169,
-     "gap": 0.293
+     "physical_pct": 0.36,
+     "special_pct": 0.03,
+     "gap": 0.33
     },
     "cells": {
      "Normal": {
@@ -1148,7 +1158,9 @@
    "soft": {
     "physical": 0,
     "special": 5,
-    "even": 0
+    "even": 0,
+    "frail": 0,
+    "sturdy": 0
    },
    "bring": "special",
    "soft_members": {
@@ -1765,63 +1777,57 @@
       "n": 42
      },
      {
-      "species": "Gyarados",
-      "beats": 62,
-      "score": 30,
-      "n": 39
+      "species": "Infernape",
+      "beats": 68,
+      "score": 33,
+      "n": 28
      }
     ]
    },
    {
     "species": "Kabutops",
-    "usage": 2.8,
+    "usage": 1.1,
     "format": "gen4ou",
     "month": "2026-09",
-    "cutoff": 0,
+    "cutoff": 1630,
     "moves": [
      "Waterfall",
+     "Stone Edge",
      "Aqua Jet",
-     "Swords Dance",
-     "Stone Edge"
+     "Swords Dance"
     ],
     "item": "Life Orb",
     "spread": {
      "nature": "Adamant",
      "evs": {
-      "hp": 4,
+      "hp": 0,
       "atk": 252,
       "def": 0,
       "spa": 0,
-      "spd": 0,
+      "spd": 4,
       "spe": 252
      },
-     "share": 22.6
+     "share": 40.0
     },
     "checks": [
      {
-      "species": "Breloom",
-      "beats": 85,
-      "score": 68,
-      "n": 67
+      "species": "Latias",
+      "beats": 49,
+      "score": 7,
+      "n": 23
      },
      {
-      "species": "Kingdra",
-      "beats": 68,
-      "score": 49,
-      "n": 94
-     },
-     {
-      "species": "Suicune",
-      "beats": 66,
-      "score": 47,
-      "n": 100
+      "species": "Tyranitar",
+      "beats": 18,
+      "score": -14,
+      "n": 23
      }
     ]
    }
   ],
   "ladder_lines": [
-   "Omastar: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Ice Beam, Surf, Stealth Rock, Spikes @ Leftovers (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Starmie 85%, Latias 64%, Gyarados 62%.",
-   "Kabutops: on 2.8% of gen4ou teams (2026-09, rated 0+), usually Waterfall, Aqua Jet, Swords Dance, Stone Edge @ Life Orb (Adamant 4 HP / 252 Atk / 252 Spe). What beats it: Breloom 85%, Kingdra 68%, Suicune 66%."
+   "Omastar: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Ice Beam, Surf, Stealth Rock, Spikes @ Leftovers (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Starmie 85%, Latias 64%, Infernape 68%.",
+   "Kabutops: on 1.1% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Stone Edge, Aqua Jet, Swords Dance @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 49%, Tyranitar 18%."
   ],
   "text": {
    "career": [],

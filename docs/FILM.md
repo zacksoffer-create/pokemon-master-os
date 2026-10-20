@@ -12,14 +12,14 @@
 - **its build as revealed:**
   - moves in the order it first showed them, and how often it chose each;
   - the item it started with. A Trick reveals both starting items in the same action; a Knock Off, a berry or Leftovers reveals an item when it shows. The item it ends up holding is kept apart from the one it started with;
-  - its ability, whenever a `[from] ability:` tag names it.
+  - its ability, whenever a `[from] ability:` tag names it. On a heal or an immunity (Volt Absorb, Water Absorb) the ability is the healed Pokémon's, and the `[of]` Pokémon is the attacker it absorbed; on a hit or a status (Rough Skin, Static) it's the `[of]` Pokémon's (E-039).
 - **its stints:**
   - how it came in: lead, chosen switch, forced after a faint, pivot (U-turn), Baton Pass, or dragged (Roar);
   - the moves it used, in order;
   - how it left.
 - **its record:**
   - knockouts, damage dealt and taken, and the turn it fell;
-  - what it fell to. An Explosion is a self-KO, and the knockout it scores is credited to the exploder. A hazard knockout goes to whoever set the hazard; a Destiny Bond knockout to its user.
+  - what it fell to. An Explosion is a self-KO, and the knockout it scores is credited to the exploder; so is a Ghost's Curse that costs its user the last of its HP. A hazard knockout goes to whoever set the hazard; a Destiny Bond knockout to its user; a Perish Song knockout to the singer, when it's the other side's Pokémon that perishes.
 
 **Every chosen action is a row.** A move, or a switch the player picked, is recorded with the state just before it:
 - Pokémon and HP left on each side;
@@ -30,6 +30,8 @@
 **Game state** is read from the side about to act:
 - ahead or behind by Pokémon left, first;
 - when the count is level, a lead of a full Pokémon's worth of HP (unseen members counted healthy) decides it (`film/config.json` state).
+
+**A loss on the timer** ("lost due to inactivity") counts as a forfeit, and is marked as timed out.
 
 **Chat is never stored.**
 
@@ -122,6 +124,10 @@ python3 -I engine/film_room.py book --format gen4ou Tyranitar Latias
 ```
 
 It's reference data: a set reaches the build library only through a card you approve.
+
+## Checked on every replay
+
+`engine/sanity.py film` runs the protocol's own rules over every cached battle: the faints add up, each knockout is on a Pokémon the other side lost, one lead a side, no more than four moves of its own, abilities the species can have, items that exist in the generation, and a win is a wipe or a forfeit (docs/SANITY.md).
 
 ## Limits
 

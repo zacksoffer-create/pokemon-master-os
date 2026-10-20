@@ -25,7 +25,7 @@
 
 - Attack with Fire: Torterra, Ninjask and Froslass are weak to it, and only Gastrodon can take it.
 - Biggest single openings: Torterra to Ice; Ninjask to Rock; Gastrodon to Grass (four times the damage).
-- Their bulk is even across the team: pick attackers by type, not by side.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Drapion (specially soft).
 - Watch the abilities: Electivire's Motor Drive changes Electric (from resists to immune).
 - Don't lead with Poison: 3 of 6 resist Poison.
 
@@ -40,14 +40,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Electivire** Lv 100 (Motor Drive) | physically soft | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | 0* | · | · | · | · |
-| **Torterra** Lv 100 (Overgrow) | even | · | · | 2× | · | ½ | ½ | 2× | · | · | 2× | · | · | 0 | · | 4× | · | · |
-| **Ninjask** Lv 100 (Speed Boost) | even | · | ½ | 2× | · | 0 | 4× | ½ | · | · | 2× | · | ½ | 2× | · | 2× | · | · |
-| **Froslass** Lv 100 (Snow Cloak) | even | 0 | 0 | · | ½ | · | 2× | ½ | 2× | 2× | 2× | · | · | · | · | ½ | · | 2× |
+| **Electivire** Lv 100 (Motor Drive) | even | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | 0* | · | · | · | · |
+| **Torterra** Lv 100 (Overgrow) | bulky both ways | · | · | 2× | · | ½ | ½ | 2× | · | · | 2× | · | · | 0 | · | 4× | · | · |
+| **Ninjask** Lv 100 (Speed Boost) | frail both ways | · | ½ | 2× | · | 0 | 4× | ½ | · | · | 2× | · | ½ | 2× | · | 2× | · | · |
+| **Froslass** Lv 100 (Snow Cloak) | frail both ways | 0 | 0 | · | ½ | · | 2× | ½ | 2× | 2× | 2× | · | · | · | · | ½ | · | 2× |
 | **Drapion** Lv 100 (Battle Armor) | specially soft | · | · | · | ½ | 2× | · | · | ½ | · | · | · | ½ | · | 0 | · | · | ½ |
 | **Gastrodon** Lv 100 (Sticky Hold) | even | · | · | · | ½ | · | ½ | · | · | ½ | ½ | · | 4× | 0 | · | · | · | · |
 
-**Gaps:** Fire · **Strengths:** Poison · **Bring:** either attackers (1 physically soft, 1 specially soft)
+**Gaps:** Fire · **Strengths:** Poison · **Bring:** attackers by type (0 physically soft, 1 specially soft, 2 frail, 1 bulky both ways)
 
 # Playsheet
 
@@ -67,10 +67,10 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Electivire: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Punch, Thunder Punch, Earthquake, Taunt @ Expert Belt (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 53%.
-- Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.
-- Drapion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Toxic Spikes, Crunch, Swords Dance @ Black Sludge (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Latias 67%, Gyarados 64%.
-- Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Celebi 72%.
+- Electivire: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Punch, Thunder Punch, Earthquake, Taunt @ Expert Belt (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 53%, Rotom-Wash 49%, Jirachi 40%.
+- Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Dragonite 93%, Latias 71%.
+- Drapion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Toxic Spikes, Crunch, Swords Dance @ Black Sludge (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Donphan 86%, Metagross 79%, Latias 67%.
+- Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Roserade 83%.
 
 ## Career
 

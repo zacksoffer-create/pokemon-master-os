@@ -29,7 +29,7 @@
 - Attack with Grass: Golduck, Quagsire, Lapras and Starmie are weak to it, and nobody on the team resists it.
 - Also open to Electric (3 weak).
 - Biggest single openings: Quagsire to Grass (four times the damage).
-- Bring a special attacker: Quagsire is specially soft.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Quagsire (specially soft).
 - Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).
 - Don't lead with Water, Steel or Fire: 3 of 4 resist Water; 3 of 4 resist Steel; 3 of 4 resist Fire.
 
@@ -39,12 +39,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Golduck** Lv 100 (Damp) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Golduck** Lv 100 (Damp) | frail both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 | **Quagsire** Lv 100 (Damp) | specially soft | · | · | · | ½ | · | ½ | · | · | ½ | ½ | · | 4× | 0 | · | · | · | · |
-| **Lapras** Lv 100 (Water Absorb) | even | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
-| **Starmie** Lv 100 (Illuminate) | even | · | ½ | · | · | · | · | 2× | 2× | ½ | ½ | ½ | 2× | 2× | ½ | ½ | · | 2× |
+| **Lapras** Lv 100 (Water Absorb) | bulky both ways | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
+| **Starmie** Lv 100 (Illuminate) | frail both ways | · | ½ | · | · | · | · | 2× | 2× | ½ | ½ | ½ | 2× | 2× | ½ | ½ | · | 2× |
 
-**Gaps:** Grass and Electric · **Strengths:** Water, Steel, Fire and Ice · **Bring:** special attackers (0 physically soft, 1 specially soft)
+**Gaps:** Grass and Electric · **Strengths:** Water, Steel, Fire and Ice · **Bring:** attackers by type (0 physically soft, 1 specially soft, 2 frail, 1 bulky both ways)
 
 # Playsheet
 

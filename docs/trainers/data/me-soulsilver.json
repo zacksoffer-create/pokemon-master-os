@@ -170,11 +170,13 @@
      "spe": 237
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 117,
      "spd": 137,
-     "gap": 0.146
+     "physical_pct": 0.0,
+     "special_pct": 0.0,
+     "gap": 0.0
     },
     "cells": {
      "Normal": {
@@ -301,11 +303,13 @@
      "spe": 217
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 247,
      "spd": 257,
-     "gap": 0.039
+     "physical_pct": 0.76,
+     "special_pct": 0.82,
+     "gap": 0.06
     },
     "cells": {
      "Normal": {
@@ -432,11 +436,13 @@
      "spe": 273
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 199,
      "spd": 199,
-     "gap": 0.0
+     "physical_pct": 0.4,
+     "special_pct": 0.36,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -563,11 +569,13 @@
      "spe": 177
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 233,
      "spd": 259,
-     "gap": 0.1
+     "physical_pct": 0.64,
+     "special_pct": 0.77,
+     "gap": 0.13
     },
     "cells": {
      "Normal": {
@@ -694,11 +702,13 @@
      "spe": 277
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 177,
      "spd": 207,
-     "gap": 0.145
+     "physical_pct": 0.12,
+     "special_pct": 0.26,
+     "gap": 0.15
     },
     "cells": {
      "Normal": {
@@ -827,11 +837,13 @@
      "spe": 187
     },
     "bulk": {
-     "lean": "special",
-     "label": "specially soft",
+     "lean": "even",
+     "label": "even",
      "def": 257,
      "spd": 217,
-     "gap": 0.156
+     "physical_pct": 0.66,
+     "special_pct": 0.42,
+     "gap": 0.24
     },
     "cells": {
      "Normal": {
@@ -872,8 +884,7 @@
      },
      "Fire": {
       "verdict": "very weak",
-      "multiplier": 4.0,
-      "note": "worse from special attackers"
+      "multiplier": 4.0
      },
      "Water": {
       "verdict": "neutral",
@@ -1231,15 +1242,15 @@
    ],
    "soft": {
     "physical": 0,
-    "special": 1,
-    "even": 5
+    "special": 0,
+    "even": 1,
+    "frail": 3,
+    "sturdy": 2
    },
-   "bring": "special",
+   "bring": "either",
    "soft_members": {
     "physical": [],
-    "special": [
-     "Scizor"
-    ]
+    "special": []
    }
   }
  },
@@ -1299,9 +1310,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a special attacker: Scizor is specially soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here special)"
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either); lone_soft_str empty"
    },
    {
     "section": "beat",
@@ -1822,6 +1833,12 @@
     },
     "checks": [
      {
+      "species": "Mamoswine",
+      "beats": 93,
+      "score": 71,
+      "n": 22
+     },
+     {
       "species": "Lucario",
       "beats": 65,
       "score": 45,
@@ -1832,12 +1849,6 @@
       "beats": 65,
       "score": 45,
       "n": 96
-     },
-     {
-      "species": "Latias",
-      "beats": 52,
-      "score": 39,
-      "n": 247
      }
     ]
    },
@@ -1926,10 +1937,10 @@
       "n": 128
      },
      {
-      "species": "Clefable",
-      "beats": 76,
-      "score": 60,
-      "n": 104
+      "species": "Mamoswine",
+      "beats": 87,
+      "score": 62,
+      "n": 27
      }
     ]
    },
@@ -1972,10 +1983,10 @@
       "n": 220
      },
      {
-      "species": "Tyranitar",
-      "beats": 50,
+      "species": "Metagross",
+      "beats": 57,
       "score": 38,
-      "n": 269
+      "n": 112
      }
     ]
    },
@@ -2027,10 +2038,10 @@
    }
   ],
   "ladder_lines": [
-   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.",
    "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
-   "Empoleon: on 17.1% of gen4ou teams (2026-09, rated 1630+), usually Ice Beam, Surf, Grass Knot, Stealth Rock @ Leftovers (Modest 252 SpA / 4 SpD / 252 Spe). What beats it: Abomasnow 86%, Lucario 79%, Clefable 76%.",
-   "Gengar: on 12.4% of gen4ou teams (2026-09, rated 1630+), usually Shadow Ball, Focus Blast, Will-O-Wisp, Substitute @ Life Orb (Timid 4 Def / 252 SpA / 252 Spe). What beats it: Scizor 78%, Jirachi 61%, Tyranitar 50%.",
+   "Empoleon: on 17.1% of gen4ou teams (2026-09, rated 1630+), usually Ice Beam, Surf, Grass Knot, Stealth Rock @ Leftovers (Modest 252 SpA / 4 SpD / 252 Spe). What beats it: Abomasnow 86%, Lucario 79%, Mamoswine 87%.",
+   "Gengar: on 12.4% of gen4ou teams (2026-09, rated 1630+), usually Shadow Ball, Focus Blast, Will-O-Wisp, Substitute @ Life Orb (Timid 4 Def / 252 SpA / 252 Spe). What beats it: Scizor 78%, Jirachi 61%, Metagross 57%.",
    "Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%."
   ],
   "text": {

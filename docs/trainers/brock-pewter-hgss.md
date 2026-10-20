@@ -50,7 +50,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | **Onix** Lv 100 (Rock Head) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
 | **Kabutops** Lv 100 (Swift Swim) | specially soft | ½ | 2× | ½ | ½ | 2× | · | · | · | · | ½ | · | 4× | 2× | · | ½ | · | · |
 
-**Gaps:** Grass, Fighting, Ground, Water, Steel and Ice · **Strengths:** Normal, Flying, Poison, Fire and Rock · **Bring:** special attackers (0 physically soft, 5 specially soft)
+**Gaps:** Grass, Fighting, Ground, Water, Steel and Ice · **Strengths:** Normal, Flying, Poison, Fire and Rock · **Bring:** special attackers (0 physically soft, 5 specially soft, 0 frail, 0 bulky both ways)
 
 # Playsheet
 
@@ -64,8 +64,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Omastar: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Ice Beam, Surf, Stealth Rock, Spikes @ Leftovers (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Starmie 85%, Latias 64%, Gyarados 62%.
-- Kabutops: on 2.8% of gen4ou teams (2026-09, rated 0+), usually Waterfall, Aqua Jet, Swords Dance, Stone Edge @ Life Orb (Adamant 4 HP / 252 Atk / 252 Spe). What beats it: Breloom 85%, Kingdra 68%, Suicune 66%.
+- Omastar: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Ice Beam, Surf, Stealth Rock, Spikes @ Leftovers (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Starmie 85%, Latias 64%, Infernape 68%.
+- Kabutops: on 1.1% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Stone Edge, Aqua Jet, Swords Dance @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 49%, Tyranitar 18%.
 
 ## The ace
 

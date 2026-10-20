@@ -176,11 +176,13 @@
      "spe": 213
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 257,
      "spd": 267,
-     "gap": 0.037
+     "physical_pct": 0.73,
+     "special_pct": 0.77,
+     "gap": 0.04
     },
     "cells": {
      "Normal": {
@@ -310,7 +312,9 @@
      "label": "even",
      "def": 217,
      "spd": 217,
-     "gap": 0.0
+     "physical_pct": 0.6,
+     "special_pct": 0.61,
+     "gap": 0.01
     },
     "cells": {
      "Normal": {
@@ -438,11 +442,13 @@
      "spe": 209
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 231,
      "spd": 227,
-     "gap": 0.017
+     "physical_pct": 0.69,
+     "special_pct": 0.66,
+     "gap": 0.02
     },
     "cells": {
      "Normal": {
@@ -573,7 +579,9 @@
      "label": "physically soft",
      "def": 171,
      "spd": 227,
-     "gap": 0.247
+     "physical_pct": 0.12,
+     "special_pct": 0.43,
+     "gap": 0.31
     },
     "cells": {
      "Normal": {
@@ -695,7 +703,9 @@
      "label": "specially soft",
      "def": 317,
      "spd": 187,
-     "gap": 0.41
+     "physical_pct": 0.92,
+     "special_pct": 0.29,
+     "gap": 0.62
     },
     "cells": {
      "Normal": {
@@ -817,11 +827,13 @@
      "spe": 187
     },
     "bulk": {
-     "lean": "special",
-     "label": "specially soft",
+     "lean": "even",
+     "label": "even",
      "def": 257,
      "spd": 217,
-     "gap": 0.156
+     "physical_pct": 0.66,
+     "special_pct": 0.42,
+     "gap": 0.24
     },
     "cells": {
      "Normal": {
@@ -862,8 +874,7 @@
      },
      "Fire": {
       "verdict": "very weak",
-      "multiplier": 4.0,
-      "note": "worse from special attackers"
+      "multiplier": 4.0
      },
      "Water": {
       "verdict": "neutral",
@@ -1212,17 +1223,18 @@
    ],
    "soft": {
     "physical": 1,
-    "special": 2,
-    "even": 3
+    "special": 1,
+    "even": 2,
+    "frail": 0,
+    "sturdy": 2
    },
-   "bring": "special",
+   "bring": "either",
    "soft_members": {
     "physical": [
      "Magmar"
     ],
     "special": [
-     "Golem",
-     "Scizor"
+     "Golem"
     ]
    }
   }
@@ -1277,9 +1289,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a special attacker: Golem and Scizor are specially soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here special)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Magmar (physically soft) and Golem (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",
@@ -1899,16 +1911,16 @@
       "n": 167
      },
      {
+      "species": "Suicune",
+      "beats": 84,
+      "score": 55,
+      "n": 25
+     },
+     {
       "species": "Heatran",
       "beats": 73,
       "score": 52,
       "n": 77
-     },
-     {
-      "species": "Gyarados",
-      "beats": 64,
-      "score": 47,
-      "n": 126
      }
     ]
    },
@@ -2007,7 +2019,7 @@
   ],
   "ladder_lines": [
    "Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%.",
-   "Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.",
+   "Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Suicune 84%, Heatran 73%.",
    "Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%.",
    "Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%."
   ],

@@ -30,7 +30,7 @@
 - Attack with Electric: Lapras, Charizard and Blastoise are weak to it, and only Pikachu and Venusaur can take it.
 - Also open to Rock (2 weak).
 - Biggest single openings: Charizard to Rock (four times the damage).
-- Bring a physical attacker: Pikachu and Snorlax are physically soft.
+- No side of their bulk stands out as soft across the team: pick attackers by type, not by side.
 - Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).
 - Don't lead with Steel: 3 of 6 resist Steel.
 
@@ -44,14 +44,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Pikachu** Lv 100 (Static) | physically soft | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
-| **Lapras** Lv 100 (Water Absorb) | even | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
-| **Snorlax** Lv 100 (Immunity) | physically soft | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Pikachu** Lv 100 (Static) | frail both ways | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
+| **Lapras** Lv 100 (Water Absorb) | bulky both ways | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
+| **Snorlax** Lv 100 (Immunity) | bulky both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
 | **Venusaur** Lv 100 (Overgrow) | even | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
-| **Charizard** Lv 100 (Blaze) | even | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
+| **Charizard** Lv 100 (Blaze) | frail both ways | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
 | **Blastoise** Lv 100 (Torrent) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 
-**Gaps:** Electric and Rock · **Strengths:** Steel · **Bring:** physical attackers (2 physically soft, 0 specially soft)
+**Gaps:** Electric and Rock · **Strengths:** Steel · **Bring:** attackers by type (0 physically soft, 0 specially soft, 2 frail, 2 bulky both ways)
 
 # Playsheet
 
@@ -67,8 +67,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## On the ladder
 
 - Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.
-- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.
-- Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Zapdos 55%, Jirachi 50%, Starmie 16%.
+- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Hariyama 86%, Infernape 68%.
+- Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Infernape 81%, Skarmory 73%, Heatran 69%.
 - Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.
 - Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%.
 

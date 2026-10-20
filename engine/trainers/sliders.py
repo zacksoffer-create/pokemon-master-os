@@ -27,7 +27,7 @@ POLES = {"offense": ("defensive", "offensive"), "rigidity": ("flexible", "rigid"
 def speed_line(store, gen, level):
     """The median Speed of every fully evolved Pokémon of the generation, at this level, with the default spread."""
     d = store.config["defaults"]
-    evs = {s: d["even_evs_each"] if d["evs"] == "even" else 0 for s in STATS}
+    evs = store.default_evs(gen)
     ivs = {s: d["ivs"] for s in STATS}
     out = []
     for sp in store.era.fully_evolved(gen):

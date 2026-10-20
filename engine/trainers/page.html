@@ -87,7 +87,8 @@ td { padding: 5px 4px; border-bottom: 1px solid var(--rule); vertical-align: mid
 .who .nm { font-family: var(--font-hand); font-size: 1.15rem; color: var(--pen); line-height: 1.1; }
 .who .sub { font-size: 0.72rem; color: var(--ink-2); }
 .chip { font-family: var(--font-display); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
-.chip.physical, .chip.special { background: var(--tint-warn); color: var(--warn); }
+.chip.physical, .chip.special, .chip.frail { background: var(--tint-warn); color: var(--warn); }
+.chip.sturdy { background: var(--tint-good); color: var(--good); }
 .chip.even { background: var(--tint-zero); color: var(--ink-2); }
 td.v { text-align: center; position: relative; }
 .v span { display: inline-block; min-width: 26px; padding: 0 3px; font-family: var(--font-hand); font-size: 0.95rem; line-height: 1.5; }
@@ -218,7 +219,7 @@ footer p { margin: 0; }
       return `<td class="${gap ? "gap" : ""}" title="${p.weak_total} weak, ${p.covered} resist or immune">${gap ? `<b>${p.weak_total}</b>` : p.weak_total || ""}</td>`; }).join("")}</tr>`;
     return `<div class="mkey"><span>2× weak, circled · 4× very weak, double ring · ½ resists · 0 immune · · neutral</span><span>ab: an ability changed it</span><span>orange bar: weak, and worse from the side this Pokémon is soft on</span><span>bottom row: how many are weak; underlined is a gap</span></div>
       <div class="scroll"><table class="matrix"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table></div>
-      <div class="sum"><span><b>Gaps</b> ${esc(s.gaps.join(", ") || "none")}</span><span><b>Strengths</b> ${esc(s.strengths.join(", ") || "none")}</span><span><b>Bring</b> ${esc(s.bring)} attackers (${s.soft.physical} physically soft, ${s.soft.special} specially soft)</span></div>`;
+      <div class="sum"><span><b>Gaps</b> ${esc(s.gaps.join(", ") || "none")}</span><span><b>Strengths</b> ${esc(s.strengths.join(", ") || "none")}</span><span><b>Bring</b> ${esc(s.bring === "either" ? "attackers by type" : s.bring + " attackers")} (${s.soft.physical} physically soft, ${s.soft.special} specially soft, ${s.soft.frail} frail, ${s.soft.sturdy} bulky both ways)</span></div>`;
   }
   function moves(rep) {
     const items = [];

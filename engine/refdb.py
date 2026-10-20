@@ -35,7 +35,7 @@ VG_GEN = {1: 1, 2: 1, 3: 2, 4: 2, 5: 3, 6: 3, 7: 3, 12: 3, 13: 3, 8: 4, 9: 4, 10
 # Ways moves can travel between games: Gen 1<->2 (Time Capsule), Gen 3 -> 4 (Pal Park).
 # Gen 2 -> Gen 3 is impossible on cartridge.
 TRANSFER_FROM = {2: [1], 3: [], 4: [3]}
-LEARNABLE_METHODS = {1: "level-up", 2: "egg", 3: "tutor", 4: "machine", 6: "light-ball-egg"}
+LEARNABLE_METHODS = {1: "level-up", 2: "egg", 3: "tutor", 4: "machine", 6: "light-ball-egg", 10: "form-change"}
 MALE_IMPOSSIBLE = {-1, 8}  # genderless, female-only
 
 
@@ -168,15 +168,17 @@ class Ref:
         same_gen_vgs = [v for v, g in VG_GEN.items() if g == gen and v != vg]
         earlier = [v for v, g in VG_GEN.items() if g in TRANSFER_FROM.get(gen, [])]
         found = []
-        for stage in self.line(sid):
+        form = self.pokemon_id(species)                 # a form's own learnset (Rotom-Heat's Overheat)
+        who = lambda st: self.name(sid if st == form else st)
+        for stage in ([form] if form != sid else []) + self.line(sid):
             for m, lvl in self.methods(stage, mid, vg):
-                found.append(("native", self.name(stage), m, lvl, vg))
+                found.append(("native", who(stage), m, lvl, vg))
             for v in same_gen_vgs:
                 for m, lvl in self.methods(stage, mid, v):
-                    found.append(("same-gen trade", self.name(stage), m, lvl, v))
+                    found.append(("same-gen trade", who(stage), m, lvl, v))
             for v in earlier:
                 for m, lvl in self.methods(stage, mid, v):
-                    found.append(("transfer", self.name(stage), m, lvl, v))
+                    found.append(("transfer", who(stage), m, lvl, v))
         return {"species": species, "move": self.move_name(mid), "vg": vg,
                 "move_exists": self.move_gen(mid) <= gen, "routes": found}
 

@@ -189,7 +189,9 @@
      "label": "even",
      "def": 213,
      "spd": 227,
-     "gap": 0.062
+     "physical_pct": 0.47,
+     "special_pct": 0.58,
+     "gap": 0.11
     },
     "cells": {
      "Normal": {
@@ -316,11 +318,13 @@
      "spe": 179
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 277,
      "spd": 257,
-     "gap": 0.072
+     "physical_pct": 0.9,
+     "special_pct": 0.87,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -447,11 +451,13 @@
      "spe": 217
     },
     "bulk": {
-     "lean": "special",
-     "label": "specially soft",
+     "lean": "even",
+     "label": "even",
      "def": 217,
      "spd": 177,
-     "gap": 0.184
+     "physical_pct": 0.74,
+     "special_pct": 0.45,
+     "gap": 0.29
     },
     "cells": {
      "Normal": {
@@ -460,8 +466,7 @@
      },
      "Fighting": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Flying": {
       "verdict": "neutral",
@@ -489,23 +494,19 @@
      },
      "Steel": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Fire": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Water": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Grass": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Electric": {
       "verdict": "immune",
@@ -586,7 +587,9 @@
      "label": "even",
      "def": 217,
      "spd": 217,
-     "gap": 0.0
+     "physical_pct": 0.57,
+     "special_pct": 0.55,
+     "gap": 0.01
     },
     "cells": {
      "Normal": {
@@ -712,11 +715,13 @@
      "spe": 177
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 217,
      "spd": 271,
-     "gap": 0.199
+     "physical_pct": 0.83,
+     "special_pct": 0.96,
+     "gap": 0.13
     },
     "cells": {
      "Normal": {
@@ -725,8 +730,7 @@
      },
      "Fighting": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Flying": {
       "verdict": "neutral",
@@ -742,8 +746,7 @@
      },
      "Rock": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Bug": {
       "verdict": "neutral",
@@ -769,13 +772,11 @@
      },
      "Grass": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Electric": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Psychic": {
       "verdict": "neutral",
@@ -847,11 +848,13 @@
      "spe": 117
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 187,
      "spd": 304,
-     "gap": 0.385
+     "physical_pct": 0.82,
+     "special_pct": 0.99,
+     "gap": 0.17
     },
     "cells": {
      "Normal": {
@@ -860,8 +863,7 @@
      },
      "Fighting": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Flying": {
       "verdict": "neutral",
@@ -1237,19 +1239,16 @@
     "Poison"
    ],
    "soft": {
-    "physical": 2,
-    "special": 1,
-    "even": 3
+    "physical": 0,
+    "special": 0,
+    "even": 3,
+    "frail": 0,
+    "sturdy": 3
    },
-   "bring": "physical",
+   "bring": "either",
    "soft_members": {
-    "physical": [
-     "Lapras",
-     "Snorlax"
-    ],
-    "special": [
-     "Mamoswine"
-    ]
+    "physical": [],
+    "special": []
    }
   }
  },
@@ -1321,9 +1320,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a physical attacker: Lapras and Snorlax are physically soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here physical)"
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either); lone_soft_str empty"
    },
    {
     "section": "beat",
@@ -1874,10 +1873,10 @@
       "n": 47
      },
      {
-      "species": "Tyranitar",
-      "beats": 78,
-      "score": 62,
-      "n": 108
+      "species": "Kingdra",
+      "beats": 90,
+      "score": 65,
+      "n": 21
      }
     ]
    },
@@ -1914,16 +1913,16 @@
       "n": 307
      },
      {
-      "species": "Lucario",
-      "beats": 80,
-      "score": 72,
-      "n": 352
-     },
-     {
       "species": "Rhyperior",
       "beats": 85,
       "score": 72,
       "n": 120
+     },
+     {
+      "species": "Lucario",
+      "beats": 80,
+      "score": 72,
+      "n": 352
      }
     ]
    },
@@ -2098,27 +2097,27 @@
       "n": 115
      },
      {
+      "species": "Hariyama",
+      "beats": 86,
+      "score": 57,
+      "n": 22
+     },
+     {
       "species": "Infernape",
       "beats": 68,
       "score": 56,
       "n": 246
-     },
-     {
-      "species": "Skarmory",
-      "beats": 67,
-      "score": 55,
-      "n": 215
      }
     ]
    }
   ],
   "ladder_lines": [
-   "Typhlosion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Eruption, Flamethrower, Focus Blast, Extrasensory @ Choice Scarf (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Latias 94%, Gyarados 89%, Tyranitar 78%.",
-   "Tyranitar: on 53.3% of gen4ou teams (2026-09, rated 1630+), usually Crunch, Pursuit, Superpower, Stone Edge @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Breloom 82%, Lucario 80%, Rhyperior 85%.",
+   "Typhlosion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Eruption, Flamethrower, Focus Blast, Extrasensory @ Choice Scarf (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Latias 94%, Gyarados 89%, Kingdra 90%.",
+   "Tyranitar: on 53.3% of gen4ou teams (2026-09, rated 1630+), usually Crunch, Pursuit, Superpower, Stone Edge @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Breloom 82%, Rhyperior 85%, Lucario 80%.",
    "Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.",
    "Crobat: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Taunt, U-turn, Roost @ Black Sludge (Jolly 252 HP / 112 Def / 144 Spe). What beats it: Magnezone 95%, Zapdos 92%, Metagross 86%.",
    "Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.",
-   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%."
+   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Hariyama 86%, Infernape 68%."
   ],
   "text": {
    "career": [

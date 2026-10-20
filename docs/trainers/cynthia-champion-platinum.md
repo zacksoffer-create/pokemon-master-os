@@ -27,7 +27,7 @@
 
 - Attack with Ice: Roserade, Togekiss and Garchomp are weak to it, and only Lucario and Milotic can take it.
 - Biggest single openings: Garchomp to Ice (four times the damage).
-- Bring a physical attacker: Roserade, Togekiss and Milotic are physically soft.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Roserade (physically soft).
 - Don't lead with Poison: 3 of 6 resist Poison.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -40,14 +40,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Spiritomb** Lv 100 (Pressure) | even | 0 | 0 | · | ½ | · | · | · | · | · | · | · | · | · | 0 | · | · | · |
+| **Spiritomb** Lv 100 (Pressure) | frail both ways | 0 | 0 | · | ½ | · | · | · | · | · | · | · | · | · | 0 | · | · | · |
 | **Roserade** Lv 100 (Natural Cure) | physically soft | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
-| **Togekiss** Lv 100 (Hustle) | physically soft | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
-| **Lucario** Lv 100 (Steadfast) | even | ½ | 2× | · | 0 | 2× | ½ | ½ | ½ | ½ | 2× | · | ½ | · | · | ½ | ½ | ½ |
-| **Milotic** Lv 100 (Marvel Scale) | physically soft | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Togekiss** Lv 100 (Hustle) | even | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
+| **Lucario** Lv 100 (Steadfast) | frail both ways | ½ | 2× | · | 0 | 2× | ½ | ½ | ½ | ½ | 2× | · | ½ | · | · | ½ | ½ | ½ |
+| **Milotic** Lv 100 (Marvel Scale) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 | **Garchomp** Lv 100 (Sand Veil) | even | · | · | · | ½ | · | ½ | · | · | · | ½ | · | · | 0 | · | 4× | 2× | · |
 
-**Gaps:** Ice · **Strengths:** Poison · **Bring:** physical attackers (3 physically soft, 0 specially soft)
+**Gaps:** Ice · **Strengths:** Poison · **Bring:** attackers by type (1 physically soft, 0 specially soft, 2 frail, 0 bulky both ways)
 
 # Playsheet
 
@@ -62,11 +62,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Spiritomb: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Pursuit, Will-O-Wisp, Sucker Punch, Pain Split @ Leftovers (Adamant 252 HP / 252 Atk / 4 Def). What beats it: Tyranitar 80%, Heatran 78%, Dragonite 79%.
-- Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.
-- Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.
-- Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.
-- Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Jirachi 50%, Gyarados 26%.
+- Spiritomb: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Pursuit, Will-O-Wisp, Sucker Punch, Pain Split @ Leftovers (Adamant 252 HP / 252 Atk / 4 Def). What beats it: Tyranitar 80%, Heatran 78%, Empoleon 83%.
+- Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Clefable 89%, Metagross 85%, Jirachi 80%.
+- Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%, Jirachi 48%.
+- Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Jirachi 53%.
+- Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Latias 68%, Jirachi 50%, Starmie 52%.
 
 ## Career
 

@@ -48,5 +48,39 @@
   "species": [
    "Arceus"
   ]
+ },
+ "event_moves": {
+  "_note": "Moves a species got only from an event distribution, which PokeAPI's learnsets don't carry. Each is listed on the species' Bulbapedia learnset page (By events). A move here counts as learned in that generation (method 'event'), and passes down the line (Eevee's Growth reaches Espeon).",
+  "moves": [
+   {
+    "species": "Eevee",
+    "move": "Growth",
+    "gen": 2,
+    "event": "New York City Pokémon Center",
+    "source": "Bulbapedia: Eevee (Pokémon)/Generation II learnset"
+   },
+   {
+    "species": "Wooper",
+    "move": "Belly Drum",
+    "gen": 2,
+    "event": "Pokémon Center Mystery Egg; New York City Pokémon Center",
+    "source": "Bulbapedia: Wooper (Pokémon)/Generation II learnset"
+   },
+   {
+    "species": "Geodude",
+    "move": "Rapid Spin",
+    "gen": 2,
+    "event": "New York City Pokémon Center",
+    "source": "Bulbapedia: Geodude (Pokémon)/Generation II learnset"
+   },
+   {
+    "species": "Nidoran♂",
+    "move": "Lovely Kiss",
+    "gen": 2,
+    "event": "New York City Pokémon Center",
+    "source": "Bulbapedia: Nidoran♂ (Pokémon)/Generation II learnset"
+   }
+  ],
+  "why": "Found by the engine audit (docs/SANITY.md): Showdown accepted these Gen II sets in ladder replays, and PokeAPI had no route for them."
  }
 }

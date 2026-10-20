@@ -192,11 +192,13 @@
      "spe": 237
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 117,
      "spd": 137,
-     "gap": 0.146
+     "physical_pct": 0.0,
+     "special_pct": 0.0,
+     "gap": 0.0
     },
     "cells": {
      "Normal": {
@@ -323,11 +325,13 @@
      "spe": 273
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 199,
      "spd": 199,
-     "gap": 0.0
+     "physical_pct": 0.4,
+     "special_pct": 0.36,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -454,11 +458,13 @@
      "spe": 169
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 267,
      "spd": 227,
-     "gap": 0.15
+     "physical_pct": 0.87,
+     "special_pct": 0.69,
+     "gap": 0.18
     },
     "cells": {
      "Normal": {
@@ -589,7 +595,9 @@
      "label": "specially soft",
      "def": 197,
      "spd": 157,
-     "gap": 0.203
+     "physical_pct": 0.45,
+     "special_pct": 0.11,
+     "gap": 0.34
     },
     "cells": {
      "Normal": {
@@ -719,11 +727,13 @@
      "spe": 247
     },
     "bulk": {
-     "lean": "special",
-     "label": "specially soft",
+     "lean": "even",
+     "label": "even",
      "def": 307,
      "spd": 207,
-     "gap": 0.326
+     "physical_pct": 0.88,
+     "special_pct": 0.41,
+     "gap": 0.48
     },
     "cells": {
      "Normal": {
@@ -768,8 +778,7 @@
      },
      "Water": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Grass": {
       "verdict": "neutral",
@@ -785,8 +794,7 @@
      },
      "Ice": {
       "verdict": "very weak",
-      "multiplier": 4.0,
-      "note": "worse from special attackers"
+      "multiplier": 4.0
      },
      "Dragon": {
       "verdict": "neutral",
@@ -852,11 +860,13 @@
      "spe": 227
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 127,
      "spd": 117,
-     "gap": 0.079
+     "physical_pct": 0.01,
+     "special_pct": 0.0,
+     "gap": 0.0
     },
     "cells": {
      "Normal": {
@@ -1228,15 +1238,16 @@
    ],
    "soft": {
     "physical": 0,
-    "special": 2,
-    "even": 4
+    "special": 1,
+    "even": 1,
+    "frail": 3,
+    "sturdy": 1
    },
-   "bring": "special",
+   "bring": "either",
    "soft_members": {
     "physical": [],
     "special": [
-     "Staraptor",
-     "Gliscor"
+     "Staraptor"
     ]
    }
   }
@@ -1291,9 +1302,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a special attacker: Staraptor and Gliscor are specially soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here special)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Staraptor (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",
@@ -1998,16 +2009,16 @@
       "n": 42
      },
      {
+      "species": "Dragonite",
+      "beats": 93,
+      "score": 72,
+      "n": 27
+     },
+     {
       "species": "Latias",
       "beats": 71,
       "score": 48,
       "n": 59
-     },
-     {
-      "species": "Gyarados",
-      "beats": 65,
-      "score": 36,
-      "n": 43
      }
     ]
    },
@@ -2106,7 +2117,7 @@
   ],
   "ladder_lines": [
    "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
-   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.",
+   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Dragonite 93%, Latias 71%.",
    "Staraptor: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Close Combat, U-turn, Return @ Choice Scarf (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Jirachi 76%, Metagross 77%, Skarmory 77%.",
    "Gliscor: on 6.2% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Roost, Ice Fang, Taunt @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Starmie 88%, Latias 78%, Gyarados 76%."
   ],

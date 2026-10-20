@@ -61,9 +61,9 @@
   "multi_hit_average": 3,
   "abilities": {"Technician": {"at_most": 60, "times": 1.5}, "Adaptability": {"stab": 2}, "Skill Link": {"multi_hit": 5}},
   "stat_multipliers": {
-   "_note": "Abilities and items that double a stat outright. Read into the stat percentiles. Species-bound items name their species.",
+   "_note": "Abilities and items that double a stat outright. Read into the stat percentiles. Species-bound items name their species; by_gen holds a generation's own rule (Light Ball doubles only Sp. Atk before Gen IV).",
    "abilities": {"Huge Power": {"atk": 2}, "Pure Power": {"atk": 2}},
-   "items": {"Light Ball": {"stats": {"atk": 2, "spa": 2}, "species": ["Pikachu"]}, "Thick Club": {"stats": {"atk": 2}, "species": ["Cubone", "Marowak"]}, "Deep Sea Tooth": {"stats": {"spa": 2}, "species": ["Clamperl"]}, "Deep Sea Scale": {"stats": {"spd": 2}, "species": ["Clamperl"]}, "Metal Powder": {"stats": {"def": 2}, "species": ["Ditto"]}, "Soul Dew": {"stats": {"spa": 1.5, "spd": 1.5}, "species": ["Latias", "Latios"]}}
+   "items": {"Light Ball": {"stats": {"atk": 2, "spa": 2}, "by_gen": {"2": {"spa": 2}, "3": {"spa": 2}}, "species": ["Pikachu"]}, "Thick Club": {"stats": {"atk": 2}, "species": ["Cubone", "Marowak"]}, "Deep Sea Tooth": {"stats": {"spa": 2}, "species": ["Clamperl"]}, "Deep Sea Scale": {"stats": {"spd": 2}, "species": ["Clamperl"]}, "Metal Powder": {"stats": {"def": 2}, "species": ["Ditto"]}, "Soul Dew": {"stats": {"spa": 1.5, "spd": 1.5}, "species": ["Latias", "Latios"]}}
   }
  },
 
@@ -79,7 +79,7 @@
   "sash": ["Focus Sash", "Focus Band"],
   "light_clay": ["Light Clay"],
   "weather_rock": ["Damp Rock", "Heat Rock", "Smooth Rock", "Icy Rock"],
-  "lum": ["Lum Berry"],
+  "lum": ["Lum Berry", "MiracleBerry", "Miracle Berry"],
   "status_orb": ["Toxic Orb", "Flame Orb"],
   "pinch_berry": ["Salac Berry", "Liechi Berry", "Petaya Berry", "Ganlon Berry", "Apicot Berry", "Starf Berry"],
   "species_item": ["Light Ball", "Thick Club", "Deep Sea Tooth", "Deep Sea Scale", "Metal Powder", "Soul Dew", "Stick", "Lucky Punch"],

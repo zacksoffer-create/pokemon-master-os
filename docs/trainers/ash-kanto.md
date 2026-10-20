@@ -26,7 +26,7 @@
 - Attack with Electric: Charizard, Squirtle, Pidgeotto and Kingler are weak to it, and only Pikachu and Bulbasaur can take it.
 - Also open to Rock (2 weak).
 - Biggest single openings: Charizard to Rock (four times the damage).
-- Their bulk is even across the team: pick attackers by type, not by side.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Kingler (specially soft).
 - Don't lead with Steel: 4 of 6 resist Steel.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -39,14 +39,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Pikachu** Lv 100 (Static) | even | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
+| **Pikachu** Lv 100 (Static) | frail both ways | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
 | **Charizard** Lv 100 (Blaze) | even | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
-| **Bulbasaur** Lv 100 (Overgrow) | physically soft | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
-| **Squirtle** Lv 100 (Torrent) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
-| **Pidgeotto** Lv 100 (Keen Eye) | even | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
+| **Bulbasaur** Lv 100 (Overgrow) | frail both ways | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
+| **Squirtle** Lv 100 (Torrent) | frail both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Pidgeotto** Lv 100 (Keen Eye) | frail both ways | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
 | **Kingler** Lv 100 (Hyper Cutter) | specially soft | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 
-**Gaps:** Electric and Rock · **Strengths:** Steel · **Bring:** either attackers (1 physically soft, 1 specially soft)
+**Gaps:** Electric and Rock · **Strengths:** Steel · **Bring:** attackers by type (0 physically soft, 1 specially soft, 4 frail, 0 bulky both ways)
 
 **Moves and reasons** (D-048):
 

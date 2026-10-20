@@ -237,11 +237,13 @@
      "spe": 237
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 117,
      "spd": 137,
-     "gap": 0.146
+     "physical_pct": 0.0,
+     "special_pct": 0.0,
+     "gap": 0.0
     },
     "cells": {
      "Normal": {
@@ -372,7 +374,9 @@
      "label": "even",
      "def": 213,
      "spd": 227,
-     "gap": 0.062
+     "physical_pct": 0.47,
+     "special_pct": 0.58,
+     "gap": 0.11
     },
     "cells": {
      "Normal": {
@@ -502,7 +506,9 @@
      "label": "physically soft",
      "def": 187,
      "spd": 227,
-     "gap": 0.176
+     "physical_pct": 0.25,
+     "special_pct": 0.48,
+     "gap": 0.23
     },
     "cells": {
      "Normal": {
@@ -634,11 +640,13 @@
      "spe": 273
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 199,
      "spd": 199,
-     "gap": 0.0
+     "physical_pct": 0.4,
+     "special_pct": 0.36,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -764,11 +772,13 @@
      "spe": 117
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 187,
      "spd": 277,
-     "gap": 0.325
+     "physical_pct": 0.82,
+     "special_pct": 0.98,
+     "gap": 0.16
     },
     "cells": {
      "Normal": {
@@ -777,8 +787,7 @@
      },
      "Fighting": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Flying": {
       "verdict": "neutral",
@@ -897,11 +906,13 @@
      "spe": 227
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "even",
+     "label": "even",
      "def": 207,
      "spd": 247,
-     "gap": 0.162
+     "physical_pct": 0.46,
+     "special_pct": 0.68,
+     "gap": 0.23
     },
     "cells": {
      "Normal": {
@@ -914,8 +925,7 @@
      },
      "Flying": {
       "verdict": "very weak",
-      "multiplier": 4.0,
-      "note": "worse from physical attackers"
+      "multiplier": 4.0
      },
      "Poison": {
       "verdict": "neutral",
@@ -943,8 +953,7 @@
      },
      "Fire": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Water": {
       "verdict": "neutral",
@@ -960,8 +969,7 @@
      },
      "Psychic": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Ice": {
       "verdict": "neutral",
@@ -1278,16 +1286,16 @@
     "Steel"
    ],
    "soft": {
-    "physical": 3,
+    "physical": 1,
     "special": 0,
-    "even": 3
+    "even": 2,
+    "frail": 2,
+    "sturdy": 1
    },
-   "bring": "physical",
+   "bring": "either",
    "soft_members": {
     "physical": [
-     "Sceptile",
-     "Snorlax",
-     "Heracross"
+     "Sceptile"
     ],
     "special": []
    }
@@ -1361,9 +1369,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a physical attacker: Sceptile, Snorlax and Heracross are physically soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here physical)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Sceptile (physically soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",
@@ -2119,6 +2127,12 @@
     },
     "checks": [
      {
+      "species": "Blissey",
+      "beats": 82,
+      "score": 49,
+      "n": 22
+     },
+     {
       "species": "Dragonite",
       "beats": 67,
       "score": 44,
@@ -2129,12 +2143,6 @@
       "beats": 61,
       "score": 41,
       "n": 90
-     },
-     {
-      "species": "Lucario",
-      "beats": 69,
-      "score": 40,
-      "n": 39
      }
     ]
    },
@@ -2217,16 +2225,16 @@
       "n": 115
      },
      {
+      "species": "Hariyama",
+      "beats": 86,
+      "score": 57,
+      "n": 22
+     },
+     {
       "species": "Infernape",
       "beats": 68,
       "score": 56,
       "n": 246
-     },
-     {
-      "species": "Skarmory",
-      "beats": 67,
-      "score": 55,
-      "n": 215
      }
     ]
    },
@@ -2279,9 +2287,9 @@
   ],
   "ladder_lines": [
    "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.",
-   "Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Dragonite 67%, Metagross 61%, Lucario 69%.",
+   "Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 82%, Dragonite 67%, Metagross 61%.",
    "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
-   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.",
+   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Hariyama 86%, Infernape 68%.",
    "Heracross: on 2.0% of gen4ou teams (2026-09, rated 0+), usually Close Combat, Megahorn, Stone Edge, Swords Dance @ Choice Scarf (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Dragonite 69%, Gliscor 70%, Jirachi 63%."
   ],
   "text": {

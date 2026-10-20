@@ -14,13 +14,27 @@
   "ivs": 31,
   "evs": "even",
   "even_evs_each": 85,
+  "stat_exp_each": 252,
+  "_stat_exp_note": "Gen I-II have stat experience, not EVs. A Gen II build with none recorded gets the maximum in every stat (252 in EV terms), the way Showdown, Smogon's calc and the battle engine read it, so every part of the engine gives a Gen II build the same stats. The field pools follow the same default.",
   "nature": null
+ },
+ "species_items": {
+  "_note": "Items that work for one species line only. On anyone else they do nothing, and the check says so.",
+  "Light Ball": ["Pikachu"], "Thick Club": ["Cubone", "Marowak"], "Deep Sea Tooth": ["Clamperl"], "Deep Sea Scale": ["Clamperl"],
+  "Metal Powder": ["Ditto"], "Soul Dew": ["Latias", "Latios"], "Stick": ["Farfetch"], "Lucky Punch": ["Chansey"],
+  "Adamant Orb": ["Dialga"], "Lustrous Orb": ["Palkia"], "Griseous Orb": ["Giratina"]
  },
  "validation": {
   "_note": "Move legality is biological (D-048): a move counts if the species can learn it in any game of any generation, or uses it in the show, or the build records a reason. The report states the reason; only a move with no reason at all is flagged.",
   "max_ev_per_stat": 255,
   "max_ev_total": 510,
-  "max_iv": 31
+  "max_iv": 31,
+  "max_moves": 4,
+  "gen2_items": {
+   "_note": "Gen II's own item names. PokeAPI files Gen II's berries under the Gen III names they became, so a Gen II build carrying a Gen III name is flagged with the name its game used, and a Gen III+ build carrying a Gen II-only name is flagged too. Pink Bow, Polkadot Bow and Berserk Gene exist only in Gen II.",
+   "renamed": {"Lum Berry": "MiracleBerry", "Sitrus Berry": "Gold Berry", "Oran Berry": "Berry", "Chesto Berry": "Mint Berry", "Cheri Berry": "PRZCureBerry", "Pecha Berry": "PSNCureBerry", "Rawst Berry": "Burnt Berry", "Aspear Berry": "Ice Berry", "Persim Berry": "Bitter Berry", "Leppa Berry": "MysteryBerry"},
+   "only": ["Pink Bow", "Polkadot Bow", "Berserk Gene", "MiracleBerry", "Miracle Berry", "Gold Berry", "Berry", "Mint Berry", "PRZCureBerry", "PRZ Cure Berry", "PSNCureBerry", "PSN Cure Berry", "Burnt Berry", "Ice Berry", "Bitter Berry", "MysteryBerry", "Mystery Berry"]
+  }
  },
  "slider_scale": {
   "_note": "Authored sliders run 0-100. The left pole is 0, the right pole is 100.",
@@ -104,12 +118,16 @@
   }
  },
  "bulk": {
-  "_note": "A row's bulk lean, from its real stats. Physical bulk is HP x Defense, special bulk is HP x Sp. Def; HP cancels out, so the test compares Defense with Sp. Def. If one is lower than the other by at least the threshold, the row is soft on that side.",
-  "threshold": 0.15,
+  "_note": "A row's bulk, from its real stats, placed in the field: physical bulk is HP x Defense, special bulk is HP x Sp. Def, each against every fully evolved Pokémon of the generation at the row's level on the default spread (0-1). A side is soft when it sits below soft_below and at least gap_at_least under the other side. HP counts: Snorlax's 65 Defense sits on 160 HP and out-bulks most of the field physically, so it isn't soft. Both sides below soft_below is frail; both at sturdy_at or more is sturdy. Only a soft side steers 'bring a physical attacker'.",
+  "soft_below": 0.4,
+  "gap_at_least": 0.2,
+  "sturdy_at": 0.6,
   "labels": {
    "physical": "physically soft",
    "special": "specially soft",
-   "even": "even"
+   "even": "even",
+   "frail": "frail both ways",
+   "sturdy": "bulky both ways"
   },
   "worse_from": {
    "physical": "worse from physical attackers",
@@ -126,7 +144,9 @@
   "gap_if_weak_and_uncovered_at_least": 2,
   "strength_if_resisted_at_least": 3,
   "strength_needs_no_weakness": true,
-  "bring_margin": 1
+  "bring_margin": 1,
+  "bring_at_least": 2,
+  "_bring_note": "Which attacker to bring is a team call: a side needs at least bring_at_least soft members, and bring_margin more than the other side. One soft member is named on its own, not turned into team advice."
  },
  "signals": {
   "_note": "How the engine measures each slider from the team's data, to check the authored value. Every signal is a share of the team (0-100): how many members show it. A slider's measured value is the average of its signals that have data; a signal with no data on the team is left out, and a slider with none says 'no signal'. Weights are equal unless set. Missing data is never evidence: a member with no item recorded doesn't count for or against Choice items; a plain ball, no ribbons or no nickname say nothing about bond.",

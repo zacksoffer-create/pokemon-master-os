@@ -27,7 +27,7 @@
 
 - Attack with Ground: Pikachu, Infernape and Empoleon are weak to it, and only Dragonite and Gengar can take it.
 - Biggest single openings: Dragonite to Ice; Scizor to Fire (four times the damage).
-- Bring a special attacker: Scizor is specially soft.
+- No side of their bulk stands out as soft across the team: pick attackers by type, not by side.
 - Watch the abilities: Gengar's Levitate changes Ground (from weak to immune).
 - Don't lead with Bug, Steel or Grass: 5 of 6 resist Bug; 4 of 6 resist Steel; 4 of 6 resist Grass.
 
@@ -41,14 +41,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Pikachu** Lv 100 (Static) | even | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
-| **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
-| **Infernape** Lv 100 (Blaze) | even | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
-| **Empoleon** Lv 100 (Torrent) | even | ½ | 2× | ½ | 0 | 2× | ½ | ½ | ½ | ½ | · | ½ | · | 2× | ½ | ½ | ½ | ½ |
-| **Gengar** Lv 100 (Levitate) | even | 0 | 0 | · | ½ | 0* | · | ½ | 2× | · | · | · | ½ | · | 2× | · | · | 2× |
-| **Scizor** Lv 100 (Swarm) | specially soft | ½ | · | · | 0 | · | · | ½ | ½ | ½ | 4× | · | ½ | · | ½ | ½ | ½ | ½ |
+| **Pikachu** Lv 100 (Static) | frail both ways | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
+| **Dragonite** Lv 100 (Inner Focus) | bulky both ways | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
+| **Infernape** Lv 100 (Blaze) | frail both ways | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
+| **Empoleon** Lv 100 (Torrent) | bulky both ways | ½ | 2× | ½ | 0 | 2× | ½ | ½ | ½ | ½ | · | ½ | · | 2× | ½ | ½ | ½ | ½ |
+| **Gengar** Lv 100 (Levitate) | frail both ways | 0 | 0 | · | ½ | 0* | · | ½ | 2× | · | · | · | ½ | · | 2× | · | · | 2× |
+| **Scizor** Lv 100 (Swarm) | even | ½ | · | · | 0 | · | · | ½ | ½ | ½ | 4× | · | ½ | · | ½ | ½ | ½ | ½ |
 
-**Gaps:** Ground · **Strengths:** Bug, Steel, Grass, Poison and Normal · **Bring:** special attackers (0 physically soft, 1 specially soft)
+**Gaps:** Ground · **Strengths:** Bug, Steel, Grass, Poison and Normal · **Bring:** attackers by type (0 physically soft, 0 specially soft, 3 frail, 2 bulky both ways)
 
 # Playsheet
 
@@ -63,10 +63,10 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.
 - Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
-- Empoleon: on 17.1% of gen4ou teams (2026-09, rated 1630+), usually Ice Beam, Surf, Grass Knot, Stealth Rock @ Leftovers (Modest 252 SpA / 4 SpD / 252 Spe). What beats it: Abomasnow 86%, Lucario 79%, Clefable 76%.
-- Gengar: on 12.4% of gen4ou teams (2026-09, rated 1630+), usually Shadow Ball, Focus Blast, Will-O-Wisp, Substitute @ Life Orb (Timid 4 Def / 252 SpA / 252 Spe). What beats it: Scizor 78%, Jirachi 61%, Tyranitar 50%.
+- Empoleon: on 17.1% of gen4ou teams (2026-09, rated 1630+), usually Ice Beam, Surf, Grass Knot, Stealth Rock @ Leftovers (Modest 252 SpA / 4 SpD / 252 Spe). What beats it: Abomasnow 86%, Lucario 79%, Mamoswine 87%.
+- Gengar: on 12.4% of gen4ou teams (2026-09, rated 1630+), usually Shadow Ball, Focus Blast, Will-O-Wisp, Substitute @ Life Orb (Timid 4 Def / 252 SpA / 252 Spe). What beats it: Scizor 78%, Jirachi 61%, Metagross 57%.
 - Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%.
 
 ## Career

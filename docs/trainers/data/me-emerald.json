@@ -195,10 +195,12 @@
      "spe": 177
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 237,
      "spd": 237,
+     "physical_pct": 0.82,
+     "special_pct": 0.82,
      "gap": 0.0
     },
     "cells": {
@@ -325,11 +327,13 @@
      "spe": 219
     },
     "bulk": {
-     "lean": "physical",
-     "label": "physically soft",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 215,
      "spd": 307,
-     "gap": 0.3
+     "physical_pct": 0.65,
+     "special_pct": 0.96,
+     "gap": 0.31
     },
     "cells": {
      "Normal": {
@@ -378,13 +382,11 @@
      },
      "Grass": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Electric": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from physical attackers"
+      "multiplier": 2.0
      },
      "Psychic": {
       "verdict": "neutral",
@@ -458,11 +460,13 @@
      "spe": 217
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 237,
      "spd": 267,
-     "gap": 0.112
+     "physical_pct": 0.61,
+     "special_pct": 0.78,
+     "gap": 0.17
     },
     "cells": {
      "Normal": {
@@ -588,11 +592,13 @@
      "spe": 247
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 217,
      "spd": 217,
-     "gap": 0.0
+     "physical_pct": 0.62,
+     "special_pct": 0.65,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -719,11 +725,13 @@
      "spe": 207
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 177,
      "spd": 177,
-     "gap": 0.0
+     "physical_pct": 0.19,
+     "special_pct": 0.13,
+     "gap": 0.05
     },
     "cells": {
      "Normal": {
@@ -849,11 +857,13 @@
      "spe": 217
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 257,
      "spd": 257,
-     "gap": 0.0
+     "physical_pct": 0.79,
+     "special_pct": 0.77,
+     "gap": 0.02
     },
     "cells": {
      "Normal": {
@@ -1226,15 +1236,15 @@
     "Steel"
    ],
    "soft": {
-    "physical": 1,
+    "physical": 0,
     "special": 0,
-    "even": 5
+    "even": 0,
+    "frail": 1,
+    "sturdy": 5
    },
-   "bring": "physical",
+   "bring": "either",
    "soft_members": {
-    "physical": [
-     "Milotic"
-    ],
+    "physical": [],
     "special": []
    }
   }
@@ -1289,9 +1299,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a physical attacker: Milotic is physically soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here physical)"
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either); lone_soft_str empty"
    },
    {
     "section": "beat",
@@ -2009,10 +2019,10 @@
       "n": 41
      },
      {
-      "species": "Heracross",
-      "beats": 81,
-      "score": 54,
-      "n": 32
+      "species": "Forretress",
+      "beats": 83,
+      "score": 55,
+      "n": 29
      }
     ]
    },
@@ -2068,7 +2078,7 @@
    "Milotic: on 4.2% of gen3ou teams (2026-09, rated 1630+), usually Recover, Surf, Toxic, Refresh @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Venusaur 90%, Snorlax 77%, Zapdos 72%.",
    "Altaria: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Rest, Dragon Dance, Heal Bell, Perish Song @ Leftovers (Jolly 48 HP / 200 Def / 24 SpD / 236 Spe). What beats it: Tyranitar 72%, Blissey 73%, Gengar 76%.",
    "Arcanine: on 0.9% of gen3ou teams (2026-09, rated 0+), usually Extreme Speed, Overheat, Hidden Power Fighting, Fire Blast @ Leftovers (Rash 4 HP / 64 Def / 248 SpA / 192 Spe). What beats it: Suicune 79%, Milotic 85%, Flygon 80%.",
-   "Absol: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Shadow Ball, Double-Edge, Hidden Power Fighting, Swords Dance @ Choice Band (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Aerodactyl 80%, Heracross 81%.",
+   "Absol: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Shadow Ball, Double-Edge, Hidden Power Fighting, Swords Dance @ Choice Band (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Aerodactyl 80%, Forretress 83%.",
    "Meganium: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Giga Drain, Reflect, Toxic @ Leftovers (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Salamence 73%, Charizard 74%, Skarmory 53%."
   ],
   "text": {

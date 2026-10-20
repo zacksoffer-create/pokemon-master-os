@@ -204,11 +204,13 @@
      "spe": 137
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 163,
      "spd": 169,
-     "gap": 0.036
+     "physical_pct": 0.06,
+     "special_pct": 0.05,
+     "gap": 0.01
     },
     "cells": {
      "Normal": {
@@ -335,11 +337,13 @@
      "spe": 217
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 247,
      "spd": 287,
-     "gap": 0.139
+     "physical_pct": 0.73,
+     "special_pct": 0.9,
+     "gap": 0.17
     },
     "cells": {
      "Normal": {
@@ -467,11 +471,13 @@
      "spe": 217
     },
     "bulk": {
-     "lean": "special",
-     "label": "specially soft",
+     "lean": "even",
+     "label": "even",
      "def": 217,
      "spd": 177,
-     "gap": 0.184
+     "physical_pct": 0.74,
+     "special_pct": 0.45,
+     "gap": 0.29
     },
     "cells": {
      "Normal": {
@@ -480,8 +486,7 @@
      },
      "Fighting": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Flying": {
       "verdict": "neutral",
@@ -509,23 +514,19 @@
      },
      "Steel": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Fire": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Water": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Grass": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Electric": {
       "verdict": "immune",
@@ -607,7 +608,9 @@
      "label": "physically soft",
      "def": 197,
      "spd": 237,
-     "gap": 0.169
+     "physical_pct": 0.21,
+     "special_pct": 0.44,
+     "gap": 0.23
     },
     "cells": {
      "Normal": {
@@ -735,11 +738,13 @@
      "spe": 227
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 145,
      "spd": 169,
-     "gap": 0.142
+     "physical_pct": 0.02,
+     "special_pct": 0.06,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -860,11 +865,13 @@
      "spe": 287
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 189,
      "spd": 189,
-     "gap": 0.0
+     "physical_pct": 0.3,
+     "special_pct": 0.27,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -1220,17 +1227,17 @@
    ],
    "soft": {
     "physical": 1,
-    "special": 1,
-    "even": 4
+    "special": 0,
+    "even": 1,
+    "frail": 3,
+    "sturdy": 1
    },
    "bring": "either",
    "soft_members": {
     "physical": [
      "Pachirisu"
     ],
-    "special": [
-     "Mamoswine"
-    ]
+    "special": []
    }
   }
  },
@@ -1278,9 +1285,9 @@
    },
    {
     "section": "beat",
-    "text": "Their bulk is even across the team: pick attackers by type, not by side.",
-    "rule": "bring_even",
-    "trigger": "bring == either (here either)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Pachirisu (physically soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",
@@ -1834,6 +1841,12 @@
       "beats": 54,
       "score": 25,
       "n": 46
+     },
+     {
+      "species": "Jirachi",
+      "beats": 48,
+      "score": 10,
+      "n": 28
      }
     ]
    },
@@ -1931,7 +1944,7 @@
    }
   ],
   "ladder_lines": [
-   "Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.",
+   "Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%, Jirachi 48%.",
    "Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.",
    "Ambipom: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Fake Out, U-turn, Low Kick, Taunt @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 82%, Aerodactyl 79%, Skarmory 77%."
   ],

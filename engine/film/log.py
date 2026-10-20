@@ -144,7 +144,8 @@ class Battle:
         self.weather = None
         self.rows = []
         self.winner = None
-        self.forfeit = False
+        self.forfeit = self.timed_out = False
+        self.perish_by = None                   # (side, member) whose Perish Song is counting down
         self.ended = False
         self.last_ko = None
         self.current = None                     # the move row whose effects are being read
@@ -267,6 +268,8 @@ class Battle:
     def on_message(self, args, tags):
         if args and args[0].endswith("forfeited."):
             self.forfeit = True
+        elif args and args[0].endswith("lost due to inactivity."):
+            self.forfeit = self.timed_out = True       # the timer ran out: a forfeit by the clock
 
     def on_hint(self, args, tags):
         pass
@@ -361,6 +364,8 @@ class Battle:
             m.stints[-1]["moves"].append(move)
         if move in PIVOTS and chosen:
             side.pivot = PIVOTS[move]
+        if move == "Perish Song" and "miss" not in tags:
+            self.perish_by = (side, m)
         self.current = {"row": row, "side": side, "actor": m, "target": target if tside is not side else None}
 
     def on_cant(self, args, tags):
@@ -385,7 +390,7 @@ class Battle:
         m.damage_taken += lost
         frm = tags.get("from", "")
         if frm:
-            self.last_hit[(side.id, m.nickname)] = _plain(frm)
+            self.last_hit[(side.id, m.nickname)] = "Recoil" if frm.lower() == "recoil" else _plain(frm)
             self._learn_from(frm, tags, m)
             if frm == "Recoil" and self.current and self.current["actor"] is m:
                 self.current["row"]["result"]["recoil"] = round(self.current["row"]["result"].get("recoil", 0) + lost, 3)
@@ -415,20 +420,23 @@ class Battle:
         m.hp = hp
         frm = tags.get("from", "")
         if frm:
-            self._learn_from(frm, tags, m)
+            self._learn_from(frm, tags, m, own=True)
         elif self.current and self.current["actor"] is m:
             r = self.current["row"]["result"]
             r["healed"] = round(r.get("healed", 0) + max(0.0, hp - before), 3)
 
-    def _learn_from(self, frm, tags, m):
-        """A [from] tag names an item or ability: whose it is."""
+    def _learn_from(self, frm, tags, m, own=False):
+        """A [from] tag names an item or ability: whose it is. On a hit that hurts or statuses the target (Rough
+        Skin, Static, Poison Point, Synchronize) the [of] Pokémon holds the ability; on a heal, cure, boost or
+        immunity (Volt Absorb, Water Absorb, Dry Skin, Natural Cure, Motor Drive) the Pokémon it happens to holds it,
+        and [of] names the attacker it absorbed (`own`)."""
         kind, _, name = frm.partition(": ")
         if kind == "item":
             m.start_item(name, "seen")
             m.item_now = name
         elif kind == "ability":
             owner = m
-            if tags.get("of"):
+            if tags.get("of") and not own:
                 _, o = self.who(tags["of"])
                 owner = o or m
             owner.ability = owner.ability or name
@@ -445,7 +453,8 @@ class Battle:
         cause = self.last_hit.get((side.id, m.nickname))
         cur = self.current
         by = None
-        if cur and cur["actor"] is m and (cur["row"].get("group") == "self_ko" or cur["row"]["move"] in SELF_KO):
+        if cur and cur["actor"] is m and (cur["row"].get("group") == "self_ko" or cur["row"]["move"] in SELF_KO
+                                          or (cur["row"]["move"] == "Curse" and cause is None)):   # a Ghost's Curse costs half its HP
             m.fainted_by = "self: " + cur["row"]["move"]
         elif self.bond.get(self.foe(side).id) and cur and cur["actor"] is m:
             by = (self.foe(side), self.bond[self.foe(side).id], "Destiny Bond")
@@ -453,6 +462,8 @@ class Battle:
             by = (self.sides[cause[1]], self.sides[cause[1]].members[cause[2]], cause[3])
         elif cause in HAZARDS and self.foe(side).hazard_by.get(cause):
             by = (self.foe(side), self.foe(side).hazard_by[cause], cause)
+        elif cause == "Perish Song" and self.perish_by and self.perish_by[0] is not side:
+            by = (self.perish_by[0], self.perish_by[1], cause)   # trapped and perished: the singer's knockout
         else:
             m.fainted_by = cause if isinstance(cause, str) else None
         if by and by[1] is not None:
@@ -483,7 +494,7 @@ class Battle:
         m.status = None
         frm = tags.get("from", "")
         if frm:
-            self._learn_from(frm, tags, m)
+            self._learn_from(frm, tags, m, own=True)
 
     def on_cureteam(self, args, tags):
         side, _ = self.who(args[0] if args else "")
@@ -498,7 +509,7 @@ class Battle:
         if side.active == m.nickname:
             side.boosts[args[1]] = side.boosts.get(args[1], 0) + n
         if tags.get("from"):
-            self._learn_from(tags["from"], tags, m)
+            self._learn_from(tags["from"], tags, m, own=True)
         elif self.current and self.current["actor"] is m:
             b = self.current["row"]["result"].setdefault("boosts", {})
             b[args[1]] = b.get(args[1], 0) + n
@@ -634,12 +645,14 @@ class Battle:
     def on_immune(self, args, tags):
         side, m = self.who(args[0] if args else "")
         if m and tags.get("from"):
-            self._learn_from(tags["from"], tags, m)
+            self._learn_from(tags["from"], tags, m, own=True)
         if self.current:
             self.current["row"]["result"]["immune"] = True
 
     def on_start(self, args, tags):
         side, m = self.who(args[0] if args else "")
+        if m and len(args) > 1 and args[1] == "perish0":
+            self.last_hit[(side.id, m.nickname)] = "Perish Song"
         if m and tags.get("from"):
             self._learn_from(tags["from"], tags, m)
         if m and self.current and len(args) > 1 and self.current["actor"].side != side.id:
@@ -687,7 +700,8 @@ class Battle:
                           "order": [s.members[n].species for n in s.order], "unseen": max(0, s.teamsize - len(s.order)),
                           "fainted": s.fainted, "members": members, "won": self.winner == sid}
         return {"meta": self.meta, "gen": self.gen, "tier": self.tier, "rules": self.rules, "turns": self.turn,
-                "winner": self.winner, "forfeit": self.forfeit, "last_ko": self.last_ko, "sides": sides,
+                "winner": self.winner, "forfeit": self.forfeit, "timed_out": self.timed_out, "last_ko": self.last_ko,
+                "sides": sides,
                 "rows": self.rows}
 
 

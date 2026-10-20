@@ -40,13 +40,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Exeggutor** Lv 100 (Chlorophyll) | specially soft | · | ½ | 2× | 2× | ½ | · | 4× | 2× | · | 2× | ½ | ½ | ½ | ½ | 2× | · | 2× |
-| **Arcanine** Lv 100 (Intimidate) | even | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
+| **Arcanine** Lv 100 (Intimidate) | frail both ways | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
 | **Rhydon** Lv 100 (Lightning Rod) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
-| **Gyarados** Lv 100 (Intimidate) | physically soft | · | ½ | · | · | 0 | 2× | ½ | · | ½ | ½ | ½ | · | 4× | · | · | · | · |
+| **Gyarados** Lv 100 (Intimidate) | even | · | ½ | · | · | 0 | 2× | ½ | · | ½ | ½ | ½ | · | 4× | · | · | · | · |
 | **Machamp** Lv 100 (Guts) | even | · | · | 2× | · | · | ½ | ½ | · | · | · | · | · | · | 2× | · | · | ½ |
-| **Pidgeot** Lv 100 (Keen Eye) | even | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
+| **Pidgeot** Lv 100 (Keen Eye) | frail both ways | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
 
-**Gaps:** Ice and Rock · **Strengths:** none · **Bring:** special attackers (1 physically soft, 2 specially soft)
+**Gaps:** Ice and Rock · **Strengths:** none · **Bring:** special attackers (0 physically soft, 2 specially soft, 2 frail, 0 bulky both ways)
 
 # Playsheet
 
@@ -62,8 +62,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## On the ladder
 
 - Exeggutor: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Explosion, Psychic, Solar Beam, Hidden Power Fire @ Life Orb (Naive 252 HP / 4 SpA / 252 Spe). What beats it: Heatran 77%, Tyranitar 49%, Latias 45%.
-- Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.
-- Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%.
+- Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Suicune 84%, Heatran 73%.
+- Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Rotom-Wash 67%, Rotom-Heat 70%.
 
 ## Career
 

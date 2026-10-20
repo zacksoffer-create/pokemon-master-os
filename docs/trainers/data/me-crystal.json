@@ -186,19 +186,21 @@
     "ability": null,
     "level": 100,
     "stats": {
-     "hp": 332,
-     "atk": 267,
-     "def": 257,
-     "spa": 215,
-     "spd": 223,
-     "spe": 213
+     "hp": 373,
+     "atk": 308,
+     "def": 298,
+     "spa": 256,
+     "spd": 264,
+     "spe": 254
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
-     "def": 257,
-     "spd": 223,
-     "gap": 0.132
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 298,
+     "spd": 264,
+     "physical_pct": 0.8,
+     "special_pct": 0.64,
+     "gap": 0.16
     },
     "cells": {
      "Normal": {
@@ -272,7 +274,7 @@
     },
     "defaults_used": [
      "IVs 31",
-     "EVs 85 in every stat",
+     "stat experience maxed in every stat",
      "neutral nature"
     ],
     "moves": [
@@ -316,19 +318,21 @@
     "ability": null,
     "level": 100,
     "stats": {
-     "hp": 352,
-     "atk": 217,
-     "def": 267,
-     "spa": 137,
-     "spd": 197,
-     "spe": 257
+     "hp": 393,
+     "atk": 258,
+     "def": 308,
+     "spa": 178,
+     "spd": 238,
+     "spe": 298
     },
     "bulk": {
-     "lean": "special",
-     "label": "specially soft",
-     "def": 267,
-     "spd": 197,
-     "gap": 0.262
+     "lean": "even",
+     "label": "even",
+     "def": 308,
+     "spd": 238,
+     "physical_pct": 0.89,
+     "special_pct": 0.5,
+     "gap": 0.4
     },
     "cells": {
      "Normal": {
@@ -337,8 +341,7 @@
      },
      "Fighting": {
       "verdict": "weak",
-      "multiplier": 2.0,
-      "note": "worse from special attackers"
+      "multiplier": 2.0
      },
      "Flying": {
       "verdict": "neutral",
@@ -403,7 +406,7 @@
     },
     "defaults_used": [
      "IVs 31",
-     "EVs 85 in every stat",
+     "stat experience maxed in every stat",
      "neutral nature"
     ],
     "moves": [
@@ -447,19 +450,21 @@
     "ability": null,
     "level": 100,
     "stats": {
-     "hp": 342,
-     "atk": 297,
-     "def": 297,
-     "spa": 177,
-     "spd": 177,
-     "spe": 157
+     "hp": 383,
+     "atk": 338,
+     "def": 338,
+     "spa": 218,
+     "spd": 218,
+     "spe": 198
     },
     "bulk": {
      "lean": "special",
      "label": "specially soft",
-     "def": 297,
-     "spd": 177,
-     "gap": 0.404
+     "def": 338,
+     "spd": 218,
+     "physical_pct": 0.94,
+     "special_pct": 0.34,
+     "gap": 0.6
     },
     "cells": {
      "Normal": {
@@ -536,7 +541,7 @@
     },
     "defaults_used": [
      "IVs 31",
-     "EVs 85 in every stat",
+     "stat experience maxed in every stat",
      "neutral nature"
     ],
     "moves": [
@@ -580,19 +585,21 @@
     "ability": null,
     "level": 100,
     "stats": {
-     "hp": 342,
-     "atk": 207,
-     "def": 207,
-     "spa": 287,
-     "spd": 237,
-     "spe": 167
+     "hp": 383,
+     "atk": 248,
+     "def": 248,
+     "spa": 328,
+     "spd": 278,
+     "spe": 208
     },
     "bulk": {
      "lean": "even",
      "label": "even",
-     "def": 207,
-     "spd": 237,
-     "gap": 0.127
+     "def": 248,
+     "spd": 278,
+     "physical_pct": 0.52,
+     "special_pct": 0.74,
+     "gap": 0.22
     },
     "cells": {
      "Normal": {
@@ -666,7 +673,7 @@
     },
     "defaults_used": [
      "IVs 31",
-     "EVs 85 in every stat",
+     "stat experience maxed in every stat",
      "neutral nature"
     ],
     "moves": [
@@ -710,19 +717,21 @@
     "ability": null,
     "level": 100,
     "stats": {
-     "hp": 352,
-     "atk": 187,
-     "def": 277,
-     "spa": 177,
-     "spd": 317,
-     "spe": 187
+     "hp": 393,
+     "atk": 228,
+     "def": 318,
+     "spa": 218,
+     "spd": 358,
+     "spe": 228
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
-     "def": 277,
-     "spd": 317,
-     "gap": 0.126
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 318,
+     "spd": 358,
+     "physical_pct": 0.91,
+     "special_pct": 0.97,
+     "gap": 0.05
     },
     "cells": {
      "Normal": {
@@ -796,7 +805,7 @@
     },
     "defaults_used": [
      "IVs 31",
-     "EVs 85 in every stat",
+     "stat experience maxed in every stat",
      "neutral nature"
     ],
     "moves": [
@@ -840,19 +849,21 @@
     "ability": null,
     "level": 100,
     "stats": {
-     "hp": 292,
-     "atk": 187,
-     "def": 177,
-     "spa": 317,
-     "spd": 247,
-     "spe": 277
+     "hp": 333,
+     "atk": 228,
+     "def": 218,
+     "spa": 358,
+     "spd": 288,
+     "spe": 318
     },
     "bulk": {
      "lean": "physical",
      "label": "physically soft",
-     "def": 177,
-     "spd": 247,
-     "gap": 0.283
+     "def": 218,
+     "spd": 288,
+     "physical_pct": 0.19,
+     "special_pct": 0.57,
+     "gap": 0.38
     },
     "cells": {
      "Normal": {
@@ -929,7 +940,7 @@
     },
     "defaults_used": [
      "IVs 31",
-     "EVs 85 in every stat",
+     "stat experience maxed in every stat",
      "neutral nature"
     ],
     "moves": [
@@ -1210,16 +1221,17 @@
    "strengths": [],
    "soft": {
     "physical": 1,
-    "special": 2,
-    "even": 3
+    "special": 1,
+    "even": 2,
+    "frail": 0,
+    "sturdy": 2
    },
-   "bring": "special",
+   "bring": "either",
    "soft_members": {
     "physical": [
      "Espeon"
     ],
     "special": [
-     "Miltank",
      "Donphan"
     ]
    }
@@ -1287,9 +1299,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a special attacker: Miltank and Donphan are specially soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here special)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Espeon (physically soft) and Donphan (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    }
   ],
   "gap": [
@@ -1316,23 +1328,23 @@
     "species": "Feraligatr",
     "nickname": null,
     "primary": {
-     "role": "physical_setup_sweeper",
-     "name": "physical setup sweeper",
-     "family": "offense",
-     "score": 0.6215,
-     "confidence": "solid",
-     "margin": 0.0134,
-     "clear": false
-    },
-    "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6081,
-     "confidence": "solid"
+     "score": 0.7329,
+     "confidence": "strong",
+     "margin": 0.025,
+     "clear": false
+    },
+    "secondary": {
+     "role": "physical_setup_sweeper",
+     "name": "physical setup sweeper",
+     "family": "offense",
+     "score": 0.7079,
+     "confidence": "strong"
     },
     "also": [],
-    "why": "physical setup sweeper (0.62, solid): Curse; Attack 267 (above 82% of the field); types it hits super-effectively: Dark, Dragon, Fire, Flying, Grass, Ground, Ice, Normal, Rock, Steel"
+    "why": "bulky attacker (0.73, strong): Attack 308 (above 82% of the field); overall bulk above 79% of the field; attacking moves: Hydro Pump, Dynamic Punch, Ice Beam"
    },
    {
     "species": "Miltank",
@@ -1341,20 +1353,20 @@
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.6857,
+     "score": 0.7721,
      "confidence": "strong",
-     "margin": 0.084,
+     "margin": 0.0958,
      "clear": true
     },
     "secondary": {
      "role": "bulky_setup",
      "name": "bulky setup",
      "family": "defense",
-     "score": 0.6017,
-     "confidence": "solid"
+     "score": 0.6763,
+     "confidence": "strong"
     },
     "also": [],
-    "why": "physical setup sweeper (0.69, strong): Curse; physical attacks: Body Slam, Earthquake, Dynamic Punch; Speed 257 (above 83% of the field)"
+    "why": "physical setup sweeper (0.77, strong): Curse; physical attacks: Body Slam, Earthquake, Dynamic Punch; Speed 298 (above 83% of the field)"
    },
    {
     "species": "Donphan",
@@ -1363,20 +1375,20 @@
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.6882,
+     "score": 0.7747,
      "confidence": "strong",
-     "margin": 0.0456,
+     "margin": 0.0087,
      "clear": false
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6426,
-     "confidence": "solid"
+     "score": 0.766,
+     "confidence": "strong"
     },
     "also": [],
-    "why": "physical setup sweeper (0.69, strong): Curse; Attack 297 (above 90% of the field); physical attacks: Earthquake, Ancient Power, Double-Edge"
+    "why": "physical setup sweeper (0.77, strong): Curse; Attack 338 (above 90% of the field); physical attacks: Earthquake, Ancient Power, Double-Edge"
    },
    {
     "species": "Ampharos",
@@ -1385,20 +1397,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6281,
-     "confidence": "solid",
-     "margin": 0.0529,
-     "clear": false
+     "score": 0.7543,
+     "confidence": "strong",
+     "margin": 0.1033,
+     "clear": true
     },
     "secondary": {
      "role": "bulky_setup",
      "name": "bulky setup",
      "family": "defense",
-     "score": 0.5752,
-     "confidence": "solid"
+     "score": 0.651,
+     "confidence": "strong"
     },
     "also": [],
-    "why": "bulky attacker (0.63, solid): Sp. Atk 287 (above 93% of the field); attacking moves: Thunderbolt, Dynamic Punch, Fire Punch; overall bulk above 66% of the field"
+    "why": "bulky attacker (0.75, strong): Sp. Atk 328 (above 93% of the field); attacking moves: Thunderbolt, Dynamic Punch, Fire Punch; 252 HP EVs"
    },
    {
     "species": "Umbreon",
@@ -1407,20 +1419,20 @@
      "role": "bulky_setup",
      "name": "bulky setup",
      "family": "defense",
-     "score": 0.7648,
+     "score": 0.8406,
      "confidence": "strong",
-     "margin": 0.2344,
+     "margin": 0.2824,
      "clear": true
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.5304,
+     "score": 0.5582,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky setup (0.76, strong): Curse; Moonlight; overall bulk above 96% of the field"
+    "why": "bulky setup (0.84, strong): Curse; Moonlight; overall bulk above 96% of the field"
    },
    {
     "species": "Espeon",
@@ -1429,20 +1441,20 @@
      "role": "bulky_setup",
      "name": "bulky setup",
      "family": "defense",
-     "score": 0.519,
+     "score": 0.596,
      "confidence": "solid",
-     "margin": 0.007,
+     "margin": 0.0542,
      "clear": false
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.512,
+     "score": 0.5418,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky setup (0.52, solid): Curse; attacking moves: Psychic, Bite, Zap Cannon; overall bulk above 32% of the field"
+    "why": "bulky setup (0.60, solid): Curse; attacking moves: Psychic, Bite, Zap Cannon; 252 HP EVs"
    }
   ],
   "ace": {
@@ -1474,7 +1486,7 @@
       "role": 1.0
      },
      "helpers": [],
-     "role": "physical setup sweeper",
+     "role": "bulky attacker",
      "level": null,
      "sent_out": "lead"
     },
@@ -1541,19 +1553,19 @@
     "label": "workhorse",
     "species": "Donphan",
     "role": "bulky attacker",
-    "fit": 0.546
+    "fit": 0.651
    },
    "ahead": {
     "label": "cleaner",
     "species": "Miltank",
     "role": "late-game cleaner",
-    "fit": 0.514
+    "fit": 0.545
    },
    "behind": {
     "label": "gambit",
     "species": "Donphan",
     "role": "physical setup sweeper",
-    "fit": 0.688,
+    "fit": 0.775,
     "last_resorts": []
    }
   },
@@ -1583,7 +1595,7 @@
      "move": "Ice Beam",
      "member": "Feraligatr",
      "move_type": "Ice",
-     "power": 76,
+     "power": 79,
      "their_weak_to_it": 0
     },
     {
@@ -1637,7 +1649,7 @@
      "move": "Ice Beam",
      "member": "Feraligatr",
      "move_type": "Ice",
-     "power": 76,
+     "power": 79,
      "their_weak_to_it": 2
     },
     {
@@ -1646,7 +1658,7 @@
      "move": "Hydro Pump",
      "member": "Feraligatr",
      "move_type": "Water",
-     "power": 116,
+     "power": 120,
      "their_weak_to_it": 1
     },
     {
@@ -1800,6 +1812,12 @@
     },
     "checks": [
      {
+      "species": "Forretress",
+      "beats": 77,
+      "score": 44,
+      "n": 27
+     },
+     {
       "species": "Zapdos",
       "beats": 70,
       "score": 41,
@@ -1844,6 +1862,12 @@
       "beats": 34,
       "score": 9,
       "n": 56
+     },
+     {
+      "species": "Zapdos",
+      "beats": 46,
+      "score": 5,
+      "n": 23
      }
     ]
    },
@@ -1895,8 +1919,8 @@
    }
   ],
   "ladder_lines": [
-   "Miltank: on 4.4% of gen2ou teams (2026-09, rated 1630+), usually Milk Drink, Heal Bell, Growl, Body Slam @ Leftovers. What beats it: Zapdos 70%, Snorlax 23%.",
-   "Umbreon: on 4.2% of gen2ou teams (2026-09, rated 1630+), usually Rest, Pursuit, Sleep Talk, Charm @ Leftovers. What beats it: Snorlax 34%.",
+   "Miltank: on 4.4% of gen2ou teams (2026-09, rated 1630+), usually Milk Drink, Heal Bell, Growl, Body Slam @ Leftovers. What beats it: Forretress 77%, Zapdos 70%, Snorlax 23%.",
+   "Umbreon: on 4.2% of gen2ou teams (2026-09, rated 1630+), usually Rest, Pursuit, Sleep Talk, Charm @ Leftovers. What beats it: Snorlax 34%, Zapdos 46%.",
    "Espeon: on 5.5% of gen2ou teams (2026-09, rated 0+), usually Psychic, Growth, Hidden Power Fire, Baton Pass @ MiracleBerry. What beats it: Tyranitar 83%, Snorlax 68%, Raikou 71%."
   ],
   "text": {

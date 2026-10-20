@@ -4,12 +4,14 @@ chart of the version's game, the build's ability, and the build's real stats.
 - **The matrix:** their Pokémon down the side, the attacking types across the top. Each cell is a verdict (immune,
   resists, neutral, weak, very weak), chosen after the ability rewrites the multiplier (Levitate, Flash Fire, Thick
   Fat, Wonder Guard…). Rules and words live in trainers/config.json.
-- **Bulk lean:** each row compares its real Defense with its real Sp. Def (HP cancels out of HP x Def against
-  HP x Sp. Def). A clear gap (15% by default) tags the row physically or specially soft, and its weak cells read
-  "weak, and worse from physical attackers". Gen IV splits physical and special by move, so this is a row tag, not
-  a column.
+- **Bulk:** each row's physical bulk (HP x Defense) and special bulk (HP x Sp. Def), from its real stats, placed
+  in the field: every fully evolved Pokémon of the generation at the row's level, on the default spread (the pool
+  the role engine reads). A side is soft only when it sits low in the field and clearly below the other side, so
+  HP counts: Snorlax's 65 Defense rides on 160 HP and still out-bulks most of the field physically. Both sides low
+  is frail, both high is sturdy. A soft row's weak cells read "weak, and worse from physical attackers". Gen IV
+  splits physical and special by move, so this is a row tag, not a column.
 - **Team summary:** weaknesses and resistances counted per type; gaps (types that hit them hard) and strengths
-  (types they handle); and which kind of attacker to bring, from the soft tags.
+  (types they handle); and which kind of attacker to bring, when enough of the team is soft on one side.
 
 `team_matrix` returns plain data (for the report and for Part 2) and never prints.
 """
@@ -42,17 +44,33 @@ def rewrite(mult, attack_type, ability, table):
     return new, new != mult
 
 
-def bulk_lean(stats, cfg):
-    d, s = stats["def"], stats["spd"]
-    t = cfg["threshold"]
-    if d <= s * (1 - t):
-        lean = "physical"
-    elif s <= d * (1 - t):
-        lean = "special"
+def field(store, gen, level):
+    """The field's bulk at a level, sorted, cached on the store: the role engine's own pool."""
+    from trainers.roles import RoleBook          # roles reads this module's `rewrite`
+    cache = store.__dict__.setdefault("_bulk_field", {})
+    if (gen, level) not in cache:
+        pool = RoleBook(store).pool(gen, level)
+        cache[(gen, level)] = {"physical": pool["bulk_physical"], "special": pool["bulk_special"]}
+    return cache[(gen, level)]
+
+
+def bulk_lean(stats, cfg, pool):
+    """Where a row's physical and special bulk sit in the field (0-1), and the tag they earn."""
+    from trainers.roles import _pct
+    pct = {"physical": _pct(stats["hp"] * stats["def"], pool["physical"]),
+           "special": _pct(stats["hp"] * stats["spd"], pool["special"])}
+    low, high = sorted(pct, key=pct.get)
+    gap = pct[high] - pct[low]
+    if pct[low] < cfg["soft_below"] and gap >= cfg["gap_at_least"]:
+        lean = low
+    elif pct[high] < cfg["soft_below"]:
+        lean = "frail"
+    elif pct[low] >= cfg["sturdy_at"]:
+        lean = "sturdy"
     else:
         lean = "even"
-    return {"lean": lean, "label": cfg["labels"][lean], "def": d, "spd": s,
-            "gap": round(1 - min(d, s) / max(d, s), 3) if max(d, s) else 0.0}
+    return {"lean": lean, "label": cfg["labels"][lean], "def": stats["def"], "spd": stats["spd"],
+            "physical_pct": round(pct["physical"], 2), "special_pct": round(pct["special"], 2), "gap": round(gap, 2)}
 
 
 def row(store, build, game, level=None):
@@ -64,7 +82,7 @@ def row(store, build, game, level=None):
     stats, lvl, used = store.stats(build, game, level)
     filled, _ = store.filled(build, gen)
     ability = filled["ability"]
-    bulk = bulk_lean(stats, cfg["bulk"])
+    bulk = bulk_lean(stats, cfg["bulk"], field(store, gen, lvl))
     cells = {}
     for t in era.chart(gen):
         base = era.multiplier(t, types, gen)
@@ -74,7 +92,7 @@ def row(store, build, game, level=None):
         if changed:
             cell["ability"] = ability
             cell["before_ability"] = verdict(base, cfg["verdicts"]["rules"])
-        if bulk["lean"] != "even" and v in cfg["bulk"]["cell_note_on"]:
+        if bulk["lean"] in ("physical", "special") and v in cfg["bulk"]["cell_note_on"]:
             cell["note"] = cfg["bulk"]["worse_from"][bulk["lean"]]
         cells[t] = cell
     return {"build": build.id, "species": build.species, "nickname": build.nickname, "types": list(types),
@@ -103,12 +121,10 @@ def summary(rows, types, cfg):
                  if c["covered"] >= t["strength_if_resisted_at_least"]
                  and (c["weak_total"] == 0 or not t["strength_needs_no_weakness"])]
     strengths.sort(key=lambda ty: (-per_type[ty]["covered"], -per_type[ty]["immune"]))
-    soft = {"physical": sum(r["bulk"]["lean"] == "physical" for r in rows),
-            "special": sum(r["bulk"]["lean"] == "special" for r in rows),
-            "even": sum(r["bulk"]["lean"] == "even" for r in rows)}
-    margin = t["bring_margin"]
-    bring = ("physical" if soft["physical"] - soft["special"] >= margin else
-             "special" if soft["special"] - soft["physical"] >= margin else "either")
+    soft = {k: sum(r["bulk"]["lean"] == k for r in rows) for k in ("physical", "special", "even", "frail", "sturdy")}
+    margin, least = t["bring_margin"], t["bring_at_least"]
+    bring = ("physical" if soft["physical"] >= least and soft["physical"] - soft["special"] >= margin else
+             "special" if soft["special"] >= least and soft["special"] - soft["physical"] >= margin else "either")
     return {"per_type": per_type, "gaps": gaps, "strengths": strengths, "soft": soft, "bring": bring,
             "soft_members": {k: [r["species"] for r in rows if r["bulk"]["lean"] == k] for k in ("physical", "special")}}
 

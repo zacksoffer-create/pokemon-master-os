@@ -137,11 +137,23 @@ class Era:
         return (None, None) if up == down else (STAT_ID[up], STAT_ID[down])
 
     def stats(self, name, gen, level=100, nature=None, ivs=None, evs=None):
-        """Real stats at a level, from base stats, nature, IVs and EVs (the Gen III-IV formula)."""
+        """Real stats at a level, from base stats, nature, IVs and EVs.
+
+        Gen III on: the IV/EV/nature formula. Gen I-II have DVs (0-15) and stat experience instead, read the way
+        Showdown and Smogon's calc read them: a DV is half the IV, rounded down; the HP DV is built from the odd/even
+        bits of the Attack, Defense, Speed and Special DVs; Sp. Atk and Sp. Def share the Special DV and the Special
+        stat experience (both read from Sp. Atk); stat experience (EV - 1)² + 1 adds the same quarter-EV as Gen III's
+        EVs; and there are no natures."""
         base = self.base_stats(name, gen)
         ivs = {s: (ivs or {}).get(s, 31) for s in STATS}
         evs = {s: (evs or {}).get(s, 0) for s in STATS}
-        up, down = self.nature(nature)
+        up, down = self.nature(nature) if gen >= 3 else (None, None)
+        if gen <= 2:
+            dv = {s: ivs[s] // 2 for s in STATS}
+            dv["spd"] = dv["spa"]
+            dv["hp"] = (dv["atk"] % 2) * 8 + (dv["def"] % 2) * 4 + (dv["spe"] % 2) * 2 + dv["spa"] % 2
+            ivs = {s: 2 * dv[s] for s in STATS}
+            evs["spd"] = evs["spa"]
         out = {}
         for s in STATS:
             core = (2 * base[s] + ivs[s] + evs[s] // 4) * level // 100
@@ -163,6 +175,23 @@ class Era:
 
     def item_name(self, item):
         return self.item_lookup(item) or str(item)
+
+    @lru_cache(maxsize=None)
+    def item_gen(self, item):
+        """The first generation an item is in a game, from its game indices (None when the data doesn't date it).
+        PokeAPI files Gen II's berries under their Gen III names (MiracleBerry as Lum Berry), so a Gen III berry
+        name dates to Gen II here; the validation config tells the two names apart."""
+        key = slug(str(item).replace("ITEM_", "")).replace("-", "")
+        for i, ident in self.ref.q("SELECT id, identifier FROM items"):
+            if ident.replace("-", "") == key:
+                r = self.ref.q("SELECT MIN(CAST(generation_id AS INT)) FROM item_game_indices WHERE item_id=?", i)
+                return int(r[0][0]) if r and r[0][0] is not None else None
+        return None
+
+    @lru_cache(maxsize=None)
+    def move_gen(self, move):
+        """The generation a move first appears in."""
+        return self.ref.move_gen(self.ref.move_id(move))
 
     @lru_cache(maxsize=None)
     def move_info(self, move, gen):
@@ -278,7 +307,7 @@ class Era:
                 for i, ident, g in self.ref.q("SELECT id, identifier, generation_id FROM version_groups")}
 
     def learn_anywhere(self, species, move):
-        """Every game where the species (or a pre-evolution) learns the move: [(game, generation, method, level)]."""
+        """Every game where the species, its form or a pre-evolution learns the move: [(game, generation, method, level)]."""
         try:
             sid, mid = self.ref.species_id(species), self.ref.move_id(move)
         except KeyError:
@@ -286,11 +315,17 @@ class Era:
         methods = {int(i): ident for i, ident in self.ref.q("SELECT id, identifier FROM pokemon_move_methods")}
         names = self.game_names()
         out = set()
-        for stage in self.ref.line(sid):
+        form = self.pokemon_id(species)                 # a form's own learnset (Rotom-Heat's Overheat)
+        events = {(self.ref.species_id(e["species"]), e["move"]): e for e in _CORRECTIONS["event_moves"]["moves"]}
+        move_name = self.ref.move_name(mid)
+        for stage in ([form] if form != sid else []) + self.ref.line(sid):
             for vg, m, lvl in self.ref.q("SELECT version_group_id, pokemon_move_method_id, level FROM pokemon_moves "
                                          "WHERE pokemon_id=? AND move_id=?", stage, mid):
                 game, gen = names[int(vg)]
                 out.add((game, gen, methods.get(int(m), str(m)), int(lvl or 0)))
+            e = events.get((stage, move_name))
+            if e:                                       # era_corrections.json "event_moves"
+                out.add((f"a Gen {e['gen']} event", e["gen"], e["event"], 0))
         return sorted(out, key=lambda r: (r[1], r[0], r[2]))
 
     def learn(self, species, move, game):

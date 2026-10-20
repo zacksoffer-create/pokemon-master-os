@@ -43,13 +43,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Charizard** Lv 100 (Blaze) | even | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
-| **Blastoise** Lv 100 (Torrent) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Blastoise** Lv 100 (Torrent) | bulky both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 | **Venusaur** Lv 100 (Overgrow) | even | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
 | **Alakazam** Lv 100 (Synchronize) | physically soft | · | ½ | · | · | · | · | 2× | 2× | · | · | · | · | · | ½ | · | · | 2× |
 | **Jolteon** Lv 100 (Volt Absorb) | physically soft | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | 0* | · | · | · | · |
-| **Machamp** Lv 100 (Guts) | even | · | · | 2× | · | · | ½ | ½ | · | · | · | · | · | · | 2× | · | · | ½ |
+| **Machamp** Lv 100 (Guts) | bulky both ways | · | · | 2× | · | · | ½ | ½ | · | · | · | · | · | · | 2× | · | · | ½ |
 
-**Gaps:** none · **Strengths:** Fighting and Steel · **Bring:** physical attackers (2 physically soft, 0 specially soft)
+**Gaps:** none · **Strengths:** Fighting and Steel · **Bring:** physical attackers (2 physically soft, 0 specially soft, 0 frail, 2 bulky both ways)
 
 # Playsheet
 
@@ -67,7 +67,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 - Charizard: on 5.3% of gen3ou teams (2026-09, rated 1630+), usually Hidden Power Grass, Substitute, Focus Punch, Fire Blast @ Leftovers (Hasty 4 Atk / 252 SpA / 252 Spe). What beats it: Jolteon 89%, Starmie 79%, Aerodactyl 74%.
 - Blastoise: on 0.7% of gen3ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Ice Beam, Roar @ Leftovers (Bold 252 HP / 148 Def / 68 SpA / 40 Spe). What beats it: Venusaur 94%, Raikou 91%, Zapdos 80%.
 - Venusaur: on 1.6% of gen3ou teams (2026-09, rated 1630+), usually Sleep Powder, Leech Seed, Giga Drain, Hidden Power Fire @ Leftovers (Timid 8 HP / 248 SpA / 112 SpD / 140 Spe). What beats it: Aerodactyl 72%, Celebi 71%, Salamence 66%.
-- Alakazam: on 0.8% of gen3ou teams (2026-09, rated 1630+), usually Psychic, Fire Punch, Hidden Power Grass, Encore @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 72%, Tyranitar 68%, Skarmory 14%.
+- Alakazam: on 0.8% of gen3ou teams (2026-09, rated 1630+), usually Psychic, Fire Punch, Hidden Power Grass, Encore @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Aerodactyl 92%, Blissey 72%, Tyranitar 68%.
 - Jolteon: on 7.7% of gen3ou teams (2026-09, rated 1630+), usually Thunderbolt, Baton Pass, Hidden Power Grass, Thunder Wave @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 89%, Registeel 85%, Snorlax 82%.
 - Machamp: on 1.4% of gen3ou teams (2026-09, rated 1630+), usually Rock Slide, Bulk Up, Hidden Power Ghost, Cross Chop @ Leftovers (Adamant 76 HP / 216 Atk / 216 Spe). What beats it: Metagross 79%, Aerodactyl 79%, Salamence 70%.
 

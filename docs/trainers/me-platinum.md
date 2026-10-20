@@ -41,14 +41,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Infernape** Lv 100 (Blaze) | even | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
+| **Infernape** Lv 100 (Blaze) | frail both ways | · | · | 2× | · | 2× | · | ½ | · | ½ | ½ | 2× | ½ | · | 2× | ½ | · | ½ |
 | **Weavile** Lv 100 (Pressure) | physically soft | · | 4× | · | · | · | 2× | 2× | ½ | 2× | 2× | · | · | · | 0 | ½ | · | ½ |
 | **Roserade** Lv 100 (Natural Cure) | physically soft | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
-| **Lucario** Lv 100 (Steadfast) | even | ½ | 2× | · | 0 | 2× | ½ | ½ | ½ | ½ | 2× | · | ½ | · | · | ½ | ½ | ½ |
-| **Garchomp** Lv 100 (Sand Veil) | even | · | · | · | ½ | · | ½ | · | · | · | ½ | · | · | 0 | · | 4× | 2× | · |
-| **Magnezone** Lv 100 (Magnet Pull) | specially soft | ½ | 2× | ½ | 0 | 4× | ½ | ½ | ½ | ½ | 2× | · | ½ | ½ | ½ | ½ | ½ | ½ |
+| **Lucario** Lv 100 (Steadfast) | frail both ways | ½ | 2× | · | 0 | 2× | ½ | ½ | ½ | ½ | 2× | · | ½ | · | · | ½ | ½ | ½ |
+| **Garchomp** Lv 100 (Sand Veil) | bulky both ways | · | · | · | ½ | · | ½ | · | · | · | ½ | · | · | 0 | · | 4× | 2× | · |
+| **Magnezone** Lv 100 (Magnet Pull) | even | ½ | 2× | ½ | 0 | 4× | ½ | ½ | ½ | ½ | 2× | · | ½ | ½ | ½ | ½ | ½ | ½ |
 
-**Gaps:** Fire, Ground and Fighting · **Strengths:** Grass, Dark, Poison, Electric and Ghost · **Bring:** physical attackers (2 physically soft, 1 specially soft)
+**Gaps:** Fire, Ground and Fighting · **Strengths:** Grass, Dark, Poison, Electric and Ghost · **Bring:** physical attackers (2 physically soft, 0 specially soft, 2 frail, 1 bulky both ways)
 
 **Moves and reasons** (D-048):
 
@@ -68,9 +68,9 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## On the ladder
 
 - Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
-- Weavile: on 4.2% of gen4ou teams (2026-09, rated 0+), usually Ice Shard, Night Slash, Low Kick, Ice Punch @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 79%, Bronzong 81%, Skarmory 76%.
-- Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.
-- Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.
+- Weavile: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Shard, Low Kick, Night Slash, Pursuit @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Scizor 74%, Jirachi 69%, Latias 27%.
+- Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Clefable 89%, Metagross 85%, Jirachi 80%.
+- Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Jirachi 53%.
 - Magnezone: on 10.1% of gen4ou teams (2026-09, rated 1630+), usually Thunderbolt, Hidden Power Fire, Thunder Wave, Explosion @ Choice Scarf (Timid 4 Atk / 252 SpA / 252 Spe). What beats it: Heatran 78%, Hippowdon 86%, Tyranitar 67%.
 
 ## Career

@@ -24,7 +24,7 @@
 
 - Attack with Ice: Nidoking, Honchkrow and Nidoqueen are weak to it, and nobody on the team resists it.
 - Also open to Water (2 weak).
-- Their bulk is even across the team: pick attackers by type, not by side.
+- No side of their bulk stands out as soft across the team: pick attackers by type, not by side.
 
 ## Where their rigidity or recklessness leaves a gap
 
@@ -36,12 +36,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Nidoking** Lv 100 (Poison Point) | even | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
-| **Kangaskhan** Lv 100 (Early Bird) | even | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
-| **Honchkrow** Lv 100 (Insomnia) | even | · | · | · | · | 0 | 2× | · | ½ | · | · | · | ½ | 2× | 0 | 2× | · | ½ |
-| **Nidoqueen** Lv 100 (Poison Point) | even | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
+| **Nidoking** Lv 100 (Poison Point) | frail both ways | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
+| **Kangaskhan** Lv 100 (Early Bird) | frail both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Honchkrow** Lv 100 (Insomnia) | frail both ways | · | · | · | · | 0 | 2× | · | ½ | · | · | · | ½ | 2× | 0 | 2× | · | ½ |
+| **Nidoqueen** Lv 100 (Poison Point) | frail both ways | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
 
-**Gaps:** Ice and Water · **Strengths:** none · **Bring:** either attackers (0 physically soft, 0 specially soft)
+**Gaps:** Ice and Water · **Strengths:** none · **Bring:** attackers by type (0 physically soft, 0 specially soft, 4 frail, 0 bulky both ways)
 
 # Playsheet
 
@@ -54,8 +54,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## On the ladder
 
-- Nidoking: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Ice Beam, Thunderbolt, Superpower, Megahorn @ Custap Berry (Naive 252 Atk / 4 SpA / 252 Spe). What beats it: Starmie 82%, Swampert 81%, Gengar 74%.
-- Kangaskhan: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Sucker Punch, Earthquake, Return, Fake Out @ Life Orb (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 83%, Skarmory 81%, Jirachi 67%.
+- Nidoking: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Ice Beam, Thunderbolt, Superpower, Megahorn @ Custap Berry (Naive 252 Atk / 4 SpA / 252 Spe). What beats it: Starmie 82%, Swampert 81%, Kingdra 84%.
+- Kangaskhan: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Sucker Punch, Earthquake, Return, Fake Out @ Life Orb (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 83%, Skarmory 81%, Bronzong 79%.
 - Honchkrow: on 1.0% of gen4ou teams (2026-09, rated 0+), usually Sucker Punch, Superpower, Brave Bird, Heat Wave @ Life Orb (Naughty 252 Atk / 4 SpA / 252 Spe). What beats it: Zapdos 87%, Jirachi 61%, Infernape 63%.
 - Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%.
 

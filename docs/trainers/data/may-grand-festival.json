@@ -205,7 +205,9 @@
      "label": "even",
      "def": 197,
      "spd": 197,
-     "gap": 0.0
+     "physical_pct": 0.41,
+     "special_pct": 0.39,
+     "gap": 0.02
     },
     "cells": {
      "Normal": {
@@ -336,7 +338,9 @@
      "label": "even",
      "def": 223,
      "spd": 257,
-     "gap": 0.132
+     "physical_pct": 0.56,
+     "special_pct": 0.73,
+     "gap": 0.17
     },
     "cells": {
      "Normal": {
@@ -462,11 +466,13 @@
      "spe": 173
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 217,
      "spd": 217,
-     "gap": 0.0
+     "physical_pct": 0.36,
+     "special_pct": 0.32,
+     "gap": 0.05
     },
     "cells": {
      "Normal": {
@@ -596,7 +602,9 @@
      "label": "physically soft",
      "def": 137,
      "spd": 227,
-     "gap": 0.396
+     "physical_pct": 0.3,
+     "special_pct": 0.91,
+     "gap": 0.61
     },
     "cells": {
      "Normal": {
@@ -725,11 +733,13 @@
      "spe": 187
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 157,
      "spd": 157,
-     "gap": 0.0
+     "physical_pct": 0.07,
+     "special_pct": 0.04,
+     "gap": 0.02
     },
     "cells": {
      "Normal": {
@@ -855,11 +865,13 @@
      "spe": 157
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 147,
      "spd": 127,
-     "gap": 0.136
+     "physical_pct": 0.02,
+     "special_pct": 0.0,
+     "gap": 0.02
     },
     "cells": {
      "Normal": {
@@ -1225,9 +1237,11 @@
    "soft": {
     "physical": 1,
     "special": 0,
-    "even": 5
+    "even": 2,
+    "frail": 3,
+    "sturdy": 0
    },
-   "bring": "physical",
+   "bring": "either",
    "soft_members": {
     "physical": [
      "Munchlax"
@@ -1292,9 +1306,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a physical attacker: Munchlax is physically soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here physical)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Munchlax (physically soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    }
   ],
   "gap": [
@@ -1871,10 +1885,10 @@
       "n": 170
      },
      {
-      "species": "Flygon",
-      "beats": 69,
-      "score": 48,
-      "n": 83
+      "species": "Milotic",
+      "beats": 86,
+      "score": 57,
+      "n": 22
      }
     ]
    },
@@ -1905,29 +1919,29 @@
     },
     "checks": [
      {
-      "species": "Zapdos",
-      "beats": 55,
-      "score": 19,
-      "n": 31
+      "species": "Infernape",
+      "beats": 81,
+      "score": 47,
+      "n": 21
      },
      {
-      "species": "Jirachi",
-      "beats": 50,
-      "score": 15,
-      "n": 32
+      "species": "Skarmory",
+      "beats": 73,
+      "score": 38,
+      "n": 26
      },
      {
-      "species": "Starmie",
-      "beats": 16,
-      "score": -6,
-      "n": 43
+      "species": "Heatran",
+      "beats": 69,
+      "score": 33,
+      "n": 26
      }
     ]
    }
   ],
   "ladder_lines": [
-   "Blaziken: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Vacuum Wave, Superpower, Fire Blast, Hidden Power Ice @ Life Orb (Naive 80 Atk / 176 SpA / 252 Spe). What beats it: Starmie 84%, Latias 77%, Flygon 69%.",
-   "Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Zapdos 55%, Jirachi 50%, Starmie 16%."
+   "Blaziken: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Vacuum Wave, Superpower, Fire Blast, Hidden Power Ice @ Life Orb (Naive 80 Atk / 176 SpA / 252 Spe). What beats it: Starmie 84%, Latias 77%, Milotic 86%.",
+   "Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Infernape 81%, Skarmory 73%, Heatran 69%."
   ],
   "text": {
    "career": [

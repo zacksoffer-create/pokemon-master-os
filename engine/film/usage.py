@@ -64,7 +64,7 @@ def fetch(cfg, fmt, month=None, cutoff=None, base=ENGINE):
 
 
 def fetch_text(cfg, kind, fmt, month, cutoff, base=ENGINE):
-    """One of Smogon's text files for the month ('leads' or 'metagame'), cached beside the chaos file. Its path,
+    """One of Smogon's text files for the month ('leads', 'metagame' or 'moveset'), cached beside the chaos file. Its path,
     or None when Smogon doesn't publish it."""
     path = os.path.join(base, cfg["store"]["usage"], f"{month}-{kind}-{fmt}-{cutoff}.txt")
     if not os.path.exists(path):
@@ -76,6 +76,35 @@ def fetch_text(cfg, kind, fmt, month, cutoff, base=ENGINE):
         with open(path, "wb") as fh:
             fh.write(raw)
     return path
+
+
+SECTIONS = ("Abilities", "Items", "Spreads", "Moves", "Teammates", "Checks and Counters")
+
+
+def published(path):
+    """Smogon's moveset file (the text one) → {species: {raw, Abilities: [(name, %)], …, Checks and Counters:
+    [(name, score, mean, sd)]}}. What Smogon itself prints from the same month, for checking our reading of the chaos
+    file against (engine/sanity.py)."""
+    with open(path, encoding="utf-8") as fh:
+        cells = [m.group(1).strip() for m in (re.match(r"\s*\|\s(.+?)\s+\|\s*$", line) for line in fh) if m]
+    out, cur, sec = {}, None, None
+    for i, cell in enumerate(cells):
+        if i + 1 < len(cells) and cells[i + 1].startswith("Raw count:"):
+            cur, sec = cell, None
+            out[cur] = {}
+        elif cell in SECTIONS:
+            sec = cell
+        elif cell.startswith("Raw count:"):
+            out[cur]["raw"] = int(cell.split(":")[1])
+        elif sec == "Checks and Counters":
+            m = re.match(r"(.+?) ([\d.]+) \(([\d.]+)±([\d.]+)\)$", cell)
+            if m:
+                out[cur].setdefault(sec, []).append((m.group(1), *map(float, m.groups()[1:])))
+        elif sec:
+            m = re.match(r"(.+?) ([\d.]+)%$", cell)
+            if m and m.group(1) != "Other":
+                out[cur].setdefault(sec, []).append((m.group(1), float(m.group(2))))
+    return out
 
 
 class Names:
@@ -127,10 +156,10 @@ def species(cfg, data, name, names):
     total = sum(v["Abilities"].values()) or v["Raw count"] or 1
     checks = []
     for opp, c in v["Checks and Counters"].items():
-        if c["n"] >= u["checks_min_n"]:
-            checks.append({"species": opp, "beats": round(100 * c["p"]), "score": round(100 * (c["p"] - 4 * c["d"])),
-                           "n": round(c["n"])})
-    checks.sort(key=lambda c: -c["score"])
+        if c["n"] > u["checks_min_n"]:
+            checks.append((c["p"] - 4 * c["d"], {"species": opp, "beats": round(100 * c["p"]),
+                                                 "score": round(100 * (c["p"] - 4 * c["d"])), "n": round(c["n"])}))
+    checks = [c for _, c in sorted(checks, key=lambda x: -x[0])]   # ranked on the unrounded score, as Smogon ranks
     return {"species": name, "usage": round(100 * v["usage"], 1), "raw": v["Raw count"],
             "spreads": [{"nature": spread(s)[0], "evs": spread(s)[1], "share": p}
                         for s, p in _shares(v["Spreads"], total, top=u["top_spreads"])],

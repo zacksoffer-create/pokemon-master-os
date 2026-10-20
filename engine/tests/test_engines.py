@@ -607,6 +607,24 @@ class TrainerReportData(unittest.TestCase):
         self.assertEqual(mine["summary"]["gaps"][0], "Fighting")                      # four of the six are weak to it
         _json.dumps(mine)                                                              # plain data, ready for Part 2
 
+    def test_bulk_counts_hp(self):
+        """Softness is placed in the field, HP included: a low Defense on a huge HP pool isn't soft."""
+        from trainers.matrix import row, summary
+        from trainers.model import Build
+        def lean(sp, game="platinum"):
+            return row(self.store, Build(id="t", species=sp, moves=["Tackle"]), game)["bulk"]
+        self.assertNotEqual(lean("Snorlax")["lean"], "physical")       # 65 Def on 160 HP: above most of the field
+        self.assertGreater(lean("Snorlax")["physical_pct"], 0.6)
+        self.assertNotEqual(lean("Snorlax", "heartgold")["lean"], "physical")
+        self.assertEqual(lean("Blissey")["lean"], "physical")          # 255 HP can't carry 10 Def
+        self.assertEqual(lean("Skarmory")["lean"], "special")
+        self.assertEqual(lean("Cloyster")["lean"], "special")
+        self.assertEqual(lean("Ninjask")["lean"], "frail")             # low on both sides is frail, not a side
+        self.assertEqual(lean("Tyranitar")["lean"], "sturdy")
+        rows = [row(self.store, Build(id="t", species=sp, moves=["Tackle"]), "platinum")
+                for sp in ("Sceptile", "Snorlax", "Heracross", "Charizard", "Tyranitar", "Gyarados")]
+        self.assertEqual(summary(rows, ["Fire"], self.store.config)["bring"], "either")   # one soft member isn't a team
+
     def _measure(self, tid, vid=None):
         from trainers.matrix import team_matrix
         from trainers.sliders import measure
@@ -1783,6 +1801,148 @@ class BuildsBook(unittest.TestCase):
             self.assertTrue(all(s.get("evs") for s in g["sets"]))                 # every Gen 4 set gets a spread
         finally:
             shutil.rmtree(tmp)
+
+
+AUDIT_LOG = """|player|p1|Alice|1|1500
+|player|p2|Bob|2|1450
+|teamsize|p1|2
+|teamsize|p2|2
+|gen|4
+|tier|[Gen 4] OU
+|start
+|switch|p1a: Sparky|Jolteon, M|100/100
+|switch|p2a: Star|Starmie|100/100
+|turn|1
+|move|p2a: Star|Thunderbolt|p1a: Sparky
+|-heal|p1a: Sparky|100/100|[from] ability: Volt Absorb|[of] p2a: Star
+|move|p1a: Sparky|Thunderbolt|p2a: Star
+|-damage|p2a: Star|60/100
+|upkeep
+|turn|2
+|switch|p2a: Spooky|Gengar, F|100/100
+|move|p1a: Sparky|Perish Song|p1a: Sparky
+|-start|p1a: Sparky|perish3|[silent]
+|-start|p2a: Spooky|perish3|[silent]
+|upkeep
+|turn|3
+|move|p2a: Spooky|Curse|p1a: Sparky
+|-start|p1a: Sparky|Curse|[of] p2a: Spooky
+|-damage|p2a: Spooky|0 fnt
+|faint|p2a: Spooky
+|upkeep
+|switch|p2a: Star|Starmie|60/100
+|turn|4
+|move|p1a: Sparky|Thunderbolt|p2a: Star
+|-damage|p2a: Star|30/100
+|-start|p2a: Star|perish0
+|faint|p2a: Star
+|-message|Bob lost due to inactivity.
+|win|Alice
+"""
+
+
+class EngineAudit(unittest.TestCase):
+    """The engine audit (engine/sanity.py, docs/SANITY.md): what the first audit found wrong, pinned so it can't
+    come back. Each test names the outside reference it was checked against."""
+    @classmethod
+    def setUpClass(cls):
+        from trainers.model import Store
+        cls.store = Store()
+
+    def test_stats_match_smogons_calc(self):
+        import shutil
+        import sanity
+        if not shutil.which("node"):
+            self.skipTest("node isn't installed")
+        r = sanity.check_stats(self.store, levels=(100, 37),
+                               species=["snorlax", "alakazam", "chansey", "skarmory", "gengar", "pikachu", "shedinja"])
+        self.assertGreater(r["compared"], 60)
+        self.assertEqual(r["mismatched"], [])
+
+    def test_gen2_stats_are_dvs_and_stat_experience(self):
+        era = self.store.era
+        ivs = {"hp": 31, "atk": 27, "def": 12, "spa": 9, "spd": 31, "spe": 30}
+        st = era.stats("alakazam", 2, 100, "Modest", ivs, {s: 252 for s in ("hp", "atk", "def", "spa", "spd", "spe")})
+        self.assertEqual(st, {"hp": 303, "atk": 194, "def": 170, "spa": 346, "spd": 246, "spe": 338})   # the calc's
+        self.assertEqual(self.store.default_evs(2)["spe"], 252)            # Showdown's Gen 2 default: maxed
+        self.assertEqual(self.store.default_evs(4)["spe"], 85)
+
+    def test_known_facts(self):
+        import sanity
+        self.assertEqual(sanity.check_facts(self.store)["mismatched"], [])
+
+    def test_legality_rules(self):
+        from trainers.model import Build
+        c = self.store.check
+        flags = c(Build(id="t", species="Pikachu", moves=["Volt Tackle", "Thunderbolt", "Thunderbolt", "Surf", "Quick Attack"],
+                        item="Life Orb", ability="Static", nature="Timid", evs={"spa": 252, "spd": 0}), "crystal")
+        for want in ("Life Orb doesn't exist until Gen 4", "Volt Tackle doesn't exist until Gen 3", "5 moves, over 4",
+                     "Thunderbolt listed twice", "Gen 2 has no abilities", "Gen 2 has no natures", "one Special stat"):
+            self.assertTrue(any(want in f for f in flags), want)
+        self.assertIn("Light Ball does nothing for Raichu (only Pikachu)",
+                      c(Build(id="t", species="Raichu", moves=["Thunderbolt"], item="Light Ball"), "platinum"))
+        self.assertTrue(any("Gen II calls it MiracleBerry" in f
+                            for f in c(Build(id="t", species="Snorlax", moves=["Rest"], item="Lum Berry"), "crystal")))
+        self.assertEqual(c(Build(id="t", species="Snorlax", moves=["Rest"], item="MiracleBerry"), "crystal"), [])
+        self.assertEqual(c(Build(id="t", species="Rotom-Heat", moves=["Overheat"]), "platinum"), [])   # form move
+        self.assertEqual(c(Build(id="t", species="Espeon", moves=["Growth"]), "crystal"), [])           # Gen 2 event
+
+    def test_library_and_teams_are_legal(self):
+        import sanity
+        r = sanity.check_legality(self.store, books={})
+        self.assertEqual(r["mismatched"], [])
+
+    def test_light_ball_by_generation(self):
+        from trainers.model import Build
+        from trainers.roles import RoleBook
+        book = RoleBook(self.store)
+        pika = Build(id="t", species="Pikachu", moves=["Thunderbolt"], item="Light Ball")
+        plain = Build(id="t", species="Pikachu", moves=["Thunderbolt"])
+        g2, g2_plain = book.context(pika, "crystal")["stats"], book.context(plain, "crystal")["stats"]
+        g4, g4_plain = book.context(pika, "platinum")["stats"], book.context(plain, "platinum")["stats"]
+        self.assertEqual((g2["atk"], g2["spa"]), (g2_plain["atk"], 2 * g2_plain["spa"]))   # Sp. Atk only before Gen 4
+        self.assertEqual((g4["atk"], g4["spa"]), (2 * g4_plain["atk"], 2 * g4_plain["spa"]))
+
+    def test_film_credits_and_endings(self):
+        import sanity
+        from film.log import parse
+        b = parse(AUDIT_LOG, {"id": "gen4ou-audit"})
+        mon = {m["species"]: m for s in b["sides"].values() for m in s["members"]}
+        self.assertEqual(mon["Jolteon"]["ability"], "Volt Absorb")          # the absorber, not the attacker ([of])
+        self.assertIsNone(mon["Starmie"]["ability"])
+        self.assertEqual(mon["Gengar"]["fainted_by"], "self: Curse")       # a Ghost's Curse costs half its HP
+        self.assertEqual(mon["Starmie"]["fainted_by"], "Jolteon (Perish Song)")
+        self.assertEqual((b["winner"], b["forfeit"], b["timed_out"]), ("p1", True, True))
+        self.assertEqual(sanity.battle_rules(b, 4, self.store.era, set()), [])
+
+    def test_smogon_checks_cutoff_and_order(self):
+        import copy
+        from film.replays import load_config
+        from film.usage import Names, species
+        cfg = copy.deepcopy(load_config())
+        data = _chaos({"Adamant:0/252/4/0/0/252": 100.0},
+                      {"Starmie": {"n": 25, "p": 0.700, "d": 0.0010}, "Latias": {"n": 300, "p": 0.704, "d": 0.0015},
+                       "Skarmory": {"n": 20, "p": 0.99, "d": 0.01}})
+        line = species(cfg, data, "Gyarados", Names(cfg, 4))
+        self.assertEqual([c["species"] for c in line["checks"]], ["Latias", "Starmie"])   # n > 20, exact score order
+        self.assertEqual([c["score"] for c in line["checks"]], [70, 70])
+
+    def test_smogon_moveset_file_parser(self):
+        import tempfile as _tf
+        from film.usage import published
+        text = (" +----------------------------------------+ \n | Tyranitar                              | \n"
+                " +----------------------------------------+ \n | Raw count: 53318                       | \n"
+                " | Items                                  | \n | Lum Berry 22.959%                      | \n"
+                " | Other 3.398%                           | \n | Checks and Counters                    | \n"
+                " | Breloom 72.839 (81.68±2.21)            | \n")
+        with _tf.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as fh:
+            fh.write(text)
+        p = published(fh.name)
+        os.unlink(fh.name)
+        self.assertEqual(p["Tyranitar"]["raw"], 53318)
+        self.assertEqual(p["Tyranitar"]["Items"], [("Lum Berry", 22.959)])                 # "Other" left out
+        self.assertEqual(p["Tyranitar"]["Checks and Counters"], [("Breloom", 72.839, 81.68, 2.21)])
+
 
 if __name__ == "__main__":
     unittest.main()

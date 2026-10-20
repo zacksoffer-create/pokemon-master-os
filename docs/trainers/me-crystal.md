@@ -28,7 +28,7 @@
 
 - Attack with Bug: Umbreon and Espeon are weak to it, and nobody on the team resists it.
 - Also open to Grass (2 weak).
-- Bring a special attacker: Miltank and Donphan are specially soft.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Espeon (physically soft) and Donphan (specially soft).
 
 ## Where their rigidity or recklessness leaves a gap
 
@@ -40,30 +40,30 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Feraligatr** Lv 100 (None) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
-| **Miltank** Lv 100 (None) | specially soft | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Feraligatr** Lv 100 (None) | bulky both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Miltank** Lv 100 (None) | even | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
 | **Donphan** Lv 100 (None) | specially soft | · | · | · | ½ | · | ½ | · | · | · | · | 2× | 2× | 0 | · | 2× | · | · |
 | **Ampharos** Lv 100 (None) | even | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
-| **Umbreon** Lv 100 (None) | even | · | 2× | · | · | · | · | 2× | ½ | · | · | · | · | · | 0 | · | · | ½ |
+| **Umbreon** Lv 100 (None) | bulky both ways | · | 2× | · | · | · | · | 2× | ½ | · | · | · | · | · | 0 | · | · | ½ |
 | **Espeon** Lv 100 (None) | physically soft | · | ½ | · | · | · | · | 2× | 2× | · | · | · | · | · | ½ | · | · | 2× |
 
-**Gaps:** Bug and Grass · **Strengths:** none · **Bring:** special attackers (1 physically soft, 2 specially soft)
+**Gaps:** Bug and Grass · **Strengths:** none · **Bring:** attackers by type (1 physically soft, 1 specially soft, 0 frail, 2 bulky both ways)
 
 # Playsheet
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Feraligatr | physical setup sweeper (solid, 0.62) | bulky attacker (solid) | – |
-| Miltank | physical setup sweeper (strong, 0.69) | bulky setup (solid) | – |
-| Donphan | physical setup sweeper (strong, 0.69) | bulky attacker (solid) | – |
-| Ampharos | bulky attacker (solid, 0.63) | bulky setup (solid) | – |
-| Umbreon | bulky setup (strong, 0.76) | check / counter (solid) | – |
-| Espeon | bulky setup (solid, 0.52) | late-game cleaner (solid) | – |
+| Feraligatr | bulky attacker (strong, 0.73) | physical setup sweeper (strong) | – |
+| Miltank | physical setup sweeper (strong, 0.77) | bulky setup (strong) | – |
+| Donphan | physical setup sweeper (strong, 0.77) | bulky attacker (strong) | – |
+| Ampharos | bulky attacker (strong, 0.75) | bulky setup (strong) | – |
+| Umbreon | bulky setup (strong, 0.84) | check / counter (solid) | – |
+| Espeon | bulky setup (solid, 0.60) | late-game cleaner (solid) | – |
 
 ## On the ladder
 
-- Miltank: on 4.4% of gen2ou teams (2026-09, rated 1630+), usually Milk Drink, Heal Bell, Growl, Body Slam @ Leftovers. What beats it: Zapdos 70%, Snorlax 23%.
-- Umbreon: on 4.2% of gen2ou teams (2026-09, rated 1630+), usually Rest, Pursuit, Sleep Talk, Charm @ Leftovers. What beats it: Snorlax 34%.
+- Miltank: on 4.4% of gen2ou teams (2026-09, rated 1630+), usually Milk Drink, Heal Bell, Growl, Body Slam @ Leftovers. What beats it: Forretress 77%, Zapdos 70%, Snorlax 23%.
+- Umbreon: on 4.2% of gen2ou teams (2026-09, rated 1630+), usually Rest, Pursuit, Sleep Talk, Charm @ Leftovers. What beats it: Snorlax 34%, Zapdos 46%.
 - Espeon: on 5.5% of gen2ou teams (2026-09, rated 0+), usually Psychic, Growth, Hidden Power Fire, Baton Pass @ MiracleBerry. What beats it: Tyranitar 83%, Snorlax 68%, Raikou 71%.
 
 ## Career
@@ -89,14 +89,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 |---|---|---|
 | Bug | Fire Punch (Ampharos, 75) | 2 |
 | Dark | **none** | 1 |
-| Dragon | Ice Beam (Feraligatr, 76) | 0 |
+| Dragon | Ice Beam (Feraligatr, 79) | 0 |
 | Electric | Earthquake (Donphan, 150) | 1 |
 | Fighting | Psychic (Espeon, 135) | 2 |
 | Fire | Earthquake (Donphan, 150) | 0 |
 | Flying | Thunderbolt (Ampharos, 142) | 0 |
 | Ghost | Bite (Espeon, 60) | 1 |
-| Grass | Ice Beam (Feraligatr, 76) | 2 |
-| Ground | Hydro Pump (Feraligatr, 116) | 1 |
+| Grass | Ice Beam (Feraligatr, 79) | 2 |
+| Ground | Hydro Pump (Feraligatr, 120) | 1 |
 | Ice | Fire Punch (Ampharos, 75) | 1 |
 | Normal | **none** | 0 |
 | Poison | Earthquake (Donphan, 150) | 0 |
@@ -117,7 +117,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 - 93% of their moves finish or set up (13 of 14); the rest wear you down.
 
-*Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; neutral nature.*
+*Defaults where nothing is recorded: IVs 31; neutral nature; stat experience maxed in every stat.*
 
 **Notes:** The retired Champion (D-042): every journey ends with you as Champion, so each version carries the tag. Your sliders are yours to author: they're left empty, and the report shows what the team's data says on its own until you set them. Your career records are yours to author (canon/trainers.json 'career'); the playsheet reads them when they're there.
 

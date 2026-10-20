@@ -24,7 +24,7 @@
 - Attack with Water: Arcanine, Nidoqueen, Magmar and Golem are weak to it, and only Blastoise can take it.
 - Also open to Ground (4 weak).
 - Biggest single openings: Golem to Water and Grass; Scizor to Fire (four times the damage).
-- Bring a special attacker: Golem and Scizor are specially soft.
+- No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Magmar (physically soft) and Golem (specially soft).
 - Don't lead with Bug or Poison: 4 of 6 resist Bug; 3 of 6 resist Poison.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -37,14 +37,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Blastoise** Lv 100 (Torrent) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
+| **Blastoise** Lv 100 (Torrent) | bulky both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
 | **Arcanine** Lv 100 (Intimidate) | even | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
-| **Nidoqueen** Lv 100 (Poison Point) | even | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
+| **Nidoqueen** Lv 100 (Poison Point) | bulky both ways | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
 | **Magmar** Lv 100 (Flame Body) | physically soft | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
 | **Golem** Lv 100 (Rock Head) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
-| **Scizor** Lv 100 (Swarm) | specially soft | ½ | · | · | 0 | · | · | ½ | ½ | ½ | 4× | · | ½ | · | ½ | ½ | ½ | ½ |
+| **Scizor** Lv 100 (Swarm) | even | ½ | · | · | 0 | · | · | ½ | ½ | ½ | 4× | · | ½ | · | ½ | ½ | ½ | ½ |
 
-**Gaps:** Water and Ground · **Strengths:** Bug and Poison · **Bring:** special attackers (1 physically soft, 2 specially soft)
+**Gaps:** Water and Ground · **Strengths:** Bug and Poison · **Bring:** attackers by type (1 physically soft, 1 specially soft, 0 frail, 2 bulky both ways)
 
 **Moves and reasons** (D-048):
 
@@ -69,7 +69,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## On the ladder
 
 - Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%.
-- Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.
+- Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Suicune 84%, Heatran 73%.
 - Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%.
 - Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%.
 

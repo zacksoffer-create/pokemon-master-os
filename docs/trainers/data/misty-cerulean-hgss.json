@@ -204,11 +204,13 @@
      "spe": 199
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 185,
      "spd": 189,
-     "gap": 0.021
+     "physical_pct": 0.18,
+     "special_pct": 0.18,
+     "gap": 0.0
     },
     "cells": {
      "Normal": {
@@ -337,7 +339,9 @@
      "label": "specially soft",
      "def": 199,
      "spd": 159,
-     "gap": 0.201
+     "physical_pct": 0.42,
+     "special_pct": 0.1,
+     "gap": 0.33
     },
     "cells": {
      "Normal": {
@@ -463,11 +467,13 @@
      "spe": 149
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "sturdy",
+     "label": "bulky both ways",
      "def": 189,
      "spd": 219,
-     "gap": 0.137
+     "physical_pct": 0.6,
+     "special_pct": 0.81,
+     "gap": 0.2
     },
     "cells": {
      "Normal": {
@@ -594,11 +600,13 @@
      "spe": 259
     },
     "bulk": {
-     "lean": "even",
-     "label": "even",
+     "lean": "frail",
+     "label": "frail both ways",
      "def": 199,
      "spd": 199,
-     "gap": 0.0
+     "physical_pct": 0.13,
+     "special_pct": 0.1,
+     "gap": 0.03
     },
     "cells": {
      "Normal": {
@@ -953,9 +961,11 @@
    "soft": {
     "physical": 0,
     "special": 1,
-    "even": 3
+    "even": 0,
+    "frail": 2,
+    "sturdy": 1
    },
-   "bring": "special",
+   "bring": "either",
    "soft_members": {
     "physical": [],
     "special": [
@@ -1032,9 +1042,9 @@
    },
    {
     "section": "beat",
-    "text": "Bring a special attacker: Quagsire is specially soft.",
-    "rule": "bring_side",
-    "trigger": "bring in ['physical', 'special'] (here special)"
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Quagsire (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
    },
    {
     "section": "beat",
