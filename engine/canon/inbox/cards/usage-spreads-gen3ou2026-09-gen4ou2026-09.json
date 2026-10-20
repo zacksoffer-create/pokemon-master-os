@@ -1,0 +1,1278 @@
+{
+ "id": "usage-spreads-gen3ou2026-09-gen4ou2026-09",
+ "kind": "usage",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Smogon monthly usage stats: spreads for the film builds",
+  "url": "https://www.smogon.com/stats/",
+  "months": [
+   "gen3ou 2026-09 (1630+)",
+   "gen4ou 2026-09 (1630+)"
+  ]
+ },
+ "summary": "Likely EV spreads and natures for 36 film builds, from gen3ou 2026-09 (1630+), gen4ou 2026-09 (1630+).",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/gyarados-06012fcb2c.evs",
+    "value": {
+     "hp": 248,
+     "atk": 0,
+     "def": 252,
+     "spa": 0,
+     "spd": 8,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Gyarados's top spreads, Impish 248 HP / 252 Def / 8 SpD (on 3.1% of its sets) fits this build's role (check_counter) best, fit 0.811."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Gyarados: 248 HP / 252 Def / 8 SpD",
+   "id": "c1"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/gyarados-06012fcb2c.nature",
+    "value": "Impish",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Gyarados's top spreads, Impish 248 HP / 252 Def / 8 SpD (on 3.1% of its sets) fits this build's role (check_counter) best, fit 0.811."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Gyarados: Impish",
+   "id": "c2"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/gyarados-c3bc0686a0.evs",
+    "value": {
+     "hp": 0,
+     "atk": 252,
+     "def": 4,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Gyarados's top spreads, Adamant 252 Atk / 4 Def / 252 Spe (on 35.4% of its sets) fits this build's role (physical_setup_sweeper) best, fit 0.835."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Gyarados: 252 Atk / 4 Def / 252 Spe",
+   "id": "c3"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/gyarados-c3bc0686a0.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Gyarados's top spreads, Adamant 252 Atk / 4 Def / 252 Spe (on 35.4% of its sets) fits this build's role (physical_setup_sweeper) best, fit 0.835."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Gyarados: Adamant",
+   "id": "c4"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/heatran-b5b2eeaa61.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 0,
+     "spa": 4,
+     "spd": 252,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Heatran's top spreads, Calm 252 HP / 4 SpA / 252 SpD (on 5.8% of its sets) fits this build's role (hazard_setter) best, fit 0.741."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Heatran: 252 HP / 4 SpA / 252 SpD",
+   "id": "c5"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/heatran-b5b2eeaa61.nature",
+    "value": "Calm",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Heatran's top spreads, Calm 252 HP / 4 SpA / 252 SpD (on 5.8% of its sets) fits this build's role (hazard_setter) best, fit 0.741."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Heatran: Calm",
+   "id": "c6"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/heatran-ec0e044d72.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 0,
+     "spa": 4,
+     "spd": 252,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Heatran's top spreads, Calm 252 HP / 4 SpA / 252 SpD (on 5.8% of its sets) fits this build's role (check_counter) best, fit 0.717."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Heatran: 252 HP / 4 SpA / 252 SpD",
+   "id": "c7"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/heatran-ec0e044d72.nature",
+    "value": "Calm",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Heatran's top spreads, Calm 252 HP / 4 SpA / 252 SpD (on 5.8% of its sets) fits this build's role (check_counter) best, fit 0.717."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Heatran: Calm",
+   "id": "c8"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/jirachi-0fa9cccefc.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 0,
+     "spa": 0,
+     "spd": 224,
+     "spe": 32
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Jirachi's top spreads, Careful 252 HP / 224 SpD / 32 Spe (on 2.8% of its sets) fits this build's role (cleric) best, fit 0.996."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Jirachi: 252 HP / 224 SpD / 32 Spe",
+   "id": "c9"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/jirachi-0fa9cccefc.nature",
+    "value": "Careful",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Jirachi's top spreads, Careful 252 HP / 224 SpD / 32 Spe (on 2.8% of its sets) fits this build's role (cleric) best, fit 0.996."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Jirachi: Careful",
+   "id": "c10"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/jirachi-3de9cb0b4a.evs",
+    "value": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Jirachi's top spreads, Timid 4 HP / 252 SpA / 252 Spe (on 4.8% of its sets) fits this build's role (special_setup_sweeper) best, fit 0.888."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Jirachi: 4 HP / 252 SpA / 252 Spe",
+   "id": "c11"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/jirachi-3de9cb0b4a.nature",
+    "value": "Timid",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Jirachi's top spreads, Timid 4 HP / 252 SpA / 252 Spe (on 4.8% of its sets) fits this build's role (special_setup_sweeper) best, fit 0.888."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Jirachi: Timid",
+   "id": "c12"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/jirachi-79e0ce789e.evs",
+    "value": {
+     "hp": 252,
+     "atk": 80,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 176
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Jirachi's top spreads, Jolly 252 HP / 80 Atk / 176 Spe (on 4.8% of its sets) fits this build's role (pivot) best, fit 0.908."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Jirachi: 252 HP / 80 Atk / 176 Spe",
+   "id": "c13"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/jirachi-79e0ce789e.nature",
+    "value": "Jolly",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Jirachi's top spreads, Jolly 252 HP / 80 Atk / 176 Spe (on 4.8% of its sets) fits this build's role (pivot) best, fit 0.908."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Jirachi: Jolly",
+   "id": "c14"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-0ab8569cf7.evs",
+    "value": {
+     "hp": 0,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 4,
+     "spe": 252
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Timid 252 SpA / 4 SpD / 252 Spe (on 25.4% of its sets) fits this build's role (special_setup_sweeper) best, fit 0.941."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 252 SpA / 4 SpD / 252 Spe",
+   "id": "c15"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-0ab8569cf7.nature",
+    "value": "Timid",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Timid 252 SpA / 4 SpD / 252 Spe (on 25.4% of its sets) fits this build's role (special_setup_sweeper) best, fit 0.941."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Timid",
+   "id": "c16"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-2f0495fb03.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 160,
+     "spa": 0,
+     "spd": 0,
+     "spe": 96
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (check_counter) best, fit 0.617."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 252 HP / 160 Def / 96 Spe",
+   "id": "c17"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-2f0495fb03.nature",
+    "value": "Bold",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (check_counter) best, fit 0.617."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Bold",
+   "id": "c18"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-856f32cf6b.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 160,
+     "spa": 0,
+     "spd": 0,
+     "spe": 96
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (bulky_setup) best, fit 0.916."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 252 HP / 160 Def / 96 Spe",
+   "id": "c19"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-856f32cf6b.nature",
+    "value": "Bold",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (bulky_setup) best, fit 0.916."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Bold",
+   "id": "c20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-8f05955d06.evs",
+    "value": {
+     "hp": 4,
+     "atk": 0,
+     "def": 80,
+     "spa": 248,
+     "spd": 0,
+     "spe": 176
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Modest 4 HP / 80 Def / 248 SpA / 176 Spe (on 5.2% of its sets) fits this build's role (stallbreaker) best, fit 0.814."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 4 HP / 80 Def / 248 SpA / 176 Spe",
+   "id": "c21"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-8f05955d06.nature",
+    "value": "Modest",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Modest 4 HP / 80 Def / 248 SpA / 176 Spe (on 5.2% of its sets) fits this build's role (stallbreaker) best, fit 0.814."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Modest",
+   "id": "c22"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-b01bf94d17.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 160,
+     "spa": 0,
+     "spd": 0,
+     "spe": 96
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (check_counter) best, fit 0.711."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 252 HP / 160 Def / 96 Spe",
+   "id": "c23"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-b01bf94d17.nature",
+    "value": "Bold",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (check_counter) best, fit 0.711."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Bold",
+   "id": "c24"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-ba7d8efea6.evs",
+    "value": {
+     "hp": 0,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 4,
+     "spe": 252
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Timid 252 SpA / 4 SpD / 252 Spe (on 25.4% of its sets) fits this build's role (special_setup_sweeper) best, fit 0.941."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 252 SpA / 4 SpD / 252 Spe",
+   "id": "c25"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-ba7d8efea6.nature",
+    "value": "Timid",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Timid 252 SpA / 4 SpD / 252 Spe (on 25.4% of its sets) fits this build's role (special_setup_sweeper) best, fit 0.941."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Timid",
+   "id": "c26"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-c7c79180fa.evs",
+    "value": {
+     "hp": 4,
+     "atk": 0,
+     "def": 80,
+     "spa": 248,
+     "spd": 0,
+     "spe": 176
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Modest 4 HP / 80 Def / 248 SpA / 176 Spe (on 5.2% of its sets) fits this build's role (stallbreaker) best, fit 0.814."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 4 HP / 80 Def / 248 SpA / 176 Spe",
+   "id": "c27"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-c7c79180fa.nature",
+    "value": "Modest",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Modest 4 HP / 80 Def / 248 SpA / 176 Spe (on 5.2% of its sets) fits this build's role (stallbreaker) best, fit 0.814."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Modest",
+   "id": "c28"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-e7c3c20fb4.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 160,
+     "spa": 0,
+     "spd": 0,
+     "spe": 96
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (bulky_attacker) best, fit 0.692."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: 252 HP / 160 Def / 96 Spe",
+   "id": "c29"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/latias-e7c3c20fb4.nature",
+    "value": "Bold",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Latias's top spreads, Bold 252 HP / 160 Def / 96 Spe (on 6.4% of its sets) fits this build's role (bulky_attacker) best, fit 0.692."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Latias: Bold",
+   "id": "c30"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-18b032dc76.evs",
+    "value": {
+     "hp": 68,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 188
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 68 HP / 252 Atk / 188 Spe (on 7.5% of its sets) fits this build's role (physical_setup_sweeper) best, fit 0.877."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: 68 HP / 252 Atk / 188 Spe",
+   "id": "c31"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-18b032dc76.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 68 HP / 252 Atk / 188 Spe (on 7.5% of its sets) fits this build's role (physical_setup_sweeper) best, fit 0.877."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: Adamant",
+   "id": "c32"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-7a58fd12c0.evs",
+    "value": {
+     "hp": 252,
+     "atk": 176,
+     "def": 80,
+     "spa": 0,
+     "spd": 0,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 252 HP / 176 Atk / 80 Def (on 4.1% of its sets) fits this build's role (check_counter) best, fit 0.647."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: 252 HP / 176 Atk / 80 Def",
+   "id": "c33"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-7a58fd12c0.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 252 HP / 176 Atk / 80 Def (on 4.1% of its sets) fits this build's role (check_counter) best, fit 0.647."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: Adamant",
+   "id": "c34"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-9a03458760.evs",
+    "value": {
+     "hp": 252,
+     "atk": 176,
+     "def": 80,
+     "spa": 0,
+     "spd": 0,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 252 HP / 176 Atk / 80 Def (on 4.1% of its sets) fits this build's role (bulky_attacker) best, fit 0.836."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: 252 HP / 176 Atk / 80 Def",
+   "id": "c35"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-9a03458760.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 252 HP / 176 Atk / 80 Def (on 4.1% of its sets) fits this build's role (bulky_attacker) best, fit 0.836."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: Adamant",
+   "id": "c36"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-abb58183ae.evs",
+    "value": {
+     "hp": 252,
+     "atk": 176,
+     "def": 80,
+     "spa": 0,
+     "spd": 0,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 252 HP / 176 Atk / 80 Def (on 4.1% of its sets) fits this build's role (check_counter) best, fit 0.628."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: 252 HP / 176 Atk / 80 Def",
+   "id": "c37"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/metagross-abb58183ae.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Metagross's top spreads, Adamant 252 HP / 176 Atk / 80 Def (on 4.1% of its sets) fits this build's role (check_counter) best, fit 0.628."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Metagross: Adamant",
+   "id": "c38"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/salamence-10c81df22e.evs",
+    "value": {
+     "hp": 0,
+     "atk": 156,
+     "def": 0,
+     "spa": 0,
+     "spd": 212,
+     "spe": 140
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Salamence's top spreads, Adamant 156 Atk / 212 SpD / 140 Spe (on 5.0% of its sets) fits this build's role (pivot) best, fit 0.699."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Salamence: 156 Atk / 212 SpD / 140 Spe",
+   "id": "c39"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/salamence-10c81df22e.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Salamence's top spreads, Adamant 156 Atk / 212 SpD / 140 Spe (on 5.0% of its sets) fits this build's role (pivot) best, fit 0.699."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Salamence: Adamant",
+   "id": "c40"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/salamence-287d972c3f.evs",
+    "value": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Salamence's top spreads, Jolly 4 HP / 252 Atk / 252 Spe (on 2.7% of its sets) fits this build's role (physical_setup_sweeper) best, fit 0.936."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Salamence: 4 HP / 252 Atk / 252 Spe",
+   "id": "c41"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/salamence-287d972c3f.nature",
+    "value": "Jolly",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Salamence's top spreads, Jolly 4 HP / 252 Atk / 252 Spe (on 2.7% of its sets) fits this build's role (physical_setup_sweeper) best, fit 0.936."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Salamence: Jolly",
+   "id": "c42"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/scizor-461ad1745c.evs",
+    "value": {
+     "hp": 248,
+     "atk": 56,
+     "def": 0,
+     "spa": 0,
+     "spd": 204,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Scizor's top spreads, Adamant 248 HP / 56 Atk / 204 SpD (on 7.2% of its sets) fits this build's role (bulky_setup) best, fit 0.806."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Scizor: 248 HP / 56 Atk / 204 SpD",
+   "id": "c43"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/scizor-461ad1745c.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Scizor's top spreads, Adamant 248 HP / 56 Atk / 204 SpD (on 7.2% of its sets) fits this build's role (bulky_setup) best, fit 0.806."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Scizor: Adamant",
+   "id": "c44"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/skarmory-54a0d3394b.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 8,
+     "spa": 0,
+     "spd": 248,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Skarmory's top spreads, Careful 252 HP / 8 Def / 248 SpD (on 3.5% of its sets) fits this build's role (phazer) best, fit 0.899."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Skarmory: 252 HP / 8 Def / 248 SpD",
+   "id": "c45"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/skarmory-54a0d3394b.nature",
+    "value": "Careful",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Skarmory's top spreads, Careful 252 HP / 8 Def / 248 SpD (on 3.5% of its sets) fits this build's role (phazer) best, fit 0.899."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Skarmory: Careful",
+   "id": "c46"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/skarmory-86e0e198ff.evs",
+    "value": {
+     "hp": 252,
+     "atk": 0,
+     "def": 0,
+     "spa": 0,
+     "spd": 252,
+     "spe": 4
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Skarmory's top spreads, Careful 252 HP / 252 SpD / 4 Spe (on 33.1% of its sets) fits this build's role (hazard_setter) best, fit 0.861."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Skarmory: 252 HP / 252 SpD / 4 Spe",
+   "id": "c47"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/skarmory-86e0e198ff.nature",
+    "value": "Careful",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Skarmory's top spreads, Careful 252 HP / 252 SpD / 4 Spe (on 33.1% of its sets) fits this build's role (hazard_setter) best, fit 0.861."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Skarmory: Careful",
+   "id": "c48"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/snorlax-de86c2bb43.evs",
+    "value": {
+     "hp": 204,
+     "atk": 224,
+     "def": 60,
+     "spa": 0,
+     "spd": 8,
+     "spe": 12
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Snorlax's top spreads, Adamant 204 HP / 224 Atk / 60 Def / 8 SpD / 12 Spe (on 5.6% of its sets) fits this build's role (bulky_attacker) best, fit 0.954."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Snorlax: 204 HP / 224 Atk / 60 Def / 8 SpD / 12 Spe",
+   "id": "c49"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/snorlax-de86c2bb43.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Snorlax's top spreads, Adamant 204 HP / 224 Atk / 60 Def / 8 SpD / 12 Spe (on 5.6% of its sets) fits this build's role (bulky_attacker) best, fit 0.954."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Snorlax: Adamant",
+   "id": "c50"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/starmie-0d5177a9c3.evs",
+    "value": {
+     "hp": 248,
+     "atk": 0,
+     "def": 44,
+     "spa": 0,
+     "spd": 0,
+     "spe": 216
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Starmie's top spreads, Timid 248 HP / 44 Def / 216 Spe (on 9.0% of its sets) fits this build's role (hazard_remover) best, fit 0.788."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Starmie: 248 HP / 44 Def / 216 Spe",
+   "id": "c51"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/starmie-0d5177a9c3.nature",
+    "value": "Timid",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Starmie's top spreads, Timid 248 HP / 44 Def / 216 Spe (on 9.0% of its sets) fits this build's role (hazard_remover) best, fit 0.788."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Starmie: Timid",
+   "id": "c52"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-0de14b9e41.evs",
+    "value": {
+     "hp": 180,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 76
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: 180 HP / 252 Atk / 76 Spe",
+   "id": "c53"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-0de14b9e41.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c54"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-5c738132dc.evs",
+    "value": {
+     "hp": 248,
+     "atk": 80,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 180
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 248 HP / 80 Atk / 180 Spe (on 3.8% of its sets) fits this build's role (weather_setter) best, fit 0.837."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Tyranitar: 248 HP / 80 Atk / 180 Spe",
+   "id": "c55"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-5c738132dc.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 248 HP / 80 Atk / 180 Spe (on 3.8% of its sets) fits this build's role (weather_setter) best, fit 0.837."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c56"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-77ce61e7f9.evs",
+    "value": {
+     "hp": 180,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 76
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: 180 HP / 252 Atk / 76 Spe",
+   "id": "c57"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-77ce61e7f9.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c58"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-834572dd33.evs",
+    "value": {
+     "hp": 180,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 76
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: 180 HP / 252 Atk / 76 Spe",
+   "id": "c59"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-834572dd33.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c60"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-8c113616f8.evs",
+    "value": {
+     "hp": 180,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 76
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: 180 HP / 252 Atk / 76 Spe",
+   "id": "c61"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-8c113616f8.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c62"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-c3081e5de9.evs",
+    "value": {
+     "hp": 180,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 76
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: 180 HP / 252 Atk / 76 Spe",
+   "id": "c63"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-c3081e5de9.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.832."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c64"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-cbbd4992f7.evs",
+    "value": {
+     "hp": 248,
+     "atk": 80,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 180
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 248 HP / 80 Atk / 180 Spe (on 3.8% of its sets) fits this build's role (weather_setter) best, fit 0.837."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Tyranitar: 248 HP / 80 Atk / 180 Spe",
+   "id": "c65"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-cbbd4992f7.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 248 HP / 80 Atk / 180 Spe (on 3.8% of its sets) fits this build's role (weather_setter) best, fit 0.837."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c66"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-f1a0b21e8b.evs",
+    "value": {
+     "hp": 248,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 8,
+     "spe": 0
+    },
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 248 HP / 252 Atk / 8 SpD (on 3.2% of its sets) fits this build's role (weather_setter) best, fit 0.811."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Tyranitar: 248 HP / 252 Atk / 8 SpD",
+   "id": "c67"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-f1a0b21e8b.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen3ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 248 HP / 252 Atk / 8 SpD (on 3.2% of its sets) fits this build's role (weather_setter) best, fit 0.811."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen3ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c68"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-f1f45e8bdc.evs",
+    "value": {
+     "hp": 180,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 76
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.883."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: 180 HP / 252 Atk / 76 Spe",
+   "id": "c69"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-f1f45e8bdc.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.883."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c70"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-f698ba2e42.evs",
+    "value": {
+     "hp": 180,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 76
+    },
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.883."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: 180 HP / 252 Atk / 76 Spe",
+   "id": "c71"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ingested/tyranitar-f698ba2e42.nature",
+    "value": "Adamant",
+    "was": null,
+    "why": "Smogon gen4ou 2026-09, rated 1630+: of Tyranitar's top spreads, Adamant 180 HP / 252 Atk / 76 Spe (on 3.5% of its sets) fits this build's role (weather_setter) best, fit 0.883."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://www.smogon.com/stats/2026-09/chaos/gen4ou-1630.json",
+   "note": "Tyranitar: Adamant",
+   "id": "c72"
+  }
+ ],
+ "status": "open"
+}

@@ -65,6 +65,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Garchomp | wallbreaker (strong, 0.66) | bulky attacker (strong) | – |
 | Magnezone | trapper (strong, 0.89) | check / counter (strong) | – |
 
+## On the ladder
+
+- Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
+- Weavile: on 4.2% of gen4ou teams (2026-09, rated 0+), usually Ice Shard, Night Slash, Low Kick, Ice Punch @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 79%, Bronzong 81%, Skarmory 76%.
+- Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.
+- Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.
+- Magnezone: on 10.1% of gen4ou teams (2026-09, rated 1630+), usually Thunderbolt, Hidden Power Fire, Thunder Wave, Explosion @ Choice Scarf (Timid 4 Atk / 252 SpA / 252 Spe). What beats it: Heatran 78%, Hippowdon 86%, Tyranitar 67%.
+
 ## Career
 
 - No career records on file for Platinum yet.

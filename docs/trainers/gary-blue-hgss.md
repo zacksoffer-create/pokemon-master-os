@@ -59,6 +59,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Machamp | sponge / status absorber (loose, 0.50) | wallbreaker (loose) | – |
 | Pidgeot | phazer (solid, 0.50) | wallbreaker (loose) | – |
 
+## On the ladder
+
+- Exeggutor: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Explosion, Psychic, Solar Beam, Hidden Power Fire @ Life Orb (Naive 252 HP / 4 SpA / 252 Spe). What beats it: Heatran 77%, Tyranitar 49%, Latias 45%.
+- Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.
+- Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%.
+
 ## Career
 
 - Titles: Kanto Champion (former).

@@ -61,6 +61,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Gengar | wallbreaker (solid, 0.53) | revenge killer (loose) | – |
 | Scizor | pivot (strong, 0.82) | check / counter (strong) | – |
 
+## On the ladder
+
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
+- Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
+- Empoleon: on 17.1% of gen4ou teams (2026-09, rated 1630+), usually Ice Beam, Surf, Grass Knot, Stealth Rock @ Leftovers (Modest 252 SpA / 4 SpD / 252 Spe). What beats it: Abomasnow 86%, Lucario 79%, Clefable 76%.
+- Gengar: on 12.4% of gen4ou teams (2026-09, rated 1630+), usually Shadow Ball, Focus Blast, Will-O-Wisp, Substitute @ Life Orb (Timid 4 Def / 252 SpA / 252 Spe). What beats it: Scizor 78%, Jirachi 61%, Tyranitar 50%.
+- Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%.
+
 ## Career
 
 - No career records on file for SoulSilver yet.

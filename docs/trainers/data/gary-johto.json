@@ -1805,6 +1805,198 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Blastoise",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Rapid Spin",
+     "Surf",
+     "Hidden Power Electric",
+     "Ice Beam"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 252,
+      "spa": 4,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 26.9
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 86,
+      "score": 68,
+      "n": 57
+     },
+     {
+      "species": "Clefable",
+      "beats": 87,
+      "score": 67,
+      "n": 46
+     },
+     {
+      "species": "Blissey",
+      "beats": 85,
+      "score": 61,
+      "n": 34
+     }
+    ]
+   },
+   {
+    "species": "Arcanine",
+    "usage": 0.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Extreme Speed",
+     "Flare Blitz",
+     "Thunder Fang",
+     "Morning Sun"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 13.1
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 72,
+      "score": 58,
+      "n": 167
+     },
+     {
+      "species": "Heatran",
+      "beats": 73,
+      "score": 52,
+      "n": 77
+     },
+     {
+      "species": "Gyarados",
+      "beats": 64,
+      "score": 47,
+      "n": 126
+     }
+    ]
+   },
+   {
+    "species": "Nidoqueen",
+    "usage": 3.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Toxic Spikes",
+     "Ice Beam",
+     "Earthquake",
+     "Protect"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Relaxed",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 252,
+      "spa": 4,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 26.0
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 82,
+      "score": 61,
+      "n": 54
+     },
+     {
+      "species": "Swampert",
+      "beats": 84,
+      "score": 59,
+      "n": 35
+     },
+     {
+      "species": "Starmie",
+      "beats": 75,
+      "score": 52,
+      "n": 56
+     }
+    ]
+   },
+   {
+    "species": "Scizor",
+    "usage": 28.6,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Bullet Punch",
+     "Superpower",
+     "U-turn",
+     "Pursuit"
+    ],
+    "item": "Choice Band",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 248,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 8,
+      "spe": 0
+     },
+     "share": 28.1
+    },
+    "checks": [
+     {
+      "species": "Heatran",
+      "beats": 77,
+      "score": 68,
+      "n": 300
+     },
+     {
+      "species": "Jirachi",
+      "beats": 72,
+      "score": 63,
+      "n": 445
+     },
+     {
+      "species": "Zapdos",
+      "beats": 74,
+      "score": 61,
+      "n": 169
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%.",
+   "Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.",
+   "Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%.",
+   "Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%."
+  ],
   "text": {
    "career": [
     {

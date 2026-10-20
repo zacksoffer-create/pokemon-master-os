@@ -64,6 +64,10 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pidgeotto | revenge killer (loose, 0.48) | late-game cleaner (loose) | – |
 | Kingler | wallbreaker (loose, 0.49) | physical wall (loose) | – |
 
+## On the ladder
+
+- Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.
+
 ## Career
 
 - Recent record: Indigo Plateau Conference: Top 16 (lost to Ritchie).

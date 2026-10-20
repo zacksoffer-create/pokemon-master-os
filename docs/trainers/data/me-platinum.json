@@ -1826,6 +1826,245 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Infernape",
+    "usage": 17.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "U-turn",
+     "Fire Blast",
+     "Grass Knot"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 64,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 192
+     },
+     "share": 20.4
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 86,
+      "score": 77,
+      "n": 195
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 70,
+      "n": 456
+     },
+     {
+      "species": "Dragonite",
+      "beats": 80,
+      "score": 65,
+      "n": 115
+     }
+    ]
+   },
+   {
+    "species": "Weavile",
+    "usage": 4.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Ice Shard",
+     "Night Slash",
+     "Low Kick",
+     "Ice Punch"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 56.7
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 79,
+      "score": 71,
+      "n": 380
+     },
+     {
+      "species": "Bronzong",
+      "beats": 81,
+      "score": 70,
+      "n": 178
+     },
+     {
+      "species": "Skarmory",
+      "beats": 76,
+      "score": 66,
+      "n": 307
+     }
+    ]
+   },
+   {
+    "species": "Roserade",
+    "usage": 3.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Toxic Spikes",
+     "Spikes",
+     "Hidden Power Fire",
+     "Grass Knot"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 232,
+      "spa": 0,
+      "spd": 0,
+      "spe": 24
+     },
+     "share": 14.5
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 85,
+      "score": 62,
+      "n": 41
+     },
+     {
+      "species": "Jirachi",
+      "beats": 80,
+      "score": 62,
+      "n": 71
+     },
+     {
+      "species": "Infernape",
+      "beats": 79,
+      "score": 50,
+      "n": 30
+     }
+    ]
+   },
+   {
+    "species": "Lucario",
+    "usage": 15.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "Extreme Speed",
+     "Swords Dance",
+     "Aura Sphere"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 32.1
+    },
+    "checks": [
+     {
+      "species": "Infernape",
+      "beats": 62,
+      "score": 46,
+      "n": 139
+     },
+     {
+      "species": "Gliscor",
+      "beats": 65,
+      "score": 42,
+      "n": 70
+     },
+     {
+      "species": "Gyarados",
+      "beats": 54,
+      "score": 41,
+      "n": 211
+     }
+    ]
+   },
+   {
+    "species": "Magnezone",
+    "usage": 10.1,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Thunderbolt",
+     "Hidden Power Fire",
+     "Thunder Wave",
+     "Explosion"
+    ],
+    "item": "Choice Scarf",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 4,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 17.2
+    },
+    "checks": [
+     {
+      "species": "Heatran",
+      "beats": 78,
+      "score": 64,
+      "n": 129
+     },
+     {
+      "species": "Hippowdon",
+      "beats": 86,
+      "score": 62,
+      "n": 33
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 67,
+      "score": 54,
+      "n": 203
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
+   "Weavile: on 4.2% of gen4ou teams (2026-09, rated 0+), usually Ice Shard, Night Slash, Low Kick, Ice Punch @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 79%, Bronzong 81%, Skarmory 76%.",
+   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.",
+   "Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.",
+   "Magnezone: on 10.1% of gen4ou teams (2026-09, rated 1630+), usually Thunderbolt, Hidden Power Fire, Thunder Wave, Explosion @ Choice Scarf (Timid 4 Atk / 252 SpA / 252 Spe). What beats it: Heatran 78%, Hippowdon 86%, Tyranitar 67%."
+  ],
   "text": {
    "career": [
     {

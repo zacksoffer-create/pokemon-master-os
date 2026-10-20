@@ -1785,6 +1785,292 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Swampert",
+    "usage": 41.4,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Earthquake",
+     "Ice Beam",
+     "Hydro Pump",
+     "Protect"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Relaxed",
+     "evs": {
+      "hp": 248,
+      "atk": 0,
+      "def": 216,
+      "spa": 0,
+      "spd": 44,
+      "spe": 0
+     },
+     "share": 17.4
+    },
+    "checks": [
+     {
+      "species": "Venusaur",
+      "beats": 90,
+      "score": 80,
+      "n": 141
+     },
+     {
+      "species": "Celebi",
+      "beats": 80,
+      "score": 76,
+      "n": 1780
+     },
+     {
+      "species": "Sceptile",
+      "beats": 90,
+      "score": 74,
+      "n": 62
+     }
+    ]
+   },
+   {
+    "species": "Milotic",
+    "usage": 4.2,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Recover",
+     "Surf",
+     "Toxic",
+     "Refresh"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 252,
+      "spa": 4,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 32.9
+    },
+    "checks": [
+     {
+      "species": "Venusaur",
+      "beats": 90,
+      "score": 72,
+      "n": 45
+     },
+     {
+      "species": "Snorlax",
+      "beats": 77,
+      "score": 63,
+      "n": 149
+     },
+     {
+      "species": "Zapdos",
+      "beats": 72,
+      "score": 62,
+      "n": 290
+     }
+    ]
+   },
+   {
+    "species": "Altaria",
+    "usage": 0.1,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Rest",
+     "Dragon Dance",
+     "Heal Bell",
+     "Perish Song"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 48,
+      "atk": 0,
+      "def": 200,
+      "spa": 0,
+      "spd": 24,
+      "spe": 236
+     },
+     "share": 19.7
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 72,
+      "score": 53,
+      "n": 80
+     },
+     {
+      "species": "Blissey",
+      "beats": 73,
+      "score": 48,
+      "n": 52
+     },
+     {
+      "species": "Gengar",
+      "beats": 76,
+      "score": 47,
+      "n": 37
+     }
+    ]
+   },
+   {
+    "species": "Arcanine",
+    "usage": 0.9,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Extreme Speed",
+     "Overheat",
+     "Hidden Power Fighting",
+     "Fire Blast"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Rash",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 64,
+      "spa": 248,
+      "spd": 0,
+      "spe": 192
+     },
+     "share": 5.7
+    },
+    "checks": [
+     {
+      "species": "Suicune",
+      "beats": 79,
+      "score": 73,
+      "n": 600
+     },
+     {
+      "species": "Milotic",
+      "beats": 85,
+      "score": 70,
+      "n": 98
+     },
+     {
+      "species": "Flygon",
+      "beats": 80,
+      "score": 69,
+      "n": 183
+     }
+    ]
+   },
+   {
+    "species": "Absol",
+    "usage": 0.2,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Shadow Ball",
+     "Double-Edge",
+     "Hidden Power Fighting",
+     "Swords Dance"
+    ],
+    "item": "Choice Band",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 24.7
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Aerodactyl",
+      "beats": 80,
+      "score": 56,
+      "n": 41
+     },
+     {
+      "species": "Heracross",
+      "beats": 81,
+      "score": 54,
+      "n": 32
+     }
+    ]
+   },
+   {
+    "species": "Meganium",
+    "usage": 0.2,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Leech Seed",
+     "Giga Drain",
+     "Reflect",
+     "Toxic"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Calm",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 0,
+      "spa": 4,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 15.9
+    },
+    "checks": [
+     {
+      "species": "Salamence",
+      "beats": 73,
+      "score": 53,
+      "n": 78
+     },
+     {
+      "species": "Charizard",
+      "beats": 74,
+      "score": 43,
+      "n": 31
+     },
+     {
+      "species": "Skarmory",
+      "beats": 53,
+      "score": 34,
+      "n": 108
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Swampert: on 41.4% of gen3ou teams (2026-09, rated 1630+), usually Earthquake, Ice Beam, Hydro Pump, Protect @ Leftovers (Relaxed 248 HP / 216 Def / 44 SpD). What beats it: Venusaur 90%, Celebi 80%, Sceptile 90%.",
+   "Milotic: on 4.2% of gen3ou teams (2026-09, rated 1630+), usually Recover, Surf, Toxic, Refresh @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Venusaur 90%, Snorlax 77%, Zapdos 72%.",
+   "Altaria: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Rest, Dragon Dance, Heal Bell, Perish Song @ Leftovers (Jolly 48 HP / 200 Def / 24 SpD / 236 Spe). What beats it: Tyranitar 72%, Blissey 73%, Gengar 76%.",
+   "Arcanine: on 0.9% of gen3ou teams (2026-09, rated 0+), usually Extreme Speed, Overheat, Hidden Power Fighting, Fire Blast @ Leftovers (Rash 4 HP / 64 Def / 248 SpA / 192 Spe). What beats it: Suicune 79%, Milotic 85%, Flygon 80%.",
+   "Absol: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Shadow Ball, Double-Edge, Hidden Power Fighting, Swords Dance @ Choice Band (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Aerodactyl 80%, Heracross 81%.",
+   "Meganium: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Giga Drain, Reflect, Toxic @ Leftovers (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Salamence 73%, Charizard 74%, Skarmory 53%."
+  ],
   "text": {
    "career": [
     {

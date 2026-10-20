@@ -81,14 +81,32 @@ Approved observations reach the playsheet's **On film** section, for the trainer
 - who's held back, and who comes in after a faint;
 - the measured aggression ratio. It's pinned on the aggression meter next to the offense slider and the moveset's own ratio.
 
+## The field's monthly numbers (`film/usage.py`)
+
+Every month Smogon publishes what each format's ladder actually carried (smogon.com/stats, the "chaos" files), per rating cutoff. They're statistics about real play, cited per use, cached in `data/raw/smogon_stats`. For each Pokémon:
+- its share of teams;
+- its EV spreads with natures, its items, abilities and moves, as shares of its sets;
+- its teammates;
+- its checks and counters: how often each opponent knocks it out or forces it out, ranked by Smogon's score, which is that share less four standard deviations.
+
+**This fills what replays can't show:**
+- **Spreads for the film builds** (`film_room.py spreads`): the species' top spreads are each tried on the build. The one the role engine says fits the build's role best is proposed, as an EV and nature correction for review. A Dragon Dance Gyarados gets Adamant 252 Atk / 252 Spe; a Thunder Wave pivot gets the bulky spread. Gen 2 has no spreads to choose.
+- **On the ladder** (the playsheet): for each member of a trainer's team, its line in the newest cached month for the version's generation (Gen 4 → gen4ou, Gen 3 → gen3ou, Gen 2 → gen2ou). That's how common it is, what the field runs on it, and what beats it most. It reads the highest cutoff with enough sets behind it, and widens to all ratings when a rare Pokémon needs it to have answers. It reads from the cache only; `film_room.py usage` fetches a month.
+
+```
+python3 -I engine/film_room.py usage --format gen4ou Tyranitar Infernape [--month 2026-09] [--cutoff 1630]
+python3 -I engine/film_room.py spreads [--month 2026-09]
+```
+
+Smogon publishes only OU (and Gen 2 UU) for these generations. A Pokémon the OU ladder barely uses (Ash's Staraptor, Paul's Ninjask) has no line.
+
 ## Limits
 
 - **Recent battles only:** the search only reaches what Showdown keeps.
-- **Spreads stay unknown:** a replay never shows EVs, IVs or natures. Smogon's monthly stats have those; see Later.
+- **Spreads stay unknown in the replay itself:** a replay never shows EVs, IVs or natures. The monthly numbers supply the likely ones, above.
 - **Short games tell less:** forfeits and short games show leads and builds but little game state.
 - **Thin sets aren't read:** a set that showed fewer than two moves isn't read through the role engine; it's counted as too little seen.
 
 ## Later
 
-- **Smogon's monthly usage stats** (smogon.com/stats, public data: spreads, natures, items, teammates, checks and counters) would fill exactly what replays can't show.
 - **The same rows from anime battles:** the order a trainer sends Pokémon out, and what each did, read from episode pages. That's what the Bulbapedia batch is for.

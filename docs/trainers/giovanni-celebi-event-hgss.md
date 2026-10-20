@@ -52,6 +52,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Honchkrow | special setup sweeper (loose, 0.49) | sponge / status absorber (loose) | – |
 | Nidoqueen | phazer (solid, 0.51) | wallbreaker (loose) | – |
 
+## On the ladder
+
+- Nidoking: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Ice Beam, Thunderbolt, Superpower, Megahorn @ Custap Berry (Naive 252 Atk / 4 SpA / 252 Spe). What beats it: Starmie 82%, Swampert 81%, Gengar 74%.
+- Kangaskhan: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Sucker Punch, Earthquake, Return, Fake Out @ Life Orb (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 83%, Skarmory 81%, Jirachi 67%.
+- Honchkrow: on 1.0% of gen4ou teams (2026-09, rated 0+), usually Sucker Punch, Superpower, Brave Bird, Heat Wave @ Life Orb (Naughty 252 Atk / 4 SpA / 252 Spe). What beats it: Zapdos 87%, Jirachi 61%, Infernape 63%.
+- Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%.
+
 ## The ace
 
 - Ace: Nidoqueen (the highest level (46), the widest coverage and a phazer).

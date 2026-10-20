@@ -62,6 +62,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Onix | weather setter (solid, 0.52) | wallbreaker (loose) | – |
 | Kabutops | revenge killer (solid, 0.53) | late-game cleaner (loose) | – |
 
+## On the ladder
+
+- Omastar: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Ice Beam, Surf, Stealth Rock, Spikes @ Leftovers (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Starmie 85%, Latias 64%, Gyarados 62%.
+- Kabutops: on 2.8% of gen4ou teams (2026-09, rated 0+), usually Waterfall, Aqua Jet, Swords Dance, Stone Edge @ Life Orb (Adamant 4 HP / 252 Atk / 252 Spe). What beats it: Breloom 85%, Kingdra 68%, Suicune 66%.
+
 ## The ace
 
 - Ace: Onix (the highest level (54) and a weather setter).

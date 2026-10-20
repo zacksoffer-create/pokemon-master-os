@@ -1400,6 +1400,198 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Nidoking",
+    "usage": 0.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Ice Beam",
+     "Thunderbolt",
+     "Superpower",
+     "Megahorn"
+    ],
+    "item": "Custap Berry",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 4,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 42.9
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 82,
+      "score": 65,
+      "n": 83
+     },
+     {
+      "species": "Swampert",
+      "beats": 81,
+      "score": 58,
+      "n": 43
+     },
+     {
+      "species": "Gengar",
+      "beats": 74,
+      "score": 50,
+      "n": 54
+     }
+    ]
+   },
+   {
+    "species": "Kangaskhan",
+    "usage": 0.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Sucker Punch",
+     "Earthquake",
+     "Return",
+     "Fake Out"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 40.9
+    },
+    "checks": [
+     {
+      "species": "Infernape",
+      "beats": 83,
+      "score": 57,
+      "n": 35
+     },
+     {
+      "species": "Skarmory",
+      "beats": 81,
+      "score": 57,
+      "n": 42
+     },
+     {
+      "species": "Jirachi",
+      "beats": 67,
+      "score": 34,
+      "n": 33
+     }
+    ]
+   },
+   {
+    "species": "Honchkrow",
+    "usage": 1.0,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Sucker Punch",
+     "Superpower",
+     "Brave Bird",
+     "Heat Wave"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Naughty",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 4,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 27.4
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 87,
+      "score": 66,
+      "n": 39
+     },
+     {
+      "species": "Jirachi",
+      "beats": 61,
+      "score": 44,
+      "n": 124
+     },
+     {
+      "species": "Infernape",
+      "beats": 63,
+      "score": 40,
+      "n": 70
+     }
+    ]
+   },
+   {
+    "species": "Nidoqueen",
+    "usage": 3.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Toxic Spikes",
+     "Ice Beam",
+     "Earthquake",
+     "Protect"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Relaxed",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 252,
+      "spa": 4,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 26.0
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 82,
+      "score": 61,
+      "n": 54
+     },
+     {
+      "species": "Swampert",
+      "beats": 84,
+      "score": 59,
+      "n": 35
+     },
+     {
+      "species": "Starmie",
+      "beats": 75,
+      "score": 52,
+      "n": 56
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Nidoking: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Ice Beam, Thunderbolt, Superpower, Megahorn @ Custap Berry (Naive 252 Atk / 4 SpA / 252 Spe). What beats it: Starmie 82%, Swampert 81%, Gengar 74%.",
+   "Kangaskhan: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Sucker Punch, Earthquake, Return, Fake Out @ Life Orb (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 83%, Skarmory 81%, Jirachi 67%.",
+   "Honchkrow: on 1.0% of gen4ou teams (2026-09, rated 0+), usually Sucker Punch, Superpower, Brave Bird, Heat Wave @ Life Orb (Naughty 252 Atk / 4 SpA / 252 Spe). What beats it: Zapdos 87%, Jirachi 61%, Infernape 63%.",
+   "Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%."
+  ],
   "text": {
    "career": [],
    "ace": [

@@ -1834,6 +1834,292 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Typhlosion",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Eruption",
+     "Flamethrower",
+     "Focus Blast",
+     "Extrasensory"
+    ],
+    "item": "Choice Scarf",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 49.2
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 94,
+      "score": 81,
+      "n": 52
+     },
+     {
+      "species": "Gyarados",
+      "beats": 89,
+      "score": 71,
+      "n": 47
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 78,
+      "score": 62,
+      "n": 108
+     }
+    ]
+   },
+   {
+    "species": "Tyranitar",
+    "usage": 53.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Crunch",
+     "Pursuit",
+     "Superpower",
+     "Stone Edge"
+    ],
+    "item": "Lum Berry",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 23.1
+    },
+    "checks": [
+     {
+      "species": "Breloom",
+      "beats": 82,
+      "score": 73,
+      "n": 307
+     },
+     {
+      "species": "Lucario",
+      "beats": 80,
+      "score": 72,
+      "n": 352
+     },
+     {
+      "species": "Rhyperior",
+      "beats": 85,
+      "score": 72,
+      "n": 120
+     }
+    ]
+   },
+   {
+    "species": "Mamoswine",
+    "usage": 3.6,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Earthquake",
+     "Ice Shard",
+     "Substitute",
+     "Ice Fang"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 8,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 244
+     },
+     "share": 38.8
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 78,
+      "score": 54,
+      "n": 48
+     },
+     {
+      "species": "Gyarados",
+      "beats": 64,
+      "score": 41,
+      "n": 73
+     },
+     {
+      "species": "Scizor",
+      "beats": 65,
+      "score": 40,
+      "n": 57
+     }
+    ]
+   },
+   {
+    "species": "Crobat",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Brave Bird",
+     "Taunt",
+     "U-turn",
+     "Roost"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 112,
+      "spa": 0,
+      "spd": 0,
+      "spe": 144
+     },
+     "share": 15.7
+    },
+    "checks": [
+     {
+      "species": "Magnezone",
+      "beats": 95,
+      "score": 81,
+      "n": 40
+     },
+     {
+      "species": "Zapdos",
+      "beats": 92,
+      "score": 79,
+      "n": 74
+     },
+     {
+      "species": "Metagross",
+      "beats": 86,
+      "score": 75,
+      "n": 139
+     }
+    ]
+   },
+   {
+    "species": "Lapras",
+    "usage": 0.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Surf",
+     "Ice Beam",
+     "Thunderbolt",
+     "Heal Bell"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 0,
+      "spa": 0,
+      "spd": 252,
+      "spe": 4
+     },
+     "share": 19.3
+    },
+    "checks": [
+     {
+      "species": "Infernape",
+      "beats": 75,
+      "score": 44,
+      "n": 32
+     },
+     {
+      "species": "Jirachi",
+      "beats": 68,
+      "score": 37,
+      "n": 37
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 62,
+      "score": 37,
+      "n": 58
+     }
+    ]
+   },
+   {
+    "species": "Snorlax",
+    "usage": 2.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Body Slam",
+     "Curse",
+     "Crunch",
+     "Self-Destruct"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 33.5
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 75,
+      "score": 59,
+      "n": 115
+     },
+     {
+      "species": "Infernape",
+      "beats": 68,
+      "score": 56,
+      "n": 246
+     },
+     {
+      "species": "Skarmory",
+      "beats": 67,
+      "score": 55,
+      "n": 215
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Typhlosion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Eruption, Flamethrower, Focus Blast, Extrasensory @ Choice Scarf (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Latias 94%, Gyarados 89%, Tyranitar 78%.",
+   "Tyranitar: on 53.3% of gen4ou teams (2026-09, rated 1630+), usually Crunch, Pursuit, Superpower, Stone Edge @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Breloom 82%, Lucario 80%, Rhyperior 85%.",
+   "Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.",
+   "Crobat: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Taunt, U-turn, Roost @ Black Sludge (Jolly 252 HP / 112 Def / 144 Spe). What beats it: Magnezone 95%, Zapdos 92%, Metagross 86%.",
+   "Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.",
+   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%."
+  ],
   "text": {
    "career": [
     {

@@ -1874,6 +1874,245 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Lapras",
+    "usage": 0.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Surf",
+     "Ice Beam",
+     "Thunderbolt",
+     "Heal Bell"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 0,
+      "spa": 0,
+      "spd": 252,
+      "spe": 4
+     },
+     "share": 19.3
+    },
+    "checks": [
+     {
+      "species": "Infernape",
+      "beats": 75,
+      "score": 44,
+      "n": 32
+     },
+     {
+      "species": "Jirachi",
+      "beats": 68,
+      "score": 37,
+      "n": 37
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 62,
+      "score": 37,
+      "n": 58
+     }
+    ]
+   },
+   {
+    "species": "Snorlax",
+    "usage": 2.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Body Slam",
+     "Curse",
+     "Crunch",
+     "Self-Destruct"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 33.5
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 75,
+      "score": 59,
+      "n": 115
+     },
+     {
+      "species": "Infernape",
+      "beats": 68,
+      "score": 56,
+      "n": 246
+     },
+     {
+      "species": "Skarmory",
+      "beats": 67,
+      "score": 55,
+      "n": 215
+     }
+    ]
+   },
+   {
+    "species": "Venusaur",
+    "usage": 0.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Leech Seed",
+     "Sludge Bomb",
+     "Leaf Storm",
+     "Synthesis"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Calm",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 0,
+      "spa": 4,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 17.2
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 55,
+      "score": 19,
+      "n": 31
+     },
+     {
+      "species": "Jirachi",
+      "beats": 50,
+      "score": 15,
+      "n": 32
+     },
+     {
+      "species": "Starmie",
+      "beats": 16,
+      "score": -6,
+      "n": 43
+     }
+    ]
+   },
+   {
+    "species": "Charizard",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Hidden Power Grass",
+     "Dragon Pulse",
+     "Flamethrower",
+     "Roost"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 38.1
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 84,
+      "score": 67,
+      "n": 75
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 61,
+      "n": 99
+     }
+    ]
+   },
+   {
+    "species": "Blastoise",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Rapid Spin",
+     "Surf",
+     "Hidden Power Electric",
+     "Ice Beam"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 252,
+      "spa": 4,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 26.9
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 86,
+      "score": 68,
+      "n": 57
+     },
+     {
+      "species": "Clefable",
+      "beats": 87,
+      "score": 67,
+      "n": 46
+     },
+     {
+      "species": "Blissey",
+      "beats": 85,
+      "score": 61,
+      "n": 34
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.",
+   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.",
+   "Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Zapdos 55%, Jirachi 50%, Starmie 16%.",
+   "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.",
+   "Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%."
+  ],
   "text": {
    "career": [
     {

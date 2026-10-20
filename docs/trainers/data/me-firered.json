@@ -1796,6 +1796,292 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Charizard",
+    "usage": 5.3,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Hidden Power Grass",
+     "Substitute",
+     "Focus Punch",
+     "Fire Blast"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hasty",
+     "evs": {
+      "hp": 0,
+      "atk": 4,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 32.1
+    },
+    "checks": [
+     {
+      "species": "Jolteon",
+      "beats": 89,
+      "score": 73,
+      "n": 57
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 68,
+      "n": 239
+     },
+     {
+      "species": "Aerodactyl",
+      "beats": 74,
+      "score": 64,
+      "n": 359
+     }
+    ]
+   },
+   {
+    "species": "Blastoise",
+    "usage": 0.7,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Rapid Spin",
+     "Surf",
+     "Ice Beam",
+     "Roar"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 148,
+      "spa": 68,
+      "spd": 0,
+      "spe": 40
+     },
+     "share": 20.0
+    },
+    "checks": [
+     {
+      "species": "Venusaur",
+      "beats": 94,
+      "score": 78,
+      "n": 34
+     },
+     {
+      "species": "Raikou",
+      "beats": 91,
+      "score": 76,
+      "n": 64
+     },
+     {
+      "species": "Zapdos",
+      "beats": 80,
+      "score": 71,
+      "n": 342
+     }
+    ]
+   },
+   {
+    "species": "Venusaur",
+    "usage": 1.6,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Sleep Powder",
+     "Leech Seed",
+     "Giga Drain",
+     "Hidden Power Fire"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 8,
+      "atk": 0,
+      "def": 0,
+      "spa": 248,
+      "spd": 112,
+      "spe": 140
+     },
+     "share": 35.1
+    },
+    "checks": [
+     {
+      "species": "Aerodactyl",
+      "beats": 72,
+      "score": 52,
+      "n": 80
+     },
+     {
+      "species": "Celebi",
+      "beats": 71,
+      "score": 50,
+      "n": 73
+     },
+     {
+      "species": "Salamence",
+      "beats": 66,
+      "score": 47,
+      "n": 89
+     }
+    ]
+   },
+   {
+    "species": "Alakazam",
+    "usage": 0.8,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Psychic",
+     "Fire Punch",
+     "Hidden Power Grass",
+     "Encore"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 70.2
+    },
+    "checks": [
+     {
+      "species": "Blissey",
+      "beats": 72,
+      "score": 45,
+      "n": 42
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 68,
+      "score": 41,
+      "n": 50
+     },
+     {
+      "species": "Skarmory",
+      "beats": 14,
+      "score": -7,
+      "n": 42
+     }
+    ]
+   },
+   {
+    "species": "Jolteon",
+    "usage": 7.7,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Thunderbolt",
+     "Baton Pass",
+     "Hidden Power Grass",
+     "Thunder Wave"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 77.2
+    },
+    "checks": [
+     {
+      "species": "Blissey",
+      "beats": 89,
+      "score": 83,
+      "n": 451
+     },
+     {
+      "species": "Registeel",
+      "beats": 85,
+      "score": 73,
+      "n": 136
+     },
+     {
+      "species": "Snorlax",
+      "beats": 82,
+      "score": 71,
+      "n": 189
+     }
+    ]
+   },
+   {
+    "species": "Machamp",
+    "usage": 1.4,
+    "format": "gen3ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rock Slide",
+     "Bulk Up",
+     "Hidden Power Ghost",
+     "Cross Chop"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 76,
+      "atk": 216,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 216
+     },
+     "share": 18.4
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 79,
+      "score": 59,
+      "n": 60
+     },
+     {
+      "species": "Aerodactyl",
+      "beats": 79,
+      "score": 55,
+      "n": 45
+     },
+     {
+      "species": "Salamence",
+      "beats": 70,
+      "score": 52,
+      "n": 99
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Charizard: on 5.3% of gen3ou teams (2026-09, rated 1630+), usually Hidden Power Grass, Substitute, Focus Punch, Fire Blast @ Leftovers (Hasty 4 Atk / 252 SpA / 252 Spe). What beats it: Jolteon 89%, Starmie 79%, Aerodactyl 74%.",
+   "Blastoise: on 0.7% of gen3ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Ice Beam, Roar @ Leftovers (Bold 252 HP / 148 Def / 68 SpA / 40 Spe). What beats it: Venusaur 94%, Raikou 91%, Zapdos 80%.",
+   "Venusaur: on 1.6% of gen3ou teams (2026-09, rated 1630+), usually Sleep Powder, Leech Seed, Giga Drain, Hidden Power Fire @ Leftovers (Timid 8 HP / 248 SpA / 112 SpD / 140 Spe). What beats it: Aerodactyl 72%, Celebi 71%, Salamence 66%.",
+   "Alakazam: on 0.8% of gen3ou teams (2026-09, rated 1630+), usually Psychic, Fire Punch, Hidden Power Grass, Encore @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 72%, Tyranitar 68%, Skarmory 14%.",
+   "Jolteon: on 7.7% of gen3ou teams (2026-09, rated 1630+), usually Thunderbolt, Baton Pass, Hidden Power Grass, Thunder Wave @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 89%, Registeel 85%, Snorlax 82%.",
+   "Machamp: on 1.4% of gen3ou teams (2026-09, rated 1630+), usually Rock Slide, Bulk Up, Hidden Power Ghost, Cross Chop @ Leftovers (Adamant 76 HP / 216 Atk / 216 Spe). What beats it: Metagross 79%, Aerodactyl 79%, Salamence 70%."
+  ],
   "text": {
    "career": [
     {

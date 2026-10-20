@@ -302,6 +302,8 @@ def render_playsheet(sh):
     out.append("")
     if sh.get("film"):
         out += ["## On film", ""] + [f"- {line}" for line in sh["film"]] + [""]
+    if sh.get("ladder_lines"):
+        out += ["## On the ladder", ""] + [f"- {line}" for line in sh["ladder_lines"]] + [""]
     for sid, title in PLAYSHEET:
         lines = sh["text"].get(sid, [])
         if lines:

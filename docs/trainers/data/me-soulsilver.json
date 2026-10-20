@@ -1794,6 +1794,245 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Dragonite",
+    "usage": 15.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Extreme Speed",
+     "Outrage",
+     "Dragon Dance",
+     "Fire Punch"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 24.9
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 65,
+      "score": 45,
+      "n": 98
+     },
+     {
+      "species": "Suicune",
+      "beats": 65,
+      "score": 45,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 52,
+      "score": 39,
+      "n": 247
+     }
+    ]
+   },
+   {
+    "species": "Infernape",
+    "usage": 17.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "U-turn",
+     "Fire Blast",
+     "Grass Knot"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 64,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 192
+     },
+     "share": 20.4
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 86,
+      "score": 77,
+      "n": 195
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 70,
+      "n": 456
+     },
+     {
+      "species": "Dragonite",
+      "beats": 80,
+      "score": 65,
+      "n": 115
+     }
+    ]
+   },
+   {
+    "species": "Empoleon",
+    "usage": 17.1,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Ice Beam",
+     "Surf",
+     "Grass Knot",
+     "Stealth Rock"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 13.4
+    },
+    "checks": [
+     {
+      "species": "Abomasnow",
+      "beats": 86,
+      "score": 70,
+      "n": 82
+     },
+     {
+      "species": "Lucario",
+      "beats": 79,
+      "score": 64,
+      "n": 128
+     },
+     {
+      "species": "Clefable",
+      "beats": 76,
+      "score": 60,
+      "n": 104
+     }
+    ]
+   },
+   {
+    "species": "Gengar",
+    "usage": 12.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Shadow Ball",
+     "Focus Blast",
+     "Will-O-Wisp",
+     "Substitute"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 4,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 28.7
+    },
+    "checks": [
+     {
+      "species": "Scizor",
+      "beats": 78,
+      "score": 65,
+      "n": 166
+     },
+     {
+      "species": "Jirachi",
+      "beats": 61,
+      "score": 48,
+      "n": 220
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 50,
+      "score": 38,
+      "n": 269
+     }
+    ]
+   },
+   {
+    "species": "Scizor",
+    "usage": 28.6,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Bullet Punch",
+     "Superpower",
+     "U-turn",
+     "Pursuit"
+    ],
+    "item": "Choice Band",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 248,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 8,
+      "spe": 0
+     },
+     "share": 28.1
+    },
+    "checks": [
+     {
+      "species": "Heatran",
+      "beats": 77,
+      "score": 68,
+      "n": 300
+     },
+     {
+      "species": "Jirachi",
+      "beats": 72,
+      "score": 63,
+      "n": 445
+     },
+     {
+      "species": "Zapdos",
+      "beats": 74,
+      "score": 61,
+      "n": 169
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.",
+   "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
+   "Empoleon: on 17.1% of gen4ou teams (2026-09, rated 1630+), usually Ice Beam, Surf, Grass Knot, Stealth Rock @ Leftovers (Modest 252 SpA / 4 SpD / 252 Spe). What beats it: Abomasnow 86%, Lucario 79%, Clefable 76%.",
+   "Gengar: on 12.4% of gen4ou teams (2026-09, rated 1630+), usually Shadow Ball, Focus Blast, Will-O-Wisp, Substitute @ Life Orb (Timid 4 Def / 252 SpA / 252 Spe). What beats it: Scizor 78%, Jirachi 61%, Tyranitar 50%.",
+   "Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%."
+  ],
   "text": {
    "career": [
     {

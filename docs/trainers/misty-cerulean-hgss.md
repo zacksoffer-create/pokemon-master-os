@@ -55,6 +55,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Lapras | bulky attacker (loose, 0.49) | tank (loose) | – |
 | Starmie | wallbreaker (loose, 0.29) | late-game cleaner (loose) | – |
 
+## On the ladder
+
+- Quagsire: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Recover, Earthquake, Encore, Ice Punch @ Leftovers (Relaxed 248 HP / 248 Def / 12 SpD). What beats it: Celebi 77%, Breloom 72%, Latias 56%.
+- Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.
+- Starmie: on 22.7% of gen4ou teams (2026-09, rated 1630+), usually Rapid Spin, Surf, Recover, Hydro Pump @ Leftovers (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Tyranitar 79%, Abomasnow 82%, Clefable 72%.
+
 ## The ace
 
 - Ace: Starmie (the highest level (54), the widest coverage and a wallbreaker).

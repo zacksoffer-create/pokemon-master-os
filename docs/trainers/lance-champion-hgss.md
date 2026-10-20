@@ -62,6 +62,15 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Charizard | wallbreaker (loose, 0.47) | – | – |
 | Dragonite | bulky attacker (solid, 0.56) | check / counter (solid) | – |
 
+## On the ladder
+
+- Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%.
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
+- Aerodactyl: on 2.5% of gen4ou teams (2026-09, rated 1630+), usually Taunt, Earthquake, Stealth Rock, Stone Edge @ Focus Sash (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Metagross 82%, Jirachi 70%, Tyranitar 60%.
+- Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.
+- Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.
+
 ## Career
 
 - Titles: Indigo Plateau Champion.

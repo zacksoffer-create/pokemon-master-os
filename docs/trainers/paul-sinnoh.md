@@ -60,6 +60,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Drapion | hazard setter (solid, 0.64) | check / counter (solid) | – |
 | Gastrodon | bulky attacker (strong, 0.65) | check / counter (solid) | – |
 
+## On the ladder
+
+- Electivire: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Punch, Thunder Punch, Earthquake, Taunt @ Expert Belt (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 53%.
+- Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.
+- Drapion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Toxic Spikes, Crunch, Swords Dance @ Black Sludge (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Latias 67%, Gyarados 64%.
+- Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Celebi 72%.
+
 ## Career
 
 - Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon (draft: confirm); Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).

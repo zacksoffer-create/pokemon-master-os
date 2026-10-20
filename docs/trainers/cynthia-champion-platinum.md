@@ -60,6 +60,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Milotic | check / counter (solid, 0.61) | sponge / status absorber (solid) | – |
 | Garchomp | wallbreaker (solid, 0.62) | bulky attacker (solid) | – |
 
+## On the ladder
+
+- Spiritomb: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Pursuit, Will-O-Wisp, Sucker Punch, Pain Split @ Leftovers (Adamant 252 HP / 252 Atk / 4 Def). What beats it: Tyranitar 80%, Heatran 78%, Dragonite 79%.
+- Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.
+- Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.
+- Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.
+- Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Jirachi 50%, Gyarados 26%.
+
 ## Career
 
 - Titles: Sinnoh Champion.

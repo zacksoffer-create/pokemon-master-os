@@ -1623,5 +1623,103 @@ class PokedexCrosscheck(unittest.TestCase):
         self.assertEqual((card["provenance"], len(card["claims"])), ("cartridge", 4))
         self.assertTrue(all(c["data"]["canon"] and c["source_ref"].startswith("Pokédex:") for c in card["claims"]))
 
+def _chaos(spreads, checks, raw=2000):
+    """A hand-written month of Smogon stats for one species (not real numbers)."""
+    return {"info": {"metagame": "gen4ou", "cutoff": 1630, "number of battles": 100},
+            "data": {"Gyarados": {"Raw count": raw, "usage": 0.3, "Abilities": {"intimidate": 100.0},
+                                  "Items": {"leftovers": 60.0, "lifeorb": 40.0}, "Spreads": spreads,
+                                  "Moves": {"waterfall": 95.0, "dragondance": 60.0, "earthquake": 50.0, "thunderwave": 30.0,
+                                            "hiddenpowerflying": 2.0},
+                                  "Teammates": {"Tyranitar": 50.0, "Latias": 20.0}, "Checks and Counters": checks,
+                                  "Viability Ceiling": [1, 1, 1, 1], "Happiness": {}, "Tera Types": {}}}}
+
+
+class SmogonUsage(unittest.TestCase):
+    """The field's monthly numbers (film/usage.py): spreads, items, moves, teammates, checks."""
+    @classmethod
+    def setUpClass(cls):
+        import copy
+        from film.replays import load_config
+        from film.usage import Names
+        from trainers.model import Store
+        from trainers.roles import RoleBook
+        cls.cfg = copy.deepcopy(load_config())
+        cls.store = Store()
+        cls.book = RoleBook(cls.store)
+        cls.names = Names(cls.cfg, 4)
+        cls.spreads = {"Adamant:0/252/4/0/0/252": 50.0, "Impish:248/0/252/0/8/0": 30.0, "Jolly:4/252/0/0/0/252": 20.0}
+
+    def test_a_species_line(self):
+        from film.usage import species, spread
+        self.assertEqual(spread("Jolly:0/252/0/0/4/252"), ("Jolly", {"hp": 0, "atk": 252, "def": 0, "spa": 0, "spd": 4, "spe": 252}))
+        data = _chaos(self.spreads, {"Starmie": {"n": 200, "p": 0.8, "d": 0.02}, "Skarmory": {"n": 10, "p": 0.99, "d": 0.01},
+                                     "Latias": {"n": 300, "p": 0.85, "d": 0.05}})
+        line = species(self.cfg, data, "Gyarados", self.names)
+        self.assertEqual((line["items"][0], line["abilities"][0]), (("Leftovers", 60.0), ("Intimidate", 100.0)))
+        self.assertIn(("Dragon Dance", 60.0), line["moves"])
+        self.assertNotIn("Hidden Power Flying", [m for m, _ in line["moves"]])       # under the share floor
+        self.assertEqual([c["species"] for c in line["checks"]], ["Starmie", "Latias"])  # Skarmory: too few matchups
+        self.assertEqual(line["checks"][0]["beats"], 80)
+
+    def test_the_spread_that_fits_the_role(self):
+        from film.usage import best_spread, species
+        line = species(self.cfg, _chaos(self.spreads, {}), "Gyarados", self.names)
+        sweeper = {"species": "Gyarados", "moves": ["Dragon Dance", "Waterfall", "Earthquake", "Stone Edge"],
+                   "item": "Life Orb", "ability": "Intimidate", "role": "physical_setup_sweeper"}
+        wall = {"species": "Gyarados", "moves": ["Waterfall", "Thunder Wave", "Roar", "Rest"], "item": "Leftovers",
+                "ability": "Intimidate", "role": "physical_wall"}
+        self.assertEqual(best_spread(self.book, sweeper, line["spreads"], "platinum", 4)["evs"]["atk"], 252)
+        self.assertEqual(best_spread(self.book, wall, line["spreads"], "platinum", 4)["nature"], "Impish")
+        self.assertIsNone(best_spread(self.book, sweeper, line["spreads"], "crystal", 2))   # no spreads in Gen 2
+
+    def test_the_ladder_reads_the_cache_and_widens_for_answers(self):
+        import shutil
+        from film.usage import line_for
+        from trainers.playsheet import ladder_lines
+        tmp = tempfile.mkdtemp()
+        try:
+            d = os.path.join(tmp, self.cfg["store"]["usage"])
+            os.makedirs(d)
+            with open(os.path.join(d, "2026-09-gen4ou-1630.json"), "w") as fh:
+                json.dump(_chaos(self.spreads, {}), fh)
+            with open(os.path.join(d, "2026-09-gen4ou-0.json"), "w") as fh:
+                json.dump(_chaos(self.spreads, {"Starmie": {"n": 500, "p": 0.7, "d": 0.02}}, raw=9000), fh)
+            line = line_for(self.cfg, "gen4ou", "Gyarados", self.names, [1630, 0], 300, base=tmp)
+            self.assertEqual((line["cutoff"], line["checks"][0]["species"]), (0, "Starmie"))   # 1630 had no answers
+            self.assertIsNone(line_for(self.cfg, "gen4ou", "Pikachu", self.names, [1630, 0], 300, base=tmp))
+            row = {"species": "Gyarados", "usage": 0.3, "format": "gen4ou", "month": "2026-09", "cutoff": 0,
+                   "moves": ["Waterfall"], "item": "Leftovers", "spread": line["spreads"][0], "checks": line["checks"]}
+            text = ladder_lines([row])[0]
+            self.assertIn("rare on gen4ou", text)
+            self.assertIn("What beats it: Starmie 70%", text)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_film_builds_get_a_spread_for_review(self):
+        import shutil
+        from film.cards import spreads_card
+        from ingest.cards import Inbox
+        from trainers.model import Build, Store
+        store = Store()
+        store.library = {"ingested/gyarados-x": Build(id="ingested/gyarados-x", species="Gyarados",
+                                                      moves=["Dragon Dance", "Waterfall", "Earthquake", "Stone Edge"],
+                                                      item="Life Orb", ability="Intimidate", generation=4,
+                                                      role="physical_setup_sweeper",
+                                                      source="external: https://replay.pokemonshowdown.com/gen4ou-1")}
+        tmp = tempfile.mkdtemp()
+        try:
+            d = os.path.join(tmp, self.cfg["store"]["usage"])
+            os.makedirs(d)
+            with open(os.path.join(d, "2026-09-gen4ou-1630.json"), "w") as fh:
+                json.dump(_chaos(self.spreads, {}), fh)
+            os.makedirs(os.path.join(tmp, "canon"))
+            card, _ = spreads_card(Inbox(base=tmp), store, self.book, self.cfg, "2026-09", 1630, base=tmp)
+            targets = {c["data"]["target"].rsplit(".", 1)[1]: c["data"]["value"] for c in card["claims"]}
+            self.assertEqual(targets["evs"]["atk"], 252)
+            self.assertIn(targets["nature"], ("Adamant", "Jolly"))
+            self.assertTrue(all(c["status"] == "proposed" for c in card["claims"]))
+        finally:
+            shutil.rmtree(tmp)
+
 if __name__ == "__main__":
     unittest.main()

@@ -2045,6 +2045,245 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Charizard",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Hidden Power Grass",
+     "Dragon Pulse",
+     "Flamethrower",
+     "Roost"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 38.1
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 84,
+      "score": 67,
+      "n": 75
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 61,
+      "n": 99
+     }
+    ]
+   },
+   {
+    "species": "Sceptile",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Leaf Storm",
+     "Focus Blast",
+     "Hidden Power Fire",
+     "Substitute"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 25.6
+    },
+    "checks": [
+     {
+      "species": "Dragonite",
+      "beats": 67,
+      "score": 44,
+      "n": 69
+     },
+     {
+      "species": "Metagross",
+      "beats": 61,
+      "score": 41,
+      "n": 90
+     },
+     {
+      "species": "Lucario",
+      "beats": 69,
+      "score": 40,
+      "n": 39
+     }
+    ]
+   },
+   {
+    "species": "Infernape",
+    "usage": 17.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "U-turn",
+     "Fire Blast",
+     "Grass Knot"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 64,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 192
+     },
+     "share": 20.4
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 86,
+      "score": 77,
+      "n": 195
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 70,
+      "n": 456
+     },
+     {
+      "species": "Dragonite",
+      "beats": 80,
+      "score": 65,
+      "n": 115
+     }
+    ]
+   },
+   {
+    "species": "Snorlax",
+    "usage": 2.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Body Slam",
+     "Curse",
+     "Crunch",
+     "Self-Destruct"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 33.5
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 75,
+      "score": 59,
+      "n": 115
+     },
+     {
+      "species": "Infernape",
+      "beats": 68,
+      "score": 56,
+      "n": 246
+     },
+     {
+      "species": "Skarmory",
+      "beats": 67,
+      "score": 55,
+      "n": 215
+     }
+    ]
+   },
+   {
+    "species": "Heracross",
+    "usage": 2.0,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Close Combat",
+     "Megahorn",
+     "Stone Edge",
+     "Swords Dance"
+    ],
+    "item": "Choice Scarf",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 44.3
+    },
+    "checks": [
+     {
+      "species": "Dragonite",
+      "beats": 69,
+      "score": 52,
+      "n": 113
+     },
+     {
+      "species": "Gliscor",
+      "beats": 70,
+      "score": 51,
+      "n": 93
+     },
+     {
+      "species": "Jirachi",
+      "beats": 63,
+      "score": 50,
+      "n": 251
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.",
+   "Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Dragonite 67%, Metagross 61%, Lucario 69%.",
+   "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
+   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.",
+   "Heracross: on 2.0% of gen4ou teams (2026-09, rated 0+), usually Close Combat, Megahorn, Stone Edge, Swords Dance @ Choice Scarf (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Dragonite 69%, Gliscor 70%, Jirachi 63%."
+  ],
   "text": {
    "career": [
     {

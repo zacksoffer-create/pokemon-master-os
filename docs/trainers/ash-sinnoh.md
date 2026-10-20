@@ -59,6 +59,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Gliscor | check / counter (solid, 0.54) | tank (loose) | – |
 | Buizel | revenge killer (solid, 0.54) | late-game cleaner (solid) | – |
 
+## On the ladder
+
+- Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
+- Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.
+- Staraptor: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Close Combat, U-turn, Return @ Choice Scarf (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Jirachi 76%, Metagross 77%, Skarmory 77%.
+- Gliscor: on 6.2% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Roost, Ice Fang, Taunt @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Starmie 88%, Latias 78%, Gyarados 76%.
+
 ## Career
 
 - Ash has competed across 5 regions (Kanto, Orange Archipelago, Johto, Hoenn and Sinnoh): expect answers built against a wide field.

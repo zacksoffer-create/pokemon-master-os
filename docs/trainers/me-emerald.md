@@ -60,6 +60,15 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Absol | mixed setup sweeper (strong, 0.78) | physical setup sweeper (solid) | – |
 | Meganium | mixed setup sweeper (strong, 0.74) | physical setup sweeper (solid) | – |
 
+## On the ladder
+
+- Swampert: on 41.4% of gen3ou teams (2026-09, rated 1630+), usually Earthquake, Ice Beam, Hydro Pump, Protect @ Leftovers (Relaxed 248 HP / 216 Def / 44 SpD). What beats it: Venusaur 90%, Celebi 80%, Sceptile 90%.
+- Milotic: on 4.2% of gen3ou teams (2026-09, rated 1630+), usually Recover, Surf, Toxic, Refresh @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Venusaur 90%, Snorlax 77%, Zapdos 72%.
+- Altaria: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Rest, Dragon Dance, Heal Bell, Perish Song @ Leftovers (Jolly 48 HP / 200 Def / 24 SpD / 236 Spe). What beats it: Tyranitar 72%, Blissey 73%, Gengar 76%.
+- Arcanine: on 0.9% of gen3ou teams (2026-09, rated 0+), usually Extreme Speed, Overheat, Hidden Power Fighting, Fire Blast @ Leftovers (Rash 4 HP / 64 Def / 248 SpA / 192 Spe). What beats it: Suicune 79%, Milotic 85%, Flygon 80%.
+- Absol: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Shadow Ball, Double-Edge, Hidden Power Fighting, Swords Dance @ Choice Band (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Aerodactyl 80%, Heracross 81%.
+- Meganium: rare on gen3ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Giga Drain, Reflect, Toxic @ Leftovers (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Salamence 73%, Charizard 74%, Skarmory 53%.
+
 ## Career
 
 - No career records on file for Emerald yet.

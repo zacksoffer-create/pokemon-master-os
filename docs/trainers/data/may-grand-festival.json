@@ -1831,6 +1831,104 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Blaziken",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Vacuum Wave",
+     "Superpower",
+     "Fire Blast",
+     "Hidden Power Ice"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 80,
+      "def": 0,
+      "spa": 176,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 16.4
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 84,
+      "score": 72,
+      "n": 140
+     },
+     {
+      "species": "Latias",
+      "beats": 77,
+      "score": 64,
+      "n": 170
+     },
+     {
+      "species": "Flygon",
+      "beats": 69,
+      "score": 48,
+      "n": 83
+     }
+    ]
+   },
+   {
+    "species": "Venusaur",
+    "usage": 0.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Leech Seed",
+     "Sludge Bomb",
+     "Leaf Storm",
+     "Synthesis"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Calm",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 0,
+      "spa": 4,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 17.2
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 55,
+      "score": 19,
+      "n": 31
+     },
+     {
+      "species": "Jirachi",
+      "beats": 50,
+      "score": 15,
+      "n": 32
+     },
+     {
+      "species": "Starmie",
+      "beats": 16,
+      "score": -6,
+      "n": 43
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Blaziken: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Vacuum Wave, Superpower, Fire Blast, Hidden Power Ice @ Life Orb (Naive 80 Atk / 176 SpA / 252 Spe). What beats it: Starmie 84%, Latias 77%, Flygon 69%.",
+   "Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Zapdos 55%, Jirachi 50%, Starmie 16%."
+  ],
   "text": {
    "career": [
     {

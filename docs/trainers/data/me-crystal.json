@@ -1772,6 +1772,133 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Miltank",
+    "usage": 4.4,
+    "format": "gen2ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Milk Drink",
+     "Heal Bell",
+     "Growl",
+     "Body Slam"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 252,
+      "atk": 252,
+      "def": 252,
+      "spa": 252,
+      "spd": 252,
+      "spe": 252
+     },
+     "share": 99.9
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 70,
+      "score": 41,
+      "n": 39
+     },
+     {
+      "species": "Snorlax",
+      "beats": 23,
+      "score": 3,
+      "n": 67
+     }
+    ]
+   },
+   {
+    "species": "Umbreon",
+    "usage": 4.2,
+    "format": "gen2ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rest",
+     "Pursuit",
+     "Sleep Talk",
+     "Charm"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 252,
+      "atk": 252,
+      "def": 252,
+      "spa": 252,
+      "spd": 252,
+      "spe": 252
+     },
+     "share": 87.1
+    },
+    "checks": [
+     {
+      "species": "Snorlax",
+      "beats": 34,
+      "score": 9,
+      "n": 56
+     }
+    ]
+   },
+   {
+    "species": "Espeon",
+    "usage": 5.5,
+    "format": "gen2ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Psychic",
+     "Growth",
+     "Hidden Power Fire",
+     "Baton Pass"
+    ],
+    "item": "MiracleBerry",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 252,
+      "atk": 252,
+      "def": 252,
+      "spa": 252,
+      "spd": 252,
+      "spe": 252
+     },
+     "share": 95.2
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 83,
+      "score": 65,
+      "n": 66
+     },
+     {
+      "species": "Snorlax",
+      "beats": 68,
+      "score": 52,
+      "n": 130
+     },
+     {
+      "species": "Raikou",
+      "beats": 71,
+      "score": 41,
+      "n": 35
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Miltank: on 4.4% of gen2ou teams (2026-09, rated 1630+), usually Milk Drink, Heal Bell, Growl, Body Slam @ Leftovers. What beats it: Zapdos 70%, Snorlax 23%.",
+   "Umbreon: on 4.2% of gen2ou teams (2026-09, rated 1630+), usually Rest, Pursuit, Sleep Talk, Charm @ Leftovers. What beats it: Snorlax 34%.",
+   "Espeon: on 5.5% of gen2ou teams (2026-09, rated 0+), usually Psychic, Growth, Hidden Power Fire, Baton Pass @ MiracleBerry. What beats it: Tyranitar 83%, Snorlax 68%, Raikou 71%."
+  ],
   "text": {
    "career": [
     {

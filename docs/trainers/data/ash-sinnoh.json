@@ -1904,6 +1904,198 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Infernape",
+    "usage": 17.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "U-turn",
+     "Fire Blast",
+     "Grass Knot"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 64,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 192
+     },
+     "share": 20.4
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 86,
+      "score": 77,
+      "n": 195
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 70,
+      "n": 456
+     },
+     {
+      "species": "Dragonite",
+      "beats": 80,
+      "score": 65,
+      "n": 115
+     }
+    ]
+   },
+   {
+    "species": "Torterra",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Earthquake",
+     "Wood Hammer",
+     "Stone Edge",
+     "Rock Polish"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 12.5
+    },
+    "checks": [
+     {
+      "species": "Skarmory",
+      "beats": 93,
+      "score": 77,
+      "n": 42
+     },
+     {
+      "species": "Latias",
+      "beats": 71,
+      "score": 48,
+      "n": 59
+     },
+     {
+      "species": "Gyarados",
+      "beats": 65,
+      "score": 36,
+      "n": 43
+     }
+    ]
+   },
+   {
+    "species": "Staraptor",
+    "usage": 0.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Brave Bird",
+     "Close Combat",
+     "U-turn",
+     "Return"
+    ],
+    "item": "Choice Scarf",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 27.5
+    },
+    "checks": [
+     {
+      "species": "Jirachi",
+      "beats": 76,
+      "score": 60,
+      "n": 110
+     },
+     {
+      "species": "Metagross",
+      "beats": 77,
+      "score": 57,
+      "n": 73
+     },
+     {
+      "species": "Skarmory",
+      "beats": 77,
+      "score": 57,
+      "n": 66
+     }
+    ]
+   },
+   {
+    "species": "Gliscor",
+    "usage": 6.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Earthquake",
+     "Roost",
+     "Ice Fang",
+     "Taunt"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 8.9
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 88,
+      "score": 73,
+      "n": 78
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 65,
+      "n": 163
+     },
+     {
+      "species": "Gyarados",
+      "beats": 76,
+      "score": 59,
+      "n": 99
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
+   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.",
+   "Staraptor: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Close Combat, U-turn, Return @ Choice Scarf (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Jirachi 76%, Metagross 77%, Skarmory 77%.",
+   "Gliscor: on 6.2% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Roost, Ice Fang, Taunt @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Starmie 88%, Latias 78%, Gyarados 76%."
+  ],
   "text": {
    "career": [
     {

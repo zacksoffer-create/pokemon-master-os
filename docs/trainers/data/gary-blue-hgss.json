@@ -1882,6 +1882,151 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Exeggutor",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Explosion",
+     "Psychic",
+     "Solar Beam",
+     "Hidden Power Fire"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 0,
+      "spa": 4,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 22.4
+    },
+    "checks": [
+     {
+      "species": "Heatran",
+      "beats": 77,
+      "score": 52,
+      "n": 44
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 49,
+      "score": 23,
+      "n": 57
+     },
+     {
+      "species": "Latias",
+      "beats": 45,
+      "score": 15,
+      "n": 42
+     }
+    ]
+   },
+   {
+    "species": "Arcanine",
+    "usage": 0.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Extreme Speed",
+     "Flare Blitz",
+     "Thunder Fang",
+     "Morning Sun"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 13.1
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 72,
+      "score": 58,
+      "n": 167
+     },
+     {
+      "species": "Heatran",
+      "beats": 73,
+      "score": 52,
+      "n": 77
+     },
+     {
+      "species": "Gyarados",
+      "beats": 64,
+      "score": 47,
+      "n": 126
+     }
+    ]
+   },
+   {
+    "species": "Gyarados",
+    "usage": 29.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Waterfall",
+     "Dragon Dance",
+     "Earthquake",
+     "Ice Fang"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 35.4
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 65,
+      "score": 58,
+      "n": 817
+     },
+     {
+      "species": "Zapdos",
+      "beats": 65,
+      "score": 54,
+      "n": 263
+     },
+     {
+      "species": "Rotom-Heat",
+      "beats": 70,
+      "score": 54,
+      "n": 136
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Exeggutor: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Explosion, Psychic, Solar Beam, Hidden Power Fire @ Life Orb (Naive 252 HP / 4 SpA / 252 Spe). What beats it: Heatran 77%, Tyranitar 49%, Latias 45%.",
+   "Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.",
+   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%."
+  ],
   "text": {
    "career": [
     {

@@ -1796,6 +1796,145 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Togekiss",
+    "usage": 1.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Air Slash",
+     "Aura Sphere",
+     "Flamethrower",
+     "Nasty Plot"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 160,
+      "atk": 0,
+      "def": 96,
+      "spa": 252,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 66.8
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 56,
+      "score": 26,
+      "n": 42
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 54,
+      "score": 25,
+      "n": 46
+     }
+    ]
+   },
+   {
+    "species": "Mamoswine",
+    "usage": 3.6,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Earthquake",
+     "Ice Shard",
+     "Substitute",
+     "Ice Fang"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 8,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 244
+     },
+     "share": 38.8
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 78,
+      "score": 54,
+      "n": 48
+     },
+     {
+      "species": "Gyarados",
+      "beats": 64,
+      "score": 41,
+      "n": 73
+     },
+     {
+      "species": "Scizor",
+      "beats": 65,
+      "score": 40,
+      "n": 57
+     }
+    ]
+   },
+   {
+    "species": "Ambipom",
+    "usage": 0.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Fake Out",
+     "U-turn",
+     "Low Kick",
+     "Taunt"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 44.9
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 82,
+      "score": 62,
+      "n": 61
+     },
+     {
+      "species": "Aerodactyl",
+      "beats": 79,
+      "score": 52,
+      "n": 38
+     },
+     {
+      "species": "Skarmory",
+      "beats": 77,
+      "score": 51,
+      "n": 43
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.",
+   "Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.",
+   "Ambipom: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Fake Out, U-turn, Low Kick, Taunt @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 82%, Aerodactyl 79%, Skarmory 77%."
+  ],
   "text": {
    "career": [
     {

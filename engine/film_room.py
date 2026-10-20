@@ -5,6 +5,8 @@
     python3 -I film_room.py study --format gen4ou --count 60 [--min-rating 1300] [--tournaments] [--json]
     python3 -I film_room.py study --user NAME --format gen4ou     # one player's scouting read
     python3 -I film_room.py card  …same as study… [--trainer me]  # the study as an intake card, for review
+    python3 -I film_room.py usage --format gen4ou Tyranitar [--month 2026-09] [--cutoff 1630]   # Smogon's numbers
+    python3 -I film_room.py spreads [--month 2026-09]             # likely spreads for the film builds → a card
 
 Replays are cached in data/raw/showdown_replays; a study is saved to data/derived/film. A card goes to the intake
 inbox (intake.py show / approve / apply); nothing reaches canon until it's approved.
@@ -58,7 +60,7 @@ def study(cfg, a):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["search", "box", "study", "card"])
+    ap.add_argument("cmd", choices=["search", "box", "study", "card", "usage", "spreads"])
     ap.add_argument("args", nargs="*")
     ap.add_argument("--format", default="gen4ou")
     ap.add_argument("--user")
@@ -69,6 +71,8 @@ def main(argv=None):
     ap.add_argument("--trainer", help="card: the trainer id to file under (e.g. me)")
     ap.add_argument("--again", action="store_true")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--month", help="usage/spreads: a Smogon stats month (default: the newest)")
+    ap.add_argument("--cutoff", type=int, help="usage/spreads: the rating cutoff (default in film/config.json)")
     a = ap.parse_args(argv)
     cfg = load_config()
     try:
@@ -96,6 +100,22 @@ def main(argv=None):
                 inbox = Inbox()
                 card, made = to_card(inbox, cfg, r, a.trainer, again=a.again)
                 print(("New card:\n" if made else "Already in the inbox (use --again to re-run):\n") + render_card(card, inbox))
+        elif a.cmd == "usage":
+            from film.usage import Names, fetch, render, species
+            fmt = a.format
+            data = fetch(cfg, fmt, a.month, a.cutoff)
+            names = Names(cfg, cfg["formats"][fmt]["gen"])
+            for sp in a.args or [k for k, _ in sorted(data["data"].items(), key=lambda x: -x[1]["usage"])[:10]]:
+                line = species(cfg, data, sp, names)
+                print((json.dumps(line, indent=1, ensure_ascii=False) if a.json else
+                       render(line, data["_month"], fmt, data["_cutoff"])) + "\n")
+        elif a.cmd == "spreads":
+            from film.cards import spreads_card
+            from ingest.cards import Inbox, render_card
+            reader = reader_for(cfg)
+            inbox = Inbox()
+            card, made = spreads_card(inbox, reader.store, reader.book, cfg, a.month, a.cutoff, again=a.again)
+            print(("New card:\n" if made else "Already in the inbox (use --again to re-run):\n") + render_card(card, inbox))
     except Unreachable as e:
         sys.exit(f"Not ready: {e}")
 

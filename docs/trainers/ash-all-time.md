@@ -68,6 +68,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Snorlax | bulky attacker (strong, 0.73) | sponge / status absorber (strong) | – |
 | Heracross | bulky attacker (solid, 0.60) | wallbreaker (solid) | – |
 
+## On the ladder
+
+- Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.
+- Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Dragonite 67%, Metagross 61%, Lucario 69%.
+- Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.
+- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.
+- Heracross: on 2.0% of gen4ou teams (2026-09, rated 0+), usually Close Combat, Megahorn, Stone Edge, Swords Dance @ Choice Scarf (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Dragonite 69%, Gliscor 70%, Jirachi 63%.
+
 ## Career
 
 - Ash has competed across 8 regions (Kanto, Orange Archipelago, Johto, Hoenn, Sinnoh, Unova, Kalos and Alola): expect answers built against a wide field.

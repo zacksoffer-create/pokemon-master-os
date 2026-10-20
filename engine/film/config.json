@@ -13,7 +13,8 @@
  "store": {
   "_note": "Fetched replays are cached exactly as Showdown sent them (data/ is rebuilt by fetching and never committed). A study is saved beside them for the page and the cards.",
   "raw": "data/raw/showdown_replays",
-  "studies": "data/derived/film"
+  "studies": "data/derived/film",
+  "usage": "data/raw/smogon_stats"
  },
  "formats": {
   "_note": "The formats the room reads, the generation each is, and the game the role engine reads its sets in (the era: moves, types, abilities).",
@@ -190,5 +191,37 @@
    "switch": 4,
    "aggression": 1
   }
+ },
+ "usage": {
+  "_note": "Smogon's monthly usage statistics (film/usage.py): smogon.com/stats, the 'chaos' JSON per format and rating cutoff. Public statistics about real play, cited per use. The cutoff is the rating floor of the battles counted (0, 1500, 1630 or 1760). Shares under floor % are left out; checks need at least checks_min_n matchups.",
+  "index": "https://www.smogon.com/stats/",
+  "chaos": "https://www.smogon.com/stats/{month}/chaos/{fmt}-{cutoff}.json",
+  "cutoff": 1630,
+  "top": 6,
+  "top_spreads": 6,
+  "floor": 3.0,
+  "checks_min_n": 30,
+  "checks_top": 4,
+  "formats_by_gen": {
+   "4": "gen4ou",
+   "3": "gen3ou",
+   "2": "gen2ou"
+  },
+  "item_aliases": {
+   "berry": "Berry",
+   "goldberry": "Gold Berry",
+   "mintberry": "Mint Berry",
+   "miracleberry": "MiracleBerry",
+   "mysteryberry": "MysteryBerry",
+   "przcureberry": "PRZCureBerry",
+   "bitterberry": "Bitter Berry",
+   "iceberry": "Ice Berry",
+   "berserkgene": "Berserk Gene",
+   "pinkbow": "Pink Bow",
+   "polkadotbow": "Polkadot Bow",
+   "mail": "Mail",
+   "noability": ""
+  },
+  "_aliases_note": "Gen 2 item ids that PokeAPI lists under their modern names or not at all (E-023), as the Gen 2 games spell them."
  }
 }

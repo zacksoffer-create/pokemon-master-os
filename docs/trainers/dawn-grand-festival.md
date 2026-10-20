@@ -56,6 +56,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Buneary | wallbreaker (loose, 0.33) | – | – |
 | Ambipom | wallbreaker (solid, 0.52) | revenge killer (loose) | – |
 
+## On the ladder
+
+- Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.
+- Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.
+- Ambipom: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Fake Out, U-turn, Low Kick, Taunt @ Life Orb (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Metagross 82%, Aerodactyl 79%, Skarmory 77%.
+
 ## Career
 
 - Recent record: Wallace Cup: won the Aqua Ribbon (beat May); Sinnoh Grand Festival: runner-up (lost to Zoey).

@@ -1725,6 +1725,104 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Omastar",
+    "usage": 0.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Ice Beam",
+     "Surf",
+     "Stealth Rock",
+     "Spikes"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 28.9
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 85,
+      "score": 61,
+      "n": 34
+     },
+     {
+      "species": "Latias",
+      "beats": 64,
+      "score": 35,
+      "n": 42
+     },
+     {
+      "species": "Gyarados",
+      "beats": 62,
+      "score": 30,
+      "n": 39
+     }
+    ]
+   },
+   {
+    "species": "Kabutops",
+    "usage": 2.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Waterfall",
+     "Aqua Jet",
+     "Swords Dance",
+     "Stone Edge"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 22.6
+    },
+    "checks": [
+     {
+      "species": "Breloom",
+      "beats": 85,
+      "score": 68,
+      "n": 67
+     },
+     {
+      "species": "Kingdra",
+      "beats": 68,
+      "score": 49,
+      "n": 94
+     },
+     {
+      "species": "Suicune",
+      "beats": 66,
+      "score": 47,
+      "n": 100
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Omastar: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Ice Beam, Surf, Stealth Rock, Spikes @ Leftovers (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Starmie 85%, Latias 64%, Gyarados 62%.",
+   "Kabutops: on 2.8% of gen4ou teams (2026-09, rated 0+), usually Waterfall, Aqua Jet, Swords Dance, Stone Edge @ Life Orb (Adamant 4 HP / 252 Atk / 252 Spe). What beats it: Breloom 85%, Kingdra 68%, Suicune 66%."
+  ],
   "text": {
    "career": [],
    "ace": [

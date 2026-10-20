@@ -59,6 +59,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Beautifly | wallbreaker (loose, 0.23) | – | – |
 | Skitty | wallbreaker (loose, 0.17) | – | – |
 
+## On the ladder
+
+- Blaziken: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Vacuum Wave, Superpower, Fire Blast, Hidden Power Ice @ Life Orb (Naive 80 Atk / 176 SpA / 252 Spe). What beats it: Starmie 84%, Latias 77%, Flygon 69%.
+- Venusaur: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Leech Seed, Sludge Bomb, Leaf Storm, Synthesis @ Black Sludge (Calm 252 HP / 4 SpA / 252 SpD). What beats it: Zapdos 55%, Jirachi 50%, Starmie 16%.
+
 ## Career
 
 - May has competed across 4 regions (Hoenn, Kanto, Johto and Sinnoh): expect answers built against a wide field.

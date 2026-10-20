@@ -63,6 +63,15 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Lapras | cleric (strong, 0.79) | special wall (solid) | – |
 | Snorlax | bulky attacker (strong, 0.76) | check / counter (strong) | – |
 
+## On the ladder
+
+- Typhlosion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Eruption, Flamethrower, Focus Blast, Extrasensory @ Choice Scarf (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Latias 94%, Gyarados 89%, Tyranitar 78%.
+- Tyranitar: on 53.3% of gen4ou teams (2026-09, rated 1630+), usually Crunch, Pursuit, Superpower, Stone Edge @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Breloom 82%, Lucario 80%, Rhyperior 85%.
+- Mamoswine: on 3.6% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Ice Shard, Substitute, Ice Fang @ Expert Belt (Jolly 8 HP / 252 Atk / 4 SpD / 244 Spe). What beats it: Starmie 78%, Gyarados 64%, Scizor 65%.
+- Crobat: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Taunt, U-turn, Roost @ Black Sludge (Jolly 252 HP / 112 Def / 144 Spe). What beats it: Magnezone 95%, Zapdos 92%, Metagross 86%.
+- Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.
+- Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Infernape 68%, Skarmory 67%.
+
 ## Career
 
 - No career records on file for HeartGold (main) yet.

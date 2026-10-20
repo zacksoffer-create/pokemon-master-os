@@ -1828,6 +1828,57 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Charizard",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Hidden Power Grass",
+     "Dragon Pulse",
+     "Flamethrower",
+     "Roost"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 38.1
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 84,
+      "score": 67,
+      "n": 75
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 61,
+      "n": 99
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%."
+  ],
   "text": {
    "career": [
     {

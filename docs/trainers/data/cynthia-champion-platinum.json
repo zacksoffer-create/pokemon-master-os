@@ -1799,6 +1799,233 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Spiritomb",
+    "usage": 0.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Pursuit",
+     "Will-O-Wisp",
+     "Sucker Punch",
+     "Pain Split"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 252,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 24.6
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 80,
+      "score": 66,
+      "n": 132
+     },
+     {
+      "species": "Heatran",
+      "beats": 78,
+      "score": 60,
+      "n": 83
+     },
+     {
+      "species": "Dragonite",
+      "beats": 79,
+      "score": 53,
+      "n": 42
+     }
+    ]
+   },
+   {
+    "species": "Roserade",
+    "usage": 3.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Toxic Spikes",
+     "Spikes",
+     "Hidden Power Fire",
+     "Grass Knot"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 232,
+      "spa": 0,
+      "spd": 0,
+      "spe": 24
+     },
+     "share": 14.5
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 85,
+      "score": 62,
+      "n": 41
+     },
+     {
+      "species": "Jirachi",
+      "beats": 80,
+      "score": 62,
+      "n": 71
+     },
+     {
+      "species": "Infernape",
+      "beats": 79,
+      "score": 50,
+      "n": 30
+     }
+    ]
+   },
+   {
+    "species": "Togekiss",
+    "usage": 1.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Air Slash",
+     "Aura Sphere",
+     "Flamethrower",
+     "Nasty Plot"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 160,
+      "atk": 0,
+      "def": 96,
+      "spa": 252,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 66.8
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 56,
+      "score": 26,
+      "n": 42
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 54,
+      "score": 25,
+      "n": 46
+     }
+    ]
+   },
+   {
+    "species": "Lucario",
+    "usage": 15.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "Extreme Speed",
+     "Swords Dance",
+     "Aura Sphere"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 32.1
+    },
+    "checks": [
+     {
+      "species": "Infernape",
+      "beats": 62,
+      "score": 46,
+      "n": 139
+     },
+     {
+      "species": "Gliscor",
+      "beats": 65,
+      "score": 42,
+      "n": 70
+     },
+     {
+      "species": "Gyarados",
+      "beats": 54,
+      "score": 41,
+      "n": 211
+     }
+    ]
+   },
+   {
+    "species": "Milotic",
+    "usage": 1.0,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Recover",
+     "Surf",
+     "Haze",
+     "Ice Beam"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 248,
+      "atk": 0,
+      "def": 252,
+      "spa": 0,
+      "spd": 8,
+      "spe": 0
+     },
+     "share": 31.0
+    },
+    "checks": [
+     {
+      "species": "Jirachi",
+      "beats": 50,
+      "score": 20,
+      "n": 43
+     },
+     {
+      "species": "Gyarados",
+      "beats": 26,
+      "score": -3,
+      "n": 35
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Spiritomb: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Pursuit, Will-O-Wisp, Sucker Punch, Pain Split @ Leftovers (Adamant 252 HP / 252 Atk / 4 Def). What beats it: Tyranitar 80%, Heatran 78%, Dragonite 79%.",
+   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Metagross 85%, Jirachi 80%, Infernape 79%.",
+   "Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%.",
+   "Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Gyarados 54%.",
+   "Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Jirachi 50%, Gyarados 26%."
+  ],
   "text": {
    "career": [
     {

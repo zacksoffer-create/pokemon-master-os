@@ -111,3 +111,47 @@ def to_card(inbox, cfg, r, trainer=None, again=False):
                f"{len([c for c in claims if c['kind'] == 'build'])} builds. Filed under {t}.")
     key = f"{r['format']}-{who}-{(r['dates'] or ['', ''])[1]}-{digest(' '.join(sorted(ids)))}"
     return inbox.new("film", key, src, "ingested", summary, claims, raw=r, again=again)
+
+
+def spreads_card(inbox, store, book, cfg, month=None, cutoff=None, again=False, base=None):
+    """The film builds in the library get the spread the field most likely runs on them: of the species' top
+    spreads in Smogon's monthly numbers, the one the role engine says fits the build's role best. One card of
+    corrections (EVs and nature per build), for review."""
+    from film.usage import Names, best_spread, evs_line, fetch, species
+    from trainers.era import GAME_GEN
+    claims, seen, months = [], {}, set()
+    prefix = "external: " + cfg["sources"]["replay"].split("{")[0]
+    for bid, b in sorted(store.library.items()):
+        if not b.source.startswith(prefix) or b.evs or not b.generation:
+            continue
+        fmt = cfg["usage"]["formats_by_gen"].get(str(b.generation))
+        game = next((f["game"] for k, f in cfg["formats"].items() if k == fmt), None)
+        if not fmt or not game or b.generation < 3:
+            continue
+        if fmt not in seen:
+            seen[fmt] = (fetch(cfg, fmt, month, cutoff, **({"base": base} if base else {})), Names(cfg, b.generation))
+        data, names = seen[fmt]
+        line = species(cfg, data, b.species, names)
+        if not line:
+            continue
+        variant = {"species": b.species, "moves": b.moves, "item": b.item, "ability": b.ability, "role": b.role}
+        best = best_spread(book, variant, line["spreads"], game, b.generation)
+        if not best:
+            continue
+        months.add(f"{fmt} {data['_month']} ({data['_cutoff']}+)")
+        why = (f"Smogon {fmt} {data['_month']}, rated {data['_cutoff']}+: of {b.species}'s top spreads, "
+               f"{best['nature']} {evs_line(best['evs'])} (on {best['share']}% of its sets) fits this build's role "
+               f"({b.role}) best, fit {best['fit']}.")
+        src = cfg["usage"]["chaos"].format(month=data["_month"], fmt=fmt, cutoff=data["_cutoff"])
+        claims.append(inbox.claim("correction", {"target": f"canon/build_library.json:builds.{bid}.evs",
+                                                 "value": best["evs"], "was": None, "why": why},
+                                  confidence="MEDIUM", source_ref=src, note=f"{b.species}: {evs_line(best['evs'])}"))
+        claims.append(inbox.claim("correction", {"target": f"canon/build_library.json:builds.{bid}.nature",
+                                                 "value": best["nature"], "was": b.nature, "why": why},
+                                  confidence="MEDIUM", source_ref=src, note=f"{b.species}: {best['nature']}"))
+    srcd = {"title": "Smogon monthly usage stats: spreads for the film builds", "url": cfg["usage"]["index"],
+            "months": sorted(months)}
+    key = "spreads-" + "-".join(sorted(m.split()[0] + m.split()[1] for m in months)) if months else "spreads-none"
+    return inbox.new("usage", key, srcd, "ingested",
+                     f"Likely EV spreads and natures for {len(claims) // 2} film builds, from {', '.join(sorted(months))}.",
+                     claims, again=again)

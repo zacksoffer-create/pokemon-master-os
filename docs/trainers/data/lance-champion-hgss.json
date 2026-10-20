@@ -1871,6 +1871,292 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Gyarados",
+    "usage": 29.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Waterfall",
+     "Dragon Dance",
+     "Earthquake",
+     "Ice Fang"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 35.4
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 65,
+      "score": 58,
+      "n": 817
+     },
+     {
+      "species": "Zapdos",
+      "beats": 65,
+      "score": 54,
+      "n": 263
+     },
+     {
+      "species": "Rotom-Heat",
+      "beats": 70,
+      "score": 54,
+      "n": 136
+     }
+    ]
+   },
+   {
+    "species": "Dragonite",
+    "usage": 15.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Extreme Speed",
+     "Outrage",
+     "Dragon Dance",
+     "Fire Punch"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 24.9
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 65,
+      "score": 45,
+      "n": 98
+     },
+     {
+      "species": "Suicune",
+      "beats": 65,
+      "score": 45,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 52,
+      "score": 39,
+      "n": 247
+     }
+    ]
+   },
+   {
+    "species": "Dragonite",
+    "usage": 15.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Extreme Speed",
+     "Outrage",
+     "Dragon Dance",
+     "Fire Punch"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 24.9
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 65,
+      "score": 45,
+      "n": 98
+     },
+     {
+      "species": "Suicune",
+      "beats": 65,
+      "score": 45,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 52,
+      "score": 39,
+      "n": 247
+     }
+    ]
+   },
+   {
+    "species": "Aerodactyl",
+    "usage": 2.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Taunt",
+     "Earthquake",
+     "Stealth Rock",
+     "Stone Edge"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 33.7
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 82,
+      "score": 57,
+      "n": 40
+     },
+     {
+      "species": "Jirachi",
+      "beats": 70,
+      "score": 40,
+      "n": 36
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 60,
+      "score": 26,
+      "n": 34
+     }
+    ]
+   },
+   {
+    "species": "Charizard",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Hidden Power Grass",
+     "Dragon Pulse",
+     "Flamethrower",
+     "Roost"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 38.1
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 84,
+      "score": 67,
+      "n": 75
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 61,
+      "n": 99
+     }
+    ]
+   },
+   {
+    "species": "Dragonite",
+    "usage": 15.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Extreme Speed",
+     "Outrage",
+     "Dragon Dance",
+     "Fire Punch"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 24.9
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 65,
+      "score": 45,
+      "n": 98
+     },
+     {
+      "species": "Suicune",
+      "beats": 65,
+      "score": 45,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 52,
+      "score": 39,
+      "n": 247
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Zapdos 65%, Rotom-Heat 70%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%.",
+   "Aerodactyl: on 2.5% of gen4ou teams (2026-09, rated 1630+), usually Taunt, Earthquake, Stealth Rock, Stone Edge @ Focus Sash (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Metagross 82%, Jirachi 70%, Tyranitar 60%.",
+   "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Lucario 65%, Suicune 65%, Latias 52%."
+  ],
   "text": {
    "career": [
     {

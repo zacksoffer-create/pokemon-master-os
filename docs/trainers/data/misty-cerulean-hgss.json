@@ -1472,6 +1472,151 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Quagsire",
+    "usage": 3.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Recover",
+     "Earthquake",
+     "Encore",
+     "Ice Punch"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Relaxed",
+     "evs": {
+      "hp": 248,
+      "atk": 0,
+      "def": 248,
+      "spa": 0,
+      "spd": 12,
+      "spe": 0
+     },
+     "share": 24.7
+    },
+    "checks": [
+     {
+      "species": "Celebi",
+      "beats": 77,
+      "score": 48,
+      "n": 35
+     },
+     {
+      "species": "Breloom",
+      "beats": 72,
+      "score": 40,
+      "n": 31
+     },
+     {
+      "species": "Latias",
+      "beats": 56,
+      "score": 38,
+      "n": 122
+     }
+    ]
+   },
+   {
+    "species": "Lapras",
+    "usage": 0.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Surf",
+     "Ice Beam",
+     "Thunderbolt",
+     "Heal Bell"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 0,
+      "spa": 0,
+      "spd": 252,
+      "spe": 4
+     },
+     "share": 19.3
+    },
+    "checks": [
+     {
+      "species": "Infernape",
+      "beats": 75,
+      "score": 44,
+      "n": 32
+     },
+     {
+      "species": "Jirachi",
+      "beats": 68,
+      "score": 37,
+      "n": 37
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 62,
+      "score": 37,
+      "n": 58
+     }
+    ]
+   },
+   {
+    "species": "Starmie",
+    "usage": 22.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rapid Spin",
+     "Surf",
+     "Recover",
+     "Hydro Pump"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 14.6
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 79,
+      "score": 72,
+      "n": 554
+     },
+     {
+      "species": "Abomasnow",
+      "beats": 82,
+      "score": 62,
+      "n": 62
+     },
+     {
+      "species": "Clefable",
+      "beats": 72,
+      "score": 59,
+      "n": 190
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Quagsire: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Recover, Earthquake, Encore, Ice Punch @ Leftovers (Relaxed 248 HP / 248 Def / 12 SpD). What beats it: Celebi 77%, Breloom 72%, Latias 56%.",
+   "Lapras: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Surf, Ice Beam, Thunderbolt, Heal Bell @ Leftovers (Hardy 252 HP / 252 SpD / 4 Spe). What beats it: Infernape 75%, Jirachi 68%, Tyranitar 62%.",
+   "Starmie: on 22.7% of gen4ou teams (2026-09, rated 1630+), usually Rapid Spin, Surf, Recover, Hydro Pump @ Leftovers (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Tyranitar 79%, Abomasnow 82%, Clefable 72%."
+  ],
   "text": {
    "career": [],
    "ace": [

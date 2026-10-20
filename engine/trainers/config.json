@@ -682,6 +682,12 @@
    "gap": 30
   }
  },
+ "ladder": {
+  "_note": "The playsheet's 'On the ladder' (film/usage.py): each member's line in Smogon's newest cached monthly stats for the version's generation (Gen 4 → gen4ou, Gen 3 → gen3ou, Gen 2 → gen2ou), at the highest cutoff with at least min_raw sets behind it, and the checks that beat it most. Read from the cache only; 'film_room.py usage' fetches a month.",
+  "cutoffs": [1630, 0],
+  "min_raw": 300,
+  "checks": 3
+ },
  "observations": {
   "_note": "Design only (Part 3 builds ingestion, and nothing lands without approval). One observation per line in canon/observations.jsonl: what a trainer did in one situation of one battle. Every fact carries where it came from and how many times it was seen.",
   "fields": {

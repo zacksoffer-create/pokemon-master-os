@@ -62,6 +62,15 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Jolteon | mixed setup sweeper (strong, 0.77) | physical setup sweeper (solid) | – |
 | Machamp | physical setup sweeper (strong, 0.72) | bulky attacker (solid) | – |
 
+## On the ladder
+
+- Charizard: on 5.3% of gen3ou teams (2026-09, rated 1630+), usually Hidden Power Grass, Substitute, Focus Punch, Fire Blast @ Leftovers (Hasty 4 Atk / 252 SpA / 252 Spe). What beats it: Jolteon 89%, Starmie 79%, Aerodactyl 74%.
+- Blastoise: on 0.7% of gen3ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Ice Beam, Roar @ Leftovers (Bold 252 HP / 148 Def / 68 SpA / 40 Spe). What beats it: Venusaur 94%, Raikou 91%, Zapdos 80%.
+- Venusaur: on 1.6% of gen3ou teams (2026-09, rated 1630+), usually Sleep Powder, Leech Seed, Giga Drain, Hidden Power Fire @ Leftovers (Timid 8 HP / 248 SpA / 112 SpD / 140 Spe). What beats it: Aerodactyl 72%, Celebi 71%, Salamence 66%.
+- Alakazam: on 0.8% of gen3ou teams (2026-09, rated 1630+), usually Psychic, Fire Punch, Hidden Power Grass, Encore @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 72%, Tyranitar 68%, Skarmory 14%.
+- Jolteon: on 7.7% of gen3ou teams (2026-09, rated 1630+), usually Thunderbolt, Baton Pass, Hidden Power Grass, Thunder Wave @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 89%, Registeel 85%, Snorlax 82%.
+- Machamp: on 1.4% of gen3ou teams (2026-09, rated 1630+), usually Rock Slide, Bulk Up, Hidden Power Ghost, Cross Chop @ Leftovers (Adamant 76 HP / 216 Atk / 216 Spe). What beats it: Metagross 79%, Aerodactyl 79%, Salamence 70%.
+
 ## Career
 
 - No career records on file for FireRed yet.

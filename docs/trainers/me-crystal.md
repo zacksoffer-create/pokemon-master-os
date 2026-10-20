@@ -60,6 +60,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Umbreon | bulky setup (strong, 0.76) | check / counter (solid) | – |
 | Espeon | bulky setup (solid, 0.52) | late-game cleaner (solid) | – |
 
+## On the ladder
+
+- Miltank: on 4.4% of gen2ou teams (2026-09, rated 1630+), usually Milk Drink, Heal Bell, Growl, Body Slam @ Leftovers. What beats it: Zapdos 70%, Snorlax 23%.
+- Umbreon: on 4.2% of gen2ou teams (2026-09, rated 1630+), usually Rest, Pursuit, Sleep Talk, Charm @ Leftovers. What beats it: Snorlax 34%.
+- Espeon: on 5.5% of gen2ou teams (2026-09, rated 0+), usually Psychic, Growth, Hidden Power Fire, Baton Pass @ MiracleBerry. What beats it: Tyranitar 83%, Snorlax 68%, Raikou 71%.
+
 ## Career
 
 - No career records on file for Crystal yet.

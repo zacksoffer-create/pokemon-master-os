@@ -337,6 +337,49 @@ def film_lines(sheet):
     return lines
 
 
+# --- on the ladder ------------------------------------------------------------------------------------
+def ladder(store, version, team):
+    """Each member's line in Smogon's monthly stats for the version's generation: how common it is, what the
+    field runs on it, and what beats it most (film/usage.py). Empty when no month is cached."""
+    from film.replays import load_config as film_config
+    from film.usage import Names, line_for
+    cfg = store.config["ladder"]
+    fc = film_config()
+    gen = GAME_GEN[version.game]
+    fmt = fc["usage"]["formats_by_gen"].get(str(gen))
+    if not fmt:
+        return []
+    try:
+        names = Names(fc, gen)
+    except (OSError, KeyError):
+        return []
+    out = []
+    for b in team:
+        line = line_for(fc, fmt, b.species, names, cfg["cutoffs"], cfg["min_raw"])
+        if line:
+            out.append({"species": b.species, "usage": line["usage"], "format": fmt, "month": line["month"],
+                        "cutoff": line["cutoff"], "moves": [m for m, _ in line["moves"][:4]],
+                        "item": line["items"][0][0] if line["items"] else None,
+                        "spread": line["spreads"][0] if line["spreads"] else None,
+                        "checks": line["checks"][:cfg["checks"]]})
+    return out
+
+
+def ladder_lines(rows):
+    from film.usage import evs_line
+    out = []
+    for r in rows:
+        sp = r["spread"]
+        sset = ", ".join(r["moves"]) + (f" @ {r['item']}" if r["item"] else "")
+        if sp and sum(sp["evs"].values()) < 1500:              # Gen 2 'spreads' are all maxed: nothing to read
+            sset += f" ({sp['nature']} {evs_line(sp['evs'])})"
+        checks = ", ".join(f"{c['species']} {c['beats']}%" for c in r["checks"])
+        share = f"on {r['usage']}% of {r['format']} teams" if r["usage"] >= 0.5 else f"rare on {r['format']} (under 0.5% of teams)"
+        out.append(f"{r['species']}: {share} ({r['month']}, rated {r['cutoff']}+), "
+                   f"usually {sset}." + (f" What beats it: {checks}." if checks else ""))
+    return out
+
+
 # --- the playsheet --------------------------------------------------------------------------------------
 def build_playsheet(store, book, version, team, report, level=None):
     trainer = store.trainers[version.trainer]
@@ -359,6 +402,8 @@ def build_playsheet(store, book, version, team, report, level=None):
              "observed": observed(store, version)}
     sheet["aggression"]["observed"] = sheet["observed"]["aggression"]
     sheet["film"] = film_lines(sheet)
+    sheet["ladder"] = ladder(store, version, team)
+    sheet["ladder_lines"] = ladder_lines(sheet["ladder"])
     return sheet
 
 

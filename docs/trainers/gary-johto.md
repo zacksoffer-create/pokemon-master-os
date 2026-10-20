@@ -61,6 +61,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Golem | bulky attacker (solid, 0.62) | wallbreaker (loose) | – |
 | Scizor | bulky attacker (solid, 0.65) | revenge killer (solid) | – |
 
+## On the ladder
+
+- Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%.
+- Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Heatran 73%, Gyarados 64%.
+- Nidoqueen: on 3.3% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Ice Beam, Earthquake, Protect @ Black Sludge (Relaxed 252 HP / 252 Def / 4 SpA). What beats it: Gyarados 82%, Swampert 84%, Starmie 75%.
+- Scizor: on 28.6% of gen4ou teams (2026-09, rated 1630+), usually Bullet Punch, Superpower, U-turn, Pursuit @ Choice Band (Adamant 248 HP / 252 Atk / 8 SpD). What beats it: Heatran 77%, Jirachi 72%, Zapdos 74%.
+
 ## Career
 
 - Recent record: Indigo Plateau Conference: Top 32 (EP077, The Fourth Round Rumble); Silver Conference: Top 16 (lost to Ash).

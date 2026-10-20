@@ -1833,6 +1833,186 @@
    "sent_out": []
   },
   "film": [],
+  "ladder": [
+   {
+    "species": "Electivire",
+    "usage": 1.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Ice Punch",
+     "Thunder Punch",
+     "Earthquake",
+     "Taunt"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 68.3
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 53,
+      "score": 21,
+      "n": 40
+     }
+    ]
+   },
+   {
+    "species": "Torterra",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Earthquake",
+     "Wood Hammer",
+     "Stone Edge",
+     "Rock Polish"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 12.5
+    },
+    "checks": [
+     {
+      "species": "Skarmory",
+      "beats": 93,
+      "score": 77,
+      "n": 42
+     },
+     {
+      "species": "Latias",
+      "beats": 71,
+      "score": 48,
+      "n": 59
+     },
+     {
+      "species": "Gyarados",
+      "beats": 65,
+      "score": 36,
+      "n": 43
+     }
+    ]
+   },
+   {
+    "species": "Drapion",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Earthquake",
+     "Toxic Spikes",
+     "Crunch",
+     "Swords Dance"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 20.7
+    },
+    "checks": [
+     {
+      "species": "Metagross",
+      "beats": 79,
+      "score": 52,
+      "n": 34
+     },
+     {
+      "species": "Latias",
+      "beats": 67,
+      "score": 39,
+      "n": 45
+     },
+     {
+      "species": "Gyarados",
+      "beats": 64,
+      "score": 37,
+      "n": 50
+     }
+    ]
+   },
+   {
+    "species": "Gastrodon",
+    "usage": 1.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Recover",
+     "Curse",
+     "Waterfall",
+     "Earthquake"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 16,
+      "spa": 0,
+      "spd": 240,
+      "spe": 0
+     },
+     "share": 71.0
+    },
+    "checks": [
+     {
+      "species": "Breloom",
+      "beats": 87,
+      "score": 71,
+      "n": 76
+     },
+     {
+      "species": "Abomasnow",
+      "beats": 85,
+      "score": 62,
+      "n": 40
+     },
+     {
+      "species": "Celebi",
+      "beats": 72,
+      "score": 47,
+      "n": 50
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Electivire: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Punch, Thunder Punch, Earthquake, Taunt @ Expert Belt (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 53%.",
+   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Latias 71%, Gyarados 65%.",
+   "Drapion: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Toxic Spikes, Crunch, Swords Dance @ Black Sludge (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Metagross 79%, Latias 67%, Gyarados 64%.",
+   "Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Celebi 72%."
+  ],
   "text": {
    "career": [
     {
