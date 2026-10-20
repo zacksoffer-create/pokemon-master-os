@@ -1,0 +1,168 @@
+<script>
+/* ===== Builds: the library, the ladder book, and the Lab (one Pokémon, built and checked) ===================== */
+function moveGen(id) { return id <= 165 ? 1 : id <= 251 ? 2 : id <= 354 ? 3 : 4; }
+function statObj(x, fill) { var o = {}; STATS.forEach(function (s, i) { o[s] = Array.isArray(x) ? (x[i] == null ? fill : x[i]) : x && x[s] != null ? x[s] : fill; }); return o; }
+function srcKind(src) { src = String(src || ''); return /^external/.test(src) ? ['ladder replay', 'ice'] : /anime/.test(src) ? ['anime', 'violet'] : /stock/.test(src) ? ['stock', 'gold'] : [src, '']; }
+function buildName(b) { var m = String(b.name).match(/^([a-z0-9-]+)\/[a-z0-9-]+$/); return m ? m[1].split('-').map(cap).join(' ') + '\'s ' + b.sp : b.name; }
+function buildCard(b) {
+  var n = numOf(b.sp), k = srcKind(b.src);
+  return '<div class="card"><div class="hd"><img src="' + art(n) + '" style="width:64px;height:64px;object-fit:contain" loading="lazy"><div style="flex:1"><div class="eyebrow">' + esc(b.sp) + ' · Gen ' + b.gen + '</div><h3 style="font-size:19px">' + esc(buildName(b)) + '</h3></div>' + chip(k[0], k[1]) + '</div>' +
+    '<div class="bd"><div class="mvgrid" style="margin-top:0">' + b.mv.map(moveChip).join('') + '</div>' +
+    '<div class="small" style="margin-top:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">' + [b.item ? '<img src="' + itemSprite(b.item) + '" style="width:24px;height:24px" onerror="this.remove()"><b>' + esc(b.item) + '</b>' : '', b.ab && b.gen >= 3 ? esc(b.ab) : '', b.nat && b.gen >= 3 ? esc(b.nat) : ''].filter(Boolean).join(' · ') + '</div>' +
+    '<div class="tiny muted" style="margin-top:4px">' + esc(evLine(b.ev) || 'no EVs listed') + '</div>' +
+    (b.role ? '<div style="margin-top:8px">' + chip(b.role, 'violet') + '</div>' : '') + ((b.notes || []).length ? '<div class="tiny muted" style="margin-top:6px">' + esc(b.notes.join(' ')) + '</div>' : '') +
+    '<div style="margin-top:12px;display:flex;gap:8px"><a class="btn sm gold" href="#/builds/lab?b=' + encodeURIComponent(b.id) + '">Open in the Lab</a>' + (/^external/.test(b.src) && /https?:/.test(b.src) ? '<a class="btn sm" target="_blank" rel="noopener" href="' + esc(b.src.match(/https?:\/\/\S+/)[0]) + '">Replay ↗</a>' : '') + '</div></div></div>';
+}
+function buildTabs(on) { return '<div class="tabs" style="margin-top:16px">' + [['#/builds', 'Library', 'lib'], ['#/builds/ladder', 'The ladder book', 'ladder'], ['#/builds/lab', 'The Lab', 'lab']].map(function (t) { return '<a href="' + t[0] + '"' + (t[2] === on ? ' class="on"' : '') + '>' + t[1] + '</a>'; }).join('') + '</div>'; }
+function library(qs) {
+  var q0 = (String(qs || '').match(/q=([^&]*)/) || [])[1];
+  return withBuilds().then(function (B) {
+    after(function (p) {
+      var q = p.querySelector('#lq'), g = p.querySelector('#lg'), k = p.querySelector('#lk'), cards = p.querySelectorAll('[data-b]'), cnt = p.querySelector('#lc');
+      if (q0) q.value = decodeURIComponent(q0);
+      function run() { var t = q.value.toLowerCase(), n = 0; cards.forEach(function (c) { var d = c.dataset, ok = (!t || d.s.indexOf(t) >= 0) && (!g.value || d.g === g.value) && (!k.value || d.k === k.value); c.style.display = ok ? '' : 'none'; if (ok) n++; }); cnt.textContent = n + ' of ' + cards.length; }
+      [q, g, k].forEach(function (el) { el.addEventListener('input', run); }); run();
+    });
+    return '<div class="eyebrow">Builds · one Pokémon at a time</div><h1 style="margin:6px 0">Builds & the Lab</h1>' +
+      '<p class="lede">The team pages read a trainer; this side reads a single Pokémon: its moves, its spread, what it does and what it\'s for. Stock and anime sets are authored; ladder sets are read from real replays. Any of them opens in the Lab.</p>' + buildTabs('lib') +
+      '<div class="card"><div class="bd" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><input class="f" id="lq" placeholder="Species, move, item, role…" style="flex:1;min-width:200px">' +
+      '<select class="f" id="lg" style="width:auto"><option value="">Any generation</option><option value="2">Gen 2</option><option value="3">Gen 3</option><option value="4">Gen 4</option></select>' +
+      '<select class="f" id="lk" style="width:auto"><option value="">Any source</option><option value="stock">Stock</option><option value="anime">Anime</option><option value="ladder replay">Ladder replays</option></select><span class="tiny muted" id="lc"></span></div></div>' +
+      '<div class="grid" style="margin-top:16px">' + B.library.map(function (b) {
+        return '<div class="c4" data-b="1" data-s="' + esc([b.sp, b.name, b.item, b.role, b.nat].concat(b.mv).join(' ').toLowerCase()) + '" data-g="' + b.gen + '" data-k="' + esc(srcKind(b.src)[0]) + '">' + buildCard(b) + '</div>'; }).join('') + '</div>';
+  });
+}
+function ladder(fmt) {
+  return withBuilds().then(function (B) {
+    var keys = Object.keys(B.ladder); fmt = B.ladder[fmt] ? fmt : keys[0]; var L = B.ladder[fmt];
+    S.ladderSets = {};
+    after(function (p) { p.querySelectorAll('[data-open]').forEach(function (b) { b.addEventListener('click', function () { var x = S.ladderSets[b.getAttribute('data-open')]; store('lab', labFrom(x)); location.hash = '#/builds/lab'; }); }); });
+    var maxUse = L.species[0] ? L.species[0].use : 100;
+    return '<div class="eyebrow">Smogon usage · the field these builds are measured against</div><h1 style="margin:6px 0">The ladder book</h1>' +
+      '<p class="lede">The top 40 of each old-generation OU ladder: how often each Pokémon is used, how it\'s built, and what beats it. Usage numbers are Smogon\'s; the sets come from real replays, read by the engine.</p>' + buildTabs('ladder') +
+      '<div class="tabs">' + keys.map(function (k) { return '<a href="#/builds/ladder/' + k + '"' + (k === fmt ? ' class="on"' : '') + '>' + esc(B.ladder[k].label) + '</a>'; }).join('') + '</div>' +
+      '<div class="grid"><div class="c3">' + card('The month', '<dl class="kv"><dt>Month</dt><dd>' + esc(L.month) + '</dd><dt>Rated</dt><dd>' + L.cutoff + '+</dd><dt>Battles</dt><dd>' + L.battles.toLocaleString() + '</dd></dl>' +
+        '<div class="eyebrow" style="margin:14px 0 6px">Team styles</div>' + L.styles.slice(0, 8).map(function (s) { return '<div class="statrow" style="grid-template-columns:90px 1fr 44px"><span class="k">' + esc(s[0]) + '</span><div class="bar"><i style="width:' + s[1] + '%"></i></div><b class="num">' + s[1] + '%</b></div>'; }).join('') +
+        '<div class="eyebrow" style="margin:14px 0 6px">Leads</div>' + L.leads.map(function (s) { return '<div style="display:flex;align-items:center;gap:8px;padding:3px 0">' + portrait(s[0], 28) + '<span class="small" style="flex:1">' + esc(s[0]) + '</span><b class="num small">' + s[1] + '%</b></div>'; }).join(''), {eyebrow: esc(L.label), tools: false}) + '</div>' +
+      '<div class="c9">' + L.species.map(function (x) {
+        var n = numOf(x.sp);
+        return '<div class="card" style="margin-bottom:12px"><div class="bd"><div style="display:grid;grid-template-columns:40px 72px 1fr 120px;gap:14px;align-items:center"><div class="serif num" style="font-size:26px;color:var(--gold)">' + x.rank + '</div><a href="#/atlas/' + n + '"><img src="' + art(n) + '" style="width:72px;height:72px;object-fit:contain" loading="lazy"></a>' +
+          '<div><div class="serif" style="font-size:21px;color:var(--ivory)">' + esc(x.sp) + '</div><div class="tiny muted">' + esc(x.moves.slice(0, 6).map(function (m) { return m[0] + ' ' + Math.round(m[1]) + '%'; }).join(' · ')) + '</div><div class="tiny muted" style="margin-top:2px">' + esc(x.items.map(function (m) { return m[0] + ' ' + Math.round(m[1]) + '%'; }).join(' · ')) + '</div></div>' +
+          '<div style="text-align:right"><div class="serif num" style="font-size:24px;color:var(--ivory)">' + x.use + '%</div><div class="bar" style="margin-top:4px"><i style="width:' + (x.use / maxUse * 100) + '%"></i></div><div class="tiny muted" style="margin-top:4px">leads ' + x.lead + '%</div></div></div>' +
+          '<div class="grid" style="margin-top:10px;gap:10px">' + x.sets.map(function (s, i) { var key = fmt + ':' + x.sp + ':' + i; S.ladderSets[key] = Object.assign({sp: x.sp, gen: L.gen}, s);
+            return '<div class="c6" style="grid-column:span 6"><div style="padding:10px 12px;border-radius:10px;background:var(--charcoal-3)"><div class="goal" style="padding:0"><b class="small">' + esc(s.name) + '</b><span class="tiny muted">' + (s.n ? s.n + ' replays · ' + s.win + '% won' : 'from usage') + '</span></div>' +
+              '<div class="tiny" style="margin-top:4px;color:var(--text-2)">' + esc(s.mv.join(' · ')) + ' @ ' + esc(s.item) + '</div><div class="tiny muted">' + (L.gen >= 3 ? esc(s.nat) + ' · ' : '') + esc(evLine(s.ev)) + '</div><button class="btn sm" style="margin-top:6px" data-open="' + esc(key) + '">Open in the Lab</button></div></div>'; }).join('') + '</div>' +
+          '<div class="tiny muted" style="margin-top:10px">What beats it: ' + esc(x.checks.map(function (c) { return c[0] + ' ' + c[1] + '%'; }).join(', ')) + ' · Teammates: ' + esc(x.mates.join(', ')) + '</div></div></div>';
+      }).join('') + '</div></div>';
+  });
+}
+/* ---- the Lab ---- */
+var LAB_DEFAULT = {sp: 'Tyranitar', nick: '', gen: 4, lv: 100, nat: 'Jolly', ab: 'Sand Stream', item: 'Lum Berry', iv: statObj(null, 31), ev: {hp: 0, atk: 252, def: 0, spa: 0, spd: 4, spe: 252}, mv: ['Dragon Dance', 'Crunch', 'Earthquake', 'Stone Edge']};
+function labFrom(b) { return {sp: b.sp, nick: '', gen: b.gen || 4, lv: b.lv || 100, nat: b.nat || 'Hardy', ab: b.ab || '', item: b.item || '', iv: statObj(b.iv, 31), ev: statObj(b.ev, 0), mv: (b.mv || []).slice(0, 4), from: b.name || b.id}; }
+function legalMove(name, sp, gen) {
+  if (!name) return null; var m = (S.moveBy || {})[name]; if (!m) return {ok: false, why: 'not a move in Gens I–IV'};
+  if (moveGen(m.id) > gen) return {ok: false, why: 'arrives in Gen ' + moveGen(m.id)};
+  var n = numOf(sp), L = S.learn && S.learn[n]; if (L && L.indexOf(m.id) < 0) return {ok: false, why: 'the ' + sp + ' line can\'t learn it'};
+  return {ok: true, why: 'learnable'};
+}
+function lab(qs) {
+  var bid = (String(qs || '').match(/b=([^&]*)/) || [])[1];
+  return Promise.all([withBuilds(), API.data('learnsets'), API.tab('Specimens').catch(function () { return []; })]).then(function (r) {
+    S.learn = r[1]; var saved = r[2] || [];
+    if (bid) { var b = r[0].library.filter(function (x) { return x.id === decodeURIComponent(bid); })[0]; if (b) store('lab', labFrom(b)); try { history.replaceState(null, '', '#/builds/lab'); } catch (e) {} }
+    S.lab = Object.assign({}, LAB_DEFAULT, store('lab') || {});
+    after(function (p) { labBind(p); labOut(); });
+    return '<div class="eyebrow">The Lab · build one Pokémon and check it</div><h1 style="margin:6px 0">The Lab</h1>' +
+      '<p class="lede">Pick a species, a generation, a spread and four moves. The Lab works out its stats, Hidden Power, characteristic and (in Gen 2) gender and shininess from the DVs, checks each move against what the line can learn, and writes a Showdown paste.</p>' + buildTabs('lab') +
+      '<div class="labgrid"><div>' + card('The specimen', '<form id="labform" onsubmit="return false">' + labForm() + '</form>', {eyebrow: 'Inputs', tools: false}) +
+        card('Saved specimens', saved.length ? saved.slice().reverse().map(function (x, i) { return '<div class="line small click" data-load="' + (saved.length - 1 - i) + '"><b>' + esc(x.nickname || x.species) + '</b> <span class="tiny muted">Gen ' + esc(x.gen) + ' · ' + esc(x.moves) + '</span></div>'; }).join('') : '<div class="empty">Nothing saved yet.</div>', {eyebrow: 'The Specimens tab', tools: false, style: 'margin-top:18px'}) + '</div>' +
+      '<div id="labout"></div></div>';
+  });
+}
+function labForm() {
+  var x = S.lab, d = dexOf(x.sp) || {ab: [], b: [0, 0, 0, 0, 0, 0]}, g2 = x.gen <= 2, n = numOf(x.sp);
+  var learn = (S.learn && S.learn[n]) || [], moves = (S.builds.moves || []).filter(function (m) { return learn.indexOf(m.id) >= 0 && moveGen(m.id) <= x.gen; }).map(function (m) { return m.name; }).sort();
+  return '<datalist id="labdex">' + S.atlas.species.map(function (s) { return '<option>' + esc(s.name) + '</option>'; }).join('') + '</datalist><datalist id="labmoves">' + moves.map(function (m) { return '<option>' + esc(m) + '</option>'; }).join('') + '</datalist>' +
+    '<div class="row"><div><label class="l">Species</label><input class="f" name="sp" list="labdex" value="' + esc(x.sp) + '" data-re="1"></div><div><label class="l">Nickname</label><input class="f" name="nick" value="' + esc(x.nick || '') + '"></div></div>' +
+    '<div class="row"><div><label class="l">Generation</label><select class="f" name="gen" data-re="1">' + [2, 3, 4].map(function (g) { return '<option value="' + g + '"' + (g === +x.gen ? ' selected' : '') + '>Gen ' + ['', '', 'II', 'III', 'IV'][g] + '</option>'; }).join('') + '</select></div><div><label class="l">Level</label><input class="f" name="lv" type="number" min="1" max="100" value="' + x.lv + '"></div></div>' +
+    (g2 ? '' : '<div class="row"><div><label class="l">Nature</label><select class="f" name="nat">' + S.builds.natures.map(function (nt) { return '<option' + (nt.name === x.nat ? ' selected' : '') + '>' + nt.name + '</option>'; }).join('') + '</select></div><div><label class="l">Ability</label><select class="f" name="ab">' + d.ab.map(function (a) { return '<option' + (a === x.ab ? ' selected' : '') + '>' + esc(a) + '</option>'; }).join('') + '</select></div></div>') +
+    '<label class="l">Held item</label><input class="f" name="item" value="' + esc(x.item || '') + '">' +
+    '<label class="l">' + (g2 ? 'DVs (0–15; HP follows from the others, Special is one DV)' : 'IVs (0–31)') + '</label><div class="ivgrid">' + STATS.map(function (s) {
+      var v = g2 ? Math.floor(x.iv[s] / 2) : x.iv[s], lock = g2 && (s === 'hp' || s === 'spd');
+      return '<div><div class="tiny muted" style="text-align:center">' + (g2 && s === 'spa' ? 'Spc' : STAT_NAME[s]) + '</div><input class="f" name="iv-' + s + '" type="number" min="0" max="' + (g2 ? 15 : 31) + '" value="' + v + '"' + (lock ? ' disabled' : '') + '></div>'; }).join('') + '</div>' +
+    '<label class="l">' + (g2 ? 'Stat experience (Showdown scale: 252 is the max)' : 'EVs (0–252 each, 510 in all)') + '</label><div class="ivgrid">' + STATS.map(function (s) {
+      return '<div><div class="tiny muted" style="text-align:center">' + (g2 && s === 'spa' ? 'Spc' : STAT_NAME[s]) + '</div><input class="f" name="ev-' + s + '" type="number" min="0" max="252" step="4" value="' + (x.ev[s] || 0) + '"' + (g2 && s === 'spd' ? ' disabled' : '') + '></div>'; }).join('') + '</div><div class="tiny muted" id="evtotal" style="margin-top:6px"></div>' +
+    '<label class="l">Moves</label>' + [0, 1, 2, 3].map(function (i) { return '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><input class="f" name="mv' + i + '" list="labmoves" value="' + esc(x.mv[i] || '') + '" style="min-width:0"><span class="tiny" id="mvchk' + i + '" style="width:110px;flex:none"></span></div>'; }).join('') +
+    '<div class="tiny muted">Suggestions are the moves this line can learn in some game up to Gen ' + ['', '', 'II', 'III', 'IV'][x.gen] + ' (level-up, TM, tutor, egg, event). Whether a combination is legal together is the engine\'s stricter era check.</div>' +
+    '<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn gold" type="button" onclick="labSave()">Save to Specimens</button><button class="btn" type="button" onclick="labCopy()">Copy paste</button><button class="btn ghost" type="button" onclick="store(\'lab\', null); go()">Reset</button></div>';
+}
+function labRead(form) {
+  var x = S.lab, g = +form.gen.value, g2 = (+x.gen) <= 2;
+  x.sp = form.sp.value.trim(); x.nick = form.nick.value; x.lv = Math.max(1, Math.min(100, +form.lv.value || 100)); x.item = form.item.value;
+  if (form.nat) x.nat = form.nat.value; if (form.ab) x.ab = form.ab.value;
+  STATS.forEach(function (s) { var v = +form['iv-' + s].value || 0; if (!form['iv-' + s].disabled) x.iv[s] = g2 ? Math.min(15, v) * 2 + 1 : Math.min(31, v);
+    if (!form['ev-' + s].disabled) x.ev[s] = Math.max(0, Math.min(252, +form['ev-' + s].value || 0)); });
+  if (g2) { var dv = {}; ['atk', 'def', 'spe', 'spa'].forEach(function (s) { dv[s] = Math.floor(x.iv[s] / 2); }); x.iv.spd = x.iv.spa; x.ev.spd = x.ev.spa;
+    x.iv.hp = ((dv.atk % 2) * 8 + (dv.def % 2) * 4 + (dv.spe % 2) * 2 + dv.spa % 2) * 2 + 1; }
+  x.mv = [0, 1, 2, 3].map(function (i) { return form['mv' + i].value.trim(); }).filter(Boolean);
+  var regen = g !== +x.gen; x.gen = g; store('lab', x); return regen;
+}
+function labBind(p) {
+  var form = p.querySelector('#labform');
+  form.addEventListener('input', function (e) { if (e.target.getAttribute('data-re')) return; labRead(form); labOut(); });
+  form.addEventListener('change', function (e) { if (!e.target.getAttribute('data-re')) return; labRead(form);
+    var d = dexOf(S.lab.sp); if (d && d.ab.indexOf(S.lab.ab) < 0) S.lab.ab = d.ab[0]; store('lab', S.lab);
+    form.innerHTML = labForm(); labOut(); });
+  p.querySelectorAll('[data-load]').forEach(function (el) { el.addEventListener('click', function () { API.tab('Specimens').then(function (rows) { var s = rows[+el.getAttribute('data-load')]; if (!s) return;
+    try { store('lab', JSON.parse(s.json)); } catch (e) { return; } go(); }); }); });
+}
+function labOut() {
+  var x = S.lab, out = document.getElementById('labout'); if (!out) return;
+  var d = dexOf(x.sp), g2 = x.gen <= 2;
+  if (!d) { out.innerHTML = '<div class="empty">Pick a species from Generations I–IV.</div>'; return; }
+  if (g2 && d.gen > 2) { out.innerHTML = '<div class="notice">' + esc(d.name) + ' doesn\'t exist until Generation ' + d.gen + '. Pick Gen ' + d.gen + ' or later.</div>'; return; }
+  var form = document.getElementById('labform');
+  x.mv.forEach(function () {});
+  [0, 1, 2, 3].forEach(function (i) { var el = document.getElementById('mvchk' + i); if (!el) return; var name = form['mv' + i].value.trim(), c = legalMove(name, x.sp, x.gen);
+    el.innerHTML = !c ? '' : c.ok ? '<span style="color:var(--forest-3)">✓ ' + esc(c.why) + '</span>' : '<span style="color:var(--ember-2)">✕ ' + esc(c.why) + '</span>'; });
+  var evt = STATS.reduce(function (a, s) { return a + (g2 && s === 'spd' ? 0 : x.ev[s] || 0); }, 0), et = document.getElementById('evtotal');
+  if (et) et.innerHTML = g2 ? 'Stat experience has no total cap in Gen II.' : (evt > 510 ? '<span style="color:var(--ember-2)">' + evt + ' of 510: over the cap by ' + (evt - 510) + '</span>' : evt + ' of 510 EVs used');
+  var base = d.b, st = calcStats(base, x.gen, x.lv, g2 ? null : x.nat, x.iv, x.ev), nat = g2 ? {} : (S.builds.natures.filter(function (n) { return n.name === x.nat; })[0]) || {};
+  var hp = hiddenPower(x.gen, x.iv), dfn = defenses(d.t);
+  var weak = Object.keys(dfn).filter(function (t) { return dfn[t] > 1; }), res = Object.keys(dfn).filter(function (t) { return dfn[t] < 1; });
+  var atk = x.mv.map(function (m) { return S.moveBy[m]; }).filter(function (m) { return m && m.p; });
+  var hpMove = x.mv.indexOf('Hidden Power') >= 0;
+  var cover = S.builds.types.map(function (t, j) { var best = 0; atk.forEach(function (m) { var mt = m.name === 'Hidden Power' ? hp.type : m.t, i = S.builds.types.indexOf(mt); if (i >= 0) best = Math.max(best, S.builds.chart[i][j]); }); return {t: t, x: best}; });
+  var se = cover.filter(function (c) { return c.x > 1; }).map(function (c) { return c.t; }), walls = cover.filter(function (c) { return c.x < 1; }).map(function (c) { return c.t; });
+  var paste = pasteOf({sp: x.nick ? x.nick + ' (' + x.sp + ')' : x.sp, item: x.item, ab: x.ab, lv: x.lv, ev: x.ev, nat: x.nat, iv: x.iv, mv: x.mv}, x.gen);
+  var maxS = Math.max(400, Math.max.apply(null, STATS.map(function (s) { return st[s]; })));
+  out.innerHTML = '<div class="card ivory corner" style="padding:0"><i class="corner tl"></i><i class="corner br"></i><div class="bd specimen">' +
+    '<img src="' + art(d.n) + '" alt=""><div><div class="eyebrow" style="color:#8E7647">#' + String(d.n).padStart(3, '0') + ' · ' + esc(d.genus) + ' · Gen ' + ['', '', 'II', 'III', 'IV'][x.gen] + ' rules</div>' +
+    '<h2 style="margin:4px 0;color:#15171C;font-size:40px">' + esc(x.nick || x.sp) + '</h2>' + (x.nick ? '<div class="small" style="color:#6b6458">' + esc(x.sp) + '</div>' : '') + '<div style="margin-top:6px">' + types(d.t) + '</div>' +
+    '<div class="small" style="margin-top:10px;color:#3a362f">Lv ' + x.lv + (g2 ? '' : ' · ' + esc(x.nat) + ' · ' + esc(x.ab)) + (x.item ? ' · @ ' + esc(x.item) : '') + '</div>' + (x.from ? '<div class="tiny" style="color:#8a8170;margin-top:4px">from: ' + esc(x.from) + '</div>' : '') + '</div></div></div>' +
+    '<div class="grid" style="margin-top:18px"><div class="c6">' + card('Stats at level ' + x.lv, STATS.map(function (s) { var v = st[s], mark = s === nat.up ? '<span style="color:var(--forest-3)"> ▲</span>' : s === nat.down ? '<span style="color:var(--ember-2)"> ▼</span>' : '';
+        return '<div class="statrow"><span class="k">' + STAT_NAME[s] + mark + '</span><b class="num">' + v + '</b><div class="bar ' + (v >= 300 ? 'forest' : v >= 200 ? '' : 'ember') + '"><i style="width:' + Math.min(100, v / maxS * 100) + '%"></i></div></div>'; }).join('') +
+        '<div class="tiny muted" style="margin-top:8px">Base ' + base.join(' / ') + ' · total ' + base.reduce(function (a, b) { return a + b; }, 0) + '</div>', {eyebrow: 'Computed', tools: false}) + '</div>' +
+      '<div class="c6">' + card('What its genes say', '<dl class="kv"><dt>Hidden Power</dt><dd>' + typeBadge(hp.type) + ' <span class="small">' + hp.power + ' power</span>' + (hpMove ? '' : ' <span class="tiny muted">(not in its moves)</span>') + '</dd>' +
+        (x.gen >= 4 ? '<dt>Characteristic</dt><dd>' + esc(characteristic(x.iv) || '—') + '</dd>' : '') +
+        (g2 ? '<dt>Gender</dt><dd>' + esc(gen2Gender(d.gr, x.iv.atk)) + ' <span class="tiny muted">(from the Attack DV)</span></dd><dt>Shiny</dt><dd>' + (gen2Shiny(x.iv) ? '<span style="color:var(--gold-2)">✦ yes</span>' : 'no') + ' <span class="tiny muted">(Def, Spe, Spc 10; Atk 2, 3, 6, 7, 10, 11, 14 or 15)</span></dd>' : '') +
+        '<dt>Egg groups</dt><dd>' + esc(d.eg.join(', ')) + '</dd><dt>Hatches in</dt><dd>' + (d.cyc * 255).toLocaleString() + ' steps · ' + d.cyc + ' laps (' + Math.ceil(d.cyc / 2) + ' with Magcargo)</dd></dl>', {eyebrow: 'Hidden values', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Coverage', '<div class="mvgrid" style="margin-top:0">' + x.mv.map(moveChip).join('') + '</div><div class="eyebrow" style="margin:12px 0 6px">Hits super-effectively</div>' + (se.length ? se.map(typeBadge).join(' ') : '<span class="small muted">nothing</span>') +
+        '<div class="eyebrow" style="margin:12px 0 6px">Walled by</div>' + (walls.length ? walls.map(typeBadge).join(' ') : '<span class="small muted">nothing resists every attack</span>'), {eyebrow: 'Its attacks', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Takes from attacks', '<div class="eyebrow" style="margin-bottom:6px">Weak to</div>' + (weak.length ? weak.map(function (t) { return typeBadge(t) + '<span class="tiny muted"> ×' + dfn[t] + '</span>'; }).join(' ') : '<span class="small muted">nothing</span>') +
+        '<div class="eyebrow" style="margin:12px 0 6px">Resists</div>' + (res.length ? res.map(function (t) { return typeBadge(t) + '<span class="tiny muted"> ×' + dfn[t] + '</span>'; }).join(' ') : '<span class="small muted">nothing</span>'), {eyebrow: 'Defense', tools: false}) + '</div>' +
+      '<div class="c12">' + card('Showdown paste', '<div class="paste" id="labpaste">' + esc(paste) + '</div>', {eyebrow: 'Export', tools: false}) + '</div></div>';
+  S.labPaste = paste;
+}
+function labCopy() { var t = S.labPaste || ''; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('Paste copied.'); }).catch(function () { toast('Select the paste and copy it.'); }); }
+function labSave() {
+  var x = S.lab, hp = hiddenPower(x.gen, x.iv);
+  var row = {id: 'SPEC-' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), species: x.sp, nickname: x.nick, gen: x.gen, level: x.lv, nature: x.gen >= 3 ? x.nat : '', ability: x.gen >= 3 ? x.ab : '', item: x.item,
+    ivs: STATS.map(function (s) { return x.iv[s]; }).join('/'), evs: STATS.map(function (s) { return x.ev[s]; }).join('/'), moves: x.mv.join(', '), hidden_power: hp.type + ' ' + hp.power, paste: S.labPaste, json: JSON.stringify(x), status: 'draft',
+    _timeline: 'Lab: built ' + (x.nick || x.sp) + ' (Gen ' + x.gen + ')'};
+  API.append('Specimens', row).then(function () { toast('Saved <b>' + esc(x.nick || x.sp) + '</b> to Specimens.'); go(); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+}
+route(/^\/builds\/?(\?.*)?$/, library, 'Builds · Library', '#/builds');
+route(/^\/builds\/ladder\/?(\w*)$/, ladder, 'Builds · The ladder book', '#/builds');
+route(/^\/builds\/lab\/?(\?.*)?$/, lab, 'Builds · The Lab', '#/builds');
+</script>

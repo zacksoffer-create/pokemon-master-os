@@ -23,6 +23,7 @@ var LOCKED_CHAPTERS = ['HeartGold'];
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Blackthorn')
     .addItem('Go to the dashboard', 'goToDashboard')
+    .addItem('Open Blackthorn HQ (the web app)', 'showWebApp')
     .addSeparator()
     .addItem('Show the lineage tree (selected Studbook row)', 'showTree')
     .addItem('Record a hatch…', 'showHatchForm')

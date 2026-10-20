@@ -1,0 +1,69 @@
+<script>
+/* ===== The record: your calls (what's waiting on you), decisions, locks, world records, evidence ============== */
+function statusChip(s) { s = String(s || ''); var k = /^LOCKED/.test(s) ? 'gold' : /REJECT|ARCHIVE/.test(s) ? '' : /PROPOSED|OPEN|PROVISIONAL/.test(s) ? 'ember' : /WORKING|RECORDED/.test(s) ? 'ice' : /approved/.test(s) ? 'forest' : /proposed/.test(s) ? 'ember' : '';
+  return chip(s, k); }
+function answers() {
+  return Promise.all([API.tab('Your Calls').catch(function () { return []; }), API.tab('Answers').catch(function () { return []; })]).then(function (r) {
+    var by = {}; (r[0] || []).forEach(function (x) { var id = x.id || x.ID; if (id && (x['Your call'] || x.Status !== 'open')) by[id] = {text: x['Your call'] || '', status: x.Status || 'open'}; });
+    (r[1] || []).forEach(function (x) { by[x.id] = {text: x.text, status: x.status, at: x.at}; });
+    return by;
+  });
+}
+function callCard(c, a) {
+  var done = a && a.status && a.status !== 'open';
+  return '<div class="card call' + (done ? ' done' : '') + '" id="call-' + esc(c.id) + '"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(c.id) + ' · ' + esc(c.area) + '</div><h3 style="font-size:22px;line-height:1.25">' + esc(c.q) + '</h3></div>' + (done ? chip(a.status, 'forest') : chip('waiting on you', 'ember')) + '</div>' +
+    '<div class="bd"><p class="small" style="color:var(--text-2);margin:0">' + esc(c.why) + '</p>' + (c.blocks ? '<div class="tiny" style="color:var(--ember-2);margin-top:6px">Blocks: ' + esc(c.blocks) + '</div>' : '') +
+    (c.options && c.options.length ? '<div class="opts">' + c.options.map(function (o) { return '<button type="button" class="opt" onclick="pickOpt(this)">' + esc(o) + '</button>'; }).join('') + '</div>' : '') +
+    '<label class="l">Your call</label><textarea class="f" rows="2" data-ans="' + esc(c.id) + '" placeholder="In your words: the option you pick, or something else entirely">' + esc(a && a.text || '') + '</textarea>' +
+    '<div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap"><button class="btn sm gold" onclick="answerCall(\'' + esc(c.id) + '\',\'answered\')">Record my call</button><button class="btn sm" onclick="answerCall(\'' + esc(c.id) + '\',\'deferred\')">Not yet</button>' +
+    '<span class="tiny muted" style="flex:1;text-align:right">' + esc(c.source || '') + '</span></div></div></div>';
+}
+function pickOpt(b) { var t = b.closest('.card').querySelector('textarea'); t.value = b.textContent; b.parentNode.querySelectorAll('.opt').forEach(function (x) { x.classList.toggle('on', x === b); }); t.focus(); }
+function answerCall(id, status) {
+  var t = document.querySelector('[data-ans="' + id + '"]'), text = t ? t.value.trim() : '';
+  if (status === 'answered' && !text) { toast('Write your call first (or tap an option).'); return; }
+  API.run('apiAnswer', id, text, status, (S.callMeta || {})[id] || {}).then(function () { S.live['Your Calls'] = null; S.live.Answers = null; toast(status === 'answered' ? 'Recorded. <b>' + esc(id) + '</b> becomes a decision when it\'s written into canon.' : 'Left open for later.'); go(); })
+    .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+}
+function calls() {
+  return answers().then(function (ans) {
+    var h = S.hq;
+    var qs = h.questions.map(function (q) { return {id: q.id, area: q.area, q: q.question, why: q.why, options: q.options, blocks: q.blocks, source: q.source}; });
+    var world = h.world.filter(function (w) { return w.status === 'proposed'; }).map(function (w) { return {id: w.id, area: 'world record · ' + w.species, q: w.statement, why: w.note + '. ' + w.capability.replace(/_/g, ' ') + ' for ' + w.species + ' (' + (GAME_NAME[w.game] || w.game) + ').', options: ['Approve', 'Reject', 'Approve with changes'], source: w.source}; });
+    var dec = h.decisions.filter(function (d) { return /^PROPOSED/.test(d.status); }).map(function (d) { return {id: d.id, area: 'decision · ' + d.area, q: d.title, why: 'Proposed ' + fmtLoose(d.date) + ' and not yet confirmed. Confirming makes it working canon.', options: ['Confirm', 'Reject', 'Confirm with changes'], source: d.status}; });
+    var all = qs.concat(world, dec);
+    S.callMeta = {}; all.forEach(function (c) { S.callMeta[c.id] = {area: c.area, question: c.q}; });
+    var open = all.filter(function (c) { return !ans[c.id] || ans[c.id].status === 'open'; }).length;
+    function group(title, eyebrow, list) { return list.length ? '<div class="ornament" style="margin:26px 0 14px">' + eyebrow + '</div><div class="grid">' + list.map(function (c) { return '<div class="c6">' + callCard(c, ans[c.id]) + '</div>'; }).join('') + '</div>' : ''; }
+    return '<div class="eyebrow">What the estate is waiting on</div><h1 style="margin:6px 0">Your calls</h1>' +
+      '<p class="lede">' + open + ' of ' + all.length + ' open. Nothing here changes canon by itself: your answer is written to the Your Calls tab of the Sheet, and an answered call becomes a decision (a D- number) when it\'s written in. Suggestions never become locks without you.</p>' +
+      group('Open questions', 'The ranch, the breeding lab and the chapters', qs) + group('World records', 'World records waiting on approval', world) + group('Decisions', 'Decisions proposed, not confirmed', dec);
+  });
+}
+function recordPage(tab) {
+  tab = tab || 'decisions';
+  var h = S.hq, k = h.kpis || {};
+  var tabs = [['decisions', 'Decisions', h.decisions.length], ['locks', 'Locks', h.locks.length], ['world', 'World records', h.world.length], ['evidence', 'Verified mechanics', null]];
+  var head = '<div class="eyebrow">Canon, decisions and evidence</div><h1 style="margin:6px 0">The record</h1><p class="lede">Every decision with its number, every lock and the rule that guards it, every world record and what it rests on. Locked means Claude refuses to change it without a decision that reopens it.</p>' +
+    '<div class="kpis" style="margin-top:14px">' + [['Decisions', k.decisions], ['Locked', h.decisions.filter(function (d) { return /^LOCKED/.test(d.status); }).length], ['World records', k.world_records], ['Open questions', k.open_questions], ['Rule issues', k.rule_issues]].map(function (x) {
+      return '<div class="kpi"><div class="eyebrow">' + x[0] + '</div><div class="serif num" style="font-size:34px;color:var(--ivory)">' + (x[1] == null ? '—' : x[1]) + '</div></div>'; }).join('') + '</div>' +
+    '<div class="tabs" style="margin-top:18px">' + tabs.map(function (t) { return '<a href="#/record/' + t[0] + '"' + (t[0] === tab ? ' class="on"' : '') + '>' + t[1] + (t[2] != null ? ' <span class="tiny muted">' + t[2] + '</span>' : '') + '</a>'; }).join('') + '</div>';
+  if (tab === 'decisions') {
+    after(function (p) { bindFilter(p); });
+    return head + card('All decisions', '<input class="f" data-filter="#dt" placeholder="Filter: a number, a word, a status (LOCKED, WORKING, PROPOSED)…" style="margin-bottom:10px"><table class="t" id="dt"><thead><tr><th>#</th><th>Date</th><th>Decision</th><th>Area</th><th>Status</th><th>Who</th></tr></thead><tbody>' +
+      h.decisions.slice().reverse().map(function (d) { return '<tr><td class="mono small" style="white-space:nowrap">' + esc(d.id) + '</td><td class="small" style="white-space:nowrap">' + esc(fmtLoose(d.date) || d.date) + '</td><td>' + esc(d.title) + '</td><td class="small muted">' + esc(d.area) + '</td><td>' + statusChip(d.status) + '</td><td class="small">' + esc(d.who) + '</td></tr>'; }).join('') + '</tbody></table>', {eyebrow: 'Newest first', tools: false});
+  }
+  if (tab === 'locks') return head + '<div class="grid">' + h.locks.map(function (l) { return '<div class="c6"><div class="card lock"><div class="bd"><div style="display:flex;gap:12px;align-items:flex-start"><div class="lockmark"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div><div style="flex:1"><div class="eyebrow">' + esc(l.decision) + '</div><div class="serif" style="font-size:20px;color:var(--ivory);margin:2px 0 4px">' + esc(l.what) + '</div><div class="small" style="color:var(--text-2)">' + esc(l.detail) + '</div><div class="tiny muted" style="margin-top:6px">' + esc(l.rule) + '</div></div></div></div></div></div>'; }).join('') + '</div>';
+  if (tab === 'world') return head + '<div class="grid">' + h.world.map(function (w) { var n = numOf(w.species);
+    return '<div class="c6"><div class="card"><div class="bd" style="display:grid;grid-template-columns:72px 1fr;gap:14px"><img src="' + art(n) + '" style="width:72px;height:72px;object-fit:contain" loading="lazy"><div><div style="display:flex;justify-content:space-between;gap:8px"><div class="eyebrow">' + esc(w.id) + ' · ' + esc(GAME_NAME[w.game] || w.game) + ' ' + esc(w.species) + '</div>' + statusChip(w.status) + '</div>' +
+      '<div class="serif" style="font-size:19px;color:var(--ivory);margin:4px 0">' + esc(w.statement) + '</div><div class="small">' + chip(w.capability.replace(/_/g, ' '), 'violet') + (w.decision ? ' <span class="tiny muted">' + esc(w.decision) + '</span>' : '') + '</div>' +
+      '<div class="tiny muted" style="margin-top:6px">' + esc(w.source) + '</div>' + (w.note ? '<div class="tiny" style="margin-top:4px;color:var(--text-2)">' + esc(w.note) + '</div>' : '') + '</div></div></div></div>'; }).join('') + '</div>';
+  return API.data('journal').then(function (j) {
+    var ev = j.entries.filter(function (e) { return e.kind === 'verified mechanic'; });
+    return head + card('Verified mechanics', ev.map(function (e) { return '<div style="display:grid;grid-template-columns:64px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)"><b class="mono small" style="color:var(--gold-2)">' + esc(e.id || '') + '</b><div><div class="small" style="color:var(--text)">' + esc(e.text) + '</div><div class="tiny muted" style="margin-top:3px">' + esc(e.src) + '</div></div></div>'; }).join(''),
+      {eyebrow: 'Checked against PokeAPI, Showdown and Smogon', tools: false});
+  });
+}
+route(/^\/calls\/?$/, calls, 'Your calls', '#/calls');
+route(/^\/record\/?(\w*)$/, recordPage, 'The record', '#/record');
+</script>

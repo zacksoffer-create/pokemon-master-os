@@ -1,0 +1,46 @@
+BLACKTHORN · the Apps Script for "Pokémon Master — Blackthorn Canon DB", and Blackthorn HQ, the web app
+
+What's in here (only these go into Apps Script):
+  Code.gs          the Sheet's script: the Blackthorn menu, the lineage tree, record a hatch, check the studbook,
+                   the lock guard
+  WebApp.gs        the web app: serves Blackthorn HQ and lets it read and write the Sheet
+  Tree.html        the lineage tree window
+  Hatch.html       the record-a-hatch form
+  appsscript.json  settings: the permissions the script asks for, and the web app's "only me" setting
+
+The app itself is the other file, Blackthorn-HQ-app.zip. Don't unzip it: it goes to Google Drive as it is.
+
+A. Put the app on Drive (one minute, phone or computer)
+  1. Upload Blackthorn-HQ-app.zip to your Google Drive, anywhere (the Engine folder is a good home).
+     Leave it zipped. The script finds the newest Blackthorn-HQ-app*.zip in your Drive by itself.
+
+B. Put the script in the Sheet (about three minutes, on a computer)
+  2. Open the Sheet "Pokémon Master — Blackthorn Canon DB" → Extensions → Apps Script.
+  3. Code.gs: select everything in it, delete, and paste Code.gs from this zip (it gained one menu item).
+     If Tree and Hatch aren't there yet: + next to Files → HTML → name it Tree → paste Tree.html; same for Hatch.
+  4. + next to Files → Script → name it exactly: WebApp   (the editor adds .gs). Paste WebApp.gs.
+  5. Project Settings (gear icon) → tick "Show appsscript.json manifest file in editor". Back in the editor,
+     open appsscript.json, replace everything with the one from this zip. Click Save (the disk icon).
+
+C. Turn it into a web app (one minute)
+  6. Deploy (top right) → New deployment → the gear next to "Select type" → Web app.
+     Description: Blackthorn HQ · Execute as: Me · Who has access: Only myself → Deploy.
+  7. Google asks you to approve the script (Authorize access → your account → Advanced → Go to the project
+     → Allow). It asks for: this Sheet, reading your Drive (to find the app zip), and showing its windows.
+  8. Copy the Web app URL it shows you and open it. Bookmark it, or add it to your phone's home screen.
+     The Blackthorn menu in the Sheet also gets "Open Blackthorn HQ (the web app)".
+
+Updating later
+  - A new version of the app is a new Blackthorn-HQ-app.zip: upload it to Drive. The newest one wins within two
+    minutes; move the old one to History.
+  - A new WebApp.gs or Code.gs: paste it in, Save, then Deploy → Manage deployments → the pencil →
+    Version: New version → Deploy. The URL stays the same.
+
+What the app writes, and where
+  It only ever adds rows to its own tabs (Eggs, Egg Walks, Plantings, Harvests, Readings, Feedings, Journal,
+  Timeline, Specimens), adds hatches to the Studbook, and writes your answers into Your Calls ("Your call" and
+  "Status"). Everything else in the Sheet is read-only to it. An answer becomes canon when Claude writes it in as a
+  decision, never before.
+
+Try it first without installing anything: open Blackthorn-HQ-preview.html in any browser. It's the whole app with
+the data inside; what you save stays in that browser only.

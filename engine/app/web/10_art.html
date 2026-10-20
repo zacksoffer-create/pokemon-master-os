@@ -1,0 +1,286 @@
+<script>
+/* ===== Art: the estate, drawn. Every scene is SVG built from the data, so it stays crisp and live. ========== */
+var Art = (function () {
+  function rng(seed) { var s = seed >>> 0; return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function phaseNow(d) {
+    var h = (d || new Date()).getHours();
+    return h >= 5 && h < 8 ? 'dawn' : h >= 8 && h < 17 ? 'day' : h >= 17 && h < 20 ? 'dusk' : 'night';
+  }
+  function seasonNow(d) {
+    var m = (d || new Date()).getMonth();
+    return m >= 2 && m <= 4 ? 'spring' : m >= 5 && m <= 7 ? 'summer' : m >= 8 && m <= 10 ? 'autumn' : 'winter';
+  }
+  var SKY = {
+    dawn: ['#2A2440', '#7A4F68', '#D99A72', '#F2CFA0'], day: ['#5F8FAD', '#94BFD2', '#CFE1E4', '#ECE4D2'],
+    dusk: ['#1C1A2C', '#4F3550', '#B5603F', '#E39C5A'], night: ['#06080D', '#0D1525', '#17243A', '#22334C']
+  };
+  var HAZE = { dawn: '#6E5A72', day: '#7E9AAE', dusk: '#5A4258', night: '#1A2638' };
+
+  /* ---- the hero panorama: Blackthorn, the Ice Path, Dragon's Den, the Glasshouse ---- */
+  function hero(opt) {
+    opt = opt || {};
+    var ph = opt.phase || phaseNow(), se = opt.season || seasonNow(), R = rng(45), sky = SKY[ph], haze = HAZE[ph];
+    var night = ph === 'night', snow = se === 'winter';
+    var o = [];
+    o.push('<svg class="scene" viewBox="0 0 1600 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">');
+    o.push('<defs>' +
+      '<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">' + sky.map(function (c, i) { return '<stop offset="' + (i / 3) + '" stop-color="' + c + '"/>'; }).join('') + '</linearGradient>' +
+      '<radialGradient id="sun"><stop offset="0" stop-color="' + (night ? '#F4F1E6' : '#FFF4D8') + '"/><stop offset=".25" stop-color="' + (night ? '#E6E3D6' : '#FFE2A8') + '" stop-opacity=".9"/><stop offset="1" stop-color="#FFE2A8" stop-opacity="0"/></radialGradient>' +
+      '<linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + haze + '"/><stop offset="1" stop-color="' + (night ? '#121B29' : '#3E4D5C') + '"/></linearGradient>' +
+      '<linearGradient id="ice" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + (night ? '#5B7E92' : '#CFE9F2') + '"/><stop offset="1" stop-color="' + (night ? '#22384A' : '#6FA2B8') + '"/></linearGradient>' +
+      '<linearGradient id="den" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + (night ? '#1B2A2A' : '#3F5A4C') + '"/><stop offset="1" stop-color="' + (night ? '#0E1716' : '#22352C') + '"/></linearGradient>' +
+      '<linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + sky[2] + '" stop-opacity=".85"/><stop offset="1" stop-color="' + (night ? '#0B1422' : '#3C6B7E') + '"/></linearGradient>' +
+      '<radialGradient id="hearth" cx=".5" cy=".75" r=".6"><stop offset="0" stop-color="#FFB869"/><stop offset=".35" stop-color="#E0762F" stop-opacity=".85"/><stop offset="1" stop-color="#E0762F" stop-opacity="0"/></radialGradient>' +
+      '<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DFF2F6" stop-opacity="' + (night ? .18 : .42) + '"/><stop offset="1" stop-color="#9CCBDD" stop-opacity="' + (night ? .08 : .18) + '"/></linearGradient>' +
+      '<linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + (night ? '#152019' : '#365A42') + '"/><stop offset="1" stop-color="' + (night ? '#0A100C' : '#1E3326') + '"/></linearGradient>' +
+      '<filter id="blur8"><feGaussianBlur stdDeviation="8"/></filter><filter id="blur3"><feGaussianBlur stdDeviation="3"/></filter>' +
+      '</defs>');
+    o.push('<rect width="1600" height="560" fill="url(#sky)"/>');
+    if (night) { for (var i = 0; i < 140; i++) o.push('<circle cx="' + (R() * 1600).toFixed(0) + '" cy="' + (R() * 260).toFixed(0) + '" r="' + (R() * 1.3 + .3).toFixed(2) + '" fill="#F4F1E6" opacity="' + (R() * .7 + .2).toFixed(2) + '"/>'); }
+    var sx = { dawn: 1180, day: 1010, dusk: 1260, night: 1220 }[ph], sy = { dawn: 250, day: 110, dusk: 240, night: 95 }[ph];
+    o.push('<circle cx="' + sx + '" cy="' + sy + '" r="190" fill="url(#sun)" opacity="' + (night ? .35 : .9) + '"/>');
+    o.push('<circle cx="' + sx + '" cy="' + sy + '" r="' + (night ? 22 : 30) + '" fill="' + (night ? '#EFEBDD' : '#FFF6DF') + '" opacity=".95"/>');
+    // far range: Mt. Silver
+    o.push('<path d="M0 300 L90 250 L170 272 L260 205 L330 238 L420 168 L500 214 L590 182 L690 236 L780 160 L870 214 L960 176 L1060 232 L1150 190 L1250 226 L1340 172 L1440 220 L1530 196 L1600 214 L1600 380 L0 380Z" fill="url(#far)" opacity=".85"/>');
+    o.push('<path d="M260 205 L240 226 L262 220 L278 231 L292 218Z M420 168 L396 196 L418 186 L436 199 L452 184Z M780 160 L752 192 L776 180 L796 194 L812 178Z M960 176 L938 202 L958 194 L976 204 L990 192Z M1340 172 L1316 200 L1338 190 L1356 202 L1370 188Z" fill="#F3F7F8" opacity="' + (night ? .35 : .85) + '"/>');
+    // mist
+    o.push('<rect x="-20" y="300" width="1640" height="70" fill="' + sky[3] + '" opacity=".28" filter="url(#blur8)"/>');
+    // Ice Path massif, left: crystalline facets and the cave mouth
+    o.push('<path d="M-10 420 L40 300 L110 262 L170 300 L230 250 L300 292 L360 276 L420 330 L470 360 L470 440 L-10 440Z" fill="url(#ice)"/>');
+    o.push('<path d="M110 262 L130 330 L170 300Z M230 250 L250 320 L300 292Z M40 300 L80 360 L110 262Z M360 276 L372 340 L420 330Z" fill="#FFFFFF" opacity="' + (night ? .08 : .28) + '"/>');
+    o.push('<path d="M150 420 Q150 372 186 372 Q222 372 222 420Z" fill="#0E1C27"/><path d="M160 420 Q160 384 186 384 Q212 384 212 420Z" fill="#7FD0E8" opacity="' + (night ? .55 : .35) + '" filter="url(#blur3)"/>');
+    // Dragon's Den, right: cliffs, lake, shrine on an island
+    o.push('<path d="M1080 420 L1120 318 L1190 290 L1240 322 L1300 284 L1380 318 L1450 300 L1530 340 L1610 330 L1610 440 L1080 440Z" fill="url(#den)"/>');
+    o.push('<ellipse cx="1330" cy="430" rx="250" ry="34" fill="url(#lake)"/>');
+    o.push('<g transform="translate(1318 384)"><ellipse cx="12" cy="44" rx="60" ry="9" fill="#1B2A22"/>' +
+      '<rect x="-2" y="18" width="28" height="24" fill="#3B2A22"/><path d="M-22 20 Q12 4 46 20 L40 22 Q12 10 -16 22Z" fill="#7B2F25"/>' +
+      '<rect x="2" y="2" width="20" height="16" fill="#3B2A22"/><path d="M-12 4 Q12 -10 36 4 L31 6 Q12 -4 -7 6Z" fill="#8E3A2C"/>' +
+      '<path d="M12 -14 L12 -2" stroke="#C9A96A" stroke-width="2"/><circle cx="12" cy="-16" r="2.5" fill="#E2CC98"/>' +
+      '<circle cx="-14" cy="30" r="2" fill="#FFC979" opacity="' + (night ? 1 : .6) + '"/><circle cx="38" cy="30" r="2" fill="#FFC979" opacity="' + (night ? 1 : .6) + '"/></g>');
+    // the valley floor under the town, the lake and the Glasshouse
+    o.push('<path d="M0 430 C220 418 460 424 700 430 C940 436 1180 428 1600 434 L1600 560 L0 560Z" fill="' + (night ? '#101813' : '#3A5A40') + '"/>');
+    o.push('<path d="M0 452 C300 444 700 458 1100 450 C1300 446 1450 452 1600 450" stroke="' + (night ? '#1D2A20' : '#5E8F68') + '" stroke-width="10" fill="none" opacity=".6"/>');
+    // the river (Route 45) and a waterfall off the Ice Path shoulder
+    o.push('<path d="M430 360 C470 380 455 420 520 440 C600 466 640 470 700 520 L760 560 L690 560 C640 520 590 492 520 470 C450 446 450 410 415 380Z" fill="' + (night ? '#1C3550' : '#7FB3C8') + '" opacity=".85"/>');
+    o.push('<path d="M424 338 L432 372" stroke="#EAF6FA" stroke-width="5" opacity=".7" filter="url(#blur3)"/>');
+    // Blackthorn City: Johto roofs and lanterns
+    var town = [];
+    for (var k = 0; k < 16; k++) {
+      var x = 760 + k * 22 + (R() * 8 - 4), w = 18 + R() * 10, y = 410 - R() * 18, roof = k === 7 ? '#5A2D2A' : (R() > .5 ? '#3E2A26' : '#4A3029');
+      if (k === 7) { w = 46; y = 392; }
+      town.push('<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + (440 - y).toFixed(1) + '" fill="' + (night ? '#1A1714' : '#5A4B3E') + '"/>');
+      town.push('<path d="M' + (x - 6) + ' ' + y + ' Q' + (x + w / 2) + ' ' + (y - 14 - (k === 7 ? 10 : 0)) + ' ' + (x + w + 6) + ' ' + y + ' L' + (x + w + 2) + ' ' + (y + 3) + ' Q' + (x + w / 2) + ' ' + (y - 7) + ' ' + (x - 2) + ' ' + (y + 3) + 'Z" fill="' + roof + '"/>');
+      if (snow) town.push('<path d="M' + (x - 4) + ' ' + (y - 1) + ' Q' + (x + w / 2) + ' ' + (y - 13) + ' ' + (x + w + 4) + ' ' + (y - 1) + '" stroke="#F3F7F8" stroke-width="3" fill="none" opacity=".9"/>');
+      town.push('<rect x="' + (x + w / 2 - 2).toFixed(1) + '" y="' + (y + 10).toFixed(1) + '" width="4" height="5" fill="#FFC979" opacity="' + (night ? 1 : .55) + '"/>');
+    }
+    o.push(town.join(''));
+    // terraces and the Glasshouse
+    o.push('<path d="M0 478 C180 452 420 456 600 474 C760 490 900 478 1060 470 C1250 462 1420 474 1600 466 L1600 560 L0 560Z" fill="url(#near)"/>');
+    o.push('<path d="M150 488 C300 470 430 478 560 492 M170 510 C320 494 450 500 590 514 M190 532 C340 518 470 524 620 538" stroke="' + (snow ? '#E8EEF0' : '#7FAE7E') + '" stroke-width="2" fill="none" opacity=".55"/>');
+    var bloom = { spring: ['#F2B7C4', '#F7E3A0', '#FFFFFF'], summer: ['#E86A5B', '#F2C14E', '#7CC77F'], autumn: ['#DE7C42', '#C9A96A', '#B5603F'], winter: ['#FFFFFF', '#DCEEF5', '#FFFFFF'] }[se];
+    for (var b = 0; b < 90; b++) o.push('<circle cx="' + (150 + R() * 470).toFixed(0) + '" cy="' + (480 + R() * 70).toFixed(0) + '" r="' + (R() * 2.2 + .8).toFixed(1) + '" fill="' + bloom[b % 3] + '" opacity=".85"/>');
+    // the dome
+    o.push('<g transform="translate(300 300)">' +
+      '<rect x="-30" y="150" width="380" height="22" rx="3" fill="#6F6253"/><rect x="-18" y="140" width="356" height="12" fill="#8B7B66"/>' +
+      '<path d="M0 140 Q0 20 160 10 Q320 20 320 140Z" fill="url(#glass)" stroke="#C9A96A" stroke-width="2.4"/>' +
+      '<ellipse cx="160" cy="128" rx="120" ry="34" fill="url(#hearth)" opacity="' + (night ? 1 : .75) + '"/>' +
+      [40, 80, 120, 160, 200, 240, 280].map(function (x) { return '<path d="M' + x + ' 140 Q' + (x + (160 - x) * .35) + ' 40 160 10" stroke="#C9A96A" stroke-width="1.2" fill="none" opacity=".75"/>'; }).join('') +
+      '<path d="M18 100 Q160 74 302 100 M8 124 Q160 100 312 124 M44 64 Q160 44 276 64" stroke="#C9A96A" stroke-width="1" fill="none" opacity=".6"/>' +
+      '<path d="M-110 140 L-110 92 Q-70 66 -30 92 L-30 140Z M350 140 L350 92 Q390 66 430 92 L430 140Z" fill="url(#glass)" stroke="#C9A96A" stroke-width="1.6"/>' +
+      '<path d="M160 10 L160 -18" stroke="#C9A96A" stroke-width="2"/><circle cx="160" cy="-22" r="5" fill="#E2CC98"/>' +
+      [70, 120, 200, 250].map(function (x, i) { return '<circle cx="' + x + '" cy="' + (120 - i % 2 * 8) + '" r="6" fill="' + ['#7CC77F', '#F2C14E', '#7CC77F', '#E86A5B'][i] + '" opacity=".8"/>'; }).join('') +
+      '</g>');
+    // the Ampharos beacon
+    o.push('<g transform="translate(700 330)"><rect x="-4" y="0" width="8" height="120" fill="#5C5245"/><path d="M-16 4 L16 4 L10 -8 L-10 -8Z" fill="#8B7B66"/>' +
+      '<circle cx="0" cy="-16" r="34" fill="#FFE27A" opacity="' + (night ? .5 : .22) + '" filter="url(#blur8)"/><circle cx="0" cy="-16" r="8" fill="#FFE9A0"/></g>');
+    // a dragon over the Den
+    o.push('<g transform="translate(1180 170) scale(1.1)" fill="' + (night ? '#C9A96A' : '#3B3326') + '" opacity="' + (night ? .55 : .7) + '"><path d="M0 10 Q18 0 34 8 Q50 -12 78 -16 Q60 2 52 14 Q70 16 84 30 Q56 26 40 22 Q30 34 14 30 Q20 22 0 10Z"/></g>');
+    o.push('<g fill="' + (night ? '#9AA3B0' : '#2C2A26') + '" opacity=".6"><path d="M560 150 q6 -6 12 0 q6 -6 12 0"/><path d="M600 132 q5 -5 10 0 q5 -5 10 0"/><path d="M630 158 q4 -4 8 0 q4 -4 8 0"/></g>');
+    // framing pines
+    function pine(x, h, c) { return '<path d="M' + x + ' 560 L' + x + ' ' + (560 - h * .18) + ' L' + (x - h * .22) + ' ' + (560 - h * .18) + ' L' + x + ' ' + (560 - h) + ' L' + (x + h * .22) + ' ' + (560 - h * .18) + ' L' + x + ' ' + (560 - h * .18) + 'Z" fill="' + c + '"/>'; }
+    var pc = night ? '#070A08' : '#162418';
+    o.push(pine(30, 240, pc) + pine(80, 190, pc) + pine(1560, 260, pc) + pine(1505, 200, pc) + pine(1460, 150, pc));
+    if (snow) { for (var f = 0; f < 120; f++) o.push('<circle cx="' + (R() * 1600).toFixed(0) + '" cy="' + (R() * 560).toFixed(0) + '" r="' + (R() * 1.6 + .5).toFixed(1) + '" fill="#FFFFFF" opacity="' + (R() * .6 + .3).toFixed(2) + '"/>'); }
+    o.push('</svg>');
+    return o.join('');
+  }
+
+  /* ---- the crest ---- */
+  function crest(size) {
+    size = size || 40;
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 48 48"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E2CC98"/><stop offset="1" stop-color="#8E7647"/></linearGradient></defs>' +
+      '<path d="M24 3 L42 10 L40 28 Q38 39 24 45 Q10 39 8 28 L6 10Z" fill="#1C1F26" stroke="url(#cg)" stroke-width="1.6"/>' +
+      '<path d="M15 30 Q16 18 24 14 Q32 18 33 30 Q28 26 24 27 Q20 26 15 30Z" fill="none" stroke="url(#cg)" stroke-width="1.4"/>' +
+      '<path d="M24 14 L24 8 M19 33 Q24 37 29 33" stroke="url(#cg)" stroke-width="1.4" fill="none"/><circle cx="24" cy="22" r="2.2" fill="#DE7C42"/></svg>';
+  }
+
+  /* ---- nav icons ---- */
+  var ICON = {
+    home: 'M3 11 L12 4 L21 11 M5 10 V20 H19 V10 M10 20 V14 H14 V20',
+    estate: 'M3 6 L9 4 L15 6 L21 4 V18 L15 20 L9 18 L3 20Z M9 4 V18 M15 6 V20',
+    glass: 'M4 19 H20 M5 19 Q5 7 12 5 Q19 7 19 19 M9 19 Q9 10 12 8 Q15 10 15 19 M12 5 V3',
+    breed: 'M12 3 C7 3 5 10 5 14 A7 7 0 0 0 19 14 C19 10 17 3 12 3Z M9 14 L11 16 L15 12',
+    atlas: 'M5 4 H17 A2 2 0 0 1 19 6 V20 H7 A2 2 0 0 1 5 18Z M5 18 A2 2 0 0 1 7 16 H19 M9 8 H15 M9 11 H13',
+    journal: 'M19 4 C12 5 7 10 6 18 L5 21 M6 18 C10 17 13 15 15 12 M9 14 C11 12 14 9 19 4',
+    scout: 'M4 14 A4 4 0 1 0 12 14 A4 4 0 1 0 4 14 M12 14 A4 4 0 1 0 20 14 A4 4 0 1 0 12 14 M6 10 L8 5 H10 M18 10 L16 5 H14',
+    teams: 'M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 M3 12 H9 M15 12 H21 M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9',
+    builds: 'M9 3 H15 M10 3 V9 L5 18 A2 2 0 0 0 7 21 H17 A2 2 0 0 0 19 18 L14 9 V3 M7.5 15 H16.5',
+    record: 'M7 3 H17 V21 L12 17 L7 21Z M10 8 H14 M10 11 H14',
+    calls: 'M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 M12 8 V13 M12 16 V16.5'
+  };
+  function icon(name) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="' + (ICON[name] || ICON.home) + '"/></svg>';
+  }
+
+  /* ---- an egg, filled to its progress ---- */
+  function egg(pct, color, id, size) {
+    size = size || 58; pct = Math.max(0, Math.min(1, pct || 0)); id = 'eg' + (id || Math.random().toString(36).slice(2, 8));
+    var top = 4 + 66 * (1 - pct);
+    return '<svg width="' + size + '" height="' + (size * 1.25) + '" viewBox="0 0 56 70"><defs><clipPath id="' + id + '"><path d="M28 3 C14 3 5 26 5 42 A23 24 0 0 0 51 42 C51 26 42 3 28 3Z"/></clipPath>' +
+      '<linearGradient id="' + id + 'g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + (color || '#C9A96A') + '"/><stop offset="1" stop-color="#8E7647"/></linearGradient></defs>' +
+      '<path d="M28 3 C14 3 5 26 5 42 A23 24 0 0 0 51 42 C51 26 42 3 28 3Z" fill="#F3EDE2" opacity=".14" stroke="#C9A96A" stroke-width="1.2"/>' +
+      '<g clip-path="url(#' + id + ')"><rect x="0" y="' + top.toFixed(1) + '" width="56" height="70" fill="url(#' + id + 'g)" opacity=".85"/>' +
+      '<circle cx="19" cy="' + (top + 14).toFixed(0) + '" r="4" fill="#F3EDE2" opacity=".35"/><circle cx="36" cy="' + (top + 24).toFixed(0) + '" r="5" fill="#F3EDE2" opacity=".3"/></g></svg>';
+  }
+
+  /* ---- the estate map: a natural-history atlas plate ---- */
+  var PLACES = {
+    'glasshouse': {x: 560, y: 410, label: 'The Glasshouse', kind: 'glass'},
+    'nursery & hatchery': {x: 615, y: 455, label: 'Nursery & hatchery', kind: 'glass'},
+    'studbook & archive': {x: 690, y: 300, label: 'Studbook & archive'},
+    'day-care preserve': {x: 905, y: 560, label: 'Day-Care preserve', kind: 'open'},
+    'clinic': {x: 760, y: 410, label: 'Clinic'},
+    'kitchen & orchard': {x: 410, y: 520, label: 'Kitchen & orchard'},
+    'works (building & upkeep)': {x: 330, y: 640, label: 'Works'},
+    'transport': {x: 980, y: 380, label: 'Transport field'},
+    'security & watch': {x: 285, y: 300, label: 'Watchtower'},
+    'climate': {x: 470, y: 340, label: 'Climate'},
+    'cold vault': {x: 205, y: 205, label: 'Cold vault (Ice Path)', kind: 'ice'},
+    "dragon's den": {x: 985, y: 160, label: "Dragon's Den", kind: 'sacred'},
+    'blackthorn city': {x: 690, y: 205, label: 'Blackthorn City', kind: 'town'}
+  };
+  function estateMap(facilities, onclick) {
+    var o = ['<svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" style="font-family:Cormorant Garamond,serif">'];
+    o.push('<defs><pattern id="paper" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#F1EADB"/><circle cx="1" cy="1" r=".5" fill="#D8CCB6"/></pattern>' +
+      '<linearGradient id="lk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9CDD9"/><stop offset="1" stop-color="#7FAFC1"/></linearGradient></defs>');
+    o.push('<rect x="8" y="8" width="1184" height="744" rx="14" fill="url(#paper)" stroke="#8E7647" stroke-width="1.5"/>');
+    o.push('<rect x="20" y="20" width="1160" height="720" rx="8" fill="none" stroke="#8E7647" stroke-width=".7" stroke-dasharray="2 4"/>');
+    // mountains, hachured
+    var R = rng(7);
+    for (var i = 0; i < 46; i++) {
+      var x = 40 + R() * 1120, y = 40 + R() * 150 + (x < 380 ? 60 : 0), s = 18 + R() * 26;
+      if (x > 560 && x < 820 && y > 150) continue;
+      o.push('<path d="M' + (x - s) + ' ' + (y + s * .7) + ' L' + x + ' ' + (y - s * .5) + ' L' + (x + s) + ' ' + (y + s * .7) + '" fill="#E4DACA" stroke="#6B5B44" stroke-width="1"/>' +
+             '<path d="M' + x + ' ' + (y - s * .5) + ' L' + (x + s * .35) + ' ' + (y + s * .7) + '" stroke="#6B5B44" stroke-width=".6"/>');
+    }
+    // the Ice Path glacier
+    o.push('<path d="M60 150 Q140 120 260 170 Q300 230 230 270 Q150 290 90 250 Q50 210 60 150Z" fill="#DCEEF5" stroke="#4F7E92" stroke-width="1.2"/>');
+    o.push('<text x="150" y="160" font-size="15" fill="#4F7E92" font-style="italic">Ice Path</text>');
+    // Dragon's Den lake
+    o.push('<path d="M880 120 Q1000 90 1080 140 Q1110 200 1040 220 Q940 230 890 190 Q860 150 880 120Z" fill="url(#lk)" stroke="#4F7E92" stroke-width="1.2"/>');
+    // Route 44 lake, west
+    o.push('<path d="M60 430 Q120 400 180 430 Q200 470 150 490 Q80 495 60 460Z" fill="url(#lk)" stroke="#4F7E92" stroke-width="1"/><text x="72" y="520" font-size="14" fill="#4F7E92" font-style="italic">Route 44</text>');
+    // the river: Route 45, north to south
+    o.push('<path d="M760 210 C740 300 600 330 610 400 C620 470 760 500 760 600 C760 660 720 700 700 740" stroke="#7FAFC1" stroke-width="9" fill="none" stroke-linecap="round"/>');
+    o.push('<text x="770" y="660" font-size="14" fill="#4F7E92" font-style="italic" transform="rotate(-70 770 660)">Route 45</text>');
+    // meadows and orchards
+    for (var t = 0; t < 70; t++) { var tx = 320 + R() * 220, ty = 470 + R() * 120; o.push('<circle cx="' + tx.toFixed(0) + '" cy="' + ty.toFixed(0) + '" r="4" fill="#A9C7A8" stroke="#5E8F68" stroke-width=".8"/>'); }
+    o.push('<path d="M820 500 Q900 470 1010 500 Q1060 560 1000 640 Q900 680 830 630 Q790 560 820 500Z" fill="#E2EAD6" stroke="#5E8F68" stroke-width="1.2" stroke-dasharray="5 4"/>');
+    o.push('<text x="850" y="620" font-size="13" fill="#2F4D3A" font-style="italic">the preserve (open, by invitation)</text>');
+    // the town
+    for (var h = 0; h < 14; h++) { var hx = 640 + (h % 7) * 16, hy = 190 + Math.floor(h / 7) * 16; o.push('<rect x="' + hx + '" y="' + hy + '" width="11" height="9" fill="#C9B79A" stroke="#6B5B44" stroke-width=".8"/>'); }
+    // the Glasshouse plan
+    o.push('<circle cx="560" cy="410" r="52" fill="#EDF5EF" stroke="#8E7647" stroke-width="1.6"/><circle cx="560" cy="410" r="34" fill="none" stroke="#5E8F68" stroke-width="1"/><circle cx="560" cy="410" r="12" fill="#F4AE76" stroke="#DE7C42"/>');
+    // pins
+    Object.keys(PLACES).forEach(function (k) {
+      var p = PLACES[k], f = (facilities || []).filter(function (x) { return x.name === k; })[0];
+      var open = f && f.open && f.open.length, c = p.kind === 'ice' ? '#4F7E92' : p.kind === 'sacred' ? '#7B2F25' : p.kind === 'open' ? '#2F4D3A' : open ? '#DE7C42' : '#8E7647';
+      o.push('<g class="hot" data-place="' + k + '" transform="translate(' + p.x + ' ' + p.y + ')">' +
+        '<circle r="13" fill="#FBF7EE" stroke="' + c + '" stroke-width="2"/><circle r="5" fill="' + c + '"/>' +
+        '<text y="-20" text-anchor="middle" font-size="17" font-weight="700" fill="#24211C">' + p.label + '</text></g>');
+    });
+    // cartouche, compass, scale
+    o.push('<g transform="translate(60 640)"><rect width="250" height="82" rx="6" fill="#FBF7EE" stroke="#8E7647"/>' +
+      '<text x="125" y="34" text-anchor="middle" font-size="24" font-weight="700" fill="#24211C">The Blackthorn Estate</text>' +
+      '<text x="125" y="58" text-anchor="middle" font-size="13" fill="#5B554A" font-style="italic">headquarters · Johto · D-041</text></g>');
+    o.push('<g transform="translate(1110 660)"><circle r="38" fill="none" stroke="#8E7647"/><path d="M0 -34 L7 0 L0 34 L-7 0Z" fill="#8E7647"/><text y="-44" text-anchor="middle" font-size="14" fill="#24211C" font-weight="700">N</text></g>');
+    o.push('<g transform="translate(1040 300)"><text font-size="13" fill="#5B554A" font-style="italic">→ satellite: Sevii Islands</text><text y="18" font-size="13" fill="#5B554A" font-style="italic">or the Battle Zone (your call)</text></g>');
+    o.push('</svg>');
+    return o.join('');
+  }
+
+  /* ---- the Glasshouse, in plan ---- */
+  function glasshouse(g, eggs) {
+    var cx = 450, cy = 330, o = ['<svg viewBox="0 0 900 676" xmlns="http://www.w3.org/2000/svg" style="font-family:Inter,sans-serif">'];
+    o.push('<defs><radialGradient id="gh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFC07A"/><stop offset=".5" stop-color="#DE7C42"/><stop offset="1" stop-color="#8E4320"/></radialGradient>' +
+      '<radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#DE7C42" stop-opacity=".45"/><stop offset="1" stop-color="#DE7C42" stop-opacity="0"/></radialGradient>' +
+      '<radialGradient id="amph" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFE9A0" stop-opacity=".9"/><stop offset="1" stop-color="#FFE9A0" stop-opacity="0"/></radialGradient></defs>');
+    o.push('<rect width="900" height="676" rx="16" fill="#171A20"/>');
+    // the rock and the cold vault, north
+    o.push('<path d="M0 0 H900 V70 Q700 110 450 96 Q200 110 0 70Z" fill="#2B3138"/>');
+    o.push('<g class="hot" data-k="Cold vault"><path d="M380 18 H520 L500 92 H400Z" fill="#9CCBDD" opacity=".55" stroke="#DCEFF5"/><text x="450" y="56" text-anchor="middle" font-size="13" fill="#0F1A20" font-weight="700">COLD VAULT</text><text x="450" y="74" text-anchor="middle" font-size="11" fill="#0F1A20">seed & berry store · Mamoswine</text></g>');
+    // crop rings
+    var crops = (g && g.crops) || [];
+    var colors = {Cheri: '#E86A5B', Chesto: '#7C6FD0', Pecha: '#F2A7C3', Rawst: '#7CC7A2', Aspear: '#F2D24E', Leppa: '#E0864D', Oran: '#5C8FE0', Persim: '#E88FB7', Sitrus: '#F2C14E', Lum: '#7CC77F'};
+    var n = Math.max(crops.length, 1);
+    for (var i = 0; i < n; i++) {
+      var a0 = (i / n) * Math.PI * 2 - Math.PI / 2, a1 = ((i + 1) / n) * Math.PI * 2 - Math.PI / 2 - .03;
+      var c = crops[i] ? (colors[crops[i].berry.split(' ')[0]] || '#7CC77F') : '#5E8F68';
+      o.push('<path class="hot" data-k="crop:' + (crops[i] ? crops[i].berry : '') + '" d="' + arc(cx, cy, 250, 205, a0, a1) + '" fill="' + c + '" opacity=".55" stroke="#171A20" stroke-width="2"/>');
+    }
+    o.push('<circle cx="' + cx + '" cy="' + cy + '" r="254" fill="none" stroke="#C9A96A" stroke-width="2"/>');
+    // the hatching loop
+    o.push('<circle class="hot" data-k="Hatching loop" cx="' + cx + '" cy="' + cy + '" r="190" fill="none" stroke="#E2CC98" stroke-width="3" stroke-dasharray="10 9"/>');
+    o.push('<text x="' + cx + '" y="' + (cy - 196) + '" text-anchor="middle" font-size="11" fill="#E2CC98" letter-spacing="2">THE HATCHING LOOP · 1 LAP = 1 EGG CYCLE</text>');
+    // egg racks
+    o.push('<circle cx="' + cx + '" cy="' + cy + '" r="160" fill="#20242B" stroke="#8E7647"/>');
+    var lines = (g && g.eggs) || [];
+    lines.forEach(function (e, j) {
+      var a = (j / lines.length) * Math.PI * 2 - Math.PI / 2, ex = cx + Math.cos(a) * 128, ey = cy + Math.sin(a) * 128;
+      o.push('<g class="hot" data-k="eggs:' + e.line + '" transform="translate(' + (ex - 13) + ' ' + (ey - 16) + ')"><path d="M13 1 C6 1 2 12 2 19 A11 11 0 0 0 24 19 C24 12 20 1 13 1Z" fill="#F3EDE2" stroke="#C9A96A"/>' +
+        '<text x="13" y="44" text-anchor="middle" font-size="10" fill="#B7AF9F">' + e.line + '</text></g>');
+    });
+    o.push('<text x="' + cx + '" y="' + (cy + 84) + '" text-anchor="middle" font-size="10" fill="#B7AF9F" letter-spacing="2">EGG RACKS</text>');
+    // the hearth
+    o.push('<circle cx="' + cx + '" cy="' + cy + '" r="110" fill="url(#glow)"/>');
+    o.push('<g class="hot" data-k="Hearth hall"><circle cx="' + cx + '" cy="' + cy + '" r="58" fill="url(#gh)" stroke="#F4AE76" stroke-width="2"/>' +
+      '<text x="' + cx + '" y="' + (cy - 4) + '" text-anchor="middle" font-size="15" font-weight="700" fill="#2A1408">THE HEARTH</text>' +
+      '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="11" fill="#2A1408">Magcargo · Magma Armor</text></g>');
+    // Ampharos beacons
+    [[cx - 300, cy - 210], [cx + 300, cy - 210], [cx - 300, cy + 230], [cx + 300, cy + 230]].forEach(function (p) {
+      o.push('<g class="hot" data-k="Glasshouse rings"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="34" fill="url(#amph)"/><circle cx="' + p[0] + '" cy="' + p[1] + '" r="7" fill="#FFE9A0"/></g>');
+    });
+    o.push('<text x="' + (cx - 300) + '" y="' + (cy - 172) + '" text-anchor="middle" font-size="11" fill="#E2CC98">Ampharos light</text>');
+    // annexes: nursery yard (south), studbook office (east)
+    o.push('<g class="hot" data-k="Nursery yard"><rect x="370" y="596" width="160" height="34" rx="8" fill="#2F4D3A" stroke="#5E8F68"/><text x="450" y="618" text-anchor="middle" font-size="12" fill="#D9EBD6" font-weight="700">NURSERY YARD</text></g>');
+    o.push('<g class="hot" data-k="Studbook office"><rect x="770" y="300" width="112" height="60" rx="8" fill="#252932" stroke="#8E7647"/><text x="826" y="326" text-anchor="middle" font-size="12" fill="#E2CC98" font-weight="700">STUDBOOK</text><text x="826" y="344" text-anchor="middle" font-size="11" fill="#B7AF9F">office</text></g>');
+    o.push('<text x="450" y="662" text-anchor="middle" font-size="12" fill="#847D70">The greenhouse rings live on the hearth\'s heat; the egg walk is the harvest walk.</text>');
+    o.push('</svg>');
+    return o.join('');
+  }
+  function arc(cx, cy, r1, r0, a0, a1) {
+    function p(r, a) { return (cx + Math.cos(a) * r).toFixed(1) + ' ' + (cy + Math.sin(a) * r).toFixed(1); }
+    var big = a1 - a0 > Math.PI ? 1 : 0;
+    return 'M' + p(r1, a0) + ' A' + r1 + ' ' + r1 + ' 0 ' + big + ' 1 ' + p(r1, a1) + ' L' + p(r0, a1) + ' A' + r0 + ' ' + r0 + ' 0 ' + big + ' 0 ' + p(r0, a0) + 'Z';
+  }
+
+  /* ---- a small trend line ---- */
+  function spark(vals, color, w, h) {
+    w = w || 120; h = h || 30; if (!vals || vals.length < 2) return '';
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), sp = hi - lo || 1;
+    var pts = vals.map(function (v, i) { return (i / (vals.length - 1) * w).toFixed(1) + ',' + (h - 3 - (v - lo) / sp * (h - 6)).toFixed(1); });
+    return '<svg width="' + w + '" height="' + h + '"><polyline points="' + pts.join(' ') + '" fill="none" stroke="' + (color || '#C9A96A') + '" stroke-width="1.6"/></svg>';
+  }
+
+  /* ---- a ring gauge ---- */
+  function ring(pct, label, color, size) {
+    size = size || 84; var r = 34, c = 2 * Math.PI * r, p = Math.max(0, Math.min(1, pct || 0));
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 84 84"><circle cx="42" cy="42" r="' + r + '" fill="none" stroke="#30353F" stroke-width="7"/>' +
+      '<circle cx="42" cy="42" r="' + r + '" fill="none" stroke="' + (color || '#C9A96A') + '" stroke-width="7" stroke-linecap="round" stroke-dasharray="' + (c * p).toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 42 42)"/>' +
+      '<text x="42" y="47" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#F3EDE2">' + (label == null ? Math.round(p * 100) + '%' : label) + '</text></svg>';
+  }
+
+  return {hero: hero, crest: crest, icon: icon, egg: egg, estateMap: estateMap, glasshouse: glasshouse, spark: spark, ring: ring,
+          phaseNow: phaseNow, seasonNow: seasonNow, PLACES: PLACES};
+})();
+</script>

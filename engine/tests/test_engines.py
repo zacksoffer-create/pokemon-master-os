@@ -2050,5 +2050,64 @@ class Blackthorn(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
 
 
+class WebApp(unittest.TestCase):
+    """Blackthorn HQ, the web app (docs/APP.md): the pages, the launcher, and the Lab's math against the engine's."""
+    @classmethod
+    def setUpClass(cls):
+        import shutil as _sh
+        import subprocess as _sp
+        if not _sh.which("node"):
+            raise unittest.SkipTest("node isn't installed")
+        cls.sp = _sp
+        cls.app = os.path.join(ENGINE, "app")
+        _sp.run([sys.executable, "-I", os.path.join(cls.app, "build.py")], check=True, capture_output=True)
+
+    def test_every_page_part_is_valid_javascript(self):
+        import glob as _glob
+        import re as _re
+        for f in sorted(_glob.glob(os.path.join(self.app, "web", "*.html"))):
+            with open(f, encoding="utf-8") as fh:
+                code = "\n".join(_re.findall(r"<script>(.*?)</script>", fh.read(), _re.S))
+            with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as tmp:
+                tmp.write(code)
+            out = self.sp.run(["node", "--check", tmp.name], capture_output=True, text=True)
+            os.unlink(tmp.name)
+            self.assertEqual(out.returncode, 0, os.path.basename(f) + ": " + out.stderr[-600:])
+
+    def test_the_launcher_serves_the_zip_and_writes_only_the_app_tabs(self):
+        out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])
+
+    def test_the_labs_stats_and_hidden_power_match_the_engine(self):
+        from trainers.model import Store
+        era = Store().era
+        cases = [("Tyranitar", 4, 100, "Jolly", {}, {"atk": 252, "spd": 4, "spe": 252}),
+                 ("Garchomp", 4, 50, "Adamant", {"spa": 0}, {"hp": 4, "atk": 252, "spe": 252}),
+                 ("Gengar", 3, 100, "Timid", {"atk": 2, "def": 30, "spe": 30}, {"spa": 252, "spe": 252, "hp": 4}),
+                 ("Snorlax", 2, 100, None, {"atk": 30, "def": 26, "spe": 20, "spa": 29}, {"hp": 252, "atk": 252, "spa": 252}),
+                 ("Pikachu", 2, 81, None, {}, {}), ("Shedinja", 4, 100, "Brave", {}, {"hp": 252})]
+        with open(os.path.join(self.app, "web", "20_core.html"), encoding="utf-8") as fh:
+            core = fh.read().split("<script>", 1)[1].rsplit("</script>", 1)[0]
+        js = core + """
+S.builds = JSON.parse(require('fs').readFileSync(process.argv[2], 'utf8'));
+indexAtlas(JSON.parse(require('fs').readFileSync(process.argv[3], 'utf8')));
+const cases = JSON.parse(process.argv[4]);
+console.log(JSON.stringify(cases.map(c => { const iv = Object.assign({hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31}, c[4]);
+  return {stats: calcStats(dexOf(c[0]).b, c[1], c[2], c[3], iv, c[5]), hp: hiddenPower(c[1], iv)}; })));
+"""
+        with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as tmp:
+            tmp.write(js)
+        out = self.sp.run(["node", tmp.name, os.path.join(self.app, "data", "builds.json"), os.path.join(self.app, "data", "atlas.json"),
+                           json.dumps(cases)], capture_output=True, text=True)
+        os.unlink(tmp.name)
+        self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+        got = json.loads(out.stdout)
+        for c, g in zip(cases, got):
+            ivs = {s: c[4].get(s, 31) for s in ("hp", "atk", "def", "spa", "spd", "spe")}
+            self.assertEqual(g["stats"], era.stats(c[0], c[1], c[2], c[3], ivs, c[5]), c)
+        self.assertEqual(got[0]["hp"], {"type": "Dark", "power": 70})          # all 31s
+        self.assertEqual(got[3]["hp"]["type"], "Ice")                         # Gen II: Atk DV 15, Def DV 13 (4*3+1), GSC's HP Ice
+
+
 if __name__ == "__main__":
     unittest.main()

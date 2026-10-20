@@ -1,0 +1,121 @@
+<script>
+/* ===== Champion side: scouting reports, team reports (self-scout), the matchup board ========================= */
+var CELL = {i: ['0', 0], r: ['½', .5], n: ['', 1], w: ['2', 2], W: ['4', 4]};
+var STATUS_CHIP = {cartridge: ['from the cartridge', 'ice'], proposed: ['proposed', 'ember'], canon: ['canon', 'forest']};
+function reportTitle(id) { var r = (S.reports || []).filter(function (x) { return x.id === id; })[0]; return r ? r.title : id; }
+function reports() { return API.data('scouting').then(function (d) { S.reports = d.reports; return d.reports; }); }
+function withBuilds() { return API.data('builds').then(function (b) { S.builds = b; if (!S.moveBy) { S.moveBy = {}; b.moves.forEach(function (m) { S.moveBy[m.name] = m; }); } return b; }); }
+function moveChip(name) { var m = (S.moveBy || {})[name]; return m ? '<span class="mv" title="' + esc(m.c + (m.p ? ' · ' + m.p + ' power' : '') + (m.a ? ' · ' + m.a + '% accurate' : '')) + '"><i style="background:' + TYPE[m.t] + '"></i>' + esc(name) + '</span>' : '<span class="mv"><i></i>' + esc(name) + '</span>'; }
+function rosterStrip(r) { return '<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:2px">' + r.team.map(function (m) { var n = numOf(m.sp); return '<img src="' + sprite(n, r.game) + '" title="' + esc(m.sp) + '" style="width:100%;max-width:64px;aspect-ratio:1;image-rendering:pixelated" loading="lazy">'; }).join('') + '</div>'; }
+function reportCard(r) {
+  var st = STATUS_CHIP[r.status] || [r.status, ''];
+  return '<a class="card" href="#/' + (r.mine ? 'teams' : 'scouting') + '/' + encodeURIComponent(r.id) + '" style="display:block;color:inherit"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(GAME_NAME[r.game] || r.game) + ' · Gen ' + r.gen + '</div><h3>' + esc(r.title) + '</h3></div>' + chip(st[0], st[1]) + '</div>' +
+    '<div class="bd">' + rosterStrip(r) + '<div style="margin-top:8px">' + r.tags.slice(0, 4).map(function (t) { return chip(t, 'gold'); }).join(' ') + '</div>' +
+    '<div class="tiny muted" style="margin-top:8px">Ace ' + esc(r.ace) + ' · ' + r.aggr + '% aggressive · weak spots: ' + esc(r.gaps.join(', ') || 'none') + '</div></div></a>';
+}
+function scoutingIndex() {
+  return reports().then(function (all) {
+    var them = all.filter(function (r) { return !r.mine; }), by = {};
+    them.forEach(function (r) { (by[r.name] = by[r.name] || []).push(r); });
+    return '<div class="eyebrow">Trainer scouting · the advance reports</div><h1 style="margin:6px 0">Scouting reports</h1>' +
+      '<p class="lede">An advance scout\'s read on every trainer worth preparing for: who they are, what they\'ll do, how to beat them and where it breaks. Cartridge teams are read straight from the games; anime teams are proposed drafts, checked against the learnsets.</p>' +
+      Object.keys(by).map(function (name) { return '<div class="ornament" style="margin:22px 0 12px">' + esc(name) + '</div><div class="grid">' + by[name].map(function (r) { return '<div class="c4">' + reportCard(r) + '</div>'; }).join('') + '</div>'; }).join('');
+  });
+}
+function teamsIndex() {
+  return reports().then(function (all) {
+    var mine = all.filter(function (r) { return r.mine; }), order = S.hq.chapters.map(function (c) { return c.game; });
+    mine.sort(function (a, b) { return order.indexOf(a.game) - order.indexOf(b.game); });
+    var ch = S.hq.champion || {};
+    return '<div class="eyebrow">Self-scout · how the league would read you</div><h1 style="margin:6px 0">Team reports</h1>' +
+      '<p class="lede">Every journey ends with you as Champion (D-042). These are your six teams scouted the way you scout everyone else: the same engine, the same honesty. Your sliders stay empty until you author them.</p>' +
+      '<div class="grid" style="margin-top:16px">' + mine.map(function (r) { var c = S.hq.chapters.filter(function (x) { return x.game === r.game; })[0] || {};
+        return '<div class="c4">' + reportCard(r).replace('<div class="bd">', '<div class="bd"><div class="small serif" style="font-size:16px;color:var(--gold-2);margin-bottom:8px">' + esc(cap(c.thesis || '')) + (c.line ? ' · <span class="muted">' + esc(c.line) + '</span>' : '') + '</div>') + '</div>'; }).join('') + '</div>';
+  });
+}
+function sliderRow(k, s) {
+  function pct(v) { return v == null ? null : Math.max(0, Math.min(100, v)); }
+  var a = pct(s.authored), m = pct(s.measured);
+  return '<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div class="goal" style="padding:0"><b class="small">' + esc(cap(k)) + '</b><span class="tiny muted">' + (a != null ? 'authored ' + a : 'not authored') + ' · ' + (m != null ? 'measured ' + m : 'not measurable') + '</span></div>' +
+    '<div class="slider"><div class="track"></div>' + (a != null ? '<div class="dot a" style="left:' + a + '%" title="authored"></div>' : '') + (m != null ? '<div class="dot m" style="left:' + m + '%" title="measured from the team"></div>' : '') + '</div>' +
+    '<div style="display:flex;justify-content:space-between" class="tiny muted"><span>' + esc(s.poles[0]) + '</span><span>' + esc(s.poles[1]) + '</span></div>' +
+    '<div class="small" style="margin-top:6px;color:var(--text-2)">' + esc(s.why || '') + (s.disagreement ? ' <span style="color:var(--ember-2)">· ' + esc(s.disagreement) + '</span>' : '') + '</div>' +
+    (s.signals && s.signals.length ? '<div class="tiny muted" style="margin-top:4px">' + s.signals.map(function (g) { return esc(g.label) + ' ' + g.value; }).join(' · ') + '</div>' : '') + '</div>';
+}
+function memberCard(m, r) {
+  var n = numOf(m.sp), max = Math.max.apply(null, r.team.map(function (x) { return Math.max.apply(null, STATS.map(function (s) { return x.stats[s]; })); }));
+  return '<div class="card"><div class="bd"><div style="display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center"><a href="#/atlas/' + n + '"><img src="' + art(n) + '" style="width:96px;height:96px;object-fit:contain" loading="lazy"></a><div>' +
+    '<div class="serif" style="font-size:22px;color:var(--ivory)">' + esc(m.nick || m.sp) + (m.sp === r.ace ? ' <span class="chip gold" style="font-family:var(--sans)">ace</span>' : '') + '</div>' + (m.nick ? '<div class="tiny muted">' + esc(m.sp) + '</div>' : '') +
+    '<div style="margin-top:4px">' + types(m.t) + '</div><div class="tiny muted" style="margin-top:4px">Lv ' + m.lv + ' · ' + esc(m.ab || '') + '</div></div></div>' +
+    '<div class="mvgrid">' + m.mv.map(moveChip).join('') + '</div>' +
+    '<div style="margin-top:10px">' + statBars(m.stats, Math.max(max, 300)) + '</div>' +
+    '<div style="margin-top:10px">' + chip(m.role || 'unread', 'violet') + ' ' + chip(m.bulk, m.lean === 'frail' ? 'ember' : m.lean === 'sturdy' ? 'forest' : '') + (m.flags || []).map(function (f) { return ' ' + chip(f, 'ember'); }).join('') + '</div>' +
+    '<div class="tiny muted" style="margin-top:6px">' + esc(m.why || '') + '</div></div></div>';
+}
+function matrix(r) {
+  var weakCount = r.types.map(function (t, i) { return r.team.filter(function (m) { return 'wW'.indexOf(m.cells[i]) >= 0; }).length; });
+  var resistCount = r.types.map(function (t, i) { return r.team.filter(function (m) { return 'ir'.indexOf(m.cells[i]) >= 0; }).length; });
+  return '<div style="overflow-x:auto"><table class="matrix"><thead><tr><th></th>' + r.types.map(function (t) { return '<th class="ty" style="color:' + TYPE[t] + '">' + esc(t) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    r.team.map(function (m) { return '<tr><th style="text-align:right;padding-right:8px;white-space:nowrap"><img src="' + sprite(numOf(m.sp), r.game) + '" style="width:30px;height:30px;vertical-align:middle;image-rendering:pixelated">' + esc(m.sp) + '</th>' +
+      m.cells.split('').map(function (c) { return '<td class="v-' + c + '">' + CELL[c][0] + '</td>'; }).join('') + '</tr>'; }).join('') +
+    '<tr><th style="text-align:right;padding-right:8px" class="tiny">weak</th>' + weakCount.map(function (c, i) { return '<td style="color:' + (c >= 3 ? 'var(--ember-2)' : 'var(--text-3)') + '">' + (c || '') + '</td>'; }).join('') + '</tr>' +
+    '<tr><th style="text-align:right;padding-right:8px" class="tiny">resist</th>' + resistCount.map(function (c) { return '<td style="color:' + (c >= 3 ? 'var(--forest-3)' : 'var(--text-3)') + '">' + (c || '') + '</td>'; }).join('') + '</tr></tbody></table></div>' +
+    '<div class="tiny muted" style="margin-top:8px">Damage each takes from an attack of that type: 4 and 2 are openings, ½ and 0 are walls. Gen ' + r.gen + ' type chart.</div>';
+}
+/* The matchup board: your six against theirs, by type alone. */
+function bestHit(att, def, typesList) {
+  var best = null; att.mv.forEach(function (name) { var mv = (S.moveBy || {})[name]; if (!mv || !mv.p || name === 'Hidden Power') return;
+    var c = def.cells[typesList.indexOf(mv.t)], x = c ? CELL[c][1] : 1; if (best == null || x > best.x) best = {x: x, mv: name}; });
+  return best || {x: null, mv: null};
+}
+function board(mine, them) {
+  var grid = mine.team.map(function (a) { return them.team.map(function (d) { return {off: bestHit(a, d, them.types), def: bestHit(d, a, mine.types)}; }); });
+  var score = grid.map(function (row) { return row.reduce(function (s, c) { return s + (c.off.x >= 2 ? 1 : 0) - (c.def.x >= 2 ? 1 : 0); }, 0); });
+  var pick = [], covered = {};
+  for (var k = 0; k < 3; k++) { var best = -Infinity, bi = -1; grid.forEach(function (row, i) { if (pick.indexOf(i) >= 0) return; var v = row.reduce(function (s, c, j) { return s + (c.off.x >= 2 && !covered[j] ? 2 : 0) - (c.def.x >= 2 ? 1 : 0); }, 0) + score[i] * .1; if (v > best) { best = v; bi = i; } });
+    if (bi < 0) break; pick.push(bi); grid[bi].forEach(function (c, j) { if (c.off.x >= 2) covered[j] = true; }); }
+  function fmt(x) { return x == null ? '–' : x === .5 ? '½' : x === .25 ? '¼' : String(x); }
+  function col(x, good) { return x == null ? 'var(--text-3)' : x >= 2 ? (good ? 'var(--forest-3)' : 'var(--ember-2)') : x < 1 ? (good ? 'var(--text-3)' : 'var(--forest-3)') : 'var(--text-2)'; }
+  return '<div style="overflow-x:auto"><table class="t board"><thead><tr><th>Yours ↓ · theirs →</th>' + them.team.map(function (d) { return '<th style="text-align:center"><img src="' + sprite(numOf(d.sp), them.game) + '" style="width:40px;height:40px;image-rendering:pixelated"><div class="tiny">' + esc(d.sp) + '</div></th>'; }).join('') + '<th>Net</th></tr></thead><tbody>' +
+    mine.team.map(function (a, i) { return '<tr' + (pick.indexOf(i) >= 0 ? ' style="background:rgba(201,169,106,.06)"' : '') + '><td style="white-space:nowrap"><img src="' + sprite(numOf(a.sp), mine.game) + '" style="width:36px;height:36px;vertical-align:middle;image-rendering:pixelated"> <b>' + esc(a.sp) + '</b>' + (pick.indexOf(i) >= 0 ? ' ' + chip('bring', 'gold') : '') + '</td>' +
+      grid[i].map(function (c) { return '<td style="text-align:center" title="' + esc((c.off.mv ? 'Your ' + c.off.mv + ': ×' + fmt(c.off.x) : 'no attack') + ' · ' + (c.def.mv ? 'their ' + c.def.mv + ': ×' + fmt(c.def.x) : 'no attack')) + '"><b class="mono" style="color:' + col(c.off.x, true) + '">' + fmt(c.off.x) + '</b><span class="tiny muted"> / </span><span class="mono small" style="color:' + col(c.def.x, false) + '">' + fmt(c.def.x) + '</span></td>'; }).join('') +
+      '<td class="num" style="color:' + (score[i] > 0 ? 'var(--forest-3)' : score[i] < 0 ? 'var(--ember-2)' : 'var(--text-2)') + '">' + (score[i] > 0 ? '+' : '') + score[i] + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+    '<div class="notice sim" style="margin-top:12px">Each cell: your best hit on them / their best hit on you, as a type multiplier. Type matchups only: not damage, speed, items or abilities. The three marked "bring" cover the most of their team between them.</div>';
+}
+function report(id) {
+  return Promise.all([reports(), withBuilds()]).then(function (res) {
+    var all = res[0], r = all.filter(function (x) { return x.id === id; })[0];
+    if (!r) return '<div class="empty">No report ' + esc(id) + '.</div>';
+    var mine = all.filter(function (x) { return x.mine; }), st = STATUS_CHIP[r.status] || [r.status, ''];
+    var pickId = store('board-mine') || 'me-heartgold', ace = numOf(r.ace);
+    after(function (p) { var sel = p.querySelector('#bsel'); if (sel) sel.addEventListener('change', function () { store(r.mine ? 'board-them' : 'board-mine', sel.value); var o = all.filter(function (x) { return x.id === sel.value; })[0]; p.querySelector('#board').innerHTML = r.mine ? board(r, o) : board(o, r); }); });
+    var other = r.mine ? all.filter(function (x) { return x.id === (store('board-them') || 'cynthia-champion-platinum'); })[0] || all.filter(function (x) { return !x.mine; })[0] : mine.filter(function (x) { return x.id === pickId; })[0] || mine[0];
+    var P = r.plan, Y = r.play;
+    function list(xs) { return (xs || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join(''); }
+    return '<a class="link" href="#/' + (r.mine ? 'teams' : 'scouting') + '">← ' + (r.mine ? 'Team reports' : 'All scouting reports') + '</a>' +
+      '<section class="report-hero"><div><div class="eyebrow">' + (r.mine ? 'Self-scout' : 'Advance scouting report') + ' · ' + esc(GAME_NAME[r.game] || r.game) + ' · Gen ' + r.gen + '</div><h1 style="margin:6px 0">' + esc(r.title) + '</h1>' +
+      '<div>' + chip(st[0], st[1]) + ' ' + r.tags.map(function (t) { return chip(t, 'gold'); }).join(' ') + '</div>' + (r.notes.length ? '<ul class="small muted" style="margin:12px 0 0;padding-left:18px">' + list(r.notes) + '</ul>' : '') + '</div>' +
+      '<div style="text-align:center"><div class="eyebrow">The ace</div><img src="' + art(ace) + '" style="width:170px;height:170px;object-fit:contain"><div class="serif" style="font-size:20px;color:var(--ivory)">' + esc(r.ace) + '</div></div>' +
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div class="eyebrow">Aggression</div>' + Art.ring(r.aggr / 100, r.aggr + '%', '#DE7C42', 96) + '<div class="tiny muted" style="max-width:150px;text-align:center">of their moves finish or set up</div></div></section>' +
+      '<div class="grid">' + [['Who they are', P.who, 'gold'], ['What to expect', P.expect, 'ice'], ['How to beat them', P.beat, 'forest'], ['Where it breaks', P.gap, 'ember']].map(function (b) {
+        return '<div class="c3">' + card(b[0], '<ul class="plan">' + list(b[1]) + '</ul>', {eyebrow: 'The plan', tools: false, cls: 'plan-' + b[2]}) + '</div>'; }).join('') + '</div>' +
+      '<div class="ornament" style="margin:26px 0 14px">the team</div><div class="grid">' + r.team.map(function (m) { return '<div class="c4">' + memberCard(m, r) + '</div>'; }).join('') + '</div>' +
+      '<div class="grid" style="margin-top:18px"><div class="c8">' + card('Where they\'re weak', matrix(r), {eyebrow: 'Defensive matrix', tools: false}) + '</div>' +
+      '<div class="c4">' + card('Read on the team', '<div class="eyebrow">Openings</div><div style="margin:6px 0 12px">' + (r.gaps.length ? r.gaps.map(typeBadge).join(' ') : '<span class="muted small">none shared by three or more</span>') + '</div>' +
+        '<div class="eyebrow">Walls</div><div style="margin:6px 0 12px">' + (r.strengths.length ? r.strengths.map(typeBadge).join(' ') : '<span class="muted small">none</span>') + '</div>' +
+        '<div class="eyebrow">Bring</div><div class="serif" style="font-size:20px;color:var(--ivory);margin:4px 0 8px">' + (r.bring === 'either' ? 'Either kind of attacker' : cap(r.bring) + ' attackers') + '</div>' +
+        '<dl class="kv"><dt>Physically soft</dt><dd>' + r.soft.physical + '</dd><dt>Specially soft</dt><dd>' + r.soft.special + '</dd><dt>Even</dt><dd>' + r.soft.even + '</dd><dt>Frail</dt><dd>' + r.soft.frail + '</dd><dt>Sturdy</dt><dd>' + r.soft.sturdy + '</dd></dl>', {eyebrow: 'Gaps, strengths, bulk', tools: false}) +
+        card('Sliders', Object.keys(r.sliders).map(function (k) { return sliderRow(k, r.sliders[k]); }).join('') + '<div class="tiny muted" style="margin-top:8px"><span style="color:var(--ivory)">●</span> authored · <span style="color:var(--ember-2)">◌</span> measured from the team</div>', {eyebrow: 'Style', tools: false, style: 'margin-top:18px'}) + '</div></div>' +
+      '<div style="margin-top:18px">' + card(r.mine ? 'Your six against a rival' : 'Bring from your six', '<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px"><span class="small muted">' + (r.mine ? 'Against' : 'Your team') + '</span><select class="f" id="bsel" style="width:auto">' +
+        (r.mine ? all.filter(function (x) { return !x.mine; }) : mine).map(function (x) { return '<option value="' + esc(x.id) + '"' + (x.id === other.id ? ' selected' : '') + '>' + esc(x.title) + '</option>'; }).join('') + '</select></div><div id="board">' + (r.mine ? board(r, other) : board(other, r)) + '</div>', {eyebrow: 'The matchup board', tools: false}) + '</div>' +
+      '<div class="grid" style="margin-top:18px"><div class="c7">' + card('The playsheet', [['Career', Y.career], ['Ace', Y.ace], ['Go-to by game state', Y.go_to], ['Coverage', Y.coverage], ['Combos to watch', Y.combos], ['Signature moves', Y.signature], ['Aggression', Y.aggression]].map(function (b) {
+          return '<div class="eyebrow" style="margin:12px 0 4px">' + b[0] + '</div><ul class="plan">' + list(b[1]) + '</ul>'; }).join(''), {eyebrow: 'How they play', tools: false}) + '</div>' +
+      '<div class="c5">' + card('Ladder notes', r.ladder.length ? '<ul class="plan">' + list(r.ladder) + '</ul>' : '<div class="empty">None of their team is on the ladder.</div>', {eyebrow: 'Smogon usage, for reference', tools: false}) +
+        card('Film', r.film.length ? '<ul class="plan">' + list(r.film) + '</ul>' : '<div class="empty">No film on file.</div>', {eyebrow: 'Battles on record', tools: false, style: 'margin-top:18px'}) + '</div></div>';
+  });
+}
+route(/^\/scouting\/?$/, scoutingIndex, 'Scouting reports', '#/scouting');
+route(/^\/scouting\/(.+)$/, report, function (i) { return 'Scouting · ' + reportTitle(i); }, '#/scouting');
+route(/^\/teams\/?$/, teamsIndex, 'Team reports', '#/teams');
+route(/^\/teams\/(.+)$/, report, function (i) { return 'Team report · ' + reportTitle(i); }, '#/teams');
+</script>

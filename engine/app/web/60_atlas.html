@@ -1,0 +1,153 @@
+<script>
+/* ===== Biological atlas, species pages, the research journal, search ======================================== */
+var HAB = {grassland: 'Grassland', forest: 'Forest', 'waters-edge': 'Water\'s edge', sea: 'Sea', cave: 'Cave', mountain: 'Mountain', 'rough-terrain': 'Rough terrain', urban: 'Urban', rare: 'Rare'};
+var KIND = {official: ['Official record', 'ice'], 'verified mechanic': ['Verified mechanic', 'forest'], observation: ['Personal observation', 'gold'],
+  hypothesis: ['Research hypothesis', 'violet'], 'world-building': ['World-building', 'ember']};
+function kindChip(k) { var x = KIND[k] || [k, '']; return chip(x[0], x[1]); }
+function residentsOf(name) { return S.hq.residents.filter(function (r) { return r.species === name; }); }
+function genderLine(gr) { return gr === -1 ? 'Genderless' : gr === 0 ? 'Always male' : gr === 8 ? 'Always female' : (100 - gr * 12.5) + '% ♂ · ' + (gr * 12.5) + '% ♀'; }
+function journalAll() {
+  return Promise.all([API.data('journal'), API.tab('Journal').catch(function () { return []; })]).then(function (r) {
+    var mine = (r[1] || []).map(function (e) { return {kind: e.kind || 'observation', sp: e.species || null, aspect: e.aspect || 'note', title: e.title, text: e.text, src: e.source || 'your journal', on: e.at, yours: true}; });
+    return mine.reverse().concat(r[0].entries);
+  });
+}
+function atlas() {
+  var res = {}; S.hq.residents.forEach(function (r) { res[r.species] = true; });
+  var groups = {}; S.atlas.species.forEach(function (s) { s.eg.forEach(function (g) { groups[g] = 1; }); });
+  after(function (p) {
+    var q = p.querySelector('#aq'), sel = p.querySelectorAll('select[data-f]'), only = p.querySelector('#ares'), tiles = p.querySelectorAll('.dex'), count = p.querySelector('#acount');
+    function run() {
+      var t = q.value.toLowerCase().trim(), f = {}, n = 0; sel.forEach(function (s) { f[s.getAttribute('data-f')] = s.value; });
+      tiles.forEach(function (el) { var d = el.dataset;
+        var ok = (!t || d.name.indexOf(t) >= 0 || d.no === t.replace(/^#?0*/, '')) && (!f.type || d.t.indexOf('|' + f.type + '|') >= 0) && (!f.gen || d.gen === f.gen) &&
+          (!f.hab || d.hab === f.hab) && (!f.eg || d.eg.indexOf('|' + f.eg + '|') >= 0) && (!only.checked || d.res === '1');
+        el.style.display = ok ? '' : 'none'; if (ok) n++; });
+      count.textContent = n + ' of ' + tiles.length;
+      store('atlas-f', {t: q.value, f: f, only: only.checked});
+    }
+    var st = store('atlas-f'); if (st) { q.value = st.t || ''; sel.forEach(function (s) { s.value = (st.f || {})[s.getAttribute('data-f')] || ''; }); only.checked = !!st.only; }
+    q.addEventListener('input', run); sel.forEach(function (s) { s.addEventListener('change', run); }); only.addEventListener('change', run); run();
+  });
+  function opts(list, label) { return '<option value="">' + label + '</option>' + list.map(function (x) { return '<option value="' + esc(x[0]) + '">' + esc(x[1]) + '</option>'; }).join(''); }
+  return '<div class="eyebrow">Pokédex atlas & biological research</div><h1 style="margin:6px 0">The Biological Atlas</h1>' +
+    '<p class="lede">Every species of Generations I–IV as a living animal: what it eats, where it lives, how it breeds, how long its eggs take to hatch. Gold marks the ones living at Blackthorn.</p>' +
+    '<div class="card" style="margin-top:16px"><div class="bd"><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">' +
+    '<input class="f" id="aq" placeholder="Name or number" style="flex:1;min-width:180px">' +
+    '<select class="f" data-f="type" style="width:auto">' + opts(Object.keys(TYPE).map(function (t) { return [t, t]; }), 'Any type') + '</select>' +
+    '<select class="f" data-f="gen" style="width:auto">' + opts([['1', 'Gen I · Kanto'], ['2', 'Gen II · Johto'], ['3', 'Gen III · Hoenn'], ['4', 'Gen IV · Sinnoh']], 'Any generation') + '</select>' +
+    '<select class="f" data-f="hab" style="width:auto">' + opts(Object.keys(HAB).map(function (h) { return [h, HAB[h]]; }), 'Any habitat') + '</select>' +
+    '<select class="f" data-f="eg" style="width:auto">' + opts(Object.keys(groups).sort().map(function (g) { return [g, g]; }), 'Any egg group') + '</select>' +
+    '<label class="small" style="display:flex;gap:6px;align-items:center;color:var(--text-2)"><input type="checkbox" id="ares"> At Blackthorn</label><span class="tiny muted" id="acount"></span></div></div></div>' +
+    '<div class="dexgrid" style="margin-top:16px">' + S.atlas.species.map(function (s) {
+      return '<a class="dex" href="#/atlas/' + s.n + '" data-name="' + esc(s.name.toLowerCase()) + '" data-no="' + s.n + '" data-t="|' + s.t.join('|') + '|" data-gen="' + s.gen + '" data-hab="' + esc(s.hab || '') + '" data-eg="|' + s.eg.join('|') + '|" data-res="' + (res[s.name] ? 1 : 0) + '" style="color:inherit' + (res[s.name] ? ';border-color:var(--gold-line)' : '') + '">' +
+        '<span class="no">#' + String(s.n).padStart(3, '0') + '</span>' + (res[s.name] ? '<span class="res">✦</span>' : '') + '<img src="' + art(s.n) + '" loading="lazy" alt="">' +
+        '<div class="nm">' + esc(s.name) + '</div><div style="margin-top:4px">' + s.t.map(function (t) { return '<span class="type" style="background:' + TYPE[t] + ';font-size:9.5px;padding:1px 6px">' + t + '</span>'; }).join(' ') + '</div></a>';
+    }).join('') + '</div>';
+}
+function evoLine(s) {
+  var root = s; while (root.from && DEX.byNum[root.from]) root = DEX.byNum[root.from];
+  var kids = {}; S.atlas.species.forEach(function (x) { if (x.from) (kids[x.from] = kids[x.from] || []).push(x); });
+  function draw(x) { var k = kids[x.n] || [];
+    return '<div style="display:flex;align-items:center;gap:10px"><a href="#/atlas/' + x.n + '" style="text-align:center;color:inherit;' + (x.n === s.n ? 'opacity:1' : 'opacity:.72') + '"><img src="' + art(x.n) + '" style="width:' + (x.n === s.n ? 92 : 70) + 'px;height:' + (x.n === s.n ? 92 : 70) + 'px;object-fit:contain"><div class="small' + (x.n === s.n ? '' : ' muted') + '">' + esc(x.name) + '</div></a>' +
+      (k.length ? '<span style="color:var(--gold)">→</span><div style="display:flex;flex-direction:column;gap:6px">' + k.map(draw).join('') + '</div>' : '') + '</div>'; }
+  return draw(root);
+}
+function species(n) {
+  var s = DEX.byNum[n] || dexOf(n); if (!s) return '<div class="empty">No species ' + esc(n) + ' in the atlas.</div>';
+  return Promise.all([journalAll(), API.data('builds')]).then(function (r) {
+    S.builds = r[1];
+    var notes = r[0].filter(function (e) { return e.sp === s.name; }), base = {}; STATS.forEach(function (k, i) { base[k] = s.b[i]; });
+    var bst = s.b.reduce(function (a, b) { return a + b; }, 0), res = residentsOf(s.name), d = defenses(s.t);
+    var weak = Object.keys(d).filter(function (t) { return d[t] > 1; }), resist = Object.keys(d).filter(function (t) { return d[t] < 1 && d[t] > 0; }), immune = Object.keys(d).filter(function (t) { return d[t] === 0; });
+    var ladder = Object.keys(r[1].ladder).map(function (k) { var L = r[1].ladder[k], x = L.species.filter(function (y) { return y.sp === s.name; })[0]; return x ? {L: L, x: x} : null; }).filter(Boolean);
+    var lib = r[1].library.filter(function (b) { return b.sp === s.name; });
+    var proj = S.hq.program.filter(function (p) { return p.species === s.name || p.hatches_as === s.name; });
+    var party = S.hq.party.filter(function (p) { return p.sp === s.name; })[0];
+    var aspects = {}; notes.forEach(function (e) { (aspects[e.aspect] = aspects[e.aspect] || []).push(e); });
+    var prev = DEX.byNum[s.n - 1], next = DEX.byNum[s.n + 1];
+    return '<div style="display:flex;justify-content:space-between"><a class="link" href="#/atlas">← The atlas</a><span class="small">' + (prev ? '<a class="link" href="#/atlas/' + prev.n + '">← ' + esc(prev.name) + '</a>' : '') + (next ? ' &nbsp; <a class="link" href="#/atlas/' + next.n + '">' + esc(next.name) + ' →</a>' : '') + '</span></div>' +
+      '<div class="grid" style="align-items:center;margin-top:10px"><div class="c4" style="text-align:center;position:relative"><div style="position:absolute;inset:10% 10%;border-radius:50%;background:radial-gradient(circle, ' + TYPE[s.t[0]] + '33, transparent 70%)"></div><img src="' + art(s.n) + '" style="width:100%;max-width:340px;position:relative"></div>' +
+      '<div class="c8"><div class="eyebrow">#' + String(s.n).padStart(3, '0') + ' · ' + esc(s.genus) + ' · Generation ' + s.gen + '</div><h1 style="margin:6px 0;font-size:54px">' + esc(s.name) + '</h1><div>' + types(s.t) + (res.length ? ' ' + chip('lives at ' + res[0].site, 'gold') : '') + (party ? ' ' + chip('in the HeartGold party', 'violet') : '') + '</div>' +
+      '<blockquote class="serif" style="font-size:21px;line-height:1.45;color:var(--ivory);margin:16px 0 4px;border-left:2px solid var(--gold);padding-left:16px">' + esc(s.dex) + '</blockquote><div class="tiny muted" style="padding-left:18px">Pokédex · ' + esc(GAME_NAME[s.dexg] || s.dexg) + '</div>' +
+      '<dl class="kv" style="margin-top:16px;grid-template-columns:auto 1fr auto 1fr"><dt>Height</dt><dd>' + s.h + ' m</dd><dt>Weight</dt><dd>' + s.w + ' kg</dd><dt>Habitat</dt><dd>' + esc(HAB[s.hab] || '—') + '</dd><dt>Gender</dt><dd>' + genderLine(s.gr) + '</dd>' +
+      '<dt>Abilities</dt><dd>' + esc(s.ab.join(', ')) + '</dd><dt>Egg groups</dt><dd>' + esc(s.eg.join(', ')) + '</dd><dt>Egg cycles</dt><dd>' + s.cyc + ' · ' + (s.cyc * 255).toLocaleString() + ' steps</dd><dt>Hatching loop</dt><dd>' + s.cyc + ' laps · ' + Math.ceil(s.cyc / 2) + ' with Magcargo</dd></dl></div></div>' +
+      '<div class="grid" style="margin-top:8px">' +
+      '<div class="c4">' + card('Base stats', statBars(base) + '<div class="goal" style="border-top:1px solid var(--gold-line);margin-top:8px"><span class="small muted">Total</span><b class="serif num" style="font-size:22px">' + bst + '</b></div>', {eyebrow: 'The species', tools: false}) + '</div>' +
+      '<div class="c4">' + card('Takes from attacks', '<div class="eyebrow" style="margin-bottom:6px">Weak to</div>' + (weak.length ? weak.map(function (t) { return typeBadge(t) + '<span class="tiny muted"> ×' + d[t] + '</span>'; }).join(' ') : '<span class="muted small">nothing</span>') +
+        '<div class="eyebrow" style="margin:12px 0 6px">Resists</div>' + (resist.length ? resist.map(function (t) { return typeBadge(t) + '<span class="tiny muted"> ×' + d[t] + '</span>'; }).join(' ') : '<span class="muted small">nothing</span>') +
+        (immune.length ? '<div class="eyebrow" style="margin:12px 0 6px">Immune</div>' + immune.map(typeBadge).join(' ') : ''), {eyebrow: 'Gen IV type chart', tools: false}) + '</div>' +
+      '<div class="c4">' + card('The family', '<div style="overflow-x:auto">' + evoLine(s) + '</div>', {eyebrow: 'Evolution', tools: false}) + '</div>' +
+      (res.length || proj.length ? '<div class="c12">' + card('At Blackthorn', res.map(function (x) { return '<div class="line"><b>' + esc(x.chapter) + ' ' + esc(x.species) + (x.kind && x.kind !== 'companion' ? ' (' + esc(x.kind) + ')' : '') + '</b> · ' + esc(x.site) + ' · ' + esc(x.land) + ' · ' + esc(x.size) + ' · water: ' + esc(x.water) + '<div class="tiny muted">' + esc(x.jobs.join(' · ')) + '</div></div>'; }).join('') +
+        proj.map(function (p) { return '<div class="line"><a class="link" href="#/breeding/project/' + encodeURIComponent(p.species) + '">Breeding project: ' + esc(p.species) + ' line → ' + esc(p.egg_moves.join(', ')) + '</a> ' + chip(p.status) + '</div>'; }).join(''), {eyebrow: 'Residents, jobs and breeding', tools: false}) + '</div>' : '') +
+      '<div class="c7">' + card('Field notes', (notes.length ? Object.keys(aspects).map(function (a) { return '<div class="eyebrow" style="margin:10px 0 4px">' + esc(a) + '</div>' + aspects[a].map(function (e) {
+        return '<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div class="small" style="color:var(--text)">' + esc(e.text) + '</div><div class="tiny muted" style="margin-top:3px">' + kindChip(e.kind) + ' ' + srcLink(e.src) + '</div></div>'; }).join(''); }).join('') : '<div class="empty">No field notes yet.</div>') +
+        '<div style="margin-top:12px"><button class="btn sm" onclick="openForm(\'note\');setTimeout(function(){var i=document.querySelector(\'[name=species]\');if(i)i.value=\'' + esc(s.name) + '\'},50)">+ Add an observation</button></div>', {eyebrow: 'Research journal · ' + plural(notes.length, 'note'), tools: false}) + '</div>' +
+      '<div class="c5">' + card('On the ladder', ladder.length ? ladder.map(function (o) { var x = o.x, top = x.sets[0];
+        return '<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div class="goal" style="padding:0"><b>' + esc(o.L.label) + ' · #' + x.rank + '</b><span class="serif num" style="font-size:20px">' + x.use + '%</span></div><div class="tiny muted">of teams, ' + esc(o.L.month) + ' (rated ' + o.L.cutoff + '+)</div>' +
+          (top ? '<div class="small" style="margin-top:6px">' + esc(top.mv.join(' · ')) + ' @ ' + esc(top.item) + '</div>' : '') +
+          '<div class="tiny muted" style="margin-top:4px">Checked by ' + esc(x.checks.map(function (c) { return c[0] + ' ' + c[1] + '%'; }).join(', ')) + '</div></div>'; }).join('') + '<div style="margin-top:10px"><a class="link" href="#/builds/ladder">The ladder book →</a></div>' : '<div class="empty">Not in the top 40 of Gen 2–4 OU.</div>', {eyebrow: 'Smogon usage', tools: false}) +
+        (lib.length ? card('Builds in the library', lib.slice(0, 6).map(function (b) { return '<a class="line" style="display:block;color:inherit" href="#/builds/lab?b=' + encodeURIComponent(b.id) + '"><b>' + esc(b.name) + '</b> <span class="tiny muted">Gen ' + b.gen + ' · ' + esc(srcShort(b.src)) + '</span><div class="tiny muted">' + esc(b.mv.join(' · ')) + '</div></a>'; }).join('') +
+          (lib.length > 6 ? '<a class="link small" href="#/builds?q=' + encodeURIComponent(s.name) + '">All ' + lib.length + ' in the library →</a>' : ''), {eyebrow: 'Open one in the Lab', tools: false, style: 'margin-top:18px'}) : '') + '</div>' +
+      '</div>';
+  });
+}
+function srcShort(src) { src = String(src || ''); return /replay\.pokemonshowdown/.test(src) ? 'a ladder replay' : src.replace(/https?:\/\/\S+/, '').replace(/[:\s]+$/, ''); }
+function srcLink(src) { src = String(src || ''); var m = src.match(/https?:\/\/\S+/); return m ? '<a class="link" href="' + esc(m[0]) + '" target="_blank" rel="noopener">' + esc(src.replace(m[0], 'video').trim()) + ' ↗</a>' : esc(src); }
+function journal() {
+  return journalAll().then(function (all) {
+    var counts = {}; all.forEach(function (e) { counts[e.kind] = (counts[e.kind] || 0) + 1; });
+    var aspects = {}; all.forEach(function (e) { aspects[e.aspect] = 1; });
+    after(function (p) {
+      var q = p.querySelector('#jq'), ks = p.querySelectorAll('[data-kind]'), asp = p.querySelector('#jasp'), out = p.querySelector('#jout'), more = p.querySelector('#jmore'), shown = 60, on = store('journal-kinds') || {};
+      ks.forEach(function (b) { if (on[b.getAttribute('data-kind')] === false) b.classList.add('off'); });
+      function list() {
+        var t = q.value.toLowerCase().trim(), a = asp.value;
+        return all.filter(function (e) { return on[e.kind] !== false && (!a || e.aspect === a) && (!t || (e.text + ' ' + (e.sp || '') + ' ' + (e.title || '')).toLowerCase().indexOf(t) >= 0); });
+      }
+      function draw() {
+        var L = list();
+        out.innerHTML = L.slice(0, shown).map(function (e) { var n = numOf(e.sp);
+          return '<div style="display:grid;grid-template-columns:52px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)">' + (n ? '<a href="#/atlas/' + n + '"><img src="' + art(n) + '" style="width:52px;height:52px;object-fit:contain" loading="lazy"></a>' : '<div style="width:52px;height:52px;display:grid;place-items:center;color:var(--gold)">' + Art.icon('journal') + '</div>') +
+            '<div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + kindChip(e.kind) + (e.sp ? '<a class="small" href="#/atlas/' + n + '" style="color:var(--ivory);font-weight:600">' + esc(e.sp) + '</a>' : '') + '<span class="tiny muted">' + esc(e.aspect) + (e.id ? ' · ' + esc(e.id) : '') + (e.on ? ' · ' + fmtLoose(e.on) : '') + '</span>' + (e.yours ? chip('yours', 'gold') : '') + '</div>' +
+            (e.title ? '<div class="serif" style="font-size:18px;color:var(--ivory);margin-top:4px">' + esc(e.title) + '</div>' : '') + '<div class="small" style="margin-top:4px;color:var(--text)">' + esc(e.text) + '</div><div class="tiny muted" style="margin-top:4px">' + srcLink(e.src) + '</div></div></div>'; }).join('') || '<div class="empty">Nothing matches.</div>';
+        more.style.display = L.length > shown ? '' : 'none'; more.textContent = 'Show more (' + (L.length - shown) + ' left)';
+      }
+      ks.forEach(function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-kind'); on[k] = on[k] === false; b.classList.toggle('off', on[k] === false); store('journal-kinds', on); shown = 60; draw(); }); });
+      q.addEventListener('input', function () { shown = 60; draw(); }); asp.addEventListener('change', function () { shown = 60; draw(); });
+      more.addEventListener('click', function () { shown += 60; draw(); }); draw();
+    });
+    return '<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><div class="eyebrow">Research journal & field notes</div><h1 style="margin:6px 0">The Research Journal</h1>' +
+      '<p class="lede">What the games say, what\'s been verified, what you\'ve watched, and what you\'ve made up, kept apart so nobody mistakes a story for a fact.</p></div><button class="btn gold" onclick="openForm(\'note\')">+ New entry</button></div>' +
+      '<div class="grid" style="margin-top:16px"><div class="c3">' + card('Kinds of knowledge', Object.keys(KIND).map(function (k) {
+        return '<button class="kindbtn" data-kind="' + esc(k) + '"><span>' + kindChip(k) + '</span><b class="num">' + (counts[k] || 0) + '</b></button>'; }).join('') +
+        '<p class="tiny muted" style="margin-top:12px">Official: the Pokédex and the games. Verified: checked against PokeAPI and Showdown. Observation: you saw it. Hypothesis: you think it. World-building: you decided it.</p>', {eyebrow: 'Tap to show or hide', tools: false}) + '</div>' +
+      '<div class="c9">' + card('Entries', '<div style="display:flex;gap:10px;margin-bottom:6px"><input class="f" id="jq" placeholder="Search the journal: a species, a word, a place…" style="flex:1"><select class="f" id="jasp" style="width:auto"><option value="">Any aspect</option>' + Object.keys(aspects).sort().map(function (a) { return '<option>' + esc(a) + '</option>'; }).join('') + '</select></div>' +
+        '<div id="jout"></div><div style="text-align:center;margin-top:12px"><button class="btn sm" id="jmore">Show more</button></div>', {eyebrow: plural(all.length, 'entry', 'entries'), tools: false}) + '</div></div>';
+  });
+}
+function search(q) {
+  var t = String(q || '').toLowerCase().trim();
+  return Promise.all([API.data('scouting'), API.data('builds'), journalAll(), studbook()]).then(function (r) {
+    function has(s) { return String(s || '').toLowerCase().indexOf(t) >= 0; }
+    var sp = S.atlas.species.filter(function (s) { return has(s.name) || has(s.genus) || String(s.n) === t; }).slice(0, 24);
+    var rep = r[0].reports.filter(function (x) { return has(x.title) || has(x.name) || x.team.some(function (m) { return has(m.sp); }); }).slice(0, 12);
+    var bl = r[1].library.filter(function (b) { return has(b.name) || has(b.sp) || b.mv.some(has); }).slice(0, 12);
+    var jn = r[2].filter(function (e) { return has(e.text) || has(e.title); }).slice(0, 12);
+    var sb = r[3].filter(function (x) { return has(x.name) || has(x.id); }).slice(0, 12);
+    var dc = S.hq.decisions.filter(function (d) { return has(d.title) || has(d.id); }).slice(0, 12);
+    function block(title, items, fn) { return items.length ? card(title, items.map(fn).join(''), {eyebrow: plural(items.length, 'match', 'matches'), tools: false, style: 'margin-top:18px'}) : ''; }
+    var body = (sp.length ? '<div class="dexgrid" style="margin-top:16px">' + sp.map(function (s) { return '<a class="dex" href="#/atlas/' + s.n + '" style="color:inherit"><span class="no">#' + String(s.n).padStart(3, '0') + '</span><img src="' + art(s.n) + '" loading="lazy"><div class="nm">' + esc(s.name) + '</div></a>'; }).join('') + '</div>' : '') +
+      block('Scouting reports', rep, function (x) { return '<a class="line" style="display:block;color:inherit" href="#/' + (x.mine ? 'teams' : 'scouting') + '/' + encodeURIComponent(x.id) + '"><b>' + esc(x.title) + '</b> <span class="tiny muted">' + esc(x.team.map(function (m) { return m.sp; }).join(', ')) + '</span></a>'; }) +
+      block('Builds', bl, function (b) { return '<a class="line" style="display:block;color:inherit" href="#/builds/lab?b=' + encodeURIComponent(b.id) + '"><b>' + esc(b.sp) + ': ' + esc(b.name) + '</b> <span class="tiny muted">' + esc(b.mv.join(' · ')) + '</span></a>'; }) +
+      block('Studbook', sb, function (x) { return '<a class="line" style="display:block;color:inherit" href="#/breeding/tree/' + encodeURIComponent(x.id) + '"><b>' + esc(x.name) + '</b> <span class="tiny muted mono">' + esc(x.id) + '</span></a>'; }) +
+      block('Journal', jn, function (e) { return '<div class="line small">' + kindChip(e.kind) + ' <b>' + esc(e.sp || '') + '</b> ' + esc(e.text) + '</div>'; }) +
+      block('Decisions', dc, function (d) { return '<a class="line small" style="display:block;color:inherit" href="#/record"><b class="mono">' + esc(d.id) + '</b> ' + esc(d.title) + ' ' + chip(d.status) + '</a>'; });
+    return '<div class="eyebrow">Search</div><h1 style="margin:6px 0">“' + esc(q) + '”</h1>' + (body || '<div class="empty" style="margin-top:16px">Nothing found for that.</div>');
+  });
+}
+route(/^\/atlas\/?$/, atlas, 'Biological atlas', '#/atlas');
+route(/^\/atlas\/(\w+)$/, species, function (n) { var s = DEX.byNum[n] || dexOf(n); return 'Atlas · ' + (s ? s.name : n); }, '#/atlas');
+route(/^\/journal\/?$/, journal, 'Research journal', '#/journal');
+route(/^\/search\/(.*)$/, search, 'Search', '-');
+</script>

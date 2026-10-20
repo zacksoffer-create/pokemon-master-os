@@ -1,0 +1,194 @@
+<script>
+/* ===== Core: data, routing, and the pieces every page shares ================================================ */
+var S = {live: {}, cache: {}};
+var TYPE = {Normal: '#A8A77A', Fire: '#EE8130', Water: '#6390F0', Electric: '#F7D02C', Grass: '#7AC74C', Ice: '#96D9D6',
+  Fighting: '#C22E28', Poison: '#A33EA1', Ground: '#E2BF65', Flying: '#A98FF3', Psychic: '#F95587', Bug: '#A6B91A',
+  Rock: '#B6A136', Ghost: '#735797', Dragon: '#6F35FC', Dark: '#705746', Steel: '#B7B7CE'};
+var STATS = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'], STAT_NAME = {hp: 'HP', atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe'};
+var SPR = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/';
+var GAME_SET = {crystal: 'versions/generation-ii/crystal/transparent/', firered: 'versions/generation-iii/firered-leafgreen/', emerald: 'versions/generation-iii/emerald/',
+  platinum: 'versions/generation-iv/platinum/', soulsilver: 'versions/generation-iv/heartgold-soulsilver/', heartgold: 'versions/generation-iv/heartgold-soulsilver/'};
+var GAME_NAME = {crystal: 'Crystal', firered: 'FireRed', emerald: 'Emerald', platinum: 'Platinum', soulsilver: 'SoulSilver', heartgold: 'HeartGold'};
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]; }); }
+function art(n) { return n ? SPR + 'pokemon/other/official-artwork/' + n + '.png' : ''; }
+function sprite(n, game) { return n ? SPR + 'pokemon/' + (GAME_SET[game] || GAME_SET.heartgold) + n + '.png' : ''; }
+function itemSprite(name) { return name ? SPR + 'items/' + String(name).toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/ /g, '-') + '.png' : ''; }
+function typeBadge(t) { return '<span class="type" style="background:' + (TYPE[t] || '#666') + '">' + esc(t) + '</span>'; }
+function types(ts) { return (ts || []).map(typeBadge).join(' '); }
+function chip(text, kind) { return '<span class="chip ' + (kind || '') + '">' + esc(text) + '</span>'; }
+function plural(n, a, b) { return n + ' ' + (n === 1 ? a : (b || a + 's')); }
+function cap(s) { s = String(s || ''); return s.charAt(0).toUpperCase() + s.slice(1); }
+function join(xs) { xs = (xs || []).filter(Boolean); return xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1]; }
+function fmtDate(d) { d = d instanceof Date ? d : new Date(d); return isNaN(d) ? '' : d.toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'}); }
+function fmtTime(d) { d = d instanceof Date ? d : new Date(d); return isNaN(d) ? '' : d.toLocaleString(undefined, {month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'}); }
+function ago(d) { var s = (Date.now() - new Date(d)) / 1000; if (isNaN(s)) return ''; if (s < 90) return 'just now'; if (s < 5400) return Math.round(s / 60) + ' min ago';
+  if (s < 129600) return Math.round(s / 3600) + ' h ago'; return Math.round(s / 86400) + ' d ago'; }
+function dateKey(s) { if (/\dT\d/.test(String(s)) && !isNaN(new Date(s))) return new Date(s).getTime(); var m = String(s || '').match(/(\d{4})-(\d{2})(?:-(\d{2}))?/); return m ? new Date(+m[1], +m[2] - 1, +(m[3] || 1)).getTime() : (new Date(s).getTime() || 0); }
+function fmtLoose(s) { var m = String(s || '').match(/(\d{4})-(\d{2})(?:-(\d{2}))?/); if (!m) return fmtDate(s);
+  var d = new Date(+m[1], +m[2] - 1, +(m[3] || 1)); return m[3] ? fmtDate(d) : d.toLocaleDateString(undefined, {month: 'short', year: 'numeric'}); }
+function hrs(h) { return h < 1 ? Math.round(h * 60) + ' min' : h < 48 ? (Math.round(h * 10) / 10) + ' h' : Math.round(h / 24) + ' d'; }
+
+/* ---- the data layer: google.script.run in the web app, a mock in the preview ---- */
+var API = {
+  run: function (fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return new Promise(function (res, rej) {
+      var r = google.script.run.withSuccessHandler(res).withFailureHandler(function (e) { rej(e); });
+      r[fn].apply(r, args);
+    });
+  },
+  data: function (name) {
+    if (!S.cache[name]) S.cache[name] = API.run('apiData', name).then(function (t) { return typeof t === 'string' ? JSON.parse(t) : t; });
+    return S.cache[name];
+  },
+  tab: function (name, fresh) {
+    if (fresh || !S.live[name]) S.live[name] = API.run('apiTab', name);
+    return S.live[name];
+  },
+  append: function (tab, obj) {
+    return API.run('apiAppend', tab, obj).then(function (r) { S.live[tab] = null; S.live.Timeline = null; return r; });
+  }
+};
+
+/* ---- species lookup ---- */
+var DEX = {byName: {}, byNum: {}};
+function indexAtlas(a) { (a.species || []).forEach(function (s) { DEX.byName[s.name] = s; DEX.byNum[s.n] = s; }); }
+function dexOf(name) {
+  if (!name) return null;
+  var base = String(name).split('-')[0];
+  return DEX.byName[name] || DEX.byName[base] || null;
+}
+function numOf(name) { var s = dexOf(name); return s ? s.n : (S.hq && S.hq.numbers && S.hq.numbers[name]) || null; }
+
+/* ---- the stat formulas (engine/trainers/era.py, verified against Smogon's calc, E-038) ---- */
+function calcStats(base, gen, level, nature, ivs, evs) {
+  var up = null, down = null, out = {};
+  if (gen >= 3 && nature) { var n = (S.builds && S.builds.natures || []).filter(function (x) { return x.name === nature; })[0]; if (n) { up = n.up; down = n.down; } }
+  ivs = Object.assign({hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31}, ivs || {});
+  evs = Object.assign({hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0}, evs || {});
+  if (gen <= 2) {
+    var dv = {}; STATS.forEach(function (s) { dv[s] = Math.floor(ivs[s] / 2); });
+    dv.spd = dv.spa; dv.hp = (dv.atk % 2) * 8 + (dv.def % 2) * 4 + (dv.spe % 2) * 2 + dv.spa % 2;
+    STATS.forEach(function (s) { ivs[s] = dv[s] * 2; }); evs.spd = evs.spa;
+  }
+  STATS.forEach(function (s, i) {
+    var core = Math.floor((2 * base[i] + ivs[s] + Math.floor(evs[s] / 4)) * level / 100);
+    out[s] = s === 'hp' ? (base[i] === 1 ? 1 : core + level + 10) : Math.floor((core + 5) * (s === up ? 110 : s === down ? 90 : 100) / 100);
+  });
+  return out;
+}
+var HP_TYPES = ['Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'];
+function hiddenPower(gen, ivs) {
+  if (gen <= 2) {
+    var d = {atk: Math.floor(ivs.atk / 2), def: Math.floor(ivs.def / 2), spe: Math.floor(ivs.spe / 2), spc: Math.floor(ivs.spa / 2)};
+    var t = HP_TYPES[4 * (d.atk % 4) + (d.def % 4)];
+    var p = Math.floor((5 * ((d.spc >> 3) + 2 * (d.spe >> 3) + 4 * (d.def >> 3) + 8 * (d.atk >> 3)) + Math.min(d.spc % 4, 3)) / 2) + 31;
+    return {type: t, power: p};
+  }
+  var order = ['hp', 'atk', 'def', 'spe', 'spa', 'spd'], a = 0, b = 0;
+  order.forEach(function (s, i) { a += (ivs[s] % 2) << i; b += ((ivs[s] >> 1) % 2) << i; });
+  return {type: HP_TYPES[Math.floor(a * 15 / 63)], power: Math.floor(b * 40 / 63) + 30};
+}
+function characteristic(ivs) {
+  var order = ['hp', 'atk', 'def', 'spe', 'spa', 'spd'], best = order[0];
+  order.forEach(function (s) { if (ivs[s] > ivs[best]) best = s; });
+  var c = (S.builds && S.builds.characteristics || []).filter(function (x) { return x.stat === best && x.mod === ivs[best] % 5; })[0];
+  return c ? c.text : '';
+}
+function gen2Gender(rate, atkIV) {
+  var dv = Math.floor(atkIV / 2), cut = {1: 1, 2: 3, 4: 7, 6: 11}[rate];
+  if (rate === -1) return 'genderless'; if (rate === 0) return 'male'; if (rate === 8) return 'female';
+  return dv <= cut ? 'female' : 'male';
+}
+function gen2Shiny(ivs) { var a = Math.floor(ivs.atk / 2); return Math.floor(ivs.def / 2) === 10 && Math.floor(ivs.spe / 2) === 10 && Math.floor(ivs.spa / 2) === 10 && [2, 3, 6, 7, 10, 11, 14, 15].indexOf(a) >= 0; }
+function evLine(ev) { if (!ev) return ''; if (Array.isArray(ev)) { var o = {}; STATS.forEach(function (s, i) { o[s] = ev[i]; }); ev = o; }
+  return STATS.filter(function (s) { return ev[s]; }).map(function (s) { return ev[s] + ' ' + STAT_NAME[s]; }).join(' / '); }
+function pasteOf(s, gen) {
+  var L = [s.sp + (s.item ? ' @ ' + s.item : '')];
+  if (gen >= 3 && s.ab) L.push('Ability: ' + s.ab);
+  if (s.lv && s.lv !== 100) L.push('Level: ' + s.lv);
+  if (gen >= 3 && s.ev && evLine(s.ev)) L.push('EVs: ' + evLine(s.ev));
+  if (gen >= 3 && s.nat) L.push(s.nat + ' Nature');
+  if (s.iv) { var iv = Array.isArray(s.iv) ? s.iv : STATS.map(function (k) { return s.iv[k] == null ? 31 : s.iv[k]; });
+    var txt = STATS.filter(function (k, i) { return iv[i] !== 31; }).map(function (k, i) { return iv[STATS.indexOf(k)] + ' ' + STAT_NAME[k]; }).join(' / ');
+    if (txt) L.push('IVs: ' + txt); }
+  (s.mv || []).forEach(function (m) { L.push('- ' + m); });
+  return L.join('\n');
+}
+function defenses(ts) {
+  var b = S.builds; if (!b) return {};
+  var out = {};
+  b.types.forEach(function (a, i) { var m = 1; (ts || []).forEach(function (d) { var j = b.types.indexOf(d); if (j >= 0) m *= b.chart[i][j]; }); out[a] = m; });
+  return out;
+}
+
+/* ---- shell: rail, top bar, router ---- */
+var NAV = [
+  ['HEADQUARTERS', [['home', '#/', 'Home'], ['estate', '#/estate', 'The Estate'], ['glass', '#/glasshouse', 'The Glasshouse']]],
+  ['BREEDER', [['breed', '#/breeding', 'Breeding & lineage'], ['atlas', '#/atlas', 'Biological atlas'], ['journal', '#/journal', 'Research journal']]],
+  ['CHAMPION', [['scout', '#/scouting', 'Scouting reports'], ['teams', '#/teams', 'Team reports'], ['builds', '#/builds', 'Builds & the Lab']]],
+  ['RECORD', [['calls', '#/calls', 'Your calls'], ['record', '#/record', 'The record']]]
+];
+var ROUTES = [];
+function route(re, fn, crumb, nav) { ROUTES.push({re: re, fn: fn, crumb: crumb, nav: nav}); }
+function shell() {
+  var d = new Date();
+  document.body.innerHTML =
+    '<div class="app"><aside class="rail" id="rail"><div class="crest">' + Art.crest(42) + '<div><b>Blackthorn</b><span>World Headquarters</span></div></div>' +
+    '<nav class="nav">' + NAV.map(function (g) { return '<div class="nav-group">' + g[0] + '</div>' + g[1].map(function (n) {
+      return '<a href="' + n[1] + '" data-nav="' + n[1] + '">' + Art.icon(n[0]) + '<span>' + n[2] + '</span></a>'; }).join(''); }).join('') + '</nav>' +
+    '<div class="rail-foot">Luxury in presentation. Science in structure. Pokémon in identity. Life in every environment.</div></aside>' +
+    '<div class="main"><header class="topbar"><button class="menu-btn" onclick="document.getElementById(\'rail\').classList.toggle(\'on\')">☰</button>' +
+    '<div class="crumbs" id="crumbs"></div><div class="sp"></div>' +
+    '<label class="search">⌕ <input id="q" placeholder="Search Pokémon, trainers, builds…" autocomplete="off"></label>' +
+    '<span class="pill">' + cap(Art.seasonNow(d)) + ' · ' + fmtDate(d) + '</span></header><main class="page" id="page"></main></div></div>' +
+    '<div class="drawer-bg" id="dbg" onclick="closeDrawer()"></div><aside class="drawer" id="drawer"><div class="x"><button class="btn sm" onclick="closeDrawer()">Close ✕</button></div><div class="in" id="din"></div></aside>';
+  document.getElementById('q').addEventListener('keydown', function (e) { if (e.key === 'Enter') location.hash = '#/search/' + encodeURIComponent(this.value); });
+}
+function go() {
+  var h = location.hash || '#/', path = h.slice(1) || '/';
+  var r = ROUTES.filter(function (x) { return x.re.test(path); })[0] || ROUTES[0];
+  var m = path.match(r.re) || [];
+  document.querySelectorAll('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === (r.nav || '#/')); });
+  document.getElementById('rail').classList.remove('on');
+  var page = document.getElementById('page');
+  page.innerHTML = '<div class="empty">Opening…</div>';
+  Promise.resolve(r.fn.apply(null, m.slice(1).map(decodeURIComponent))).then(function (html) {
+    if (typeof html === 'string') page.innerHTML = html;
+    document.getElementById('crumbs').innerHTML = '<b>Blackthorn</b> · ' + esc(typeof r.crumb === 'function' ? r.crumb.apply(null, m.slice(1).map(decodeURIComponent)) : r.crumb);
+    window.scrollTo(0, 0);
+    (page._after || []).forEach(function (f) { f(page); }); page._after = [];
+  }).catch(function (e) { page.innerHTML = '<div class="notice">Something went wrong opening this page: ' + esc(e && e.message || e) + '</div>'; console.error(e); });
+}
+function after(fn) { var p = document.getElementById('page'); (p._after = p._after || []).push(fn); }
+function openDrawer(html) { document.getElementById('din').innerHTML = html; document.getElementById('drawer').classList.add('on'); document.getElementById('dbg').classList.add('on'); document.getElementById('drawer').scrollTop = 0; }
+function closeDrawer() { document.getElementById('drawer').classList.remove('on'); document.getElementById('dbg').classList.remove('on'); }
+function toast(msg) { var t = document.createElement('div'); t.className = 'toast'; t.innerHTML = msg; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 4200); }
+function card(title, body, opt) {
+  opt = opt || {};
+  var id = opt.id || ('m-' + String(title).toLowerCase().replace(/[^a-z]+/g, '-'));
+  var collapsed = (store('collapsed') || {})[id];
+  return '<section class="card ' + (opt.cls || '') + (collapsed ? ' collapsed' : '') + '" data-mod="' + id + '"' + (opt.style ? ' style="' + opt.style + '"' : '') + '>' +
+    (opt.corners ? '<i class="corner tl"></i><i class="corner br"></i>' : '') +
+    '<div class="hd">' + (opt.eyebrow ? '<div style="flex:1"><div class="eyebrow">' + esc(opt.eyebrow) + '</div><h3>' + title + '</h3></div>' : '<h3>' + title + '</h3>') +
+    (opt.link ? '<a class="link" href="' + opt.link[0] + '">' + esc(opt.link[1]) + ' →</a>' : '') +
+    (opt.tools !== false ? '<span class="mod-tools"><button title="Collapse" onclick="toggleMod(this)">▾</button></span>' : '') +
+    '</div><div class="bd">' + body + '</div></section>';
+}
+function toggleMod(b) { var c = b.closest('.card'), id = c.getAttribute('data-mod'), st = store('collapsed') || {}; c.classList.toggle('collapsed'); st[id] = c.classList.contains('collapsed'); store('collapsed', st); }
+function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem('bt-' + k)); localStorage.setItem('bt-' + k, JSON.stringify(v)); } catch (e) { return null; } }
+function statBars(stats, max) {
+  max = max || 255;
+  return STATS.map(function (s) { var v = stats[s] || 0, pct = Math.min(100, v / max * 100), cls = v >= 100 ? 'forest' : v >= 70 ? '' : 'ember';
+    return '<div class="statrow"><span class="k">' + STAT_NAME[s] + '</span><b class="num">' + v + '</b><div class="bar ' + cls + '"><i style="width:' + pct + '%"></i></div></div>'; }).join('');
+}
+function portrait(name, size) { var n = numOf(name); return n ? '<img src="' + art(n) + '" alt="' + esc(name) + '" style="width:' + (size || 64) + 'px;height:' + (size || 64) + 'px;object-fit:contain" loading="lazy">' : ''; }
+function boot() {
+  shell();
+  Promise.all([API.data('hq'), API.data('atlas')]).then(function (r) {
+    S.hq = r[0]; indexAtlas(r[1]); S.atlas = r[1];
+    window.addEventListener('hashchange', go); go();
+  }).catch(function (e) { document.getElementById('page').innerHTML = '<div class="notice">Couldn\'t load the estate\'s data: ' + esc(e && e.message || e) + '</div>'; });
+}
+</script>

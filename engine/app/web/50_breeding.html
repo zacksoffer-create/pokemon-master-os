@@ -1,0 +1,170 @@
+<script>
+/* ===== Breeding & lineage: the program, the studbook, pedigrees, fathers, hatches ============================= */
+var INCENSE = {Azurill: 1, Wynaut: 1, Munchlax: 1, Happiny: 1, 'Mime Jr.': 1, Bonsly: 1, Budew: 1, Chingling: 1, Mantyke: 1};
+function rootOf(name) { var s = dexOf(name), chain = []; while (s) { chain.unshift(s); s = s.from ? DEX.byNum[s.from] : null; }
+  if (!chain.length) return name; return INCENSE[chain[0].name] && chain.length > 1 ? chain[1].name : chain[0].name; }
+function canBe(name, sex) { var s = dexOf(name); if (!s) return true; if (name === 'Ditto') return sex === 'genderless';
+  return sex === 'male' ? s.gr !== -1 && s.gr !== 8 : sex === 'female' ? s.gr !== -1 && s.gr !== 0 : sex === 'genderless' ? s.gr === -1 : true; }
+function groupsOf(name) { var s = dexOf(name); return s ? s.eg.filter(function (g) { return g !== 'No Eggs'; }) : []; }
+function crossIssues(sire, dam, child) {
+  var bad = []; if (!sire || !dam) return ['pick a sire and a dam'];
+  var ditto = sire.species === 'Ditto' || dam.species === 'Ditto';
+  if (sire.species === 'Ditto' && dam.species === 'Ditto') bad.push('two Ditto make no egg');
+  if (!ditto) {
+    if (!canBe(sire.species, 'male')) bad.push('the sire (' + sire.species + ') can\'t be male');
+    if (!canBe(dam.species, 'female')) bad.push('the dam (' + dam.species + ') can\'t be female');
+    if (sire.sex === 'female') bad.push('the sire is recorded female'); if (dam.sex === 'male') bad.push('the dam is recorded male');
+    var g = groupsOf(sire.species).filter(function (x) { return groupsOf(dam.species).indexOf(x) >= 0; });
+    if (!g.length) bad.push(sire.species + ' and ' + dam.species + ' share no egg group');
+  }
+  [sire, dam].forEach(function (p) { if (dexOf(p.species) && !groupsOf(p.species).length) bad.push(p.species + ' can\'t breed (No Eggs)'); });
+  if (child && child.species) { var mother = dam.species === 'Ditto' ? sire.species : dam.species;
+    if (rootOf(mother) !== rootOf(child.species)) bad.push('an egg from a ' + mother + ' hatches as ' + rootOf(mother) + ', not ' + rootOf(child.species)); }
+  return bad;
+}
+/* The studbook: the engine's planned and authored rows, plus anything added in the Sheet since. */
+function studbook() {
+  return API.tab('Studbook').catch(function () { return []; }).then(function (rows) {
+    var by = {}; S.hq.lineage.forEach(function (r) { by[r.id] = Object.assign({}, r); });
+    (rows || []).forEach(function (r) {
+      var id = r.id || r.ID; if (!id) return;
+      var x = by[id] || {id: id, moves: [], inherited: []};
+      var sex = String(r.Sex || r.sex || x.sex || 'open');
+      x.name = r.Name || x.name; x.species = r.Species || x.species; x.hatched_as = r['Hatched as'] || x.hatched_as;
+      x.sex = sex.indexOf('female') >= 0 ? 'female' : sex.indexOf('male') >= 0 ? 'male' : sex.indexOf('genderless') >= 0 ? 'genderless' : 'open';
+      x.generation = r.Gen === '' || r.Gen == null ? x.generation : Number(r.Gen); x.sire = r.Sire || x.sire || null; x.dam = r.Dam || x.dam || null;
+      if (r.Moves) x.moves = String(r.Moves).split(',').map(function (m) { return m.trim(); }).filter(Boolean);
+      x.role = r.Role || x.role; x.origin = r.Origin || x.origin; x.fate = r.Fate || x.fate; x.status = r.Status || x.status; x.program = r.Program || x.program;
+      x.check = r['Rule check'] || x.check; x.note = r.Note || x.note; x.inheritedText = r.Inherited; by[id] = x;
+    });
+    S.stud = Object.keys(by).map(function (k) { return by[k]; }); return S.stud;
+  });
+}
+function node(r, big) {
+  if (!r) return '<div class="member" style="opacity:.45"><div></div><div class="tiny muted">not on record</div></div>';
+  var n = numOf(r.hatched_as || r.species), sx = r.sex === 'male' ? '<span style="color:#7FA6E8">♂</span>' : r.sex === 'female' ? '<span style="color:#E88FB7">♀</span>' : '';
+  return '<a class="member" href="#/breeding/tree/' + encodeURIComponent(r.id) + '" style="color:inherit' + (big ? ';outline:1px solid var(--gold)' : '') + '"><img src="' + art(n) + '" loading="lazy"><div><div class="serif" style="font-size:17px;color:var(--ivory)">' + esc(r.name) + ' ' + sx + '</div>' +
+    '<div class="tiny muted">gen ' + esc(r.generation) + ' · ' + esc(r.role) + ' · ' + esc(r.status) + '</div>' + ((r.moves || []).length ? '<div style="margin-top:4px">' + r.moves.map(function (m) { return chip(m, 'gold'); }).join(' ') + '</div>' : '') +
+    '<div class="tiny muted" style="margin-top:4px">' + esc(r.fate || '') + '</div></div></a>';
+}
+function chainOf(target) {
+  var rows = (S.stud || S.hq.lineage), by = {}; rows.forEach(function (r) { by[r.id] = r; });
+  var stud = rows.filter(function (r) { return r.program === target && r.role === 'stud'; })[0], steps = [];
+  var cur = stud; while (cur) { steps.unshift({child: cur, sire: by[cur.sire], dam: by[cur.dam]}); cur = by[cur.sire] && by[cur.sire].sire ? by[cur.sire] : null; }
+  return {stud: stud, steps: steps};
+}
+function chainHTML(target) {
+  var c = chainOf(target);
+  if (!c.stud) return '<div class="empty">No stud: this line is kept by a held item (a Light Ball on a parent gives Pichu Volt Tackle).</div>';
+  return c.steps.map(function (s, i) {
+    return '<div class="ornament" style="margin:14px 0 10px">cross ' + (i + 1) + '</div><div class="grid" style="gap:10px;align-items:center"><div class="c4">' + node(s.sire) + '</div><div class="c4">' + node(s.dam) + '</div>' +
+      '<div class="c1" style="grid-column:span 1;text-align:center;font-size:22px;color:var(--gold)">⇒</div><div class="c3" style="grid-column:span 3">' + node(s.child, i === c.steps.length - 1) + '</div></div>';
+  }).join('');
+}
+function breeding() {
+  return studbook().then(function () {
+    var h = S.hq, kept = h.program.filter(function (p) { return p.status === 'done'; }).length;
+    return '<div class="eyebrow">Breeding projects & genetic lineages</div><h1 style="margin:6px 0">The breeding program</h1>' +
+      '<p class="lede">Build the lineage, keep only the final product (D-038): one stud per target line, a male who already knows the whole egg-move set, so every future egg of the line is one step. The journey is one family tree (D-044).</p>' +
+      '<div class="tabs" style="margin-top:16px"><a class="on" href="#/breeding">Projects</a><a href="#/breeding/studbook">Studbook</a><a href="#/breeding/fathers">Fathers & tinkering</a><a href="javascript:void 0" onclick="hatchForm()">+ Record a hatch</a></div>' +
+      '<div class="grid">' + h.program.map(function (p) {
+        var n = numOf(p.species);
+        return '<div class="c6"><a class="card" href="#/breeding/project/' + encodeURIComponent(p.species) + '" style="display:block;color:inherit"><div class="hd"><img src="' + art(n) + '" style="width:72px;height:72px;object-fit:contain"><div style="flex:1"><div class="eyebrow">' + esc(p.game) + '</div><h3>' + esc(p.species) + ' line</h3><div style="margin-top:4px">' + p.egg_moves.map(function (m) { return chip(m, 'gold'); }).join(' ') + '</div></div>' + chip(p.status, p.status === 'done' ? 'forest' : p.status === 'in progress' ? 'ember' : '') + '</div>' +
+          '<div class="bd"><div class="small" style="color:var(--text-2)">' + (p.fathers_used.length ? p.fathers_used.map(function (f) { return '<b>' + esc(f) + '</b>'; }).join(' → ') + ' → <b>the stud</b>' : 'No father: <b>a Light Ball</b> on a parent') + '</div>' +
+          '<div class="tiny muted" style="margin-top:6px">' + esc(p.kept) + (p.hatches_as ? ' · hatches as ' + esc(p.hatches_as) : '') + ' · ' + plural(p.steps, 'cross', 'crosses') + '</div>' + (p.timing.length ? '<div class="tiny" style="color:var(--ember-2);margin-top:4px">' + esc(p.timing.join('; ')) + '</div>' : '') + '</div></a></div>';
+      }).join('') + '</div>' +
+      '<p class="small muted" style="margin-top:14px">' + kept + ' of ' + h.program.length + ' lines kept. Status is yours to move on the Breeding Program tab of the Sheet.</p>';
+  });
+}
+function project(species) {
+  return studbook().then(function () {
+    var p = S.hq.program.filter(function (x) { return x.species === species; })[0];
+    if (!p) return '<div class="empty">No project for ' + esc(species) + '.</div>';
+    var eggs = (S.L && S.L.Eggs || []).filter(function (e) { return e.line === p.hatches_as; });
+    return '<a class="link" href="#/breeding">← All projects</a><div class="grid" style="margin-top:12px;align-items:center"><div class="c3"><img src="' + art(numOf(species)) + '" style="width:100%;max-width:240px"></div><div class="c9">' +
+      '<div class="eyebrow">' + esc(p.game) + ' · ' + esc(p.source) + '</div><h1 style="margin:6px 0">' + esc(p.species) + ': ' + esc(p.egg_moves.join(' + ')) + '</h1>' +
+      '<p class="lede">' + esc(p.kept) + '. ' + (p.hatches_as ? 'Its eggs hatch as ' + esc(p.hatches_as) + '. ' : '') + 'The fathers used along the way go home (D-038).</p>' +
+      '<div style="margin-top:10px">' + chip(p.status, p.status === 'done' ? 'forest' : '') + ' ' + chip(plural(p.steps, 'cross', 'crosses')) + ' ' + (p.timing || []).map(function (t) { return chip(t, 'ember'); }).join(' ') + '</div></div></div>' +
+      card('The lineage, oldest cross first', chainHTML(p.target), {eyebrow: 'Sire × dam ⇒ the egg'}) +
+      '<div style="margin-top:18px">' + card('Eggs of this line', eggs.length ? eggs.map(function (e) { return '<div class="line small">' + esc(e.id) + ' · ' + esc(e.status) + ' · laid ' + fmtDate(e.laid) + '</div>'; }).join('') : '<div class="empty">No eggs laid for this line yet.</div><div style="margin-top:10px"><button class="btn sm gold" onclick="openForm(\'egg\')">Lay an egg</button></div>', {eyebrow: 'In the racks'}) + '</div>';
+  });
+}
+function studbookPage() {
+  return studbook().then(function (rows) {
+    after(function (p) { bindFilter(p); });
+    var issues = rows.filter(function (r) { return r.check && r.check !== 'ok'; }).length;
+    return '<div class="eyebrow">Every individual and where it came from</div><h1 style="margin:6px 0">The studbook</h1><p class="lede">' + rows.length + ' individuals across ' + (Math.max.apply(null, rows.map(function (r) { return r.generation || 0; })) + 1) + ' generations · ' + (issues ? issues + ' with a rule to fix' : 'no rule issues') + '. Planned rows follow from canon; rows you add are authored.</p>' +
+      '<div class="tabs" style="margin-top:16px"><a href="#/breeding">Projects</a><a class="on" href="#/breeding/studbook">Studbook</a><a href="#/breeding/fathers">Fathers & tinkering</a><a href="javascript:void 0" onclick="hatchForm()">+ Record a hatch</a></div>' +
+      card('All individuals', '<div class="row" style="margin-bottom:10px"><input class="f" data-filter="#sb" placeholder="Filter: a species, a role (stud, dam, father used, companion), a program…"></div><div class="scroll" style="max-height:none"><table class="t" id="sb"><thead><tr><th></th><th>Name</th><th>Sex</th><th>Gen</th><th>Sire</th><th>Dam</th><th>Moves</th><th>Role</th><th>Fate</th><th>Status</th><th>Check</th></tr></thead><tbody>' +
+        rows.map(function (r) { var n = numOf(r.hatched_as || r.species); return '<tr class="click" onclick="location.hash=\'#/breeding/tree/' + encodeURIComponent(r.id) + '\'"><td><img src="' + sprite(n) + '" style="width:36px;height:36px;image-rendering:pixelated"></td><td><b>' + esc(r.name) + '</b><div class="tiny muted mono">' + esc(r.id) + '</div></td><td>' + (r.sex === 'male' ? '♂' : r.sex === 'female' ? '♀' : esc(r.sex)) + '</td><td class="num">' + esc(r.generation) + '</td><td class="tiny mono">' + esc(r.sire || '') + '</td><td class="tiny mono">' + esc(r.dam || '') + '</td><td class="small">' + esc((r.moves || []).join(', ')) + '</td><td>' + chip(r.role, r.role === 'stud' ? 'violet' : r.role === 'companion' ? 'gold' : '') + '</td><td class="tiny">' + esc(r.fate) + '</td><td>' + esc(r.status) + '</td><td>' + (r.check === 'ok' ? '<span style="color:var(--forest-3)">ok</span>' : '<span style="color:var(--ember-2)">' + esc(r.check || '') + '</span>') + '</td></tr>'; }).join('') +
+        '</tbody></table></div>', {eyebrow: 'Studbook', tools: false});
+  });
+}
+function tree(id) {
+  return studbook().then(function (rows) {
+    var by = {}; rows.forEach(function (r) { by[r.id] = r; });
+    var r = by[id]; if (!r) return '<div class="empty">' + esc(id) + ' isn\'t in the studbook.</div>';
+    function up(x, d) { return x ? {r: x, s: d > 0 ? up(by[x.sire], d - 1) : null, d: d > 0 ? up(by[x.dam], d - 1) : null} : null; }
+    var t = up(r, 3), levels = [[t]];
+    for (var i = 0; i < 3; i++) { var nx = []; levels[i].forEach(function (n) { nx.push(n && n.s, n && n.d); }); if (!nx.some(Boolean)) break; levels.push(nx); }
+    var kids = rows.filter(function (x) { return x.sire === id || x.dam === id; });
+    var dexr = dexOf(r.hatched_as || r.species) || {};
+    return '<a class="link" href="#/breeding/studbook">← The studbook</a><div style="display:flex;gap:18px;align-items:center;margin-top:10px"><img src="' + art(numOf(r.hatched_as || r.species)) + '" style="width:140px;height:140px;object-fit:contain"><div><div class="eyebrow">' + esc(r.role) + ' · generation ' + esc(r.generation) + ' · ' + esc(r.status) + '</div><h1 style="margin:6px 0">' + esc(r.name) + '</h1><div>' + types(dexr.t) + ' <span class="mono tiny muted">' + esc(r.id) + '</span></div>' +
+      '<p class="lede" style="margin-top:8px">' + esc(r.note || '') + '</p></div></div>' +
+      '<div class="grid" style="margin-top:12px"><div class="c9">' + card('Pedigree', '<div style="display:grid;grid-template-columns:repeat(' + levels.length + ',minmax(0,1fr));gap:4px 12px">' +
+        levels.map(function (lv, i) { return '<div class="eyebrow">' + ['This one', 'Sire and dam', 'Grandparents', 'Great-grandparents'][i] + '</div>'; }).join('') +
+        levels.map(function (lv, i) {
+        return '<div style="display:flex;flex-direction:column;gap:10px;justify-content:space-around">' + lv.map(function (n) { return node(n && n.r, i === 0); }).join('') + '</div>'; }).join('') + '</div>', {eyebrow: 'Three generations up', tools: false}) + '</div>' +
+      '<div class="c3" style="display:flex;flex-direction:column;gap:18px">' + card('The record', '<dl class="kv"><dt>Species</dt><dd>' + esc(r.species) + '</dd><dt>Hatched as</dt><dd>' + esc(r.hatched_as || '—') + '</dd><dt>Sex</dt><dd>' + esc(r.sex) + '</dd><dt>Origin</dt><dd>' + esc(r.origin || '') + '</dd><dt>Fate</dt><dd>' + esc(r.fate || '') + '</dd><dt>Program</dt><dd>' + esc(r.program || '—') + '</dd><dt>Rule check</dt><dd>' + esc(r.check || '') + '</dd></dl>' +
+        ((r.inherited || []).length ? '<div class="eyebrow" style="margin-top:12px">Inherited</div>' + r.inherited.map(function (x) { return '<div class="small">' + esc(x.move) + ' <span class="muted">from ' + esc((by[x.from] || {}).name || x.from) + '</span></div>'; }).join('') : '') +
+        '<div style="margin-top:14px"><button class="btn sm gold" onclick="hatchForm(\'' + esc(r.sex !== 'female' ? r.id : '') + '\',\'' + esc(r.sex === 'female' ? r.id : '') + '\')">Breed from this one</button></div>', {tools: false}) +
+      card('Descendants', kids.length ? kids.map(function (k) { return node(k); }).join('') : '<div class="empty">None on record yet.</div>', {tools: false}) + '</div></div>';
+  });
+}
+function fathers() {
+  var h = S.hq;
+  return '<div class="eyebrow">Who in the journey can father what</div><h1 style="margin:6px 0">Fathers & the tinkering menu</h1><p class="lede">Notable egg moves only: a 60+ power attack, priority, or a strategic tool. Gen 4 rules, Gen 3 moves by Pal Park (D-044).</p>' +
+    '<div class="tabs" style="margin-top:16px"><a href="#/breeding">Projects</a><a href="#/breeding/studbook">Studbook</a><a class="on" href="#/breeding/fathers">Fathers & tinkering</a><a href="javascript:void 0" onclick="hatchForm()">+ Record a hatch</a></div>' +
+    '<div class="grid"><div class="c4">' + card('The best fathers', h.fathers.map(function (f, i) { return '<div class="goal"><div style="display:flex;gap:10px;align-items:center">' + portrait(f.father, 40) + '<div><b>' + esc(f.father) + '</b><div class="tiny muted">' + plural(f.lines, 'line') + ' reached</div></div></div><b class="serif num" style="font-size:20px">' + f.moves + '</b></div>'; }).join(''), {eyebrow: 'Moves they can pass'}) + '</div>' +
+    '<div class="c8">' + card('Every companion', h.tinker.map(function (t) {
+      var sp = t.c.split(':')[1], menu = Object.keys(t.menu || {}), af = Object.keys(t.as_father || {});
+      return '<div style="display:grid;grid-template-columns:52px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)">' + portrait(sp, 52) + '<div><b>' + esc(GAME_NAME[t.c.split(':')[0]] + ' ' + sp) + '</b> ' + t.roles.map(function (r) { return chip(r, 'violet'); }).join(' ') +
+        (af.length ? '<div class="small" style="margin-top:4px;color:var(--text-2)">Can father: ' + af.map(function (l) { return '<b>' + esc(l) + '</b> (' + esc(t.as_father[l].join(', ')) + ')'; }).join('; ') + '</div>' : '') +
+        (menu.length ? '<div class="small" style="margin-top:4px;color:var(--text-2)">Its line could be bred with: ' + menu.map(function (m) { return '<b>' + esc(m) + '</b>' + (t.menu[m].length ? ' (' + esc(t.menu[m].join(', ')) + ')' : ' <span class="muted">(an outside father)</span>'); }).join('; ') + '</div>' : '') + '</div></div>';
+    }).join(''), {eyebrow: 'Roles, what they can pass, the tinkering menu'}) + '</div></div>';
+}
+function hatchForm(sireId, damId) {
+  studbook().then(function (rows) {
+    var sires = rows.filter(function (r) { return r.sex !== 'female'; }), dams = rows.filter(function (r) { return r.sex !== 'male'; });
+    function opts(list, sel) { return list.map(function (r) { return '<option value="' + esc(r.id) + '"' + (r.id === sel ? ' selected' : '') + '>' + esc(r.name) + ' · ' + esc(r.id) + '</option>'; }).join(''); }
+    openDrawer('<div class="eyebrow">Record a hatch · writes a row to the Studbook</div><h2 style="margin:6px 0">A new egg hatched</h2><p class="small muted">The cross is checked first: sexes, egg groups, the dam\'s line and the generation. Egg moves are checked by the engine.</p>' +
+      '<form onsubmit="return saveHatch(event)"><div class="row"><div><label class="l">Sire</label><select class="f" name="sire">' + opts(sires, sireId) + '</select></div><div><label class="l">Dam</label><select class="f" name="dam">' + opts(dams, damId) + '</select></div></div>' +
+      '<div class="row"><div><label class="l">Sex</label><select class="f" name="sex"><option>open</option><option value="male">♂ male</option><option value="female">♀ female</option><option>genderless</option></select></div><div><label class="l">Fate</label><select class="f" name="fate"><option>open</option><option>kept</option><option>goes home</option><option>stays at the ranch</option></select></div></div>' +
+      '<label class="l">Name (optional)</label><input class="f" name="name"><label class="l">Moves it hatched knowing from the sire</label><input class="f" name="inherited" placeholder="Dragon Dance, Outrage"><label class="l">Note</label><input class="f" name="note" placeholder="when, which ball…">' +
+      '<div id="hatchmsg" style="margin-top:12px"></div><label class="l"><input type="checkbox" name="anyway"> add it anyway (it\'s my world, D-048)</label><div style="margin-top:14px"><button class="btn gold">Check and add</button></div></form>');
+  });
+}
+function saveHatch(ev) {
+  ev.preventDefault();
+  var f = {}; Array.prototype.forEach.call(ev.target.elements, function (el) { if (el.name) f[el.name] = el.type === 'checkbox' ? el.checked : el.value; });
+  var by = {}; (S.stud || []).forEach(function (r) { by[r.id] = r; });
+  var sire = by[f.sire], dam = by[f.dam], mother = dam && dam.species === 'Ditto' ? sire.species : dam.species, line = rootOf(mother);
+  var gen = Math.max(sire.generation || 0, dam.generation || 0) + 1, bad = crossIssues(sire, dam, {species: line});
+  if (f.sex !== 'open' && !canBe(line, f.sex)) bad.push(line + ' can\'t be ' + f.sex);
+  if (bad.length && !f.anyway) { document.getElementById('hatchmsg').innerHTML = '<div class="notice" style="border-color:var(--ember);color:var(--ember-2)">Not added: ' + esc(bad.join('; ')) + '</div>'; return false; }
+  var key = line.toUpperCase().replace(/[^A-Z0-9]/g, ''), n = 1;
+  S.stud.forEach(function (r) { var m = String(r.id).match(new RegExp('^H-' + key + '-(\\d+)$')); if (m) n = Math.max(n, +m[1] + 1); });
+  var inh = f.inherited.split(',').map(function (m) { return m.trim(); }).filter(Boolean);
+  var row = {id: 'H-' + key + '-' + n, _sprite: numOf(line), Name: f.name || line + ' (hatched)', Species: line, 'Hatched as': line, Sex: f.sex === 'male' ? '♂ male' : f.sex === 'female' ? '♀ female' : f.sex,
+    Gen: gen, Sire: f.sire, Dam: f.dam, Moves: inh.join(', '), Inherited: inh.map(function (m) { return m + ' (from ' + sire.name + ')'; }).join('; '), Role: 'hatchling', Origin: 'bred at Blackthorn',
+    Fate: f.fate, Status: 'hatched', Program: sire.program || dam.program || '', 'Rule check': bad.length ? bad.join('; ') : 'ok', Note: f.note, _timeline: 'Hatched: ' + (f.name || line) + ' (' + f.sire + ' × ' + f.dam + ')'};
+  API.append('Studbook', row).then(function () { S.live.Studbook = null; closeDrawer(); toast('Hatched <b>' + esc(row.id) + '</b>. It\'s in the Studbook.'); location.hash = '#/breeding/tree/' + row.id; })
+    .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+  return false;
+}
+route(/^\/breeding\/?$/, breeding, 'Breeding & lineage', '#/breeding');
+route(/^\/breeding\/project\/(.+)$/, project, function (s) { return 'Breeding · ' + s; }, '#/breeding');
+route(/^\/breeding\/studbook$/, studbookPage, 'Breeding · Studbook', '#/breeding');
+route(/^\/breeding\/tree\/(.+)$/, tree, function (i) { return 'Studbook · ' + i; }, '#/breeding');
+route(/^\/breeding\/fathers$/, fathers, 'Breeding · Fathers', '#/breeding');
+</script>

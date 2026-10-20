@@ -1,0 +1,151 @@
+<script>
+/* ===== The Estate and the Glasshouse ========================================================================== */
+var PURPOSE = {
+  'nursery & hatchery': 'Pens by egg group: first steps, first meals, the hatchery. Field is the biggest pen, then Monster and Water 1.',
+  'studbook & archive': 'Every individual\'s full PKHeX card and every lineage tree. Pedigrees are kept here.',
+  'day-care preserve': 'The one open part of the ranch (D-040): exclusive, by invitation. Clients\' Pokémon live in real habitat, not pens.',
+  'clinic': 'Healing for residents, hatchlings and the preserve\'s guests.',
+  'kitchen & orchard': 'Food and cooking, the orchard and Apricorns. Camp life lives here (D-034).',
+  'works (building & upkeep)': 'The crews that build and keep the estate: Strength, Dig, Cut and Rock Smash.',
+  'transport': 'Air, water and underground travel between Blackthorn, the satellite and the world.',
+  'security & watch': 'Wardens and watchers: deterrence on the ground, scouting from the air.',
+  'climate': 'Heat and cold for every habitat; weather where it\'s needed.',
+  "dragon's den": 'The dragon clan\'s shrine behind Blackthorn Gym: a lake, a shrine on an island, ancient and quiet. The likely source of Dragonite\'s ExtremeSpeed (believed; verify in PKHeX).',
+  'blackthorn city': 'Home of the dragon clan. Three of the six chapters are Johto chapters; the estate sits on the road between the city and Dark Cave.',
+  'cold vault': 'Cut into the Ice Path rock: the seed vault and the berry store. Mamoswine keeps the cold (W-004).',
+  'glasshouse': 'The hatchery and greenhouse in one building (D-045), heated by a Magcargo hearth.'
+};
+function estate() {
+  var h = S.hq, sites = h.sites;
+  var res = h.residents, hq = res.filter(function (r) { return r.site.indexOf('Blackthorn') === 0; }).length;
+  var zones = Object.keys(h.zones).sort(function (a, b) { return h.zones[b] - h.zones[a]; });
+  var pens = Object.keys(h.pens).sort(function (a, b) { return h.pens[b] - h.pens[a]; });
+  after(function (p) { bindMap(p.querySelector('#bigmap')); bindFilter(p); });
+  return '<div class="eyebrow">Interactive estate & world map</div><h1 style="margin:6px 0 6px">The Blackthorn Estate</h1>' +
+    '<p class="lede">One headquarters in the Blackthorn highlands (D-036, D-041): mountain road and river, a cave system, a lake, real ice and a sacred site. ' + hq + ' of ' + res.length + ' possible residents live here; one satellite covers what Johto doesn\'t have.</p>' +
+    '<div class="grid" style="margin-top:18px"><div class="c8">' + card('The plate', '<div class="svgwrap" id="bigmap" style="border-radius:12px;overflow:hidden">' + Art.estateMap(h.facilities) + '</div><p class="tiny muted" style="margin:8px 0 0">Tap a place to open it. Ember pins have a job nobody holds yet.</p>', {eyebrow: 'Headquarters · Johto', tools: false}) + '</div>' +
+    '<div class="c4">' + card('Sites', sites.map(function (s) {
+      return '<div class="line ' + (s.role === 'headquarters' ? 'forest' : 'ice') + '"><b>' + esc(s.name) + '</b> <span class="chip ' + (s.status.indexOf('approved') === 0 ? 'forest' : 'ember') + '">' + esc(s.status) + '</span>' +
+        '<div class="tiny muted">' + esc(s.anchor) + '</div><div class="small" style="margin-top:4px;color:var(--text-2)">' + esc(s.why || '') + '</div>' +
+        '<div style="margin-top:6px">' + (s.offers || []).map(function (o) { return chip(o.replace('_', ' & ')); }).join(' ') + '</div></div>'; }).join('') +
+      '<div class="notice" style="margin-top:10px">Blackthorn has no volcano and no sea. Lapras needs the sea; both Infernape and the Infernape stud need volcanic ground. <a href="#/calls">Your call →</a></div>', {eyebrow: 'One headquarters, one satellite'}) + '</div>' +
+    '<div class="c12">' + card('Facility network', '<div class="fac">' + h.facilities.map(facilityCard).join('') + '</div>', {eyebrow: 'Staff are Pokémon and people (D-039)'}) + '</div>' +
+    '<div class="c4">' + card('Primary land', zones.map(function (z) { return '<div class="goal"><div><div class="small">' + esc(z.replace('_', ' & ')) + '</div><div class="bar forest" style="margin-top:4px"><i style="width:' + (h.zones[z] / 12 * 100) + '%"></i></div></div><b class="num">' + h.zones[z] + '</b></div>'; }).join(''), {eyebrow: 'Habitat'}) + '</div>' +
+    '<div class="c4">' + card('Nursery pens', pens.map(function (g) { return '<div class="goal"><div><div class="small">' + esc(g) + '</div><div class="bar" style="margin-top:4px"><i style="width:' + (h.pens[g] / 15 * 100) + '%"></i></div></div><b class="num">' + h.pens[g] + '</b></div>'; }).join(''), {eyebrow: 'Species per egg group'}) + '</div>' +
+    '<div class="c4">' + card('Jobs that hang on one', h.single_points.map(function (s) { return '<div class="line ember small">' + esc(s) + '</div>'; }).join('') +
+      '<p class="small muted">Fates stay open (D-037): each of these needs that companion to choose the ranch, or a replacement you author or hire.</p>' +
+      '<div class="eyebrow" style="margin-top:10px">Proposed hires</div>' + Object.keys(h.staff_hires || {}).map(function (j) { return '<div class="small" style="margin-top:6px"><b>' + esc(j.replace('_', ' ')) + ':</b> ' + h.staff_hires[j].map(function (x) { return esc(x.species) + ' (' + esc(x.ability) + ', ' + esc(x.native_region) + ')'; }).join(', ') + '</div>'; }).join(''), {eyebrow: 'Single points of failure'}) + '</div>' +
+    '<div class="c12">' + card('Residents', '<div class="row" style="margin-bottom:10px"><input class="f" data-filter="#restable" placeholder="Filter by species, land, chapter, job…"></div><div class="scroll"><table class="t" id="restable"><thead><tr><th></th><th>Species</th><th>Chapter</th><th>Lives at</th><th>Land</th><th>Size</th><th>Climate</th><th>Water</th><th>Egg groups</th><th>Jobs</th></tr></thead><tbody>' +
+      res.map(function (r) { return '<tr class="click" onclick="location.hash=\'#/atlas/' + numOf(r.species) + '\'"><td><img src="' + sprite(numOf(r.species)) + '" style="width:40px;height:40px;image-rendering:pixelated"></td><td><b>' + esc(r.species) + '</b>' + (r.kind === 'stud' ? ' ' + chip('stud', 'violet') : '') + '</td><td>' + esc(r.chapter) + '</td><td>' + (r.site.indexOf('Blackthorn') === 0 ? chip('Blackthorn', 'forest') : chip('satellite', 'ember')) + '</td><td>' + esc(r.land) + '</td><td>' + esc(r.size) + '</td><td>' + esc(r.climate) + '</td><td>' + esc(r.water) + '</td><td class="small">' + esc(r.egg_groups.join(', ')) + '</td><td class="tiny muted">' + esc(r.jobs.slice(0, 4).join('; ')) + (r.jobs.length > 4 ? ' +' + (r.jobs.length - 4) : '') + '</td></tr>'; }).join('') +
+      '</tbody></table></div>', {eyebrow: 'The census · every companion a possible resident (D-037)'}) + '</div></div>';
+}
+function facilityCard(f) {
+  var tone = f.open.length ? 'warn' : Object.keys(f.one).length ? 'gold' : '';
+  return '<a class="f" href="#/estate/' + encodeURIComponent(f.name) + '"><div style="display:flex;justify-content:space-between;align-items:center"><span class="fn">' + esc(f.name) + '</span><span class="status-dot ' + tone + '"></span></div>' +
+    '<div class="tiny muted" style="margin:4px 0 8px">' + esc(f.access) + ' · people: ' + esc(f.people.join(', ')) + '</div>' +
+    '<div class="small" style="color:var(--text-2)">' + esc(PURPOSE[f.name] || '') + '</div>' +
+    '<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">' + Object.keys(f.staff).slice(0, 5).map(function (j) { return chip(j.replace('_', ' ') + ' · ' + f.staff[j].slice(0, 2).join(', ') + (f.staff[j].length > 2 ? ' +' + (f.staff[j].length - 2) : ''), 'forest'); }).join('') +
+    f.open.map(function (j) { return chip('open: ' + j.replace('_', ' '), 'ember'); }).join('') + '</div></a>';
+}
+function bindFilter(root) {
+  root.querySelectorAll('[data-filter]').forEach(function (inp) {
+    var t = root.querySelector(inp.getAttribute('data-filter'));
+    inp.addEventListener('input', function () { var q = inp.value.toLowerCase(); t.querySelectorAll('tbody tr').forEach(function (tr) { tr.style.display = tr.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none'; }); });
+  });
+}
+function place(name) {
+  var h = S.hq, f = h.facilities.filter(function (x) { return x.name === name; })[0];
+  var site = name === "dragon's den" || name === 'blackthorn city' ? h.sites[0] : null;
+  var head = '<a class="link" href="#/estate">← The estate</a><div class="eyebrow" style="margin-top:12px">' + (f ? esc(f.access) + ' facility' : 'A place on the estate') + '</div><h1 style="margin:6px 0;text-transform:capitalize">' + esc(name) + '</h1><p class="lede">' + esc(PURPOSE[name] || '') + '</p>';
+  if (!f) {
+    return head + (site ? card('What the games say', site.game_facts.map(function (g) { return '<div class="line small">' + esc(g) + '</div>'; }).join('') + '<p class="small muted">' + esc(site.heritage || '') + '</p>', {eyebrow: esc(site.name)}) : '');
+  }
+  var rows = Object.keys(f.evidence).map(function (j) { return '<tr><td><b>' + esc(j.replace('_', ' ')) + '</b>' + (f.one[j] ? ' ' + chip('hangs on one', 'ember') : '') + '</td><td>' + f.staff[j].map(function (s) { return '<span class="chip" style="padding-left:2px;margin:2px">' + portrait(s, 22) + esc(s) + '</span>'; }).join('') + '</td><td class="tiny muted">' + esc(f.evidence[j].join('; ')) + '</td></tr>'; }).join('');
+  return head + '<div class="grid" style="margin-top:14px"><div class="c8">' + card('Who holds each job', '<table class="t"><thead><tr><th>Job</th><th>Who</th><th>Evidence</th></tr></thead><tbody>' + rows +
+      f.open.map(function (j) { return '<tr><td><b>' + esc(j.replace('_', ' ')) + '</b> ' + chip('open', 'ember') + '</td><td class="muted">nobody yet</td><td class="tiny muted">no companion has it on evidence</td></tr>'; }).join('') + '</tbody></table>', {eyebrow: 'Only game-backed or authored evidence makes someone staff'}) + '</div>' +
+    '<div class="c4">' + card('People roles', f.people.map(function (p) { return '<div class="line">' + esc(p) + ' <span class="tiny muted">(to author)</span></div>'; }).join(''), {eyebrow: 'D-039'}) +
+    card('Story candidates', Object.keys(f.story).map(function (j) { return '<div class="small" style="margin:6px 0"><b>' + esc(j.replace('_', ' ')) + ':</b> ' + esc(f.story[j].join(', ')) + '</div>'; }).join('') || '<div class="empty">None.</div>', {eyebrow: 'Lore alone: candidates, not staff'}) + '</div></div>';
+}
+route(/^\/estate\/?$/, estate, 'The Estate', '#/estate');
+route(/^\/estate\/(.+)$/, place, function (n) { return 'Estate · ' + n; }, '#/estate');
+
+/* ---- the Glasshouse ---- */
+var ROOM_NOTE = {
+  'Hearth hall': 'The incubation core: egg racks ringed around the Magcargo hearth, sorted by line. Rain on Magcargo "instantly turns into steam", so the hearth is also the humidifier.',
+  'Glasshouse rings': 'Berry beds and Apricorn trees around the hearth, living on its heat. Ampharos lights everything through the dark months; its tail has been a beacon "since ancient times".',
+  'Hatching loop': 'The path through the crop rows. Eggs are carried around it until they hatch: one lap = one egg cycle (255 steps), half with Magma Armor.',
+  'Nursery yard': 'First steps and first meals. Healing from Miltank and Lapras; watch from Arcanine and Tyranitar.',
+  'Cold vault': 'Cut into the Ice Path rock: the seed vault and the berry store. Mamoswine keeps it cold.',
+  'Studbook office': 'Pedigrees and full PKHeX cards for every hatch.'
+};
+function glasshouse(tab) {
+  tab = tab || 'overview';
+  return loadLive().then(function () {
+    var g = S.hq.glasshouse;
+    var tabs = [['overview', 'The building'], ['eggs', 'Eggs & walking'], ['berries', 'Berry cultivation'], ['environment', 'Environment'], ['nutrition', 'Nutrition']];
+    var body = {overview: ghOverview, eggs: ghEggs, berries: ghBerries, environment: ghEnv, nutrition: ghNutrition}[tab](g);
+    return '<div class="eyebrow">Featured living facility · ' + esc(g.status) + '</div><h1 style="margin:6px 0">The Glasshouse</h1><p class="lede">' + esc(g.idea) + '</p>' +
+      '<div class="tabs" style="margin-top:16px">' + tabs.map(function (t) { return '<a href="#/glasshouse/' + t[0] + '" class="' + (t[0] === tab ? 'on' : '') + '">' + t[1] + '</a>'; }).join('') + '</div>' + body;
+  });
+}
+function ghOverview(g) {
+  after(function (p) { p.querySelectorAll('#ghplan .hot').forEach(function (el) { el.addEventListener('click', function () { ghDetail(el.getAttribute('data-k')); }); }); ghDetail('Hearth hall'); });
+  return '<div class="grid"><div class="c7">' + card('In plan', '<div class="svgwrap" id="ghplan">' + Art.glasshouse(g) + '</div><p class="tiny muted" style="margin:8px 0 0">Tap any part of the building.</p>', {tools: false, eyebrow: 'Hearth · racks · loop · rings · vault'}) + '</div>' +
+    '<div class="c5"><div id="ghd"></div></div>' +
+    '<div class="c12">' + card('Rooms and staff', '<table class="t"><thead><tr><th>Room</th><th>Job</th><th>Who</th><th>Cover</th></tr></thead><tbody>' +
+      Object.keys(g.rooms).map(function (n) { var r = g.rooms[n]; return Object.keys(r.staff).map(function (j) { return '<tr><td><b>' + esc(n) + '</b></td><td>' + esc(j) + '</td><td>' + r.staff[j].map(function (s) { return '<span class="chip" style="padding-left:2px;margin:2px">' + portrait(s, 22) + esc(s) + '</span>'; }).join('') + '</td><td>' + (r.one[j] ? chip('hangs on one', 'ember') : chip('covered', 'forest')) + '</td></tr>'; }).join('') +
+        r.open.map(function (j) { return '<tr><td><b>' + esc(n) + '</b></td><td>' + esc(j) + '</td><td class="muted">story only: needs a world record</td><td>' + chip('open', 'ember') + '</td></tr>'; }).join(''); }).join('') + '</tbody></table>', {eyebrow: 'Pokémon staff & biological roles'}) + '</div></div>';
+}
+function ghDetail(k) {
+  var el = document.getElementById('ghd'); if (!el) return;
+  var g = S.hq.glasshouse, html;
+  if (k.indexOf('crop:') === 0) {
+    var c = g.crops.filter(function (x) { return x.berry === k.slice(5); })[0] || {};
+    html = card(esc(c.berry || 'A crop ring'), '<div style="display:flex;gap:12px;align-items:center"><img src="' + itemSprite(c.berry) + '" style="width:48px;height:48px;image-rendering:pixelated"><div><div class="small">' + esc(c.why) + '</div><div class="tiny muted">' + c.hours_to_harvest + ' hours to harvest · up to ' + c.max_harvest + ' a plant · watering ' + esc(c.watering) + '</div></div></div><div style="margin-top:12px"><button class="btn sm" onclick="openForm(\'plant\')">Plant ' + esc(c.berry) + '</button></div>', {eyebrow: 'Glasshouse rings · crop', tools: false});
+  } else if (k.indexOf('eggs:') === 0) {
+    var e = g.eggs.filter(function (x) { return x.line === k.slice(5); })[0] || {};
+    html = card(esc(e.line) + ' rack', '<div style="display:flex;gap:16px;align-items:center">' + Art.egg(0, TYPE[(dexOf(e.line) || {t: ['Normal']}).t[0]], 'd1', 64) + '<dl class="kv"><dt>Egg cycles</dt><dd>' + e.cycles + ' (' + e.steps + ' steps)</dd><dt>Laps</dt><dd>' + e.laps + ' · ' + e.laps_with_flame_body + ' with Magcargo</dd></dl></div><div style="margin-top:12px"><button class="btn sm" onclick="openForm(\'egg\')">Lay an egg</button></div>', {eyebrow: 'Egg racks · stud line', tools: false});
+  } else {
+    var r = g.rooms[k] || {staff: {}, open: [], one: {}, people: []};
+    html = card(esc(k), '<p class="small" style="color:var(--text-2);margin-top:0">' + esc(ROOM_NOTE[k] || '') + '</p>' + Object.keys(r.staff).map(function (j) { return '<div class="line forest small"><b>' + esc(cap(j)) + '</b> · ' + esc(r.staff[j].join(', ')) + (r.one[j] ? ' <span class="chip ember">only one</span>' : '') + '</div>'; }).join('') +
+      r.open.map(function (j) { return '<div class="line ember small"><b>' + esc(cap(j)) + '</b> · story only</div>'; }).join('') + (r.people.length ? '<div class="tiny muted" style="margin-top:8px">People: ' + esc(r.people.join(', ')) + '</div>' : ''), {eyebrow: 'Room', tools: false});
+  }
+  el.innerHTML = html;
+}
+function ghEggs(g) {
+  var eggs = eggsModel(), walks = (S.L['Egg Walks'] || []).slice(-12).reverse();
+  return '<div class="grid"><div class="c8">' + card('In the racks', eggs.length ? '<div class="eggs">' + eggs.map(function (e, i) {
+      return '<div class="egg">' + Art.egg(e.pct, TYPE[(dexOf(e.line) || {t: ['Normal']}).t[0]], 'r' + i, 64) + '<div class="ln">' + esc(e.line) + '</div><div class="sub">' + e.laps + ' / ' + e.cycles + ' laps · ' + e.left + ' to go</div><div class="tiny muted mono">' + esc(e.id) + '</div><button class="btn sm" style="margin-top:6px" onclick="openForm(\'walk\',\'' + esc(e.id) + '\')">Walk</button></div>'; }).join('') + '</div>'
+      : '<div class="empty">No eggs in the racks yet. Every egg starts from a cross in the breeding program.</div>', {eyebrow: 'Egg walking & incubation', link: null}) +
+    card('The schedule', '<table class="t"><thead><tr><th>Stud line</th><th>Egg cycles</th><th>Steps</th><th>Laps</th><th>With Magcargo</th><th></th></tr></thead><tbody>' + g.eggs.map(function (e) {
+      return '<tr><td><img src="' + sprite(numOf(e.line)) + '" style="width:32px;height:32px;vertical-align:middle;image-rendering:pixelated"> <b>' + esc(e.line) + '</b></td><td class="num">' + e.cycles + '</td><td class="num">' + e.steps.toLocaleString() + '</td><td class="num">' + e.laps + '</td><td class="num">' + e.laps_with_flame_body + '</td><td style="width:30%"><div class="bar ember"><i style="width:' + (e.laps / 40 * 100) + '%"></i></div></td></tr>'; }).join('') + '</tbody></table><p class="tiny muted">Gen 4 counts hatch time in egg cycles of 255 steps; Magma Armor or Flame Body halves it. One lap of the hatching loop = one cycle (proposal, RANCH §2b).</p>', {eyebrow: 'Stud lines, slowest first'}) + '</div>' +
+    '<div class="c4">' + card('Walk log', '<div style="margin-bottom:10px"><button class="btn sm gold" onclick="openForm(\'walk\')">Record a walk</button> <button class="btn sm" onclick="openForm(\'egg\')">Lay an egg</button></div>' +
+      (walks.length ? walks.map(function (w) { return '<div class="line small">' + esc(w.laps) + ' laps · <span class="mono tiny">' + esc(w.egg) + '</span>' + (String(w.magcargo) === 'true' ? ' ' + chip('Magcargo', 'ember') : '') + '<div class="tiny muted">' + ago(w.at) + '</div></div>'; }).join('') : '<div class="empty">No walks logged.</div>'), {eyebrow: 'Accumulated walking'}) + '</div></div>';
+}
+function ghBerries(g) {
+  var plots = berriesModel(), harvests = (S.L.Harvests || []).slice(-10).reverse();
+  return '<div class="grid"><div class="c7">' + card('Growing now', plots.length ? plots.map(function (b) { return '<div class="berry"><img src="' + itemSprite(b.berry) + '"><div style="flex:1"><div class="small"><b>' + esc(b.berry) + '</b> <span class="muted">· plot ' + esc(b.plot) + ' · ' + b.hours + ' h cycle</span></div><div class="bar forest"><i style="width:' + (b.pct * 100).toFixed(0) + '%"></i></div></div><div style="text-align:right"><div class="tiny">' + (b.done ? '<b style="color:var(--forest-3)">ready</b>' : 'ready in ' + hrs((b.ready - Date.now()) / 3600e3)) + '</div>' + (b.done ? '<button class="btn sm" onclick="openForm(\'harvest\',\'' + esc(b.id) + '\')">Harvest</button>' : '') + '</div></div>'; }).join('')
+      : '<div class="empty">Nothing planted. The plan below is the Gen 4 medicine crop and every berry a canon build holds.</div>', {eyebrow: 'Harvest timers'}) +
+    card('The crop plan', '<table class="t"><thead><tr><th></th><th>Berry</th><th>Why</th><th>Hours</th><th>Per plant</th><th>Watering</th><th></th></tr></thead><tbody>' + g.crops.map(function (c) {
+      return '<tr><td><img src="' + itemSprite(c.berry) + '" style="width:28px;height:28px;image-rendering:pixelated"></td><td><b>' + esc(c.berry) + '</b></td><td class="small">' + esc(c.why) + '</td><td class="num">' + c.hours_to_harvest + '</td><td class="num">up to ' + c.max_harvest + '</td><td>' + esc(c.watering) + '</td><td><button class="btn sm" onclick="openForm(\'plant\')">Plant</button></td></tr>'; }).join('') + '</tbody></table><p class="tiny muted">Growth times are Gen 4\'s (berries table, 4 × growth time). Apricorns for Kurt\'s balls grow outside the glass.</p>', {eyebrow: 'Gen 4 berry data'}) + '</div>' +
+    '<div class="c5">' + card('Harvest records', harvests.length ? harvests.map(function (h) { var p = (S.L.Plantings || []).filter(function (x) { return x.id === h.planting; })[0] || {}; return '<div class="line forest small"><b>' + esc(p.berry || h.planting) + '</b> · ' + esc(h.yield) + ' berries<div class="tiny muted">' + ago(h.at) + '</div></div>'; }).join('') : '<div class="empty">No harvests yet.</div>', {eyebrow: 'What came in'}) +
+    card('What they\'re for', '<div class="line small"><b>Status cures</b> · Cheri, Chesto, Pecha, Rawst, Aspear: the clinic\'s first shelf</div><div class="line small"><b>Recovery</b> · Oran and Sitrus for HP, Leppa for PP, Persim for confusion</div><div class="line small"><b>Lum</b> · held by HeartGold Tyranitar</div>', {eyebrow: 'Biological applications'}) + '</div></div>';
+}
+function ghEnv() {
+  var env = envModel(), sim = env.some(function (e) { return e.sim; });
+  return (sim ? '<div class="notice sim" style="margin-bottom:16px">⚗ These instruments show a <b>simulation</b> around proposed design targets: no sensor feeds this yet. A reading you log on the Readings tab (or here) replaces the simulation for that instrument and is shown as entered.</div>' : '') +
+    '<div class="grid">' + env.map(function (e) { return '<div class="c4">' + card(esc(e.metric), '<div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="serif num" style="font-size:42px;color:var(--ivory);line-height:1">' + e.now + '<span class="small muted"> ' + esc(e.unit) + '</span></div><div class="tiny muted">target ' + e.target + ' ' + esc(e.unit) + ' (proposed)</div></div>' + chip(e.src, e.sim ? 'ice' : 'forest') + '</div><div style="margin-top:12px">' + Art.spark(e.series, e.color, 320, 60) + '</div><div class="tiny muted">last 24 ' + (e.sim ? 'hours, simulated' : 'readings') + '</div>', {eyebrow: e.room, tools: false}) + '</div>'; }).join('') + '</div>' +
+    '<div style="margin-top:16px"><button class="btn gold" onclick="openForm(\'reading\')">Log a reading</button></div>';
+}
+function ghNutrition() {
+  var feeds = (S.L.Feedings || []).slice().reverse();
+  return '<div class="grid"><div class="c7">' + card('Feeding programs', '<table class="t"><thead><tr><th>Who</th><th>Program</th><th>Why</th><th>Status</th></tr></thead><tbody>' +
+      [['Hatchlings', 'Miltank\'s milk in the nursery yard', 'SoulSilver Pokédex: around babies its milk carries much more nutrition', 'proposed (W-017)'],
+       ['Residents', 'Berries from the rings; Apricorns', 'the crop plan covers medicine and every held berry', 'working'],
+       ['The home team', 'Poffins and camp cooking (Platinum), MooMoo Milk (Johto)', 'camp life is authored per team (D-034)', 'open'],
+       ['Pikachu', 'berries roasted with its own electricity', 'Pokédex lore: it "roasts hard berries with electricity"', 'story candidate']].map(function (r) { return '<tr><td><b>' + esc(r[0]) + '</b></td><td>' + esc(r[1]) + '</td><td class="small muted">' + esc(r[2]) + '</td><td>' + chip(r[3], r[3].indexOf('proposed') === 0 ? 'ember' : r[3] === 'working' ? 'forest' : '') + '</td></tr>'; }).join('') + '</tbody></table>', {eyebrow: 'Diet & development'}) + '</div>' +
+    '<div class="c5">' + card('Feeding log', '<div style="margin-bottom:10px"><button class="btn sm gold" onclick="openForm(\'feeding\')">Log a feeding</button></div>' + (feeds.length ? feeds.slice(0, 14).map(function (f) { return '<div class="line small"><b>' + esc(f.who) + '</b> · ' + esc(f.food) + (f.amount ? ' · ' + esc(f.amount) : '') + '<div class="tiny muted">' + ago(f.at) + (f.note ? ' · ' + esc(f.note) : '') + '</div></div>'; }).join('') : '<div class="empty">No feedings logged.</div>'), {eyebrow: 'Records'}) + '</div></div>';
+}
+route(/^\/glasshouse\/?$/, function () { return glasshouse('overview'); }, 'The Glasshouse', '#/glasshouse');
+route(/^\/glasshouse\/(\w+)$/, glasshouse, function (t) { return 'Glasshouse · ' + t; }, '#/glasshouse');
+</script>

@@ -6,6 +6,8 @@
 
 **Pokémon Master — Blackthorn Canon DB**, in the project's Drive folder (`docs.google.com/spreadsheets/d/1wl--FXM94a3tfVlDzJ0J83-D2AKmKfuqVHDLtw5qDEg`).
 
+The Sheet is also the back end of **Blackthorn HQ**, the web app over the whole project (docs/APP.md, D-055). Its log tabs (Eggs, Egg Walks, Plantings, Harvests, Readings, Feedings, Journal, Timeline, Specimens) sit after Setup.
+
 | Tab | What it holds |
 |---|---|
 | **Blackthorn** | the dashboard: live tiles (residents, lines, studbook, generations, rule issues, open jobs, your calls); the six chapters with their sprites; the breeding program; facilities and who runs them; the Glasshouse egg laps and crop plan; your open calls; charts of the land and the nursery pens |
