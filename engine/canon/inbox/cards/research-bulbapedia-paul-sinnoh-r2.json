@@ -37,11 +37,14 @@
     "outcome": "Gastrodon was the second Pokémon used against Ash in the Lily of the Valley Conference, going up against Ash's Staraptor.",
     "sample_size": 1
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
    "note": "order in the Lily of the Valley Conference full battle against Ash",
-   "id": "c1"
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -57,11 +60,14 @@
     "outcome": "Drapion was the third Pokémon used in Paul's Lily of the Valley Conference match against Ash.",
     "sample_size": 1
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
    "note": "order in the Lily of the Valley Conference full battle against Ash",
-   "id": "c2"
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -77,11 +83,14 @@
     "outcome": "It did not appear again until it was used as Paul's fourth Pokémon against Ash in the Lily of the Valley Conference, where it went up against Ash's Gliscor.",
     "sample_size": 1
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
    "note": "order in the Lily of the Valley Conference full battle against Ash",
-   "id": "c3"
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -97,11 +106,14 @@
     "outcome": "Froslass was the fifth Pokémon used by Paul in his battle against Ash in the Lily of the Valley Conference.",
     "sample_size": 1
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
    "note": "order in the Lily of the Valley Conference full battle against Ash",
-   "id": "c4"
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -117,12 +129,15 @@
     "outcome": "Paul used it as his last Pokémon in his quarterfinal battle against Ash in Battling a Thaw in Relations!.",
     "sample_size": 1
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul's_Electivire",
    "note": "order in the Lily of the Valley Conference full battle against Ash",
-   "id": "c5"
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   }
  ],
- "status": "open"
+ "status": "closed"
 }

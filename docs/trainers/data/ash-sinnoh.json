@@ -1890,8 +1890,10 @@
   },
   "weather": [],
   "observed": {
-   "n": 0,
-   "battles": [],
+   "n": 1,
+   "battles": [
+    "the Lily of the Valley Conference full battle against Paul"
+   ],
    "aggression": null,
    "by_state_aggression": null,
    "lead": [],
@@ -1901,9 +1903,21 @@
    "after_faint": [],
    "closers": [],
    "held_back": [],
-   "sent_out": []
+   "sent_out": [
+    {
+     "pokemon": "Pikachu",
+     "move": "sent out #1",
+     "n": 1,
+     "outcome": "During the Lily of the Valley Conference, Ash used Pikachu as his first Pokémon in his battle against Paul in Familiarity Breeds Strategy!.",
+     "position": 1,
+     "battle": "the Lily of the Valley Conference full battle against Paul"
+    }
+   ]
   },
-  "film": [],
+  "film": [
+   "In the Lily of the Valley Conference full battle against Paul: Pikachu (#1).",
+   "From: the Lily of the Valley Conference full battle against Paul."
+  ],
   "ladder": [
    {
     "species": "Infernape",

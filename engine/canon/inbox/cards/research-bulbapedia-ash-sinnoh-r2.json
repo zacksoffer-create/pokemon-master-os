@@ -34,12 +34,15 @@
     "outcome": "During the Lily of the Valley Conference, Ash used Pikachu as his first Pokémon in his battle against Paul in Familiarity Breeds Strategy!.",
     "sample_size": 1
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
    "note": "order in the Lily of the Valley Conference full battle against Paul",
-   "id": "c1"
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   }
  ],
- "status": "open"
+ "status": "closed"
 }

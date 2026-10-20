@@ -17,12 +17,15 @@
     "was": "Torterra",
     "why": "Bulbapedia, Paul's Electivire: 'Paul used it as his last Pokémon in his quarterfinal battle against Ash in Battling a Thaw in Relations!' Saved for last in the battle his version stands for; the mention count that picked Torterra was the weakest signal on that card."
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul's_Electivire",
    "note": "puts back the authored ace; reject it to keep Torterra",
-   "id": "c1"
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.paul.versions.sinnoh.overrides.ace: \"Torterra\" → \"Electivire\")",
+   "applied_on": "2026-10-20"
   }
  ],
- "status": "open"
+ "status": "closed"
 }

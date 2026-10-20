@@ -1306,7 +1306,7 @@
  },
  "roles": [],
  "overrides": {
-  "ace": "Torterra"
+  "ace": "Electivire"
  },
  "playsheet": {
   "career": {
@@ -1315,9 +1315,9 @@
      "region": "Kanto",
      "event": "Battle Frontier",
      "kind": "frontier",
-     "result": "challenged the Battle Pyramid and lost to Brandon (draft: confirm)",
+     "result": "challenged the Battle Pyramid and lost to Brandon",
      "source": "anime",
-     "status": "draft: confirm"
+     "status": "result confirmed; region open (ASK-0014)"
     },
     {
      "region": "Sinnoh",
@@ -1464,8 +1464,8 @@
   ],
   "ace": {
    "derived": "Torterra",
-   "authored": "Torterra",
-   "agree": true,
+   "authored": "Electivire",
+   "agree": false,
    "ranking": [
     {
      "species": "Torterra",
@@ -1819,8 +1819,10 @@
    "hail"
   ],
   "observed": {
-   "n": 0,
-   "battles": [],
+   "n": 5,
+   "battles": [
+    "the Lily of the Valley Conference full battle against Ash"
+   ],
    "aggression": null,
    "by_state_aggression": null,
    "lead": [],
@@ -1830,9 +1832,53 @@
    "after_faint": [],
    "closers": [],
    "held_back": [],
-   "sent_out": []
+   "sent_out": [
+    {
+     "pokemon": "Gastrodon",
+     "move": "sent out #2",
+     "n": 1,
+     "outcome": "Gastrodon was the second Pokémon used against Ash in the Lily of the Valley Conference, going up against Ash's Staraptor.",
+     "position": 2,
+     "battle": "the Lily of the Valley Conference full battle against Ash"
+    },
+    {
+     "pokemon": "Drapion",
+     "move": "sent out #3",
+     "n": 1,
+     "outcome": "Drapion was the third Pokémon used in Paul's Lily of the Valley Conference match against Ash.",
+     "position": 3,
+     "battle": "the Lily of the Valley Conference full battle against Ash"
+    },
+    {
+     "pokemon": "Ninjask",
+     "move": "sent out #4",
+     "n": 1,
+     "outcome": "It did not appear again until it was used as Paul's fourth Pokémon against Ash in the Lily of the Valley Conference, where it went up against Ash's Gliscor.",
+     "position": 4,
+     "battle": "the Lily of the Valley Conference full battle against Ash"
+    },
+    {
+     "pokemon": "Froslass",
+     "move": "sent out #5",
+     "n": 1,
+     "outcome": "Froslass was the fifth Pokémon used by Paul in his battle against Ash in the Lily of the Valley Conference.",
+     "position": 5,
+     "battle": "the Lily of the Valley Conference full battle against Ash"
+    },
+    {
+     "pokemon": "Electivire",
+     "move": "sent out last",
+     "n": 1,
+     "outcome": "Paul used it as his last Pokémon in his quarterfinal battle against Ash in Battling a Thaw in Relations!.",
+     "position": 6,
+     "battle": "the Lily of the Valley Conference full battle against Ash"
+    }
+   ]
   },
-  "film": [],
+  "film": [
+   "In the Lily of the Valley Conference full battle against Ash: Gastrodon (#2) → Drapion (#3) → Ninjask (#4) → Froslass (#5) → Electivire (last).",
+   "From: the Lily of the Valley Conference full battle against Ash."
+  ],
   "ladder": [
    {
     "species": "Electivire",
@@ -2017,7 +2063,7 @@
    "career": [
     {
      "section": "career",
-     "text": "Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon (draft: confirm); Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).",
+     "text": "Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon; Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).",
      "rule": "career_record",
      "trigger": "record_str nonempty"
     }
@@ -2025,9 +2071,9 @@
    "ace": [
     {
      "section": "ace",
-     "text": "Ace: Torterra. The story and the data agree (set up by Ninjask and Drapion, the widest coverage and a bulky attacker).",
-     "rule": "ace_agree",
-     "trigger": "ace_agrees nonempty"
+     "text": "The story's ace is Electivire; the data's is Torterra (set up by Ninjask and Drapion, the widest coverage and a bulky attacker). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
     }
    ],
    "go_to": [

@@ -59,6 +59,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Gliscor | check / counter (solid, 0.54) | tank (loose) | – |
 | Buizel | revenge killer (solid, 0.54) | late-game cleaner (solid) | – |
 
+## On film
+
+- In the Lily of the Valley Conference full battle against Paul: Pikachu (#1).
+- From: the Lily of the Valley Conference full battle against Paul.
+
 ## On the ladder
 
 - Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.

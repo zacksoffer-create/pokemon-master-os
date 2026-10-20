@@ -17,10 +17,14 @@
     "was": "challenged the Battle Pyramid and lost to Brandon (draft: confirm)",
     "why": "Serebii's episode guide says Paul is defeated by Pyramid King Brandon"
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://serebii.net/anime/epiguide/shinou/596.shtml",
-   "id": "c1"
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "note": "was \"challenged the Battle Pyramid and lost to Brandon (draft: confirm)\"",
+   "applied_to": "canon/trainers.json (trainers.paul.career.0.result: \"challenged the Battle Pyramid and lost to Brandon (draft: confirm)\" → \"challenged the Battle Pyramid and lost to Brandon\")",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "correction",
@@ -30,11 +34,15 @@
     "was": "draft: confirm",
     "why": "the result now has a source; the region doesn't yet"
    },
-   "status": "proposed",
+   "status": "applied",
    "confidence": "MEDIUM",
    "source_ref": "https://serebii.net/anime/epiguide/shinou/596.shtml",
-   "id": "c2"
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "note": "was \"draft: confirm\"",
+   "applied_to": "canon/trainers.json (trainers.paul.career.0.status: \"draft: confirm\" → \"result confirmed; region open (ASK-0014)\")",
+   "applied_on": "2026-10-20"
   }
  ],
- "status": "open"
+ "status": "closed"
 }

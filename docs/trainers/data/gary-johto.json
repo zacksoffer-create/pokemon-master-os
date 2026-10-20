@@ -1791,8 +1791,10 @@
   },
   "weather": [],
   "observed": {
-   "n": 0,
-   "battles": [],
+   "n": 1,
+   "battles": [
+    "the Silver Conference full battle against Ash"
+   ],
    "aggression": null,
    "by_state_aggression": null,
    "lead": [],
@@ -1802,9 +1804,21 @@
    "after_faint": [],
    "closers": [],
    "held_back": [],
-   "sent_out": []
+   "sent_out": [
+    {
+     "pokemon": "Golem",
+     "move": "sent out #6",
+     "n": 1,
+     "outcome": "Golem was the sixth Pokémon Gary used against Ash at the Silver Conference, sending it out against Ash's Charizard.",
+     "position": 6,
+     "battle": "the Silver Conference full battle against Ash"
+    }
+   ]
   },
-  "film": [],
+  "film": [
+   "In the Silver Conference full battle against Ash: Golem (#6).",
+   "From: the Silver Conference full battle against Ash."
+  ],
   "ladder": [
    {
     "species": "Blastoise",

@@ -61,6 +61,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Golem | bulky attacker (solid, 0.62) | wallbreaker (loose) | – |
 | Scizor | bulky attacker (solid, 0.65) | revenge killer (solid) | – |
 
+## On film
+
+- In the Silver Conference full battle against Ash: Golem (#6).
+- From: the Silver Conference full battle against Ash.
+
 ## On the ladder
 
 - Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%.

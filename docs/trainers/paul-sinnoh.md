@@ -60,6 +60,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Drapion | hazard setter (solid, 0.64) | check / counter (solid) | – |
 | Gastrodon | bulky attacker (strong, 0.65) | check / counter (solid) | – |
 
+## On film
+
+- In the Lily of the Valley Conference full battle against Ash: Gastrodon (#2) → Drapion (#3) → Ninjask (#4) → Froslass (#5) → Electivire (last).
+- From: the Lily of the Valley Conference full battle against Ash.
+
 ## On the ladder
 
 - Electivire: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Punch, Thunder Punch, Earthquake, Taunt @ Expert Belt (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Latias 53%.
@@ -69,11 +74,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## Career
 
-- Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon (draft: confirm); Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).
+- Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon; Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).
 
 ## The ace
 
-- Ace: Torterra. The story and the data agree (set up by Ninjask and Drapion, the widest coverage and a bulky attacker).
+- The story's ace is Electivire; the data's is Torterra (set up by Ninjask and Drapion, the widest coverage and a bulky attacker). Plan for both.
 
 ## Who they go to
 
