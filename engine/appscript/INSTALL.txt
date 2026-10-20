@@ -30,7 +30,10 @@ C. Turn it into a web app (one minute)
   8. Copy the Web app URL it shows you and open it. Bookmark it, or add it to your phone's home screen.
      The Blackthorn menu in the Sheet also gets "Open Blackthorn HQ (the web app)".
 
-If you installed an earlier version: paste the new WebApp.gs (it now caches each file on its own and can save
+If you installed the version with the Scouting Lab: the Battle Lab needs only the new Blackthorn-HQ-app.zip (upload it;
+the script is unchanged). The first battle page you open loads Smogon's damage calculator from the zip (a second or two).
+
+If you installed an earlier version than that: paste the new WebApp.gs (it now caches each file on its own and can save
 Scouting Lab variants to the Variants tab), then Deploy → Manage deployments → the pencil → Version: New version →
 Deploy, and upload the new Blackthorn-HQ-app.zip.
 

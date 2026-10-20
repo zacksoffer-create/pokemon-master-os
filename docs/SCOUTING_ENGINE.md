@@ -205,6 +205,7 @@ Against a game's trainer, the trainer has one policy, so our best plan is judged
   | `lab.py fight <team> <member> <team> <member>` | one fight, turn by turn: the plan, the answer, the HP after every turn, and what made the difference |
 
   Add `--json` to any command for the raw numbers.
+- **In the browser** (D-057). The whole engine also runs in Blackthorn HQ (`engine/app/web/27_battle.html`), with Smogon's calculator in the page: the Battle Lab (`#/battlelab`) changes members, builds, coach settings and phrase rules and regenerates every section, and every call opens its fight turn by turn. It's a line-for-line port held to this engine by `engine/app/test_battle_parity.mjs`: every lineup, edited lineups and the what-if league must match section for section. A change to a definition here goes into both, or the test fails.
 
 ## Sources and licenses
 

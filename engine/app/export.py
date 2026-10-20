@@ -17,7 +17,10 @@ live.
 
     scout.json     the scouting engine pack: what the browser's port of the report engine reads (app/scout_pack.py)
     field.json     the wilderness engine's evidence for every species and game (app/field_pack.py)
-    advance*.json  the battle engine's Journey Scouting File, one lineup per file (app/advance_pack.py)
+    advance*.json  the battle engine's Journey Scouting File as its last Python run left it, one lineup per file
+                   (app/advance_pack.py)
+    battle.json, calc.json   the battle engine pack and Smogon's damage calculator, so the browser runs the battle
+                   engine itself (app/battle_pack.py)
     engines.json, inbox.json   the Engine Room and the intake inbox (app/room_pack.py)
     breeder.json   every line's egg moves with the breeding engine's lineages (app/breeder_pack.py, slow: --breeder)
 
@@ -311,12 +314,14 @@ def main(breeder=False):
     print(f"{'total':16} {sum(sizes.values()) / 1024:7.1f} KB -> {OUT}")
     # the engines the app runs live or reads whole: each pack is its own module and can be run alone
     import advance_pack
+    import battle_pack
     import field_pack
     import room_pack
     import scout_pack
     scout_pack.main()
     field_pack.main()
     advance_pack.main()
+    battle_pack.pack()
     room_pack.main()
     if breeder:
         import breeder_pack

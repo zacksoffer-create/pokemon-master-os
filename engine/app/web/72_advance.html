@@ -1,9 +1,9 @@
 <script>
 /* ===== Advance scouting: the battle engine's Journey Scouting File =============================================
-   battle/scouting_report.py, as its last run left it (app/advance_pack.py). Every one-on-one was played out with
-   Smogon's damage calculator, which runs in node, so this page reads the results rather than recomputing them: the
-   member cards, the coach profile, the self-scout, every opponent's call sheet, advance report, game plan and play
-   calls by situation, and the what-if league. */
+   The index (the lineups, their profiles and the what-if league) is battle/scouting_report.py's last Python run
+   (app/advance_pack.py). Open a lineup and its whole file is built live: the battle engine (27_battle.html) plays
+   every one-on-one in the page with Smogon's damage calculator, then the page checks the result against the stored
+   Python run, section by section. The stored run is the fallback when the engine can't load. */
 function advIndex() { return API.data('advance').then(function (d) { S.adv = d; return d; }); }
 function advSlider(def, v, p) {
   return '<div style="padding:6px 0"><div class="goal" style="padding:0"><span class="small"><b>' + esc(def.name) + '</b></span><span class="tiny muted">' + (v == null ? '—' : Math.round(v)) + (p != null ? ' · above ' + p + '% of the field' : '') + '</span></div>' +
@@ -19,7 +19,7 @@ function advancePage() {
     var L = d.league, names = d.titles;
     return '<div class="eyebrow">The battle engine · the Journey Scouting File</div><h1 style="margin:6px 0">Advance scouting</h1>' +
       '<p class="lede">The first scouting engine: every lineup of the journey against the games\' own Elite Four and Champions, each one-on-one played out with the damage calculator. Member cards, coach profiles, call sheets, advance reports, game plans and play calls by situation, plus a league where every lineup plays every other.</p>' +
-      '<div class="notice sim" style="margin-top:12px">From the engine\'s last run (' + esc(d.generated) + '). These numbers come from damage calculations the browser can\'t run yet, so this section reads results; the Scouting Lab is where the report engine runs live.</div>' +
+      '<div class="notice sim" style="margin-top:12px">Open a lineup and its whole file is built live in this page: the battle engine plays every one-on-one with Smogon\'s damage calculator, then checks itself against the engine\'s last Python run (' + esc(d.generated) + '), which is what this index shows. To change anything and watch the file rewrite itself, use the <a class="link" href="#/battlelab">Battle Lab</a>.</div>' +
       d.chapters.map(function (ch) { var lus = d.lineups.filter(function (x) { return x.chapter === ch; });
         return '<div class="ornament" style="margin:24px 0 12px">' + esc(GAME_NAME[ch] || ch) + '</div><div class="grid">' + lus.map(function (lu) { var p = lu.profile;
           return '<div class="c4"><a class="card" href="#/advance/' + encodeURIComponent(lu.id) + '" style="display:block;color:inherit;height:100%"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(lu.variation ? 'variation' : 'canon lineup') + ' · ' + esc(lu.status) + '</div><h3>' + esc(lu.title) + '</h3></div></div>' +
@@ -35,7 +35,7 @@ function advancePage() {
       '<p class="tiny muted" style="margin-top:12px">' + esc(d.method) + '</p>';
   });
 }
-function advLineup(id) {
+function advStored(id) {
   return Promise.all([advIndex(), API.data('advance-' + id)]).then(function (r) {
     var d = r[0], lu = d.lineups.filter(function (x) { return x.id === id; })[0], sheets = r[1].sheets;
     if (!lu) return '<div class="empty">No lineup ' + esc(id) + '.</div>';
@@ -82,5 +82,48 @@ function advSheet(s, d, lu) {
           d.situations.map(function (st) { return '<td class="tiny">' + esc((x.ours || {})[st.id] || '') + '<div class="muted">vs ' + esc((x.their || {})[st.id] || '') + '</div></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>', {eyebrow: 'Ours, and theirs underneath', tools: false}) + '</div>';
 }
 route(/^\/advance\/?$/, advancePage, 'Advance scouting', '#/advance');
+function advSame(a, b) {   // the live file against the stored Python run: same numbers, same words (the lab's own fields aside)
+  if (Array.isArray(a) || Array.isArray(b)) return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every(function (x, i) { return advSame(x, b[i]); });
+  if (a && b && typeof a === 'object' && typeof b === 'object') { var ka = Object.keys(a).filter(function (k) { return k.charAt(0) !== '_'; }), kb = Object.keys(b);
+    return ka.length === kb.length && ka.every(function (k) { return advSame(a[k], b[k]); }); }
+  return a === b || (a == null && b == null);
+}
+function advLineup(id) {
+  return Promise.all([advIndex(), battleReady().then(function () { return true; }, function () { return false; })]).then(function (r) {
+    var d = r[0], lu = r[1] ? blBaseLineup(id) : null;
+    if (!lu) return advStored(id);
+    var key = id + '|p';
+    BV = {show: {diff: false, missed: false, ctx: false}, tab: 'members', opp: 0, lab: false, save: null, render: function () { advPaint(id); }};
+    after(function () {
+      var t0 = Date.now(), n = 0, prog = document.getElementById('advprog');
+      var done = function (live) { S.blBase[key] = live; S.advLive = {id: id, d: live, ms: Date.now() - t0, stats: S.bEng.stats()}; if (prog) prog.innerHTML = ''; advPaint(id); advCheck(id, live); };
+      if (S.blBase[key]) return done(S.blBase[key]);
+      S.bEng.book = S.bPack.phrasebook;
+      S.bEng.chapterAsync(lu, blBaseCoach(id), function (label) { n++; if (prog) prog.innerHTML = '<div class="notice" style="margin:12px 0"><div class="goal" style="padding:0"><span class="small"><b>Building the file live</b> · ' + esc(label) + '</span><span class="tiny muted">' + ((Date.now() - t0) / 1000).toFixed(1) + ' s</span></div><div class="bar" style="margin-top:6px"><i style="width:' + Math.min(100, Math.round(100 * n / 20)) + '%"></i></div></div>'; })
+        .then(done).catch(function (e) { if (prog) prog.innerHTML = '<div class="notice" style="border-color:var(--ember)">The live engine stopped (' + esc(e && e.message || e) + '); <a class="link" href="#/advance/' + encodeURIComponent(id) + '/stored">open the stored run</a>.</div>'; });
+    });
+    return '<a class="link" href="#/advance">← Advance scouting</a><div id="advprog"></div><div id="advcheck"></div><div id="blres"></div>';
+  });
+}
+function advPaint(id) {
+  var res = document.getElementById('blres'), L = S.advLive; if (!res || !L || L.id !== id) return;
+  var d = L.d;
+  blPaint(res, d, null, '<section class="report-hero hero2"><div><div class="eyebrow">' + esc(GAME_NAME[d.game]) + ' · ' + esc(d.variation ? 'variation' : 'canon lineup') + ' · ' + esc(d.status) + (d.decision ? ' · ' + esc(d.decision) : '') + '</div><h1 style="margin:6px 0">' + esc(d.title) + '</h1>' +
+    '<div class="serif" style="font-size:19px;color:var(--gold-2)">' + esc(cap(d.thesis || '')) + '</div><div class="tiny muted" style="margin-top:6px">Built live in ' + (L.ms / 1000).toFixed(1) + ' s · ' + L.stats.fights.toLocaleString() + ' fights played · ' + L.stats.damage_numbers.toLocaleString() + ' damage numbers · <a class="link" href="#/battlelab/' + encodeURIComponent(id) + '">tinker with it in the Battle Lab →</a></div></div>' +
+    '<div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">' + d.cards.map(function (c) { return '<img src="' + art(numOf(c.species)) + '" title="' + esc(c.species) + '" style="width:56px;height:56px;object-fit:contain">'; }).join('') + '</div>' + blToggles() + '</div></section>',
+    [['members', 'Members'], ['sheets', 'Call sheets'], ['team', 'Self-scout & profile'], ['how', 'How it\'s built']]);
+}
+function advCheck(id, live) {
+  Promise.all([advIndex(), API.data('advance-' + id).catch(function () { return null; })]).then(function (r) {
+    var el = document.getElementById('advcheck'), idx = r[0].lineups.filter(function (x) { return x.id === id; })[0], stored = r[1];
+    if (!el || !idx || !stored) return;
+    var parts = [['the member cards', live.cards, idx.cards], ['the self-scout', live.self_scout, idx.self_scout], ['the coach profile', live.profile, idx.profile]];
+    live.sheets.forEach(function (s, i) { parts.push(['the call sheet vs ' + s.opponent, s, stored.sheets[i]]); });
+    var off = parts.filter(function (x) { return !advSame(x[1], x[2]); }).map(function (x) { return x[0]; });
+    el.innerHTML = off.length ? '<div class="notice" style="margin-top:12px">Built live, and ' + (parts.length - off.length) + ' of ' + parts.length + ' sections match the engine\'s last Python run (' + esc(r[0].generated) + '). Different: ' + esc(off.join(', ')) + '. The Python run is older than the data or the engine; <a class="link" href="#/advance/' + encodeURIComponent(id) + '/stored">open the stored run</a> to compare.</div>'
+      : '<div class="notice sim" style="margin-top:12px">Built live in this page, and all ' + parts.length + ' sections match the engine\'s last Python run (' + esc(r[0].generated) + ') number for number and word for word.</div>';
+  });
+}
 route(/^\/advance\/([\w-]+)$/, advLineup, function (i) { return 'Advance scouting · ' + i; }, '#/advance');
+route(/^\/advance\/([\w-]+)\/stored$/, advStored, function (i) { return 'Advance scouting · ' + i + ' (stored run)'; }, '#/advance');
 </script>

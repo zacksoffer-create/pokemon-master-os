@@ -44,7 +44,6 @@ Against the Gen 4 OU usage field (73 Smogon sets): **chips (p4), straight-up (p5
 - **What we're trying to do:** Outlast them: Dragonite, Empoleon and Scizor stay in and make the other side run out first. The anchor: Dragonite.
 - **What we're good at:** 13 attack types in the repertoire. The main ones: Steel (Empoleon, Pikachu and Scizor), Normal (Dragonite and Pikachu), Fire (Infernape) and Water (Empoleon). Nothing is safe: 17 of 17 types take super-effective hits from this club. Gengar sets the pace; Empoleon expects to take the first hit. Closers: Pikachu, Dragonite, Empoleon and Scizor.
 - **Where we're soft:** Shared holes: Ground (Pikachu, Infernape and Empoleon).
-- **Scout's note:** Pikachu has no Light Ball on record: 9-23 against the league without it, 21-11 with it.
 
 | Attack type | Who throws it |
 |---|---|

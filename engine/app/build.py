@@ -94,7 +94,7 @@ def build():
 SHOTS = ["", "estate", "glasshouse", "breeding", "breeding/studbook", "breeding/tree/S-TYRANITAR", "atlas", "atlas/248",
          "journal", "scouting", "scouting/cynthia-champion-platinum", "teams", "teams/me-heartgold", "builds", "builds/lab",
          "builds/ladder", "calls", "record", "scoutlab/cynthia/champion-platinum", "advance", "advance/heartgold", "field",
-         "breeder/Tyranitar", "inbox", "engine", "record/evidence"]
+         "breeder/Tyranitar", "inbox", "engine", "record/evidence", "battlelab/heartgold"]
 
 
 def shots(preview, pages=None, width=1440):

@@ -1,0 +1,437 @@
+<script>
+/* ===== The Battle Lab: the battle engine, live =================================================================
+   Runs the real battle engine (27_battle.html, held to Python's battle/scouting_report.py section for section by
+   app/test_battle_parity.mjs) with Smogon's damage calculator in the page. Change a member, a move, an item, the
+   coach's settings or a phrase rule and the lineup's whole scouting file regenerates: member cards, call sheets,
+   advance reports, game plans, play calls by situation, the self-scout, the coach profile and the league. Every
+   sentence shows the rule that wrote it and the numbers that triggered it; every call opens the fight behind it.
+   Nothing here changes canon: a variant you like is saved to the Variants tab or copied as a lineups.json entry. */
+function battleReady() {
+  if (!S.battleP) S.battleP = Promise.all([API.data('calc'), API.data('battle')]).then(function (r) {
+    if (!window.calc || !window.calc.calculate) { var el = document.createElement('script'); el.text = r[0].code; document.head.appendChild(el); }
+    if (!window.calc || !window.calc.calculate) throw new Error('the damage calculator didn\'t load');
+    Battle.init(r[1], window.calc);
+    S.bPack = r[1]; S.bEng = Battle.engine(); S.blBase = {};
+    return Battle;
+  }).catch(function (e) { S.battleP = null; throw e; });
+  return S.battleP;
+}
+var BL = null, BV = null, BLRUN = {token: 0, last: null};
+var COACH_KNOBS = [
+  ['aggression', 'Aggression', 'How much accuracy counts when it picks an attack: 0 counts it twice, 50 is the default (hits ÷ accuracy), 100 ignores it.', 50],
+  ['patience', 'Patience', 'The most HP it will have lost and still set up (boosts, Substitute, screens, weather).', 50],
+  ['heal_line', 'Heal line', 'Heal at or under this HP %, even if the next hit wouldn\'t knock it out. Also where "3rd and long" starts.', 30],
+  ['risk_tolerance', 'Risk tolerance', 'The lowest accuracy it calls when a surer attack is available.', 85]];
+function blClone(o) { return JSON.parse(JSON.stringify(o)); }
+function blBaseLineup(id) { return S.bPack.lineups.filter(function (x) { return x.id === id; })[0]; }
+function blBaseCoach(id) { return (S.bPack.coaches || {})[id] || {}; }
+function blLoad(id) {
+  var lu = blBaseLineup(id) || S.bPack.lineups[0], old = BL || {};
+  BL = {base: lu.id, lu: blClone(lu), coach: blClone(blBaseCoach(lu.id)), book: {}, off: {}, show: old.show || {diff: true, missed: false, ctx: false},
+    tab: old.tab || 'members', opp: 0, profile: old.profile !== false};
+  blSave();
+}
+function blSave() { if (BL) store('battlelab', {base: BL.base, lu: BL.lu, coach: BL.coach, book: BL.book, off: BL.off, show: BL.show, tab: BL.tab, opp: BL.opp, profile: BL.profile}); }
+function bvSave() { if (BV && BV.save) BV.save(); }
+function blEdited() {
+  var b = blBaseLineup(BL.base);
+  return JSON.stringify(BL.lu.members) !== JSON.stringify(b.members) || JSON.stringify(BL.coach) !== JSON.stringify(blBaseCoach(BL.base)) ||
+    Object.keys(BL.book).length > 0 || Object.keys(BL.off).length > 0;
+}
+function blBook() {
+  if (!Object.keys(BL.book).length && !Object.keys(BL.off).length) return S.bPack.phrasebook;
+  var book = blClone(S.bPack.phrasebook);
+  Object.keys(BL.book).forEach(function (k) { var p = k.split('/'), r = (book[p[0]] || []).filter(function (x) { return x.id === p[1]; })[0]; if (r && r.when[+p[2]]) r.when[+p[2]][2] = BL.book[k]; });
+  Object.keys(book).forEach(function (kind) { book[kind] = book[kind].filter(function (r) { return !BL.off[kind + '/' + r.id]; }); });
+  return book;
+}
+function battleLab(id) {
+  return Promise.all([battleReady(), API.tab('Variants').catch(function () { return []; })]).then(function (r) {
+    S.variants = r[1] || [];
+    var saved = store('battlelab');
+    if (id) blLoad(id);
+    else if (saved && saved.lu && blBaseLineup(saved.base)) BL = Object.assign({show: {diff: true, missed: false, ctx: false}, tab: 'members', opp: 0, profile: true, book: {}, off: {}}, saved);
+    else blLoad('heartgold');
+    if (id) { try { history.replaceState(null, '', '#/battlelab'); } catch (e) {} }
+    BV = BL; BV.render = blRender; BV.save = blSave; BV.lab = true;
+    after(function (p) { blBind(p); blRun(); });
+    return '<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><div class="eyebrow">The Battle Lab · the battle engine, live</div><h1 style="margin:6px 0">The Battle Lab</h1>' +
+      '<p class="lede">Change a member, a move, an item, the coach\'s settings or a phrase rule, and the whole scouting file rewrites itself the way the engine would: member cards, call sheets, advance reports, game plans, play calls by situation, the self-scout, the coach profile and the league. Every fight is played out here with Smogon\'s damage calculator. Every sentence shows the rule that wrote it; every call opens the fight behind it. Nothing here changes canon.</p></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="blReset()">Back to the original</button><button class="btn" onclick="blExport()">Copy as a lineup</button><button class="btn gold" onclick="blSaveVariant()">Save this variant</button></div></div>' +
+      '<div class="slgrid" style="margin-top:16px"><div id="blin"></div><div id="blout"><div id="blprog"></div><div id="blres"></div></div></div>';
+  });
+}
+/* ---- the inputs ---- */
+function blInputs() {
+  var lu = BL.lu, gen = Battle.GAME_GEN[lu.game], byCh = {};
+  S.bPack.lineups.forEach(function (x) { (byCh[x.chapter] = byCh[x.chapter] || []).push(x); });
+  var team = lu.members.map(function (sb, i) {
+    var b = sb[1] || {}, moves = b.moves || [], edited = JSON.stringify(sb) !== JSON.stringify((blBaseLineup(BL.base).members || [])[i] || null);
+    return '<div class="slmember"><img src="' + sprite(numOf(sb[0]), lu.game) + '" onerror="this.src=\'' + art(numOf(sb[0])) + '\'"><div style="min-width:0"><b>' + esc(sb[0]) + '</b>' + (edited ? ' ' + chip('edited', 'ember') : '') +
+      '<div class="tiny muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc(moves.length ? moves.join(' · ') + (moves.length < 4 ? ' · engine fills ' + (4 - moves.length) : '') : 'no build on record: the engine fills all four') + '</div>' +
+      '<div class="tiny muted">' + esc([b.item, gen >= 3 ? b.nature : '', gen >= 3 ? b.ability : ''].filter(Boolean).join(' · ')) + '</div></div>' +
+      '<div class="sltools"><button title="Move up" onclick="blMove(' + i + ',-1)">↑</button><button title="Move down" onclick="blMove(' + i + ',1)">↓</button><button title="Edit" onclick="blEdit(' + i + ')">✎</button><button title="Remove" onclick="blRemove(' + i + ')">✕</button></div></div>';
+  }).join('');
+  var coach = COACH_KNOBS.map(function (k) {
+    var on = BL.coach[k[0]] != null, v = on ? BL.coach[k[0]] : k[3];
+    return '<div class="slrow"><div class="goal" style="padding:0"><label class="small"><input type="checkbox" data-coach-on="' + k[0] + '"' + (on ? ' checked' : '') + '> <b>' + k[1] + '</b></label><b class="num" id="blc-' + k[0] + '">' + (on ? v : 'not set') + '</b></div>' +
+      '<input type="range" min="0" max="100" value="' + v + '" data-coach="' + k[0] + '"' + (on ? '' : ' disabled') + ' style="width:100%"><div class="tiny muted">' + esc(k[2]) + '</div></div>';
+  }).join('') + '<div class="slrow"><label class="small"><b>Tempo</b></label><select class="f" id="bltempo"><option value="">any: priority whenever it\'s the best attack (default)</option><option value="finish"' + (BL.coach.tempo === 'finish' ? ' selected' : '') + '>finish: priority only to finish</option></select></div>';
+  var bookN = Object.keys(BL.book).length + Object.keys(BL.off).length, P = S.bPack;
+  var book = ['player', 'opponent', 'trainer', 'self', 'plan'].map(function (kind) {
+    var rules = P.phrasebook[kind] || [], touched = rules.some(function (r) { return BL.off[kind + '/' + r.id] || r.when.some(function (c, j) { return (kind + '/' + r.id + '/' + j) in BL.book; }); });
+    return '<details' + (touched ? ' open' : '') + '><summary class="small" style="cursor:pointer;padding:6px 0"><b>' + esc(BL_KIND[kind]) + '</b> <span class="tiny muted">' + rules.length + ' rules</span></summary>' + rules.map(function (r) {
+      var nums = r.when.map(function (c, j) { return [c, j]; }).filter(function (x) { return typeof x[0][2] === 'number'; }), off = BL.off[kind + '/' + r.id];
+      return '<div style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)' + (off ? ';opacity:.5' : '') + '"><label class="tiny"><input type="checkbox" data-rule-off="' + kind + '/' + r.id + '"' + (off ? '' : ' checked') + '> <span class="rule">' + esc(r.id) + '</span> <span class="muted">' + esc((Battle.SECTION_TITLES[r.section] || r.section) + (r.group ? ' · group ' + r.group : '')) + '</span></label>' +
+        '<div class="tiny muted" style="margin:2px 0 0 18px">' + esc(r.say.length > 120 ? r.say.slice(0, 117) + '…' : r.say) + '</div>' +
+        nums.map(function (x) { var c = x[0], key = kind + '/' + r.id + '/' + x[1], cur = key in BL.book ? BL.book[key] : c[2];
+          return '<div class="knob" style="margin-left:18px"><span class="tiny">' + esc(c[0] + ' ' + c[1]) + '</span><input class="f" type="number" step="any" value="' + cur + '" data-book="' + key + '"' + (cur !== c[2] ? ' style="border-color:var(--ember)"' : '') + '><span class="tiny muted">was ' + c[2] + '</span></div>'; }).join('') + '</div>'; }).join('') + '</details>';
+  }).join('');
+  return card('The lineup', '<label class="l">Start from</label><select class="f" id="blbase">' + Object.keys(byCh).map(function (ch) { return '<optgroup label="' + esc(GAME_NAME[ch] || ch) + '">' + byCh[ch].map(function (x) {
+      return '<option value="' + esc(x.id) + '"' + (BL.base === x.id ? ' selected' : '') + '>' + esc(x.title) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select>' +
+    '<div class="tiny muted" style="margin-top:6px">' + esc(GAME_NAME[lu.game]) + ' · Gen ' + gen + ' rules · ' + esc(lu.thesis || '') + (lu.variation ? ' · ' + esc(lu.variation.why || '') : '') + '</div>' +
+    '<label class="small" style="display:block;margin-top:8px"><input type="checkbox" id="blprof"' + (BL.profile ? ' checked' : '') + '> build the coach profile too (every member against the whole usage field: the slowest part)</label>',
+    {eyebrow: 'Who', tools: false}) +
+    card('The six', team + (lu.members.length < 6 ? '<button class="btn sm" style="margin-top:8px" onclick="blAdd()">+ Add a member</button>' : '') +
+      '<p class="tiny muted" style="margin:8px 0 0">Open slots get the engine\'s strongest set (its best reliable STAB attack, the attacks adding the most new super-effective types, then its best setup or recovery move). The engine reads moves, item, nature and ability; it meets each trainer at their top level.</p>',
+      {eyebrow: plural(lu.members.length, 'member'), tools: false, style: 'margin-top:16px'}) +
+    card('The coach', coach + '<p class="tiny muted" style="margin:8px 0 0">Coach settings are prescriptive: the play calls by situation and the field play sheets use them; the fights that pick the calls and the descriptive profile never do.</p>',
+      {eyebrow: 'How it calls the game', tools: false, style: 'margin-top:16px'}) +
+    card('The phrase book' + (bookN ? ' ' + chip(bookN + ' changed', 'ember') : ''), '<p class="tiny muted" style="margin:0 0 8px">battle/phrasebook.json: every line in the file is one of these rules, fired by numbers the engine measured. Change a threshold or silence a rule and every sentence that reads it moves. Your changes live only in this lab.</p>' + book +
+      (bookN ? '<button class="btn sm" style="margin-top:8px" onclick="BL.book={};BL.off={};blChanged(true)">Reset the phrase book</button>' : ''), {eyebrow: 'Advanced: how the sentences get chosen', tools: false, style: 'margin-top:16px'}) +
+    ((S.variants || []).filter(function (x) { return String(x.base || '').indexOf('battle:') === 0; }).length ? card('Saved variants', S.variants.map(function (x, i) { return [x, i]; }).filter(function (x) { return String(x[0].base || '').indexOf('battle:') === 0; }).reverse().slice(0, 12).map(function (x) {
+      return '<div class="line small click" data-variant="' + x[1] + '"><b>' + esc(x[0].title) + '</b> <span class="tiny muted">' + esc(x[0].note || '') + ' · ' + fmtDate(x[0].at) + '</span></div>'; }).join(''), {eyebrow: 'The Variants tab', tools: false, style: 'margin-top:16px'}) : '');
+}
+var BL_KIND = {player: 'Member cards (player)', opponent: 'Their Pokémon (opponent)', trainer: 'The trainer', self: 'The self-scout', plan: 'The game plan'};
+function blBind(p) {
+  var box = p.querySelector('#blin'); box.innerHTML = blInputs();
+  box.addEventListener('input', function (e) {
+    var t = e.target, k;
+    if ((k = t.getAttribute('data-coach'))) { BL.coach[k] = +t.value; document.getElementById('blc-' + k).textContent = t.value; blChanged(false, 500); }
+    else if ((k = t.getAttribute('data-book'))) { var v = parseFloat(t.value); if (!isNaN(v)) { var p0 = k.split('/'), r = S.bPack.phrasebook[p0[0]].filter(function (x) { return x.id === p0[1]; })[0];
+      if (v === r.when[+p0[2]][2]) delete BL.book[k]; else BL.book[k] = v; blChanged(false, 500); } }
+  });
+  box.addEventListener('change', function (e) {
+    var t = e.target, k;
+    if (t.id === 'blbase') { blLoad(t.value); BV = BL; BV.render = blRender; BV.save = blSave; BV.lab = true; blChanged(true); }
+    else if (t.id === 'blprof') { BL.profile = t.checked; blChanged(); }
+    else if (t.id === 'bltempo') { if (t.value) BL.coach.tempo = t.value; else delete BL.coach.tempo; blChanged(); }
+    else if ((k = t.getAttribute('data-coach-on'))) { if (t.checked) BL.coach[k] = COACH_KNOBS.filter(function (x) { return x[0] === k; })[0][3]; else delete BL.coach[k]; blChanged(true); }
+    else if ((k = t.getAttribute('data-rule-off'))) { if (t.checked) delete BL.off[k]; else BL.off[k] = true; blChanged(true); }
+  });
+  box.addEventListener('click', function (e) { var el = e.target.closest('[data-variant]'); if (!el) return;
+    var x = S.variants[+el.getAttribute('data-variant')];
+    try { var o = JSON.parse(x.json); BL = Object.assign(BL, o); BV = BL; blChanged(true); toast('Loaded <b>' + esc(x.title) + '</b>.'); } catch (err) { toast('That variant can\'t be read.'); } });
+}
+var blTimer = null;
+function blChanged(redrawInputs, wait) {
+  blSave();
+  if (redrawInputs) { var box = document.getElementById('blin'); if (box) box.innerHTML = blInputs(); }
+  clearTimeout(blTimer); blTimer = setTimeout(blRun, wait || 150);
+}
+function blMove(i, d) { var t = BL.lu.members, j = i + d; if (j < 0 || j >= t.length) return; var x = t[i]; t[i] = t[j]; t[j] = x; blChanged(true); }
+function blRemove(i) { if (BL.lu.members.length <= 1) return toast('A lineup needs at least one member.'); BL.lu.members.splice(i, 1); blChanged(true); }
+function blAdd() { BL.lu.members.push(['Snorlax', {}]); blChanged(true); blEdit(BL.lu.members.length - 1); }
+function blReset() { blLoad(BL.base); BV = BL; BV.render = blRender; BV.save = blSave; BV.lab = true; blChanged(true); toast('Back to the original.'); }
+function blEdit(i) {
+  var sb = BL.lu.members[i], b = sb[1] || {}, game = BL.lu.game, gen = Battle.GAME_GEN[game], P = S.bPack, learn = [];
+  try { learn = Battle.learnable(sb[0], game); } catch (e) { learn = []; }
+  var species = Object.keys(P.gens[gen].species).map(function (id) { return P.gens[gen].species[id][0]; }).filter(function (n) { return P.gens[gen].learn[n.toLowerCase().replace(/[^a-z0-9]/g, '')]; }).sort();
+  var items = []; try { var it = window.calc.Generations.get(gen).items; for (var x of it) items.push(x.name); } catch (e) {}
+  var abil = gen >= 3 ? Battle.abilities(gen, sb[0]) : [], natures = Object.keys(P.natures).map(cap).sort(), fill = [];
+  try { fill = Battle.strongestSet(sb[0], game, b.rejected || []); } catch (e) {}
+  openDrawer('<div class="eyebrow">Edit a member · the file rebuilds when you save</div><h2 style="margin:6px 0">' + esc(sb[0]) + '</h2>' +
+    '<form id="blform" onsubmit="return blSaveMember(event,' + i + ')"><datalist id="bldex">' + species.map(function (s) { return '<option>' + esc(s) + '</option>'; }).join('') + '</datalist>' +
+    '<datalist id="blmv">' + learn.map(function (m) { return '<option>' + esc(m) + '</option>'; }).join('') + '</datalist><datalist id="blitems">' + items.sort().map(function (x) { return '<option>' + esc(x) + '</option>'; }).join('') + '</datalist>' +
+    '<label class="l">Species</label><input class="f" name="species" list="bldex" value="' + esc(sb[0]) + '">' +
+    '<label class="l">Moves (blank slots: the engine\'s strongest set fills them)</label>' + [0, 1, 2, 3].map(function (k) { return '<input class="f" name="mv' + k + '" list="blmv" value="' + esc((b.moves || [])[k] || '') + '" style="margin-bottom:6px" placeholder="' + esc(fill[k] ? 'engine: ' + fill[k] : '') + '">'; }).join('') +
+    '<div class="tiny muted">The engine\'s strongest set for it right now: ' + esc(fill.join(', ') || '—') + '</div>' +
+    '<label class="l">Moves the engine must never fill in</label><input class="f" name="rejected" value="' + esc((b.rejected || []).join(', ')) + '" placeholder="e.g. Hyper Beam, Focus Blast">' +
+    '<div class="row"><div><label class="l">Item</label><input class="f" name="item" list="blitems" value="' + esc(b.item || '') + '"></div>' +
+    (gen >= 3 ? '<div><label class="l">Nature (blank: neutral)</label><select class="f" name="nature"><option value="">—</option>' + natures.map(function (x) { return '<option' + (x === b.nature ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' : '') + '</div>' +
+    (gen >= 3 ? '<label class="l">Ability (blank: its first)</label><select class="f" name="ability"><option value="">—</option>' + abil.map(function (a) { return '<option' + (a === b.ability ? ' selected' : '') + '>' + esc(a) + '</option>'; }).join('') + '</select>' : '<p class="tiny muted">Gen 2 has no natures or abilities.</p>') +
+    '<p class="tiny muted">Learnable here: ' + learn.length + ' moves in the Gen ' + gen + ' games (the species and its pre-evolutions). Levels, EVs and IVs aren\'t read: the engine meets each trainer at their top level and fills the documented defaults (IVs 31, EVs 85 each, Gen 2 DVs 15).</p>' +
+    '<div style="margin-top:12px"><button class="btn gold">Save and rebuild</button></div></form>');
+}
+function blSaveMember(e, i) {
+  e.preventDefault();
+  var f = e.target, val = function (n) { return f[n] ? f[n].value.trim() : ''; }, old = BL.lu.members[i][1] || {}, nb = {};
+  var sp = val('species') || BL.lu.members[i][0];
+  try { Battle.species(Battle.GAME_GEN[BL.lu.game], sp); } catch (err) { toast(esc(sp) + ' isn\'t a species this game\'s calculator knows.'); return false; }
+  var moves = [0, 1, 2, 3].map(function (k) { return val('mv' + k); }).filter(Boolean);
+  if (moves.length) nb.moves = moves;
+  ['item', 'nature', 'ability'].forEach(function (k) { if (val(k)) nb[k] = val(k); });
+  var rej = val('rejected').split(',').map(function (x) { return x.trim(); }).filter(Boolean); if (rej.length) nb.rejected = rej;
+  if (old.status && sp === BL.lu.members[i][0]) nb.status = old.status + ' (edited in the Battle Lab)';
+  BL.lu.members[i] = [sp, nb]; closeDrawer(); blChanged(true); return false;
+}
+/* ---- running the engine ---- */
+function blRun() {
+  var tok = ++BLRUN.token, eng = S.bEng, base = blBaseLineup(BL.base), key = BL.base + (BL.profile ? '|p' : '|n'), steps = 0, t0 = Date.now();
+  var opps = eng.opponents(base.game).length, total = opps + 1 + (BL.profile ? 2 * BL.lu.members.length : 0), phase = '';
+  var prog = function (label) {
+    steps++; var el = document.getElementById('blprog'); if (!el) return;
+    el.innerHTML = '<div class="notice" style="margin-bottom:12px"><div class="goal" style="padding:0"><span class="small"><b>' + esc(phase) + '</b> · ' + esc(label) + '</span><span class="tiny muted">' + ((Date.now() - t0) / 1000).toFixed(1) + ' s</span></div>' +
+      '<div class="bar" style="margin-top:6px"><i style="width:' + Math.min(100, Math.round(100 * (steps % (total + 1)) / total)) + '%"></i></div></div>';
+  };
+  var runGen = function (gen) { return new Promise(function (res, rej) { (function step() {
+    if (tok !== BLRUN.token) return rej({cancelled: true});
+    var r; try { r = gen.next(); } catch (e) { return rej(e); }
+    if (r.done) return res(r.value);
+    prog(r.value); setTimeout(step, 0); })(); }); };
+  var baseP = S.blBase[key] ? Promise.resolve(S.blBase[key]) : (phase = 'The original', steps = 0, eng.book = S.bPack.phrasebook,
+    runGen(eng.chapterGen(base, blBaseCoach(BL.base), {profile: BL.profile})).then(function (d) { S.blBase[key] = d; return d; }));
+  return baseP.then(function (bd) {
+    if (!blEdited()) return [bd, bd];
+    phase = 'Your version'; steps = 0; eng.book = blBook();
+    return runGen(eng.chapterGen(BL.lu, BL.coach, {profile: BL.profile})).then(function (d) { return [d, bd]; });
+  }).then(function (r) {
+    if (tok !== BLRUN.token) return;
+    eng.book = S.bPack.phrasebook;
+    BLRUN.last = {d: r[0], base: r[1], ms: Date.now() - t0, stats: eng.stats()};
+    var el = document.getElementById('blprog'); if (el) el.innerHTML = '';
+    blRender();
+  }).catch(function (e) {
+    eng.book = S.bPack.phrasebook;
+    if (e && e.cancelled) return;
+    var el = document.getElementById('blprog');
+    if (el) el.innerHTML = '<div class="notice" style="border-color:var(--ember);margin-bottom:12px">The engine stopped: ' + esc(e && e.message || e) + '. Python would stop here too; change the member it names.</div>';
+    console.error(e);
+  });
+}
+/* ---- the output ---- */
+function blDiffList(cur, base) {
+  if (!BV || !BV.show.diff || !base) return cur.map(function (p) { return Object.assign({}, p, {state: 'same'}); });
+  var bt = base.map(function (p) { return p.text; }), ct = cur.map(function (p) { return p.text; });
+  return cur.map(function (p) { return Object.assign({}, p, {state: bt.indexOf(p.text) >= 0 ? 'same' : 'new'}); })
+    .concat(base.filter(function (p) { return ct.indexOf(p.text) < 0; }).map(function (p) { return Object.assign({}, p, {state: 'gone'}); }));
+}
+function blPhrases(cur, base, missed) {
+  var list = blDiffList(cur || [], base), by = {}, order = [];
+  list.forEach(function (p) { if (!by[p.section]) { by[p.section] = []; order.push(p.section); } by[p.section].push(p); });
+  var html = order.map(function (s) { return '<div class="eyebrow" style="margin:10px 0 4px">' + esc(Battle.SECTION_TITLES[s] || s) + '</div>' + by[s].map(function (p) {
+    return '<div class="sent ' + p.state + '"><div>' + esc(p.text) + '</div><div class="tiny" style="margin-top:2px"><span class="rule">' + esc(p.rule) + '</span> <span class="muted">' + esc(p.trigger || '') + '</span>' +
+      (p.state === 'new' ? ' ' + chip('new', 'forest') : p.state === 'gone' ? ' ' + chip('gone', 'ember') : '') + '</div></div>'; }).join(''); }).join('') || '<div class="tiny muted">No rule fired.</div>';
+  if (BV && BV.show.missed && missed && missed.length) html += '<div class="missed"><div class="eyebrow" style="margin-bottom:4px">Rules that stayed quiet</div>' + missed.map(function (x) {
+    return '<div class="tiny"><span class="rule">' + esc(x.rule) + '</span> ' + esc(Battle.SECTION_TITLES[x.section] || x.section) + ': ' + esc(x.why) + '</div>'; }).join('') + '</div>';
+  return html;
+}
+function blCtx(ctx) {
+  if (!BV || !BV.show.ctx || !ctx) return '';
+  return '<details class="roledet" open><summary class="small">The numbers the sentences read</summary><table class="t"><tbody>' + Object.keys(ctx).sort().map(function (k) { var v = ctx[k];
+    return '<tr><td class="mono tiny">' + esc(k) + '</td><td class="small">' + esc(v == null ? 'None' : Array.isArray(v) ? '[' + v.join(', ') + ']' : typeof v === 'number' && !Number.isInteger(v) ? String(Battle.pyRound(v, 3)) : String(v)) + '</td></tr>'; }).join('') + '</tbody></table></details>';
+}
+function blChanges(d, b) {
+  var out = [];
+  if (d === b) return out;
+  var phr = function (label, cur, base) { var ct = cur.map(function (p) { return p.text; }), bt = base.map(function (p) { return p.text; });
+    var add = ct.filter(function (t) { return bt.indexOf(t) < 0; }).length, gone = bt.filter(function (t) { return ct.indexOf(t) < 0; }).length;
+    if (add || gone) out.push(label + ': ' + (add ? add + ' new' : '') + (add && gone ? ', ' : '') + (gone ? gone + ' gone' : '')); };
+  d.cards.forEach(function (c, i) { var o = b.cards.filter(function (x) { return x.species === c.species; })[0];
+    if (!o) { out.push(c.species + ' joins (' + c.record[0] + '–' + c.record[1] + ' against the trainers)'); return; }
+    if (c.record.join() !== o.record.join()) out.push(c.species + ' against the trainers: ' + o.record.join('–') + ' → ' + c.record.join('–'));
+    if (c.moves.join() !== o.moves.join()) out.push(c.species + '\'s moves: ' + o.moves.join(', ') + ' → ' + c.moves.join(', '));
+    phr(c.species + '\'s card', c.phrases, o.phrases); });
+  b.cards.forEach(function (o) { if (!d.cards.some(function (c) { return c.species === o.species; })) out.push(o.species + ' leaves'); });
+  d.sheets.forEach(function (s, i) { var o = b.sheets[i]; if (!o) return;
+    if (s.lead !== o.lead) out.push('vs ' + s.opponent + ': the lead ' + o.lead + ' → ' + s.lead);
+    s.calls.forEach(function (r, j) { var q = o.calls[j]; if (!q) return; var a = r.call ? r.call.member : 'no answer', z = q.call ? q.call.member : 'no answer';
+      if (a !== z) out.push('vs ' + s.opponent + ', their ' + r.species + ': send ' + z + ' → ' + a); });
+    var nc = 0; (s.situations || []).forEach(function (x, j) { var y = (o.situations || [])[j]; if (y) Battle.SITUATIONS.forEach(function (st) { if (x.ours[st[0]] !== y.ours[st[0]]) nc++; }); });
+    if (nc) out.push('vs ' + s.opponent + ': ' + plural(nc, 'play call') + ' by situation changed');
+    phr('vs ' + s.opponent + ' (the trainer, plan and calls)', s.trainer_phrases.concat(s.plan.phrases, [].concat.apply([], s.calls.map(function (r) { return r.phrases; }))),
+      o.trainer_phrases.concat(o.plan.phrases, [].concat.apply([], o.calls.map(function (r) { return r.phrases; })))); });
+  phr('The self-scout', d.self_scout.phrases, b.self_scout.phrases);
+  if (d.profile && b.profile) {
+    Battle.SLIDERS.forEach(function (k) { var x = d.profile.sliders[k], y = b.profile.sliders[k];
+      if (x !== y) out.push('Coach profile, ' + Battle.SLIDER_NAMES[k] + ': ' + y + ' → ' + x + ' (p' + b.profile.percentiles[k] + ' → p' + d.profile.percentiles[k] + ')'); });
+    var ph = function (p) { return (p.philosophy || []).map(function (x) { return x[1]; }).join(', ') || 'the middle'; };
+    if (ph(d.profile) !== ph(b.profile)) out.push('Philosophy: ' + ph(b.profile) + ' → ' + ph(d.profile));
+    var r = d.profile.record, q = b.profile.record; if (r.won !== q.won || r.drew !== q.drew) out.push('Against the field: ' + q.won + '–' + q.drew + '–' + q.lost + ' → ' + r.won + '–' + r.drew + '–' + r.lost);
+  }
+  return out;
+}
+function blRender() {
+  var res = document.getElementById('blres'), L = BLRUN.last; if (!res || !L) return;
+  var d = L.d, b = L.base, edited = d !== b;
+  blPaint(res, d, edited ? b : null, blHero(d, L, edited) +
+    (edited ? card('What your changes did', (function () { var ch = blChanges(d, b); return ch.length ? ch.map(function (c) { return '<div class="line small ember">' + esc(c) + '</div>'; }).join('') : '<div class="tiny muted">Everything reads the same as the original.</div>'; })(),
+      {eyebrow: 'Against ' + blBaseLineup(BL.base).title, tools: false}) : ''),
+    [['members', 'Members'], ['sheets', 'Call sheets'], ['team', 'Self-scout & profile'], ['league', 'The league'], ['how', 'How it\'s built']]);
+}
+function blPaint(res, d, b, head, tabs) {   // the hero, then the tabs (BV says which, and what to show)
+  res.innerHTML = head + '<div class="tabs" style="margin-top:16px">' + tabs.map(function (t) {
+      return '<a href="javascript:void 0" data-bltab="' + t[0] + '"' + (BV.tab === t[0] ? ' class="on"' : '') + '>' + t[1] + '</a>'; }).join('') + '</div><div id="bltab">' + blTab(d, b) + '</div>';
+  res.querySelectorAll('[data-bltab]').forEach(function (a) { a.onclick = function () { BV.tab = a.getAttribute('data-bltab'); bvSave(); BV.render(); }; });
+  ['diff', 'missed', 'ctx'].forEach(function (k) { var el = res.querySelector('#blshow-' + k); if (el) el.onchange = function () { BV.show[k] = this.checked; bvSave(); BV.render(); }; });
+  blWire(res, d);
+}
+function blToggles() {
+  return '<div style="display:flex;flex-direction:column;gap:6px">' + (BV.lab ? '<label class="small"><input type="checkbox" id="blshow-diff"' + (BV.show.diff ? ' checked' : '') + '> show what changed</label>' : '') +
+    '<label class="small"><input type="checkbox" id="blshow-missed"' + (BV.show.missed ? ' checked' : '') + '> show rules that stayed quiet</label><label class="small"><input type="checkbox" id="blshow-ctx"' + (BV.show.ctx ? ' checked' : '') + '> show the numbers the sentences read</label></div>';
+}
+function blHero(d, L, edited) {
+  return '<section class="report-hero hero2" style="margin-top:0"><div><div class="eyebrow">' + esc(GAME_NAME[d.game]) + ' · ' + esc(d.variation ? 'variation' : 'canon lineup') + ' · ' + esc(edited ? 'your version' : d.status) + '</div><h2 style="margin:4px 0;font-size:32px">' + esc(edited ? BL.lu.title + ' (edited)' : d.title) + '</h2>' +
+    '<div style="display:flex;gap:4px;flex-wrap:wrap">' + d.cards.map(function (c) { return '<img src="' + art(numOf(c.species)) + '" title="' + esc(c.species) + '" style="width:48px;height:48px;object-fit:contain">'; }).join('') + '</div>' +
+    '<div class="tiny muted" style="margin-top:6px">Built live in ' + (L.ms / 1000).toFixed(1) + ' s · the engine has played ' + L.stats.fights.toLocaleString() + ' fights and holds ' + L.stats.damage_numbers.toLocaleString() + ' damage numbers from the calculator</div></div>' +
+    blToggles() + '</section>';
+}
+function blTab(d, b) {
+  if (BV.tab === 'sheets') return blSheets(d, b);
+  if (BV.tab === 'team') return blTeam(d, b);
+  if (BV.tab === 'league') return BV.lab ? blLeagueTab(d) : '';
+  if (BV.tab === 'how') return blHow(d);
+  return blMembers(d, b);
+}
+function blMembers(d, b) {
+  var sit = Battle.SITUATIONS, p = d.profile;
+  return '<div class="grid">' + d.cards.map(function (c, i) {
+    var o = b ? b.cards.filter(function (x) { return x.species === c.species; })[0] : null, m = p ? p.members[c.species] : null, n = c.numbers;
+    return '<div class="c6"><div class="card"><div class="bd"><div style="display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:center"><img src="' + art(numOf(c.species)) + '" style="width:84px;height:84px;object-fit:contain"><div><div class="serif" style="font-size:22px;color:var(--ivory)">' + esc(c.species) + '</div>' + types(c.types) +
+      '<div class="tiny muted" style="margin-top:4px">' + esc([c.item ? '@ ' + c.item : '', c.nature, c.ability].filter(Boolean).join(' · ')) + '</div><div class="tiny muted">' + esc(c.build_source) + '</div></div></div>' +
+      '<div class="mvgrid">' + c.moves.map(function (mv) { return '<span class="mv">' + esc(mv) + '</span>'; }).join('') + '</div>' +
+      '<div class="tiny muted" style="margin-top:8px">Speed above ' + Math.round(n.speed_pct * 100) + '% of its generation\'s fully evolved field · power above ' + Math.round(n.power_pct * 100) + '% · physical bulk ' + Math.round(n.phys_bulk_pct * 100) + '% · special bulk ' + Math.round(n.spec_bulk_pct * 100) + '% · against the trainers ' + c.record[0] + '–' + c.record[1] +
+      (o && o.record.join() !== c.record.join() ? ' <b style="color:var(--ember-2)">(was ' + o.record.join('–') + ')</b>' : '') + '</div>' +
+      blPhrases(c.phrases, o ? o.phrases : null, c._missed) + blCtx(c._ctx) +
+      (m ? '<details class="roledet"><summary class="small">Against the usage field: ' + m.record.won + '–' + m.record.drew + '–' + m.record.lost + ' · its sliders and play calls</summary>' +
+        '<table class="t"><tbody>' + Battle.SLIDERS.map(function (k) { return '<tr><td class="small">' + esc(Battle.SLIDER_NAMES[k]) + '</td><td class="num">' + Math.round(m.sliders[k]) + '</td><td class="tiny muted">p' + m.percentiles[k] + ' · ' + esc(Battle.POLES[k][m.sliders[k] >= 50 ? 1 : 0]) + '</td></tr>'; }).join('') + '</tbody></table>' +
+        '<table class="t" style="margin-top:8px"><tbody>' + sit.map(function (s) { var x = m.play_sheet[s[0]]; return '<tr><td class="small"><b>' + esc(s[1]) + '</b><div class="tiny muted">' + esc(s[2]) + '</div></td><td class="small">' + esc(x.call) + ' <span class="tiny muted">' + x.share + '%' + (x.also.length ? ' · also ' + esc(x.also.map(function (a) { return a[0] + ' ' + a[1] + '%'; }).join(', ')) : '') + '</span></td></tr>'; }).join('') + '</tbody></table>' +
+        (m.assumed.length ? '<div class="tiny muted" style="margin-top:6px">Assumed: ' + esc(m.assumed.join('; ')) + '</div>' : '') + '</details>' : '') +
+      '</div></div></div>'; }).join('') + '</div>';
+}
+function blSheets(d, b) {
+  var i = Math.min(BV.opp || 0, d.sheets.length - 1);
+  return '<div class="tabs">' + d.sheets.map(function (s, j) { return '<a href="javascript:void 0" data-blopp="' + j + '"' + (j === i ? ' class="on"' : '') + '>' + esc(s.opponent) + '</a>'; }).join('') + '</div>' +
+    blSheet(d, i, b ? b.sheets[i] : null);
+}
+function blSheet(d, si, o) {
+  var s = d.sheets[si]; if (!s) return '<div class="empty">No opponents on file.</div>';
+  var a = s.advance, tys = a.pitch_types.map(function (x) { return x.type; }), sit = Battle.SITUATIONS, game = d.game;
+  return '<div class="grid"><div class="c5">' + card(s.opponent + ' · level ' + s.level, blPhrases(s.trainer_phrases, o ? o.trainer_phrases : null, s._missed) + blCtx(s._ctx) + '<div class="tiny muted" style="margin-top:8px">' + esc(s.source) + '</div>', {eyebrow: 'The opponent, from the game\'s own AI flags, bag and lines', tools: false}) +
+      card('The game plan', '<table class="t"><tbody>' + s.plan.assignments.map(function (x, j) { var y = o && o.plan.assignments[j];
+        return '<tr><td class="small"><b>' + esc(x.theirs) + '</b></td><td class="small">→ ' + esc(x.ours || 'no answer') + (y && y.ours !== x.ours ? ' <span class="tiny" style="color:var(--ember-2)">(was ' + esc(y.ours || 'no answer') + ')</span>' : '') + '</td><td class="tiny muted">' + esc(x.how || '') + '</td></tr>'; }).join('') + '</tbody></table>' +
+        blPhrases(s.plan.phrases, o ? o.plan.phrases : null, s.plan._missed) + blCtx(s.plan._ctx),
+        {eyebrow: 'Lead ' + s.lead + (s.no_answer.length ? ' · no answer for ' + s.no_answer.join(', ') : ''), tools: false, style: 'margin-top:16px'}) + '</div>' +
+    '<div class="c7">' + card('The calls', s.calls.map(function (c, j) { var q = o && o.calls[j], was = q && (q.call ? q.call.member : null) !== (c.call ? c.call.member : null);
+        return '<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div class="goal" style="padding:0"><span class="small"><img src="' + sprite(numOf(c.species), game) + '" style="width:32px;height:32px;vertical-align:middle;image-rendering:pixelated"> They send <b>' + esc(c.they_send) + '</b></span>' +
+          (c.call ? chip(c.call.wins ? 'we win' : c.call.draw ? 'draw' : 'we lose', c.call.wins ? 'forest' : c.call.draw ? 'gold' : 'ember') : chip('no answer', 'ember')) + '</div>' +
+          (c.call ? '<div class="small" style="margin-top:4px">Send <b>' + esc(c.call.member) + '</b>' + (was ? ' <span class="tiny" style="color:var(--ember-2)">(was ' + esc(q.call ? q.call.member : 'no answer') + ')</span>' : '') + ': ' + esc(c.call.we_hit) + ' · they hit ' + esc(c.call.they_hit) + ' · hits to KO ' + esc(c.call.hits_to_ko) + (c.call.moves_first ? ' · strikes first' : '') + ' · ' + esc(c.call.plan) +
+            ' <a class="link tiny" href="javascript:void 0" data-fight="' + si + '|' + j + '|' + esc(c.call.member) + '">the fight →</a></div>' : '') +
+          (c.backup ? '<div class="tiny muted">Backup: ' + esc(c.backup.member) + ' (' + esc(c.backup.we_hit) + ') <a class="link" href="javascript:void 0" data-fight="' + si + '|' + j + '|' + esc(c.backup.member) + '">fight →</a></div>' : '') +
+          (c.dont_send.length ? '<div class="tiny" style="color:var(--ember-2)">Don\'t send: ' + esc(c.dont_send.join(', ')) + '</div>' : '') +
+          '<div class="tiny muted">Their moves: ' + esc(c.their_moves.join(', ')) + (c.their_item ? ' @ ' + esc(c.their_item) : '') + ' · ' + c.beats_n + ' of our ' + c.our_n + ' lose to it · holes: ' + esc(c.holes || 'none') + '</div>' +
+          '<details class="roledet"><summary class="tiny">The scout\'s read on it · every one of ours against it</summary>' + blPhrases(c.phrases, q ? q.phrases : null, c._missed) + blCtx(c._ctx) +
+          '<table class="t" style="margin-top:6px"><tbody>' + Object.keys(s._matchups.grid[j].vs).map(function (n) { var v = s._matchups.grid[j].vs[n];
+            return '<tr><td class="small"><b>' + esc(n) + '</b></td><td>' + chip(v.wins ? 'win' : v.draw ? 'draw' : 'loss', v.wins ? 'forest' : v.draw ? 'gold' : 'ember') + '</td><td class="tiny">' + esc(v.we_hit) + ' / ' + esc(v.they_hit) + '<div class="muted">' + esc(v.plan) + '</div></td><td><a class="link tiny" href="javascript:void 0" data-fight="' + si + '|' + j + '|' + esc(n) + '">fight →</a></td></tr>'; }).join('') + '</tbody></table></details></div>'; }).join(''),
+        {eyebrow: 'Who to send against each of theirs', tools: false}) + '</div></div>' +
+    '<div style="margin-top:16px">' + card('The advance report', '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Theirs</th>' + tys.map(function (t) { return '<th>' + typeBadge(t) + '</th>'; }).join('') + '<th>Takes status</th><th>Free set-up</th></tr></thead><tbody>' + a.rows.map(function (row) {
+        return '<tr><td class="small" style="white-space:nowrap"><b>' + esc(row.species) + '</b> <span class="tiny muted">Lv ' + row.level + ' · softer vs ' + esc(row.softer_vs) + '</span></td>' + tys.map(function (t) { var c = row.cells[t]; if (!c) return '<td></td>';
+          var col = c.immune ? 'var(--text-3)' : c.k ? 'var(--forest-3)' : c.two ? 'var(--gold-2)' : c.resisted ? 'var(--ember-2)' : 'var(--text-2)';
+          return '<td class="tiny" style="color:' + col + ';white-space:nowrap" title="' + esc(c.by + ' ' + c.move + ' ' + c.pct + '–' + c.max + '%') + '">' + (c.immune ? '0' : Math.round(c.pct) + '%') + (c.k ? ' KO' : c.two ? ' 2HKO' : '') + '</td>'; }).join('') +
+          '<td class="tiny">' + esc(row.takes_status) + '</td><td class="tiny">' + esc(row.setup_bait.map(function (x) { return x.member + ' (' + x.move + ')'; }).join(', ') || '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+        '<p class="tiny muted" style="margin:8px 0 0">Our best hit of each type on each of theirs, as a share of its HP (the lowest roll, at no boosts). KO in one, 2HKO in two; hover for who throws it. Free set-up: one of ours with a boost move takes 33% or less from anything it carries.</p>', {eyebrow: 'Our pitches against their order', tools: false}) + '</div>' +
+    '<div style="margin-top:16px">' + card('Play calls by situation', '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Theirs</th><th>We send</th><th>Result</th>' + sit.map(function (x) { return '<th title="' + esc(x[2]) + '">' + esc(x[1]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        (s.situations || []).map(function (x, j) { var y = o && (o.situations || [])[j];
+          return '<tr><td class="small"><b>' + esc(x.theirs) + '</b></td><td class="small">' + esc(x.send) + (y && y.send !== x.send ? '<div class="tiny" style="color:var(--ember-2)">was ' + esc(y.send) + '</div>' : '') + '<div class="tiny muted">' + esc(x.plan) + '</div></td><td>' + chip(x.result === 'A' ? 'win' : x.result === 'B' ? 'loss' : x.result, x.result === 'A' ? 'forest' : x.result === 'B' ? 'ember' : '') + '<div class="tiny muted">' + x.turns + ' turns</div></td>' +
+            sit.map(function (st) { var ch = y && (y.ours[st[0]] !== x.ours[st[0]]);
+              return '<td class="tiny"' + (ch ? ' style="box-shadow:inset 2px 0 0 var(--ember)" title="was ' + esc(y.ours[st[0]] || '—') + '"' : '') + '>' + esc(x.ours[st[0]] || '—') + '<div class="muted">vs ' + esc(x.their[st[0]] || '—') + '</div></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' +
+        '<p class="tiny muted" style="margin:8px 0 0">Each situation stages the matchup (HP, boosts, the opening done) and asks the same policy the fights use for its call. Ours on top, theirs underneath playing its full kit. A marked cell changed against the original.</p>', {eyebrow: 'Down and distance', tools: false}) + '</div>';
+}
+function blTeam(d, b) {
+  var p = d.profile, q = b && b.profile, ss = d.self_scout;
+  var prof = p ? card('The coach profile', Battle.SLIDERS.map(function (k) { return advSlider({name: Battle.SLIDER_NAMES[k], left: Battle.POLES[k][0], right: Battle.POLES[k][1]}, p.sliders[k], p.percentiles[k]) +
+      (q && q.sliders[k] !== p.sliders[k] ? '<div class="tiny" style="color:var(--ember-2);margin-top:-4px">was ' + q.sliders[k] + ' (p' + q.percentiles[k] + ')</div>' : ''); }).join('') +
+      '<div class="small" style="margin-top:8px">' + esc((p.philosophy || []).map(function (x) { return x[1] + ' (p' + x[2] + ')'; }).join(' · ') || 'close to the field\'s middle on every slider') + '</div>' +
+      '<div class="tiny muted">Against the Gen ' + p.gen + ' OU usage field (' + p.field_n + ' Smogon sets): ' + p.record.won + ' won, ' + p.record.drew + ' drawn, ' + p.record.lost + ' lost of ' + p.record.of + '. A slider is a share of those fights; p is the percentile among 2,000 random six-Pokémon teams drawn from the field.</div>',
+      {eyebrow: 'How the team plays, measured', tools: false}) : card('The coach profile', '<div class="tiny muted">Switched off on the left (it plays every member against the whole usage field).</div>', {eyebrow: 'How the team plays', tools: false});
+  return '<div class="grid"><div class="c5">' + prof + '</div><div class="c7">' + card('The self-scout', blPhrases(ss.phrases, b ? b.self_scout.phrases : null, ss._missed) + blCtx(ss._ctx) +
+      '<div class="eyebrow" style="margin:12px 0 6px">What we throw</div>' + ss.repertoire.map(function (x) { return '<div class="small" style="margin:3px 0">' + typeBadge(x.type) + ' ' + esc(x.throwers.map(function (t) { return t.member + ' (' + t.move + ')'; }).join(', ')) + '</div>'; }).join(''),
+      {eyebrow: 'What we\'re trying to do', tools: false}) + '</div></div>' +
+    (p ? '<div style="margin-top:16px">' + card('Each member against the field', '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Member</th><th>W–D–L</th>' + Battle.SLIDERS.map(function (k) { return '<th>' + esc(Battle.SLIDER_NAMES[k]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      Object.keys(p.members).map(function (n) { var m = p.members[n], r = m.record; return '<tr><td class="small"><b>' + esc(n) + '</b></td><td class="tiny">' + r.won + '–' + r.drew + '–' + r.lost + '</td>' + Battle.SLIDERS.map(function (k) { return '<td class="tiny">' + Math.round(m.sliders[k]) + ' <span class="muted">p' + m.percentiles[k] + '</span></td>'; }).join('') + '</tr>'; }).join('') +
+      '</tbody></table></div>', {eyebrow: 'The profile\'s parts', tools: false}) + '</div>' : '');
+}
+function blLeagueTab(d) {
+  var L = S.blLeague;
+  return card('The what-if league', '<p class="small" style="margin:0 0 10px">Every lineup of the journey plays every other at Lv 100 under Gen 4 rules, each one-on-one played out by the engine: 36 fights a series. ' + (blEdited() ? 'Your version plays as <b>' + esc(BL.lu.title + ' (edited)') + '</b> alongside the originals.' : '') + ' About ten seconds.</p>' +
+    '<button class="btn gold" id="blleague">' + (L ? 'Replay the league' : 'Play the league') + '</button> <span class="tiny muted" id="blleaguep"></span>' +
+    (L ? '<div style="margin-top:12px">' + leagueTable(L.res, L.titles) + '</div>' : ''), {eyebrow: 'Every lineup against every other', tools: false});
+}
+function leagueTable(L, names) {
+  return '<p class="tiny muted" style="margin:0 0 10px">' + esc(L.rules) + '</p><table class="t"><thead><tr><th>#</th><th>Lineup</th><th class="num">W</th><th class="num">D</th><th class="num">L</th><th class="num">Pct</th><th class="num">Series won</th></tr></thead><tbody>' +
+    L.standings.map(function (s, i) { return '<tr' + (s.team === 'lab' ? ' style="background:rgba(201,169,106,.08)"' : '') + '><td class="num">' + (i + 1) + '</td><td class="small">' + esc(names[s.team] || s.team) + '</td><td class="num">' + s.wins + '</td><td class="num">' + s.draws + '</td><td class="num">' + s.losses + '</td><td class="num">' + s.pct.toFixed(3) + '</td><td class="num">' + s.series_won + '</td></tr>'; }).join('') + '</tbody></table>' +
+    '<div class="eyebrow" style="margin:16px 0 6px">Head to head (wins of the row against the column)</div><div style="overflow-x:auto"><table class="matrix"><thead><tr><th></th>' + L.standings.map(function (s) { return '<th class="ty">' + esc(names[s.team] || s.team) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    L.standings.map(function (r) { return '<tr><th style="text-align:right;padding-right:8px;white-space:nowrap" class="tiny">' + esc(names[r.team] || r.team) + '</th>' + L.standings.map(function (c) { var w = (L.matrix[r.team] || {})[c.team], l = (L.matrix[c.team] || {})[r.team];
+      return r.team === c.team ? '<td></td>' : '<td class="' + (w > l ? 'v-r' : w < l ? 'v-w' : 'v-n') + '" title="' + w + '–' + l + '">' + (w == null ? '' : w) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+}
+function blPlayLeague() {
+  var teams = {}, titles = {}, eng = S.bEng, btn = document.getElementById('blleague'), tok = ++BLRUN.token, n = 0, t0 = Date.now();
+  S.bPack.lineups.forEach(function (lu) { teams[lu.id] = eng.team(lu)[0].members; titles[lu.id] = lu.title; });
+  if (blEdited()) { try { teams.lab = eng.team(BL.lu)[0].members; titles.lab = BL.lu.title + ' (edited)'; } catch (e) { toast('Your version can\'t play: ' + esc(e.message)); } }
+  var k = Object.keys(teams).length, total = k * (k - 1);
+  if (btn) btn.disabled = true;
+  eng.run(eng.leagueGen(teams), function (label) { n++; var el = document.getElementById('blleaguep'); if (el) el.textContent = label + ' · ' + n + ' of ' + total + ' series · ' + ((Date.now() - t0) / 1000).toFixed(0) + ' s'; })
+    .then(function (res) { S.blLeague = {res: res, titles: titles}; if (BV === BL && BL.tab === 'league') blRender(); else toast('The league is in.'); })
+    .catch(function (e) { toast('The league stopped: ' + esc(e && e.message || e)); if (btn) btn.disabled = false; });
+}
+function blHow(d) {
+  var st = S.bEng.stats(), book = S.bPack.phrasebook, fired = {}, quiet = {};
+  var tally = function (kind, said, missed) { fired[kind] = (fired[kind] || 0) + (said || []).length; quiet[kind] = (quiet[kind] || 0) + (missed || []).length; };
+  d.cards.forEach(function (c) { tally('player', c.phrases, c._missed); });
+  d.sheets.forEach(function (s) { tally('trainer', s.trainer_phrases, s._missed); tally('plan', s.plan.phrases, s.plan._missed); s.calls.forEach(function (c) { tally('opponent', c.phrases, c._missed); }); });
+  tally('self', d.self_scout.phrases, d.self_scout._missed);
+  var assumed = d.profile ? Object.keys(d.profile.members).map(function (n) { return '<div class="tiny"><b>' + esc(n) + '</b>: ' + esc(d.profile.members[n].assumed.join('; ') || 'nothing assumed') + '</div>'; }).join('') : '';
+  var plans = d.sheets.length ? (function () { var m = d.sheets[0]._matchups, k = Object.keys(m.evaluated)[0]; return m.evaluated[k].plans_tried; })() : 0;
+  var steps = [
+    ['1 · Who fights', 'The knowledge layer (battle/knowledge.py) turns each member into a combatant: its build where one is on record, and documented defaults where none is (level, IVs 31 or Gen 2 DVs 15, EVs 85 in every stat or Gen 2 stat experience maxed, a neutral nature, its first ability, the engine\'s strongest set for open move slots). The trainers keep what the cartridge gives them: level, DVs or IVs, moves, item, no EVs.' + (assumed ? '<div style="margin-top:6px">' + assumed + '</div>' : '')],
+    ['2 · Every hit', 'Smogon\'s damage calculator (@smogon/calc 0.12.0, the same one Showdown uses) runs right here in the page: ' + st.damage_numbers.toLocaleString() + ' damage numbers so far, each at the exact state of the hit (boosts, burn, weather, a pinch ability). Every hit uses the lowest roll; every move lands, and the chance that all of a side\'s moves land is kept as its odds.'],
+    ['3 · Every one-on-one', 'The evaluation layer (battle/evaluate.py) plays each matchup turn by turn: priority, then speed; weather, Leftovers, poison, Leech Seed and the rest at the end of each turn. Each side has plans (an opening plus three habits: build, disrupt, sustain); the result is our best plan against their best answer (here ' + plural(plans, 'plan pair') + ' for the first matchup). A habit gets credit when taking it out makes the result worse. The game\'s trainers pick moves with their cartridge AI flags (battle/trainer_policy.py). ' + st.fights.toLocaleString() + ' fights played so far. Open any call\'s "fight" to see one turn by turn.'],
+    ['4 · The grid and the call sheet', 'Each trainer is met at their top level. The call is the member whose fight ranks best (wins first, then the odds, the HP left, the speed of it); the backup is the next. The advance report reads the same fights as types: our best hit of each type on each of theirs.'],
+    ['5 · Down and distance', 'Each situation (opening, 1st and 10, short yardage, goal line, 3rd and long, blitz, two-minute) stages a fight and asks the policy for its call. The coach\'s settings apply here.'],
+    ['6 · The coach profile', 'Every member plays every set in the generation\'s Smogon OU usage field. Sliders are shares of those fights; percentiles compare with the field\'s own members and with 2,000 random teams drawn from it (Python\'s random generator, seed 0, reproduced exactly).'],
+    ['7 · The words', 'The phrase book (battle/phrasebook.json, ' + Object.keys(book).reduce(function (a, k) { return a + book[k].length; }, 0) + ' rules) turns the numbers into lines. This file: ' + ['player', 'opponent', 'trainer', 'self', 'plan'].map(function (k) { return esc(BL_KIND[k]) + ' ' + (fired[k] || 0) + ' fired, ' + (quiet[k] || 0) + ' quiet'; }).join(' · ') + '. Tick "show rules that stayed quiet" to see why each one didn\'t fire.']];
+  return card('How the file gets built', steps.map(function (s) { return '<div class="slsec"><div class="eyebrow">' + esc(s[0]) + '</div><div class="small">' + s[1] + '</div></div>'; }).join('') +
+    '<div class="notice sim" style="margin-top:12px">This is the Python engine, ported line for line. app/test_battle_parity.mjs rebuilds every lineup, every section and the league here and in Python and requires them to match number for number and sentence for sentence (2,365 of 2,365 sections at the last run). Modeled, noted and left out: see docs/SCOUTING_ENGINE.md.</div>',
+    {eyebrow: 'The engine, layer by layer', tools: false});
+}
+function blWire(root, d) {
+  root.querySelectorAll('[data-blopp]').forEach(function (a) { a.onclick = function () { BV.opp = +a.getAttribute('data-blopp'); bvSave(); BV.render(); }; });
+  root.querySelectorAll('[data-fight]').forEach(function (a) { a.onclick = function () { var p = a.getAttribute('data-fight').split('|'); blFight(d, +p[0], +p[1], p[2]); }; });
+  var lb = root.querySelector('#blleague'); if (lb) lb.onclick = blPlayLeague;
+}
+function blFight(d, si, ri, member) {
+  var m = d.sheets[si]._matchups, ui = m.our_names.indexOf(member), mt = m.evaluated[ri + ',' + ui];
+  if (!mt) return toast('That fight isn\'t on file.');
+  var o = mt.outcome, them = m.theirs[ri], us = m.ours[ui], res = o.winner === 'A' ? 'we win' : o.winner === 'B' ? 'we lose' : 'a draw';
+  var dmg = function (tbl) { return '<table class="t"><tbody>' + Object.keys(tbl).map(function (mv) { return '<tr><td class="small">' + esc(mv) + '</td><td class="num">' + tbl[mv][0] + '–' + tbl[mv][1] + '%</td></tr>'; }).join('') + '</tbody></table>'; };
+  openDrawer('<div class="eyebrow">The fight behind the call · vs ' + esc(m.opponent) + '</div><h2 style="margin:6px 0">' + esc(member) + ' vs ' + esc(them.name) + '</h2>' +
+    '<div>' + chip(res, o.winner === 'A' ? 'forest' : o.winner === 'B' ? 'ember' : 'gold') + ' <span class="small">in ' + plural(o.turns, 'turn') + ' · HP left ' + o.hp[0] + '% / ' + o.hp[1] + '% · odds every move lands ' + Math.round(o.odds[0] * 100) + '% / ' + Math.round(o.odds[1] * 100) + '%</span></div>' +
+    '<div class="small" style="margin-top:8px"><b>Our plan:</b> ' + esc(Battle.planLabel(mt.plan)) + '<br><b>Their best answer:</b> ' + esc(Battle.planLabel(mt.answer)) + (them.ai.length ? ' <span class="tiny muted">(the cartridge AI: ' + esc(them.ai.join(', ')) + ')</span>' : '') +
+    '<br><span class="tiny muted">' + mt.plans_tried + ' plan pairs tried · speeds ' + Math.round(mt.speeds[0]) + ' vs ' + Math.round(mt.speeds[1]) + (mt.weather ? ' · ' + esc(mt.weather) + ' from the start' : '') +
+    ' · attacking only: ' + (mt.straight.winner === 'A' ? 'we win' : mt.straight.winner === 'B' ? 'we lose' : 'a draw') + ' in ' + mt.straight.turns + '</span></div>' +
+    (Object.keys(mt.credits).length ? '<div class="small" style="margin-top:6px"><b>What the plan owes:</b> ' + esc(Object.keys(mt.credits).map(function (k) { return k + ' (' + mt.credits[k] + ')'; }).join(', ')) + '</div>' : '') +
+    '<div class="grid" style="margin-top:12px"><div class="c6"><div class="eyebrow">Our hits on it (unboosted, from full)</div>' + dmg(mt.damage) + '</div><div class="c6"><div class="eyebrow">Its hits on us</div>' + dmg(mt.incoming) + '</div></div>' +
+    '<div class="eyebrow" style="margin-top:12px">Turn by turn</div><div style="overflow-x:auto"><table class="t"><thead><tr><th>Turn</th><th>First</th><th>' + esc(member) + '</th><th class="num">HP</th><th>' + esc(them.species) + '</th><th class="num">HP</th></tr></thead><tbody>' +
+    o.log.map(function (l) { return '<tr><td class="num">' + l[0] + '</td><td class="tiny">' + (l[5] === 'A' ? 'us' : 'them') + '</td><td class="small">' + esc(l[1]) + '</td><td class="num">' + l[3] + '</td><td class="small">' + esc(l[2]) + '</td><td class="num">' + l[4] + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+    (o.notes.length ? '<div class="tiny muted" style="margin-top:8px">Noted: ' + esc(o.notes.slice().sort().join('; ')) + '</div>' : '') +
+    '<div class="tiny muted" style="margin-top:8px">' + esc(us.name) + ': ' + esc(us.moves.join(', ')) + (us.item ? ' @ ' + esc(us.item) : '') + (us.ability ? ' · ' + esc(us.ability) : '') + (us.nature ? ' · ' + esc(us.nature) : '') + ' · Lv ' + us.level +
+    '<br>' + esc(them.name) + ': ' + esc(them.moves.join(', ')) + (them.item ? ' @ ' + esc(them.item) : '') + (them.ability ? ' · ' + esc(them.ability) : '') + '</div>');
+}
+function blExport() {
+  var lu = BL.lu, base = blBaseLineup(BL.base), v = {id: (base.chapter || lu.game) + '-lab-' + Date.now().toString(36), base: base.chapter || lu.game, title: 'from the Battle Lab', why: 'edited in the Battle Lab',
+    members: lu.members.map(function (sb) { return Object.assign({species: sb[0]}, sb[1] || {}); })};
+  var coach = JSON.stringify(BL.coach) !== '{}' ? {coaches: {}} : null; if (coach) coach.coaches[v.id] = BL.coach;
+  var text = JSON.stringify(v, null, 2) + (coach ? '\n\n' + JSON.stringify(coach, null, 2) : '');
+  openDrawer('<div class="eyebrow">As a canon/lineups.json variation</div><h2 style="margin:6px 0">Copy as a lineup</h2><p class="small">A variation in the shape canon/lineups.json reads. It becomes part of the scouting file only when it\'s added there as a decision; the lab never writes canon.</p>' +
+    '<textarea class="f mono" style="height:320px;font-size:12px" readonly>' + esc(text) + '</textarea><div style="margin-top:10px"><button class="btn gold" id="blcopy">Copy</button></div>');
+  document.getElementById('blcopy').onclick = function () { (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { toast('On your clipboard.'); }).catch(function () { toast('Your browser blocked the clipboard; select the text instead.'); }); };
+}
+function blSaveVariant() {
+  var note = prompt('A note for this variant (what you were testing):', ''); if (note === null) return;
+  var L = BLRUN.last, row = {id: 'VAR-' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), base: 'battle:' + BL.base, title: BL.lu.title + ' (Battle Lab)', note: note,
+    changes: L && L.d !== L.base ? blChanges(L.d, L.base).slice(0, 30).join('; ') : '', json: JSON.stringify({base: BL.base, lu: BL.lu, coach: BL.coach, book: BL.book, off: BL.off}), _timeline: 'Battle Lab: saved a variant of ' + BL.lu.title};
+  API.append('Variants', row).then(function () { S.variants.push(row); toast('Saved to the Variants tab.'); blChanged(true); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+}
+route(/^\/battlelab\/?$/, function () { return battleLab(); }, 'Battle Lab', '#/battlelab');
+route(/^\/battlelab\/([\w-]+)$/, battleLab, 'Battle Lab', '#/battlelab');
+</script>

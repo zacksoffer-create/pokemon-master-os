@@ -2091,6 +2091,22 @@ class WebApp(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
         self.assertIn(" match", out.stdout)
 
+    def test_the_browser_battle_engine_builds_the_same_scouting_file_as_python(self):
+        """web/27_battle.html (with @smogon/calc in the page) against battle/scouting_report.py: a Gen 4 lineup, a
+        Gen 2 lineup with coach settings, and a Gen 4 lineup with edited builds, every section of each (cards, call
+        sheets, advance reports, game plans, play calls by situation, self-scout, coach profile), number for number.
+        The whole file and the league: python3 -I app/battle_pack.py --parity OUT && node app/test_battle_parity.mjs OUT"""
+        out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "battle_pack.py")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+        ids = "heartgold,fuzz-heartgold-builds,fuzz-crystal-coach"
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "battle.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "battle_pack.py"), "--parity", dump, ids], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_battle_parity.mjs"), dump, "--only", ids], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn("sections match Python", out.stdout)
+
     def test_the_browser_wilderness_read_matches_python(self):
         """web/85_field.html against wilderness/engine.py team_report: every lineup, random teams in every game,
         and a preview with every pending world record (the workbench's preview_world)."""

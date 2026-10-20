@@ -39,7 +39,7 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 | Umbreon | Curse (69%) | Iron Tail (62%) | Iron Tail (62%) | Iron Tail (79%) | Iron Tail (46%) | Iron Tail (58%) | Iron Tail (50%) |
 | Espeon | Psychic (75%) | Psychic (81%) | Psychic (73%) | Psychic (81%) | Psychic (81%) | Psychic (81%) | Psychic (77%) |
 
-*Assumed where nothing is on record: DVs 15; level 100 (the peak).*
+*Assumed where nothing is on record: DVs 15; level 100 (the peak); stat experience maxed.*
 
 - **What we're trying to do:** Win on momentum: Feraligatr, Miltank, Donphan, Ampharos, Umbreon and Espeon turn one free turn into a sweep. The anchor: Feraligatr.
 - **What we're good at:** 11 attack types in the repertoire. The main ones: Electric (Ampharos, Espeon and Umbreon), Fighting (Ampharos, Feraligatr and Miltank), Normal (Donphan and Miltank) and Ground (Donphan and Miltank). Nothing is safe: 17 of 17 types take super-effective hits from this club. Espeon sets the pace; Donphan expects to take the first hit.

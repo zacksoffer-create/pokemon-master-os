@@ -1,0 +1,1891 @@
+<script>
+/* ===== The battle engine, in the browser =======================================================================
+   A line-for-line port of engine/battle (engine.py, moves.py, knowledge.py, evaluate.py, trainer_policy.py,
+   grid.py, scouting.py, playsheet.py, profile.py, phrases.py and scouting_report.py), reading the battle pack
+   (app/battle_pack.py → battle.json) and running Smogon's damage calculator in the page (calc.json, the same
+   @smogon/calc the node bridge runs). The parity test rebuilds the whole Journey Scouting File here and in Python
+   and requires the same file, number for number and sentence for sentence. Python's rounding (half to even), its
+   exact means, its random team draws (MT19937) and its sort orders are kept, and so is the damage table's
+   fetch-and-replay, so a fight that needed several rounds settles the same way.
+   Battle.init(pack, calc) once; Battle.engine() → a scouting engine (it keeps its damage table between calls);
+   eng.chapter(lineup, coach, progress) → one lineup's packet; eng.league(teams) → the what-if league. */
+var Battle = (function () {
+  var P = null, C = null;
+  var STATS = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+  var TYPES = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel'];
+  var GAME_GEN = {crystal: 2, firered: 3, emerald: 3, platinum: 4, heartgold: 4, soulsilver: 4};
+  var GAME_TITLE = {crystal: 'Crystal', firered: 'FireRed', emerald: 'Emerald', platinum: 'Platinum', heartgold: 'HeartGold', soulsilver: 'SoulSilver'};
+  var SPECIAL_BEFORE_GEN4 = ['Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'];
+  var DEFENSIVE_ABILITIES = {'Levitate': [3, {Ground: 0}], 'Volt Absorb': [3, {Electric: 0}], 'Water Absorb': [3, {Water: 0}],
+    'Flash Fire': [3, {Fire: 0}], 'Thick Fat': [3, {Fire: 0.5, Ice: 0.5}], 'Motor Drive': [4, {Electric: 0}],
+    'Dry Skin': [4, {Water: 0, Fire: 1.25}], 'Heatproof': [4, {Fire: 0.5}]};
+  var SUPER_EFFECTIVE_FILTERS = {'Filter': 4, 'Solid Rock': 4};
+
+  /* ---- Python's semantics ---- */
+  function has(o, k) { return o != null && Object.prototype.hasOwnProperty.call(o, k); }
+  function exactDigits(x, nd) {
+    var s = Math.abs(x).toFixed(Math.min(100, nd + 30)), dot = s.indexOf('.'), ip = s.slice(0, dot), fp = s.slice(dot + 1);
+    var keep = ip + fp.slice(0, nd), rest = fp.slice(nd), half = '5' + rest.slice(1).replace(/./g, '0');
+    var up = rest > half || (rest === half && Number(keep.charAt(keep.length - 1)) % 2 === 1);
+    var digits = keep.split('').map(Number);
+    if (up) { var k = digits.length - 1; while (k >= 0) { if (digits[k] === 9) { digits[k] = 0; k--; } else { digits[k]++; break; } } if (k < 0) digits.unshift(1); }
+    var str = digits.join(''), intLen = str.length - nd;
+    return (x < 0 ? '-' : '') + (nd ? (str.slice(0, intLen) || '0') + '.' + str.slice(intLen) : str);
+  }
+  function pyRound(x, nd) { if (x == null) return x; if (!isFinite(x)) return x; var r = parseFloat(exactDigits(x, nd || 0)); return r === 0 ? 0 : r; }
+  function falsy(v) { return v == null || v === false || v === 0 || v === '' || (Array.isArray(v) && !v.length) || (v && typeof v === 'object' && !Array.isArray(v) && !(v instanceof Set) && !Object.keys(v).length) || (v instanceof Set && !v.size); }
+  function join(items, word) { word = word || 'and'; items = (items || []).map(String);
+    return items.length <= 1 ? items.join('') : items.slice(0, -1).join(', ') + ' ' + word + ' ' + items[items.length - 1]; }
+  function cmp(a, b) {   // Python ordering: numbers, strings, booleans and tuples of them
+    if (Array.isArray(a)) { for (var i = 0; i < Math.min(a.length, b.length); i++) { var c = cmp(a[i], b[i]); if (c) return c; } return a.length - b.length; }
+    if (typeof a === 'boolean') a = +a; if (typeof b === 'boolean') b = +b;
+    return a < b ? -1 : a > b ? 1 : 0;
+  }
+  function sortBy(arr, key) { return arr.map(function (x, i) { return [key(x), i, x]; }).sort(function (p, q) { return cmp(p[0], q[0]) || p[1] - q[1]; }).map(function (p) { return p[2]; }); }
+  function sortDesc(arr, key) { return arr.map(function (x, i) { return [key(x), i, x]; }).sort(function (p, q) { return cmp(q[0], p[0]) || p[1] - q[1]; }).map(function (p) { return p[2]; }); }
+  function maxBy(arr, key) { var best, bk, set = false; arr.forEach(function (x) { var k = key(x); if (!set || cmp(k, bk) > 0) { best = x; bk = k; set = true; } }); return best; }
+  function minBy(arr, key) { var best, bk, set = false; arr.forEach(function (x) { var k = key(x); if (!set || cmp(k, bk) < 0) { best = x; bk = k; set = true; } }); return best; }
+  function uniq(xs) { var o = []; xs.forEach(function (x) { if (o.indexOf(x) < 0) o.push(x); }); return o; }
+  function sum(xs) { var s = 0; xs.forEach(function (x) { s += x; }); return s; }
+  function count(xs, f) { var n = 0; xs.forEach(function (x) { if (f(x)) n++; }); return n; }
+  function inter(a, b) { return a.filter(function (x) { return b.indexOf(x) >= 0; }); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function pyTitle(s) { return s.replace(/[A-Za-z]+/g, function (w) { return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(); }); }
+  function pyFloat(x) { return Number.isInteger(x) && Math.abs(x) < 1e16 ? x.toFixed(1) : String(x); }
+  function pyG(x) { return String(Number(x.toPrecision(6))); }
+  function pyRepr(v) { return typeof v === 'string' ? (v.indexOf("'") >= 0 && v.indexOf('"') < 0 ? '"' + v + '"' : "'" + v.replace(/'/g, "\\'") + "'") : pyStr(v); }
+  function pyStr(v, isFloat) {
+    if (v == null) return 'None'; if (v === true) return 'True'; if (v === false) return 'False';
+    if (Array.isArray(v)) return '[' + v.map(pyRepr).join(', ') + ']';
+    if (typeof v === 'number') return isFloat ? pyFloat(v) : String(v);
+    return String(v);
+  }
+  function canon(v) {   // json.dumps(..., sort_keys=True), as an identity
+    if (v === undefined) v = null;
+    if (Array.isArray(v)) return '[' + v.map(canon).join(',') + ']';
+    if (v && typeof v === 'object') return '{' + Object.keys(v).sort().map(function (k) { return JSON.stringify(k) + ':' + canon(v[k]); }).join(',') + '}';
+    return JSON.stringify(v);
+  }
+  /* statistics.mean: the exact sum of the floats, correctly rounded once */
+  var BIG = typeof BigInt === 'function';
+  var SCALE = BIG ? BigInt(1074) : 0;
+  function scaled(x) {
+    var dv = new DataView(new ArrayBuffer(8)); dv.setFloat64(0, x);
+    var hi = dv.getUint32(0), lo = dv.getUint32(4), sign = hi >>> 31, e = (hi >>> 20) & 0x7ff;
+    var m = (BigInt(hi & 0xfffff) << BigInt(32)) + BigInt(lo);
+    if (e) m += BigInt(1) << BigInt(52); else e = 1;
+    var v = m << BigInt(e - 1075 + 1074);
+    return sign ? -v : v;
+  }
+  function bitlen(n) { return n.toString(2).length; }
+  function ratio(num, den) {   // num / den (BigInt, den > 0) correctly rounded to a double, half to even
+    if (num === BigInt(0)) return 0;
+    var neg = num < 0; if (neg) num = -num;
+    var E = bitlen(num) - bitlen(den) - 53, a, b, M, R, two52 = BigInt(1) << BigInt(52), two53 = two52 << BigInt(1);
+    for (var tries = 0; tries < 4; tries++) {
+      if (E < -1074) E = -1074;
+      a = E >= 0 ? num : num << BigInt(-E); b = E >= 0 ? den << BigInt(E) : den;
+      M = a / b; R = a % b;
+      if (M >= two53) { E++; continue; }
+      if (M < two52 && E > -1074) { E--; continue; }
+      break;
+    }
+    var twoR = R * BigInt(2);
+    if (twoR > b || (twoR === b && (M & BigInt(1)) === BigInt(1))) M += BigInt(1);
+    var out = Number(M) * Math.pow(2, E);
+    return neg ? -out : out;
+  }
+  function mean(xs) {
+    if (!BIG) return sum(xs) / xs.length;
+    var s = BigInt(0); xs.forEach(function (x) { s += scaled(x); });
+    return ratio(s, BigInt(xs.length) << SCALE);
+  }
+  function meanScaled(scaledXs) { var s = BigInt(0); scaledXs.forEach(function (x) { s += x; }); return ratio(s, BigInt(scaledXs.length) << SCALE); }
+  /* random.Random(seed): MT19937 seeded the way CPython seeds an int, getrandbits, _randbelow, sample */
+  function MT(seed) {
+    var mt = new Array(624), mti = 625, i, j, k, s;
+    function init(x) { mt[0] = x >>> 0; for (mti = 1; mti < 624; mti++) { s = mt[mti - 1] ^ (mt[mti - 1] >>> 30); mt[mti] = (Math.imul(1812433253, s) + mti) >>> 0; } }
+    var key = [seed >>> 0]; init(19650218); i = 1; j = 0;
+    for (k = Math.max(624, key.length); k; k--) { s = mt[i - 1] ^ (mt[i - 1] >>> 30); mt[i] = ((mt[i] ^ Math.imul(s, 1664525)) + key[j] + j) >>> 0; i++; j++; if (i >= 624) { mt[0] = mt[623]; i = 1; } if (j >= key.length) j = 0; }
+    for (k = 623; k; k--) { s = mt[i - 1] ^ (mt[i - 1] >>> 30); mt[i] = ((mt[i] ^ Math.imul(s, 1566083941)) - i) >>> 0; i++; if (i >= 624) { mt[0] = mt[623]; i = 1; } }
+    mt[0] = 0x80000000; mti = 624;
+    return function () {
+      var y;
+      if (mti >= 624) {
+        for (var kk = 0; kk < 624; kk++) { y = (mt[kk] & 0x80000000) | (mt[(kk + 1) % 624] & 0x7fffffff); mt[kk] = (mt[(kk + 397) % 624] ^ (y >>> 1) ^ (y & 1 ? 0x9908b0df : 0)) >>> 0; }
+        mti = 0;
+      }
+      y = mt[mti++]; y ^= y >>> 11; y ^= (y << 7) & 0x9d2c5680; y ^= (y << 15) & 0xefc60000; y ^= y >>> 18;
+      return y >>> 0;
+    };
+  }
+  function Random(seed) {
+    var next = MT(seed);
+    function bits(k) { return next() >>> (32 - k); }
+    function below(n) { var k = n.toString(2).length, r = bits(k); while (r >= n) r = bits(k); return r; }
+    return {sample: function (pop, k) {
+      var n = pop.length, result = new Array(k), setsize = 21, i, j;
+      if (k > 5) setsize += Math.pow(4, Math.ceil(Math.log(k * 3) / Math.log(4)));
+      if (n <= setsize) {
+        var pool = pop.slice();
+        for (i = 0; i < k; i++) { j = below(n - i); result[i] = pool[j]; pool[j] = pool[n - i - 1]; }
+      } else {
+        var sel = {};
+        for (i = 0; i < k; i++) { j = below(n); while (sel[j]) j = below(n); sel[j] = true; result[i] = pop[j]; }
+      }
+      return result;
+    }};
+  }
+
+  /* ---- rules.py ---- */
+  function toId(s) { return String(s).toLowerCase().replace(/[^a-z0-9]/g, ''); }
+  var SP = {}, MV = {};
+  function species(gen, name) { var s = SP[gen][toId(name)]; if (!s) throw new Error(name + " isn't a species the Gen " + gen + ' calculator knows'); return s; }
+  function move(gen, name) { var m = MV[gen][toId(name)]; if (!m) throw new Error(name + " isn't a move the Gen " + gen + ' calculator knows'); return m; }
+  function abilities(gen, name) { if (gen < 3) return []; return (P.gens[gen].abilities[species(gen, name).name] || []).slice(); }
+  function category(gen, name) { return move(gen, name).cat; }
+  function effectiveness(gen, atk, defTypes, ability) {
+    var chart = P.gens[gen].types, row = chart[atk], mult = 1.0;
+    if (!row) throw new Error('unknown type ' + atk);
+    defTypes.forEach(function (t) { mult *= has(row, t) ? row[t] : 1; });
+    if (ability && gen >= 3) {
+      var d = DEFENSIVE_ABILITIES[ability] || [99, {}];
+      if (gen >= d[0] && has(d[1], atk)) mult *= d[1][atk];
+      if (gen >= (SUPER_EFFECTIVE_FILTERS[ability] || 99) && mult > 1) mult *= 0.75;
+      if (ability === 'Wonder Guard' && mult <= 1) mult = 0;
+    }
+    return mult;
+  }
+  function bestDefensiveAbility(gen, defTypes, atk, options) {
+    options = options && options.length ? options : [null];
+    return minBy(options, function (a) { return effectiveness(gen, atk, defTypes, a); });
+  }
+
+  /* ---- battle/moves.py: the move book ---- */
+  var BOOK = {};
+  function inflateMove(gen, name, e) {
+    var flags = {}; e[20].forEach(function (f) { flags[f] = true; });
+    return {name: name, gen: gen, type: e[0], category: e[1], power: e[2], accuracy: e[3], priority: e[4], pp: e[5], target: e[6],
+      meta_category: e[7], effect: P.text[e[8]], el: P.text[e[8]].toLowerCase(), ailment: e[9], ailment_chance: e[10],
+      self_changes: e[11], foe_changes: e[12], stat_chance: e[13], drain: e[14], healing: e[15], hits: e[16], turns: e[17],
+      flinch: e[18], crit: e[19], flags: flags, plays: e[21].map(function (p) { var o = {play: p[0], primary: p[1], chance: p[2]}; if (p[3] != null) o.detail = p[3]; return o; }),
+      damaging: e[1] !== 'Status'};
+  }
+  function mbGet(gen, name) {
+    var canonName = move(gen, name).name, key = gen + '|' + canonName;
+    if (!BOOK[key]) { var e = P.movebook[gen][canonName]; if (!e) throw new Error(canonName + ': not in the move book'); BOOK[key] = inflateMove(gen, canonName, e); }
+    return BOOK[key];
+  }
+
+  /* ---- battle/engine.py ---- */
+  var ROLES = {
+    setup: ['Swords Dance', 'Dragon Dance', 'Calm Mind', 'Nasty Plot', 'Bulk Up', 'Curse', 'Agility', 'Belly Drum', 'Growth', 'Rock Polish', 'Iron Defense', 'Amnesia'],
+    recovery: ['Recover', 'Roost', 'Slack Off', 'Soft-Boiled', 'Milk Drink', 'Rest', 'Synthesis', 'Morning Sun', 'Moonlight', 'Wish', 'Aqua Ring', 'Ingrain', 'Leech Seed', 'Heal Order'],
+    status_care: ['Heal Bell', 'Aromatherapy', 'Refresh'], pivot: ['U-turn', 'Baton Pass'],
+    hazards: ['Spikes', 'Stealth Rock', 'Toxic Spikes'], hazard_control: ['Rapid Spin', 'Defog'],
+    phazing: ['Roar', 'Whirlwind', 'Haze'],
+    status: ['Toxic', 'Thunder Wave', 'Will-O-Wisp', 'Hypnosis', 'Sleep Powder', 'Spore', 'Stun Spore', 'Glare', 'Yawn', 'Lovely Kiss', 'Sing', 'Dark Void', 'Confuse Ray'],
+    disruption: ['Taunt', 'Encore', 'Disable', 'Trick', 'Switcheroo', 'Knock Off', 'Perish Song', 'Destiny Bond', 'Counter', 'Mirror Coat', 'Sucker Punch'],
+    screens: ['Reflect', 'Light Screen', 'Safeguard'], weather: ['Sunny Day', 'Rain Dance', 'Sandstorm', 'Hail'],
+    speed_control: ['Thunder Wave', 'Trick Room', 'Tailwind', 'Icy Wind']};
+  var STAT_FOR = {Physical: 'atk', Special: 'spa'};
+  var LEARN = {};
+  function learnable(speciesName, game) {
+    var gen = GAME_GEN[game], id = toId(speciesName), key = gen + '|' + id;
+    if (!LEARN[key]) {
+      var g = P.gens[gen], b64 = g.learn[id];
+      if (b64 == null) throw new Error(speciesName + ': no learnable pool in the pack');
+      var bin = typeof atob === 'function' ? atob(b64) : Buffer.from(b64, 'base64').toString('binary'), out = [];
+      for (var i = 0; i < g.order.length; i++) if (bin.charCodeAt(i >> 3) & (1 << (i & 7))) out.push(MV[gen][g.order[i]].name);
+      LEARN[key] = out.sort();
+    }
+    return LEARN[key].slice();
+  }
+  function Member(speciesName, o) { o = o || {}; return {species: speciesName, moves: o.moves || [], ability: o.ability || null, item: o.item || null, nature: o.nature || null, evs: o.evs || {}, ivs: o.ivs || {}, level: o.level || 50}; }
+  function Team(game, members) { return {game: game, members: members, gen: GAME_GEN[game]}; }
+  function movesOf(m, game, potential) { return potential || !m.moves.length ? learnable(m.species, game) : m.moves; }
+  function abilityOf(m, gen) { var o = abilities(gen, m.species); return m.ability || (o.length ? o[0] : null); }
+  function attacksOf(m, game, potential) {
+    var gen = GAME_GEN[game], sp = species(gen, m.species), out = [];
+    movesOf(m, game, potential).forEach(function (name) {
+      var mv = move(gen, name), cat = category(gen, name);
+      if (cat === 'Status' || mv.bp < 20) return;
+      var stab = sp.types.indexOf(mv.type) >= 0 ? 1.5 : 1.0, stat = sp.bs[STAT_FOR[cat]];
+      out.push({move: mv.name, type: mv.type, category: cat, bp: mv.bp, stab: stab, stat: stat, score: pyRound(mv.bp * stab * stat / 100)});
+    });
+    return out;
+  }
+  function defense(team) {
+    var gen = team.gen, weak = {}, resist = {}, immune = {}, matrix = {};
+    TYPES.forEach(function (t) {
+      var row = {};
+      team.members.forEach(function (m) { row[m.species] = effectiveness(gen, t, species(gen, m.species).types, abilityOf(m, gen)); });
+      matrix[t] = row;
+      weak[t] = Object.keys(row).filter(function (s) { return row[s] > 1; });
+      resist[t] = Object.keys(row).filter(function (s) { return row[s] > 0 && row[s] < 1; });
+      immune[t] = Object.keys(row).filter(function (s) { return row[s] === 0; });
+    });
+    return {matrix: matrix, weak: weak, resist: resist, immune: immune};
+  }
+  function speedRows(team) {
+    return sortBy(team.members.map(function (m) { return {species: m.species, base: species(team.gen, m.species).bs.spe}; }), function (r) { return -r.base; });
+  }
+
+  /* ---- the damage calculator (battle/calc_bridge.mjs, in the page) ---- */
+  function calcRun(req) {
+    try {
+      var gen = C.Generations.get(req.gen);
+      var named = function (table, name) { if (!name) return undefined; var x = table.get(C.toID(name)); return x ? x.name : name; };
+      var mon = function (p) { return new C.Pokemon(gen, p.species, {level: p.level == null ? 50 : p.level, nature: p.nature, evs: p.evs, ivs: p.ivs,
+        ability: named(gen.abilities, p.ability), item: named(gen.items, p.item), boosts: p.boosts, status: p.status, curHP: p.curHP}); };
+      if (req.stats) { var p = mon(req.stats); return {stats: p.stats, hp: p.maxHP(), types: p.types, ability: p.ability == null ? null : p.ability, item: p.item == null ? null : p.item}; }
+      var res = C.calculate(gen, mon(req.attacker), mon(req.defender), new C.Move(gen, req.move), new C.Field(req.field || {}));
+      var hp = res.defender.maxHP(), lo = 0, hi = 0;
+      try { var r = res.range(); lo = r[0]; hi = r[1]; } catch (err) { if (String((err && err.message) || err).indexOf('=== 0') < 0) throw err; }
+      return {damage: [lo, hi], percent: [+(100 * lo / hp).toFixed(1), +(100 * hi / hp).toFixed(1)], attacker_speed: res.attacker.stats.spe, defender_speed: res.defender.stats.spe};
+    } catch (err) { return {error: String((err && err.message) || err)}; }
+  }
+
+  /* ---- battle/knowledge.py ---- */
+  var EVEN_EVS = {hp: 85, atk: 85, def: 85, spa: 85, spd: 85, spe: 85};
+  function Combatant(o) {
+    var c = {species: o.species, gen: o.gen, moves: o.moves.slice(), level: o.level == null ? 100 : o.level, ability: o.ability || null,
+      item: o.item || null, nature: o.nature || null, evs: o.evs || null, ivs: o.ivs || null, ai: o.ai || [], name: o.name || '',
+      source: o.source || '', assumed: o.assumed || []};
+    c.key = canon([c.species, c.gen, c.level, c.ability, c.item, c.nature, c.evs, c.ivs, c.moves.slice().sort()].concat(c.ai.length ? [c.ai.slice().sort()] : []));
+    c.types = species(c.gen, c.species).types;
+    return c;
+  }
+  function calcSpec(c) { var o = {species: c.species, level: c.level}; ['ability', 'item', 'nature', 'evs', 'ivs'].forEach(function (k) { if (!falsy(c[k])) o[k] = clone(c[k]); }); return o; }
+  function fromBuild(gen, speciesName, build, fill, level, name, source) {
+    var sp = species(gen, speciesName).name, assumed = [], moves = (build.moves || []).slice();
+    if (level == null) level = 100;
+    if (moves.length < 4 && fill) {
+      var extra = fill(sp, build.rejected || []).filter(function (m) { return moves.indexOf(m) < 0; }).slice(0, 4 - moves.length);
+      if (extra.length) assumed.push(!moves.length ? 'moves: the engine\'s strongest set (nothing on record)' : 'moves ' + (moves.length + 1) + '-4: filled in from the engine\'s strongest set');
+      moves = moves.concat(extra);
+    }
+    if (!moves.length) throw new Error(sp + ' has no moves on record and nothing was given to fill them');
+    level = build.level || level;
+    if (!build.level && level === 100) assumed.push('level 100 (the peak)');
+    var ivs = build.ivs;
+    if (falsy(ivs)) assumed.push(gen >= 3 ? 'IVs 31' : 'DVs 15');
+    if (gen <= 2 && falsy(build.evs)) assumed.push('stat experience maxed');
+    var evs = build.evs;
+    if (gen >= 3 && falsy(evs)) { evs = clone(EVEN_EVS); assumed.push('EVs 85 in every stat'); }
+    var nature = gen >= 3 ? build.nature : null;
+    if (gen >= 3 && !nature) assumed.push('neutral nature');
+    var ability = gen >= 3 ? build.ability : null;
+    if (gen >= 3 && !ability) {
+      var options = abilities(gen, sp); ability = options.length ? options[0] : null;
+      if (options.length > 1) assumed.push('ability ' + ability + ' (could be ' + options.slice(1).join(', ') + ')');
+    }
+    return Combatant({species: sp, gen: gen, moves: moves, level: level, ability: ability, item: build.item, nature: nature, evs: evs,
+      ivs: ivs == null ? null : ivs, name: name || sp, source: source || '', assumed: assumed});
+  }
+  function usageField(gen) { return P.field[gen].map(function (f) { return Combatant(f); }); }
+
+  /* ---- battle/evaluate.py: one-on-ones, played out ---- */
+  var TURN_CAP = 100, PP_UPS = 1.6, SLEEP_TURNS = {2: 3, 3: 2, 4: 2}, REST_TURNS = 2, ENCORE_TURNS = {2: 2, 3: 2, 4: 4},
+    TAUNT_TURNS = {3: 2, 4: 3}, LOCK_TURNS = 2, WEATHER_TURNS = 5;
+  var WEATHER_ROCKS = {'Damp Rock': 'Rain', 'Heat Rock': 'Sun', 'Smooth Rock': 'Sand', 'Icy Rock': 'Hail'};
+  var WEATHER_ABILITIES = {'Drizzle': 'Rain', 'Drought': 'Sun', 'Sand Stream': 'Sand', 'Snow Warning': 'Hail'};
+  var WEATHER_MOVES = {'Rain Dance': 'Rain', 'Sunny Day': 'Sun', 'Sandstorm': 'Sand', 'Hail': 'Hail'};
+  var WEATHER_SAFE_TYPES = {Sand: ['Rock', 'Ground', 'Steel'], Hail: ['Ice']};
+  var WEATHER_SAFE_ABILITIES = {Sand: ['Sand Veil', 'Magic Guard'], Hail: ['Ice Body', 'Snow Cloak', 'Magic Guard']};
+  var SPEED_WEATHER = {'Swift Swim': 'Rain', 'Chlorophyll': 'Sun'};
+  var PINCH = {'Blaze': 'Fire', 'Torrent': 'Water', 'Overgrow': 'Grass', 'Swarm': 'Bug'};
+  var ABSORB = {'Water Absorb': 'Water', 'Volt Absorb': 'Electric', 'Dry Skin': 'Water'};
+  var STAT_GUARD = ['Clear Body', 'White Smoke'];
+  var MAJOR = ['paralysis', 'burn', 'poison', 'toxic', 'sleep', 'freeze'];
+  var CALC_STATUS = {paralysis: 'par', burn: 'brn', poison: 'psn', toxic: 'tox', sleep: 'slp', freeze: 'frz'};
+  var STATUS_SAFE_TYPES = {poison: ['Poison', 'Steel'], toxic: ['Poison', 'Steel'], burn: ['Fire'], freeze: ['Ice'], 'leech-seed': ['Grass']};
+  var STATUS_SAFE_ABILITIES = {poison: ['Immunity'], toxic: ['Immunity'], paralysis: ['Limber'], sleep: ['Insomnia', 'Vital Spirit'],
+    yawn: ['Insomnia', 'Vital Spirit'], burn: ['Water Veil'], freeze: ['Magma Armor']};
+  var CURE_BERRIES = {'Lum Berry': MAJOR, 'MiracleBerry': MAJOR, 'Chesto Berry': ['sleep'], 'Mint Berry': ['sleep'], 'Cheri Berry': ['paralysis'],
+    'PRZCureBerry': ['paralysis'], 'Pecha Berry': ['poison', 'toxic'], 'PSNCureBerry': ['poison', 'toxic'], 'Rawst Berry': ['burn'],
+    'Ice Berry': ['burn'], 'Aspear Berry': ['freeze'], 'Burnt Berry': ['freeze']};
+  var HEAL_BERRIES = {'Sitrus Berry': {3: ['hp', 30], 4: ['pct', 25]}, 'Oran Berry': ['hp', 10], 'Berry': ['hp', 10], 'Gold Berry': ['hp', 30]};
+  var PINCH_BERRIES = {'Salac Berry': 'spe', 'Liechi Berry': 'atk', 'Petaya Berry': 'spa', 'Ganlon Berry': 'def', 'Apicot Berry': 'spd'};
+  var SLOW_ITEMS = ['Macho Brace', 'Iron Ball', 'Power Weight', 'Power Bracer', 'Power Belt', 'Power Lens', 'Power Band', 'Power Anklet'];
+  var CHOICE = ['Choice Band', 'Choice Specs', 'Choice Scarf'];
+  var BOOSTABLE = ['atk', 'def', 'spa', 'spd', 'spe', 'accuracy', 'evasion'];
+  var FAMILY_OF = {boost: 'build', 'protect-sub': 'build', screen: 'build', weather: 'build', status: 'disrupt', debuff: 'disrupt', taunt: 'disrupt'};
+  var FAMILIES = ['build', 'disrupt', 'sustain'];
+  function inA(x, arr) { return (arr || []).indexOf(x) >= 0; }
+  function zeroStages() { var o = {}; BOOSTABLE.forEach(function (k) { o[k] = 0; }); return o; }
+  function stageMult(n) { return n >= 0 ? (2 + n) / 2 : 2 / (2 - n); }
+  function accMult(n) { return n >= 0 ? (3 + n) / 3 : 3 / (3 - n); }
+
+  /* the damage table: misses get a stand-in and are fetched in a batch, then the fights replay (as in Python) */
+  function DamageTable() { this.cache = {}; this.specs = {}; this.errors = {}; this.missing = {}; this.misses = 0; this.fetched = 0; }
+  function dkey(k) { return k.join('\u0001'); }
+  DamageTable.prototype.get = function (k) {
+    var s = dkey(k), r = this.cache[s];
+    if (r === undefined) {
+      this.missing[s] = k; this.misses++;
+      return this.cache[dkey([k[0], k[1], k[2], 0, 0, '', '', k[7], false])] || [0.0, 0.0, 0];
+    }
+    return r;
+  };
+  DamageTable.prototype.request = function (k) {
+    var a = this.specs[k[0]], d = this.specs[k[1]], gen = a.gen, cat = category(gen, k[2]);
+    var att = calcSpec(a), dfn = calcSpec(d);
+    if (cat !== 'Status') { att.boosts = {}; att.boosts[cat === 'Physical' ? 'atk' : 'spa'] = k[3]; dfn.boosts = {}; dfn.boosts[cat === 'Physical' ? 'def' : 'spd'] = k[4]; }
+    if (k[5]) att.status = k[5];
+    if (k[6]) dfn.status = k[6];
+    if (k[8]) att.curHP = 1;
+    var req = {gen: gen, attacker: att, defender: dfn, move: k[2]};
+    if (k[7]) req.field = {weather: k[7]};
+    return req;
+  };
+  DamageTable.prototype.fetch = function () {
+    var self = this, keys = Object.keys(this.missing).filter(function (s) { return !has(self.cache, s); }), miss = this.missing;
+    this.missing = {};
+    keys.forEach(function (s) {
+      var r = calcRun(self.request(miss[s]));
+      self.fetched++;
+      if (r.error) { self.errors[s] = r.error; self.cache[s] = [0.0, 0.0, 0]; }
+      else self.cache[s] = [r.percent[0], r.percent[1], r.damage[0]];
+    });
+    return keys.length;
+  };
+  DamageTable.prototype.pending = function () { return Object.keys(this.missing).length; };
+
+  /* plans and outcomes */
+  function Plan(opener, build, disrupt, sustain) {
+    var p = {opener: opener || [], build: !!build, disrupt: !!disrupt, sustain: !!sustain};
+    p.key = JSON.stringify([p.opener, p.build, p.disrupt, p.sustain]);
+    return p;
+  }
+  function planFamilies(p, kinds) {
+    var out = [];
+    p.opener.forEach(function (m) { var f = FAMILY_OF[kinds[m]]; if (has(kinds, m) && f && out.indexOf(f) < 0) out.push(f); });
+    FAMILIES.forEach(function (f) { if (p[f] && out.indexOf(f) < 0) out.push(f); });
+    return out;
+  }
+  function planWithout(p, family, kinds) {
+    return Plan(p.opener.filter(function (m) { return FAMILY_OF[kinds[m]] !== family; }), p.build && family !== 'build', p.disrupt && family !== 'disrupt', p.sustain && family !== 'sustain');
+  }
+  function planLabel(p) {
+    var parts = [];
+    if (p.opener.length) {
+      var seq = [];
+      p.opener.forEach(function (m) { if (seq.length && seq[seq.length - 1][0] === m) seq[seq.length - 1][1]++; else seq.push([m, 1]); });
+      parts.push(seq.map(function (x) { return x[1] > 1 ? x[0] + ' ×' + x[1] : x[0]; }).join(' → ') + ', then attack');
+    } else parts.push('attack');
+    var habits = FAMILIES.filter(function (h) { return p[h]; });
+    if (habits.length) parts.push('+ ' + habits.join(', '));
+    return parts.join(' ');
+  }
+  function outcomeValue(o) {
+    var a_hp = o.hp[0], b_hp = o.hp[1], a_odds = o.odds[0], b_odds = o.odds[1];
+    if (o.winner === 'A') return [2, pyRound(a_odds, 4), pyRound(a_hp, 1), -o.turns];
+    if (o.winner === 'draw') return [1, pyRound(a_odds, 4), pyRound(-b_hp, 1), -o.turns];
+    return [0, pyRound(1 - b_odds, 4), pyRound(100 - b_hp, 1), o.turns];
+  }
+
+  function Side(ev, c, tag, plan) {
+    var moves = {};
+    c.moves.forEach(function (m) { moves[m] = mbGet(c.gen, m); });
+    if (!has(moves, 'Struggle')) moves.Struggle = mbGet(c.gen, 'Struggle');
+    var st = ev.stats[c.key];
+    var s = {c: c, tag: tag, plan: plan, moves: moves, maxhp: st.hp, spe: st.stats.spe, hp: 100.0, st: zeroStages(), status: null, tox: 0,
+      sleep: 0, item: st.item || c.item, ability: st.ability || c.ability, sub: 0.0, screens: {}, lock: null, choice: null, charging: null,
+      hidden: false, recharge: false, protect_last: false, protecting: false, seeded: false, yawn: 0, taunt: 0, wish: 0, loaf: false,
+      berry_used: false, sash: false, hit_this_turn: false, flinch: false, fresh: true, last: null, opener_i: 0, opening: false,
+      pp: {}, kinds: {}, coach: {}, odds: 1.0, calls: [], used: {}, types: c.types};
+    Object.keys(moves).forEach(function (m) { var mv = moves[m]; s.pp[m] = mv.pp ? Math.trunc(mv.pp * PP_UPS) : 1; s.kinds[m] = ev.kind(mv, c); });
+    s.sash = s.item === 'Focus Sash';
+    return s;
+  }
+  function eff(s) { return s.el; }
+
+  function Fight(ev, a, b, planA, planB, aFirstOnTie, coachA, coachB) {
+    this.ev = ev; this.gen = a.gen;
+    this.A = Side(ev, a, 'A', planA); this.B = Side(ev, b, 'B', planB);
+    this.A.coach = Object.assign({}, coachA || {}); this.B.coach = Object.assign({}, coachB || {});
+    this.tie_a = aFirstOnTie === undefined ? true : aFirstOnTie;
+    this.weather = null; this.weather_left = null; this.notes = {}; this.first_hit = ''; this.turn = 0; this.log = [];
+    this.start();
+  }
+  var F = Fight.prototype;
+  F.note = function (n) { this.notes[n] = true; };
+  F.foe = function (s) { return s === this.A ? this.B : this.A; };
+  F.speed = function (s) {
+    var v = s.spe * stageMult(s.st.spe);
+    if (s.status === 'paralysis' && s.ability !== 'Quick Feet') v *= 0.25;
+    if (s.ability === 'Quick Feet' && s.status) v *= 1.5;
+    if (s.item === 'Choice Scarf') v *= 1.5;
+    if (inA(s.item, SLOW_ITEMS)) v *= 0.5;
+    if (this.weather && SPEED_WEATHER[s.ability] === this.weather) v *= 2;
+    return v;
+  };
+  F.priority = function (s, m) { return m && has(s.moves, m) ? move(this.gen, m).priority : 0; };
+  F.acts_first = function (u, um, t, tm) {
+    var pu = this.priority(u, um), pt = this.priority(t, tm);
+    if (pu !== pt) return pu > pt;
+    var su = this.speed(u), stt = this.speed(t);
+    if (su !== stt) return su > stt;
+    return (u === this.A) === this.tie_a;
+  };
+  F._damage = function (u, t, name) {
+    var mv = u.moves[name];
+    if (mv.category === 'Status') return [0.0, 0.0, 0];
+    var phys = mv.category === 'Physical', ast = u.st[phys ? 'atk' : 'spa'], dst = t.st[phys ? 'def' : 'spd'], astat = '';
+    if (u.status && (u.ability === 'Guts' || name === 'Facade' || (u.status === 'burn' && phys))) astat = CALC_STATUS[u.status];
+    var dstat = t.status && (t.ability === 'Marvel Scale' || name === 'Smelling Salts' || name === 'Wake-Up Slap') ? CALC_STATUS[t.status] : '';
+    var pinch = PINCH[u.ability] === mv.type && u.hp <= 100 / 3;
+    var r = this.ev.table.get([u.c.key, t.c.key, name, ast, dst, astat, dstat, this.weather || '', pinch]), lo = r[0], hi = r[1], absmin = r[2];
+    if (t.screens[mv.category]) { lo = lo / 2; hi = hi / 2; absmin = Math.floor(absmin / 2); }
+    return [lo, hi, absmin];
+  };
+  F.damage = function (u, t, name) { var d = this._damage(u, t, name); return [d[0], d[2]]; };
+  F.damage_hi = function (u, t, name) { return this._damage(u, t, name)[1]; };
+  F.usable = function (s) {
+    var out = Object.keys(s.moves).filter(function (m) { return (s.pp[m] || 0) > 0 && m !== 'Struggle'; });
+    if (s.taunt) out = out.filter(function (m) { return s.moves[m].damaging; });
+    if (s.choice && out.indexOf(s.choice) >= 0) out = [s.choice];
+    return out.length ? out : ['Struggle'];
+  };
+  F.attacks = function (s) { var self = this; return this.usable(s).filter(function (m) { return s.moves[m].damaging && !self.special_hit(s, m); }); };
+  F.special_hit = function (s, m) {
+    var e = s.moves[m].el;
+    if (e.indexOf('first move after the user enters') >= 0 && !s.fresh) return true;
+    if (e.indexOf('user faints') >= 0) return true;
+    if (e.indexOf('if the user takes damage before attacking') >= 0) { var t = this.foe(s); return !(s.sub > 0 || t.recharge || (t.status === 'sleep' && t.sleep > 0)); }
+    return false;
+  };
+  F.incoming = function (u, t) {
+    if (t.recharge || (t.status === 'sleep' && t.sleep > 0 && !has(t.moves, 'Sleep Talk')) || t.loaf) return [0.0, null];
+    var options = t.lock ? [t.lock[0]] : t.charging ? [t.charging] : this.attacks(t), best = 0.0, mv = null, self = this;
+    options.forEach(function (m) { if (has(t.moves, m) && t.moves[m].damaging) { var d = self.damage(t, u, m)[0]; if (d > best) { best = d; mv = m; } } });
+    return [best, mv];
+  };
+  F.residual = function (s) {
+    var loss = 0.0, w = this.weather;
+    if (has(WEATHER_SAFE_TYPES, w) && !inter(s.types, WEATHER_SAFE_TYPES[w]).length && !inA(s.ability, WEATHER_SAFE_ABILITIES[w]))
+      loss += this.gen === 2 && w === 'Sand' ? 12.5 : 6.25;
+    if (s.ability !== 'Magic Guard') {
+      if ((s.status === 'poison' || s.status === 'toxic') && s.ability === 'Poison Heal') loss -= 12.5;
+      else if (s.status === 'poison' || s.status === 'burn') loss += 12.5;
+      else if (s.status === 'toxic') loss += 6.25 * (s.tox + 1);
+      if (s.seeded) loss += 12.5;
+    }
+    if (s.item === 'Leftovers' || (s.item === 'Black Sludge' && inA('Poison', s.types))) loss -= 6.25;
+    else if (s.item === 'Black Sludge' && s.ability !== 'Magic Guard') loss += 12.5;
+    return loss;
+  };
+  F.accuracy = function (u, t, mv) {
+    if (inA(mv.target, ['user', 'users-field', 'user-and-allies', 'entire-field', 'opponents-field', 'all-pokemon'])) return 1.0;
+    if (u.ability === 'No Guard' || t.ability === 'No Guard') return 1.0;
+    var acc = mv.accuracy;
+    if (mv.name === 'Thunder' && (this.weather === 'Rain' || this.weather === 'Sun')) acc = this.weather === 'Rain' ? 100 : 50;
+    if (mv.name === 'Blizzard' && this.weather === 'Hail' && this.gen >= 4) acc = 100;
+    if (mv.meta_category === 'ohko') return t.ability !== 'Sturdy' ? Math.max(0.0, (30 + u.c.level - t.c.level) / 100) : 0.0;
+    var mult = accMult(Math.max(-6, Math.min(6, u.st.accuracy - t.st.evasion)));
+    if (u.ability === 'Compound Eyes') mult *= 1.3;
+    if (u.ability === 'Hustle' && mv.category === 'Physical') mult *= 0.8;
+    if (inA(t.item, ['BrightPowder', 'Bright Powder', 'Lax Incense'])) mult *= 0.9;
+    if ((t.ability === 'Sand Veil' && this.weather === 'Sand') || (t.ability === 'Snow Cloak' && this.weather === 'Hail')) mult *= 0.8;
+    if (u.item === 'Wide Lens') mult *= 1.1;
+    return Math.min(1.0, acc / 100 * mult);
+  };
+  F.can_status = function (u, t, mv) {
+    var ail = mv.ailment === 'poison' && mv.el.indexOf('badly') >= 0 ? 'toxic' : mv.ailment;
+    if (t.sub > 0 && !mv.flags.authentic) return false;
+    if (inA(ail, MAJOR) || ail === 'yawn') { if (t.status || (ail === 'yawn' && t.yawn)) return false; }
+    if (ail === 'leech-seed' && t.seeded) return false;
+    if (inter(t.types, STATUS_SAFE_TYPES[ail] || []).length || inA(t.ability, STATUS_SAFE_ABILITIES[ail] || [])) return false;
+    if (mv.name === 'Thunder Wave' && effectiveness(this.gen, 'Electric', t.types, t.ability) === 0) return false;
+    if (mv.name === 'Will-O-Wisp' && t.ability === 'Flash Fire') return false;
+    if (inA(ail, CURE_BERRIES[t.item] || [])) return false;
+    if (t.ability === 'Leaf Guard' && this.weather === 'Sun') return false;
+    return inA(ail, MAJOR) || ail === 'yawn' || ail === 'leech-seed';
+  };
+  F.kind = function (s, m) { if (!has(s.kinds, m)) throw new Error(m + ': not one of its moves'); return s.kinds[m]; };
+  F.start = function () {
+    var self = this, setters = [this.A, this.B].filter(function (s) { return WEATHER_ABILITIES[s.ability]; });
+    if (setters.length) {
+      setters = sortBy(setters, function (s) { return [-self.speed(s), s.tag !== 'A']; });
+      this.weather = WEATHER_ABILITIES[setters[setters.length - 1].ability]; this.weather_left = null;
+      if (setters.length === 2 && this.speed(setters[0]) === this.speed(setters[1])) this.note("both set weather at the same speed: the second one's is used");
+    }
+    [this.A, this.B].forEach(function (s) {
+      var t = self.foe(s);
+      if (s.ability === 'Intimidate' && !inA(t.ability, STAT_GUARD.concat(['Hyper Cutter'])) && t.sub === 0) t.st.atk = Math.max(-6, t.st.atk - 1);
+      if (s.ability === 'Download' && self.gen >= 4) { var stats = self.ev.stats[t.c.key].stats; s.st[stats.def < stats.spd ? 'atk' : 'spa'] += 1; }
+    });
+  };
+  F.choose = function (u) {
+    var t = this.foe(u), self = this, i, m, k;
+    if (u.recharge) return null;
+    if (u.charging) return u.charging;
+    if (u.status === 'sleep') {
+      if (u.sleep > 0) { u.sleep -= 1; return has(u.moves, 'Sleep Talk') && (u.pp['Sleep Talk'] || 0) > 0 ? 'Sleep Talk' : null; }
+      u.status = null;
+    }
+    if (u.loaf) return null;
+    if (u.lock) return u.lock[0];
+    u.opening = false;
+    var usable = this.usable(u);
+    if ((usable.length === 1 && usable[0] === 'Struggle') || (usable.length === 1 && u.choice)) return usable[0];
+    if (u.c.ai.length) return policyChoose(this, u, t, u.c.ai);
+    var plan = u.plan, incr = this.incoming(u, t), inc = incr[0], tm = incr[1], attacks = this.attacks(u);
+    // 1. Fake Out on the first turn
+    for (i = 0; i < attacks.length; i++) { m = attacks[i]; if (u.moves[m].el.indexOf('first move after the user enters') >= 0 && this.damage(u, t, m)[0] > 0) return m; }
+    // 2. finish it
+    var need = t.hp + (t.sash && t.hp >= 100 ? 0.01 : 0);
+    if (t.sub <= 0) {
+      var kills = attacks.filter(function (x) { return self.damage(u, t, x)[0] >= need; });
+      if (kills.length) {
+        kills = sortBy(kills, function (x) { return [!self.acts_first(u, x, t, tm), -self.accuracy(u, t, u.moves[x]), self.recoil_of(u, x), -self.damage(u, t, x)[0]]; });
+        m = kills[0];
+        if (this.acts_first(u, m, t, tm) || inc < u.hp) return m;
+      }
+    }
+    // 3. disrupt
+    if (plan.disrupt) {
+      var boosted = sum(['atk', 'def', 'spa', 'spd', 'spe'].map(function (x) { return Math.max(0, t.st[x]); })) > 0 || t.sub > 0;
+      for (i = 0; i < usable.length; i++) {
+        m = usable[i]; k = this.kind(u, m);
+        if (k === 'phaze' && boosted) return this.tagged(u, m, 'disrupt');
+        if (k === 'haze' && boosted && sum(BOOSTABLE.map(function (x) { return u.st[x]; })) <= 0) return this.tagged(u, m, 'disrupt');
+        if (k === 'encore' && t.last && has(t.moves, t.last) && !t.moves[t.last].damaging && !t.lock) return this.tagged(u, m, 'disrupt');
+      }
+    }
+    // 4. sustain
+    if (plan.sustain || u.coach.heal_line != null) { m = this.sustain(u, t, inc, tm, usable); if (m) return this.tagged(u, m, 'sustain'); }
+    // 5. the opening
+    var patience = u.coach.patience;
+    while (u.opener_i < plan.opener.length) {
+      m = plan.opener[u.opener_i]; u.opener_i += 1;
+      if (patience != null && FAMILY_OF[this.kind(u, m)] === 'build' && (100 - u.hp) + inc > patience) continue;
+      if (usable.indexOf(m) >= 0 && this.valid(u, t, m)) { u.opening = true; return this.tagged(u, m, FAMILY_OF[this.kind(u, m)] || 'build'); }
+    }
+    // 6. build on a free turn
+    if (plan.build && inc === 0) {
+      for (i = 0; i < usable.length; i++) { m = usable[i]; if (this.kind(u, m) === 'boost' && this.valid(u, t, m) && this.useful_boost(u, m)) return this.tagged(u, m, 'build'); }
+    }
+    // 7. Explosion when the race is lost anyway
+    for (i = 0; i < usable.length; i++) {
+      m = usable[i];
+      if (u.moves[m].el.indexOf('user faints') >= 0 && u.moves[m].damaging && t.sub <= 0) {
+        if (this.damage(u, t, m)[0] >= need && this.losing(u, t, inc, tm)) return m;
+      }
+    }
+    // 8. the fewest expected turns to a KO
+    var scored = attacks.map(function (x) { return [self.attack_score(u, t, x), x]; }).filter(function (x) { return x[0][0] < Infinity; });
+    var floor = u.coach.risk_tolerance;
+    if (floor != null && scored.some(function (x) { return self.accuracy(u, t, u.moves[x[1]]) * 100 >= floor; }))
+      scored = scored.filter(function (x) { return self.accuracy(u, t, u.moves[x[1]]) * 100 >= floor; });
+    if (u.coach.tempo === 'finish' && scored.some(function (x) { return self.priority(u, x[1]) <= 0; }))
+      scored = scored.filter(function (x) { return self.priority(u, x[1]) <= 0; });
+    if (scored.length) return minBy(scored, function (x) { return x; })[1];
+    for (i = 0; i < usable.length; i++) if (this.valid(u, t, usable[i])) return usable[i];
+    return usable[0];
+  };
+  F.tagged = function (u, m, family) { u.used[family] = true; return m; };
+  F.recoil_of = function (u, m) {
+    var r = m !== 'Struggle' ? move(this.gen, m).recoil : [1, 4];
+    return r && !inA(u.ability, ['Rock Head', 'Magic Guard']) ? r[0] / r[1] : 0;
+  };
+  F.attack_score = function (u, t, m) {
+    var mv = u.moves[m], d = this.damage(u, t, m)[0];
+    if (d <= 0) return [Infinity, 0, 0, 0, 0];
+    var need = t.hp + t.sub + (t.sash && t.hp >= 100 ? 0.01 : 0), n = Math.ceil(need / d - 1e-9);
+    var turns = n * (mv.flags.charge && !(m === 'Solar Beam' && this.weather === 'Sun') ? 2 : 1);
+    turns += mv.flags.recharge ? (n - 1) : 0;
+    var acc = Math.max(this.accuracy(u, t, mv), 0.01);
+    var drop = mv.damaging ? sum(Object.keys(mv.self_changes).map(function (s) { return mv.self_changes[s]; }).filter(function (v) { return v < 0; }).map(function (v) { return -v; })) : 0;
+    var k = 2 - (u.coach.aggression == null ? 50 : u.coach.aggression) / 50;
+    return [turns / Math.pow(acc, k), -acc, this.recoil_of(u, m), drop, -d];
+  };
+  F.losing = function (u, t, inc, tm) {
+    var self = this, sc = this.attacks(u).map(function (m) { return self.attack_score(u, t, m)[0]; });
+    var mine = sc.length ? Math.min.apply(null, sc) : Infinity;
+    var theirs = inc > 0 ? Math.ceil(u.hp / inc - 1e-9) : Infinity;
+    return mine > theirs || (mine === theirs && !this.acts_first(u, null, t, tm));
+  };
+  F.valid = function (u, t, m) {
+    var mv = u.moves[m], k = this.kind(u, m);
+    if (k === 'boost') {
+      if (mv.el.indexOf('max out its attack') >= 0) return u.hp > 50 && u.st.atk < 6;
+      return Object.keys(mv.self_changes).some(function (s) { return mv.self_changes[s] > 0 && (u.st[s] || 0) < 6; });
+    }
+    if (k === 'protect-sub') return u.sub <= 0 && u.hp > 25;
+    if (k === 'status') return this.can_status(u, t, mv);
+    if (k === 'debuff') return t.sub <= 0 && !inA(t.ability, STAT_GUARD) && Object.keys(mv.foe_changes).some(function (s) { return (t.st[s] || 0) > -6; });
+    if (k === 'screen') return !u.screens[m === 'Reflect' ? 'Physical' : 'Special'];
+    if (k === 'weather') return this.weather !== WEATHER_MOVES[m];
+    if (k === 'taunt') return !t.taunt && this.gen >= 3;
+    if (inA(k, ['heal', 'cure', 'protect', 'phaze', 'haze', 'encore', 'sleep-talk'])) return false;
+    return mv.damaging;
+  };
+  F.useful_boost = function (u, m) {
+    var cats = uniq(Object.keys(u.moves).filter(function (x) { return u.moves[x].damaging; }).map(function (x) { return u.moves[x].category; }));
+    var want = cats.length === 1 && cats[0] === 'Physical' ? ['atk'] : cats.length === 1 && cats[0] === 'Special' ? ['spa'] : ['atk', 'spa'];
+    var ch = u.moves[m].self_changes;
+    return Object.keys(ch).some(function (s) { return ch[s] > 0 && (inA(s, want) || s === 'spe') && u.st[s] < 6; });
+  };
+  F.sustain = function (u, t, inc, tm, usable) {
+    var first = this.acts_first(u, null, t, tm), res = Math.max(0.0, this.residual(u)), hit = inc + res, self = this;
+    var danger = first ? (u.hp <= hit) : (inc < u.hp && u.hp <= 2 * inc + res);
+    var line = u.coach.heal_line;
+    if (line != null && u.hp <= line && (first || u.hp > inc)) { danger = true; hit = Math.max(hit, 0.01); }
+    var kinds = usable.map(function (m) { return [m, self.kind(u, m)]; }), i, m, k;
+    if (inA(u.status, ['toxic', 'poison', 'burn', 'paralysis']) && !danger) {
+      for (i = 0; i < kinds.length; i++) { m = kinds[i][0]; k = kinds[i][1];
+        if (k === 'cure' && (u.status !== 'paralysis' || !first) && (m !== 'Refresh' || inA(u.status, ['burn', 'paralysis', 'poison', 'toxic']))) return m; }
+    }
+    if (danger && hit > 0) {
+      var best = null, gainBest = 0.0;
+      for (i = 0; i < kinds.length; i++) {
+        m = kinds[i][0]; k = kinds[i][1];
+        if (k !== 'heal') continue;
+        var mv = u.moves[m], e = mv.el, gain;
+        if (e.indexOf('sleeps for two turns') >= 0) {
+          if (u.status === 'sleep') continue;
+          var asleep = inA(u.item, ['Chesto Berry', 'Mint Berry', 'Lum Berry', 'MiracleBerry']) ? 0 : REST_TURNS;
+          var talks = has(u.moves, 'Sleep Talk'), after = 100 - (asleep + 1) * inc;
+          gain = after > 0 ? after - (u.hp - inc) : 0;
+          if (talks) gain += 1;
+        } else if (e.indexOf('end of the next turn') >= 0) {
+          if (u.wish) continue;
+          gain = Math.min(50, 100 - u.hp) - inc;
+        } else if (e.indexOf('average of their current hp') >= 0) {
+          var mine = u.hp * u.maxhp / 100, theirs = t.hp * t.maxhp / 100;
+          gain = t.sub <= 0 ? ((mine + theirs) / 2 - mine) / u.maxhp * 100 - inc : 0;
+        } else gain = Math.min(this.heal_amount(u, mv), 100 - u.hp) - hit;
+        if (gain > gainBest) { best = m; gainBest = gain; }
+      }
+      if (best) return best;
+    }
+    var foeLoss = this.residual(t);
+    for (i = 0; i < kinds.length; i++) {
+      m = kinds[i][0]; k = kinds[i][1];
+      if (k === 'protect' && !u.protect_last && (m === 'Protect' || m === 'Detect')) {
+        if ((foeLoss > 0 && this.residual(u) <= 0) || (u.wish === 1 && danger)) return m;
+      }
+    }
+    return null;
+  };
+  F.heal_amount = function (u, mv) {
+    if (inA(mv.name, ['Synthesis', 'Morning Sun', 'Moonlight']) && this.gen >= 3) return this.weather === 'Sun' ? 200 / 3 : this.weather ? 25 : 50;
+    return mv.healing || 50;
+  };
+  F.act = function (u, t, m, foeChoice) {
+    if (m == null) { u.calls.push(u.status === 'sleep' ? '(asleep)' : u.recharge ? '(recharging)' : u.loaf ? '(loafing)' : '—'); u.recharge = false; return; }
+    if (u.flinch) { u.calls.push('(flinched)'); if (u.opening) u.opener_i -= 1; return; }
+    u.fresh = false;
+    if (m === 'Sleep Talk') { u.calls.push('Sleep Talk'); u.pp[m] -= 1; this.sleep_talk(u, t); return; }
+    var mv = u.moves[m];
+    if (m !== 'Struggle') u.pp[m] = (u.pp[m] || 0) - (t.ability === 'Pressure' ? 2 : 1);
+    u.last = m; u.calls.push(m);
+    if (inA(u.item, CHOICE) && !u.choice && m !== 'Struggle') u.choice = m;
+    if (mv.flags.charge && u.charging !== m && !(m === 'Solar Beam' && this.weather === 'Sun')) {
+      u.charging = m; u.hidden = mv.el.indexOf('dodging all attacks') >= 0;
+      if (m === 'Skull Bash') u.st.def = Math.min(6, u.st.def + 1);
+      return;
+    }
+    if (u.charging === m) { u.charging = null; u.hidden = false; }
+    if (this.kind(u, m) === 'protect') {
+      u.protecting = (mv.name === 'Protect' || mv.name === 'Detect') && !u.protect_last;
+      if (mv.name === 'Endure') this.note("Endure isn't modeled");
+      return;
+    }
+    if (t.protecting && mv.flags.protect) return;
+    if (t.hidden && u.ability !== 'No Guard' && t.ability !== 'No Guard' && mv.target !== 'user' && mv.target !== 'users-field') return;
+    u.odds *= this.accuracy(u, t, mv);
+    if (mv.damaging) this.hit(u, t, m, mv, foeChoice); else this.effect(u, t, m, mv);
+  };
+  F.hit = function (u, t, m, mv, foeChoice) {
+    var e = mv.el, s, v;
+    if (e.indexOf('only works if the target is about to use a damaging move') >= 0) {
+      if (!foeChoice || !has(t.moves, foeChoice) || !t.moves[foeChoice].damaging || (t.calls.length && t.calls.length > u.calls.length - 1)) return;
+    }
+    if (e.indexOf('if the user takes damage before attacking') >= 0 && u.hit_this_turn && u.sub <= 0) return;
+    var dd = this.damage(u, t, m), d = dd[0], dealtAbs;
+    if (!this.first_hit && d > 0) this.first_hit = u.tag;
+    if (d <= 0) {
+      if (ABSORB[t.ability] === mv.type && !(t.ability === 'Dry Skin' && mv.type !== 'Water')) t.hp = Math.min(100.0, t.hp + 25);
+      if (t.ability === 'Motor Drive' && mv.type === 'Electric') t.st.spe = Math.min(6, t.st.spe + 1);
+      this.after_hit_user(u, m, mv, 0);
+      return;
+    }
+    if (t.sub > 0) {
+      var dealtPct = Math.min(d, t.sub);
+      t.sub = Math.max(0.0, t.sub - d);
+      dealtAbs = dealtPct * t.maxhp / 100;
+    } else {
+      var before = t.hp;
+      if (t.sash && t.hp >= 100 && d >= 100) { t.hp = 100 / t.maxhp; t.item = null; t.sash = false; }
+      else t.hp = Math.max(0.0, t.hp - d);
+      t.hit_this_turn = true;
+      dealtAbs = (before - t.hp) * t.maxhp / 100;
+      if (t.hp > 0 && !falsy(mv.foe_changes) && (mv.stat_chance === 0 || mv.stat_chance === 100) && !inA(t.ability, STAT_GUARD)) {
+        for (s in mv.foe_changes) { v = mv.foe_changes[s]; t.st[s] = Math.max(-6, Math.min(6, t.st[s] + v)); }
+      }
+      if (e.indexOf('first move after the user enters') >= 0 && t.ability !== 'Inner Focus') {
+        t.flinch = true;
+        if (t.ability === 'Steadfast') t.st.spe = Math.min(6, t.st.spe + 1);
+      }
+      if (e.indexOf('drops its held item') >= 0 && t.item && t.ability !== 'Sticky Hold' && this.gen >= 3) { t.item = null; t.choice = null; }
+      if (e.indexOf('removes leech seed') >= 0 || m.toLowerCase() === 'rapid spin') u.seeded = false;
+      this.berries(t);
+    }
+    if (!falsy(mv.self_changes) && mv.damaging) { for (s in mv.self_changes) { v = mv.self_changes[s]; u.st[s] = Math.max(-6, Math.min(6, u.st[s] + v)); } }
+    this.after_hit_user(u, m, mv, dealtAbs);
+    if (e.indexOf('hits every turn for') >= 0 && !u.lock) { u.lock = [m, LOCK_TURNS]; this.note("lock-in moves end in confusion, which isn't modeled"); }
+    if (mv.flags.recharge) u.recharge = true;
+    if (e.indexOf('user faints') >= 0) u.hp = 0.0;
+  };
+  F.after_hit_user = function (u, m, mv, dealtAbs) {
+    if (m === 'Struggle') { u.hp = Math.max(0.0, u.hp - 25); return; }
+    var data = move(this.gen, m);
+    if (data.drain && dealtAbs) {
+      var heal = dealtAbs * data.drain[0] / data.drain[1] / u.maxhp * 100;
+      u.hp = this.foe(u).ability === 'Liquid Ooze' ? Math.max(0.0, u.hp - heal) : Math.min(100.0, u.hp + heal);
+    }
+    if (data.recoil && dealtAbs && !inA(u.ability, ['Rock Head', 'Magic Guard'])) u.hp = Math.max(0.0, u.hp - dealtAbs * data.recoil[0] / data.recoil[1] / u.maxhp * 100);
+    if (u.item === 'Life Orb' && dealtAbs && u.ability !== 'Magic Guard') u.hp = Math.max(0.0, u.hp - 10);
+    if (u.item === 'Shell Bell' && dealtAbs) u.hp = Math.min(100.0, u.hp + dealtAbs / 8 / u.maxhp * 100);
+    this.berries(u);
+  };
+  F.effect = function (u, t, m, mv) {
+    var k = this.kind(u, m), e = mv.el, s, v;
+    if (k === 'boost') {
+      if (e.indexOf('max out its attack') >= 0) { u.hp -= 50; u.st.atk = 6; }
+      else for (s in mv.self_changes) { v = mv.self_changes[s]; u.st[s] = Math.max(-6, Math.min(6, u.st[s] + v)); }
+    } else if (k === 'protect-sub') {
+      if (u.sub <= 0 && u.hp > 25) { u.hp -= 25; u.sub = 25.0; }
+    } else if (k === 'heal') {
+      if (e.indexOf('sleeps for two turns') >= 0) {
+        if (u.hp < 100 || u.status) { u.hp = 100.0; u.status = 'sleep'; u.tox = 0; u.sleep = REST_TURNS; this.cure_berry(u); }
+      } else if (e.indexOf('end of the next turn') >= 0) u.wish = u.wish || 2;
+      else if (e.indexOf('average of their current hp') >= 0) {
+        if (t.sub <= 0) { var avg = (u.hp * u.maxhp + t.hp * t.maxhp) / 200; u.hp = Math.min(100.0, avg / u.maxhp * 100); t.hp = Math.min(100.0, avg / t.maxhp * 100); }
+      } else u.hp = Math.min(100.0, u.hp + this.heal_amount(u, mv));
+    } else if (k === 'cure') {
+      if (m !== 'Refresh' || inA(u.status, ['burn', 'paralysis', 'poison', 'toxic'])) { u.status = null; u.tox = 0; }
+    } else if (k === 'status') {
+      if (!this.can_status(u, t, mv) && !inA(mv.ailment, CURE_BERRIES[t.item] || [])) return;
+      var ail = mv.ailment === 'poison' && e.indexOf('badly') >= 0 ? 'toxic' : mv.ailment;
+      if (ail === 'leech-seed') t.seeded = true;
+      else if (ail === 'yawn') t.yawn = 2;
+      else {
+        t.status = ail; t.tox = 0;
+        if (ail === 'sleep') t.sleep = Math.floor(SLEEP_TURNS[this.gen] / (t.ability === 'Early Bird' ? 2 : 1));
+        this.cure_berry(t);
+        if (t.ability === 'Synchronize' && inA(ail, ['burn', 'paralysis', 'poison', 'toxic']) && !u.status) {
+          var back = ail === 'toxic' ? 'poison' : ail;
+          if (!inter(u.types, STATUS_SAFE_TYPES[back] || []).length) u.status = back;
+        }
+      }
+    } else if (k === 'debuff') {
+      if (t.sub <= 0 && !inA(t.ability, STAT_GUARD)) {
+        for (s in mv.foe_changes) { v = mv.foe_changes[s];
+          if (!(s === 'atk' && t.ability === 'Hyper Cutter') && !(s === 'accuracy' && t.ability === 'Keen Eye')) t.st[s] = Math.max(-6, Math.min(6, t.st[s] + v)); }
+      }
+    } else if (k === 'phaze') {
+      t.st = zeroStages(); t.sub = 0.0; t.lock = null; t.charging = null; t.hidden = false;
+      this.note('phazing in a one-on-one reads as wiping the target\'s boosts');
+    } else if (k === 'haze') { u.st = zeroStages(); t.st = zeroStages(); }
+    else if (k === 'screen') u.screens[m === 'Reflect' ? 'Physical' : 'Special'] = u.item === 'Light Clay' ? 8 : 5;
+    else if (k === 'weather') { this.weather = WEATHER_MOVES[m]; this.weather_left = WEATHER_ROCKS[u.item] === this.weather && this.gen >= 4 ? 8 : WEATHER_TURNS; }
+    else if (k === 'taunt') t.taunt = TAUNT_TURNS[this.gen] || 2;
+    else if (k === 'encore') { if (t.last && has(t.moves, t.last) && t.last !== 'Encore' && t.last !== 'Struggle') t.lock = [t.last, ENCORE_TURNS[this.gen]]; }
+  };
+  F.sleep_talk = function (u, t) {
+    var self = this, others = Object.keys(u.moves).filter(function (m) { return m !== 'Sleep Talk' && m !== 'Rest' && !u.moves[m].flags.charge; });
+    if (!others.length) return;
+    var dmg = sum(others.map(function (m) { return u.moves[m].damaging ? self.damage(u, t, m)[0] : 0; })) / others.length;
+    if (dmg > 0) {
+      if (!this.first_hit) this.first_hit = u.tag;
+      if (t.sub > 0) t.sub = Math.max(0.0, t.sub - dmg);
+      else { t.hp = Math.max(0.0, t.hp - dmg); this.berries(t); }
+    }
+    this.note('Sleep Talk counted as the average of its other moves');
+  };
+  F.cure_berry = function (s) { if (s.status && inA(s.status, CURE_BERRIES[s.item] || [])) { s.status = null; s.sleep = 0; s.tox = 0; s.item = null; } };
+  F.berries = function (s) {
+    if (s.hp <= 0 || !s.item) return;
+    if (has(HEAL_BERRIES, s.item) && s.hp <= 50) {
+      var rule = HEAL_BERRIES[s.item], ka = Array.isArray(rule) ? rule : (rule[this.gen] || rule[3]);
+      s.hp = Math.min(100.0, s.hp + (ka[0] === 'pct' ? ka[1] : ka[1] / s.maxhp * 100));
+      s.item = null;
+    } else if (has(PINCH_BERRIES, s.item) && s.hp <= 25) {
+      var stat = PINCH_BERRIES[s.item]; s.st[stat] = Math.min(6, s.st[stat] + 1); s.item = null;
+    }
+  };
+  F.end_turn = function () {
+    var self = this, order = sortBy([this.A, this.B], function (s) { return -self.speed(s); });
+    order.forEach(function (s) {
+      if (s.hp <= 0) return;
+      var t = self.foe(s), w = self.weather;
+      if (has(WEATHER_SAFE_TYPES, w) && !inter(s.types, WEATHER_SAFE_TYPES[w]).length && !inA(s.ability, WEATHER_SAFE_ABILITIES[w]))
+        s.hp -= self.gen === 2 && w === 'Sand' ? 12.5 : 6.25;
+      if ((w === 'Rain' && s.ability === 'Rain Dish') || (w === 'Hail' && s.ability === 'Ice Body')) s.hp = Math.min(100.0, s.hp + 6.25);
+      if (w === 'Rain' && s.ability === 'Dry Skin') s.hp = Math.min(100.0, s.hp + 12.5);
+      if (w === 'Sun' && s.ability === 'Dry Skin') s.hp -= 12.5;
+      if (s.wish) { s.wish -= 1; if (s.wish === 0) s.hp = Math.min(100.0, s.hp + 50); }
+      if (s.item === 'Leftovers' || (s.item === 'Black Sludge' && inA('Poison', s.types))) s.hp = Math.min(100.0, s.hp + 6.25);
+      else if (s.item === 'Black Sludge' && s.ability !== 'Magic Guard') s.hp -= 12.5;
+      if (s.seeded && s.ability !== 'Magic Guard' && t.hp > 0) {
+        var drained = Math.min(12.5, Math.max(0.0, s.hp)) * s.maxhp / 100;
+        s.hp -= 12.5;
+        var gain = drained / t.maxhp * 100;
+        t.hp = s.ability === 'Liquid Ooze' ? Math.max(0.0, t.hp - gain) : Math.min(100.0, t.hp + gain);
+      }
+      if (s.ability !== 'Magic Guard') {
+        if ((s.status === 'poison' || s.status === 'toxic') && s.ability === 'Poison Heal') s.hp = Math.min(100.0, s.hp + 12.5);
+        else if (s.status === 'poison' || s.status === 'burn') s.hp -= 12.5;
+        else if (s.status === 'toxic') { s.tox += 1; s.hp -= 6.25 * s.tox; }
+      }
+      if (s.ability === 'Speed Boost' && s.hp > 0) s.st.spe = Math.min(6, s.st.spe + 1);
+      if (!s.status && s.item === 'Toxic Orb' && !inter(s.types, ['Poison', 'Steel']).length) { s.status = 'toxic'; s.tox = 0; }
+      if (!s.status && s.item === 'Flame Orb' && !inA('Fire', s.types)) s.status = 'burn';
+      if (s.yawn) { s.yawn -= 1; if (s.yawn === 0 && !s.status) { s.status = 'sleep'; s.sleep = SLEEP_TURNS[self.gen]; } }
+      s.hp = Math.max(0.0, s.hp);
+      self.berries(s);
+    });
+    [this.A, this.B].forEach(function (s) {
+      s.protect_last = s.protecting; s.protecting = false;
+      s.flinch = false; s.hit_this_turn = false;
+      var sc = {}; Object.keys(s.screens).forEach(function (k) { if (s.screens[k] > 1) sc[k] = s.screens[k] - 1; }); s.screens = sc;
+      s.taunt = Math.max(0, s.taunt - 1);
+      if (s.lock && !s.charging) { s.lock[1] -= 1; if (s.lock[1] <= 0) s.lock = null; }
+      if (s.ability === 'Truant') s.loaf = s.calls.length && s.calls[s.calls.length - 1] !== '(loafing)' ? !s.loaf : false;
+    });
+    if (this.weather_left != null) { this.weather_left -= 1; if (this.weather_left <= 0) { this.weather = null; this.weather_left = null; } }
+  };
+  F.run = function () {
+    var A = this.A, B = this.B;
+    for (this.turn = 1; this.turn <= TURN_CAP; this.turn++) {
+      var ca = this.choose(A), cb = this.choose(B), aFirst = this.acts_first(A, ca, B, cb);
+      if (this.speed(A) === this.speed(B) && this.priority(A, ca) === this.priority(B, cb)) this.note('speed tie');
+      var order = aFirst ? [[A, B, ca, cb], [B, A, cb, ca]] : [[B, A, cb, ca], [A, B, ca, cb]];
+      for (var i = 0; i < 2; i++) {
+        var u = order[i][0], t = order[i][1];
+        if (u.hp <= 0 || t.hp <= 0) break;
+        this.act(u, t, order[i][2], order[i][3]);
+        if (A.hp <= 0 || B.hp <= 0) break;
+      }
+      if (A.hp > 0 && B.hp > 0) this.end_turn();
+      this.log.push([this.turn, A.calls.length >= this.turn ? A.calls[A.calls.length - 1] : '—', B.calls.length >= this.turn ? B.calls[B.calls.length - 1] : '—',
+        pyRound(A.hp, 1), pyRound(B.hp, 1), aFirst ? 'A' : 'B']);
+      if (A.hp <= 0 || B.hp <= 0) return this.outcome(A.hp <= 0 && B.hp <= 0 ? 'draw' : B.hp <= 0 ? 'A' : 'B');
+    }
+    this.turn = TURN_CAP;
+    this.note('stalemate: no knockout in 100 turns');
+    return this.outcome('draw');
+  };
+  F.outcome = function (winner) {
+    var A = this.A, B = this.B;
+    return {winner: winner, turns: this.turn, hp: [pyRound(A.hp, 1), pyRound(B.hp, 1)], odds: [A.odds, B.odds], calls: [A.calls.slice(), B.calls.slice()],
+      first_hit: this.first_hit, used: [Object.keys(A.used), Object.keys(B.used)], notes: Object.keys(this.notes), log: this.log.slice()};
+  };
+
+  /* the evaluator */
+  function Evaluator() { this.table = new DamageTable(); this.stats = {}; this._fights = {}; this.fightsRun = 0; }
+  var E = Evaluator.prototype;
+  E.prepare = function (cs) {
+    var self = this, fresh = cs.filter(function (c) { return !has(self.stats, c.key); });
+    cs.forEach(function (c) { self.table.specs[c.key] = c; });
+    fresh.forEach(function (c) {
+      var r = calcRun({gen: c.gen, stats: calcSpec(c)});
+      if (r.error) throw new Error(c.name + ': ' + r.error);
+      self.stats[c.key] = r;
+    });
+  };
+  E.kind = function (mv, c) {
+    var plays = {}; mv.plays.forEach(function (p) { if (p.primary) plays[p.play] = true; });
+    if (mv.damaging) return 'hit';
+    if (inA(mv.name, ['Protect', 'Detect', 'Endure'])) return 'protect';
+    if (mv.name === 'Substitute') return 'protect-sub';
+    if (mv.name === 'Reflect' || mv.name === 'Light Screen') return 'screen';
+    if (has(WEATHER_MOVES, mv.name)) return 'weather';
+    if (mv.name === 'Curse' && inA('Ghost', c.types)) return 'utility';
+    var ks = ['boost', 'heal', 'cure', 'taunt', 'encore', 'sleep-talk', 'phaze'];
+    for (var i = 0; i < ks.length; i++) if (plays[ks[i]]) return ks[i];
+    if (plays.reset) return 'haze';
+    if (plays.status && inA(mv.ailment, MAJOR.concat(['leech-seed', 'yawn']))) return 'status';
+    if (plays.debuff) return 'debuff';
+    return 'utility';
+  };
+  E.side = function (c, tag, plan) { return Side(this, c, tag, plan); };
+  E.plans = function (c) {
+    var self = this, mvs = c.moves.map(function (m) { return mbGet(c.gen, m); }), kinds = {};
+    mvs.forEach(function (mv) { kinds[mv.name] = self.kind(mv, c); });
+    if (c.ai.length) return [[Plan()], kinds];
+    var hasK = function () { var ks = Array.prototype.slice.call(arguments); return mvs.filter(function (mv) { return inA(kinds[mv.name], ks); }).map(function (mv) { return mv.name; }); };
+    var habits = [hasK('boost').length > 0, hasK('phaze', 'haze', 'encore').length > 0, hasK('heal', 'cure', 'protect').length > 0];
+    var boosts = hasK('boost'), subs = hasK('protect-sub'), openers = [[]];
+    boosts.forEach(function (b) { openers.push([b]); if (mbGet(c.gen, b).el.indexOf('max out') < 0) openers.push([b, b]); });
+    subs.forEach(function (s) { openers.push([s]); boosts.forEach(function (b) { openers.push([s, b]); }); });
+    var firstBoost = boosts.slice(0, 1);
+    hasK('status').forEach(function (s) { openers.push([s]); firstBoost.forEach(function (b) { openers.push([s, b]); }); });
+    hasK('debuff').forEach(function (d) { openers.push([d]); openers.push([d, d]); });
+    hasK('screen').forEach(function (s) { openers.push([s]); firstBoost.forEach(function (b) { openers.push([s, b]); }); });
+    hasK('weather', 'taunt').forEach(function (w) { openers.push([w]); });
+    var out = [Plan()], seen = {}; seen[out[0].key] = true;
+    openers.forEach(function (o) { var p = Plan(o, habits[0], habits[1], habits[2]); if (!seen[p.key]) { seen[p.key] = true; out.push(p); } });
+    return [out, kinds];
+  };
+  E.fight = function (a, b, pa, pb) {
+    var key = a.key + '\u0002' + b.key + '\u0002' + pa.key + '\u0002' + pb.key;
+    if (has(this._fights, key)) return this._fights[key];
+    var misses = this.table.misses, o = new Fight(this, a, b, pa, pb).run();
+    this.fightsRun++;
+    if (o.notes.indexOf('speed tie') >= 0) {
+      var o2 = new Fight(this, a, b, pa, pb, false).run();
+      this.fightsRun++;
+      if (o2.winner !== o.winner) {
+        o = Object.assign({}, o, {winner: 'draw', turns: Math.max(o.turns, o2.turns), odds: [o.odds[0] * 0.5, o.odds[1] * 0.5],
+          notes: uniq(o.notes.concat(['a coin flip: the speed tie decides it']))});
+      }
+    }
+    if (this.table.misses === misses) this._fights[key] = o;
+    return o;
+  };
+  E.response = function (a, b, pa, bPlans, floor) {
+    var worst = null;
+    for (var i = 0; i < bPlans.length; i++) {
+      var o = this.fight(a, b, pa, bPlans[i]);
+      if (worst === null || cmp(outcomeValue(o), outcomeValue(worst[1])) < 0) worst = [bPlans[i], o];
+      if (floor != null && cmp(outcomeValue(worst[1]), floor) <= 0) break;
+    }
+    return worst;
+  };
+  E.matchup = function (a, b) {
+    a = this.traced(a, b); b = this.traced(b, a);
+    this.prepare([a, b]);
+    var pk = this.plans(a), aPlans = pk[0], kinds = pk[1], bPlans = this.plans(b)[0], self = this;
+    var sr = this.response(a, b, aPlans[0], bPlans), best = [aPlans[0], sr[0], sr[1]];
+    for (var i = 1; i < aPlans.length; i++) {
+      var r = this.response(a, b, aPlans[i], bPlans, outcomeValue(best[2]));
+      if (cmp(outcomeValue(r[1]), outcomeValue(best[2])) > 0) best = [aPlans[i], r[0], r[1]];
+    }
+    var plan = best[0], answer = best[1], outcome = best[2], credits = {};
+    var fams = inter(planFamilies(plan, kinds), outcome.used[0]);
+    plan.opener.forEach(function (m) { if (has(kinds, m) && FAMILY_OF[kinds[m]] && fams.indexOf(FAMILY_OF[kinds[m]]) < 0) fams.push(FAMILY_OF[kinds[m]]); });
+    fams.sort().forEach(function (fam) {
+      var alt = planWithout(plan, fam, kinds);
+      if (alt.key === plan.key) return;
+      var o = self.response(a, b, alt, bPlans)[1], ov = outcomeValue(o), bv = outcomeValue(outcome);
+      if (ov[0] < bv[0]) credits[fam] = 'decisive';
+      else if (cmp(ov, bv) < 0) credits[fam] = 'helps';
+    });
+    var w = this.start_weather(a, b), dmg = {}, inc = {};
+    a.moves.forEach(function (m) { if (category(a.gen, m) !== 'Status') dmg[m] = self.table.get([a.key, b.key, m, 0, 0, '', '', w, false]).slice(0, 2); });
+    b.moves.forEach(function (m) { if (category(b.gen, m) !== 'Status') inc[m] = self.table.get([b.key, a.key, m, 0, 0, '', '', w, false]).slice(0, 2); });
+    var f = new Fight(this, a, b, Plan(), Plan());
+    return {a: a, b: b, plan: plan, answer: answer, outcome: outcome, straight: sr[1], credits: credits, damage: dmg, incoming: inc,
+      speeds: [f.speed(f.A), f.speed(f.B)], plans_tried: aPlans.length * bPlans.length, weather: w};
+  };
+  E.start_weather = function (a, b) { return new Fight(this, a, b, Plan(), Plan()).weather || ''; };
+  E.traced = function (c, foe) {
+    if (c.ability === 'Trace' && foe.ability && foe.ability !== 'Trace' && foe.ability !== 'Multitype')
+      return Combatant(Object.assign({}, c, {ability: foe.ability, name: c.name + ' (traced ' + foe.ability + ')'}));
+    return c;
+  };
+  E.versus = function (ours, field, rounds) {
+    rounds = rounds || 10;
+    var self = this, traced = [];
+    ours.forEach(function (a) { field.forEach(function (b) { traced.push(self.traced(a, b)); }); });
+    ours.forEach(function (a) { field.forEach(function (b) { traced.push(self.traced(b, a)); }); });
+    this.prepare(ours.concat(field, traced));
+    var todo = [], done = {};
+    ours.forEach(function (a) { field.forEach(function (b) { todo.push([a, b]); }); });
+    this.prefetch(todo);
+    for (var r = 0; r < rounds; r++) {
+      var dirty = [];
+      todo.forEach(function (ab) {
+        var before = self.table.misses, m = self.matchup(ab[0], ab[1]);
+        if (self.table.misses !== before) dirty.push(ab); else done[ab[0].key + '\u0002' + ab[1].key] = m;
+      });
+      if (!dirty.length) break;
+      this.table.fetch();
+      todo = dirty;
+    }
+    return done;
+  };
+  E.prefetch = function (pairs) {
+    var self = this;
+    pairs.forEach(function (ab) {
+      var a2 = self.traced(ab[0], ab[1]), b2 = self.traced(ab[1], ab[0]), w = self.start_weather(a2, b2);
+      [[a2, b2], [b2, a2]].forEach(function (xy) { xy[0].moves.forEach(function (m) { if (category(xy[0].gen, m) !== 'Status') self.table.get([xy[0].key, xy[1].key, m, 0, 0, '', '', w, false]); }); });
+    });
+    this.table.misses = 0;
+    this.table.fetch();
+  };
+
+  /* ---- battle/trainer_policy.py: the games' own AI ---- */
+  var EXTREMES = ['Explosion', 'Self-Destruct', 'Dream Eater', 'Focus Punch', 'Sucker Punch', 'Superpower', 'Eruption', 'Water Spout', 'Spit Up', 'Head Smash', 'Double-Edge'];
+  var FLAILS = ['Flail', 'Reversal'], ENDURES = ['Endure', 'Destiny Bond', 'Memento'];
+  var RESIDUAL = ['Leech Seed', 'Poison Powder', 'Stun Spore', 'Thunder Wave', 'Substitute', 'Spikes', 'Mist', 'Focus Energy', 'Poison Gas', 'Toxic'];
+  var SETUP_KINDS = ['boost', 'debuff', 'screen', 'protect-sub', 'status', 'weather'];
+  function flagsOf(ai) { return uniq((ai || []).map(function (f) { return String(f).toUpperCase().split('AI_FLAG_').join('').split('AI_SCRIPT_').join('').split('AI_').join(''); })); }
+  function useless(f, u, t, m) {
+    var mv = u.moves[m], k = u.kinds[m], e = mv.el;
+    if (mv.damaging) {
+      if (e.indexOf('only works if the target is asleep') >= 0 && t.status !== 'sleep') return true;
+      return f.damage_hi(u, t, m) <= 0;
+    }
+    if (k === 'status') {
+      var ail = mv.ailment;
+      if (t.sub > 0 && !mv.flags.authentic) return true;
+      if (ail === 'leech-seed') return t.seeded || inA('Grass', t.types);
+      if (ail === 'yawn') return !!(t.status || t.yawn);
+      if (t.status) return true;
+      ail = ail === 'poison' && e.indexOf('badly') >= 0 ? 'toxic' : ail;
+      if (inter(t.types, STATUS_SAFE_TYPES[ail] || []).length || inA(t.ability, STATUS_SAFE_ABILITIES[ail] || [])) return true;
+      return mv.name === 'Thunder Wave' && effectiveness(f.gen, 'Electric', t.types, t.ability) === 0;
+    }
+    if (k === 'boost') return !Object.keys(mv.self_changes).some(function (s) { return mv.self_changes[s] > 0 && (u.st[s] || 0) < 6; });
+    if (k === 'debuff') return t.sub > 0 || !Object.keys(mv.foe_changes).some(function (s) { return (t.st[s] || 0) > -6; });
+    if (k === 'protect-sub') return u.sub > 0 || u.hp <= 25;
+    if (k === 'screen') return !!u.screens[m === 'Reflect' ? 'Physical' : 'Special'];
+    if (k === 'weather') return f.weather === WEATHER_MOVES[m];
+    if (k === 'heal') return u.hp >= 100 && e.indexOf('end of the next turn') < 0;
+    if (k === 'taunt') return !!t.taunt;
+    if (k === 'sleep-talk') return u.status !== 'sleep';
+    if (k === 'cure') return !u.status;
+    return false;
+  }
+  function policyScores(f, u, t, ai) {
+    var fl = flagsOf(ai), gen = f.gen, moves = f.usable(u), hi = {}, lo = {}, out = {};
+    var F_ = function (x) { return fl.indexOf(x) >= 0; };
+    moves.forEach(function (m) { if (u.moves[m].damaging) hi[m] = f.damage_hi(u, t, m); });
+    Object.keys(hi).forEach(function (m) { lo[m] = f.damage(u, t, m)[0]; });
+    var hv = Object.keys(hi).map(function (m) { return hi[m]; }), strongest = hv.length ? Math.max.apply(null, hv) : 0;
+    var first = u.fresh, faster = f.speed(u) >= f.speed(t);
+    moves.forEach(function (m) {
+      var mv = u.moves[m], k = u.kinds[m], e = mv.el, selfko = e.indexOf('user faints') >= 0, s;
+      if (gen === 2) {
+        s = 20;
+        if (F_('BASIC') && useless(f, u, t, m)) s += 10;
+        if (F_('STATUS') && ((mv.damaging && (hi[m] || 0) <= 0) || (k === 'status' && useless(f, u, t, m)))) s += 10;
+        if (F_('SETUP') && ((k === 'boost' && !first) || (k === 'debuff' && !t.fresh))) s += 2;
+        if (F_('SMART')) {
+          if (k === 'heal') s += u.hp < 25 ? -2 : u.hp > 50 ? 1 : 0;
+          if ((m === 'Toxic' || m === 'Leech Seed') && t.hp < 50) s += 1;
+          if (k === 'screen' && u.hp < 100) s += 1;
+        }
+        if (F_('AGGRESSIVE') && mv.damaging && hi[m] > 0 && hi[m] < strongest && !selfko && e.indexOf('hits every turn for') < 0 && mv.hits[1] === 1) s += 1;
+        if (F_('CAUTIOUS') && !first && inA(m, RESIDUAL)) s += 1;
+        if (F_('RISKY') && mv.damaging && hi[m] >= t.hp && !selfko && mv.meta_category !== 'ohko') s -= 5;
+        out[m] = -s;
+        return;
+      }
+      s = 100;
+      if ((F_('BASIC') || F_('CHECK_BAD_MOVE')) && useless(f, u, t, m)) s -= 10;
+      if ((F_('EVAL_ATTACK') || F_('TRY_TO_FAINT')) && mv.damaging && hi[m] > 0) {
+        var kills = (gen >= 4 ? hi[m] : (lo[m] + hi[m]) / 2) >= t.hp;
+        if (kills && !(gen === 3 && selfko)) s += mv.priority > 0 ? 6 : 4;
+        else if (hi[m] < strongest) s -= 1;
+        if ((gen === 4 || F_('GAME_EMERALD')) && effectiveness(gen, mv.type, t.types) >= 4) s += 2;
+        if (gen === 4 && (selfko || m === 'Focus Punch' || m === 'Sucker Punch')) s -= 2;
+      }
+      if (F_('EXPERT') || F_('CHECK_VIABILITY')) {
+        if (k === 'heal') s += u.hp >= 100 ? -3 : faster ? -8 : u.hp >= 70 ? -3 : 2;
+        if (k === 'boost') {
+          var raised = Object.keys(mv.self_changes).filter(function (st) { return mv.self_changes[st] > 0; });
+          if (raised.some(function (st) { return (u.st[st] || 0) >= 3; })) s -= 1;
+          if (u.hp <= 70) s -= 2;
+        }
+        if ((m === 'Toxic' || m === 'Leech Seed') && Object.keys(hi).length) s -= (u.hp <= 50 ? 3 : 0) + (t.hp <= 50 ? 3 : 0);
+      }
+      if (F_('SETUP_FIRST_TURN') && first && inA(k, SETUP_KINDS)) s += 2;
+      if (F_('CHECK_HP') || F_('HP_AWARE')) {
+        if (u.hp > 70 && (selfko || k === 'heal' || inA(m, FLAILS.concat(ENDURES)))) s -= 2;
+        else if (u.hp <= 70 && (k === 'boost' || k === 'debuff')) s -= 2;
+        if (t.hp <= 30 && inA(k, ['status', 'boost', 'debuff'])) s -= 2;
+      }
+      if (F_('PRIORITIZE_EXTREMES') || F_('PREFER_POWER_EXTREMES') || F_('PREFER_STRONGEST_MOVE')) {
+        var fixed = mv.damaging && (mv.power || 0) <= 1 && gen === 3;
+        if (!mv.damaging || inA(m, EXTREMES) || mv.flags.charge || mv.flags.recharge || fixed) s += 2;
+      }
+      out[m] = s;
+    });
+    return out;
+  }
+  function policyChoose(f, u, t, ai) {
+    var sc = policyScores(f, u, t, ai), names = Object.keys(sc), best = Math.max.apply(null, names.map(function (m) { return sc[m]; }));
+    var tied = names.filter(function (m) { return sc[m] === best; }), attacks = tied.filter(function (m) { return u.moves[m].damaging; });
+    if (tied.length > 1) f.note('the game breaks ties at random; the engine shows its own pick among them');
+    if (attacks.length) return minBy(attacks, function (m) { return f.attack_score(u, t, m); });
+    return tied[0];
+  }
+
+  /* ---- battle/grid.py: the benchmark grid, played out ---- */
+  var ZERO_EVS = {hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0};
+  function Grid(ev) { this.ev = ev; this.last = null; }
+  Grid.prototype.ours = function (team, level) {
+    var gen = team.gen;
+    return team.members.map(function (m) {
+      var b = {moves: m.moves, nature: m.nature, ability: m.ability, item: m.item, evs: falsy(m.evs) ? null : m.evs, ivs: falsy(m.ivs) ? null : m.ivs};
+      if (level) b.level = level;
+      return fromBuild(gen, m.species, b, null, 100, species(gen, m.species).name);
+    });
+  };
+  function aiOf(opponent) {
+    var raw = opponent.ai_flags || [];
+    if (typeof raw === 'number') { var bits = P.trainer_ai.gen4_bits; raw = Object.keys(bits).filter(function (n) { return raw & bits[n]; }); }
+    if (!raw.length) return [];
+    var s = uniq(raw.concat(opponent.game === 'emerald' ? ['GAME_EMERALD'] : []));
+    return s.sort();
+  }
+  Grid.prototype.theirs = function (opponent, gen) {
+    var peak = String(opponent.source || '').indexOf('journey team') === 0, ai = peak ? [] : aiOf(opponent);
+    return opponent.party.map(function (p) {
+      var name = species(gen, p.species).name;
+      if (peak) { var b = {}; ['moves', 'item', 'nature', 'ability', 'ivs', 'level'].forEach(function (k) { b[k] = p[k] == null ? null : p[k]; }); return fromBuild(gen, name, b, null, 100, name); }
+      return Combatant({species: name, gen: gen, moves: p.moves.slice(), level: p.level, item: p.item, ivs: p.ivs, evs: clone(ZERO_EVS), nature: p.nature,
+        ability: p.ability, name: name + ' L' + p.level, ai: ai, source: opponent.source || ''});
+    });
+  };
+  Grid.prototype.matchups = function (team, opponent, level) {
+    level = level || 'match';
+    var gen = team.gen, top = Math.max.apply(null, opponent.party.map(function (p) { return p.level; }));
+    var ours = this.ours(team, level === 'match' ? top : null), theirs = this.theirs(opponent, gen);
+    var res = this.ev.versus(ours, theirs), web = [], grid = [], evaluated = {};
+    theirs.forEach(function (b, oi) {
+      var row = {opponent: b.species + ' L' + b.level, vs: {}};
+      ours.forEach(function (a, ui) {
+        var m = res[a.key + '\u0002' + b.key];
+        if (!m) throw new Error('unsettled matchup ' + a.name + ' vs ' + b.name);
+        evaluated[oi + ',' + ui] = m;
+        Object.keys(m.damage).forEach(function (mv) { web.push({side: 'us', theirs: oi, ours: ui, move: mv, min: m.damage[mv][0], max: m.damage[mv][1]}); });
+        Object.keys(m.incoming).forEach(function (mv) { web.push({side: 'them', theirs: oi, ours: ui, move: mv, min: m.incoming[mv][0], max: m.incoming[mv][1]}); });
+        var us = maxBy(Object.keys(m.damage).map(function (k) { return [k, m.damage[k]]; }), function (kv) { return kv[1][0]; });
+        var them = maxBy(Object.keys(m.incoming).map(function (k) { return [k, m.incoming[k]]; }), function (kv) { return kv[1][0]; });
+        var hits = function (best) { return best && best[1][0] > 0 ? Math.ceil(100 / best[1][0]) : 99; };
+        row.vs[a.species] = {wins: m.outcome.winner === 'A', draw: m.outcome.winner === 'draw',
+          we_hit: us && us[1][0] > 0 ? us[0] + ' ' + us[1][0] + '-' + us[1][1] + '%' : 'no damage',
+          they_hit: them && them[1][0] > 0 ? them[0] + ' ' + them[1][0] + '-' + them[1][1] + '%' : 'no damage',
+          hits_to_ko: hits(us) + ' vs ' + hits(them), moves_first: m.straight.first_hit === 'A',
+          value: outcomeValue(m.outcome), plan: planLabel(m.plan)};
+      });
+      row.answers = Object.keys(row.vs).filter(function (s) { return row.vs[s].wins; });
+      grid.push(row);
+    });
+    var anchors = sortBy(ours.map(function (a) { return [a.species, sum(grid.map(function (r) { return r.vs[a.species].wins ? 1 : 0; }))]; }), function (x) { return -x[1]; });
+    var mv = {}; ours.forEach(function (a) { mv[a.species] = a.moves; });
+    var out = {opponent: opponent.name, source: opponent.source, our_level: ours[0].level, our_movesets: mv, our_names: ours.map(function (a) { return a.species; }),
+      web: web, grid: grid, threats: grid.filter(function (r) { return !r.answers.length; }).map(function (r) { return r.opponent; }),
+      anchors: anchors, evaluated: evaluated, ours: ours, theirs: theirs};
+    this.last = out;
+    return out;
+  };
+
+  /* ---- battle/phrases.py: the phrase book ---- */
+  var OPS = {
+    '>=': function (a, b) { return a != null && a >= b; }, '<=': function (a, b) { return a != null && a <= b; },
+    '>': function (a, b) { return a != null && a > b; }, '<': function (a, b) { return a != null && a < b; },
+    '==': function (a, b) { return a === b || (a == null && b == null); }, '!=': function (a, b) { return !(a === b || (a == null && b == null)); },
+    'in': function (a, b) { return (b || []).indexOf(a) >= 0; }, 'notin': function (a, b) { return (b || []).indexOf(a) < 0; },
+    'has': function (a, b) { return a != null && a.indexOf(b) >= 0; },
+    'empty': function (a) { return falsy(a); }, 'nonempty': function (a) { return !falsy(a); }
+  };
+  function isFloatKey(k) { return /_pct$/.test(k); }
+  function showCond(metric, op, value, ctx) {
+    var here = ctx[metric], fl = isFloatKey(metric) && typeof here === 'number';
+    if (fl) here = pyRound(here, 2);
+    if (op === 'empty' || op === 'nonempty') return metric + ' ' + op;
+    return metric + ' ' + op + ' ' + (value.length ? pyStr(value[0]) : '') + ' (here ' + pyStr(here, fl) + ')';
+  }
+  function fieldsOf(tpl) { var out = [], re = /\{([^{}:!]*)(?:[:!][^{}]*)?\}/g, m; while ((m = re.exec(tpl))) out.push(m[1].split('.')[0].split('[')[0]); return out; }
+  function formatSay(tpl, ctx) {
+    return tpl.replace(/\{([^{}:!]*)(?::([^{}]*))?\}/g, function (_, k, spec) {
+      var v = ctx[k];
+      if (spec === '.0%') return exactDigits(v * 100, 0) + '%';
+      if (spec) throw new Error('format spec ' + spec + ' isn\'t ported');
+      return pyStr(v, isFloatKey(k));
+    });
+  }
+  function speak(kind, ctx, book, withMisses) {
+    var out = [], fired = {}, misses = [];
+    ((book || P.phrasebook)[kind] || []).forEach(function (r) {
+      var why = null;
+      if (r.group && fired[r.group]) why = 'its group (' + r.group + ') already spoke';
+      if (!why) { var bad = r.when.filter(function (c) { return !OPS[c[1]](ctx[c[0]] === undefined ? null : ctx[c[0]], c.length > 2 ? c[2] : null); });
+        if (bad.length) why = bad.map(function (c) { return showCond(c[0], c[1], c.slice(2), ctx); }).join('; '); }
+      if (!why) { var holes = uniq(fieldsOf(r.say).filter(function (f) { var v = ctx[f]; return v == null || v === '' || (Array.isArray(v) && !v.length); }));
+        if (holes.length) why = 'nothing to say for ' + holes.join(', '); }
+      if (why) { if (withMisses) misses.push({kind: kind, section: r.section, rule: r.id, group: r.group || null, why: why, say: r.say}); return; }
+      if (r.group) fired[r.group] = true;
+      out.push({section: r.section, text: formatSay(r.say, ctx), rule: r.id, trigger: r.when.map(function (c) { return showCond(c[0], c[1], c.slice(2), ctx); }).join('; ') || 'always'});
+    });
+    return withMisses ? {said: out, missed: misses} : out;
+  }
+
+  /* ---- battle/scouting.py: reports, call sheets, the advance form, the game plan, the league ---- */
+  var GAME_VERSION_IDS = {crystal: [6], firered: [10], emerald: [9], platinum: [14], heartgold: [15], soulsilver: [16]};
+  var UNRELIABLE = ['Hyper Beam', 'Giga Impact', 'Blast Burn', 'Frenzy Plant', 'Hydro Cannon', 'Rock Wrecker', 'Roar of Time', 'Solar Beam', 'Sky Attack', 'Skull Bash', 'Razor Wind', 'Focus Punch', 'Dream Eater', 'Explosion', 'Self-Destruct', 'Future Sight', 'Doom Desire', 'Last Resort', 'Snore', 'Dig', 'Dive', 'Bounce', 'Fly', 'Shadow Force', 'Natural Gift', 'Fling', 'Spit Up', 'Synchronoise', 'Belch', 'Present', 'Magnitude', 'Rollout', 'Ice Ball', 'Fake Out', 'Counter', 'Mirror Coat', 'Bide', 'Endeavor', 'Trump Card'];
+  var ROLE_PREFERENCE = {setup: ['Dragon Dance', 'Swords Dance', 'Nasty Plot', 'Calm Mind', 'Bulk Up', 'Curse', 'Agility', 'Rock Polish', 'Amnesia', 'Iron Defense', 'Growth', 'Belly Drum'],
+    recovery: ['Roost', 'Recover', 'Slack Off', 'Soft-Boiled', 'Milk Drink', 'Synthesis', 'Moonlight', 'Morning Sun', 'Wish', 'Rest', 'Aqua Ring', 'Ingrain', 'Leech Seed', 'Heal Order']};
+  var RECOIL = ['Volt Tackle', 'Flare Blitz', 'Brave Bird', 'Double-Edge', 'Take Down', 'Wood Hammer', 'Head Smash', 'Submission'];
+  var LOCK_IN = ['Outrage', 'Petal Dance', 'Thrash'];
+  var CHARGE = ['Fly', 'Dig', 'Dive', 'Bounce', 'Solar Beam', 'Sky Attack', 'Skull Bash', 'Razor Wind', 'Shadow Force'];
+  var RISKY = ['Explosion', 'Self-Destruct', 'Destiny Bond', 'Memento', 'Perish Song'];
+  var PROTECT = ['Protect', 'Detect', 'Endure'];
+  var ABILITY_NOTES = {'Thick Fat': 'Fire and Ice moves only do half', 'Levitate': 'Ground moves miss it entirely', 'Water Absorb': 'Water moves heal it instead',
+    'Volt Absorb': 'Electric moves heal it instead', 'Flash Fire': 'Fire moves power it up instead', 'Motor Drive': 'Electric moves make it faster instead',
+    'Intimidate': 'your Attack drops the moment it comes in', 'Inner Focus': 'it never flinches', 'Snow Cloak': 'harder to hit in hail',
+    'Sand Veil': 'harder to hit in a sandstorm', 'Sturdy': 'one-hit KO moves fail', 'Immunity': "it can't be poisoned", 'Limber': "it can't be paralyzed",
+    'Insomnia': "it can't be put to sleep", 'Vital Spirit': "it can't be put to sleep", 'Natural Cure': 'switching out cures its status',
+    'Static': 'touching it can paralyze you', 'Flame Body': 'touching it can burn you', 'Poison Point': 'touching it can poison you', 'Rough Skin': 'touching it hurts',
+    'Sand Stream': 'it brings a sandstorm', 'Drizzle': 'it brings rain', 'Drought': 'it brings sun', 'Swift Swim': 'doubles its Speed in rain',
+    'Chlorophyll': 'doubles its Speed in sun', 'Guts': 'a status condition makes it hit harder', 'Marvel Scale': 'a status condition makes it sturdier',
+    'Filter': 'super-effective hits do less', 'Solid Rock': 'super-effective hits do less', 'Heatproof': 'Fire moves do half', 'Dry Skin': 'Water heals it, Fire hurts more',
+    'Clear Body': "its stats can't be lowered", 'Keen Eye': "its accuracy can't be lowered", 'Synchronize': 'it passes its status back',
+    'Pressure': 'your moves burn extra PP', 'Shed Skin': 'it can shake off status between turns', 'Torrent': "Water moves hit harder when it's low",
+    'Blaze': "Fire moves hit harder when it's low", 'Overgrow': "Grass moves hit harder when it's low", 'Swarm': "Bug moves hit harder when it's low",
+    'Steadfast': 'flinching makes it faster', 'Technician': 'weak moves hit harder', 'Adaptability': 'same-type moves hit even harder',
+    'Iron Fist': 'punches hit harder', 'Rock Head': 'no recoil damage', 'Magnet Pull': "Steel types can't escape it", 'Hustle': 'hits harder but misses more'};
+  var ITEM_NOTES = {'Leftovers': 'it heals a little every turn', 'Black Sludge': 'it heals a little every turn', 'Lum Berry': 'it shrugs off the first status',
+    'Sitrus Berry': 'it heals once when it drops to half', 'Focus Sash': 'from full health it survives any single hit', 'Light Ball': 'its attacks hit twice as hard',
+    'Life Orb': 'every attack hits harder and costs it HP', 'Choice Band': 'big physical hits, locked into one move', 'Choice Specs': 'big special hits, locked into one move',
+    'Choice Scarf': 'faster, locked into one move', 'NeverMeltIce': 'Ice moves hit harder', 'Expert Belt': 'super-effective hits land harder',
+    'Quick Claw': 'sometimes it moves first anyway', "King's Rock": 'its hits can make you flinch', 'Bright Powder': "it's harder to hit",
+    'Scope Lens': 'more critical hits', 'Shell Bell': 'its hits heal it a little'};
+  var STATUS_EFFECT = {'Toxic': 'poison', 'Poison Powder': 'poison', 'Poison Gas': 'poison', 'Thunder Wave': 'paralysis', 'Stun Spore': 'paralysis', 'Glare': 'paralysis',
+    'Will-O-Wisp': 'burn', 'Hypnosis': 'sleep', 'Sleep Powder': 'sleep', 'Spore': 'sleep', 'Sing': 'sleep', 'Lovely Kiss': 'sleep', 'Grass Whistle': 'sleep',
+    'Dark Void': 'sleep', 'Yawn': 'sleep', 'Confuse Ray': 'confusion', 'Supersonic': 'confusion', 'Swagger': 'confusion', 'Sweet Kiss': 'confusion'};
+  var STATUS_IMMUNE_TYPES = {poison: ['Poison', 'Steel'], burn: ['Fire'], paralysis: [], sleep: [], confusion: []};
+  var STATUS_IMMUNE_ABILITIES = {poison: ['Immunity'], paralysis: ['Limber'], sleep: ['Insomnia', 'Vital Spirit'], burn: ['Water Veil'], confusion: ['Own Tempo']};
+  var TRAINER_ITEMS = ['Full Restore', 'Max Potion', 'Hyper Potion', 'Super Potion', 'Potion', 'Full Heal', 'Max Revive', 'Revive', 'X Attack', 'X Defend', 'X Speed', 'X Special', 'Guard Spec.', 'Dire Hit'];
+  var SECTION_TITLES = {philosophy: 'Philosophy', tendencies: 'Tendencies', when_ahead: "When it's ahead", when_behind: "When it's behind", vs_types: 'Against types',
+    vs_moves: 'Against moves', how_to_beat: 'How you beat it', how_to_attack: 'How to attack it', production: 'Production', makeup: 'Makeup', order: 'Order',
+    bag: 'The bag', dialogue: 'What they say', scouts_note: "Scout's note", identity: "What we're trying to do", good_at: "What we're good at",
+    soft: "Where we're soft", plan_lead: 'The opener', plan_assign: 'Who takes whom', plan_keys: 'Keys to the game', plan_watch: 'Watch out for'};
+  var SIGNATURE = {}, POP = {}, ITEM_KNOWN = null;
+  function itemName(item) {
+    if (!item) return null;
+    if (!ITEM_KNOWN) {
+      ITEM_KNOWN = {};
+      Object.keys(ITEM_NOTES).concat(Object.keys(SIGNATURE).map(function (k) { return SIGNATURE[k]; }), TRAINER_ITEMS).forEach(function (i) {
+        ITEM_KNOWN[i.toLowerCase().split(' ').join('').split("'").join('').split('-').join('')] = i; });
+    }
+    var key = String(item).toLowerCase().split('item_').join('').split('_').join('').split(' ').join('').split('-').join('').split("'").join('');
+    return has(ITEM_KNOWN, key) ? ITEM_KNOWN[key] : pyTitle(String(item).split('ITEM_').join('').split('_').join(' '));
+  }
+  function population(gen) {
+    if (!POP[gen]) {
+      var final = {}; P.gens[gen].final.forEach(function (id) { final[id] = true; });
+      POP[gen] = Object.keys(P.gens[gen].species).filter(function (id) { return final[id]; }).map(function (id) { return SP[gen][id]; });
+    }
+    return POP[gen];
+  }
+  function shareBelow(gen, fn, value) { var vals = population(gen).map(function (sp) { return fn(sp.bs); }); return count(vals, function (v) { return v < value; }) / vals.length; }
+  function accuracyOf(m) {
+    if (has(P.accuracy, m)) return P.accuracy[m];
+    for (var g = 4; g >= 2; g--) { var x = MV[g][toId(m)]; if (x && has(P.accuracy, x.name)) return P.accuracy[x.name]; }
+    return 100;
+  }
+  function seTypes(gen, type) { return TYPES.filter(function (t) { return effectiveness(gen, type, [t]) > 1; }); }
+  function coverageOf(member, game) {
+    var gen = GAME_GEN[game], hits = attacksOf(member, game).filter(function (a) { return a.score >= 60; }), out = [];
+    TYPES.forEach(function (t) { hits.forEach(function (a) { if (effectiveness(gen, a.type, [t]) > 1 && out.indexOf(t) < 0) out.push(t); }); });
+    return out.sort();
+  }
+  function strongestSet(speciesName, game, rejected) {
+    rejected = rejected || [];
+    var gen = GAME_GEN[game], types = species(gen, speciesName).types;
+    var pool = attacksOf(Member(speciesName), game, true).filter(function (a) { return a.score >= 60 && !inA(a.move, UNRELIABLE) && !inA(a.move, rejected); })
+      .map(function (a) { return Object.assign({}, a, {value: a.score * accuracyOf(a.move) / 100}); });
+    pool = sortBy(pool, function (a) { return -a.value; });
+    var se = function (a) { return seTypes(gen, a.type); }, picked = [], covered = [];
+    var addCov = function (a) { se(a).forEach(function (t) { if (covered.indexOf(t) < 0) covered.push(t); }); };
+    var stab = pool.filter(function (a) { return a.stab > 1; });
+    if (stab.length) { picked.push(stab[0]); addCov(stab[0]); }
+    while (picked.length < 3) {
+      var pm = picked.map(function (p) { return p.move; }), pt = picked.map(function (p) { return p.type; });
+      var rest = pool.filter(function (a) { return pm.indexOf(a.move) < 0 && pt.indexOf(a.type) < 0; });
+      if (!rest.length) break;
+      var best = maxBy(rest, function (a) { return [se(a).filter(function (t) { return covered.indexOf(t) < 0; }).length, a.value]; });
+      picked.push(best); addCov(best);
+    }
+    var moves = picked.map(function (a) { return a.move; }), learn = learnable(speciesName, game).filter(function (m) { return !inA(m, rejected); });
+    ['setup', 'recovery'].forEach(function (role) {
+      var options = ROLE_PREFERENCE[role].filter(function (m) { return learn.indexOf(m) >= 0 && !(m === 'Curse' && inA('Ghost', types)); });
+      if (options.length && moves.length < 4) moves.push(options[0]);
+    });
+    for (var i = 0; i < pool.length && moves.length < 4; i++) if (moves.indexOf(pool[i].move) < 0) moves.push(pool[i].move);
+    return moves.slice(0, 4);
+  }
+  function movesByRole(moves, types) {
+    var out = {};
+    Object.keys(ROLES).forEach(function (role) { out[role] = moves.filter(function (m) { return inA(m, ROLES[role]) && !(m === 'Curse' && inA('Ghost', types)); }); });
+    return out;
+  }
+  function typeChart(member, game) {
+    var gen = GAME_GEN[game], sp = species(gen, member.species), abil = member.ability || (abilities(gen, member.species)[0] || null), attacks = attacksOf(member, game);
+    return TYPES.map(function (t) {
+      var off = attacks.length ? maxBy(attacks.map(function (a) { return [effectiveness(gen, a.type, [t]), a.move]; }), function (x) { return x; }) : [0, null];
+      return {type: t, offense: off[0], best_move: off[1], defense: effectiveness(gen, t, sp.types, abil)};
+    });
+  }
+  function trouble(member, game, n) {
+    n = n || 4;
+    var gen = GAME_GEN[game], me = species(gen, member.species), abil = member.ability || (abilities(gen, member.species)[0] || null);
+    var attacks = attacksOf(member, game).filter(function (a) { return a.score >= 40; }), out = [];
+    population(gen).forEach(function (sp) {
+      if (sp.name === me.name || inA(sp.name, P.legendary)) return;
+      var threat = Math.max.apply(null, sp.types.map(function (t) { return effectiveness(gen, t, me.types, abil); }));
+      if (threat <= 1) return;
+      var theirAbil = gen >= 3 ? abilities(gen, sp.name) : [];
+      var ours = attacks.length ? Math.max.apply(null, attacks.map(function (a) { return effectiveness(gen, a.type, sp.types, bestDefensiveAbility(gen, sp.types, a.type, theirAbil)); })) : 0;
+      if (ours <= 1) out.push([threat, Math.max(sp.bs.atk, sp.bs.spa) + sp.bs.spe, sp.name]);
+    });
+    return sortBy(out, function (x) { return [-x[0], -x[1]]; }).slice(0, n).map(function (x) { return x[2]; });
+  }
+  function comps(speciesName, gen, n) {
+    n = n || 3;
+    var me = species(gen, speciesName), v = STATS.map(function (k) { return me.bs[k]; });
+    var dist = function (sp) { var d = 0; STATS.forEach(function (k, i) { var x = v[i] - sp.bs[k]; d += x * x; }); return Math.sqrt(d) - (inter(sp.types, me.types).length ? 15 : 0); };
+    return sortBy(population(gen).filter(function (sp) { return sp.name !== me.name; }), dist).slice(0, n).map(function (sp) { return sp.name; });
+  }
+  function makeup(speciesName, game) {
+    var gen = GAME_GEN[game], name = species(gen, speciesName).name, i = (P.flavor[game] || {})[name];
+    return i == null ? null : P.text[i];
+  }
+  function memberFor(speciesName, game, build) {
+    build = build || {};
+    var moves = (build.moves || []).slice(), source = build.status || 'no build on record: the engine filled in its strongest set';
+    if (moves.length < 4) {
+      var fill = strongestSet(speciesName, game, build.rejected || []);
+      if (moves.length) source += '; slots ' + (moves.length + 1) + '-4 filled in by the engine';
+      moves = moves.concat(fill.filter(function (m) { return moves.indexOf(m) < 0; }).slice(0, 4 - moves.length));
+    }
+    return [Member(speciesName, {moves: moves, nature: build.nature, ability: build.ability, item: build.item}), source];
+  }
+  function metrics(member, game, build) {
+    build = build || {};
+    var gen = GAME_GEN[game], sp = species(gen, member.species), bs = sp.bs, abil = member.ability || (abilities(gen, member.species)[0] || null);
+    var attacks = sortBy(attacksOf(member, game), function (a) { return -a.score * accuracyOf(a.move); });
+    var dmg = member.moves.filter(function (m) { return category(gen, m) !== 'Status' && move(gen, m).bp > 20; });
+    var phys = dmg.filter(function (m) { return category(gen, m) === 'Physical'; }), spec = dmg.filter(function (m) { return category(gen, m) === 'Special'; });
+    var roles = movesByRole(member.moves, sp.types);
+    var prio = member.moves.filter(function (m) { return move(gen, m).priority > 0 && category(gen, m) !== 'Status'; });
+    var chart = typeChart(member, game), coverage = coverageOf(member, game);
+    var physBulk = shareBelow(gen, function (b) { return b.hp * b.def; }, bs.hp * bs.def), specBulk = shareBelow(gen, function (b) { return b.hp * b.spd; }, bs.hp * bs.spd);
+    var cut = [];
+    if (member.nature && gen >= 3) { var nn = P.natures[member.nature.toLowerCase()]; if (nn && nn[0] !== nn[1]) cut = nn[0] === 2 ? phys : nn[0] === 4 ? spec : []; }
+    var holes = sortBy(chart.filter(function (c) { return c.defense > 1; }), function (c) { return -c.defense; });
+    var item = member.item, sig = SIGNATURE[member.species];
+    return {name: sp.name, game_title: GAME_TITLE[game], types: sp.types,
+      speed_pct: shareBelow(gen, function (b) { return b.spe; }, bs.spe),
+      power_pct: shareBelow(gen, function (b) { return Math.max(b.atk, b.spa); }, Math.max(bs.atk, bs.spa)),
+      phys_bulk_pct: physBulk, spec_bulk_pct: specBulk,
+      bulk_lean: physBulk - specBulk >= 0.2 ? 'physical' : specBulk - physBulk >= 0.2 ? 'special' : 'even',
+      min_bulk_pct: Math.min(physBulk, specBulk), max_bulk_pct: Math.max(physBulk, specBulk),
+      lean: phys.length && spec.length ? 'mixed' : phys.length ? 'physical' : spec.length ? 'special' : 'status',
+      phys_str: join(phys), spec_str: join(spec), nature: member.nature,
+      nature_cut_str: join(cut), nature_open: !!(phys.length && spec.length && !member.nature && gen >= 3),
+      nature_note: build.nature_note == null ? null : build.nature_note,
+      setup_str: join(roles.setup, 'or'), recovery_str: join(roles.recovery, 'or'), status_str: join(roles.status, 'or'), pivot_str: join(roles.pivot),
+      phaze_str: join(roles.phazing, 'or'), hazard_str: join(roles.hazards), screen_str: join(roles.screens), disrupt_str: join(roles.disruption, 'or'),
+      status_care_str: join(roles.status_care, 'or'), priority_str: join(prio, 'or'), has_rest: member.moves.indexOf('Rest') >= 0,
+      out_pitch: attacks.length ? attacks[0].move : null, out_pitch_type: attacks.length ? attacks[0].type : null,
+      coverage_n: coverage.length, coverage_str: join(coverage),
+      walls_str: join(chart.filter(function (c) { return c.offense > 0 && c.offense <= 0.5; }).map(function (c) { return c.type; })),
+      zero_str: join(chart.filter(function (c) { return c.offense === 0; }).map(function (c) { return c.type; })),
+      holes_str: join(holes.map(function (c) { return c.type + ' (×' + pyG(c.defense) + ')'; })),
+      fours_str: join(holes.filter(function (c) { return c.defense >= 4; }).map(function (c) { return c.type; })),
+      immune_str: join(chart.filter(function (c) { return c.defense === 0; }).map(function (c) { return c.type; })),
+      toxic_immune: inter(['Poison', 'Steel'], sp.types).length > 0 || abil === 'Immunity',
+      ability: gen >= 3 ? abil : null, ability_note: gen >= 3 ? (ABILITY_NOTES[abil] || null) : null,
+      item: item, item_note: item ? (ITEM_NOTES[item] || null) : null, signature_missing: sig && item !== sig ? sig : null,
+      recoil_str: join(dmg.filter(function (m) { return inA(m, RECOIL); })), lock_str: join(dmg.filter(function (m) { return inA(m, LOCK_IN); })),
+      charge_str: join(dmg.filter(function (m) { return inA(m, CHARGE); })),
+      shaky_str: join(dmg.filter(function (m) { return accuracyOf(m) < 90; }).map(function (m) { return m + ' (' + accuracyOf(m) + '%)'; })),
+      risky_str: join(member.moves.filter(function (m) { return inA(m, RISKY); })), protect_str: join(member.moves.filter(function (m) { return inA(m, PROTECT); }), 'or'),
+      trouble_str: join(trouble(member, game)), comps_str: join(comps(member.species, gen)), makeup: makeup(member.species, game)};
+  }
+  function report(speciesName, game, build, record, book) {
+    var mf = memberFor(speciesName, game, build), member = mf[0], source = mf[1], ctx = metrics(member, game, build);
+    if (record) { var w = record[0], l = record[1]; ctx.record_w = w; ctx.record_l = l; ctx.record_n = w + l; ctx.record_pct = w + l ? w / (w + l) : null; }
+    var body = P.body[species(GAME_GEN[game], speciesName).name] || [0, 0], sp = speak('player', ctx, book, true), numbers = {};
+    Object.keys(ctx).forEach(function (k) { if (/_pct$/.test(k) && ctx[k] != null) numbers[k] = pyRound(ctx[k], 3); });
+    return {species: ctx.name, game: game, types: ctx.types, moves: member.moves, nature: member.nature, ability: ctx.ability, item: member.item,
+      build_source: source, body: {height_m: body[0] / 10, weight_kg: body[1] / 10}, type_chart: typeChart(member, game), record: record,
+      phrases: sp.said, numbers: numbers, _ctx: ctx, _missed: sp.missed};
+  }
+  function trainerContext(opponent) {
+    var game = opponent.game, gen = GAME_GEN[game], raw = opponent.ai_flags || [];
+    if (typeof raw === 'number') { var bits = P.trainer_ai.gen4_bits; raw = Object.keys(bits).filter(function (n) { return raw & bits[n]; }); }
+    var flags = flagsOf(raw), items = (opponent.items || []).filter(function (i) { return i && String(i).toUpperCase().indexOf('NONE') < 0; }).map(itemName);
+    var heals = items.filter(function (i) { return inA(i, P.trainer_ai.healing_items); }), party = opponent.party, ctx = {};
+    flags.forEach(function (f) { ctx['ai_' + f.toLowerCase()] = true; });
+    Object.assign(ctx, {trainer: opponent.name, game_title: GAME_TITLE[game], gen: gen, ai_flags_str: join(flags.slice().sort()), heal_items_n: heals.length,
+      heal_item: heals.length ? heals[0] : null, items_str: join(items), lead: party.length ? party[0].species : null,
+      party_str: party.map(function (p) { return p.species + ' (Lv ' + p.level + ')'; }).join(', '),
+      ace: party.length ? maxBy(party, function (p) { return p.level; }).species : null,
+      switch_rule: P.trainer_ai.switching_phrase[String(gen)] || null, heal_rule: P.trainer_ai.items_phrase[String(gen)] || null});
+    (opponent.messages || []).forEach(function (msg) { ctx['msg_' + msg.type.toLowerCase()] = msg.text; });
+    return ctx;
+  }
+  function margin(v) {
+    if (has(v, 'value')) return [v.wins, v.value];
+    var h = v.hits_to_ko.split(' vs ').map(Number);
+    return [v.wins, -h[0], h[1] - h[0], v.moves_first];
+  }
+  function opponentContext(o, row, m, team) {
+    var gen = team.gen, types = species(gen, o.species).types, abil = gen >= 3 ? (abilities(gen, o.species)[0] || null) : null;
+    var roles = movesByRole(o.moves, types);
+    var dmg = o.moves.filter(function (mv) { return category(gen, mv) !== 'Status' && move(gen, mv).bp > 20; });
+    var phys = dmg.filter(function (mv) { return category(gen, mv) === 'Physical'; }), spec = dmg.filter(function (mv) { return category(gen, mv) === 'Special'; });
+    var prio = o.moves.filter(function (mv) { return move(gen, mv).priority > 0 && category(gen, mv) !== 'Status'; });
+    var vs = row.vs, names = Object.keys(vs);
+    var first = names.filter(function (s) { return !vs[s].moves_first; });
+    var koUs = names.filter(function (s) { return vs[s].hits_to_ko.split(' vs ')[1] === '1'; });
+    var blind = names.filter(function (s) { var th = vs[s].they_hit; return th === 'no damage' || parseFloat(th.slice(th.lastIndexOf(' ') + 1).split('-')[0]) < 25; });
+    var goTo = {}, goOrder = [];
+    names.forEach(function (s) { var th = vs[s].they_hit; if (th !== 'no damage') { var mv = th.slice(0, th.lastIndexOf(' ')); if (!has(goTo, mv)) { goTo[mv] = []; goOrder.push(mv); } goTo[mv].push(s); } });
+    var ranked = sortBy(goOrder.map(function (mv) { return [mv, goTo[mv]]; }), function (kv) { return -kv[1].length; });
+    var ourTypes = [];
+    Object.keys(m.our_movesets).forEach(function (n) { m.our_movesets[n].forEach(function (mv) { if (category(gen, mv) !== 'Status' && move(gen, mv).bp > 20) { var t = move(gen, mv).type; if (ourTypes.indexOf(t) < 0) ourTypes.push(t); } }); });
+    var holes = ourTypes.filter(function (t) { return effectiveness(gen, t, types, abil) > 1; }).sort();
+    var rankedVs = sortDesc(names.map(function (s) { return [s, vs[s]]; }), function (kv) { return margin(kv[1]); });
+    var wins = rankedVs.filter(function (kv) { return kv[1].wins; }), item = itemName(o.item);
+    return {name: o.species, level: o.level, types_str: types.join('/'),
+      lean: phys.length && spec.length ? 'mixed' : phys.length ? 'physical' : spec.length ? 'special' : 'status',
+      phys_str: join(phys), spec_str: join(spec), our_n: names.length, moves_first_n: first.length, moves_first_str: join(first),
+      ko_us_str: join(koUs), blind_str: join(blind), blind_n: blind.length,
+      main_move: ranked.length ? ranked[0][0] : null, main_targets: ranked.length ? join(ranked[0][1]) : null,
+      alt_moves_str: ranked.slice(1).map(function (kv) { return kv[0] + ' against ' + join(kv[1]); }).join('; '),
+      setup_str: join(roles.setup, 'or'), recovery_str: join(roles.recovery, 'or'), status_str: join(roles.status, 'or'), phaze_str: join(roles.phazing, 'or'),
+      pivot_str: join(roles.pivot), priority_str: join(prio, 'or'),
+      risky_str: join(o.moves.filter(function (mv) { return inA(mv, RISKY); }), 'or'), protect_str: join(o.moves.filter(function (mv) { return inA(mv, PROTECT); }), 'or'),
+      holes_str: join(holes), item: item, item_note: ITEM_NOTES[item] || null, ability: abil, ability_note: ABILITY_NOTES[abil] || null,
+      call_str: wins.length ? wins[0][0] + ': ' + wins[0][1].we_hit : null, backup_str: wins.length > 1 ? wins[1][0] + ': ' + wins[1][1].we_hit : null,
+      no_answer: !wins.length, beats_n: count(names, function (s) { return !vs[s].wins; })};
+  }
+  function repertoire(team, movesets) {
+    var gen = team.gen, rep = {}, order = [];
+    Object.keys(movesets).forEach(function (name) { movesets[name].forEach(function (mv) {
+      if (category(gen, mv) !== 'Status' && move(gen, mv).bp > 20) { var t = move(gen, mv).type; if (!has(rep, t)) { rep[t] = []; order.push(t); } rep[t].push({member: name, move: mv}); } }); });
+    order = sortBy(order, function (t) { return [-uniq(rep[t].map(function (x) { return x.member; })).length, TYPES.indexOf(t)]; });
+    return order.map(function (t) { return {type: t, throwers: rep[t]}; });
+  }
+  function advanceReport(team, opponent, m) {
+    var gen = team.gen, names = m.our_names, rep = repertoire(team, m.our_movesets), statusMoves = [], setupMoves = {};
+    Object.keys(m.our_movesets).forEach(function (n) { m.our_movesets[n].forEach(function (mv) { if (has(STATUS_EFFECT, mv)) statusMoves.push([n, mv]); }); });
+    Object.keys(m.our_movesets).forEach(function (n) { setupMoves[n] = m.our_movesets[n].filter(function (mv) { return inA(mv, ROLES.setup) && !(mv === 'Curse' && inA('Ghost', species(gen, n).types)); }); });
+    var rows = [];
+    opponent.party.forEach(function (o, oi) {
+      if (oi >= m.grid.length) return;
+      var sp = species(gen, o.species), abil = o.ability || (gen >= 3 ? (abilities(gen, o.species)[0] || null) : null);
+      var ours = m.web.filter(function (w) { return w.side === 'us' && w.theirs === oi; }), theirs = m.web.filter(function (w) { return w.side === 'them' && w.theirs === oi; });
+      var cells = {};
+      rep.forEach(function (col) {
+        var hits = ours.filter(function (w) { return move(gen, w.move).type === col.type; });
+        if (!hits.length) return;
+        var best = maxBy(hits, function (w) { return w.min; }), e = effectiveness(gen, col.type, sp.types, abil);
+        cells[col.type] = {pct: best.min, max: best.max, by: names[best.ours], move: best.move, se: e > 1, resisted: e > 0 && e < 1, immune: e === 0, k: best.min >= 100, two: best.min >= 50 && best.min < 100};
+      });
+      var effects = {};
+      statusMoves.forEach(function (nm) {
+        var mv = nm[1], ef = STATUS_EFFECT[mv];
+        var blocked = inter(sp.types, STATUS_IMMUNE_TYPES[ef]).length > 0 || inA(abil, STATUS_IMMUNE_ABILITIES[ef] || []) || (mv === 'Thunder Wave' && effectiveness(gen, 'Electric', sp.types) === 0);
+        effects[mv] = !blocked;
+      });
+      var ek = Object.keys(effects), landed = ek.filter(function (mv) { return effects[mv]; });
+      var takes = !ek.length ? '—' : ek.length === 1 && landed.length ? landed.join(', ') : landed.length === ek.length ? 'ALL' : (landed.join(', ') || 'none');
+      if (o.item && itemName(o.item) === 'Lum Berry' && landed.length) takes += ' (Lum Berry cures one)';
+      var bait = [];
+      names.forEach(function (n, ui) {
+        if (setupMoves[n] && setupMoves[n].length) {
+          var mx = theirs.filter(function (w) { return w.ours === ui; }).map(function (w) { return w.max; }), worst = mx.length ? Math.max.apply(null, mx) : 0;
+          if (worst <= 33) bait.push({member: n, move: setupMoves[n][0], takes_at_most: worst});
+        }
+      });
+      var phys = sp.bs.hp * sp.bs.def, spec = sp.bs.hp * sp.bs.spd;
+      rows.push({species: o.species, level: o.level, item: itemName(o.item), moves: o.moves, ability: abil, types: sp.types, cells: cells,
+        softer_vs: phys < spec * 0.85 ? 'physical' : spec < phys * 0.85 ? 'special' : 'even', takes_status: takes, setup_bait: bait});
+    });
+    return {pitch_types: rep.map(function (c) { return {type: c.type, throwers: c.throwers.map(function (x) { return x.member + ' (' + x.move + ')'; })}; }), rows: rows};
+  }
+  function selfScout(team, cards, notes, book) {
+    var gen = team.gen, ms = {};
+    team.members.forEach(function (mem) { ms[species(gen, mem.species).name] = mem.moves; });
+    var rep = repertoire(team, ms), d = defense(team), speed = speedRows(team), jobs = {};
+    cards.forEach(function (c) { c.phrases.forEach(function (p) { (jobs[p.rule] = jobs[p.rule] || []).push(c.species); }); });
+    var J = function (k) { return jobs[k] || []; };
+    var holes = TYPES.filter(function (t) { return d.weak[t].length >= 3 || (d.weak[t].length >= 2 && !d.resist[t].length && !d.immune[t].length); });
+    var reach = [];
+    rep.forEach(function (c) { c.throwers.forEach(function () { TYPES.forEach(function (t) { if (effectiveness(gen, c.type, [t]) > 1 && reach.indexOf(t) < 0) reach.push(t); }); }); });
+    reach.sort();
+    var ctx = {game_title: GAME_TITLE[team.game], pitch_types_n: rep.length,
+      pitch_types_str: join(rep.slice(0, 4).map(function (c) { return c.type + ' (' + join(uniq(c.throwers.map(function (x) { return x.member; })).sort()) + ')'; })),
+      reach_n: reach.length, missing_str: join(TYPES.filter(function (t) { return reach.indexOf(t) < 0; })),
+      holes_str: join(holes.map(function (t) { return t + ' (' + join(d.weak[t]) + ')'; })),
+      fastest: speed[0].species, slowest: speed[speed.length - 1].species,
+      setup_str: join(J('ahead_setup')), setup_n: J('ahead_setup').length,
+      healers_str: join(J('behind_heal').concat(J('behind_rest'))), healers_n: J('behind_heal').concat(J('behind_rest')).length,
+      closers_str: join(J('ahead_close')), pivots_str: join(J('behind_pivot')), status_str: join(J('ahead_status')),
+      anchor: cards.length ? maxBy(cards, function (c) { return (c.record || [0, 0])[0]; }).species : null, notes_str: (notes || []).join(' ')};
+    var sp = speak('self', ctx, book, true);
+    return {repertoire: rep.map(function (c) { return {type: c.type, throwers: c.throwers}; }), phrases: sp.said, _ctx: ctx, _missed: sp.missed};
+  }
+  function gamePlan(team, opponent, sheet, advance, book) {
+    var rows = sheet.calls, load = {}, assign = [];
+    var idx = sortBy(rows.map(function (r, i) { return i; }), function (i) { return [rows[i].call, rows[i].backup].filter(Boolean).length; });
+    idx.forEach(function (i) {
+      var options = [rows[i].call, rows[i].backup].filter(Boolean);
+      var pick = options.filter(function (x) { return (load[x.member] || 0) < 2; })[0] || (options.length ? options[0] : null);
+      if (pick) load[pick.member] = (load[pick.member] || 0) + 1;
+      assign.push([i, pick]);
+    });
+    assign.sort(function (a, b) { return a[0] - b[0]; });
+    var trainer = trainerContext(opponent), bait = [], ks = [];
+    advance.rows.forEach(function (a) { a.setup_bait.forEach(function (b) { bait.push(b.member + ' can ' + b.move + ' on ' + a.species); }); });
+    advance.rows.forEach(function (a) {
+      var k = Object.keys(a.cells).filter(function (t) { return a.cells[t].k; }).map(function (t) { return a.cells[t].move + ' (' + a.cells[t].by + ')'; });
+      if (k.length) ks.push(a.species + ': ' + join(k.slice(0, 3), 'or'));
+    });
+    var setups = rows.filter(function (r) { return r.their_moves.some(function (mv) { return inA(mv, ROLES.setup); }); })
+      .map(function (r) { return r.species + ' (' + r.their_moves.filter(function (mv) { return inA(mv, ROLES.setup); }).join(', ') + ')'; });
+    var statusOk = advance.rows.filter(function (a) { return a.takes_status !== '—' && a.takes_status !== 'none'; }).map(function (a) { return a.species; });
+    var worst = rows.length ? maxBy(rows, function (r) { return r.dont_send.length; }) : null;
+    var ctx = {trainer: opponent.name, lead: sheet.lead, their_lead: rows.length ? rows[0].species : null,
+      assign_str: assign.filter(function (x) { return x[1]; }).map(function (x) { var p = x[1]; return rows[x[0]].species + ' → ' + p.member + ' (' + p.we_hit.slice(0, p.we_hit.lastIndexOf(' ') < 0 ? p.we_hit.length : p.we_hit.lastIndexOf(' ')) + ')'; }).join('; '),
+      unassigned_str: join(assign.filter(function (x) { return !x[1]; }).map(function (x) { return rows[x[0]].species; })),
+      heal_items_n: trainer.heal_items_n, heal_item: trainer.heal_item, k_n: ks.length, k_str: ks.join('; '), bait_str: join(bait.slice(0, 3)), bait_n: bait.length,
+      their_setup_str: join(setups), status_targets_str: join(statusOk), their_best: worst ? worst.species : null,
+      their_best_dont: worst ? join(worst.dont_send) : null, anchor: sheet.anchors.length ? sheet.anchors[0][0] : null,
+      switch_rule: trainer.switch_rule == null ? null : trainer.switch_rule, ai_setup_first_turn: trainer.ai_setup_first_turn == null ? null : trainer.ai_setup_first_turn};
+    var sp = speak('plan', ctx, book, true);
+    return {assignments: assign.map(function (x) { var p = x[1]; return {theirs: rows[x[0]].species, ours: p ? p.member : null, how: p ? p.we_hit : null}; }),
+      phrases: sp.said, _ctx: ctx, _missed: sp.missed};
+  }
+  function callSheet(grid, team, opponent, book) {
+    var m = grid.matchups(team, opponent), trainer = trainerContext(opponent), rows = [], missed = [];
+    m.grid.forEach(function (r, i) {
+      var o = opponent.party[i];
+      if (!o) return;
+      var ctx = opponentContext(o, r, m, team);
+      Object.keys(trainer).forEach(function (k) { if (k.indexOf('ai_') === 0) ctx[k] = trainer[k]; });
+      Object.assign(ctx, {is_lead: i === 0, is_last: i === opponent.party.length - 1, heal_items_n: trainer.heal_items_n, heal_item: trainer.heal_item});
+      var names = Object.keys(r.vs), ranked = sortDesc(names.map(function (s) { return [s, r.vs[s]]; }), function (kv) { return margin(kv[1]); });
+      var wins = ranked.filter(function (kv) { return kv[1].wins; }), sp = speak('opponent', ctx, book, true);
+      rows.push({they_send: r.opponent, species: o.species, level: o.level, their_moves: o.moves, their_item: ctx.item,
+        call: wins.length ? Object.assign({member: wins[0][0]}, wins[0][1]) : null, backup: wins.length > 1 ? Object.assign({member: wins[1][0]}, wins[1][1]) : null,
+        dont_send: ranked.filter(function (kv) { return !kv[1].wins && kv[1].hits_to_ko.split(' vs ')[1] === '1'; }).map(function (kv) { return kv[0]; }),
+        symbols: {swings_first: ctx.moves_first_n * 2 > ctx.our_n, priority: !!ctx.priority_str, sets_up: !!ctx.setup_str, heals: !!ctx.recovery_str, lean: ctx.lean},
+        moves_first_n: ctx.moves_first_n, beats_n: ctx.beats_n, our_n: ctx.our_n, holes: ctx.holes_str, phrases: sp.said, _ctx: ctx, _missed: sp.missed});
+    });
+    var winsBy = {};
+    if (m.grid.length) Object.keys(m.grid[0].vs).forEach(function (s) { winsBy[s] = sum(m.grid.map(function (r) { return r.vs[s].wins ? 1 : 0; })); });
+    var wk = Object.keys(winsBy);
+    var lead = rows.length && rows[0].call ? rows[0].call.member : (wk.length ? maxBy(wk, function (s) { return winsBy[s]; }) : null);
+    var beats = m.grid.map(function (r) { return count(Object.keys(r.vs), function (s) { return !r.vs[s].wins; }); });
+    var mb = beats.length ? Math.max.apply(null, beats) : 0, best = beats.length ? opponent.party[beats.indexOf(mb)].species : null;
+    Object.assign(trainer, {our_lead: lead, their_best: best, their_best_beats: beats.length ? mb : 0, our_n: team.members.length,
+      anchor: m.anchors.length ? m.anchors[0][0] : null, no_answer_str: join(m.threats)});
+    var tsp = speak('trainer', trainer, book, true);
+    var sheet = {opponent: m.opponent, game: opponent.game, source: m.source, level: m.our_level, trainer_phrases: tsp.said, calls: rows, lead: lead,
+      anchors: m.anchors, no_answer: m.threats, record: winsBy, movesets: m.our_movesets, _ctx: trainer, _missed: tsp.missed};
+    sheet.advance = advanceReport(team, opponent, m);
+    sheet.plan = gamePlan(team, opponent, sheet, sheet.advance, book);
+    return [sheet, m];
+  }
+  function asOpponent(label, members) {
+    return {name: label, game: 'heartgold', source: 'journey team, Lv 100, Gen 4 rules', party: members.map(function (m) {
+      return {species: species(4, m.species).name, level: 100, moves: m.moves, item: m.item, nature: m.nature, ability: m.ability,
+        ivs: {hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31}}; })};
+  }
+
+  /* ---- battle/playsheet.py: down and distance ---- */
+  var SITUATIONS = [['opening', 'Opening script', 'both at full HP, first turn'], ['first_down', '1st and 10', 'both healthy, the opening is done'],
+    ['short_yardage', 'Short yardage', "they're at half: one solid hit finishes it"], ['goal_line', 'Goal line', "they're under 25%"],
+    ['third_long', '3rd and long', "we're under the heal line (30% unless the coach sets one), they're healthy"],
+    ['blitz', 'Blitz', "they've boosted twice (their own boost move, or +2 in the stat they attack with)"],
+    ['two_minute', 'Two-minute drill', 'both at 25%: whoever lands next wins']];
+  function fullKit(plan, kinds) {
+    var hv = Object.keys(kinds).map(function (k) { return kinds[k]; });
+    return Plan(plan.opener, plan.build || inA('boost', hv), plan.disrupt || inter(hv, ['phaze', 'haze', 'encore']).length > 0, plan.sustain || inter(hv, ['heal', 'cure', 'protect']).length > 0);
+  }
+  function stage(f, sid, us, them, coach) {
+    if (sid === 'opening') return;
+    [us, them].forEach(function (s) { s.fresh = false; s.opener_i = s.plan.opener.length; });
+    if (sid === 'short_yardage') them.hp = 50.0;
+    else if (sid === 'goal_line') them.hp = 20.0;
+    else if (sid === 'third_long') us.hp = coach.heal_line == null ? 30 : +coach.heal_line;
+    else if (sid === 'two_minute') { us.hp = 25.0; them.hp = 25.0; }
+    else if (sid === 'blitz') {
+      var boosts = Object.keys(them.moves).filter(function (m) { return them.kinds[m] === 'boost'; });
+      if (boosts.length) { var ch = them.moves[boosts[0]].self_changes; Object.keys(ch).forEach(function (s) { them.st[s] = Math.max(-6, Math.min(6, them.st[s] + 2 * ch[s])); }); }
+      else {
+        var ph = 0, spc = 0;
+        Object.keys(them.moves).forEach(function (m) { var mv = them.moves[m]; if (mv.damaging && m !== 'Struggle') { if (mv.category === 'Physical') ph++; else if (mv.category === 'Special') spc++; } });
+        them.st[ph >= spc ? 'atk' : 'spa'] += 2;
+      }
+    }
+  }
+  function ask(ev, job) {
+    var a = job[0], b = job[1], side = job[6], coach = job[5];
+    var f = new Fight(ev, a, b, job[2], job[3], true, side === 'A' ? coach : null, side === 'B' ? coach : null);
+    var us = side === 'A' ? f.A : f.B, them = side === 'A' ? f.B : f.A;
+    stage(f, job[4], us, them, coach || {});
+    return f.choose(us);
+  }
+  function calls(ev, jobs, rounds) {
+    rounds = rounds || 8;
+    var out = jobs.map(function () { return null; }), todo = jobs.map(function (_, i) { return i; });
+    for (var r = 0; r < rounds; r++) {
+      var dirty = [];
+      todo.forEach(function (i) { var before = ev.table.misses; out[i] = ask(ev, jobs[i]); if (ev.table.misses !== before) dirty.push(i); });
+      if (!dirty.length) break;
+      ev.table.fetch();
+      todo = dirty;
+    }
+    return out;
+  }
+  function sheetFor(ev, mt, coach) {
+    var jobs = SITUATIONS.map(function (s) { return [mt.a, mt.b, mt.plan, mt.answer, s[0], coach, 'A']; }), ans = calls(ev, jobs), out = {};
+    SITUATIONS.forEach(function (s, i) { out[s[0]] = ans[i]; });
+    return out;
+  }
+  function theirSheet(ev, mt, coach) {
+    var kinds = ev.plans(mt.b)[1], kit = fullKit(mt.answer, kinds);
+    var jobs = SITUATIONS.map(function (s) { return [mt.a, mt.b, mt.plan, kit, s[0], coach, 'B']; }), ans = calls(ev, jobs), out = {};
+    SITUATIONS.forEach(function (s, i) { out[s[0]] = ans[i]; });
+    return out;
+  }
+  function memberSheet(ev, matchups, coach) {
+    var jobs = [];
+    matchups.forEach(function (m) { SITUATIONS.forEach(function (s) { jobs.push([m.a, m.b, m.plan, m.answer, s[0], coach, 'A']); }); });
+    var ans = calls(ev, jobs), tallies = {}, out = {};
+    SITUATIONS.forEach(function (s) { tallies[s[0]] = {order: [], n: {}}; });
+    jobs.forEach(function (j, i) { var t = tallies[j[4]], c = ans[i] || '—'; if (!has(t.n, c)) { t.n[c] = 0; t.order.push(c); } t.n[c]++; });
+    SITUATIONS.forEach(function (s) {
+      var t = tallies[s[0]], n = sum(t.order.map(function (c) { return t.n[c]; })), top = sortDesc(t.order, function (c) { return t.n[c]; }).slice(0, 3);
+      out[s[0]] = {call: top[0], share: n ? pyRound(100 * t.n[top[0]] / n) : 0, also: top.slice(1).map(function (c) { return [c, pyRound(100 * t.n[c] / n)]; })};
+    });
+    return out;
+  }
+
+  /* ---- battle/profile.py: the coach profile ---- */
+  var SLIDERS = ['pace', 'punch', 'run_pass', 'build', 'sustain', 'disrupt', 'risk', 'script'];
+  var SLIDER_NAMES = {pace: 'Pace', punch: 'Punch', run_pass: 'Run / pass', build: 'Build-up', sustain: 'Sustain', disrupt: 'Disruption', risk: 'Risk', script: 'Script'};
+  var POLES = {pace: ['absorbs first', 'strikes first'], punch: ['chips', 'knocks out'], run_pass: ['special', 'physical'], build: ['hits now', 'builds first'],
+    sustain: ['no healing', 'heals and resets'], disrupt: ['straight-up', 'disruptive'], risk: ['safe', 'gambler'], script: ['adaptive', 'scripted']};
+  var RISKY_PLAYS = ['recoil', 'lock-in', 'charge', 'recharge', 'self-ko'];
+  function memberSliders(ms) {
+    var n = ms.length;
+    if (!n) return {};
+    var gen = ms[0].a.gen, firsts = ms.filter(function (m) { return m.outcome.calls[0].length; }).map(function (m) { return m.outcome.calls[0][0]; });
+    var counts = {}; firsts.forEach(function (c) { counts[c] = (counts[c] || 0) + 1; });
+    var topCount = firsts.length ? Math.max.apply(null, Object.keys(counts).map(function (c) { return counts[c]; })) : 0;
+    var phys = 0.0, total = 0.0, risky = 0;
+    ms.forEach(function (m) {
+      m.outcome.calls[0].filter(function (c) { return has(m.damage, c); }).forEach(function (c) {
+        var d = m.damage[c][0]; total += d; if (mbGet(gen, c).category === 'Physical') phys += d; });
+      var used = uniq(m.outcome.calls[0].filter(function (c) { return c && c.charAt(0) !== '('; })), plays = [];
+      used.forEach(function (c) { if (m.a.moves.indexOf(c) >= 0) mbGet(gen, c).plays.forEach(function (p) { plays.push(p.play); }); });
+      if (m.outcome.odds[0] < 0.9 || inter(plays, RISKY_PLAYS).length) risky++;
+    });
+    var share = function (k) { return 100 * count(ms, function (m) { return !!m.credits[k]; }) / n; };
+    var decisive = function (k) { return 100 * count(ms, function (m) { return m.credits[k] === 'decisive'; }) / n; };
+    return {decisive: {build: decisive('build'), sustain: decisive('sustain'), disrupt: decisive('disrupt')},
+      pace: 100 * count(ms, function (m) { return m.straight.first_hit === 'A'; }) / n,
+      punch: 100 * count(ms, function (m) { var ds = Object.keys(m.damage).map(function (k) { return m.damage[k][0]; }); return (ds.length ? Math.max.apply(null, ds) : 0) >= 50; }) / n,
+      run_pass: total ? 100 * phys / total : 50.0, build: share('build'), sustain: share('sustain'), disrupt: share('disrupt'),
+      risk: 100 * risky / n, script: firsts.length ? 100 * topCount / n : 0.0};
+  }
+  function recordOf(ms) {
+    var w = count(ms, function (m) { return m.outcome.winner === 'A'; }), d = count(ms, function (m) { return m.outcome.winner === 'draw'; });
+    return {won: w, drew: d, lost: ms.length - w - d, of: ms.length};
+  }
+  function percentile(value, pop) {
+    if (!pop.length) return null;
+    var below = count(pop, function (p) { return p < value; }), tied = count(pop, function (p) { return p === value; });
+    return pyRound(100 * (below + tied / 2) / pop.length);
+  }
+  var TEAM_BASE = {};
+  function teamBaseline(baseline, size, gen) {
+    var key = gen + '|' + size;
+    if (TEAM_BASE[key]) return TEAM_BASE[key];
+    var rng = Random(0), names = Object.keys(baseline).sort(), out = [], sc = {};
+    names.forEach(function (n) { sc[n] = {}; SLIDERS.forEach(function (k) { sc[n][k] = BIG ? scaled(baseline[n][k]) : baseline[n][k]; }); });
+    for (var i = 0; i < 2000; i++) {
+      var pick = rng.sample(names, Math.min(size, names.length)), t = {};
+      SLIDERS.forEach(function (k) { t[k] = BIG ? meanScaled(pick.map(function (n) { return sc[n][k]; })) : mean(pick.map(function (n) { return baseline[n][k]; })); });
+      out.push(t);
+    }
+    TEAM_BASE[key] = out;
+    return out;
+  }
+  function philosophy(pc) {
+    var far = Object.keys(pc).filter(function (k) { return pc[k] != null; }).map(function (k) { return [Math.abs(pc[k] - 50), k, pc[k]]; });
+    far = sortDesc(far, function (x) { return x; });
+    return far.slice(0, 3).filter(function (x) { return x[0] >= 20; }).map(function (x) { return [x[1], x[2] >= 50 ? POLES[x[1]][1] : POLES[x[1]][0], x[2]]; });
+  }
+  function profileTeam(res, team, field, baseline, gen) {
+    var mem = {}, names = [], sliders = {}, rec = {};
+    team.forEach(function (a) {
+      var ms = field.filter(function (b) { return has(res, a.key + '\u0002' + b.key); }).map(function (b) { return res[a.key + '\u0002' + b.key]; });
+      if (!has(mem, a.name)) names.push(a.name);
+      mem[a.name] = {combatant: a, sliders: memberSliders(ms), record: recordOf(ms), matchups: ms};
+    });
+    SLIDERS.forEach(function (k) { sliders[k] = pyRound(mean(names.map(function (n) { return mem[n].sliders[k]; })), 1); });
+    ['won', 'drew', 'lost', 'of'].forEach(function (k) { rec[k] = sum(names.map(function (n) { return mem[n].record[k]; })); });
+    var out = {sliders: sliders, members: mem, order: names, record: rec};
+    if (baseline) {
+      var teams = teamBaseline(baseline, team.length, gen), bn = Object.keys(baseline);
+      out.percentiles = {};
+      SLIDERS.forEach(function (k) { out.percentiles[k] = percentile(sliders[k], teams.map(function (t) { return t[k]; })); });
+      names.forEach(function (n) { var m = mem[n]; m.percentiles = {}; SLIDERS.forEach(function (k) { m.percentiles[k] = percentile(m.sliders[k], bn.map(function (b) { return baseline[b][k]; })); }); });
+      out.philosophy = philosophy(out.percentiles);
+    }
+    return out;
+  }
+
+  /* ---- battle/scouting_report.py: the packet for one lineup, and the league ---- */
+  function Engine(opts) {
+    opts = opts || {};
+    this.ev = new Evaluator(); this.grid = new Grid(this.ev); this.book = opts.book || P.phrasebook;
+  }
+  var G = Engine.prototype;
+  G.opponents = function (game) { return (P.opponents[game] || []).filter(function (o) { return o.name.toLowerCase().indexOf('rematch') < 0; }); };
+  G.team = function (lineup) {
+    var game = lineup.game, built = lineup.members.map(function (sb) { return memberFor(sb[0], game, sb[1]); });
+    return [Team(game, built.map(function (x) { return x[0]; })), built];
+  };
+  G.situations = function (sh, m, coach) {
+    var ev = this.ev;
+    return sh.calls.map(function (row, i) {
+      var names = m.our_names;
+      var send = row.call ? row.call.member : maxBy(names, function (n) { return outcomeValue(m.evaluated[i + ',' + names.indexOf(n)].outcome); });
+      var mt = m.evaluated[i + ',' + names.indexOf(send)];
+      return {theirs: row.species, send: send, result: mt.outcome.winner, plan: planLabel(mt.plan), answer: planLabel(mt.answer), turns: mt.outcome.turns,
+        odds: mt.outcome.odds.map(function (x) { return pyRound(x, 2); }), credits: mt.credits, ours: sheetFor(ev, mt, coach), their: theirSheet(ev, mt, null),
+        notes: mt.outcome.notes.slice().sort(), _matchup: mt};
+    });
+  };
+  /* the coach profile, one member against the field at a time (the same fights versus() plays all at once) */
+  G.profileGen = function* (team, coach) {
+    var ev = this.ev, gen = team.gen, ours = this.grid.ours(team), field = usageField(gen), res = {}, i;
+    for (i = 0; i < ours.length; i++) { Object.assign(res, ev.versus([ours[i]], field)); yield 'the profile: ' + ours[i].name + ' against the field'; }
+    var p = profileTeam(res, ours, field, P.baseline[gen], gen), members = {};
+    for (i = 0; i < p.order.length; i++) {
+      var name = p.order[i], m = p.members[name], sl = {}, dc = {};
+      SLIDERS.forEach(function (k) { sl[k] = pyRound(m.sliders[k], 1); });
+      Object.keys(m.sliders.decisive).forEach(function (k) { dc[k] = pyRound(m.sliders.decisive[k], 1); });
+      members[name] = {sliders: sl, decisive: dc, percentiles: m.percentiles, record: m.record, assumed: m.combatant.assumed, play_sheet: memberSheet(ev, m.matchups, coach), _matchups: m.matchups};
+      yield 'the profile: ' + name + '\'s play sheet';
+    }
+    return {gen: gen, field_n: field.length, sliders: p.sliders, percentiles: p.percentiles, philosophy: p.philosophy, record: p.record, members: members, coach: coach};
+  };
+  /* one lineup's packet (chapter_data), as steps: each yield is a label for the progress line */
+  G.chapterGen = function* (lineup, coach, opts) {
+    opts = opts || {};
+    var self = this, game = lineup.game, team = this.team(lineup)[0], book = this.book, opps = this.opponents(game), sheets = [], i;
+    coach = coach || {};
+    for (i = 0; i < opps.length; i++) {
+      var cs = callSheet(this.grid, team, opps[i], book), sh = cs[0];
+      sh.situations = this.situations(sh, cs[1], coach);
+      sh._matchups = cs[1];
+      sheets.push(sh);
+      yield 'call sheet vs ' + opps[i].name;
+    }
+    var record = {};
+    team.members.forEach(function (m) { record[species(team.gen, m.species).name] = [0, 0]; });
+    sheets.forEach(function (sh) { sh.anchors.forEach(function (a) { record[a[0]][0] += a[1]; record[a[0]][1] += sh.calls.length - a[1]; }); });
+    var cards = lineup.members.map(function (sb) { return report(sb[0], game, sb[1], record[species(team.gen, sb[0]).name].slice(), book); });
+    var out = {id: lineup.id, chapter: lineup.chapter, game: game, title: lineup.title, thesis: lineup.thesis, status: lineup.status, decision: lineup.decision,
+      variation: lineup.variation, cards: cards, sheets: sheets, self_scout: selfScout(team, cards, [], book), profile: null};
+    yield 'member reports and the self-scout';
+    if (opts.profile !== false) out.profile = yield* this.profileGen(team, coach);
+    out.members = team.members;
+    return out;
+  };
+  G.chapter = function (lineup, coach, opts) {
+    var it = this.chapterGen(lineup, coach, opts), r;
+    while (!(r = it.next()).done) if (opts && opts.progress) opts.progress(r.value);
+    return r.value;
+  };
+  /* the same, a step at a time so the page can breathe: resolves with the packet */
+  G.chapterAsync = function (lineup, coach, onStep, opts) { return this.run(this.chapterGen(lineup, coach, opts), onStep); };
+  G.leagueGen = function* (teams) {
+    var labels = Object.keys(teams), matrix = {}, drawn = {}, i, j;
+    labels.forEach(function (a) { matrix[a] = {}; drawn[a] = {}; });
+    for (i = 0; i < labels.length; i++) {
+      var a = labels[i];
+      for (j = 0; j < labels.length; j++) {
+        var b = labels[j];
+        if (a === b) continue;
+        var res = this.grid.matchups(Team('heartgold', teams[a]), asOpponent(b, teams[b]));
+        matrix[a][b] = sum(res.grid.map(function (r) { return sum(Object.keys(r.vs).map(function (s) { return r.vs[s].wins ? 1 : 0; })); }));
+        drawn[a][b] = sum(res.grid.map(function (r) { return sum(Object.keys(r.vs).map(function (s) { return r.vs[s].draw ? 1 : 0; })); }));
+        yield a + ' vs ' + b;
+      }
+    }
+    var standings = labels.map(function (a) {
+      var won = sum(Object.keys(matrix[a]).map(function (b) { return matrix[a][b]; })), played = 36 * (labels.length - 1), draws = sum(Object.keys(drawn[a]).map(function (b) { return drawn[a][b]; }));
+      return {team: a, wins: won, draws: draws, losses: played - won - draws, pct: pyRound(won / played, 3),
+        series_won: count(labels, function (b) { return b !== a && matrix[a][b] > matrix[b][a]; })};
+    });
+    standings = sortBy(standings, function (r) { return [-r.series_won, -r.pct]; });
+    return {rules: 'Lv 100, Gen 4 rules, IVs 31, EVs 85 in every stat unless recorded, builds as recorded; each one-on-one played out by the scouting engine',
+      standings: standings, matrix: matrix, draws: drawn};
+  };
+  G.league = function (teams, progress) { var it = this.leagueGen(teams), r; while (!(r = it.next()).done) if (progress) progress(r.value); return r.value; };
+  G.run = function (gen, onStep) {   // any of the generators, a step at a time
+    return new Promise(function (resolve, reject) {
+      var n = 0;
+      (function step() {
+        var r;
+        try { r = gen.next(); } catch (e) { reject(e); return; }
+        if (r.done) { resolve(r.value); return; }
+        n++; if (onStep) onStep(r.value, n);
+        setTimeout(step, 0);
+      })();
+    });
+  };
+  /* export_data(): every lineup in order with its coach, then the league */
+  G.exportData = function (lineups, coaches, progress) {
+    var self = this, out = lineups.map(function (lu) { var d = self.chapter(lu, (coaches || {})[lu.id]); if (progress) progress(lu.id); return d; });
+    var teams = {}; out.forEach(function (d) { teams[d.id] = d.members; });
+    var league = this.league(teams);
+    out.forEach(function (d) { delete d.members; });
+    var titles = Object.assign({}, GAME_TITLE); out.forEach(function (d) { titles[d.id] = d.title; });
+    return {method: P.method, lineups: out, league: league, titles: titles,
+      chapters: Object.keys(GAME_TITLE).filter(function (g) { return out.some(function (d) { return d.chapter === g; }); }), sections: SECTION_TITLES,
+      situations: SITUATIONS.map(function (s) { return {id: s[0], name: s[1], state: s[2]}; }),
+      sliders: SLIDERS.map(function (k) { return {id: k, name: SLIDER_NAMES[k], left: POLES[k][0], right: POLES[k][1]}; }),
+      rules: sum(Object.keys(this.book).map(function (k) { return this.book[k].length; }, this))};
+  };
+  G.stats = function () { return {damage_numbers: Object.keys(this.ev.table.cache).length, calculator_calls: this.ev.table.fetched, fights: this.ev.fightsRun}; };
+
+  /* lineups.json's rules, so the lab can build variations the same way (load_lineups) */
+  function resolveLineup(base, v, characters) {
+    var resolve = function (b) { return typeof b === 'string' ? clone(characters[b]) : clone(b); }, members = base.members.slice();
+    Object.keys(v.change || {}).forEach(function (sp) { members = members.map(function (x) { return x[0] === sp ? [x[0], resolve(v.change[sp])] : x; }); });
+    Object.keys(v.swap || {}).forEach(function (old) { var nb = resolve(v.swap[old]); members = members.map(function (x) { return x[0] === old ? [nb.species, nb] : x; }); });
+    if (v.members) members = v.members.map(function (b) { var r = resolve(b); return [r.species, r]; });
+    return Object.assign({}, base, {id: v.id, title: base.title + ' · ' + v.title, status: 'variation', decision: null, variation: {title: v.title, why: v.why || null}, members: members});
+  }
+
+  function init(pack, calcLib) {
+    P = pack; C = calcLib;
+    [2, 3, 4].forEach(function (g) {
+      var gd = P.gens[g]; SP[g] = {}; MV[g] = {};
+      Object.keys(gd.species).forEach(function (id) { var s = gd.species[id], bs = {}; STATS.forEach(function (k, i) { bs[k] = s[2][i]; }); SP[g][id] = {id: id, name: s[0], types: s[1], bs: bs}; });
+      Object.keys(gd.moves).forEach(function (id) { var m = gd.moves[id]; MV[g][id] = {id: id, name: m[0], type: m[1], cat: m[2], bp: m[3], priority: m[4], recoil: m[5], drain: m[6]}; });
+    });
+    SIGNATURE = P.signature || {}; ITEM_KNOWN = null; POP = {}; BOOK = {}; LEARN = {}; TEAM_BASE = {};
+  }
+  function ready() { return !!(P && C); }
+
+  return {init: init, ready: ready, engine: function (o) { return new Engine(o); }, speak: speak, resolveLineup: resolveLineup,
+    species: species, move: move, abilities: abilities, learnable: learnable, strongestSet: strongestSet, memberFor: memberFor, mbGet: mbGet,
+    fromBuild: fromBuild, Combatant: Combatant, Plan: Plan, planLabel: planLabel, outcomeValue: outcomeValue, Fight: Fight, calcRun: calcRun,
+    pyRound: pyRound, mean: mean, Random: Random, SITUATIONS: SITUATIONS, SLIDERS: SLIDERS, SLIDER_NAMES: SLIDER_NAMES, POLES: POLES,
+    SECTION_TITLES: SECTION_TITLES, GAME_TITLE: GAME_TITLE, GAME_GEN: GAME_GEN, TYPES: TYPES, ROLES: ROLES,
+    pack: function () { return P; }};
+})();
+</script>
