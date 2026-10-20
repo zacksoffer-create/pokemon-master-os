@@ -14,7 +14,7 @@
   "open_jobs": 3,
   "single_points": 5,
   "open_questions": 10,
-  "decisions": 55,
+  "decisions": 56,
   "world_records": 17
  },
  "chapters": [
@@ -6307,6 +6307,15 @@
    "date": "2026-10-20",
    "title": "Blackthorn HQ: one web app over the Sheet, the engines and the documents.",
    "text": "Blackthorn HQ: one web app over the Sheet, the engines and the documents. \"Build an app using Google Sheets and the Apps Script and the web app. It should contain all of this - from the battle and trainer scouting engine to the breeding stock and lineage tracker to the lab to the glasshouse.\" Art direction is Zack's \"Pokémon Heritage Solarpunk\" (charcoal, gold, ivory, forest, ice, ember; type colors intact): \"Luxury in presentation. Science in structure. Pokémon in identity. Life in every environment.\" Honesty rule, verbatim: \"Measurements should be backed by real entered or simulated data, never presented as verified live readings without a data source.\" The app (engine/app) is served by an Apps Script web app (appscript/WebApp.gs, only Zack can open it) from one zip on Drive; it reads the engine's exports and the Sheet, and writes only its own log tabs, hatches to the Studbook and answers to Your Calls, each logged on the Timeline. An answer becomes a decision only when it's written into canon (docs/APP.md)",
+   "area": "product",
+   "status": "WORKING",
+   "who": "Zack"
+  },
+  {
+   "id": "D-056",
+   "date": "2026-10-20",
+   "title": "The app is a lab: the engines you tinker with run in the browser, held to Python by tests.",
+   "text": "The app is a lab: the engines you tinker with run in the browser, held to Python by tests. \"Make sure all of the scouting report mechanics and everything are incorporated as well, I want to be able to use this web app like a lab where I can tinker with values and see how they affect writeups... create whatever sections in this web app that you need so that... the whole project that we talked about from the start happens as best we have it right now so that we can see where we need to work on it.\" The trainer report engine (report, matrix, sliders, roles, playsheet, exposure), the wilderness engine and the specimen kernel are ported to JavaScript and must match Python exactly (tests/test_engines.py WebApp); the Scouting Lab changes anything, including the engine's thresholds, and shows each sentence's rule, the quiet rules and a diff. The battle engine (it needs Smogon's damage calculator) and the breeding engine's lineages come in as their last run; the Engine Room maps every engine's status and what's next (docs/APP.md)",
    "area": "product",
    "status": "WORKING",
    "who": "Zack"

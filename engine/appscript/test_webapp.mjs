@@ -84,10 +84,10 @@ test('doGet joins the BH- parts in order into one page', () => {
 });
 
 test('apiData returns each data file exactly, unzipping once', () => {
-  for (const name of ['hq', 'atlas', 'builds', 'scouting', 'journal', 'learnsets']) {
+  for (const name of ['hq', 'atlas', 'builds', 'scouting', 'journal', 'learnsets', 'scout', 'field', 'advance']) {
     assert.deepEqual(JSON.parse(api.apiData(name)), JSON.parse(fs.readFileSync(path.join(DATA, name + '.json'), 'utf8')));
   }
-  assert.equal(W.unzips.n, 1, 'later calls come from the cache');
+  assert.equal(W.unzips.n, 1, 'later calls come from the cache, file by file');
   assert.throws(() => api.apiData('nope'), /no nope\.json/);
 });
 

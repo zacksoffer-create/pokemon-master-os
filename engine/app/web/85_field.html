@@ -1,0 +1,117 @@
+<script>
+/* ===== Field readiness: what a team can do in the lived world, live ==========================================
+   wilderness/engine.py team_report, ported: the engine's evidence for every species (app/field_pack.py) read for any
+   team you pick or build. Evidence stays tiered (authored > cartridge > lore > inference) and is never blended.
+   The tests check this against Python team by team. */
+var Field = (function () {
+  var F = null, RANK = {authored: 4, cartridge: 3, lore: 2, inference: 1}, STRENGTH = {4: 'authored', 3: 'cartridge', 2: 'lore only', 1: 'inference only'};
+  var FOOD = ['foraging', 'food_source', 'cooking', 'heat_source'];
+  function allCaps() { var o = []; Object.keys(F.capabilities).forEach(function (g) { Object.keys(F.capabilities[g]).forEach(function (c) { o.push(c); }); }); return o.sort(); }
+  function evidence(game, sp, preview) {
+    var rows = ((F.games[game] || {}).evidence || {})[sp] || [];
+    var ev = rows.map(function (e) { return {capability: e[0], tier: e[1], source: F.sources[e[2]], detail: e[3] != null ? F.sources[e[3]] : null}; });
+    var extra = F.proposals.filter(function (p) { return (preview || []).indexOf(p.id) >= 0 && p.game === game && p.species === sp; })
+      .map(function (p) { return {capability: p.capability, tier: 'authored', source: p.id + ' (preview, not approved)', detail: p.statement}; });
+    if (extra.length) { var k = 0; while (k < ev.length && ev[k].tier === 'authored') k++; ev = ev.slice(0, k).concat(extra, ev.slice(k)); }
+    return ev;
+  }
+  function teamReport(game, species, preview) {
+    var per = {}, caps = {};
+    species.forEach(function (sp) { per[sp] = evidence(game, sp, preview); });
+    species.forEach(function (sp) { per[sp].forEach(function (e) { var c = caps[e.capability] = caps[e.capability] || {}, best = c[sp];
+      if (!best || RANK[e.tier] > RANK[best.tier]) c[sp] = e; }); });
+    var summary = {};
+    allCaps().forEach(function (cap) { var h = caps[cap] || {}, top = 0, holders = {};
+      Object.keys(h).forEach(function (sp) { top = Math.max(top, RANK[h[sp].tier]); holders[sp] = h[sp].tier + ': ' + h[sp].source; });
+      summary[cap] = {holders: holders, strength: STRENGTH[top] || 'GAP', single_point: Object.keys(h).filter(function (sp) { return RANK[h[sp].tier] >= 3; }).length === 1}; });
+    var scenarios = {};
+    Object.keys(F.scenarios).forEach(function (name) { var needs = F.scenarios[name];
+      scenarios[name] = {ready: needs.filter(function (c) { return ['authored', 'cartridge'].indexOf(summary[c].strength) >= 0; }),
+        story_only: needs.filter(function (c) { return ['lore only', 'inference only'].indexOf(summary[c].strength) >= 0; }),
+        gaps: needs.filter(function (c) { return summary[c].strength === 'GAP'; })}; });
+    var pending = F.proposals.filter(function (p) { return p.game === game && species.indexOf(p.species) >= 0; });
+    return {capabilities: summary, scenarios: scenarios, evidence: per, proposals: pending};
+  }
+  function camp(game, species, preview) {
+    var helpers = {}; FOOD.forEach(function (c) { helpers[c] = []; });
+    species.forEach(function (sp) { var best = {};
+      evidence(game, sp, preview).forEach(function (e) { if (FOOD.indexOf(e.capability) >= 0 && (!best[e.capability] || RANK[e.tier] > RANK[best[e.capability].tier])) best[e.capability] = e; });
+      Object.keys(best).forEach(function (c) { helpers[c].push(sp + ' (' + best[c].tier + ': ' + best[c].source + ')'); }); });
+    var g = F.games[game];
+    return {game: game, systems: g.camp, berries: g.berries, helpers: helpers, open: FOOD.filter(function (c) { return !helpers[c].length; })};
+  }
+  return {init: function (f) { F = f; return this; }, teamReport: teamReport, camp: camp, evidence: evidence, data: function () { return F; }, RANK: RANK};
+})();
+function fieldReady() { return S.field ? Promise.resolve(S.field) : API.data('field').then(function (f) { Field.init(f); return (S.field = Field); }); }
+var FR = null;
+function frTeams() {   // the teams the page offers: yours, every scouted version, and the Scouting Lab's
+  var out = [];
+  Scout.versions().forEach(function (x) { var v = Scout.version(x.trainer, x.id); out.push({key: x.trainer + '/' + x.id, label: (x.mine ? 'Yours · ' : x.name + ' · ') + x.title, game: v.game, species: v.team.map(function (b) { return b.species; }), mine: x.mine}); });
+  var sl = (SL && SL.v) ? SL : store('scoutlab'); if (sl && sl.v) out.unshift({key: 'lab', label: 'From the Scouting Lab · ' + sl.v.title, game: sl.v.game, species: sl.v.team.map(function (b) { return b.species; })});
+  return out;
+}
+function fieldPage() {
+  return Promise.all([fieldReady(), scoutReady()]).then(function () {
+    var st = store('field') || {}, teams = frTeams();
+    FR = Object.assign({key: 'me/heartgold', preview: []}, st);
+    var t = teams.filter(function (x) { return x.key === FR.key; })[0] || teams.filter(function (x) { return x.mine; })[0];
+    if (!FR.game || FR.key !== st.key || !FR.species) { FR.game = t.game; FR.species = t.species.slice(); FR.base = t.species.slice(); }
+    after(function (p) { frBind(p); frRender(); });
+    return '<div class="eyebrow">Wilderness engine · the lived world</div><h1 style="margin:6px 0">Field readiness</h1>' +
+      '<p class="lede">What a team can actually do away from battle: travel, light, warmth, food, healing, safety, labor and town life, and which real situations it\'s ready for. Evidence is tiered and never blended: what the cartridge lets it do, what its Pokédex says, what its type and size suggest, and what you\'ve authored. Swap a member and watch the picture change.</p>' +
+      '<div class="slgrid" style="margin-top:16px"><div id="frin"></div><div id="frout"></div></div>';
+  });
+}
+function frInputs() {
+  var teams = frTeams(), F = Field.data(), props = F.proposals.filter(function (p) { return p.game === FR.game && FR.species.indexOf(p.species) >= 0; });
+  return card('The team', '<label class="l">Start from</label><select class="f" id="frteam">' + teams.map(function (t) { return '<option value="' + esc(t.key) + '"' + (t.key === FR.key ? ' selected' : '') + '>' + esc(t.label) + '</option>'; }).join('') + '</select>' +
+    '<label class="l">Game (its field moves and abilities)</label><select class="f" id="frgame">' + Object.keys(F.games).map(function (g) { return '<option value="' + g + '"' + (g === FR.game ? ' selected' : '') + '>' + GAME_NAME[g] + '</option>'; }).join('') + '</select>' +
+    '<label class="l">Members (type to swap one)</label><datalist id="frdex">' + Object.keys(F.games[FR.game].evidence).sort().map(function (n) { return '<option>' + esc(n) + '</option>'; }).join('') + '</datalist>' +
+    [0, 1, 2, 3, 4, 5].map(function (i) { var sp = FR.species[i] || ''; return '<div style="display:grid;grid-template-columns:40px 1fr;gap:8px;align-items:center;margin-bottom:6px">' + (sp ? '<img src="' + sprite(numOf(sp), FR.game) + '" style="width:40px;height:40px;image-rendering:pixelated" onerror="this.style.opacity=0">' : '<span></span>') +
+      '<input class="f" list="frdex" data-fr="' + i + '" value="' + esc(sp) + '" placeholder="empty slot"' + (FR.base && FR.base[i] !== sp ? ' style="border-color:var(--ember)"' : '') + '></div>'; }).join('') +
+    (props.length ? '<label class="l">Preview pending world records (as if approved; nothing is saved)</label>' + props.map(function (p) { return '<label class="small" style="display:block;margin:4px 0"><input type="checkbox" data-prev="' + p.id + '"' + (FR.preview.indexOf(p.id) >= 0 ? ' checked' : '') + '> <b>' + esc(p.id) + '</b> ' + esc(p.species) + ': ' + esc(p.capability.replace(/_/g, ' ')) + '</label>'; }).join('') : ''),
+    {eyebrow: 'Pick or build one', tools: false});
+}
+function frBind(p) {
+  var box = p.querySelector('#frin'); box.innerHTML = frInputs();
+  box.addEventListener('change', function (e) {
+    var t = e.target, k;
+    if (t.id === 'frteam') { var x = frTeams().filter(function (y) { return y.key === t.value; })[0]; FR.key = x.key; FR.game = x.game; FR.species = x.species.slice(); FR.base = x.species.slice(); FR.preview = []; }
+    else if (t.id === 'frgame') { FR.game = t.value; }
+    else if ((k = t.getAttribute('data-fr')) != null) { FR.species[+k] = t.value.trim(); FR.species = FR.species.filter(function (x, i) { return x || i < FR.species.length - 1; }); }
+    else if ((k = t.getAttribute('data-prev'))) { FR.preview = FR.preview.filter(function (x) { return x !== k; }).concat(t.checked ? [k] : []); }
+    store('field', FR); box.innerHTML = frInputs(); frRender();
+  });
+}
+var CAP_ICON = {authored: 'forest', cartridge: 'forest', 'lore only': 'gold', 'inference only': 'gold', GAP: 'ember'};
+function frRender() {
+  var out = document.getElementById('frout'); if (!out) return;
+  var F = Field.data(), sp = FR.species.filter(function (x) { return x && F.games[FR.game].evidence[x]; });
+  var unknown = FR.species.filter(function (x) { return x && !F.games[FR.game].evidence[x]; });
+  var r = Field.teamReport(FR.game, sp, FR.preview), base = FR.base ? Field.teamReport(FR.game, FR.base.filter(function (x) { return F.games[FR.game].evidence[x]; }), []) : null, c = Field.camp(FR.game, sp, FR.preview);
+  var changes = [];
+  if (base) { Object.keys(r.capabilities).forEach(function (k) { if (r.capabilities[k].strength !== base.capabilities[k].strength) changes.push(k.replace(/_/g, ' ') + ': ' + base.capabilities[k].strength + ' → ' + r.capabilities[k].strength); });
+    Object.keys(r.scenarios).forEach(function (k) { var a = r.scenarios[k], b = base.scenarios[k]; if (a.gaps.length !== b.gaps.length || a.ready.length !== b.ready.length) changes.push(k + ': ready ' + b.ready.length + ' → ' + a.ready.length + ', gaps ' + b.gaps.length + ' → ' + a.gaps.length); }); }
+  var fm = F.games[FR.game].field_moves;
+  out.innerHTML = (unknown.length ? '<div class="notice" style="margin-bottom:12px">' + esc(unknown.join(', ')) + ' isn\'t in ' + GAME_NAME[FR.game] + '\'s data; left out.</div>' : '') +
+    (changes.length ? card('What the swap did', changes.map(function (x) { return '<div class="line small ember">' + esc(x) + '</div>'; }).join(''), {eyebrow: 'Against the team you started from', tools: false, style: 'margin-bottom:16px'}) : '') +
+    '<div class="grid">' + Object.keys(r.scenarios).map(function (k) { var s = r.scenarios[k], need = F.scenarios[k].length;
+      return '<div class="c4"><div class="card" style="height:100%"><div class="bd"><div class="goal" style="padding:0"><b class="serif" style="font-size:18px;color:var(--ivory)">' + esc(k) + '</b><b class="num" style="color:' + (s.gaps.length ? 'var(--ember-2)' : s.story_only.length ? 'var(--gold-2)' : 'var(--forest-3)') + '">' + s.ready.length + '/' + need + '</b></div>' +
+        '<div style="margin-top:8px">' + s.ready.map(function (x) { return chip(x.replace(/_/g, ' '), 'forest'); }).join(' ') + ' ' + s.story_only.map(function (x) { return chip(x.replace(/_/g, ' ') + ' (story)', 'gold'); }).join(' ') + ' ' + s.gaps.map(function (x) { return chip(x.replace(/_/g, ' ') + ' (gap)', 'ember'); }).join(' ') + '</div></div></div></div>'; }).join('') + '</div>' +
+    '<div style="margin-top:16px">' + card('Every capability', Object.keys(F.capabilities).map(function (g) { return '<div class="eyebrow" style="margin:12px 0 6px">' + esc(g) + '</div>' + Object.keys(F.capabilities[g]).map(function (cap) { var x = r.capabilities[cap];
+        return '<div style="display:grid;grid-template-columns:150px 110px 1fr;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:start"><div class="small"><b>' + esc(cap.replace(/_/g, ' ')) + '</b><div class="tiny muted">' + esc(F.capabilities[g][cap]) + '</div></div><div>' + chip(x.strength, CAP_ICON[x.strength]) + (x.single_point ? '<div class="tiny" style="color:var(--ember-2);margin-top:3px">hangs on one</div>' : '') + '</div>' +
+          '<div class="tiny" style="color:var(--text-2)">' + (Object.keys(x.holders).map(function (h) { return '<b>' + esc(h) + '</b> ' + esc(x.holders[h]); }).join(' · ') || '<span class="muted">nobody</span>') + '</div></div>'; }).join(''); }).join(''),
+      {eyebrow: 'Holders and the best evidence each has', tools: false}) + '</div>' +
+    '<div class="grid" style="margin-top:16px"><div class="c6">' + card('Field moves in ' + GAME_NAME[FR.game], '<table class="t"><tbody>' + fm.map(function (m) {
+        var who = sp.filter(function (s) { return Field.evidence(FR.game, s, []).some(function (e) { return e.source === m + ' (field move)'; }); });
+        return '<tr><td class="small"><b>' + esc(m) + '</b><div class="tiny muted">' + esc(F.field_moves[m] || '') + '</div></td><td class="small">' + (who.length ? esc(who.join(', ')) : '<span style="color:var(--ember-2)">nobody can learn it</span>') + '</td></tr>'; }).join('') + '</tbody></table>' +
+        '<p class="tiny muted" style="margin:8px 0 0">The field-function policy: Surf and Fly at least, no HM slaves (PROJECT_CHARTER). "Can learn" counts any route in this game.</p>', {eyebrow: 'The field matrix', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Camp life', '<div class="small" style="margin-bottom:8px">' + c.berries + ' berries exist in this generation.</div>' + c.systems.map(function (s) { return '<div class="line small"><b>' + esc(s.id.replace(/_/g, ' ')) + '</b> <span class="tiny muted">(' + esc(s.tier) + ')</span><div class="tiny muted">' + esc(s.what) + '</div></div>'; }).join('') +
+        '<div class="eyebrow" style="margin:12px 0 6px">Who helps</div>' + Object.keys(c.helpers).map(function (k) { return '<div class="tiny"><b>' + esc(k.replace(/_/g, ' ')) + ':</b> ' + (c.helpers[k].length ? esc(c.helpers[k].join('; ')) : '<span style="color:var(--ember-2)">open</span>') + '</div>'; }).join(''),
+        {eyebrow: 'Food systems and helpers (wilderness/camp_life.py)', tools: false}) + '</div></div>' +
+    '<div style="margin-top:16px">' + card('Evidence, member by member', sp.map(function (s) { return '<details class="roledet"><summary><b>' + esc(s) + '</b> <span class="tiny muted">' + plural(r.evidence[s].length, 'piece') + ' of evidence</span></summary>' +
+        r.evidence[s].map(function (e) { return '<div class="tiny" style="margin:3px 0">' + chip(e.tier, e.tier === 'cartridge' || e.tier === 'authored' ? 'forest' : e.tier === 'lore' ? 'gold' : '') + ' <b>' + esc(e.capability.replace(/_/g, ' ')) + '</b> · ' + esc(e.source) + (e.detail ? ' <span class="muted">' + esc(e.detail) + '</span>' : '') + '</div>'; }).join('') + '</details>'; }).join(''),
+      {eyebrow: 'Tiered, never blended', tools: false}) + '</div>';
+}
+route(/^\/field\/?$/, fieldPage, 'Field readiness', '#/field');
+</script>

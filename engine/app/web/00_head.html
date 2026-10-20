@@ -228,6 +228,21 @@ table.board td, table.board th { padding: 6px 8px; }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
 .kpi { padding: 14px 18px; border-radius: var(--r-sm); background: var(--charcoal-2); border: 1px solid var(--gold-line); }
 .lockmark { width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--gold-2); background: rgba(201,169,106,.12); border: 1px solid var(--gold-line); }
+.report-hero.hero2 { grid-template-columns: minmax(0, 1fr) auto; }
+.slgrid { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 18px; align-items: start; }
+.slgrid > * { min-width: 0; } #slin { position: sticky; top: 74px; max-height: calc(100vh - 90px); overflow-y: auto; padding-right: 4px; }
+.slrow { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05); } .slrow input[type=range] { accent-color: var(--gold); }
+.slmember { display: grid; grid-template-columns: 44px 1fr auto; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+.slmember img { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; }
+.sltools { display: flex; gap: 2px; } .sltools button { background: var(--charcoal-3); border: 1px solid var(--gold-line); color: var(--text-2); border-radius: 6px; width: 26px; height: 26px; cursor: pointer; font-size: 12px; }
+.sltools button:hover { color: var(--ivory); border-color: var(--gold); }
+.knob { display: grid; grid-template-columns: 1fr 86px auto; gap: 8px; align-items: center; padding: 4px 0; } .knob input { padding: 4px 6px; }
+.slsec { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.05); } .slsec:last-child { border-bottom: 0; }
+.sent { padding: 6px 0 6px 12px; border-left: 2px solid var(--gold-3); margin: 6px 0; font-size: 13.5px; color: var(--text); }
+.sent.new { border-color: var(--forest); background: rgba(94,143,104,.08); } .sent.gone { border-color: var(--ember); opacity: .62; } .sent.gone > div:first-child { text-decoration: line-through; }
+.rule { font-family: var(--mono); font-size: 10.5px; color: var(--gold-2); background: rgba(201,169,106,.1); padding: 1px 5px; border-radius: 4px; }
+.missed { margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: rgba(255,255,255,.02); border: 1px dashed rgba(255,255,255,.08); } .missed .tiny { margin: 3px 0; color: var(--text-3); }
+.roledet { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.05); } .roledet summary { cursor: pointer; font-size: 13px; }
 .labgrid { display: grid; grid-template-columns: 380px 1fr; gap: 18px; }
 .labgrid > *, .grid > * { min-width: 0; }
 .specimen { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: center; padding: 22px; } .specimen img { width: 200px; height: 200px; object-fit: contain; }
@@ -240,7 +255,7 @@ table.board td, table.board th { padding: 6px 8px; }
 /* ---- responsive ---- */
 @media (max-width: 1180px) {
   .c3, .c4, .c5 { grid-column: span 6; } .c7, .c8, .c9 { grid-column: span 12; } .c6 { grid-column: span 12; }
-  .party { grid-template-columns: repeat(3, minmax(0,1fr)); } .labgrid { grid-template-columns: 1fr; } .report-hero { grid-template-columns: 1fr; } .crumbs { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; } .specimen { grid-template-columns: 1fr; justify-items: center; text-align: center; } .specimen img { width: 150px; height: 150px; }
+  .party { grid-template-columns: repeat(3, minmax(0,1fr)); } .labgrid { grid-template-columns: 1fr; } .report-hero, .report-hero.hero2 { grid-template-columns: 1fr; } .slgrid { grid-template-columns: 1fr; } #slin { position: static; max-height: none; } .crumbs { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; } .specimen { grid-template-columns: 1fr; justify-items: center; text-align: center; } .specimen img { width: 150px; height: 150px; }
 }
 @media (max-width: 820px) {
   .app { grid-template-columns: 1fr; background: none; }

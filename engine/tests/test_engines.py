@@ -2078,6 +2078,41 @@ class WebApp(unittest.TestCase):
         out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])
 
+    def test_the_browser_scouting_engine_writes_the_same_reports_as_python(self):
+        """web/25_scout.html against trainers/report.py: every version, 60 random edits of them (sliders, roles,
+        members, moves, natures, EVs, items, the reading level) and six exposure reads, sentence for sentence."""
+        out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "scout_pack.py")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "py.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "scout_pack.py"), "--parity", dump], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_scout_parity.mjs"), dump], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn(" match", out.stdout)
+
+    def test_the_browser_wilderness_read_matches_python(self):
+        """web/85_field.html against wilderness/engine.py team_report: every lineup, random teams in every game,
+        and a preview with every pending world record (the workbench's preview_world)."""
+        out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "field_pack.py")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "field.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "field_pack.py"), "--parity", dump], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_field_parity.mjs"), dump], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_the_browser_specimen_kernel_matches_python(self):
+        """web/26_specimen.html against specimen.py: PIDs (a shiny search included, and Python's own random
+        generator for the rest), natures, genders, Hidden Power, characteristics, stats and both exports."""
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "spec.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "scout_pack.py"), "--specimens", dump], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_specimen_parity.mjs"), dump], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_the_labs_stats_and_hidden_power_match_the_engine(self):
         from trainers.model import Store
         era = Store().era

@@ -1,0 +1,876 @@
+<script>
+/* ===== The scouting engine, in the browser =====================================================================
+   A line-for-line port of engine/trainers/report.py, matrix.py, sliders.py, roles.py and playsheet.py, reading the
+   engine pack (app/scout_pack.py → scout.json). The tests rebuild every trainer version here and in Python and
+   require the same report, sentence for sentence. Python's rounding (half to even) and its sort orders are kept.
+   Scout.report(version) → the report; Scout.exposure(mine, theirs) → where your team is exposed; Scout.classify(b,
+   game) → a build's roles. A version is plain data: {trainer, id, title, game, sliders, roles, overrides, notes,
+   signature_moves, career, team: [builds]}. */
+var Scout = (function () {
+  var P = null, STATS6 = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+  var SETUP = ['setup_physical', 'setup_special', 'setup_speed', 'setup_defense'];
+  var STAT_WORDS = {hp: 'HP', atk: 'Attack', def: 'Defense', spa: 'Sp. Atk', spd: 'Sp. Def', spe: 'Speed'};
+  var LISTED = ['moves', 'attacks', 'stab', 'support_moves', 'coverage'];
+  var POLES = {offense: ['defensive', 'offensive'], rigidity: ['flexible', 'rigid'], bond: ['tool', 'partnership'], risk: ['percentage player', 'gambler']};
+  var SECTIONS = [['who', 'Who they are'], ['expect', 'What to expect'], ['beat', 'How to beat them'], ['gap', 'Where their rigidity or recklessness leaves a gap']];
+  var PLAYSHEET = [['career', 'Career'], ['ace', 'The ace'], ['go_to', 'Who they go to'], ['coverage', 'What they can hit'], ['combos', 'Combos to watch'], ['signature', 'Signature moves'], ['aggression', 'How aggressive the moveset is']];
+  var GAME_TITLE = {crystal: 'Crystal', firered: 'FireRed', emerald: 'Emerald', platinum: 'Platinum', heartgold: 'HeartGold', soulsilver: 'SoulSilver'};
+  var memo = {};
+
+  /* ---- Python's semantics ---- */
+  /* Python rounds the exact binary value half to even: decide from its exact decimal expansion, not x * 10^nd. */
+  function exactDigits(x, nd) {
+    var s = Math.abs(x).toFixed(Math.min(100, nd + 30)), dot = s.indexOf('.'), ip = s.slice(0, dot), fp = s.slice(dot + 1);
+    var keep = ip + fp.slice(0, nd), rest = fp.slice(nd), half = '5' + rest.slice(1).replace(/./g, '0');
+    var up = rest > half || (rest === half && Number(keep.charAt(keep.length - 1)) % 2 === 1);
+    var digits = keep.split('').map(Number);
+    if (up) { var k = digits.length - 1; while (k >= 0) { if (digits[k] === 9) { digits[k] = 0; k--; } else { digits[k]++; break; } } if (k < 0) digits.unshift(1); }
+    var str = digits.join(''), intLen = str.length - nd;
+    return (x < 0 ? '-' : '') + (nd ? (str.slice(0, intLen) || '0') + '.' + str.slice(intLen) : str);
+  }
+  function pyRound(x, nd) { if (x == null) return x; var r = parseFloat(exactDigits(x, nd || 0)); return r === 0 ? 0 : r; }
+  function pyFixed(x, nd) { return exactDigits(x, nd); }
+  function falsy(v) { return v == null || v === false || v === 0 || v === '' || (Array.isArray(v) && !v.length) || (v && typeof v === 'object' && !Array.isArray(v) && !Object.keys(v).length); }
+  function join(items, word) { word = word || 'and'; items = (items || []).map(String);
+    return !items.length ? '' : items.length === 1 ? items[0] : items.slice(0, -1).join(', ') + ' ' + word + ' ' + items[items.length - 1]; }
+  function cmp(a, b) { // Python tuple ordering
+    if (Array.isArray(a)) { for (var i = 0; i < Math.min(a.length, b.length); i++) { var c = cmp(a[i], b[i]); if (c) return c; } return a.length - b.length; }
+    return a < b ? -1 : a > b ? 1 : 0;
+  }
+  function sortBy(arr, key) { return arr.map(function (x, i) { return [key(x), i, x]; }).sort(function (p, q) { return cmp(p[0], q[0]) || p[1] - q[1]; }).map(function (p) { return p[2]; }); }
+  function maxBy(arr, key) { var best, bk; arr.forEach(function (x) { var k = key(x); if (best === undefined || cmp(k, bk) > 0) { best = x; bk = k; } }); return best; }
+  function bisectL(a, x) { var lo = 0, hi = a.length; while (lo < hi) { var mid = (lo + hi) >> 1; if (a[mid] < x) lo = mid + 1; else hi = mid; } return lo; }
+  function bisectR(a, x) { var lo = 0, hi = a.length; while (lo < hi) { var mid = (lo + hi) >> 1; if (x < a[mid]) hi = mid; else lo = mid + 1; } return lo; }
+  function pct(value, pool) { if (!pool.length) return 0.5; return (bisectL(pool, value) + bisectR(pool, value)) / 2 / pool.length; }
+  function median(xs) { var s = xs.slice().sort(function (a, b) { return a - b; }), n = s.length; return n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2; }
+  function sum(xs) { return xs.reduce(function (a, b) { return a + b; }, 0); }
+  function pyRepr(v) { return v == null ? 'None' : Array.isArray(v) ? '[' + v.map(function (x) { return typeof x === 'string' ? "'" + x + "'" : pyRepr(x); }).join(', ') + ']' : pyStr(v); }
+  function pyStr(v) { return v === true ? 'True' : v === false ? 'False' : String(v); }
+  function inter(a, b) { return a.some(function (x) { return b.indexOf(x) >= 0; }); }
+  function uniq(xs) { var o = []; xs.forEach(function (x) { if (o.indexOf(x) < 0) o.push(x); }); return o; }
+  function format(tpl, ctx) { return tpl.replace(/\{(\w+)\}/g, function (_, k) { return pyStr(ctx[k]); }); }
+
+  /* ---- the era (trainers/era.py) ---- */
+  function gameGen(game) { return P.games[game]; }
+  function sp(name, gen) {
+    var s = P.species[name];
+    if (!s) { var k = Object.keys(P.species).filter(function (n) { return n.toLowerCase() === String(name).toLowerCase(); })[0]; s = k && P.species[k]; }
+    if (!s) { var base = String(name).split('-')[0]; s = P.species[base]; }
+    if (!s || !s.g[gen]) throw new Error(name + ' isn\'t a species in the engine pack');
+    return s.g[gen];
+  }
+  function typeNames(gen) { return P.chart[gen].types; }
+  function types(name, gen) {
+    var parts = String(name).split('-'), suf = parts.slice(1).join('-');
+    if (P.type_forms.indexOf(parts[0]) >= 0 && suf) { var t = suf.charAt(0).toUpperCase() + suf.slice(1).toLowerCase(); if (typeNames(gen).indexOf(t) >= 0) return [t]; }
+    return sp(name, gen).t;
+  }
+  function chartM(gen, a, d) { var c = P.chart[gen], i = c.types.indexOf(a), j = c.types.indexOf(d); return i < 0 || j < 0 ? 1.0 : c.m[i][j]; }
+  function multiplier(a, defs, gen) { var m = 1.0; defs.forEach(function (d) { m *= chartM(gen, a, d); }); return m; }
+  function abilities(name, gen) { try { return sp(name, gen).ab; } catch (e) { return []; } }
+  function nature(name) {
+    if (!name) return [null, null];
+    var k = Object.keys(P.natures).filter(function (n) { return n.toLowerCase() === String(name).toLowerCase(); })[0];
+    if (!k) throw new Error('unknown nature ' + name);
+    return P.natures[k];
+  }
+  function itemLookup(item) {
+    if (item == null) return null;
+    if (P.items[item]) return P.items[item][0];
+    var key = String(item).replace('ITEM_', '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    var k = Object.keys(P.items).filter(function (n) { return n.toLowerCase().replace(/[^a-z0-9]/g, '') === key; })[0];
+    return k ? P.items[k][0] : null;
+  }
+  function itemName(item) { return itemLookup(item) || String(item); }
+  function eraStats(name, gen, level, nat, ivs, evs) {
+    var base = sp(name, gen).b, b = {}; STATS6.forEach(function (s, i) { b[s] = base[i]; });
+    var iv = {}, ev = {}; STATS6.forEach(function (s) { iv[s] = ivs && ivs[s] != null ? ivs[s] : 31; ev[s] = evs && evs[s] != null ? evs[s] : 0; });
+    var nd = gen >= 3 ? nature(nat) : [null, null], up = nd[0], down = nd[1];
+    if (gen <= 2) {
+      var dv = {}; STATS6.forEach(function (s) { dv[s] = Math.floor(iv[s] / 2); });
+      dv.spd = dv.spa; dv.hp = (dv.atk % 2) * 8 + (dv.def % 2) * 4 + (dv.spe % 2) * 2 + dv.spa % 2;
+      STATS6.forEach(function (s) { iv[s] = 2 * dv[s]; }); ev.spd = ev.spa;
+    }
+    var out = {};
+    STATS6.forEach(function (s) {
+      var core = Math.floor((2 * b[s] + iv[s] + Math.floor(ev[s] / 4)) * level / 100);
+      if (s === 'hp') out[s] = String(name).toLowerCase().indexOf('shedinja') === 0 ? 1 : core + level + 10;
+      else out[s] = Math.floor((core + 5) * (s === up ? 110 : s === down ? 90 : 100) / 100);
+    });
+    return out;
+  }
+  function moveInfo(name, gen) {
+    var r = P.moves[gen][name];
+    if (!r) {
+      var m = String(name).match(/^Hidden Power (\w+)$/i);
+      if (m && P.moves[gen]['Hidden Power']) {
+        var t = m[1].charAt(0).toUpperCase() + m[1].slice(1).toLowerCase(), hp = P.moves[gen]['Hidden Power'].slice();
+        if (P.chart[gen].types.indexOf(t) >= 0) { hp[0] = t; hp[2] = hp[2] > 1 ? hp[2] : 70;
+          if (gen < 4) hp[1] = ['Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'].indexOf(t) >= 0 ? 'special' : 'physical';
+          r = hp; }
+      }
+      if (!r) throw new Error(name + ' isn\'t a move in Gen ' + gen);
+    }
+    return {type: r[0], 'class': r[1], power: r[2], accuracy: r[3], priority: r[4], target: r[5], drain: r[6], meta: r[7], userFaints: r[8],
+      stat_changes: r[9] || {}, ailment: r[10], hits: r[11]};
+  }
+  function moveGen(name) { var g = P.move_gen[name]; if (g == null && /^Hidden Power /i.test(name)) g = P.move_gen['Hidden Power']; return g; }
+
+  /* ---- the store (trainers/model.py) ---- */
+  function cfg() { return P.config; }
+  function defaultEvs(gen) { var d = cfg().defaults, each = gen <= 2 ? d.stat_exp_each : d.evs === 'even' ? d.even_evs_each : 0, o = {}; STATS6.forEach(function (s) { o[s] = each; }); return o; }
+  function filled(build, gen) {
+    var d = cfg().defaults, used = [], ivs = build.ivs, evs = build.evs, ability = build.ability;
+    if (falsy(ivs)) { ivs = {}; STATS6.forEach(function (s) { ivs[s] = d.ivs; }); used.push('IVs ' + d.ivs); }
+    if (falsy(evs)) { evs = defaultEvs(gen); used.push(gen <= 2 ? 'stat experience maxed in every stat' : d.evs === 'even' ? 'EVs ' + d.even_evs_each + ' in every stat' : 'no EVs'); }
+    if (!build.nature) used.push('neutral nature');
+    if (!ability) { var opts = abilities(build.species, gen); ability = opts.length ? opts[0] : null;
+      if (opts.length > 1) used.push('ability ' + ability + ' (could be ' + opts.slice(1).join(', ') + ')'); }
+    var fi = {}, fe = {}; STATS6.forEach(function (s) { fi[s] = s in ivs ? ivs[s] : d.ivs; fe[s] = s in evs ? evs[s] : 0; });
+    return [{ivs: fi, evs: fe, nature: build.nature || null, ability: ability}, used];
+  }
+  function storeStats(build, game, level) {
+    var gen = gameGen(game), scale = cfg().level_scale;
+    var lvl = level || (scale.use_build_level && build.level ? build.level : scale['default']);
+    var f = filled(build, gen);
+    return [eraStats(build.species, gen, lvl, f[0].nature, f[0].ivs, f[0].evs), lvl, f[1]];
+  }
+  function quickBasis(build, game) {  // edited builds: the app's quick check (the engine's per-game check runs on save)
+    var gen = gameGen(game), n = typeof numOf === 'function' ? numOf(build.species) : null, L = n && S.learn ? S.learn[n] : null;
+    return (build.moves || []).map(function (mv) {
+      var id = S.moveBy && S.moveBy[mv] ? S.moveBy[mv].id : null;
+      if (L && id && L.indexOf(id) >= 0) return {move: mv, basis: 'some game', reason: 'learnable by its line in a game up to Gen IV (the app\'s quick check)'};
+      if ((build.move_reasons || {})[mv]) return {move: mv, basis: 'on record', reason: build.move_reasons[mv]};
+      if (String(build.source || '').indexOf('anime') === 0) return {move: mv, basis: 'the show', reason: 'uses it in the show (draft: confirm)'};
+      return {move: mv, basis: L ? 'none' : 'unchecked', reason: L ? 'no reason on record' : 'not checked here'};
+    });
+  }
+  function quickFlags(build, game, basis) {
+    var gen = gameGen(game), v = cfg().validation, flags = [];
+    try { sp(build.species, gen); } catch (e) { return [build.species + ' isn\'t a species in our data']; }
+    var sg = (P.species[build.species] || {}).sg; if (sg && sg > gen) flags.push(build.species + ' doesn\'t exist yet in Gen ' + gen);
+    basis.forEach(function (b) { if (b.basis === 'none') flags.push(b.move + ': ' + build.species + ' can\'t learn it in any game, and no reason is on record'); });
+    if (build.nature) { try { nature(build.nature); } catch (e) { flags.push('unknown nature ' + build.nature); } }
+    [['EV', build.evs, v.max_ev_per_stat], ['IV', build.ivs, v.max_iv]].forEach(function (x) { Object.keys(x[1] || {}).forEach(function (s) { var n = x[1][s]; if (STATS6.indexOf(s) < 0 || !(n >= 0 && n <= x[2])) flags.push(x[0] + ' ' + s + ' ' + n + ' is out of range'); }); });
+    if (build.evs && sum(STATS6.map(function (s) { return build.evs[s] || 0; })) > v.max_ev_total) flags.push('EVs total ' + sum(STATS6.map(function (s) { return build.evs[s] || 0; })) + ', over ' + v.max_ev_total);
+    if (build.ability && gen >= 3 && abilities(build.species, gen).indexOf(build.ability) < 0) flags.push(build.species + ' can\'t have ' + build.ability + ' in Gen ' + gen);
+    (build.moves || []).forEach(function (mv) { var g = moveGen(mv); if (g == null) flags.push(mv + ' isn\'t a move in our data'); else if (g > gen) flags.push(mv + ' doesn\'t exist until Gen ' + g); });
+    if ((build.moves || []).length > v.max_moves) flags.push(build.moves.length + ' moves, over ' + v.max_moves);
+    if (build.item) { var it = P.items[build.item] || [itemLookup(build.item), null]; if (it[1] && it[1] > gen) flags.push(it[0] + ' doesn\'t exist until Gen ' + it[1]); }
+    if (gen <= 2) { if (build.ability) flags.push('Gen ' + gen + ' has no abilities (' + build.ability + ')'); if (build.nature) flags.push('Gen ' + gen + ' has no natures (' + build.nature + ')'); }
+    return flags;
+  }
+  function basisOf(build, game) {
+    var k = P.basis[build.id + '|' + game];
+    if (k && !build._edited) return k;
+    var b = quickBasis(build, game); return {basis: b, flags: quickFlags(build, game, b)};
+  }
+
+  /* ---- the matrix (trainers/matrix.py) ---- */
+  function verdict(mult, rules) {
+    for (var i = 0; i < rules.length; i++) { var r = rules[i];
+      if ('at_most' in r && mult <= r.at_most) return r.verdict;
+      if ('below' in r && mult < r.below) return r.verdict;
+      if (!('at_most' in r) && !('below' in r)) return r.verdict; }
+    return rules[rules.length - 1].verdict;
+  }
+  function rewrite(mult, t, ability, table) {
+    var rule = ability ? table[ability] : null;
+    if (!rule) return [mult, false];
+    var nw = mult;
+    if (t in rule) nw = rule[t] ? mult * rule[t] : 0.0;
+    if ('super_effective' in rule && mult > 1) nw = mult * rule.super_effective;
+    if ('not_super_effective' in rule && mult <= 1) nw = rule.not_super_effective;
+    return [nw, nw !== mult];
+  }
+  function bulkLean(stats, c, pool) {
+    var p = {physical: pct(stats.hp * stats.def, pool.physical), special: pct(stats.hp * stats.spd, pool.special)};
+    var order = sortBy(['physical', 'special'], function (k) { return p[k]; }), low = order[0], high = order[1], gap = p[high] - p[low];
+    var lean = p[low] < c.soft_below && gap >= c.gap_at_least ? low : p[high] < c.soft_below ? 'frail' : p[low] >= c.sturdy_at ? 'sturdy' : 'even';
+    return {lean: lean, label: c.labels[lean], def: stats.def, spd: stats.spd, physical_pct: pyRound(p.physical, 2), special_pct: pyRound(p.special, 2), gap: pyRound(gap, 2)};
+  }
+  function row(build, game, level) {
+    var c = cfg(), gen = gameGen(game), ty = types(build.species, gen), st = storeStats(build, game, level), stats = st[0], lvl = st[1];
+    var ability = filled(build, gen)[0].ability, pl = pool(gen, lvl), bulk = bulkLean(stats, c.bulk, {physical: pl.bulk_physical, special: pl.bulk_special}), cells = {};
+    typeNames(gen).forEach(function (t) {
+      var base = multiplier(t, ty, gen), rw = rewrite(base, t, ability, c.abilities), v = verdict(rw[0], c.verdicts.rules), cell = {verdict: v, multiplier: rw[0]};
+      if (rw[1]) { cell.ability = ability; cell.before_ability = verdict(base, c.verdicts.rules); }
+      if ((bulk.lean === 'physical' || bulk.lean === 'special') && c.bulk.cell_note_on.indexOf(v) >= 0) cell.note = c.bulk.worse_from[bulk.lean];
+      cells[t] = cell;
+    });
+    var bf = basisOf(build, game);
+    return {build: build.id, species: build.species, nickname: build.nickname || null, types: ty.slice(), ability: ability, level: lvl, stats: stats, bulk: bulk,
+      cells: cells, defaults_used: st[2], moves: build.moves || [], move_basis: bf.basis, flags: bf.flags, source: build.source || ''};
+  }
+  function summary(rows, tys, c) {
+    var t = c.team, per = {};
+    tys.forEach(function (ty) {
+      var count = {weak: 0, 'very weak': 0, neutral: 0, resists: 0, immune: 0};
+      rows.forEach(function (r) { count[r.cells[ty].verdict] += 1; });
+      var weak = count.weak + count['very weak'], covered = count.resists + count.immune;
+      per[ty] = Object.assign({}, count, {weak_total: weak, covered: covered,
+        weak_members: rows.filter(function (r) { return ['weak', 'very weak'].indexOf(r.cells[ty].verdict) >= 0; }).map(function (r) { return r.species; }),
+        covered_by: rows.filter(function (r) { return ['resists', 'immune'].indexOf(r.cells[ty].verdict) >= 0; }).map(function (r) { return r.species; })});
+    });
+    var gaps = sortBy(tys.filter(function (ty) { var x = per[ty]; return x.weak_total >= t.gap_if_weak_at_least || (x.weak_total >= t.gap_if_weak_and_uncovered_at_least && x.covered === 0); }),
+      function (ty) { return [-per[ty].weak_total, -per[ty]['very weak'], per[ty].covered]; });
+    var strengths = sortBy(tys.filter(function (ty) { var x = per[ty]; return x.covered >= t.strength_if_resisted_at_least && (x.weak_total === 0 || !t.strength_needs_no_weakness); }),
+      function (ty) { return [-per[ty].covered, -per[ty].immune]; });
+    var soft = {}; ['physical', 'special', 'even', 'frail', 'sturdy'].forEach(function (k) { soft[k] = rows.filter(function (r) { return r.bulk.lean === k; }).length; });
+    var bring = soft.physical >= t.bring_at_least && soft.physical - soft.special >= t.bring_margin ? 'physical' :
+      soft.special >= t.bring_at_least && soft.special - soft.physical >= t.bring_margin ? 'special' : 'either';
+    var sm = {}; ['physical', 'special'].forEach(function (k) { sm[k] = rows.filter(function (r) { return r.bulk.lean === k; }).map(function (r) { return r.species; }); });
+    return {per_type: per, gaps: gaps, strengths: strengths, soft: soft, bring: bring, soft_members: sm};
+  }
+  function teamMatrix(version, level, team) {
+    var game = version.game, gen = gameGen(game), rows = team.map(function (b) { return row(b, game, level); }), tys = typeNames(gen).slice();
+    return {trainer: version.trainer, version: version.id, title: version.title, game: game, gen: gen, types: tys, rows: rows, summary: summary(rows, tys, cfg())};
+  }
+
+  /* ---- sliders, clashes, tags (trainers/sliders.py) ---- */
+  function speedLine(gen, level) {
+    var key = 'sl' + gen + ':' + level; if (memo[key] != null) return memo[key];
+    var d = cfg().defaults, evs = defaultEvs(gen), ivs = {}; STATS6.forEach(function (s) { ivs[s] = d.ivs; });
+    var out = []; P.fully_evolved[gen].forEach(function (n) { try { out.push(eraStats(n, gen, level, null, ivs, evs).spe); } catch (e) {} });
+    return (memo[key] = median(out));
+  }
+  function share(members, test) {
+    var read = members.map(function (m) { return [m, test(m)]; }).filter(function (x) { return x[1] != null; });
+    if (!read.length) return [null, []];
+    var hits = read.filter(function (x) { return x[1]; }).map(function (x) { return x[0].species; });
+    return [pyRound(100 * hits.length / read.length), hits];
+  }
+  function measure(version, matrix, team) {
+    var c = cfg().signals, gen = gameGen(version.game);
+    var members = team.map(function (b, i) { return {species: b.species, build: b, row: matrix.rows[i], moves: (b.moves || []).map(function (m) { return [m, moveInfo(m, gen)]; })}; });
+    var line = matrix.rows.length ? speedLine(gen, matrix.rows[0].level) : 0;
+    function attackHeavy(m) { var s = m.row.stats; return Math.max(s.atk, s.spa) > (s.def + s.spd) / 2; }
+    function damageMoves(m) { return m.moves.filter(function (x) { return x[1]['class'] !== 'status'; }).length >= c.offense.damage_moves.min_damaging; }
+    function narrow(m) { var evs = m.build.evs; if (!evs || !sum(Object.values(evs))) return null;
+      var vals = Object.values(evs).sort(function (a, b) { return b - a; }); return vals[0] + (vals[1] || 0) >= c.rigidity.narrow_evs.share * sum(Object.values(evs)); }
+    function fewTypes(m) { var ts = uniq(m.moves.filter(function (x) { return x[1]['class'] !== 'status'; }).map(function (x) { return x[1].type; }));
+      return ts.length ? ts.length <= c.rigidity.few_attack_types.max_types : null; }
+    function risky(m) { var r = c.risk.risky;
+      for (var i = 0; i < m.moves.length; i++) { var x = m.moves[i][1]; if (x['class'] === 'status') continue;
+        if ((x.accuracy || 100) < r.accuracy_below || x.meta === 'ohko' || x.drain < 0 || x.userFaints) return true; }
+      return r.items.indexOf(m.build.item ? itemName(m.build.item) : null) >= 0; }
+    var signals = {
+      offense: [['attack_heavy', attackHeavy], ['damage_moves', damageMoves], ['fast', function (m) { return m.row.stats.spe >= line; }]],
+      rigidity: [['choice', function (m) { return !m.build.item ? null : c.rigidity.choice.items.indexOf(itemName(m.build.item)) >= 0; }], ['narrow_evs', narrow], ['few_attack_types', fewTypes]],
+      bond: [['friendship', function (m) { return m.build.friendship == null ? null : m.build.friendship >= c.bond.friendship.min; }],
+        ['ball', function (m) { return c.bond.ball.balls.indexOf(m.build.ball) >= 0 ? true : null; }],
+        ['ribbons', function (m) { return m.build.ribbons && m.build.ribbons.length ? true : null; }],
+        ['nickname', function (m) { return m.build.nickname ? true : null; }]],
+      risk: [['risky', risky]]
+    };
+    var out = {}, gap = cfg().disagreement.gap;
+    Object.keys(signals).forEach(function (slider) {
+      var read = [];
+      signals[slider].forEach(function (t) { var v = share(members, t[1]); if (v[0] != null) read.push({signal: t[0], label: c[slider][t[0]].label, value: v[0], members: v[1]}); });
+      var measured = read.length ? pyRound(sum(read.map(function (r) { return r.value; })) / read.length) : null;
+      var auth = (version.sliders || {})[slider] || {}, authored = auth.value != null ? auth.value : null;
+      var e = {authored: authored, why: auth.why != null ? auth.why : null, measured: measured, signals: read, disagreement: null, poles: POLES[slider].slice()};
+      if (authored != null && measured != null && Math.abs(authored - measured) >= gap) {
+        e.disagreement = {gap: measured - authored, team_leans: measured > authored ? POLES[slider][1] : POLES[slider][0],
+          because: read.filter(function (r) { return (r.value > authored) === (measured > authored); })};
+      }
+      out[slider] = e;
+    });
+    return out;
+  }
+  function natureClashes(version, team) {
+    var out = [];
+    cfg().nature_clash.rules.forEach(function (rule) {
+      var value = ((version.sliders || {})[rule.slider] || {}).value;
+      if (value == null || (rule.side === 'high' && value < rule.at) || (rule.side === 'low' && value > rule.at)) return;
+      team.forEach(function (b) { if (!b.nature) return; var n; try { n = nature(b.nature); } catch (e) { return; }
+        if (rule.raises_any.indexOf(n[0]) >= 0 && rule.lowers_any.indexOf(n[1]) >= 0)
+          out.push({species: b.species, nature: b.nature, slider: rule.slider, line: rule.line.replace('{species}', b.species).replace('{nature}', b.nature)}); });
+    });
+    return out;
+  }
+  function tags(version, team, matrix) {
+    var c = cfg().tags, out = [], moves = {}, order = [];
+    team.forEach(function (b) { uniq(b.moves || []).forEach(function (m) { if (!(m in moves)) { moves[m] = 0; order.push(m); } moves[m]++; }); });
+    var shared = sortBy(order.filter(function (m) { return moves[m] >= c.cohesive.min_members; }), function (m) { return [-moves[m], m]; });
+    if (shared.length) { var mem = {}; shared.forEach(function (m) { mem[m] = team.filter(function (b) { return (b.moves || []).indexOf(m) >= 0; }).map(function (b) { return b.species; }); });
+      out.push({id: 'cohesive', name: c.cohesive.name, detail: shared, members: mem}); }
+    var ty = {}, tord = [];
+    matrix.rows.forEach(function (r) { r.types.forEach(function (t) { if (!(t in ty)) { ty[t] = 0; tord.push(t); } ty[t]++; }); });
+    var dom = sortBy(tord.filter(function (t) { return ty[t] >= c.type_dominant.min_members; }), function (t) { return -ty[t]; });
+    if (dom.length) { var tm = {}; dom.forEach(function (t) { tm[t] = matrix.rows.filter(function (r) { return r.types.indexOf(t) >= 0; }).map(function (r) { return r.species; }); });
+      out.push({id: 'type_dominant', name: c.type_dominant.name, detail: dom, members: tm}); }
+    (version.roles || []).forEach(function (role) { if (c.roles[role]) out.push({id: 'role', name: c.roles[role].name, detail: [role], members: {}}); });
+    return out;
+  }
+
+  /* ---- the phrase book (battle/phrases.py) ---- */
+  var OPS = {
+    '>=': function (a, b) { return a != null && a >= b; }, '<=': function (a, b) { return a != null && a <= b; },
+    '>': function (a, b) { return a != null && a > b; }, '<': function (a, b) { return a != null && a < b; },
+    '==': function (a, b) { return a === b || (a == null && b == null); }, '!=': function (a, b) { return !(a === b || (a == null && b == null)); },
+    'in': function (a, b) { return (b || []).indexOf(a) >= 0; }, 'notin': function (a, b) { return (b || []).indexOf(a) < 0; },
+    'has': function (a, b) { return a != null && (Array.isArray(a) ? a.indexOf(b) >= 0 : String(a).indexOf(b) >= 0); },
+    'empty': function (a) { return falsy(a); }, 'nonempty': function (a) { return !falsy(a); }
+  };
+  function show(metric, op, value, ctx) {
+    var here = ctx[metric]; if (typeof here === 'number' && !Number.isInteger(here)) here = pyRound(here, 2);
+    if (op === 'empty' || op === 'nonempty') return metric + ' ' + op;
+    return metric + ' ' + op + ' ' + (value.length ? pyRepr(value[0]) : '') + ' (here ' + pyRepr(here) + ')';
+  }
+  function speak(kind, ctx, withMisses) {
+    var out = [], fired = {}, misses = [];
+    (P.phrases[kind] || []).forEach(function (r) {
+      var why = null;
+      if (r.group && fired[r.group]) why = 'its group (' + r.group + ') already spoke';
+      if (!why) { var bad = r.when.filter(function (c) { return !OPS[c[1]](ctx[c[0]], c.length > 2 ? c[2] : null); });
+        if (bad.length) why = bad.map(function (c) { return show(c[0], c[1], c.slice(2), ctx); }).join('; '); }
+      if (!why) { var holes = (r.say.match(/\{(\w+)\}/g) || []).map(function (f) { return f.slice(1, -1); }).filter(function (f) { var v = ctx[f]; return v == null || v === '' || (Array.isArray(v) && !v.length); });
+        if (holes.length) why = 'nothing to say for ' + uniq(holes).join(', '); }
+      if (why) { if (withMisses) misses.push({section: r.section, rule: r.id, group: r.group || null, why: why, say: r.say}); return; }
+      if (r.group) fired[r.group] = true;
+      out.push({section: r.section, text: format(r.say, ctx), rule: r.id, trigger: r.when.map(function (c) { return show(c[0], c[1], c.slice(2), ctx); }).join('; ') || 'always'});
+    });
+    return withMisses ? {said: out, missed: misses} : out;
+  }
+
+  /* ---- the report (trainers/report.py) ---- */
+  function band(v, c) { return v == null ? null : v <= c.low_at_most ? 'low' : v >= c.high_at_least ? 'high' : 'mid'; }
+  function bondRead(bond, rig, c) {
+    if (bond == null) return null;
+    for (var i = 0; i < c.rules.length; i++) { var r = c.rules[i];
+      if ('bond_at_most' in r && bond > r.bond_at_most) continue;
+      if ('rigidity_at_least' in r && (rig == null || rig < r.rigidity_at_least)) continue;
+      return r.read; }
+    return null;
+  }
+  function theirAttacks(team, gen, minPower) {
+    var out = []; minPower = minPower || 0;
+    team.forEach(function (b) { (b.moves || []).forEach(function (m) { var i = moveInfo(m, gen);
+      if (i['class'] !== 'status' && (i.power >= minPower || i.power <= 1)) out.push([b.species, m, i.type, i['class']]); }); });
+    return out;
+  }
+  function context(version, team, matrix, sliders, tagList, clashes) {
+    var c = cfg(), gen = gameGen(version.game), s = matrix.summary, rows = matrix.rows;
+    var ctx = {trainer: version.trainer_name, title: version.title, game_title: GAME_TITLE[version.game]};
+    ctx.authored_n = Object.keys(sliders).filter(function (k) { return sliders[k].authored != null; }).length;
+    var values = {};
+    Object.keys(sliders).forEach(function (k) { var v = sliders[k]; values[k] = v.authored != null ? v.authored : v.measured; ctx[k] = values[k]; ctx[k + '_band'] = band(values[k], c.bands); });
+    ctx.bond_read = bondRead(values.bond, values.rigidity, c.bond_read);
+    Object.keys(sliders).forEach(function (k) { var v = sliders[k], d = v.disagreement; if (!d) return;
+      var because = d.because.map(function (r) { return r.members.length ? r.label + ': ' + join(r.members) : 'no ' + r.label; }).join('; ') || 'the team\'s data';
+      ctx['disagree_' + k] = v.authored >= 50 ? v.poles[1] : v.poles[0]; ctx['disagree_' + k + '_reads'] = d.team_leans;
+      ctx['disagree_' + k + '_authored'] = v.authored; ctx['disagree_' + k + '_measured'] = v.measured; ctx['disagree_' + k + '_because'] = because; });
+    ctx.nature_clash_str = clashes.map(function (x) { return x.line; }).join(' ');
+    var by = {}; tagList.forEach(function (t) { by[t.id] = t; });
+    var roles = []; tagList.forEach(function (t) { if (t.id === 'role') roles = roles.concat(t.detail); });
+    ctx.is_gym_leader = roles.indexOf('Gym Leader') >= 0; ctx.is_champion = roles.indexOf('Champion') >= 0 && roles.indexOf('Region Champion') < 0; ctx.is_region_champion = roles.indexOf('Region Champion') >= 0;
+    if (by.cohesive) ctx.cohesive_str = by.cohesive.detail.map(function (m) { return m + ' on ' + join(by.cohesive.members[m]); }).join('; ');
+    if (by.type_dominant) ctx.type_dominant_str = by.type_dominant.detail.map(function (t) { return t + ' (' + by.type_dominant.members[t].length + ' of ' + rows.length + ')'; }).join('; ');
+    var attacks = theirAttacks(team, gen), phys = attacks.filter(function (a) { return a[3] === 'physical'; }).length, spec = attacks.length - phys;
+    ctx.their_attacks_n = attacks.length; ctx.their_phys_n = phys; ctx.their_spec_n = spec;
+    if (attacks.length) { var side = phys >= 2 * spec ? 'physical' : spec >= 2 * phys ? 'special' : 'mixed'; ctx.their_side = side; ctx.their_side_n = side === 'physical' ? phys : spec; }
+    var line = rows.length ? speedLine(gen, rows[0].level) : 0, fast = rows.filter(function (r) { return r.stats.spe >= line; }).map(function (r) { return r.species; });
+    ctx.fast_str = fast.length && fast.length * 2 >= rows.length ? join(fast) : '';
+    var gaps = s.gaps; ctx.gaps_n = gaps.length;
+    if (gaps.length) { var top = s.per_type[gaps[0]]; ctx.top_gap = gaps[0]; ctx.top_gap_members = join(top.weak_members);
+      ctx.top_gap_cover = top.covered_by.length ? ', and only ' + join(top.covered_by) + ' can take it' : ', and nobody on the team resists it';
+      ctx.more_gaps_str = join(gaps.slice(1, 4).map(function (g) { return g + ' (' + s.per_type[g].weak_total + ' weak)'; })); }
+    var very = rows.filter(function (r) { return Object.keys(r.cells).some(function (t) { return r.cells[t].verdict === 'very weak'; }); })
+      .map(function (r) { return r.species + ' to ' + join(Object.keys(r.cells).filter(function (t) { return r.cells[t].verdict === 'very weak'; })); });
+    ctx.very_weak_str = very.join('; ') + (very.length ? ' (four times the damage)' : '');
+    if (s.bring === 'physical' || s.bring === 'special') { var soft = s.soft_members[s.bring];
+      Object.assign(ctx, {bring: s.bring, soft_str: join(soft), soft_verb: soft.length === 1 ? 'is' : 'are', soft_label: c.bulk.labels[s.bring]}); }
+    else { ctx.bring = 'either'; var lone = [];
+      ['physical', 'special'].forEach(function (k) { s.soft_members[k].forEach(function (m) { lone.push(m + ' (' + c.bulk.labels[k] + ')'); }); }); ctx.lone_soft_str = join(lone); }
+    var abil = [];
+    rows.forEach(function (r) { var changed = Object.keys(r.cells).filter(function (t) { return r.cells[t].ability; });
+      if (changed.length) abil.push(r.species + '\'s ' + r.ability + ' changes ' + join(changed) + ' (from ' + join(uniq(changed.map(function (t) { return r.cells[t].before_ability; })).sort()) +
+        ' to ' + join(uniq(changed.map(function (t) { return r.cells[t].verdict; })).sort()) + ')'); });
+    ctx.ability_str = abil.join('; ');
+    if (s.strengths.length) { ctx.strengths_str = join(s.strengths.slice(0, 3), 'or');
+      ctx.strength_cover_str = s.strengths.slice(0, 3).map(function (t) { return s.per_type[t].covered_by.length + ' of ' + rows.length + ' resist ' + t; }).join('; '); }
+    var sig = {}; Object.keys(sliders).forEach(function (k) { sig[k] = {}; sliders[k].signals.forEach(function (r) { sig[k][r.signal] = r; }); });
+    var few = sig.rigidity.few_attack_types;
+    if (few && few.members.length) { ctx.few_types_str = join(few.members); ctx.few_types_their = few.members.length === 1 ? 'its' : 'their'; }
+    var choice = sig.rigidity.choice; if (choice && choice.members.length) ctx.choice_str = join(choice.members);
+    var gambles = [];
+    team.forEach(function (b) { var bits = [];
+      (b.moves || []).forEach(function (m) { var i = moveInfo(m, gen); if (i['class'] === 'status') return; var r = c.signals.risk.risky;
+        if (i.meta === 'ohko') bits.push(m + ' (one-hit KO, ' + (i.accuracy == null ? 'None' : i.accuracy) + '%)');
+        else if ((i.accuracy || 100) < r.accuracy_below) bits.push(m + ' (' + i.accuracy + '%)');
+        else if (i.drain < 0) bits.push(m + ' (recoil)'); else if (i.userFaints) bits.push(m + ' (faints)'); });
+      var item = b.item ? itemName(b.item) : null; if (c.signals.risk.risky.items.indexOf(item) >= 0) bits.push(item);
+      if (bits.length) gambles.push(b.species + '\'s ' + join(bits)); });
+    ctx.gamble_str = gambles.join('; ');
+    return ctx;
+  }
+  function report(version, opts) {
+    opts = opts || {}; memo = memo.cfgStamp === P._stamp ? memo : {cfgStamp: P._stamp};
+    var team = version.team, level = opts.level || null;
+    var matrix = teamMatrix(version, level, team), sliders = measure(version, matrix, team), tagList = tags(version, team, matrix), clashes = natureClashes(version, team);
+    var ctx = context(version, team, matrix, sliders, tagList, clashes), sp_ = speak('report', ctx, true), phrases = sp_.said;
+    var plan = {}; SECTIONS.forEach(function (s) { plan[s[0]] = phrases.filter(function (p) { return p.section === s[0]; }); });
+    Object.keys(version.overrides || {}).forEach(function (sid) { var text = version.overrides[sid];
+      if (plan[sid] && typeof text === 'string') plan[sid] = [{section: sid, text: text, rule: 'override', trigger: 'per-trainer override'}]; });
+    var rep = {trainer: version.trainer, trainer_name: version.trainer_name, version: version.id, title: version.title, game: version.game, gen: gameGen(version.game),
+      source: version.source, status: version.status, notes: (version.trainer_notes || []).concat(version.notes || []), sliders: sliders, tags: tagList,
+      nature_clashes: clashes, matrix: matrix, plan: plan, roles: version.roles, overrides: version.overrides, context: ctx, missed: sp_.missed};
+    if (opts.playsheet !== false) {
+      var sheet = buildPlaysheet(version, team, rep, level), pctx = playsheetContext(rep, sheet), lines = speak('playsheet', pctx, true);
+      sheet.text = {}; PLAYSHEET.forEach(function (s) { sheet.text[s[0]] = lines.said.filter(function (p) { return p.section === s[0]; }); });
+      sheet.context = pctx; sheet.missed = lines.missed;
+      rep.playsheet = sheet; rep.tags = tagList.concat(sheet.career.tags);
+    }
+    return rep;
+  }
+  function exposure(mine, theirs, opts) {
+    opts = opts || {};
+    var gen = gameGen(theirs.game), lens = Object.assign({}, mine, {game: theirs.game});
+    var myMatrix = teamMatrix(lens, opts.level || null, mine.team), carried = theirAttacks(theirs.team, gen, cfg().exposure.min_power), byType = {}, order = [];
+    carried.forEach(function (a) { if (!(a[2] in byType)) { byType[a[2]] = []; order.push(a[2]); } byType[a[2]].push(a[1] + ' (' + a[0] + ')'); });
+    var phys = carried.filter(function (a) { return a[3] === 'physical'; }).length, spec = carried.length - phys;
+    var side = phys >= 2 * spec ? 'physical' : spec >= 2 * phys ? 'special' : 'mixed', rows = [], lines = [];
+    myMatrix.rows.forEach(function (r) {
+      var hits = [];
+      order.forEach(function (t) { var v = r.cells[t].verdict; if (v === 'weak' || v === 'very weak') hits.push({type: t, verdict: v, their_moves: byType[t]}); });
+      hits = sortBy(hits, function (h) { return [h.verdict !== 'very weak' ? 1 : 0, h.type]; });
+      var softMatch = r.bulk.lean !== 'even' && r.bulk.lean === side;
+      var ctx = {member: r.species, soft_label: r.bulk.label, their_side: side, soft_match: softMatch,
+        hits_str: hits.map(function (h) { return h.verdict + ' to ' + h.type + ': they throw ' + join(h.their_moves.slice(0, 3)); }).join('; ')};
+      var said = speak('exposure', ctx);
+      rows.push({member: r.species, hits: hits, bulk: r.bulk, soft_match: softMatch, lines: said.map(function (p) { return p.text; })});
+      lines = lines.concat(said.map(function (p) { return p.text; }));
+    });
+    var exposed = sortBy(rows, function (x) { return -sum(x.hits.map(function (h) { return h.verdict === 'very weak' ? 2 : 1; })) - (x.soft_match ? 1 : 0); });
+    var tt = {}; order.slice().sort().forEach(function (t) { tt[t] = byType[t]; });
+    return {game: theirs.game, their_types: tt, their_side: side, rows: rows,
+      most_exposed: exposed.filter(function (x) { return x.hits.length || x.soft_match; }).map(function (x) { return x.member; }).slice(0, 3), lines: lines};
+  }
+
+  /* ---- the role engine (trainers/roles.py) ---- */
+  function R() { return P.roles; }
+  function roleDefs() { return R().roles; }
+  function moveR(name, gen) {
+    var key = 'mv' + gen + ':' + name; if (memo[key]) return memo[key];
+    var info = Object.assign({}, moveInfo(name, gen)); var byName = R().stat_changes_by_name || {};
+    if (byName[name]) info.stat_changes = Object.assign({}, byName[name]);
+    info.name = name; info.categories = Object.keys(R().move_categories).filter(function (c) { return fits(name, info, R().move_categories[c]); });
+    return (memo[key] = info);
+  }
+  function fits(name, info, spec) {
+    if ((spec.names || []).indexOf(name) >= 0) return true;
+    if ((spec.exclude_names || []).indexOf(name) >= 0) return false;
+    var rule = spec.rule, ab = function (s) { return (info.stat_changes[s] || 0) > 0; };
+    if (rule === 'damaging') { if (info['class'] === 'status' || info.meta === 'ohko' || info.userFaints) return false;
+      if (info.priority < (spec.priority_at_least != null ? spec.priority_at_least : -99)) return false;
+      return !spec.ailments || !spec.ailments.length || spec.ailments.indexOf(info.ailment) >= 0; }
+    if (rule === 'user_boost') return info['class'] === 'status' && (info.target === 'user' || info.target === 'user-and-allies') && spec.stats.some(ab);
+    if (rule === 'heal_self') return info['class'] === 'status' && info.meta === 'heal' && info.target === 'user';
+    if (rule === 'inflicts') return info['class'] === 'status' && spec.ailments.indexOf(info.ailment) >= 0;
+    if (rule === 'force_switch') return info['class'] === 'status' && info.meta === 'force-switch';
+    if (rule === 'user_faints') return !!info.userFaints;
+    if (rule === 'ohko') return info.meta === 'ohko';
+    if (rule === 'recoil') return info['class'] !== 'status' && info.drain < 0;
+    return false;
+  }
+  function has(cats, c) { return cats.indexOf(c) >= 0; }
+  function effectivePower(mv, tys, ability, turnCost) {
+    if (turnCost === undefined) turnCost = true;
+    if (mv['class'] === 'status' || !has(mv.categories, 'attack')) return 0.0;
+    var p = R().power, base = mv.name.indexOf('Hidden Power') === 0 ? 'Hidden Power' : mv.name;
+    var power = mv.power && mv.power > 1 ? mv.power : (p.variable_power[base] || 0);
+    if (!power) return 0.0;
+    var ab = p.abilities[ability || ''] || {};
+    if ('at_most' in ab && power <= ab.at_most) power *= ab.times;
+    var acc = (mv.accuracy || 100) / 100, stab = tys.indexOf(mv.type) >= 0 ? ('stab' in ab ? ab.stab : p.stab) : 1.0, hits = 1;
+    if (mv.hits) { var lo = mv.hits[0], hi = mv.hits[1]; hits = lo === hi ? hi : ('multi_hit' in ab ? ab.multi_hit : p.multi_hit_average); }
+    return power * acc * stab * hits * (turnCost ? (mv.name in p.factor ? p.factor[mv.name] : 1.0) : 1.0);
+  }
+  function typeList(gen) { return typeNames(gen).slice().sort(); }
+  function shape(st) { var o = Object.assign({}, st); o.best_attack = Math.max(st.atk, st.spa); o.bulk_physical = st.hp * st.def; o.bulk_special = st.hp * st.spd; o.bulk_both = st.hp * Math.sqrt(st.def * st.spd); return o; }
+  function pool(gen, level) {
+    var key = 'pool' + gen + ':' + level; if (memo[key]) return memo[key];
+    var d = cfg().defaults, evs = defaultEvs(gen), ivs = {}; STATS6.forEach(function (s) { ivs[s] = d.ivs; });
+    var cols = {}; STATS6.concat(['best_attack', 'bulk_physical', 'bulk_special', 'bulk_both', 'typing']).forEach(function (k) { cols[k] = []; });
+    P.fully_evolved[gen].forEach(function (n) { var st, ty;
+      try { st = eraStats(n, gen, level, null, ivs, evs); ty = types(n, gen); } catch (e) { return; }
+      var ab = abilities(n, gen), sh = shape(st); Object.keys(sh).forEach(function (k) { cols[k].push(sh[k]); });
+      cols.typing.push(typingScore(ty, ab.length ? ab[0] : null, gen)); });
+    Object.keys(cols).forEach(function (k) { cols[k].sort(function (a, b) { return a - b; }); });
+    return (memo[key] = cols);
+  }
+  function typingScore(tys, ability, gen) {
+    var key = 'ts' + gen + ':' + tys.join('/') + ':' + ability; if (memo[key] != null) return memo[key];
+    var spec = R().signals.typing, w = spec.weights || {immune: 2, resist: 1, weak: -1, very_weak: -2}, total = 0;
+    typeList(gen).forEach(function (t) { var m = rewrite(multiplier(t, tys, gen), t, ability, cfg().abilities)[0];
+      total += m === 0 ? w.immune : m < 1 ? w.resist : m >= 4 ? w.very_weak : m > 1 ? w.weak : 0; });
+    return (memo[key] = total);
+  }
+  function weatherOf(moves, ability) {
+    var out = {}, W = R().weathers;
+    Object.keys(W).forEach(function (w) { var s = W[w], hit = (moves || []).filter(function (m) { return s.moves.indexOf(m) >= 0; }).concat(s.abilities.indexOf(ability) >= 0 ? [ability] : []);
+      if (hit.length) out[w] = hit; });
+    return out;
+  }
+  function investment(f, recorded) {
+    var tilt = R().pool.nature_tilt, n = f.nature ? nature(f.nature) : [null, null], evs = recorded ? f.evs : {}, o = {};
+    ['atk', 'spa'].forEach(function (s) { o[s] = (evs[s] || 0) + (n[0] === s ? tilt : n[1] === s ? -tilt : 0); });
+    return o;
+  }
+  function roleContext(build, game, level, teamWeather) {
+    var gen = gameGen(game); level = level || R().pool.level;
+    var st = storeStats(build, game, level), f = filled(build, gen)[0], stats = Object.assign({}, st[0]), mult = R().power.stat_multipliers;
+    var item = build.item ? itemName(build.item) : null;
+    var am = mult.abilities[f.ability || ''] || {}; Object.keys(am).forEach(function (s) { stats[s] = Math.trunc(stats[s] * am[s]); });
+    var rule = mult.items[item || ''];
+    if (rule && rule.species.indexOf(build.species) >= 0) { var by = (rule.by_gen || {})[String(gen)] || rule.stats; Object.keys(by).forEach(function (s) { stats[s] = Math.trunc(stats[s] * by[s]); }); }
+    var tys = types(build.species, gen), moves = [];
+    (build.moves || []).forEach(function (m) { var mv; try { mv = moveR(m, gen); } catch (e) { return; }
+      var eff = effectivePower(mv, tys, f.ability), stat = stats[mv['class'] === 'physical' ? 'atk' : 'spa'] / (Math.max(stats.atk, stats.spa) || 1);
+      var plain = effectivePower(mv, tys, f.ability, false); moves.push(Object.assign({}, mv, {eff: eff, scaled: eff * stat, plain: plain * stat})); });
+    var phys = sum(moves.filter(function (m) { return m['class'] === 'physical'; }).map(function (m) { return m.eff; }));
+    var spec = sum(moves.filter(function (m) { return m['class'] === 'special'; }).map(function (m) { return m.eff; }));
+    var recorded = !!(build.evs && sum(Object.values(build.evs))), inv = investment(f, recorded), lean = R().pool.investment_lean, matching;
+    if (Math.abs(inv.atk - inv.spa) >= lean) matching = inv.atk > inv.spa ? 'atk' : 'spa';
+    else if (phys || spec) matching = phys >= spec ? 'atk' : 'spa';
+    else matching = stats.atk >= stats.spa ? 'atk' : 'spa';
+    var own = weatherOf(build.moves, f.ability), weather = uniq(Object.keys(own).concat(teamWeather || []));
+    return {build: build, game: game, gen: gen, level: st[1], stats: stats, types: tys, filled: f, item: item, ability: f.ability, moves: moves, matching: matching,
+      defaults_used: st[2], evs_recorded: recorded, own_weather: own, weather: weather};
+  }
+  function covered(attacks, gen, minPower) { var out = []; attacks.forEach(function (m) { if (m.eff >= minPower) superEffective(m.type, gen).forEach(function (t) { if (out.indexOf(t) < 0) out.push(t); }); }); return out; }
+  function superEffective(t, gen) { return typeList(gen).filter(function (d) { return multiplier(t, [d], gen) >= 2; }); }
+  function weatherUsers(ctx) { var W = R().weathers; return ctx.weather.slice().sort().filter(function (w) { return W[w].sweep_abilities.concat(W[w].other_abilities).indexOf(ctx.ability) >= 0; }).map(function (w) { return [w, ctx.ability]; }); }
+  function lure(ctx, attacks, minPower, invested) {
+    var main = {atk: 'physical', spa: 'special'}[ctx.matching], off = ctx.matching === 'atk' ? 'spa' : 'atk';
+    if (!ctx.evs_recorded && !ctx.filled.nature) return [];
+    if (investment(ctx.filled, ctx.evs_recorded)[off] < invested) return [];
+    var stabs = uniq(attacks.filter(function (m) { return m['class'] === main && ctx.types.indexOf(m.type) >= 0; }).map(function (m) { return m.type; }));
+    if (!stabs.length) return [];
+    var gen = ctx.gen, walls = typeList(gen).filter(function (t) { return stabs.every(function (s) { return multiplier(s, [t], gen) < 1; }); }), ev = [];
+    attacks.forEach(function (m) { if (m['class'] === main || m.eff < minPower) return;
+      var hit = walls.filter(function (t) { return multiplier(m.type, [t], gen) >= 2; }).sort(); if (hit.length) ev.push(m.name + ' for ' + hit.join(', ')); });
+    return ev;
+  }
+  function signalsOf(ctx) {
+    var pl = pool(ctx.gen, ctx.level), sh = shape(ctx.stats), n = ctx.filled.nature ? nature(ctx.filled.nature) : [null, null], up = n[0], down = n[1];
+    var evs = ctx.filled.evs, ivs = ctx.filled.ivs, moves = ctx.moves, cls = {atk: 'physical', spa: 'special'}[ctx.matching];
+    var attacks = moves.filter(function (m) { return m.eff > 0; }), out = {}, defs = R().signals;
+    Object.keys(defs).forEach(function (name) {
+      var spec = defs[name], kind = spec.kind, statsNamed = (spec.stats || []).map(function (s) { return s === 'matching' ? ctx.matching : s; });
+      if (kind === 'stat_pct') {
+        var key = spec.stat; if (key === 'best_attack') key = ctx.stats.atk >= ctx.stats.spa ? 'atk' : 'spa';
+        var raw = pct(sh[key], pl[key]), v = spec.invert ? 1 - raw : raw, rel;
+        if (spec.invert) rel = v >= 0.995 ? 'the slowest in the field' : 'slower than ' + pyRound(100 * v) + '% of the field';
+        else rel = raw >= 0.995 ? 'the top of the field' : 'above ' + pyRound(100 * raw) + '% of the field';
+        out[name] = [v, [STAT_WORDS[key] + ' ' + sh[key] + ' (' + rel + ')']];
+      } else if (kind === 'bulk_pct') {
+        var k2 = 'bulk_' + spec.side, side = spec.side === 'both' ? 'overall' : spec.side, v2 = pct(sh[k2], pl[k2]);
+        out[name] = [v2, [side + ' bulk ' + (v2 >= 0.995 ? 'the top of the field' : 'above ' + pyRound(100 * v2) + '% of the field')]];
+      } else if (kind === 'typing_pct') {
+        out[name] = [pct(typingScore(ctx.types, ctx.ability, ctx.gen), pl.typing), [ctx.types.join('/') + (ctx.ability ? ' (' + ctx.ability + ')' : '')]];
+      } else if (kind === 'nature') {
+        var raises = (spec.raises || []).map(function (s) { return s === 'matching' ? ctx.matching : s; });
+        var ok = (!raises.length || raises.indexOf(up) >= 0) && (!spec.lowers || !spec.lowers.length || spec.lowers.indexOf(down) >= 0);
+        out[name] = [up && ok ? 1.0 : 0.0, up && ok ? [ctx.filled.nature] : []];
+      } else if (kind === 'evs') {
+        var total = sum(statsNamed.map(function (s) { return evs[s] || 0; }));
+        var words = spec.label.indexOf('EVs') === 0 ? spec.label : spec.label.split(' EVs').join('') + ' EVs';
+        out[name] = [Math.min(1.0, total / spec.full_at), total ? [total + ' ' + words] : []];
+      } else if (kind === 'iv_low') {
+        var iv = spec.stat in ivs ? ivs[spec.stat] : 31, low = iv <= spec.at_most;
+        out[name] = [low ? 1.0 : 0.0, low ? [spec.stat + ' IV ' + ivs[spec.stat]] : []];
+      } else if (kind === 'item') { var hit = (R().item_groups[spec.group] || []).indexOf(ctx.item) >= 0; out[name] = [hit ? 1.0 : 0.0, hit ? [ctx.item] : []];
+      } else if (kind === 'ability') { var h2 = (R().ability_groups[spec.group] || []).indexOf(ctx.ability) >= 0; out[name] = [h2 ? 1.0 : 0.0, h2 ? [ctx.ability] : []];
+      } else if (kind === 'type') { var h3 = ctx.types.filter(function (t) { return spec.types.indexOf(t) >= 0; }); out[name] = [h3.length ? 1.0 : 0.0, h3];
+      } else if (kind === 'attacks') {
+        var pw = spec.scaled ? 'scaled' : 'eff', pool_ = attacks.filter(function (m) { return m[pw] >= spec.min_power; }), c = spec['class'], nn, ev;
+        if (c === 'mixed') { var pp = pool_.filter(function (m) { return m['class'] === 'physical'; }).map(function (m) { return m.name; }), ss = pool_.filter(function (m) { return m['class'] === 'special'; }).map(function (m) { return m.name; });
+          nn = Math.min(pp.length, ss.length); ev = pp.length && ss.length ? pp.concat(ss) : []; }
+        else { var want = c === 'matching' ? cls : c; ev = pool_.filter(function (m) { return want === 'any' || m['class'] === want; }).map(function (m) { return m.name; }); nn = ev.length; }
+        out[name] = [Math.min(1.0, nn / spec.full_at), ev];
+      } else if (kind === 'stab') { var e2 = attacks.filter(function (m) { return ctx.types.indexOf(m.type) >= 0 && m.eff >= spec.min_power; }).map(function (m) { return m.name; }); out[name] = [e2.length ? 1.0 : 0.0, e2];
+      } else if (kind === 'best_power') { var pw2 = spec.scaled ? 'scaled' : 'eff', best = maxBy(attacks, function (m) { return [m[pw2], m.name]; });
+        out[name] = [best ? Math.min(1.0, best[pw2] / spec.full_at) : 0.0, best ? [best.name + ' (' + pyRound(best[pw2]) + ')'] : []];
+      } else if (kind === 'matched_setup') {
+        var e3 = moves.filter(function (m) { var boosted = Object.keys(m.stat_changes).filter(function (k) { return m.stat_changes[k] > 0; });
+          return inter(m.categories, SETUP.slice(0, 3)) && ((m.stat_changes[ctx.matching] || 0) > 0 || (boosted.length === 1 && boosted[0] === 'spe')); }).map(function (m) { return m.name; });
+        out[name] = [Math.min(1.0, e3.length / spec.full_at), e3];
+      } else if (kind === 'coverage') { var cv = covered(attacks, ctx.gen, spec.min_power).sort(); out[name] = [Math.min(1.0, cv.length / spec.full_at), cv];
+      } else if (kind === 'weather_sweep') { var e4 = [];
+        weatherUsers(ctx).forEach(function (wa) { if (R().weathers[wa[0]].sweep_abilities.indexOf(wa[1]) >= 0) { e4.push(wa[1] + ' with ' + wa[0]);
+          e4 = e4.concat((ctx.own_weather[wa[0]] || []).filter(function (m) { return (ctx.build.moves || []).indexOf(m) >= 0; })); } });
+        out[name] = [e4.length ? 1.0 : 0.0, e4];
+      } else if (kind === 'weather_boosted') { var e5 = [];
+        ctx.weather.slice().sort().forEach(function (w) { var sw = R().weathers[w], before = e5.slice();
+          e5 = e5.concat(attacks.filter(function (m) { return (sw.boosted_types.indexOf(m.type) >= 0 || sw.boosted_moves.indexOf(m.name) >= 0) && before.indexOf(m.name) < 0; }).map(function (m) { return m.name; })); });
+        out[name] = [Math.min(1.0, e5.length / spec.full_at), e5];
+      } else if (kind === 'lure') { var e6 = lure(ctx, attacks, spec.min_power, spec.invested_at_least); out[name] = [e6.length ? 1.0 : 0.0, e6];
+      } else if (kind === 'support_moves') { var e7 = moves.filter(function (m) { return m['class'] === 'status' && !inter(m.categories, SETUP); }).map(function (m) { return m.name; });
+        out[name] = [Math.min(1.0, e7.length / spec.full_at), e7];
+      } else if (kind === 'moves') { var wantc = Array.isArray(spec.category) ? spec.category : [spec.category], hm = moves.filter(function (m) { return inter(m.categories, wantc); });
+        var cnt = sum(hm.map(function (m) { return m['class'] === 'status' ? (m.accuracy || 100) / 100 : 1.0; }));
+        out[name] = [Math.min(1.0, cnt / spec.full_at) * (spec.scale != null ? spec.scale : 1.0), hm.map(function (m) { return m.name; })];
+      } else throw new Error('signal ' + name + ': unknown kind ' + kind);
+    });
+    return out;
+  }
+  function value(key, sig) {
+    if (key.indexOf('|') >= 0) { return maxBy(key.split('|').map(function (k) { return value(k, sig); }), function (p) { return [p[0], -p[1].length]; }); }
+    if (key.indexOf('&') >= 0) { var parts = key.split('&').map(function (k) { return value(k, sig); });
+      return [Math.min.apply(null, parts.map(function (p) { return p[0]; })), [].concat.apply([], parts.map(function (p) { return p[1]; }))]; }
+    return sig[key];
+  }
+  function label(key) {
+    if (key.indexOf('|') >= 0) return key.split('|').map(label).join(' or ');
+    if (key.indexOf('&') >= 0) return key.split('&').map(label).join(' with ');
+    return R().signals[key].label;
+  }
+  function score(roleId, sig, explain) {
+    if (explain === undefined) explain = true;
+    var role = roleDefs()[roleId], gate = null;
+    for (var i = 0; i < role.requires.length; i++) { var alt = role.requires[i];
+      if (Object.keys(alt).every(function (s) { return value(s, sig)[0] > alt[s]; })) { gate = alt; break; } }
+    if (!gate) { if (!explain) return {role: roleId, score: 0.0, fit: 0.0};
+      return {role: roleId, name: role.name, family: role.family, score: 0.0, fit: 0.0, because: [], against: [],
+        needs: role.requires.map(function (alt) { return Object.keys(alt).map(label).join(' and '); })}; }
+    var pos = sum(Object.values(role.weights).filter(function (w) { return w > 0; }));
+    var parts = Object.keys(role.weights).map(function (s) { var v = value(s, sig); return [s, role.weights[s], v[0], v[1]]; });
+    var raw = sum(parts.map(function (p) { return p[1] * p[2]; })), fit = Math.max(0.0, Math.min(1.0, raw / pos)), prior = role.prior != null ? role.prior : 1.0;
+    if (!explain) return {role: roleId, score: pyRound(fit * prior, 4), fit: pyRound(fit, 4)};
+    var fmt = function (p) { return {signal: p[0], label: label(p[0]), value: pyRound(p[2], 3), weight: p[1], evidence: p[3]}; };
+    var because = sortBy(parts.filter(function (p) { return p[1] > 0 && p[2] > 0; }), function (p) { return [-p[1] * p[2], p[0]]; });
+    var against = sortBy(parts.filter(function (p) { return p[1] < 0 && p[2] > 0; }), function (p) { return [p[1] * p[2], p[0]]; });
+    return {role: roleId, name: role.name, family: role.family, score: pyRound(fit * prior, 4), fit: pyRound(fit, 4), because: because.map(fmt), against: against.map(fmt), needs: []};
+  }
+  function scores(sig) { return sortBy(Object.keys(roleDefs()).map(function (r) { return score(r, sig); }), function (r) { return [-r.score, r.role]; }); }
+  function confidence(fit) { var c = R().confidence; return fit >= c.strong_at_least ? 'strong' : fit >= c.solid_at_least ? 'solid' : 'loose'; }
+  function classify(build, game, level, teamWeather) {
+    var ctx = roleContext(build, game, level, teamWeather), sig = signalsOf(ctx), ranked = scores(sig), top = ranked[0], second = ranked[1];
+    var margin = pyRound(top.score - second.score, 4), clear = margin >= R().confidence.clear_margin;
+    var pick = function (r) { return {role: r.role, name: r.name, family: r.family, score: r.score, confidence: confidence(r.score)}; };
+    var sigv = {}, evd = {}; Object.keys(sig).forEach(function (k) { sigv[k] = pyRound(sig[k][0], 3); if (sig[k][1].length) evd[k] = sig[k][1]; });
+    return {build: build.id, species: build.species, game: game, level: ctx.level, primary: Object.assign(pick(top), {margin: margin, clear: clear}),
+      secondary: second.score > 0 ? pick(second) : null, also: ranked.slice(2).filter(function (r) { return r.score >= R().confidence.also_at_least; }).map(pick),
+      roles: ranked, signals: sigv, evidence: evd, defaults_used: ctx.defaults_used, matching: ctx.matching};
+  }
+  function reason(b) {
+    var kinds = uniq([].concat.apply([], b.signal.split('|').map(function (g) { return g.split('&'); })).map(function (p) { return R().signals[p].kind; }));
+    var ev = b.evidence; if (!ev.length) return b.label;
+    if (kinds.every(function (k) { return LISTED.indexOf(k) >= 0; }) && !kinds.every(function (k) { return k === 'moves'; })) return b.label + ': ' + ev.join(', ');
+    return ev.join(', ');
+  }
+  function roleLine(result, top, reasons) {
+    top = top || 2; reasons = reasons || 3;
+    return result.roles.slice(0, top).filter(function (r) { return r.score; }).map(function (r) {
+      var why = []; for (var i = 0; i < r.because.length; i++) { var t = reason(r.because[i]); if (why.indexOf(t) < 0) why.push(t); if (why.length === reasons) break; }
+      return r.name + ' (' + pyFixed(r.score, 2) + ', ' + confidence(r.score) + '): ' + why.join('; '); }).join(' | ');
+  }
+
+  /* ---- the playsheet (trainers/playsheet.py) ---- */
+  function career(version) {
+    var c = cfg().tags.career, records = (version.career || []).filter(function (r) { return !r.versions || !r.versions.length || r.versions.indexOf(version.id) >= 0; });
+    var regions = []; records.forEach(function (r) { if (c.multi_region.not_regions.indexOf(r.region) < 0 && regions.indexOf(r.region) < 0) regions.push(r.region); });
+    var tg = [];
+    if (regions.length >= c.multi_region.regions_at_least) tg.push({id: 'multi_region', name: c.multi_region.name, detail: regions});
+    records.forEach(function (r) { if (r.champion) tg.push({id: 'region_champion', name: c.region_champion.name.replace('{title}', r.title), detail: [r.event]}); });
+    var beaten = records.filter(function (r) { return r.elite_four === 'beaten'; }).map(function (r) { return r.event; });
+    if (beaten.length) tg.push({id: 'elite_four_beaten', name: c.elite_four_beaten.name, detail: beaten});
+    return {records: records, regions: regions, tags: tg};
+  }
+  function readTeam(version, team, level) {
+    var gen = gameGen(version.game), weather = [];
+    team.forEach(function (b) { Object.keys(weatherOf(b.moves, filled(b, gen)[0].ability)).forEach(function (w) { if (weather.indexOf(w) < 0) weather.push(w); }); });
+    return [team.map(function (b) { var ctx = roleContext(b, version.game, level, weather); return [b, ctx, signalsOf(ctx), classify(b, version.game, level, weather)]; }), weather];
+  }
+  function fitsFam(roleId, list) { return list.indexOf(roleId) >= 0 || list.indexOf(roleDefs()[roleId].family) >= 0; }
+  function ace(reads) {
+    var c = cfg().playsheet.ace, w = c.weights, gen = reads.length ? reads[0][1].gen : 4, typesN = typeList(gen).length;
+    var lvls = reads.map(function (r) { return r[0].level; }).filter(Boolean), topLevel = lvls.length ? Math.max.apply(null, lvls) : null, rows = [];
+    reads.forEach(function (rd, i) {
+      var b = rd[0], ctx = rd[1], sig = rd[2], cl = rd[3], inv = [];
+      if (b.evs && sum(Object.values(b.evs))) inv.push(Math.min(1.0, sum(Object.values(b.evs)) / 510));
+      if (b.level && topLevel) inv.push(Math.max(0.0, 1 - (topLevel - b.level) / c.level_window));
+      if (b.friendship != null) inv.push(b.friendship / 255);
+      var mine = [cl.primary.role].concat(cl.secondary ? [cl.secondary.role] : []), helpers = [];
+      reads.forEach(function (tr, j) { if (j === i) return;
+        var t = tr[0], tctx = tr[1], tcl = tr[3], theirs = [tcl.primary.role].concat(tcl.secondary ? [tcl.secondary.role] : []);
+        for (var k = 0; k < theirs.length; k++) { var rule = c.supports[theirs[k]];
+          if (!rule || !mine.some(function (m) { return fitsFam(m, rule['for']); })) continue;
+          if (rule.needs === 'slow' && sig.slow[0] < c.slow_at_least) continue;
+          if (rule.needs === 'its weather') { var W = R().weathers, own = Object.keys(W).filter(function (wn) { return W[wn].sweep_abilities.concat(W[wn].other_abilities).indexOf(ctx.ability) >= 0; });
+            if (!inter(own, Object.keys(weatherOf(t.moves, tctx.ability)))) continue; }
+          helpers.push(t.species); break; } });
+      var attacks = ctx.moves.filter(function (m) { return m.eff > 0; }), cover = covered(attacks, gen, cfg().playsheet.type_read.min_power).length / typesN;
+      var roleV = Math.max.apply(null, mine.map(function (r) { return r in c.role_value ? c.role_value[r] : c.role_value_default; }));
+      var parts = {support: Math.min(1.0, helpers.length / c.support_full_at), coverage: cover, role: roleV};
+      if (inv.length) parts.investment = sum(inv) / inv.length;
+      var sc = sum(Object.keys(parts).map(function (k) { return w[k] * parts[k]; })) / sum(Object.keys(parts).map(function (k) { return w[k]; }));
+      var pr = {}; Object.keys(parts).forEach(function (k) { pr[k] = pyRound(parts[k], 3); });
+      rows.push({species: b.species, slot: i + 1, score: pyRound(sc, 3), parts: pr, helpers: helpers, role: cl.primary.name, level: b.level != null ? b.level : null});
+    });
+    rows = sortBy(rows, function (r) { return [-r.score, -(r.level || 0), -r.slot]; });
+    var builds = reads.map(function (r) { return r[0]; });
+    if (c.cartridge_marks_ace && builds.length && builds.every(function (b) { return String(b.source || '').indexOf('cartridge') === 0; })) {
+      var top = rows.filter(function (r) { return r.level === topLevel; });
+      if (top.length === 1) { top[0].marked_by_game = true; rows.splice(rows.indexOf(top[0]), 1); rows.unshift(top[0]); }
+    }
+    rows.forEach(function (r) { r.sent_out = r.slot === 1 ? 'lead' : r.slot === rows.length ? 'last' : '#' + r.slot; });
+    return rows;
+  }
+  function goTo(reads) {
+    var c = cfg().playsheet.go_to, out = {};
+    ['even', 'ahead', 'behind'].forEach(function (state) {
+      var spec = c[state], best = null;
+      reads.forEach(function (rd, i) { rd[3].roles.forEach(function (r) { var v = r.score * (spec.roles[r.role] || 0);
+        if (v > 0 && (best === null || v > best[0] + 1e-9)) best = [v, rd[0].species, r.name, i]; }); });
+      out[state] = {label: spec.label, species: best ? best[1] : null, role: best ? best[2] : null, fit: best ? pyRound(best[0], 3) : 0.0};
+    });
+    var last = [];
+    reads.forEach(function (rd) { var b = rd[0], ctx = rd[1], moves = (b.moves || []).filter(function (m) { return c.behind.last_resort_moves.indexOf(m) >= 0; });
+      var item = c.behind.last_resort_items.indexOf(ctx.item) >= 0 ? ctx.item : null; if (moves.length || item) last.push({species: b.species, moves: moves, item: item}); });
+    out.behind.last_resorts = last;
+    return out;
+  }
+  function typeRead(reads, rep) {
+    var gen = reads.length ? reads[0][1].gen : 4, minPower = cfg().playsheet.type_read.min_power, per = rep.matrix.summary.per_type, rows = [];
+    typeList(gen).forEach(function (t) { var best = null;
+      reads.forEach(function (rd) { rd[1].moves.forEach(function (m) { if (m.eff <= 0 || m.plain < minPower) return;
+        if (multiplier(m.type, [t], gen) >= 2 && (best === null || m.plain > best[0])) best = [m.plain, m.name, rd[0].species, m.type]; }); });
+      var weak = (per[t] || {}).weak_total || 0;
+      rows.push({type: t, covered: best !== null, move: best ? best[1] : null, member: best ? best[2] : null, move_type: best ? best[3] : null, power: best ? pyRound(best[0]) : 0, their_weak_to_it: weak}); });
+    var cov = rows.filter(function (r) { return r.covered; }).map(function (r) { return r.type; }), holes = rows.filter(function (r) { return !r.covered; }).map(function (r) { return r.type; });
+    var bring = sortBy(rows.filter(function (r) { return !r.covered && r.their_weak_to_it; }), function (r) { return [-r.their_weak_to_it, r.type]; });
+    return {rows: rows, coverage: rows.length ? pyRound(cov.length / rows.length, 3) : 0.0, covered_n: cov.length, types_n: rows.length, holes: holes,
+      bring: bring.map(function (r) { return {type: r.type, their_weak: r.their_weak_to_it}; })};
+  }
+  function memberHas(cond, b, ctx, sig, weather) {
+    if (cond.any) return cond.any.some(function (c) { return memberHas(c, b, ctx, sig, weather); });
+    if (cond.moves_any) return (b.moves || []).some(function (m) { return cond.moves_any.indexOf(m) >= 0; });
+    if (cond.category) return ctx.moves.some(function (m) { return m.categories.indexOf(cond.category) >= 0; });
+    if (cond.item_any) return cond.item_any.indexOf(ctx.item) >= 0;
+    if (cond.item_group) return (R().item_groups[cond.item_group] || []).indexOf(ctx.item) >= 0;
+    if (cond.ability_any) return cond.ability_any.indexOf(ctx.ability) >= 0;
+    if (cond.weather) return weather.indexOf(cond.weather) >= 0;
+    if (cond.signal_at_least) return Object.keys(cond.signal_at_least).every(function (k) { return sig[k][0] >= cond.signal_at_least[k]; });
+    throw new Error('unknown combo condition ' + JSON.stringify(cond));
+  }
+  function combos(reads, weather) {
+    var found = [];
+    cfg().playsheet.combos.list.forEach(function (combo) {
+      if (combo.scope === 'member') {
+        var who = reads.filter(function (rd) { return combo.all.every(function (c) { return memberHas(c, rd[0], rd[1], rd[2], weather); }); }).map(function (rd) { return rd[0].species; });
+        if (who.length) found.push({id: combo.id, name: combo.name, members: who});
+      } else {
+        var parts = combo.all.map(function (c) {
+          if ('members_at_least' in c) { var w = reads.filter(function (rd) { return memberHas(c.where, rd[0], rd[1], rd[2], weather); }).map(function (rd) { return rd[0].species; }); return w.length >= c.members_at_least ? w : null; }
+          if (c.weather) return weather.indexOf(c.weather) >= 0 ? ['the team'] : null;
+          var w2 = reads.filter(function (rd) { return memberHas(c, rd[0], rd[1], rd[2], weather); }).map(function (rd) { return rd[0].species; }); return w2.length ? w2 : null; });
+        if (parts.every(function (p) { return p && p.length; })) { var members = [];
+          parts.forEach(function (p) { p.forEach(function (m) { if (members.indexOf(m) < 0 && m !== 'the team') members.push(m); }); });
+          found.push({id: combo.id, name: combo.name, members: members}); }
+      }
+    });
+    return found;
+  }
+  function aggression(reads, rep) {
+    var c = cfg().playsheet.aggression, fin = 0, att = 0, fm = [], am = [];
+    reads.forEach(function (rd) { rd[1].moves.forEach(function (m) {
+      if (inter(m.categories, c.finisher_categories) || (m.eff > 0 && m.scaled >= c.finisher_attack_at_least)) { fin++; fm.push(m.name + ' (' + rd[0].species + ')'); }
+      else if (inter(m.categories, c.attrition_categories)) { att++; am.push(m.name + ' (' + rd[0].species + ')'); } }); });
+    var ratio = fin + att ? pyRound(100 * fin / (fin + att)) : null, off = rep.sliders.offense, authored = off.authored, flag = null;
+    if (ratio != null && authored != null && Math.abs(ratio - authored) >= c.gap) { var leans = ratio > authored ? off.poles[1] : off.poles[0], p1 = off.disagreement;
+      flag = {gap: ratio - authored, leans: leans, part1_flags_it: !!(p1 && p1.team_leans === leans)}; }
+    return {ratio: ratio, finishers: fin, attrition: att, finisher_moves: fm, attrition_moves: am, offense_authored: authored, offense_measured: off.measured, flag: flag};
+  }
+  function filmLines(sheet) {
+    var f = sheet.observed; if (!f || !f.n) return [];
+    var top = function (k) { return f[k] && f[k].length ? f[k][0] : null; }, lines = [], lead = top('lead');
+    if (lead) lines.push('Leads with ' + lead.pokemon + ' (' + lead.outcome + ').');
+    ['even', 'ahead', 'behind'].forEach(function (st) { var t = top(st); if (!t) return; var derived = sheet.go_to[st].species;
+      var same = t.pokemon === derived ? ' — the same one the team read picks' : derived ? '; the team read picks ' + derived : '';
+      lines.push('When ' + st + ', turns to ' + t.pokemon + '\'s ' + t.move + ' (' + t.outcome + ')' + same + '.'); });
+    var cl = top('closers'); if (cl) { var a = sheet.ace.derived; lines.push('Closes with ' + cl.pokemon + ' (' + cl.outcome + ')' + (a && a !== cl.pokemon ? ', where the ace read says ' + a + '.' : '.')); }
+    var h = top('held_back'); if (h) lines.push('Holds ' + h.pokemon + ' back (' + h.outcome + ').');
+    if (f.sent_out && f.sent_out.length) { var battle = f.sent_out[0].battle;
+      lines.push('In ' + battle + ': ' + f.sent_out.filter(function (x) { return x.battle === battle; }).map(function (x) { return x.pokemon + ' (' + x.move.replace('sent out ', '') + ')'; }).join(' → ') + '.'); }
+    var af = top('after_faint'); if (af) lines.push('After a faint, sends in ' + af.pokemon + ' (' + af.outcome + ').');
+    if (f.aggression != null) { var ag = sheet.aggression;
+      lines.push('On film, ' + f.aggression + '% of their finishing-or-wearing choices finish; the moveset reads ' + ag.ratio + '%' + (ag.offense_authored != null ? ' and the offense slider is ' + ag.offense_authored + '.' : '.')); }
+    lines.push('From: ' + f.battles.slice(0, 3).join('; ') + '.');
+    return lines;
+  }
+  function ladderOf(version, team) {
+    var L = (P.ladder || {})[gameGen(version.game)] || {}, rows = [], lines = [];
+    team.forEach(function (b) { var x = L[b.species]; if (x) { rows.push(x.row); lines.push(x.line); } });
+    return [rows, lines];
+  }
+  function buildPlaysheet(version, team, rep, level) {
+    var rt = readTeam(version, team, level), reads = rt[0], weather = rt[1], car = career(version), aces = ace(reads), authoredAce = (version.overrides || {}).ace || null;
+    var roles = reads.map(function (rd) { var cl = rd[3]; return {species: rd[0].species, nickname: rd[0].nickname || null, primary: cl.primary, secondary: cl.secondary, also: cl.also, why: roleLine(cl, 1), result: cl}; });
+    var sigs = (version.signature_moves || []).map(function (s) { var on = team.filter(function (b) { return b.species === s.pokemon; })[0];
+      return Object.assign({}, s, {on_team: !!on, in_moveset: !!(on && (on.moves || []).indexOf(s.move) >= 0)}); });
+    var derived = aces.length ? aces[0].species : null;
+    var sheet = {career: car, roles: roles, ace: {derived: derived, authored: authoredAce, agree: authoredAce === null || authoredAce === derived, ranking: aces},
+      go_to: goTo(reads), type_read: typeRead(reads, rep), combos: combos(reads, weather), signature_moves: sigs, aggression: aggression(reads, rep),
+      weather: weather.slice().sort(), observed: version.observed || {n: 0}};
+    sheet.aggression.observed = sheet.observed.aggression != null ? sheet.observed.aggression : null;
+    sheet.film = filmLines(sheet);
+    var ld = ladderOf(version, team); sheet.ladder = ld[0]; sheet.ladder_lines = ld[1];
+    return sheet;
+  }
+  function playsheetContext(rep, sheet) {
+    var ctx = {trainer: rep.trainer_name, title: rep.title}, car = sheet.career, by = {};
+    car.tags.forEach(function (t) { by[t.id] = t; });
+    ctx.career_n = car.records.length; ctx.regions_n = car.regions.length; ctx.regions_str = join(car.regions); ctx.multi_region = 'multi_region' in by;
+    ctx.titles_str = join(car.tags.filter(function (t) { return t.id === 'region_champion'; }).map(function (t) { return t.name; }));
+    ctx.elite_four = 'elite_four_beaten' in by;
+    var best = car.records.filter(function (r) { return ['league', 'contest', 'tournament', 'frontier'].indexOf(r.kind) >= 0; });
+    ctx.record_str = best.slice(-3).map(function (r) { return r.event + ': ' + r.result; }).join('; ');
+    var a = sheet.ace; ctx.ace = a.derived;
+    if (a.ranking.length) { var top = a.ranking[0], why = [], inv = a.ranking.map(function (r) { return r.parts.investment; }).filter(function (x) { return x != null; });
+      if (inv.length) { var mx = Math.max.apply(null, inv); if (top.parts.investment === mx && inv.filter(function (x) { return x === mx; }).length === 1) why.push(top.level == null ? 'the most invested' : 'the highest level (' + top.level + ')'); }
+      if (top.helpers.length) why.push('set up by ' + join(top.helpers));
+      var mc = Math.max.apply(null, a.ranking.map(function (r) { return r.parts.coverage; }));
+      if (top.parts.coverage === mc && top.parts.coverage) why.push('the widest coverage');
+      why.push('a ' + top.role); ctx.ace_why = join(why.filter(Boolean)); }
+    ctx.ace_authored = !a.agree ? a.authored : '';
+    ctx.ace_agrees = a.authored && a.agree ? a.authored : '';
+    var g = sheet.go_to; ['even', 'ahead', 'behind'].forEach(function (s) { ctx[s + '_who'] = g[s].species || ''; ctx[s + '_role'] = g[s].role || ''; });
+    var same = uniq([g.even.species, g.ahead.species, g.behind.species]);
+    ctx.one_for_all = same.length === 1 && g.even.species ? g.even.species : '';
+    ctx.last_resort_str = g.behind.last_resorts.map(function (x) { return x.species + '\'s ' + join(x.moves.concat(x.item ? [x.item] : [])); }).join('; ');
+    var tr = sheet.type_read; Object.assign(ctx, {covered_n: tr.covered_n, types_n: tr.types_n, holes_n: tr.holes.length, holes_str: join(tr.holes, 'or')});
+    if (tr.bring.length) { var tb = tr.bring[0], words = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six'};
+      ctx.bring_type = tb.type; ctx.bring_weak = tb.their_weak; ctx.bring_weak_str = (words[tb.their_weak] || tb.their_weak) + ' of them ' + (tb.their_weak === 1 ? 'is' : 'are');
+      ctx.bring_more = join(tr.bring.slice(1, 3).map(function (b) { return b.type; }), 'or'); }
+    var cb = {}; sheet.combos.forEach(function (c) { cb[c.id] = c; });
+    ctx.combos = Object.keys(cb).sort(); Object.keys(cb).forEach(function (id) { ctx['combo_' + id] = join(cb[id].members); }); ctx.combos_n = Object.keys(cb).length;
+    var sm = sheet.signature_moves;
+    ctx.signature_str = sm.map(function (s) { return s.pokemon + '\'s ' + s.move + ' (' + s.why + ')'; }).join('; ');
+    ctx.signature_missing = join(sm.filter(function (s) { return s.on_team && !s.in_moveset; }).map(function (s) { return s.pokemon + '\'s ' + s.move; }));
+    var ag = sheet.aggression; ctx.aggression = ag.ratio; ctx.finishers_n = ag.finishers; ctx.attrition_n = ag.attrition; ctx.aggr_total = ag.finishers + ag.attrition;
+    var f = ag.flag; ctx.aggr_flag = !!(f && !f.part1_flags_it); ctx.aggr_same_as_part1 = !!(f && f.part1_flags_it);
+    if (f) { ctx.aggr_leans = f.leans; ctx.offense_authored = ag.offense_authored; }
+    return ctx;
+  }
+
+  /* ---- loading and versions ---- */
+  function init(pack) { P = pack; P._stamp = Math.random(); memo = {cfgStamp: P._stamp}; return Scout; }
+  function setConfig(c, roles) { if (c) P.config = c; if (roles) P.roles = roles; P._stamp = Math.random(); memo = {cfgStamp: P._stamp}; }
+  function version(tid, vid) {
+    var t = P.trainers[tid], v = t.versions[vid || Object.keys(t.versions)[0]];
+    return {trainer: tid, trainer_name: t.name, trainer_notes: t.notes || [], career: t.career || [], id: vid || Object.keys(t.versions)[0], title: v.title, game: v.game,
+      sliders: JSON.parse(JSON.stringify(v.sliders || {})), roles: (v.roles || []).slice(), source: v.source, status: v.status, overrides: Object.assign({}, v.overrides || {}),
+      notes: (v.notes || []).slice(), signature_moves: JSON.parse(JSON.stringify(v.signature_moves || [])), observed: v.observed,
+      team: JSON.parse(JSON.stringify(v.team))};
+  }
+  function versions() { var out = []; Object.keys(P.trainers).forEach(function (tid) { Object.keys(P.trainers[tid].versions).forEach(function (vid) { var v = P.trainers[tid].versions[vid];
+    out.push({trainer: tid, id: vid, name: P.trainers[tid].name, title: v.title, game: v.game, mine: tid === 'me', status: v.status}); }); }); return out; }
+  return {init: init, setConfig: setConfig, version: version, versions: versions, report: report, exposure: exposure, classify: function (b, game, level) { return classify(b, game, level, null); },
+    roleLine: roleLine, moveInfo: moveInfo, types: types, abilities: abilities, gameGen: gameGen, pack: function () { return P; }, join: join, pyRound: pyRound, pyFixed: pyFixed,
+    SECTIONS: SECTIONS, PLAYSHEET: PLAYSHEET, POLES: POLES, speak: speak};
+})();
+function scoutReady() { return S.scout ? Promise.resolve(S.scout) : API.data('scout').then(function (p) { S.scoutPack = JSON.parse(JSON.stringify(p)); Scout.init(p); return (S.scout = Scout); }); }
+</script>

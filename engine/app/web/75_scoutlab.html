@@ -1,0 +1,291 @@
+<script>
+/* ===== The Scouting Lab: change anything about a trainer and watch the report rewrite itself ==================
+   Runs the real report engine (25_scout.html, tested sentence-for-sentence against Python). Every sentence shows the
+   rule that wrote it and the numbers that triggered it; rules that stayed quiet say why; a diff shows what your
+   change did against the original. */
+var RULE_KNOBS = [
+  ['How a slider reads', [['bands.low_at_most', 'A slider reads low at or below', 0, 100, 1], ['bands.high_at_least', 'A slider reads high at or above', 0, 100, 1],
+    ['disagreement.gap', 'Note measured vs authored at a gap of', 0, 100, 1]]],
+  ['Bulk', [['bulk.soft_below', 'A side is soft below this field share', 0, 1, 0.01], ['bulk.gap_at_least', '…and this far under its other side', 0, 1, 0.01], ['bulk.sturdy_at', 'Sturdy when both sides reach', 0, 1, 0.01]]],
+  ['The team summary', [['team.gap_if_weak_at_least', 'A gap: a type this many are weak to', 1, 6, 1], ['team.gap_if_weak_and_uncovered_at_least', '…or this many, with nobody resisting', 1, 6, 1],
+    ['team.strength_if_resisted_at_least', 'A strength: resisted by at least', 1, 6, 1], ['team.bring_at_least', 'Bring a side: this many soft to it', 1, 6, 1], ['team.bring_margin', '…and this many more than the other side', 0, 6, 1],
+    ['tags.cohesive.min_members', 'Cohesive: members sharing a move', 2, 6, 1], ['tags.type_dominant.min_members', 'Type-dominant: members sharing a type', 2, 6, 1]]],
+  ['The measured sliders', [['signals.offense.damage_moves.min_damaging', 'Offense: attacks a member needs', 1, 4, 1], ['signals.rigidity.narrow_evs.share', 'Rigidity: share of EVs in the top two stats', 0, 1, 0.05],
+    ['signals.rigidity.few_attack_types.max_types', 'Rigidity: attacks of at most this many types', 1, 4, 1], ['signals.bond.friendship.min', 'Bond: friendship of at least', 0, 255, 1],
+    ['signals.risk.risky.accuracy_below', 'Risk: an attack below this accuracy', 0, 100, 1]]],
+  ['Open fields', [['defaults.ivs', 'An open IV reads as', 0, 31, 1], ['defaults.even_evs_each', 'An open EV reads as (each stat, Gen III–IV)', 0, 252, 1]]],
+  ['The playsheet', [['playsheet.type_read.min_power', 'Coverage counts attacks of at least', 0, 200, 5], ['playsheet.aggression.finisher_attack_at_least', 'A finishing attack: effective power of', 0, 200, 5],
+    ['playsheet.aggression.gap', 'Flag aggression vs the offense slider at a gap of', 0, 100, 1], ['playsheet.ace.level_window', 'Ace: levels behind the top that still count', 1, 50, 1],
+    ['exposure.min_power', 'Exposure counts their attacks of at least', 0, 200, 5]]],
+  ['The role engine', [['@confidence.strong_at_least', 'A role is strong from', 0, 1, 0.01], ['@confidence.solid_at_least', 'A role is solid from', 0, 1, 0.01],
+    ['@confidence.also_at_least', 'List a third role from', 0, 1, 0.01], ['@pool.investment_lean', 'EV lead that picks an attacking side', 0, 252, 4], ['@pool.nature_tilt', 'A nature counts as this many EVs', 0, 252, 2]]]
+];
+var SL = null;
+function getPath(o, p) { return p.split('.').reduce(function (x, k) { return x == null ? x : x[k]; }, o); }
+function setPath(o, p, v) { var ks = p.split('.'), x = o; ks.slice(0, -1).forEach(function (k) { x = x[k]; }); x[ks[ks.length - 1]] = v; }
+function slRules() {   // the pack's config and roles with your rule changes on top
+  var pk = S.scoutPack, c = JSON.parse(JSON.stringify(pk.config)), r = JSON.parse(JSON.stringify(pk.roles));
+  Object.keys(SL.rules).forEach(function (p) { if (p.charAt(0) === '@') setPath(r, p.slice(1), SL.rules[p]); else setPath(c, p, SL.rules[p]); });
+  return [c, r];
+}
+function slLoad(tid, vid) {
+  var v = Scout.version(tid, vid);
+  SL = Object.assign(SL || {rules: {}, show: {diff: true, missed: false, ctx: false}, against: 'me/heartgold'}, {base: tid + '/' + vid, v: v, level: null, baseRep: null});
+  slSave();
+}
+function slSave() { store('scoutlab', {base: SL.base, v: SL.v, level: SL.level, rules: SL.rules, show: SL.show, against: SL.against}); }
+function slSanitize(v) {   // the lab drops what this game can't read, and says so (the Python engine would stop)
+  var gen = Scout.gameGen(v.game), warn = [], team = [];
+  v.team.forEach(function (b) {
+    try { Scout.types(b.species, gen); } catch (e) { warn.push(b.species + ' isn\'t a species the engine knows; left out.'); return; }
+    var keep = (b.moves || []).filter(function (m) { try { Scout.moveInfo(m, gen); return true; } catch (e) { warn.push(b.species + '\'s ' + m + ' isn\'t a move in Gen ' + gen + '; left out.'); return false; } });
+    team.push(Object.assign({}, b, {moves: keep}));
+  });
+  return [Object.assign({}, v, {team: team}), warn];
+}
+function slCompute() {
+  var pk = S.scoutPack, base = SL.base.split('/');
+  if (!SL.baseRep) { Scout.setConfig(JSON.parse(JSON.stringify(pk.config)), JSON.parse(JSON.stringify(pk.roles))); SL.baseRep = Scout.report(Scout.version(base[0], base[1])); }
+  var rr = slRules(); if (SL.level === 'build') rr[0].level_scale.use_build_level = true; Scout.setConfig(rr[0], rr[1]);
+  var san = slSanitize(SL.v), rep = null, err = null;
+  try { rep = Scout.report(san[0], {level: SL.level === 'build' ? null : SL.level}); } catch (e) { err = e.message || String(e); }
+  return {rep: rep, warn: san[1], err: err, base: SL.baseRep};
+}
+function scoutLab(tid, vid) {
+  return Promise.all([scoutReady(), withBuilds(), API.data('learnsets'), API.tab('Variants').catch(function () { return []; })]).then(function (r) {
+    S.learn = r[2]; S.variants = r[3] || [];
+    var saved = store('scoutlab');
+    if (tid) slLoad(tid, vid);
+    else if (saved && saved.v) SL = Object.assign({show: {diff: true, missed: false, ctx: false}, against: 'me/heartgold'}, saved, {baseRep: null});
+    else slLoad('cynthia', 'champion-platinum');
+    if (tid) { try { history.replaceState(null, '', '#/scoutlab'); } catch (e) {} }
+    after(function (p) { slBind(p); slRender(); });
+    return '<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><div class="eyebrow">The Scouting Lab · the report engine, live</div><h1 style="margin:6px 0">The Scouting Lab</h1>' +
+      '<p class="lede">Change anything: a slider, a member, a move, a nature, a role tag, the career, even the engine\'s own thresholds. The report rewrites itself the way the engine would. Every sentence shows the rule that wrote it; rules that stayed quiet tell you why. Nothing here changes canon.</p></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="slReset()">Back to the original</button><button class="btn" onclick="slCopy()">Copy the report</button><button class="btn gold" onclick="slSaveVariant()">Save this variant</button></div></div>' +
+      '<div class="slgrid" style="margin-top:16px"><div id="slin"></div><div id="slout"></div></div>';
+  });
+}
+function slInputs() {
+  var v = SL.v, vers = Scout.versions(), roles = Object.keys(S.scoutPack.config.tags.roles), gen = Scout.gameGen(v.game);
+  var byT = {}; vers.forEach(function (x) { (byT[x.name] = byT[x.name] || []).push(x); });
+  var sliders = ['offense', 'rigidity', 'bond', 'risk'].map(function (k) {
+    var s = v.sliders[k] || {}, on = s.value != null, poles = Scout.POLES[k];
+    return '<div class="slrow"><div class="goal" style="padding:0"><label class="small"><input type="checkbox" data-sl-on="' + k + '"' + (on ? ' checked' : '') + '> <b>' + cap(k) + '</b></label><b class="num" id="slv-' + k + '">' + (on ? s.value : 'not authored') + '</b></div>' +
+      '<input type="range" min="0" max="100" value="' + (on ? s.value : 50) + '" data-sl="' + k + '"' + (on ? '' : ' disabled') + ' style="width:100%">' +
+      '<div style="display:flex;justify-content:space-between" class="tiny muted"><span>' + poles[0] + '</span><span id="slm-' + k + '"></span><span>' + poles[1] + '</span></div>' +
+      '<input class="f" placeholder="why (your reason)" data-sl-why="' + k + '" value="' + esc(s.why || '') + '" style="margin-top:4px;padding:5px 8px;font-size:12px"></div>';
+  }).join('');
+  var team = v.team.map(function (b, i) {
+    return '<div class="slmember"><img src="' + sprite(numOf(b.species), v.game) + '" onerror="this.src=\'' + art(numOf(b.species)) + '\'"><div style="min-width:0"><b>' + esc(b.nickname || b.species) + '</b>' + (b._edited ? ' ' + chip('edited', 'ember') : '') +
+      '<div class="tiny muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc((b.moves || []).join(' · ') || 'no moves') + '</div><div class="tiny muted">' + esc([b.item, gen >= 3 ? b.nature : '', b.level ? 'Lv ' + b.level : ''].filter(Boolean).join(' · ')) + '</div></div>' +
+      '<div class="sltools"><button title="Move up" onclick="slMove(' + i + ',-1)">↑</button><button title="Move down" onclick="slMove(' + i + ',1)">↓</button><button title="Edit" onclick="slEdit(' + i + ')">✎</button><button title="Remove" onclick="slRemove(' + i + ')">✕</button></div></div>';
+  }).join('');
+  var sigs = (v.signature_moves || []).map(function (s, i) { return '<div class="line small">' + esc(s.pokemon) + '\'s <b>' + esc(s.move) + '</b> <span class="tiny muted">' + esc(s.why || '') + '</span> <button class="btn sm ghost" onclick="SL.v.signature_moves.splice(' + i + ',1);slChanged(true)">✕</button></div>'; }).join('');
+  var career = (v.career || []).map(function (c, i) { var on = !c.versions || !c.versions.length || c.versions.indexOf(v.id) >= 0;
+    return '<div class="line small' + (on ? '' : '" style="opacity:.45') + '"><b>' + esc(c.event) + '</b>: ' + esc(c.result) + ' <span class="tiny muted">' + esc(c.region) + ' · ' + esc(c.kind) + (c.champion ? ' · champion' : '') + (c.elite_four ? ' · Elite Four ' + esc(c.elite_four) : '') + (on ? '' : ' · not this version') + '</span> <button class="btn sm ghost" onclick="SL.v.career.splice(' + i + ',1);slChanged(true)">✕</button></div>'; }).join('');
+  var rulesN = Object.keys(SL.rules).length;
+  return card('The trainer', '<label class="l">Start from</label><select class="f" id="slbase">' + Object.keys(byT).map(function (n) { return '<optgroup label="' + esc(n) + '">' + byT[n].map(function (x) {
+      return '<option value="' + x.trainer + '/' + x.id + '"' + (SL.base === x.trainer + '/' + x.id ? ' selected' : '') + '>' + esc(x.title) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select>' +
+    '<div class="row"><div><label class="l">Game (the type chart, stats and moves it reads)</label><select class="f" id="slgame">' + Object.keys(GAME_NAME).map(function (g) { return '<option value="' + g + '"' + (g === v.game ? ' selected' : '') + '>' + GAME_NAME[g] + '</option>'; }).join('') + '</select></div>' +
+    '<div><label class="l">Read at level</label><select class="f" id="sllevel">' + [['', 'the engine default (100)'], ['50', '50'], ['75', '75'], ['build', 'each build\'s own']].map(function (o) { return '<option value="' + o[0] + '"' + (String(SL.level || '') === o[0] || (SL.level === 'build' && o[0] === 'build') ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div></div>' +
+    '<label class="l">Role tags</label><div style="display:flex;gap:12px;flex-wrap:wrap">' + roles.map(function (r) { return '<label class="small"><input type="checkbox" data-role="' + esc(r) + '"' + (v.roles.indexOf(r) >= 0 ? ' checked' : '') + '> ' + esc(r) + '</label>'; }).join('') + '</div>' +
+    '<label class="l">The ace you\'d name</label><select class="f" id="slace"><option value="">let the team decide</option>' + v.team.map(function (b) { return '<option' + ((v.overrides || {}).ace === b.species ? ' selected' : '') + '>' + esc(b.species) + '</option>'; }).join('') + '</select>',
+    {eyebrow: 'Who', tools: false}) +
+    card('The sliders', sliders + '<p class="tiny muted" style="margin:8px 0 0">Untick a slider to leave it unauthored: the report then reads the team\'s measured value. The dashed mark under each one is what the team measures right now.</p>', {eyebrow: 'Authored style', tools: false, style: 'margin-top:16px'}) +
+    card('The team', team + (v.team.length < 6 ? '<button class="btn sm" style="margin-top:8px" onclick="slAdd()">+ Add a member</button>' : '') + '<p class="tiny muted" style="margin:8px 0 0">Order matters: the first is the lead, the last is sent out last.</p>', {eyebrow: plural(v.team.length, 'member'), tools: false, style: 'margin-top:16px'}) +
+    card('Signature moves & career', '<div class="eyebrow" style="margin-bottom:4px">Signature moves</div>' + (sigs || '<div class="tiny muted">None authored.</div>') +
+      '<div class="row" style="margin-top:6px"><select class="f" id="slsigp">' + v.team.map(function (b) { return '<option>' + esc(b.species) + '</option>'; }).join('') + '</select><input class="f" id="slsigm" placeholder="move"><input class="f" id="slsigw" placeholder="why"></div><button class="btn sm" style="margin-top:6px" onclick="slAddSig()">+ Add</button>' +
+      '<div class="eyebrow" style="margin:14px 0 4px">Career records</div>' + (career || '<div class="tiny muted">None on record.</div>') +
+      '<div class="row" style="margin-top:6px"><input class="f" id="slcr" placeholder="region"><input class="f" id="slce" placeholder="event"></div><div class="row" style="margin-top:6px"><input class="f" id="slcres" placeholder="result"><select class="f" id="slck"><option>league</option><option>tournament</option><option>contest</option><option>frontier</option><option>other</option></select></div>' +
+      '<div class="row" style="margin-top:6px"><label class="small"><input type="checkbox" id="slcch"> won the title</label><input class="f" id="slct" placeholder="title (e.g. Sinnoh Champion)"></div><button class="btn sm" style="margin-top:6px" onclick="slAddCareer()">+ Add a record</button>',
+      {eyebrow: 'Authored', tools: false, style: 'margin-top:16px'}) +
+    card('The engine\'s rules' + (rulesN ? ' ' + chip(rulesN + ' changed', 'ember') : ''), '<p class="tiny muted" style="margin:0 0 8px">The thresholds every report reads (trainers/config.json, roles.json). Change one and every sentence that depends on it moves. Your changes live only in this lab.</p>' +
+      RULE_KNOBS.map(function (g) { return '<details' + (g[1].some(function (k) { return k[0] in SL.rules; }) ? ' open' : '') + '><summary class="small" style="cursor:pointer;padding:6px 0"><b>' + g[0] + '</b></summary>' + g[1].map(function (k) {
+        var pk = S.scoutPack, orig = k[0].charAt(0) === '@' ? getPath(pk.roles, k[0].slice(1)) : getPath(pk.config, k[0]), cur = k[0] in SL.rules ? SL.rules[k[0]] : orig;
+        return '<div class="knob"><span class="small">' + esc(k[1]) + '</span><input class="f" type="number" min="' + k[2] + '" max="' + k[3] + '" step="' + k[4] + '" value="' + cur + '" data-knob="' + k[0] + '"' + (cur !== orig ? ' style="border-color:var(--ember)"' : '') + '><span class="tiny muted">was ' + orig + '</span></div>'; }).join('') + '</details>'; }).join('') +
+      (rulesN ? '<button class="btn sm" style="margin-top:8px" onclick="SL.rules={};slChanged(true)">Reset the rules</button>' : ''), {eyebrow: 'Advanced', tools: false, style: 'margin-top:16px'}) +
+    (S.variants.length ? card('Saved variants', S.variants.slice().reverse().slice(0, 12).map(function (x, i) { return '<div class="line small click" data-variant="' + (S.variants.length - 1 - i) + '"><b>' + esc(x.title) + '</b> <span class="tiny muted">' + esc(x.note || '') + ' · ' + fmtDate(x.at) + '</span></div>'; }).join(''), {eyebrow: 'The Variants tab', tools: false, style: 'margin-top:16px'}) : '');
+}
+function slBind(p) {
+  var box = p.querySelector('#slin'); box.innerHTML = slInputs();
+  box.addEventListener('input', function (e) {
+    var t = e.target, k;
+    if ((k = t.getAttribute('data-sl'))) { SL.v.sliders[k] = Object.assign({}, SL.v.sliders[k], {value: +t.value}); document.getElementById('slv-' + k).textContent = t.value; slChanged(); }
+    else if ((k = t.getAttribute('data-sl-why'))) { if (SL.v.sliders[k]) SL.v.sliders[k].why = t.value; slSave(); }
+    else if ((k = t.getAttribute('data-knob'))) { var val = parseFloat(t.value); if (!isNaN(val)) { SL.rules[k] = val; slChanged(); } }
+  });
+  box.addEventListener('change', function (e) {
+    var t = e.target, k;
+    if (t.id === 'slbase') { var b = t.value.split('/'); slLoad(b[0], b[1]); slChanged(true); }
+    else if (t.id === 'slgame') { SL.v.game = t.value; SL.v.team.forEach(function (b) { b._edited = true; }); slChanged(true); }
+    else if (t.id === 'sllevel') { SL.level = t.value === '' ? null : t.value === 'build' ? 'build' : +t.value; slChanged(); }
+    else if (t.id === 'slace') { if (t.value) SL.v.overrides.ace = t.value; else delete SL.v.overrides.ace; slChanged(); }
+    else if ((k = t.getAttribute('data-sl-on'))) { if (t.checked) SL.v.sliders[k] = {value: 50, why: ''}; else delete SL.v.sliders[k]; slChanged(true); }
+    else if ((k = t.getAttribute('data-role'))) { SL.v.roles = SL.v.roles.filter(function (r) { return r !== k; }).concat(t.checked ? [k] : []); slChanged(); }
+  });
+  box.addEventListener('click', function (e) { var el = e.target.closest('[data-variant]'); if (!el) return;
+    var x = S.variants[+el.getAttribute('data-variant')]; try { var o = JSON.parse(x.json); SL = Object.assign(SL, o, {baseRep: null}); slChanged(true); toast('Loaded <b>' + esc(x.title) + '</b>.'); } catch (err) { toast('That variant can\'t be read.'); } });
+}
+var slTimer = null;
+function slChanged(redrawInputs) {
+  slSave();
+  if (redrawInputs) { var box = document.getElementById('slin'); if (box) box.innerHTML = slInputs(); }
+  clearTimeout(slTimer); slTimer = setTimeout(slRender, 60);
+}
+function slMove(i, d) { var t = SL.v.team, j = i + d; if (j < 0 || j >= t.length) return; var x = t[i]; t[i] = t[j]; t[j] = x; slChanged(true); }
+function slRemove(i) { SL.v.team.splice(i, 1); slChanged(true); }
+function slAdd() { SL.v.team.push({id: 'lab:' + Date.now().toString(36), species: 'Snorlax', moves: ['Body Slam', 'Rest', 'Sleep Talk', 'Earthquake'], source: 'the Scouting Lab', _edited: true}); slChanged(true); slEdit(SL.v.team.length - 1); }
+function slAddSig() { var p = document.getElementById('slsigp').value, m = document.getElementById('slsigm').value.trim(), w = document.getElementById('slsigw').value.trim();
+  if (!m) return toast('Name the move.'); SL.v.signature_moves.push({pokemon: p, move: m, why: w || 'authored in the lab', status: 'lab'}); slChanged(true); }
+function slAddCareer() { var g = function (id) { return document.getElementById(id); };
+  if (!g('slce').value.trim()) return toast('Name the event.');
+  var r = {region: g('slcr').value.trim() || 'Unknown', event: g('slce').value.trim(), kind: g('slck').value, result: g('slcres').value.trim() || 'took part', versions: [SL.v.id]};
+  if (g('slcch').checked) { r.champion = true; r.title = g('slct').value.trim() || r.region + ' Champion'; }
+  SL.v.career = (SL.v.career || []).concat([r]); slChanged(true); }
+function slEdit(i) {
+  var b = SL.v.team[i], gen = Scout.gameGen(SL.v.game), n = numOf(b.species), learn = (S.learn && S.learn[n]) || [];
+  var moves = (S.builds.moves || []).filter(function (m) { return learn.indexOf(m.id) >= 0 && moveGen(m.id) <= gen; }).map(function (m) { return m.name; }).sort();
+  var abil = Scout.abilities(b.species, gen) || [], iv = b.ivs || {}, ev = b.evs || {};
+  openDrawer('<div class="eyebrow">Edit a member · the report rebuilds when you save</div><h2 style="margin:6px 0">' + esc(b.nickname || b.species) + '</h2>' +
+    '<form id="slform" onsubmit="return slSaveMember(event,' + i + ')"><datalist id="sldex">' + S.atlas.species.map(function (s) { return '<option>' + esc(s.name) + '</option>'; }).join('') + '</datalist>' +
+    '<datalist id="slmv">' + moves.map(function (m) { return '<option>' + esc(m) + '</option>'; }).join('') + '</datalist><datalist id="slitems">' + Object.keys(S.scoutPack.items).map(function (x) { return '<option>' + esc(x) + '</option>'; }).join('') + '</datalist>' +
+    '<div class="row"><div><label class="l">Species</label><input class="f" name="species" list="sldex" value="' + esc(b.species) + '"></div><div><label class="l">Nickname</label><input class="f" name="nickname" value="' + esc(b.nickname || '') + '"></div></div>' +
+    '<div class="row"><div><label class="l">Level (blank: read at the lab\'s level)</label><input class="f" name="level" type="number" min="1" max="100" value="' + (b.level || '') + '"></div><div><label class="l">Item</label><input class="f" name="item" list="slitems" value="' + esc(b.item || '') + '"></div></div>' +
+    (gen >= 3 ? '<div class="row"><div><label class="l">Nature (blank: neutral)</label><select class="f" name="nature"><option value="">—</option>' + Object.keys(S.scoutPack.natures).sort().map(function (x) { return '<option' + (x === b.nature ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
+      '<div><label class="l">Ability (blank: its first)</label><select class="f" name="ability"><option value="">—</option>' + abil.map(function (a) { return '<option' + (a === b.ability ? ' selected' : '') + '>' + esc(a) + '</option>'; }).join('') + '</select></div></div>' : '') +
+    '<label class="l">Moves</label>' + [0, 1, 2, 3].map(function (k) { return '<input class="f" name="mv' + k + '" list="slmv" value="' + esc((b.moves || [])[k] || '') + '" style="margin-bottom:6px">'; }).join('') +
+    '<label class="l">IVs (blank: the default)</label><div class="ivgrid">' + STATS.map(function (s) { return '<div><div class="tiny muted" style="text-align:center">' + STAT_NAME[s] + '</div><input class="f" name="iv-' + s + '" type="number" min="0" max="31" value="' + (s in iv ? iv[s] : '') + '"></div>'; }).join('') + '</div>' +
+    '<label class="l">EVs (blank: the default spread)</label><div class="ivgrid">' + STATS.map(function (s) { return '<div><div class="tiny muted" style="text-align:center">' + STAT_NAME[s] + '</div><input class="f" name="ev-' + s + '" type="number" min="0" max="252" step="4" value="' + (s in ev ? ev[s] : '') + '"></div>'; }).join('') + '</div>' +
+    '<div class="row" style="margin-top:6px"><div><label class="l">Friendship</label><input class="f" name="friendship" type="number" min="0" max="255" value="' + (b.friendship != null ? b.friendship : '') + '"></div><div><label class="l">Ball</label><input class="f" name="ball" value="' + esc(b.ball || '') + '" placeholder="e.g. Friend Ball"></div><div><label class="l">Ribbons</label><input class="f" name="ribbons" value="' + esc((b.ribbons || []).join(', ')) + '"></div></div>' +
+    '<p class="tiny muted">Bond reads friendship, the ball, ribbons and a nickname; missing data is never evidence.</p><div style="margin-top:12px"><button class="btn gold">Save and rebuild</button></div></form>');
+}
+function slSaveMember(e, i) {
+  e.preventDefault();
+  var f = e.target, b = SL.v.team[i], val = function (n) { return f[n] ? f[n].value.trim() : ''; };
+  var nb = {id: String(b.id).indexOf('lab:') === 0 ? b.id : 'lab:' + b.id, species: val('species') || b.species, moves: [0, 1, 2, 3].map(function (k) { return val('mv' + k); }).filter(Boolean),
+    source: b.source && b.source.indexOf('the Scouting Lab') < 0 ? b.source + ' (edited in the Scouting Lab)' : (b.source || 'the Scouting Lab'), _edited: true};
+  if (val('nickname')) nb.nickname = val('nickname'); if (val('level')) nb.level = +val('level'); if (val('item')) nb.item = val('item');
+  if (val('nature')) nb.nature = val('nature'); if (val('ability')) nb.ability = val('ability');
+  var iv = {}, ev = {}; STATS.forEach(function (s) { if (val('iv-' + s) !== '') iv[s] = +val('iv-' + s); if (val('ev-' + s) !== '') ev[s] = +val('ev-' + s); });
+  if (Object.keys(iv).length) nb.ivs = iv; if (Object.keys(ev).length) nb.evs = ev;
+  if (val('friendship') !== '') nb.friendship = +val('friendship'); if (val('ball')) nb.ball = val('ball');
+  if (val('ribbons')) nb.ribbons = val('ribbons').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+  (b.notes || []).length && (nb.notes = b.notes);
+  SL.v.team[i] = nb; closeDrawer(); slChanged(true); return false;
+}
+function slReset() { var b = SL.base.split('/'); SL.rules = {}; slLoad(b[0], b[1]); slChanged(true); toast('Back to the original.'); }
+/* ---- the output ---- */
+function slDiff(cur, base) {   // sentences: kept, added, dropped
+  var bt = base.map(function (p) { return p.text; }), ct = cur.map(function (p) { return p.text; });
+  return cur.map(function (p) { return Object.assign({}, p, {state: bt.indexOf(p.text) >= 0 ? 'same' : 'new'}); })
+    .concat(base.filter(function (p) { return ct.indexOf(p.text) < 0; }).map(function (p) { return Object.assign({}, p, {state: 'gone'}); }));
+}
+function slSentences(cur, base, missed, section) {
+  var list = SL.show.diff ? slDiff(cur, base) : cur.map(function (p) { return Object.assign({}, p, {state: 'same'}); });
+  var html = list.map(function (p) {
+    return '<div class="sent ' + p.state + '"><div>' + esc(p.text) + '</div><div class="tiny" style="margin-top:3px"><span class="rule">' + esc(p.rule) + '</span> <span class="muted">' + esc(p.trigger) + '</span>' +
+      (p.state === 'new' ? ' ' + chip('new', 'forest') : p.state === 'gone' ? ' ' + chip('gone', 'ember') : '') + '</div></div>'; }).join('') || '<div class="tiny muted">Nothing in this section.</div>';
+  if (SL.show.missed) { var m = (missed || []).filter(function (x) { return x.section === section; });
+    if (m.length) html += '<div class="missed"><div class="eyebrow" style="margin-bottom:4px">Rules that stayed quiet</div>' + m.map(function (x) { return '<div class="tiny"><span class="rule">' + esc(x.rule) + '</span> ' + esc(x.why) + '</div>'; }).join('') + '</div>'; }
+  return html;
+}
+function slChangesList(rep, base) {
+  var out = [];
+  Object.keys(rep.sliders).forEach(function (k) { var a = rep.sliders[k], b = base.sliders[k];
+    if (a.authored !== b.authored) out.push(cap(k) + ' authored ' + (b.authored == null ? '—' : b.authored) + ' → ' + (a.authored == null ? '—' : a.authored));
+    if (a.measured !== b.measured) out.push(cap(k) + ' measured ' + (b.measured == null ? '—' : b.measured) + ' → ' + (a.measured == null ? '—' : a.measured));
+    if (!!a.disagreement !== !!b.disagreement) out.push(cap(k) + (a.disagreement ? ' now disagrees with the team' : ' no longer disagrees')); });
+  var s = rep.matrix.summary, t = base.matrix.summary;
+  if (s.gaps.join() !== t.gaps.join()) out.push('Gaps ' + (t.gaps.join(', ') || 'none') + ' → ' + (s.gaps.join(', ') || 'none'));
+  if (s.strengths.join() !== t.strengths.join()) out.push('Strengths ' + (t.strengths.join(', ') || 'none') + ' → ' + (s.strengths.join(', ') || 'none'));
+  if (s.bring !== t.bring) out.push('Bring ' + t.bring + ' → ' + s.bring);
+  var ps = rep.playsheet, pb = base.playsheet;
+  if (ps && pb) {
+    if (ps.ace.derived !== pb.ace.derived) out.push('Ace ' + pb.ace.derived + ' → ' + ps.ace.derived);
+    ['even', 'ahead', 'behind'].forEach(function (st) { if (ps.go_to[st].species !== pb.go_to[st].species) out.push('Go-to when ' + st + ': ' + (pb.go_to[st].species || '—') + ' → ' + (ps.go_to[st].species || '—')); });
+    if (ps.aggression.ratio !== pb.aggression.ratio) out.push('Aggression ' + pb.aggression.ratio + '% → ' + ps.aggression.ratio + '%');
+    if (ps.type_read.covered_n !== pb.type_read.covered_n) out.push('Types they hit super-effectively ' + pb.type_read.covered_n + ' → ' + ps.type_read.covered_n);
+    ps.roles.forEach(function (r) { var o = pb.roles.filter(function (x) { return x.species === r.species; })[0]; if (o && o.primary.role !== r.primary.role) out.push(r.species + ': ' + o.primary.name + ' → ' + r.primary.name); });
+  }
+  var tg = rep.tags.map(function (x) { return x.name; }).join(', '), tb = base.tags.map(function (x) { return x.name; }).join(', ');
+  if (tg !== tb) out.push('Tags: ' + (tb || 'none') + ' → ' + (tg || 'none'));
+  return out;
+}
+function slMatrix(rep) {
+  var m = rep.matrix, mark = {immune: ['0', 'i'], resists: ['½', 'r'], neutral: ['', 'n'], weak: ['2', 'w'], 'very weak': ['4', 'W']};
+  return '<div style="overflow-x:auto"><table class="matrix"><thead><tr><th></th>' + m.types.map(function (t) { return '<th class="ty" style="color:' + TYPE[t] + '">' + t + '</th>'; }).join('') + '<th>Bulk</th></tr></thead><tbody>' +
+    m.rows.map(function (r) { return '<tr><th style="text-align:right;padding-right:8px;white-space:nowrap"><img src="' + sprite(numOf(r.species), rep.game) + '" style="width:28px;height:28px;vertical-align:middle;image-rendering:pixelated">' + esc(r.species) + '</th>' +
+      m.types.map(function (t) { var c = r.cells[t], k = mark[c.verdict]; return '<td class="v-' + k[1] + '" title="' + esc(c.verdict + (c.ability ? ' (' + c.ability + ', was ' + c.before_ability + ')' : '') + (c.note ? '; ' + c.note : '')) + '">' + k[0] + (c.ability ? '*' : '') + '</td>'; }).join('') +
+      '<td class="tiny" style="white-space:nowrap;padding-left:8px">' + esc(r.bulk.label) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+}
+function slRender() {
+  var out = document.getElementById('slout'); if (!out || !SL) return;
+  var R = slCompute(), rep = R.rep, base = R.base, v = SL.v;
+  if (!rep) { out.innerHTML = '<div class="notice" style="border-color:var(--ember)">The engine stopped: ' + esc(R.err) + '</div>'; return; }
+  Object.keys(rep.sliders).forEach(function (k) { var el = document.getElementById('slm-' + k); if (el) el.textContent = rep.sliders[k].measured == null ? 'no signal' : 'measures ' + rep.sliders[k].measured; });
+  var changes = slChangesList(rep, base), ps = rep.playsheet;
+  var sections = Scout.SECTIONS.map(function (s) { return '<div class="slsec"><div class="eyebrow">' + s[1] + '</div>' + slSentences(rep.plan[s[0]], base.plan[s[0]], rep.missed, s[0]) + '</div>'; }).join('');
+  var sheetText = Scout.PLAYSHEET.map(function (s) { return '<div class="slsec"><div class="eyebrow">' + s[1] + '</div>' + slSentences(ps.text[s[0]] || [], (base.playsheet.text[s[0]] || []), ps.missed, s[0]) + '</div>'; }).join('');
+  var my = Scout.versions().filter(function (x) { return x.mine; }), ag = SL.against.split('/'), exp = null;
+  try { exp = Scout.exposure(Scout.version(ag[0], ag[1]), slSanitize(v)[0]); } catch (e) { exp = null; }
+  out.innerHTML =
+    '<section class="report-hero hero2" style="margin-top:0"><div><div class="eyebrow">' + esc(GAME_NAME[v.game] || v.game) + ' · Gen ' + rep.gen + ' · ' + esc(v.status || '') + (SL.level ? ' · read at ' + (SL.level === 'build' ? 'each build\'s level' : 'level ' + SL.level) : '') + '</div><h2 style="margin:4px 0;font-size:32px">' + esc(v.title) + '</h2>' +
+      '<div>' + rep.tags.map(function (t) { return chip(t.name + (t.id !== 'role' ? ' (' + t.detail.join(', ') + ')' : ''), 'gold'); }).join(' ') + '</div></div>' +
+      '<div style="display:flex;flex-direction:column;gap:6px"><label class="small"><input type="checkbox" id="sldiff"' + (SL.show.diff ? ' checked' : '') + '> show what changed</label><label class="small"><input type="checkbox" id="slmiss"' + (SL.show.missed ? ' checked' : '') + '> show rules that stayed quiet</label><label class="small"><input type="checkbox" id="slctx"' + (SL.show.ctx ? ' checked' : '') + '> show the numbers the sentences read</label></div></section>' +
+    (R.warn.length ? '<div class="notice" style="margin-bottom:12px">' + esc(R.warn.join(' ')) + '</div>' : '') +
+    card('What your changes did', changes.length ? changes.map(function (c) { return '<div class="line small ember">' + esc(c) + '</div>'; }).join('') : '<div class="tiny muted">Nothing yet: this reads the same as the original. Change something on the left.</div>', {eyebrow: 'Against the original', tools: false}) +
+    '<div style="margin-top:16px">' + card('The plan', sections, {eyebrow: 'The writeup, rule by rule', tools: false}) + '</div>' +
+    '<div class="grid" style="margin-top:16px"><div class="c7">' + card('Where they\'re weak', slMatrix(rep) +
+      '<div class="tiny muted" style="margin-top:8px">Gaps: <b>' + esc(rep.matrix.summary.gaps.join(', ') || 'none') + '</b> · Strengths: <b>' + esc(rep.matrix.summary.strengths.join(', ') || 'none') + '</b> · Bring: <b>' + esc(rep.matrix.summary.bring) + '</b> · * an ability changed it</div>', {eyebrow: 'The matrix', tools: false}) + '</div>' +
+    '<div class="c5">' + card('The sliders', Object.keys(rep.sliders).map(function (k) { return sliderRow(k, rep.sliders[k]) + (rep.sliders[k].signals.length ? '<div class="tiny muted">' + rep.sliders[k].signals.map(function (g) { return esc(g.label) + ' ' + g.value + (g.members.length ? ' (' + esc(g.members.join(', ')) + ')' : ''); }).join(' · ') + '</div>' : ''); }).join(''), {eyebrow: 'Authored and measured', tools: false}) + '</div></div>' +
+    '<div style="margin-top:16px">' + card('The playsheet', sheetText, {eyebrow: 'How they play, rule by rule', tools: false}) + '</div>' +
+    '<div class="grid" style="margin-top:16px"><div class="c7">' + card('Roles', ps.roles.map(function (r, i) { var res = r.result;
+        return '<details class="roledet"><summary><b>' + esc(r.species) + '</b> · ' + esc(r.primary.name) + ' ' + chip(Scout.pyFixed(r.primary.score, 2) + ' ' + r.primary.confidence, r.primary.confidence === 'strong' ? 'forest' : r.primary.confidence === 'solid' ? 'gold' : '') +
+          (r.secondary ? ' <span class="tiny muted">then ' + esc(r.secondary.name) + '</span>' : '') + '</summary><div class="tiny muted" style="margin:4px 0 6px">' + esc(r.why) + '</div>' +
+          '<table class="t"><tbody>' + res.roles.slice(0, 8).map(function (x) { return '<tr><td>' + esc(x.name) + '</td><td class="num">' + Scout.pyFixed(x.score, 2) + '</td><td class="tiny">' +
+            (x.needs.length ? '<span style="color:var(--ember-2)">needs ' + esc(x.needs.join(' or ')) + '</span>' : esc(x.because.slice(0, 3).map(function (b) { return b.label + (b.evidence.length ? ': ' + b.evidence.join(', ') : ''); }).join('; ')) +
+            (x.against.length ? ' <span style="color:var(--ember-2)">against: ' + esc(x.against.map(function (b) { return b.label; }).join(', ')) + '</span>' : '')) + '</td></tr>'; }).join('') + '</tbody></table></details>'; }).join(''),
+        {eyebrow: 'What job each one does (open one for every role\'s score)', tools: false}) + '</div>' +
+      '<div class="c5">' + card('Ace, go-to, aggression', '<div class="eyebrow">Ace ranking</div>' + ps.ace.ranking.map(function (r) { return '<div class="goal"><span class="small"><b>' + esc(r.species) + '</b> <span class="tiny muted">' + esc(r.role) + ' · ' + Object.keys(r.parts).map(function (k) { return k + ' ' + r.parts[k]; }).join(', ') + (r.helpers.length ? ' · set up by ' + esc(r.helpers.join(', ')) : '') + '</span></span><b class="num">' + r.score + '</b></div>'; }).join('') +
+        '<div class="eyebrow" style="margin-top:10px">Go-to</div>' + ['even', 'ahead', 'behind'].map(function (st) { var g = ps.go_to[st]; return '<div class="small">' + cap(st) + ' (' + esc(g.label) + '): <b>' + esc(g.species || '—') + '</b> <span class="tiny muted">' + esc(g.role || '') + ' ' + g.fit + '</span></div>'; }).join('') +
+        '<div class="eyebrow" style="margin-top:10px">Aggression</div><div class="small">' + (ps.aggression.ratio == null ? 'no read' : ps.aggression.ratio + '% finish or set up') + ' · ' + ps.aggression.finishers + ' finishing, ' + ps.aggression.attrition + ' wearing</div>' +
+        '<div class="tiny muted">' + esc(ps.aggression.finisher_moves.join(', ')) + '</div>' +
+        (ps.combos.length ? '<div class="eyebrow" style="margin-top:10px">Combos</div>' + ps.combos.map(function (c) { return '<div class="small">' + esc(c.name) + ': ' + esc(c.members.join(', ')) + '</div>'; }).join('') : ''),
+        {eyebrow: 'The playsheet\'s reads', tools: false}) + '</div></div>' +
+    '<div class="grid" style="margin-top:16px"><div class="c6">' + card('What they can hit', '<table class="t"><tbody>' + ps.type_read.rows.map(function (r) { return '<tr><td>' + typeBadge(r.type) + '</td><td class="small">' + (r.covered ? esc(r.move) + ' <span class="tiny muted">(' + esc(r.member) + ', ' + r.power + ')</span>' : '<b style="color:var(--ember-2)">none</b>') + '</td><td class="tiny muted">' + r.their_weak_to_it + ' of them weak to it</td></tr>'; }).join('') + '</tbody></table>', {eyebrow: 'Type read', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Against your team', '<select class="f" id="slagainst" style="margin-bottom:10px">' + my.map(function (x) { return '<option value="' + x.trainer + '/' + x.id + '"' + (SL.against === x.trainer + '/' + x.id ? ' selected' : '') + '>' + esc(x.title) + '</option>'; }).join('') + '</select>' +
+        (exp ? (exp.lines.length ? exp.lines.map(function (l) { return '<div class="line small">' + esc(l) + '</div>'; }).join('') : '<div class="tiny muted">Nothing they carry hits your weak spots.</div>') + (exp.most_exposed.length ? '<div class="small" style="margin-top:8px">Most exposed: <b>' + esc(exp.most_exposed.join(', ')) + '</b></div>' : '') : '<div class="tiny muted">Can\'t read this pairing.</div>'),
+        {eyebrow: 'Exposure: their attacks against your rows', tools: false}) +
+        (ps.ladder_lines.length ? card('On the ladder', ps.ladder_lines.map(function (l) { return '<div class="line tiny">' + esc(l) + '</div>'; }).join(''), {eyebrow: 'Smogon usage', tools: false, style: 'margin-top:16px'}) : '') +
+        (ps.film.length ? card('On film', ps.film.map(function (l) { return '<div class="line tiny">' + esc(l) + '</div>'; }).join(''), {eyebrow: 'Observations', tools: false, style: 'margin-top:16px'}) : '') + '</div></div>' +
+    (SL.show.ctx ? '<div style="margin-top:16px">' + card('The numbers the sentences read', slCtxTable(rep.context, 'report') + slCtxTable(ps.context, 'playsheet'), {eyebrow: 'Phrase context (trainers/phrases.json reads these)', tools: false}) + '</div>' : '') +
+    '<div style="margin-top:16px">' + card('Moves and reasons', rep.matrix.rows.map(function (r) { return '<div class="small" style="margin-bottom:6px"><b>' + esc(r.species) + '</b> ' + r.move_basis.map(function (b) { return '<span class="tiny" style="color:' + (b.basis === 'none' ? 'var(--ember-2)' : 'var(--text-2)') + '">' + esc(b.move) + ': ' + esc(b.reason) + '</span>'; }).join(' · ') +
+        (r.flags.length ? '<div class="tiny" style="color:var(--ember-2)">⚑ ' + esc(r.flags.join('; ')) + '</div>' : '') + (r.defaults_used.length ? '<div class="tiny muted">defaults: ' + esc(r.defaults_used.join('; ')) + '</div>' : '') + '</div>'; }).join(''),
+      {eyebrow: 'D-048: legality is biological', tools: false}) + '</div>';
+  out.querySelector('#sldiff').onchange = function () { SL.show.diff = this.checked; slSave(); slRender(); };
+  out.querySelector('#slmiss').onchange = function () { SL.show.missed = this.checked; slSave(); slRender(); };
+  out.querySelector('#slctx').onchange = function () { SL.show.ctx = this.checked; slSave(); slRender(); };
+  out.querySelector('#slagainst').onchange = function () { SL.against = this.value; slSave(); slRender(); };
+  S.slLast = rep;
+}
+function slCtxTable(ctx, kind) {
+  return '<div class="eyebrow" style="margin:6px 0">' + kind + '</div><table class="t"><tbody>' + Object.keys(ctx).sort().map(function (k) { var v = ctx[k];
+    return '<tr><td class="mono tiny">' + esc(k) + '</td><td class="small">' + esc(v == null ? 'None' : Array.isArray(v) ? '[' + v.join(', ') + ']' : String(v)) + '</td></tr>'; }).join('') + '</tbody></table>';
+}
+function slText(rep) {
+  var L = ['# ' + rep.title, ''];
+  Scout.SECTIONS.forEach(function (s) { if (rep.plan[s[0]].length) { L.push('## ' + s[1]); rep.plan[s[0]].forEach(function (p) { L.push('- ' + p.text); }); L.push(''); } });
+  Scout.PLAYSHEET.forEach(function (s) { var t = rep.playsheet.text[s[0]] || []; if (t.length) { L.push('## ' + s[1]); t.forEach(function (p) { L.push('- ' + p.text); }); L.push(''); } });
+  return L.join('\n');
+}
+function slCopy() { var t = S.slLast ? slText(S.slLast) : ''; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('The report is on your clipboard.'); }).catch(function () { toast('Your browser blocked the clipboard.'); }); }
+function slSaveVariant() {
+  var note = prompt('A note for this variant (what you were testing):', '') ; if (note === null) return;
+  var row = {id: 'VAR-' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), base: SL.base, title: SL.v.title, note: note,
+    changes: S.slLast && SL.baseRep ? slChangesList(S.slLast, SL.baseRep).join('; ') : '', json: JSON.stringify({base: SL.base, v: SL.v, level: SL.level, rules: SL.rules}), _timeline: 'Scouting Lab: saved a variant of ' + SL.v.title};
+  API.append('Variants', row).then(function () { S.variants.push(row); toast('Saved to the Variants tab.'); slChanged(true); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+}
+route(/^\/scoutlab\/?$/, function () { return scoutLab(); }, 'Scouting Lab', '#/scoutlab');
+route(/^\/scoutlab\/([\w-]+)\/([\w-]+)$/, scoutLab, 'Scouting Lab', '#/scoutlab');
+</script>

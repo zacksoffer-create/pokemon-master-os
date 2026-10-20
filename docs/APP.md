@@ -18,10 +18,29 @@
 | **Champion** | Scouting reports `#/scouting` | The advance report for every trainer worth preparing for: who they are, what to expect, how to beat them, where it breaks; the team with roles and real stats; the defensive matrix; gaps and walls; style sliders (authored and measured); **the matchup board** (your six against theirs by type, and the three to bring); the playsheet; ladder notes; film |
 | | Team reports `#/teams` | Your six chapters scouted the same way (self-scout), with the board turned around: your team against any rival |
 | | Builds & the Lab `#/builds` | The library (stock, anime and ladder-replay builds), the ladder book (Smogon's top 40 for Gen 2–4 OU with the sets real players run and what beats them), and **the Lab**: one Pokémon built and checked (below) |
+| **Champion** | The Scouting Lab `#/scoutlab` | **The report engine, live.** Start from any trainer version and change anything: sliders (or leave one unauthored), role tags, the ace you'd name, signature moves, career records, any member (species, moves, item, nature, ability, IVs, EVs, level, friendship, ball, ribbons, nickname), member order, the game, the reading level, and the engine's own thresholds (bands, bulk, gaps, signals, defaults, the playsheet's cut-offs, the role engine's confidence). The whole report rewrites itself: the plan and the playsheet sentence by sentence, each with the rule that wrote it and the numbers that triggered it; rules that stayed quiet say why; a diff marks what's new and what's gone; "What your changes did" lists every shift (measured sliders, gaps, ace, go-to, roles, tags); the matrix, roles with every role's score, the type read, exposure against any of your teams, the ladder, film and move reasons. Save a variant to the Variants tab |
+| | Advance scouting `#/advance` | The battle engine's Journey Scouting File: 11 lineups (canon and variations), each with its coach profile (eight measured sliders), self-scout, member cards (philosophy, tendencies, when ahead and behind, against types, production), and for every opponent the call sheet, the game plan, the advance report grid and the play calls by situation; the what-if league with head-to-head. Read from the engine's last run |
+| **Headquarters** | Field readiness `#/field` | **The wilderness engine, live.** Any team (yours, any scouted version, the Scouting Lab's, or type your own): seven real situations, 27 capabilities with their holders and the best tier of evidence each has, single points of failure, the game's field moves and who can learn them (the field matrix), camp life. Swap a member and see what changed; preview pending world records as if approved |
+| **Breeder** | The Breeder Lab `#/breeder` | Any line's egg moves in HeartGold/SoulSilver with the breeding engine's shortest lineages (up to three generations of fathers), timing warnings and feasibility |
+| **Record** | The inbox `#/inbox` | Every intake card and its claims; approve or reject a waiting claim (it goes to Your Calls) |
+| | The Engine Room `#/engine` | Every engine: what it does, whether it runs live here, whether the app reads its last run, or whether it isn't in the app yet, and what it would take next; the product spec's seven screens; open work; the parity tests and the engine audit |
 | **Record** | Your calls `#/calls` | Every open question, world record and proposed decision waiting on you. Tap an option or write your own; it goes into the Your Calls tab |
 | | The record `#/record` | Decisions, locks, world records and verified mechanics |
 
 Search (top bar) finds species, trainers, builds, studbook entries, journal notes and decisions.
+
+### The engines that run in the browser
+
+The app can't run Python, so the engines you tinker with are ported to JavaScript and held to the Python originals by tests that rebuild the same outputs both ways and require them to match exactly:
+
+| In the browser | Ported from | Held to Python by |
+|---|---|---|
+| `web/25_scout.html` | trainers/report.py, matrix.py, sliders.py, roles.py, playsheet.py, battle/phrases.py | every trainer version, 60 random edits of them (sliders, roles, members, moves, natures, EVs, items, the reading level) and six exposure reads: 5,172 checks, sentence for sentence, with Python's rounding and sort orders |
+| `web/85_field.html` | wilderness/engine.py team_report, camp_life.py | every lineup, 48 random teams in all six games, and a preview of every pending world record: 55 teams |
+| `web/26_specimen.html` | specimen.py | PIDs (a shiny search, and Python's own MT19937 generator for the rest), natures, genders, Hidden Power, characteristics, stats, the Showdown set and the Batch Editor script: 78 checks |
+| `web/20_core.html` | trainers/era.py stats | the Lab's stats and Hidden Power for six builds across Gens II–IV |
+
+Their data comes from packs the engine writes: `app/scout_pack.py` (scout.json: config, roles, phrases, charts, every species and move as each generation had it, every trainer version with its team resolved, the ladder), `app/field_pack.py` (field.json: every species' tiered evidence per game). The battle engine needs Smogon's damage calculator, so its file is read, not recomputed (`app/advance_pack.py`); the breeding engine's lineages are precomputed for every line (`app/breeder_pack.py`, about 20 minutes); `app/room_pack.py` writes the Engine Room and the inbox.
 
 ### The Lab
 
@@ -35,7 +54,9 @@ Species, generation (II–IV), level, nature, ability, item, IVs (DVs in Gen II)
 ## Honesty rules the app keeps
 
 - **Measurements need a source** (D-055, verbatim): *"Measurements should be backed by real entered or simulated data, never presented as verified live readings without a data source."* Environment numbers come from the Readings tab with their source (entered or simulated). With no readings, the app shows a simulation and labels it as one. Targets are labelled "proposed".
-- **The matchup board is type matchups only**, and says so: not damage, speed, items or abilities.
+- **The matchup board is type matchups only**, and says so: not damage, speed, items or abilities. Exposure in the Scouting Lab is the engine's own read.
+- **The lab never edits canon.** Scouting Lab variants and Field readiness swaps are experiments; a variant you save is a row in the Variants tab until you say which to keep.
+- **A move the game can't read is left out and said so** in the Scouting Lab (the Python engine would stop); edited members' moves get the app's quick learnability check, labelled as such.
 - **Proposals aren't canon.** Anime teams show as proposed, cartridge teams as from the cartridge, your teams as canon. An answer in Your calls is recorded, and becomes a decision only when it's written into canon.
 - **Locks hold.** The app has no way to edit a locked record; the Sheet's lock guard still guards HeartGold's six (D-006).
 
@@ -64,7 +85,7 @@ The page talks to the Sheet through four calls:
 |---|---|
 | `apiData(name)` | one of the data files from the zip |
 | `apiTab(name)` | a tab's rows, keyed by its header row (the first row with three or more filled cells), dates as text |
-| `apiAppend(tab, row)` | adds a row to Eggs, Egg Walks, Plantings, Harvests, Readings, Feedings, Journal, Timeline, Specimens or the Studbook (nothing else), plus a Timeline line. Text is never written as a formula |
+| `apiAppend(tab, row)` | adds a row to Eggs, Egg Walks, Plantings, Harvests, Readings, Feedings, Journal, Timeline, Specimens, Variants or the Studbook (nothing else), plus a Timeline line. Text is never written as a formula |
 | `apiAnswer(id, text, status)` | writes "Your call" and "Status" in Your Calls; a call the tab doesn't have yet gets a row |
 
 The app's own tabs (green, after Setup) have their header in row 1; the header names are what the app reads.
@@ -75,11 +96,11 @@ Permissions it asks for: this Sheet only (`spreadsheets.currentonly`), reading D
 
 `engine/appscript/INSTALL.txt` (also inside the apps-script zip): upload `Blackthorn-HQ-app.zip` to Drive without unzipping it; paste `WebApp.gs` (and the updated `Code.gs` and manifest) into the Sheet's Apps Script; Deploy → New deployment → Web app.
 
-To update the app: `python3 -I app/export.py` (after canon changes), `python3 -I app/build.py`, upload the new zip. The newest one is served within two minutes; the old one goes to History (Drive versioning rule).
+To update the app: `python3 -I app/export.py` (after canon changes; it runs every pack except the slow breeder one: add `--breeder` for that), `python3 -I app/build.py`, upload the new zip. The newest one is served within two minutes; the old one goes to History (Drive versioning rule).
 
 ## Testing
 
-- `python3 -I -W ignore -m unittest discover -s tests` includes the `WebApp` tests: every page part is valid JavaScript; the launcher (`appscript/test_webapp.mjs`, with fake Sheets, Drive and cache over the real zip) serves the page, returns each data file exactly, reads and writes only what it should; and the Lab's stats and Hidden Power match `trainers/era.py`.
+- `python3 -I -W ignore -m unittest discover -s tests` includes the `WebApp` tests: every page part is valid JavaScript; the browser's report engine, wilderness read and specimen kernel against Python (above); the launcher (`appscript/test_webapp.mjs`, with fake Sheets, Drive and cache over the real zip) serves the page, returns each data file exactly, reads and writes only what it should; and the Lab's stats and Hidden Power match `trainers/era.py`.
 - `python3 -I app/build.py --shots [page …]` screenshots pages from the preview with the pre-installed Chromium and prints any JavaScript errors.
 
 ## Design system

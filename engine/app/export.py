@@ -15,7 +15,13 @@ live.
     learnsets.json every species' moves in any game up to Gen 4, by move index (the Lab's legality check, D-048)
     journal.json   the research journal: Pokédex field notes, ingested observations, lore, verified mechanics
 
-    python3 -I app/export.py      # writes engine/app/data/*.json and prints their sizes
+    scout.json     the scouting engine pack: what the browser's port of the report engine reads (app/scout_pack.py)
+    field.json     the wilderness engine's evidence for every species and game (app/field_pack.py)
+    advance*.json  the battle engine's Journey Scouting File, one lineup per file (app/advance_pack.py)
+    engines.json, inbox.json   the Engine Room and the intake inbox (app/room_pack.py)
+    breeder.json   every line's egg moves with the breeding engine's lineages (app/breeder_pack.py, slow: --breeder)
+
+    python3 -I app/export.py [--breeder]   # writes engine/app/data/*.json and prints their sizes
 """
 import glob
 import json
@@ -293,7 +299,7 @@ def hq(store, bt):
             "staff_hires": bt["staff_proposals"]}
 
 
-def main():
+def main(breeder=False):
     from trainers.model import Store
     store = Store()
     bt = load(os.path.join(ENGINE, "data_manifest", "blackthorn.json"))
@@ -303,7 +309,20 @@ def main():
     for k, v in sizes.items():
         print(f"{k:16} {v / 1024:7.1f} KB")
     print(f"{'total':16} {sum(sizes.values()) / 1024:7.1f} KB -> {OUT}")
+    # the engines the app runs live or reads whole: each pack is its own module and can be run alone
+    import advance_pack
+    import field_pack
+    import room_pack
+    import scout_pack
+    scout_pack.main()
+    field_pack.main()
+    advance_pack.main()
+    room_pack.main()
+    if breeder:
+        import breeder_pack
+        breeder_pack.main()
 
 
 if __name__ == "__main__":
-    main()
+    sys.path.insert(0, HERE)
+    main(breeder="--breeder" in sys.argv)

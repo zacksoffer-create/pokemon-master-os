@@ -1,0 +1,122 @@
+<script>
+/* ===== The specimen kernel, in the browser ====================================================================
+   engine/specimen.py, ported: what the games derive and why. Gen III–IV: the PID fixes nature, gender, ability slot
+   and shininess together (with the trainer's TID/SID); IVs give Hidden Power; the highest IV, read from the PID's
+   starting stat, gives the Gen IV characteristic. Gen II: DVs give the HP DV, gender, shininess and Hidden Power.
+   Exports a Showdown set and a PKHeX Batch Editor script. The PID search uses Python's own random generator
+   (MT19937, seeded the same way), so the Lab finds the PID the engine would. Tested against specimen.py. */
+var Specimen = (function () {
+  var NATURES = ['Hardy', 'Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Docile', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Serious', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Bashful', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Quirky'];
+  var ORDER = ['hp', 'atk', 'def', 'spe', 'spa', 'spd'], STATS6 = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+  var SD = {hp: 'HP', atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe'}, PK = {hp: 'HP', atk: 'ATK', def: 'DEF', spa: 'SPA', spd: 'SPD', spe: 'SPE'};
+  var HPT = ['Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'];
+  var BALL = {Master: 1, Ultra: 2, Great: 3, Poke: 4, Safari: 5, Net: 6, Dive: 7, Nest: 8, Repeat: 9, Timer: 10, Luxury: 11, Premier: 12, Dusk: 13, Heal: 14, Quick: 15, Cherish: 16, Fast: 17, Level: 18, Lure: 19, Heavy: 20, Love: 21, Friend: 22, Moon: 23, Sport: 24};
+  var BALLS_IN = {emerald: 12, firered: 12, platinum: 16, heartgold: 24, soulsilver: 24};
+  var FEMALE_BELOW = {1: 31, 2: 63, 4: 127, 6: 191, 7: 225}, G2_FEMALE_MAX = {1: 1, 2: 3, 4: 7, 6: 11}, G2_SHINY = [2, 3, 6, 7, 10, 11, 14, 15];
+  /* Python's random: MT19937, seeded through init_by_array with the integer's 32-bit words */
+  function MT(seed) {
+    var mt = new Array(624), mti = 625, i, j, k, s;
+    function init(x) { mt[0] = x >>> 0; for (mti = 1; mti < 624; mti++) { s = mt[mti - 1] ^ (mt[mti - 1] >>> 30); mt[mti] = (Math.imul(1812433253, s) + mti) >>> 0; } }
+    var key = [seed >>> 0]; init(19650218); i = 1; j = 0;
+    for (k = Math.max(624, key.length); k; k--) { s = mt[i - 1] ^ (mt[i - 1] >>> 30); mt[i] = ((mt[i] ^ Math.imul(s, 1664525)) + key[j] + j) >>> 0; i++; j++; if (i >= 624) { mt[0] = mt[623]; i = 1; } if (j >= key.length) j = 0; }
+    for (k = 623; k; k--) { s = mt[i - 1] ^ (mt[i - 1] >>> 30); mt[i] = ((mt[i] ^ Math.imul(s, 1566083941)) - i) >>> 0; i++; if (i >= 624) { mt[0] = mt[623]; i = 1; } }
+    mt[0] = 0x80000000; mti = 624;
+    return function () {
+      var y;
+      if (mti >= 624) {
+        for (var kk = 0; kk < 624; kk++) { y = (mt[kk] & 0x80000000) | (mt[(kk + 1) % 624] & 0x7fffffff); mt[kk] = (mt[(kk + 397) % 624] ^ (y >>> 1) ^ (y & 1 ? 0x9908b0df : 0)) >>> 0; }
+        mti = 0;
+      }
+      y = mt[mti++]; y ^= y >>> 11; y ^= (y << 7) & 0x9d2c5680; y ^= (y << 15) & 0xefc60000; y ^= y >>> 18;
+      return y >>> 0;
+    };
+  }
+  function genderFromPid(pid, rate) { if (rate === -1) return ''; if (rate === 0 || rate === 8) return rate === 0 ? 'M' : 'F'; return (pid & 0xFF) < FEMALE_BELOW[rate] ? 'F' : 'M'; }
+  function isShiny(pid, tid, sid) { return ((tid ^ sid ^ (pid >>> 16) ^ (pid & 0xFFFF)) >>> 0) < 8; }
+  function findPid(natIdx, gender, slot, shiny, rate, tid, sid, seed) {
+    function ok(pid) { return pid % 25 === natIdx && (!gender || genderFromPid(pid, rate) === gender) && (slot == null || (pid & 1) === slot); }
+    if (shiny) { for (var low = 0; low < 0x10000; low++) for (var k = 0; k < 8; k++) { var pid = ((tid ^ sid ^ low ^ k) & 0xFFFF) * 65536 + low; if (ok(pid)) return pid; } return null; }
+    var r = MT(seed || 0);
+    for (var n = 0; n < 5e6; n++) { var p = r(); if (ok(p) && !isShiny(p, tid, sid)) return p; }
+    return null;
+  }
+  function hp34(iv) { var a = 0, b = 0; ORDER.forEach(function (s, i) { a += (iv[s] & 1) << i; b += ((iv[s] >> 1) & 1) << i; }); return [HPT[Math.floor(a * 15 / 63)], Math.floor(b * 40 / 63) + 30]; }
+  function charText(stat, mod) { var c = ((S.builds || {}).characteristics || []).filter(function (x) { return x.stat === stat && x.mod === mod; })[0]; return c ? c.text : ''; }
+  function characteristicG4(iv, pid) { var top = Math.max.apply(null, STATS6.map(function (s) { return iv[s]; })), start = pid % 6;
+    for (var i = 0; i < 6; i++) { var st = ORDER[(start + i) % 6]; if (iv[st] === top) return [charText(st, top % 5), st]; } }
+  function natureStats(name) { var n = ((S.builds || {}).natures || []).filter(function (x) { return x.name === name; })[0] || {}; return n; }
+  function stats34(base, iv, ev, level, plus, minus) { var o = {};
+    STATS6.forEach(function (s, i) { var core = Math.floor((2 * base[i] + iv[s] + Math.floor(ev[s] / 4)) * level / 100);
+      o[s] = s === 'hp' ? core + level + 10 : Math.floor((core + 5) * (s === plus && plus !== minus ? 110 : s === minus && plus !== minus ? 90 : 100) / 100); });
+    return o; }
+  function hpDv(dv) { return ((dv.atk & 1) << 3) | ((dv.def & 1) << 2) | ((dv.spe & 1) << 1) | (dv.spc & 1); }
+  function genderG2(dv, rate) { if (rate === -1) return ''; if (rate === 0 || rate === 8) return rate === 0 ? 'M' : 'F'; return dv.atk <= G2_FEMALE_MAX[rate] ? 'F' : 'M'; }
+  function shinyG2(dv) { return dv.def === 10 && dv.spe === 10 && dv.spc === 10 && G2_SHINY.indexOf(dv.atk) >= 0; }
+  function hpG2(dv) { var t = 4 * (dv.atk % 4) + dv.def % 4, msb = (dv.spc >> 3) | ((dv.spe >> 3) << 1) | ((dv.def >> 3) << 2) | ((dv.atk >> 3) << 3); return [HPT[t], Math.floor((5 * msb + dv.spc % 4) / 2) + 31]; }
+  function statsG2(base, dv, se, level) {
+    var dvs = {hp: hpDv(dv), atk: dv.atk, def: dv.def, spe: dv.spe, spa: dv.spc, spd: dv.spc}, exp = {hp: se.hp || 0, atk: se.atk || 0, def: se.def || 0, spe: se.spe || 0, spa: se.spc || 0, spd: se.spc || 0}, o = {};
+    STATS6.forEach(function (s, i) { var term = Math.floor(Math.min(255, Math.ceil(Math.sqrt(exp[s]))) / 4), core = Math.floor(((base[i] + dvs[s]) * 2 + term) * level / 100); o[s] = core + (s === 'hp' ? level + 10 : 5); });
+    return [o, dvs];
+  }
+  /* sp: {species, game, level, nickname, moves, item, nature, ability, gender ('M'/'F'/''), shiny, ivs, evs, dvs, stat_exp, ball, friendship, ot_name, tid, sid, met_level, contest, pid} */
+  function derive(sp) {
+    var gen = {crystal: 2, firered: 3, emerald: 3, platinum: 4, heartgold: 4, soulsilver: 4}[sp.game], d = dexOf(sp.species) || {}, rate = d.gr, base = d.b || [0, 0, 0, 0, 0, 0];
+    var card = {species: sp.species, game: sp.game, gen: gen, level: sp.level, notes: [], conflicts: []};
+    if (gen === 2) {
+      var dv = {}; ['atk', 'def', 'spe', 'spc'].forEach(function (k) { dv[k] = (sp.dvs || {})[k] != null ? sp.dvs[k] : 15; });
+      var sg = statsG2(base, dv, sp.stat_exp || {}, sp.level), g = genderG2(dv, rate), sh = shinyG2(dv), hp = hpG2(dv);
+      Object.assign(card, {stats: sg[0], dvs: sg[1], gender: g, shiny: sh, hidden_power: hp[0] + ' ' + hp[1]});
+      if (sp.gender && sp.gender !== g) card.conflicts.push('gender ' + sp.gender + ' needs Attack DV ' + (sp.gender === 'F' ? '<= ' : '> ') + G2_FEMALE_MAX[rate] + ' in Gen 2 (this one has ' + dv.atk + ')');
+      if (sp.shiny && !sh) card.conflicts.push('Gen 2 shininess is fixed by DVs: Def = Spe = Spc = 10, Atk in {2,3,6,7,10,11,14,15}');
+      if (sp.ball) card.notes.push(sp.ball + ' Ball: Gen 2 doesn\'t store a ball. Story-only detail');
+      if (sp.nature || sp.ability) card.notes.push('Gen 2 has no natures or abilities');
+      return card;
+    }
+    var iv = {}, ev = {}; STATS6.forEach(function (s) { iv[s] = (sp.ivs || {})[s] != null ? sp.ivs[s] : 31; ev[s] = (sp.evs || {})[s] || 0; });
+    var evt = STATS6.reduce(function (a, s) { return a + ev[s]; }, 0); if (evt > 510) card.conflicts.push('EV total ' + evt + ' > 510');
+    var pk = S.scoutPack && S.scoutPack.species[sp.species] && S.scoutPack.species[sp.species].g[gen], abilities = (pk ? pk.ab : d.ab) || [], slot = abilities.indexOf(sp.ability) >= 0 && abilities.length > 1 ? abilities.indexOf(sp.ability) : null;
+    if (sp.ability && abilities.indexOf(sp.ability) < 0) card.conflicts.push(sp.ability + ' isn\'t a Gen ' + gen + ' ability of ' + sp.species);
+    var natIdx = sp.nature ? NATURES.indexOf(sp.nature) : 0, pid = sp.pid != null ? sp.pid : findPid(Math.max(0, natIdx), sp.gender || '', slot, !!sp.shiny, rate, sp.tid || 0, sp.sid || 0, 0);
+    if (pid == null) { card.conflicts.push('no PID gives all of that at once'); return card; }
+    var nat = NATURES[pid % 25], ns = natureStats(nat), plus = ns.up, minus = ns.down, hp = hp34(iv);
+    Object.assign(card, {pid: '0x' + ('00000000' + pid.toString(16).toUpperCase()).slice(-8), pidValue: pid, nature: nat, nature_effect: !plus ? 'neutral' : '+' + SD[plus] + ' / -' + SD[minus],
+      flavors: !plus ? 'no preference' : 'likes ' + cap(ns.likes) + ', dislikes ' + cap(ns.hates), gender: genderFromPid(pid, rate), shiny: isShiny(pid, sp.tid || 0, sp.sid || 0),
+      hidden_power: hp[0] + ' ' + hp[1], stats: stats34(base, iv, ev, sp.level, plus, minus), ivs: iv, evs: ev});
+    if (abilities.length > 1) card.ability_slot = (pid & 1) + ' (' + abilities[pid & 1] + ')';
+    if (gen === 4) { var c = characteristicG4(iv, pid); card.characteristic = '"' + c[0] + '" (highest IV: ' + SD[c[1]] + ' ' + iv[c[1]] + ', ' + iv[c[1]] + ' mod 5 = ' + iv[c[1]] % 5 + ')'; }
+    if (sp.nature && sp.nature !== nat) card.conflicts.push('the PID gives ' + nat + ', not ' + sp.nature);
+    if (sp.ball && !(BALL[sp.ball] <= (BALLS_IN[sp.game] || 0))) card.notes.push(sp.ball + ' Ball doesn\'t exist in ' + (GAME_NAME[sp.game] || sp.game) + ' (story note only, D-024)');
+    return card;
+  }
+  function showdown(sp, card) {
+    var head = sp.nickname ? sp.nickname + ' (' + sp.species + ')' : sp.species;
+    if (card.gender) head += ' (' + card.gender + ')'; if (sp.item) head += ' @ ' + sp.item;
+    var L = [head];
+    if (card.gen >= 3 && sp.ability) L.push('Ability: ' + sp.ability);
+    L.push('Level: ' + sp.level); if (card.shiny) L.push('Shiny: Yes'); if (sp.friendship != null) L.push('Happiness: ' + sp.friendship);
+    var ivs;
+    if (card.gen >= 3) { var evs = STATS6.filter(function (s) { return card.evs[s]; }).map(function (s) { return card.evs[s] + ' ' + SD[s]; }).join(' / '); if (evs) L.push('EVs: ' + evs);
+      L.push(card.nature + ' Nature'); ivs = STATS6.filter(function (s) { return card.ivs[s] !== 31; }).map(function (s) { return card.ivs[s] + ' ' + SD[s]; }).join(' / '); }
+    else ivs = STATS6.filter(function (s) { return card.dvs[s] !== 15; }).map(function (s) { return card.dvs[s] * 2 + ' ' + SD[s]; }).join(' / ');
+    if (ivs) L.push('IVs: ' + ivs);
+    (sp.moves || []).forEach(function (m) { L.push('- ' + m); });
+    return L.join('\n');
+  }
+  function batch(sp, card) {
+    var out = ['=Species=' + numOf(sp.species)];
+    if (card.gen === 2) { var dv = card.dvs; out.push('.DV16=' + ((dv.atk << 12) | (dv.def << 8) | (dv.spe << 4) | dv.spa));
+      [['hp', 'HP'], ['atk', 'ATK'], ['def', 'DEF'], ['spe', 'SPE'], ['spc', 'SPC']].forEach(function (x) { if ((sp.stat_exp || {})[x[0]] != null) out.push('.EV_' + x[1] + '=' + sp.stat_exp[x[0]]); }); }
+    else { out.push('.PID=' + card.pidValue, '.TID16=' + (sp.tid || 0), '.SID16=' + (sp.sid || 0));
+      STATS6.forEach(function (s) { out.push('.IV_' + PK[s] + '=' + card.ivs[s]); }); STATS6.forEach(function (s) { out.push('.EV_' + PK[s] + '=' + card.evs[s]); });
+      if (BALL[sp.ball]) out.push('.Ball=' + BALL[sp.ball]);
+      Object.keys(sp.contest || {}).forEach(function (k) { out.push('.Contest' + k.charAt(0).toUpperCase() + k.slice(1) + '=' + sp.contest[k]); }); }
+    if (sp.met_level != null) out.push('.MetLevel=' + sp.met_level);
+    if (sp.ot_name) out.push('.OriginalTrainerName=' + sp.ot_name);
+    if (sp.friendship != null) out.push('.' + (card.gen === 3 ? 'OriginalTrainerFriendship' : 'CurrentFriendship') + '=' + sp.friendship);
+    var idx = sp.item && S.scoutPack && S.scoutPack.items[sp.item] ? (S.scoutPack.items[sp.item][2] || {})[card.gen] : null;
+    if (idx != null) out.push('.HeldItem=' + idx);
+    return out.join('\n');
+  }
+  return {derive: derive, showdown: showdown, batch: batch, findPid: findPid, MT: MT, NATURES: NATURES, BALL: BALL};
+})();
+</script>

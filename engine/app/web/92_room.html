@@ -1,0 +1,81 @@
+<script>
+/* ===== The Engine Room, the inbox and the Breeder Lab ==========================================================
+   Engine Room: every engine, where it lives in the app and how sure we are of it, so the next piece of work is
+   always visible. Inbox: the intake cards and their claims; a verdict you give here goes to Your Calls and Claude
+   applies it. Breeder Lab: any line's egg moves in HeartGold/SoulSilver with the breeding engine's lineages. */
+var STATUS_LOOK = {live: ['runs live in the app', 'forest'], data: ['the app reads its last run', 'ice'], partial: ['partly in the app', 'gold'], 'not yet': ['not in the app yet', 'ember']};
+function enginePage() {
+  return API.data('engines').then(function (d) {
+    var areas = []; d.engines.forEach(function (e) { if (areas.indexOf(e.area) < 0) areas.push(e.area); });
+    var n = {}; d.engines.forEach(function (e) { n[e.status] = (n[e.status] || 0) + 1; });
+    return '<div class="eyebrow">Every engine, where it lives, how sure we are</div><h1 style="margin:6px 0">The Engine Room</h1>' +
+      '<p class="lede">The whole project as it stands: what each engine does, whether it runs live here, whether the app reads its last run, or whether it isn\'t in the app yet, and what it would take next. This is the map of where to work.</p>' +
+      '<div class="kpis" style="margin-top:14px">' + Object.keys(STATUS_LOOK).map(function (k) { return '<div class="kpi"><div class="eyebrow">' + STATUS_LOOK[k][0] + '</div><div class="serif num" style="font-size:34px;color:var(--ivory)">' + (n[k] || 0) + '</div></div>'; }).join('') +
+        '<div class="kpi"><div class="eyebrow">engine tests</div><div class="serif num" style="font-size:34px;color:var(--ivory)">' + d.tests + '</div></div></div>' +
+      areas.map(function (a) { return '<div class="ornament" style="margin:22px 0 12px">' + esc(a) + '</div><div class="grid">' + d.engines.filter(function (e) { return e.area === a; }).map(function (e) { var st = STATUS_LOOK[e.status] || [e.status, ''];
+        return '<div class="c6"><div class="card" style="height:100%"><div class="hd"><div style="flex:1"><div class="eyebrow mono" style="text-transform:none;letter-spacing:0">' + esc(e.modules) + '</div><h3>' + esc(e.name) + '</h3></div>' + chip(st[0], st[1]) + '</div>' +
+          '<div class="bd"><div class="small" style="color:var(--text-2)">' + esc(e.what) + '</div>' + (e.next ? '<div class="small" style="margin-top:8px"><b style="color:var(--gold-2)">Next:</b> ' + esc(e.next) + '</div>' : '') +
+          (e.where ? '<div style="margin-top:10px"><a class="link small" href="' + e.where + '">Open it →</a></div>' : '') + '</div></div></div>'; }).join('') + '</div>'; }).join('') +
+      '<div class="grid" style="margin-top:22px"><div class="c6">' + card('The product spec\'s seven screens', d.screens.map(function (s) { var st = STATUS_LOOK[s.status] || [s.status, ''];
+          return '<div class="goal" style="align-items:start"><div><a class="small" href="' + s.where + '" style="color:var(--ivory)"><b>' + esc(s.name) + '</b></a><div class="tiny muted">' + esc(s.note) + '</div></div>' + chip(st[0], st[1]) + '</div>'; }).join(''), {eyebrow: 'docs/APP_PRODUCT_SPEC.md', tools: false}) +
+        card('Open work the docs name', d.open.map(function (o) { return '<div class="line small"><b>' + esc(o.area) + ':</b> ' + esc(o.what) + '</div>'; }).join(''), {eyebrow: 'Where to work next', tools: false, style: 'margin-top:16px'}) + '</div>' +
+      '<div class="c6">' + card('How we know the browser is right', d.verified.map(function (v) { return '<div class="goal" style="align-items:start"><div class="small"><b>' + esc(v.engine) + '</b><div class="tiny muted">' + esc(v.how) + '</div></div>' + chip(v.size, 'forest') + '</div>'; }).join('') +
+          '<p class="tiny muted" style="margin:8px 0 0">The browser runs ports of the Python engines; the tests rebuild the same outputs both ways and require them to match exactly. They run with the rest of the engine\'s ' + d.tests + ' tests.</p>', {eyebrow: 'Parity tests', tools: false}) +
+        card('The engine audit', '<table class="t"><thead><tr><th>Check</th><th class="num">Compared</th><th>Problems</th></tr></thead><tbody>' + d.sanity.rows.map(function (r) { return '<tr><td class="small">' + esc(r[0]) + '</td><td class="num">' + esc(r[1]) + '</td><td>' + chip(r[2], r[2] === 'none' ? 'forest' : 'ember') + '</td></tr>'; }).join('') + '</tbody></table>' +
+          '<p class="tiny muted" style="margin:8px 0 0">engine/sanity.py, ' + esc(d.sanity.date || '') + ': the engine against Smogon\'s calculator, the games\' data, the Showdown protocol and Smogon\'s own printed statistics.</p>', {eyebrow: 'docs/SANITY.md', tools: false, style: 'margin-top:16px'}) + '</div></div>';
+  });
+}
+function inboxPage() {
+  return Promise.all([API.data('inbox'), answers()]).then(function (r) {
+    var cards = r[0].cards, ans = r[1];
+    var waiting = cards.reduce(function (a, c) { return a + c.claims.filter(function (x) { return x.status === 'proposed' && !(ans[c.id + '/' + x.id] && ans[c.id + '/' + x.id].status !== 'open'); }).length; }, 0);
+    after(function (p) { bindFilter(p); });
+    S.callMeta = S.callMeta || {};
+    return '<div class="eyebrow">Intake · what\'s come in and what\'s been applied</div><h1 style="margin:6px 0">The inbox</h1>' +
+      '<p class="lede">Everything the intake engine has read (videos, pages, film, research, the Pokédex), as cards of claims. Nothing reaches canon until it\'s approved: ' + waiting + ' claim' + (waiting === 1 ? ' is' : 's are') + ' waiting on you. Your verdict goes to the Your Calls tab and Claude applies it.</p>' +
+      '<input class="f" data-filter="#ib" placeholder="Filter: a word, a species, a kind (film, research, page, video)…" style="margin:14px 0">' +
+      '<div id="ib">' + cards.slice().sort(function (a, b) { return (b.status === 'open') - (a.status === 'open') || String(b.added_on).localeCompare(String(a.added_on)); }).map(function (c) {
+        var pend = c.claims.filter(function (x) { return x.status === 'proposed'; }), done = c.claims.length - pend.length;
+        pend.forEach(function (x) { S.callMeta[c.id + '/' + x.id] = {area: 'inbox · ' + c.kind, question: x.text.slice(0, 300)}; });
+        return '<div class="card" style="margin-bottom:12px"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(c.kind) + ' · ' + esc(c.added_on || '') + ' · ' + esc(c.provenance || '') + '</div><h3 style="font-size:19px">' + (c.url ? '<a href="' + esc(c.url) + '" target="_blank" rel="noopener" style="color:inherit">' + esc(c.title) + ' ↗</a>' : esc(c.title)) + '</h3></div>' +
+          chip(c.status === 'open' ? 'open' : 'closed', c.status === 'open' ? 'ember' : '') + '</div><div class="bd">' + (c.summary ? '<div class="small" style="color:var(--text-2)">' + esc(c.summary) + '</div>' : '') +
+          '<div class="tiny muted" style="margin-top:6px">' + plural(c.claims.length, 'claim') + ': ' + done + ' applied' + (pend.length ? ', ' + pend.length + ' waiting' : '') + '</div>' +
+          pend.map(function (x) { var key = c.id + '/' + x.id, a = ans[key];
+            return '<div class="sent" style="margin-top:8px"><div class="small">' + chip(x.kind, 'violet') + ' ' + esc(x.text) + '</div><div class="tiny muted" style="margin-top:3px">' + esc(x.source || '') + '</div>' +
+              (a && a.status !== 'open' ? '<div class="tiny" style="color:var(--forest-3);margin-top:4px">Your verdict: ' + esc(a.text) + '</div>' : '<div style="margin-top:6px;display:flex;gap:6px"><textarea data-ans="' + esc(key) + '" style="display:none">approve</textarea><button class="btn sm gold" onclick="this.parentNode.querySelector(\'textarea\').value=\'approve\';answerCall(\'' + esc(key) + '\',\'answered\')">Approve</button><button class="btn sm" onclick="this.parentNode.querySelector(\'textarea\').value=\'reject\';answerCall(\'' + esc(key) + '\',\'answered\')">Reject</button></div>') + '</div>'; }).join('') +
+          (done ? '<details style="margin-top:8px"><summary class="tiny muted" style="cursor:pointer">The ' + done + ' applied claims</summary>' + c.claims.filter(function (x) { return x.status !== 'proposed'; }).slice(0, 60).map(function (x) {
+            return '<div class="tiny" style="margin:4px 0;color:var(--text-2)">' + chip(x.status, 'forest') + ' ' + esc(x.text.slice(0, 260)) + (x.applied_to ? ' <span class="muted">→ ' + esc(x.applied_to) + '</span>' : '') + '</div>'; }).join('') + (done > 60 ? '<div class="tiny muted">…and ' + (done - 60) + ' more</div>' : '') + '</details>' : '') +
+          '</div></div>'; }).join('') + '</div>';
+  });
+}
+/* ---- the Breeder Lab ---- */
+function breederPage(q) {
+  return API.data('breeder').then(function (d) {
+    S.breeder = d;
+    var name = q ? decodeURIComponent(q) : (store('breeder-q') || 'Tyranitar');
+    var line = d.lines.filter(function (l) { return l.family.indexOf(name) >= 0; })[0];
+    after(function (p) { var i = p.querySelector('#brq'); i.addEventListener('change', function () { store('breeder-q', i.value); location.hash = '#/breeder/' + encodeURIComponent(i.value); }); });
+    var head = '<div class="eyebrow">The breeding engine · ' + esc(d.rules) + '</div><h1 style="margin:6px 0">The Breeder Lab</h1>' +
+      '<p class="lede">Pick any line and see every egg move it can have, and the breeding engine\'s shortest lineage for each: which father learns it himself, who carries it through, how many generations it takes, and what has to happen before it evolves.</p>' +
+      '<div class="row" style="margin:14px 0;max-width:640px"><input class="f" id="brq" list="brdex" value="' + esc(name) + '" placeholder="A species"><datalist id="brdex">' + d.lines.map(function (l) { return l.family.map(function (f) { return '<option>' + esc(f) + '</option>'; }).join(''); }).join('') + '</datalist></div>';
+    if (!line) return head + '<div class="empty">' + esc(name) + ' isn\'t a line the engine planned.</div>';
+    var f = line.feasibility, moves = line.moves, plans = line.plans || {};
+    return head + '<div class="grid" style="align-items:center"><div class="c3"><div style="display:flex;gap:4px">' + line.family.map(function (sp) { return '<a href="#/atlas/' + numOf(sp) + '"><img src="' + art(numOf(sp)) + '" style="width:72px;height:72px;object-fit:contain" title="' + esc(sp) + '"></a>'; }).join('') + '</div></div>' +
+      '<div class="c9"><h2 style="margin:0">' + esc(line.family.join(' → ')) + '</h2><div style="margin-top:6px">' + (f.breedable ? chip('breedable', 'forest') : chip('can\'t breed', 'ember')) + ' ' + (f.egg_moves_possible === false ? chip('no egg moves possible', 'ember') : '') + ' ' + (f.egg_groups || []).map(function (g) { return chip(g, 'gold'); }).join(' ') + '</div>' +
+        ((f.notes || []).length ? '<div class="small muted" style="margin-top:6px">' + esc(f.notes.join(' · ')) + '</div>' : '') + '</div></div>' +
+      '<div style="margin-top:16px">' + card('Egg moves', moves.length ? moves.map(function (m) { var p = plans[m] || {};
+        var best = (p.plans || [])[0];
+        return '<details class="roledet"' + (moves.length < 4 ? ' open' : '') + '><summary><b>' + esc(m) + '</b> ' + (p.error ? chip('the engine couldn\'t plan it', 'ember') : best ? chip(plural(best.steps, 'generation') + (best.native ? '' : ' (needs a transfer)'), best.steps === 1 ? 'forest' : 'gold') : p.item && p.item.length ? chip('a held item', 'gold') : !f.egg_moves_possible ? chip('not passable', 'ember') : chip('no lineage found', 'ember')) + '</summary>' +
+          (p.item && p.item.length ? '<div class="small" style="margin:4px 0">' + esc(p.item.join(' ')) + '</div>' : '') +
+          (p.timing && p.timing.length ? '<div class="small" style="color:var(--ember-2);margin:4px 0">' + esc(p.timing.join(' · ')) + '</div>' : '') +
+          (p.plans || []).map(function (pl, i) { return '<div class="line small' + (i ? '' : ' forest') + '"><div class="tiny muted">Lineage ' + (i + 1) + ': ' + plural(pl.steps, 'generation') + (pl.native ? '' : ' · needs a transfer') + '</div>' +
+            pl.chain.map(function (st, k) { return '<div style="margin:3px 0">' + (k + 1) + '. <b>' + esc(st[0]) + '</b> ♂ ' + (Object.keys(st[1]).length ? 'learns ' + esc(Object.keys(st[1]).map(function (mv) { return mv + ' (' + st[1][mv] + ')'; }).join(', ')) : '') + (st[2].length ? ' carries ' + esc(st[2].join(', ')) : '') + (st[3] ? ' <span class="tiny muted">catchable here</span>' : '') + '</div>'; }).join('') +
+            '<div style="margin:3px 0">' + (pl.chain.length + 1) + '. <b>' + esc(line.family[0]) + '</b> hatches knowing ' + esc(m) + '</div></div>'; }).join('') +
+          (p.later && p.later.length ? '<div class="tiny muted">Learned after hatching: ' + esc(p.later.join(', ')) + '</div>' : '') + '</details>'; }).join('') : '<div class="empty">No egg moves in HeartGold/SoulSilver.</div>',
+        {eyebrow: plural(moves.length, 'egg move') + ' in HeartGold/SoulSilver', tools: false}) + '</div>';
+  });
+}
+route(/^\/engine\/?$/, enginePage, 'Engine room', '#/engine');
+route(/^\/inbox\/?$/, inboxPage, 'The inbox', '#/inbox');
+route(/^\/breeder\/?(.*)$/, breederPage, 'Breeder Lab', '#/breeding');
+</script>

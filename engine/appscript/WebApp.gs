@@ -7,6 +7,7 @@
  *   - apiData(name): one of the data files, as JSON text;
  *   - apiTab(name): the rows of a tab of this Sheet, as objects keyed by its header row;
  *   - apiAppend(tab, obj): adds a row to one of the app's tabs (made on first use), and a line to the Timeline;
+ *     Variants holds the Scouting Lab's saved variants;
  *   - apiAnswer(id, text, status, meta): writes your call into the Your Calls tab.
  *
  * To update the app, upload a newer zip to Drive. The newest one wins; older ones can stay (or go to History).
@@ -14,15 +15,15 @@
  */
 
 var APP_ZIP = 'Blackthorn-HQ-app';            // the zip's name starts with this; the newest one is used
-var APP_TABS = ['Eggs', 'Egg Walks', 'Plantings', 'Harvests', 'Readings', 'Feedings', 'Journal', 'Timeline', 'Specimens'];
+var APP_TABS = ['Eggs', 'Egg Walks', 'Plantings', 'Harvests', 'Readings', 'Feedings', 'Journal', 'Timeline', 'Specimens', 'Variants'];
 var WRITABLE = APP_TABS.concat(['Studbook']);
 var CALLS = 'Your Calls';
 var CHUNK = 30000;                            // characters per cache entry (100 KB per value, even if every one is 3 bytes)
 
 // --- serving the page ---------------------------------------------------------------------------------------------
 function doGet() {
-  var files = appFiles_();
-  var names = Object.keys(files).filter(function (n) { return /^BH-.*\.html$/.test(n); }).sort();
+  var files = appFiles_(function (n) { return /^BH-.*\.html$/.test(n); });
+  var names = Object.keys(files).sort();
   if (!names.length) {
     return HtmlService.createHtmlOutput('<p style="font-family:sans-serif">No ' + APP_ZIP + '.zip found in your Google ' +
       'Drive. Upload the zip from the project (engine/app/dist) to Drive, then reload this page.</p>');
@@ -33,19 +34,32 @@ function doGet() {
     .setFaviconUrl('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dragon-fang.png');
 }
 
-/** Every file in the newest app zip, name → text. Unzipped once per zip and kept in the script cache. */
-function appFiles_() {
+/** The newest app zip's files, name -> text, read lazily: each file is cached on its own (the zip is unzipped once
+ * per version, and a page only pulls the files it asks for). `only` limits what's returned. */
+function appFiles_(only) {
   var zip = newestZip_();
   if (!zip) return {};
-  var key = 'z' + zip.getId() + zip.getLastUpdated().getTime();
-  var hit = cacheGet_(key);
-  if (hit) return JSON.parse(hit);
-  var out = {};
+  var key = 'z' + zip.getId() + zip.getLastUpdated().getTime(), c = CacheService.getScriptCache();
+  var names = c.get(key + ':names'), out = {};
+  if (names) {
+    names = JSON.parse(names);
+    var want = names.filter(function (n) { return !only || only(n); }), miss = false;
+    for (var i = 0; i < want.length; i++) {
+      var text = cacheGet_(key + ':' + want[i]);
+      if (text == null) { miss = true; break; }
+      out[want[i]] = text;
+    }
+    if (!miss) return out;
+  }
+  var all = {};
   Utilities.unzip(zip.getBlob().setContentType('application/zip')).forEach(function (b) {
     var name = b.getName().split('/').pop();
-    if (name && name.charAt(0) !== '.') out[name] = b.getDataAsString('UTF-8');
+    if (name && name.charAt(0) !== '.') all[name] = b.getDataAsString('UTF-8');
   });
-  cachePut_(key, JSON.stringify(out));
+  Object.keys(all).forEach(function (n) { cachePut_(key + ':' + n, all[n]); });
+  try { c.put(key + ':names', JSON.stringify(Object.keys(all)), 21600); } catch (e) {}
+  out = {};
+  Object.keys(all).forEach(function (n) { if (!only || only(n)) out[n] = all[n]; });
   return out;
 }
 
@@ -82,7 +96,7 @@ function cachePut_(key, text) {
 // --- the data API (called from the page with google.script.run) ---------------------------------------------------
 /** One of the engine's data files (hq, atlas, builds, scouting, journal, learnsets), as JSON text. */
 function apiData(name) {
-  var text = appFiles_()[String(name) + '.json'];
+  var want = String(name) + '.json', text = appFiles_(function (n) { return n === want; })[want];
   if (text == null) throw new Error('The app zip has no ' + name + '.json. Rebuild it with engine/app/build.py.');
   return text;
 }

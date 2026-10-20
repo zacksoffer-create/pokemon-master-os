@@ -67,7 +67,7 @@ function legalMove(name, sp, gen) {
 }
 function lab(qs) {
   var bid = (String(qs || '').match(/b=([^&]*)/) || [])[1];
-  return Promise.all([withBuilds(), API.data('learnsets'), API.tab('Specimens').catch(function () { return []; })]).then(function (r) {
+  return Promise.all([withBuilds(), API.data('learnsets'), API.tab('Specimens').catch(function () { return []; }), scoutReady()]).then(function (r) {
     S.learn = r[1]; var saved = r[2] || [];
     if (bid) { var b = r[0].library.filter(function (x) { return x.id === decodeURIComponent(bid); })[0]; if (b) store('lab', labFrom(b)); try { history.replaceState(null, '', '#/builds/lab'); } catch (e) {} }
     S.lab = Object.assign({}, LAB_DEFAULT, store('lab') || {});
@@ -94,6 +94,13 @@ function labForm() {
       return '<div><div class="tiny muted" style="text-align:center">' + (g2 && s === 'spa' ? 'Spc' : STAT_NAME[s]) + '</div><input class="f" name="ev-' + s + '" type="number" min="0" max="252" step="4" value="' + (x.ev[s] || 0) + '"' + (g2 && s === 'spd' ? ' disabled' : '') + '></div>'; }).join('') + '</div><div class="tiny muted" id="evtotal" style="margin-top:6px"></div>' +
     '<label class="l">Moves</label>' + [0, 1, 2, 3].map(function (i) { return '<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><input class="f" name="mv' + i + '" list="labmoves" value="' + esc(x.mv[i] || '') + '" style="min-width:0"><span class="tiny" id="mvchk' + i + '" style="width:110px;flex:none"></span></div>'; }).join('') +
     '<div class="tiny muted">Suggestions are the moves this line can learn in some game up to Gen ' + ['', '', 'II', 'III', 'IV'][x.gen] + ' (level-up, TM, tutor, egg, event). Whether a combination is legal together is the engine\'s stricter era check.</div>' +
+    '<details style="margin-top:12px"' + (x.pkx ? ' open' : '') + '><summary class="small" style="cursor:pointer"><b>PKHeX details</b> <span class="tiny muted">(the PID, the trainer IDs, the ball: what a .pk file stores)</span></summary>' +
+    '<div class="row"><div><label class="l">Game</label><select class="f" name="pgame">' + ({2: ['crystal'], 3: ['firered', 'emerald'], 4: ['platinum', 'heartgold', 'soulsilver']}[x.gen]).map(function (g) { return '<option value="' + g + '"' + (g === x.pgame ? ' selected' : '') + '>' + GAME_NAME[g] + '</option>'; }).join('') + '</select></div>' +
+    '<div><label class="l">Gender</label><select class="f" name="pgender"><option value="">any</option><option value="M"' + (x.pgender === 'M' ? ' selected' : '') + '>♂</option><option value="F"' + (x.pgender === 'F' ? ' selected' : '') + '>♀</option></select></div></div>' +
+    '<label class="small" style="display:block;margin-top:8px"><input type="checkbox" name="pshiny"' + (x.pshiny ? ' checked' : '') + '> shiny</label>' +
+    (g2 ? '' : '<div class="row"><div><label class="l">TID</label><input class="f" name="ptid" type="number" min="0" max="65535" value="' + (x.ptid || 0) + '"></div><div><label class="l">SID</label><input class="f" name="psid" type="number" min="0" max="65535" value="' + (x.psid || 0) + '"></div><div><label class="l">PID (blank: find one)</label><input class="f" name="ppid" value="' + esc(x.ppid || '') + '" placeholder="0x…"></div></div>') +
+    '<div class="row"><div><label class="l">Ball</label><select class="f" name="pball"><option value="">—</option>' + Object.keys(Specimen.BALL).map(function (b) { return '<option' + (b === x.pball ? ' selected' : '') + '>' + b + '</option>'; }).join('') + '</select></div><div><label class="l">Friendship</label><input class="f" name="pfriend" type="number" min="0" max="255" value="' + (x.pfriend != null ? x.pfriend : '') + '"></div></div>' +
+    '<div class="row"><div><label class="l">OT name</label><input class="f" name="pot" value="' + esc(x.pot || '') + '"></div><div><label class="l">Met at level</label><input class="f" name="pmet" type="number" min="1" max="100" value="' + (x.pmet || '') + '"></div></div></details>' +
     '<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn gold" type="button" onclick="labSave()">Save to Specimens</button><button class="btn" type="button" onclick="labCopy()">Copy paste</button><button class="btn ghost" type="button" onclick="store(\'lab\', null); go()">Reset</button></div>';
 }
 function labRead(form) {
@@ -105,6 +112,9 @@ function labRead(form) {
   if (g2) { var dv = {}; ['atk', 'def', 'spe', 'spa'].forEach(function (s) { dv[s] = Math.floor(x.iv[s] / 2); }); x.iv.spd = x.iv.spa; x.ev.spd = x.ev.spa;
     x.iv.hp = ((dv.atk % 2) * 8 + (dv.def % 2) * 4 + (dv.spe % 2) * 2 + dv.spa % 2) * 2 + 1; }
   x.mv = [0, 1, 2, 3].map(function (i) { return form['mv' + i].value.trim(); }).filter(Boolean);
+  if (form.pgame) { x.pgame = form.pgame.value; x.pgender = form.pgender.value; x.pshiny = form.pshiny.checked; x.pball = form.pball.value; x.pot = form.pot.value.trim();
+    x.pfriend = form.pfriend.value === '' ? null : +form.pfriend.value; x.pmet = form.pmet.value === '' ? null : +form.pmet.value;
+    if (form.ptid) { x.ptid = +form.ptid.value || 0; x.psid = +form.psid.value || 0; x.ppid = form.ppid.value.trim(); } x.pkx = true; }
   var regen = g !== +x.gen; x.gen = g; store('lab', x); return regen;
 }
 function labBind(p) {
@@ -153,6 +163,54 @@ function labOut() {
         '<div class="eyebrow" style="margin:12px 0 6px">Resists</div>' + (res.length ? res.map(function (t) { return typeBadge(t) + '<span class="tiny muted"> ×' + dfn[t] + '</span>'; }).join(' ') : '<span class="small muted">nothing</span>'), {eyebrow: 'Defense', tools: false}) + '</div>' +
       '<div class="c12">' + card('Showdown paste', '<div class="paste" id="labpaste">' + esc(paste) + '</div>', {eyebrow: 'Export', tools: false}) + '</div></div>';
   S.labPaste = paste;
+  out.insertAdjacentHTML('beforeend', labExtra(x, d));
+}
+function labSpecimen(x) {   // the Lab's fields as specimen.py reads them
+  var game = x.pgame && ({crystal: 2, firered: 3, emerald: 3, platinum: 4, heartgold: 4, soulsilver: 4})[x.pgame] === +x.gen ? x.pgame : {2: 'crystal', 3: 'emerald', 4: 'heartgold'}[x.gen];
+  var sp = {species: x.sp, game: game, level: x.lv, nickname: x.nick || '', moves: x.mv, item: x.item || '', gender: x.pgender || '', shiny: !!x.pshiny, ball: x.pball || '', ot_name: x.pot || '',
+    friendship: x.pfriend != null ? x.pfriend : null, met_level: x.pmet != null ? x.pmet : null, tid: x.ptid || 0, sid: x.psid || 0};
+  if (x.gen <= 2) { sp.dvs = {atk: Math.floor(x.iv.atk / 2), def: Math.floor(x.iv.def / 2), spe: Math.floor(x.iv.spe / 2), spc: Math.floor(x.iv.spa / 2)};
+    sp.stat_exp = {}; [['hp', 'hp'], ['atk', 'atk'], ['def', 'def'], ['spe', 'spe'], ['spa', 'spc']].forEach(function (k) { var e = x.ev[k[0]] || 0; sp.stat_exp[k[1]] = e ? (e - 1) * (e - 1) + 1 : 0; }); }
+  else { sp.nature = x.nat; sp.ability = x.ab; sp.ivs = Object.assign({}, x.iv); sp.evs = Object.assign({}, x.ev);
+    if (x.ppid) { var v = parseInt(x.ppid, x.ppid.indexOf('0x') === 0 ? 16 : 10); if (!isNaN(v)) sp.pid = v >>> 0; } }
+  return sp;
+}
+function labExtra(x, d) {
+  var sp = labSpecimen(x), card = Specimen.derive(sp), html = '';
+  var rows = [['PID', card.pid], ['Nature', card.nature ? card.nature + ' (' + card.nature_effect + '; ' + card.flavors + ')' : null], ['Gender', card.gender === 'M' ? '♂ male' : card.gender === 'F' ? '♀ female' : card.gender === '' ? 'genderless' : null],
+    ['Shiny', card.shiny ? '<span style="color:var(--gold-2)">✦ yes</span>' : 'no'], ['Ability slot', card.ability_slot], ['Hidden Power', card.hidden_power], ['Characteristic', card.characteristic],
+    ['DVs', card.dvs ? Object.keys(card.dvs).map(function (k) { return STAT_NAME[k] + ' ' + card.dvs[k]; }).join(' · ') : null]].filter(function (r) { return r[1] != null && r[1] !== undefined; });
+  html += '<div class="grid" style="margin-top:18px"><div class="c6">' + card_('The specimen, as the games store it', '<dl class="kv">' + rows.map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + (r[0] === 'Shiny' ? r[1] : esc(r[1])) + '</dd>'; }).join('') + '</dl>' +
+      (card.conflicts.length ? '<div class="notice" style="margin-top:10px;border-color:var(--ember);color:var(--ember-2)">' + esc(card.conflicts.join('; ')) + '</div>' : '') +
+      (card.notes.length ? '<div class="tiny muted" style="margin-top:8px">' + esc(card.notes.join('; ')) + '</div>' : '') +
+      '<p class="tiny muted" style="margin:8px 0 0">' + (card.gen >= 3 ? 'In Gen III–IV one 32-bit PID fixes nature, gender, ability slot and shininess together; the Lab finds one that gives what you asked for, the way specimen.py does.' : 'Gen II stores DVs and stat experience only: gender and shininess come from the DVs.') + '</p>',
+      {eyebrow: 'specimen.py, in the browser', tools: false}) + '</div>' +
+    '<div class="c6">' + card_('PKHeX', '<div class="eyebrow" style="margin-bottom:6px">Showdown set (import it)</div><div class="paste">' + esc(Specimen.showdown(sp, card)) + '</div>' +
+      '<div class="eyebrow" style="margin:12px 0 6px">Batch Editor script (what the set can\'t carry)</div><div class="paste">' + esc(Specimen.batch(sp, card)) + '</div>' +
+      '<div style="margin-top:10px"><button class="btn sm" onclick="labCopyText(this.parentNode.previousSibling.textContent)">Copy the script</button></div>', {eyebrow: 'Export', tools: false}) + '</div></div>';
+  var b = {id: 'lab', species: x.sp, moves: x.mv, item: x.item || null, ivs: Object.assign({}, x.iv), evs: Object.assign({}, x.ev), level: x.lv};
+  if (x.gen >= 3) { b.nature = x.nat; b.ability = x.ab; }
+  var game = sp.game, cl = null;
+  try { cl = Scout.classify(b, game, x.lv); } catch (e) { cl = null; }
+  if (cl) html += '<div style="margin-top:18px">' + card_('What job it does', '<div class="serif" style="font-size:22px;color:var(--ivory)">' + esc(cl.primary.name) + ' ' + chip(Scout.pyFixed(cl.primary.score, 2) + ' ' + cl.primary.confidence, cl.primary.confidence === 'strong' ? 'forest' : 'gold') +
+      (cl.secondary ? ' <span class="small muted">then ' + esc(cl.secondary.name) + '</span>' : '') + '</div><div class="tiny muted" style="margin:4px 0 10px">' + esc(Scout.roleLine(cl, 2)) + '</div>' +
+      '<table class="t"><tbody>' + cl.roles.slice(0, 10).map(function (r) { return '<tr><td class="small">' + esc(r.name) + '</td><td class="num">' + Scout.pyFixed(r.score, 2) + '</td><td class="tiny">' +
+        (r.needs.length ? '<span style="color:var(--ember-2)">needs ' + esc(r.needs.join(' or ')) + '</span>' : esc(r.because.slice(0, 3).map(function (q) { return q.label + (q.evidence.length ? ': ' + q.evidence.join(', ') : ''); }).join('; ')) +
+        (r.against.length ? ' <span style="color:var(--ember-2)">against: ' + esc(r.against.map(function (q) { return q.label; }).join(', ')) + '</span>' : '')) + '</td></tr>'; }).join('') + '</tbody></table>' +
+      '<div style="margin-top:10px"><button class="btn sm gold" onclick="labToScoutLab()">Put it on a team in the Scouting Lab</button></div>',
+      {eyebrow: 'The role engine (trainers/roles.py), against the field at level ' + cl.level, tools: false}) + '</div>';
+  return html;
+}
+function card_(t, b, o) { return card(t, b, o); }
+function labCopyText(t) { (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('Copied.'); }).catch(function () { toast('Your browser blocked the clipboard.'); }); }
+function labToScoutLab() {
+  var x = S.lab, b = {id: 'lab:' + Date.now().toString(36), species: x.sp, moves: x.mv.slice(), item: x.item || undefined, ivs: Object.assign({}, x.iv), evs: Object.assign({}, x.ev), nickname: x.nick || undefined,
+    source: 'the Lab', _edited: true};
+  if (x.gen >= 3) { b.nature = x.nat; b.ability = x.ab; }
+  var st = store('scoutlab');
+  if (!st || !st.v) { location.hash = '#/scoutlab'; toast('Open a trainer in the Scouting Lab first, then add it again.'); return; }
+  if (st.v.team.length >= 6) st.v.team.pop();
+  st.v.team.push(b); store('scoutlab', st); toast('<b>' + esc(x.sp) + '</b> joined ' + esc(st.v.title) + ' in the Scouting Lab.'); location.hash = '#/scoutlab';
 }
 function labCopy() { var t = S.labPaste || ''; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('Paste copied.'); }).catch(function () { toast('Select the paste and copy it.'); }); }
 function labSave() {

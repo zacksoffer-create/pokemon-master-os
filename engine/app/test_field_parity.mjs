@@ -1,0 +1,20 @@
+// The browser's wilderness read (web/85_field.html) against Python's wilderness/engine.py team_report.
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import { fileURLToPath } from 'node:url';
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const py = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const data = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'field.json'), 'utf8'));
+const code = fs.readFileSync(path.join(HERE, 'web', '85_field.html'), 'utf8').replace(/^<script>/, '').replace(/<\/script>\s*$/, '');
+const ctx = { route() {}, console, Math, JSON, Object, Array, String };
+vm.createContext(ctx);
+vm.runInContext(code + '\nthis.Field = Field;', ctx);
+const Field = ctx.Field.init(data);
+let bad = 0, n = 0;
+const check = (where, js, p) => { n++; const a = JSON.stringify({capabilities: js.capabilities, scenarios: js.scenarios}), b = JSON.stringify(p);
+  if (a !== b) { bad++; if (bad < 8) { let k = 0; while (k < a.length && a[k] === b[k]) k++; console.log('DIFF', where, '\n py:', b.slice(Math.max(0, k - 150), k + 200), '\n js:', a.slice(Math.max(0, k - 150), k + 200)); } } };
+py.cases.forEach((c, i) => check(`${c.game} ${c.species.join(',')}`, Field.teamReport(c.game, c.species, []), c.report));
+const pv = py.preview; check('preview', Field.teamReport(pv.game, pv.species, pv.ids), pv.report);
+console.log(`${n - bad} of ${n} teams match`);
+process.exit(bad ? 1 : 0);

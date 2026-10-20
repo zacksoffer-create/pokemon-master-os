@@ -1,0 +1,166 @@
+"""The Engine Room and the inbox (docs/APP.md): what every engine does, where it lives in the app, how sure we are
+of it, and what's waiting for review.
+
+    engines.json   every engine with its status in the app (live in the browser, read from its last run, or not in
+                   the app yet) and what it would take next; the product spec's screens; the open work the docs
+                   name; the audit (docs/SANITY.md) and the parity tests that hold the browser to the Python engines
+    inbox.json     the intake inbox (canon/inbox/cards): every card and its claims, applied or waiting on you
+
+    python3 -I app/room_pack.py
+"""
+import glob
+import json
+import os
+import re
+import time
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ENGINE = os.path.dirname(HERE)
+ROOT = os.path.dirname(ENGINE)
+
+LIVE, DATA, PART, NOT = "live", "data", "partial", "not yet"
+ENGINES = [
+    # (area, name, modules, what it does, status, where in the app, what's next)
+    ("Champion", "Trainer scouting report", "trainers/report.py, matrix.py, sliders.py",
+     "The type matrix, bulk, the four sliders (authored and measured), tags and the written plan, every sentence a phrase rule.",
+     LIVE, "#/scoutlab", "Variants you save in the Scouting Lab land in the Variants tab; say which to keep and Claude writes them into canon/trainers.json."),
+    ("Champion", "Role engine", "trainers/roles.py, roles.json",
+     "What job each build does (34 roles), scored from stat shape, nature, EVs, item, ability, typing and move categories.",
+     LIVE, "#/scoutlab", "Role weights live in roles.json; the Scouting Lab can move the confidence thresholds, not the weights yet."),
+    ("Champion", "Playsheet", "trainers/playsheet.py",
+     "Career tags, the ace, who they go to when even, ahead and behind, the type read, combos, signature moves and the aggression ratio.",
+     LIVE, "#/scoutlab", "Observations on film feed it (canon/observations.jsonl); only Ash, Gary and Paul have film so far."),
+    ("Champion", "Exposure", "trainers/report.py exposure",
+     "Where your team is exposed against theirs: their attack types against your rows, and their side against your soft rows.",
+     LIVE, "#/scoutlab", ""),
+    ("Champion", "Role-to-build solver", "trainers/solver.py",
+     "Builds a set for a role from what a species can learn: EV templates, items, the role engine as the judge.",
+     NOT, "", "Needs each species' learnable pool per game in the browser (large); worth it once the role weights settle."),
+    ("Champion", "Battle engine: fights, plans and calls", "battle/engine.py, evaluate.py, moves.py, knowledge.py, trainer_policy.py",
+     "Plays every one-on-one out with Smogon's damage calculator: plans, maximin, the games' own trainer AI, what changed the result.",
+     DATA, "#/advance", "To tinker live: run Smogon's calculator (it's JavaScript) in the browser and port evaluate.py's fights, tested against node the way the report engine is."),
+    ("Champion", "Advance reports, self-scout, game plans, lineups", "battle/scouting.py, scouting_report.py",
+     "The Journey Scouting File: member cards, call sheets per opponent, advance reports, game plans, play calls by situation.",
+     DATA, "#/advance", "Reads the engine's last run (2026-10-19). Coach settings (canon/lineups.json) are empty: set them and the plans change."),
+    ("Champion", "Coach profile", "battle/profile.py",
+     "Eight sliders measured from a lineup's play against the field (pace, punch, run/pass, build-up, sustain, disruption, risk, script).",
+     DATA, "#/advance", "Same as the battle engine: live once the calculator runs in the browser."),
+    ("Champion", "What-if league", "battle/scouting.py what_if_league",
+     "Every lineup against every other, one-on-ones played out.", DATA, "#/advance", ""),
+    ("Champion", "Benchmarks", "battle/benchmarks.py, grid.py",
+     "The 38 cartridge opponent teams from the pret disassemblies and the 1v1 grid.", DATA, "#/advance", "The opponent teams show inside the advance reports; the raw grid isn't its own page."),
+    ("Builds", "Stat math", "trainers/era.py",
+     "Real stats by generation (Gen II DVs and stat experience the way Showdown reads them), Hidden Power, characteristics.",
+     LIVE, "#/builds/lab", ""),
+    ("Builds", "Specimen kernel", "specimen.py",
+     "PID to nature, gender, ability slot and shininess; the PID search; Gen II DVs; the Showdown set and the PKHeX Batch Editor script.",
+     LIVE, "#/builds/lab", "SPECIMEN_LAB.md 'not yet': met locations, ribbons and contest stats, Pokérus, writing .pk files, PID-IV methods."),
+    ("Builds", "The ladder book and film", "film/usage.py, buildbook.py, log.py, study.py",
+     "Smogon's monthly stats and the sets real players run, read from 850 Showdown replays.",
+     DATA, "#/builds/ladder", "The field studies (leads, cores, aggression on the ladder) aren't a page yet."),
+    ("Breeder", "Breeding engine", "breeding/engine.py",
+     "Egg moves, feasibility, the shortest lineage of fathers for any egg move, timing warnings, one-egg bundles.",
+     DATA, "#/breeder", "Planned for HeartGold/SoulSilver; other games and multi-move bundles are next."),
+    ("Breeder", "Studbook and lineage", "breeding/studbook.py, lineage.py",
+     "Every individual with its sire, dam, generation and inherited moves, checked against Gen 4's rules.",
+     LIVE, "#/breeding", "Hatches you record in the app go to the Studbook tab; the engine reads them back when you tell Claude."),
+    ("Headquarters", "Ranch planner, habitat, hatchery", "ranch/planner.py, habitat.py, hatchery.py, dashboard.py",
+     "The census, the satellite choice, staffing, the Glasshouse, the egg schedule and the crop plan.",
+     DATA, "#/estate", "The satellite choice and the stud reading are waiting on you (Your calls)."),
+    ("Headquarters", "Wilderness engine", "wilderness/engine.py",
+     "What a team can do in the lived world: 27 capabilities with tiered evidence, readiness for seven real situations.",
+     LIVE, "#/field", ""),
+    ("Headquarters", "Camp life", "wilderness/camp_life.py", "Each game's food systems and who on the team forages, produces, cooks and heats.",
+     LIVE, "#/field", ""),
+    ("Headquarters", "World records", "wilderness/world.py",
+     "Authored facts about your world, proposed and approved.", DATA, "#/record/world", "Approve or reject pending records in Your calls."),
+    ("Workbench", "Decision Lab (team diff)", "workbench.py",
+     "Runs every engine over two teams and shows what changes.", PART, "#/scoutlab",
+     "The Scouting Lab diffs the report and Field readiness diffs the wilderness read; the battle half needs the calculator."),
+    ("Record", "Intake", "intake.py, ingest/*",
+     "Videos, images, pages, pastes and research turned into cards of claims, applied only when approved.",
+     DATA, "#/inbox", "Running intake (Gemini, Bulbapedia) stays with Claude; the app shows the inbox and records your verdicts."),
+    ("Record", "Engine audit", "sanity.py, canon_checks.py, legacy_audit.py",
+     "The engine held to outside references: Smogon's calc, the games' data, the Showdown protocol, Smogon's own files.",
+     DATA, "#/engine", ""),
+    ("Record", "Canon DB Sheet and its script", "ranch/sheet.py, appscript/",
+     "The Sheet the app runs on, its menu, the lineage tree, record-a-hatch and the lock guard.", LIVE, "", ""),
+    ("Record", "Reference data", "fetch_reference.py, refdb.py",
+     "PokeAPI, Showdown learnsets, Smogon sets and the pret disassemblies, pinned and checksummed.", DATA, "", ""),
+]
+SCREENS = [   # docs/APP_PRODUCT_SPEC.md v0.2's seven screens
+    ("Journey", "#/", LIVE, "The home page and the six chapters."),
+    ("Team, with build history side by side", "#/teams", PART, "Team reports self-scout every chapter; build history (what each member ran before) isn't shown yet."),
+    ("Decision Lab: swap and diff", "#/scoutlab", PART, "Swap members and read the report and the wilderness diff; the battle diff needs the calculator."),
+    ("Breeder Lab: target and moves to routes, chains, timing", "#/breeder", LIVE, "HeartGold/SoulSilver lines, every egg move's lineage."),
+    ("Field Matrix", "#/field", LIVE, "Field moves and capabilities for any team."),
+    ("Specimen Lab", "#/builds/lab", LIVE, "Stats, genes, the PID and the PKHeX script."),
+    ("History and sources", "#/record", PART, "Decisions, locks, world records and evidence; the legacy archive isn't in the app."),
+]
+OPEN_WORK = [
+    ("Roadmap phase 3", "Write .pk files and keep instance records (PKHeX as the materializer, D-024)."),
+    ("Roadmap phase 4", "Author the Field Matrix, the rival timeline, Danny, and a proposal queue."),
+    ("Roadmap phase 5", "A scheduled refresh that shows what changed."),
+    ("Build order 3b", "The ranch authoring loop: pick the satellite, confirm the stud reading (RANCH.md §6)."),
+    ("Build order 4", "Engines reading the Sheet back: hatches, answers and readings flow into canon on approval."),
+    ("Questions", "Q1: Crystal's missing Fly, Platinum's Waterfall and Defog (QUESTIONS_AND_EXPERIMENTS.md)."),
+    ("Questions", "Q4 and the SoulSilver pair/trio audit."),
+    ("Ranch", "W-016 (Meganium, the Glasshouse gardener) and W-017 (Miltank, the nursery's milk); who the Day-Care serves."),
+    ("Battle engine live", "Smogon's calculator in the browser, then evaluate.py's fights ported and tested against node."),
+    ("Coach settings", "canon/lineups.json coaches are empty: your settings would change every plan the battle engine makes."),
+]
+VERIFIED = [   # the tests that hold the browser's engines to Python's (tests/test_engines.py, class WebApp)
+    ("Report engine", "every trainer version, 60 random edits of them and six exposure reads, sentence for sentence", "5,172 checks"),
+    ("Wilderness", "every lineup and 48 random teams across the six games, plus a preview of every pending record", "55 teams"),
+    ("Specimen kernel", "PIDs (shiny searches included), natures, genders, Hidden Power, characteristics, stats and both exports", "78 checks"),
+    ("Stat math", "the Lab's stats and Hidden Power against trainers/era.py", "6 builds"),
+    ("Launcher", "serving the zip, every data file exactly, reading tabs, writing only the app's tabs", "9 tests"),
+]
+
+
+def sanity():
+    path = os.path.join(ROOT, "docs", "SANITY.md")
+    if not os.path.exists(path):
+        return {"rows": [], "date": None}
+    text = open(path, encoding="utf-8").read()
+    date = (re.search(r"\((\d{4}-\d{2}-\d{2})\)", text) or [None, None])[1]
+    rows = [[c.strip() for c in line.strip("|").split("|")] for line in text.splitlines() if line.startswith("| ") and "---" not in line]
+    return {"date": date, "rows": rows[1:] if rows and rows[0][0] == "Check" else rows}
+
+
+def inbox():
+    cards = []
+    for f in sorted(glob.glob(os.path.join(ENGINE, "canon", "inbox", "cards", "*.json"))):
+        c = json.load(open(f, encoding="utf-8"))
+        src = c.get("source") or {}
+        claims = []
+        for x in c.get("claims") or []:
+            data = x.get("data") or {}
+            text = "; ".join(f"{k}: {v if not isinstance(v, (list, dict)) else json.dumps(v, ensure_ascii=False)[:160]}" for k, v in data.items())
+            claims.append({"id": x.get("id"), "kind": x.get("kind"), "status": x.get("status"), "text": text[:600],
+                           "source": x.get("source_ref"), "applied_to": x.get("applied_to")})
+        cards.append({"id": c["id"], "kind": c.get("kind"), "added_on": c.get("added_on"), "provenance": c.get("provenance"),
+                      "title": src.get("title") or src.get("url") or c["id"], "url": src.get("url"), "summary": c.get("summary"),
+                      "status": c.get("status"), "claims": claims})
+    return {"cards": cards}
+
+
+def main():
+    tests = len(re.findall(r"^\s+def test_", open(os.path.join(ENGINE, "tests", "test_engines.py"), encoding="utf-8").read(), re.M))
+    keys = ("area", "name", "modules", "what", "status", "where", "next")
+    data = {"generated": time.strftime("%Y-%m-%d"), "engines": [dict(zip(keys, e)) for e in ENGINES],
+            "screens": [dict(zip(("name", "where", "status", "note"), s)) for s in SCREENS],
+            "open": [dict(zip(("area", "what"), o)) for o in OPEN_WORK],
+            "verified": [dict(zip(("engine", "how", "size"), v)) for v in VERIFIED], "tests": tests, "sanity": sanity()}
+    out = os.path.join(HERE, "data")
+    with open(os.path.join(out, "engines.json"), "w", encoding="utf-8") as fh:
+        json.dump(data, fh, ensure_ascii=False, separators=(",", ":"))
+    ib = inbox()
+    with open(os.path.join(out, "inbox.json"), "w", encoding="utf-8") as fh:
+        json.dump(ib, fh, ensure_ascii=False, separators=(",", ":"))
+    print(f"engines.json: {len(ENGINES)} engines, {tests} tests; inbox.json: {len(ib['cards'])} cards, "
+          f"{sum(len(c['claims']) for c in ib['cards'])} claims")
+
+
+if __name__ == "__main__":
+    main()
