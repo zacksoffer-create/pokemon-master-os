@@ -66,6 +66,36 @@ The core is identical to Food OS's. The `pokemon` block is this project's lens; 
 - Applying twice never duplicates.
 - Everything goes through you. `review.auto_approve_provenance` can let a provenance approve itself; it's empty by default.
 
+## Bulbapedia research (`intake.py research [--only paul,gary] [--no-model]`)
+
+The ASK list answered from Bulbapedia's page source (raw wikitext, cached in `data/raw/bulbapedia`). The text is CC BY-NC-SA, so every claim cites its page. Most of it is read exactly; Gemini only fills what's prose, and its answers are cached by question.
+
+**What it reads:**
+- **A Pokémon's own page** (Paul's Torterra):
+  - the anime moves-used table: each move, the episode it was first used in, and which moves are its recent set;
+  - the History, split by series;
+  - the infobox ability.
+- **A trainer's page**, for Pokémon without their own (Paul#Ninjask): the entry's "known moves are …" and its ability.
+- **The Achievements lists:** "Indigo Plateau Conference - Top 32 (EP077)".
+- **Order sentences** on the Pokémon's page or entry. For a rival's defining battle ("the fifth Pokémon used by Paul in his battle against Ash in the Lily of the Valley Conference"), these give the order they sent their team out.
+
+**What it proposes**, one card per trainer version. Every answer is a correction or observation for review:
+
+| Question | How it's answered |
+|---|---|
+| Moveset | A move is supported if the moves-used table shows it first used by the end of the version's era. Supported moves stay; unsupported ones are dropped, and their slots are filled from the era's moves (the model's read of the era's history at the version's moment, when it's on). Moves the game's learnset doesn't have are flagged. A fully supported set is confirmed |
+| Signature move | How often the era's history names it against the rest of its moves: confirmed in the top two; flagged when Bulbapedia doesn't list the move at all |
+| Ace | Cartridge: the game marks it (the unique top level; D-050). Anime: the teammate the era's history names most, beside the model's read |
+| Career | The Achievements line for the event, with its episode |
+| Order | Each Pokémon's position in the rival's defining battle, as `sent out` observations; they show on the playsheet's On film |
+
+## The Pokédex cross-check (`ingest/pokedex.py`)
+
+The games' Pokédex entries are already in the local database, so this costs nothing:
+- **On every video and page card**, each field note or lore claim is held against its species' entries. One the games back carries the entry as `canon_backing`, and its note says which game. A fan work's claim says which part is the game's and which is the creator's own. Example: EnlargedKai's "moving forests" is Pearl's Pokédex; "born on its back and spend their entire life there" is Platinum's.
+- **`intake.py crosscheck CARD`** re-checks an existing card.
+- **`intake.py pokedex Torterra [--gen-max 4]`** makes a card of a species' distinct entries as canon field notes (provenance cartridge). The documentary kit can then stand on the games' own words.
+
 ## The research agent sheet (Drive: Inbox / Pokémon Master OS - Agent Sheet)
 
 This is the Food OS Agent Sheet pattern:

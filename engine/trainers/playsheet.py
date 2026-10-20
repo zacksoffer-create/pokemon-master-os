@@ -261,7 +261,7 @@ def aggression(store, book, reads, report):
 # --- on film ---------------------------------------------------------------------------------------------
 FILM_KINDS = (("lead", "lead"), ("even", "even"), ("ahead", "ahead"), ("behind", "behind"),
               ("after a faint", "after_faint"), ("closing (the battle's last knockout)", "closers"),
-              ("held back (first in after half the battle)", "held_back"))
+              ("held back (first in after half the battle)", "held_back"), ("sent out", "sent_out"))
 
 
 def observed(store, version, path=None):
@@ -290,9 +290,10 @@ def observed(store, version, path=None):
         for situation, key in FILM_KINDS:
             if o.get("situation") == situation:
                 out[key].append({"pokemon": o["pokemon"], "move": o["move"], "n": o.get("sample_size") or 1,
-                                 "outcome": o.get("outcome")})
+                                 "outcome": o.get("outcome"), "position": o.get("position"), "battle": o.get("battle")})
     for _, key in FILM_KINDS:
         out[key].sort(key=lambda x: -x["n"])
+    out["sent_out"].sort(key=lambda x: x["position"] or 0)
     return out
 
 
@@ -321,6 +322,10 @@ def film_lines(sheet):
     h = top("held_back")
     if h:
         lines.append(f"Holds {h['pokemon']} back ({h['outcome']}).")
+    if f["sent_out"]:
+        battle = f["sent_out"][0]["battle"]
+        lines.append(f"In {battle}: " + " → ".join(
+            f"{x['pokemon']} ({x['move'].replace('sent out ', '')})" for x in f["sent_out"] if x["battle"] == battle) + ".")
     a = top("after_faint")
     if a:
         lines.append(f"After a faint, sends in {a['pokemon']} ({a['outcome']}).")

@@ -35,11 +35,13 @@ def kit(cfg, species, style=None, setting=None, seconds=None, base=ENGINE):
         return {"species": species, "error": "no approved style card yet: ingest a video you like and approve its "
                                             "style card" + (f" (none matches '{style}')" if style else "")}
     st = styles[-1]
+    notes.sort(key=lambda n: not n.get("canon"))      # the games' own words first
     habitat = [n for n in notes if n.get("aspect") == "habitat"]
     behavior = [n for n in notes if n.get("aspect") != "habitat"] or notes
     setting = setting or (habitat[0]["note"] if habitat else "its habitat")
     d = cfg["doc_prompt"]
-    fill = lambda t, **k: t.format(**{key: (", ".join(v) if isinstance(v, list) else (v or "unspecified"))
+    tidy = lambda v: str(v).strip().rstrip(".").strip() if v else "unspecified"   # the template's own punctuation stands
+    fill = lambda t, **k: t.format(**{key: ("; ".join(tidy(x) for x in v) if isinstance(v, list) else tidy(v))
                                       for key, v in k.items()})
     narration = fill(d["narration"], narration_voice=st.get("narration_voice"),
                      narrator_perspective=st.get("narrator_perspective"), tone=st.get("tone"), pacing=st.get("pacing"),

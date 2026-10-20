@@ -15,6 +15,9 @@
     python3 -I intake.py apply [CARD]                            # write approved claims into canon
     python3 -I intake.py doc-prompt Garchomp [--style "…"] [--setting "…"] [--seconds 60]
     python3 -I intake.py film --format gen4ou --count 60 [--user NAME] [--trainer me]   # Showdown replays → a card
+    python3 -I intake.py research [--only paul,gary] [--no-model]   # the ASK list answered from Bulbapedia → cards
+    python3 -I intake.py pokedex Torterra [--gen-max 4]            # the games' Pokédex entries → canon field notes
+    python3 -I intake.py crosscheck CARD                           # re-check a card's claims against the Pokédex
 
 Nothing reaches canon without approval. Every claim keeps its exact source (a link and timestamp, a file, a page).
 """
@@ -68,7 +71,7 @@ def main(argv=None):
         return film_room.main(["card"] + argv[1:])
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=["status", "video", "image", "page", "envelope", "paste", "card", "asks", "results",
-                                    "list", "show", "approve", "reject", "edit", "apply", "doc-prompt"])
+                                    "list", "show", "approve", "reject", "edit", "apply", "doc-prompt", "research", "pokedex", "crosscheck"])
     ap.add_argument("args", nargs="*")
     ap.add_argument("--note")
     ap.add_argument("--lens", default="pokemon")
@@ -81,6 +84,9 @@ def main(argv=None):
     ap.add_argument("--setting")
     ap.add_argument("--seconds", type=int)
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--only", help="research: trainer ids, comma-separated")
+    ap.add_argument("--gen-max", type=int, help="pokedex: entries from games up to this generation")
+    ap.add_argument("--no-model", action="store_true", help="research: exact reads only, no Gemini")
     a = ap.parse_args(argv)
     inbox = Inbox()
 
@@ -155,6 +161,28 @@ def main(argv=None):
     elif a.cmd == "apply":
         done = inbox.apply(a.args[0] if a.args else None)
         print("\n".join(done) or "Nothing approved to apply.")
+    elif a.cmd == "research":
+        from ingest.bulbapedia import research
+        from ingest.media import Gemini
+        from ingest.sheet import asks
+        from trainers.model import Store
+        store = Store()
+        made, usage = research(inbox, store, asks(store), gemini=None if a.no_model else Gemini(inbox.cfg),
+                               only=set(a.only.split(",")) if a.only else None)
+        for card, _ in made:
+            print(render_card(card, inbox) + "\n")
+        tokens = sum((u or {}).get("totalTokenCount", 0) for u in usage)
+        print(f"{len(made)} card(s); Gemini used {tokens} tokens over {len(usage)} call(s).")
+    elif a.cmd == "pokedex":
+        from ingest.pokedex import to_card as dex_card
+        card, made = dex_card(inbox, a.args[0], a.gen_max, again=a.again)
+        print(("New card:\n" if made else "Already in the inbox (use --again to re-run):\n") + render_card(card, inbox))
+    elif a.cmd == "crosscheck":
+        from ingest.pokedex import crosscheck
+        card = inbox.load(a.args[0])
+        n = crosscheck(inbox, [c for c in card["claims"] if c["status"] == "proposed"])
+        inbox.save(card)
+        print(f"{n} claim(s) backed by the Pokédex.\n" + render_card(card, inbox))
     elif a.cmd == "doc-prompt":
         from ingest.docprompt import kit, render
         k = kit(inbox.cfg, a.args[0], a.style, a.setting, a.seconds)

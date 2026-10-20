@@ -1391,16 +1391,22 @@ class FilmRoom(unittest.TestCase):
                 {"trainer": "me", "version": None, "gen": 3, "situation": "lead", "pokemon": "Metagross", "move": "x",
                  "outcome": "other generation", "sample_size": 9},
                 {"trainer": "ash", "version": None, "gen": 4, "situation": "lead", "pokemon": "Pikachu", "move": "x",
-                 "outcome": "someone else", "sample_size": 9}]
+                 "outcome": "someone else", "sample_size": 9},
+                {"trainer": "me", "version": "platinum", "battle": "the final", "situation": "sent out", "pokemon": "Gengar",
+                 "move": "sent out last", "position": 6, "outcome": "x", "sample_size": 1},
+                {"trainer": "me", "version": "platinum", "battle": "the final", "situation": "sent out", "pokemon": "Lucario",
+                 "move": "sent out #2", "position": 2, "outcome": "x", "sample_size": 1}]
         with open(path, "w", encoding="utf-8") as fh:
             fh.write("\n".join(json.dumps(r) for r in rows))
         f = observed(self.store, v, path)
-        self.assertEqual((f["n"], f["aggression"], [x["pokemon"] for x in f["lead"]]), (2, 61, ["Swampert"]))
+        self.assertEqual((f["n"], f["aggression"], [x["pokemon"] for x in f["lead"]]), (4, 61, ["Swampert"]))
+        self.assertEqual([x["pokemon"] for x in f["sent_out"]], ["Lucario", "Gengar"])     # in the order they came out
         sheet = {"observed": f, "go_to": {s: {"species": None} for s in ("even", "ahead", "behind")},
                  "ace": {"derived": "Typhlosion"}, "aggression": {"ratio": 55, "offense_authored": 70}}
         lines = film_lines(sheet)
         self.assertIn("Leads with Swampert", lines[0])
         self.assertTrue(any("61%" in l and "55%" in l for l in lines))
+        self.assertIn("In the final: Lucario (#2) → Gengar (last).", lines)
         import shutil
         shutil.rmtree(tmp)
 
@@ -1432,6 +1438,174 @@ class FilmRoom(unittest.TestCase):
         self.assertEqual(ref.abilities("Shaymin-Sky", 4), ["Serene Grace"])
         self.assertEqual(ref.abilities("Shaymin", 4), ["Natural Cure"])
         self.assertEqual(self.store.era.types("Arceus-Bug", 4), ("Bug",))
+
+WIKI_POKEMON = """{{AnimePokémonInfobox
+|trainername=Paul
+|pokemonname=Torterra
+|ability={{a|Overgrow}}
+}}
+==History==
+==={{aniseries|DP}}===
+Paul caught a {{p|Turtwig}}. It used {{m|Tackle}} and {{m|Razor Leaf}} early on, then {{m|Razor Leaf}} again.
+Much later, as Torterra, it used {{m|Leaf Storm}} and {{m|Stone Edge}}, then {{m|Leaf Storm}} once more and
+{{m|Frenzy Plant}}, finishing with {{m|Leaf Storm}} against [[Ash's Infernape]].
+==={{aniseries|JN}}===
+It used {{m|Earthquake}} and {{m|Earthquake}} and {{m|Earthquake}}.
+==Moves used==
+{{anmov/h|grass|ground|Paul Torterra.png|Using Leaf Storm}}
+{{anmov|normal|Tackle|DP003|When Pokémon Worlds Collide!}}
+{{anmov|grass|Razor Leaf|DP003|When Pokémon Worlds Collide!}}
+{{anmov|grass|Leaf Storm|DP120|An Old Family Blend!|rec=yes}}
+{{anmov|rock|Stone Edge|DP150|Some Title}}
+{{anmov|grass|Frenzy Plant|DP180|Another Title|rec=yes}}
+{{anmov|ground|Earthquake|JN010|Later Title|rec=yes}}
+{{anmov/f|grass}}
+"""
+
+WIKI_TRAINER = """==History==
+===''[[Pokémon the Series: Diamond and Pearl]]''===
+Paul sent out {{TP|Paul|Ninjask}}, which used {{m|Agility}} twice and {{m|Fury Cutter}}. Later Torterra
+battled, and Torterra won again. {{TP|Paul|Electivire}} fought once.
+==Pokémon==
+===On hand===
+{{TrainerPoké
+|trainer=Paul
+|pkmn=Ninjask
+|epnum=DP051
+|desc={{p|Ninjask}} was used as Paul's fourth Pokémon.
+
+Ninjask's known moves are {{m|Agility}}, {{m|Fury Cutter}}, and {{m|Giga Drain}}, and its [[Ability]] is {{a|Speed Boost}}.}}
+==Achievements==
+===Pokémon League===
+* [[Lily of the Valley Conference]] - Top 8 (''[[DP188|Battling a Thaw in Relations!]]'')
+"""
+
+
+class FakeWiki:
+    """Bulbapedia's page source, hand-written for the tests (not real pages)."""
+    pages = {"Paul's Torterra": WIKI_POKEMON, "Paul": WIKI_TRAINER, "Paul's Ninjask": "#REDIRECT [[Paul#Ninjask]]"}
+
+    def page(self, title, hops=3):
+        from ingest.bulbapedia import Missing, REDIRECT
+        anchor = None
+        for _ in range(hops):
+            if title not in self.pages:
+                raise Missing(title)
+            m = REDIRECT.match(self.pages[title])
+            if not m:
+                return title, anchor, self.pages[title]
+            title, _, anchor = m.group(1).partition("#")
+        raise Missing(title)
+
+    def url(self, title):
+        return "https://bulbapedia.bulbagarden.net/wiki/" + title.replace(" ", "_")
+
+
+class BulbapediaResearch(unittest.TestCase):
+    """The ASK list answered from Bulbapedia's page source (ingest/bulbapedia.py), exactly where it's structured."""
+    @classmethod
+    def setUpClass(cls):
+        from ingest.cards import load_config
+        from trainers.model import Store
+        cls.cfg, cls.store = load_config(), Store()
+
+    def test_reading_wikitext(self):
+        from ingest.bulbapedia import abilities_of, anmov, known_moves, mentions, path, plain, trainer_poke
+        rows = anmov(WIKI_POKEMON)
+        self.assertEqual([r["move"] for r in rows], ["Tackle", "Razor Leaf", "Leaf Storm", "Stone Edge", "Frenzy Plant", "Earthquake"])
+        self.assertEqual((rows[2]["episode"], rows[2]["recent"]), ("DP120", True))
+        span = path(WIKI_POKEMON, ["History"], ["DP"])
+        self.assertEqual(mentions(plain(WIKI_POKEMON[span[0]:span[1]]), ["Leaf Storm", "Earthquake"]),
+                         {"Leaf Storm": 3, "Earthquake": 0})                  # the era's stretch only
+        entry = trainer_poke(WIKI_TRAINER, "Ninjask")
+        self.assertEqual(known_moves(entry["desc"]), ["Agility", "Fury Cutter", "Giga Drain"])
+        self.assertEqual((abilities_of(entry["desc"]), abilities_of(WIKI_POKEMON)), (["Speed Boost"], ["Overgrow"]))
+        self.assertEqual(mentions("Thunder Punch, then Thunder", ["Thunder", "Thunder Punch"]), {"Thunder": 1, "Thunder Punch": 1})
+        self.assertIn("Paul's Ninjask", plain("{{TP|Paul|Ninjask}}"))
+
+    def test_movesets_keep_what_the_page_supports(self):
+        from ingest.bulbapedia import Researcher
+        rr = Researcher(self.cfg, self.store, wiki=FakeWiki())
+        r = rr.moveset("paul", "sinnoh", "paul-sinnoh/torterra")       # authored: Leaf Storm, Earthquake, Hyper Beam, Stone Edge
+        self.assertIn("Earthquake", r["unsupported"])                  # first used in JN, after the Sinnoh era
+        self.assertIn("Leaf Storm", r["proposed"])
+        self.assertNotIn("Earthquake", r["proposed"])
+        nin = rr.moveset("paul", "sinnoh", "paul-sinnoh/ninjask")      # no page of its own: the trainer page's entry
+        self.assertEqual((nin["source"], nin["proposed"]), ("trainer page entry", ["Agility", "Fury Cutter", "Giga Drain"]))
+
+    def test_signatures_aces_and_careers(self):
+        from ingest.bulbapedia import Researcher
+        rr = Researcher(self.cfg, self.store, wiki=FakeWiki())
+        sig = rr.signature("paul", "sinnoh", 0)                         # Torterra's Leaf Storm
+        self.assertEqual((sig["move"], sig["rank"]), ("Leaf Storm", 1))
+        bp = rr.signature("paul", "sinnoh", 2)                          # Ninjask's Baton Pass
+        self.assertNotIn("Baton Pass", bp["known"])
+        lance = rr.ace("lance", "champion-hgss")
+        self.assertEqual((lance["answer"], lance["source"]), ("Dragonite", "cartridge"))
+        self.assertIn("sent out last", lance["why"])
+        paul = rr.ace("paul", "sinnoh")
+        self.assertEqual(paul["answer"], "Torterra")                    # named most in the era's history
+        car = rr.career("paul", 1)
+        self.assertEqual((car["result"], car["episode"]), ("Top 8", "DP188"))
+
+    def test_answers_become_corrections_for_review(self):
+        import shutil
+        from ingest.bulbapedia import research
+        from ingest.cards import Inbox
+        from ingest.sheet import asks
+        tmp = tempfile.mkdtemp()
+        try:
+            os.makedirs(os.path.join(tmp, "canon"))
+            for f in ("trainers.json", "build_library.json"):
+                shutil.copy(os.path.join(ENGINE, "canon", f), os.path.join(tmp, "canon", f))
+            inbox = Inbox(base=tmp)
+            made, _ = research(inbox, self.store, asks(self.store), wiki=FakeWiki(), only={"paul"})
+            card = next(c for c, _ in made if c["id"] == "research-bulbapedia-paul-sinnoh")
+            targets = {c["data"]["target"].split(":")[1]: c for c in card["claims"]}
+            self.assertEqual(targets["trainers.paul.versions.sinnoh.signature_moves.0.status"]["data"]["value"], "confirmed")
+            self.assertEqual(targets["trainers.paul.versions.sinnoh.signature_moves.2.status"]["data"]["value"],
+                             "not on Bulbapedia's list")
+            self.assertEqual(targets["builds.paul-sinnoh/ninjask.ability"]["data"]["value"], "Speed Boost")
+            self.assertTrue(all(c["status"] == "proposed" for c in card["claims"]))
+            self.assertTrue(any("no page" in n for n in card["source"]["unresolved"]))   # the others aren't in FakeWiki
+        finally:
+            shutil.rmtree(tmp)
+
+
+class PokedexCrosscheck(unittest.TestCase):
+    """What the games' own Pokédex says (ingest/pokedex.py), held against a video's claims."""
+    def setUp(self):
+        from ingest.cards import Inbox
+        self.tmp = tempfile.mkdtemp()
+        self.inbox = Inbox(base=self.tmp)
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.tmp)
+
+    def test_entries_are_the_games_words(self):
+        from ingest.pokedex import entries
+        e = entries("Torterra", gen_max=4)
+        self.assertEqual([x["versions"][0] for x in e], ["diamond", "pearl", "platinum", "heartgold"])
+        self.assertIn("moving forests", e[1]["text"])
+        self.assertIn("Torterra", e[2]["text"])                         # 'TORTERRA' reads as a name
+
+    def test_a_fan_claim_the_games_back_says_so(self):
+        from ingest.pokedex import crosscheck
+        backed = self.inbox.claim("field_note", {"species": "Torterra", "note": "Migrating in slow herds resembling moving forests.",
+                                                 "fan_work": True})
+        unbacked = self.inbox.claim("field_note", {"species": "Torterra", "note": "Naps flat on the ground all afternoon."})
+        self.assertEqual(crosscheck(self.inbox, [backed, unbacked]), 1)
+        self.assertEqual(backed["canon_backing"][0]["games"], ["pearl"])
+        self.assertIn("The games back this: Pearl Pokédex", backed["note"])
+        self.assertNotIn("canon_backing", unbacked)
+        self.assertEqual(backed["status"], "proposed")                  # evidence, never an approval
+
+    def test_a_species_entries_become_canon_field_notes(self):
+        from ingest.pokedex import to_card
+        card, _ = to_card(self.inbox, "Torterra", gen_max=4)
+        self.assertEqual((card["provenance"], len(card["claims"])), ("cartridge", 4))
+        self.assertTrue(all(c["data"]["canon"] and c["source_ref"].startswith("Pokédex:") for c in card["claims"]))
 
 if __name__ == "__main__":
     unittest.main()

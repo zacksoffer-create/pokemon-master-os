@@ -10,7 +10,7 @@
   "base": "https://generativelanguage.googleapis.com/v1beta",
   "upload_base": "https://generativelanguage.googleapis.com/upload/v1beta",
   "model": "gemini-3.8-flash",
-  "fallback_models": ["gemini-3.7-flash", "gemini-2.5-flash"],
+  "fallback_models": ["gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.5-flash"],
   "_models_note": "Answers stream back (streamGenerateContent), so a long analysis isn't cut off by the network proxy's 30-second limit on a silent request. When the model is busy (503) or rate-limited (429), it waits and retries, then tries the fallbacks in order.",
   "retries": 3,
   "retry_wait_seconds": 8,
@@ -86,8 +86,158 @@
 
  "doc_prompt": {
   "_note": "The documentary prompt kit: a narration brief and shot-by-shot prompts for a video tool (Sora, Veo, Runway…), grounded in approved field notes and an approved style card. Edit the templates freely.",
-  "narration": "Write narration in the voice of {narration_voice}, {narrator_perspective}. Tone: {tone}. Pacing: {pacing}. Follow this structure: {structure}. The subject is {species} in {setting}. Everything the narration says about {species} must come from these field notes, nothing invented: {notes}. Length: about {seconds} seconds read aloud.",
+  "narration": "Write narration in the voice of {narration_voice}, {narrator_perspective}. Tone: {tone}. Pacing: {pacing}. Shape it like this (the shape only; every event in it comes from the field notes): {structure}. The subject is {species} in {setting}. Everything the narration says about {species} must come from these field notes, nothing invented: {notes}. Length: about {seconds} seconds read aloud.",
   "shot": "{framing} of {subject} ({species}) in {setting}, {camera_move}. {color_and_light}. Nature documentary realism, no on-screen text. Behavior: {behavior}.",
   "default_seconds": 60
+ },
+
+ "bulbapedia": {
+  "_note": "Bulbapedia research (ingest/bulbapedia.py): the ASK list answered from the page source. Text is CC BY-NC-SA 2.5 (fine for a personal, non-commercial project): every claim cites its page, and pages are cached in data/raw/bulbapedia (never committed).",
+  "raw": "https://bulbapedia.bulbagarden.net/w/index.php?title={title}&action=raw",
+  "page": "https://bulbapedia.bulbagarden.net/wiki/{title}",
+  "user_agent": "Mozilla/5.0 (research archive)",
+  "cache": "data/raw/bulbapedia",
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim",
+  "series_order": ["EP", "AG", "DP", "BW", "XY", "SM", "JN", "HZ"],
+  "_aniseries_note": "How a page names each series in its History headings: the {{aniseries}} code (Pokémon pages use AG for Advanced Generation, character pages RS) or the series title.",
+  "aniseries": {
+   "OS": ["OS", "Pokémon the Series: The Beginning"],
+   "GS": ["GS", "Pokémon the Series: Gold and Silver"],
+   "AG": ["AG", "RS", "Pokémon the Series: Ruby and Sapphire"],
+   "DP": ["DP", "Pokémon the Series: Diamond and Pearl"]
+  },
+  "trainers": {
+   "ash": "Ash",
+   "paul": "Paul",
+   "gary": "Gary",
+   "may": "May",
+   "dawn": "Dawn",
+   "brock": "Brock",
+   "misty": "Misty"
+  },
+  "trainer_pages": {
+   "ash": "Ash Ketchum",
+   "paul": "Paul",
+   "gary": "Gary Oak",
+   "may": "May (anime)",
+   "dawn": "Dawn (anime)",
+   "brock": "Brock (anime)",
+   "misty": "Misty (anime)"
+  },
+  "_eras_note": "Each anime version's era: the episodes its moves-used rows may come from, the History stretch it reads, and the moment the version stands for (what the model is asked about).",
+  "eras": {
+   "ash/kanto": {
+    "aniseries": "OS",
+    "part": "Kanto",
+    "from": "EP001",
+    "to": "EP082",
+    "moment": "the Indigo Plateau Conference at the end of the Indigo League"
+   },
+   "ash/sinnoh": {
+    "aniseries": "DP",
+    "from": "DP001",
+    "to": "DP191",
+    "moment": "the Lily of the Valley Conference"
+   },
+   "ash/all-time": {
+    "aniseries": null,
+    "from": "EP001",
+    "to": "JN147",
+    "moment": "its whole time with Ash"
+   },
+   "paul/sinnoh": {
+    "aniseries": "DP",
+    "from": "DP001",
+    "to": "DP191",
+    "moment": "Paul's full battle against Ash at the Lily of the Valley Conference"
+   },
+   "gary/johto": {
+    "aniseries": "GS",
+    "from": "EP119",
+    "to": "EP276",
+    "moment": "Gary's full battle against Ash at the Silver Conference"
+   },
+   "may/grand-festival": {
+    "aniseries": "AG",
+    "from": "AG001",
+    "to": "AG192",
+    "moment": "the Kanto Grand Festival"
+   },
+   "dawn/grand-festival": {
+    "aniseries": "DP",
+    "from": "DP001",
+    "to": "DP191",
+    "moment": "the Sinnoh Grand Festival"
+   }
+  },
+  "_battles_note": "The battle each rival version is remembered for, and how to find the order its Pokémon came out in: sentences on the Pokémon's page (its era's history) or the trainer page entry that give an ordinal ('the fifth Pokémon used'), name one of the words and the opponent.",
+ "battles": {
+   "paul/sinnoh": {
+    "label": "the Lily of the Valley Conference full battle against Ash",
+    "words": [
+     "Lily of the Valley",
+     "quarterfinal",
+     "Full Battle"
+    ],
+    "against": "Ash"
+   },
+   "ash/sinnoh": {
+    "label": "the Lily of the Valley Conference full battle against Paul",
+    "words": [
+     "Lily of the Valley",
+     "quarterfinal",
+     "Full Battle"
+    ],
+    "against": "Paul"
+   },
+   "gary/johto": {
+    "label": "the Silver Conference full battle against Ash",
+    "words": [
+     "Silver Conference",
+     "Full Battle",
+     "full battle"
+    ],
+    "against": "Ash"
+   }
+  },
+  "page_overrides": {},
+  "late_share": 0.35,
+  "model_text_chars": 30000,
+  "_late_note": "Without the model, the moveset at a version's moment is read from the last part of the era's history (this share of it): the moves named closest to the era's end, then the most named.",
+  "signature": {
+   "_note": "A signature move is confirmed when the era's history names it among the top this many of its moves.",
+   "confirm_rank_at_most": 2
+  },
+  "prompts": {
+   "moveset": "This is the history of {who} in a Pokémon anime series, from Bulbapedia. Using only this text, which moves did {who} know or use at {moment}? Choose up to four, only from this list: {moves}. Return JSON: {{\"moves\": [up to four names exactly as listed], \"evidence\": [{{\"move\": name, \"where\": the episode or battle the text ties it to}}], \"notes\": one sentence on how sure the text is}}.\\n\\nTEXT:\\n{text}",
+   "ace": "This is Bulbapedia's text about {who}'s Pokémon and history. The team for '{version}' is: {team}. Using only this text, which one Pokémon does it treat as {who}'s ace (strongest, most trusted, or saved for last)? Return JSON: {{\"ace\": one name from the team or null, \"quote\": the sentence that says so, \"notes\": one sentence}}.\\n\\nTEXT:\\n{text}",
+   "career": "These are lines from Bulbapedia's page on {who}. Using only them, what was {who}'s result at the {event}? The record currently says: {current}. Return JSON: {{\"result\": the result in a few words, or null if the lines don't say, \"episode\": the episode code if given}}.\\n\\nLINES:\\n{text}"
+  }
+ },
+
+ "pokedex": {
+  "_note": "The Pokédex cross-check (ingest/pokedex.py): a field note or lore claim is backed by a game's Pokédex entry when they share at least shared_at_least content words (after folding the synonyms below) and the overlap (shared / the shorter's words) reaches backs_at. Backing is evidence for review, never an approval.",
+  "backs_at": 0.3,
+  "shared_at_least": 2,
+  "keep": 2,
+  "synonyms": [
+   ["back", "shell", "backs"],
+   ["live", "life", "lives", "born", "dwell", "reside", "inhabit", "home"],
+   ["small", "smaller", "little", "tiny"],
+   ["group", "herd", "herds", "pack", "flock", "school", "swarm", "colony"],
+   ["migrat", "migrate", "migrating", "migration", "travel", "journey", "roam"],
+   ["forest", "forests", "wood", "woods", "trees", "tree"],
+   ["nest", "nests", "nesting", "build"],
+   ["sleep", "nap", "napping", "rest", "doze"],
+   ["eat", "feed", "feeding", "diet", "forage", "foraging", "prey"],
+   ["mistak", "mistake", "mistaken", "confused"],
+   ["water", "lake", "pond", "river", "drink"]
+  ],
+  "aspect_words": {
+   "habitat": ["live", "forest", "cave", "mountain", "sea", "ocean", "water", "desert", "field", "grass", "underground", "found", "habitat"],
+   "behavior": ["migrat", "nest", "sleep", "gather", "fight", "battle", "swim", "fly", "attack", "hide"],
+   "diet": ["eat", "berry", "fruit", "hunt"],
+   "social": ["group", "together", "partner", "young", "parent", "mother", "egg"]
+  }
  }
 }

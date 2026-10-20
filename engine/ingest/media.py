@@ -421,5 +421,7 @@ def to_card(inbox, env, provenance="ingested", again=False):
     kind = {"page": "page", "image": "image"}.get(src.get("analysed"), "video")
     key = f"{(src.get('platform') or 'file').lower()}-{src.get('key') or digest(json.dumps(src, sort_keys=True))}"
     claims = claims_from(inbox, env, lens_cfg)
+    from ingest.pokedex import crosscheck
+    crosscheck(inbox, claims)                           # what the games' own Pokédex backs, as evidence
     summary = (env.get("result") or {}).get("summary") or ""
     return inbox.new(kind, key, src, provenance, summary, claims, raw=env, again=again)
