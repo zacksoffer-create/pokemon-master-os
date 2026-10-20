@@ -295,6 +295,9 @@ def page_text(url, limit=200000):
     try:
         with urllib.request.urlopen(req, timeout=60) as r:
             raw = r.read().decode(r.headers.get_content_charset() or "utf-8", "replace")
+    except urllib.error.HTTPError as e:                 # the site answered: the page itself is the problem
+        raise NotReady(f"{urllib.parse.urlparse(url).hostname} answered {e.code} ({e.reason}) for {url}: "
+                       "check the link") from None
     except urllib.error.URLError as e:
         raise NotReady(f"can't reach {urllib.parse.urlparse(url).hostname} ({getattr(e, 'reason', e)}): allow "
                        "it in the environment's network settings") from None
