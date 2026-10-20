@@ -37,6 +37,7 @@ def entries(species, ref=None, gen_max=None):
     for text, version, gen in rows:
         clean = " ".join(str(text).replace("\x0c", " ").split())
         clean = re.sub(r"\b([A-Z]{2,})\b", lambda m: m.group(1).capitalize(), clean)   # 'TORTERRA' → 'Torterra'
+        clean = clean.replace("POKéMON", "Pokémon").replace("POKé BALL", "Poké Ball")
         if gen_max and int(gen) > gen_max:
             continue
         key = clean.lower()
@@ -153,3 +154,27 @@ def to_card(inbox, species, gen_max=None, again=False, ref=None):
     return inbox.new("pokedex", slug(species), src, "cartridge",
                      f"{len(claims)} distinct Pokédex entries for {species}" + (f" through Gen {gen_max}" if gen_max else ""),
                      claims, again=again)
+
+
+def batch_card(inbox, species, key, title, gen_max=None, again=False, ref=None):
+    """Many species' Pokédex entries as canon field notes in one card (a team list, a ranch census), so one review
+    covers them all. A species PokeAPI doesn't know is listed as unresolved."""
+    ref = ref or _ref()
+    claims, missing = [], []
+    for sp in species:
+        try:
+            es = entries(sp, ref, gen_max)
+        except KeyError:
+            missing.append(sp)
+            continue
+        for e in es:
+            games = ", ".join(v.replace("-", " ").title() for v in e["versions"])
+            claims.append(inbox.claim("field_note", {"species": sp, "aspect": aspect_of(e["text"], inbox.cfg),
+                                                     "note": e["text"], "games": e["versions"], "gen": e["gen"],
+                                                     "canon": True},
+                                      source_ref=f"Pokédex: {games}", confidence="HIGH"))
+    src = {"title": title, "file": "data/pokeref.sqlite (PokeAPI flavor text)", "species": list(species),
+           "gen_max": gen_max, "unresolved": missing}
+    return inbox.new("pokedex", key, src, "cartridge",
+                     f"{len(claims)} Pokédex entries for {len(species) - len(missing)} species"
+                     + (f" through Gen {gen_max}" if gen_max else ""), claims, again=again)

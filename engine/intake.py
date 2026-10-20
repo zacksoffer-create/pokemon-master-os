@@ -17,6 +17,7 @@
     python3 -I intake.py film --format gen4ou --count 60 [--user NAME] [--trainer me]   # Showdown replays → a card
     python3 -I intake.py research [--only paul,gary] [--no-model]   # the ASK list answered from Bulbapedia → cards
     python3 -I intake.py pokedex Torterra [--gen-max 4]            # the games' Pokédex entries → canon field notes
+    python3 -I intake.py pokedex --teams [--gen-max 4]             # every species on a trainer team, in one card
     python3 -I intake.py crosscheck CARD                           # re-check a card's claims against the Pokédex
 
 Nothing reaches canon without approval. Every claim keeps its exact source (a link and timestamp, a file, a page).
@@ -86,6 +87,7 @@ def main(argv=None):
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--only", help="research: trainer ids, comma-separated")
     ap.add_argument("--gen-max", type=int, help="pokedex: entries from games up to this generation")
+    ap.add_argument("--teams", action="store_true", help="pokedex: every species on a trainer team in canon")
     ap.add_argument("--no-model", action="store_true", help="research: exact reads only, no Gemini")
     a = ap.parse_args(argv)
     inbox = Inbox()
@@ -174,8 +176,21 @@ def main(argv=None):
         tokens = sum((u or {}).get("totalTokenCount", 0) for u in usage)
         print(f"{len(made)} card(s); Gemini used {tokens} tokens over {len(usage)} call(s).")
     elif a.cmd == "pokedex":
-        from ingest.pokedex import to_card as dex_card
-        card, made = dex_card(inbox, a.args[0], a.gen_max, again=a.again)
+        from ingest.pokedex import batch_card, to_card as dex_card
+        if a.teams:
+            from trainers.model import Store
+            store = Store()
+            have = set()                                 # species whose entries are already canon
+            path = os.path.join(inbox.base, inbox.cfg["claims"]["field_note"]["lands_in"])
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as fh:
+                    have = {json.loads(l).get("species") for l in fh if l.strip() and json.loads(l).get("canon")}
+            species = sorted({b.species for t in store.trainers.values() for v in t.versions.values()
+                              for b in store.team(v)} - have)
+            card, made = batch_card(inbox, species, "trainer-teams", "Every trainer team's species: the games' "
+                                    "Pokédex entries", a.gen_max, again=a.again)
+        else:
+            card, made = dex_card(inbox, a.args[0], a.gen_max, again=a.again)
         print(("New card:\n" if made else "Already in the inbox (use --again to re-run):\n") + render_card(card, inbox))
     elif a.cmd == "crosscheck":
         from ingest.pokedex import crosscheck

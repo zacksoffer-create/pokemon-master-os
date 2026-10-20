@@ -89,12 +89,15 @@ The ASK list answered from Bulbapedia's page source (raw wikitext, cached in `da
 | Career | The Achievements line for the event, with its episode |
 | Order | Each Pokémon's position in the rival's defining battle, as `sent out` observations; they show on the playsheet's On film |
 
+**What's already settled isn't asked again.** An applied correction answers its question, so `asks` (the sheet's ASK rows) and `research` leave it out. When research follows up on a card that has been reviewed, the follow-up goes in a new card (`-r2`), and the reviewed card keeps its record.
+
 ## The Pokédex cross-check (`ingest/pokedex.py`)
 
 The games' Pokédex entries are already in the local database, so this costs nothing:
 - **On every video and page card**, each field note or lore claim is held against its species' entries. One the games back carries the entry as `canon_backing`, and its note says which game. A fan work's claim says which part is the game's and which is the creator's own. Example: EnlargedKai's "moving forests" is Pearl's Pokédex; "born on its back and spend their entire life there" is Platinum's.
 - **`intake.py crosscheck CARD`** re-checks an existing card.
 - **`intake.py pokedex Torterra [--gen-max 4]`** makes a card of a species' distinct entries as canon field notes (provenance cartridge). The documentary kit can then stand on the games' own words.
+- **`intake.py pokedex --teams [--gen-max 4]`** does the same in one card for every species on a trainer team in canon, skipping species whose entries are canon already.
 
 ## The research agent sheet (Drive: Inbox / Pokémon Master OS - Agent Sheet)
 

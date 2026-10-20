@@ -35,6 +35,7 @@ VOCAB = [
     ("Status (RESULTS)", "NOT_CONFIRMABLE", "looked for and couldn't confirm; AgentNotes says where you looked"),
     ("Status (ASK)", "TO_RESEARCH", "open"),
     ("Status (ASK)", "WAITING", "answered in RESULTS, not reviewed yet"),
+    ("Status (ASK)", "ANSWERED", "settled by approved research; Note says which card. Skip it"),
     ("Confidence", "HIGH", "an official or primary source says it plainly (the episode, the game, an official site)"),
     ("Confidence", "MEDIUM", "a well-kept secondary source (Bulbapedia, Serebii) says it"),
     ("Confidence", "LOW", "one weak or indirect source; say why in AgentNotes"),
