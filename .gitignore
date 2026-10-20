@@ -2,3 +2,5 @@ engine/data/
 *.sqlite
 __pycache__/
 node_modules/
+engine/data_manifest/sheet/
+engine/appscript/fixture.json

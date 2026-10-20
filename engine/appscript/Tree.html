@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+  :root { --ink:#1B2230; --dragon:#4C3F91; --ice:#DCEEF5; --frost:#F3F7FB; --mist:#E8ECF2; --muted:#6B7280;
+          --male:#2B5DA8; --female:#B23A6F; --ember:#C8553D; --moss:#3F7D52; }
+  body { font-family: Lexend, Arial, sans-serif; color: var(--ink); margin: 0; padding: 14px; background: #fff; }
+  .tree { display: flex; align-items: stretch; gap: 22px; min-height: 420px; }
+  .gen { display: flex; flex-direction: column; justify-content: space-around; gap: 10px; min-width: 210px; }
+  .gen h4 { margin: 0 0 4px; font: 600 10px Montserrat, Arial, sans-serif; letter-spacing: .08em; color: var(--muted);
+            text-transform: uppercase; }
+  .card { display: flex; gap: 8px; align-items: center; border: 1px solid var(--mist); border-radius: 10px;
+          padding: 6px 8px; background: var(--frost); }
+  .card.root { background: var(--ice); border: 2px solid var(--dragon); }
+  .card.empty { opacity: .45; background: #fff; }
+  .card img { width: 56px; height: 56px; image-rendering: pixelated; flex: none; }
+  .nm { font-weight: 600; font-size: 12px; line-height: 1.25; }
+  .sx.male { color: var(--male); } .sx.female { color: var(--female); }
+  .mv { font-size: 11px; color: var(--dragon); margin-top: 2px; }
+  .ft { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .kids { margin-top: 14px; border-top: 1px solid var(--mist); padding-top: 8px; font-size: 12px; }
+  .kids b { font-family: Montserrat, Arial, sans-serif; font-size: 11px; color: var(--dragon); letter-spacing: .06em; }
+</style>
+</head>
+<body>
+<div id="tree" class="tree"></div>
+<div id="kids" class="kids"></div>
+<script>
+  var DATA = <?!= data ?>;
+  function sprite(n) {
+    var dex = n && (DATA.dex[n.hatched_as] || DATA.dex[n.species]);
+    return dex ? DATA.sprite + dex + '.png' : '';
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }
+  function card(n, root) {
+    if (!n) return '<div class="card empty"><div class="nm">—</div></div>';
+    var sx = n.sex === 'male' ? '♂' : n.sex === 'female' ? '♀' : '';
+    return '<div class="card' + (root ? ' root' : '') + '">' + (sprite(n) ? '<img src="' + sprite(n) + '">' : '') +
+      '<div><div class="nm">' + esc(n.name) + ' <span class="sx ' + n.sex + '">' + sx + '</span></div>' +
+      (n.moves && n.moves.length ? '<div class="mv">' + esc(n.moves.join(', ')) + '</div>' : '') +
+      '<div class="ft">gen ' + esc(n.generation) + ' · ' + esc(n.fate || '') + '</div></div></div>';
+  }
+  var levels = [[DATA.tree]];
+  for (var d = 0; d < 3; d++) {
+    var next = [];
+    levels[d].forEach(function (n) { next.push(n ? n.sire : null, n ? n.dam : null); });
+    if (!next.some(Boolean)) break;
+    levels.push(next);
+  }
+  var titles = ['This one', 'Sire and dam', 'Grandparents', 'Great-grandparents'];
+  document.getElementById('tree').innerHTML = levels.map(function (lv, i) {
+    return '<div class="gen"><h4>' + titles[i] + '</h4>' + lv.map(function (n) { return card(n, i === 0); }).join('') + '</div>';
+  }).join('');
+  document.getElementById('kids').innerHTML = DATA.children.length
+    ? '<b>DESCENDANTS</b> · ' + DATA.children.map(function (c) { return esc(c.name) + ' (gen ' + esc(c.generation) + ')'; }).join(' · ')
+    : '<b>DESCENDANTS</b> · none on record yet';
+</script>
+</body>
+</html>

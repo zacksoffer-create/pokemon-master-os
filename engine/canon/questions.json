@@ -1,0 +1,109 @@
+{
+ "_note": "The open questions the ranch, the breeding lab and the chapters are waiting on, in one register (from QUESTIONS_AND_EXPERIMENTS.md, RANCH.md §6 and BREEDING_LAB.md). Not canon: each is answered by a decision of Zack's, which then gets its D- number. The Sheet's Open Questions tab shows these with a column for your call.",
+ "questions": [
+  {
+   "id": "Q-RANCH-1",
+   "area": "ranch",
+   "question": "Which satellite: the Sevii Islands or the Battle Zone?",
+   "why": "Blackthorn has no volcano and no sea. Lapras needs the sea; both Infernape and the Infernape stud need volcanic ground. Either site covers both.",
+   "options": [
+    "Sevii Islands (Kanto): Mt. Ember, the Ember Spa, the open sea, Lapras's home region",
+    "Battle Zone (Sinnoh): Stark Mountain, the sea, Infernape's home region, Platinum's villa"
+   ],
+   "blocks": "where 4 residents live",
+   "source": "RANCH.md §6.2, D-036"
+  },
+  {
+   "id": "Q-RANCH-2",
+   "area": "breeding",
+   "question": "Confirm the D-038 reading: one stud per target line, a male who knows the whole egg-move set.",
+   "why": "The whole studbook is built on it: 9 studs and one Light Ball. The other reading keeps the last father in each chain instead.",
+   "options": [
+    "Yes: a stud of each target line",
+    "No: keep the last father of each chain"
+   ],
+   "blocks": "the 9 studs in the lineage",
+   "source": "RANCH.md §3, D-038"
+  },
+  {
+   "id": "Q-RANCH-3",
+   "area": "ranch",
+   "question": "Approve W-016 (Meganium, the Glasshouse gardener) and W-017 (Miltank, the nursery's milk)?",
+   "why": "Two of the Glasshouse's jobs are story-only until a world record backs them.",
+   "options": [
+    "Approve both",
+    "Approve one",
+    "Leave them story-only"
+   ],
+   "blocks": "two open jobs in the Glasshouse",
+   "source": "RANCH.md §2b, D-045"
+  },
+  {
+   "id": "Q-RANCH-4",
+   "area": "ranch",
+   "question": "The Day-Care preserve: who gets invited, and what do clients' Pokémon experience there?",
+   "why": "It's the one open part of the ranch (D-040). Not urgent.",
+   "options": [],
+   "blocks": "the Day-Care's design",
+   "source": "RANCH.md §6.5, D-040"
+  },
+  {
+   "id": "Q-BREED-1",
+   "area": "breeding",
+   "question": "The companions' genders.",
+   "why": "They decide who can father and who can mother. Until then every parent reads \"could be\". If HeartGold Tyranitar is male and knows Dragon Dance and Outrage, he's already the Tyranitar stud.",
+   "options": [],
+   "blocks": "who sires and who carries in every cross",
+   "source": "BREEDING_LAB.md, D-044"
+  },
+  {
+   "id": "Q-BREED-2",
+   "area": "breeding",
+   "question": "Which outside fathers become part of the story?",
+   "why": "Seven crosses borrow a father from outside the journey: Nuzleaf (Extrasensory), Kingdra (Dragon Dance), Muk (Disable), Heracross (Counter), Azumarill (Aqua Ring), Dewgong (Ice Shard) and Bellossom (Leaf Storm, Sleep Powder). Under D-038 they go home after.",
+   "options": [],
+   "blocks": "names and stories for 7 borrowed fathers",
+   "source": "BREEDING_LAB.md"
+  },
+  {
+   "id": "Q-CH-1",
+   "area": "chapters",
+   "question": "Crystal needs a Fly answer.",
+   "why": "No member of the Crystal six can learn Fly on cartridge (D-027).",
+   "options": [],
+   "blocks": "Crystal's field coverage",
+   "source": "QUESTIONS Q1, D-027"
+  },
+  {
+   "id": "Q-CH-2",
+   "area": "chapters",
+   "question": "Revisit Platinum's Waterfall and Defog.",
+   "why": "Both were lost when Lucario replaced the January roster's Empoleon (D-030).",
+   "options": [],
+   "blocks": "Platinum's field coverage",
+   "source": "QUESTIONS Q1, D-030"
+  },
+  {
+   "id": "Q-CH-3",
+   "area": "chapters",
+   "question": "Typhlosion's nature under the July set (Q4).",
+   "why": "Timid cuts Attack, which two of the July moves (Thunder Punch, Earthquake) rely on.",
+   "options": [
+    "Timid",
+    "a neutral or mixed nature",
+    "change the set"
+   ],
+   "blocks": "HeartGold Typhlosion's specimen",
+   "source": "QUESTIONS Q4"
+  },
+  {
+   "id": "Q-CH-4",
+   "area": "chapters",
+   "question": "The SoulSilver six is provisional.",
+   "why": "Pikachu, Dragonite, Infernape, Empoleon, Gengar, Scizor is a rough starting point with no incumbency (D-008, D-010).",
+   "options": [],
+   "blocks": "SoulSilver's lock",
+   "source": "CANON_CURRENT.md"
+  }
+ ]
+}

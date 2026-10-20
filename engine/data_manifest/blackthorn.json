@@ -1,0 +1,6937 @@
+{
+ "built": "2026-10-20",
+ "kpis": {
+  "residents": 45,
+  "at_hq": 41,
+  "at_satellite": 4,
+  "companions": 36,
+  "studs": 9,
+  "lines": 10,
+  "individuals": 63,
+  "generations": 3,
+  "rule_issues": 0,
+  "facilities": 9,
+  "open_jobs": 3,
+  "single_points": 5,
+  "open_questions": 10,
+  "decisions": 53,
+  "world_records": 17
+ },
+ "chapters": [
+  {
+   "order": 1,
+   "game": "crystal",
+   "name": "Crystal",
+   "thesis": "attachment",
+   "line": "first bonds, care before competence",
+   "status": "working",
+   "decision": "D-002",
+   "locked": false,
+   "roster": [
+    {
+     "species": "Feraligatr",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/160.png"
+    },
+    {
+     "species": "Miltank",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/241.png"
+    },
+    {
+     "species": "Donphan",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/232.png"
+    },
+    {
+     "species": "Ampharos",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/181.png"
+    },
+    {
+     "species": "Umbreon",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/197.png"
+    },
+    {
+     "species": "Espeon",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/196.png"
+    }
+   ]
+  },
+  {
+   "order": 2,
+   "game": "firered",
+   "name": "FireRed",
+   "thesis": "confidence",
+   "line": "heroic clarity, ambition",
+   "status": "working",
+   "decision": "D-003",
+   "locked": false,
+   "roster": [
+    {
+     "species": "Charizard",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/6.png"
+    },
+    {
+     "species": "Blastoise",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/9.png"
+    },
+    {
+     "species": "Venusaur",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/3.png"
+    },
+    {
+     "species": "Alakazam",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/65.png"
+    },
+    {
+     "species": "Jolteon",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/135.png"
+    },
+    {
+     "species": "Machamp",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/68.png"
+    }
+   ]
+  },
+  {
+   "order": 3,
+   "game": "emerald",
+   "name": "Emerald",
+   "thesis": "adaptation",
+   "line": "\"We learned how to live out here.\"",
+   "status": "working",
+   "decision": "D-004",
+   "locked": false,
+   "roster": [
+    {
+     "species": "Swampert",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/260.png"
+    },
+    {
+     "species": "Milotic",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/350.png"
+    },
+    {
+     "species": "Altaria",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/334.png"
+    },
+    {
+     "species": "Arcanine",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/59.png"
+    },
+    {
+     "species": "Absol",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/359.png"
+    },
+    {
+     "species": "Meganium",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/154.png"
+    }
+   ]
+  },
+  {
+   "order": 4,
+   "game": "platinum",
+   "name": "Platinum",
+   "thesis": "initiative",
+   "line": "\"Every turn you survive is a mistake.\"",
+   "status": "working",
+   "decision": "D-005",
+   "locked": false,
+   "roster": [
+    {
+     "species": "Infernape",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/392.png"
+    },
+    {
+     "species": "Weavile",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/461.png"
+    },
+    {
+     "species": "Roserade",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/407.png"
+    },
+    {
+     "species": "Lucario",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/448.png"
+    },
+    {
+     "species": "Garchomp",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/445.png"
+    },
+    {
+     "species": "Magnezone",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/462.png"
+    }
+   ]
+  },
+  {
+   "order": 5,
+   "game": "soulsilver",
+   "name": "SoulSilver",
+   "thesis": "experience",
+   "line": "\"We've been here before.\"",
+   "status": "provisional",
+   "decision": "D-010",
+   "locked": false,
+   "roster": [
+    {
+     "species": "Pikachu",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/25.png"
+    },
+    {
+     "species": "Dragonite",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/149.png"
+    },
+    {
+     "species": "Infernape",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png"
+    },
+    {
+     "species": "Empoleon",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png"
+    },
+    {
+     "species": "Gengar",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png"
+    },
+    {
+     "species": "Scizor",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png"
+    }
+   ]
+  },
+  {
+   "order": 6,
+   "game": "heartgold",
+   "name": "HeartGold",
+   "thesis": "completeness",
+   "line": "\"Nothing you do matters.\"",
+   "status": "locked",
+   "decision": "D-006",
+   "locked": true,
+   "roster": [
+    {
+     "species": "Typhlosion",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png"
+    },
+    {
+     "species": "Tyranitar",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png"
+    },
+    {
+     "species": "Mamoswine",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/473.png"
+    },
+    {
+     "species": "Crobat",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/169.png"
+    },
+    {
+     "species": "Lapras",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/131.png"
+    },
+    {
+     "species": "Snorlax",
+     "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/143.png"
+    }
+   ]
+  }
+ ],
+ "rival": {
+  "status": "working",
+  "decision": "D-019",
+  "roster": [
+   "Nidoking",
+   "Kingdra",
+   "Houndoom",
+   "Metagross",
+   "Gliscor",
+   "Salamence"
+  ]
+ },
+ "residents": [
+  {
+   "id": "crystal:Feraligatr",
+   "species": "Feraligatr",
+   "chapter": "Crystal",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "large",
+   "climate": "any",
+   "water": "fresh",
+   "native": "Johto",
+   "egg_groups": [
+    "Monster",
+    "Water 1"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/160.png"
+  },
+  {
+   "id": "crystal:Miltank",
+   "species": "Miltank",
+   "chapter": "Crystal",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "clinic: field healing",
+    "day-care preserve: field healing",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "dam (female-only line)"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/241.png"
+  },
+  {
+   "id": "crystal:Donphan",
+   "species": "Donphan",
+   "chapter": "Crystal",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/232.png"
+  },
+  {
+   "id": "crystal:Ampharos",
+   "species": "Ampharos",
+   "chapter": "Crystal",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Field",
+    "Monster"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/181.png"
+  },
+  {
+   "id": "crystal:Umbreon",
+   "species": "Umbreon",
+   "chapter": "Crystal",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "homestead",
+   "size": "small",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/197.png"
+  },
+  {
+   "id": "crystal:Espeon",
+   "species": "Espeon",
+   "chapter": "Crystal",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "homestead",
+   "size": "small",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/196.png"
+  },
+  {
+   "id": "firered:Charizard",
+   "species": "Charizard",
+   "chapter": "FireRed",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "medium",
+   "climate": "warm",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Dragon",
+    "Monster"
+   ],
+   "jobs": [
+    "transport: air travel",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/6.png"
+  },
+  {
+   "id": "firered:Blastoise",
+   "species": "Blastoise",
+   "chapter": "FireRed",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "medium",
+   "climate": "any",
+   "water": "fresh",
+   "native": "Kanto",
+   "egg_groups": [
+    "Monster",
+    "Water 1"
+   ],
+   "jobs": [
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/9.png"
+  },
+  {
+   "id": "firered:Venusaur",
+   "species": "Venusaur",
+   "chapter": "FireRed",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Monster",
+    "Grass"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/3.png"
+  },
+  {
+   "id": "firered:Alakazam",
+   "species": "Alakazam",
+   "chapter": "FireRed",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "homestead",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Human-Like"
+   ],
+   "jobs": [
+    "transport: escape"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/65.png"
+  },
+  {
+   "id": "firered:Jolteon",
+   "species": "Jolteon",
+   "chapter": "FireRed",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "homestead",
+   "size": "small",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "transport: escape",
+    "works (building & upkeep): digging"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/135.png"
+  },
+  {
+   "id": "firered:Machamp",
+   "species": "Machamp",
+   "chapter": "FireRed",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Human-Like"
+   ],
+   "jobs": [
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/68.png"
+  },
+  {
+   "id": "emerald:Swampert",
+   "species": "Swampert",
+   "chapter": "Emerald",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "medium",
+   "climate": "any",
+   "water": "fresh",
+   "native": "Hoenn",
+   "egg_groups": [
+    "Monster",
+    "Water 1"
+   ],
+   "jobs": [
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/260.png"
+  },
+  {
+   "id": "emerald:Milotic",
+   "species": "Milotic",
+   "chapter": "Emerald",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "huge",
+   "climate": "any",
+   "water": "fresh",
+   "native": "Hoenn",
+   "egg_groups": [
+    "Dragon",
+    "Water 1"
+   ],
+   "jobs": [
+    "transport: water travel"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/350.png"
+  },
+  {
+   "id": "emerald:Altaria",
+   "species": "Altaria",
+   "chapter": "Emerald",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "forest",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Hoenn",
+   "egg_groups": [
+    "Dragon",
+    "Flying"
+   ],
+   "jobs": [
+    "transport: air travel",
+    "works (building & upkeep): clearing"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/334.png"
+  },
+  {
+   "id": "emerald:Arcanine",
+   "species": "Arcanine",
+   "chapter": "Emerald",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "large",
+   "climate": "warm",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "day-care preserve: deterrence",
+    "security & watch: deterrence",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/59.png"
+  },
+  {
+   "id": "emerald:Absol",
+   "species": "Absol",
+   "chapter": "Emerald",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Hoenn",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/359.png"
+  },
+  {
+   "id": "emerald:Meganium",
+   "species": "Meganium",
+   "chapter": "Emerald",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Monster",
+    "Grass"
+   ],
+   "jobs": [
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/154.png"
+  },
+  {
+   "id": "platinum:Infernape",
+   "species": "Infernape",
+   "chapter": "Platinum",
+   "kind": "companion",
+   "fate": "open",
+   "site": "satellite (Sevii Islands or Battle Zone)",
+   "land": "volcanic",
+   "size": "medium",
+   "climate": "warm",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field",
+    "Human-Like"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/392.png"
+  },
+  {
+   "id": "platinum:Weavile",
+   "species": "Weavile",
+   "chapter": "Platinum",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "forest",
+   "size": "medium",
+   "climate": "cold",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/461.png"
+  },
+  {
+   "id": "platinum:Roserade",
+   "species": "Roserade",
+   "chapter": "Platinum",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "small",
+   "climate": "any",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Fairy",
+    "Grass"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/407.png"
+  },
+  {
+   "id": "platinum:Lucario",
+   "species": "Lucario",
+   "chapter": "Platinum",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field",
+    "Human-Like"
+   ],
+   "jobs": [
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/448.png"
+  },
+  {
+   "id": "platinum:Garchomp",
+   "species": "Garchomp",
+   "chapter": "Platinum",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Dragon",
+    "Monster"
+   ],
+   "jobs": [
+    "climate: weather handling",
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/445.png"
+  },
+  {
+   "id": "platinum:Magnezone",
+   "species": "Magnezone",
+   "chapter": "Platinum",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "large",
+   "climate": "any",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Mineral"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging"
+   ],
+   "breeding_roles": [
+    "Ditto line (genderless: parent and product only with Ditto, no egg moves)"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/462.png"
+  },
+  {
+   "id": "soulsilver:Pikachu",
+   "species": "Pikachu",
+   "chapter": "SoulSilver",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "forest",
+   "size": "small",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Fairy",
+    "Field"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/25.png"
+  },
+  {
+   "id": "soulsilver:Dragonite",
+   "species": "Dragonite",
+   "chapter": "SoulSilver",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "large",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Dragon",
+    "Water 1"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: air travel",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/149.png"
+  },
+  {
+   "id": "soulsilver:Infernape",
+   "species": "Infernape",
+   "chapter": "SoulSilver",
+   "kind": "companion",
+   "fate": "open",
+   "site": "satellite (Sevii Islands or Battle Zone)",
+   "land": "volcanic",
+   "size": "medium",
+   "climate": "warm",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field",
+    "Human-Like"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png"
+  },
+  {
+   "id": "soulsilver:Empoleon",
+   "species": "Empoleon",
+   "chapter": "SoulSilver",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "medium",
+   "climate": "any",
+   "water": "fresh",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field",
+    "Water 1"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png"
+  },
+  {
+   "id": "soulsilver:Gengar",
+   "species": "Gengar",
+   "chapter": "SoulSilver",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "caverns",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Amorphous"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "product",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png"
+  },
+  {
+   "id": "soulsilver:Scizor",
+   "species": "Scizor",
+   "chapter": "SoulSilver",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Bug"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "product (optional: its egg moves can also be learned)",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png"
+  },
+  {
+   "id": "heartgold:Typhlosion",
+   "species": "Typhlosion",
+   "chapter": "HeartGold",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "warm",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "climate: heat source",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "kitchen & orchard: heat source",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png"
+  },
+  {
+   "id": "heartgold:Tyranitar",
+   "species": "Tyranitar",
+   "chapter": "HeartGold",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "large",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Monster"
+   ],
+   "jobs": [
+    "day-care preserve: deterrence",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "security & watch: deterrence",
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png"
+  },
+  {
+   "id": "heartgold:Mamoswine",
+   "species": "Mamoswine",
+   "chapter": "HeartGold",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "caverns",
+   "size": "large",
+   "climate": "cold",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "climate: cold tolerance",
+    "climate: weather handling",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/473.png"
+  },
+  {
+   "id": "heartgold:Crobat",
+   "species": "Crobat",
+   "chapter": "HeartGold",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "caverns",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Flying"
+   ],
+   "jobs": [
+    "security & watch: danger sense",
+    "security & watch: scouting",
+    "transport: air travel"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/169.png"
+  },
+  {
+   "id": "heartgold:Lapras",
+   "species": "Lapras",
+   "chapter": "HeartGold",
+   "kind": "companion",
+   "fate": "open",
+   "site": "satellite (Sevii Islands or Battle Zone)",
+   "land": "coast & sea",
+   "size": "large",
+   "climate": "cold",
+   "water": "sea",
+   "native": "Kanto",
+   "egg_groups": [
+    "Monster",
+    "Water 1"
+   ],
+   "jobs": [
+    "clinic: field healing",
+    "day-care preserve: field healing",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/131.png"
+  },
+  {
+   "id": "heartgold:Snorlax",
+   "species": "Snorlax",
+   "chapter": "HeartGold",
+   "kind": "companion",
+   "fate": "open",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "huge",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Monster"
+   ],
+   "jobs": [
+    "clinic: calming presence",
+    "day-care preserve: calming presence",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "nursery & hatchery: calming presence",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)"
+   ],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/143.png"
+  },
+  {
+   "id": "stud:Typhlosion",
+   "species": "Typhlosion",
+   "chapter": "HeartGold",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "warm",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "climate: heat source",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "kitchen & orchard: heat source",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png"
+  },
+  {
+   "id": "stud:Tyranitar",
+   "species": "Tyranitar",
+   "chapter": "HeartGold",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "highlands",
+   "size": "large",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Monster"
+   ],
+   "jobs": [
+    "day-care preserve: deterrence",
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "security & watch: deterrence",
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png"
+  },
+  {
+   "id": "stud:Gengar",
+   "species": "Gengar",
+   "chapter": "SoulSilver",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "caverns",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Kanto",
+   "egg_groups": [
+    "Amorphous"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png"
+  },
+  {
+   "id": "stud:Scizor",
+   "species": "Scizor",
+   "chapter": "SoulSilver",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "medium",
+   "climate": "any",
+   "water": "none",
+   "native": "Johto",
+   "egg_groups": [
+    "Bug"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png"
+  },
+  {
+   "id": "stud:Empoleon",
+   "species": "Empoleon",
+   "chapter": "SoulSilver",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "medium",
+   "climate": "any",
+   "water": "fresh",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field",
+    "Water 1"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png"
+  },
+  {
+   "id": "stud:Swampert",
+   "species": "Swampert",
+   "chapter": "Emerald",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "lakes & rivers",
+   "size": "medium",
+   "climate": "any",
+   "water": "fresh",
+   "native": "Hoenn",
+   "egg_groups": [
+    "Monster",
+    "Water 1"
+   ],
+   "jobs": [
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/260.png"
+  },
+  {
+   "id": "stud:Infernape",
+   "species": "Infernape",
+   "chapter": "Platinum",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "satellite (Sevii Islands or Battle Zone)",
+   "land": "volcanic",
+   "size": "medium",
+   "climate": "warm",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field",
+    "Human-Like"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "transport: escape",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/392.png"
+  },
+  {
+   "id": "stud:Weavile",
+   "species": "Weavile",
+   "chapter": "Platinum",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "forest",
+   "size": "medium",
+   "climate": "cold",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Field"
+   ],
+   "jobs": [
+    "transport: escape",
+    "transport: water travel",
+    "works (building & upkeep): clearing",
+    "works (building & upkeep): digging",
+    "works (building & upkeep): hauling"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/461.png"
+  },
+  {
+   "id": "stud:Roserade",
+   "species": "Roserade",
+   "chapter": "Platinum",
+   "kind": "stud",
+   "fate": "kept",
+   "site": "Blackthorn (HQ)",
+   "land": "meadow",
+   "size": "small",
+   "climate": "any",
+   "water": "none",
+   "native": "Sinnoh",
+   "egg_groups": [
+    "Fairy",
+    "Grass"
+   ],
+   "jobs": [
+    "day-care preserve: foraging",
+    "kitchen & orchard: foraging",
+    "works (building & upkeep): clearing"
+   ],
+   "breeding_roles": [],
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/407.png"
+  }
+ ],
+ "sites": {
+  "S-JOHTO": [
+   "crystal:Feraligatr",
+   "crystal:Miltank",
+   "crystal:Donphan",
+   "crystal:Ampharos",
+   "crystal:Umbreon",
+   "crystal:Espeon",
+   "firered:Charizard",
+   "firered:Blastoise",
+   "firered:Venusaur",
+   "firered:Alakazam",
+   "firered:Jolteon",
+   "firered:Machamp",
+   "emerald:Swampert",
+   "emerald:Milotic",
+   "emerald:Altaria",
+   "emerald:Arcanine",
+   "emerald:Absol",
+   "emerald:Meganium",
+   "platinum:Weavile",
+   "platinum:Roserade",
+   "platinum:Lucario",
+   "platinum:Garchomp",
+   "platinum:Magnezone",
+   "soulsilver:Pikachu",
+   "soulsilver:Dragonite",
+   "soulsilver:Empoleon",
+   "soulsilver:Gengar",
+   "soulsilver:Scizor",
+   "heartgold:Typhlosion",
+   "heartgold:Tyranitar",
+   "heartgold:Mamoswine",
+   "heartgold:Crobat",
+   "heartgold:Snorlax",
+   "stud:Typhlosion",
+   "stud:Tyranitar",
+   "stud:Gengar",
+   "stud:Scizor",
+   "stud:Empoleon",
+   "stud:Swampert",
+   "stud:Weavile",
+   "stud:Roserade"
+  ],
+  "satellite (S-KANTO or S-SINNOH)": [
+   "platinum:Infernape",
+   "soulsilver:Infernape",
+   "heartgold:Lapras",
+   "stud:Infernape"
+  ]
+ },
+ "satellite_options": {
+  "hq_lacks": {
+   "coast_sea": [
+    "heartgold:Lapras"
+   ],
+   "volcanic": [
+    "platinum:Infernape",
+    "soulsilver:Infernape",
+    "stud:Infernape"
+   ]
+  },
+  "minimum": [
+   [
+    "S-KANTO"
+   ],
+   [
+    "S-SINNOH"
+   ]
+  ]
+ },
+ "zones": {
+  "meadow": 12,
+  "forest": 4,
+  "highlands": 9,
+  "caverns": 4,
+  "volcanic": 3,
+  "lakes_rivers": 8,
+  "coast_sea": 1,
+  "homestead": 4
+ },
+ "egg_group_pens": {
+  "Field": [
+   "Absol",
+   "Ampharos",
+   "Arcanine",
+   "Donphan",
+   "Empoleon",
+   "Espeon",
+   "Infernape",
+   "Jolteon",
+   "Lucario",
+   "Mamoswine",
+   "Miltank",
+   "Pikachu",
+   "Typhlosion",
+   "Umbreon",
+   "Weavile"
+  ],
+  "Monster": [
+   "Ampharos",
+   "Blastoise",
+   "Charizard",
+   "Feraligatr",
+   "Garchomp",
+   "Lapras",
+   "Meganium",
+   "Snorlax",
+   "Swampert",
+   "Tyranitar",
+   "Venusaur"
+  ],
+  "Water 1": [
+   "Blastoise",
+   "Dragonite",
+   "Empoleon",
+   "Feraligatr",
+   "Lapras",
+   "Milotic",
+   "Swampert"
+  ],
+  "Dragon": [
+   "Altaria",
+   "Charizard",
+   "Dragonite",
+   "Garchomp",
+   "Milotic"
+  ],
+  "Human-Like": [
+   "Alakazam",
+   "Infernape",
+   "Lucario",
+   "Machamp"
+  ],
+  "Grass": [
+   "Meganium",
+   "Roserade",
+   "Venusaur"
+  ],
+  "Flying": [
+   "Altaria",
+   "Crobat"
+  ],
+  "Fairy": [
+   "Pikachu",
+   "Roserade"
+  ],
+  "Mineral": [
+   "Magnezone"
+  ],
+  "Amorphous": [
+   "Gengar"
+  ],
+  "Bug": [
+   "Scizor"
+  ]
+ },
+ "facilities": [
+  {
+   "name": "nursery & hatchery",
+   "access": "private",
+   "people": [
+    "head breeder"
+   ],
+   "staffed": {
+    "calming presence": [
+     "Snorlax (authored: W-015 (D-033))"
+    ]
+   },
+   "open_jobs": [
+    "egg care"
+   ],
+   "hangs_on_one": {
+    "calming presence": "Snorlax (authored: W-015 (D-033))"
+   },
+   "story_candidates": {
+    "calming presence": [
+     "Venusaur (lore: Pokédex (emerald))",
+     "Machamp (lore: Pokédex (sapphire))",
+     "Milotic (lore: Pokédex (sapphire))",
+     "Meganium (lore: Pokédex (emerald))",
+     "Infernape (lore: Pokédex (diamond))",
+     "Dragonite (lore: Pokédex (ruby))",
+     "Lapras (lore: Pokédex (heartgold))"
+    ]
+   }
+  },
+  {
+   "name": "studbook & archive",
+   "access": "private",
+   "people": [
+    "archivist"
+   ],
+   "staffed": {},
+   "open_jobs": [],
+   "hangs_on_one": {},
+   "story_candidates": {}
+  },
+  {
+   "name": "day-care preserve",
+   "access": "open (exclusive)",
+   "people": [
+    "Day-Care keepers"
+   ],
+   "staffed": {
+    "calming presence": [
+     "Snorlax (authored: W-015 (D-033))"
+    ],
+    "deterrence": [
+     "Arcanine (cartridge: Intimidate (overworld ability))",
+     "Tyranitar (authored: W-003 (D-033))"
+    ],
+    "field healing": [
+     "Miltank (cartridge: Milk Drink (field move))",
+     "Lapras (authored: W-013 (D-033))"
+    ],
+    "foraging": [
+     "Feraligatr (cartridge: Headbutt (field move))",
+     "Miltank (cartridge: Headbutt (field move))",
+     "Donphan (cartridge: Headbutt (field move))",
+     "Ampharos (cartridge: Headbutt (field move))",
+     "Umbreon (cartridge: Headbutt (field move))",
+     "Espeon (cartridge: Headbutt (field move))",
+     "Venusaur (cartridge: Sweet Scent (field move))",
+     "Roserade (cartridge: Sweet Scent (field move))",
+     "Magnezone (cartridge: Magnet Pull (overworld ability))",
+     "Pikachu (cartridge: Headbutt (field move))",
+     "Dragonite (cartridge: Headbutt (field move))",
+     "Infernape (cartridge: Headbutt (field move))",
+     "Empoleon (cartridge: Headbutt (field move))",
+     "Gengar (cartridge: Headbutt (field move))",
+     "Scizor (cartridge: Headbutt (field move))",
+     "Typhlosion (cartridge: Headbutt (field move))",
+     "Tyranitar (cartridge: Headbutt (field move))",
+     "Mamoswine (cartridge: Headbutt (field move))",
+     "Lapras (cartridge: Headbutt (field move))",
+     "Snorlax (cartridge: Headbutt (field move))"
+    ]
+   },
+   "open_jobs": [],
+   "hangs_on_one": {
+    "calming presence": "Snorlax (authored: W-015 (D-033))"
+   },
+   "story_candidates": {
+    "calming presence": [
+     "Venusaur (lore: Pokédex (emerald))",
+     "Machamp (lore: Pokédex (sapphire))",
+     "Milotic (lore: Pokédex (sapphire))",
+     "Meganium (lore: Pokédex (emerald))",
+     "Infernape (lore: Pokédex (diamond))",
+     "Dragonite (lore: Pokédex (ruby))",
+     "Lapras (lore: Pokédex (heartgold))"
+    ],
+    "field healing": [
+     "Meganium (lore: Pokédex (silver))"
+    ]
+   }
+  },
+  {
+   "name": "clinic",
+   "access": "private",
+   "people": [
+    "Pokémon nurse"
+   ],
+   "staffed": {
+    "field healing": [
+     "Miltank (cartridge: Milk Drink (field move))",
+     "Lapras (authored: W-013 (D-033))"
+    ],
+    "calming presence": [
+     "Snorlax (authored: W-015 (D-033))"
+    ]
+   },
+   "open_jobs": [],
+   "hangs_on_one": {
+    "calming presence": "Snorlax (authored: W-015 (D-033))"
+   },
+   "story_candidates": {
+    "field healing": [
+     "Meganium (lore: Pokédex (silver))"
+    ],
+    "calming presence": [
+     "Venusaur (lore: Pokédex (emerald))",
+     "Machamp (lore: Pokédex (sapphire))",
+     "Milotic (lore: Pokédex (sapphire))",
+     "Meganium (lore: Pokédex (emerald))",
+     "Infernape (lore: Pokédex (diamond))",
+     "Dragonite (lore: Pokédex (ruby))",
+     "Lapras (lore: Pokédex (heartgold))"
+    ]
+   }
+  },
+  {
+   "name": "kitchen & orchard",
+   "access": "private",
+   "people": [
+    "cook",
+    "orchard keeper"
+   ],
+   "staffed": {
+    "foraging": [
+     "Feraligatr (cartridge: Headbutt (field move))",
+     "Miltank (cartridge: Headbutt (field move))",
+     "Donphan (cartridge: Headbutt (field move))",
+     "Ampharos (cartridge: Headbutt (field move))",
+     "Umbreon (cartridge: Headbutt (field move))",
+     "Espeon (cartridge: Headbutt (field move))",
+     "Venusaur (cartridge: Sweet Scent (field move))",
+     "Roserade (cartridge: Sweet Scent (field move))",
+     "Magnezone (cartridge: Magnet Pull (overworld ability))",
+     "Pikachu (cartridge: Headbutt (field move))",
+     "Dragonite (cartridge: Headbutt (field move))",
+     "Infernape (cartridge: Headbutt (field move))",
+     "Empoleon (cartridge: Headbutt (field move))",
+     "Gengar (cartridge: Headbutt (field move))",
+     "Scizor (cartridge: Headbutt (field move))",
+     "Typhlosion (cartridge: Headbutt (field move))",
+     "Tyranitar (cartridge: Headbutt (field move))",
+     "Mamoswine (cartridge: Headbutt (field move))",
+     "Lapras (cartridge: Headbutt (field move))",
+     "Snorlax (cartridge: Headbutt (field move))"
+    ],
+    "heat source": [
+     "Typhlosion (authored: W-001 (D-033))"
+    ]
+   },
+   "open_jobs": [
+    "food source",
+    "cooking"
+   ],
+   "hangs_on_one": {
+    "heat source": "Typhlosion (authored: W-001 (D-033))"
+   },
+   "story_candidates": {
+    "food source": [
+     "Miltank (lore: Pokédex (crystal))",
+     "Venusaur (lore: Pokédex (emerald))"
+    ],
+    "cooking": [
+     "Pikachu (lore: Pokédex (heartgold))"
+    ],
+    "heat source": [
+     "Charizard (lore: Pokédex (leafgreen))",
+     "Altaria (lore: Pokédex (emerald))"
+    ]
+   }
+  },
+  {
+   "name": "works (building & upkeep)",
+   "access": "private",
+   "people": [
+    "ranch hands"
+   ],
+   "staffed": {
+    "hauling": [
+     "Feraligatr (cartridge: Strength (field move))",
+     "Miltank (cartridge: Strength (field move))",
+     "Donphan (cartridge: Strength (field move))",
+     "Ampharos (cartridge: Strength (field move))",
+     "Charizard (cartridge: Strength (field move))",
+     "Blastoise (cartridge: Strength (field move))",
+     "Venusaur (cartridge: Strength (field move))",
+     "Machamp (cartridge: Strength (field move))",
+     "Swampert (cartridge: Strength (field move))",
+     "Arcanine (cartridge: Strength (field move))",
+     "Absol (cartridge: Strength (field move))",
+     "Meganium (cartridge: Strength (field move))",
+     "Infernape (cartridge: Strength (field move))",
+     "Weavile (cartridge: Strength (field move))",
+     "Lucario (cartridge: Strength (field move))",
+     "Garchomp (cartridge: Strength (field move))",
+     "Pikachu (cartridge: Strength (field move))",
+     "Dragonite (cartridge: Strength (field move))",
+     "Empoleon (cartridge: Strength (field move))",
+     "Gengar (cartridge: Strength (field move))",
+     "Scizor (cartridge: Strength (field move))",
+     "Typhlosion (cartridge: Strength (field move))",
+     "Tyranitar (cartridge: Strength (field move))",
+     "Mamoswine (authored: W-005 (D-033))",
+     "Lapras (cartridge: Strength (field move))",
+     "Snorlax (cartridge: Strength (field move))"
+    ],
+    "digging": [
+     "Feraligatr (cartridge: Dig (field move))",
+     "Charizard (cartridge: Dig (field move))",
+     "Blastoise (cartridge: Dig (field move))",
+     "Jolteon (cartridge: Dig (field move))",
+     "Machamp (cartridge: Dig (field move))",
+     "Swampert (cartridge: Dig (field move))",
+     "Arcanine (cartridge: Dig (field move))",
+     "Infernape (cartridge: Dig (field move))",
+     "Weavile (cartridge: Dig (field move))",
+     "Lucario (cartridge: Dig (field move))",
+     "Garchomp (cartridge: Dig (field move))",
+     "Pikachu (cartridge: Dig (field move))",
+     "Empoleon (cartridge: Dig (field move))",
+     "Typhlosion (cartridge: Dig (field move))",
+     "Tyranitar (authored: W-002 (D-033))",
+     "Mamoswine (cartridge: Dig (field move))"
+    ],
+    "clearing": [
+     "Feraligatr (cartridge: Cut (field move))",
+     "Miltank (cartridge: Rock Smash (field move))",
+     "Donphan (cartridge: Rock Smash (field move))",
+     "Ampharos (cartridge: Rock Smash (field move))",
+     "Umbreon (cartridge: Cut (field move))",
+     "Espeon (cartridge: Cut (field move))",
+     "Charizard (cartridge: Cut (field move))",
+     "Blastoise (cartridge: Rock Smash (field move))",
+     "Venusaur (cartridge: Cut (field move))",
+     "Machamp (cartridge: Rock Smash (field move))",
+     "Swampert (cartridge: Rock Smash (field move))",
+     "Altaria (cartridge: Rock Smash (field move))",
+     "Arcanine (cartridge: Rock Smash (field move))",
+     "Absol (cartridge: Cut (field move))",
+     "Meganium (cartridge: Cut (field move))",
+     "Infernape (cartridge: Cut (field move))",
+     "Weavile (cartridge: Cut (field move))",
+     "Roserade (cartridge: Cut (field move))",
+     "Lucario (cartridge: Rock Smash (field move))",
+     "Garchomp (cartridge: Cut (field move))",
+     "Pikachu (cartridge: Rock Smash (field move))",
+     "Dragonite (cartridge: Cut (field move))",
+     "Empoleon (cartridge: Cut (field move))",
+     "Gengar (cartridge: Rock Smash (field move))",
+     "Scizor (cartridge: Cut (field move))",
+     "Typhlosion (cartridge: Cut (field move))",
+     "Tyranitar (cartridge: Cut (field move))",
+     "Mamoswine (cartridge: Rock Smash (field move))",
+     "Lapras (cartridge: Rock Smash (field move))",
+     "Snorlax (cartridge: Rock Smash (field move))"
+    ]
+   },
+   "open_jobs": [],
+   "hangs_on_one": {},
+   "story_candidates": {
+    "digging": [
+     "Snorlax (lore: Pokédex (soulsilver))"
+    ]
+   }
+  },
+  {
+   "name": "transport",
+   "access": "private",
+   "people": [],
+   "staffed": {
+    "air travel": [
+     "Charizard (cartridge: Fly (field move))",
+     "Altaria (cartridge: Fly (field move))",
+     "Dragonite (cartridge: Fly (field move))",
+     "Crobat (authored: W-008 (D-033))"
+    ],
+    "water travel": [
+     "Feraligatr (cartridge: Surf (field move))",
+     "Miltank (cartridge: Surf (field move))",
+     "Blastoise (cartridge: Surf (field move))",
+     "Swampert (cartridge: Surf (field move))",
+     "Milotic (cartridge: Surf (field move))",
+     "Weavile (cartridge: Surf (field move))",
+     "Garchomp (cartridge: Surf (field move))",
+     "Dragonite (cartridge: Surf (field move))",
+     "Empoleon (cartridge: Surf (field move))",
+     "Tyranitar (cartridge: Surf (field move))",
+     "Lapras (authored: W-010 (D-033))",
+     "Snorlax (cartridge: Surf (field move))"
+    ],
+    "escape": [
+     "Feraligatr (cartridge: Dig (field move))",
+     "Charizard (cartridge: Dig (field move))",
+     "Blastoise (cartridge: Dig (field move))",
+     "Alakazam (cartridge: Teleport (field move))",
+     "Jolteon (cartridge: Dig (field move))",
+     "Machamp (cartridge: Dig (field move))",
+     "Swampert (cartridge: Dig (field move))",
+     "Arcanine (cartridge: Dig (field move))",
+     "Infernape (cartridge: Dig (field move))",
+     "Weavile (cartridge: Dig (field move))",
+     "Lucario (cartridge: Dig (field move))",
+     "Garchomp (cartridge: Dig (field move))",
+     "Pikachu (cartridge: Dig (field move))",
+     "Empoleon (cartridge: Dig (field move))",
+     "Typhlosion (cartridge: Dig (field move))",
+     "Tyranitar (cartridge: Dig (field move))",
+     "Mamoswine (cartridge: Dig (field move))"
+    ]
+   },
+   "open_jobs": [],
+   "hangs_on_one": {},
+   "story_candidates": {
+    "air travel": [
+     "Machamp (lore: Pokédex (leafgreen))",
+     "Garchomp (lore: Pokédex (diamond))",
+     "Scizor (lore: Pokédex (soulsilver))"
+    ],
+    "water travel": [
+     "Ampharos (lore: Pokédex (crystal))"
+    ]
+   }
+  },
+  {
+   "name": "security & watch",
+   "access": "private",
+   "people": [
+    "wardens"
+   ],
+   "staffed": {
+    "deterrence": [
+     "Arcanine (cartridge: Intimidate (overworld ability))",
+     "Tyranitar (authored: W-003 (D-033))"
+    ],
+    "scouting": [
+     "Crobat (authored: W-007 (D-033))"
+    ],
+    "danger sense": [
+     "Crobat (authored: W-009 (D-033))"
+    ]
+   },
+   "open_jobs": [],
+   "hangs_on_one": {
+    "scouting": "Crobat (authored: W-007 (D-033))",
+    "danger sense": "Crobat (authored: W-009 (D-033))"
+   },
+   "story_candidates": {
+    "scouting": [
+     "Ampharos (lore: Pokédex (crystal))",
+     "Blastoise (lore: Pokédex (emerald))"
+    ],
+    "danger sense": [
+     "Espeon (lore: Pokédex (crystal))",
+     "Alakazam (lore: Pokédex (gold))",
+     "Swampert (lore: Pokédex (emerald))",
+     "Arcanine (lore: Pokédex (silver))",
+     "Absol (lore: Pokédex (emerald))",
+     "Lucario (lore: Pokédex (platinum))",
+     "Scizor (lore: Pokédex (platinum))"
+    ]
+   }
+  },
+  {
+   "name": "climate",
+   "access": "private",
+   "people": [],
+   "staffed": {
+    "heat source": [
+     "Typhlosion (authored: W-001 (D-033))"
+    ],
+    "cold tolerance": [
+     "Mamoswine (authored: W-004 (D-033))"
+    ],
+    "weather handling": [
+     "Garchomp (cartridge: Sand Veil (overworld ability))",
+     "Mamoswine (cartridge: Snow Cloak (overworld ability))"
+    ]
+   },
+   "open_jobs": [],
+   "hangs_on_one": {
+    "heat source": "Typhlosion (authored: W-001 (D-033))",
+    "cold tolerance": "Mamoswine (authored: W-004 (D-033))"
+   },
+   "story_candidates": {
+    "heat source": [
+     "Charizard (lore: Pokédex (leafgreen))",
+     "Altaria (lore: Pokédex (emerald))"
+    ],
+    "cold tolerance": [
+     "Weavile (lore: Pokédex (diamond))",
+     "Empoleon (lore: Pokédex (platinum))"
+    ]
+   }
+  }
+ ],
+ "open_jobs": [
+  "cooking",
+  "egg care",
+  "food source"
+ ],
+ "single_points": [
+  "Crobat: danger sense",
+  "Crobat: scouting",
+  "Mamoswine: cold tolerance",
+  "Snorlax: calming presence",
+  "Typhlosion: heat source"
+ ],
+ "staff_proposals": {
+  "egg_care": [
+   {
+    "species": "Camerupt",
+    "ability": "Magma Armor",
+    "native_region": "Hoenn"
+   },
+   {
+    "species": "Magcargo",
+    "ability": "Magma Armor",
+    "native_region": "Johto"
+   },
+   {
+    "species": "Magmortar",
+    "ability": "Flame Body",
+    "native_region": "Sinnoh"
+   }
+  ]
+ },
+ "glasshouse": {
+  "name": "The Glasshouse",
+  "status": "approved (D-045)",
+  "idea": "One building where eggs and plants share everything. Blackthorn sits against the Ice Path, so both need heat, and the heat comes from Pokémon. A Magcargo hearth at the core keeps the eggs warm; the greenhouse rings wrap around it and live on the same heat. Ampharos lights both through the winter. Eggs hatch by being walked, so the walk that hatches them runs through the crop rows: the egg walk is the harvest walk.",
+  "rooms": {
+   "Hearth hall": {
+    "access": "private",
+    "people": [
+     "head breeder"
+    ],
+    "pokemon": {
+     "egg_care": [
+      "Magcargo (cartridge: Magma Armor (overworld ability))"
+     ],
+     "heat_source": [
+      "Typhlosion (authored: W-001 (D-033))"
+     ],
+     "calming_presence": [
+      "Snorlax (authored: W-015 (D-033))"
+     ]
+    },
+    "story_candidates": {
+     "heat_source": [
+      "Charizard (lore: Pokédex (leafgreen))",
+      "Altaria (lore: Pokédex (emerald))",
+      "Magcargo (lore: Pokédex (soulsilver))"
+     ],
+     "calming_presence": [
+      "Venusaur (lore: Pokédex (emerald))",
+      "Machamp (lore: Pokédex (sapphire))",
+      "Milotic (lore: Pokédex (sapphire))",
+      "Meganium (lore: Pokédex (emerald))",
+      "Infernape (lore: Pokédex (diamond))",
+      "Dragonite (lore: Pokédex (ruby))",
+      "Lapras (lore: Pokédex (heartgold))"
+     ]
+    },
+    "open_jobs": [],
+    "single_species": {
+     "egg_care": "Magcargo (cartridge: Magma Armor (overworld ability))",
+     "heat_source": "Typhlosion (authored: W-001 (D-033))",
+     "calming_presence": "Snorlax (authored: W-015 (D-033))"
+    }
+   },
+   "Glasshouse rings": {
+    "access": "private",
+    "people": [
+     "orchard keeper"
+    ],
+    "pokemon": {
+     "light": [
+      "Ampharos (cartridge: Flash (field move))",
+      "Umbreon (cartridge: Flash (field move))",
+      "Espeon (cartridge: Flash (field move))",
+      "Venusaur (cartridge: Flash (field move))",
+      "Alakazam (cartridge: Flash (field move))",
+      "Jolteon (cartridge: Flash (field move))",
+      "Absol (cartridge: Flash (field move))",
+      "Meganium (cartridge: Flash (field move))",
+      "Roserade (cartridge: Flash (field move))",
+      "Magnezone (cartridge: Flash (field move))",
+      "Pikachu (cartridge: Flash (field move))"
+     ],
+     "heat_source": [
+      "Typhlosion (authored: W-001 (D-033))"
+     ],
+     "foraging": [
+      "Feraligatr (cartridge: Headbutt (field move))",
+      "Miltank (cartridge: Headbutt (field move))",
+      "Donphan (cartridge: Headbutt (field move))",
+      "Ampharos (cartridge: Headbutt (field move))",
+      "Umbreon (cartridge: Headbutt (field move))",
+      "Espeon (cartridge: Headbutt (field move))",
+      "Venusaur (cartridge: Sweet Scent (field move))",
+      "Roserade (cartridge: Sweet Scent (field move))",
+      "Magnezone (cartridge: Magnet Pull (overworld ability))",
+      "Pikachu (cartridge: Headbutt (field move))",
+      "Dragonite (cartridge: Headbutt (field move))",
+      "Infernape (cartridge: Headbutt (field move))",
+      "Empoleon (cartridge: Headbutt (field move))",
+      "Gengar (cartridge: Headbutt (field move))",
+      "Scizor (cartridge: Headbutt (field move))",
+      "Typhlosion (cartridge: Headbutt (field move))",
+      "Tyranitar (cartridge: Headbutt (field move))",
+      "Mamoswine (cartridge: Headbutt (field move))",
+      "Lapras (cartridge: Headbutt (field move))",
+      "Snorlax (cartridge: Headbutt (field move))"
+     ]
+    },
+    "story_candidates": {
+     "plant_care": [
+      "Meganium (lore: Pokédex (silver))"
+     ],
+     "light": [
+      "Charizard (lore: Pokédex (heartgold))",
+      "Milotic (lore: Pokédex (sapphire))"
+     ],
+     "heat_source": [
+      "Charizard (lore: Pokédex (leafgreen))",
+      "Altaria (lore: Pokédex (emerald))",
+      "Magcargo (lore: Pokédex (soulsilver))"
+     ]
+    },
+    "open_jobs": [
+     "plant_care"
+    ],
+    "single_species": {
+     "heat_source": "Typhlosion (authored: W-001 (D-033))"
+    }
+   },
+   "Hatching loop": {
+    "access": "private",
+    "people": [
+     "nursery hands"
+    ],
+    "pokemon": {
+     "calming_presence": [
+      "Snorlax (authored: W-015 (D-033))"
+     ],
+     "hauling": [
+      "Feraligatr (cartridge: Strength (field move))",
+      "Miltank (cartridge: Strength (field move))",
+      "Donphan (cartridge: Strength (field move))",
+      "Ampharos (cartridge: Strength (field move))",
+      "Charizard (cartridge: Strength (field move))",
+      "Blastoise (cartridge: Strength (field move))",
+      "Venusaur (cartridge: Strength (field move))",
+      "Machamp (cartridge: Strength (field move))",
+      "Swampert (cartridge: Strength (field move))",
+      "Arcanine (cartridge: Strength (field move))",
+      "Absol (cartridge: Strength (field move))",
+      "Meganium (cartridge: Strength (field move))",
+      "Infernape (cartridge: Strength (field move))",
+      "Weavile (cartridge: Strength (field move))",
+      "Lucario (cartridge: Strength (field move))",
+      "Garchomp (cartridge: Strength (field move))",
+      "Pikachu (cartridge: Strength (field move))",
+      "Dragonite (cartridge: Strength (field move))",
+      "Empoleon (cartridge: Strength (field move))",
+      "Gengar (cartridge: Strength (field move))",
+      "Scizor (cartridge: Strength (field move))",
+      "Typhlosion (cartridge: Strength (field move))",
+      "Tyranitar (cartridge: Strength (field move))",
+      "Mamoswine (authored: W-005 (D-033))",
+      "Lapras (cartridge: Strength (field move))",
+      "Snorlax (cartridge: Strength (field move))",
+      "Magcargo (cartridge: Strength (field move))"
+     ]
+    },
+    "story_candidates": {
+     "calming_presence": [
+      "Venusaur (lore: Pokédex (emerald))",
+      "Machamp (lore: Pokédex (sapphire))",
+      "Milotic (lore: Pokédex (sapphire))",
+      "Meganium (lore: Pokédex (emerald))",
+      "Infernape (lore: Pokédex (diamond))",
+      "Dragonite (lore: Pokédex (ruby))",
+      "Lapras (lore: Pokédex (heartgold))"
+     ]
+    },
+    "open_jobs": [],
+    "single_species": {
+     "calming_presence": "Snorlax (authored: W-015 (D-033))"
+    }
+   },
+   "Nursery yard": {
+    "access": "private",
+    "people": [
+     "nursery hands"
+    ],
+    "pokemon": {
+     "field_healing": [
+      "Miltank (cartridge: Milk Drink (field move))",
+      "Lapras (authored: W-013 (D-033))"
+     ],
+     "calming_presence": [
+      "Snorlax (authored: W-015 (D-033))"
+     ],
+     "deterrence": [
+      "Arcanine (cartridge: Intimidate (overworld ability))",
+      "Tyranitar (authored: W-003 (D-033))"
+     ]
+    },
+    "story_candidates": {
+     "field_healing": [
+      "Meganium (lore: Pokédex (silver))"
+     ],
+     "food_source": [
+      "Miltank (lore: Pokédex (crystal))",
+      "Venusaur (lore: Pokédex (emerald))"
+     ],
+     "calming_presence": [
+      "Venusaur (lore: Pokédex (emerald))",
+      "Machamp (lore: Pokédex (sapphire))",
+      "Milotic (lore: Pokédex (sapphire))",
+      "Meganium (lore: Pokédex (emerald))",
+      "Infernape (lore: Pokédex (diamond))",
+      "Dragonite (lore: Pokédex (ruby))",
+      "Lapras (lore: Pokédex (heartgold))"
+     ]
+    },
+    "open_jobs": [
+     "food_source"
+    ],
+    "single_species": {
+     "calming_presence": "Snorlax (authored: W-015 (D-033))"
+    }
+   },
+   "Cold vault": {
+    "access": "private",
+    "people": [],
+    "pokemon": {
+     "cold_tolerance": [
+      "Mamoswine (authored: W-004 (D-033))"
+     ]
+    },
+    "story_candidates": {
+     "cold_tolerance": [
+      "Weavile (lore: Pokédex (diamond))",
+      "Empoleon (lore: Pokédex (platinum))"
+     ]
+    },
+    "open_jobs": [],
+    "single_species": {
+     "cold_tolerance": "Mamoswine (authored: W-004 (D-033))"
+    }
+   },
+   "Studbook office": {
+    "access": "private",
+    "people": [
+     "archivist"
+    ],
+    "pokemon": {},
+    "story_candidates": {},
+    "open_jobs": [],
+    "single_species": {}
+   }
+  },
+  "eggs": [
+   {
+    "line": "Larvitar",
+    "cycles": 40,
+    "steps": 10200,
+    "steps_with_flame_body": 5100,
+    "laps": 40,
+    "laps_with_flame_body": 20
+   },
+   {
+    "line": "Scyther",
+    "cycles": 25,
+    "steps": 6375,
+    "steps_with_flame_body": 3188,
+    "laps": 25,
+    "laps_with_flame_body": 13
+   },
+   {
+    "line": "Cyndaquil",
+    "cycles": 20,
+    "steps": 5100,
+    "steps_with_flame_body": 2550,
+    "laps": 20,
+    "laps_with_flame_body": 10
+   },
+   {
+    "line": "Gastly",
+    "cycles": 20,
+    "steps": 5100,
+    "steps_with_flame_body": 2550,
+    "laps": 20,
+    "laps_with_flame_body": 10
+   },
+   {
+    "line": "Piplup",
+    "cycles": 20,
+    "steps": 5100,
+    "steps_with_flame_body": 2550,
+    "laps": 20,
+    "laps_with_flame_body": 10
+   },
+   {
+    "line": "Mudkip",
+    "cycles": 20,
+    "steps": 5100,
+    "steps_with_flame_body": 2550,
+    "laps": 20,
+    "laps_with_flame_body": 10
+   },
+   {
+    "line": "Chimchar",
+    "cycles": 20,
+    "steps": 5100,
+    "steps_with_flame_body": 2550,
+    "laps": 20,
+    "laps_with_flame_body": 10
+   },
+   {
+    "line": "Sneasel",
+    "cycles": 20,
+    "steps": 5100,
+    "steps_with_flame_body": 2550,
+    "laps": 20,
+    "laps_with_flame_body": 10
+   },
+   {
+    "line": "Budew",
+    "cycles": 20,
+    "steps": 5100,
+    "steps_with_flame_body": 2550,
+    "laps": 20,
+    "laps_with_flame_body": 10
+   }
+  ],
+  "crops": [
+   {
+    "berry": "Cheri Berry",
+    "why": "medicine",
+    "hours_to_harvest": 12,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Chesto Berry",
+    "why": "medicine",
+    "hours_to_harvest": 12,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Pecha Berry",
+    "why": "medicine",
+    "hours_to_harvest": 12,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Rawst Berry",
+    "why": "medicine",
+    "hours_to_harvest": 12,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Aspear Berry",
+    "why": "medicine",
+    "hours_to_harvest": 12,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Leppa Berry",
+    "why": "medicine",
+    "hours_to_harvest": 16,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Oran Berry",
+    "why": "medicine",
+    "hours_to_harvest": 16,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Persim Berry",
+    "why": "medicine",
+    "hours_to_harvest": 16,
+    "max_harvest": 5,
+    "watering": "heavy"
+   },
+   {
+    "berry": "Sitrus Berry",
+    "why": "medicine",
+    "hours_to_harvest": 32,
+    "max_harvest": 5,
+    "watering": "light"
+   },
+   {
+    "berry": "Lum Berry",
+    "why": "held by HeartGold Tyranitar",
+    "hours_to_harvest": 48,
+    "max_harvest": 5,
+    "watering": "medium"
+   }
+  ]
+ },
+ "program": [
+  {
+   "target": "HeartGold Typhlosion",
+   "species": "Typhlosion",
+   "game": "HeartGold",
+   "egg_moves": [
+    "Extrasensory"
+   ],
+   "fathers_used": [
+    "Nuzleaf"
+   ],
+   "chain": [
+    "Nuzleaf",
+    "Typhlosion stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Extrasensory",
+   "hatches_as": "Cyndaquil",
+   "stud_id": "S-TYPHLOSION",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "HeartGold canon; bred origin optional story (D-024)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png"
+  },
+  {
+   "target": "HeartGold Tyranitar",
+   "species": "Tyranitar",
+   "game": "HeartGold",
+   "egg_moves": [
+    "Dragon Dance",
+    "Outrage"
+   ],
+   "fathers_used": [
+    "Kingdra",
+    "Feraligatr"
+   ],
+   "chain": [
+    "Kingdra",
+    "Feraligatr",
+    "Tyranitar stud"
+   ],
+   "steps": 2,
+   "kept": "stud ♂ knowing Outrage, Dragon Dance",
+   "hatches_as": "Larvitar",
+   "stud_id": "S-TYRANITAR",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "HeartGold July 14 proposed set",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png"
+  },
+  {
+   "target": "SoulSilver Gengar",
+   "species": "Gengar",
+   "game": "SoulSilver",
+   "egg_moves": [
+    "Disable"
+   ],
+   "fathers_used": [
+    "Muk"
+   ],
+   "chain": [
+    "Muk",
+    "Gengar stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Disable",
+   "hatches_as": "Gastly",
+   "stud_id": "S-GENGAR",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "SoulSilver precedent (provisional)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png"
+  },
+  {
+   "target": "SoulSilver Scizor",
+   "species": "Scizor",
+   "game": "SoulSilver",
+   "egg_moves": [
+    "Counter"
+   ],
+   "fathers_used": [
+    "Heracross"
+   ],
+   "chain": [
+    "Heracross",
+    "Scizor stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Counter",
+   "hatches_as": "Scyther",
+   "stud_id": "S-SCIZOR",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "SoulSilver precedent (provisional)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png"
+  },
+  {
+   "target": "SoulSilver Empoleon",
+   "species": "Empoleon",
+   "game": "SoulSilver",
+   "egg_moves": [
+    "Aqua Ring"
+   ],
+   "fathers_used": [
+    "Azumarill"
+   ],
+   "chain": [
+    "Azumarill",
+    "Empoleon stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Aqua Ring",
+   "hatches_as": "Piplup",
+   "stud_id": "S-EMPOLEON",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "SoulSilver precedent (provisional)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png"
+  },
+  {
+   "target": "SoulSilver Pikachu",
+   "species": "Pikachu",
+   "game": "SoulSilver",
+   "egg_moves": [
+    "Volt Tackle"
+   ],
+   "fathers_used": [],
+   "chain": [],
+   "steps": 0,
+   "kept": "a Light Ball (no father needed)",
+   "hatches_as": null,
+   "stud_id": null,
+   "status": "planned",
+   "done": 0,
+   "timing": [
+    "Volt Tackle: a parent must hold a Light Ball when the egg is made"
+   ],
+   "source": "SoulSilver Pikachu (provisional)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/25.png"
+  },
+  {
+   "target": "Emerald Swampert",
+   "species": "Swampert",
+   "game": "Emerald",
+   "egg_moves": [
+    "Refresh"
+   ],
+   "fathers_used": [
+    "Milotic"
+   ],
+   "chain": [
+    "Milotic",
+    "Swampert stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Refresh",
+   "hatches_as": "Mudkip",
+   "stud_id": "S-SWAMPERT",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "Emerald established example",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/260.png"
+  },
+  {
+   "target": "Platinum Infernape",
+   "species": "Infernape",
+   "game": "Platinum",
+   "egg_moves": [
+    "Thunder Punch"
+   ],
+   "fathers_used": [
+    "Ampharos"
+   ],
+   "chain": [
+    "Ampharos",
+    "Infernape stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Thunder Punch",
+   "hatches_as": "Chimchar",
+   "stud_id": "S-INFERNAPE",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "Platinum D-015 (egg or tutor)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/392.png"
+  },
+  {
+   "target": "Platinum Weavile",
+   "species": "Weavile",
+   "game": "Platinum",
+   "egg_moves": [
+    "Ice Shard"
+   ],
+   "fathers_used": [
+    "Dewgong"
+   ],
+   "chain": [
+    "Dewgong",
+    "Weavile stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Ice Shard",
+   "hatches_as": "Sneasel",
+   "stud_id": "S-WEAVILE",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "Platinum sheet set (historical, not reaffirmed)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/461.png"
+  },
+  {
+   "target": "Platinum Roserade",
+   "species": "Roserade",
+   "game": "Platinum",
+   "egg_moves": [
+    "Leaf Storm",
+    "Sleep Powder"
+   ],
+   "fathers_used": [
+    "Bellossom"
+   ],
+   "chain": [
+    "Bellossom",
+    "Roserade stud"
+   ],
+   "steps": 1,
+   "kept": "stud ♂ knowing Leaf Storm, Sleep Powder",
+   "hatches_as": "Roselia",
+   "stud_id": "S-ROSERADE",
+   "status": "planned",
+   "done": 0,
+   "timing": [],
+   "source": "Platinum sheet set (historical, not reaffirmed)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/407.png"
+  }
+ ],
+ "lineage": [
+  {
+   "id": "C-FERALIGATR",
+   "name": "Crystal Feraligatr",
+   "species": "Feraligatr",
+   "hatched_as": null,
+   "line": "Totodile",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Crystal",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Crystal",
+   "decision": "D-002",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/160.png",
+   "check": "ok"
+  },
+  {
+   "id": "C-MILTANK",
+   "name": "Crystal Miltank",
+   "species": "Miltank",
+   "hatched_as": null,
+   "line": "Miltank",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Crystal",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Crystal",
+   "decision": "D-002",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/241.png",
+   "check": "ok"
+  },
+  {
+   "id": "C-DONPHAN",
+   "name": "Crystal Donphan",
+   "species": "Donphan",
+   "hatched_as": null,
+   "line": "Phanpy",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Crystal",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Crystal",
+   "decision": "D-002",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/232.png",
+   "check": "ok"
+  },
+  {
+   "id": "C-AMPHAROS",
+   "name": "Crystal Ampharos",
+   "species": "Ampharos",
+   "hatched_as": null,
+   "line": "Mareep",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Crystal",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Crystal",
+   "decision": "D-002",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/181.png",
+   "check": "ok"
+  },
+  {
+   "id": "C-UMBREON",
+   "name": "Crystal Umbreon",
+   "species": "Umbreon",
+   "hatched_as": null,
+   "line": "Eevee",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Crystal",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Crystal",
+   "decision": "D-002",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/197.png",
+   "check": "ok"
+  },
+  {
+   "id": "C-ESPEON",
+   "name": "Crystal Espeon",
+   "species": "Espeon",
+   "hatched_as": null,
+   "line": "Eevee",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Crystal",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Crystal",
+   "decision": "D-002",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/196.png",
+   "check": "ok"
+  },
+  {
+   "id": "FR-CHARIZARD",
+   "name": "FireRed Charizard",
+   "species": "Charizard",
+   "hatched_as": null,
+   "line": "Charmander",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: FireRed",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "FireRed",
+   "decision": "D-003",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/6.png",
+   "check": "ok"
+  },
+  {
+   "id": "FR-BLASTOISE",
+   "name": "FireRed Blastoise",
+   "species": "Blastoise",
+   "hatched_as": null,
+   "line": "Squirtle",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Surf",
+    "Ice Beam",
+    "Rapid Spin",
+    "Toxic"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: FireRed",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "FireRed",
+   "decision": "D-003",
+   "note": "build: historical (sheet)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/9.png",
+   "check": "ok"
+  },
+  {
+   "id": "FR-VENUSAUR",
+   "name": "FireRed Venusaur",
+   "species": "Venusaur",
+   "hatched_as": null,
+   "line": "Bulbasaur",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: FireRed",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "FireRed",
+   "decision": "D-003",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/3.png",
+   "check": "ok"
+  },
+  {
+   "id": "FR-ALAKAZAM",
+   "name": "FireRed Alakazam",
+   "species": "Alakazam",
+   "hatched_as": null,
+   "line": "Abra",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: FireRed",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "FireRed",
+   "decision": "D-003",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/65.png",
+   "check": "ok"
+  },
+  {
+   "id": "FR-JOLTEON",
+   "name": "FireRed Jolteon",
+   "species": "Jolteon",
+   "hatched_as": null,
+   "line": "Eevee",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: FireRed",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "FireRed",
+   "decision": "D-003",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/135.png",
+   "check": "ok"
+  },
+  {
+   "id": "FR-MACHAMP",
+   "name": "FireRed Machamp",
+   "species": "Machamp",
+   "hatched_as": null,
+   "line": "Machop",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: FireRed",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "FireRed",
+   "decision": "D-003",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/68.png",
+   "check": "ok"
+  },
+  {
+   "id": "E-SWAMPERT",
+   "name": "Emerald Swampert",
+   "species": "Swampert",
+   "hatched_as": null,
+   "line": "Mudkip",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Refresh"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Emerald",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Emerald",
+   "decision": "D-004",
+   "note": "build: established example (one move known)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/260.png",
+   "check": "ok"
+  },
+  {
+   "id": "E-MILOTIC",
+   "name": "Emerald Milotic",
+   "species": "Milotic",
+   "hatched_as": null,
+   "line": "Feebas",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Emerald",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Emerald",
+   "decision": "D-004",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/350.png",
+   "check": "ok"
+  },
+  {
+   "id": "E-ALTARIA",
+   "name": "Emerald Altaria",
+   "species": "Altaria",
+   "hatched_as": null,
+   "line": "Swablu",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Emerald",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Emerald",
+   "decision": "D-004",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/334.png",
+   "check": "ok"
+  },
+  {
+   "id": "E-ARCANINE",
+   "name": "Emerald Arcanine",
+   "species": "Arcanine",
+   "hatched_as": null,
+   "line": "Growlithe",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Emerald",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Emerald",
+   "decision": "D-004",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/59.png",
+   "check": "ok"
+  },
+  {
+   "id": "E-ABSOL",
+   "name": "Emerald Absol",
+   "species": "Absol",
+   "hatched_as": null,
+   "line": "Absol",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Emerald",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Emerald",
+   "decision": "D-004",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/359.png",
+   "check": "ok"
+  },
+  {
+   "id": "E-MEGANIUM",
+   "name": "Emerald Meganium",
+   "species": "Meganium",
+   "hatched_as": null,
+   "line": "Chikorita",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Emerald",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Emerald",
+   "decision": "D-004",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/154.png",
+   "check": "ok"
+  },
+  {
+   "id": "PT-INFERNAPE",
+   "name": "Platinum Infernape",
+   "species": "Infernape",
+   "hatched_as": null,
+   "line": "Chimchar",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Close Combat",
+    "Flamethrower",
+    "Mach Punch",
+    "Thunder Punch"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Platinum",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Platinum",
+   "decision": "D-005",
+   "note": "build: accepted working direction (D-015)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png",
+   "check": "ok"
+  },
+  {
+   "id": "PT-WEAVILE",
+   "name": "Platinum Weavile",
+   "species": "Weavile",
+   "hatched_as": null,
+   "line": "Sneasel",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Ice Punch",
+    "Night Slash",
+    "Low Kick",
+    "Ice Shard"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Platinum",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Platinum",
+   "decision": "D-005",
+   "note": "build: historical (sheet), not reaffirmed",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/461.png",
+   "check": "ok"
+  },
+  {
+   "id": "PT-ROSERADE",
+   "name": "Platinum Roserade",
+   "species": "Roserade",
+   "hatched_as": null,
+   "line": "Roselia",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Leaf Storm",
+    "Sludge Bomb",
+    "Sleep Powder",
+    "Toxic Spikes"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Platinum",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Platinum",
+   "decision": "D-005",
+   "note": "build: historical (sheet), not reaffirmed",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/407.png",
+   "check": "ok"
+  },
+  {
+   "id": "PT-LUCARIO",
+   "name": "Platinum Lucario",
+   "species": "Lucario",
+   "hatched_as": null,
+   "line": "Riolu",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Platinum",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Platinum",
+   "decision": "D-005",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/448.png",
+   "check": "ok"
+  },
+  {
+   "id": "PT-GARCHOMP",
+   "name": "Platinum Garchomp",
+   "species": "Garchomp",
+   "hatched_as": null,
+   "line": "Gible",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Earthquake",
+    "Dragon Claw",
+    "Fire Fang",
+    "Poison Jab"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Platinum",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Platinum",
+   "decision": "D-005",
+   "note": "build: accepted working direction (D-016); 4th slot evaluative",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/445.png",
+   "check": "ok"
+  },
+  {
+   "id": "PT-MAGNEZONE",
+   "name": "Platinum Magnezone",
+   "species": "Magnezone",
+   "hatched_as": null,
+   "line": "Magnemite",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Thunderbolt",
+    "Hidden Power Fire",
+    "Flash Cannon",
+    "Substitute"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: Platinum",
+   "fate": "open (D-037)",
+   "status": "working",
+   "program": null,
+   "chapter": "Platinum",
+   "decision": "D-005",
+   "note": "build: historical (sheet), not reaffirmed",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/462.png",
+   "check": "ok"
+  },
+  {
+   "id": "SS-PIKACHU",
+   "name": "SoulSilver Pikachu",
+   "species": "Pikachu",
+   "hatched_as": null,
+   "line": "Pichu",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Volt Tackle",
+    "Quick Attack",
+    "Thunderbolt",
+    "Iron Tail"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: SoulSilver",
+   "fate": "open (D-037)",
+   "status": "provisional",
+   "program": null,
+   "chapter": "SoulSilver",
+   "decision": "D-010",
+   "note": "build: historical (former six)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/25.png",
+   "check": "ok"
+  },
+  {
+   "id": "SS-DRAGONITE",
+   "name": "SoulSilver Dragonite",
+   "species": "Dragonite",
+   "hatched_as": null,
+   "line": "Dratini",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Fly",
+    "Roost",
+    "Extreme Speed",
+    "Dragon Claw"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: SoulSilver",
+   "fate": "open (D-037)",
+   "status": "provisional",
+   "program": null,
+   "chapter": "SoulSilver",
+   "decision": "D-010",
+   "note": "build: historical (former six)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/149.png",
+   "check": "ok"
+  },
+  {
+   "id": "SS-INFERNAPE",
+   "name": "SoulSilver Infernape",
+   "species": "Infernape",
+   "hatched_as": null,
+   "line": "Chimchar",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: SoulSilver",
+   "fate": "open (D-037)",
+   "status": "provisional",
+   "program": null,
+   "chapter": "SoulSilver",
+   "decision": "D-010",
+   "note": "no build on record",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png",
+   "check": "ok"
+  },
+  {
+   "id": "SS-EMPOLEON",
+   "name": "SoulSilver Empoleon",
+   "species": "Empoleon",
+   "hatched_as": null,
+   "line": "Piplup",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Surf",
+    "Flash Cannon",
+    "Aqua Jet",
+    "Aqua Ring"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: SoulSilver",
+   "fate": "open (D-037)",
+   "status": "provisional",
+   "program": null,
+   "chapter": "SoulSilver",
+   "decision": "D-010",
+   "note": "build: historical (former six)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png",
+   "check": "ok"
+  },
+  {
+   "id": "SS-GENGAR",
+   "name": "SoulSilver Gengar",
+   "species": "Gengar",
+   "hatched_as": null,
+   "line": "Gastly",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Shadow Ball",
+    "Disable",
+    "Dark Pulse",
+    "Psychic"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: SoulSilver",
+   "fate": "open (D-037)",
+   "status": "provisional",
+   "program": null,
+   "chapter": "SoulSilver",
+   "decision": "D-010",
+   "note": "build: historical (former six)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png",
+   "check": "ok"
+  },
+  {
+   "id": "SS-SCIZOR",
+   "name": "SoulSilver Scizor",
+   "species": "Scizor",
+   "hatched_as": null,
+   "line": "Scyther",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Bullet Punch",
+    "U-turn",
+    "Counter",
+    "Roost"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: SoulSilver",
+   "fate": "open (D-037)",
+   "status": "provisional",
+   "program": null,
+   "chapter": "SoulSilver",
+   "decision": "D-010",
+   "note": "build: historical (former six)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png",
+   "check": "ok"
+  },
+  {
+   "id": "HG-TYPHLOSION",
+   "name": "HeartGold Typhlosion",
+   "species": "Typhlosion",
+   "hatched_as": null,
+   "line": "Cyndaquil",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Flamethrower",
+    "Extrasensory",
+    "Thunder Punch",
+    "Earthquake"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: HeartGold",
+   "fate": "open (D-037)",
+   "status": "locked",
+   "program": null,
+   "chapter": "HeartGold",
+   "decision": "D-006",
+   "note": "build: confirmed by user, July 2026",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png",
+   "check": "ok"
+  },
+  {
+   "id": "HG-TYRANITAR",
+   "name": "HeartGold Tyranitar",
+   "species": "Tyranitar",
+   "hatched_as": null,
+   "line": "Larvitar",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Dragon Dance",
+    "Crunch",
+    "Earthquake",
+    "Outrage"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: HeartGold",
+   "fate": "open (D-037)",
+   "status": "locked",
+   "program": null,
+   "chapter": "HeartGold",
+   "decision": "D-006",
+   "note": "build: proposed, July 14",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png",
+   "check": "ok"
+  },
+  {
+   "id": "HG-MAMOSWINE",
+   "name": "HeartGold Mamoswine",
+   "species": "Mamoswine",
+   "hatched_as": null,
+   "line": "Swinub",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Earthquake",
+    "Ancient Power",
+    "Ice Fang",
+    "Ice Shard"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: HeartGold",
+   "fate": "open (D-037)",
+   "status": "locked",
+   "program": null,
+   "chapter": "HeartGold",
+   "decision": "D-006",
+   "note": "build: proposed, July 14",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/473.png",
+   "check": "ok"
+  },
+  {
+   "id": "HG-CROBAT",
+   "name": "HeartGold Crobat",
+   "species": "Crobat",
+   "hatched_as": null,
+   "line": "Zubat",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Fly",
+    "Roost",
+    "U-turn",
+    "Toxic"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: HeartGold",
+   "fate": "open (D-037)",
+   "status": "locked",
+   "program": null,
+   "chapter": "HeartGold",
+   "decision": "D-006",
+   "note": "build: every source agrees",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/169.png",
+   "check": "ok"
+  },
+  {
+   "id": "HG-LAPRAS",
+   "name": "HeartGold Lapras",
+   "species": "Lapras",
+   "hatched_as": null,
+   "line": "Lapras",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Surf",
+    "Ice Beam",
+    "Rest",
+    "Heal Bell"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: HeartGold",
+   "fate": "open (D-037)",
+   "status": "locked",
+   "program": null,
+   "chapter": "HeartGold",
+   "decision": "D-006",
+   "note": "build: proposed, July 14",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/131.png",
+   "check": "ok"
+  },
+  {
+   "id": "HG-SNORLAX",
+   "name": "HeartGold Snorlax",
+   "species": "Snorlax",
+   "hatched_as": null,
+   "line": "Snorlax",
+   "sex": "open",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Body Slam",
+    "Rest",
+    "Thunder Punch",
+    "Zen Headbutt"
+   ],
+   "inherited": [],
+   "role": "companion",
+   "origin": "the journey: HeartGold",
+   "fate": "open (D-037)",
+   "status": "locked",
+   "program": null,
+   "chapter": "HeartGold",
+   "decision": "D-006",
+   "note": "build: proposed, July 14",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/143.png",
+   "check": "ok"
+  },
+  {
+   "id": "F-NUZLEAF-TYPHLOSION",
+   "name": "Nuzleaf (borrowed father)",
+   "species": "Nuzleaf",
+   "hatched_as": null,
+   "line": "Nuzleaf",
+   "sex": "male",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Extrasensory"
+   ],
+   "inherited": [],
+   "role": "father used",
+   "origin": "borrowed for the cross",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "HeartGold Typhlosion",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "learns Extrasensory itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/274.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-TYPHLOSION",
+   "name": "Typhlosion-line female",
+   "species": "Typhlosion",
+   "hatched_as": null,
+   "line": "Typhlosion",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "HeartGold Typhlosion",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be HeartGold Typhlosion, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-TYPHLOSION",
+   "name": "Typhlosion-line stud",
+   "species": "Typhlosion",
+   "hatched_as": "Cyndaquil",
+   "line": "Cyndaquil",
+   "sex": "male",
+   "generation": 1,
+   "sire": "F-NUZLEAF-TYPHLOSION",
+   "dam": "D-TYPHLOSION",
+   "moves": [
+    "Extrasensory"
+   ],
+   "inherited": [
+    {
+     "move": "Extrasensory",
+     "from": "F-NUZLEAF-TYPHLOSION"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "HeartGold Typhlosion",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Cyndaquil knowing Extrasensory",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/155.png",
+   "check": "ok"
+  },
+  {
+   "id": "F-KINGDRA-TYRANITAR",
+   "name": "Kingdra (borrowed father)",
+   "species": "Kingdra",
+   "hatched_as": null,
+   "line": "Kingdra",
+   "sex": "male",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Dragon Dance"
+   ],
+   "inherited": [],
+   "role": "father used",
+   "origin": "borrowed for the cross",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "HeartGold Tyranitar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "learns Dragon Dance itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/230.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-FERALIGATR-TYRANITAR",
+   "name": "Feraligatr-line female",
+   "species": "Feraligatr",
+   "hatched_as": null,
+   "line": "Feraligatr",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "HeartGold Tyranitar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be Crystal Feraligatr, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/160.png",
+   "check": "ok"
+  },
+  {
+   "id": "B-FERALIGATR-TYRANITAR",
+   "name": "Feraligatr ♂ bred for the Tyranitar line",
+   "species": "Feraligatr",
+   "hatched_as": "Totodile",
+   "line": "Totodile",
+   "sex": "male",
+   "generation": 1,
+   "sire": "F-KINGDRA-TYRANITAR",
+   "dam": "D-FERALIGATR-TYRANITAR",
+   "moves": [
+    "Outrage",
+    "Dragon Dance"
+   ],
+   "inherited": [
+    {
+     "move": "Dragon Dance",
+     "from": "F-KINGDRA-TYRANITAR"
+    }
+   ],
+   "role": "father used",
+   "origin": "bred at Blackthorn",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "HeartGold Tyranitar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches knowing Dragon Dance; then learns Outrage itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/158.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-TYRANITAR",
+   "name": "Tyranitar-line female",
+   "species": "Tyranitar",
+   "hatched_as": null,
+   "line": "Tyranitar",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "HeartGold Tyranitar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be HeartGold Tyranitar, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-TYRANITAR",
+   "name": "Tyranitar-line stud",
+   "species": "Tyranitar",
+   "hatched_as": "Larvitar",
+   "line": "Larvitar",
+   "sex": "male",
+   "generation": 2,
+   "sire": "B-FERALIGATR-TYRANITAR",
+   "dam": "D-TYRANITAR",
+   "moves": [
+    "Outrage",
+    "Dragon Dance"
+   ],
+   "inherited": [
+    {
+     "move": "Outrage",
+     "from": "B-FERALIGATR-TYRANITAR"
+    },
+    {
+     "move": "Dragon Dance",
+     "from": "B-FERALIGATR-TYRANITAR"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "HeartGold Tyranitar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Larvitar knowing Outrage, Dragon Dance",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/246.png",
+   "check": "ok"
+  },
+  {
+   "id": "F-MUK-GENGAR",
+   "name": "Muk (borrowed father)",
+   "species": "Muk",
+   "hatched_as": null,
+   "line": "Muk",
+   "sex": "male",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Disable"
+   ],
+   "inherited": [],
+   "role": "father used",
+   "origin": "borrowed for the cross",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "SoulSilver Gengar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "learns Disable itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/89.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-GENGAR",
+   "name": "Gengar-line female",
+   "species": "Gengar",
+   "hatched_as": null,
+   "line": "Gengar",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "SoulSilver Gengar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be SoulSilver Gengar, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-GENGAR",
+   "name": "Gengar-line stud",
+   "species": "Gengar",
+   "hatched_as": "Gastly",
+   "line": "Gastly",
+   "sex": "male",
+   "generation": 1,
+   "sire": "F-MUK-GENGAR",
+   "dam": "D-GENGAR",
+   "moves": [
+    "Disable"
+   ],
+   "inherited": [
+    {
+     "move": "Disable",
+     "from": "F-MUK-GENGAR"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "SoulSilver Gengar",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Gastly knowing Disable",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/92.png",
+   "check": "ok"
+  },
+  {
+   "id": "F-HERACROSS-SCIZOR",
+   "name": "Heracross (borrowed father)",
+   "species": "Heracross",
+   "hatched_as": null,
+   "line": "Heracross",
+   "sex": "male",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Counter"
+   ],
+   "inherited": [],
+   "role": "father used",
+   "origin": "borrowed for the cross",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "SoulSilver Scizor",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "learns Counter itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/214.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-SCIZOR",
+   "name": "Scizor-line female",
+   "species": "Scizor",
+   "hatched_as": null,
+   "line": "Scizor",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "SoulSilver Scizor",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be SoulSilver Scizor, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-SCIZOR",
+   "name": "Scizor-line stud",
+   "species": "Scizor",
+   "hatched_as": "Scyther",
+   "line": "Scyther",
+   "sex": "male",
+   "generation": 1,
+   "sire": "F-HERACROSS-SCIZOR",
+   "dam": "D-SCIZOR",
+   "moves": [
+    "Counter"
+   ],
+   "inherited": [
+    {
+     "move": "Counter",
+     "from": "F-HERACROSS-SCIZOR"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "SoulSilver Scizor",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Scyther knowing Counter",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/123.png",
+   "check": "ok"
+  },
+  {
+   "id": "F-AZUMARILL-EMPOLEON",
+   "name": "Azumarill (borrowed father)",
+   "species": "Azumarill",
+   "hatched_as": null,
+   "line": "Azumarill",
+   "sex": "male",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Aqua Ring"
+   ],
+   "inherited": [],
+   "role": "father used",
+   "origin": "borrowed for the cross",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "SoulSilver Empoleon",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "learns Aqua Ring itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/184.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-EMPOLEON",
+   "name": "Empoleon-line female",
+   "species": "Empoleon",
+   "hatched_as": null,
+   "line": "Empoleon",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "SoulSilver Empoleon",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be SoulSilver Empoleon, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-EMPOLEON",
+   "name": "Empoleon-line stud",
+   "species": "Empoleon",
+   "hatched_as": "Piplup",
+   "line": "Piplup",
+   "sex": "male",
+   "generation": 1,
+   "sire": "F-AZUMARILL-EMPOLEON",
+   "dam": "D-EMPOLEON",
+   "moves": [
+    "Aqua Ring"
+   ],
+   "inherited": [
+    {
+     "move": "Aqua Ring",
+     "from": "F-AZUMARILL-EMPOLEON"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "SoulSilver Empoleon",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Piplup knowing Aqua Ring",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/393.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-SWAMPERT",
+   "name": "Swampert-line female",
+   "species": "Swampert",
+   "hatched_as": null,
+   "line": "Swampert",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "Emerald Swampert",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be Emerald Swampert, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/260.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-SWAMPERT",
+   "name": "Swampert-line stud",
+   "species": "Swampert",
+   "hatched_as": "Mudkip",
+   "line": "Mudkip",
+   "sex": "male",
+   "generation": 1,
+   "sire": "E-MILOTIC",
+   "dam": "D-SWAMPERT",
+   "moves": [
+    "Refresh"
+   ],
+   "inherited": [
+    {
+     "move": "Refresh",
+     "from": "E-MILOTIC"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "Emerald Swampert",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Mudkip knowing Refresh",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/258.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-INFERNAPE",
+   "name": "Infernape-line female",
+   "species": "Infernape",
+   "hatched_as": null,
+   "line": "Infernape",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "Platinum Infernape",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be Platinum Infernape, SoulSilver Infernape, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-INFERNAPE",
+   "name": "Infernape-line stud",
+   "species": "Infernape",
+   "hatched_as": "Chimchar",
+   "line": "Chimchar",
+   "sex": "male",
+   "generation": 1,
+   "sire": "C-AMPHAROS",
+   "dam": "D-INFERNAPE",
+   "moves": [
+    "Thunder Punch"
+   ],
+   "inherited": [
+    {
+     "move": "Thunder Punch",
+     "from": "C-AMPHAROS"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "Platinum Infernape",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Chimchar knowing Thunder Punch",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/390.png",
+   "check": "ok"
+  },
+  {
+   "id": "F-DEWGONG-WEAVILE",
+   "name": "Dewgong (borrowed father)",
+   "species": "Dewgong",
+   "hatched_as": null,
+   "line": "Dewgong",
+   "sex": "male",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Ice Shard"
+   ],
+   "inherited": [],
+   "role": "father used",
+   "origin": "borrowed for the cross",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "Platinum Weavile",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "learns Ice Shard itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/87.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-WEAVILE",
+   "name": "Weavile-line female",
+   "species": "Weavile",
+   "hatched_as": null,
+   "line": "Weavile",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "Platinum Weavile",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be Platinum Weavile, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/461.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-WEAVILE",
+   "name": "Weavile-line stud",
+   "species": "Weavile",
+   "hatched_as": "Sneasel",
+   "line": "Sneasel",
+   "sex": "male",
+   "generation": 1,
+   "sire": "F-DEWGONG-WEAVILE",
+   "dam": "D-WEAVILE",
+   "moves": [
+    "Ice Shard"
+   ],
+   "inherited": [
+    {
+     "move": "Ice Shard",
+     "from": "F-DEWGONG-WEAVILE"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "Platinum Weavile",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Sneasel knowing Ice Shard",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/215.png",
+   "check": "ok"
+  },
+  {
+   "id": "F-BELLOSSOM-ROSERADE",
+   "name": "Bellossom (borrowed father)",
+   "species": "Bellossom",
+   "hatched_as": null,
+   "line": "Bellossom",
+   "sex": "male",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [
+    "Leaf Storm",
+    "Sleep Powder"
+   ],
+   "inherited": [],
+   "role": "father used",
+   "origin": "borrowed for the cross",
+   "fate": "goes home (D-038)",
+   "status": "planned",
+   "program": "Platinum Roserade",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "learns Leaf Storm, Sleep Powder itself",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/182.png",
+   "check": "ok"
+  },
+  {
+   "id": "D-ROSERADE",
+   "name": "Roserade-line female",
+   "species": "Roserade",
+   "hatched_as": null,
+   "line": "Roserade",
+   "sex": "female",
+   "generation": 0,
+   "sire": null,
+   "dam": null,
+   "moves": [],
+   "inherited": [],
+   "role": "dam",
+   "origin": "a ranch female of the line",
+   "fate": "stays at the ranch",
+   "status": "planned",
+   "program": "Platinum Roserade",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "any female of the line carries the egg. Could be Platinum Roserade, if she's female.",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/407.png",
+   "check": "ok"
+  },
+  {
+   "id": "S-ROSERADE",
+   "name": "Roserade-line stud",
+   "species": "Roserade",
+   "hatched_as": "Roselia",
+   "line": "Roselia",
+   "sex": "male",
+   "generation": 1,
+   "sire": "F-BELLOSSOM-ROSERADE",
+   "dam": "D-ROSERADE",
+   "moves": [
+    "Leaf Storm",
+    "Sleep Powder"
+   ],
+   "inherited": [
+    {
+     "move": "Leaf Storm",
+     "from": "F-BELLOSSOM-ROSERADE"
+    },
+    {
+     "move": "Sleep Powder",
+     "from": "F-BELLOSSOM-ROSERADE"
+    }
+   ],
+   "role": "stud",
+   "origin": "bred at Blackthorn",
+   "fate": "kept: sires every future egg of the line in one step (D-038)",
+   "status": "planned",
+   "program": "Platinum Roserade",
+   "chapter": null,
+   "decision": "D-038",
+   "note": "hatches as Roselia knowing Leaf Storm, Sleep Powder (as Budew if a parent holds Rose Incense)",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/315.png",
+   "check": "ok"
+  }
+ ],
+ "lineage_issues": [],
+ "fathers": [
+  {
+   "father": "Dragonite",
+   "moves": 9,
+   "lines": 6
+  },
+  {
+   "father": "Arcanine",
+   "moves": 8,
+   "lines": 6
+  },
+  {
+   "father": "Espeon",
+   "moves": 8,
+   "lines": 6
+  },
+  {
+   "father": "Feraligatr",
+   "moves": 8,
+   "lines": 4
+  },
+  {
+   "father": "Meganium",
+   "moves": 8,
+   "lines": 4
+  },
+  {
+   "father": "Jolteon",
+   "moves": 7,
+   "lines": 6
+  },
+  {
+   "father": "Milotic",
+   "moves": 7,
+   "lines": 5
+  },
+  {
+   "father": "Snorlax",
+   "moves": 7,
+   "lines": 5
+  },
+  {
+   "father": "Tyranitar",
+   "moves": 7,
+   "lines": 3
+  },
+  {
+   "father": "Altaria",
+   "moves": 6,
+   "lines": 4
+  },
+  {
+   "father": "Lapras",
+   "moves": 6,
+   "lines": 5
+  },
+  {
+   "father": "Umbreon",
+   "moves": 6,
+   "lines": 5
+  },
+  {
+   "father": "Blastoise",
+   "moves": 5,
+   "lines": 4
+  },
+  {
+   "father": "Swampert",
+   "moves": 5,
+   "lines": 4
+  },
+  {
+   "father": "Venusaur",
+   "moves": 5,
+   "lines": 4
+  },
+  {
+   "father": "Weavile",
+   "moves": 5,
+   "lines": 5
+  },
+  {
+   "father": "Absol",
+   "moves": 4,
+   "lines": 4
+  },
+  {
+   "father": "Ampharos",
+   "moves": 4,
+   "lines": 3
+  },
+  {
+   "father": "Garchomp",
+   "moves": 4,
+   "lines": 3
+  },
+  {
+   "father": "Mamoswine",
+   "moves": 4,
+   "lines": 3
+  },
+  {
+   "father": "Roserade",
+   "moves": 4,
+   "lines": 2
+  },
+  {
+   "father": "Empoleon",
+   "moves": 3,
+   "lines": 3
+  },
+  {
+   "father": "Pikachu",
+   "moves": 3,
+   "lines": 3
+  },
+  {
+   "father": "Alakazam",
+   "moves": 2,
+   "lines": 2
+  },
+  {
+   "father": "Charizard",
+   "moves": 2,
+   "lines": 1
+  },
+  {
+   "father": "Donphan",
+   "moves": 2,
+   "lines": 2
+  },
+  {
+   "father": "Infernape",
+   "moves": 2,
+   "lines": 2
+  },
+  {
+   "father": "Lucario",
+   "moves": 2,
+   "lines": 2
+  },
+  {
+   "father": "Machamp",
+   "moves": 2,
+   "lines": 2
+  },
+  {
+   "father": "Crobat",
+   "moves": 1,
+   "lines": 1
+  },
+  {
+   "father": "Typhlosion",
+   "moves": 1,
+   "lines": 1
+  }
+ ],
+ "breeding_roles": [
+  {
+   "companion": "crystal:Feraligatr",
+   "species": "Feraligatr",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Charizard": [
+     "Ancient Power",
+     "Bite",
+     "Crunch"
+    ],
+    "Empoleon": [
+     "Agility"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge",
+     "Thrash"
+    ],
+    "Swampert": [
+     "Bite"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Dragon Dance": [
+     "Dragonite"
+    ],
+    "Aqua Jet": [
+     "Empoleon"
+    ]
+   }
+  },
+  {
+   "companion": "crystal:Miltank",
+   "species": "Miltank",
+   "roles": [
+    "dam (female-only line)"
+   ],
+   "as_father": {},
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": false,
+   "can_mother": true,
+   "tinker_menu": {
+    "Dizzy Punch": [],
+    "Curse": [],
+    "Hammer Arm": []
+   }
+  },
+  {
+   "companion": "crystal:Donphan",
+   "species": "Donphan",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Ampharos": [
+     "Take Down"
+    ],
+    "Infernape": [
+     "Counter"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Ice Shard": [
+     "Mamoswine",
+     "Weavile"
+    ],
+    "Head Smash": []
+   }
+  },
+  {
+   "companion": "crystal:Ampharos",
+   "species": "Ampharos",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Infernape": [
+     "Counter"
+    ],
+    "Venusaur": [
+     "Light Screen"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Take Down": [
+     "Arcanine",
+     "Donphan",
+     "Espeon",
+     "Garchomp",
+     "Jolteon",
+     "Mamoswine",
+     "Swampert",
+     "Umbreon",
+     "Venusaur"
+    ],
+    "Reflect": [
+     "Espeon",
+     "Mamoswine",
+     "Meganium"
+    ],
+    "Safeguard": [
+     "Lapras",
+     "Meganium"
+    ]
+   }
+  },
+  {
+   "companion": "crystal:Umbreon",
+   "species": "Umbreon",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Absol": [
+     "Baton Pass",
+     "Feint Attack"
+    ],
+    "Ampharos": [
+     "Take Down"
+    ],
+    "Lucario": [
+     "Bite"
+    ],
+    "Mamoswine": [
+     "Bite"
+    ],
+    "Weavile": [
+     "Bite"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Curse": [],
+    "Wish": [],
+    "Yawn": []
+   }
+  },
+  {
+   "companion": "crystal:Espeon",
+   "species": "Espeon",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Absol": [
+     "Baton Pass"
+    ],
+    "Ampharos": [
+     "Reflect",
+     "Take Down"
+    ],
+    "Arcanine": [
+     "Morning Sun"
+    ],
+    "Lucario": [
+     "Bite"
+    ],
+    "Mamoswine": [
+     "Bite"
+    ],
+    "Weavile": [
+     "Bite",
+     "Reflect"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Curse": [],
+    "Wish": [],
+    "Yawn": []
+   }
+  },
+  {
+   "companion": "firered:Charizard",
+   "species": "Charizard",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Bite": [
+     "Blastoise",
+     "Feraligatr",
+     "Tyranitar"
+    ],
+    "Belly Drum": [
+     "Snorlax"
+    ],
+    "Crunch": [
+     "Feraligatr",
+     "Garchomp",
+     "Snorlax",
+     "Tyranitar"
+    ],
+    "Ancient Power": [
+     "Feraligatr",
+     "Lapras",
+     "Meganium",
+     "Swampert",
+     "Tyranitar"
+    ],
+    "Dragon Dance": [
+     "Altaria",
+     "Dragonite"
+    ],
+    "Dragon Rush": [
+     "Dragonite",
+     "Garchomp"
+    ]
+   }
+  },
+  {
+   "companion": "firered:Blastoise",
+   "species": "Blastoise",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Charizard": [
+     "Bite"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Swampert": [
+     "Bite"
+    ],
+    "Venusaur": [
+     "Skull Bash"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Haze": [],
+    "Mirror Coat": [],
+    "Fake Out": [],
+    "Yawn": [
+     "Snorlax"
+    ],
+    "Refresh": [
+     "Milotic"
+    ],
+    "Water Spout": [],
+    "Muddy Water": [
+     "Swampert"
+    ],
+    "Aqua Ring": [
+     "Milotic"
+    ],
+    "Aqua Jet": [
+     "Empoleon"
+    ]
+   }
+  },
+  {
+   "companion": "firered:Venusaur",
+   "species": "Venusaur",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Ampharos": [
+     "Take Down"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Meganium": [
+     "Leech Seed"
+    ],
+    "Roserade": [
+     "Sleep Powder"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Light Screen": [
+     "Ampharos",
+     "Meganium"
+    ],
+    "Sludge": [],
+    "Skull Bash": [
+     "Blastoise"
+    ],
+    "Amnesia": [
+     "Snorlax"
+    ],
+    "Curse": [],
+    "Safeguard": [
+     "Lapras",
+     "Meganium"
+    ],
+    "Ingrain": [
+     "Roserade"
+    ],
+    "Magical Leaf": [
+     "Meganium",
+     "Roserade"
+    ],
+    "Leaf Storm": [],
+    "Power Whip": []
+   }
+  },
+  {
+   "companion": "firered:Alakazam",
+   "species": "Alakazam",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Infernape": [
+     "Counter"
+    ],
+    "Machamp": [
+     "Light Screen"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Encore": []
+   }
+  },
+  {
+   "companion": "firered:Jolteon",
+   "species": "Jolteon",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Absol": [
+     "Baton Pass"
+    ],
+    "Ampharos": [
+     "Take Down"
+    ],
+    "Empoleon": [
+     "Agility"
+    ],
+    "Lucario": [
+     "Agility",
+     "Bite"
+    ],
+    "Mamoswine": [
+     "Bite"
+    ],
+    "Weavile": [
+     "Bite"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Curse": [],
+    "Wish": [],
+    "Yawn": []
+   }
+  },
+  {
+   "companion": "firered:Machamp",
+   "species": "Machamp",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Infernape": [
+     "Counter"
+    ],
+    "Lucario": [
+     "Cross Chop"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Rolling Kick": [],
+    "Light Screen": [
+     "Alakazam"
+    ],
+    "Encore": [],
+    "Smelling Salts": [],
+    "Close Combat": [
+     "Infernape",
+     "Lucario"
+    ],
+    "Bullet Punch": []
+   }
+  },
+  {
+   "companion": "emerald:Swampert",
+   "species": "Swampert",
+   "roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "as_father": {
+    "Ampharos": [
+     "Take Down"
+    ],
+    "Blastoise": [
+     "Muddy Water"
+    ],
+    "Charizard": [
+     "Ancient Power"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ]
+   },
+   "bred_moves": {
+    "Refresh": [
+     "Milotic"
+    ]
+   },
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true
+  },
+  {
+   "companion": "emerald:Milotic",
+   "species": "Milotic",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Blastoise": [
+     "Aqua Ring",
+     "Refresh"
+    ],
+    "Empoleon": [
+     "Aqua Ring"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Lapras": [
+     "Refresh"
+    ],
+    "Swampert": [
+     "Refresh"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Hypnosis": [],
+    "Confuse Ray": [
+     "Lapras"
+    ],
+    "Light Screen": [],
+    "Haze": [],
+    "Dragon Breath": [
+     "Altaria"
+    ],
+    "Mirror Coat": []
+   }
+  },
+  {
+   "companion": "emerald:Altaria",
+   "species": "Altaria",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Charizard": [
+     "Dragon Dance"
+    ],
+    "Dragonite": [
+     "Dragon Breath"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge",
+     "Dragon Breath"
+    ],
+    "Milotic": [
+     "Dragon Breath"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Agility": [
+     "Dragonite"
+    ],
+    "Haze": [
+     "Crobat"
+    ],
+    "Dragon Rush": [
+     "Dragonite",
+     "Garchomp"
+    ]
+   }
+  },
+  {
+   "companion": "emerald:Arcanine",
+   "species": "Arcanine",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Ampharos": [
+     "Take Down"
+    ],
+    "Empoleon": [
+     "Agility"
+    ],
+    "Lucario": [
+     "Agility",
+     "Bite",
+     "Crunch"
+    ],
+    "Mamoswine": [
+     "Bite"
+    ],
+    "Typhlosion": [
+     "Flare Blitz"
+    ],
+    "Weavile": [
+     "Bite"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Thrash": [],
+    "Safeguard": [],
+    "Morning Sun": [
+     "Espeon"
+    ]
+   }
+  },
+  {
+   "companion": "emerald:Absol",
+   "species": "Absol",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Infernape": [
+     "Counter"
+    ],
+    "Lucario": [
+     "Bite"
+    ],
+    "Mamoswine": [
+     "Bite"
+    ],
+    "Weavile": [
+     "Bite"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Curse": [],
+    "Feint Attack": [
+     "Umbreon",
+     "Weavile"
+    ],
+    "Megahorn": [],
+    "Baton Pass": [
+     "Espeon",
+     "Jolteon",
+     "Umbreon"
+    ]
+   }
+  },
+  {
+   "companion": "emerald:Meganium",
+   "species": "Meganium",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Ampharos": [
+     "Reflect",
+     "Safeguard"
+    ],
+    "Charizard": [
+     "Ancient Power"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Venusaur": [
+     "Light Screen",
+     "Magical Leaf",
+     "Safeguard"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Leech Seed": [
+     "Roserade",
+     "Venusaur"
+    ],
+    "Ingrain": [
+     "Roserade"
+    ],
+    "Leaf Storm": []
+   }
+  },
+  {
+   "companion": "platinum:Infernape",
+   "species": "Infernape",
+   "roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)",
+    "stud line"
+   ],
+   "as_father": {
+    "Machamp": [
+     "Close Combat"
+    ],
+    "Typhlosion": [
+     "Flare Blitz"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [
+    "Thunder Punch"
+   ],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Counter": [
+     "Absol",
+     "Alakazam",
+     "Ampharos",
+     "Donphan",
+     "Lucario",
+     "Machamp",
+     "Pikachu",
+     "Typhlosion",
+     "Weavile"
+    ],
+    "Encore": [],
+    "Fake Out": [],
+    "Blaze Kick": []
+   }
+  },
+  {
+   "companion": "platinum:Weavile",
+   "species": "Weavile",
+   "roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)",
+    "stud line"
+   ],
+   "as_father": {
+    "Absol": [
+     "Feint Attack"
+    ],
+    "Donphan": [
+     "Ice Shard"
+    ],
+    "Empoleon": [
+     "Agility"
+    ],
+    "Infernape": [
+     "Counter"
+    ],
+    "Lucario": [
+     "Agility"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [
+    "Ice Punch",
+    "Ice Shard"
+   ],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Bite": [
+     "Absol",
+     "Arcanine",
+     "Espeon",
+     "Jolteon",
+     "Umbreon"
+    ],
+    "Reflect": [
+     "Espeon",
+     "Mamoswine"
+    ],
+    "Fake Out": [],
+    "Crush Claw": []
+   }
+  },
+  {
+   "companion": "platinum:Roserade",
+   "species": "Roserade",
+   "roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "as_father": {
+    "Meganium": [
+     "Ingrain",
+     "Leech Seed"
+    ],
+    "Venusaur": [
+     "Ingrain",
+     "Magical Leaf"
+    ]
+   },
+   "bred_moves": {
+    "Leaf Storm": [],
+    "Sleep Powder": [
+     "Venusaur"
+    ]
+   },
+   "journey_chains": {
+    "Leaf Storm": []
+   },
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true
+  },
+  {
+   "companion": "platinum:Lucario",
+   "species": "Lucario",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Infernape": [
+     "Counter"
+    ],
+    "Machamp": [
+     "Close Combat"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Bite": [
+     "Absol",
+     "Arcanine",
+     "Espeon",
+     "Jolteon",
+     "Umbreon"
+    ],
+    "Agility": [
+     "Arcanine",
+     "Jolteon",
+     "Pikachu",
+     "Weavile"
+    ],
+    "High Jump Kick": [],
+    "Cross Chop": [
+     "Machamp"
+    ],
+    "Crunch": [
+     "Arcanine"
+    ],
+    "Blaze Kick": [],
+    "Sky Uppercut": [],
+    "Bullet Punch": []
+   }
+  },
+  {
+   "companion": "platinum:Garchomp",
+   "species": "Garchomp",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Altaria": [
+     "Dragon Rush"
+    ],
+    "Ampharos": [
+     "Take Down"
+    ],
+    "Charizard": [
+     "Crunch",
+     "Dragon Rush"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Body Slam": [
+     "Altaria",
+     "Ampharos",
+     "Blastoise",
+     "Charizard",
+     "Dragonite",
+     "Feraligatr",
+     "Lapras",
+     "Meganium",
+     "Milotic",
+     "Snorlax",
+     "Swampert",
+     "Tyranitar",
+     "Venusaur"
+    ],
+    "Thrash": [
+     "Feraligatr",
+     "Tyranitar"
+    ],
+    "Double-Edge": [
+     "Altaria",
+     "Ampharos",
+     "Blastoise",
+     "Charizard",
+     "Dragonite",
+     "Feraligatr",
+     "Lapras",
+     "Meganium",
+     "Milotic",
+     "Snorlax",
+     "Swampert",
+     "Tyranitar",
+     "Venusaur"
+    ],
+    "Dragon Breath": [
+     "Altaria"
+    ]
+   }
+  },
+  {
+   "companion": "platinum:Magnezone",
+   "species": "Magnezone",
+   "roles": [
+    "Ditto line (genderless: parent and product only with Ditto, no egg moves)"
+   ],
+   "as_father": {},
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": false,
+   "can_mother": false,
+   "tinker_menu": {}
+  },
+  {
+   "companion": "soulsilver:Pikachu",
+   "species": "Pikachu",
+   "roles": [
+    "sire",
+    "stud line"
+   ],
+   "as_father": {
+    "Empoleon": [
+     "Agility"
+    ],
+    "Infernape": [
+     "Counter"
+    ],
+    "Lucario": [
+     "Agility"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Bide": [
+     "Empoleon"
+    ],
+    "Encore": [],
+    "Fake Out": [],
+    "Wish": []
+   }
+  },
+  {
+   "companion": "soulsilver:Dragonite",
+   "species": "Dragonite",
+   "roles": [
+    "sire",
+    "product"
+   ],
+   "as_father": {
+    "Altaria": [
+     "Agility",
+     "Dragon Rush"
+    ],
+    "Charizard": [
+     "Dragon Dance",
+     "Dragon Rush"
+    ],
+    "Empoleon": [
+     "Agility"
+    ],
+    "Feraligatr": [
+     "Dragon Dance"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Lapras": [
+     "Dragon Dance"
+    ]
+   },
+   "bred_moves": {
+    "Extreme Speed": []
+   },
+   "journey_chains": {
+    "Extreme Speed": []
+   },
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true
+  },
+  {
+   "companion": "soulsilver:Infernape",
+   "species": "Infernape",
+   "roles": [
+    "sire",
+    "stud line"
+   ],
+   "as_father": {
+    "Machamp": [
+     "Close Combat"
+    ],
+    "Typhlosion": [
+     "Flare Blitz"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Counter": [
+     "Absol",
+     "Alakazam",
+     "Ampharos",
+     "Donphan",
+     "Lucario",
+     "Machamp",
+     "Pikachu",
+     "Typhlosion",
+     "Weavile"
+    ],
+    "Encore": [],
+    "Fake Out": [],
+    "Blaze Kick": []
+   }
+  },
+  {
+   "companion": "soulsilver:Empoleon",
+   "species": "Empoleon",
+   "roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "as_father": {
+    "Blastoise": [
+     "Aqua Jet"
+    ],
+    "Feraligatr": [
+     "Aqua Jet"
+    ],
+    "Pikachu": [
+     "Bide"
+    ]
+   },
+   "bred_moves": {
+    "Aqua Ring": [
+     "Milotic"
+    ]
+   },
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true
+  },
+  {
+   "companion": "soulsilver:Gengar",
+   "species": "Gengar",
+   "roles": [
+    "product",
+    "stud line"
+   ],
+   "as_father": {},
+   "bred_moves": {
+    "Disable": []
+   },
+   "journey_chains": {
+    "Disable": []
+   },
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true
+  },
+  {
+   "companion": "soulsilver:Scizor",
+   "species": "Scizor",
+   "roles": [
+    "product (optional: its egg moves can also be learned)",
+    "stud line"
+   ],
+   "as_father": {},
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [
+    "Counter"
+   ],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Light Screen": [],
+    "Safeguard": [],
+    "Baton Pass": [],
+    "Bug Buzz": []
+   }
+  },
+  {
+   "companion": "heartgold:Typhlosion",
+   "species": "Typhlosion",
+   "roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "as_father": {
+    "Infernape": [
+     "Counter"
+    ]
+   },
+   "bred_moves": {
+    "Extrasensory": []
+   },
+   "journey_chains": {
+    "Extrasensory": []
+   },
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true
+  },
+  {
+   "companion": "heartgold:Tyranitar",
+   "species": "Tyranitar",
+   "roles": [
+    "sire",
+    "product",
+    "stud line"
+   ],
+   "as_father": {
+    "Charizard": [
+     "Ancient Power",
+     "Bite",
+     "Crunch"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge",
+     "Thrash"
+    ],
+    "Swampert": [
+     "Bite"
+    ]
+   },
+   "bred_moves": {
+    "Dragon Dance": []
+   },
+   "journey_chains": {
+    "Dragon Dance": [
+     "Altaria → Charizard",
+     "Dragonite → Charizard",
+     "Dragonite → Feraligatr",
+     "Dragonite → Lapras"
+    ]
+   },
+   "egg_or_learned": [
+    "Outrage"
+   ],
+   "can_father": true,
+   "can_mother": true
+  },
+  {
+   "companion": "heartgold:Mamoswine",
+   "species": "Mamoswine",
+   "roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)"
+   ],
+   "as_father": {
+    "Ampharos": [
+     "Reflect",
+     "Take Down"
+    ],
+    "Donphan": [
+     "Ice Shard"
+    ],
+    "Weavile": [
+     "Reflect"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [
+    "Ancient Power"
+   ],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Bite": [
+     "Absol",
+     "Arcanine",
+     "Espeon",
+     "Jolteon",
+     "Umbreon"
+    ],
+    "Curse": []
+   }
+  },
+  {
+   "companion": "heartgold:Crobat",
+   "species": "Crobat",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Altaria": [
+     "Haze"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Whirlwind": [],
+    "Hypnosis": [],
+    "Quick Attack": [],
+    "Curse": [],
+    "Feint Attack": [],
+    "Brave Bird": [],
+    "Nasty Plot": []
+   }
+  },
+  {
+   "companion": "heartgold:Lapras",
+   "species": "Lapras",
+   "roles": [
+    "sire"
+   ],
+   "as_father": {
+    "Ampharos": [
+     "Safeguard"
+    ],
+    "Charizard": [
+     "Ancient Power"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Milotic": [
+     "Confuse Ray"
+    ],
+    "Venusaur": [
+     "Safeguard"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Curse": [],
+    "Refresh": [
+     "Milotic"
+    ],
+    "Dragon Dance": [
+     "Dragonite"
+    ]
+   }
+  },
+  {
+   "companion": "heartgold:Snorlax",
+   "species": "Snorlax",
+   "roles": [
+    "sire",
+    "product (optional: its egg moves can also be learned)"
+   ],
+   "as_father": {
+    "Blastoise": [
+     "Yawn"
+    ],
+    "Charizard": [
+     "Belly Drum",
+     "Crunch"
+    ],
+    "Garchomp": [
+     "Body Slam",
+     "Double-Edge"
+    ],
+    "Swampert": [
+     "Yawn"
+    ],
+    "Venusaur": [
+     "Amnesia"
+    ]
+   },
+   "bred_moves": {},
+   "journey_chains": {},
+   "egg_or_learned": [
+    "Zen Headbutt"
+   ],
+   "can_father": true,
+   "can_mother": true,
+   "tinker_menu": {
+    "Whirlwind": [],
+    "Curse": []
+   }
+  }
+ ],
+ "decisions": [
+  {
+   "id": "D-001",
+   "date": "2025-12",
+   "title": "All six rosters as in v3 `Canon Builds`",
+   "text": "All six rosters as in v3 `Canon Builds`",
+   "area": "historical drafts",
+   "status": "ARCHIVE",
+   "who": "—"
+  },
+  {
+   "id": "D-002",
+   "date": "≤2026-01-08",
+   "title": "Crystal roster: Feraligatr · Miltank · Donphan · Ampharos · Umbreon · Espeon",
+   "text": "Crystal roster: Feraligatr · Miltank · Donphan · Ampharos · Umbreon · Espeon",
+   "area": "established",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-003",
+   "date": "≤2026-01-08",
+   "title": "FireRed roster: Charizard · Blastoise · Venusaur · Alakazam · Jolteon · Machamp",
+   "text": "FireRed roster: Charizard · Blastoise · Venusaur · Alakazam · Jolteon · Machamp",
+   "area": "established",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-004",
+   "date": "≤2026-01-08",
+   "title": "Emerald roster: Swampert · Milotic · Altaria · Arcanine · Absol · Meganium",
+   "text": "Emerald roster: Swampert · Milotic · Altaria · Arcanine · Absol · Meganium",
+   "area": "established",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-005",
+   "date": "≤2026-01-08",
+   "title": "Platinum roster: Infernape · Weavile · Roserade · Lucario · Garchomp · Magnezone",
+   "text": "Platinum roster: Infernape · Weavile · Roserade · Lucario · Garchomp · Magnezone",
+   "area": "established",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-006",
+   "date": "≤2026-01-08",
+   "title": "HeartGold roster: Typhlosion · Tyranitar · Mamoswine · Crobat · Lapras · Snorlax",
+   "text": "HeartGold roster: Typhlosion · Tyranitar · Mamoswine · Crobat · Lapras · Snorlax",
+   "area": "**sacred; do not reopen**",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-007",
+   "date": "≤2026-01-08",
+   "title": "Former SoulSilver six: Pikachu · Dragonite · Gyarados · Empoleon · Gengar · Scizor, concept \"Everything you do matters, and it is all wrong\"",
+   "text": "Former SoulSilver six: Pikachu · Dragonite · Gyarados · Empoleon · Gengar · Scizor, concept \"Everything you do matters, and it is all wrong\"",
+   "area": "historical",
+   "status": "ARCHIVE",
+   "who": "Zack"
+  },
+  {
+   "id": "D-008",
+   "date": "2026-07-14",
+   "title": "SoulSilver wiped; all incumbency removed; every eligible non-legendary Gen I–IV Pokémon except HeartGold's six may be considered",
+   "text": "SoulSilver wiped; all incumbency removed; every eligible non-legendary Gen I–IV Pokémon except HeartGold's six may be considered",
+   "area": "process rule",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-009",
+   "date": "2026-07",
+   "title": "SoulSilver reinterpreted: veteran, soulful, Brady-like, \"We've been here before / Show us anything. We have an answer,\" equal in stature to HeartGold",
+   "text": "SoulSilver reinterpreted: veteran, soulful, Brady-like, \"We've been here before / Show us anything. We have an answer,\" equal in stature to HeartGold",
+   "area": "philosophy",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-010",
+   "date": "2026-07-16",
+   "title": "SoulSilver rough starting six: Pikachu · Dragonite · Infernape · Empoleon · Gengar · Scizor",
+   "text": "SoulSilver rough starting six: Pikachu · Dragonite · Infernape · Empoleon · Gengar · Scizor",
+   "area": "**starting point, not a lock**",
+   "status": "PROVISIONAL",
+   "who": "Zack"
+  },
+  {
+   "id": "D-011",
+   "date": "2026-07",
+   "title": "Scizor-as-equipment-carrier",
+   "text": "Scizor-as-equipment-carrier",
+   "area": "**half-thought; don't run with it**",
+   "status": "PROVISIONAL (fenced)",
+   "who": "Zack"
+  },
+  {
+   "id": "D-012",
+   "date": "2026-07",
+   "title": "Focus Blast not wanted",
+   "text": "Typhlosion keeps Extrasensory; preferred set Flamethrower / Extrasensory / Thunder Punch / Earthquake; Focus Blast not wanted",
+   "area": "direct preference",
+   "status": "WORKING (moves); nature open",
+   "who": "Zack"
+  },
+  {
+   "id": "D-013",
+   "date": "2026-07-14",
+   "title": "HeartGold moves: Tyranitar DD/Crunch/EQ/Outrage + Lum Berry · Crobat Fly/Roost/U-turn/Toxic · Lapras Surf/Ice Beam/Rest/Heal Bell · Snorlax Body Slam/Rest/Thund",
+   "text": "HeartGold moves: Tyranitar DD/Crunch/EQ/Outrage + Lum Berry · Crobat Fly/Roost/U-turn/Toxic · Lapras Surf/Ice Beam/Rest/Heal Bell · Snorlax Body Slam/Rest/Thunder Punch/Zen Headbutt",
+   "area": "strong proposed directions",
+   "status": "PROPOSED (not confirmed)",
+   "who": "review"
+  },
+  {
+   "id": "D-014",
+   "date": "2026-07-14",
+   "title": "Mamoswine: Ice Shard over Hail",
+   "text": "Mamoswine: Ice Shard over Hail",
+   "area": "proposed improvement",
+   "status": "PROPOSED",
+   "who": "review"
+  },
+  {
+   "id": "D-015",
+   "date": "2026-07",
+   "title": "Infernape (Platinum): Close Combat / Flamethrower / Mach Punch / Thunder Punch",
+   "text": "Infernape (Platinum): Close Combat / Flamethrower / Mach Punch / Thunder Punch",
+   "area": "accepted working set",
+   "status": "WORKING",
+   "who": "Zack"
+  },
+  {
+   "id": "D-016",
+   "date": "2026-07",
+   "title": "Garchomp (Platinum): EQ / Dragon Claw / Fire Fang / Poison Jab; 4th slot still evaluative",
+   "text": "Garchomp (Platinum): EQ / Dragon Claw / Fire Fang / Poison Jab; 4th slot still evaluative",
+   "area": "working direction",
+   "status": "WORKING",
+   "who": "Zack"
+  },
+  {
+   "id": "D-017",
+   "date": "2026-07",
+   "title": "rejected",
+   "text": "Garchomp Aqua Tail rejected: \"versatility and another coverage option were weaker than making the opponent's decisions costly\"",
+   "area": "rejected",
+   "status": "REJECTED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-018",
+   "date": "2026-07",
+   "title": "Field-function policy (team covers HMs; Surf & Fly universal minimums; no HM slaves; cartridge ≠ world)",
+   "text": "Field-function policy (team covers HMs; Surf & Fly universal minimums; no HM slaves; cartridge ≠ world)",
+   "area": "rule, \"going forward to every team\"",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-019",
+   "date": "2026-07",
+   "title": "Rival final six: Nidoking (constant) · Kingdra (Crystal) · Houndoom (FireRed) · Metagross (Emerald) · Gliscor (Platinum) · Salamence (SoulSilver)",
+   "text": "Rival final six: Nidoking (constant) · Kingdra (Crystal) · Houndoom (FireRed) · Metagross (Emerald) · Gliscor (Platinum) · Salamence (SoulSilver)",
+   "area": "canonical",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-020",
+   "date": "2025-12",
+   "title": "\"HeartGold (Danny)\": Raichu · Torterra · Combusken · Breloom · Flygon · Buizel",
+   "text": "\"HeartGold (Danny)\": Raichu · Torterra · Combusken · Breloom · Flygon · Buizel",
+   "area": "separate character, archival",
+   "status": "ARCHIVE",
+   "who": "—"
+  },
+  {
+   "id": "D-021",
+   "date": "2026-07",
+   "title": "groups of two or three",
+   "text": "Brainstorm foundational members in groups of two or three; no shotgun full-roster swaps",
+   "area": "process preference",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-022",
+   "date": "2026-10-07",
+   "title": "App decomposition (Rules Engine / Personal Canon / Journey & Companion / Workbench) + model Species → Companion → Membership → Build → MoveDecision",
+   "text": "App decomposition (Rules Engine / Personal Canon / Journey & Companion / Workbench) + model Species → Companion → Membership → Build → MoveDecision",
+   "area": "promising direction",
+   "status": "PROPOSED",
+   "who": "assistant"
+  },
+  {
+   "id": "D-023",
+   "date": "2026-10-19",
+   "title": "PKHeX",
+   "text": "Zack has PKHeX and can create and import custom Pokémon",
+   "area": "fact about tooling",
+   "status": "RECORDED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-024",
+   "date": "2026-10-19",
+   "title": "Learnability standard.",
+   "text": "Learnability standard. \"I don't care if PKHeX says it's legal or not — it's legal in the sense that it can be learned and that's what fits my narrative… I'm not entering competitions, I'm creating the world I want.\" A move is valid for this project if the species can learn it. PKHeX legality, encounter/ball/origin constraints, egg-move-on-starter conflicts and save-plausibility do not gate canon; the engine reports them as story notes only. Example: HeartGold's Typhlosion can be Elm's starter and know Extrasensory. Open boundary: \"learnable in that game\" vs \"learnable by the species in any game\" (Q5)",
+   "area": "standard",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-025",
+   "date": "2026-10-19",
+   "title": "Project home is Google Drive",
+   "text": "Project home is Google Drive (Gen 1–4 scope keeps it manageable). Canon data lives in a Google Sheet that Claude reads and writes through the Sheets connector; docs live in a Drive project folder",
+   "area": "storage",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-026",
+   "date": "2026-10-19",
+   "title": "HM/field rule kept as the ideal; every game gets worked through explicitly",
+   "text": "HM/field rule kept as the ideal; every game gets worked through explicitly, with principled exceptions allowed where there's a real reason (\"I don't hate the rule, I just want to work through it\")",
+   "area": "process",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-027",
+   "date": "2026-10-19",
+   "title": "F1: Crystal's missing Fly is a real hole",
+   "text": "F1: Crystal's missing Fly is a real hole, not a deliberate \"walked chapter\"",
+   "area": "open roster question for Crystal",
+   "status": "WORKING (problem acknowledged)",
+   "who": "Zack"
+  },
+  {
+   "id": "D-028",
+   "date": "2026-10-19",
+   "title": "F2: Feraligatr gets Waterfall in Crystal",
+   "text": "F2: Feraligatr gets Waterfall in Crystal via PKHeX. Not learnable in Gen 2, learnable from Gen 3 on, and works on the Crystal cartridge (E-015). Precedent for Q5: \"can be learned\" may mean by the species, case by case",
+   "area": "accepted exception",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-029",
+   "date": "2026-10-19",
+   "title": "F3: Garchomp does *not* count as Platinum's flyer.",
+   "text": "F3: Garchomp does not count as Platinum's flyer. Platinum has no Fly by design: \"flying isn't super practical in Platinum because it's city based.\" Recalled by Zack from an earlier conversation that isn't in the handoff",
+   "area": "principled exception to the Fly minimum",
+   "status": "WORKING CANON",
+   "who": "Zack"
+  },
+  {
+   "id": "D-030",
+   "date": "2026-10-19",
+   "title": "F4: revisit Platinum's Waterfall (and Defog)",
+   "text": "F4: revisit Platinum's Waterfall (and Defog), both lost when Lucario replaced the January roster's Empoleon",
+   "area": "open design work",
+   "status": "OPEN",
+   "who": "Zack"
+  },
+  {
+   "id": "D-031",
+   "date": "2026-10-19",
+   "title": "Product scope: a lab and workbench at PKHeX parity.",
+   "text": "Product scope: a lab and workbench at PKHeX parity. Build teams, and build each individual as a battler and as breeding stock, down to ball, held item, IVs, EVs and every lever PKHeX exposes. Show what each choice causes (e.g. IVs and nature → summary-screen text). Everything exports into PKHeX so it's real",
+   "area": "product direction",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-032",
+   "date": "2026-10-19",
+   "title": "Build order: engines before specifics.",
+   "text": "Build order: engines before specifics. Battle opponents (benchmarks), the authored world, and multi-generation breeding were built first (\"I want 1, 2 and 3 right now, or at least begin the engines they'll need\")",
+   "area": "priority",
+   "status": "WORKING",
+   "who": "Zack"
+  },
+  {
+   "id": "D-033",
+   "date": "2026-10-19",
+   "title": "Approved all 15 HeartGold world records (W-001…W-015)",
+   "text": "Approved all 15 HeartGold world records (W-001…W-015): the handoff §10 life roles mapped to capabilities (\"approve all 15\")",
+   "area": "authored world",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-034",
+   "date": "2026-10-19",
+   "title": "Camp life:",
+   "text": "Camp life: food and cooking \"could be any… it depends on the team\" (berries, Apricorns, actual cooking). Build a camp-life portion; \"not really a massive priority\"",
+   "area": "scope",
+   "status": "WORKING",
+   "who": "Zack"
+  },
+  {
+   "id": "D-035",
+   "date": "2026-10-19",
+   "title": "Endgame vision: a Champion's breeding ranch.",
+   "text": "Endgame vision: a Champion's breeding ranch. Town life is reframed: \"think of it more like end game is a breeding ranch… for a Pokémon champion with unlimited money, with unlimited land in as many places, regions 1–4, and obviously with the power of Pokémon… that's kind of a big goal of this too.\"",
+   "area": "product direction",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-036",
+   "date": "2026-10-19",
+   "title": "One headquarters",
+   "text": "One headquarters (\"one headquarters\"). Satellites only where the headquarters can't give a resident its land. Location still a proposal (Blackthorn highlands)",
+   "area": "ranch design",
+   "status": "LOCKED (structure) · location PROPOSED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-037",
+   "date": "2026-10-19",
+   "title": "Companions' fates stay open",
+   "text": "Companions' fates stay open (\"let's leave it open so we can say any of those\"): retire to the ranch, stay with family, go back to the wild, or go with the rival. The census counts every companion as a possible resident",
+   "area": "ranch design",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-038",
+   "date": "2026-10-19",
+   "title": "Breeding stock: build the lineage, keep only the final product",
+   "text": "Breeding stock: build the lineage, keep only the final product (\"you want to essentially build the lineage but you're only keeping the final breeding stock product\"). Working reading: one male of each target line who knows the whole egg-move set (a stud, so every future egg is one step); the fathers used along the way aren't kept; a held-item line (Volt Tackle) keeps the Light Ball",
+   "area": "ranch design",
+   "status": "WORKING (reading to confirm)",
+   "who": "Zack"
+  },
+  {
+   "id": "D-039",
+   "date": "2026-10-19",
+   "title": "Ranch staff: both Pokémon and people",
+   "text": "Ranch staff: both Pokémon and people (\"both\"). Pokémon jobs come from game-backed or authored capabilities; people roles (head breeder, Day-Care keepers, nurse, cook, ranch hands, wardens, archivist) are placeholders to author",
+   "area": "ranch design",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-040",
+   "date": "2026-10-19",
+   "title": "Ranch access: private, with an open Day-Care.",
+   "text": "Ranch access: private, with an open Day-Care. \"Think of it like the day care center gazillionaire edition in the sense of its open. But not all of it is open because the day care is just like a feature of it… it's super exclusive, it's not massive, think more wildlife preserve with daycare aspect for that portion of it.\" The scale note applies to the Day-Care and public side only, not to the whole ranch",
+   "area": "ranch design",
+   "status": "LOCKED (details authored later)",
+   "who": "Zack"
+  },
+  {
+   "id": "D-041",
+   "date": "2026-10-19",
+   "title": "Headquarters: Blackthorn",
+   "text": "Headquarters: Blackthorn (\"Blackthorn is an excellent answer\"). Next: a hatchery woven into a greenhouse, designed from scratch for that site (proposal: The Glasshouse, `ranch.json` designs)",
+   "area": "ranch design",
+   "status": "LOCKED (HQ) · Glasshouse PROPOSED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-042",
+   "date": "2026-10-19",
+   "title": "Past-tense frame:",
+   "text": "Past-tense frame: \"think of this all written in the past tense… all of these Pokémon are retired and that's where this whole breeding ranch is like the centerpiece.\" The journey is over; the present is a retired Champion's breeding ranch. Where each companion lives stays open (D-037)",
+   "area": "product frame",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-043",
+   "date": "2026-10-19",
+   "title": "Battle = scouting reports and call sheets, not simulations.",
+   "text": "Battle = scouting reports and call sheets, not simulations. The teams are \"the teams I could have used on my journey\", like asking what Ash could have done with all his Pokémon at their peak. \"Imagine creating scouting reports with tendencies… a Major League Baseball scouting report or an NFL call sheet… that's where I like having all of this data… with Smogon.\" Engine: `battle/scouting.py` (20–80 tool grades, present/peak, tendencies, splits, comps; call sheets from the benchmark grid)",
+   "area": "product frame",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-044",
+   "date": "2026-10-19",
+   "title": "The breeding lab is the present, and the journey is one family tree.",
+   "text": "The breeding lab is the present, and the journey is one family tree. \"I'm a breeder now, a retired champion, and the thing I do is tinker with different builds and trying to achieve different move sets and breeding stock that can go different ways. In a certain sense every single Pokémon part of the journey should be either a parent to a breeding stock or the product of breeding stock… and then even more Pokémon that weren't necessarily part of my journey but could be part of others.\" Engine: `breeding/studbook.py`; the lab runs on Gen 4 rules (HGSS + Platinum, Gen 3 by Pal Park) as a working choice",
+   "area": "product frame",
+   "status": "LOCKED (era rule WORKING)",
+   "who": "Zack"
+  },
+  {
+   "id": "D-045",
+   "date": "2026-10-19",
+   "title": "The Glasshouse is approved",
+   "text": "The Glasshouse is approved (\"approve the glasshouse\"): the hatchery and greenhouse in one building at Blackthorn, with the hatching loop and the cold vault. Its two story-only jobs are proposed as W-016 (Meganium, plant care) and W-017 (Miltank, food source)",
+   "area": "ranch design",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-046",
+   "date": "2026-10-19",
+   "title": "Scouting reports carry no grades: tendencies, philosophies, and how to attack.",
+   "text": "Scouting reports carry no grades: tendencies, philosophies, and how to attack. \"I don't want grades. More tendencies. And like philosophies. And how to attack them based on their moves and Pokémon, maybe order, or what they'll do when they're behind or ahead or against certain types or certain moves… combine the knowledge from the data and make it intelligent and customizable, and certain numbers triggering certain phrases, the same way it happens in the game.\" Engine: an editable phrase book where data thresholds trigger phrases; opponents' behavior comes from the games' own trainer AI flags, items and battle messages",
+   "area": "product direction",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-047",
+   "date": "2026-10-19",
+   "title": "The scouting engine is built, not tuned to an answer.",
+   "text": "The scouting engine is built, not tuned to an answer. \"I don't want you to design it around an answer, I want you to design the engine… and then have the lab so that we can use that engine… combine moves and what they do and damage and how movesets and type coverage and Smogon suggested movesets work.\" The engine (`docs/SCOUTING_ENGINE.md`) reads each move's plays from data, measures every team against what real players ran (Smogon's MIT usage sets), plays each one-on-one out as a measurement, and turns the results into sliders, play sheets and game plans. It keeps D-043: the product is still scouting reports and call sheets; the one-on-ones are the measuring stick, not a simulated six-on-six. The slider definitions, the situations and the peak defaults (IVs 31, EVs 85 in every stat) are WORKING proposals, open for argument; coach settings stay empty until you set them",
+   "area": "product direction",
+   "status": "LOCKED (direction) · definitions WORKING",
+   "who": "Zack"
+  },
+  {
+   "id": "D-048",
+   "date": "2026-10-19",
+   "title": "Move legality is biological.",
+   "text": "Move legality is biological. \"I'd very much treat the whole move legality as almost a biological thing where it's like are they physically capable of doing it, and if they are I'm mostly good with it. It's my world and I want it to be true, but ultimately I make the rules, and if I want something to be true and there's some sort of reason, I think we can allow it.\" A move counts if the species (or a pre-evolution) can learn it in any game of any generation, uses it in the show, or the build records a reason. The report states the reason (e.g. \"learns it in Crystal (machine)\"). Only a move with no reason at all is flagged. Settles Q5",
+   "area": "standard",
+   "status": "LOCKED",
+   "who": "Zack"
+  },
+  {
+   "id": "D-049",
+   "date": "2026-10-19",
+   "title": "The project learns through one intake: cards of proposed claims, approved before they land.",
+   "text": "The project learns through one intake: cards of proposed claims, approved before they land. \"I just want to make sure we're utilizing all of our previous tools to be able to ingest as much information as possible so this project continues to grow and get smarter.\" Videos, screenshots, pages, pastes and research become cards; nothing reaches canon unapproved; every claim keeps its source. Videos run on Gemini in Food OS's envelope format. \"At the end of the day, we probably end up with a separate sheet and engine that all TikToks or IG Reel videos for all of these different sources goes and then gets run, but we can build separate for now.\" So: built separately for Pokémon now (`engine/ingest/`, `docs/INGEST.md`, the Pokémon Master OS Agent Sheet), shaped so a shared engine can take it over",
+   "area": "product direction",
+   "status": "LOCKED (direction) · approval default: everything through Zack",
+   "who": "Zack"
+  },
+  {
+   "id": "D-050",
+   "date": "2026-10-20",
+   "title": "Game film: Showdown replays, read exactly, are how the project learns real play.",
+   "text": "Game film: Showdown replays, read exactly, are how the project learns real play. \"Pay attention to the Pokémon and the builds and the order and obviously just learn as much as possible.\" The film room reads every replay turn by turn (no model, no cost): the order teams come in, each Pokémon's build as revealed and its move order, every choice with the game state before it. Studies of a player or a field become cards of observation tallies and build variants; approved ones show on the playsheet as On film. Game trainers send their party in order and mark their ace by level, so a cartridge team's unique top-level member is its derived ace (Lance's Lv 50 Dragonite, sent last)",
+   "area": "product direction",
+   "status": "WORKING",
+   "who": "Zack"
+  },
+  {
+   "id": "D-051",
+   "date": "2026-10-20",
+   "title": "Bulbapedia answers the open questions from its page source, read exactly first; the games' Pokédex backs or doesn't back what videos claim.",
+   "text": "Bulbapedia answers the open questions from its page source, read exactly first; the games' Pokédex backs or doesn't back what videos claim. Moves-used tables, trainer entries and Achievements lists are structured, so they're parsed, not summarized; the model reads only prose (a moveset's moment, an anime ace) and its answers are cached. A moveset keeps every move the page supports and only replaces what it doesn't. Order sentences give a rival's send-out order for their defining battle. Every answer is a correction or observation for review, citing its page",
+   "area": "product direction",
+   "status": "WORKING",
+   "who": "Zack (\"move forward with all\")"
+  },
+  {
+   "id": "D-052",
+   "date": "2026-10-20",
+   "title": "The ladder's monthly numbers fill what film can't show.",
+   "text": "The ladder's monthly numbers fill what film can't show. Smogon's monthly stats give each Pokémon's spreads, items, moves, teammates and checks. A film build is proposed the field spread that fits its role best (the role engine scores each top spread on the build). Every playsheet shows what beats each member on the ladder for its generation. Replays and stats stay reference data; only reviewed corrections land",
+   "area": "product direction",
+   "status": "WORKING",
+   "who": "Zack (\"approved, keep going\")"
+  },
+  {
+   "id": "D-053",
+   "date": "2026-10-20",
+   "title": "The engine is held to outside references, and a wrong line in a report becomes a check.",
+   "text": "The engine is held to outside references, and a wrong line in a report becomes a check. \"I saw one of the examples you gave say Snorlax wasn't bulky - I just want to make sure the engine isn't awful.\" `engine/sanity.py` checks the stat formula against Smogon's calc for every fully evolved Pokémon of Gens 2-4, every library build, trainer team and builds book set against the games' data, every cached replay against the protocol's own rules, and our reading of Smogon's numbers against the file Smogon prints. Known facts live in `engine/sanity.json`; when a report says something wrong, the fact is added there before the code is fixed, so it can't come back. Softness is measured against the field with HP counted; Gen 2 builds use Gen 2's stat system (docs/SANITY.md, E-037 to E-040)",
+   "area": "engine",
+   "status": "WORKING",
+   "who": "Zack"
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E-001",
+   "text": "Crystal and Platinum sixes have no Fly learner and no Waterfall learner; Platinum also has no Defog learner",
+   "status": "VERIFIED (PokeAPI + Showdown)"
+  },
+  {
+   "id": "E-002",
+   "text": "HeartGold six covers all 8 HGSS HMs; all members and breeding sources obtainable in one HG save",
+   "status": "VERIFIED (PokeAPI)"
+  },
+  {
+   "id": "E-003",
+   "text": "Typhlosion Extrasensory is an HGSS-only Cyndaquil egg move → a legal Extrasensory Typhlosion isn't the Elm starter",
+   "status": "VERIFIED (2)"
+  },
+  {
+   "id": "E-004",
+   "text": "Thunder Punch on Infernape (Platinum): tutor and egg both legal",
+   "status": "VERIFIED (2)"
+  },
+  {
+   "id": "E-005",
+   "text": "Tyranitar Outrage obtainable from the HGSS tutor; Dragon Dance requires a 2-step egg chain",
+   "status": "VERIFIED (2)"
+  },
+  {
+   "id": "E-006",
+   "text": "Mamoswine Ice Shard: Swinub Lv28 only in Gen 4; not relearnable after evolving",
+   "status": "VERIFIED (2)"
+  },
+  {
+   "id": "E-007",
+   "text": "Swampert Refresh: Mudkip egg move; Milotic learns Refresh at Lv15 (legal father)",
+   "status": "VERIFIED (ROM)"
+  },
+  {
+   "id": "E-008",
+   "text": "Mareep line not obtainable in Crystal except by trade",
+   "status": "VERIFIED (ROM + PokeAPI)"
+  },
+  {
+   "id": "E-009",
+   "text": "Growlithe absent from Emerald; FireRed-exclusive",
+   "status": "VERIFIED (PokeAPI)"
+  },
+  {
+   "id": "E-010",
+   "text": "No Sinnoh starters in HGSS → SoulSilver Infernape/Empoleon arrive by trade",
+   "status": "VERIFIED (PokeAPI; knowledge)"
+  },
+  {
+   "id": "E-011",
+   "text": "Dragon's Den ExtremeSpeed Dratini not represented in either learnset dataset",
+   "status": "UNVERIFIED (encounter data)"
+  },
+  {
+   "id": "E-012",
+   "text": "v3 Copy of Canon Builds: column A was rewritten with the later rosters for every game (incl. sacred HeartGold, the former SoulSilver six and the rival six); columns B–P stayed in the original row order, so row *n*'s build belongs to Canon Builds row *n*",
+   "status": "VERIFIED (Sheets read, full tab)"
+  },
+  {
+   "id": "E-013",
+   "text": "No Crystal, Platinum or HeartGold member can learn the missing field move (Crystal Fly/Waterfall, Platinum Fly/Defog/Waterfall, HG Flash) in any game ever, except Feraligatr–Waterfall (Gen 3+)",
+   "status": "VERIFIED (PokeAPI, all version groups)"
+  },
+  {
+   "id": "E-014",
+   "text": "The Platinum Empoleon → Lucario swap removed the team's only Waterfall and Defog learner",
+   "status": "VERIFIED (PokeAPI)"
+  },
+  {
+   "id": "E-015",
+   "text": "Crystal's overworld Waterfall check only requires that a party member knows the move (+ Rising Badge), not species compatibility",
+   "status": "VERIFIED (ROM: `pokecrystal/engine/events/overworld.asm`)"
+  },
+  {
+   "id": "E-016",
+   "text": "Legacy legality formula: ⚠️ if any move isn't in that slot's MoveList, or there are duplicate moves, an empty slot, or no ability. Each slot reads its own MoveLists column (no shared-column bug). Breeding_Lab outputs are typed values, not formulas (computed by a script not visible anywhere)",
+   "status": "VERIFIED (Sheets formulas)"
+  },
+  {
+   "id": "E-017",
+   "text": "Gen 2 stores no ball, nature, ability or PID (PKHeX GBPKM placeholders); gender and shininess derive from DVs; DV16 = Atk<<12 | Def<<8 | Spe<<4 | Spc",
+   "status": "VERIFIED (PKHeX source)"
+  },
+  {
+   "id": "E-018",
+   "text": "PKHeX Batch Editor syntax: .Prop=Value sets, =Prop=Value / !Prop=Value filter",
+   "status": "VERIFIED (PKHeX `StringInstruction.cs`)"
+  },
+  {
+   "id": "E-019",
+   "text": "Pre-Gen-6 base stats differ for canon species (Ampharos Def 75, Alakazam SpD 85, Roserade Def 55)",
+   "status": "VERIFIED (PokeAPI `pokemon_stats_past`)"
+  },
+  {
+   "id": "E-020",
+   "text": "No companion in any of the six chapters has Flame Body or Magma Armor; fully evolved Gen 1–4 holders are Magcargo, Camerupt (Magma Armor) and Magmortar (Flame Body)",
+   "status": "VERIFIED (PokeAPI abilities, era-correct)"
+  },
+  {
+   "id": "E-021",
+   "text": "SoulSilver Scizor's Counter: Heracross learns it at Lv 25 in HGSS (Route 33, Azalea); Volbeat only via Emerald's tutor + Pal Park",
+   "status": "VERIFIED (PokeAPI learnsets)"
+  },
+  {
+   "id": "E-022",
+   "text": "Pikachu, HeartGold Pokédex: \"roasts hard berries with electricity to make them tender enough to eat\"; Magmar, HeartGold: \"blows scorching flames to make the environment suitable for itself\"",
+   "status": "VERIFIED (PokeAPI flavor text)"
+  },
+  {
+   "id": "E-023",
+   "text": "Gen 2 berries are the modern berries under old names (Berry = Oran, Gold Berry = Sitrus, MiracleBerry = Lum …); Lava Cookie and Old Gateau don't exist in Gen 2",
+   "status": "VERIFIED (PokeAPI item_game_indices)"
+  },
+  {
+   "id": "E-024",
+   "text": "Gen 4 hatch time = egg cycles × 255 steps (PokeAPI hatch_counter); Flame Body / Magma Armor in the party halves it. Larvitar 40 cycles (10,200 steps), the other eight stud lines 20–25",
+   "status": "VERIFIED (PokeAPI; Gen 4 cycle length believed 255, verify)"
+  },
+  {
+   "id": "E-025",
+   "text": "Gen 4 berry growth: Lum Berry 48 h to harvest, Sitrus 32 h, the status-cure berries 12–16 h, up to 5 per plant",
+   "status": "VERIFIED (PokeAPI berries, Gen 4 values)"
+  },
+  {
+   "id": "E-026",
+   "text": "SoulSilver Pikachu (former set, no item) wins 5 of 32 benchmark 1v1s; with a Light Ball, 17 of 32",
+   "status": "VERIFIED (benchmark grid, Smogon calc)"
+  },
+  {
+   "id": "E-027",
+   "text": "Larvitar can get Dragon Dance without leaving the journey: Dragonite (learns it) → Lapras (Water 1, then Monster) → Larvitar",
+   "status": "VERIFIED (PokeAPI egg groups + learnsets, Gen 4)"
+  },
+  {
+   "id": "E-028",
+   "text": "The games' trainer AI (pret disassemblies). Gen 3–4 score every move from 100, highest wins: a knockout +4 (+6 with priority; Gen 4 checks the top roll, Gen 3 a random 85–100% roll); every attack but the hardest hit −1; a move that would fail −10; healing −8 whenever the AI isn't slower. Crystal scores from 20, lowest wins: a knockout −5, weaker attacks +1, healing −2 under 25% HP. Every Elite Four member and champion in the six games runs the same core flags: BASIC + EVAL_ATTACK + EXPERT in Gen 4 (HGSS bitmask 7), CHECK_BAD_MOVE + TRY_TO_FAINT + CHECK_VIABILITY in Gen 3 (Sidney and Lucian add SETUP_FIRST_TURN), and Crystal's seven layers for every boss class",
+   "status": "VERIFIED (pret source, cited per entry in `engine/battle/trainer_ai.json`; HGSS per-move logic assumed to match Platinum)"
+  },
+  {
+   "id": "E-029",
+   "text": "Trainers use a Full Restore below 25% HP with no randomness in Gen 3–4. More item slots unlock as their party shrinks. Crystal uses items only on the highest-level Pokémon: never above 50% HP, always at 25% or less",
+   "status": "VERIFIED (pret source)"
+  },
+  {
+   "id": "E-030",
+   "text": "FireRed's PREFER_STRONGEST_MOVE flag boosts status and fixed-damage moves, not the strongest attack. FireRed and Emerald swap the raw bit values of TRY_TO_FAINT and CHECK_VIABILITY",
+   "status": "VERIFIED (pret source)"
+  },
+  {
+   "id": "E-031",
+   "text": "PokeAPI's move data misses some post-Gen IV changes that matter for Gen IV reads: Gen V's priority renumbering (Extreme Speed +1 → +2, Fake Out +1 → +3, Protect/Detect/Endure +3 → +4) has no move_changelog row, and move_meta_stat_changes holds only today's values (Growth's Attack boost, Tail Glow's third stage). Growth and Tail Glow are recovered from the rolled-back effect_id; the priorities are recorded as documented exceptions in engine/trainers/era_corrections.json",
+   "status": "VERIFIED (PokeAPI tables; Gen V change list)"
+  },
+  {
+   "id": "E-032",
+   "text": "Showdown's public replay search (replay.pokemonshowdown.com/search.json) returns up to 51 replays a page, newest first, and pages back with before=<uploadtime>. Smogon tournament games appear in the same search under smogtours- ids, without a ladder rating. Replay JSON carries the full battle log in Showdown's protocol, with HP as percentages (the HP Percentage Mod)",
+   "status": "VERIFIED (live requests, 2026-10-20)"
+  },
+  {
+   "id": "E-033",
+   "text": "Cartridge party order is the send-out order, and the ace is the unique top-level member: Lance (HGSS) Gyarados 46 → … → Dragonite 50 last; Cynthia (Platinum) Garchomp 62 last; Red (HGSS) Pikachu 88 leads",
+   "status": "VERIFIED (pret data as loaded by the engine)"
+  },
+  {
+   "id": "E-034",
+   "text": "Bulbapedia's raw page source (index.php?title=…&action=raw) is reachable from the engine (Python's urllib passes; plain curl gets a Cloudflare challenge). A Pokémon's page holds the anime moves-used table as {{anmov|type|Move|EPISODE|Title|rec=yes}}; Pokémon without a page redirect to a {{TrainerPoké|pkmn=…|desc=…}} entry on the trainer page; Achievements list results as * [[Event]] - Result (''[[EP077|Title]]''). Gary's Indigo Plateau result is Top 32 (EP077); May's Kanto Grand Festival is Top 4 (AG182); Paul's Ninjask's known moves are Agility, Fury Cutter and Giga Drain (no Baton Pass)",
+   "status": "VERIFIED (Bulbapedia, 2026-10-20)"
+  },
+  {
+   "id": "E-035",
+   "text": "Torterra's Pokédex: Diamond 'small Pokémon … gather on its unmoving back to begin building their nests'; Pearl 'groups … migrating in search of water have been mistaken for \"moving forests\"'; Platinum 'some Pokémon are born on a Torterra's back and spend their entire life there'; HGSS 'ancient people imagined that beneath the ground, a gigantic Torterra dwelled'",
+   "status": "VERIFIED (PokeAPI flavor text)"
+  },
+  {
+   "id": "E-036",
+   "text": "Smogon's monthly stats (smogon.com/stats/<month>/chaos/<format>-<cutoff>.json) publish gen4ou, gen3ou and gen2ou (and gen2uu) at cutoffs 0, 1500, 1630 and 1760. September 2026 gen4ou at 1630+: 57,675 battles, Tyranitar on 53% of teams, Jolly 252 Atk / 252 Spe its top spread (23%); checks and counters are {n, p, d}: matchups seen, the share ending with it knocked out or forced out, and its deviation",
+   "status": "VERIFIED (smogon.com/stats, 2026-10-20)"
+  },
+  {
+   "id": "E-037",
+   "text": "Bulk has to count HP. Physical bulk is HP × Defense: Snorlax (160 HP, 65 Def) sits above 82% of Gen 4's fully evolved field physically and 98% specially, Lapras above 83%, Blissey (255 HP, 10 Def) below 85% physically. Comparing Defense with Sp. Def alone tagged Snorlax, Lapras, Heracross, Togekiss and Milotic physically soft",
+   "status": "VERIFIED (engine field pool, Smogon calc stats)"
+  },
+  {
+   "id": "E-038",
+   "text": "Gen I-II stats, the way Showdown and Smogon's calc read them: a DV is half the IV; the HP DV is built from the odd/even bits of the Attack, Defense, Speed and Special DVs; Sp. Atk and Sp. Def share one Special DV and one Special stat experience; stat experience (EV − 1)² + 1 adds the same quarter-EV as later EVs; no natures; and an open EV field means maxed stat experience. Light Ball doubles only Sp. Atk in Gen II-III (Attack too from Gen IV)",
+   "status": "VERIFIED (@smogon/calc 0.12 source; 9,240 stat lines match)"
+  },
+  {
+   "id": "E-039",
+   "text": "Showdown's protocol names an ability's owner by the line: on -heal … [from] ability: Volt Absorb|[of] p2a: Starmie (Water Absorb, Dry Skin) the healed Pokémon holds it and [of] is the attacker; on -damage/-status (Rough Skin, Static, Poison Point, Synchronize, Effect Spore) and -weather the [of] Pokémon holds it. -start|X|perish0 comes right before a Perish Song faint; -message|X lost due to inactivity. is a loss on the timer; a Ghost's Curse can knock out its user",
+   "status": "VERIFIED (850 cached replays)"
+  },
+  {
+   "id": "E-040",
+   "text": "PokeAPI's gaps for Gens II-IV: no event moves (Gen II's New York City Pokémon Center Eevee with Growth, Wooper with Belly Drum, Geodude with Rapid Spin, Nidoran♂ with Lovely Kiss, all on Bulbapedia's learnset pages); Rotom's form moves sit under each form's own id (method 10, form change); Gen II's berries are filed under their Gen III names (MiracleBerry as Lum Berry). Smogon's moveset files list a check only past 20 matchups and rank on the unrounded score (mean − 4 sd); read that way, our shares, raw counts, teammates and checks match Smogon's printed files for all 358 Gen 2-4 OU species at 1630+",
+   "status": "VERIFIED (PokeAPI tables, Bulbapedia, smogon.com/stats moveset files, 2026-10-20)"
+  }
+ ],
+ "locks": [
+  {
+   "what": "HeartGold's six",
+   "detail": "Typhlosion, Tyranitar, Mamoswine, Crobat, Lapras, Snorlax",
+   "decision": "D-006",
+   "rule": "Claude refuses to write to it without a reopen decision"
+  },
+  {
+   "what": "SoulSilver wiped; all incumbency removed; every eligible non-legendary Gen I–IV Pokémon except HeartGold's six may be considered",
+   "detail": "process rule",
+   "decision": "D-008",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Learnability standard.",
+   "detail": "standard",
+   "decision": "D-024",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Project home is Google Drive",
+   "detail": "storage",
+   "decision": "D-025",
+   "rule": "locked decision"
+  },
+  {
+   "what": "F2: Feraligatr gets Waterfall in Crystal",
+   "detail": "accepted exception",
+   "decision": "D-028",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Product scope: a lab and workbench at PKHeX parity.",
+   "detail": "product direction",
+   "decision": "D-031",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Approved all 15 HeartGold world records (W-001…W-015)",
+   "detail": "authored world",
+   "decision": "D-033",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Endgame vision: a Champion's breeding ranch.",
+   "detail": "product direction",
+   "decision": "D-035",
+   "rule": "locked decision"
+  },
+  {
+   "what": "One headquarters",
+   "detail": "ranch design",
+   "decision": "D-036",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Companions' fates stay open",
+   "detail": "ranch design",
+   "decision": "D-037",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Ranch staff: both Pokémon and people",
+   "detail": "ranch design",
+   "decision": "D-039",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Ranch access: private, with an open Day-Care.",
+   "detail": "ranch design",
+   "decision": "D-040",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Headquarters: Blackthorn",
+   "detail": "ranch design",
+   "decision": "D-041",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Past-tense frame:",
+   "detail": "product frame",
+   "decision": "D-042",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Battle = scouting reports and call sheets, not simulations.",
+   "detail": "product frame",
+   "decision": "D-043",
+   "rule": "locked decision"
+  },
+  {
+   "what": "The breeding lab is the present, and the journey is one family tree.",
+   "detail": "product frame",
+   "decision": "D-044",
+   "rule": "locked decision"
+  },
+  {
+   "what": "The Glasshouse is approved",
+   "detail": "ranch design",
+   "decision": "D-045",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Scouting reports carry no grades: tendencies, philosophies, and how to attack.",
+   "detail": "product direction",
+   "decision": "D-046",
+   "rule": "locked decision"
+  },
+  {
+   "what": "The scouting engine is built, not tuned to an answer.",
+   "detail": "product direction",
+   "decision": "D-047",
+   "rule": "locked decision"
+  },
+  {
+   "what": "Move legality is biological.",
+   "detail": "standard",
+   "decision": "D-048",
+   "rule": "locked decision"
+  },
+  {
+   "what": "The project learns through one intake: cards of proposed claims, approved before they land.",
+   "detail": "product direction",
+   "decision": "D-049",
+   "rule": "locked decision"
+  }
+ ],
+ "world": [
+  {
+   "id": "W-001",
+   "game": "heartgold",
+   "species": "Typhlosion",
+   "capability": "heat_source",
+   "statement": "Heat, fire, dependable environmental authority.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-002",
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "capability": "digging",
+   "statement": "Mountain-scale power, excavation/collapse.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-003",
+   "game": "heartgold",
+   "species": "Tyranitar",
+   "capability": "deterrence",
+   "statement": "Heavy protection, escalation when necessary.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-004",
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "capability": "cold_tolerance",
+   "statement": "Ancient terrain, snow/cold.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-005",
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "capability": "hauling",
+   "statement": "Hauling.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-006",
+   "game": "heartgold",
+   "species": "Mamoswine",
+   "capability": "climbing",
+   "statement": "Hostile-environment traversal.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-007",
+   "game": "heartgold",
+   "species": "Crobat",
+   "capability": "scouting",
+   "statement": "Fast reconnaissance.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-008",
+   "game": "heartgold",
+   "species": "Crobat",
+   "capability": "air_travel",
+   "statement": "Aerial travel, accessible everyday mobility.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-009",
+   "game": "heartgold",
+   "species": "Crobat",
+   "capability": "danger_sense",
+   "statement": "Vigilance, awareness, timely intervention.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-010",
+   "game": "heartgold",
+   "species": "Lapras",
+   "capability": "water_travel",
+   "statement": "Water passage.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-011",
+   "game": "heartgold",
+   "species": "Lapras",
+   "capability": "rescue",
+   "statement": "Safety; gentle, trusted, protective life infrastructure.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-012",
+   "game": "heartgold",
+   "species": "Lapras",
+   "capability": "camp_making",
+   "statement": "Shelter/continuity.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-013",
+   "game": "heartgold",
+   "species": "Lapras",
+   "capability": "field_healing",
+   "statement": "Healing association.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-014",
+   "game": "heartgold",
+   "species": "Snorlax",
+   "capability": "camp_making",
+   "statement": "Rest, camp.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-015",
+   "game": "heartgold",
+   "species": "Snorlax",
+   "capability": "calming_presence",
+   "statement": "Comfort, belonging, permanence.",
+   "source": "Master handoff §10 (HeartGold enduring roles)",
+   "note": "Words are Zack's (handoff); mapping them to this capability is Claude's interpretation.",
+   "status": "approved",
+   "decision": "D-033",
+   "reason": ""
+  },
+  {
+   "id": "W-016",
+   "game": "emerald",
+   "species": "Meganium",
+   "capability": "plant_care",
+   "statement": "The Glasshouse's gardener: tends the berry rings and Apricorn trees, and brings back plants that fail.",
+   "source": "Pokédex (FireRed/Silver): 'Its breath has the power to revive dead grass and plants.' Glasshouse design (D-045)",
+   "note": "closes the Glasshouse's plant-care job",
+   "status": "proposed",
+   "decision": null
+  },
+  {
+   "id": "W-017",
+   "game": "crystal",
+   "species": "Miltank",
+   "capability": "food_source",
+   "statement": "The nursery's milk: hatchlings' first meals come from Miltank.",
+   "source": "Pokédex (SoulSilver): 'If it is around babies, the milk it produces contains much more nutrition than usual.' Glasshouse design (D-045)",
+   "note": "closes the nursery yard's food job",
+   "status": "proposed",
+   "decision": null
+  }
+ ],
+ "questions": [
+  {
+   "id": "Q-RANCH-1",
+   "area": "ranch",
+   "question": "Which satellite: the Sevii Islands or the Battle Zone?",
+   "why": "Blackthorn has no volcano and no sea. Lapras needs the sea; both Infernape and the Infernape stud need volcanic ground. Either site covers both.",
+   "options": [
+    "Sevii Islands (Kanto): Mt. Ember, the Ember Spa, the open sea, Lapras's home region",
+    "Battle Zone (Sinnoh): Stark Mountain, the sea, Infernape's home region, Platinum's villa"
+   ],
+   "blocks": "where 4 residents live",
+   "source": "RANCH.md §6.2, D-036"
+  },
+  {
+   "id": "Q-RANCH-2",
+   "area": "breeding",
+   "question": "Confirm the D-038 reading: one stud per target line, a male who knows the whole egg-move set.",
+   "why": "The whole studbook is built on it: 9 studs and one Light Ball. The other reading keeps the last father in each chain instead.",
+   "options": [
+    "Yes: a stud of each target line",
+    "No: keep the last father of each chain"
+   ],
+   "blocks": "the 9 studs in the lineage",
+   "source": "RANCH.md §3, D-038"
+  },
+  {
+   "id": "Q-RANCH-3",
+   "area": "ranch",
+   "question": "Approve W-016 (Meganium, the Glasshouse gardener) and W-017 (Miltank, the nursery's milk)?",
+   "why": "Two of the Glasshouse's jobs are story-only until a world record backs them.",
+   "options": [
+    "Approve both",
+    "Approve one",
+    "Leave them story-only"
+   ],
+   "blocks": "two open jobs in the Glasshouse",
+   "source": "RANCH.md §2b, D-045"
+  },
+  {
+   "id": "Q-RANCH-4",
+   "area": "ranch",
+   "question": "The Day-Care preserve: who gets invited, and what do clients' Pokémon experience there?",
+   "why": "It's the one open part of the ranch (D-040). Not urgent.",
+   "options": [],
+   "blocks": "the Day-Care's design",
+   "source": "RANCH.md §6.5, D-040"
+  },
+  {
+   "id": "Q-BREED-1",
+   "area": "breeding",
+   "question": "The companions' genders.",
+   "why": "They decide who can father and who can mother. Until then every parent reads \"could be\". If HeartGold Tyranitar is male and knows Dragon Dance and Outrage, he's already the Tyranitar stud.",
+   "options": [],
+   "blocks": "who sires and who carries in every cross",
+   "source": "BREEDING_LAB.md, D-044"
+  },
+  {
+   "id": "Q-BREED-2",
+   "area": "breeding",
+   "question": "Which outside fathers become part of the story?",
+   "why": "Seven crosses borrow a father from outside the journey: Nuzleaf (Extrasensory), Kingdra (Dragon Dance), Muk (Disable), Heracross (Counter), Azumarill (Aqua Ring), Dewgong (Ice Shard) and Bellossom (Leaf Storm, Sleep Powder). Under D-038 they go home after.",
+   "options": [],
+   "blocks": "names and stories for 7 borrowed fathers",
+   "source": "BREEDING_LAB.md"
+  },
+  {
+   "id": "Q-CH-1",
+   "area": "chapters",
+   "question": "Crystal needs a Fly answer.",
+   "why": "No member of the Crystal six can learn Fly on cartridge (D-027).",
+   "options": [],
+   "blocks": "Crystal's field coverage",
+   "source": "QUESTIONS Q1, D-027"
+  },
+  {
+   "id": "Q-CH-2",
+   "area": "chapters",
+   "question": "Revisit Platinum's Waterfall and Defog.",
+   "why": "Both were lost when Lucario replaced the January roster's Empoleon (D-030).",
+   "options": [],
+   "blocks": "Platinum's field coverage",
+   "source": "QUESTIONS Q1, D-030"
+  },
+  {
+   "id": "Q-CH-3",
+   "area": "chapters",
+   "question": "Typhlosion's nature under the July set (Q4).",
+   "why": "Timid cuts Attack, which two of the July moves (Thunder Punch, Earthquake) rely on.",
+   "options": [
+    "Timid",
+    "a neutral or mixed nature",
+    "change the set"
+   ],
+   "blocks": "HeartGold Typhlosion's specimen",
+   "source": "QUESTIONS Q4"
+  },
+  {
+   "id": "Q-CH-4",
+   "area": "chapters",
+   "question": "The SoulSilver six is provisional.",
+   "why": "Pikachu, Dragonite, Infernape, Empoleon, Gengar, Scizor is a rough starting point with no incumbency (D-008, D-010).",
+   "options": [],
+   "blocks": "SoulSilver's lock",
+   "source": "CANON_CURRENT.md"
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+{
+ "_note": "What you've decided or recorded about individuals at Blackthorn (breeding/lineage.py). The planned pedigree (founders, the fathers used, the line females and the studs) is derived from canon and never written here; a record here overrides the planned one with the same id, field by field, or adds a new individual (a hatch). Nothing lands here without your say-so.",
+ "_fields": "id, name, species, hatched_as, sex (male/female/genderless/open), generation, sire, dam, moves, inherited [{move, from}], role, origin, fate, status (planned/hatched/kept/home), program, note, decision",
+ "individuals": []
+}

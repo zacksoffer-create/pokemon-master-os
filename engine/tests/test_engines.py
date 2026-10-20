@@ -1944,5 +1944,111 @@ class EngineAudit(unittest.TestCase):
         self.assertEqual(p["Tyranitar"]["Checks and Counters"], [("Breloom", 72.839, 81.68, 2.21)])
 
 
+
+class Blackthorn(unittest.TestCase):
+    """The ranch in the present (docs/BLACKTHORN.md): the lineage tracker, the export, the Sheet and its script."""
+    @classmethod
+    def setUpClass(cls):
+        from breeding.lineage import Lineage
+        cls.lin = Lineage(DB)
+        cls.rows = cls.lin.individuals()
+
+    def test_the_planned_studbook(self):
+        roles = {}
+        for r in self.rows:
+            roles[r["role"]] = roles.get(r["role"], 0) + 1
+        self.assertEqual(roles, {"companion": 36, "father used": 8, "dam": 10, "stud": 9})
+        self.assertEqual(self.lin.check(self.rows), [])
+        by = {r["id"]: r for r in self.rows}
+        stud = by["S-TYRANITAR"]                     # Kingdra -> a bred Feraligatr -> the Larvitar stud
+        self.assertEqual((stud["generation"], stud["hatched_as"], sorted(stud["moves"])),
+                         (2, "Larvitar", ["Dragon Dance", "Outrage"]))
+        self.assertEqual(by[stud["sire"]]["sire"], "F-KINGDRA-TYRANITAR")
+        self.assertEqual(by["S-INFERNAPE"]["sire"], "C-AMPHAROS")          # a journey companion can be the father
+        self.assertIn("Budew", by["S-ROSERADE"]["note"])                   # an incense baby says so
+
+    def test_the_rules_catch_a_bad_pedigree(self):
+        bad = [dict(r) for r in self.rows]
+        by = {r["id"]: r for r in bad}
+        by["S-GENGAR"]["generation"] = 4
+        by["HG-SNORLAX"]["sex"] = "genderless"
+        by["S-SCIZOR"]["inherited"] = [{"move": "Surf", "from": by["S-SCIZOR"]["sire"]}]
+        why = {}
+        for i, w in self.lin.check(bad):
+            why[i] = why.get(i, "") + w + "; "
+        self.assertIn("should be 1", why["S-GENGAR"])
+        self.assertIn("can't be genderless", why["HG-SNORLAX"])
+        self.assertIn("isn't an egg move", why["S-SCIZOR"])
+
+    def test_authored_records_override_and_add(self):
+        import tempfile as _tf
+        import shutil as _sh
+        from breeding.lineage import Lineage
+        tmp = _tf.mkdtemp()
+        try:
+            for f in ("rosters.json", "builds.json", "ranch.json"):
+                _sh.copy(os.path.join(ENGINE, "canon", f), tmp)
+            with open(os.path.join(tmp, "lineage.json"), "w", encoding="utf-8") as fh:
+                json.dump({"individuals": [{"id": "HG-TYRANITAR", "sex": "female", "name": "Rivera's Tyranitar"},
+                                           {"id": "H-LARVITAR-1", "species": "Larvitar", "sex": "male", "generation": 3,
+                                            "sire": "S-TYRANITAR", "dam": "D-TYRANITAR", "moves": ["Dragon Dance"],
+                                            "inherited": [{"move": "Dragon Dance", "from": "S-TYRANITAR"}],
+                                            "role": "hatchling", "status": "hatched"}]}, fh)
+            lin = Lineage(DB, tmp)
+            rows = lin.individuals()
+            by = {r["id"]: r for r in rows}
+            self.assertEqual((by["HG-TYRANITAR"]["sex"], by["HG-TYRANITAR"]["generation"]), ("female", 0))
+            self.assertEqual(len(rows), 64)
+            self.assertEqual(lin.check(rows), [])
+            self.assertEqual([r["id"] for r in lin.descendants("S-TYRANITAR", rows)], ["H-LARVITAR-1"])
+        finally:
+            _sh.rmtree(tmp)
+
+    def test_the_export_and_the_sheet(self):
+        from ranch import dashboard, sheet
+        d = dashboard.build()
+        k = d["kpis"]
+        self.assertEqual((k["residents"], k["at_hq"], k["lines"], k["individuals"], k["generations"], k["rule_issues"]),
+                         (45, 41, 10, 63, 3, 0))
+        self.assertGreaterEqual(len(d["decisions"]), 53)
+        self.assertTrue(any(q["id"] == "Q-RANCH-1" for q in d["questions"]))
+        calls = sheet.build(d)
+        grid = {}
+        for r in calls[0]["requests"]:
+            p = (r.get("addSheet") or r.get("updateSheetProperties") or {}).get("properties")
+            if p:
+                grid[p["sheetId"]] = (p["gridProperties"]["rowCount"], p["gridProperties"]["columnCount"])
+        bands = []
+
+        def walk(o):
+            if isinstance(o, dict):
+                if "sheetId" in o and "endRowIndex" in o:
+                    rows, cols = grid[o["sheetId"]]
+                    self.assertLessEqual(o["endRowIndex"], rows)
+                    self.assertLessEqual(o.get("endColumnIndex", 0), cols)
+                if "bandedRangeId" in o:
+                    bands.append(o["bandedRangeId"])
+                for v in o.values():
+                    walk(v)
+            elif isinstance(o, list):
+                for v in o:
+                    walk(v)
+        for c in calls[1:]:
+            if c["tool"] == "update_spreadsheet":
+                walk(c["requests"])
+        self.assertEqual(len(bands), len(set(bands)))                      # the API refuses a reused banding id
+        self.assertEqual(len(grid), 16)
+
+    def test_the_apps_script_rules(self):
+        import shutil as _sh
+        import subprocess as _sp
+        if not _sh.which("node"):
+            self.skipTest("node isn't installed")
+        here = os.path.join(ENGINE, "appscript")
+        _sp.run([sys.executable, "-I", os.path.join(here, "make_fixture.py")], check=True, capture_output=True)
+        out = _sp.run(["node", os.path.join(here, "test_rules.mjs")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

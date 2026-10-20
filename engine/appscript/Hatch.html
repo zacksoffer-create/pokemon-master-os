@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+  :root { --ink:#1B2230; --dragon:#4C3F91; --ice:#DCEEF5; --mist:#E8ECF2; --muted:#6B7280; --ember:#C8553D; --moss:#3F7D52; }
+  body { font-family: Lexend, Arial, sans-serif; color: var(--ink); margin: 0; padding: 16px; font-size: 13px; }
+  label { display: block; font: 600 10px Montserrat, Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase;
+          color: var(--muted); margin: 12px 0 4px; }
+  select, input, textarea { width: 100%; box-sizing: border-box; padding: 7px 8px; border: 1px solid var(--mist);
+                            border-radius: 8px; font: inherit; color: var(--ink); background: #fff; }
+  .row { display: flex; gap: 10px; } .row > div { flex: 1; }
+  .hint { color: var(--muted); font-size: 11px; margin-top: 3px; }
+  button { margin-top: 16px; background: var(--dragon); color: #fff; border: 0; border-radius: 8px; padding: 9px 16px;
+           font: 600 13px Montserrat, Arial, sans-serif; cursor: pointer; }
+  button:disabled { opacity: .5; }
+  #msg { margin-top: 12px; padding: 8px 10px; border-radius: 8px; display: none; }
+  #msg.bad { display: block; background: #FBE9E5; color: var(--ember); }
+  #msg.good { display: block; background: #E6F2EA; color: var(--moss); }
+  .anyway { display: none; margin-top: 8px; font-size: 12px; } .anyway input { width: auto; }
+</style>
+</head>
+<body>
+<div class="row">
+  <div><label>Sire (♂, or Ditto)</label><select id="sire"></select></div>
+  <div><label>Dam (♀, or Ditto)</label><select id="dam"></select></div>
+</div>
+<label>Species at hatch</label>
+<select id="species"><option value="">— the dam's line (worked out for you) —</option></select>
+<div class="row">
+  <div><label>Sex</label><select id="sex"><option>open</option><option value="male">♂ male</option>
+    <option value="female">♀ female</option><option>genderless</option></select></div>
+  <div><label>Fate</label><select id="fate"><option>open</option><option>kept</option><option>goes home</option>
+    <option>stays at the ranch</option></select></div>
+</div>
+<label>Name (optional)</label><input id="name" placeholder="a nickname, or leave blank">
+<label>Moves it hatched knowing from the sire</label><input id="inherited" placeholder="Dragon Dance, Outrage">
+<div class="hint">Comma-separated. The engine checks that each is an egg move of the line.</div>
+<label>Note</label><textarea id="note" rows="2" placeholder="where, when, which ball…"></textarea>
+<div id="msg"></div>
+<div class="anyway" id="anywayBox"><label style="display:inline;text-transform:none;letter-spacing:0">
+  <input type="checkbox" id="anyway"> add it anyway (it's my world, D-048)</label></div>
+<button id="go" onclick="go()">Check and add to the Studbook</button>
+<script>
+  var DATA = <?!= data ?>;
+  function opt(p) { var sx = p.sex === 'male' ? ' ♂' : p.sex === 'female' ? ' ♀' : '';
+    return '<option value="' + p.id + '">' + p.name + sx + ' · ' + p.id + '</option>'; }
+  var sires = DATA.parents.filter(function (p) { return p.sex !== 'female'; });
+  var dams = DATA.parents.filter(function (p) { return p.sex !== 'male'; });
+  document.getElementById('sire').innerHTML = sires.map(opt).join('');
+  document.getElementById('dam').innerHTML = dams.map(opt).join('');
+  document.getElementById('species').innerHTML += DATA.species.map(function (s) {
+    return '<option>' + s + '</option>'; }).join('');
+  function val(id) { return document.getElementById(id).value; }
+  function go() {
+    var btn = document.getElementById('go'), msg = document.getElementById('msg');
+    btn.disabled = true;
+    var form = {sire: val('sire'), dam: val('dam'), species: val('species'), sex: val('sex'), fate: val('fate'),
+                name: val('name'), inherited: val('inherited'), note: val('note'),
+                anyway: document.getElementById('anyway').checked};
+    google.script.run.withSuccessHandler(function (res) {
+      btn.disabled = false;
+      if (res.ok) {
+        msg.className = 'good';
+        msg.textContent = 'Added ' + res.id + ' on row ' + res.row + '.' +
+          (res.issues.length ? ' Noted: ' + res.issues.join('; ') : ' The cross checks out.');
+      } else {
+        msg.className = 'bad';
+        msg.textContent = 'Not added: ' + res.issues.join('; ');
+        document.getElementById('anywayBox').style.display = 'block';
+      }
+    }).withFailureHandler(function (e) { btn.disabled = false; msg.className = 'bad'; msg.textContent = e.message; })
+      .recordHatch(form);
+  }
+</script>
+</body>
+</html>
