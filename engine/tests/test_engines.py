@@ -1721,5 +1721,68 @@ class SmogonUsage(unittest.TestCase):
         finally:
             shutil.rmtree(tmp)
 
+class BuildsBook(unittest.TestCase):
+    """The builds book (film/buildbook.py): the month's numbers joined with the sets replays show."""
+    def test_smogon_text_files(self):
+        from film.buildbook import leads, metagame
+        tmp = tempfile.mkdtemp()
+        try:
+            lp, mp = os.path.join(tmp, "leads.txt"), os.path.join(tmp, "meta.txt")
+            with open(lp, "w") as fh:
+                fh.write(" Total leads: 10\n + ---- +\n | Rank | Pokemon | Usage % | Raw | % |\n"
+                         " | 1    | Azelf              | 10.18939% | 13940  | 12.085% |\n | 2    | Empoleon | 8.49909% | 6961 | 6.035% |\n")
+            with open(mp, "w") as fh:
+                fh.write(" sand..............56.87036%\n stall.............41.03650%\n\n Stalliness (mean: 1.626)\n")
+            self.assertEqual(leads(lp), {"Azelf": 10.2, "Empoleon": 8.5})
+            self.assertEqual(metagame(mp), ([("sand", 56.9), ("stall", 41.0)], 1.626))
+            self.assertEqual(leads(None), {})
+        finally:
+            import shutil
+            shutil.rmtree(tmp)
+
+    def test_a_set_as_a_showdown_paste(self):
+        from film.buildbook import paste
+        s = {"species": "Tyranitar", "item": "Choice Band", "ability": "Sand Stream", "nature": "Adamant",
+             "evs": {"hp": 0, "atk": 252, "def": 0, "spa": 0, "spd": 4, "spe": 252}, "moves": ["Crunch", "Pursuit"]}
+        self.assertEqual(paste(s, 4), "Tyranitar @ Choice Band\nAbility: Sand Stream\nEVs: 252 Atk / 4 SpD / 252 Spe\n"
+                                      "Adamant Nature\n- Crunch\n- Pursuit")
+        self.assertEqual(paste(s, 2), "Tyranitar @ Choice Band\n- Crunch\n- Pursuit")      # Gen 2: no ability, EVs, nature
+
+    def test_a_book_from_cached_numbers_and_replays(self):
+        import copy
+        import shutil
+        from film.buildbook import book
+        from film.replays import load_config
+        from film_room import reader_for
+        cfg = copy.deepcopy(load_config())
+        reader = reader_for(cfg)
+        tmp = tempfile.mkdtemp()
+        try:
+            d = os.path.join(tmp, cfg["store"]["usage"])
+            os.makedirs(d)
+            chaos = _chaos({"Impish:248/0/252/0/8/0": 50.0, "Adamant:0/252/4/0/0/252": 50.0},
+                           {"Starmie": {"n": 200, "p": 0.8, "d": 0.02}})
+            with open(os.path.join(d, "2026-09-gen4ou-1630.json"), "w") as fh:
+                json.dump(chaos, fh)
+            with open(os.path.join(d, "2026-09-leads-gen4ou-1630.txt"), "w") as fh:
+                fh.write(" | 1 | Gyarados | 4.34656% | 3119 | 2.704% |\n")
+            with open(os.path.join(d, "2026-09-metagame-gen4ou-1630.txt"), "w") as fh:
+                fh.write(" offense...........18.78929%\n")
+            rd = os.path.join(tmp, cfg["store"]["raw"])
+            os.makedirs(rd)
+            log = FILM_LOG.replace("Swampert", "Gyarados").replace("Stealth Rock|p2a", "Dragon Dance|p1a")
+            with open(os.path.join(rd, "gen4ou-1.json"), "w") as fh:
+                json.dump({"id": "gen4ou-1", "log": log, "formatid": "gen4ou", "uploadtime": 1792000000}, fh)
+            b = book(cfg, reader, "gen4ou", "2026-09", 1630, top=5, base=tmp)
+            self.assertEqual((b["leads"], b["styles"], b["replays"]), ([("Gyarados", 4.3)], [("offense", 18.8)], 1))
+            g = b["species"][0]
+            self.assertEqual((g["species"], g["lead"], g["checks"][0]["species"]), ("Gyarados", 4.3, "Starmie"))
+            usage_set = next(s for s in g["sets"] if s["source"] == "usage")
+            self.assertEqual(usage_set["moves"], ["Waterfall", "Dragon Dance", "Earthquake", "Thunder Wave"])
+            self.assertTrue(all(s["paste"].startswith("Gyarados @ ") for s in g["sets"]))
+            self.assertTrue(all(s.get("evs") for s in g["sets"]))                 # every Gen 4 set gets a spread
+        finally:
+            shutil.rmtree(tmp)
+
 if __name__ == "__main__":
     unittest.main()

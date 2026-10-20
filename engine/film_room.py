@@ -7,6 +7,7 @@
     python3 -I film_room.py card  …same as study… [--trainer me]  # the study as an intake card, for review
     python3 -I film_room.py usage --format gen4ou Tyranitar [--month 2026-09] [--cutoff 1630]   # Smogon's numbers
     python3 -I film_room.py spreads [--month 2026-09]             # likely spreads for the film builds → a card
+    python3 -I film_room.py book [--format gen4ou] [Tyranitar …]  # the builds book (no --format: every format → the page)
 
 Replays are cached in data/raw/showdown_replays; a study is saved to data/derived/film. A card goes to the intake
 inbox (intake.py show / approve / apply); nothing reaches canon until it's approved.
@@ -58,11 +59,34 @@ def study(cfg, a):
     return r
 
 
+def write_book_page(cfg, reader, month=None, cutoff=None, top=None):
+    """Every format's builds book, saved as data and written into the page (docs/film/builds_book.html)."""
+    import datetime
+    from film.buildbook import book
+    books = {}
+    for fmt in cfg["book"]["formats"]:
+        b = book(cfg, reader, fmt, month, cutoff, top)
+        books[fmt] = b
+        out = os.path.join(HERE, cfg["store"]["book"], f"book-{fmt}-{b['month']}.json")
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with open(out, "w", encoding="utf-8") as fh:
+            json.dump(b, fh, ensure_ascii=False)
+        print(f"{fmt}: {len(b['species'])} species, {sum(len(r['sets']) for r in b['species'])} sets, {b['replays']} replays")
+    blob = json.dumps({"books": books, "built": datetime.date.today().isoformat()}, ensure_ascii=False).replace("</", "<\\/")
+    with open(os.path.join(HERE, "film", "builds_page.html"), encoding="utf-8") as fh:
+        page = fh.read().replace("/*DATA*/", blob)
+    path = os.path.join(os.path.dirname(HERE), cfg["book"]["page"])
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(page)
+    print("wrote", path)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["search", "box", "study", "card", "usage", "spreads"])
+    ap.add_argument("cmd", choices=["search", "box", "study", "card", "usage", "spreads", "book"])
     ap.add_argument("args", nargs="*")
-    ap.add_argument("--format", default="gen4ou")
+    ap.add_argument("--format")
     ap.add_argument("--user")
     ap.add_argument("--count", type=int, default=40)
     ap.add_argument("--pages", type=int)
@@ -73,8 +97,11 @@ def main(argv=None):
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--month", help="usage/spreads: a Smogon stats month (default: the newest)")
     ap.add_argument("--cutoff", type=int, help="usage/spreads: the rating cutoff (default in film/config.json)")
+    ap.add_argument("--top", type=int, help="book: how many species, by usage")
     a = ap.parse_args(argv)
     cfg = load_config()
+    if a.cmd != "book":
+        a.format = a.format or "gen4ou"
     try:
         if a.cmd == "search":
             for e in collect(cfg, a.format, a.user, a.count, a.min_rating, a.tournaments, a.pages):
@@ -116,6 +143,14 @@ def main(argv=None):
             inbox = Inbox()
             card, made = spreads_card(inbox, reader.store, reader.book, cfg, a.month, a.cutoff, again=a.again)
             print(("New card:\n" if made else "Already in the inbox (use --again to re-run):\n") + render_card(card, inbox))
+        elif a.cmd == "book":
+            from film.buildbook import book, render
+            reader = reader_for(cfg)
+            if a.format:
+                b = book(cfg, reader, a.format, a.month, a.cutoff, a.top)
+                print(json.dumps(b, indent=1, ensure_ascii=False) if a.json else render(b, a.args or None))
+            else:
+                write_book_page(cfg, reader, a.month, a.cutoff, a.top)
     except Unreachable as e:
         sys.exit(f"Not ready: {e}")
 

@@ -63,6 +63,21 @@ def fetch(cfg, fmt, month=None, cutoff=None, base=ENGINE):
     return data
 
 
+def fetch_text(cfg, kind, fmt, month, cutoff, base=ENGINE):
+    """One of Smogon's text files for the month ('leads' or 'metagame'), cached beside the chaos file. Its path,
+    or None when Smogon doesn't publish it."""
+    path = os.path.join(base, cfg["store"]["usage"], f"{month}-{kind}-{fmt}-{cutoff}.txt")
+    if not os.path.exists(path):
+        try:
+            raw = _get(cfg, cfg["usage"]["text"].format(kind=kind, month=month, fmt=fmt, cutoff=cutoff))
+        except Unavailable:
+            return None
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "wb") as fh:
+            fh.write(raw)
+    return path
+
+
 class Names:
     """Smogon's ids ('choiceband', 'sandstream', 'stoneedge') as the names the engine uses."""
 
@@ -157,11 +172,14 @@ def line_for(cfg, fmt, name, names, cutoffs, min_raw, base=ENGINE, _cache={}):
     return next((f for f in found if f["checks"]), found[0] if found else None)
 
 
-def best_spread(book, variant, spreads, game, gen):
-    """Of the field's top spreads for a species, the one that fits this variant's role best (the role engine's
-    score for the variant's primary role, with that spread). Gen 2 has no natures or EV spreads to choose."""
+def best_spread(book, variant, spreads, game, gen, roles=None):
+    """Of the field's top spreads for a species, the one that fits this variant best: the role engine's mean score
+    for the roles that define it (its primary role, or the roles given, e.g. primary and secondary when the
+    primary is one a spread can't change, like setting sand), with that spread. Gen 2 has no natures or EV
+    spreads to choose."""
     from trainers.model import Build
-    if gen < 3 or not spreads or not variant.get("role"):
+    roles = roles or ([variant["role"]] if variant.get("role") else [])
+    if gen < 3 or not spreads or not roles:
         return None
     best = None
     for s in spreads:
@@ -169,7 +187,7 @@ def best_spread(book, variant, spreads, game, gen):
                   ability=variant.get("ability"), nature=s["nature"], evs=s["evs"])
         try:
             sig = book.signals(book.context(b, game))
-            fit = book.score(variant["role"], sig, explain=False)["score"]
+            fit = sum(book.score(r, sig, explain=False)["score"] for r in roles) / len(roles)
         except (KeyError, IndexError, ValueError):
             continue
         if best is None or fit > best["fit"] + 1e-9:

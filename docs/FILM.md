@@ -100,6 +100,29 @@ python3 -I engine/film_room.py spreads [--month 2026-09]
 
 Smogon publishes only OU (and Gen 2 UU) for these generations. A Pokémon the OU ladder barely uses (Ash's Staraptor, Paul's Ninjask) has no line.
 
+## The builds book (`film/buildbook.py`, `docs/film/builds_book.html`)
+
+What a format's ladder actually runs, species by species, for the top 40 by usage in Gen 4, Gen 3 and Gen 2 OU. It joins the two sources, each covering what the other can't:
+- **The month's numbers** count every ladder battle. They give usage, leads, team styles and stalliness, and per Pokémon its move, item, ability and spread shares, teammates and checks. They never say which moves went together.
+- **Every replay in the cache** gives real sets, the moves one Pokémon showed in one battle, clustered into variants. A smaller sample, but it shows what goes together.
+
+**For each set:**
+- its role read;
+- the field spread that fits the roles defining it best. Setting sand is left out of the fit, so a Dragon Dance Tyranitar gets Jolly 252 Atk / 252 Spe;
+- how many replays showed it, and their win rate;
+- an example battle;
+- the closest archetype in the library;
+- a Showdown paste (copy it into the teambuilder, or PKHeX's Showdown import).
+
+The ladder's most-used moves are added as a dashed "assembled" set when no real one already matches them.
+
+```
+python3 -I engine/film_room.py book                          # every format → the page
+python3 -I engine/film_room.py book --format gen4ou Tyranitar Latias
+```
+
+It's reference data: a set reaches the build library only through a card you approve.
+
 ## Limits
 
 - **Recent battles only:** the search only reaches what Showdown keeps.

@@ -1,0 +1,251 @@
+<title>Ladder Builds Book</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: the same front-office file as the trainer reports. A format's month up top (team styles, leads), then the
+   book: the species index down the side, ordered by usage like a depth chart, and one species' page beside it
+   (its sets as typed cards you can copy into a teambuilder, then the shares, teammates and checks). */
+:root {
+  --paper: #e9ede4; --card: #f8f9f4; --ink: #17232e; --ink-2: #4b5b67; --rule: #c6cfbf; --rule-strong: #93a094;
+  --accent: #2b4f9e; --accent-ink: #ffffff; --pen: #1f3b8a; --good: #2c7a4b; --warn: #a8701a; --bad: #b03a2c;
+  --tint-good: #d9ecdf; --tint-bad: #f3dcd6; --tint-zero: #dde2da; --tint-pen: #dfe5f3;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-typed: "Courier Prime", "Courier New", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
+    --accent: #86a6ef; --accent-ink: #0e1630; --pen: #9db7f5; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+    --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #232c33; --tint-pen: #202b44; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12181d; --card: #1a2229; --ink: #e2e8df; --ink-2: #9aa8b1; --rule: #2c3943; --rule-strong: #4a5a66;
+  --accent: #86a6ef; --accent-ink: #0e1630; --pen: #9db7f5; --good: #63c08a; --warn: #e2ab52; --bad: #ef7d6c;
+  --tint-good: #1f3a2b; --tint-bad: #452621; --tint-zero: #232c33; --tint-pen: #202b44; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 0.95rem; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 48px; }
+.wrap { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.wrap > * { min-width: 0; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); line-height: 1; }
+h2 { font-size: 1.6rem; line-height: 1.05; }
+h3 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-2); }
+.label { font-family: var(--font-display); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+a { color: var(--pen); }
+.num { font-variant-numeric: tabular-nums; }
+.masthead { padding-top: 26px; display: grid; gap: 8px; border-bottom: 3px double var(--rule-strong); padding-bottom: 14px; }
+.masthead p { margin: 0; max-width: 72ch; color: var(--ink-2); }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tab { border: 1px solid var(--rule-strong); background: var(--card); padding: 6px 14px; border-radius: 3px; cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; letter-spacing: 0.03em; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.month { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 760px) { .month { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--card); border: 1px solid var(--rule); border-radius: 4px; padding: 14px 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.facts span b { font-family: var(--font-display); font-size: 1.25rem; }
+.bars { display: grid; gap: 4px; }
+.bar { display: grid; grid-template-columns: minmax(7.5em, 10em) minmax(0, 1fr) 3.6em; gap: 8px; align-items: center; font-size: 0.88rem; }
+.bar .track { height: 9px; background: var(--tint-zero); border-radius: 2px; position: relative; overflow: hidden; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 2px; }
+.bar.bad .fill { background: var(--bad); }
+.bar .v { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.bar .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 9px; font-size: 0.85rem; background: var(--paper); }
+button.chip { cursor: pointer; }
+button.chip:hover { border-color: var(--accent); }
+.book { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 860px) { .book { grid-template-columns: minmax(0, 1fr); } }
+.index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 10px); max-height: calc(100vh - 30px); display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 8px; }
+@media (max-width: 860px) { .index { position: static; max-height: none; } }
+.index input { width: 100%; padding: 7px 10px; border: 1px solid var(--rule-strong); border-radius: 3px; background: var(--card); }
+.list { overflow-y: auto; display: grid; gap: 2px; align-content: start; padding-right: 2px; }
+@media (max-width: 860px) { .list { max-height: 260px; } }
+.row { display: grid; grid-template-columns: 2.2em minmax(0, 1fr) 3.4em; gap: 6px; align-items: center; padding: 4px 6px; border-radius: 3px;
+  cursor: pointer; border: 1px solid transparent; background: none; text-align: left; width: 100%; }
+.row:hover { background: var(--card); }
+.row[aria-current="true"] { background: var(--card); border-color: var(--accent); }
+.row .r { color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: 0.8rem; }
+.row .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.row .u { text-align: right; font-variant-numeric: tabular-nums; font-size: 0.85rem; color: var(--ink-2); }
+.detail { display: grid; gap: 16px; min-width: 0; }
+.spec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; border-bottom: 1px solid var(--rule-strong); padding-bottom: 8px; }
+.spec-head h2 { font-size: 2.1rem; }
+.sets { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
+.set { background: var(--card); border: 1px solid var(--rule); border-radius: 4px; padding: 12px 14px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.set.usage { border-style: dashed; }
+.set .role { font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; line-height: 1.1; }
+.set .seen { font-size: 0.85rem; color: var(--ink-2); }
+.set pre { margin: 0; font-family: var(--font-typed); font-size: 0.86rem; line-height: 1.4; background: var(--paper); border: 1px solid var(--rule);
+  border-radius: 3px; padding: 8px 10px; overflow-x: auto; white-space: pre; }
+.set .why, .set .near { font-size: 0.84rem; color: var(--ink-2); margin: 0; }
+.set .near b { font-weight: 600; color: var(--ink); }
+.set .acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.copy { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); border-radius: 3px; padding: 3px 12px; cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; letter-spacing: 0.03em; }
+.copy.done { background: var(--good); border-color: var(--good); }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { text-align: left; padding: 4px 8px 4px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; color: var(--ink-2); }
+td.num, th.num { text-align: right; }
+.note { font-size: 0.84rem; color: var(--ink-2); margin: 0; max-width: 80ch; }
+.sources { font-size: 0.82rem; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+@media (prefers-reduced-motion: no-preference) { .fill { transition: width 0.3s ease; } }
+</style>
+
+<script id="data" type="application/json">/*DATA*/</script>
+
+<div class="wrap">
+  <header class="masthead">
+    <span class="label">Pokémon Master OS · the film room</span>
+    <h1>Ladder Builds Book</h1>
+    <p>What Gen 2–4 OU players actually run, species by species. Each set is a real one, seen in public Showdown replays and grouped by what the sets share, then read through the project's role engine, given the spread the ladder runs most for that role, and compared with the build library. The shares, leads, team styles and checks come from Smogon's monthly usage statistics.</p>
+    <div class="tabs" role="tablist" id="tabs"></div>
+  </header>
+  <section class="month" id="month"></section>
+  <section class="book">
+    <aside class="index" aria-label="Species, by usage">
+      <input id="filter" type="search" placeholder="Find a Pokémon" aria-label="Find a Pokémon">
+      <div class="list" id="list"></div>
+    </aside>
+    <article class="detail" id="detail"></article>
+  </section>
+  <footer class="sources" id="sources"></footer>
+</div>
+
+<script>
+(function () {
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const ORDER = ["gen4ou", "gen3ou", "gen2ou"].filter((f) => DATA.books[f]);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  let state = { fmt: ORDER[0], sp: null, q: "" };
+  try { const saved = JSON.parse(localStorage.getItem("ladder-builds-v1") || "null"); if (saved && DATA.books[saved.fmt]) state = Object.assign(state, saved); } catch (e) {}
+  const h = (location.hash || "").slice(1);
+  if (h) {
+    const fmt = ORDER.find((f) => h === f || h.startsWith(f + "-"));
+    if (fmt) { state.fmt = fmt; const rest = h.slice(fmt.length + 1); const b = DATA.books[fmt];
+      const hit = rest && b.species.find((r) => slug(r.species) === rest); if (hit) state.sp = hit.species; }
+  }
+  const save = () => { try { localStorage.setItem("ladder-builds-v1", JSON.stringify({ fmt: state.fmt, sp: state.sp })); } catch (e) {} };
+
+  const bar = (k, v, max, cls = "") => `<div class="bar ${cls}"><span class="k" title="${esc(k)}">${esc(k)}</span><span class="track"><span class="fill" style="width:${Math.max(1, Math.min(100, (v / max) * 100))}%"></span></span><span class="v">${v}%</span></div>`;
+
+  function tabs() {
+    document.getElementById("tabs").innerHTML = ORDER.map((f) => `<button class="tab" role="tab" id="tab-${f}" aria-selected="${f === state.fmt}" data-fmt="${f}">${esc(DATA.books[f].label)}</button>`).join("");
+  }
+
+  function month(b) {
+    const styles = b.styles.slice(0, 10);
+    const leads = b.leads.slice(0, 10);
+    const maxS = Math.max(...styles.map((s) => s[1]), 1), maxL = Math.max(...leads.map((s) => s[1]), 1);
+    document.getElementById("month").innerHTML = `
+      <div class="panel">
+        <span class="label">${esc(b.label)} · ${esc(b.month)}, players rated ${b.cutoff}+</span>
+        <div class="facts">
+          <span><b class="num">${b.battles.toLocaleString()}</b> ladder battles counted</span>
+          <span><b class="num">${b.replays}</b> replays read for sets${b.tournament_games ? ` (${b.tournament_games} Smogon tournament games)` : ""}</span>
+          ${b.stalliness != null ? `<span>stalliness <b class="num">${b.stalliness > 0 ? "+" : ""}${b.stalliness.toFixed(2)}</b> <small>(above 0 leans stall)</small></span>` : ""}
+        </div>
+        <h3>Team styles</h3>
+        <div class="bars">${styles.map((s) => bar(s[0], s[1], maxS)).join("")}</div>
+        <p class="note">A team can carry several styles at once (a sand stall team counts as sand, stall and sandstall), so the shares add up past 100%.</p>
+      </div>
+      <div class="panel">
+        <h3>Who leads</h3>
+        <div class="bars">${leads.map((s) => bar(s[0], s[1], maxL)).join("")}</div>
+        <p class="note">Share of battles each Pokémon opened. Tap a name in the book to see what it does.</p>
+      </div>`;
+  }
+
+  function list(b) {
+    const q = state.q.trim().toLowerCase();
+    const rows = b.species.filter((r) => !q || r.species.toLowerCase().includes(q));
+    document.getElementById("list").innerHTML = rows.map((r) => `<button class="row" data-sp="${esc(r.species)}" aria-current="${r.species === state.sp}"><span class="r">#${r.rank}</span><span class="n">${esc(r.species)}</span><span class="u">${r.usage}%</span></button>`).join("") || `<p class="note">No Pokémon in this month's top ${b.species.length} matches "${esc(state.q)}".</p>`;
+  }
+
+  function setCard(s, i) {
+    const seen = s.source === "replays"
+      ? `Seen in <b class="num">${s.battles}</b> replay${s.battles === 1 ? "" : "s"} · won <span class="num">${s.win_rate}%</span>${s.example ? ` · <a href="${esc(s.example)}" target="_blank" rel="noopener">a battle with it</a>` : ""}`
+      : `Assembled from the ladder's most-used moves, item and ability. Nobody was seen running exactly this; most real sets are close to it.`;
+    const spread = s.spread_share != null ? `<p class="why">Spread: the one ${s.spread_share}% of its ladder sets run that fits this role best.</p>` : "";
+    const also = s.also && s.also.length ? `<p class="why">Also seen in this group: ${esc(s.also.join(", "))}.</p>` : "";
+    return `<div class="set ${s.source === "usage" ? "usage" : ""}">
+      <div><div class="role">${esc(s.name)}</div><div class="seen">${seen}</div></div>
+      <pre id="paste-${i}">${esc(s.paste)}</pre>
+      <div class="acts"><button class="copy" data-i="${i}">Copy for Showdown</button></div>
+      ${spread}${also}
+      ${s.why ? `<p class="why">Why: ${esc(s.why)}</p>` : ""}
+      ${s.closest ? `<p class="near"><b>Against the library:</b> ${esc(s.closest)}</p>` : ""}
+    </div>`;
+  }
+
+  function detail(b) {
+    const r = b.species.find((x) => x.species === state.sp) || b.species[0];
+    if (!r) { document.getElementById("detail").innerHTML = ""; return; }
+    state.sp = r.species;
+    window.__sets = r.sets;
+    const maxM = Math.max(...r.moves.map((m) => m[1]), 1);
+    const checks = r.checks.length ? `<div class="bars">${r.checks.map((c) => bar(c.species, c.beats, 100, "bad")).join("")}</div>
+      <p class="note">How often the matchup ended with ${esc(r.species)} knocked out or forced out, over that many meetings (${r.checks.map((c) => `${esc(c.species)} ${c.n}`).join(", ")}). Ranked by Smogon's score, which discounts small samples.</p>`
+      : `<p class="note">Too few meetings this month to name its checks.</p>`;
+    document.getElementById("detail").innerHTML = `
+      <div class="spec-head">
+        <h2>${esc(r.species)}</h2>
+        <span class="label">#${r.rank} in ${esc(b.label)}</span>
+        <span>on <b class="num">${r.usage}%</b> of teams</span>
+        ${r.lead ? `<span>leads <b class="num">${r.lead}%</b> of battles</span>` : ""}
+        <span class="note">${r.film_battles ? `${r.film_battles} of the replays had it` : "no replays had it yet"}</span>
+      </div>
+      <div class="sets">${r.sets.map((s, i) => setCard(s, i)).join("")}</div>
+      <div class="cols">
+        <div class="panel"><h3>Moves</h3><div class="bars">${r.moves.map((m) => bar(m[0], m[1], maxM)).join("")}</div>
+          <p class="note">Share of its ladder sets carrying each move.</p></div>
+        <div class="panel"><h3>What beats it</h3>${checks}</div>
+        <div class="panel"><h3>Items and abilities</h3>
+          <div class="bars">${r.items.map((m) => bar(m[0], m[1], 100)).join("")}</div>
+          <div class="bars">${r.abilities.map((m) => bar(m[0], m[1], 100)).join("")}</div></div>
+        ${r.spreads.length ? `<div class="panel"><h3>Spreads</h3><div class="scroll"><table><thead><tr><th>Nature</th><th>EVs</th><th class="num">Sets</th></tr></thead><tbody>${r.spreads.map((s) => `<tr><td>${esc(s.nature)}</td><td>${esc(s.evs)}</td><td class="num">${s.share}%</td></tr>`).join("")}</tbody></table></div></div>` : `<div class="panel"><h3>Spreads</h3><p class="note">Gen 2 has no natures or EV spreads: every Pokémon runs maxed stat experience.</p></div>`}
+        <div class="panel"><h3>Teammates</h3><div class="chips">${r.teammates.map((t) => b.species.some((x) => x.species === t) ? `<button class="chip" data-sp="${esc(t)}">${esc(t)}</button>` : `<span class="chip">${esc(t)}</span>`).join("")}</div>
+          <p class="note">Most often on the same team, beyond what their own usage would predict.</p></div>
+      </div>`;
+  }
+
+  function sources(b) {
+    document.getElementById("sources").innerHTML = `<span>Sources: <a href="${esc(b.sources.stats)}" target="_blank" rel="noopener">Smogon usage stats</a>, <a href="${esc(b.sources.leads)}" target="_blank" rel="noopener">leads</a>, <a href="${esc(b.sources.metagame)}" target="_blank" rel="noopener">team styles</a> (smogon.com/stats, ${esc(b.month)}) and <a href="${esc(b.sources.replays)}" target="_blank" rel="noopener">public Showdown replays</a>.</span><span>Built ${esc(DATA.built)}. Reference data: a set joins the build library only through a card you approve.</span>`;
+  }
+
+  function render() {
+    const b = DATA.books[state.fmt];
+    tabs(); month(b); list(b); detail(b); sources(b); save();
+  }
+
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-fmt], [data-sp], .copy");
+    if (!t) return;
+    if (t.dataset.fmt) { state.fmt = t.dataset.fmt; state.sp = null; render(); return; }
+    if (t.dataset.sp) { state.sp = t.dataset.sp; render(); document.getElementById("detail").scrollIntoView({ block: "start", behavior: "smooth" }); return; }
+    if (t.classList.contains("copy")) {
+      const s = (window.__sets || [])[+t.dataset.i];
+      if (!s) return;
+      const mark = () => { t.textContent = "Copied"; t.classList.add("done"); setTimeout(() => { t.textContent = "Copy for Showdown"; t.classList.remove("done"); }, 1600); };
+      const fallback = () => { const pre = document.getElementById("paste-" + t.dataset.i); const r = document.createRange(); r.selectNodeContents(pre);
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); t.textContent = "Selected: copy it"; };
+      try { navigator.clipboard.writeText(s.paste).then(mark, fallback); } catch (err) { fallback(); }
+    }
+  });
+  document.getElementById("filter").addEventListener("input", (e) => { state.q = e.target.value; list(DATA.books[state.fmt]); });
+  render();
+})();
+</script>

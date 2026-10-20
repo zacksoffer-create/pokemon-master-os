@@ -14,7 +14,8 @@
   "_note": "Fetched replays are cached exactly as Showdown sent them (data/ is rebuilt by fetching and never committed). A study is saved beside them for the page and the cards.",
   "raw": "data/raw/showdown_replays",
   "studies": "data/derived/film",
-  "usage": "data/raw/smogon_stats"
+  "usage": "data/raw/smogon_stats",
+  "book": "data/derived/film"
  },
  "formats": {
   "_note": "The formats the room reads, the generation each is, and the game the role engine reads its sets in (the era: moves, types, abilities).",
@@ -222,6 +223,25 @@
    "mail": "Mail",
    "noability": ""
   },
-  "_aliases_note": "Gen 2 item ids that PokeAPI lists under their modern names or not at all (E-023), as the Gen 2 games spell them."
+  "_aliases_note": "Gen 2 item ids that PokeAPI lists under their modern names or not at all (E-023), as the Gen 2 games spell them.",
+  "text": "https://www.smogon.com/stats/{month}/{kind}/{fmt}-{cutoff}.txt"
+ },
+ "book": {
+  "_note": "The builds book (film/buildbook.py): the top species by usage, up to sets_per_species replay variants each (a variant past the first needs min_battles), plus the ladder's most-used moves when no variant already has them; the month's top team styles and leads.",
+  "species": 40,
+  "sets_per_species": 3,
+  "min_battles": 2,
+  "styles": 14,
+  "leads": 15,
+  "fit_skip_roles": [
+   "weather_setter"
+  ],
+  "_fit_note": "A set's spread is fitted to the roles that define it: its primary and secondary, leaving out fit_skip_roles (setting sand reads the same whatever the spread, so a Tyranitar's spread follows what it does besides).",
+  "page": "docs/film/builds_book.html",
+  "formats": [
+   "gen4ou",
+   "gen3ou",
+   "gen2ou"
+  ]
  }
 }
