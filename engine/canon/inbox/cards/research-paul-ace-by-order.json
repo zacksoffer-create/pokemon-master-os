@@ -1,0 +1,28 @@
+{
+ "id": "research-paul-ace-by-order",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Paul's ace: the send-out order at Lily of the Valley",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Paul's_Electivire"
+ },
+ "summary": "The approved Bulbapedia card set Paul's story ace to Torterra on a weak signal (the history names Torterra 5 times, Electivire 3). The send-out order is stronger evidence: Paul sent Electivire out last in his Lily of the Valley full battle against Ash, the slot a trainer saves for their ace (D-050). This puts Electivire back.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.paul.versions.sinnoh.overrides.ace",
+    "value": "Electivire",
+    "was": "Torterra",
+    "why": "Bulbapedia, Paul's Electivire: 'Paul used it as his last Pokémon in his quarterfinal battle against Ash in Battling a Thaw in Relations!' Saved for last in the battle his version stands for; the mention count that picked Torterra was the weakest signal on that card."
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul's_Electivire",
+   "note": "puts back the authored ace; reject it to keep Torterra",
+   "id": "c1"
+  }
+ ],
+ "status": "open"
+}
