@@ -1118,14 +1118,40 @@ class Intake(unittest.TestCase):
         cfg = self.inbox.cfg
         g = Gemini(cfg)
         url, headers, body = g.request([{"file_data": {"file_uri": "https://youtu.be/abc123xyz"}}, {"text": "go"}])
-        self.assertTrue(url.endswith(f"/models/{cfg['gemini']['model']}:generateContent"))
+        self.assertTrue(url.endswith(f"/models/{cfg['gemini']['model']}:streamGenerateContent?alt=sse"))
         self.assertEqual(body["generationConfig"]["responseMimeType"], "application/json")
         result, usage, _ = parse_response({"candidates": [{"content": {"parts": [{"text": "```json\n{\"summary\": \"x\"}\n```"}]}}],
                                            "usageMetadata": {"totalTokenCount": 10}})
         self.assertEqual((result, usage["totalTokenCount"]), ({"summary": "x"}, 10))
+        from ingest.media import parse_stream
+        streamed = [{"candidates": [{"content": {"parts": [{"text": '{"summ'}]}}]},
+                    {"candidates": [{"content": {"parts": [{"text": 'ary": "y"}'}]}}], "usageMetadata": {"totalTokenCount": 7}}]
+        self.assertEqual(parse_stream(streamed)[:2], ({"summary": "y"}, {"totalTokenCount": 7}))
         self.assertTrue(platform_of("https://www.youtube.com/watch?v=abc", cfg)[1]["direct_to_model"])
         self.assertFalse(platform_of("https://www.tiktok.com/@a/video/7696546463953718541", cfg)[1]["direct_to_model"])
         self.assertEqual(video_key("https://www.tiktok.com/@a/video/7696546463953718541"), "7696546463953718541")
+
+    def test_a_fan_work_is_marked_and_a_link_gets_its_title(self):
+        """A fan animation's 'facts' are its interpretation: every claim says so. A link's title and creator come
+        from the site's oEmbed answer (no download, no sign-in)."""
+        import io
+        import urllib.request
+        from unittest import mock
+        from ingest.media import link_metadata, to_card
+        env = self._envelope()
+        env["result"]["pokemon"]["videoType"] = "FAN_ANIMATION"
+        env["source"]["title"] = "Life of a Garchomp"
+        card, _ = to_card(self.inbox, env)
+        facts = [c for c in card["claims"] if c["kind"] != "style_card"]
+        self.assertTrue(all(c["data"].get("fan_work") and "not canon" in c["note"] for c in facts))
+        style = [c for c in card["claims"] if c["kind"] == "style_card"][0]
+        self.assertEqual(style["data"]["name"], "A Nature Channel · Life of a Garchomp")
+        answer = io.BytesIO(b'{"title": "Life of a Torterra", "author_name": "A Channel", '
+                            b'"author_url": "https://www.youtube.com/@AChannel"}')
+        with mock.patch.object(urllib.request, "urlopen", return_value=answer) as call:
+            meta = link_metadata("https://www.youtube.com/watch?v=abc123xyz", self.inbox.cfg)
+        self.assertIn("youtube.com/oembed", call.call_args[0][0].full_url)
+        self.assertEqual(meta, {"title": "Life of a Torterra", "creator": "A Channel", "handle": "@AChannel"})
 
     def test_without_a_key_it_says_so_and_writes_nothing(self):
         """No key in the session (a network secret would add it on the way out): Gemini's refusal becomes a

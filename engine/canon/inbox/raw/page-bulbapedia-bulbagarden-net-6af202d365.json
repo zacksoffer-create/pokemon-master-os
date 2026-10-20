@@ -1,0 +1,530 @@
+{
+ "app": "Pokémon Master OS",
+ "version": "1",
+ "lens": "pokemon",
+ "extractedAt": "2026-10-20T00:09:33.795+00:00",
+ "source": {
+  "platform": "bulbapedia.bulbagarden.net",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime)",
+  "file": null,
+  "key": "6af202d365",
+  "creator": null,
+  "handle": null,
+  "media": "web page",
+  "analysed": "page",
+  "note": "test: Paul's Battle Pyramid (ASK-0014)",
+  "title": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia"
+ },
+ "analysis": {
+  "provider": "Gemini",
+  "model": "gemini-3.8-flash",
+  "machineGenerated": true,
+  "humanVerified": false,
+  "usage": {
+   "promptTokenCount": 5492,
+   "candidatesTokenCount": 4472,
+   "totalTokenCount": 12688,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5492
+    }
+   ],
+   "thoughtsTokenCount": 2724,
+   "serviceTier": "standard"
+  }
+ },
+ "result": {
+  "summary": "This article is a Bulbapedia encyclopedic entry covering Brandon, the chief Frontier Brain and Pyramid King of the Battle Pyramid in the Pokémon anime. It documents his background, battle history against Ash Ketchum and Paul, known Pokémon team members, manga presence, and voice acting credits.",
+  "transcript": [],
+  "on_screen_text": [],
+  "observations": [],
+  "limitations": [
+   "The source is a wiki text article rather than video footage, so exact visual timestamps, camera framings, audio tracks, and full line-by-line dialogue transcripts are not present.",
+   "The article does not record full competitive build details (such as natures, abilities, EVs, IVs, levels, or held items) for Brandon's Pokémon.",
+   "The outcome of Paul's eventual rematch against Brandon at Snowpoint Temple is noted as unknown."
+  ],
+  "pokemon": {
+   "videoType": "OTHER",
+   "species": [
+    {
+     "name": "Regirock",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Brandon used Regirock against Ash during their unofficial battle while Ash was possessed by the King of Pokélantis.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Registeel",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Brandon used Registeel, while Ash used his Torkoal.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Dusclops",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Dusclops was the first Pokémon used by Brandon during his rematch and proved to be very powerful",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Ninjask",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Ninjask was the second Pokémon used by Brandon during his rematch against Ash",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Solrock",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Brandon used Solrock third in the rematch against Ash",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Regice",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Brandon sent out his newly caught Regice against Pikachu.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Regigigas",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Many centuries ago, Regigigas helped protect Snowpoint City from a volcanic eruption, and slept inside Snowpoint Temple.",
+       "at": "In animation > Pokémon > Befriended"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Sceptile",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Ash was possessed by an ancient king of the Pyramid who battled Brandon's Regirock with Ash's Sceptile.",
+       "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Torkoal",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Ash's Torkoal squared off against Brandon's Registeel.",
+       "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Charizard",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Brandon's Dusclops defeated Ash's Charizard in the first round",
+       "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Bulbasaur",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "was then defeated by Ash's Bulbasaur after a tough battle.",
+       "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Squirtle",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Brandon's Ninjask squared off against Ash's Squirtle",
+       "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Pikachu",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Ash used Pikachu while Brandon unveiled yet another Pokémon from his Legendary collection: this time, a Regice.",
+       "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Hariyama",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "Regirock was used in the Full Battle against Paul and was able to easily defeat his Hariyama",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Electabuzz",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "defeat his Hariyama, Electabuzz, Ursaring, and Magmar.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Ursaring",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "defeat his Hariyama, Electabuzz, Ursaring, and Magmar.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Magmar",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "defeat his Hariyama, Electabuzz, Ursaring, and Magmar.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Nidoking",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "It also managed to defeat Paul's Nidoking despite taking damage from its Ground-type and Fighting-type attacks.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Lairon",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "was able to defeat his Lairon with no trouble.",
+       "at": "In animation > Pokémon > On hand"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Ho-Oh",
+     "evidence": [
+      {
+       "from": "onscreen",
+       "text": "being highly interested in exploring ruins and discovering as many mysteries as possible, seen as he was searching for Ho-Oh in his debut.",
+       "at": "In animation > Character"
+      }
+     ],
+     "confidence": "HIGH"
+    }
+   ],
+   "behaviors": [
+    {
+     "species": "Regigigas",
+     "behavior": "defense and rampage",
+     "context": "Awakened after Pokémon Hunter J destroyed its sealing pillars, rampaging through Snowpoint City and taking control of the legendary giants until calmed when Brandon saved it from petrification.",
+     "at": "In animation > Pokémon > Befriended"
+    },
+    {
+     "species": "Regirock",
+     "behavior": "defense / social",
+     "context": "Remained at the Snowpoint Temple alongside Regice and Registeel to serve as the new pillars protecting Regigigas.",
+     "at": "In animation > History > Pokémon the Series: Diamond and Pearl"
+    },
+    {
+     "species": "Registeel",
+     "behavior": "defense / social",
+     "context": "Remained at the Snowpoint Temple alongside Regirock and Regice to serve as the new pillars protecting Regigigas.",
+     "at": "In animation > History > Pokémon the Series: Diamond and Pearl"
+    },
+    {
+     "species": "Regice",
+     "behavior": "defense / social",
+     "context": "Remained at the Snowpoint Temple alongside Regirock and Registeel to serve as the new pillars protecting Regigigas.",
+     "at": "In animation > History > Pokémon the Series: Diamond and Pearl"
+    }
+   ],
+   "habitats": [
+    {
+     "species": "Regigigas",
+     "habitat": "Snowpoint Temple",
+     "time_of_day": null,
+     "weather": null,
+     "season": null,
+     "region_if_named": "Sinnoh",
+     "at": "In animation > Pokémon > Befriended"
+    }
+   ],
+   "battle": [
+    {
+     "trainer": "Brandon",
+     "pokemon": "Regirock",
+     "move": null,
+     "situation": "even",
+     "outcome": "Defeated Ash's Sceptile (while Ash was possessed by the King of Pokélantis) despite type disadvantage.",
+     "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+    },
+    {
+     "trainer": "Brandon",
+     "pokemon": "Registeel",
+     "move": null,
+     "situation": "even",
+     "outcome": "Defeated Ash's Torkoal, though left extremely weak after the match.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Brandon",
+     "pokemon": "Dusclops",
+     "move": null,
+     "situation": "even",
+     "outcome": "Defeated Ash's Charizard in round one of their 4 vs. 4 rematch.",
+     "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+    },
+    {
+     "trainer": "Ash",
+     "pokemon": "Bulbasaur",
+     "move": "Solar Beam",
+     "situation": "even",
+     "outcome": "Defeated Brandon's Dusclops after a tough battle.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Ash",
+     "pokemon": "Squirtle",
+     "move": "Skull Bash",
+     "situation": "even",
+     "outcome": "Defeated Brandon's Ninjask.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Brandon",
+     "pokemon": "Solrock",
+     "move": null,
+     "situation": "even",
+     "outcome": "Defeated Ash's Squirtle.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Ash / Brandon",
+     "pokemon": "Bulbasaur / Solrock",
+     "move": null,
+     "situation": "even",
+     "outcome": "Bulbasaur and Solrock knocked each other out in a double knockout.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Ash",
+     "pokemon": "Pikachu",
+     "move": "Iron Tail and Volt Tackle",
+     "situation": "behind",
+     "outcome": "Defeated Brandon's Regice, winning the match and the Brave Symbol for Ash.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Brandon",
+     "pokemon": "Regirock",
+     "move": null,
+     "situation": "ahead",
+     "outcome": "Easily defeated Paul's Hariyama, Electabuzz, Ursaring, and Magmar during a Full Battle.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Brandon",
+     "pokemon": "Registeel",
+     "move": null,
+     "situation": "ahead",
+     "outcome": "Withstood Magmar's Fire-type attacks and defeated Paul's Nidoking.",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "trainer": "Brandon",
+     "pokemon": "Regice",
+     "move": null,
+     "situation": "ahead",
+     "outcome": "Battled Ursaring and easily defeated Paul's Lairon.",
+     "at": "In animation > Pokémon > On hand"
+    }
+   ],
+   "builds": [
+    {
+     "species": "Dusclops",
+     "nickname": null,
+     "moves": [
+      "Will-O-Wisp",
+      "Shadow Punch",
+      "Mean Look",
+      "Confuse Ray"
+     ],
+     "item": null,
+     "ability": null,
+     "nature": null,
+     "evs": null,
+     "ivs": null,
+     "level": null,
+     "game_or_generation": "Pokémon the Series: Ruby and Sapphire",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "species": "Ninjask",
+     "nickname": null,
+     "moves": [
+      "Aerial Ace",
+      "Sandstorm",
+      "Double Team",
+      "Sand Attack"
+     ],
+     "item": null,
+     "ability": null,
+     "nature": null,
+     "evs": null,
+     "ivs": null,
+     "level": null,
+     "game_or_generation": "Pokémon the Series: Ruby and Sapphire",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "species": "Solrock",
+     "nickname": null,
+     "moves": [
+      "Psywave",
+      "Confusion",
+      "Shadow Ball",
+      "Solar Beam"
+     ],
+     "item": null,
+     "ability": null,
+     "nature": null,
+     "evs": null,
+     "ivs": null,
+     "level": null,
+     "game_or_generation": "Pokémon the Series: Ruby and Sapphire",
+     "at": "In animation > Pokémon > On hand"
+    },
+    {
+     "species": "Regigigas",
+     "nickname": null,
+     "moves": [
+      "Hyper Beam",
+      "Hammer Arm",
+      "Confuse Ray",
+      "Hidden Power"
+     ],
+     "item": null,
+     "ability": null,
+     "nature": null,
+     "evs": null,
+     "ivs": null,
+     "level": null,
+     "game_or_generation": "Pokémon the Series: Diamond and Pearl",
+     "at": "In animation > Pokémon > Befriended"
+    }
+   ],
+   "lore": [
+    {
+     "subject": "Brandon",
+     "fact": "Brandon is the Frontier Brain and chief of the Battle Frontier's Battle Pyramid, awarding the Brave Symbol to Trainers who defeat him.",
+     "episode_or_title": "Infobox / Lead section",
+     "at": "Brandon (anime)"
+    },
+    {
+     "subject": "Brandon",
+     "fact": "Brandon is the strongest of all Frontier Brains and the first Trainer in the animated series to have officially caught and trained a Legendary Pokémon.",
+     "episode_or_title": "Trivia",
+     "at": "Trivia"
+    },
+    {
+     "subject": "Reggie and Paul",
+     "fact": "Brandon defeated Reggie in battle, prompting Reggie to retire from competitive battling to become a Pokémon Breeder, and inspiring Paul's obsession with strength.",
+     "episode_or_title": "Pre-series",
+     "at": "In animation > History > Pre-series"
+    },
+    {
+     "subject": "Battle Pyramid Location",
+     "fact": "Trainers could only discover the location of the Battle Pyramid after acquiring the other six Frontier Symbols.",
+     "episode_or_title": "Second Time's the Charm!",
+     "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+    },
+    {
+     "subject": "Battle Frontier Hall of Fame",
+     "fact": "Defeating Brandon earned Ash a place in the Frontier Battle Hall of Fame and an offer to become a Frontier Brain, which Ash declined.",
+     "episode_or_title": "Pace - The Final Frontier!",
+     "at": "In animation > History > Pokémon the Series: Ruby and Sapphire"
+    },
+    {
+     "subject": "Regigigas and Snowpoint Temple",
+     "fact": "Centuries ago, Regigigas saved Snowpoint City from a volcanic eruption before going to sleep sealed inside Snowpoint Temple.",
+     "episode_or_title": "Pillars of Friendship!",
+     "at": "In animation > Pokémon > Befriended"
+    }
+   ],
+   "style": {
+    "narration_voice": null,
+    "narrator_perspective": null,
+    "pacing": null,
+    "music": null,
+    "tone": null,
+    "color_and_light": null,
+    "structure": [],
+    "shots": []
+   },
+   "creatorClaims": [
+    "The fact that trainers only learned the Battle Pyramid's location after obtaining six symbols 'suggests that Brandon ranked higher than the rest of the Frontier Brains in Pokémon the Series, although in the video games and manga, this position belongs to Anabel.'"
+   ],
+   "notInVideo": [
+    "Episode video clips, animations, or battle footage.",
+    "Full IV/EV spreads, abilities, and item loads for Brandon's roster.",
+    "The concluding battle outcome of Paul's rematch at the Snowpoint Temple."
+   ]
+  }
+ }
+}

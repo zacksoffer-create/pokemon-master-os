@@ -1,0 +1,418 @@
+{
+ "app": "Pokémon Master OS",
+ "version": "1",
+ "lens": "pokemon",
+ "extractedAt": "2026-10-20T00:11:16.249+00:00",
+ "source": {
+  "platform": "YOUTUBE",
+  "url": "https://www.youtube.com/watch?v=fIXqRx2hokc",
+  "file": null,
+  "key": "fIXqRx2hokc",
+  "creator": "EnlargedKai",
+  "handle": "@EnlargedKai",
+  "media": "link sent to the model",
+  "analysed": "video",
+  "note": "first documentary test: EnlargedKai, Pokearth",
+  "title": "Life of a Torterra | Pokearth"
+ },
+ "analysis": {
+  "provider": "Gemini",
+  "model": "gemini-3.8-flash",
+  "machineGenerated": true,
+  "humanVerified": false,
+  "usage": {
+   "promptTokenCount": 20365,
+   "candidatesTokenCount": 3632,
+   "totalTokenCount": 25127,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 524
+    },
+    {
+     "modality": "VIDEO",
+     "tokenCount": 19841
+    }
+   ],
+   "thoughtsTokenCount": 1130,
+   "serviceTier": "standard"
+  }
+ },
+ "result": {
+  "summary": "This fan-animated nature documentary depicts the leisurely lifestyle and behavior of Torterra in a lush forest and meadow environment. A male Torterra wakes up, slowly treks to a lake for water, briefly attempts to pursue a female mate, and quickly returns to resting.",
+  "transcript": [
+   {
+    "timestamp": "00:00",
+    "text": "For the Torterra, life is best enjoyed in the slow lane."
+   },
+   {
+    "timestamp": "00:09",
+    "text": "They spend the bulk of their days napping, and not much else."
+   },
+   {
+    "timestamp": "00:16",
+    "text": "Conserving precious energy is a time-tested strategy in an otherwise fast-paced world."
+   },
+   {
+    "timestamp": "00:25",
+    "text": "But resting in one spot loses its charm after a while."
+   },
+   {
+    "timestamp": "00:38",
+    "text": "It's about time for a change of pace."
+   },
+   {
+    "timestamp": "00:46",
+    "text": "Rarely seen in motion, groups of Torterra are often mistaken for moving forests."
+   },
+   {
+    "timestamp": "01:09",
+    "text": "This male seems a bit too fond of his lounging spot to join the others."
+   },
+   {
+    "timestamp": "01:19",
+    "text": "Though a drink of water would be nice."
+   },
+   {
+    "timestamp": "01:23",
+    "text": "There should be a lake just beyond the trees."
+   },
+   {
+    "timestamp": "01:27",
+    "text": "It's not too far. He'll get there... eventually."
+   },
+   {
+    "timestamp": "01:34",
+    "text": "Of course, a sudden surge of movement from a Torterra can spell trouble for those living on his back."
+   },
+   {
+    "timestamp": "01:48",
+    "text": "For some unlucky residents, it will take some work to get back home."
+   },
+   {
+    "timestamp": "01:54",
+    "text": "For everyone else, it's going to be a bumpy ride."
+   },
+   {
+    "timestamp": "02:01",
+    "text": "Within the next few hours or so, this determined Torterra will finally arrive at his destination."
+   },
+   {
+    "timestamp": "02:11",
+    "text": "He's almost there."
+   },
+   {
+    "timestamp": "02:15",
+    "text": "Fresh water at last."
+   },
+   {
+    "timestamp": "02:21",
+    "text": "But he's not the only one in search of a refreshment."
+   },
+   {
+    "timestamp": "02:24",
+    "text": "A female approaches."
+   },
+   {
+    "timestamp": "02:32",
+    "text": "Sensing a potential mate, he springs to life with a burst of agility and sets off in hot pursuit."
+   },
+   {
+    "timestamp": "02:45",
+    "text": "Sadly, the lady Torterra doesn't seem very interested."
+   },
+   {
+    "timestamp": "02:49",
+    "text": "And giving chase is too much work for our lounge-loving male."
+   },
+   {
+    "timestamp": "02:55",
+    "text": "He may have failed this time, but he's more than happy to enjoy another rest."
+   },
+   {
+    "timestamp": "03:02",
+    "text": "After all, there's no reason to rush."
+   },
+   {
+    "timestamp": "03:07",
+    "text": "Perhaps slow and steady will someday work in his favor."
+   }
+  ],
+  "on_screen_text": [
+   {
+    "timestamp": "00:00",
+    "text": "EnlargedKai"
+   },
+   {
+    "timestamp": "03:15",
+    "text": "PATRONS"
+   }
+  ],
+  "observations": [
+   {
+    "timestamp": "00:00",
+    "text": "An aerial view displays several Torterra resting motionless in a sunny meadow surrounded by trees."
+   },
+   {
+    "timestamp": "00:09",
+    "text": "Close-up ground view of Torterra sleeping flat on the grass."
+   },
+   {
+    "timestamp": "00:17",
+    "text": "Three Morelull walk across the grass past the sleeping Torterra's snout as it blinks awake."
+   },
+   {
+    "timestamp": "00:29",
+    "text": "A Combee flies near the head of a slumbering Torterra, hovering in front of its nose."
+   },
+   {
+    "timestamp": "00:36",
+    "text": "The Torterra opens its eyes and mouth, disturbed by the Combee."
+   },
+   {
+    "timestamp": "00:45",
+    "text": "A high-angle shot reveals multiple Torterra walking forward together across the clearing."
+   },
+   {
+    "timestamp": "00:51",
+    "text": "Wide scenic shot overlooking a vast green forest canopy illuminated by morning sunlight."
+   },
+   {
+    "timestamp": "01:02",
+    "text": "A lone Torterra remains resting while the rest of the herd walks away into the distance."
+   },
+   {
+    "timestamp": "01:08",
+    "text": "Close-up of the lazy male Torterra resting on the grass and yawning."
+   },
+   {
+    "timestamp": "01:22",
+    "text": "View across a forest clearing toward a calm lake surrounded by trees."
+   },
+   {
+    "timestamp": "01:26",
+    "text": "The male Torterra slowly lifts itself up and begins a slow walk toward the lake."
+   },
+   {
+    "timestamp": "01:40",
+    "text": "A Zigzagoon clinging to the tree on Torterra's shell loses its footing and tumbles off onto the grass."
+   },
+   {
+    "timestamp": "01:54",
+    "text": "Three Morelull hold on tightly atop the rock spikes of the Torterra's moving shell."
+   },
+   {
+    "timestamp": "02:02",
+    "text": "The Torterra crawls forward across a meadow dotted with orange wildflowers."
+   },
+   {
+    "timestamp": "02:11",
+    "text": "The Torterra reaches the grassy water's edge and lowers its head toward the lake surface."
+   },
+   {
+    "timestamp": "02:24",
+    "text": "A female Torterra appears walking across the meadow in the background."
+   },
+   {
+    "timestamp": "02:32",
+    "text": "The male turns sharply and accelerates into a quick jog toward the female."
+   },
+   {
+    "timestamp": "02:44",
+    "text": "The female Torterra ignores him and continues walking away into the distance."
+   },
+   {
+    "timestamp": "02:55",
+    "text": "The male stops chasing, rests his head against the grass, and settles down to sleep again."
+   },
+   {
+    "timestamp": "03:03",
+    "text": "Wide panoramic shot showing the resting Torterra alone on the lake shore."
+   },
+   {
+    "timestamp": "03:15",
+    "text": "Patreon patron credits scroll over behind-the-scenes 3D clay render passes of the animation."
+   }
+  ],
+  "limitations": [
+   "No battle mechanics, moves, levels, or game statistics are depicted.",
+   "The region or specific canonical location is not stated.",
+   "The video is a fan animation and does not represent official Pokémon franchise media."
+  ],
+  "pokemon": {
+   "videoType": "FAN_ANIMATION",
+   "species": [
+    {
+     "name": "Torterra",
+     "evidence": [
+      {
+       "from": "speech",
+       "text": "For the Torterra, life is best enjoyed in the slow lane.",
+       "at": "00:00"
+      },
+      {
+       "from": "visual",
+       "text": "Multiple large tortoise Pokémon with trees and rock formations on their shells appear throughout.",
+       "at": "00:02"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Morelull",
+     "evidence": [
+      {
+       "from": "visual",
+       "text": "Small three-stemmed mushroom fairy Pokémon walk past Torterra's snout and later ride on its shell.",
+       "at": "00:17"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Combee",
+     "evidence": [
+      {
+       "from": "visual",
+       "text": "A three-celled honey bee Pokémon flies around Torterra's snout and over flowers.",
+       "at": "00:30"
+      }
+     ],
+     "confidence": "HIGH"
+    },
+    {
+     "name": "Zigzagoon",
+     "evidence": [
+      {
+       "from": "visual",
+       "text": "A small striped raccoon-like Pokémon falls off the tree on Torterra's shell.",
+       "at": "01:45"
+      }
+     ],
+     "confidence": "HIGH"
+    }
+   ],
+   "behaviors": [
+    {
+     "species": "Torterra",
+     "behavior": "Prolonged napping and energy conservation flat on the ground.",
+     "context": "Spends bulk of daylight resting in meadows.",
+     "at": "00:09"
+    },
+    {
+     "species": "Torterra",
+     "behavior": "Migrating in slow herds resembling moving forests.",
+     "context": "Moving across territory as a group.",
+     "at": "00:46"
+    },
+    {
+     "species": "Torterra",
+     "behavior": "Serving as a mobile ecosystem for smaller Pokémon residing in its shell foliage.",
+     "context": "Morelull and Zigzagoon inhabiting the tree and shell.",
+     "at": "01:40"
+    },
+    {
+     "species": "Torterra",
+     "behavior": "Mating pursuit and courtship behavior.",
+     "context": "Male sprints briefly toward a passing female before abandoning the chase due to exhaustion.",
+     "at": "02:32"
+    },
+    {
+     "species": "Morelull",
+     "behavior": "Foraging on the ground and riding atop Torterra's shell.",
+     "context": "Coexisting peacefully in Torterra's micro-habitat.",
+     "at": "00:18"
+    },
+    {
+     "species": "Combee",
+     "behavior": "Hovering near larger Pokémon and pollinating meadow flowers.",
+     "context": "Flying around meadow and waking the Torterra.",
+     "at": "00:30"
+    }
+   ],
+   "habitats": [
+    {
+     "species": "Torterra",
+     "habitat": "Temperate grassland, open meadow, and lakeside forest.",
+     "time_of_day": "Daytime",
+     "weather": "Clear and sunny",
+     "season": "Spring or Summer",
+     "region_if_named": "",
+     "at": "00:00"
+    }
+   ],
+   "battle": [],
+   "builds": [],
+   "lore": [
+    {
+     "subject": "Torterra",
+     "fact": "Groups of migrating Torterra are frequently mistaken for moving forests, and smaller Pokémon often live their entire lives on a Torterra's shell.",
+     "episode_or_title": "EnlargedKai Nature Mockumentary",
+     "at": "00:46"
+    }
+   ],
+   "style": {
+    "narration_voice": "Mature, calm British male reminiscent of David Attenborough nature documentaries.",
+    "narrator_perspective": "Third-person omniscient nature observer.",
+    "pacing": "Slow, methodical, mirroring the subject's behavior.",
+    "music": "Orchestral, ambient, and whimsical nature documentary score with gentle brass, strings, and woodwinds.",
+    "tone": "Warm, educational, lighthearted, and humorous.",
+    "color_and_light": "Vibrant, warm, sunlit photorealistic 3D environment with rich green foliage and natural lighting.",
+    "structure": [
+     "Introduction to Torterra's sedentary lifestyle",
+     "Disturbance by a Combee and awakening",
+     "Herd moving while lazy individual remains",
+     "Trek toward lake water and passenger struggles",
+     "Arrival at the lake and sighting of a potential mate",
+     "Brief courtship chase and failure",
+     "Return to sleep and concluding reflection"
+    ],
+    "shots": [
+     {
+      "at": "00:00",
+      "shot": "High-angle establishing crane shot",
+      "framing": "Wide",
+      "camera_move": "Descends slowly toward ground",
+      "subject": "Resting Torterra herd"
+     },
+     {
+      "at": "00:12",
+      "shot": "Low-angle macro shot",
+      "framing": "Close-up",
+      "camera_move": "Static",
+      "subject": "Sleeping Torterra's face"
+     },
+     {
+      "at": "00:51",
+      "shot": "Aerial flyover shot",
+      "framing": "Extreme wide",
+      "camera_move": "Forward panning flyover",
+      "subject": "Forest canopy"
+     },
+     {
+      "at": "02:11",
+      "shot": "Water level tracking shot",
+      "framing": "Medium",
+      "camera_move": "Lateral tracking",
+      "subject": "Torterra reaching water's edge"
+     },
+     {
+      "at": "03:03",
+      "shot": "Lakeside establishing shot",
+      "framing": "Wide",
+      "camera_move": "Slow pull-back over water",
+      "subject": "Lone Torterra resting by the lake"
+     }
+    ]
+   },
+   "creatorClaims": [
+    "Groups of Torterra in motion are often mistaken for moving forests."
+   ],
+   "notInVideo": [
+    "Official canonical Pokémon anime or game footage.",
+    "Any spoken dialogue other than narrator commentary.",
+    "Pokémon battles, stats, moves, or trainer interactions."
+   ]
+  }
+ }
+}

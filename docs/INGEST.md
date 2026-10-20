@@ -25,6 +25,8 @@ Built separately for Pokémon for now. It uses the same analysis envelope as Foo
   - YouTube links go to Gemini directly; nothing is downloaded.
   - TikTok and Instagram links are downloaded with yt-dlp, then uploaded.
   - A video saved into the Drive Inbox can be ingested as a file.
+  - A link's title and creator come from the site's oEmbed answer (YouTube, TikTok), so a card names the video and its channel without a download.
+  - **Fan works** (fan animations, mockumentaries) are marked: every fact-type claim from one carries `fan_work` and a note that it's the creator's interpretation, not canon. You can still approve it into your world; the style card is unaffected.
 - **Screenshots** (`intake.py image`): a summary screen or PKHeX view, a teambuilder, an anime frame, a Pokédex page.
 - **Pages** (`intake.py page <url>`): fetched, reduced to text, then analyzed.
 - **Analyses already done** (`intake.py envelope <json>`): anything in the shared envelope format. A Food OS result analyzed with its food lens has no Pokémon block and is turned away with that reason.

@@ -73,9 +73,10 @@ class Gemini:
         except RuntimeError as e:
             return False, str(e)
 
-    def request(self, parts):
-        """The generateContent call: (url, headers, body). Kept separate so it can be checked without a call."""
-        url = f"{self.g['base']}/models/{self.g['model']}:generateContent"
+    def request(self, parts, model=None):
+        """The streaming generateContent call: (url, headers, body). Kept separate so it can be checked without a
+        call. Streaming keeps a long analysis alive past the network proxy's 30-second limit on silent requests."""
+        url = f"{self.g['base']}/models/{model or self.g['model']}:streamGenerateContent?alt=sse"
         headers = {"Content-Type": "application/json", **self.auth()}
         body = {"contents": [{"role": "user", "parts": parts}],
                 "generationConfig": {"responseMimeType": "application/json"}}
@@ -98,10 +99,40 @@ class Gemini:
                            "environment's network settings") from None
 
     def generate(self, parts):
-        self.ready()
-        url, headers, body = self.request(parts)
-        _, raw = self._call(url, headers, json.dumps(body).encode("utf-8"))
-        return parse_response(json.loads(raw))
+        """Run the analysis: the configured model, retried while it's busy, then the fallbacks in order."""
+        last = None
+        for model in [self.g["model"]] + list(self.g.get("fallback_models", [])):
+            for attempt in range(self.g.get("retries", 1)):
+                url, headers, body = self.request(parts, model)
+                try:
+                    return self._stream(url, headers, json.dumps(body).encode("utf-8"))
+                except Busy as e:
+                    last = e
+                    time.sleep(self.g.get("retry_wait_seconds", 5) * (attempt + 1))
+        raise RuntimeError(f"Gemini stayed busy across every model ({last}); try again in a few minutes")
+
+    def _stream(self, url, headers, data):
+        req = urllib.request.Request(url, data=data, headers=headers, method="POST")
+        chunks = []
+        try:
+            with urllib.request.urlopen(req, timeout=self.g["timeout_seconds"]) as r:
+                for line in r:
+                    line = line.decode("utf-8").strip()
+                    if line.startswith("data:"):
+                        chunks.append(json.loads(line[5:]))
+        except urllib.error.HTTPError as e:
+            body = e.read()[:400].decode("utf-8", "replace")
+            if e.code in (429, 500, 502, 503, 504):
+                raise Busy(f"{e.code}: {body[:160]}") from None
+            if e.code in (400, 401, 403) and ("API key" in body or "PERMISSION_DENIED" in body or "UNAUTHENTICATED" in body):
+                raise NotReady("Gemini refused the request: no valid key reached it. Add the network secret "
+                               "(header x-goog-api-key on generativelanguage.googleapis.com) or the "
+                               f"{self.g['key_env']} environment variable, in the cloud environment's settings") from None
+            raise RuntimeError(f"Gemini said {e.code}: {body}") from None
+        except urllib.error.URLError as e:
+            raise NotReady(f"can't reach {urllib.parse.urlparse(url).hostname} ({e.reason}): allow it in the "
+                           "environment's network settings") from None
+        return parse_stream(chunks)
 
     def upload(self, path, mime):
         """Gemini's Files API (resumable upload), then wait until the file is ready. Returns its URI."""
@@ -132,6 +163,24 @@ class Gemini:
             with open(path, "rb") as fh:
                 return {"inline_data": {"mime_type": mime, "data": base64.b64encode(fh.read()).decode()}}
         return {"file_data": {"mime_type": mime, "file_uri": self.upload(path, mime)}}
+
+
+class Busy(RuntimeError):
+    """Gemini is overloaded or rate-limited right now (429/5xx): worth a retry."""
+
+
+def parse_stream(chunks):
+    """Join a streamed answer's chunks into one response, then read it like a single one."""
+    parts, usage, model, feedback = [], {}, None, None
+    for c in chunks:
+        for cand in c.get("candidates", []):
+            parts += [p for p in cand.get("content", {}).get("parts", []) if "text" in p]
+        usage = c.get("usageMetadata", usage)
+        model = c.get("modelVersion", model)
+        feedback = c.get("promptFeedback", feedback)
+    resp = {"candidates": [{"content": {"parts": parts}}]} if parts else {"promptFeedback": feedback or {}}
+    resp.update(usageMetadata=usage, modelVersion=model)
+    return parse_response(resp)
 
 
 def parse_response(resp):
@@ -183,6 +232,35 @@ def download(url, cfg, folder):
         with open(os.path.join(folder, infos[0]), encoding="utf-8") as fh:
             info = json.load(fh)
     return os.path.join(folder, files[0]), info
+
+
+def link_metadata(url, cfg):
+    """Title and creator for a link without downloading it: the site's oEmbed endpoint first (YouTube asks yt-dlp
+    to sign in from a cloud address), then yt-dlp. Empty when neither answers."""
+    plat = platform_of(url, cfg)[1]
+    if plat.get("oembed"):
+        try:
+            req = urllib.request.Request(plat["oembed"].format(url=urllib.parse.quote(url, safe="")),
+                                         headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=20) as r:
+                o = json.loads(r.read().decode("utf-8"))
+            out = {"title": o.get("title"), "creator": o.get("author_name"),
+                   "handle": (o.get("author_url") or "").rstrip("/").rsplit("/", 1)[-1] or None}
+            if out["title"] or out["creator"]:
+                return {k: v for k, v in out.items() if v}
+        except (urllib.error.URLError, ValueError, OSError):
+            pass
+    d = cfg["download"]
+    cmd = [shutil.which(d["tool"])] if shutil.which(d["tool"]) else [sys.executable, "-m", "yt_dlp"]
+    try:
+        run = subprocess.run(cmd + ["--skip-download", "--dump-json", "--no-playlist", url], capture_output=True,
+                             text=True, timeout=60)
+        info = json.loads(run.stdout) if run.returncode == 0 and run.stdout.strip() else {}
+    except (subprocess.TimeoutExpired, ValueError, OSError):
+        info = {}
+    out = {"title": info.get("title"), "creator": info.get("uploader") or info.get("channel"),
+           "handle": info.get("uploader_id"), "duration_seconds": info.get("duration")}
+    return {k: v for k, v in out.items() if v}
 
 
 class _Text(html.parser.HTMLParser):
@@ -250,13 +328,17 @@ def analyze(cfg, lens, what, target, note=None, gemini=None):
             title, text = page_text(target)
             source.update(platform=urllib.parse.urlparse(target).hostname, url=target, key=digest(target),
                           media="web page", title=title)
-            parts = [{"text": prompt.replace("You are watching material", "You are reading a web page")},
+            page_prompt = (prompt.replace("You are watching material", "You are reading a web page")
+                           .replace("with a timestamp (mm:ss) for every item",
+                                    "with the page section it comes from (as 'at') for every item"))
+            parts = [{"text": page_prompt},
                      {"text": f"PAGE: {title}\nURL: {target}\n\n{text}"}]
         elif is_url:
             name, plat = platform_of(target, cfg)
             source.update(platform=name.upper(), url=target, key=video_key(target))
             if plat.get("direct_to_model"):
                 source["media"] = "link sent to the model"
+                source.update(link_metadata(target, cfg))
                 parts = [{"file_data": {"file_uri": target}}, {"text": prompt}]
             else:
                 path, info = download(target, cfg, tmp)
@@ -294,6 +376,7 @@ def claims_from(inbox, env, lens_cfg):
     src = env.get("source") or {}
     where = src.get("url") or src.get("file") or src.get("title") or "the source"
     ref = lambda at: f"{where} @ {at}" if at else where
+    fan = block.get("videoType") in lens_cfg.get("fan_types", [])
     out = []
     for b in block.get("behaviors", []):
         out.append(inbox.claim("field_note", {"species": b.get("species"), "aspect": "behavior",
@@ -318,8 +401,13 @@ def claims_from(inbox, env, lens_cfg):
                                         "episode": l.get("episode_or_title")}, source_ref=ref(l.get("at"))))
     style = block.get("style") or {}
     if any(style.get(k) for k in ("narration_voice", "pacing", "shots", "structure", "tone")):
-        name = f"{src.get('creator') or src.get('title') or where} ({block.get('videoType', 'video').lower()})"
+        name = " · ".join(x for x in (src.get("creator"), src.get("title")) if x) or where
         out.append(inbox.claim("style_card", {"name": name, **style}, source_ref=where))
+    if fan:                                             # a fan work's "facts" are its interpretation, not canon
+        for c in out:
+            if c["kind"] in ("field_note", "lore", "observation", "build"):
+                c["note"] = (c.get("note", "") + " " if c.get("note") else "") + lens_cfg["fan_note"]
+                c["data"]["fan_work"] = True
     return out
 
 

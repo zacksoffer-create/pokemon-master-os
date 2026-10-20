@@ -1,0 +1,195 @@
+{
+ "id": "video-youtube-fixqrx2hokc",
+ "kind": "video",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "platform": "YOUTUBE",
+  "url": "https://www.youtube.com/watch?v=fIXqRx2hokc",
+  "file": null,
+  "key": "fIXqRx2hokc",
+  "creator": "EnlargedKai",
+  "handle": "@EnlargedKai",
+  "media": "link sent to the model",
+  "analysed": "video",
+  "note": "first documentary test: EnlargedKai, Pokearth",
+  "title": "Life of a Torterra | Pokearth"
+ },
+ "summary": "This fan-animated nature documentary depicts the leisurely lifestyle and behavior of Torterra in a lush forest and meadow environment. A male Torterra wakes up, slowly treks to a lake for water, briefly attempts to pursue a female mate, and quickly returns to resting.",
+ "claims": [
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "behavior",
+    "note": "Prolonged napping and energy conservation flat on the ground.",
+    "context": "Spends bulk of daylight resting in meadows.",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:09",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c1"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "behavior",
+    "note": "Migrating in slow herds resembling moving forests.",
+    "context": "Moving across territory as a group.",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:46",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c2"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "behavior",
+    "note": "Serving as a mobile ecosystem for smaller Pokémon residing in its shell foliage.",
+    "context": "Morelull and Zigzagoon inhabiting the tree and shell.",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 01:40",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c3"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "behavior",
+    "note": "Mating pursuit and courtship behavior.",
+    "context": "Male sprints briefly toward a passing female before abandoning the chase due to exhaustion.",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 02:32",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c4"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Morelull",
+    "aspect": "behavior",
+    "note": "Foraging on the ground and riding atop Torterra's shell.",
+    "context": "Coexisting peacefully in Torterra's micro-habitat.",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:18",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c5"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Combee",
+    "aspect": "behavior",
+    "note": "Hovering near larger Pokémon and pollinating meadow flowers.",
+    "context": "Flying around meadow and waking the Torterra.",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:30",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c6"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "habitat",
+    "note": "Temperate grassland, open meadow, and lakeside forest., Daytime, Clear and sunny, Spring or Summer",
+    "region": "",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:00",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c7"
+  },
+  {
+   "kind": "lore",
+   "data": {
+    "subject": "Torterra",
+    "fact": "Groups of migrating Torterra are frequently mistaken for moving forests, and smaller Pokémon often live their entire lives on a Torterra's shell.",
+    "episode": "EnlargedKai Nature Mockumentary",
+    "fan_work": true
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:46",
+   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
+   "id": "c8"
+  },
+  {
+   "kind": "style_card",
+   "data": {
+    "name": "EnlargedKai · Life of a Torterra | Pokearth",
+    "narration_voice": "Mature, calm British male reminiscent of David Attenborough nature documentaries.",
+    "narrator_perspective": "Third-person omniscient nature observer.",
+    "pacing": "Slow, methodical, mirroring the subject's behavior.",
+    "music": "Orchestral, ambient, and whimsical nature documentary score with gentle brass, strings, and woodwinds.",
+    "tone": "Warm, educational, lighthearted, and humorous.",
+    "color_and_light": "Vibrant, warm, sunlit photorealistic 3D environment with rich green foliage and natural lighting.",
+    "structure": [
+     "Introduction to Torterra's sedentary lifestyle",
+     "Disturbance by a Combee and awakening",
+     "Herd moving while lazy individual remains",
+     "Trek toward lake water and passenger struggles",
+     "Arrival at the lake and sighting of a potential mate",
+     "Brief courtship chase and failure",
+     "Return to sleep and concluding reflection"
+    ],
+    "shots": [
+     {
+      "at": "00:00",
+      "shot": "High-angle establishing crane shot",
+      "framing": "Wide",
+      "camera_move": "Descends slowly toward ground",
+      "subject": "Resting Torterra herd"
+     },
+     {
+      "at": "00:12",
+      "shot": "Low-angle macro shot",
+      "framing": "Close-up",
+      "camera_move": "Static",
+      "subject": "Sleeping Torterra's face"
+     },
+     {
+      "at": "00:51",
+      "shot": "Aerial flyover shot",
+      "framing": "Extreme wide",
+      "camera_move": "Forward panning flyover",
+      "subject": "Forest canopy"
+     },
+     {
+      "at": "02:11",
+      "shot": "Water level tracking shot",
+      "framing": "Medium",
+      "camera_move": "Lateral tracking",
+      "subject": "Torterra reaching water's edge"
+     },
+     {
+      "at": "03:03",
+      "shot": "Lakeside establishing shot",
+      "framing": "Wide",
+      "camera_move": "Slow pull-back over water",
+      "subject": "Lone Torterra resting by the lake"
+     }
+    ]
+   },
+   "status": "proposed",
+   "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc",
+   "id": "c9"
+  }
+ ],
+ "status": "open",
+ "raw": "canon/inbox/raw/video-youtube-fixqrx2hokc.json"
+}

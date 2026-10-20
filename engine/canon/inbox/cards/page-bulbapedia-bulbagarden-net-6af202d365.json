@@ -1,0 +1,378 @@
+{
+ "id": "page-bulbapedia-bulbagarden-net-6af202d365",
+ "kind": "page",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "platform": "bulbapedia.bulbagarden.net",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime)",
+  "file": null,
+  "key": "6af202d365",
+  "creator": null,
+  "handle": null,
+  "media": "web page",
+  "analysed": "page",
+  "note": "test: Paul's Battle Pyramid (ASK-0014)",
+  "title": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia"
+ },
+ "summary": "This article is a Bulbapedia encyclopedic entry covering Brandon, the chief Frontier Brain and Pyramid King of the Battle Pyramid in the Pokémon anime. It documents his background, battle history against Ash Ketchum and Paul, known Pokémon team members, manga presence, and voice acting credits.",
+ "claims": [
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Regigigas",
+    "aspect": "behavior",
+    "note": "defense and rampage",
+    "context": "Awakened after Pokémon Hunter J destroyed its sealing pillars, rampaging through Snowpoint City and taking control of the legendary giants until calmed when Brandon saved it from petrification."
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > Befriended",
+   "id": "c1"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Regirock",
+    "aspect": "behavior",
+    "note": "defense / social",
+    "context": "Remained at the Snowpoint Temple alongside Regice and Registeel to serve as the new pillars protecting Regigigas."
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pokémon the Series: Diamond and Pearl",
+   "id": "c2"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Registeel",
+    "aspect": "behavior",
+    "note": "defense / social",
+    "context": "Remained at the Snowpoint Temple alongside Regirock and Regice to serve as the new pillars protecting Regigigas."
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pokémon the Series: Diamond and Pearl",
+   "id": "c3"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Regice",
+    "aspect": "behavior",
+    "note": "defense / social",
+    "context": "Remained at the Snowpoint Temple alongside Regirock and Registeel to serve as the new pillars protecting Regigigas."
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pokémon the Series: Diamond and Pearl",
+   "id": "c4"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Regigigas",
+    "aspect": "habitat",
+    "note": "Snowpoint Temple",
+    "region": "Sinnoh"
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > Befriended",
+   "id": "c5"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Brandon",
+    "pokemon": "Regirock",
+    "move": null,
+    "situation": "even",
+    "outcome": "Defeated Ash's Sceptile (while Ash was possessed by the King of Pokélantis) despite type disadvantage.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pokémon the Series: Ruby and Sapphire",
+   "id": "c6"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Brandon",
+    "pokemon": "Registeel",
+    "move": null,
+    "situation": "even",
+    "outcome": "Defeated Ash's Torkoal, though left extremely weak after the match.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c7"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Brandon",
+    "pokemon": "Dusclops",
+    "move": null,
+    "situation": "even",
+    "outcome": "Defeated Ash's Charizard in round one of their 4 vs. 4 rematch.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pokémon the Series: Ruby and Sapphire",
+   "id": "c8"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Ash",
+    "pokemon": "Bulbasaur",
+    "move": "Solar Beam",
+    "situation": "even",
+    "outcome": "Defeated Brandon's Dusclops after a tough battle.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c9"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Ash",
+    "pokemon": "Squirtle",
+    "move": "Skull Bash",
+    "situation": "even",
+    "outcome": "Defeated Brandon's Ninjask.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c10"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Brandon",
+    "pokemon": "Solrock",
+    "move": null,
+    "situation": "even",
+    "outcome": "Defeated Ash's Squirtle.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c11"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Ash / Brandon",
+    "pokemon": "Bulbasaur / Solrock",
+    "move": null,
+    "situation": "even",
+    "outcome": "Bulbasaur and Solrock knocked each other out in a double knockout.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c12"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Ash",
+    "pokemon": "Pikachu",
+    "move": "Iron Tail and Volt Tackle",
+    "situation": "behind",
+    "outcome": "Defeated Brandon's Regice, winning the match and the Brave Symbol for Ash.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c13"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Brandon",
+    "pokemon": "Regirock",
+    "move": null,
+    "situation": "ahead",
+    "outcome": "Easily defeated Paul's Hariyama, Electabuzz, Ursaring, and Magmar during a Full Battle.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c14"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Brandon",
+    "pokemon": "Registeel",
+    "move": null,
+    "situation": "ahead",
+    "outcome": "Withstood Magmar's Fire-type attacks and defeated Paul's Nidoking.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c15"
+  },
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "Brandon",
+    "pokemon": "Regice",
+    "move": null,
+    "situation": "ahead",
+    "outcome": "Battled Ursaring and easily defeated Paul's Lairon.",
+    "battle": "Brandon (anime) - Bulbapedia, the community-driven Pokémon encyclopedia",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c16"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Dusclops",
+    "moves": [
+     "Will-O-Wisp",
+     "Shadow Punch",
+     "Mean Look",
+     "Confuse Ray"
+    ],
+    "generation": 3
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c17"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Ninjask",
+    "moves": [
+     "Aerial Ace",
+     "Sandstorm",
+     "Double Team",
+     "Sand Attack"
+    ],
+    "generation": 3
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c18"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Solrock",
+    "moves": [
+     "Psywave",
+     "Confusion",
+     "Shadow Ball",
+     "Solar Beam"
+    ],
+    "generation": 3
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > On hand",
+   "id": "c19"
+  },
+  {
+   "kind": "build",
+   "data": {
+    "species": "Regigigas",
+    "moves": [
+     "Hyper Beam",
+     "Hammer Arm",
+     "Confuse Ray",
+     "Hidden Power"
+    ],
+    "generation": 4
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > Befriended",
+   "id": "c20"
+  },
+  {
+   "kind": "lore",
+   "data": {
+    "subject": "Brandon",
+    "fact": "Brandon is the Frontier Brain and chief of the Battle Frontier's Battle Pyramid, awarding the Brave Symbol to Trainers who defeat him.",
+    "episode": "Infobox / Lead section"
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ Brandon (anime)",
+   "id": "c21"
+  },
+  {
+   "kind": "lore",
+   "data": {
+    "subject": "Brandon",
+    "fact": "Brandon is the strongest of all Frontier Brains and the first Trainer in the animated series to have officially caught and trained a Legendary Pokémon.",
+    "episode": "Trivia"
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ Trivia",
+   "id": "c22"
+  },
+  {
+   "kind": "lore",
+   "data": {
+    "subject": "Reggie and Paul",
+    "fact": "Brandon defeated Reggie in battle, prompting Reggie to retire from competitive battling to become a Pokémon Breeder, and inspiring Paul's obsession with strength.",
+    "episode": "Pre-series"
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pre-series",
+   "id": "c23"
+  },
+  {
+   "kind": "lore",
+   "data": {
+    "subject": "Battle Pyramid Location",
+    "fact": "Trainers could only discover the location of the Battle Pyramid after acquiring the other six Frontier Symbols.",
+    "episode": "Second Time's the Charm!"
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pokémon the Series: Ruby and Sapphire",
+   "id": "c24"
+  },
+  {
+   "kind": "lore",
+   "data": {
+    "subject": "Battle Frontier Hall of Fame",
+    "fact": "Defeating Brandon earned Ash a place in the Frontier Battle Hall of Fame and an offer to become a Frontier Brain, which Ash declined.",
+    "episode": "Pace - The Final Frontier!"
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > History > Pokémon the Series: Ruby and Sapphire",
+   "id": "c25"
+  },
+  {
+   "kind": "lore",
+   "data": {
+    "subject": "Regigigas and Snowpoint Temple",
+    "fact": "Centuries ago, Regigigas saved Snowpoint City from a volcanic eruption before going to sleep sealed inside Snowpoint Temple.",
+    "episode": "Pillars of Friendship!"
+   },
+   "status": "proposed",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Brandon_(anime) @ In animation > Pokémon > Befriended",
+   "id": "c26"
+  }
+ ],
+ "status": "open",
+ "raw": "canon/inbox/raw/page-bulbapedia-bulbagarden-net-6af202d365.json"
+}
