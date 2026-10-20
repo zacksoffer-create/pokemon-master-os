@@ -1173,7 +1173,9 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 54
+     "level": 54,
+     "marked_by_game": true,
+     "sent_out": "last"
     },
     {
      "species": "Lapras",
@@ -1187,7 +1189,8 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": 52
+     "level": 52,
+     "sent_out": "#3"
     },
     {
      "species": "Golduck",
@@ -1201,7 +1204,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 49
+     "level": 49,
+     "sent_out": "lead"
     },
     {
      "species": "Quagsire",
@@ -1215,7 +1219,8 @@
      },
      "helpers": [],
      "role": "weather setter",
-     "level": 49
+     "level": 49,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1446,11 +1451,27 @@
    ],
    "offense_authored": 65,
    "offense_measured": 42,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [
    "rain"
   ],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [],
    "ace": [

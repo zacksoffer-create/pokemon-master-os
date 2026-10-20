@@ -938,9 +938,13 @@ class TrainerPlaysheet(unittest.TestCase):
                 t.career = saved
 
     def test_the_ace_shows_story_and_data_when_they_differ(self):
-        a = self.paul["playsheet"]["ace"]
+        from trainers.model import Store
+        store = Store()                                                # a story ace the team doesn't back
+        store.trainers["paul"].versions["sinnoh"].overrides["ace"] = "Electivire"
+        paul = self.report(store, "paul")
+        a = paul["playsheet"]["ace"]
         self.assertEqual((a["authored"], a["derived"], a["agree"]), ("Electivire", "Torterra", False))
-        line = self.paul["playsheet"]["text"]["ace"][0]["text"]
+        line = paul["playsheet"]["text"]["ace"][0]["text"]
         self.assertTrue("Electivire" in line and "Torterra" in line)
         red = self.report(self.store, "red")["playsheet"]["ace"]
         self.assertEqual((red["derived"], red["agree"]), ("Pikachu", True))    # the Lv 88 Pikachu
@@ -973,7 +977,7 @@ class TrainerPlaysheet(unittest.TestCase):
         rules = {r["id"]: r for r in __import__("json").load(open(os.path.join(ENGINE, "trainers", "phrases.json")))["playsheet"]}
         for cid in ids:
             self.assertTrue(any(["combos", "has", cid] in r["when"] for r in rules.values()), cid)
-        self.assertEqual([c["id"] for c in self.paul["playsheet"]["combos"]], ["baton_chain"])
+        self.assertNotIn("baton_chain", [c["id"] for c in self.paul["playsheet"]["combos"]])   # Bulbapedia: no Baton Pass
         me = self.report(self.store, "me", "heartgold")["playsheet"]["combos"]
         self.assertEqual([(c["id"], c["members"]) for c in me], [("dd_priority", ["Tyranitar"])])
         B = lambda sp, moves, **k: Build(id=f"t/{sp}", species=sp, moves=moves, **k)
@@ -982,12 +986,13 @@ class TrainerPlaysheet(unittest.TestCase):
                 B("Bronzong", ["Trick Room", "Gyro Ball", "Earthquake", "Explosion"], ivs={"spe": 0}),
                 B("Snorlax", ["Rest", "Sleep Talk", "Body Slam", "Earthquake"]),
                 B("Skarmory", ["Spikes", "Whirlwind", "Roost", "Toxic"]),
-                B("Breloom", ["Substitute", "Focus Punch", "Spore", "Seed Bomb"])]
+                B("Breloom", ["Substitute", "Focus Punch", "Spore", "Seed Bomb"]),
+                B("Ninjask", ["Swords Dance", "Baton Pass", "Protect", "X-Scissor"], ability="Speed Boost")]
         version = Version(id="t", trainer="me", title="t", game="platinum", team_ref={})
         book = RoleBook(self.store)
         reads, weather = read_team(book, version, team)
         found = {c["id"] for c in combos(self.store, book, reads, weather)}
-        self.assertTrue({"rain_swift_thunder", "sleep_absorb", "hazards_phaze", "sub_punch"} <= found, found)
+        self.assertTrue({"rain_swift_thunder", "sleep_absorb", "hazards_phaze", "sub_punch", "baton_chain"} <= found, found)
 
     def test_aggression_ratio_against_the_offense_slider(self):
         brock = self.report(self.store, "brock")["playsheet"]["aggression"]
@@ -1502,12 +1507,23 @@ class FakeWiki:
 
 
 class BulbapediaResearch(unittest.TestCase):
-    """The ASK list answered from Bulbapedia's page source (ingest/bulbapedia.py), exactly where it's structured."""
-    @classmethod
-    def setUpClass(cls):
+    """The ASK list answered from Bulbapedia's page source (ingest/bulbapedia.py), exactly where it's structured.
+    The builds and signature moves are set here, as they stood before research (canon has moved on since)."""
+    def setUp(self):
         from ingest.cards import load_config
         from trainers.model import Store
-        cls.cfg, cls.store = load_config(), Store()
+        self.cfg, self.store = load_config(), Store()
+        lib = self.store.library
+        lib["paul-sinnoh/torterra"].moves = ["Leaf Storm", "Earthquake", "Hyper Beam", "Stone Edge"]
+        lib["paul-sinnoh/torterra"].status = "proposed"
+        lib["paul-sinnoh/ninjask"].moves = ["Agility", "Double Team", "Baton Pass", "Fury Cutter"]
+        lib["paul-sinnoh/ninjask"].ability = None
+        lib["paul-sinnoh/ninjask"].status = "proposed"
+        v = self.store.trainers["paul"].versions["sinnoh"]
+        v.signature_moves = [{"pokemon": "Torterra", "move": "Leaf Storm", "why": "x", "status": "proposed"},
+                             {"pokemon": "Electivire", "move": "Giga Impact", "why": "x", "status": "proposed"},
+                             {"pokemon": "Ninjask", "move": "Baton Pass", "why": "x", "status": "proposed"}]
+        v.overrides["ace"] = "Electivire"
 
     def test_reading_wikitext(self):
         from ingest.bulbapedia import abilities_of, anmov, known_moves, mentions, path, plain, trainer_poke

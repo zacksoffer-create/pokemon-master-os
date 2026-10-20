@@ -5,11 +5,11 @@
 | Slider | Authored | Team reads | Note |
 |---|---|---|---|
 | Offense (defensive ↔ offensive) | 55 (offensive) | 66 | showy attacks first |
-| Rigidity (flexible ↔ rigid) | 30 (flexible) | 83 | reads rigid |
+| Rigidity (flexible ↔ rigid) | 30 (flexible) | 67 | reads rigid |
 | Bond (tool ↔ partnership) | 85 (partnership) | no signal | raised most of them from the start |
 | Risk (percentage player ↔ gambler) | 55 (gambler) | 33 | will try a flashy long shot |
 
-**Tags:** Multi-Region Traveler (Hoenn, Kanto, Johto and Sinnoh)
+**Tags:** Cohesive (Tackle) · Multi-Region Traveler (Hoenn, Kanto, Johto and Sinnoh)
 
 ## Who they are
 
@@ -18,8 +18,9 @@
 
 ## What to expect
 
+- Cohesive: Tackle on Venusaur, Munchlax and Skitty. They share their tools, so one answer covers several of them.
 - Their attacks split between physical and special (10 physical, 10 special).
-- Called flexible (30), but this team reads rigid (83): low move-type variety: Blaziken, Venusaur, Wartortle, Beautifly and Skitty.
+- Called flexible (30), but this team reads rigid (67): low move-type variety: Blaziken, Venusaur, Beautifly and Skitty.
 
 ## How to beat them
 
@@ -61,7 +62,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## Career
 
 - May has competed across 4 regions (Hoenn, Kanto, Johto and Sinnoh): expect answers built against a wide field.
-- Recent record: Kanto Grand Festival: Top 8 (draft: confirm the round); Johto Grand Festival: competed (draft: confirm the result); Wallace Cup: runner-up (lost to Dawn).
+- Recent record: Kanto Grand Festival: Top 4 (AG182, Channeling the Battle Zone!); Johto Grand Festival: competed (draft: confirm the result); Wallace Cup: runner-up (lost to Dawn).
 
 ## The ace
 
@@ -81,21 +82,21 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 |---|---|---|
 | Bug | Flamethrower (Blaziken, 133) | 0 |
 | Dark | Focus Punch (Munchlax, 150) | 0 |
-| Dragon | Blizzard (Skitty, 73) | 0 |
+| Dragon | Ice Beam (Wartortle, 95) | 0 |
 | Electric | **none** | 2 |
 | Fighting | Gust (Beautifly, 60) | 2 |
-| Fire | Aqua Tail (Wartortle, 119) | 2 |
-| Flying | Blizzard (Skitty, 73) | 3 |
+| Fire | Water Gun (Wartortle, 60) | 2 |
+| Flying | Ice Beam (Wartortle, 95) | 3 |
 | Ghost | **none** | 0 |
 | Grass | Flamethrower (Blaziken, 133) | 1 |
-| Ground | Solar Beam (Venusaur, 300) | 1 |
+| Ground | Petal Dance (Venusaur, 135) | 1 |
 | Ice | Focus Punch (Munchlax, 150) | 2 |
 | Normal | Focus Punch (Munchlax, 150) | 0 |
 | Poison | **none** | 0 |
 | Psychic | Silver Wind (Beautifly, 90) | 2 |
-| Rock | Solar Beam (Venusaur, 300) | 1 |
+| Rock | Focus Punch (Munchlax, 150) | 1 |
 | Steel | Focus Punch (Munchlax, 150) | 0 |
-| Water | Solar Beam (Venusaur, 300) | 1 |
+| Water | Petal Dance (Venusaur, 135) | 1 |
 
 ## Combos to watch
 
@@ -107,7 +108,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## How aggressive the moveset is
 
-- 88% of their moves finish or set up (7 of 8); the rest wear you down.
+- 86% of their moves finish or set up (6 of 7); the rest wear you down.
 - The moveset reads more offensive than the slider's 55: trust the moves.
 
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Cute Charm (could be Normalize); ability Pickup (could be Thick Fat); neutral nature.*

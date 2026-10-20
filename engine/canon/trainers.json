@@ -144,13 +144,13 @@
        "pokemon": "Pikachu",
        "move": "Thunderbolt",
        "why": "his calling card from the first episode",
-       "status": "proposed"
+       "status": "confirmed"
       },
       {
        "pokemon": "Bulbasaur",
        "move": "Vine Whip",
        "why": "the move that does everything",
-       "status": "proposed"
+       "status": "confirmed"
       }
      ]
     },
@@ -196,7 +196,7 @@
        "pokemon": "Pikachu",
        "move": "Volt Tackle",
        "why": "learned at the Battle Frontier; his finisher by Sinnoh",
-       "status": "proposed"
+       "status": "confirmed"
       },
       {
        "pokemon": "Infernape",
@@ -208,7 +208,7 @@
        "pokemon": "Staraptor",
        "move": "Brave Bird",
        "why": "the all-in strike",
-       "status": "proposed"
+       "status": "confirmed"
       }
      ]
     },
@@ -260,7 +260,7 @@
        "pokemon": "Pikachu",
        "move": "Thunderbolt",
        "why": "the calling card",
-       "status": "proposed"
+       "status": "confirmed"
       },
       {
        "pokemon": "Pikachu",
@@ -272,13 +272,13 @@
        "pokemon": "Charizard",
        "move": "Seismic Toss",
        "why": "the grappling throw that beat the Orange League",
-       "status": "proposed"
+       "status": "confirmed"
       },
       {
        "pokemon": "Sceptile",
        "move": "Leaf Blade",
        "why": "the twig-chewing blade",
-       "status": "proposed"
+       "status": "confirmed"
       }
      ]
     }
@@ -512,7 +512,7 @@
        "pokemon": "Blastoise",
        "move": "Hydro Pump",
        "why": "the Silver Conference duel with Charizard",
-       "status": "proposed"
+       "status": "confirmed"
       }
      ]
     },
@@ -558,12 +558,12 @@
      "region": "Kanto",
      "event": "Indigo Plateau Conference",
      "kind": "league",
-     "result": "out before the Top 16 (draft: confirm the round)",
+     "result": "Top 32 (EP077, The Fourth Round Rumble)",
      "versions": [
       "johto"
      ],
      "source": "anime",
-     "status": "draft: confirm"
+     "status": "approved"
     },
     {
      "region": "Johto",
@@ -663,11 +663,11 @@
        "pokemon": "Ninjask",
        "move": "Baton Pass",
        "why": "passing Speed boosts down the line",
-       "status": "proposed"
+       "status": "not on Bulbapedia's list"
       }
      ],
      "overrides": {
-      "ace": "Electivire"
+      "ace": "Torterra"
      }
     }
    },
@@ -864,9 +864,9 @@
      "region": "Kanto",
      "event": "Kanto Grand Festival",
      "kind": "contest",
-     "result": "Top 8 (draft: confirm the round)",
+     "result": "Top 4 (AG182, Channeling the Battle Zone!)",
      "source": "anime",
-     "status": "draft: confirm"
+     "status": "approved"
     },
     {
      "region": "Johto",
@@ -932,7 +932,7 @@
        "pokemon": "Piplup",
        "move": "Bubble Beam",
        "why": "the first appeal she ever built",
-       "status": "proposed"
+       "status": "confirmed"
       },
       {
        "pokemon": "Togekiss",
@@ -944,7 +944,7 @@
        "pokemon": "Mamoswine",
        "move": "Ice Shard",
        "why": "the combination with Ancient Power",
-       "status": "proposed"
+       "status": "confirmed"
       }
      ]
     }

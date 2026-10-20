@@ -60,33 +60,31 @@
   "rigidity": {
    "authored": 30,
    "why": "contest combos: creative and changing",
-   "measured": 83,
+   "measured": 67,
    "signals": [
     {
      "signal": "few_attack_types",
      "label": "low move-type variety",
-     "value": 83,
+     "value": 67,
      "members": [
       "Blaziken",
       "Venusaur",
-      "Wartortle",
       "Beautifly",
       "Skitty"
      ]
     }
    ],
    "disagreement": {
-    "gap": 53,
+    "gap": 37,
     "team_leans": "rigid",
     "because": [
      {
       "signal": "few_attack_types",
       "label": "low move-type variety",
-      "value": 83,
+      "value": 67,
       "members": [
        "Blaziken",
        "Venusaur",
-       "Wartortle",
        "Beautifly",
        "Skitty"
       ]
@@ -132,6 +130,20 @@
   }
  },
  "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Tackle"
+   ],
+   "members": {
+    "Tackle": [
+     "Venusaur",
+     "Munchlax",
+     "Skitty"
+    ]
+   }
+  },
   {
    "id": "multi_region",
    "name": "Multi-Region Traveler",
@@ -402,17 +414,12 @@
      "neutral nature"
     ],
     "moves": [
-     "Solar Beam",
      "Vine Whip",
      "Razor Leaf",
-     "Frenzy Plant"
+     "Petal Dance",
+     "Tackle"
     ],
     "move_basis": [
-     {
-      "move": "Solar Beam",
-      "basis": "this game",
-      "reason": "learns it in Platinum (level 53, as Venusaur)"
-     },
      {
       "move": "Vine Whip",
       "basis": "this game",
@@ -424,9 +431,14 @@
       "reason": "learns it in Platinum (level 20, as Venusaur)"
      },
      {
-      "move": "Frenzy Plant",
+      "move": "Petal Dance",
       "basis": "this game",
-      "reason": "learns it in Platinum (tutor, as Venusaur)"
+      "reason": "learns it in Platinum (level 32, as Venusaur)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Venusaur)"
      }
     ],
     "flags": [],
@@ -535,7 +547,7 @@
      "Water Gun",
      "Rapid Spin",
      "Bubble",
-     "Aqua Tail"
+     "Ice Beam"
     ],
     "move_basis": [
      {
@@ -554,9 +566,9 @@
       "reason": "learns it in Platinum (level 1, as Wartortle)"
      },
      {
-      "move": "Aqua Tail",
+      "move": "Ice Beam",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 32, as Wartortle)"
+      "reason": "learns it in Platinum (machine, as Wartortle)"
      }
     ],
     "flags": [],
@@ -1242,13 +1254,19 @@
   "expect": [
    {
     "section": "expect",
+    "text": "Cohesive: Tackle on Venusaur, Munchlax and Skitty. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
     "text": "Their attacks split between physical and special (10 physical, 10 special).",
     "rule": "side_mixed",
     "trigger": "their_side == mixed (here mixed)"
    },
    {
     "section": "expect",
-    "text": "Called flexible (30), but this team reads rigid (83): low move-type variety: Blaziken, Venusaur, Wartortle, Beautifly and Skitty.",
+    "text": "Called flexible (30), but this team reads rigid (67): low move-type variety: Blaziken, Venusaur, Beautifly and Skitty.",
     "rule": "disagree_rigidity",
     "trigger": "disagree_rigidity nonempty"
    }
@@ -1305,9 +1323,9 @@
      "region": "Kanto",
      "event": "Kanto Grand Festival",
      "kind": "contest",
-     "result": "Top 8 (draft: confirm the round)",
+     "result": "Top 4 (AG182, Channeling the Battle Zone!)",
      "source": "anime",
-     "status": "draft: confirm"
+     "status": "approved"
     },
     {
      "region": "Johto",
@@ -1382,7 +1400,7 @@
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.62, solid): Sp. Atk 257 (above 77% of the field); attacking moves: Solar Beam, Vine Whip, Razor Leaf, Frenzy Plant; overall bulk above 66% of the field"
+    "why": "bulky attacker (0.62, solid): Sp. Atk 257 (above 77% of the field); attacking moves: Vine Whip, Razor Leaf, Petal Dance; overall bulk above 66% of the field"
    },
    {
     "species": "Wartortle",
@@ -1393,18 +1411,18 @@
      "family": "support",
      "score": 0.715,
      "confidence": "strong",
-     "margin": 0.3605,
+     "margin": 0.3211,
      "clear": true
     },
     "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.3545,
+     "score": 0.3939,
      "confidence": "loose"
     },
     "also": [],
-    "why": "hazard remover (0.71, strong): Rapid Spin; attacking moves: Water Gun, Aqua Tail; Water (Torrent)"
+    "why": "hazard remover (0.71, strong): Rapid Spin; attacking moves: Water Gun, Ice Beam; Water (Torrent)"
    },
    {
     "species": "Munchlax",
@@ -1479,7 +1497,8 @@
       "Wartortle"
      ],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Beautifly",
@@ -1494,7 +1513,8 @@
       "Wartortle"
      ],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Skitty",
@@ -1509,7 +1529,8 @@
       "Wartortle"
      ],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Munchlax",
@@ -1524,7 +1545,8 @@
       "Wartortle"
      ],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Venusaur",
@@ -1539,20 +1561,22 @@
       "Wartortle"
      ],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Wartortle",
      "slot": 3,
-     "score": 0.436,
+     "score": 0.487,
      "parts": {
       "support": 0.0,
-      "coverage": 0.176,
+      "coverage": 0.353,
       "role": 0.9
      },
      "helpers": [],
      "role": "hazard remover",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     }
    ]
   },
@@ -1600,10 +1624,10 @@
     {
      "type": "Dragon",
      "covered": true,
-     "move": "Blizzard",
-     "member": "Skitty",
+     "move": "Ice Beam",
+     "member": "Wartortle",
      "move_type": "Ice",
-     "power": 73,
+     "power": 95,
      "their_weak_to_it": 0
     },
     {
@@ -1627,19 +1651,19 @@
     {
      "type": "Fire",
      "covered": true,
-     "move": "Aqua Tail",
+     "move": "Water Gun",
      "member": "Wartortle",
      "move_type": "Water",
-     "power": 119,
+     "power": 60,
      "their_weak_to_it": 2
     },
     {
      "type": "Flying",
      "covered": true,
-     "move": "Blizzard",
-     "member": "Skitty",
+     "move": "Ice Beam",
+     "member": "Wartortle",
      "move_type": "Ice",
-     "power": 73,
+     "power": 95,
      "their_weak_to_it": 3
     },
     {
@@ -1663,10 +1687,10 @@
     {
      "type": "Ground",
      "covered": true,
-     "move": "Solar Beam",
+     "move": "Petal Dance",
      "member": "Venusaur",
      "move_type": "Grass",
-     "power": 300,
+     "power": 135,
      "their_weak_to_it": 1
     },
     {
@@ -1708,10 +1732,10 @@
     {
      "type": "Rock",
      "covered": true,
-     "move": "Solar Beam",
-     "member": "Venusaur",
-     "move_type": "Grass",
-     "power": 300,
+     "move": "Focus Punch",
+     "member": "Munchlax",
+     "move_type": "Fighting",
+     "power": 150,
      "their_weak_to_it": 1
     },
     {
@@ -1726,10 +1750,10 @@
     {
      "type": "Water",
      "covered": true,
-     "move": "Solar Beam",
+     "move": "Petal Dance",
      "member": "Venusaur",
      "move_type": "Grass",
-     "power": 300,
+     "power": 135,
      "their_weak_to_it": 1
     }
    ],
@@ -1768,16 +1792,15 @@
    }
   ],
   "aggression": {
-   "ratio": 88,
-   "finishers": 7,
+   "ratio": 86,
+   "finishers": 6,
    "attrition": 1,
    "finisher_moves": [
     "Blaze Kick (Blaziken)",
     "Sky Uppercut (Blaziken)",
     "Flamethrower (Blaziken)",
-    "Solar Beam (Venusaur)",
-    "Frenzy Plant (Venusaur)",
-    "Aqua Tail (Wartortle)",
+    "Petal Dance (Venusaur)",
+    "Ice Beam (Wartortle)",
     "Silver Wind (Beautifly)"
    ],
    "attrition_moves": [
@@ -1786,12 +1809,28 @@
    "offense_authored": 55,
    "offense_measured": 66,
    "flag": {
-    "gap": 33,
+    "gap": 31,
     "leans": "offensive",
     "part1_flags_it": false
-   }
+   },
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
@@ -1802,7 +1841,7 @@
     },
     {
      "section": "career",
-     "text": "Recent record: Kanto Grand Festival: Top 8 (draft: confirm the round); Johto Grand Festival: competed (draft: confirm the result); Wallace Cup: runner-up (lost to Dawn).",
+     "text": "Recent record: Kanto Grand Festival: Top 4 (AG182, Channeling the Battle Zone!); Johto Grand Festival: competed (draft: confirm the result); Wallace Cup: runner-up (lost to Dawn).",
      "rule": "career_record",
      "trigger": "record_str nonempty"
     }
@@ -1862,9 +1901,9 @@
    "aggression": [
     {
      "section": "aggression",
-     "text": "88% of their moves finish or set up (7 of 8); the rest wear you down.",
+     "text": "86% of their moves finish or set up (6 of 7); the rest wear you down.",
      "rule": "aggr",
-     "trigger": "aggression != None (here 88)"
+     "trigger": "aggression != None (here 86)"
     },
     {
      "section": "aggression",

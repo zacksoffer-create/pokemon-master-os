@@ -1,0 +1,37 @@
+{
+ "id": "research-bulbapedia-cynthia-champion-platinum",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Champion Cynthia (Platinum)",
+  "url": null,
+  "pages": [],
+  "asks": [
+   "ASK-0027"
+  ],
+  "unresolved": [],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "1 answer(s) for 1 open question(s) on Champion Cynthia (Platinum), from Bulbapedia.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.cynthia.versions.champion-platinum.overrides.ace",
+    "value": "Garchomp",
+    "was": "Garchomp",
+    "why": "the game marks it: the only Lv 62 on the team, sent out last (Spiritomb 58 → Roserade 58 → Togekiss 60 → Lucario 60 → Milotic 58 → Garchomp 62)"
+   },
+   "status": "applied",
+   "confidence": "HIGH",
+   "source_ref": "pret data (the cartridge's own party)",
+   "note": "ASK-0027: confirms the authored ace (Garchomp)",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.cynthia.versions.champion-platinum.overrides.ace: \"Garchomp\" → \"Garchomp\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

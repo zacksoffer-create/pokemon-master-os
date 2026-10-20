@@ -170,33 +170,21 @@
     "moment": "the Sinnoh Grand Festival"
    }
   },
-  "_battles_note": "The battle each rival version is remembered for, and how to find the order its Pokémon came out in: sentences on the Pokémon's page (its era's history) or the trainer page entry that give an ordinal ('the fifth Pokémon used'), name one of the words and the opponent.",
- "battles": {
+  "_battles_note": "The battle each rival version is remembered for, and how to find the order its Pokémon came out in: sentences on the Pokémon's page (its era's history) or the trainer page entry that give an ordinal ('the fifth Pokémon used'), name one of the words and the opponent. The words must name that battle alone ('Full Battle' also matches Ash and Paul's earlier one at Lake Acuity).",
+  "battles": {
    "paul/sinnoh": {
     "label": "the Lily of the Valley Conference full battle against Ash",
-    "words": [
-     "Lily of the Valley",
-     "quarterfinal",
-     "Full Battle"
-    ],
+    "words": ["Lily of the Valley", "quarterfinal"],
     "against": "Ash"
    },
    "ash/sinnoh": {
     "label": "the Lily of the Valley Conference full battle against Paul",
-    "words": [
-     "Lily of the Valley",
-     "quarterfinal",
-     "Full Battle"
-    ],
+    "words": ["Lily of the Valley", "quarterfinal"],
     "against": "Paul"
    },
    "gary/johto": {
     "label": "the Silver Conference full battle against Ash",
-    "words": [
-     "Silver Conference",
-     "Full Battle",
-     "full battle"
-    ],
+    "words": ["Silver Conference"],
     "against": "Ash"
    }
   },

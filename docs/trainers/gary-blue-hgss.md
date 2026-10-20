@@ -67,7 +67,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## The ace
 
-- Ace: Rhydon (set up by Exeggutor, the widest coverage and a wallbreaker).
+- Ace: Pidgeot (the highest level (60) and a phazer).
 
 ## Who they go to
 

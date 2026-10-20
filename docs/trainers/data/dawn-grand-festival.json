@@ -106,13 +106,14 @@
   "rigidity": {
    "authored": 30,
    "why": "contest combos: creative and changing",
-   "measured": 33,
+   "measured": 50,
    "signals": [
     {
      "signal": "few_attack_types",
      "label": "low move-type variety",
-     "value": 33,
+     "value": 50,
      "members": [
+      "Togekiss",
       "Pachirisu",
       "Ambipom"
      ]
@@ -138,16 +139,15 @@
   "risk": {
    "authored": 50,
    "why": "\"No need to worry!\"",
-   "measured": 50,
+   "measured": 33,
    "signals": [
     {
      "signal": "risky",
      "label": "carries a gamble",
-     "value": 50,
+     "value": 33,
      "members": [
       "Piplup",
-      "Mamoswine",
-      "Ambipom"
+      "Mamoswine"
      ]
     }
    ],
@@ -420,8 +420,8 @@
     "moves": [
      "Aura Sphere",
      "Air Slash",
-     "Magical Leaf",
-     "Yawn"
+     "Sky Attack",
+     "Safeguard"
     ],
     "move_basis": [
      {
@@ -435,14 +435,14 @@
       "reason": "learns it in Platinum (level 1, as Togekiss)"
      },
      {
-      "move": "Magical Leaf",
+      "move": "Sky Attack",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 1, as Togetic)"
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
      },
      {
-      "move": "Yawn",
+      "move": "Safeguard",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 15, as Togetic)"
+      "reason": "learns it in Platinum (machine, as Togekiss)"
      }
     ],
     "flags": [],
@@ -820,8 +820,7 @@
     "moves": [
      "Ice Beam",
      "Dizzy Punch",
-     "Bounce",
-     "Jump Kick"
+     "Bounce"
     ],
     "move_basis": [
      {
@@ -838,11 +837,6 @@
       "move": "Bounce",
       "basis": "this game",
       "reason": "learns it in Platinum (level 46, as Buneary)"
-     },
-     {
-      "move": "Jump Kick",
-      "basis": "this game",
-      "reason": "learns it in Platinum (level 23, as Buneary)"
      }
     ],
     "flags": [],
@@ -952,7 +946,7 @@
      "Double Hit",
      "Focus Punch",
      "Swift",
-     "Fury Swipes"
+     "Double Team"
     ],
     "move_basis": [
      {
@@ -971,9 +965,9 @@
       "reason": "learns it in Platinum (level 22, as Ambipom)"
      },
      {
-      "move": "Fury Swipes",
+      "move": "Double Team",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 18, as Ambipom)"
+      "reason": "learns it in Platinum (machine, as Ambipom)"
      }
     ],
     "flags": [],
@@ -1258,7 +1252,7 @@
   "expect": [
    {
     "section": "expect",
-    "text": "Their attacks split between physical and special (12 physical, 10 special).",
+    "text": "Their attacks split between physical and special (11 physical, 9 special).",
     "rule": "side_mixed",
     "trigger": "their_side == mixed (here mixed)"
    },
@@ -1298,7 +1292,7 @@
   "gap": [
    {
     "section": "gap",
-    "text": "Even playing the percentages, they carry gambles: Piplup's Whirlpool (70%); Mamoswine's Take Down (recoil); Ambipom's Fury Swipes (80%).",
+    "text": "Even playing the percentages, they carry gambles: Piplup's Whirlpool (70%); Mamoswine's Take Down (recoil).",
     "rule": "gamble_anyway",
     "trigger": "risk_band != high (here mid); gamble_str nonempty"
    }
@@ -1352,23 +1346,23 @@
     "species": "Togekiss",
     "nickname": null,
     "primary": {
-     "role": "phazer",
-     "name": "phazer",
-     "family": "support",
-     "score": 0.7338,
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.658,
      "confidence": "strong",
-     "margin": 0.0457,
+     "margin": 0.0428,
      "clear": false
     },
     "secondary": {
-     "role": "status_spreader",
-     "name": "status spreader",
-     "family": "support",
-     "score": 0.6881,
-     "confidence": "strong"
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6152,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "phazer (0.73, strong): Yawn; overall bulk above 85% of the field"
+    "why": "bulky attacker (0.66, strong): Sp. Atk 297 (above 91% of the field); overall bulk above 85% of the field; attacking moves: Aura Sphere, Air Slash, Sky Attack"
    },
    {
     "species": "Mamoswine",
@@ -1415,14 +1409,14 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.4123,
+     "score": 0.3304,
      "confidence": "loose",
-     "margin": 0.4123,
+     "margin": 0.3304,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.41, loose): Dizzy Punch (105); attacks that use its better attacking stat: Dizzy Punch, Jump Kick; strong attacks (effective power 90+, with the stat it uses): Dizzy Punch"
+    "why": "wallbreaker (0.33, loose): Dizzy Punch (105); strong attacks (effective power 90+, with the stat it uses): Dizzy Punch; attacks that use its better attacking stat: Dizzy Punch"
    },
    {
     "species": "Ambipom",
@@ -1431,40 +1425,27 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.5823,
+     "score": 0.521,
      "confidence": "solid",
-     "margin": 0.0983,
+     "margin": 0.1084,
      "clear": true
     },
     "secondary": {
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.484,
+     "score": 0.4126,
      "confidence": "loose"
     },
     "also": [],
-    "why": "wallbreaker (0.58, solid): strong attacks (effective power 90+, with the stat it uses): Double Hit, Swift, Fury Swipes; Double Hit (142); Attack 257 (above 70% of the field)"
+    "why": "wallbreaker (0.52, solid): strong attacks (effective power 90+, with the stat it uses): Double Hit, Swift; Double Hit (142); Attack 257 (above 70% of the field)"
    }
   ],
   "ace": {
-   "derived": "Buneary",
+   "derived": "Ambipom",
    "authored": null,
    "agree": true,
    "ranking": [
-    {
-     "species": "Buneary",
-     "slot": 5,
-     "score": 0.537,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.529,
-      "role": 0.9
-     },
-     "helpers": [],
-     "role": "wallbreaker",
-     "level": null
-    },
     {
      "species": "Ambipom",
      "slot": 6,
@@ -1476,7 +1457,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Mamoswine",
@@ -1489,7 +1471,36 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Buneary",
+     "slot": 5,
+     "score": 0.453,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Togekiss",
+     "slot": 2,
+     "score": 0.434,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Pachirisu",
@@ -1502,7 +1513,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Piplup",
@@ -1515,20 +1527,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
-    },
-    {
-     "species": "Togekiss",
-     "slot": 2,
-     "score": 0.297,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.588,
-      "role": 0.3
-     },
-     "helpers": [],
-     "role": "phazer",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     }
    ]
   },
@@ -1547,9 +1547,9 @@
    },
    "behind": {
     "label": "gambit",
-    "species": "Ambipom",
+    "species": "Togekiss",
     "role": "wallbreaker",
-    "fit": 0.524,
+    "fit": 0.489,
     "last_resorts": []
    }
   },
@@ -1558,10 +1558,10 @@
     {
      "type": "Bug",
      "covered": true,
-     "move": "Air Slash",
+     "move": "Sky Attack",
      "member": "Togekiss",
      "move_type": "Flying",
-     "power": 107,
+     "power": 143,
      "their_weak_to_it": 0
     },
     {
@@ -1594,10 +1594,10 @@
     {
      "type": "Fighting",
      "covered": true,
-     "move": "Air Slash",
+     "move": "Sky Attack",
      "member": "Togekiss",
      "move_type": "Flying",
-     "power": 107,
+     "power": 143,
      "their_weak_to_it": 3
     },
     {
@@ -1630,10 +1630,10 @@
     {
      "type": "Grass",
      "covered": true,
-     "move": "Air Slash",
+     "move": "Sky Attack",
      "member": "Togekiss",
      "move_type": "Flying",
-     "power": 107,
+     "power": 143,
      "their_weak_to_it": 2
     },
     {
@@ -1731,7 +1731,7 @@
     "pokemon": "Piplup",
     "move": "Bubble Beam",
     "why": "the first appeal she ever built",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    },
@@ -1747,15 +1747,15 @@
     "pokemon": "Mamoswine",
     "move": "Ice Shard",
     "why": "the combination with Ancient Power",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    }
   ],
   "aggression": {
-   "ratio": 86,
-   "finishers": 12,
-   "attrition": 2,
+   "ratio": 91,
+   "finishers": 10,
+   "attrition": 1,
    "finisher_moves": [
     "Bubble Beam (Piplup)",
     "Bide (Piplup)",
@@ -1765,24 +1765,37 @@
     "Discharge (Pachirisu)",
     "Spark (Pachirisu)",
     "Dizzy Punch (Buneary)",
-    "Jump Kick (Buneary)",
     "Double Hit (Ambipom)",
-    "Swift (Ambipom)",
-    "Fury Swipes (Ambipom)"
+    "Swift (Ambipom)"
    ],
    "attrition_moves": [
-    "Yawn (Togekiss)",
     "Sweet Kiss (Pachirisu)"
    ],
    "offense_authored": 50,
    "offense_measured": 89,
    "flag": {
-    "gap": 36,
+    "gap": 41,
     "leans": "offensive",
     "part1_flags_it": true
-   }
+   },
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
@@ -1795,7 +1808,7 @@
    "ace": [
     {
      "section": "ace",
-     "text": "Ace: Buneary (a wallbreaker).",
+     "text": "Ace: Ambipom (a wallbreaker).",
      "rule": "ace_derived",
      "trigger": "always"
     }
@@ -1815,7 +1828,7 @@
     },
     {
      "section": "go_to",
-     "text": "Behind: they turn to Ambipom (wallbreaker).",
+     "text": "Behind: they turn to Togekiss (wallbreaker).",
      "rule": "goto_behind",
      "trigger": "one_for_all empty"
     }
@@ -1853,9 +1866,9 @@
    "aggression": [
     {
      "section": "aggression",
-     "text": "86% of their moves finish or set up (12 of 14); the rest wear you down.",
+     "text": "91% of their moves finish or set up (10 of 11); the rest wear you down.",
      "rule": "aggr",
-     "trigger": "aggression != None (here 86)"
+     "trigger": "aggression != None (here 91)"
     },
     {
      "section": "aggression",

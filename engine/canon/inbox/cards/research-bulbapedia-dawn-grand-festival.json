@@ -1,0 +1,219 @@
+{
+ "id": "research-bulbapedia-dawn-grand-festival",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Dawn (Sinnoh Grand Festival era)",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Ambipom",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Ambipom",
+   "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Buneary",
+   "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Mamoswine",
+   "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Pachirisu",
+   "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Piplup",
+   "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Togekiss"
+  ],
+  "asks": [
+   "ASK-0023",
+   "ASK-0024",
+   "ASK-0025",
+   "ASK-0064",
+   "ASK-0065",
+   "ASK-0066",
+   "ASK-0067",
+   "ASK-0068",
+   "ASK-0069"
+  ],
+  "unresolved": [
+   "ASK-0024: Togekiss's Aura Sphere is on its list but the history doesn't single it out (named 0×; Aura Sphere 0, Sky Attack 0, Air Slash 0, Safeguard 0)"
+  ],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "9 answer(s) for 9 open question(s) on Dawn (Sinnoh Grand Festival era), from Bulbapedia; 1 not settled.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.dawn.versions.grand-festival.signature_moves.0.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Bubble Beam is named 14× in Piplup's history for this era, #1 of its moves (Bubble Beam 14, Whirlpool 12, Peck 8, Bide 8, Hydro Pump 1); first used DP001."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Piplup",
+   "note": "ASK-0023: confirmed",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.dawn.versions.grand-festival.signature_moves.0.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.dawn.versions.grand-festival.signature_moves.2.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Ice Shard is named 3× in Mamoswine's history for this era, #1 of its moves (Ice Shard 3, Ancient Power 1, Hidden Power 1, Take Down 1, Dig 0); first used DP084."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Mamoswine",
+   "note": "ASK-0025: confirmed",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.dawn.versions.grand-festival.signature_moves.2.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.dawn-grand-festival/piplup.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Bubble Beam (DP001, recent, named 14×), Peck (DP001, named 8×), Bide (DP001, named 8×), Whirlpool (DP026, recent, named 12×), Hydro Pump (DP164, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Piplup",
+   "note": "ASK-0064: proposed Bubble Beam, Peck, Whirlpool, Bide",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.dawn-grand-festival/piplup.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.dawn-grand-festival/piplup.ability",
+    "value": "Torrent",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Torrent."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Piplup",
+   "note": "ASK-0064: ability",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.dawn-grand-festival/piplup.ability: null → \"Torrent\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.dawn-grand-festival/togekiss.moves",
+    "value": [
+     "Aura Sphere",
+     "Air Slash",
+     "Sky Attack",
+     "Safeguard"
+    ],
+    "was": [
+     "Aura Sphere",
+     "Air Slash",
+     "Magical Leaf",
+     "Yawn"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Aura Sphere (DP171), Sky Attack (DP171), Air Slash (DP171), Safeguard (DP171)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Togekiss",
+   "note": "ASK-0065: proposed Aura Sphere, Air Slash, Sky Attack, Safeguard (was Aura Sphere, Air Slash, Magical Leaf, Yawn)",
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.dawn-grand-festival/togekiss.moves: [\"Aura Sphere\", \"Air Slash\", \"Magical Leaf\", \"Yawn\"] → [\"Aura Sphere\", \"Air Slash\", \"Sky Attack\", \"Safeguard\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.dawn-grand-festival/mamoswine.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Take Down (DP084, named 1×), Ice Shard (DP084, named 3×), Dig (DP087), Ancient Power (DP106, recent, named 1×), Hidden Power (DP134, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Mamoswine",
+   "note": "ASK-0066: proposed Ice Shard, Take Down, Ancient Power, Hidden Power",
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.dawn-grand-festival/mamoswine.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.dawn-grand-festival/pachirisu.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Spark (DP019, named 3×), Sweet Kiss (DP019, named 6×), Discharge (DP019, named 13×), Super Fang (DP114, named 4×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Pachirisu",
+   "note": "ASK-0067: proposed Discharge, Super Fang, Sweet Kiss, Spark",
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.dawn-grand-festival/pachirisu.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.dawn-grand-festival/buneary.moves",
+    "value": [
+     "Ice Beam",
+     "Dizzy Punch",
+     "Bounce"
+    ],
+    "was": [
+     "Ice Beam",
+     "Dizzy Punch",
+     "Bounce",
+     "Jump Kick"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Bounce (DP009, named 9×), Ice Beam (DP009, named 12×), Dizzy Punch (DP009, named 6×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Buneary",
+   "note": "ASK-0068: proposed Ice Beam, Dizzy Punch, Bounce (was Ice Beam, Dizzy Punch, Bounce, Jump Kick); Bulbapedia knows only 3, the other slots stay open",
+   "id": "c8",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.dawn-grand-festival/buneary.moves: [\"Ice Beam\", \"Dizzy Punch\", \"Bounce\", \"Jump Kick\"] → [\"Ice Beam\", \"Dizzy Punch\", \"Bounce\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.dawn-grand-festival/ambipom.moves",
+    "value": [
+     "Double Hit",
+     "Focus Punch",
+     "Swift",
+     "Double Team"
+    ],
+    "was": [
+     "Double Hit",
+     "Focus Punch",
+     "Swift",
+     "Fury Swipes"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Scratch (AG179), Swift (AG182, recent, named 9×), Focus Punch (AG182, recent, named 7×), Double Team (AG183, recent, named 4×), Double Hit (DP060, recent, named 6×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Dawn's_Ambipom",
+   "note": "ASK-0069: proposed Double Hit, Focus Punch, Swift, Double Team (was Double Hit, Focus Punch, Swift, Fury Swipes)",
+   "id": "c9",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.dawn-grand-festival/ambipom.moves: [\"Double Hit\", \"Focus Punch\", \"Swift\", \"Fury Swipes\"] → [\"Double Hit\", \"Focus Punch\", \"Swift\", \"Double Team\"])",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

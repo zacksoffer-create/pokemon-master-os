@@ -1,0 +1,41 @@
+{
+ "id": "research-bulbapedia-gary-johto-r2",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Gary at the Silver Conference",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak"
+  ],
+  "asks": [],
+  "unresolved": [],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim",
+  "follows": "research-bulbapedia-gary-johto"
+ },
+ "summary": "0 answer(s) for 0 open question(s) on Gary at the Silver Conference, from Bulbapedia; the send-out order of 1 Pokémon in its defining battle.",
+ "claims": [
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "gary",
+    "version": "johto",
+    "battle": "the Silver Conference full battle against Ash",
+    "turn": null,
+    "situation": "sent out",
+    "pokemon": "Golem",
+    "move": "sent out #6",
+    "position": 6,
+    "outcome": "Golem was the sixth Pokémon Gary used against Ash at the Silver Conference, sending it out against Ash's Charizard.",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+   "note": "order in the Silver Conference full battle against Ash",
+   "id": "c1"
+  }
+ ],
+ "status": "open"
+}

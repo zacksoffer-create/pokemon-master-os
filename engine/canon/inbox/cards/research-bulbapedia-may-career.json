@@ -1,0 +1,59 @@
+{
+ "id": "research-bulbapedia-may-career",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: May",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/May_(anime)",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/May_(anime)"
+  ],
+  "asks": [
+   "ASK-0019",
+   "ASK-0020"
+  ],
+  "unresolved": [
+   "ASK-0020: no Achievements line for the Johto Grand Festival"
+  ],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "2 answer(s) for 2 open question(s) on May, from Bulbapedia; 1 not settled.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.may.career.1.result",
+    "value": "Top 4 (AG182, Channeling the Battle Zone!)",
+    "was": "Top 8 (draft: confirm the round)",
+    "why": "Bulbapedia Achievements: \"Kanto Grand Festival - Top 4 (AG182, Channeling the Battle Zone!)\"."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May_(anime)",
+   "note": "ASK-0019: Kanto Grand Festival",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.may.career.1.result: \"Top 8 (draft: confirm the round)\" → \"Top 4 (AG182, Channeling the Battle Zone!)\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.may.career.1.status",
+    "value": "approved",
+    "was": "draft: confirm",
+    "why": "Bulbapedia Achievements: \"Kanto Grand Festival - Top 4 (AG182, Channeling the Battle Zone!)\"."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May_(anime)",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "note": "was \"draft: confirm\"",
+   "applied_to": "canon/trainers.json (trainers.may.career.1.status: \"draft: confirm\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

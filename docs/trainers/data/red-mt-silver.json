@@ -1551,7 +1551,9 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": 88
+     "level": 88,
+     "marked_by_game": true,
+     "sent_out": "lead"
     },
     {
      "species": "Charizard",
@@ -1565,7 +1567,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 84
+     "level": 84,
+     "sent_out": "#5"
     },
     {
      "species": "Blastoise",
@@ -1579,7 +1582,8 @@
      },
      "helpers": [],
      "role": "tank",
-     "level": 84
+     "level": 84,
+     "sent_out": "last"
     },
     {
      "species": "Venusaur",
@@ -1593,7 +1597,8 @@
      },
      "helpers": [],
      "role": "status spreader",
-     "level": 84
+     "level": 84,
+     "sent_out": "#4"
     },
     {
      "species": "Snorlax",
@@ -1607,7 +1612,8 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": 82
+     "level": 82,
+     "sent_out": "#3"
     },
     {
      "species": "Lapras",
@@ -1621,7 +1627,8 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": 80
+     "level": 80,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1848,9 +1855,25 @@
    ],
    "offense_authored": 70,
    "offense_measured": 67,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

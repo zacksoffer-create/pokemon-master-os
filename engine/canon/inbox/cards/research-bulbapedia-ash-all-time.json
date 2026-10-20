@@ -1,0 +1,298 @@
+{
+ "id": "research-bulbapedia-ash-all-time",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: All-time Ash (Gen IV species)",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Heracross",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Infernape",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Sceptile",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Snorlax",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash_Ketchum"
+  ],
+  "asks": [
+   "ASK-0006",
+   "ASK-0007",
+   "ASK-0008",
+   "ASK-0009",
+   "ASK-0010",
+   "ASK-0040",
+   "ASK-0041",
+   "ASK-0042",
+   "ASK-0043",
+   "ASK-0044",
+   "ASK-0045"
+  ],
+  "unresolved": [
+   "ASK-0007: Pikachu's Volt Tackle is on its list but the history doesn't single it out (named 9×; Thunderbolt 37, Iron Tail 17, Thunder 10, Quick Attack 9, Volt Tackle 9, Electroweb 7)"
+  ],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "14 answer(s) for 11 open question(s) on All-time Ash (Gen IV species), from Bulbapedia; 1 not settled.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.all-time.signature_moves.0.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Thunderbolt is named 37× in Pikachu's history for this era, #1 of its moves (Thunderbolt 37, Iron Tail 17, Thunder 10, Quick Attack 9, Volt Tackle 9, Electroweb 7); first used EP005."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0006: confirmed",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.all-time.signature_moves.0.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.all-time.signature_moves.2.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Seismic Toss is named 10× in Charizard's history for this era, #2 of its moves (Flamethrower 17, Seismic Toss 10, Fire Spin 6, Dragon Rage 5, Dragon Breath 3, Wing Attack 3); first used EP059."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+   "note": "ASK-0008: confirmed",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.all-time.signature_moves.2.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.all-time.signature_moves.3.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Leaf Blade is named 12× in Sceptile's history for this era, #1 of its moves (Leaf Blade 12, Bullet Seed 8, Quick Attack 5, Pound 2, Solar Beam 1, Leaf Storm 0); first used AG066."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Sceptile",
+   "note": "ASK-0009: confirmed",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.all-time.signature_moves.3.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.all-time.overrides.ace",
+    "value": "Pikachu",
+    "was": "Pikachu",
+    "why": "Bulbapedia: the era's history names Pikachu 30×, Charizard 12×, Infernape 3×, Heracross 0×, Sceptile 0×, Snorlax 0×."
+   },
+   "status": "applied",
+   "confidence": "LOW",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash_Ketchum",
+   "note": "ASK-0010: confirms the authored ace (Pikachu)",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.all-time.overrides.ace: \"Pikachu\" → \"Pikachu\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/pikachu.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Thunder Shock (EP001, named 1×), Thunderbolt (EP005, recent, named 37×), Agility (EP014, named 1×), Quick Attack (EP014, recent, named 9×), Thunder (EP022, named 10×), Double-Edge (EP079), Tackle (EP118), Leer (EP150), Iron Tail (AG013, recent, named 17×), Volt Tackle (AG150, named 9×), Electro Ball (BW020, named 6×), Electroweb (SM076, recent, named 7×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0040: proposed Volt Tackle, Thunderbolt, Iron Tail, Quick Attack",
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/pikachu.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/pikachu.ability",
+    "value": "Static",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Static."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0040: ability",
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/pikachu.ability: null → \"Static\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/charizard.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Flamethrower (EP011, recent, named 17×), Leer (EP023, named 1×), Rage (EP025, named 1×), Skull Bash (EP026, named 1×), Ember (EP032, named 1×), Fire Spin (EP032, named 6×), Submission (EP059, named 1×), Seismic Toss (EP059, named 10×), Mega Punch (EP105), Dragon Rage (EP105, named 5×), Take Down (EP105), Tackle (EP108), Dragon Breath (AG136, named 3×), Overheat (AG136, named 1×), Steel Wing (AG189, named 3×), Wing Attack (BW116, recent, named 3×), Slash (BW116, recent, named 1×), Dragon Tail (BW116, recent, named 3×). Not in the game's learnset for Charizard: Seismic Toss, Dragon Breath (anime only, or another route)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+   "note": "ASK-0041: proposed Flamethrower, Wing Attack, Seismic Toss, Dragon Breath",
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/charizard.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/charizard.ability",
+    "value": "Blaze",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Blaze."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+   "note": "ASK-0041: ability",
+   "id": "c8",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/charizard.ability: null → \"Blaze\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/sceptile.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Pound (AG007, named 2×), Quick Attack (AG008, recent, named 5×), Bullet Seed (AG041, named 8×), Leaf Blade (AG066, recent, named 12×), Solar Beam (AG164, named 1×), Agility (AG166), Leaf Storm (DP189, recent)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Sceptile",
+   "note": "ASK-0042: proposed Leaf Blade, Bullet Seed, Quick Attack, Leaf Storm",
+   "id": "c9",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/sceptile.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/sceptile.ability",
+    "value": "Overgrow",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Overgrow."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Sceptile",
+   "note": "ASK-0042: ability",
+   "id": "c10",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/sceptile.ability: null → \"Overgrow\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/infernape.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Ember (DP003), Flame Wheel (DP003, named 13×), Scratch (DP003), Dig (DP006, named 9×), Fire Spin (DP040), Flamethrower (DP050, recent, named 20×), Mach Punch (DP132, recent, named 12×), Flare Blitz (DP185, recent, named 6×), Fire Punch (JN114, recent)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Infernape",
+   "note": "ASK-0043: proposed Flamethrower, Mach Punch, Flare Blitz, Dig",
+   "id": "c11",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/infernape.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/infernape.ability",
+    "value": "Blaze",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Blaze."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Infernape",
+   "note": "ASK-0043: ability",
+   "id": "c12",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/infernape.ability: null → \"Blaze\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/snorlax.moves",
+    "value": [
+     "Body Slam",
+     "Hyper Beam",
+     "Ice Punch",
+     "Mega Punch"
+    ],
+    "was": [
+     "Body Slam",
+     "Hyper Beam",
+     "Ice Punch",
+     "Focus Punch"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Body Slam (EP094, named 2×), Headbutt (EP094), Mega Kick (EP094, named 1×), Mega Punch (EP104, recent, named 1×), Hyper Beam (EP107, named 9×), Ice Punch (EP254, named 4×), Tackle (AG133), Protect (AG149, named 2×), Rest (AG149, named 1×). The model's read of the history at the moment: The text directly and explicitly confirms that Snorlax used each of these four moves during its battles. Not in the game's learnset for Snorlax: Mega Punch (anime only, or another route)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Snorlax",
+   "note": "ASK-0044: proposed Body Slam, Hyper Beam, Ice Punch, Mega Punch (was Body Slam, Hyper Beam, Ice Punch, Focus Punch)",
+   "id": "c13",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/snorlax.moves: [\"Body Slam\", \"Hyper Beam\", \"Ice Punch\", \"Focus Punch\"] → [\"Body Slam\", \"Hyper Beam\", \"Ice Punch\", \"Mega Punch\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-all-time/heracross.moves",
+    "value": [
+     "Megahorn",
+     "Horn Attack",
+     "Sleep Talk",
+     "Focus Punch"
+    ],
+    "was": [
+     "Megahorn",
+     "Horn Attack",
+     "Brick Break",
+     "Night Slash"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Tackle (EP120, named 1×), Horn Attack (EP120, recent, named 3×), Endure (EP120), Leer (EP140, named 1×), Take Down (EP140), Fury Attack (EP140, named 1×), Megahorn (EP269, recent, named 3×), Sleep Talk (DP183, recent, named 2×), Focus Punch (DP183, named 1×), Hyper Beam (DP189, recent, named 1×). The model's read of the history at the moment: The text explicitly confirms that Heracross used or learned each of these four moves during its battles in the anime."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Heracross",
+   "note": "ASK-0045: proposed Megahorn, Horn Attack, Sleep Talk, Focus Punch (was Megahorn, Horn Attack, Brick Break, Night Slash)",
+   "id": "c14",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-all-time/heracross.moves: [\"Megahorn\", \"Horn Attack\", \"Brick Break\", \"Night Slash\"] → [\"Megahorn\", \"Horn Attack\", \"Sleep Talk\", \"Focus Punch\"])",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

@@ -5,9 +5,9 @@
 | Slider | Authored | Team reads | Note |
 |---|---|---|---|
 | Offense (defensive ↔ offensive) | 50 (offensive) | 89 | reads offensive |
-| Rigidity (flexible ↔ rigid) | 30 (flexible) | 33 | contest combos: creative and changing |
+| Rigidity (flexible ↔ rigid) | 30 (flexible) | 50 | contest combos: creative and changing |
 | Bond (tool ↔ partnership) | 85 (partnership) | no signal | close with every one of them (Mamoswine took work) |
-| Risk (percentage player ↔ gambler) | 50 (gambler) | 50 | "No need to worry!" |
+| Risk (percentage player ↔ gambler) | 50 (gambler) | 33 | "No need to worry!" |
 
 ## Who they are
 
@@ -16,7 +16,7 @@
 
 ## What to expect
 
-- Their attacks split between physical and special (12 physical, 10 special).
+- Their attacks split between physical and special (11 physical, 9 special).
 - Fast where it counts: Togekiss, Mamoswine, Pachirisu, Buneary and Ambipom outspeed the typical Pokémon of the generation.
 - Called offensive (50), but this team reads offensive (89): attack-heavy stats: Piplup, Togekiss, Mamoswine, Buneary and Ambipom; mostly attacks: Piplup, Togekiss, Mamoswine, Pachirisu, Buneary and Ambipom; fast: Togekiss, Mamoswine, Pachirisu, Buneary and Ambipom.
 
@@ -28,7 +28,7 @@
 
 ## Where their rigidity or recklessness leaves a gap
 
-- Even playing the percentages, they carry gambles: Piplup's Whirlpool (70%); Mamoswine's Take Down (recoil); Ambipom's Fury Swipes (80%).
+- Even playing the percentages, they carry gambles: Piplup's Whirlpool (70%); Mamoswine's Take Down (recoil).
 
 ## The matrix
 
@@ -50,11 +50,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
 | Piplup | revenge killer (loose, 0.45) | – | – |
-| Togekiss | phazer (strong, 0.73) | status spreader (strong) | – |
+| Togekiss | bulky attacker (strong, 0.66) | check / counter (solid) | – |
 | Mamoswine | bulky attacker (solid, 0.64) | revenge killer (solid) | – |
 | Pachirisu | wallbreaker (loose, 0.37) | – | – |
-| Buneary | wallbreaker (loose, 0.41) | – | – |
-| Ambipom | wallbreaker (solid, 0.58) | revenge killer (loose) | – |
+| Buneary | wallbreaker (loose, 0.33) | – | – |
+| Ambipom | wallbreaker (solid, 0.52) | revenge killer (loose) | – |
 
 ## Career
 
@@ -62,13 +62,13 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## The ace
 
-- Ace: Buneary (a wallbreaker).
+- Ace: Ambipom (a wallbreaker).
 
 ## Who they go to
 
 - Even game: Togekiss is the workhorse (tank).
 - Ahead: Mamoswine closes it out (revenge killer).
-- Behind: they turn to Ambipom (wallbreaker).
+- Behind: they turn to Togekiss (wallbreaker).
 
 ## What they can hit
 
@@ -77,15 +77,15 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Type | Their best super-effective attack | Of them weak to it |
 |---|---|---|
-| Bug | Air Slash (Togekiss, 107) | 0 |
+| Bug | Sky Attack (Togekiss, 143) | 0 |
 | Dark | Focus Punch (Ambipom, 150) | 0 |
 | Dragon | Ice Beam (Buneary, 73) | 0 |
 | Electric | **none** | 2 |
-| Fighting | Air Slash (Togekiss, 107) | 3 |
+| Fighting | Sky Attack (Togekiss, 143) | 3 |
 | Fire | Bubble Beam (Piplup, 98) | 1 |
 | Flying | Discharge (Pachirisu, 120) | 0 |
 | Ghost | **none** | 0 |
-| Grass | Air Slash (Togekiss, 107) | 2 |
+| Grass | Sky Attack (Togekiss, 143) | 2 |
 | Ground | Bubble Beam (Piplup, 98) | 1 |
 | Ice | Focus Punch (Ambipom, 150) | 1 |
 | Normal | Focus Punch (Ambipom, 150) | 0 |
@@ -105,7 +105,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## How aggressive the moveset is
 
-- 86% of their moves finish or set up (12 of 14); the rest wear you down.
+- 91% of their moves finish or set up (10 of 11); the rest wear you down.
 - The moveset leans offensive too: the same lean the slider check flags above.
 
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Hustle (could be Serene Grace); ability Oblivious (could be Snow Cloak); ability Run Away (could be Klutz); ability Run Away (could be Pickup); ability Technician (could be Pickup); neutral nature.*

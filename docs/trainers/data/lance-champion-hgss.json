@@ -1532,10 +1532,26 @@
    }
   ],
   "ace": {
-   "derived": "Aerodactyl",
+   "derived": "Dragonite",
    "authored": "Dragonite",
-   "agree": false,
+   "agree": true,
    "ranking": [
+    {
+     "species": "Dragonite",
+     "slot": 6,
+     "score": 0.569,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.7,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": 50,
+     "marked_by_game": true,
+     "sent_out": "last"
+    },
     {
      "species": "Aerodactyl",
      "slot": 4,
@@ -1548,7 +1564,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 48
+     "level": 48,
+     "sent_out": "#4"
     },
     {
      "species": "Charizard",
@@ -1562,21 +1579,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 48
-    },
-    {
-     "species": "Dragonite",
-     "slot": 6,
-     "score": 0.569,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.294,
-      "role": 0.7,
-      "investment": 1.0
-     },
-     "helpers": [],
-     "role": "bulky attacker",
-     "level": 50
+     "level": 48,
+     "sent_out": "#5"
     },
     {
      "species": "Dragonite",
@@ -1590,7 +1594,8 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": 49
+     "level": 49,
+     "sent_out": "#3"
     },
     {
      "species": "Dragonite",
@@ -1604,7 +1609,8 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": 49
+     "level": 49,
+     "sent_out": "#2"
     },
     {
      "species": "Gyarados",
@@ -1618,7 +1624,8 @@
      },
      "helpers": [],
      "role": "pivot",
-     "level": 46
+     "level": 46,
+     "sent_out": "lead"
     }
    ]
   },
@@ -1845,9 +1852,25 @@
    ],
    "offense_authored": 80,
    "offense_measured": 78,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
@@ -1866,9 +1889,9 @@
    "ace": [
     {
      "section": "ace",
-     "text": "The story's ace is Dragonite; the data's is Aerodactyl (the widest coverage and a wallbreaker). Plan for both.",
-     "rule": "ace_disagree",
-     "trigger": "ace_authored nonempty"
+     "text": "Ace: Dragonite. The story and the data agree (the highest level (50) and a bulky attacker).",
+     "rule": "ace_agree",
+     "trigger": "ace_agrees nonempty"
     }
    ],
    "go_to": [

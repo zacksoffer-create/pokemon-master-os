@@ -62,14 +62,15 @@
   "rigidity": {
    "authored": 40,
    "why": "stubborn, but already improvising",
-   "measured": 83,
+   "measured": 100,
    "signals": [
     {
      "signal": "few_attack_types",
      "label": "low move-type variety",
-     "value": 83,
+     "value": 100,
      "members": [
       "Pikachu",
+      "Charizard",
       "Bulbasaur",
       "Squirtle",
       "Pidgeotto",
@@ -78,15 +79,16 @@
     }
    ],
    "disagreement": {
-    "gap": 43,
+    "gap": 60,
     "team_leans": "rigid",
     "because": [
      {
       "signal": "few_attack_types",
       "label": "low move-type variety",
-      "value": 83,
+      "value": 100,
       "members": [
        "Pikachu",
+       "Charizard",
        "Bulbasaur",
        "Squirtle",
        "Pidgeotto",
@@ -418,7 +420,7 @@
      "Flamethrower",
      "Fire Spin",
      "Seismic Toss",
-     "Slash"
+     "Submission"
     ],
     "move_basis": [
      {
@@ -437,9 +439,9 @@
       "reason": "learns it in Emerald (tutor)"
      },
      {
-      "move": "Slash",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 32, as Charizard)"
+      "move": "Submission",
+      "basis": "another game",
+      "reason": "learns it in Blue Japan (machine)"
      }
     ],
     "flags": [],
@@ -681,20 +683,15 @@
     ],
     "moves": [
      "Water Gun",
-     "Bubble",
      "Skull Bash",
-     "Withdraw"
+     "Withdraw",
+     "Tackle"
     ],
     "move_basis": [
      {
       "move": "Water Gun",
       "basis": "this game",
       "reason": "learns it in HeartGold/SoulSilver (level 13, as Squirtle)"
-     },
-     {
-      "move": "Bubble",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 7, as Squirtle)"
      },
      {
       "move": "Skull Bash",
@@ -705,6 +702,11 @@
       "move": "Withdraw",
       "basis": "this game",
       "reason": "learns it in HeartGold/SoulSilver (level 10, as Squirtle)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Squirtle)"
      }
     ],
     "flags": [],
@@ -1273,13 +1275,13 @@
   "expect": [
    {
     "section": "expect",
-    "text": "Their attacks split between physical and special (11 physical, 10 special).",
+    "text": "Their attacks split between physical and special (12 physical, 9 special).",
     "rule": "side_mixed",
     "trigger": "their_side == mixed (here mixed)"
    },
    {
     "section": "expect",
-    "text": "Called flexible (40), but this team reads rigid (83): low move-type variety: Pikachu, Bulbasaur, Squirtle, Pidgeotto and Kingler.",
+    "text": "Called flexible (40), but this team reads rigid (100): low move-type variety: Pikachu, Charizard, Bulbasaur, Squirtle, Pidgeotto and Kingler.",
     "rule": "disagree_rigidity",
     "trigger": "disagree_rigidity nonempty"
    },
@@ -1325,7 +1327,7 @@
   "gap": [
    {
     "section": "gap",
-    "text": "Reckless, and it shows: Pikachu's Thunder (70%); Charizard's Fire Spin (70%). Their misses and recoil are your free turns.",
+    "text": "Reckless, and it shows: Pikachu's Thunder (70%); Charizard's Fire Spin (70%) and Submission (80%). Their misses and recoil are your free turns.",
     "rule": "reckless",
     "trigger": "risk_band == high (here high); gamble_str nonempty"
    }
@@ -1393,7 +1395,7 @@
      "confidence": "solid"
     },
     "also": [],
-    "why": "tank (0.54, solid): attacking moves: Flamethrower, Seismic Toss, Slash; overall bulk above 52% of the field; a same-type attack: Flamethrower"
+    "why": "tank (0.54, solid): attacking moves: Flamethrower, Seismic Toss, Submission; overall bulk above 52% of the field; a same-type attack: Flamethrower"
    },
    {
     "species": "Bulbasaur",
@@ -1495,7 +1497,8 @@
      },
      "helpers": [],
      "role": "late-game cleaner",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Kingler",
@@ -1508,7 +1511,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Pidgeotto",
@@ -1521,7 +1525,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Squirtle",
@@ -1534,7 +1539,8 @@
      },
      "helpers": [],
      "role": "bulky setup",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Bulbasaur",
@@ -1547,7 +1553,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Charizard",
@@ -1560,7 +1567,8 @@
      },
      "helpers": [],
      "role": "tank",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1770,7 +1778,7 @@
     "pokemon": "Pikachu",
     "move": "Thunderbolt",
     "why": "his calling card from the first episode",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    },
@@ -1778,7 +1786,7 @@
     "pokemon": "Bulbasaur",
     "move": "Vine Whip",
     "why": "the move that does everything",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    }
@@ -1801,9 +1809,25 @@
    "attrition_moves": [],
    "offense_authored": 80,
    "offense_measured": 72,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

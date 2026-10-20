@@ -16,7 +16,7 @@
   "offense": {
    "authored": 85,
    "why": "overwhelming power to win fast",
-   "measured": 78,
+   "measured": 72,
    "signals": [
     {
      "signal": "attack_heavy",
@@ -33,11 +33,10 @@
     {
      "signal": "damage_moves",
      "label": "mostly attacks",
-     "value": 83,
+     "value": 67,
      "members": [
       "Electivire",
       "Torterra",
-      "Froslass",
       "Drapion",
       "Gastrodon"
      ]
@@ -63,29 +62,31 @@
   "rigidity": {
    "authored": 85,
    "why": "a strict system: scout, train for one job, cut what doesn't fit",
-   "measured": 33,
+   "measured": 50,
    "signals": [
     {
      "signal": "few_attack_types",
      "label": "low move-type variety",
-     "value": 33,
+     "value": 50,
      "members": [
       "Ninjask",
-      "Froslass"
+      "Froslass",
+      "Drapion"
      ]
     }
    ],
    "disagreement": {
-    "gap": -52,
+    "gap": -35,
     "team_leans": "flexible",
     "because": [
      {
       "signal": "few_attack_types",
       "label": "low move-type variety",
-      "value": 33,
+      "value": 50,
       "members": [
        "Ninjask",
-       "Froslass"
+       "Froslass",
+       "Drapion"
       ]
      }
     ]
@@ -109,15 +110,14 @@
   "risk": {
    "authored": 30,
    "why": "calculated, never reckless",
-   "measured": 33,
+   "measured": 17,
    "signals": [
     {
      "signal": "risky",
      "label": "carries a gamble",
-     "value": 33,
+     "value": 17,
      "members": [
-      "Torterra",
-      "Froslass"
+      "Torterra"
      ]
     }
    ],
@@ -391,20 +391,15 @@
     ],
     "moves": [
      "Leaf Storm",
-     "Earthquake",
      "Hyper Beam",
-     "Stone Edge"
+     "Stone Edge",
+     "Frenzy Plant"
     ],
     "move_basis": [
      {
       "move": "Leaf Storm",
       "basis": "this game",
       "reason": "learns it in Platinum (level 57, as Torterra)"
-     },
-     {
-      "move": "Earthquake",
-      "basis": "this game",
-      "reason": "learns it in Platinum (level 32, as Torterra)"
      },
      {
       "move": "Hyper Beam",
@@ -415,6 +410,11 @@
       "move": "Stone Edge",
       "basis": "this game",
       "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Frenzy Plant",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Torterra)"
      }
     ],
     "flags": [],
@@ -522,9 +522,8 @@
     ],
     "moves": [
      "Agility",
-     "Double Team",
-     "Baton Pass",
-     "Fury Cutter"
+     "Fury Cutter",
+     "Giga Drain"
     ],
     "move_basis": [
      {
@@ -533,19 +532,14 @@
       "reason": "learns it in Platinum (level 38, as Ninjask)"
      },
      {
-      "move": "Double Team",
-      "basis": "this game",
-      "reason": "learns it in Platinum (level 20, as Ninjask)"
-     },
-     {
-      "move": "Baton Pass",
-      "basis": "this game",
-      "reason": "learns it in Platinum (level 45, as Ninjask)"
-     },
-     {
       "move": "Fury Cutter",
       "basis": "this game",
       "reason": "learns it in Platinum (level 20, as Ninjask)"
+     },
+     {
+      "move": "Giga Drain",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ninjask)"
      }
     ],
     "flags": [],
@@ -652,31 +646,25 @@
      "neutral nature"
     ],
     "moves": [
-     "Blizzard",
      "Ice Shard",
-     "Shadow Ball",
-     "Double Team"
+     "Hail",
+     "Ice Beam"
     ],
     "move_basis": [
-     {
-      "move": "Blizzard",
-      "basis": "this game",
-      "reason": "learns it in Platinum (level 51, as Froslass)"
-     },
      {
       "move": "Ice Shard",
       "basis": "this game",
       "reason": "learns it in Platinum (level 37, as Froslass)"
      },
      {
-      "move": "Shadow Ball",
+      "move": "Hail",
       "basis": "this game",
-      "reason": "learns it in Platinum (machine, as Froslass)"
+      "reason": "learns it in Platinum (level 40, as Froslass)"
      },
      {
-      "move": "Double Team",
+      "move": "Ice Beam",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 1, as Froslass)"
+      "reason": "learns it in Platinum (machine, as Froslass)"
      }
     ],
     "flags": [],
@@ -787,8 +775,8 @@
     "moves": [
      "Pin Missile",
      "Cross Poison",
-     "Thunder Fang",
-     "Ice Fang"
+     "Toxic Spikes",
+     "Poison Fang"
     ],
     "move_basis": [
      {
@@ -802,14 +790,14 @@
       "reason": "learns it in Platinum (level 58, as Drapion)"
      },
      {
-      "move": "Thunder Fang",
+      "move": "Toxic Spikes",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 1, as Drapion)"
+      "reason": "learns it in Platinum (level 28, as Drapion)"
      },
      {
-      "move": "Ice Fang",
+      "move": "Poison Fang",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 1, as Drapion)"
+      "reason": "learns it in Platinum (level 39, as Drapion)"
      }
     ],
     "flags": [],
@@ -917,29 +905,29 @@
      "ability Sticky Hold (could be Storm Drain)"
     ],
     "moves": [
-     "Mud Bomb",
      "Water Pulse",
-     "Hidden Power",
-     "Sludge Bomb"
+     "Muddy Water",
+     "Body Slam",
+     "Ice Beam"
     ],
     "move_basis": [
-     {
-      "move": "Mud Bomb",
-      "basis": "this game",
-      "reason": "learns it in Platinum (level 11, as Gastrodon)"
-     },
      {
       "move": "Water Pulse",
       "basis": "this game",
       "reason": "learns it in Platinum (level 1, as Gastrodon)"
      },
      {
-      "move": "Hidden Power",
+      "move": "Muddy Water",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 16, as Gastrodon)"
+      "reason": "learns it in Platinum (level 41, as Gastrodon)"
      },
      {
-      "move": "Sludge Bomb",
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Gastrodon)"
+     },
+     {
+      "move": "Ice Beam",
       "basis": "this game",
       "reason": "learns it in Platinum (machine, as Gastrodon)"
      }
@@ -1252,7 +1240,7 @@
   "expect": [
    {
     "section": "expect",
-    "text": "Their attacks split between physical and special (11 physical, 8 special).",
+    "text": "Their attacks split between physical and special (10 physical, 8 special).",
     "rule": "side_mixed",
     "trigger": "their_side == mixed (here mixed)"
    },
@@ -1264,7 +1252,7 @@
    },
    {
     "section": "expect",
-    "text": "Called rigid (85), but this team reads flexible (33): low move-type variety: Ninjask and Froslass.",
+    "text": "Called rigid (85), but this team reads flexible (50): low move-type variety: Ninjask, Froslass and Drapion.",
     "rule": "disagree_rigidity",
     "trigger": "disagree_rigidity nonempty"
    }
@@ -1304,13 +1292,13 @@
   "gap": [
    {
     "section": "gap",
-    "text": "Rigid, and it shows: Ninjask and Froslass can't hit back outside their attack types. Once you've seen the plan, it won't change.",
+    "text": "Rigid, and it shows: Ninjask, Froslass and Drapion can't hit back outside their attack types. Once you've seen the plan, it won't change.",
     "rule": "rigid_types",
     "trigger": "rigidity_band == high (here high); few_types_str nonempty"
    },
    {
     "section": "gap",
-    "text": "Even playing the percentages, they carry gambles: Torterra's Stone Edge (80%); Froslass's Blizzard (70%).",
+    "text": "Even playing the percentages, they carry gambles: Torterra's Stone Edge (80%).",
     "rule": "gamble_anyway",
     "trigger": "risk_band != high (here low); gamble_str nonempty"
    }
@@ -1318,7 +1306,7 @@
  },
  "roles": [],
  "overrides": {
-  "ace": "Electivire"
+  "ace": "Torterra"
  },
  "playsheet": {
   "career": {
@@ -1378,18 +1366,18 @@
      "family": "offense",
      "score": 0.6781,
      "confidence": "strong",
-     "margin": 0.0316,
-     "clear": false
+     "margin": 0.128,
+     "clear": true
     },
     "secondary": {
-     "role": "wallbreaker",
-     "name": "wallbreaker",
-     "family": "offense",
-     "score": 0.6465,
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5501,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.68, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Earthquake, Hyper Beam, Stone Edge"
+    "why": "bulky attacker (0.68, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Hyper Beam, Stone Edge, Frenzy Plant"
    },
    {
     "species": "Ninjask",
@@ -1398,58 +1386,58 @@
      "role": "baton_pass_starter",
      "name": "Baton Pass chain starter",
      "family": "utility",
-     "score": 0.8569,
-     "confidence": "strong",
-     "margin": 0.8569,
-     "clear": true
+     "score": 0.0,
+     "confidence": "loose",
+     "margin": 0.0,
+     "clear": false
     },
     "secondary": null,
     "also": [],
-    "why": "Baton Pass chain starter (0.86, strong): Baton Pass; Agility; Speed 377 (the top of the field)"
+    "why": ""
    },
    {
     "species": "Froslass",
     "nickname": null,
     "primary": {
+     "role": "weather_setter",
+     "name": "weather setter",
+     "family": "support",
+     "score": 0.5539,
+     "confidence": "solid",
+     "margin": 0.002,
+     "clear": false
+    },
+    "secondary": {
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.6471,
-     "confidence": "solid",
-     "margin": 0.1004,
-     "clear": true
-    },
-    "secondary": {
-     "role": "late_game_cleaner",
-     "name": "late-game cleaner",
-     "family": "offense",
-     "score": 0.5467,
+     "score": 0.5519,
      "confidence": "solid"
     },
     "also": [],
-    "why": "revenge killer (0.65, solid): Ice Shard; Speed 277 (above 91% of the field); attacks that use its better attacking stat: Blizzard, Shadow Ball"
+    "why": "weather setter (0.55, solid): Hail; attacking moves: Ice Shard, Ice Beam; overall bulk above 27% of the field"
    },
    {
     "species": "Drapion",
     "nickname": null,
     "primary": {
+     "role": "hazard_setter",
+     "name": "hazard setter",
+     "family": "support",
+     "score": 0.6389,
+     "confidence": "solid",
+     "margin": 0.0901,
+     "clear": true
+    },
+    "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.5863,
-     "confidence": "solid",
-     "margin": 0.021,
-     "clear": false
-    },
-    "secondary": {
-     "role": "tank",
-     "name": "tank",
-     "family": "defense",
-     "score": 0.5653,
+     "score": 0.5488,
      "confidence": "solid"
     },
     "also": [],
-    "why": "check / counter (0.59, solid): Poison/Dark (Battle Armor); overall bulk above 57% of the field; attacking moves: Cross Poison, Thunder Fang, Ice Fang"
+    "why": "hazard setter (0.64, solid): Toxic Spikes; overall bulk above 57% of the field; attacking moves: Cross Poison, Poison Fang"
    },
    {
     "species": "Gastrodon",
@@ -1471,99 +1459,109 @@
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.65, strong): attacking moves: Mud Bomb, Water Pulse, Hidden Power, Sludge Bomb; overall bulk above 72% of the field; Sp. Atk 241 (above 66% of the field)"
+    "why": "bulky attacker (0.65, strong): attacking moves: Water Pulse, Muddy Water, Body Slam, Ice Beam; overall bulk above 72% of the field; Sp. Atk 241 (above 66% of the field)"
    }
   ],
   "ace": {
    "derived": "Torterra",
-   "authored": "Electivire",
-   "agree": false,
+   "authored": "Torterra",
+   "agree": true,
    "ranking": [
     {
      "species": "Torterra",
      "slot": 2,
-     "score": 0.697,
+     "score": 0.703,
      "parts": {
-      "support": 0.5,
-      "coverage": 0.588,
-      "role": 0.9
-     },
-     "helpers": [
-      "Ninjask"
-     ],
-     "role": "bulky attacker",
-     "level": null
-    },
-    {
-     "species": "Froslass",
-     "slot": 4,
-     "score": 0.629,
-     "parts": {
-      "support": 0.5,
-      "coverage": 0.353,
-      "role": 0.9
-     },
-     "helpers": [
-      "Ninjask"
-     ],
-     "role": "revenge killer",
-     "level": null
-    },
-    {
-     "species": "Gastrodon",
-     "slot": 6,
-     "score": 0.561,
-     "parts": {
-      "support": 0.5,
+      "support": 1.0,
       "coverage": 0.412,
       "role": 0.7
      },
      "helpers": [
-      "Ninjask"
+      "Ninjask",
+      "Drapion"
      ],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Electivire",
      "slot": 1,
-     "score": 0.561,
+     "score": 0.703,
      "parts": {
-      "support": 0.5,
+      "support": 1.0,
       "coverage": 0.412,
       "role": 0.7
      },
      "helpers": [
-      "Ninjask"
+      "Ninjask",
+      "Drapion"
      ],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
-     "species": "Drapion",
-     "slot": 5,
-     "score": 0.298,
+     "species": "Froslass",
+     "slot": 4,
+     "score": 0.696,
      "parts": {
-      "support": 0.0,
-      "coverage": 0.294,
-      "role": 0.5
+      "support": 1.0,
+      "coverage": 0.235,
+      "role": 0.8
      },
-     "helpers": [],
-     "role": "check / counter",
-     "level": null
+     "helpers": [
+      "Ninjask",
+      "Drapion"
+     ],
+     "role": "weather setter",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Gastrodon",
+     "slot": 6,
+     "score": 0.687,
+     "parts": {
+      "support": 1.0,
+      "coverage": 0.353,
+      "role": 0.7
+     },
+     "helpers": [
+      "Ninjask",
+      "Drapion"
+     ],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Ninjask",
      "slot": 3,
-     "score": 0.129,
+     "score": 0.179,
      "parts": {
       "support": 0.0,
-      "coverage": 0.0,
+      "coverage": 0.176,
       "role": 0.3
      },
      "helpers": [],
      "role": "Baton Pass chain starter",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Drapion",
+     "slot": 5,
+     "score": 0.145,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.059,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "hazard setter",
+     "level": null,
+     "sent_out": "#5"
     }
    ]
   },
@@ -1578,13 +1576,13 @@
     "label": "cleaner",
     "species": "Froslass",
     "role": "revenge killer",
-    "fit": 0.647
+    "fit": 0.552
    },
    "behind": {
     "label": "gambit",
-    "species": "Torterra",
+    "species": "Gastrodon",
     "role": "wallbreaker",
-    "fit": 0.582,
+    "fit": 0.506,
     "last_resorts": []
    }
   },
@@ -1611,19 +1609,19 @@
     {
      "type": "Dragon",
      "covered": true,
-     "move": "Blizzard",
+     "move": "Ice Beam",
      "member": "Froslass",
      "move_type": "Ice",
-     "power": 126,
+     "power": 142,
      "their_weak_to_it": 0
     },
     {
      "type": "Electric",
-     "covered": true,
-     "move": "Earthquake",
-     "member": "Torterra",
-     "move_type": "Ground",
-     "power": 150,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 1
     },
     {
@@ -1638,46 +1636,46 @@
     {
      "type": "Fire",
      "covered": true,
-     "move": "Earthquake",
-     "member": "Torterra",
-     "move_type": "Ground",
-     "power": 150,
+     "move": "Muddy Water",
+     "member": "Gastrodon",
+     "move_type": "Water",
+     "power": 121,
      "their_weak_to_it": 3
     },
     {
      "type": "Flying",
      "covered": true,
-     "move": "Blizzard",
+     "move": "Ice Beam",
      "member": "Froslass",
      "move_type": "Ice",
-     "power": 126,
+     "power": 142,
      "their_weak_to_it": 2
     },
     {
      "type": "Ghost",
-     "covered": true,
-     "move": "Shadow Ball",
-     "member": "Froslass",
-     "move_type": "Ghost",
-     "power": 120,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 1
     },
     {
      "type": "Grass",
      "covered": true,
-     "move": "Blizzard",
+     "move": "Ice Beam",
      "member": "Froslass",
      "move_type": "Ice",
-     "power": 126,
+     "power": 142,
      "their_weak_to_it": 1
     },
     {
      "type": "Ground",
      "covered": true,
-     "move": "Leaf Storm",
+     "move": "Frenzy Plant",
      "member": "Torterra",
      "move_type": "Grass",
-     "power": 142,
+     "power": 152,
      "their_weak_to_it": 2
     },
     {
@@ -1700,67 +1698,72 @@
     },
     {
      "type": "Poison",
-     "covered": true,
-     "move": "Earthquake",
-     "member": "Torterra",
-     "move_type": "Ground",
-     "power": 150,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 0
     },
     {
      "type": "Psychic",
-     "covered": true,
-     "move": "Shadow Ball",
-     "member": "Froslass",
-     "move_type": "Ghost",
-     "power": 120,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 0
     },
     {
      "type": "Rock",
      "covered": true,
-     "move": "Earthquake",
+     "move": "Frenzy Plant",
      "member": "Torterra",
-     "move_type": "Ground",
-     "power": 150,
+     "move_type": "Grass",
+     "power": 152,
      "their_weak_to_it": 2
     },
     {
      "type": "Steel",
      "covered": true,
-     "move": "Earthquake",
-     "member": "Torterra",
-     "move_type": "Ground",
-     "power": 150,
+     "move": "Brick Break",
+     "member": "Electivire",
+     "move_type": "Fighting",
+     "power": 75,
      "their_weak_to_it": 1
     },
     {
      "type": "Water",
      "covered": true,
-     "move": "Leaf Storm",
+     "move": "Frenzy Plant",
      "member": "Torterra",
      "move_type": "Grass",
-     "power": 142,
+     "power": 152,
      "their_weak_to_it": 0
     }
    ],
-   "coverage": 0.941,
-   "covered_n": 16,
+   "coverage": 0.706,
+   "covered_n": 12,
    "types_n": 17,
    "holes": [
-    "Fighting"
+    "Electric",
+    "Fighting",
+    "Ghost",
+    "Poison",
+    "Psychic"
    ],
-   "bring": []
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 1
+    },
+    {
+     "type": "Ghost",
+     "their_weak": 1
+    }
+   ]
   },
-  "combos": [
-   {
-    "id": "baton_chain",
-    "name": "A Baton Pass chain",
-    "members": [
-     "Ninjask"
-    ]
-   }
-  ],
+  "combos": [],
   "signature_moves": [
    {
     "pokemon": "Torterra",
@@ -1782,37 +1785,54 @@
     "pokemon": "Ninjask",
     "move": "Baton Pass",
     "why": "passing Speed boosts down the line",
-    "status": "proposed",
+    "status": "not on Bulbapedia's list",
     "on_team": true,
-    "in_moveset": true
+    "in_moveset": false
    }
   ],
   "aggression": {
-   "ratio": 92,
-   "finishers": 12,
-   "attrition": 1,
+   "ratio": 83,
+   "finishers": 10,
+   "attrition": 2,
    "finisher_moves": [
     "Thunder Punch (Electivire)",
     "Leaf Storm (Torterra)",
-    "Earthquake (Torterra)",
     "Stone Edge (Torterra)",
     "Agility (Ninjask)",
-    "Blizzard (Froslass)",
     "Ice Shard (Froslass)",
-    "Shadow Ball (Froslass)",
+    "Ice Beam (Froslass)",
     "Cross Poison (Drapion)",
-    "Mud Bomb (Gastrodon)",
     "Water Pulse (Gastrodon)",
-    "Sludge Bomb (Gastrodon)"
+    "Muddy Water (Gastrodon)",
+    "Ice Beam (Gastrodon)"
    ],
    "attrition_moves": [
-    "Protect (Electivire)"
+    "Protect (Electivire)",
+    "Toxic Spikes (Drapion)"
    ],
    "offense_authored": 85,
-   "offense_measured": 78,
-   "flag": null
+   "offense_measured": 72,
+   "flag": null,
+   "observed": null
   },
-  "weather": [],
+  "weather": [
+   "hail"
+  ],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
@@ -1825,9 +1845,9 @@
    "ace": [
     {
      "section": "ace",
-     "text": "The story's ace is Electivire; the data's is Torterra (set up by Ninjask, the widest coverage and a bulky attacker). Plan for both.",
-     "rule": "ace_disagree",
-     "trigger": "ace_authored nonempty"
+     "text": "Ace: Torterra. The story and the data agree (set up by Ninjask and Drapion, the widest coverage and a bulky attacker).",
+     "rule": "ace_agree",
+     "trigger": "ace_agrees nonempty"
     }
    ],
    "go_to": [
@@ -1845,7 +1865,7 @@
     },
     {
      "section": "go_to",
-     "text": "Behind: they turn to Torterra (wallbreaker).",
+     "text": "Behind: they turn to Gastrodon (wallbreaker).",
      "rule": "goto_behind",
      "trigger": "one_for_all empty"
     }
@@ -1853,17 +1873,29 @@
    "coverage": [
     {
      "section": "coverage",
-     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Fighting that way.",
+     "text": "They hit 12 of 17 types super-effectively; nothing they carry hits Electric, Fighting, Ghost, Poison or Psychic that way.",
      "rule": "cover",
-     "trigger": "holes_n > 0 (here 1)"
+     "trigger": "holes_n > 0 (here 5)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and one of them is weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Ghost get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
     }
    ],
    "combos": [
     {
      "section": "combos",
-     "text": "Ninjask passes boosts down the line: phaze, Haze or Taunt it before the pass.",
-     "rule": "combo_baton",
-     "trigger": "combos has baton_chain (here ['baton_chain'])"
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
     }
    ],
    "signature": [
@@ -1872,14 +1904,20 @@
      "text": "Signature moves: Torterra's Leaf Storm (his heaviest hit); Electivire's Giga Impact (raw power, whatever the cost); Ninjask's Baton Pass (passing Speed boosts down the line).",
      "rule": "sig",
      "trigger": "signature_str nonempty"
+    },
+    {
+     "section": "signature",
+     "text": "Not in this version's moveset: Ninjask's Baton Pass.",
+     "rule": "sig_missing",
+     "trigger": "signature_missing nonempty"
     }
    ],
    "aggression": [
     {
      "section": "aggression",
-     "text": "92% of their moves finish or set up (12 of 13); the rest wear you down.",
+     "text": "83% of their moves finish or set up (10 of 12); the rest wear you down.",
      "rule": "aggr",
-     "trigger": "aggression != None (here 92)"
+     "trigger": "aggression != None (here 83)"
     }
    ]
   }

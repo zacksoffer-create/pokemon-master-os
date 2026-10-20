@@ -1105,7 +1105,9 @@
      },
      "helpers": [],
      "role": "phazer",
-     "level": 46
+     "level": 46,
+     "marked_by_game": true,
+     "sent_out": "last"
     },
     {
      "species": "Honchkrow",
@@ -1119,7 +1121,8 @@
      },
      "helpers": [],
      "role": "special setup sweeper",
-     "level": 43
+     "level": 43,
+     "sent_out": "#3"
     },
     {
      "species": "Nidoking",
@@ -1133,7 +1136,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 42
+     "level": 42,
+     "sent_out": "lead"
     },
     {
      "species": "Kangaskhan",
@@ -1147,7 +1151,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": 40
+     "level": 40,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1376,9 +1381,25 @@
    ],
    "offense_authored": 75,
    "offense_measured": 50,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [],
    "ace": [

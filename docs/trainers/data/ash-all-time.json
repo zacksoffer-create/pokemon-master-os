@@ -67,7 +67,7 @@
   "rigidity": {
    "authored": 25,
    "why": "improvises, uses the field",
-   "measured": 8,
+   "measured": 16,
    "signals": [
     {
      "signal": "choice",
@@ -78,9 +78,10 @@
     {
      "signal": "few_attack_types",
      "label": "low move-type variety",
-     "value": 17,
+     "value": 33,
      "members": [
-      "Sceptile"
+      "Sceptile",
+      "Snorlax"
      ]
     }
    ],
@@ -850,7 +851,7 @@
      "Body Slam",
      "Hyper Beam",
      "Ice Punch",
-     "Focus Punch"
+     "Mega Punch"
     ],
     "move_basis": [
      {
@@ -869,9 +870,9 @@
       "reason": "learns it in Platinum (tutor, as Snorlax)"
      },
      {
-      "move": "Focus Punch",
-      "basis": "this game",
-      "reason": "learns it in Platinum (machine, as Snorlax)"
+      "move": "Mega Punch",
+      "basis": "another game",
+      "reason": "learns it in Emerald (tutor)"
      }
     ],
     "flags": [],
@@ -984,8 +985,8 @@
     "moves": [
      "Megahorn",
      "Horn Attack",
-     "Brick Break",
-     "Night Slash"
+     "Sleep Talk",
+     "Focus Punch"
     ],
     "move_basis": [
      {
@@ -999,14 +1000,14 @@
       "reason": "learns it in Platinum (level 1, as Heracross)"
      },
      {
-      "move": "Brick Break",
+      "move": "Sleep Talk",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 19, as Heracross)"
+      "reason": "learns it in Platinum (machine, as Heracross)"
      },
      {
-      "move": "Night Slash",
+      "move": "Focus Punch",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 1, as Heracross)"
+      "reason": "learns it in Platinum (machine, as Heracross)"
      }
     ],
     "flags": [],
@@ -1322,7 +1323,7 @@
    },
    {
     "section": "expect",
-    "text": "They attack mostly from the physical side (18 of 24 attacks).",
+    "text": "They attack mostly from the physical side (17 of 23 attacks).",
     "rule": "side",
     "trigger": "their_side in ['physical', 'special'] (here physical)"
    },
@@ -1665,29 +1666,29 @@
      "confidence": "strong"
     },
     "also": [],
-    "why": "bulky attacker (0.73, strong): overall bulk above 97% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Hyper Beam, Ice Punch, Focus Punch"
+    "why": "bulky attacker (0.73, strong): overall bulk above 97% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Hyper Beam, Ice Punch, Mega Punch"
    },
    {
     "species": "Heracross",
     "nickname": null,
     "primary": {
-     "role": "wallbreaker",
-     "name": "wallbreaker",
-     "family": "offense",
-     "score": 0.6506,
-     "confidence": "strong",
-     "margin": 0.0272,
-     "clear": false
-    },
-    "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6234,
+     "score": 0.5996,
+     "confidence": "solid",
+     "margin": 0.0186,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.581,
      "confidence": "solid"
     },
     "also": [],
-    "why": "wallbreaker (0.65, strong): Megahorn (153); strong attacks (effective power 90+, with the stat it uses): Megahorn, Brick Break; Attack 307 (above 91% of the field)"
+    "why": "bulky attacker (0.60, solid): Attack 307 (above 91% of the field); attacking moves: Megahorn, Horn Attack, Focus Punch; overall bulk above 59% of the field"
    }
   ],
   "ace": {
@@ -1707,7 +1708,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Charizard",
@@ -1720,20 +1722,22 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Heracross",
      "slot": 6,
-     "score": 0.52,
+     "score": 0.503,
      "parts": {
       "support": 0.0,
-      "coverage": 0.471,
+      "coverage": 0.412,
       "role": 0.9
      },
      "helpers": [],
-     "role": "wallbreaker",
-     "level": null
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Infernape",
@@ -1746,20 +1750,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
-    },
-    {
-     "species": "Snorlax",
-     "slot": 5,
-     "score": 0.451,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.529,
-      "role": 0.7
-     },
-     "helpers": [],
-     "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Sceptile",
@@ -1772,7 +1764,22 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Snorlax",
+     "slot": 5,
+     "score": 0.367,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#5"
     }
    ]
   },
@@ -1791,9 +1798,9 @@
    },
    "behind": {
     "label": "gambit",
-    "species": "Heracross",
+    "species": "Pikachu",
     "role": "wallbreaker",
-    "fit": 0.586,
+    "fit": 0.529,
     "last_resorts": []
    }
   },
@@ -1811,10 +1818,10 @@
     {
      "type": "Dark",
      "covered": true,
-     "move": "Megahorn",
+     "move": "Focus Punch",
      "member": "Heracross",
-     "move_type": "Bug",
-     "power": 153,
+     "move_type": "Fighting",
+     "power": 225,
      "their_weak_to_it": 0
     },
     {
@@ -1864,11 +1871,11 @@
     },
     {
      "type": "Ghost",
-     "covered": true,
-     "move": "Night Slash",
-     "member": "Heracross",
-     "move_type": "Dark",
-     "power": 70,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 0
     },
     {
@@ -1892,19 +1899,19 @@
     {
      "type": "Ice",
      "covered": true,
-     "move": "Flare Blitz",
-     "member": "Infernape",
-     "move_type": "Fire",
-     "power": 180,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
      "their_weak_to_it": 1
     },
     {
      "type": "Normal",
      "covered": true,
      "move": "Focus Punch",
-     "member": "Snorlax",
+     "member": "Heracross",
      "move_type": "Fighting",
-     "power": 150,
+     "power": 225,
      "their_weak_to_it": 0
     },
     {
@@ -1928,19 +1935,19 @@
     {
      "type": "Rock",
      "covered": true,
-     "move": "Leaf Storm",
-     "member": "Sceptile",
-     "move_type": "Grass",
-     "power": 189,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
      "their_weak_to_it": 1
     },
     {
      "type": "Steel",
      "covered": true,
-     "move": "Flare Blitz",
-     "member": "Infernape",
-     "move_type": "Fire",
-     "power": 180,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
      "their_weak_to_it": 0
     },
     {
@@ -1953,10 +1960,12 @@
      "their_weak_to_it": 2
     }
    ],
-   "coverage": 1.0,
-   "covered_n": 17,
+   "coverage": 0.941,
+   "covered_n": 16,
    "types_n": 17,
-   "holes": [],
+   "holes": [
+    "Ghost"
+   ],
    "bring": []
   },
   "combos": [],
@@ -1965,7 +1974,7 @@
     "pokemon": "Pikachu",
     "move": "Thunderbolt",
     "why": "the calling card",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    },
@@ -1981,7 +1990,7 @@
     "pokemon": "Charizard",
     "move": "Seismic Toss",
     "why": "the grappling throw that beat the Orange League",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    },
@@ -1989,14 +1998,14 @@
     "pokemon": "Sceptile",
     "move": "Leaf Blade",
     "why": "the twig-chewing blade",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    }
   ],
   "aggression": {
    "ratio": 100,
-   "finishers": 13,
+   "finishers": 14,
    "attrition": 0,
    "finisher_moves": [
     "Volt Tackle (Pikachu)",
@@ -2010,15 +2019,32 @@
     "Mach Punch (Infernape)",
     "Flare Blitz (Infernape)",
     "Body Slam (Snorlax)",
+    "Mega Punch (Snorlax)",
     "Megahorn (Heracross)",
-    "Brick Break (Heracross)"
+    "Focus Punch (Heracross)"
    ],
    "attrition_moves": [],
    "offense_authored": 75,
    "offense_measured": 94,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
@@ -2063,7 +2089,7 @@
     },
     {
      "section": "go_to",
-     "text": "Behind: they turn to Heracross (wallbreaker).",
+     "text": "Behind: they turn to Pikachu (wallbreaker).",
      "rule": "goto_behind",
      "trigger": "one_for_all empty"
     }
@@ -2071,9 +2097,9 @@
    "coverage": [
     {
      "section": "coverage",
-     "text": "They hit all 17 types super-effectively: no type is safe to bring.",
-     "rule": "cover_full",
-     "trigger": "holes_n == 0 (here 0)"
+     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Ghost that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 1)"
     }
    ],
    "combos": [
@@ -2095,7 +2121,7 @@
    "aggression": [
     {
      "section": "aggression",
-     "text": "Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.",
+     "text": "Every move they carry finishes or sets up (14 of 14): nothing is there to wear you down.",
      "rule": "aggr_all",
      "trigger": "aggression >= 100 (here 100)"
     }

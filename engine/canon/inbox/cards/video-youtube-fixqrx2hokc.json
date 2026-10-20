@@ -26,10 +26,13 @@
     "context": "Spends bulk of daylight resting in meadows.",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:09",
    "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c1"
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "field_note",
@@ -40,10 +43,28 @@
     "context": "Moving across territory as a group.",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:46",
-   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c2"
+   "note": "The games back this: Pearl Pokédex: \"Groups of this Pokémon migrating in search of water have been mistaken for “moving forests.”\" The rest of the claim is the fan work's own.",
+   "id": "c2",
+   "canon_backing": [
+    {
+     "pokedex": "Groups of this Pokémon migrating in search of water have been mistaken for “moving forests.”",
+     "games": [
+      "pearl"
+     ],
+     "shared": [
+      "forest",
+      "group",
+      "migrat",
+      "mov"
+     ],
+     "score": 0.57
+    }
+   ],
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "field_note",
@@ -54,10 +75,30 @@
     "context": "Morelull and Zigzagoon inhabiting the tree and shell.",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 01:40",
-   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c3"
+   "note": "The games back this: Platinum, Black, White, Black 2, White 2 Pokédex: \"Some Pokémon are born on a Torterra’s back and spend their entire life there.\" The rest of the claim is the fan work's own.",
+   "id": "c3",
+   "canon_backing": [
+    {
+     "pokedex": "Some Pokémon are born on a Torterra’s back and spend their entire life there.",
+     "games": [
+      "platinum",
+      "black",
+      "white",
+      "black-2",
+      "white-2"
+     ],
+     "shared": [
+      "back",
+      "live"
+     ],
+     "score": 0.5
+    }
+   ],
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "field_note",
@@ -68,10 +109,13 @@
     "context": "Male sprints briefly toward a passing female before abandoning the chase due to exhaustion.",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 02:32",
    "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c4"
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "field_note",
@@ -82,10 +126,13 @@
     "context": "Coexisting peacefully in Torterra's micro-habitat.",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:18",
    "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c5"
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "field_note",
@@ -96,10 +143,13 @@
     "context": "Flying around meadow and waking the Torterra.",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:30",
    "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c6"
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "field_note",
@@ -110,10 +160,13 @@
     "region": "",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:00",
    "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c7"
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "lore",
@@ -123,10 +176,45 @@
     "episode": "EnlargedKai Nature Mockumentary",
     "fan_work": true
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc @ 00:46",
-   "note": "From a fan work: its interpretation, not canon. Approve it as canon only if you want it in your world.",
-   "id": "c8"
+   "note": "The games back this: Platinum, Black, White, Black 2, White 2 Pokédex: \"Some Pokémon are born on a Torterra’s back and spend their entire life there.\"; Pearl Pokédex: \"Groups of this Pokémon migrating in search of water have been mistaken for “moving forests.”\" The rest of the claim is the fan work's own.",
+   "id": "c8",
+   "canon_backing": [
+    {
+     "pokedex": "Some Pokémon are born on a Torterra’s back and spend their entire life there.",
+     "games": [
+      "platinum",
+      "black",
+      "white",
+      "black-2",
+      "white-2"
+     ],
+     "shared": [
+      "back",
+      "entire",
+      "live"
+     ],
+     "score": 0.75
+    },
+    {
+     "pokedex": "Groups of this Pokémon migrating in search of water have been mistaken for “moving forests.”",
+     "games": [
+      "pearl"
+     ],
+     "shared": [
+      "forest",
+      "group",
+      "migrat",
+      "mistak",
+      "mov"
+     ],
+     "score": 0.71
+    }
+   ],
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/lore.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "style_card",
@@ -185,11 +273,14 @@
      }
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://www.youtube.com/watch?v=fIXqRx2hokc",
-   "id": "c9"
+   "id": "c9",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/video_styles.jsonl",
+   "applied_on": "2026-10-20"
   }
  ],
- "status": "open",
+ "status": "closed",
  "raw": "canon/inbox/raw/video-youtube-fixqrx2hokc.json"
 }

@@ -1,0 +1,56 @@
+{
+ "id": "research-bulbapedia-gary-career",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Gary",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak"
+  ],
+  "asks": [
+   "ASK-0012"
+  ],
+  "unresolved": [],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "2 answer(s) for 1 open question(s) on Gary, from Bulbapedia.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.gary.career.0.result",
+    "value": "Top 32 (EP077, The Fourth Round Rumble)",
+    "was": "out before the Top 16 (draft: confirm the round)",
+    "why": "Bulbapedia Achievements: \"Indigo Plateau Conference - Top 32 (EP077, The Fourth Round Rumble)\"."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+   "note": "ASK-0012: Indigo Plateau Conference",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.gary.career.0.result: \"out before the Top 16 (draft: confirm the round)\" → \"Top 32 (EP077, The Fourth Round Rumble)\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.gary.career.0.status",
+    "value": "approved",
+    "was": "draft: confirm",
+    "why": "Bulbapedia Achievements: \"Indigo Plateau Conference - Top 32 (EP077, The Fourth Round Rumble)\"."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "note": "was \"draft: confirm\"",
+   "applied_to": "canon/trainers.json (trainers.gary.career.0.status: \"draft: confirm\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

@@ -1,0 +1,37 @@
+{
+ "id": "research-bulbapedia-red-mt-silver",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Red on Mt. Silver (HeartGold)",
+  "url": null,
+  "pages": [],
+  "asks": [
+   "ASK-0011"
+  ],
+  "unresolved": [],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "1 answer(s) for 1 open question(s) on Red on Mt. Silver (HeartGold), from Bulbapedia.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.red.versions.mt-silver.overrides.ace",
+    "value": "Pikachu",
+    "was": "Pikachu",
+    "why": "the game marks it: the only Lv 88 on the team, sent out first (Pikachu 88 → Lapras 80 → Snorlax 82 → Venusaur 84 → Charizard 84 → Blastoise 84)"
+   },
+   "status": "applied",
+   "confidence": "HIGH",
+   "source_ref": "pret data (the cartridge's own party)",
+   "note": "ASK-0011: confirms the authored ace (Pikachu)",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.red.versions.mt-silver.overrides.ace: \"Pikachu\" → \"Pikachu\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

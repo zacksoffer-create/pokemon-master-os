@@ -7,7 +7,7 @@
 | Offense (defensive ↔ offensive) | 70 (offensive) | 89 | still strikes first, now with planned combos |
 | Rigidity (flexible ↔ rigid) | 25 (flexible) | 33 | his most improvised era (Counter Shield, using the field) |
 | Bond (tool ↔ partnership) | 95 (partnership) | 100 | partnership above everything |
-| Risk (percentage player ↔ gambler) | 70 (gambler) | 50 | takes chances, but measured ones |
+| Risk (percentage player ↔ gambler) | 70 (gambler) | 67 | takes chances, but measured ones |
 
 **Tags:** Multi-Region Traveler (Kanto, Orange Archipelago, Johto, Hoenn and Sinnoh) · Orange League Champion (Orange League)
 
@@ -19,7 +19,7 @@
 
 ## What to expect
 
-- They attack mostly from the physical side (17 of 24 attacks).
+- They attack mostly from the physical side (17 of 23 attacks).
 - Fast where it counts: Pikachu, Infernape, Staraptor, Gliscor and Buizel outspeed the typical Pokémon of the generation.
 
 ## How to beat them
@@ -31,7 +31,7 @@
 
 ## Where their rigidity or recklessness leaves a gap
 
-- Reckless, and it shows: Pikachu's Iron Tail (75%) and Volt Tackle (recoil); Infernape's Flare Blitz (recoil); Staraptor's Brave Bird (recoil). Their misses and recoil are your free turns.
+- Reckless, and it shows: Pikachu's Iron Tail (75%) and Volt Tackle (recoil); Infernape's Flare Blitz (recoil); Staraptor's Brave Bird (recoil); Gliscor's Stone Edge (80%). Their misses and recoil are your free turns.
 
 ## The matrix
 
@@ -54,7 +54,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 |---|---|---|---|
 | Pikachu | revenge killer (solid, 0.64) | late-game cleaner (solid) | – |
 | Infernape | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
-| Torterra | bulky attacker (strong, 0.68) | wallbreaker (solid) | – |
+| Torterra | bulky attacker (strong, 0.65) | tank (solid) | – |
 | Staraptor | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
 | Gliscor | check / counter (solid, 0.54) | tank (loose) | – |
 | Buizel | revenge killer (solid, 0.54) | late-game cleaner (solid) | – |
@@ -75,7 +75,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## What they can hit
 
-- They hit all 17 types super-effectively: no type is safe to bring.
+- They hit 15 of 17 types super-effectively; nothing they carry hits Ghost or Psychic that way.
+- Bring Psychic: they can't hit it super-effectively, and one of them is weak to it.
 
 | Type | Their best super-effective attack | Of them weak to it |
 |---|---|---|
@@ -86,14 +87,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Fighting | Brave Bird (Staraptor, 180) | 0 |
 | Fire | Water Pulse (Buizel, 85) | 1 |
 | Flying | Volt Tackle (Pikachu, 180) | 2 |
-| Ghost | Night Slash (Gliscor, 70) | 0 |
+| Ghost | **none** | 0 |
 | Grass | Flare Blitz (Infernape, 180) | 1 |
-| Ground | Frenzy Plant (Torterra, 152) | 2 |
+| Ground | Leaf Storm (Torterra, 142) | 2 |
 | Ice | Flare Blitz (Infernape, 180) | 3 |
 | Normal | Close Combat (Staraptor, 120) | 0 |
 | Poison | Dig (Infernape, 80) | 0 |
-| Psychic | Night Slash (Gliscor, 70) | 1 |
-| Rock | Frenzy Plant (Torterra, 152) | 1 |
+| Psychic | **none** | 1 |
+| Rock | Leaf Storm (Torterra, 142) | 1 |
 | Steel | Flare Blitz (Infernape, 180) | 0 |
 | Water | Volt Tackle (Pikachu, 180) | 2 |
 
@@ -107,8 +108,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## How aggressive the moveset is
 
-- Every move they carry finishes or sets up (14 of 14): nothing is there to wear you down.
-- The moveset reads more offensive than the slider's 70: trust the moves.
+- 94% of their moves finish or set up (15 of 16); the rest wear you down.
 
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Hyper Cutter (could be Sand Veil); neutral nature.*
 

@@ -90,10 +90,11 @@
    "friendship": 255,
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed",
+   "status": "approved",
    "notes": [
     "Refuses its Poké Ball (lore): no ball recorded."
-   ]
+   ],
+   "ability": "Static"
   },
   "ash-kanto/charizard": {
    "species": "Charizard",
@@ -101,7 +102,7 @@
     "Flamethrower",
     "Fire Spin",
     "Seismic Toss",
-    "Slash"
+    "Submission"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -109,7 +110,8 @@
    "status": "proposed",
    "notes": [
     "Disobeyed Ash through most of Kanto (lore)."
-   ]
+   ],
+   "ability": "Blaze"
   },
   "ash-kanto/bulbasaur": {
    "species": "Bulbasaur",
@@ -122,15 +124,15 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "ash-kanto/squirtle": {
    "species": "Squirtle",
    "moves": [
     "Water Gun",
-    "Bubble",
     "Skull Bash",
-    "Withdraw"
+    "Withdraw",
+    "Tackle"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -148,7 +150,7 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "ash-kanto/kingler": {
    "species": "Kingler",
@@ -161,7 +163,7 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "ash-sinnoh/pikachu": {
    "species": "Pikachu",
@@ -174,10 +176,11 @@
    "friendship": 255,
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed",
+   "status": "approved",
    "notes": [
     "Refuses its Poké Ball (lore): no ball recorded."
-   ]
+   ],
+   "ability": "Static"
   },
   "ash-sinnoh/infernape": {
    "species": "Infernape",
@@ -190,18 +193,19 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed",
+   "status": "approved",
    "notes": [
     "Came from Paul; Blaze is its story (lore)."
-   ]
+   ],
+   "ability": "Blaze"
   },
   "ash-sinnoh/torterra": {
    "species": "Torterra",
    "moves": [
     "Leaf Storm",
     "Rock Climb",
-    "Frenzy Plant",
-    "Energy Ball"
+    "Energy Ball",
+    "Synthesis"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -219,15 +223,15 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "ash-sinnoh/gliscor": {
    "species": "Gliscor",
    "moves": [
     "Fire Fang",
     "Steel Wing",
-    "Night Slash",
-    "Giga Impact"
+    "Giga Impact",
+    "Stone Edge"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -248,7 +252,8 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved",
+   "ability": "Swift Swim"
   },
   "ash-all-time/pikachu": {
    "species": "Pikachu",
@@ -262,11 +267,12 @@
    "friendship": 255,
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed",
+   "status": "approved",
    "notes": [
     "Light Ball: project flavor from the brief, stored as data.",
     "Refuses its Poké Ball (lore)."
-   ]
+   ],
+   "ability": "Static"
   },
   "ash-all-time/charizard": {
    "species": "Charizard",
@@ -279,7 +285,8 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved",
+   "ability": "Blaze"
   },
   "ash-all-time/sceptile": {
    "species": "Sceptile",
@@ -292,7 +299,8 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved",
+   "ability": "Overgrow"
   },
   "ash-all-time/infernape": {
    "species": "Infernape",
@@ -305,7 +313,8 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved",
+   "ability": "Blaze"
   },
   "ash-all-time/snorlax": {
    "species": "Snorlax",
@@ -313,7 +322,7 @@
     "Body Slam",
     "Hyper Beam",
     "Ice Punch",
-    "Focus Punch"
+    "Mega Punch"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -325,8 +334,8 @@
    "moves": [
     "Megahorn",
     "Horn Attack",
-    "Brick Break",
-    "Night Slash"
+    "Sleep Talk",
+    "Focus Punch"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -347,15 +356,16 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved",
+   "ability": "Motor Drive"
   },
   "paul-sinnoh/torterra": {
    "species": "Torterra",
    "moves": [
     "Leaf Storm",
-    "Earthquake",
     "Hyper Beam",
-    "Stone Edge"
+    "Stone Edge",
+    "Frenzy Plant"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -369,9 +379,8 @@
    "species": "Ninjask",
    "moves": [
     "Agility",
-    "Double Team",
-    "Baton Pass",
-    "Fury Cutter"
+    "Fury Cutter",
+    "Giga Drain"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -379,15 +388,15 @@
    "status": "proposed",
    "notes": [
     "Moves: low confidence; edit freely."
-   ]
+   ],
+   "ability": "Speed Boost"
   },
   "paul-sinnoh/froslass": {
    "species": "Froslass",
    "moves": [
-    "Blizzard",
     "Ice Shard",
-    "Shadow Ball",
-    "Double Team"
+    "Hail",
+    "Ice Beam"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -399,8 +408,8 @@
    "moves": [
     "Pin Missile",
     "Cross Poison",
-    "Thunder Fang",
-    "Ice Fang"
+    "Toxic Spikes",
+    "Poison Fang"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -413,10 +422,10 @@
   "paul-sinnoh/gastrodon": {
    "species": "Gastrodon",
    "moves": [
-    "Mud Bomb",
     "Water Pulse",
-    "Hidden Power",
-    "Sludge Bomb"
+    "Muddy Water",
+    "Body Slam",
+    "Ice Beam"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -432,7 +441,7 @@
     "Hydro Pump",
     "Skull Bash",
     "Bite",
-    "Ice Beam"
+    "Withdraw"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -443,9 +452,9 @@
    "species": "Arcanine",
    "moves": [
     "Fire Blast",
-    "Extreme Speed",
-    "Flamethrower",
-    "Bite"
+    "Take Down",
+    "Fire Spin",
+    "Flame Wheel"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -455,10 +464,10 @@
   "gary-johto/nidoqueen": {
    "species": "Nidoqueen",
    "moves": [
-    "Body Slam",
     "Double Kick",
-    "Poison Sting",
-    "Hyper Beam"
+    "Hyper Beam",
+    "Mega Punch",
+    "Strength"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -472,8 +481,6 @@
    "species": "Magmar",
    "moves": [
     "Flamethrower",
-    "Fire Punch",
-    "Smog",
     "Fire Blast"
    ],
    "ball": "Poké Ball",
@@ -488,9 +495,7 @@
    "species": "Golem",
    "moves": [
     "Rollout",
-    "Rock Throw",
-    "Mega Punch",
-    "Earthquake"
+    "Magnitude"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -505,8 +510,8 @@
    "moves": [
     "Steel Wing",
     "Metal Claw",
-    "Swords Dance",
-    "Quick Attack"
+    "Quick Attack",
+    "Swift"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -527,15 +532,16 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved",
+   "ability": "Blaze"
   },
   "may-grand-festival/venusaur": {
    "species": "Venusaur",
    "moves": [
-    "Solar Beam",
     "Vine Whip",
     "Razor Leaf",
-    "Frenzy Plant"
+    "Petal Dance",
+    "Tackle"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -548,7 +554,7 @@
     "Water Gun",
     "Rapid Spin",
     "Bubble",
-    "Aqua Tail"
+    "Ice Beam"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -566,7 +572,7 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "may-grand-festival/beautifly": {
    "species": "Beautifly",
@@ -579,7 +585,7 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "may-grand-festival/skitty": {
    "species": "Skitty",
@@ -592,7 +598,7 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "dawn-grand-festival/piplup": {
    "species": "Piplup",
@@ -605,15 +611,16 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved",
+   "ability": "Torrent"
   },
   "dawn-grand-festival/togekiss": {
    "species": "Togekiss",
    "moves": [
     "Aura Sphere",
     "Air Slash",
-    "Magical Leaf",
-    "Yawn"
+    "Sky Attack",
+    "Safeguard"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -634,7 +641,7 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "dawn-grand-festival/pachirisu": {
    "species": "Pachirisu",
@@ -647,15 +654,14 @@
    "ball": "Poké Ball",
    "source": "anime (authored)",
    "generation": 4,
-   "status": "proposed"
+   "status": "approved"
   },
   "dawn-grand-festival/buneary": {
    "species": "Buneary",
    "moves": [
     "Ice Beam",
     "Dizzy Punch",
-    "Bounce",
-    "Jump Kick"
+    "Bounce"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -668,7 +674,7 @@
     "Double Hit",
     "Focus Punch",
     "Swift",
-    "Fury Swipes"
+    "Double Team"
    ],
    "ball": "Poké Ball",
    "source": "anime (authored)",
@@ -1464,6 +1470,993 @@
    "generation": 4,
    "tier": "unrated",
    "status": "proposed"
+  },
+  "ingested/snorlax-044dbc155c": {
+   "species": "Snorlax",
+   "moves": [
+    "Double-Edge",
+    "Curse",
+    "Earthquake",
+    "Rest"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "bulky_setup",
+   "name": "bulky setup, then bulky attacker (Gen 2 OU, 57 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 57 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Sleep Talk, Lovely Kiss, Self-Destruct",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c34)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen2ou-2701196884",
+   "status": "approved"
+  },
+  "ingested/snorlax-ae7f3e6721": {
+   "species": "Snorlax",
+   "moves": [
+    "Curse",
+    "Body Slam",
+    "Rest",
+    "Sleep Talk"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "bulky_setup",
+   "name": "bulky setup, then sponge / status absorber (Gen 2 OU, 12 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 12 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Flamethrower, Thunder, Self-Destruct",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c35)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "status": "approved"
+  },
+  "ingested/snorlax-ad77ae8a3f": {
+   "species": "Snorlax",
+   "moves": [
+    "Double-Edge",
+    "Sleep Talk",
+    "Rest",
+    "Surf"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "status_absorber",
+   "name": "sponge / status absorber (Gen 2 OU, 8 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 8 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Thunder",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c36)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-981611",
+   "status": "approved"
+  },
+  "ingested/snorlax-28323b2394": {
+   "species": "Snorlax",
+   "moves": [
+    "Double-Edge",
+    "Self-Destruct",
+    "Thunder",
+    "Earthquake"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "bulky_attacker",
+   "name": "bulky attacker, then tank (Gen 2 OU, 4 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 4 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Lovely Kiss",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c37)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-980996",
+   "status": "approved"
+  },
+  "ingested/snorlax-2961a9fee1": {
+   "species": "Snorlax",
+   "moves": [
+    "Belly Drum",
+    "Body Slam",
+    "Earthquake",
+    "Rest"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "bulky_setup",
+   "name": "bulky setup, then bulky attacker (Gen 2 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Lovely Kiss",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c38)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-982068",
+   "status": "approved"
+  },
+  "ingested/zapdos-a32e318f5a": {
+   "species": "Zapdos",
+   "moves": [
+    "Hidden Power",
+    "Thunder",
+    "Sleep Talk",
+    "Rest"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "status_absorber",
+   "name": "sponge / status absorber (Gen 2 OU, 34 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 34 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Thunderbolt, Drill Peck, Reflect",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c39)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen2ou-2701190188",
+   "status": "approved"
+  },
+  "ingested/zapdos-91b7b84ac4": {
+   "species": "Zapdos",
+   "moves": [
+    "Whirlwind",
+    "Thunder",
+    "Hidden Power",
+    "Thunder Wave"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "check_counter",
+   "name": "check / counter, then phazer (Gen 2 OU, 9 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 9 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Thunderbolt",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c40)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-981766",
+   "status": "approved"
+  },
+  "ingested/zapdos-ca4a003d24": {
+   "species": "Zapdos",
+   "moves": [
+    "Thunderbolt",
+    "Hidden Power",
+    "Protect",
+    "Whirlwind"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "check_counter",
+   "name": "check / counter (Gen 2 OU, 7 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 7 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Drill Peck",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c41)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-980858",
+   "status": "approved"
+  },
+  "ingested/cloyster-c550b1e299": {
+   "species": "Cloyster",
+   "moves": [
+    "Spikes",
+    "Toxic",
+    "Surf",
+    "Explosion"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "hazard_setter",
+   "name": "hazard setter (Gen 2 OU, 51 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 51 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Ice Beam",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c42)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-982079",
+   "status": "approved"
+  },
+  "ingested/cloyster-cb4cb09e79": {
+   "species": "Cloyster",
+   "moves": [
+    "Spikes",
+    "Rapid Spin",
+    "Surf",
+    "Protect"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "hazard_setter",
+   "name": "hazard setter, then hazard remover (Gen 2 OU, 4 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 4 Gen 2 OU battles; moves no battle showed are open",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c43)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-980858",
+   "status": "approved"
+  },
+  "ingested/tyranitar-26c4f40a0b": {
+   "species": "Tyranitar",
+   "moves": [
+    "Rock Slide",
+    "Pursuit",
+    "Roar",
+    "Crunch"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "bulky_attacker",
+   "name": "bulky attacker, then trapper (Gen 2 OU, 10 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 10 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Fire Blast, Dynamic Punch",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c44)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen2ou-2698341074",
+   "status": "approved"
+  },
+  "ingested/tyranitar-77693e6e5b": {
+   "species": "Tyranitar",
+   "moves": [
+    "Rock Slide",
+    "Curse",
+    "Roar",
+    "Rest"
+   ],
+   "item": "Leftovers",
+   "generation": 2,
+   "role": "bulky_setup",
+   "name": "bulky setup (Gen 2 OU, 5 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 5 Gen 2 OU battles; moves no battle showed are open",
+    "also seen: Flamethrower, Hidden Power",
+    "ingested from film-gen2ou-field-gen2ou-2026-10-19-2259c25710 (c45)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen2ou-982068",
+   "status": "approved"
+  },
+  "ingested/metagross-18b032dc76": {
+   "species": "Metagross",
+   "moves": [
+    "Meteor Mash",
+    "Earthquake",
+    "Agility",
+    "Rock Slide"
+   ],
+   "item": "Leftovers",
+   "generation": 3,
+   "role": "physical_setup_sweeper",
+   "name": "physical setup sweeper, then bulky attacker (Gen 3 OU, 20 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 20 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Explosion, Protect",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c34)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen3ou-2701231572",
+   "status": "approved"
+  },
+  "ingested/metagross-7a58fd12c0": {
+   "species": "Metagross",
+   "moves": [
+    "Meteor Mash",
+    "Explosion"
+   ],
+   "item": "Leftovers",
+   "generation": 3,
+   "role": "check_counter",
+   "name": "check / counter (Gen 3 OU, 4 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 4 Gen 3 OU battles; moves no battle showed are open",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c35)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen3ou-2701331445",
+   "status": "approved"
+  },
+  "ingested/metagross-9a03458760": {
+   "species": "Metagross",
+   "moves": [
+    "Meteor Mash",
+    "Protect",
+    "Earthquake",
+    "Toxic"
+   ],
+   "item": "Leftovers",
+   "generation": 3,
+   "role": "bulky_attacker",
+   "name": "bulky attacker, then check / counter (Gen 3 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 3 OU battles; moves no battle showed are open",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c36)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen3ou-982492",
+   "status": "approved"
+  },
+  "ingested/metagross-abb58183ae": {
+   "species": "Metagross",
+   "moves": [
+    "Explosion",
+    "Thunder Punch",
+    "Earthquake"
+   ],
+   "item": "Leftovers",
+   "generation": 3,
+   "role": "check_counter",
+   "name": "check / counter (Gen 3 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 3 OU battles; moves no battle showed are open",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c37)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen3ou-2701256278",
+   "status": "approved"
+  },
+  "ingested/tyranitar-cbbd4992f7": {
+   "species": "Tyranitar",
+   "moves": [
+    "Rock Slide",
+    "Dragon Dance",
+    "Earthquake",
+    "Hidden Power"
+   ],
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "generation": 3,
+   "role": "weather_setter",
+   "name": "weather setter, then bulky attacker (Gen 3 OU, 17 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 17 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Substitute, Focus Punch, Double-Edge",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c38)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen3ou-982533",
+   "status": "approved"
+  },
+  "ingested/tyranitar-5c738132dc": {
+   "species": "Tyranitar",
+   "moves": [
+    "Crunch",
+    "Pursuit",
+    "Fire Blast",
+    "Brick Break"
+   ],
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "generation": 3,
+   "role": "weather_setter",
+   "name": "weather setter, then bulky attacker (Gen 3 OU, 7 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 7 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Earthquake",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c39)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen3ou-2701210046",
+   "status": "approved"
+  },
+  "ingested/tyranitar-f1a0b21e8b": {
+   "species": "Tyranitar",
+   "moves": [
+    "Rock Slide",
+    "Focus Punch",
+    "Substitute"
+   ],
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "generation": 3,
+   "role": "weather_setter",
+   "name": "weather setter, then bulky attacker (Gen 3 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 3 OU battles; moves no battle showed are open",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c40)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen3ou-2701231572",
+   "status": "approved"
+  },
+  "ingested/skarmory-54a0d3394b": {
+   "species": "Skarmory",
+   "moves": [
+    "Spikes",
+    "Roar",
+    "Toxic",
+    "Protect"
+   ],
+   "item": "Leftovers",
+   "generation": 3,
+   "role": "phazer",
+   "name": "phazer, then hazard setter (Gen 3 OU, 29 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 29 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Drill Peck",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c41)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen3ou-982558",
+   "status": "approved"
+  },
+  "ingested/skarmory-86e0e198ff": {
+   "species": "Skarmory",
+   "moves": [
+    "Spikes",
+    "Drill Peck",
+    "Taunt",
+    "Roar"
+   ],
+   "item": "Leftovers",
+   "generation": 3,
+   "role": "hazard_setter",
+   "name": "hazard setter, then phazer (Gen 3 OU, 13 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 13 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Hidden Power, Thief",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c42)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen3ou-982551",
+   "status": "approved"
+  },
+  "ingested/salamence-287d972c3f": {
+   "species": "Salamence",
+   "moves": [
+    "Rock Slide",
+    "Dragon Dance",
+    "Hidden Power",
+    "Brick Break"
+   ],
+   "item": "Leftovers",
+   "ability": "Intimidate",
+   "generation": 3,
+   "role": "physical_setup_sweeper",
+   "name": "physical setup sweeper (Gen 3 OU, 14 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 14 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Earthquake, Dragon Claw",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c43)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen3ou-982537",
+   "status": "approved"
+  },
+  "ingested/salamence-10c81df22e": {
+   "species": "Salamence",
+   "moves": [
+    "Fire Blast",
+    "Dragon Claw",
+    "Hidden Power",
+    "Brick Break"
+   ],
+   "item": "Leftovers",
+   "ability": "Intimidate",
+   "generation": 3,
+   "role": "pivot",
+   "name": "pivot, then bulky attacker (Gen 3 OU, 13 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 13 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Rock Slide",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c44)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen3ou-2701264814",
+   "status": "approved"
+  },
+  "ingested/snorlax-de86c2bb43": {
+   "species": "Snorlax",
+   "moves": [
+    "Self-Destruct",
+    "Body Slam",
+    "Shadow Ball",
+    "Focus Punch"
+   ],
+   "item": "Leftovers",
+   "generation": 3,
+   "role": "bulky_attacker",
+   "name": "bulky attacker, then tank (Gen 3 OU, 19 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 19 Gen 3 OU battles; moves no battle showed are open",
+    "also seen: Earthquake, Counter, Brick Break",
+    "ingested from film-gen3ou-field-gen3ou-2026-10-20-2389d05f02 (c45)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen3ou-2701287519",
+   "status": "approved"
+  },
+  "ingested/tyranitar-c3081e5de9": {
+   "species": "Tyranitar",
+   "moves": [
+    "Crunch",
+    "Pursuit",
+    "Superpower",
+    "Toxic"
+   ],
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "generation": 4,
+   "role": "weather_setter",
+   "name": "weather setter, then bulky attacker (Gen 4 OU, 18 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 18 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c34)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
+   "status": "approved"
+  },
+  "ingested/tyranitar-0de14b9e41": {
+   "species": "Tyranitar",
+   "moves": [
+    "Crunch",
+    "Dragon Dance",
+    "Earthquake",
+    "Ice Punch"
+   ],
+   "item": "Chople Berry",
+   "ability": "Sand Stream",
+   "generation": 4,
+   "role": "weather_setter",
+   "name": "weather setter, then physical setup sweeper (Gen 4 OU, 12 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 12 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c35)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981475",
+   "status": "approved"
+  },
+  "ingested/tyranitar-f1f45e8bdc": {
+   "species": "Tyranitar",
+   "moves": [
+    "Stealth Rock",
+    "Earthquake",
+    "Thunder Wave",
+    "Rock Slide"
+   ],
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "generation": 4,
+   "role": "weather_setter",
+   "name": "weather setter, then hazard setter (Gen 4 OU, 8 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 8 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c36)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2700757105",
+   "status": "approved"
+  },
+  "ingested/tyranitar-f698ba2e42": {
+   "species": "Tyranitar",
+   "moves": [
+    "Pursuit",
+    "Stone Edge",
+    "Stealth Rock"
+   ],
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "generation": 4,
+   "role": "weather_setter",
+   "name": "weather setter, then hazard setter (Gen 4 OU, 4 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 4 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c37)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2700175471",
+   "status": "approved"
+  },
+  "ingested/tyranitar-834572dd33": {
+   "species": "Tyranitar",
+   "moves": [
+    "Crunch",
+    "Aqua Tail",
+    "Dragon Dance",
+    "Fire Punch"
+   ],
+   "ability": "Sand Stream",
+   "generation": 4,
+   "role": "weather_setter",
+   "name": "weather setter, then physical setup sweeper (Gen 4 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c38)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2700856339",
+   "status": "approved"
+  },
+  "ingested/latias-e7c3c20fb4": {
+   "species": "Latias",
+   "moves": [
+    "Draco Meteor",
+    "Thunderbolt",
+    "Surf"
+   ],
+   "generation": 4,
+   "role": "bulky_attacker",
+   "name": "bulky attacker (Gen 4 OU, 8 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 8 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c39)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2701189347",
+   "status": "approved"
+  },
+  "ingested/latias-856f32cf6b": {
+   "species": "Latias",
+   "moves": [
+    "Recover",
+    "Calm Mind",
+    "Dragon Pulse",
+    "Thunderbolt"
+   ],
+   "item": "Leftovers",
+   "ability": "Levitate",
+   "generation": 4,
+   "role": "bulky_setup",
+   "name": "bulky setup, then special setup sweeper (Gen 4 OU, 7 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 7 Gen 4 OU battles; moves no battle showed are open",
+    "also seen: Surf",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c40)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2700354179",
+   "status": "approved"
+  },
+  "ingested/latias-0ab8569cf7": {
+   "species": "Latias",
+   "moves": [
+    "Surf",
+    "Draco Meteor",
+    "Calm Mind",
+    "Hidden Power"
+   ],
+   "item": "Life Orb",
+   "ability": "Levitate",
+   "generation": 4,
+   "role": "special_setup_sweeper",
+   "name": "special setup sweeper (Gen 4 OU, 5 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c41)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981544",
+   "status": "approved"
+  },
+  "ingested/latias-2f0495fb03": {
+   "species": "Latias",
+   "moves": [
+    "Reflect",
+    "Ice Beam",
+    "Roost",
+    "Recover"
+   ],
+   "item": "Leftovers",
+   "ability": "Levitate",
+   "generation": 4,
+   "role": "check_counter",
+   "name": "check / counter (Gen 4 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c42)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981559",
+   "status": "approved"
+  },
+  "ingested/latias-b01bf94d17": {
+   "species": "Latias",
+   "moves": [
+    "Dragon Pulse",
+    "Recover",
+    "Surf"
+   ],
+   "item": "Colbur Berry",
+   "generation": 4,
+   "role": "check_counter",
+   "name": "check / counter (Gen 4 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c43)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2700331137",
+   "status": "approved"
+  },
+  "ingested/latias-8f05955d06": {
+   "species": "Latias",
+   "moves": [
+    "Draco Meteor",
+    "Trick"
+   ],
+   "item": "Choice Specs",
+   "ability": "Levitate",
+   "generation": 4,
+   "role": "stallbreaker",
+   "name": "stallbreaker (Gen 4 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c44)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2701150978",
+   "status": "approved"
+  },
+  "ingested/latias-c7c79180fa": {
+   "species": "Latias",
+   "moves": [
+    "Draco Meteor",
+    "Trick"
+   ],
+   "item": "Choice Scarf",
+   "generation": 4,
+   "role": "stallbreaker",
+   "name": "stallbreaker (Gen 4 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-gen4ou-2026-10-19-e78d2aa577 (c45)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/gen4ou-2700673942",
+   "status": "approved"
+  },
+  "ingested/tyranitar-77ce61e7f9": {
+   "species": "Tyranitar",
+   "moves": [
+    "Pursuit",
+    "Crunch",
+    "Superpower",
+    "Toxic"
+   ],
+   "item": "Leftovers",
+   "ability": "Sand Stream",
+   "generation": 4,
+   "role": "weather_setter",
+   "name": "weather setter, then bulky attacker (Gen 4 OU, 10 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 10 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c34)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
+   "status": "approved"
+  },
+  "ingested/tyranitar-8c113616f8": {
+   "species": "Tyranitar",
+   "moves": [
+    "Dragon Dance",
+    "Crunch",
+    "Earthquake",
+    "Ice Punch"
+   ],
+   "item": "Chople Berry",
+   "ability": "Sand Stream",
+   "generation": 4,
+   "role": "weather_setter",
+   "name": "weather setter, then physical setup sweeper (Gen 4 OU, 5 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c35)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981475",
+   "status": "approved"
+  },
+  "ingested/latias-ba7d8efea6": {
+   "species": "Latias",
+   "moves": [
+    "Draco Meteor",
+    "Surf",
+    "Calm Mind",
+    "Hidden Power"
+   ],
+   "item": "Life Orb",
+   "ability": "Levitate",
+   "generation": 4,
+   "role": "special_setup_sweeper",
+   "name": "special setup sweeper (Gen 4 OU, 4 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 4 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c36)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981544",
+   "status": "approved"
+  },
+  "ingested/jirachi-0fa9cccefc": {
+   "species": "Jirachi",
+   "moves": [
+    "Body Slam",
+    "Iron Head",
+    "Protect",
+    "Wish"
+   ],
+   "item": "Leftovers",
+   "generation": 4,
+   "role": "cleric",
+   "name": "cleric, then check / counter (Gen 4 OU, 7 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 7 Gen 4 OU battles; moves no battle showed are open",
+    "also seen: Fire Punch, Substitute",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c37)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981629",
+   "status": "approved"
+  },
+  "ingested/jirachi-79e0ce789e": {
+   "species": "Jirachi",
+   "moves": [
+    "Iron Head",
+    "Stealth Rock",
+    "U-turn",
+    "Thunder Wave"
+   ],
+   "item": "Leftovers",
+   "generation": 4,
+   "role": "pivot",
+   "name": "pivot, then hazard setter (Gen 4 OU, 5 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
+    "also seen: Fire Punch, Thunder, Body Slam",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c38)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-982466",
+   "status": "approved"
+  },
+  "ingested/jirachi-3de9cb0b4a": {
+   "species": "Jirachi",
+   "moves": [
+    "Psychic",
+    "Calm Mind",
+    "Thunderbolt"
+   ],
+   "item": "Leftovers",
+   "generation": 4,
+   "role": "special_setup_sweeper",
+   "name": "special setup sweeper, then bulky setup (Gen 4 OU, 4 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 4 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c39)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
+   "status": "approved"
+  },
+  "ingested/heatran-b5b2eeaa61": {
+   "species": "Heatran",
+   "moves": [
+    "Stealth Rock",
+    "Fire Blast",
+    "Explosion",
+    "Dragon Pulse"
+   ],
+   "item": "Shuca Berry",
+   "generation": 4,
+   "role": "hazard_setter",
+   "name": "hazard setter, then check / counter (Gen 4 OU, 7 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 7 Gen 4 OU battles; moves no battle showed are open",
+    "also seen: Hidden Power",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c40)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981560",
+   "status": "approved"
+  },
+  "ingested/heatran-ec0e044d72": {
+   "species": "Heatran",
+   "moves": [
+    "Earth Power",
+    "Fire Blast",
+    "Explosion"
+   ],
+   "generation": 4,
+   "role": "check_counter",
+   "name": "check / counter, then wallbreaker (Gen 4 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c41)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981765",
+   "status": "approved"
+  },
+  "ingested/gyarados-c3bc0686a0": {
+   "species": "Gyarados",
+   "moves": [
+    "Thunder Wave",
+    "Waterfall",
+    "Return",
+    "Dragon Dance"
+   ],
+   "item": "Leftovers",
+   "ability": "Intimidate",
+   "generation": 4,
+   "role": "physical_setup_sweeper",
+   "name": "physical setup sweeper (Gen 4 OU, 6 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 6 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c42)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
+   "status": "approved"
+  },
+  "ingested/gyarados-06012fcb2c": {
+   "species": "Gyarados",
+   "moves": [
+    "Waterfall",
+    "Earthquake",
+    "Outrage"
+   ],
+   "ability": "Intimidate",
+   "generation": 4,
+   "role": "check_counter",
+   "name": "check / counter, then pivot (Gen 4 OU, 3 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c43)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-981602",
+   "status": "approved"
+  },
+  "ingested/starmie-0d5177a9c3": {
+   "species": "Starmie",
+   "moves": [
+    "Rapid Spin",
+    "Recover",
+    "Thunder Wave",
+    "Hydro Pump"
+   ],
+   "item": "Leftovers",
+   "ability": "Natural Cure",
+   "generation": 4,
+   "role": "hazard_remover",
+   "name": "hazard remover (Gen 4 OU, 10 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 10 Gen 4 OU battles; moves no battle showed are open",
+    "also seen: Surf",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c44)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
+   "status": "approved"
+  },
+  "ingested/scizor-461ad1745c": {
+   "species": "Scizor",
+   "moves": [
+    "Swords Dance",
+    "Bullet Punch",
+    "Roost",
+    "Superpower"
+   ],
+   "item": "Leftovers",
+   "generation": 4,
+   "role": "bulky_setup",
+   "name": "bulky setup (Gen 4 OU, 5 battles)",
+   "tier": "unrated",
+   "notes": [
+    "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
+    "also seen: U-turn, Bug Bite",
+    "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c45)"
+   ],
+   "source": "external: https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
+   "status": "approved"
   }
  }
 }

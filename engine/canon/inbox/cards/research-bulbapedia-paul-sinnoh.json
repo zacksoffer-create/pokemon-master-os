@@ -1,0 +1,254 @@
+{
+ "id": "research-bulbapedia-paul-sinnoh",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Paul at Lily of the Valley",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "https://bulbapedia.bulbagarden.net/wiki/Paul's_Electivire",
+   "https://bulbapedia.bulbagarden.net/wiki/Paul's_Torterra"
+  ],
+  "asks": [
+   "ASK-0015",
+   "ASK-0016",
+   "ASK-0017",
+   "ASK-0018",
+   "ASK-0046",
+   "ASK-0047",
+   "ASK-0048",
+   "ASK-0049",
+   "ASK-0050",
+   "ASK-0051"
+  ],
+  "unresolved": [
+   "ASK-0015: Torterra's Leaf Storm is on its list but the history doesn't single it out (named 2×; Frenzy Plant 4, Giga Drain 3, Leaf Storm 2, Hyper Beam 2, Stone Edge 2, Crunch 0)",
+   "ASK-0016: Electivire's Giga Impact is on its list but the history doesn't single it out (named 0×; Brick Break 3, Thunder Punch 2, Protect 2, Light Screen 1, Thunder 1, Giga Impact 0)"
+  ],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "10 answer(s) for 10 open question(s) on Paul at Lily of the Valley, from Bulbapedia; 2 not settled.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.paul.versions.sinnoh.signature_moves.2.status",
+    "value": "not on Bulbapedia's list",
+    "was": "proposed",
+    "why": "Bulbapedia doesn't list Baton Pass among Ninjask's moves in this era (Agility, Fury Cutter, Giga Drain)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "note": "ASK-0017: unsupported; the most named is Fury Cutter",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.paul.versions.sinnoh.signature_moves.2.status: \"proposed\" → \"not on Bulbapedia's list\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.paul.versions.sinnoh.overrides.ace",
+    "value": "Torterra",
+    "was": "Electivire",
+    "why": "Bulbapedia: the era's history names Torterra 5×, Electivire 3×, Gastrodon 0×, Froslass 0×, Drapion 0×, Ninjask 0×."
+   },
+   "status": "applied",
+   "confidence": "LOW",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "note": "ASK-0018: differs from the authored ace (Electivire)",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.paul.versions.sinnoh.overrides.ace: \"Electivire\" → \"Torterra\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/electivire.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Thunder (DP003, recent, named 1×), Protect (DP003, recent, named 2×), Brick Break (DP003, recent, named 3×), Thunder Punch (DP003, recent, named 2×), Light Screen (DP131, named 1×), Giga Impact (DP184)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul's_Electivire",
+   "note": "ASK-0046: proposed Thunder Punch, Protect, Giga Impact, Brick Break",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/electivire.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/electivire.ability",
+    "value": "Motor Drive",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Motor Drive."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul's_Electivire",
+   "note": "ASK-0046: ability",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/electivire.ability: null → \"Motor Drive\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/torterra.moves",
+    "value": [
+     "Leaf Storm",
+     "Hyper Beam",
+     "Stone Edge",
+     "Frenzy Plant"
+    ],
+    "was": [
+     "Leaf Storm",
+     "Earthquake",
+     "Hyper Beam",
+     "Stone Edge"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Giga Drain (DP040, recent, named 3×), Frenzy Plant (DP040, recent, named 4×), Hyper Beam (DP051, named 2×), Leaf Storm (DP051, named 2×), Crunch (DP131, recent), Stone Edge (DP131, recent, named 2×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul's_Torterra",
+   "note": "ASK-0047: proposed Leaf Storm, Hyper Beam, Stone Edge, Frenzy Plant (was Leaf Storm, Earthquake, Hyper Beam, Stone Edge)",
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/torterra.moves: [\"Leaf Storm\", \"Earthquake\", \"Hyper Beam\", \"Stone Edge\"] → [\"Leaf Storm\", \"Hyper Beam\", \"Stone Edge\", \"Frenzy Plant\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/ninjask.moves",
+    "value": [
+     "Agility",
+     "Fury Cutter",
+     "Giga Drain"
+    ],
+    "was": [
+     "Agility",
+     "Double Team",
+     "Baton Pass",
+     "Fury Cutter"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Agility, Fury Cutter, Giga Drain."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "note": "ASK-0048: proposed Agility, Fury Cutter, Giga Drain (was Agility, Double Team, Baton Pass, Fury Cutter); Bulbapedia knows only 3, the other slots stay open",
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/ninjask.moves: [\"Agility\", \"Double Team\", \"Baton Pass\", \"Fury Cutter\"] → [\"Agility\", \"Fury Cutter\", \"Giga Drain\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/ninjask.ability",
+    "value": "Speed Boost",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Speed Boost."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "note": "ASK-0048: ability",
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/ninjask.ability: null → \"Speed Boost\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/froslass.moves",
+    "value": [
+     "Ice Shard",
+     "Hail",
+     "Ice Beam"
+    ],
+    "was": [
+     "Blizzard",
+     "Ice Shard",
+     "Shadow Ball",
+     "Double Team"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Hail, Ice Shard, Ice Beam."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "note": "ASK-0049: proposed Ice Shard, Hail, Ice Beam (was Blizzard, Ice Shard, Shadow Ball, Double Team); Bulbapedia knows only 3, the other slots stay open",
+   "id": "c8",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/froslass.moves: [\"Blizzard\", \"Ice Shard\", \"Shadow Ball\", \"Double Team\"] → [\"Ice Shard\", \"Hail\", \"Ice Beam\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/drapion.moves",
+    "value": [
+     "Pin Missile",
+     "Cross Poison",
+     "Toxic Spikes",
+     "Poison Fang"
+    ],
+    "was": [
+     "Pin Missile",
+     "Cross Poison",
+     "Thunder Fang",
+     "Ice Fang"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Pin Missile, Cross Poison, Toxic Spikes, Poison Fang."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "note": "ASK-0050: proposed Pin Missile, Cross Poison, Toxic Spikes, Poison Fang (was Pin Missile, Cross Poison, Thunder Fang, Ice Fang)",
+   "id": "c9",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/drapion.moves: [\"Pin Missile\", \"Cross Poison\", \"Thunder Fang\", \"Ice Fang\"] → [\"Pin Missile\", \"Cross Poison\", \"Toxic Spikes\", \"Poison Fang\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.paul-sinnoh/gastrodon.moves",
+    "value": [
+     "Water Pulse",
+     "Muddy Water",
+     "Body Slam",
+     "Ice Beam"
+    ],
+    "was": [
+     "Mud Bomb",
+     "Water Pulse",
+     "Hidden Power",
+     "Sludge Bomb"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Muddy Water, Body Slam, Water Pulse, Ice Beam."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Paul",
+   "note": "ASK-0051: proposed Water Pulse, Muddy Water, Body Slam, Ice Beam (was Mud Bomb, Water Pulse, Hidden Power, Sludge Bomb)",
+   "id": "c10",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.paul-sinnoh/gastrodon.moves: [\"Mud Bomb\", \"Water Pulse\", \"Hidden Power\", \"Sludge Bomb\"] → [\"Water Pulse\", \"Muddy Water\", \"Body Slam\", \"Ice Beam\"])",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

@@ -16,7 +16,7 @@
   "offense": {
    "authored": 60,
    "why": "polished, matchup-driven offense",
-   "measured": 67,
+   "measured": 56,
    "signals": [
     {
      "signal": "attack_heavy",
@@ -32,13 +32,11 @@
     {
      "signal": "damage_moves",
      "label": "mostly attacks",
-     "value": 100,
+     "value": 67,
      "members": [
       "Blastoise",
       "Arcanine",
       "Nidoqueen",
-      "Magmar",
-      "Golem",
       "Scizor"
      ]
     },
@@ -61,19 +59,39 @@
   "rigidity": {
    "authored": 40,
    "why": "adapts to the opponent, a researcher's mind",
-   "measured": 33,
+   "measured": 83,
    "signals": [
     {
      "signal": "few_attack_types",
      "label": "low move-type variety",
-     "value": 33,
+     "value": 83,
      "members": [
+      "Arcanine",
+      "Nidoqueen",
       "Magmar",
+      "Golem",
       "Scizor"
      ]
     }
    ],
-   "disagreement": null,
+   "disagreement": {
+    "gap": 43,
+    "team_leans": "rigid",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 83,
+      "members": [
+       "Arcanine",
+       "Nidoqueen",
+       "Magmar",
+       "Golem",
+       "Scizor"
+      ]
+     }
+    ]
+   },
    "poles": [
     "flexible",
     "rigid"
@@ -101,7 +119,7 @@
      "value": 33,
      "members": [
       "Blastoise",
-      "Magmar"
+      "Arcanine"
      ]
     }
    ],
@@ -243,7 +261,7 @@
      "Hydro Pump",
      "Skull Bash",
      "Bite",
-     "Ice Beam"
+     "Withdraw"
     ],
     "move_basis": [
      {
@@ -262,9 +280,9 @@
       "reason": "learns it in HeartGold/SoulSilver (level 16, as Blastoise)"
      },
      {
-      "move": "Ice Beam",
+      "move": "Withdraw",
       "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (machine, as Blastoise)"
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Blastoise)"
      }
     ],
     "flags": [],
@@ -372,9 +390,9 @@
     ],
     "moves": [
      "Fire Blast",
-     "Extreme Speed",
-     "Flamethrower",
-     "Bite"
+     "Take Down",
+     "Fire Spin",
+     "Flame Wheel"
     ],
     "move_basis": [
      {
@@ -383,19 +401,19 @@
       "reason": "learns it in HeartGold/SoulSilver (machine, as Arcanine)"
      },
      {
-      "move": "Extreme Speed",
+      "move": "Take Down",
       "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 39, as Arcanine)"
+      "reason": "learns it in HeartGold/SoulSilver (level 31, as Growlithe)"
      },
      {
-      "move": "Flamethrower",
+      "move": "Fire Spin",
       "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (machine, as Arcanine)"
+      "reason": "learns it in HeartGold/SoulSilver (egg, as Growlithe)"
      },
      {
-      "move": "Bite",
+      "move": "Flame Wheel",
       "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 1, as Arcanine)"
+      "reason": "learns it in HeartGold/SoulSilver (level 20, as Growlithe)"
      }
     ],
     "flags": [],
@@ -503,29 +521,29 @@
      "ability Poison Point (could be Rivalry)"
     ],
     "moves": [
-     "Body Slam",
      "Double Kick",
-     "Poison Sting",
-     "Hyper Beam"
+     "Hyper Beam",
+     "Mega Punch",
+     "Strength"
     ],
     "move_basis": [
-     {
-      "move": "Body Slam",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 23, as Nidoqueen)"
-     },
      {
       "move": "Double Kick",
       "basis": "this game",
       "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoqueen)"
      },
      {
-      "move": "Poison Sting",
+      "move": "Hyper Beam",
       "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoqueen)"
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Nidoqueen)"
      },
      {
-      "move": "Hyper Beam",
+      "move": "Mega Punch",
+      "basis": "another game",
+      "reason": "learns it in Emerald (tutor)"
+     },
+     {
+      "move": "Strength",
       "basis": "this game",
       "reason": "learns it in HeartGold/SoulSilver (machine, as Nidoqueen)"
      }
@@ -637,8 +655,6 @@
     ],
     "moves": [
      "Flamethrower",
-     "Fire Punch",
-     "Smog",
      "Fire Blast"
     ],
     "move_basis": [
@@ -646,16 +662,6 @@
       "move": "Flamethrower",
       "basis": "this game",
       "reason": "learns it in HeartGold/SoulSilver (level 41, as Magmar)"
-     },
-     {
-      "move": "Fire Punch",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 28, as Magmar)"
-     },
-     {
-      "move": "Smog",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 1, as Magmar)"
      },
      {
       "move": "Fire Blast",
@@ -775,9 +781,7 @@
     ],
     "moves": [
      "Rollout",
-     "Rock Throw",
-     "Mega Punch",
-     "Earthquake"
+     "Magnitude"
     ],
     "move_basis": [
      {
@@ -786,19 +790,9 @@
       "reason": "learns it in HeartGold/SoulSilver (level 22, as Golem)"
      },
      {
-      "move": "Rock Throw",
+      "move": "Magnitude",
       "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 11, as Golem)"
-     },
-     {
-      "move": "Mega Punch",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (egg, as Geodude)"
-     },
-     {
-      "move": "Earthquake",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 33, as Golem)"
+      "reason": "learns it in HeartGold/SoulSilver (level 15, as Golem)"
      }
     ],
     "flags": [],
@@ -909,8 +903,8 @@
     "moves": [
      "Steel Wing",
      "Metal Claw",
-     "Swords Dance",
-     "Quick Attack"
+     "Quick Attack",
+     "Swift"
     ],
     "move_basis": [
      {
@@ -924,14 +918,14 @@
       "reason": "learns it in HeartGold/SoulSilver (level 21, as Scizor)"
      },
      {
-      "move": "Swords Dance",
-      "basis": "this game",
-      "reason": "learns it in HeartGold/SoulSilver (level 57, as Scizor)"
-     },
-     {
       "move": "Quick Attack",
       "basis": "this game",
       "reason": "learns it in HeartGold/SoulSilver (level 1, as Scizor)"
+     },
+     {
+      "move": "Swift",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (tutor, as Scizor)"
      }
     ],
     "flags": [],
@@ -1251,9 +1245,15 @@
   "expect": [
    {
     "section": "expect",
-    "text": "Their attacks split between physical and special (15 physical, 8 special).",
+    "text": "Their attacks split between physical and special (12 physical, 7 special).",
     "rule": "side_mixed",
     "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Called flexible (40), but this team reads rigid (83): low move-type variety: Arcanine, Nidoqueen, Magmar, Golem and Scizor.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
    }
   ],
   "beat": [
@@ -1291,7 +1291,7 @@
   "gap": [
    {
     "section": "gap",
-    "text": "Even playing the percentages, they carry gambles: Blastoise's Hydro Pump (80%); Magmar's Smog (70%).",
+    "text": "Even playing the percentages, they carry gambles: Blastoise's Hydro Pump (80%); Arcanine's Take Down (recoil) and Fire Spin (70%).",
     "rule": "gamble_anyway",
     "trigger": "risk_band != high (here mid); gamble_str nonempty"
    }
@@ -1306,12 +1306,12 @@
      "region": "Kanto",
      "event": "Indigo Plateau Conference",
      "kind": "league",
-     "result": "out before the Top 16 (draft: confirm the round)",
+     "result": "Top 32 (EP077, The Fourth Round Rumble)",
      "versions": [
       "johto"
      ],
      "source": "anime",
-     "status": "draft: confirm"
+     "status": "approved"
     },
     {
      "region": "Johto",
@@ -1336,12 +1336,12 @@
     "species": "Blastoise",
     "nickname": null,
     "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.6061,
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.5969,
      "confidence": "solid",
-     "margin": 0.0151,
+     "margin": 0.0059,
      "clear": false
     },
     "secondary": {
@@ -1352,29 +1352,29 @@
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.61, solid): overall bulk above 79% of the field; attacking moves: Hydro Pump, Skull Bash, Bite, Ice Beam; Sp. Atk 227 (above 56% of the field)"
+    "why": "bulky setup (0.60, solid): Withdraw; overall bulk above 79% of the field; attacking moves: Hydro Pump, Skull Bash, Bite"
    },
    {
     "species": "Arcanine",
     "nickname": null,
     "primary": {
-     "role": "revenge_killer",
-     "name": "revenge killer",
-     "family": "offense",
-     "score": 0.7488,
-     "confidence": "strong",
-     "margin": 0.0969,
-     "clear": true
-    },
-    "secondary": {
      "role": "pivot",
      "name": "pivot",
      "family": "utility",
      "score": 0.6519,
-     "confidence": "strong"
+     "confidence": "strong",
+     "margin": 0.043,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6089,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "revenge killer (0.75, strong): Extreme Speed; Speed 247 (above 75% of the field); Attack 277 (above 80% of the field)"
+    "why": "pivot (0.65, strong): Intimidate; Fire (Intimidate); overall bulk above 60% of the field"
    },
    {
     "species": "Nidoqueen",
@@ -1396,7 +1396,7 @@
      "confidence": "loose"
     },
     "also": [],
-    "why": "check / counter (0.47, loose): Poison/Ground (Poison Point); overall bulk above 67% of the field; attacking moves: Body Slam, Double Kick, Hyper Beam"
+    "why": "check / counter (0.47, loose): Poison/Ground (Poison Point); overall bulk above 67% of the field; attacking moves: Double Kick, Hyper Beam, Mega Punch, Strength"
    },
    {
     "species": "Magmar",
@@ -1412,7 +1412,7 @@
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.59, solid): Fire Blast (153); strong attacks (effective power 90+, with the stat it uses): Flamethrower, Fire Punch, Fire Blast; Sp. Atk 257 (above 77% of the field)"
+    "why": "wallbreaker (0.59, solid): Fire Blast (153); strong attacks (effective power 90+, with the stat it uses): Flamethrower, Fire Blast; Sp. Atk 257 (above 77% of the field)"
    },
    {
     "species": "Golem",
@@ -1421,42 +1421,42 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6678,
-     "confidence": "strong",
-     "margin": 0.1164,
+     "score": 0.6202,
+     "confidence": "solid",
+     "margin": 0.1408,
      "clear": true
     },
     "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.5514,
-     "confidence": "solid"
+     "score": 0.4794,
+     "confidence": "loose"
     },
     "also": [],
-    "why": "bulky attacker (0.67, strong): Attack 277 (above 80% of the field); attacking moves: Rollout, Rock Throw, Mega Punch, Earthquake; overall bulk above 68% of the field"
+    "why": "bulky attacker (0.62, solid): Attack 277 (above 80% of the field); overall bulk above 68% of the field; attacking moves: Rollout, Magnitude"
    },
    {
     "species": "Scizor",
     "nickname": null,
     "primary": {
-     "role": "physical_setup_sweeper",
-     "name": "physical setup sweeper",
-     "family": "offense",
-     "score": 0.6595,
-     "confidence": "strong",
-     "margin": 0.0588,
-     "clear": false
-    },
-    "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6007,
+     "score": 0.6483,
+     "confidence": "solid",
+     "margin": 0.006,
+     "clear": false
+    },
+    "secondary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6423,
      "confidence": "solid"
     },
     "also": [],
-    "why": "physical setup sweeper (0.66, strong): Swords Dance; Attack 317 (above 94% of the field); physical attacks: Steel Wing, Metal Claw, Quick Attack"
+    "why": "bulky attacker (0.65, solid): Attack 317 (above 94% of the field); attacking moves: Steel Wing, Metal Claw, Quick Attack, Swift; overall bulk above 54% of the field"
    }
   ],
   "ace": {
@@ -1467,28 +1467,16 @@
     {
      "species": "Golem",
      "slot": 5,
-     "score": 0.52,
+     "score": 0.47,
      "parts": {
       "support": 0.0,
-      "coverage": 0.471,
+      "coverage": 0.294,
       "role": 0.9
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": null
-    },
-    {
-     "species": "Scizor",
-     "slot": 6,
-     "score": 0.462,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.118,
-      "role": 1.0
-     },
-     "helpers": [],
-     "role": "physical setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Magmar",
@@ -1501,33 +1489,22 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": null
-    },
-    {
-     "species": "Arcanine",
-     "slot": 2,
-     "score": 0.444,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.353,
-      "role": 0.8
-     },
-     "helpers": [],
-     "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Blastoise",
      "slot": 1,
-     "score": 0.434,
+     "score": 0.427,
      "parts": {
       "support": 0.0,
-      "coverage": 0.471,
-      "role": 0.7
+      "coverage": 0.294,
+      "role": 0.8
      },
      "helpers": [],
-     "role": "bulky attacker",
-     "level": null
+     "role": "bulky setup",
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Nidoqueen",
@@ -1540,7 +1517,36 @@
      },
      "helpers": [],
      "role": "check / counter",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Scizor",
+     "slot": 6,
+     "score": 0.376,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.118,
+      "role": 0.8
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Arcanine",
+     "slot": 2,
+     "score": 0.196,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": null,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1553,15 +1559,15 @@
    },
    "ahead": {
     "label": "cleaner",
-    "species": "Arcanine",
+    "species": "Scizor",
     "role": "revenge killer",
-    "fit": 0.749
+    "fit": 0.642
    },
    "behind": {
     "label": "gambit",
-    "species": "Scizor",
-    "role": "physical setup sweeper",
-    "fit": 0.659,
+    "species": "Magmar",
+    "role": "wallbreaker",
+    "fit": 0.535,
     "last_resorts": []
    }
   },
@@ -1587,20 +1593,20 @@
     },
     {
      "type": "Dragon",
-     "covered": true,
-     "move": "Ice Beam",
-     "member": "Blastoise",
-     "move_type": "Ice",
-     "power": 95,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 0
     },
     {
      "type": "Electric",
      "covered": true,
-     "move": "Earthquake",
+     "move": "Magnitude",
      "member": "Golem",
      "move_type": "Ground",
-     "power": 150,
+     "power": 106,
      "their_weak_to_it": 1
     },
     {
@@ -1615,28 +1621,28 @@
     {
      "type": "Fire",
      "covered": true,
-     "move": "Earthquake",
-     "member": "Golem",
-     "move_type": "Ground",
-     "power": 150,
+     "move": "Hydro Pump",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 144,
      "their_weak_to_it": 1
     },
     {
      "type": "Flying",
-     "covered": true,
-     "move": "Ice Beam",
-     "member": "Blastoise",
-     "move_type": "Ice",
-     "power": 95,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 0
     },
     {
      "type": "Ghost",
-     "covered": true,
-     "move": "Bite",
-     "member": "Arcanine",
-     "move_type": "Dark",
-     "power": 60,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 0
     },
     {
@@ -1678,28 +1684,28 @@
     {
      "type": "Poison",
      "covered": true,
-     "move": "Earthquake",
+     "move": "Magnitude",
      "member": "Golem",
      "move_type": "Ground",
-     "power": 150,
+     "power": 106,
      "their_weak_to_it": 0
     },
     {
      "type": "Psychic",
-     "covered": true,
-     "move": "Bite",
-     "member": "Arcanine",
-     "move_type": "Dark",
-     "power": 60,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 1
     },
     {
      "type": "Rock",
      "covered": true,
-     "move": "Earthquake",
-     "member": "Golem",
-     "move_type": "Ground",
-     "power": 150,
+     "move": "Hydro Pump",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 144,
      "their_weak_to_it": 2
     },
     {
@@ -1721,11 +1727,15 @@
      "their_weak_to_it": 4
     }
    ],
-   "coverage": 0.882,
-   "covered_n": 15,
+   "coverage": 0.647,
+   "covered_n": 11,
    "types_n": 17,
    "holes": [
+    "Dragon",
     "Fighting",
+    "Flying",
+    "Ghost",
+    "Psychic",
     "Water"
    ],
    "bring": [
@@ -1736,6 +1746,10 @@
     {
      "type": "Fighting",
      "their_weak": 1
+    },
+    {
+     "type": "Psychic",
+     "their_weak": 1
     }
    ]
   },
@@ -1745,45 +1759,57 @@
     "pokemon": "Blastoise",
     "move": "Hydro Pump",
     "why": "the Silver Conference duel with Charizard",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    }
   ],
   "aggression": {
    "ratio": 100,
-   "finishers": 13,
+   "finishers": 9,
    "attrition": 0,
    "finisher_moves": [
     "Hydro Pump (Blastoise)",
-    "Ice Beam (Blastoise)",
     "Fire Blast (Arcanine)",
-    "Extreme Speed (Arcanine)",
-    "Flamethrower (Arcanine)",
-    "Body Slam (Nidoqueen)",
+    "Flame Wheel (Arcanine)",
+    "Strength (Nidoqueen)",
     "Flamethrower (Magmar)",
-    "Fire Punch (Magmar)",
     "Fire Blast (Magmar)",
-    "Earthquake (Golem)",
+    "Magnitude (Golem)",
     "Steel Wing (Scizor)",
-    "Swords Dance (Scizor)",
     "Quick Attack (Scizor)"
    ],
    "attrition_moves": [],
    "offense_authored": 60,
-   "offense_measured": 67,
+   "offense_measured": 56,
    "flag": {
     "gap": 40,
     "leans": "offensive",
     "part1_flags_it": false
-   }
+   },
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
      "section": "career",
-     "text": "Recent record: Indigo Plateau Conference: out before the Top 16 (draft: confirm the round); Silver Conference: Top 16 (lost to Ash).",
+     "text": "Recent record: Indigo Plateau Conference: Top 32 (EP077, The Fourth Round Rumble); Silver Conference: Top 16 (lost to Ash).",
      "rule": "career_record",
      "trigger": "record_str nonempty"
     }
@@ -1805,13 +1831,13 @@
     },
     {
      "section": "go_to",
-     "text": "Ahead: Arcanine closes it out (revenge killer).",
+     "text": "Ahead: Scizor closes it out (revenge killer).",
      "rule": "goto_ahead",
      "trigger": "one_for_all empty"
     },
     {
      "section": "go_to",
-     "text": "Behind: they turn to Scizor (physical setup sweeper).",
+     "text": "Behind: they turn to Magmar (wallbreaker).",
      "rule": "goto_behind",
      "trigger": "one_for_all empty"
     }
@@ -1819,9 +1845,9 @@
    "coverage": [
     {
      "section": "coverage",
-     "text": "They hit 15 of 17 types super-effectively; nothing they carry hits Fighting or Water that way.",
+     "text": "They hit 11 of 17 types super-effectively; nothing they carry hits Dragon, Fighting, Flying, Ghost, Psychic or Water that way.",
      "rule": "cover",
-     "trigger": "holes_n > 0 (here 2)"
+     "trigger": "holes_n > 0 (here 6)"
     },
     {
      "section": "coverage",
@@ -1831,7 +1857,7 @@
     },
     {
      "section": "coverage",
-     "text": "Fighting get through clean too.",
+     "text": "Fighting or Psychic get through clean too.",
      "rule": "cover_bring_more",
      "trigger": "bring_more nonempty"
     }
@@ -1855,7 +1881,7 @@
    "aggression": [
     {
      "section": "aggression",
-     "text": "Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.",
+     "text": "Every move they carry finishes or sets up (9 of 9): nothing is there to wear you down.",
      "rule": "aggr_all",
      "trigger": "aggression >= 100 (here 100)"
     },

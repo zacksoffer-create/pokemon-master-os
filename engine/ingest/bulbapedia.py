@@ -533,7 +533,11 @@ def research(inbox, store, rows, gemini=None, wiki=None, only=None):
     cfg = inbox.cfg
     rr = Researcher(cfg, store, wiki, gemini)
     made = []
-    for (tid, vid), asks in sorted(jobs(store, rows).items(), key=lambda x: (x[0][0], x[0][1] or "")):
+    work = jobs(store, rows)
+    for key in cfg["bulbapedia"]["battles"]:            # a rival's send-out order is read even with nothing to ask
+        tid, vid = key.split("/")
+        work.setdefault((tid, vid), [])
+    for (tid, vid), asks in sorted(work.items(), key=lambda x: (x[0][0], x[0][1] or "")):
         if only and tid not in only:
             continue
         if tid not in cfg["bulbapedia"]["trainers"] and not any(a["Topic"] == "ace" for a in asks):
@@ -566,10 +570,21 @@ def research(inbox, store, rows, gemini=None, wiki=None, only=None):
         title = store.version(tid, vid).title if vid else who
         src = {"title": f"Bulbapedia research: {title}", "url": next(iter(sorted(pages)), None), "pages": sorted(pages),
                "asks": [a["AskID"] for a in asks], "unresolved": notes, "license": cfg["bulbapedia"]["license"]}
-        summary = (f"{len(claims)} answer(s) for {len(asks)} open question(s) on {title}, from Bulbapedia"
-                   + (f"; {len(notes)} not settled" if notes else "") + ".")
-        card, new = inbox.new("research", f"bulbapedia-{tid}-{vid or 'career'}", src, "ingested", summary, claims,
-                              again=True)
+        n_obs = len([c for c in claims if c["kind"] == "observation"])
+        summary = (f"{len(claims) - n_obs} answer(s) for {len(asks)} open question(s) on {title}, from Bulbapedia"
+                   + (f"; {len(notes)} not settled" if notes else "")
+                   + (f"; the send-out order of {n_obs} Pokémon in its defining battle" if n_obs else "") + ".")
+        key = f"bulbapedia-{tid}-{vid or 'career'}"
+        n = 1
+        while inbox.exists(f"research-{key}" + (f"-r{n}" if n > 1 else "")):
+            old = inbox.load(f"research-{key}" + (f"-r{n}" if n > 1 else ""))
+            if all(c["status"] == "proposed" for c in old["claims"]):
+                break                                   # nothing reviewed yet: this run replaces it
+            n += 1                                      # reviewed: keep it as it is, follow up in a new card
+        if n > 1:
+            key += f"-r{n}"
+            src["follows"] = f"research-bulbapedia-{tid}-{vid or 'career'}"
+        card, new = inbox.new("research", key, src, "ingested", summary, claims, again=True)
         made.append((card, new))
     return made, rr.usage
 

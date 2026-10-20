@@ -1485,7 +1485,8 @@
      },
      "helpers": [],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Gengar",
@@ -1498,7 +1499,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Pikachu",
@@ -1511,7 +1513,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Empoleon",
@@ -1524,7 +1527,8 @@
      },
      "helpers": [],
      "role": "check / counter",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Dragonite",
@@ -1537,7 +1541,8 @@
      },
      "helpers": [],
      "role": "check / counter",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Scizor",
@@ -1550,7 +1555,8 @@
      },
      "helpers": [],
      "role": "pivot",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     }
    ]
   },
@@ -1769,9 +1775,25 @@
    ],
    "offense_authored": null,
    "offense_measured": 89,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

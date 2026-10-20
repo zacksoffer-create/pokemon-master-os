@@ -1505,7 +1505,8 @@
      },
      "helpers": [],
      "role": "physical setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Weavile",
@@ -1518,7 +1519,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Garchomp",
@@ -1531,7 +1533,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Infernape",
@@ -1544,7 +1547,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Roserade",
@@ -1557,7 +1561,8 @@
      },
      "helpers": [],
      "role": "suicide lead",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Magnezone",
@@ -1570,7 +1575,8 @@
      },
      "helpers": [],
      "role": "trapper",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     }
    ]
   },
@@ -1801,9 +1807,25 @@
    ],
    "offense_authored": null,
    "offense_measured": 89,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

@@ -4,8 +4,8 @@
 
 | Slider | Authored | Team reads | Note |
 |---|---|---|---|
-| Offense (defensive ↔ offensive) | 60 (offensive) | 67 | polished, matchup-driven offense |
-| Rigidity (flexible ↔ rigid) | 40 (flexible) | 33 | adapts to the opponent, a researcher's mind |
+| Offense (defensive ↔ offensive) | 60 (offensive) | 56 | polished, matchup-driven offense |
+| Rigidity (flexible ↔ rigid) | 40 (flexible) | 83 | reads rigid |
 | Bond (tool ↔ partnership) | 70 (partnership) | no signal | grew from a show-off into a partner |
 | Risk (percentage player ↔ gambler) | 40 (percentage player) | 33 | calculated more than reckless |
 
@@ -16,7 +16,8 @@
 
 ## What to expect
 
-- Their attacks split between physical and special (15 physical, 8 special).
+- Their attacks split between physical and special (12 physical, 7 special).
+- Called flexible (40), but this team reads rigid (83): low move-type variety: Arcanine, Nidoqueen, Magmar, Golem and Scizor.
 
 ## How to beat them
 
@@ -28,7 +29,7 @@
 
 ## Where their rigidity or recklessness leaves a gap
 
-- Even playing the percentages, they carry gambles: Blastoise's Hydro Pump (80%); Magmar's Smog (70%).
+- Even playing the percentages, they carry gambles: Blastoise's Hydro Pump (80%); Arcanine's Take Down (recoil) and Fire Spin (70%).
 
 ## The matrix
 
@@ -45,20 +46,24 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 **Gaps:** Water and Ground · **Strengths:** Bug and Poison · **Bring:** special attackers (1 physically soft, 2 specially soft)
 
+**Moves and reasons** (D-048):
+
+- Nidoqueen: Mega Punch: learns it in Emerald (tutor)
+
 # Playsheet
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Blastoise | bulky attacker (solid, 0.61) | tank (solid) | – |
-| Arcanine | revenge killer (strong, 0.75) | pivot (strong) | – |
+| Blastoise | bulky setup (solid, 0.60) | tank (solid) | – |
+| Arcanine | pivot (strong, 0.65) | check / counter (solid) | – |
 | Nidoqueen | check / counter (loose, 0.47) | bulky attacker (loose) | – |
 | Magmar | wallbreaker (solid, 0.59) | – | – |
-| Golem | bulky attacker (strong, 0.67) | wallbreaker (solid) | – |
-| Scizor | physical setup sweeper (strong, 0.66) | bulky attacker (solid) | – |
+| Golem | bulky attacker (solid, 0.62) | wallbreaker (loose) | – |
+| Scizor | bulky attacker (solid, 0.65) | revenge killer (solid) | – |
 
 ## Career
 
-- Recent record: Indigo Plateau Conference: out before the Top 16 (draft: confirm the round); Silver Conference: Top 16 (lost to Ash).
+- Recent record: Indigo Plateau Conference: Top 32 (EP077, The Fourth Round Rumble); Silver Conference: Top 16 (lost to Ash).
 
 ## The ace
 
@@ -67,32 +72,32 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 ## Who they go to
 
 - Even game: Arcanine is the workhorse (pivot).
-- Ahead: Arcanine closes it out (revenge killer).
-- Behind: they turn to Scizor (physical setup sweeper).
+- Ahead: Scizor closes it out (revenge killer).
+- Behind: they turn to Magmar (wallbreaker).
 
 ## What they can hit
 
-- They hit 15 of 17 types super-effectively; nothing they carry hits Fighting or Water that way.
+- They hit 11 of 17 types super-effectively; nothing they carry hits Dragon, Fighting, Flying, Ghost, Psychic or Water that way.
 - Bring Water: they can't hit it super-effectively, and four of them are weak to it.
-- Fighting get through clean too.
+- Fighting or Psychic get through clean too.
 
 | Type | Their best super-effective attack | Of them weak to it |
 |---|---|---|
 | Bug | Fire Blast (Magmar, 153) | 0 |
 | Dark | Double Kick (Nidoqueen, 60) | 0 |
-| Dragon | Ice Beam (Blastoise, 95) | 0 |
-| Electric | Earthquake (Golem, 150) | 1 |
+| Dragon | **none** | 0 |
+| Electric | Magnitude (Golem, 106) | 1 |
 | Fighting | **none** | 1 |
-| Fire | Earthquake (Golem, 150) | 1 |
-| Flying | Ice Beam (Blastoise, 95) | 0 |
-| Ghost | Bite (Arcanine, 60) | 0 |
+| Fire | Hydro Pump (Blastoise, 144) | 1 |
+| Flying | **none** | 0 |
+| Ghost | **none** | 0 |
 | Grass | Fire Blast (Magmar, 153) | 2 |
 | Ground | Hydro Pump (Blastoise, 144) | 4 |
 | Ice | Fire Blast (Magmar, 153) | 2 |
 | Normal | Double Kick (Nidoqueen, 60) | 0 |
-| Poison | Earthquake (Golem, 150) | 0 |
-| Psychic | Bite (Arcanine, 60) | 1 |
-| Rock | Earthquake (Golem, 150) | 2 |
+| Poison | Magnitude (Golem, 106) | 0 |
+| Psychic | **none** | 1 |
+| Rock | Hydro Pump (Blastoise, 144) | 2 |
 | Steel | Fire Blast (Magmar, 153) | 1 |
 | Water | **none** | 4 |
 
@@ -106,7 +111,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## How aggressive the moveset is
 
-- Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.
+- Every move they carry finishes or sets up (9 of 9): nothing is there to wear you down.
 - The moveset reads more offensive than the slider's 60: trust the moves.
 
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Intimidate (could be Flash Fire); ability Poison Point (could be Rivalry); ability Rock Head (could be Sturdy); ability Swarm (could be Technician); neutral nature.*

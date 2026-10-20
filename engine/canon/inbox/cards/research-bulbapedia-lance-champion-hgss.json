@@ -1,0 +1,37 @@
+{
+ "id": "research-bulbapedia-lance-champion-hgss",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Champion Lance (HeartGold)",
+  "url": null,
+  "pages": [],
+  "asks": [
+   "ASK-0026"
+  ],
+  "unresolved": [],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "1 answer(s) for 1 open question(s) on Champion Lance (HeartGold), from Bulbapedia.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.lance.versions.champion-hgss.overrides.ace",
+    "value": "Dragonite",
+    "was": "Dragonite",
+    "why": "the game marks it: the only Lv 50 on the team, sent out last (Gyarados 46 → Dragonite 49 → Dragonite 49 → Aerodactyl 48 → Charizard 48 → Dragonite 50)"
+   },
+   "status": "applied",
+   "confidence": "HIGH",
+   "source_ref": "pret data (the cartridge's own party)",
+   "note": "ASK-0026: confirms the authored ace (Dragonite)",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.lance.versions.champion-hgss.overrides.ace: \"Dragonite\" → \"Dragonite\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

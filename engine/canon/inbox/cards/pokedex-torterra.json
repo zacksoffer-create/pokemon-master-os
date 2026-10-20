@@ -1,0 +1,97 @@
+{
+ "id": "pokedex-torterra",
+ "kind": "pokedex",
+ "added_on": "2026-10-20",
+ "provenance": "cartridge",
+ "source": {
+  "title": "Torterra: the games' Pokédex entries",
+  "file": "data/pokeref.sqlite (PokeAPI flavor text)",
+  "species": "Torterra",
+  "gen_max": 4
+ },
+ "summary": "4 distinct Pokédex entries for Torterra through Gen 4",
+ "claims": [
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "behavior",
+    "note": "Small Pokémon occasionally gather on its unmoving back to begin building their nests.",
+    "games": [
+     "diamond"
+    ],
+    "gen": 4,
+    "canon": true
+   },
+   "status": "applied",
+   "confidence": "HIGH",
+   "source_ref": "Pokédex: Diamond",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "behavior",
+    "note": "Groups of this Pokémon migrating in search of water have been mistaken for “moving forests.”",
+    "games": [
+     "pearl"
+    ],
+    "gen": 4,
+    "canon": true
+   },
+   "status": "applied",
+   "confidence": "HIGH",
+   "source_ref": "Pokédex: Pearl",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "habitat",
+    "note": "Some Pokémon are born on a Torterra’s back and spend their entire life there.",
+    "games": [
+     "platinum"
+    ],
+    "gen": 4,
+    "canon": true
+   },
+   "status": "applied",
+   "confidence": "HIGH",
+   "source_ref": "Pokédex: Platinum",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "field_note",
+   "data": {
+    "species": "Torterra",
+    "aspect": "habitat",
+    "note": "Ancient people imagined that beneath the ground, a gigantic Torterra dwelled.",
+    "games": [
+     "heartgold",
+     "soulsilver"
+    ],
+    "gen": 4,
+    "canon": true
+   },
+   "status": "applied",
+   "confidence": "HIGH",
+   "source_ref": "Pokédex: Heartgold, Soulsilver",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/field_notes.jsonl",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

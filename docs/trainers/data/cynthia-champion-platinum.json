@@ -1487,7 +1487,9 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 62
+     "level": 62,
+     "marked_by_game": true,
+     "sent_out": "last"
     },
     {
      "species": "Togekiss",
@@ -1501,7 +1503,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 60
+     "level": 60,
+     "sent_out": "#3"
     },
     {
      "species": "Lucario",
@@ -1515,7 +1518,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": 60
+     "level": 60,
+     "sent_out": "#4"
     },
     {
      "species": "Roserade",
@@ -1529,7 +1533,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 58
+     "level": 58,
+     "sent_out": "#2"
     },
     {
      "species": "Spiritomb",
@@ -1543,7 +1548,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 58
+     "level": 58,
+     "sent_out": "lead"
     },
     {
      "species": "Milotic",
@@ -1557,7 +1563,8 @@
      },
      "helpers": [],
      "role": "check / counter",
-     "level": 58
+     "level": 58,
+     "sent_out": "#5"
     }
    ]
   },
@@ -1773,9 +1780,25 @@
    ],
    "offense_authored": 65,
    "offense_measured": 72,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

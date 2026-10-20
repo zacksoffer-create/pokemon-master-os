@@ -1,0 +1,205 @@
+{
+ "id": "research-bulbapedia-gary-johto",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Gary at the Silver Conference",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Gary's_Arcanine",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Gary's_Arcanine",
+   "https://bulbapedia.bulbagarden.net/wiki/Gary's_Blastoise",
+   "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak"
+  ],
+  "asks": [
+   "ASK-0013",
+   "ASK-0052",
+   "ASK-0053",
+   "ASK-0054",
+   "ASK-0055",
+   "ASK-0056",
+   "ASK-0057"
+  ],
+  "unresolved": [],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "7 answer(s) for 7 open question(s) on Gary at the Silver Conference, from Bulbapedia.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.gary.versions.johto.signature_moves.0.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Hydro Pump is named 5× in Blastoise's history for this era, #1 of its moves (Hydro Pump 5, Rapid Spin 3, Skull Bash 2, Withdraw 1, Bite 1); first used EP269."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary's_Blastoise",
+   "note": "ASK-0013: confirmed",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.gary.versions.johto.signature_moves.0.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.gary-johto/blastoise.moves",
+    "value": [
+     "Hydro Pump",
+     "Skull Bash",
+     "Bite",
+     "Withdraw"
+    ],
+    "was": [
+     "Hydro Pump",
+     "Skull Bash",
+     "Bite",
+     "Ice Beam"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Hydro Pump (EP269, recent, named 5×), Skull Bash (EP270, recent, named 2×), Rapid Spin (EP270, recent, named 3×), Bite (EP270, named 1×), Withdraw (EP270, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary's_Blastoise",
+   "note": "ASK-0052: proposed Hydro Pump, Skull Bash, Bite, Withdraw (was Hydro Pump, Skull Bash, Bite, Ice Beam)",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.gary-johto/blastoise.moves: [\"Hydro Pump\", \"Skull Bash\", \"Bite\", \"Ice Beam\"] → [\"Hydro Pump\", \"Skull Bash\", \"Bite\", \"Withdraw\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.gary-johto/arcanine.moves",
+    "value": [
+     "Fire Blast",
+     "Take Down",
+     "Fire Spin",
+     "Flame Wheel"
+    ],
+    "was": [
+     "Fire Blast",
+     "Extreme Speed",
+     "Flamethrower",
+     "Bite"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Take Down (EP063, named 1×), Fire Spin (EP063, named 1×), Fire Blast (EP063), Flame Wheel (EP228)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary's_Arcanine",
+   "note": "ASK-0053: proposed Fire Blast, Take Down, Fire Spin, Flame Wheel (was Fire Blast, Extreme Speed, Flamethrower, Bite)",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.gary-johto/arcanine.moves: [\"Fire Blast\", \"Extreme Speed\", \"Flamethrower\", \"Bite\"] → [\"Fire Blast\", \"Take Down\", \"Fire Spin\", \"Flame Wheel\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.gary-johto/nidoqueen.moves",
+    "value": [
+     "Double Kick",
+     "Hyper Beam",
+     "Mega Punch",
+     "Strength"
+    ],
+    "was": [
+     "Body Slam",
+     "Double Kick",
+     "Poison Sting",
+     "Hyper Beam"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Mega Punch, Strength, Rock Smash, Hyper Beam, Double Kick. Not in the game's learnset for Nidoqueen: Mega Punch (anime only, or another route)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+   "note": "ASK-0054: proposed Double Kick, Hyper Beam, Mega Punch, Strength (was Body Slam, Double Kick, Poison Sting, Hyper Beam)",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.gary-johto/nidoqueen.moves: [\"Body Slam\", \"Double Kick\", \"Poison Sting\", \"Hyper Beam\"] → [\"Double Kick\", \"Hyper Beam\", \"Mega Punch\", \"Strength\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.gary-johto/magmar.moves",
+    "value": [
+     "Flamethrower",
+     "Fire Blast"
+    ],
+    "was": [
+     "Flamethrower",
+     "Fire Punch",
+     "Smog",
+     "Fire Blast"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Flamethrower, Fire Blast."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+   "note": "ASK-0055: proposed Flamethrower, Fire Blast (was Flamethrower, Fire Punch, Smog, Fire Blast); Bulbapedia knows only 2, the other slots stay open",
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.gary-johto/magmar.moves: [\"Flamethrower\", \"Fire Punch\", \"Smog\", \"Fire Blast\"] → [\"Flamethrower\", \"Fire Blast\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.gary-johto/golem.moves",
+    "value": [
+     "Rollout",
+     "Magnitude"
+    ],
+    "was": [
+     "Rollout",
+     "Rock Throw",
+     "Mega Punch",
+     "Earthquake"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Magnitude, Rollout."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+   "note": "ASK-0056: proposed Rollout, Magnitude (was Rollout, Rock Throw, Mega Punch, Earthquake); Bulbapedia knows only 2, the other slots stay open",
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.gary-johto/golem.moves: [\"Rollout\", \"Rock Throw\", \"Mega Punch\", \"Earthquake\"] → [\"Rollout\", \"Magnitude\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.gary-johto/scizor.moves",
+    "value": [
+     "Steel Wing",
+     "Metal Claw",
+     "Quick Attack",
+     "Swift"
+    ],
+    "was": [
+     "Steel Wing",
+     "Metal Claw",
+     "Swords Dance",
+     "Quick Attack"
+    ],
+    "why": "Bulbapedia (trainer page entry): moves in this era: Quick Attack, Metal Claw, Swift, Steel Wing."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Gary_Oak",
+   "note": "ASK-0057: proposed Steel Wing, Metal Claw, Quick Attack, Swift (was Steel Wing, Metal Claw, Swords Dance, Quick Attack)",
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.gary-johto/scizor.moves: [\"Steel Wing\", \"Metal Claw\", \"Swords Dance\", \"Quick Attack\"] → [\"Steel Wing\", \"Metal Claw\", \"Quick Attack\", \"Swift\"])",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

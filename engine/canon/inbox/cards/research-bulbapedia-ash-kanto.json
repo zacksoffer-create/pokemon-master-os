@@ -1,0 +1,224 @@
+{
+ "id": "research-bulbapedia-ash-kanto",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Kanto Ash (Indigo League)",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Bulbasaur",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Bulbasaur",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Kingler",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pidgeot",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Squirtle"
+  ],
+  "asks": [
+   "ASK-0001",
+   "ASK-0002",
+   "ASK-0028",
+   "ASK-0029",
+   "ASK-0030",
+   "ASK-0031",
+   "ASK-0032",
+   "ASK-0033"
+  ],
+  "unresolved": [],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "10 answer(s) for 8 open question(s) on Kanto Ash (Indigo League), from Bulbapedia.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.kanto.signature_moves.0.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Thunderbolt is named 4× in Pikachu's history for this era, #1 of its moves (Thunderbolt 4, Thunder Shock 1, Quick Attack 1, Agility 1, Thunder 1, Double-Edge 0); first used EP005."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0001: confirmed",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.kanto.signature_moves.0.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.kanto.signature_moves.1.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Vine Whip is named 13× in Bulbasaur's history for this era, #1 of its moves (Vine Whip 13, Tackle 5, Razor Leaf 4, Leech Seed 3, Solar Beam 1); first used EP010."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Bulbasaur",
+   "note": "ASK-0002: confirmed",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.kanto.signature_moves.1.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/pikachu.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Thunder Shock (EP001, named 1×), Thunderbolt (EP005, recent, named 4×), Agility (EP014, named 1×), Quick Attack (EP014, recent, named 1×), Thunder (EP022, named 1×), Double-Edge (EP079)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0028: proposed Thunderbolt, Thunder, Quick Attack, Agility",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/pikachu.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/pikachu.ability",
+    "value": "Static",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Static."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0028: ability",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/pikachu.ability: null → \"Static\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/charizard.moves",
+    "value": [
+     "Flamethrower",
+     "Fire Spin",
+     "Seismic Toss",
+     "Submission"
+    ],
+    "was": [
+     "Flamethrower",
+     "Fire Spin",
+     "Seismic Toss",
+     "Slash"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Flamethrower (EP011, recent, named 5×), Leer (EP023, named 1×), Rage (EP025, named 2×), Skull Bash (EP026, named 1×), Ember (EP032, named 1×), Fire Spin (EP032, named 1×), Submission (EP059, named 1×), Seismic Toss (EP059, named 1×). Not in the game's learnset for Charizard: Seismic Toss, Submission (anime only, or another route)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+   "note": "ASK-0029: proposed Flamethrower, Fire Spin, Seismic Toss, Submission (was Flamethrower, Fire Spin, Seismic Toss, Slash)",
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/charizard.moves: [\"Flamethrower\", \"Fire Spin\", \"Seismic Toss\", \"Slash\"] → [\"Flamethrower\", \"Fire Spin\", \"Seismic Toss\", \"Submission\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/charizard.ability",
+    "value": "Blaze",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Blaze."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Charizard",
+   "note": "ASK-0029: ability",
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/charizard.ability: null → \"Blaze\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/bulbasaur.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Tackle (EP010, named 5×), Vine Whip (EP010, recent, named 13×), Razor Leaf (EP025, recent, named 4×), Leech Seed (EP032, recent, named 3×), Solar Beam (EP051, recent, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Bulbasaur",
+   "note": "ASK-0030: proposed Vine Whip, Razor Leaf, Tackle, Solar Beam",
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/bulbasaur.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/squirtle.moves",
+    "value": [
+     "Water Gun",
+     "Skull Bash",
+     "Withdraw",
+     "Tackle"
+    ],
+    "was": [
+     "Water Gun",
+     "Bubble",
+     "Skull Bash",
+     "Withdraw"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Water Gun (EP012, recent, named 3×), Skull Bash (EP034, recent, named 1×), Tackle (EP061, named 1×), Withdraw (EP076, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Squirtle",
+   "note": "ASK-0031: proposed Water Gun, Skull Bash, Withdraw, Tackle (was Water Gun, Bubble, Skull Bash, Withdraw)",
+   "id": "c8",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/squirtle.moves: [\"Water Gun\", \"Bubble\", \"Skull Bash\", \"Withdraw\"] → [\"Water Gun\", \"Skull Bash\", \"Withdraw\", \"Tackle\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/pidgeotto.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Gust (EP003, recent, named 5×), Quick Attack (EP003, recent, named 2×), Sand Attack (EP004, named 1×), Whirlwind (EP006, named 2×), Wing Attack (EP007, recent, named 1×), Double-Edge (EP063, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pidgeot",
+   "note": "ASK-0032: proposed Gust, Quick Attack, Wing Attack, Sand Attack",
+   "id": "c9",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/pidgeotto.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-kanto/kingler.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Harden (EP075), Vise Grip (EP075, recent, named 1×), Leer (EP075, named 1×), Stomp (EP075, named 1×), Water Gun (EP075, recent), Bubble (EP075, recent, named 2×), Crabhammer (EP075, recent, named 1×), Hyper Beam (EP075, recent, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Kingler",
+   "note": "ASK-0033: proposed Crabhammer, Hyper Beam, Bubble, Stomp",
+   "id": "c10",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-kanto/kingler.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

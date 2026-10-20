@@ -69,7 +69,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## The ace
 
-- The story's ace is Dragonite; the data's is Aerodactyl (the widest coverage and a wallbreaker). Plan for both.
+- Ace: Dragonite. The story and the data agree (the highest level (50) and a bulky attacker).
 
 ## Who they go to
 

@@ -5,7 +5,7 @@
 | Slider | Authored | Team reads | Note |
 |---|---|---|---|
 | Offense (defensive ↔ offensive) | 80 (offensive) | 72 | charges in with his strongest attack |
-| Rigidity (flexible ↔ rigid) | 40 (flexible) | 83 | reads rigid |
+| Rigidity (flexible ↔ rigid) | 40 (flexible) | 100 | reads rigid |
 | Bond (tool ↔ partnership) | 95 (partnership) | 100 | partnership above everything |
 | Risk (percentage player ↔ gambler) | 85 (gambler) | 33 | reads percentage player |
 
@@ -17,8 +17,8 @@
 
 ## What to expect
 
-- Their attacks split between physical and special (11 physical, 10 special).
-- Called flexible (40), but this team reads rigid (83): low move-type variety: Pikachu, Bulbasaur, Squirtle, Pidgeotto and Kingler.
+- Their attacks split between physical and special (12 physical, 9 special).
+- Called flexible (40), but this team reads rigid (100): low move-type variety: Pikachu, Charizard, Bulbasaur, Squirtle, Pidgeotto and Kingler.
 - Called gambler (85), but this team reads percentage player (33): carries a gamble: Pikachu and Charizard.
 
 ## How to beat them
@@ -31,7 +31,7 @@
 
 ## Where their rigidity or recklessness leaves a gap
 
-- Reckless, and it shows: Pikachu's Thunder (70%); Charizard's Fire Spin (70%). Their misses and recoil are your free turns.
+- Reckless, and it shows: Pikachu's Thunder (70%); Charizard's Fire Spin (70%) and Submission (80%). Their misses and recoil are your free turns.
 
 ## The matrix
 
@@ -51,6 +51,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 **Moves and reasons** (D-048):
 
 - Charizard: Seismic Toss: learns it in Emerald (tutor)
+- Charizard: Submission: learns it in Blue Japan (machine)
 
 # Playsheet
 

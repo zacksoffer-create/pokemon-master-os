@@ -78,9 +78,12 @@
      "behind": 71
     }
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466",
-   "id": "c1"
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -97,9 +100,12 @@
     "outcome": "led 9 of 80 (11%), won 67%; first move Thunder Wave 3 of 9",
     "sample_size": 9
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023",
-   "id": "c2"
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -116,9 +122,12 @@
     "outcome": "led 8 of 80 (10%), won 38%; first move U-turn 3 of 8",
     "sample_size": 8
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861",
-   "id": "c3"
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -135,9 +144,12 @@
     "outcome": "led 7 of 80 (9%), won 14%; first move Toxic 2 of 7",
     "sample_size": 7
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981827 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981772 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765",
-   "id": "c4"
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -154,9 +166,12 @@
     "outcome": "led 6 of 80 (8%), won 33%; first move Toxic Spikes 3 of 6",
     "sample_size": 6
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981650 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981625",
-   "id": "c5"
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -173,9 +188,12 @@
     "outcome": "led 6 of 80 (8%), won 50%; first move U-turn 3 of 6",
     "sample_size": 6
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
-   "id": "c6"
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -192,9 +210,12 @@
     "outcome": "led 5 of 80 (6%), won 40%; first move Hydro Pump 2 of 5",
     "sample_size": 5
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981815 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981682",
-   "id": "c7"
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -211,9 +232,12 @@
     "outcome": "chosen when even in 13 battles (19 times, of 1241 choices when even); 5 knockouts",
     "sample_size": 13
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
-   "id": "c8"
+   "id": "c8",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -230,9 +254,12 @@
     "outcome": "chosen when even in 10 battles (19 times, of 1241 choices when even); 1 knockouts",
     "sample_size": 10
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981973",
-   "id": "c9"
+   "id": "c9",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -249,9 +276,12 @@
     "outcome": "chosen when even in 10 battles (14 times, of 1241 choices when even)",
     "sample_size": 10
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244",
-   "id": "c10"
+   "id": "c10",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -268,9 +298,12 @@
     "outcome": "chosen when ahead in 9 battles (13 times, of 840 choices when ahead)",
     "sample_size": 9
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
-   "id": "c11"
+   "id": "c11",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -287,9 +320,12 @@
     "outcome": "chosen when ahead in 7 battles (23 times, of 840 choices when ahead); 6 knockouts",
     "sample_size": 7
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981772 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981743 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
-   "id": "c12"
+   "id": "c12",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -306,9 +342,12 @@
     "outcome": "chosen when ahead in 5 battles (7 times, of 840 choices when ahead)",
     "sample_size": 5
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981772",
-   "id": "c13"
+   "id": "c13",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -325,9 +364,12 @@
     "outcome": "chosen when behind in 10 battles (15 times, of 832 choices when behind); 4 knockouts",
     "sample_size": 10
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
-   "id": "c14"
+   "id": "c14",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -344,9 +386,12 @@
     "outcome": "chosen when behind in 9 battles (15 times, of 832 choices when behind); 8 knockouts",
     "sample_size": 9
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023",
-   "id": "c15"
+   "id": "c15",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -363,9 +408,12 @@
     "outcome": "chosen when behind in 8 battles (12 times, of 832 choices when behind); 4 knockouts",
     "sample_size": 8
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
-   "id": "c16"
+   "id": "c16",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -382,9 +430,12 @@
     "outcome": "brought in after a faint 30 times; opened with U-turn 16",
     "sample_size": 30
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982462 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982005 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861",
-   "id": "c17"
+   "id": "c17",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -401,9 +452,12 @@
     "outcome": "brought in after a faint 24 times; opened with Iron Head 5",
     "sample_size": 24
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981962 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981827",
-   "id": "c18"
+   "id": "c18",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -420,9 +474,12 @@
     "outcome": "brought in after a faint 23 times; opened with Draco Meteor 12",
     "sample_size": 23
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023",
-   "id": "c19"
+   "id": "c19",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -439,9 +496,12 @@
     "outcome": "brought in after a faint 21 times; opened with Crunch 7",
     "sample_size": 21
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
-   "id": "c20"
+   "id": "c20",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -458,9 +518,12 @@
     "outcome": "brought in after a faint 18 times; opened with Close Combat 6",
     "sample_size": 18
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244",
-   "id": "c21"
+   "id": "c21",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -477,9 +540,12 @@
     "outcome": "closed 4 wins",
     "sample_size": 4
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981721 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981625",
-   "id": "c22"
+   "id": "c22",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -496,9 +562,12 @@
     "outcome": "closed 4 wins",
     "sample_size": 4
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981658 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981629 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981615",
-   "id": "c23"
+   "id": "c23",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -515,9 +584,12 @@
     "outcome": "closed 3 wins",
     "sample_size": 3
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981559 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981475",
-   "id": "c24"
+   "id": "c24",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -534,9 +606,12 @@
     "outcome": "closed 3 wins",
     "sample_size": 3
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981363",
-   "id": "c25"
+   "id": "c25",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -553,9 +628,12 @@
     "outcome": "held back in 10 battles",
     "sample_size": 10
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981682",
-   "id": "c26"
+   "id": "c26",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -572,9 +650,12 @@
     "outcome": "held back in 9 battles",
     "sample_size": 9
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982005",
-   "id": "c27"
+   "id": "c27",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -591,9 +672,12 @@
     "outcome": "held back in 8 battles",
     "sample_size": 8
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982023 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981962",
-   "id": "c28"
+   "id": "c28",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -610,9 +694,12 @@
     "outcome": "held back in 7 battles",
     "sample_size": 7
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981962 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981765 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981658",
-   "id": "c29"
+   "id": "c29",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -629,9 +716,12 @@
     "outcome": "switched in 11 times facing Heatran",
     "sample_size": 11
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982302 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982244 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981861",
-   "id": "c30"
+   "id": "c30",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -648,9 +738,12 @@
     "outcome": "switched in 11 times facing Latias",
     "sample_size": 11
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982469 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-982302",
-   "id": "c31"
+   "id": "c31",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -667,9 +760,12 @@
     "outcome": "switched in 7 times facing Jirachi",
     "sample_size": 7
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981721 | https://replay.pokemonshowdown.com/smogtours-gen4ou-981593",
-   "id": "c32"
+   "id": "c32",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "observation",
@@ -686,9 +782,12 @@
     "outcome": "switched in 11 times facing Zapdos",
     "sample_size": 11
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982244",
-   "id": "c33"
+   "id": "c33",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/observations.jsonl",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -707,13 +806,17 @@
     "name": "weather setter, then bulky attacker (Gen 4 OU, 10 battles)",
     "tier": "unrated",
     "notes": [
-     "revealed in 10 Gen 4 OU battles; moves no battle showed are open"
+     "revealed in 10 Gen 4 OU battles; moves no battle showed are open",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c34)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
    "note": "weather setter, then bulky attacker, won 60% of 10",
-   "id": "c34"
+   "id": "c34",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/tyranitar-77ce61e7f9)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -732,13 +835,17 @@
     "name": "weather setter, then physical setup sweeper (Gen 4 OU, 5 battles)",
     "tier": "unrated",
     "notes": [
-     "revealed in 5 Gen 4 OU battles; moves no battle showed are open"
+     "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c35)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981475",
    "note": "weather setter, then physical setup sweeper, won 60% of 5",
-   "id": "c35"
+   "id": "c35",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/tyranitar-8c113616f8)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -757,13 +864,17 @@
     "name": "special setup sweeper (Gen 4 OU, 4 battles)",
     "tier": "unrated",
     "notes": [
-     "revealed in 4 Gen 4 OU battles; moves no battle showed are open"
+     "revealed in 4 Gen 4 OU battles; moves no battle showed are open",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c36)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981544",
    "note": "special setup sweeper, won 50% of 4",
-   "id": "c36"
+   "id": "c36",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/latias-ba7d8efea6)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -782,13 +893,17 @@
     "tier": "unrated",
     "notes": [
      "revealed in 7 Gen 4 OU battles; moves no battle showed are open",
-     "also seen: Fire Punch, Substitute"
+     "also seen: Fire Punch, Substitute",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c37)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981629",
    "note": "cleric, then check / counter, won 14% of 7",
-   "id": "c37"
+   "id": "c37",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/jirachi-0fa9cccefc)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -807,13 +922,17 @@
     "tier": "unrated",
     "notes": [
      "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
-     "also seen: Fire Punch, Thunder, Body Slam"
+     "also seen: Fire Punch, Thunder, Body Slam",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c38)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982466",
    "note": "pivot, then hazard setter, won 60% of 5",
-   "id": "c38"
+   "id": "c38",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/jirachi-79e0ce789e)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -830,13 +949,17 @@
     "name": "special setup sweeper, then bulky setup (Gen 4 OU, 4 battles)",
     "tier": "unrated",
     "notes": [
-     "revealed in 4 Gen 4 OU battles; moves no battle showed are open"
+     "revealed in 4 Gen 4 OU battles; moves no battle showed are open",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c39)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981721",
    "note": "special setup sweeper, then bulky setup, won 25% of 4",
-   "id": "c39"
+   "id": "c39",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/jirachi-3de9cb0b4a)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -855,13 +978,17 @@
     "tier": "unrated",
     "notes": [
      "revealed in 7 Gen 4 OU battles; moves no battle showed are open",
-     "also seen: Hidden Power"
+     "also seen: Hidden Power",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c40)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981560",
    "note": "hazard setter, then check / counter, won 43% of 7",
-   "id": "c40"
+   "id": "c40",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/heatran-b5b2eeaa61)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -877,13 +1004,17 @@
     "name": "check / counter, then wallbreaker (Gen 4 OU, 3 battles)",
     "tier": "unrated",
     "notes": [
-     "revealed in 3 Gen 4 OU battles; moves no battle showed are open"
+     "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c41)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981765",
    "note": "check / counter, then wallbreaker, won 67% of 3",
-   "id": "c41"
+   "id": "c41",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/heatran-ec0e044d72)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -902,13 +1033,17 @@
     "name": "physical setup sweeper (Gen 4 OU, 6 battles)",
     "tier": "unrated",
     "notes": [
-     "revealed in 6 Gen 4 OU battles; moves no battle showed are open"
+     "revealed in 6 Gen 4 OU battles; moves no battle showed are open",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c42)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981691",
    "note": "physical setup sweeper, won 67% of 6",
-   "id": "c42"
+   "id": "c42",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/gyarados-c3bc0686a0)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -925,13 +1060,17 @@
     "name": "check / counter, then pivot (Gen 4 OU, 3 battles)",
     "tier": "unrated",
     "notes": [
-     "revealed in 3 Gen 4 OU battles; moves no battle showed are open"
+     "revealed in 3 Gen 4 OU battles; moves no battle showed are open",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c43)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-981602",
    "note": "check / counter, then pivot, won 33% of 3",
-   "id": "c43"
+   "id": "c43",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/gyarados-06012fcb2c)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -951,13 +1090,17 @@
     "tier": "unrated",
     "notes": [
      "revealed in 10 Gen 4 OU battles; moves no battle showed are open",
-     "also seen: Surf"
+     "also seen: Surf",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c44)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
    "note": "hazard remover, won 50% of 10",
-   "id": "c44"
+   "id": "c44",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/starmie-0d5177a9c3)",
+   "applied_on": "2026-10-20"
   },
   {
    "kind": "build",
@@ -976,15 +1119,19 @@
     "tier": "unrated",
     "notes": [
      "revealed in 5 Gen 4 OU battles; moves no battle showed are open",
-     "also seen: U-turn, Bug Bite"
+     "also seen: U-turn, Bug Bite",
+     "ingested from film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f (c45)"
     ]
    },
-   "status": "proposed",
+   "status": "applied",
    "source_ref": "https://replay.pokemonshowdown.com/smogtours-gen4ou-982000",
    "note": "bulky setup, won 40% of 5",
-   "id": "c45"
+   "id": "c45",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (ingested/scizor-461ad1745c)",
+   "applied_on": "2026-10-20"
   }
  ],
- "status": "open",
+ "status": "closed",
  "raw": "canon/inbox/raw/film-gen4ou-field-smogtours-gen4ou-2026-10-19-b3b8d05a6f.json"
 }

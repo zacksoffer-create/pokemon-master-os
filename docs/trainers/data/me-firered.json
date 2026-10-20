@@ -1482,7 +1482,8 @@
       "Blastoise"
      ],
      "role": "physical setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Charizard",
@@ -1497,7 +1498,8 @@
       "Blastoise"
      ],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Alakazam",
@@ -1512,7 +1514,8 @@
       "Blastoise"
      ],
      "role": "special setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Venusaur",
@@ -1527,7 +1530,8 @@
       "Blastoise"
      ],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Jolteon",
@@ -1542,7 +1546,8 @@
       "Blastoise"
      ],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Blastoise",
@@ -1555,7 +1560,8 @@
      },
      "helpers": [],
      "role": "hazard remover",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1771,9 +1777,25 @@
    ],
    "offense_authored": null,
    "offense_measured": 89,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

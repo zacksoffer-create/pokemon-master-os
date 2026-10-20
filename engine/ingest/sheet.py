@@ -47,11 +47,34 @@ VOCAB = [
 ]
 
 
-def asks(store, batch_size=25):
-    """ASK rows: what canon still holds as a draft or a proposal, phrased as research questions."""
+def answered(inbox):
+    """What approved research has already settled: the subject of every applied correction (a build, or the exact
+    trainer value), so a question isn't asked twice."""
+    out = set()
+    for card in inbox.all():
+        for c in card["claims"]:
+            if c["kind"] == "correction" and c["status"] == "applied":
+                out.add(_subject(c["data"]["target"]))
+    return out
+
+
+def _subject(target):
+    file_rel, _, dotted = target.partition(":")
+    if dotted.startswith("builds."):
+        return f"{file_rel}:" + ".".join(dotted.split(".")[:2])
+    return target
+
+
+def asks(store, batch_size=25, inbox=None):
+    """ASK rows: what canon still holds as a draft or a proposal, phrased as research questions. With the inbox,
+    anything an approved correction already settled is left out."""
     rows = []
+    done = answered(inbox) if inbox else set()
 
     def add(topic, q, have, target):
+        subject = _subject(target)
+        if subject in done or any(d.startswith(subject + ".") for d in done):
+            return
         rows.append({"Topic": topic, "Question": q, "WhatWeHave": have, "Target": target})
 
     for tid, t in store.trainers.items():

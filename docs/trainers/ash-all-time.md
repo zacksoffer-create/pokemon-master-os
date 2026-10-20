@@ -5,7 +5,7 @@
 | Slider | Authored | Team reads | Note |
 |---|---|---|---|
 | Offense (defensive ↔ offensive) | 75 (offensive) | 94 | attacks first, with his strongest |
-| Rigidity (flexible ↔ rigid) | 25 (flexible) | 8 | improvises, uses the field |
+| Rigidity (flexible ↔ rigid) | 25 (flexible) | 16 | improvises, uses the field |
 | Bond (tool ↔ partnership) | 98 (partnership) | 100 | the partnership is the point |
 | Risk (percentage player ↔ gambler) | 75 (gambler) | 33 | reads percentage player |
 
@@ -20,7 +20,7 @@
 ## What to expect
 
 - A Champion: they've won before and play like it.
-- They attack mostly from the physical side (18 of 24 attacks).
+- They attack mostly from the physical side (17 of 23 attacks).
 - Fast where it counts: Pikachu, Charizard, Sceptile, Infernape and Heracross outspeed the typical Pokémon of the generation.
 - Called gambler (75), but this team reads percentage player (33): carries a gamble: Pikachu and Infernape.
 
@@ -55,6 +55,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 - Charizard: Seismic Toss: learns it in Emerald (tutor)
 - Charizard: Dragon Breath: learns it in Crystal (machine)
+- Snorlax: Mega Punch: learns it in Emerald (tutor)
 
 # Playsheet
 
@@ -65,7 +66,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Sceptile | revenge killer (strong, 0.79) | late-game cleaner (solid) | – |
 | Infernape | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
 | Snorlax | bulky attacker (strong, 0.73) | sponge / status absorber (strong) | – |
-| Heracross | wallbreaker (strong, 0.65) | bulky attacker (solid) | – |
+| Heracross | bulky attacker (solid, 0.60) | wallbreaker (solid) | – |
 
 ## Career
 
@@ -81,30 +82,30 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 - Even game: Snorlax is the workhorse (bulky attacker).
 - Ahead: Sceptile closes it out (revenge killer).
-- Behind: they turn to Heracross (wallbreaker).
+- Behind: they turn to Pikachu (wallbreaker).
 
 ## What they can hit
 
-- They hit all 17 types super-effectively: no type is safe to bring.
+- They hit 16 of 17 types super-effectively; nothing they carry hits Ghost that way.
 
 | Type | Their best super-effective attack | Of them weak to it |
 |---|---|---|
 | Bug | Flare Blitz (Infernape, 180) | 1 |
-| Dark | Megahorn (Heracross, 153) | 0 |
+| Dark | Focus Punch (Heracross, 225) | 0 |
 | Dragon | Ice Punch (Snorlax, 75) | 0 |
 | Electric | Dig (Infernape, 80) | 1 |
 | Fighting | Wing Attack (Charizard, 74) | 1 |
 | Fire | Dig (Infernape, 80) | 2 |
 | Flying | Volt Tackle (Pikachu, 180) | 3 |
-| Ghost | Night Slash (Heracross, 70) | 0 |
+| Ghost | **none** | 0 |
 | Grass | Flare Blitz (Infernape, 180) | 0 |
 | Ground | Leaf Storm (Sceptile, 189) | 2 |
-| Ice | Flare Blitz (Infernape, 180) | 1 |
-| Normal | Focus Punch (Snorlax, 150) | 0 |
+| Ice | Focus Punch (Heracross, 225) | 1 |
+| Normal | Focus Punch (Heracross, 225) | 0 |
 | Poison | Dig (Infernape, 80) | 1 |
 | Psychic | Megahorn (Heracross, 153) | 2 |
-| Rock | Leaf Storm (Sceptile, 189) | 1 |
-| Steel | Flare Blitz (Infernape, 180) | 0 |
+| Rock | Focus Punch (Heracross, 225) | 1 |
+| Steel | Focus Punch (Heracross, 225) | 0 |
 | Water | Leaf Storm (Sceptile, 189) | 2 |
 
 ## Combos to watch
@@ -117,7 +118,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## How aggressive the moveset is
 
-- Every move they carry finishes or sets up (13 of 13): nothing is there to wear you down.
+- Every move they carry finishes or sets up (14 of 14): nothing is there to wear you down.
 
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Immunity (could be Thick Fat); ability Swarm (could be Guts); neutral nature.*
 

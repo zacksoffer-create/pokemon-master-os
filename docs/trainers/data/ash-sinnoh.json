@@ -106,16 +106,17 @@
   "risk": {
    "authored": 70,
    "why": "takes chances, but measured ones",
-   "measured": 50,
+   "measured": 67,
    "signals": [
     {
      "signal": "risky",
      "label": "carries a gamble",
-     "value": 50,
+     "value": 67,
      "members": [
       "Pikachu",
       "Infernape",
-      "Staraptor"
+      "Staraptor",
+      "Gliscor"
      ]
     }
    ],
@@ -537,8 +538,8 @@
     "moves": [
      "Leaf Storm",
      "Rock Climb",
-     "Frenzy Plant",
-     "Energy Ball"
+     "Energy Ball",
+     "Synthesis"
     ],
     "move_basis": [
      {
@@ -552,14 +553,14 @@
       "reason": "learns it in Platinum (machine, as Torterra)"
      },
      {
-      "move": "Frenzy Plant",
-      "basis": "this game",
-      "reason": "learns it in Platinum (tutor, as Torterra)"
-     },
-     {
       "move": "Energy Ball",
       "basis": "this game",
       "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Synthesis",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 39, as Torterra)"
      }
     ],
     "flags": [],
@@ -805,8 +806,8 @@
     "moves": [
      "Fire Fang",
      "Steel Wing",
-     "Night Slash",
-     "Giga Impact"
+     "Giga Impact",
+     "Stone Edge"
     ],
     "move_basis": [
      {
@@ -820,12 +821,12 @@
       "reason": "learns it in Platinum (machine, as Gliscor)"
      },
      {
-      "move": "Night Slash",
+      "move": "Giga Impact",
       "basis": "this game",
-      "reason": "learns it in Platinum (level 31, as Gliscor)"
+      "reason": "learns it in Platinum (machine, as Gliscor)"
      },
      {
-      "move": "Giga Impact",
+      "move": "Stone Edge",
       "basis": "this game",
       "reason": "learns it in Platinum (machine, as Gliscor)"
      }
@@ -1264,7 +1265,7 @@
   "expect": [
    {
     "section": "expect",
-    "text": "They attack mostly from the physical side (17 of 24 attacks).",
+    "text": "They attack mostly from the physical side (17 of 23 attacks).",
     "rule": "side",
     "trigger": "their_side in ['physical', 'special'] (here physical)"
    },
@@ -1304,7 +1305,7 @@
   "gap": [
    {
     "section": "gap",
-    "text": "Reckless, and it shows: Pikachu's Iron Tail (75%) and Volt Tackle (recoil); Infernape's Flare Blitz (recoil); Staraptor's Brave Bird (recoil). Their misses and recoil are your free turns.",
+    "text": "Reckless, and it shows: Pikachu's Iron Tail (75%) and Volt Tackle (recoil); Infernape's Flare Blitz (recoil); Staraptor's Brave Bird (recoil); Gliscor's Stone Edge (80%). Their misses and recoil are your free turns.",
     "rule": "reckless",
     "trigger": "risk_band == high (here high); gamble_str nonempty"
    }
@@ -1466,20 +1467,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6781,
+     "score": 0.6543,
      "confidence": "strong",
-     "margin": 0.0973,
+     "margin": 0.1542,
      "clear": true
     },
     "secondary": {
-     "role": "wallbreaker",
-     "name": "wallbreaker",
-     "family": "offense",
-     "score": 0.5808,
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5001,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.68, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Rock Climb, Frenzy Plant, Energy Ball"
+    "why": "bulky attacker (0.65, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Rock Climb, Energy Ball"
    },
    {
     "species": "Staraptor",
@@ -1523,7 +1524,7 @@
      "confidence": "loose"
     },
     "also": [],
-    "why": "check / counter (0.54, solid): Ground/Flying (Hyper Cutter); overall bulk above 69% of the field; attacking moves: Fire Fang, Steel Wing, Night Slash, Giga Impact"
+    "why": "check / counter (0.54, solid): Ground/Flying (Hyper Cutter); overall bulk above 69% of the field; attacking moves: Fire Fang, Steel Wing, Giga Impact, Stone Edge"
    },
    {
     "species": "Buizel",
@@ -1565,7 +1566,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Staraptor",
@@ -1578,7 +1580,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Infernape",
@@ -1591,7 +1594,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Buizel",
@@ -1604,20 +1608,22 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Torterra",
      "slot": 3,
-     "score": 0.436,
+     "score": 0.35,
      "parts": {
       "support": 0.0,
       "coverage": 0.176,
-      "role": 0.9
+      "role": 0.7
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Gliscor",
@@ -1630,7 +1636,8 @@
      },
      "helpers": [],
      "role": "check / counter",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     }
    ]
   },
@@ -1722,11 +1729,11 @@
     },
     {
      "type": "Ghost",
-     "covered": true,
-     "move": "Night Slash",
-     "member": "Gliscor",
-     "move_type": "Dark",
-     "power": 70,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 0
     },
     {
@@ -1741,10 +1748,10 @@
     {
      "type": "Ground",
      "covered": true,
-     "move": "Frenzy Plant",
+     "move": "Leaf Storm",
      "member": "Torterra",
      "move_type": "Grass",
-     "power": 152,
+     "power": 142,
      "their_weak_to_it": 2
     },
     {
@@ -1776,20 +1783,20 @@
     },
     {
      "type": "Psychic",
-     "covered": true,
-     "move": "Night Slash",
-     "member": "Gliscor",
-     "move_type": "Dark",
-     "power": 70,
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
      "their_weak_to_it": 1
     },
     {
      "type": "Rock",
      "covered": true,
-     "move": "Frenzy Plant",
+     "move": "Leaf Storm",
      "member": "Torterra",
      "move_type": "Grass",
-     "power": 152,
+     "power": 142,
      "their_weak_to_it": 1
     },
     {
@@ -1811,11 +1818,19 @@
      "their_weak_to_it": 2
     }
    ],
-   "coverage": 1.0,
-   "covered_n": 17,
+   "coverage": 0.882,
+   "covered_n": 15,
    "types_n": 17,
-   "holes": [],
-   "bring": []
+   "holes": [
+    "Ghost",
+    "Psychic"
+   ],
+   "bring": [
+    {
+     "type": "Psychic",
+     "their_weak": 1
+    }
+   ]
   },
   "combos": [],
   "signature_moves": [
@@ -1823,7 +1838,7 @@
     "pokemon": "Pikachu",
     "move": "Volt Tackle",
     "why": "learned at the Battle Frontier; his finisher by Sinnoh",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    },
@@ -1839,15 +1854,15 @@
     "pokemon": "Staraptor",
     "move": "Brave Bird",
     "why": "the all-in strike",
-    "status": "proposed",
+    "status": "confirmed",
     "on_team": true,
     "in_moveset": true
    }
   ],
   "aggression": {
-   "ratio": 100,
-   "finishers": 14,
-   "attrition": 0,
+   "ratio": 94,
+   "finishers": 15,
+   "attrition": 1,
    "finisher_moves": [
     "Thunderbolt (Pikachu)",
     "Quick Attack (Pikachu)",
@@ -1861,19 +1876,34 @@
     "Brave Bird (Staraptor)",
     "Aerial Ace (Staraptor)",
     "Quick Attack (Staraptor)",
+    "Stone Edge (Gliscor)",
     "Aqua Jet (Buizel)",
     "Water Pulse (Buizel)"
    ],
-   "attrition_moves": [],
+   "attrition_moves": [
+    "Synthesis (Torterra)"
+   ],
    "offense_authored": 70,
    "offense_measured": 89,
-   "flag": {
-    "gap": 30,
-    "leans": "offensive",
-    "part1_flags_it": false
-   }
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
@@ -1914,9 +1944,15 @@
    "coverage": [
     {
      "section": "coverage",
-     "text": "They hit all 17 types super-effectively: no type is safe to bring.",
-     "rule": "cover_full",
-     "trigger": "holes_n == 0 (here 0)"
+     "text": "They hit 15 of 17 types super-effectively; nothing they carry hits Ghost or Psychic that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 2)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Psychic: they can't hit it super-effectively, and one of them is weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
     }
    ],
    "combos": [
@@ -1938,15 +1974,9 @@
    "aggression": [
     {
      "section": "aggression",
-     "text": "Every move they carry finishes or sets up (14 of 14): nothing is there to wear you down.",
-     "rule": "aggr_all",
-     "trigger": "aggression >= 100 (here 100)"
-    },
-    {
-     "section": "aggression",
-     "text": "The moveset reads more offensive than the slider's 70: trust the moves.",
-     "rule": "aggr_flag",
-     "trigger": "aggr_flag == True (here True)"
+     "text": "94% of their moves finish or set up (15 of 16); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 94)"
     }
    ]
   }

@@ -4,10 +4,10 @@
 
 | Slider | Authored | Team reads | Note |
 |---|---|---|---|
-| Offense (defensive ↔ offensive) | 85 (offensive) | 78 | overwhelming power to win fast |
-| Rigidity (flexible ↔ rigid) | 85 (rigid) | 33 | reads flexible |
+| Offense (defensive ↔ offensive) | 85 (offensive) | 72 | overwhelming power to win fast |
+| Rigidity (flexible ↔ rigid) | 85 (rigid) | 50 | reads flexible |
 | Bond (tool ↔ partnership) | 60 (partnership) | no signal | tough love: demanding, not cold |
-| Risk (percentage player ↔ gambler) | 30 (percentage player) | 33 | calculated, never reckless |
+| Risk (percentage player ↔ gambler) | 30 (percentage player) | 17 | calculated, never reckless |
 
 ## Who they are
 
@@ -17,9 +17,9 @@
 
 ## What to expect
 
-- Their attacks split between physical and special (11 physical, 8 special).
+- Their attacks split between physical and special (10 physical, 8 special).
 - Fast where it counts: Electivire, Ninjask, Froslass and Drapion outspeed the typical Pokémon of the generation.
-- Called rigid (85), but this team reads flexible (33): low move-type variety: Ninjask and Froslass.
+- Called rigid (85), but this team reads flexible (50): low move-type variety: Ninjask, Froslass and Drapion.
 
 ## How to beat them
 
@@ -31,8 +31,8 @@
 
 ## Where their rigidity or recklessness leaves a gap
 
-- Rigid, and it shows: Ninjask and Froslass can't hit back outside their attack types. Once you've seen the plan, it won't change.
-- Even playing the percentages, they carry gambles: Torterra's Stone Edge (80%); Froslass's Blizzard (70%).
+- Rigid, and it shows: Ninjask, Froslass and Drapion can't hit back outside their attack types. Once you've seen the plan, it won't change.
+- Even playing the percentages, they carry gambles: Torterra's Stone Edge (80%).
 
 ## The matrix
 
@@ -54,10 +54,10 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
 | Electivire | bulky attacker (solid, 0.55) | check / counter (solid) | – |
-| Torterra | bulky attacker (strong, 0.68) | wallbreaker (solid) | – |
-| Ninjask | Baton Pass chain starter (strong, 0.86) | – | – |
-| Froslass | revenge killer (solid, 0.65) | late-game cleaner (solid) | – |
-| Drapion | check / counter (solid, 0.59) | tank (solid) | – |
+| Torterra | bulky attacker (strong, 0.68) | tank (solid) | – |
+| Ninjask | Baton Pass chain starter (loose, 0.00) | – | – |
+| Froslass | weather setter (solid, 0.55) | revenge killer (solid) | – |
+| Drapion | hazard setter (solid, 0.64) | check / counter (solid) | – |
 | Gastrodon | bulky attacker (strong, 0.65) | check / counter (solid) | – |
 
 ## Career
@@ -66,49 +66,52 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## The ace
 
-- The story's ace is Electivire; the data's is Torterra (set up by Ninjask, the widest coverage and a bulky attacker). Plan for both.
+- Ace: Torterra. The story and the data agree (set up by Ninjask and Drapion, the widest coverage and a bulky attacker).
 
 ## Who they go to
 
 - Even game: Gastrodon is the workhorse (tank).
 - Ahead: Froslass closes it out (revenge killer).
-- Behind: they turn to Torterra (wallbreaker).
+- Behind: they turn to Gastrodon (wallbreaker).
 
 ## What they can hit
 
-- They hit 16 of 17 types super-effectively; nothing they carry hits Fighting that way.
+- They hit 12 of 17 types super-effectively; nothing they carry hits Electric, Fighting, Ghost, Poison or Psychic that way.
+- Bring Electric: they can't hit it super-effectively, and one of them is weak to it.
+- Ghost get through clean too.
 
 | Type | Their best super-effective attack | Of them weak to it |
 |---|---|---|
 | Bug | Stone Edge (Torterra, 80) | 1 |
 | Dark | Brick Break (Electivire, 75) | 1 |
-| Dragon | Blizzard (Froslass, 126) | 0 |
-| Electric | Earthquake (Torterra, 150) | 1 |
+| Dragon | Ice Beam (Froslass, 142) | 0 |
+| Electric | **none** | 1 |
 | Fighting | **none** | 0 |
-| Fire | Earthquake (Torterra, 150) | 3 |
-| Flying | Blizzard (Froslass, 126) | 2 |
-| Ghost | Shadow Ball (Froslass, 120) | 1 |
-| Grass | Blizzard (Froslass, 126) | 1 |
-| Ground | Leaf Storm (Torterra, 142) | 2 |
+| Fire | Muddy Water (Gastrodon, 121) | 3 |
+| Flying | Ice Beam (Froslass, 142) | 2 |
+| Ghost | **none** | 1 |
+| Grass | Ice Beam (Froslass, 142) | 1 |
+| Ground | Frenzy Plant (Torterra, 152) | 2 |
 | Ice | Stone Edge (Torterra, 80) | 2 |
 | Normal | Brick Break (Electivire, 75) | 0 |
-| Poison | Earthquake (Torterra, 150) | 0 |
-| Psychic | Shadow Ball (Froslass, 120) | 0 |
-| Rock | Earthquake (Torterra, 150) | 2 |
-| Steel | Earthquake (Torterra, 150) | 1 |
-| Water | Leaf Storm (Torterra, 142) | 0 |
+| Poison | **none** | 0 |
+| Psychic | **none** | 0 |
+| Rock | Frenzy Plant (Torterra, 152) | 2 |
+| Steel | Brick Break (Electivire, 75) | 1 |
+| Water | Frenzy Plant (Torterra, 152) | 0 |
 
 ## Combos to watch
 
-- Ninjask passes boosts down the line: phaze, Haze or Taunt it before the pass.
+- Nothing from the watch list.
 
 ## Signature moves
 
 - Signature moves: Torterra's Leaf Storm (his heaviest hit); Electivire's Giga Impact (raw power, whatever the cost); Ninjask's Baton Pass (passing Speed boosts down the line).
+- Not in this version's moveset: Ninjask's Baton Pass.
 
 ## How aggressive the moveset is
 
-- 92% of their moves finish or set up (12 of 13); the rest wear you down.
+- 83% of their moves finish or set up (10 of 12); the rest wear you down.
 
 *Defaults where nothing is recorded: EVs 85 in every stat; IVs 31; ability Battle Armor (could be Sniper); ability Sticky Hold (could be Storm Drain); neutral nature.*
 

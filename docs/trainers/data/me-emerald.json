@@ -1475,7 +1475,8 @@
      },
      "helpers": [],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Altaria",
@@ -1488,7 +1489,8 @@
      },
      "helpers": [],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Meganium",
@@ -1501,7 +1503,8 @@
      },
      "helpers": [],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Arcanine",
@@ -1514,7 +1517,8 @@
      },
      "helpers": [],
      "role": "mixed setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Swampert",
@@ -1527,7 +1531,8 @@
      },
      "helpers": [],
      "role": "check / counter",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Milotic",
@@ -1540,7 +1545,8 @@
      },
      "helpers": [],
      "role": "sponge / status absorber",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1760,9 +1766,25 @@
    ],
    "offense_authored": null,
    "offense_measured": 78,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

@@ -1509,7 +1509,8 @@
       "Lapras"
      ],
      "role": "revenge killer",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Typhlosion",
@@ -1524,7 +1525,8 @@
       "Lapras"
      ],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Tyranitar",
@@ -1539,7 +1541,8 @@
       "Lapras"
      ],
      "role": "weather setter",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Snorlax",
@@ -1554,7 +1557,8 @@
       "Lapras"
      ],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Lapras",
@@ -1567,7 +1571,8 @@
      },
      "helpers": [],
      "role": "cleric",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     },
     {
      "species": "Crobat",
@@ -1580,7 +1585,8 @@
      },
      "helpers": [],
      "role": "pivot",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     }
    ]
   },
@@ -1807,11 +1813,27 @@
    ],
    "offense_authored": null,
    "offense_measured": 67,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [
    "sand"
   ],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

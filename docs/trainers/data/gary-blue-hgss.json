@@ -1532,10 +1532,26 @@
    }
   ],
   "ace": {
-   "derived": "Rhydon",
+   "derived": "Pidgeot",
    "authored": null,
    "agree": true,
    "ranking": [
+    {
+     "species": "Pidgeot",
+     "slot": 6,
+     "score": 0.605,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "phazer",
+     "level": 60,
+     "marked_by_game": true,
+     "sent_out": "last"
+    },
     {
      "species": "Rhydon",
      "slot": 3,
@@ -1550,7 +1566,8 @@
       "Exeggutor"
      ],
      "role": "wallbreaker",
-     "level": 58
+     "level": 58,
+     "sent_out": "#3"
     },
     {
      "species": "Machamp",
@@ -1566,21 +1583,8 @@
       "Exeggutor"
      ],
      "role": "sponge / status absorber",
-     "level": 56
-    },
-    {
-     "species": "Pidgeot",
-     "slot": 6,
-     "score": 0.605,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.176,
-      "role": 0.9,
-      "investment": 1.0
-     },
-     "helpers": [],
-     "role": "phazer",
-     "level": 60
+     "level": 56,
+     "sent_out": "#5"
     },
     {
      "species": "Arcanine",
@@ -1594,7 +1598,8 @@
      },
      "helpers": [],
      "role": "pivot",
-     "level": 58
+     "level": 58,
+     "sent_out": "#2"
     },
     {
      "species": "Exeggutor",
@@ -1608,7 +1613,8 @@
      },
      "helpers": [],
      "role": "Trick Room setter",
-     "level": 55
+     "level": 55,
+     "sent_out": "lead"
     },
     {
      "species": "Gyarados",
@@ -1622,7 +1628,8 @@
      },
      "helpers": [],
      "role": "physical setup sweeper",
-     "level": 52
+     "level": 52,
+     "sent_out": "#4"
     }
    ]
   },
@@ -1856,9 +1863,25 @@
    ],
    "offense_authored": 65,
    "offense_measured": 67,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {
@@ -1883,7 +1906,7 @@
    "ace": [
     {
      "section": "ace",
-     "text": "Ace: Rhydon (set up by Exeggutor, the widest coverage and a wallbreaker).",
+     "text": "Ace: Pidgeot (the highest level (60) and a phazer).",
      "rule": "ace_derived",
      "trigger": "always"
     }

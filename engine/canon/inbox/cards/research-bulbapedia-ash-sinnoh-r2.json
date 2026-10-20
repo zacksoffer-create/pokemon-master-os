@@ -1,0 +1,45 @@
+{
+ "id": "research-bulbapedia-ash-sinnoh-r2",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Sinnoh Ash (Lily of the Valley)",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu"
+  ],
+  "asks": [
+   "ASK-0001"
+  ],
+  "unresolved": [
+   "ASK-0001: Infernape's Flare Blitz is on its list but the history doesn't single it out (named 5×; Flamethrower 20, Flame Wheel 13, Mach Punch 12, Dig 9, Flare Blitz 5, Fire Spin 0)"
+  ],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim",
+  "follows": "research-bulbapedia-ash-sinnoh"
+ },
+ "summary": "0 answer(s) for 1 open question(s) on Sinnoh Ash (Lily of the Valley), from Bulbapedia; 1 not settled; the send-out order of 1 Pokémon in its defining battle.",
+ "claims": [
+  {
+   "kind": "observation",
+   "data": {
+    "trainer": "ash",
+    "version": "sinnoh",
+    "battle": "the Lily of the Valley Conference full battle against Paul",
+    "turn": null,
+    "situation": "sent out",
+    "pokemon": "Pikachu",
+    "move": "sent out #1",
+    "position": 1,
+    "outcome": "During the Lily of the Valley Conference, Ash used Pikachu as his first Pokémon in his battle against Paul in Familiarity Breeds Strategy!.",
+    "sample_size": 1
+   },
+   "status": "proposed",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "order in the Lily of the Valley Conference full battle against Paul",
+   "id": "c1"
+  }
+ ],
+ "status": "open"
+}

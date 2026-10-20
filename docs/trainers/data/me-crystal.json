@@ -1461,7 +1461,8 @@
      },
      "helpers": [],
      "role": "physical setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Feraligatr",
@@ -1474,7 +1475,8 @@
      },
      "helpers": [],
      "role": "physical setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "lead"
     },
     {
      "species": "Miltank",
@@ -1487,7 +1489,8 @@
      },
      "helpers": [],
      "role": "physical setup sweeper",
-     "level": null
+     "level": null,
+     "sent_out": "#2"
     },
     {
      "species": "Espeon",
@@ -1500,7 +1503,8 @@
      },
      "helpers": [],
      "role": "bulky setup",
-     "level": null
+     "level": null,
+     "sent_out": "last"
     },
     {
      "species": "Ampharos",
@@ -1513,7 +1517,8 @@
      },
      "helpers": [],
      "role": "bulky attacker",
-     "level": null
+     "level": null,
+     "sent_out": "#4"
     },
     {
      "species": "Umbreon",
@@ -1526,7 +1531,8 @@
      },
      "helpers": [],
      "role": "bulky setup",
-     "level": null
+     "level": null,
+     "sent_out": "#5"
     }
    ]
   },
@@ -1747,9 +1753,25 @@
    ],
    "offense_authored": null,
    "offense_measured": 67,
-   "flag": null
+   "flag": null,
+   "observed": null
   },
   "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [
     {

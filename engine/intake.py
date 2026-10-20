@@ -130,7 +130,7 @@ def main(argv=None):
     elif a.cmd == "asks":
         from ingest.sheet import asks
         from trainers.model import Store
-        rows = asks(Store())
+        rows = asks(Store(), inbox=inbox)
         if a.json:
             print(json.dumps(rows, indent=1, ensure_ascii=False))
         else:
@@ -167,7 +167,7 @@ def main(argv=None):
         from ingest.sheet import asks
         from trainers.model import Store
         store = Store()
-        made, usage = research(inbox, store, asks(store), gemini=None if a.no_model else Gemini(inbox.cfg),
+        made, usage = research(inbox, store, asks(store, inbox=inbox), gemini=None if a.no_model else Gemini(inbox.cfg),
                                only=set(a.only.split(",")) if a.only else None)
         for card, _ in made:
             print(render_card(card, inbox) + "\n")

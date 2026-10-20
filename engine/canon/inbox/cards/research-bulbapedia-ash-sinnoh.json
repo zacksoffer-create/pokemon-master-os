@@ -1,0 +1,244 @@
+{
+ "id": "research-bulbapedia-ash-sinnoh",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: Sinnoh Ash (Lily of the Valley)",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Buizel",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Buizel",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Gliscor",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Infernape",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Staraptor",
+   "https://bulbapedia.bulbagarden.net/wiki/Ash's_Torterra"
+  ],
+  "asks": [
+   "ASK-0003",
+   "ASK-0004",
+   "ASK-0005",
+   "ASK-0034",
+   "ASK-0035",
+   "ASK-0036",
+   "ASK-0037",
+   "ASK-0038",
+   "ASK-0039"
+  ],
+  "unresolved": [
+   "ASK-0004: Infernape's Flare Blitz is on its list but the history doesn't single it out (named 5×; Flamethrower 20, Flame Wheel 13, Mach Punch 12, Dig 9, Flare Blitz 5, Fire Spin 0)"
+  ],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "11 answer(s) for 9 open question(s) on Sinnoh Ash (Lily of the Valley), from Bulbapedia; 1 not settled.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.sinnoh.signature_moves.0.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Volt Tackle is named 2× in Pikachu's history for this era, #2 of its moves (Thunderbolt 3, Volt Tackle 2, Iron Tail 1, Thunder 1, Thunder Shock 0, Quick Attack 0); first used AG150."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0003: confirmed",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.sinnoh.signature_moves.0.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/trainers.json:trainers.ash.versions.sinnoh.signature_moves.2.status",
+    "value": "confirmed",
+    "was": "proposed",
+    "why": "Bulbapedia: Brave Bird is named 3× in Staraptor's history for this era, #2 of its moves (Aerial Ace 3, Brave Bird 3, Close Combat 2, Quick Attack 0, Wing Attack 0, Gust 0); first used DP067."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Staraptor",
+   "note": "ASK-0005: confirmed",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/trainers.json (trainers.ash.versions.sinnoh.signature_moves.2.status: \"proposed\" → \"confirmed\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/pikachu.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Thunder Shock (EP001), Thunderbolt (EP005, recent, named 3×), Agility (EP014), Quick Attack (EP014, recent), Thunder (EP022, named 1×), Double-Edge (EP079), Tackle (EP118), Leer (EP150), Iron Tail (AG013, recent, named 1×), Volt Tackle (AG150, named 2×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0034: proposed Thunderbolt, Quick Attack, Iron Tail, Volt Tackle",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/pikachu.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/pikachu.ability",
+    "value": "Static",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Static."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Pikachu",
+   "note": "ASK-0034: ability",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/pikachu.ability: null → \"Static\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/infernape.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Ember (DP003), Flame Wheel (DP003, named 13×), Scratch (DP003), Dig (DP006, named 9×), Fire Spin (DP040), Flamethrower (DP050, recent, named 20×), Mach Punch (DP132, recent, named 12×), Flare Blitz (DP185, recent, named 5×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Infernape",
+   "note": "ASK-0035: proposed Flamethrower, Mach Punch, Flare Blitz, Dig",
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/infernape.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/infernape.ability",
+    "value": "Blaze",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Blaze."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Infernape",
+   "note": "ASK-0035: ability",
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/infernape.ability: null → \"Blaze\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/torterra.moves",
+    "value": [
+     "Leaf Storm",
+     "Rock Climb",
+     "Energy Ball",
+     "Synthesis"
+    ],
+    "was": [
+     "Leaf Storm",
+     "Rock Climb",
+     "Frenzy Plant",
+     "Energy Ball"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Tackle (DP005, named 1×), Razor Leaf (DP005, named 3×), Synthesis (DP005, named 3×), Bite (DP005), Energy Ball (DP061, named 6×), Rock Climb (DP121, named 4×), Leaf Storm (DP166, named 3×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Torterra",
+   "note": "ASK-0036: proposed Leaf Storm, Rock Climb, Energy Ball, Synthesis (was Leaf Storm, Rock Climb, Frenzy Plant, Energy Ball)",
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/torterra.moves: [\"Leaf Storm\", \"Rock Climb\", \"Frenzy Plant\", \"Energy Ball\"] → [\"Leaf Storm\", \"Rock Climb\", \"Energy Ball\", \"Synthesis\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/staraptor.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Gust (DP002), Quick Attack (DP002, recent), Wing Attack (DP002), Aerial Ace (DP013, recent, named 3×), Brave Bird (DP067, recent, named 3×), Close Combat (DP118, recent, named 2×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Staraptor",
+   "note": "ASK-0037: proposed Close Combat, Brave Bird, Aerial Ace, Quick Attack",
+   "id": "c8",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/staraptor.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/gliscor.moves",
+    "value": [
+     "Fire Fang",
+     "Steel Wing",
+     "Giga Impact",
+     "Stone Edge"
+    ],
+    "was": [
+     "Fire Fang",
+     "Steel Wing",
+     "Night Slash",
+     "Giga Impact"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: X-Scissor (DP070, recent, named 8×), Sand Attack (DP070, named 4×), Steel Wing (DP070, named 3×), Screech (DP106, named 1×), Fire Fang (DP106, recent, named 9×), Giga Impact (DP154, recent, named 4×), Stone Edge (DP187, recent, named 3×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Gliscor",
+   "note": "ASK-0038: proposed Fire Fang, Steel Wing, Giga Impact, Stone Edge (was Fire Fang, Steel Wing, Night Slash, Giga Impact)",
+   "id": "c9",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/gliscor.moves: [\"Fire Fang\", \"Steel Wing\", \"Night Slash\", \"Giga Impact\"] → [\"Fire Fang\", \"Steel Wing\", \"Giga Impact\", \"Stone Edge\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/buizel.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Water Gun (DP034, recent, named 3×), Aqua Jet (DP034, recent, named 8×), Sonic Boom (DP034, recent, named 2×), Water Pulse (DP068, named 6×), Ice Punch (DP159, recent, named 2×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Buizel",
+   "note": "ASK-0039: proposed Aqua Jet, Water Gun, Ice Punch, Water Pulse",
+   "id": "c10",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/buizel.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.ash-sinnoh/buizel.ability",
+    "value": "Swift Swim",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Swift Swim."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/Ash's_Buizel",
+   "note": "ASK-0039: ability",
+   "id": "c11",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.ash-sinnoh/buizel.ability: null → \"Swift Swim\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}

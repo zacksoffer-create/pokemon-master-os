@@ -1407,7 +1407,9 @@
      },
      "helpers": [],
      "role": "weather setter",
-     "level": 54
+     "level": 54,
+     "marked_by_game": true,
+     "sent_out": "#4"
     },
     {
      "species": "Omastar",
@@ -1421,7 +1423,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 53
+     "level": 53,
+     "sent_out": "#3"
     },
     {
      "species": "Kabutops",
@@ -1435,7 +1438,8 @@
      },
      "helpers": [],
      "role": "revenge killer",
-     "level": 52
+     "level": 52,
+     "sent_out": "last"
     },
     {
      "species": "Graveler",
@@ -1449,7 +1453,8 @@
      },
      "helpers": [],
      "role": "wallbreaker",
-     "level": 51
+     "level": 51,
+     "sent_out": "lead"
     },
     {
      "species": "Rhyhorn",
@@ -1463,7 +1468,8 @@
      },
      "helpers": [],
      "role": "weather setter",
-     "level": 51
+     "level": 51,
+     "sent_out": "#2"
     }
    ]
   },
@@ -1698,11 +1704,27 @@
     "gap": 60,
     "leans": "offensive",
     "part1_flags_it": false
-   }
+   },
+   "observed": null
   },
   "weather": [
    "sand"
   ],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
   "text": {
    "career": [],
    "ace": [

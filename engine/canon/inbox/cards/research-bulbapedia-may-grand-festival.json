@@ -1,0 +1,176 @@
+{
+ "id": "research-bulbapedia-may-grand-festival",
+ "kind": "research",
+ "added_on": "2026-10-20",
+ "provenance": "ingested",
+ "source": {
+  "title": "Bulbapedia research: May (Kanto Grand Festival era)",
+  "url": "https://bulbapedia.bulbagarden.net/wiki/May's_Beautifly",
+  "pages": [
+   "https://bulbapedia.bulbagarden.net/wiki/May's_Beautifly",
+   "https://bulbapedia.bulbagarden.net/wiki/May's_Blaziken",
+   "https://bulbapedia.bulbagarden.net/wiki/May's_Munchlax",
+   "https://bulbapedia.bulbagarden.net/wiki/May's_Skitty",
+   "https://bulbapedia.bulbagarden.net/wiki/May's_Venusaur",
+   "https://bulbapedia.bulbagarden.net/wiki/May's_Wartortle"
+  ],
+  "asks": [
+   "ASK-0021",
+   "ASK-0022",
+   "ASK-0058",
+   "ASK-0059",
+   "ASK-0060",
+   "ASK-0061",
+   "ASK-0062",
+   "ASK-0063"
+  ],
+  "unresolved": [
+   "ASK-0021: Blaziken's Blaze Kick is on its list but the history doesn't single it out (named 1×; Fire Spin 6, Sky Uppercut 2, Quick Attack 1, Blaze Kick 1, Mega Kick 1, Overheat 1)",
+   "ASK-0022: Wartortle's Rapid Spin is on its list but the history doesn't single it out (named 3×; Ice Beam 7, Bubble 4, Rapid Spin 3, Tackle 2, Withdraw 1, Water Gun 0)"
+  ],
+  "license": "Bulbapedia text, CC BY-NC-SA 2.5: cited per claim"
+ },
+ "summary": "7 answer(s) for 8 open question(s) on May (Kanto Grand Festival era), from Bulbapedia; 2 not settled.",
+ "claims": [
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.may-grand-festival/blaziken.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Peck (AG002), Ember (AG002, named 1×), Quick Attack (AG047, named 1×), Fire Spin (AG082, recent, named 6×), Sky Uppercut (AG082, recent, named 2×), Mega Kick (AG162, named 1×), Flamethrower (AG172), Overheat (AG182, recent, named 1×), Blaze Kick (AG191, recent, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May's_Blaziken",
+   "note": "ASK-0058: proposed Blaze Kick, Fire Spin, Sky Uppercut, Flamethrower",
+   "id": "c1",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.may-grand-festival/blaziken.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.may-grand-festival/blaziken.ability",
+    "value": "Blaze",
+    "was": null,
+    "why": "Bulbapedia records its Ability as Blaze."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May's_Blaziken",
+   "note": "ASK-0058: ability",
+   "id": "c2",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.may-grand-festival/blaziken.ability: null → \"Blaze\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.may-grand-festival/venusaur.moves",
+    "value": [
+     "Vine Whip",
+     "Razor Leaf",
+     "Petal Dance",
+     "Tackle"
+    ],
+    "was": [
+     "Solar Beam",
+     "Vine Whip",
+     "Razor Leaf",
+     "Frenzy Plant"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Vine Whip (AG073, named 1×), Razor Leaf (AG073, named 3×), Tackle (AG077), Petal Dance (AG102, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May's_Venusaur",
+   "note": "ASK-0059: proposed Vine Whip, Razor Leaf, Petal Dance, Tackle (was Solar Beam, Vine Whip, Razor Leaf, Frenzy Plant)",
+   "id": "c3",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.may-grand-festival/venusaur.moves: [\"Solar Beam\", \"Vine Whip\", \"Razor Leaf\", \"Frenzy Plant\"] → [\"Vine Whip\", \"Razor Leaf\", \"Petal Dance\", \"Tackle\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.may-grand-festival/wartortle.moves",
+    "value": [
+     "Water Gun",
+     "Rapid Spin",
+     "Bubble",
+     "Ice Beam"
+    ],
+    "was": [
+     "Water Gun",
+     "Rapid Spin",
+     "Bubble",
+     "Aqua Tail"
+    ],
+    "why": "Bulbapedia (moves-used table): moves in this era: Bubble (AG137, named 4×), Tackle (AG139, named 2×), Water Gun (AG139), Ice Beam (AG143, named 7×), Rapid Spin (AG152, recent, named 3×), Withdraw (AG166, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May's_Wartortle",
+   "note": "ASK-0060: proposed Water Gun, Rapid Spin, Bubble, Ice Beam (was Water Gun, Rapid Spin, Bubble, Aqua Tail)",
+   "id": "c4",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.may-grand-festival/wartortle.moves: [\"Water Gun\", \"Rapid Spin\", \"Bubble\", \"Aqua Tail\"] → [\"Water Gun\", \"Rapid Spin\", \"Bubble\", \"Ice Beam\"])",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.may-grand-festival/munchlax.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Metronome (AG134, named 3×), Focus Punch (AG150, named 4×), Solar Beam (AG150, named 6×), Tackle (AG160, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May's_Munchlax",
+   "note": "ASK-0061: proposed Focus Punch, Metronome, Tackle, Solar Beam",
+   "id": "c5",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.may-grand-festival/munchlax.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.may-grand-festival/beautifly.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Tackle (AG014), String Shot (AG014), Gust (AG028), Silver Wind (AG033, recent, named 5×), Morning Sun (AG078, recent, named 1×), Psychic (AG187, recent, named 1×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May's_Beautifly",
+   "note": "ASK-0062: proposed Silver Wind, Morning Sun, Gust, String Shot",
+   "id": "c6",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.may-grand-festival/beautifly.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  },
+  {
+   "kind": "correction",
+   "data": {
+    "target": "canon/build_library.json:builds.may-grand-festival/skitty.status",
+    "value": "approved",
+    "was": "proposed",
+    "why": "Bulbapedia confirms the moveset. Bulbapedia (moves-used table): moves in this era: Tackle (AG047, named 1×), Double Slap (AG049, named 7×), Assist (AG053, named 16×), Blizzard (AG060, named 10×)."
+   },
+   "status": "applied",
+   "confidence": "MEDIUM",
+   "source_ref": "https://bulbapedia.bulbagarden.net/wiki/May's_Skitty",
+   "note": "ASK-0063: proposed Blizzard, Assist, Tackle, Double Slap",
+   "id": "c7",
+   "reviewed_on": "2026-10-20",
+   "applied_to": "canon/build_library.json (builds.may-grand-festival/skitty.status: \"proposed\" → \"approved\")",
+   "applied_on": "2026-10-20"
+  }
+ ],
+ "status": "closed"
+}
