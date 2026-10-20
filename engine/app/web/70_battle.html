@@ -62,25 +62,44 @@ function matrix(r) {
     '<tr><th style="text-align:right;padding-right:8px" class="tiny">resist</th>' + resistCount.map(function (c) { return '<td style="color:' + (c >= 3 ? 'var(--forest-3)' : 'var(--text-3)') + '">' + (c || '') + '</td>'; }).join('') + '</tr></tbody></table></div>' +
     '<div class="tiny muted" style="margin-top:8px">Damage each takes from an attack of that type: 4 and 2 are openings, ½ and 0 are walls. Gen ' + r.gen + ' type chart.</div>';
 }
-/* The matchup board: your six against theirs, by type alone. */
-function bestHit(att, def, typesList) {
-  var best = null; att.mv.forEach(function (name) { var mv = (S.moveBy || {})[name]; if (!mv || !mv.p || name === 'Hidden Power') return;
-    var c = def.cells[typesList.indexOf(mv.t)], x = c ? CELL[c][1] : 1; if (best == null || x > best.x) best = {x: x, mv: name}; });
-  return best || {x: null, mv: null};
-}
+/* The matchup board: your six against theirs, every pair played out by the battle engine (27_battle.html). */
 function board(mine, them) {
-  var grid = mine.team.map(function (a) { return them.team.map(function (d) { return {off: bestHit(a, d, them.types), def: bestHit(d, a, mine.types)}; }); });
-  var score = grid.map(function (row) { return row.reduce(function (s, c) { return s + (c.off.x >= 2 ? 1 : 0) - (c.def.x >= 2 ? 1 : 0); }, 0); });
+  var id = 'b' + Date.now().toString(36);
+  after(function () { boardLive(id, mine, them); });
+  setTimeout(function () { if (document.getElementById(id)) boardLive(id, mine, them); }, 0);
+  return '<div id="' + id + '"><div class="tiny muted">Playing out every one-on-one with the damage calculator…</div></div>';
+}
+function boardLive(id, mine, them) {
+  var el = document.getElementById(id); if (!el || el._started) return; el._started = true;
+  Promise.all([battleReady(), scoutReady()]).then(function () {
+    var gen = Battle.GAME_GEN[them.game], vm = Scout.version(mine.trainer, mine.version), vt = Scout.version(them.trainer, them.version), t0 = Date.now(), n = 0;
+    return S.bEng.run(S.bEng.boardGen(gen, vm.team, vt.team), function (label) { n++; var x = document.getElementById(id);
+      if (x) x.innerHTML = '<div class="tiny muted">Playing out the one-on-ones · ' + esc(label) + ' (' + n + ' of ' + vm.team.length + ')</div>'; })
+      .then(function (B) { var x = document.getElementById(id); if (x) { x.innerHTML = boardTable(B, mine, them, Date.now() - t0); boardWire(x, B, them); } });
+  }).catch(function (e) { var x = document.getElementById(id); if (x) x.innerHTML = '<div class="notice">The battle engine couldn\'t play this pairing: ' + esc(e && e.message || e) + '</div>'; });
+}
+function boardTable(B, mine, them, ms) {
+  if (!B.ours.length || !B.theirs.length) return '<div class="notice">Nothing to play out: ' + esc(B.skipped.join('; ') || 'no members') + '</div>';
+  var W = function (c) { return c && c.winner === 'A'; }, L = function (c) { return c && c.winner === 'B'; };
+  var net = B.cells.map(function (row) { return row.filter(W).length - row.filter(L).length; });
   var pick = [], covered = {};
-  for (var k = 0; k < 3; k++) { var best = -Infinity, bi = -1; grid.forEach(function (row, i) { if (pick.indexOf(i) >= 0) return; var v = row.reduce(function (s, c, j) { return s + (c.off.x >= 2 && !covered[j] ? 2 : 0) - (c.def.x >= 2 ? 1 : 0); }, 0) + score[i] * .1; if (v > best) { best = v; bi = i; } });
-    if (bi < 0) break; pick.push(bi); grid[bi].forEach(function (c, j) { if (c.off.x >= 2) covered[j] = true; }); }
-  function fmt(x) { return x == null ? '–' : x === .5 ? '½' : x === .25 ? '¼' : String(x); }
-  function col(x, good) { return x == null ? 'var(--text-3)' : x >= 2 ? (good ? 'var(--forest-3)' : 'var(--ember-2)') : x < 1 ? (good ? 'var(--text-3)' : 'var(--forest-3)') : 'var(--text-2)'; }
-  return '<div style="overflow-x:auto"><table class="t board"><thead><tr><th>Yours ↓ · theirs →</th>' + them.team.map(function (d) { return '<th style="text-align:center"><img src="' + sprite(numOf(d.sp), them.game) + '" style="width:40px;height:40px;image-rendering:pixelated"><div class="tiny">' + esc(d.sp) + '</div></th>'; }).join('') + '<th>Net</th></tr></thead><tbody>' +
-    mine.team.map(function (a, i) { return '<tr' + (pick.indexOf(i) >= 0 ? ' style="background:rgba(201,169,106,.06)"' : '') + '><td style="white-space:nowrap"><img src="' + sprite(numOf(a.sp), mine.game) + '" style="width:36px;height:36px;vertical-align:middle;image-rendering:pixelated"> <b>' + esc(a.sp) + '</b>' + (pick.indexOf(i) >= 0 ? ' ' + chip('bring', 'gold') : '') + '</td>' +
-      grid[i].map(function (c) { return '<td style="text-align:center" title="' + esc((c.off.mv ? 'Your ' + c.off.mv + ': ×' + fmt(c.off.x) : 'no attack') + ' · ' + (c.def.mv ? 'their ' + c.def.mv + ': ×' + fmt(c.def.x) : 'no attack')) + '"><b class="mono" style="color:' + col(c.off.x, true) + '">' + fmt(c.off.x) + '</b><span class="tiny muted"> / </span><span class="mono small" style="color:' + col(c.def.x, false) + '">' + fmt(c.def.x) + '</span></td>'; }).join('') +
-      '<td class="num" style="color:' + (score[i] > 0 ? 'var(--forest-3)' : score[i] < 0 ? 'var(--ember-2)' : 'var(--text-2)') + '">' + (score[i] > 0 ? '+' : '') + score[i] + '</td></tr>'; }).join('') + '</tbody></table></div>' +
-    '<div class="notice sim" style="margin-top:12px">Each cell: your best hit on them / their best hit on you, as a type multiplier. Type matchups only: not damage, speed, items or abilities. The three marked "bring" cover the most of their team between them.</div>';
+  for (var k = 0; k < 3; k++) { var best = -Infinity, bi = -1;
+    B.cells.forEach(function (row, i) { if (pick.indexOf(i) >= 0) return; var v = row.reduce(function (s, c, j) { return s + (W(c) && !covered[j] ? 10 : 0); }, 0) + net[i]; if (v > best) { best = v; bi = i; } });
+    if (bi < 0) break; pick.push(bi); B.cells[bi].forEach(function (c, j) { if (W(c)) covered[j] = true; }); }
+  var unanswered = B.theirs.filter(function (b, j) { return !B.cells.some(function (row) { return W(row[j]); }); }).map(function (b) { return b.species; });
+  var pct = function (h) { return h ? Math.round(h.lo) + '%' : '0'; };
+  return '<div style="overflow-x:auto"><table class="t board"><thead><tr><th>Yours ↓ · theirs →</th>' + B.theirs.map(function (d) { return '<th style="text-align:center"><img src="' + sprite(numOf(d.species), them.game) + '" style="width:40px;height:40px;image-rendering:pixelated"><div class="tiny">' + esc(d.species) + ' <span class="muted">L' + d.level + '</span></div></th>'; }).join('') + '<th>Net</th></tr></thead><tbody>' +
+    B.ours.map(function (a, i) { return '<tr' + (pick.indexOf(i) >= 0 ? ' style="background:rgba(201,169,106,.06)"' : '') + '><td style="white-space:nowrap"><img src="' + sprite(numOf(a.species), mine.game) + '" style="width:36px;height:36px;vertical-align:middle;image-rendering:pixelated"> <b>' + esc(a.species) + '</b>' + (pick.indexOf(i) >= 0 ? ' ' + chip('bring', 'gold') : '') + '</td>' +
+      B.cells[i].map(function (c, j) { if (!c) return '<td></td>'; var r = c.winner === 'A' ? ['W', 'var(--forest-3)'] : c.winner === 'B' ? ['L', 'var(--ember-2)'] : ['D', 'var(--gold-2)'];
+        return '<td style="text-align:center;cursor:pointer" data-bcell="' + i + ',' + j + '" title="' + esc((c.we ? 'Your ' + c.we.move + ' ' + c.we.lo + '–' + c.we.hi + '%' : 'no damage') + ' · ' + (c.they ? 'their ' + c.they.move + ' ' + c.they.lo + '–' + c.they.hi + '%' : 'no damage') + ' · ' + c.turns + ' turns · ' + c.plan) + '"><b class="mono" style="color:' + r[1] + '">' + r[0] + '</b><div class="tiny muted">' + pct(c.we) + ' / ' + pct(c.they) + '</div></td>'; }).join('') +
+      '<td class="num" style="color:' + (net[i] > 0 ? 'var(--forest-3)' : net[i] < 0 ? 'var(--ember-2)' : 'var(--text-2)') + '">' + (net[i] > 0 ? '+' : '') + net[i] + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+    (unanswered.length ? '<div class="small" style="margin-top:8px;color:var(--ember-2)">Nobody beats: ' + esc(unanswered.join(', ')) + '</div>' : '') +
+    (B.skipped.length ? '<div class="tiny muted">Left out (the Gen ' + B.gen + ' calculator can\'t read them): ' + esc(B.skipped.join('; ')) + '</div>' : '') +
+    '<div class="notice sim" style="margin-top:12px">Each cell is a one-on-one played out by the battle engine in Gen ' + B.gen + ' rules (Smogon\'s damage calculator, every hit at the lowest roll, our best plan against their best answer): W, L or D, and the best hit each way as a share of HP. Their side as built; yours at their top level (Lv ' + B.level + ') with the documented defaults where a build is silent. "Bring" marks the three that beat the most of their team between them. Click a cell for the fight, turn by turn. Played in ' + (ms / 1000).toFixed(1) + ' s.</div>';
+}
+function boardWire(x, B, them) {
+  x.querySelectorAll('[data-bcell]').forEach(function (td) { td.onclick = function () { var p = td.getAttribute('data-bcell').split(','), c = B.cells[+p[0]][+p[1]];
+    if (c) fightDrawer(c._matchup, B.ours[+p[0]].species, B.theirs[+p[1]], B.ours[+p[0]], them.title); }; });
 }
 function report(id) {
   return Promise.all([reports(), withBuilds()]).then(function (res) {

@@ -54,7 +54,7 @@ function breederPage(q) {
     S.breeder = d;
     var name = q ? decodeURIComponent(q) : (store('breeder-q') || 'Tyranitar');
     var line = d.lines.filter(function (l) { return l.family.indexOf(name) >= 0; })[0];
-    after(function (p) { var i = p.querySelector('#brq'); i.addEventListener('change', function () { store('breeder-q', i.value); location.hash = '#/breeder/' + encodeURIComponent(i.value); }); });
+    after(function (p) { var i = p.querySelector('#brq'); i.addEventListener('change', function () { store('breeder-q', i.value); nav('#/breeder/' + encodeURIComponent(i.value)); }); });
     var head = '<div class="eyebrow">The breeding engine · ' + esc(d.rules) + '</div><h1 style="margin:6px 0">The Breeder Lab</h1>' +
       '<p class="lede">Pick any line and see every egg move it can have, and the breeding engine\'s shortest lineage for each: which father learns it himself, who carries it through, how many generations it takes, and what has to happen before it evolves.</p>' +
       '<div class="row" style="margin:14px 0;max-width:640px"><input class="f" id="brq" list="brdex" value="' + esc(name) + '" placeholder="A species"><datalist id="brdex">' + d.lines.map(function (l) { return l.family.map(function (f) { return '<option>' + esc(f) + '</option>'; }).join(''); }).join('') + '</datalist></div>';

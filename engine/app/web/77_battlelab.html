@@ -52,7 +52,7 @@ function battleLab(id) {
     if (id) blLoad(id);
     else if (saved && saved.lu && blBaseLineup(saved.base)) BL = Object.assign({show: {diff: true, missed: false, ctx: false}, tab: 'members', opp: 0, profile: true, book: {}, off: {}}, saved);
     else blLoad('heartgold');
-    if (id) { try { history.replaceState(null, '', '#/battlelab'); } catch (e) {} }
+    if (id) { navQuiet('#/battlelab'); }
     BV = BL; BV.render = blRender; BV.save = blSave; BV.lab = true;
     after(function (p) { blBind(p); blRun(); });
     return '<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><div class="eyebrow">The Battle Lab · the battle engine, live</div><h1 style="margin:6px 0">The Battle Lab</h1>' +
@@ -402,9 +402,12 @@ function blWire(root, d) {
 function blFight(d, si, ri, member) {
   var m = d.sheets[si]._matchups, ui = m.our_names.indexOf(member), mt = m.evaluated[ri + ',' + ui];
   if (!mt) return toast('That fight isn\'t on file.');
-  var o = mt.outcome, them = m.theirs[ri], us = m.ours[ui], res = o.winner === 'A' ? 'we win' : o.winner === 'B' ? 'we lose' : 'a draw';
+  fightDrawer(mt, member, m.theirs[ri], m.ours[ui], 'vs ' + m.opponent);
+}
+function fightDrawer(mt, member, them, us, where) {   // one evaluated one-on-one, turn by turn
+  var o = mt.outcome, res = o.winner === 'A' ? 'we win' : o.winner === 'B' ? 'we lose' : 'a draw';
   var dmg = function (tbl) { return '<table class="t"><tbody>' + Object.keys(tbl).map(function (mv) { return '<tr><td class="small">' + esc(mv) + '</td><td class="num">' + tbl[mv][0] + '–' + tbl[mv][1] + '%</td></tr>'; }).join('') + '</tbody></table>'; };
-  openDrawer('<div class="eyebrow">The fight behind the call · vs ' + esc(m.opponent) + '</div><h2 style="margin:6px 0">' + esc(member) + ' vs ' + esc(them.name) + '</h2>' +
+  openDrawer('<div class="eyebrow">The fight, played out · ' + esc(where) + '</div><h2 style="margin:6px 0">' + esc(member) + ' vs ' + esc(them.name) + '</h2>' +
     '<div>' + chip(res, o.winner === 'A' ? 'forest' : o.winner === 'B' ? 'ember' : 'gold') + ' <span class="small">in ' + plural(o.turns, 'turn') + ' · HP left ' + o.hp[0] + '% / ' + o.hp[1] + '% · odds every move lands ' + Math.round(o.odds[0] * 100) + '% / ' + Math.round(o.odds[1] * 100) + '%</span></div>' +
     '<div class="small" style="margin-top:8px"><b>Our plan:</b> ' + esc(Battle.planLabel(mt.plan)) + '<br><b>Their best answer:</b> ' + esc(Battle.planLabel(mt.answer)) + (them.ai.length ? ' <span class="tiny muted">(the cartridge AI: ' + esc(them.ai.join(', ')) + ')</span>' : '') +
     '<br><span class="tiny muted">' + mt.plans_tried + ' plan pairs tried · speeds ' + Math.round(mt.speeds[0]) + ' vs ' + Math.round(mt.speeds[1]) + (mt.weather ? ' · ' + esc(mt.weather) + ' from the start' : '') +
@@ -427,10 +430,11 @@ function blExport() {
   document.getElementById('blcopy').onclick = function () { (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { toast('On your clipboard.'); }).catch(function () { toast('Your browser blocked the clipboard; select the text instead.'); }); };
 }
 function blSaveVariant() {
-  var note = prompt('A note for this variant (what you were testing):', ''); if (note === null) return;
-  var L = BLRUN.last, row = {id: 'VAR-' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), base: 'battle:' + BL.base, title: BL.lu.title + ' (Battle Lab)', note: note,
-    changes: L && L.d !== L.base ? blChanges(L.d, L.base).slice(0, 30).join('; ') : '', json: JSON.stringify({base: BL.base, lu: BL.lu, coach: BL.coach, book: BL.book, off: BL.off}), _timeline: 'Battle Lab: saved a variant of ' + BL.lu.title};
-  API.append('Variants', row).then(function () { S.variants.push(row); toast('Saved to the Variants tab.'); blChanged(true); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+  askText('Save to the Variants tab', 'A note for this variant', function (note) {
+    var L = BLRUN.last, row = {id: 'VAR-' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), base: 'battle:' + BL.base, title: BL.lu.title + ' (Battle Lab)', note: note,
+      changes: L && L.d !== L.base ? blChanges(L.d, L.base).slice(0, 30).join('; ') : '', json: JSON.stringify({base: BL.base, lu: BL.lu, coach: BL.coach, book: BL.book, off: BL.off}), _timeline: 'Battle Lab: saved a variant of ' + BL.lu.title};
+    API.append('Variants', row).then(function () { S.variants.push(row); toast('Saved to the Variants tab.'); blChanged(true); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+  });
 }
 route(/^\/battlelab\/?$/, function () { return battleLab(); }, 'Battle Lab', '#/battlelab');
 route(/^\/battlelab\/([\w-]+)$/, battleLab, 'Battle Lab', '#/battlelab');

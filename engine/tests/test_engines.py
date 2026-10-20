@@ -2074,6 +2074,15 @@ class WebApp(unittest.TestCase):
             os.unlink(tmp.name)
             self.assertEqual(out.returncode, 0, os.path.basename(f) + ": " + out.stderr[-600:])
 
+    def test_the_app_works_inside_apps_scripts_frame(self):
+        """The web app as Apps Script serves it: written into a sandboxed frame on another origin, where following a
+        link lands the window on a blank page. Every menu item, links on every page and clickable rows, at desktop and
+        phone width: the window must never leave the app, and no page may error or open a browser dialog."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_frame.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_the_launcher_serves_the_zip_and_writes_only_the_app_tabs(self):
         out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])

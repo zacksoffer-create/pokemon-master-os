@@ -27,8 +27,8 @@ function berriesModel() {
     return {id: p.id, plot: p.plot, berry: p.berry, hours: hours, ready: ready, pct: pct, done: pct >= 1};
   }).sort(function (a, b) { return a.ready - b.ready; });
 }
-/* Environmental targets are proposals for the design (not measurements). Readings come from the Sheet; with none
-   entered, a clearly-labelled simulation shows what the instruments would display. */
+/* Environmental targets are proposals for the design, not measurements and not game mechanics. An instrument shows
+   only readings logged on the Readings tab (or in the app); with none it says so. Nothing here is generated. */
 var ENV = [
   {room: 'Hearth hall', metric: 'Temperature', unit: '°C', target: 31, spread: 1.6, color: '#DE7C42'},
   {room: 'Hearth hall', metric: 'Humidity', unit: '%', target: 64, spread: 5, color: '#9CCBDD'},
@@ -42,9 +42,7 @@ function envModel() {
   return ENV.map(function (m, k) {
     var real = R.filter(function (r) { return r.room === m.room && r.metric === m.metric; }).map(function (r) { return {at: r.at, v: Number(r.value), src: r.source || 'entered'}; });
     if (real.length) return Object.assign({}, m, {series: real.slice(-24).map(function (x) { return x.v; }), now: real[real.length - 1].v, src: real[real.length - 1].src, at: real[real.length - 1].at, sim: false});
-    var t = Date.now() / 3600e3, series = [];
-    for (var i = 23; i >= 0; i--) { var h = t - i; series.push(+(m.target + Math.sin((h + k * 3) / 3.8) * m.spread * .7 + Math.sin(h * 1.7 + k) * m.spread * .25).toFixed(1)); }
-    return Object.assign({}, m, {series: series, now: series[series.length - 1], src: 'simulated', sim: true});
+    return Object.assign({}, m, {series: [], now: null, src: 'no reading yet', none: true});
   });
 }
 function timelineModel(limit) {
@@ -75,8 +73,8 @@ function priorities() {
   berries.filter(function (b) { return b.done; }).forEach(function (b) { out.push({icon: '🍒', text: b.berry + ' on plot ' + b.plot + ' is ready to harvest', act: "openForm('harvest','" + b.id + "')", tone: 'forest'}); });
   if (!eggs.length) out.push({icon: '🥚', text: 'No eggs in the racks. Start a line from the breeding program', act: "openForm('egg')", tone: 'gold'});
   if (!berries.length) out.push({icon: '🌱', text: 'The berry rings are bare. Plant the medicine crop', act: "openForm('plant')", tone: 'gold'});
-  var open = h.questions.length; out.push({icon: '⚖', text: open + ' calls are waiting on you, starting with the satellite', act: "location.hash='#/calls'", tone: ''});
-  if (h.kpis.rule_issues) out.push({icon: '⚠', text: h.kpis.rule_issues + ' studbook rule issues', act: "location.hash='#/breeding/studbook'", tone: 'ember'});
+  var open = h.questions.length; out.push({icon: '⚖', text: open + ' calls are waiting on you, starting with the satellite', act: "nav('#/calls')", tone: ''});
+  if (h.kpis.rule_issues) out.push({icon: '⚠', text: h.kpis.rule_issues + ' studbook rule issues', act: "nav('#/breeding/studbook')", tone: 'ember'});
   return out.slice(0, 6);
 }
 
@@ -192,7 +190,7 @@ function home() {
     // breeding projects
     mods.projects = card('Breeding projects', '<table class="t"><tbody>' + h.program.map(function (p) {
       var n = numOf(p.species), st = p.status;
-      return '<tr class="click" onclick="location.hash=\'#/breeding/project/' + encodeURIComponent(p.species) + '\'"><td style="width:44px"><img src="' + sprite(n) + '" style="width:40px;height:40px;image-rendering:pixelated"></td>' +
+      return '<tr class="click" onclick="nav(\'#/breeding/project/' + encodeURIComponent(p.species) + '\')"><td style="width:44px"><img src="' + sprite(n) + '" style="width:40px;height:40px;image-rendering:pixelated"></td>' +
         '<td><b>' + esc(p.target) + '</b><div class="tiny muted">' + esc(p.egg_moves.join(', ')) + '</div></td><td class="small">' + esc((p.fathers_used.length ? p.fathers_used.join(' → ') + ' → ' : '') + (p.hatches_as ? 'stud' : 'Light Ball')) + '</td>' +
         '<td>' + chip(st, st === 'done' ? 'forest' : st === 'in progress' ? 'ember' : '') + '</td></tr>'; }).join('') + '</tbody></table>',
       {eyebrow: 'Genetic lineages · D-038', link: ['#/breeding', 'All projects']});
@@ -215,9 +213,10 @@ function home() {
         (f.open.length ? '<div class="tiny" style="color:var(--ember-2);margin-top:4px">open: ' + esc(f.open.join(', ')) + '</div>' : '') + '</a>'; }).join('') + '</div>',
       {eyebrow: 'Status at a glance'});
     // environment
-    var env = envModel(), sim = env.some(function (e) { return e.sim; });
-    mods.environment = card('Living conditions', (sim ? '<div class="notice sim tiny" style="margin-bottom:10px">Simulated readings around proposed design targets. Log a real reading and it replaces the simulation.</div>' : '') +
-      env.map(function (e) { return '<div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div><div class="small"><b>' + esc(e.room) + '</b></div><div class="tiny muted">' + esc(e.metric) + ' · target ' + e.target + e.unit + '</div></div>' + Art.spark(e.series, e.color, 90, 26) + '<div class="serif num" style="font-size:20px;color:var(--ivory)">' + e.now + '<span class="tiny muted">' + esc(e.unit) + '</span></div></div>'; }).join(''),
+    var env = envModel(), none = env.every(function (e) { return e.none; });
+    mods.environment = card('Living conditions', (none ? '<div class="tiny muted" style="margin-bottom:8px">No readings logged yet. The targets are proposals for the design, not measurements; log a reading and it shows here.</div>' : '') +
+      env.map(function (e) { return '<div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div><div class="small"><b>' + esc(e.room) + '</b></div><div class="tiny muted">' + esc(e.metric) + ' · target ' + e.target + e.unit + ' (proposed)</div></div>' + (e.series.length > 1 ? Art.spark(e.series, e.color, 90, 26) : '<span></span>') +
+        (e.none ? '<div class="tiny muted">no reading</div>' : '<div class="serif num" style="font-size:20px;color:var(--ivory)">' + e.now + '<span class="tiny muted">' + esc(e.unit) + '</span></div>') + '</div>'; }).join(''),
       {eyebrow: 'Environmental monitoring', link: ['#/glasshouse/environment', 'Instruments']});
     // nutrition
     var feeds = (S.L.Feedings || []).slice(-4).reverse();
@@ -237,7 +236,7 @@ function home() {
       '<div class="eyebrow" style="margin-top:6px">From the atlas · ' + esc(resident.sp) + '</div><p class="serif" style="font-size:17px;font-style:italic;color:var(--ivory-2);margin:6px 0">“' + esc(rd.dex || '') + '”</p><div class="tiny muted">official source · ' + esc(GAME_NAME[rd.dexg] || rd.dexg || '') + ' Pokédex</div>' +
       '<div style="margin-top:10px"><button class="btn sm" onclick="openForm(\'note\')">Write an observation</button></div>', {eyebrow: 'Discovery', link: ['#/journal', 'Open']});
     // calls
-    mods.calls = card('Your calls', h.questions.slice(0, 5).map(function (q) { return '<div class="line ember" style="cursor:pointer" onclick="location.hash=\'#/calls\'"><span class="small">' + esc(q.question) + '</span></div>'; }).join('') + '<div class="tiny muted">' + h.questions.length + ' open · nothing changes until you decide</div>', {eyebrow: 'Waiting on you', link: ['#/calls', 'Decide']});
+    mods.calls = card('Your calls', h.questions.slice(0, 5).map(function (q) { return '<div class="line ember" style="cursor:pointer" onclick="nav(\'#/calls\')"><span class="small">' + esc(q.question) + '</span></div>'; }).join('') + '<div class="tiny muted">' + h.questions.length + ' open · nothing changes until you decide</div>', {eyebrow: 'Waiting on you', link: ['#/calls', 'Decide']});
     var order = PRESETS[preset] || PRESETS.champion;
     return '<section class="hero">' + Art.hero() + '<div class="veil"></div><div class="say"><div class="eyebrow">World Headquarters · Blackthorn highlands, Johto</div>' +
       '<h1>' + greet + ', ' + esc(h.champion.name) + '.</h1><p class="lede">' + cap(Art.seasonNow(d)) + ' at the estate: ' + esc(weather) + '. ' + h.kpis.residents + ' residents, ' + h.kpis.lines + ' breeding lines, and a studbook ' + h.kpis.individuals + ' strong.</p>' +
@@ -253,7 +252,7 @@ function bindMap(el) {
   el.querySelectorAll('[data-place]').forEach(function (g) {
     g.addEventListener('click', function () {
       var k = g.getAttribute('data-place');
-      location.hash = k === 'glasshouse' || k === 'nursery & hatchery' || k === 'climate' || k === 'cold vault' ? '#/glasshouse' : k === "dragon's den" || k === 'blackthorn city' ? '#/estate/' + encodeURIComponent(k) : '#/estate/' + encodeURIComponent(k);
+      nav(k === 'glasshouse' || k === 'nursery & hatchery' || k === 'climate' || k === 'cold vault' ? '#/glasshouse' : k === "dragon's den" || k === 'blackthorn city' ? '#/estate/' + encodeURIComponent(k) : '#/estate/' + encodeURIComponent(k));
     });
   });
 }

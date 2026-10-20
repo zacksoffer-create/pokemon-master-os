@@ -1859,6 +1859,31 @@ var Battle = (function () {
       sliders: SLIDERS.map(function (k) { return {id: k, name: SLIDER_NAMES[k], left: POLES[k][0], right: POLES[k][1]}; }),
       rules: sum(Object.keys(this.book).map(function (k) { return this.book[k].length; }, this))};
   };
+  /* the matchup board (the scouting reports): our builds against theirs, every pair played out. Their side as built
+     (level, IVs, EVs, nature, moves; the documented defaults where a build is silent), ours met at their top level,
+     the rule the call sheets use. Not a Python report of its own: the fights are the evaluator's, which are. */
+  G.boardGen = function* (gen, mine, theirs) {
+    var game = {2: 'crystal', 3: 'emerald', 4: 'heartgold'}[gen], skipped = [], ev = this.ev;
+    var fill = function (sp, rej) { return strongestSet(sp, game, rej); };
+    var mk = function (b, level) {
+      try {
+        var moves = (b.moves || []).filter(function (m) { try { mbGet(gen, m); return true; } catch (e) { skipped.push(b.species + '\'s ' + m + ' (not a Gen ' + gen + ' move)'); return false; } });
+        var c = fromBuild(gen, b.species, {moves: moves, item: b.item, nature: b.nature, ability: b.ability, evs: b.evs, ivs: b.ivs, level: level || b.level || null, rejected: b.rejected}, fill, 100,
+          species(gen, b.species).name);
+        var st = calcRun({gen: gen, stats: calcSpec(c)});
+        if (st.error) throw new Error(st.error);
+        return c;
+      } catch (e) { skipped.push(b.species + ': ' + (e.message || e)); return null; }
+    };
+    var them = theirs.map(function (b) { return mk(b, null); }).filter(Boolean);
+    if (!them.length) return {gen: gen, ours: [], theirs: [], cells: [], skipped: skipped, level: null};
+    var top = Math.max.apply(null, them.map(function (c) { return c.level; })), ours = mine.map(function (b) { return mk(b, top); }).filter(Boolean), res = {}, i;
+    for (i = 0; i < ours.length; i++) { Object.assign(res, ev.versus([ours[i]], them)); yield ours[i].name; }
+    var best = function (tbl) { var ks = Object.keys(tbl); if (!ks.length) return null; var k = maxBy(ks, function (x) { return tbl[x][0]; }); return {move: k, lo: tbl[k][0], hi: tbl[k][1]}; };
+    var cells = ours.map(function (a) { return them.map(function (b) { var m = res[a.key + '\u0002' + b.key];
+      return m ? {winner: m.outcome.winner, turns: m.outcome.turns, we: best(m.damage), they: best(m.incoming), first: m.straight.first_hit === 'A', plan: planLabel(m.plan), answer: planLabel(m.answer), _matchup: m} : null; }); });
+    return {gen: gen, ours: ours, theirs: them, cells: cells, skipped: skipped, level: top};
+  };
   G.stats = function () { return {damage_numbers: Object.keys(this.ev.table.cache).length, calculator_calls: this.ev.table.fetched, fights: this.ev.fightsRun}; };
 
   /* lineups.json's rules, so the lab can build variations the same way (load_lineups) */

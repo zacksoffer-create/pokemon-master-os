@@ -58,7 +58,7 @@ function scoutLab(tid, vid) {
     if (tid) slLoad(tid, vid);
     else if (saved && saved.v) SL = Object.assign({show: {diff: true, missed: false, ctx: false}, against: 'me/heartgold'}, saved, {baseRep: null});
     else slLoad('cynthia', 'champion-platinum');
-    if (tid) { try { history.replaceState(null, '', '#/scoutlab'); } catch (e) {} }
+    if (tid) { navQuiet('#/scoutlab'); }
     after(function (p) { slBind(p); slRender(); });
     return '<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><div><div class="eyebrow">The Scouting Lab · the report engine, live</div><h1 style="margin:6px 0">The Scouting Lab</h1>' +
       '<p class="lede">Change anything: a slider, a member, a move, a nature, a role tag, the career, even the engine\'s own thresholds. The report rewrites itself the way the engine would. Every sentence shows the rule that wrote it; rules that stayed quiet tell you why. Nothing here changes canon.</p></div>' +
@@ -281,10 +281,11 @@ function slText(rep) {
 }
 function slCopy() { var t = S.slLast ? slText(S.slLast) : ''; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('The report is on your clipboard.'); }).catch(function () { toast('Your browser blocked the clipboard.'); }); }
 function slSaveVariant() {
-  var note = prompt('A note for this variant (what you were testing):', '') ; if (note === null) return;
-  var row = {id: 'VAR-' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), base: SL.base, title: SL.v.title, note: note,
-    changes: S.slLast && SL.baseRep ? slChangesList(S.slLast, SL.baseRep).join('; ') : '', json: JSON.stringify({base: SL.base, v: SL.v, level: SL.level, rules: SL.rules}), _timeline: 'Scouting Lab: saved a variant of ' + SL.v.title};
-  API.append('Variants', row).then(function () { S.variants.push(row); toast('Saved to the Variants tab.'); slChanged(true); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+  askText('Save to the Variants tab', 'A note for this variant', function (note) {
+    var row = {id: 'VAR-' + Date.now().toString(36).toUpperCase(), at: new Date().toISOString(), base: SL.base, title: SL.v.title, note: note,
+      changes: S.slLast && SL.baseRep ? slChangesList(S.slLast, SL.baseRep).join('; ') : '', json: JSON.stringify({base: SL.base, v: SL.v, level: SL.level, rules: SL.rules}), _timeline: 'Scouting Lab: saved a variant of ' + SL.v.title};
+    API.append('Variants', row).then(function () { S.variants.push(row); toast('Saved to the Variants tab.'); slChanged(true); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+  });
 }
 route(/^\/scoutlab\/?$/, function () { return scoutLab(); }, 'Scouting Lab', '#/scoutlab');
 route(/^\/scoutlab\/([\w-]+)\/([\w-]+)$/, scoutLab, 'Scouting Lab', '#/scoutlab');

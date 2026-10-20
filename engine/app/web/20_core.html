@@ -144,26 +144,63 @@ function shell() {
     '<label class="search">⌕ <input id="q" placeholder="Search Pokémon, trainers, builds…" autocomplete="off"></label>' +
     '<span class="pill">' + cap(Art.seasonNow(d)) + ' · ' + fmtDate(d) + '</span></header><main class="page" id="page"></main></div></div>' +
     '<div class="drawer-bg" id="dbg" onclick="closeDrawer()"></div><aside class="drawer" id="drawer"><div class="x"><button class="btn sm" onclick="closeDrawer()">Close ✕</button></div><div class="in" id="din"></div></aside>';
-  document.getElementById('q').addEventListener('keydown', function (e) { if (e.key === 'Enter') location.hash = '#/search/' + encodeURIComponent(this.value); });
+  document.getElementById('q').addEventListener('keydown', function (e) { if (e.key === 'Enter') nav('#/search/' + encodeURIComponent(this.value)); });
+}
+/* ---- navigation ----
+   The web app runs inside Apps Script's sandboxed frame, where following a link loads a blank page (Google's rule:
+   links there must open in a new tab or replace the whole window). So the app never follows a link of its own: a click
+   on an in-app link is caught here and the page changes in place. In the web app, google.script.history keeps the
+   address bar and the back button in step and google.script.url reads the address you opened it at; in the preview
+   (no frame) the address's #hash does the same. External links open in a new tab. */
+var NAVI = {hash: '#/', seq: 0};
+function gsNav() { try { return typeof google !== 'undefined' && google.script && google.script.history && google.script.url ? google.script : null; } catch (e) { return null; } }
+function nav(h, replace) {
+  h = String(h == null ? '#/' : h); if (h.charAt(0) !== '#') h = '#' + h; if (h === '#') h = '#/';
+  NAVI.hash = h;
+  var gs = gsNav();
+  if (gs) { try { gs.history[replace ? 'replace' : 'push'](null, null, h.slice(1)); } catch (e) {} go(); return; }
+  if (replace || location.hash === h) { try { history.replaceState(null, '', h); } catch (e) {} go(); return; }
+  location.hash = h;   // the hashchange listener renders it
+}
+function navQuiet(h) {   // the address changes, the page doesn't re-render (a lab that opened a deep link and settled)
+  NAVI.hash = h; var gs = gsNav();
+  try { if (gs) gs.history.replace(null, null, h.slice(1)); else history.replaceState(null, '', h); } catch (e) {}
+}
+function navClicks(e) {
+  var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+  if (!a) return;
+  var h = a.getAttribute('href') || '';
+  if (h.charAt(0) === '#') { e.preventDefault(); if (h.length > 1) nav(h); return; }
+  if (/^javascript:/i.test(h)) { e.preventDefault(); return; }
+  if (/^(https?:)?\/\//i.test(h) && a.getAttribute('target') !== '_blank') { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); }
 }
 function go() {
-  var h = location.hash || '#/', path = h.slice(1) || '/';
+  var h = NAVI.hash || '#/', path = h.slice(1) || '/', seq = ++NAVI.seq;
   var r = ROUTES.filter(function (x) { return x.re.test(path); })[0] || ROUTES[0];
   var m = path.match(r.re) || [];
   document.querySelectorAll('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === (r.nav || '#/')); });
   document.getElementById('rail').classList.remove('on');
   var page = document.getElementById('page');
   page.innerHTML = '<div class="empty">Opening…</div>';
+  page._after = [];
   Promise.resolve(r.fn.apply(null, m.slice(1).map(decodeURIComponent))).then(function (html) {
+    if (seq !== NAVI.seq) return;   // you've already moved on to another page
     if (typeof html === 'string') page.innerHTML = html;
     document.getElementById('crumbs').innerHTML = '<b>Blackthorn</b> · ' + esc(typeof r.crumb === 'function' ? r.crumb.apply(null, m.slice(1).map(decodeURIComponent)) : r.crumb);
     window.scrollTo(0, 0);
-    (page._after || []).forEach(function (f) { f(page); }); page._after = [];
-  }).catch(function (e) { page.innerHTML = '<div class="notice">Something went wrong opening this page: ' + esc(e && e.message || e) + '</div>'; console.error(e); });
+    var fns = page._after || []; page._after = [];
+    fns.forEach(function (f) { try { f(page); } catch (err) { console.error(err); } });
+  }).catch(function (e) { if (seq !== NAVI.seq) return; page.innerHTML = '<div class="notice">Something went wrong opening this page: ' + esc(e && e.message || e) + '</div>'; console.error(e); });
 }
 function after(fn) { var p = document.getElementById('page'); (p._after = p._after || []).push(fn); }
 function openDrawer(html) { document.getElementById('din').innerHTML = html; document.getElementById('drawer').classList.add('on'); document.getElementById('dbg').classList.add('on'); document.getElementById('drawer').scrollTop = 0; }
 function closeDrawer() { document.getElementById('drawer').classList.remove('on'); document.getElementById('dbg').classList.remove('on'); }
+function askText(eyebrow, title, onDone) {   // a note, asked in the drawer (Apps Script's frame can block prompt())
+  openDrawer('<div class="eyebrow">' + esc(eyebrow) + '</div><h2 style="margin:6px 0">' + esc(title) + '</h2><form id="askf"><textarea class="f" id="askt" style="height:110px" placeholder="What you were testing (optional)"></textarea>' +
+    '<div style="margin-top:10px"><button class="btn gold">Save</button></div></form>');
+  document.getElementById('askf').onsubmit = function (e) { e.preventDefault(); var v = document.getElementById('askt').value.trim(); closeDrawer(); onDone(v); return false; };
+  setTimeout(function () { var t = document.getElementById('askt'); if (t) t.focus(); }, 60);
+}
 function toast(msg) { var t = document.createElement('div'); t.className = 'toast'; t.innerHTML = msg; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 4200); }
 function card(title, body, opt) {
   opt = opt || {};
@@ -186,9 +223,17 @@ function statBars(stats, max) {
 function portrait(name, size) { var n = numOf(name); return n ? '<img src="' + art(n) + '" alt="' + esc(name) + '" style="width:' + (size || 64) + 'px;height:' + (size || 64) + 'px;object-fit:contain" loading="lazy">' : ''; }
 function boot() {
   shell();
+  document.addEventListener('click', navClicks, true);
   Promise.all([API.data('hq'), API.data('atlas')]).then(function (r) {
     S.hq = r[0]; indexAtlas(r[1]); S.atlas = r[1];
-    window.addEventListener('hashchange', go); go();
+    var gs = gsNav();
+    if (gs) {
+      try { gs.history.setChangeHandler(function (ev) { NAVI.hash = '#' + ((ev && ev.location && ev.location.hash) || '/'); go(); }); } catch (e) {}
+      try { gs.url.getLocation(function (loc) { NAVI.hash = loc && loc.hash ? '#' + loc.hash : '#/'; go(); }); } catch (e) { go(); }
+    } else {
+      window.addEventListener('hashchange', function () { if (location.hash !== NAVI.hash) { NAVI.hash = location.hash || '#/'; go(); } else go(); });
+      NAVI.hash = location.hash || '#/'; go();
+    }
   }).catch(function (e) { document.getElementById('page').innerHTML = '<div class="notice">Couldn\'t load the estate\'s data: ' + esc(e && e.message || e) + '</div>'; });
 }
 </script>

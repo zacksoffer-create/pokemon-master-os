@@ -116,6 +116,7 @@ VERIFIED = [   # the tests that hold the browser's engines to Python's (tests/te
     ("Stat math", "the Lab's stats and Hidden Power against trainers/era.py", "6 builds"),
     ("Battle engine", "every lineup (three edited ones too), every section of the scouting file and the what-if league, with the damage calculator in the page", "2,365 sections"),
     ("Launcher", "serving the zip, every data file exactly, reading tabs, writing only the app's tabs", "9 tests"),
+    ("The web app in Apps Script's frame", "every menu item, the links and clickable rows on every page, desktop and phone, inside a sandboxed frame built the way Apps Script serves the app", "100+ pages"),
 ]
 
 

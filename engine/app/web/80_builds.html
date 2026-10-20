@@ -36,7 +36,7 @@ function ladder(fmt) {
   return withBuilds().then(function (B) {
     var keys = Object.keys(B.ladder); fmt = B.ladder[fmt] ? fmt : keys[0]; var L = B.ladder[fmt];
     S.ladderSets = {};
-    after(function (p) { p.querySelectorAll('[data-open]').forEach(function (b) { b.addEventListener('click', function () { var x = S.ladderSets[b.getAttribute('data-open')]; store('lab', labFrom(x)); location.hash = '#/builds/lab'; }); }); });
+    after(function (p) { p.querySelectorAll('[data-open]').forEach(function (b) { b.addEventListener('click', function () { var x = S.ladderSets[b.getAttribute('data-open')]; store('lab', labFrom(x)); nav('#/builds/lab'); }); }); });
     var maxUse = L.species[0] ? L.species[0].use : 100;
     return '<div class="eyebrow">Smogon usage · the field these builds are measured against</div><h1 style="margin:6px 0">The ladder book</h1>' +
       '<p class="lede">The top 40 of each old-generation OU ladder: how often each Pokémon is used, how it\'s built, and what beats it. Usage numbers are Smogon\'s; the sets come from real replays, read by the engine.</p>' + buildTabs('ladder') +
@@ -69,7 +69,7 @@ function lab(qs) {
   var bid = (String(qs || '').match(/b=([^&]*)/) || [])[1];
   return Promise.all([withBuilds(), API.data('learnsets'), API.tab('Specimens').catch(function () { return []; }), scoutReady()]).then(function (r) {
     S.learn = r[1]; var saved = r[2] || [];
-    if (bid) { var b = r[0].library.filter(function (x) { return x.id === decodeURIComponent(bid); })[0]; if (b) store('lab', labFrom(b)); try { history.replaceState(null, '', '#/builds/lab'); } catch (e) {} }
+    if (bid) { var b = r[0].library.filter(function (x) { return x.id === decodeURIComponent(bid); })[0]; if (b) store('lab', labFrom(b)); navQuiet('#/builds/lab'); }
     S.lab = Object.assign({}, LAB_DEFAULT, store('lab') || {});
     after(function (p) { labBind(p); labOut(); });
     return '<div class="eyebrow">The Lab · build one Pokémon and check it</div><h1 style="margin:6px 0">The Lab</h1>' +
@@ -208,9 +208,9 @@ function labToScoutLab() {
     source: 'the Lab', _edited: true};
   if (x.gen >= 3) { b.nature = x.nat; b.ability = x.ab; }
   var st = store('scoutlab');
-  if (!st || !st.v) { location.hash = '#/scoutlab'; toast('Open a trainer in the Scouting Lab first, then add it again.'); return; }
+  if (!st || !st.v) { nav('#/scoutlab'); toast('Open a trainer in the Scouting Lab first, then add it again.'); return; }
   if (st.v.team.length >= 6) st.v.team.pop();
-  st.v.team.push(b); store('scoutlab', st); toast('<b>' + esc(x.sp) + '</b> joined ' + esc(st.v.title) + ' in the Scouting Lab.'); location.hash = '#/scoutlab';
+  st.v.team.push(b); store('scoutlab', st); toast('<b>' + esc(x.sp) + '</b> joined ' + esc(st.v.title) + ' in the Scouting Lab.'); nav('#/scoutlab');
 }
 function labCopy() { var t = S.labPaste || ''; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('Paste copied.'); }).catch(function () { toast('Select the paste and copy it.'); }); }
 function labSave() {
