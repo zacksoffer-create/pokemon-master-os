@@ -115,7 +115,7 @@ def chapter_data(scout, lineup, coach=None):
     game = lineup["game"]
     built = [scout.member_for(sp, game, b) for sp, b in lineup["members"]]
     team = Team(game, [m for m, _ in built])
-    opponents = [o for o in scout.bench.load(game) if "rematch" not in o["name"].lower()]
+    opponents = scout.bench.load(game)                      # every Elite Four, Champion and rival team, rematches too
     coach = coach or {}
     sheets = []
     for o in opponents:

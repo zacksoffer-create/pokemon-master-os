@@ -52,12 +52,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Blaziken | wallbreaker (solid, 0.62) | – | – |
-| Venusaur | bulky attacker (solid, 0.62) | tank (solid) | – |
+| Blaziken | wallbreaker (solid, 0.59) | – | – |
+| Venusaur | bulky attacker (solid, 0.55) | tank (loose) | – |
 | Wartortle | hazard remover (strong, 0.71) | wallbreaker (loose) | – |
-| Munchlax | bulky attacker (loose, 0.49) | tank (loose) | – |
-| Beautifly | wallbreaker (loose, 0.23) | – | – |
-| Skitty | wallbreaker (loose, 0.17) | – | – |
+| Munchlax | bulky attacker (loose, 0.43) | tank (loose) | – |
+| Beautifly | wallbreaker (loose, 0.20) | – | – |
+| Skitty | wallbreaker (loose, 0.14) | – | – |
 
 ## On the ladder
 
@@ -75,7 +75,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## Who they go to
 
-- Even game: Venusaur is the workhorse (bulky attacker).
+- Even game: Venusaur is the workhorse (tank).
 - Behind: they turn to Blaziken (wallbreaker).
 
 ## What they can hit

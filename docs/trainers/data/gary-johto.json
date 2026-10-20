@@ -1348,23 +1348,23 @@
     "species": "Blastoise",
     "nickname": null,
     "primary": {
-     "role": "bulky_setup",
-     "name": "bulky setup",
-     "family": "defense",
-     "score": 0.5969,
-     "confidence": "solid",
-     "margin": 0.0059,
-     "clear": false
-    },
-    "secondary": {
      "role": "tank",
      "name": "tank",
      "family": "defense",
-     "score": 0.591,
+     "score": 0.5573,
+     "confidence": "solid",
+     "margin": 0.0096,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.5477,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky setup (0.60, solid): Withdraw; overall bulk above 79% of the field; attacking moves: Hydro Pump, Skull Bash, Bite"
+    "why": "tank (0.56, solid): attacking moves: Hydro Pump, Skull Bash, Bite; overall bulk above 79% of the field; a same-type attack: Hydro Pump"
    },
    {
     "species": "Arcanine",
@@ -1375,14 +1375,14 @@
      "family": "utility",
      "score": 0.6519,
      "confidence": "strong",
-     "margin": 0.043,
+     "margin": 0.0715,
      "clear": false
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.6089,
+     "score": 0.5804,
      "confidence": "solid"
     },
     "also": [],
@@ -1395,20 +1395,20 @@
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.4693,
+     "score": 0.4408,
      "confidence": "loose",
-     "margin": 0.0046,
+     "margin": 0.0129,
      "clear": false
     },
     "secondary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.4647,
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.4279,
      "confidence": "loose"
     },
     "also": [],
-    "why": "check / counter (0.47, loose): Poison/Ground (Poison Point); overall bulk above 67% of the field; attacking moves: Double Kick, Hyper Beam, Mega Punch, Strength"
+    "why": "check / counter (0.44, loose): Poison/Ground (Poison Point); overall bulk above 67% of the field; attacking moves: Double Kick, Hyper Beam, Mega Punch, Strength"
    },
    {
     "species": "Magmar",
@@ -1417,14 +1417,14 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.5949,
+     "score": 0.5673,
      "confidence": "solid",
-     "margin": 0.5949,
+     "margin": 0.5673,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.59, solid): Fire Blast (153); strong attacks (effective power 90+, with the stat it uses): Flamethrower, Fire Blast; Sp. Atk 257 (above 77% of the field)"
+    "why": "wallbreaker (0.57, solid): Fire Blast (153); strong attacks (effective power 90+, with the stat it uses): Flamethrower, Fire Blast; Sp. Atk 257 (above 77% of the field)"
    },
    {
     "species": "Golem",
@@ -1433,42 +1433,42 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6202,
+     "score": 0.5559,
      "confidence": "solid",
-     "margin": 0.1408,
+     "margin": 0.1041,
      "clear": true
     },
     "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.4794,
+     "score": 0.4518,
      "confidence": "loose"
     },
     "also": [],
-    "why": "bulky attacker (0.62, solid): Attack 277 (above 80% of the field); overall bulk above 68% of the field; attacking moves: Rollout, Magnitude"
+    "why": "bulky attacker (0.56, solid): Attack 277 (above 80% of the field); overall bulk above 68% of the field; attacking moves: Rollout, Magnitude"
    },
    {
     "species": "Scizor",
     "nickname": null,
     "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.6483,
-     "confidence": "solid",
-     "margin": 0.006,
-     "clear": false
-    },
-    "secondary": {
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.6423,
+     "score": 0.6263,
+     "confidence": "solid",
+     "margin": 0.0306,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5957,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.65, solid): Attack 317 (above 94% of the field); attacking moves: Steel Wing, Metal Claw, Quick Attack, Swift; overall bulk above 54% of the field"
+    "why": "revenge killer (0.63, solid): Quick Attack; Attack 317 (above 94% of the field); attacks that use its better attacking stat: Steel Wing, Metal Claw, Quick Attack"
    }
   ],
   "ace": {
@@ -1514,23 +1514,9 @@
       "role": 0.8
      },
      "helpers": [],
-     "role": "bulky setup",
+     "role": "tank",
      "level": null,
      "sent_out": "lead"
-    },
-    {
-     "species": "Nidoqueen",
-     "slot": 3,
-     "score": 0.384,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.294,
-      "role": 0.7
-     },
-     "helpers": [],
-     "role": "check / counter",
-     "level": null,
-     "sent_out": "#3"
     },
     {
      "species": "Scizor",
@@ -1542,9 +1528,23 @@
       "role": 0.8
      },
      "helpers": [],
-     "role": "bulky attacker",
+     "role": "revenge killer",
      "level": null,
      "sent_out": "last"
+    },
+    {
+     "species": "Nidoqueen",
+     "slot": 3,
+     "score": 0.298,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#3"
     },
     {
      "species": "Arcanine",
@@ -1573,13 +1573,13 @@
     "label": "cleaner",
     "species": "Scizor",
     "role": "revenge killer",
-    "fit": 0.642
+    "fit": 0.626
    },
    "behind": {
     "label": "gambit",
     "species": "Magmar",
     "role": "wallbreaker",
-    "fit": 0.535,
+    "fit": 0.511,
     "last_resorts": []
    }
   },

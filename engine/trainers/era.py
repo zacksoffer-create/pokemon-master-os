@@ -205,7 +205,7 @@ class Era:
         priority, target = int(row[4] or 0), row[5]
         effect_id = int(self.ref.q("SELECT effect_id FROM moves WHERE id=?", mid)[0][0] or 0)
         current_effect = effect_id
-        vg_of_gen = max(v for v, g in VG_GEN.items() if g == gen)
+        vg_of_gen = max(v for v, g in VG_GEN.items() if g == gen and v not in (12, 13))   # not Colosseum/XD (B2)
         for ch in self.ref.q("SELECT * FROM move_changelog WHERE move_id=? ORDER BY CAST(changed_in_version_group_id AS INT)", mid):
             if int(ch["changed_in_version_group_id"]) > vg_of_gen:   # a row holds the values before that change
                 type_id = int(ch["type_id"]) if ch["type_id"] is not None and type_id == int(row[0]) else type_id

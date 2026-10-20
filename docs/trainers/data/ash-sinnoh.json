@@ -1434,20 +1434,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.6372,
+     "score": 0.6211,
      "confidence": "solid",
-     "margin": 0.1258,
+     "margin": 0.125,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.5114,
-     "confidence": "solid"
+     "score": 0.4961,
+     "confidence": "loose"
     },
     "also": [],
-    "why": "revenge killer (0.64, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Quick Attack, Iron Tail, Volt Tackle"
+    "why": "revenge killer (0.62, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Quick Attack, Iron Tail, Volt Tackle"
    },
    {
     "species": "Infernape",
@@ -1456,20 +1456,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.767,
+     "score": 0.7509,
      "confidence": "strong",
-     "margin": 0.0972,
+     "margin": 0.0964,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.6698,
+     "score": 0.6545,
      "confidence": "strong"
     },
     "also": [],
-    "why": "revenge killer (0.77, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
+    "why": "revenge killer (0.75, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
    },
    {
     "species": "Torterra",
@@ -1478,20 +1478,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6543,
-     "confidence": "strong",
-     "margin": 0.1542,
+     "score": 0.59,
+     "confidence": "solid",
+     "margin": 0.1236,
      "clear": true
     },
     "secondary": {
      "role": "tank",
      "name": "tank",
      "family": "defense",
-     "score": 0.5001,
-     "confidence": "solid"
+     "score": 0.4664,
+     "confidence": "loose"
     },
     "also": [],
-    "why": "bulky attacker (0.65, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Rock Climb, Energy Ball"
+    "why": "bulky attacker (0.59, solid): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Rock Climb, Energy Ball"
    },
    {
     "species": "Staraptor",
@@ -1500,20 +1500,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.7732,
+     "score": 0.7571,
      "confidence": "strong",
-     "margin": 0.0816,
+     "margin": 0.0809,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.6916,
+     "score": 0.6762,
      "confidence": "strong"
     },
     "also": [],
-    "why": "revenge killer (0.77, strong): Quick Attack; Speed 257 (above 83% of the field); Attack 297 (above 87% of the field)"
+    "why": "revenge killer (0.76, strong): Quick Attack; Speed 257 (above 83% of the field); Attack 297 (above 87% of the field)"
    },
    {
     "species": "Gliscor",
@@ -1522,20 +1522,20 @@
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.5428,
+     "score": 0.5143,
      "confidence": "solid",
-     "margin": 0.0508,
+     "margin": 0.0561,
      "clear": false
     },
     "secondary": {
      "role": "tank",
      "name": "tank",
      "family": "defense",
-     "score": 0.492,
+     "score": 0.4582,
      "confidence": "loose"
     },
     "also": [],
-    "why": "check / counter (0.54, solid): Ground/Flying (Hyper Cutter); overall bulk above 69% of the field; attacking moves: Fire Fang, Steel Wing, Giga Impact, Stone Edge"
+    "why": "check / counter (0.51, solid): Ground/Flying (Hyper Cutter); overall bulk above 69% of the field; attacking moves: Fire Fang, Steel Wing, Giga Impact, Stone Edge"
    },
    {
     "species": "Buizel",
@@ -1544,20 +1544,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.5399,
+     "score": 0.5238,
      "confidence": "solid",
-     "margin": 0.0059,
+     "margin": 0.0052,
      "clear": false
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.534,
+     "score": 0.5186,
      "confidence": "solid"
     },
     "also": [],
-    "why": "revenge killer (0.54, solid): Aqua Jet; Speed 227 (above 61% of the field); attacks that use its better attacking stat: Water Gun, Water Pulse"
+    "why": "revenge killer (0.52, solid): Aqua Jet; Speed 227 (above 61% of the field); attacks that use its better attacking stat: Water Gun, Water Pulse"
    }
   ],
   "ace": {
@@ -1663,13 +1663,13 @@
     "label": "cleaner",
     "species": "Staraptor",
     "role": "revenge killer",
-    "fit": 0.773
+    "fit": 0.757
    },
    "behind": {
     "label": "gambit",
     "species": "Staraptor",
     "role": "wallbreaker",
-    "fit": 0.543,
+    "fit": 0.518,
     "last_resorts": []
    }
   },

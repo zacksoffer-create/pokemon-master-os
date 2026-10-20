@@ -37,7 +37,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Nidoking** Lv 100 (Poison Point) | frail both ways | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
-| **Kangaskhan** Lv 100 (Early Bird) | frail both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Kangaskhan** Lv 100 (Scrappy) | frail both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
 | **Honchkrow** Lv 100 (Insomnia) | frail both ways | · | · | · | · | 0 | 2× | · | ½ | · | · | · | ½ | 2× | 0 | 2× | · | ½ |
 | **Nidoqueen** Lv 100 (Poison Point) | frail both ways | · | ½ | · | ½ | 2× | ½ | ½ | · | · | · | 2× | · | 0 | 2× | 2× | · | · |
 
@@ -48,7 +48,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
 | Nidoking | wallbreaker (loose, 0.20) | – | – |
-| Kangaskhan | revenge killer (solid, 0.53) | sponge / status absorber (loose) | – |
+| Kangaskhan | revenge killer (solid, 0.53) | late-game cleaner (loose) | – |
 | Honchkrow | special setup sweeper (loose, 0.49) | sponge / status absorber (loose) | – |
 | Nidoqueen | phazer (solid, 0.51) | wallbreaker (loose) | – |
 

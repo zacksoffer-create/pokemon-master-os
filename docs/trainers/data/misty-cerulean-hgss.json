@@ -324,7 +324,7 @@
      "Water",
      "Ground"
     ],
-    "ability": "Damp",
+    "ability": "Water Absorb",
     "level": 100,
     "stats": {
      "hp": 324,
@@ -385,8 +385,10 @@
       "multiplier": 0.5
      },
      "Water": {
-      "verdict": "neutral",
-      "multiplier": 1.0
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Water Absorb",
+      "before_ability": "neutral"
      },
      "Grass": {
       "verdict": "very weak",
@@ -589,7 +591,7 @@
      "Water",
      "Psychic"
     ],
-    "ability": "Illuminate",
+    "ability": "Natural Cure",
     "level": 100,
     "stats": {
      "hp": 254,
@@ -850,14 +852,15 @@
     "Water": {
      "weak": 0,
      "very weak": 0,
-     "neutral": 1,
+     "neutral": 0,
      "resists": 2,
-     "immune": 1,
+     "immune": 2,
      "weak_total": 0,
-     "covered": 3,
+     "covered": 4,
      "weak_members": [],
      "covered_by": [
       "Golduck",
+      "Quagsire",
       "Lapras",
       "Starmie"
      ]
@@ -1048,13 +1051,13 @@
    },
    {
     "section": "beat",
-    "text": "Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).",
+    "text": "Watch the abilities: Quagsire's Water Absorb changes Water (from neutral to immune); Lapras's Water Absorb changes Water (from resists to immune).",
     "rule": "abilities",
     "trigger": "ability_str nonempty"
    },
    {
     "section": "beat",
-    "text": "Don't lead with Water, Steel or Fire: 3 of 4 resist Water; 3 of 4 resist Steel; 3 of 4 resist Fire.",
+    "text": "Don't lead with Water, Steel or Fire: 4 of 4 resist Water; 3 of 4 resist Steel; 3 of 4 resist Fire.",
     "rule": "strengths",
     "trigger": "strengths_str nonempty"
    }
@@ -1147,23 +1150,23 @@
     "species": "Starmie",
     "nickname": null,
     "primary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.5439,
+     "confidence": "solid",
+     "margin": 0.2551,
+     "clear": true
+    },
+    "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
      "score": 0.2888,
-     "confidence": "loose",
-     "margin": 0.0249,
-     "clear": false
-    },
-    "secondary": {
-     "role": "late_game_cleaner",
-     "name": "late-game cleaner",
-     "family": "offense",
-     "score": 0.2639,
      "confidence": "loose"
     },
     "also": [],
-    "why": "wallbreaker (0.29, loose): strong attacks (effective power 90+, with the stat it uses): Water Pulse, Ice Beam; Ice Beam (95); Sp. Atk 229 (above 58% of the field)"
+    "why": "sponge / status absorber (0.54, solid): Natural Cure; Recover; Water/Psychic (Natural Cure)"
    }
   ],
   "ace": {
@@ -1182,7 +1185,7 @@
       "investment": 1.0
      },
      "helpers": [],
-     "role": "wallbreaker",
+     "role": "sponge / status absorber",
      "level": 54,
      "marked_by_game": true,
      "sent_out": "last"
@@ -1632,7 +1635,7 @@
    "ace": [
     {
      "section": "ace",
-     "text": "Ace: Starmie (the highest level (54), the widest coverage and a wallbreaker).",
+     "text": "Ace: Starmie (the highest level (54), the widest coverage and a sponge / status absorber).",
      "rule": "ace_derived",
      "trigger": "always"
     }

@@ -45,7 +45,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | **Gyarados** Lv 100 (Intimidate) | even | · | ½ | · | · | 0 | 2× | ½ | · | ½ | ½ | ½ | · | 4× | · | · | · | · |
 | **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
 | **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
-| **Aerodactyl** Lv 100 (Rock Head) | frail both ways | ½ | · | ½ | ½ | 0 | 2× | ½ | · | 2× | ½ | 2× | · | 2× | · | 2× | · | · |
+| **Aerodactyl** Lv 100 (Pressure) | frail both ways | ½ | · | ½ | ½ | 0 | 2× | ½ | · | 2× | ½ | 2× | · | 2× | · | 2× | · | · |
 | **Charizard** Lv 100 (Blaze) | frail both ways | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
 | **Dragonite** Lv 100 (Inner Focus) | even | · | ½ | · | · | 0 | 2× | ½ | · | · | ½ | ½ | ½ | · | · | 4× | 2× | · |
 

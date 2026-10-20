@@ -1372,20 +1372,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.767,
+     "score": 0.7509,
      "confidence": "strong",
-     "margin": 0.0699,
+     "margin": 0.0691,
      "clear": false
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.6971,
+     "score": 0.6818,
      "confidence": "strong"
     },
     "also": [],
-    "why": "revenge killer (0.77, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
+    "why": "revenge killer (0.75, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
    },
    {
     "species": "Weavile",
@@ -1394,20 +1394,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.8522,
+     "score": 0.8361,
      "confidence": "strong",
-     "margin": 0.1003,
+     "margin": 0.0995,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.7519,
+     "score": 0.7366,
      "confidence": "strong"
     },
     "also": [],
-    "why": "revenge killer (0.85, strong): Ice Shard; Speed 337 (above 99% of the field); Attack 297 (above 87% of the field)"
+    "why": "revenge killer (0.84, strong): Ice Shard; Speed 337 (above 99% of the field); Attack 297 (above 87% of the field)"
    },
    {
     "species": "Roserade",
@@ -1416,20 +1416,20 @@
      "role": "suicide_lead",
      "name": "suicide lead",
      "family": "utility",
-     "score": 0.77,
+     "score": 0.8295,
      "confidence": "strong",
-     "margin": 0.0567,
-     "clear": false
+     "margin": 0.0895,
+     "clear": true
     },
     "secondary": {
      "role": "lead_attacker",
      "name": "lead attacker",
      "family": "offense",
-     "score": 0.7133,
+     "score": 0.74,
      "confidence": "strong"
     },
     "also": [],
-    "why": "suicide lead (0.77, strong): Toxic Spikes; Focus Sash; Speed 260 (above 87% of the field)"
+    "why": "suicide lead (0.83, strong): Toxic Spikes; Focus Sash; Speed 260 (above 87% of the field)"
    },
    {
     "species": "Lucario",
@@ -1438,20 +1438,20 @@
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.7495,
+     "score": 0.7055,
      "confidence": "strong",
-     "margin": 0.2074,
+     "margin": 0.191,
      "clear": true
     },
     "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.5421,
+     "score": 0.5145,
      "confidence": "solid"
     },
     "also": [],
-    "why": "physical setup sweeper (0.75, strong): Swords Dance; Attack 277 (above 80% of the field); physical attacks: Close Combat, Ice Punch, Earthquake"
+    "why": "physical setup sweeper (0.71, strong): Swords Dance; Attack 277 (above 80% of the field); physical attacks: Close Combat, Ice Punch, Earthquake"
    },
    {
     "species": "Garchomp",
@@ -1460,20 +1460,20 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.664,
-     "confidence": "strong",
-     "margin": 0.0076,
+     "score": 0.6364,
+     "confidence": "solid",
+     "margin": 0.0442,
      "clear": false
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6564,
-     "confidence": "strong"
+     "score": 0.5922,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "wallbreaker (0.66, strong): Earthquake (150); strong attacks (effective power 90+, with the stat it uses): Earthquake, Dragon Claw; Attack 317 (above 94% of the field)"
+    "why": "wallbreaker (0.64, solid): Earthquake (150); strong attacks (effective power 90+, with the stat it uses): Earthquake, Dragon Claw; Attack 317 (above 94% of the field)"
    },
    {
     "species": "Magnezone",
@@ -1484,15 +1484,15 @@
      "family": "support",
      "score": 0.8875,
      "confidence": "strong",
-     "margin": 0.2205,
+     "margin": 0.2489,
      "clear": true
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.667,
-     "confidence": "strong"
+     "score": 0.6386,
+     "confidence": "solid"
     },
     "also": [],
     "why": "trapper (0.89, strong): Magnet Pull; attacking moves: Thunderbolt, Hidden Power Fire, Flash Cannon; Sp. Atk 348 (above 98% of the field)"
@@ -1594,19 +1594,19 @@
     "label": "workhorse",
     "species": "Roserade",
     "role": "lead attacker",
-    "fit": 0.642
+    "fit": 0.666
    },
    "ahead": {
     "label": "cleaner",
     "species": "Weavile",
     "role": "revenge killer",
-    "fit": 0.852
+    "fit": 0.836
    },
    "behind": {
     "label": "gambit",
     "species": "Lucario",
     "role": "physical setup sweeper",
-    "fit": 0.75,
+    "fit": 0.706,
     "last_resorts": [
      {
       "species": "Roserade",

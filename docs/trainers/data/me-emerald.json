@@ -1343,20 +1343,20 @@
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.6663,
-     "confidence": "strong",
-     "margin": 0.0035,
+     "score": 0.6378,
+     "confidence": "solid",
+     "margin": 0.0392,
      "clear": false
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6628,
-     "confidence": "strong"
+     "score": 0.5986,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "check / counter (0.67, strong): Water/Ground (Torrent); overall bulk above 84% of the field; attacking moves: Earthquake, Ice Beam, Brick Break"
+    "why": "check / counter (0.64, solid): Water/Ground (Torrent); overall bulk above 84% of the field; attacking moves: Earthquake, Ice Beam, Brick Break"
    },
    {
     "species": "Milotic",
@@ -1365,20 +1365,20 @@
      "role": "status_absorber",
      "name": "sponge / status absorber",
      "family": "defense",
-     "score": 0.7842,
+     "score": 0.7631,
      "confidence": "strong",
-     "margin": 0.0944,
+     "margin": 0.1018,
      "clear": true
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.6898,
+     "score": 0.6613,
      "confidence": "strong"
     },
     "also": [],
-    "why": "sponge / status absorber (0.78, strong): Marvel Scale; overall bulk above 89% of the field; Recover"
+    "why": "sponge / status absorber (0.76, strong): Marvel Scale; overall bulk above 89% of the field; Recover"
    },
    {
     "species": "Altaria",
@@ -1387,20 +1387,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.7244,
+     "score": 0.6704,
      "confidence": "strong",
-     "margin": 0.0964,
-     "clear": true
+     "margin": 0.0635,
+     "clear": false
     },
     "secondary": {
      "role": "status_absorber",
      "name": "sponge / status absorber",
      "family": "defense",
-     "score": 0.628,
+     "score": 0.6069,
      "confidence": "solid"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.72, strong): Dragon Dance; attacks on both sides: Earthquake, Dragon Claw, Fire Blast; types it hits super-effectively: Bug, Dragon, Electric, Fire, Grass, Ice, Poison, Rock, Steel"
+    "why": "mixed setup sweeper (0.67, strong): Dragon Dance; attacks on both sides: Earthquake, Dragon Claw, Fire Blast; types it hits super-effectively: Bug, Dragon, Electric, Fire, Grass, Ice, Poison, Rock, Steel"
    },
    {
     "species": "Arcanine",
@@ -1409,20 +1409,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.8006,
+     "score": 0.7466,
      "confidence": "strong",
-     "margin": 0.087,
-     "clear": true
+     "margin": 0.077,
+     "clear": false
     },
     "secondary": {
      "role": "special_setup_sweeper",
      "name": "special setup sweeper",
      "family": "offense",
-     "score": 0.7136,
+     "score": 0.6696,
      "confidence": "strong"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.80, strong): Agility; attacks on both sides: Iron Tail, Overheat, Crunch; Speed 247 (above 77% of the field)"
+    "why": "mixed setup sweeper (0.75, strong): Agility; attacks on both sides: Iron Tail, Overheat, Crunch; Speed 247 (above 77% of the field)"
    },
    {
     "species": "Absol",
@@ -1431,20 +1431,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.7752,
+     "score": 0.7213,
      "confidence": "strong",
-     "margin": 0.1395,
+     "margin": 0.1296,
      "clear": true
     },
     "secondary": {
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.6357,
+     "score": 0.5917,
      "confidence": "solid"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.78, strong): Swords Dance; attacks on both sides: Rock Slide, Bite, Ice Beam; types it hits super-effectively: Bug, Dragon, Fire, Flying, Ghost, Grass, Ground, Ice, Psychic"
+    "why": "mixed setup sweeper (0.72, strong): Swords Dance; attacks on both sides: Rock Slide, Bite, Ice Beam; types it hits super-effectively: Bug, Dragon, Fire, Flying, Ghost, Grass, Ground, Ice, Psychic"
    },
    {
     "species": "Meganium",
@@ -1453,20 +1453,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.7412,
+     "score": 0.6872,
      "confidence": "strong",
-     "margin": 0.1002,
+     "margin": 0.0902,
      "clear": true
     },
     "secondary": {
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.641,
+     "score": 0.597,
      "confidence": "solid"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.74, strong): Swords Dance; attacks on both sides: Earthquake, Iron Tail, Giga Drain; types it hits super-effectively: Electric, Fire, Ground, Ice, Poison, Rock, Steel, Water"
+    "why": "mixed setup sweeper (0.69, strong): Swords Dance; attacks on both sides: Earthquake, Iron Tail, Giga Drain; types it hits super-effectively: Electric, Fire, Ground, Ice, Poison, Rock, Steel, Water"
    }
   ],
   "ace": {
@@ -1563,21 +1563,21 @@
   "go_to": {
    "even": {
     "label": "workhorse",
-    "species": "Swampert",
-    "role": "tank",
-    "fit": 0.582
+    "species": "Altaria",
+    "role": "pivot",
+    "fit": 0.559
    },
    "ahead": {
     "label": "cleaner",
     "species": "Arcanine",
     "role": "late-game cleaner",
-    "fit": 0.552
+    "fit": 0.537
    },
    "behind": {
     "label": "gambit",
     "species": "Arcanine",
     "role": "mixed setup sweeper",
-    "fit": 0.801,
+    "fit": 0.747,
     "last_resorts": []
    }
   },
@@ -1733,7 +1733,7 @@
      "move": "Giga Drain",
      "member": "Meganium",
      "move_type": "Grass",
-     "power": 112,
+     "power": 90,
      "their_weak_to_it": 1
     }
    ],
@@ -2101,7 +2101,7 @@
    "go_to": [
     {
      "section": "go_to",
-     "text": "Even game: Swampert is the workhorse (tank).",
+     "text": "Even game: Altaria is the workhorse (pivot).",
      "rule": "goto_even",
      "trigger": "one_for_all empty"
     },

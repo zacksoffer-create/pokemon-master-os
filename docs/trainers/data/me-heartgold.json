@@ -1361,23 +1361,23 @@
     "species": "Typhlosion",
     "nickname": null,
     "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.578,
-     "confidence": "solid",
-     "margin": 0.0119,
-     "clear": false
-    },
-    "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.5661,
+     "score": 0.5385,
+     "confidence": "solid",
+     "margin": 0.0248,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5137,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.58, solid): Sp. Atk 275 (above 84% of the field); attacking moves: Flamethrower, Extrasensory, Thunder Punch, Earthquake; overall bulk above 52% of the field"
+    "why": "wallbreaker (0.54, solid): Flamethrower (142); Sp. Atk 275 (above 84% of the field); types it hits super-effectively: Bug, Electric, Fighting, Fire, Flying, Grass, Ice, Poison, Rock, Steel, Water"
    },
    {
     "species": "Tyranitar",
@@ -1388,14 +1388,14 @@
      "family": "support",
      "score": 0.833,
      "confidence": "strong",
-     "margin": 0.0776,
-     "clear": false
+     "margin": 0.1216,
+     "clear": true
     },
     "secondary": {
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.7554,
+     "score": 0.7114,
      "confidence": "strong"
     },
     "also": [],
@@ -1408,20 +1408,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.7336,
+     "score": 0.7175,
      "confidence": "strong",
-     "margin": 0.0552,
+     "margin": 0.0667,
      "clear": false
     },
     "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.6784,
+     "score": 0.6508,
      "confidence": "strong"
     },
     "also": [],
-    "why": "revenge killer (0.73, strong): Ice Shard; Attack 348 (above 98% of the field); Speed 217 (above 53% of the field)"
+    "why": "revenge killer (0.72, strong): Ice Shard; Attack 348 (above 98% of the field); Speed 217 (above 53% of the field)"
    },
    {
     "species": "Crobat",
@@ -1432,15 +1432,15 @@
      "family": "utility",
      "score": 0.7961,
      "confidence": "strong",
-     "margin": 0.1711,
+     "margin": 0.139,
      "clear": true
     },
     "secondary": {
      "role": "staller",
      "name": "staller",
      "family": "support",
-     "score": 0.625,
-     "confidence": "solid"
+     "score": 0.6571,
+     "confidence": "strong"
     },
     "also": [],
     "why": "pivot (0.80, strong): U-turn; Poison/Flying (Inner Focus); overall bulk above 56% of the field"
@@ -1452,20 +1452,20 @@
      "role": "cleric",
      "name": "cleric",
      "family": "support",
-     "score": 0.7944,
+     "score": 0.7494,
      "confidence": "strong",
-     "margin": 0.1614,
+     "margin": 0.1019,
      "clear": true
     },
     "secondary": {
      "role": "special_wall",
      "name": "special wall",
      "family": "defense",
-     "score": 0.633,
+     "score": 0.6475,
      "confidence": "solid"
     },
     "also": [],
-    "why": "cleric (0.79, strong): Heal Bell; overall bulk above 95% of the field; Rest"
+    "why": "cleric (0.75, strong): Heal Bell; overall bulk above 95% of the field; Rest"
    },
    {
     "species": "Snorlax",
@@ -1474,20 +1474,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.7585,
+     "score": 0.6943,
      "confidence": "strong",
-     "margin": 0.0843,
-     "clear": true
+     "margin": 0.0486,
+     "clear": false
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.6742,
-     "confidence": "strong"
+     "score": 0.6457,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.76, strong): overall bulk above 98% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Thunder Punch, Zen Headbutt"
+    "why": "bulky attacker (0.69, strong): overall bulk above 98% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Thunder Punch, Zen Headbutt"
    }
   ],
   "ace": {
@@ -1523,7 +1523,7 @@
      "helpers": [
       "Lapras"
      ],
-     "role": "bulky attacker",
+     "role": "wallbreaker",
      "level": null,
      "sent_out": "lead"
     },
@@ -1600,13 +1600,13 @@
     "label": "cleaner",
     "species": "Mamoswine",
     "role": "revenge killer",
-    "fit": 0.734
+    "fit": 0.718
    },
    "behind": {
     "label": "gambit",
     "species": "Tyranitar",
     "role": "physical setup sweeper",
-    "fit": 0.755,
+    "fit": 0.711,
     "last_resorts": []
    }
   },

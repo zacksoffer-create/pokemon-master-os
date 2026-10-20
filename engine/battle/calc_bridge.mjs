@@ -27,8 +27,10 @@ const results = input.map((req) => {
       const p = mon(gen, req.stats);
       return { stats: p.stats, hp: p.maxHP(), types: p.types, ability: p.ability ?? null, item: p.item ?? null };
     }
-    const res = calculate(gen, mon(gen, req.attacker), mon(gen, req.defender), new Move(gen, req.move),
-                          new Field(req.field ?? {}));
+    // the attacker's ability and item go on the move too, or the calculator ignores them there (Skill Link's 5 hits)
+    const move = new Move(gen, req.move, { ability: named(gen.abilities, req.attacker.ability),
+                                           item: named(gen.items, req.attacker.item), species: req.attacker.species });
+    const res = calculate(gen, mon(gen, req.attacker), mon(gen, req.defender), move, new Field(req.field ?? {}));
     const hp = res.defender.maxHP();
     let lo = 0, hi = 0;
     try { [lo, hi] = res.range(); } catch (err) {   // the calculator throws on a hit that does nothing (an immunity)

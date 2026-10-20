@@ -291,7 +291,7 @@
     "types": [
      "Normal"
     ],
-    "ability": "Early Bird",
+    "ability": "Scrappy",
     "level": 100,
     "stats": {
      "hp": 332,
@@ -1040,14 +1040,14 @@
      "family": "offense",
      "score": 0.5271,
      "confidence": "solid",
-     "margin": 0.0637,
-     "clear": false
+     "margin": 0.1576,
+     "clear": true
     },
     "secondary": {
-     "role": "status_absorber",
-     "name": "sponge / status absorber",
-     "family": "defense",
-     "score": 0.4634,
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.3695,
      "confidence": "loose"
     },
     "also": [],
@@ -1152,11 +1152,11 @@
     {
      "species": "Kangaskhan",
      "slot": 2,
-     "score": 0.395,
+     "score": 0.425,
      "parts": {
       "support": 0.0,
       "coverage": 0.176,
-      "role": 0.8,
+      "role": 0.9,
       "investment": 0.4
      },
      "helpers": [],

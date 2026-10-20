@@ -169,7 +169,7 @@ class Store:
             mon = bench._mon(game, p["species"], p["level"], p.get("moves", []), p.get("item"), ivs)
             override = str(p.get("abilityOverride", ""))
             options = self.era.abilities(mon["species"], gen)
-            ability = options[1] if "_2" in override and len(options) > 1 else (options[0] if options else None)
+            ability = options[1] if ("SECOND" in override or "_2" in override) and len(options) > 1 else (options[0] if options else None)
             out.append(Build(id=f"cartridge:{game}:{index if index is not None else file}/{i}", species=mon["species"],
                              moves=mon["moves"], level=mon["level"], ivs=ivs, evs={s: 0 for s in STATS},
                              item=self.era.item_name(mon["item"]) if mon["item"] else None, ability=ability,

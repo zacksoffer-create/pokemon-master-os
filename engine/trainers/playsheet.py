@@ -67,6 +67,8 @@ def read_team(book, version, team, level=None):
 
 
 def _fits(book, role_id, family_or_ids):
+    if role_id is None:                         # "no clear role" fits nothing
+        return False
     fam = book.roles[role_id]["family"]
     return role_id in family_or_ids or fam in family_or_ids
 

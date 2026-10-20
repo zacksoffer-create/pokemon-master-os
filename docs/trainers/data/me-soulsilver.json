@@ -1354,20 +1354,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.6372,
+     "score": 0.6211,
      "confidence": "solid",
-     "margin": 0.1258,
+     "margin": 0.125,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.5114,
-     "confidence": "solid"
+     "score": 0.4961,
+     "confidence": "loose"
     },
     "also": [],
-    "why": "revenge killer (0.64, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Volt Tackle, Quick Attack, Iron Tail"
+    "why": "revenge killer (0.62, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Volt Tackle, Quick Attack, Iron Tail"
    },
    {
     "species": "Dragonite",
@@ -1376,20 +1376,20 @@
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.7218,
+     "score": 0.6933,
      "confidence": "strong",
-     "margin": 0.0594,
-     "clear": false
+     "margin": 0.0952,
+     "clear": true
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6624,
-     "confidence": "strong"
+     "score": 0.5981,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "check / counter (0.72, strong): Dragon/Flying (Inner Focus); overall bulk above 82% of the field; attacking moves: Fly, Extreme Speed, Dragon Claw"
+    "why": "check / counter (0.69, strong): Dragon/Flying (Inner Focus); overall bulk above 82% of the field; attacking moves: Fly, Extreme Speed, Dragon Claw"
    },
    {
     "species": "Infernape",
@@ -1398,20 +1398,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.844,
+     "score": 0.7901,
      "confidence": "strong",
-     "margin": 0.0992,
+     "margin": 0.0893,
      "clear": true
     },
     "secondary": {
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.7448,
+     "score": 0.7008,
      "confidence": "strong"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.84, strong): Swords Dance; attacks on both sides: Earthquake, Close Combat, Overheat; types it hits super-effectively: Bug, Dark, Electric, Fire, Grass, Ice, Normal, Poison, Rock, Steel"
+    "why": "mixed setup sweeper (0.79, strong): Swords Dance; attacks on both sides: Earthquake, Close Combat, Overheat; types it hits super-effectively: Bug, Dark, Electric, Fire, Grass, Ice, Normal, Poison, Rock, Steel"
    },
    {
     "species": "Empoleon",
@@ -1420,20 +1420,20 @@
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.794,
+     "score": 0.7656,
      "confidence": "strong",
-     "margin": 0.1352,
+     "margin": 0.1711,
      "clear": true
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6588,
-     "confidence": "strong"
+     "score": 0.5945,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "check / counter (0.79, strong): Water/Steel (Torrent); overall bulk above 76% of the field; attacking moves: Surf, Flash Cannon, Aqua Jet"
+    "why": "check / counter (0.77, strong): Water/Steel (Torrent); overall bulk above 76% of the field; attacking moves: Surf, Flash Cannon, Aqua Jet"
    },
    {
     "species": "Gengar",
@@ -1442,20 +1442,20 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.5315,
+     "score": 0.5039,
      "confidence": "solid",
-     "margin": 0.0876,
-     "clear": true
+     "margin": 0.0761,
+     "clear": false
     },
     "secondary": {
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.4439,
+     "score": 0.4278,
      "confidence": "loose"
     },
     "also": [],
-    "why": "wallbreaker (0.53, solid): strong attacks (effective power 90+, with the stat it uses): Shadow Ball, Psychic; Sp. Atk 317 (above 95% of the field); Shadow Ball (120)"
+    "why": "wallbreaker (0.50, solid): strong attacks (effective power 90+, with the stat it uses): Shadow Ball, Psychic; Sp. Atk 317 (above 95% of the field); Shadow Ball (120)"
    },
    {
     "species": "Scizor",
@@ -1466,14 +1466,14 @@
      "family": "utility",
      "score": 0.8197,
      "confidence": "strong",
-     "margin": 0.1205,
+     "margin": 0.149,
      "clear": true
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.6992,
+     "score": 0.6707,
      "confidence": "strong"
     },
     "also": [],
@@ -1582,13 +1582,13 @@
     "label": "cleaner",
     "species": "Pikachu",
     "role": "revenge killer",
-    "fit": 0.637
+    "fit": 0.621
    },
    "behind": {
     "label": "gambit",
     "species": "Infernape",
     "role": "mixed setup sweeper",
-    "fit": 0.844,
+    "fit": 0.79,
     "last_resorts": []
    }
   },

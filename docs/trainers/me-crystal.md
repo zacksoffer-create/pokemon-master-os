@@ -53,12 +53,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Feraligatr | bulky attacker (strong, 0.73) | physical setup sweeper (strong) | – |
-| Miltank | physical setup sweeper (strong, 0.77) | bulky setup (strong) | – |
-| Donphan | physical setup sweeper (strong, 0.77) | bulky attacker (strong) | – |
-| Ampharos | bulky attacker (strong, 0.75) | bulky setup (strong) | – |
-| Umbreon | bulky setup (strong, 0.84) | check / counter (solid) | – |
-| Espeon | bulky setup (solid, 0.60) | late-game cleaner (solid) | – |
+| Feraligatr | physical setup sweeper (solid, 0.58) | bulky setup (solid) | – |
+| Miltank | physical setup sweeper (solid, 0.64) | bulky setup (solid) | – |
+| Donphan | physical setup sweeper (solid, 0.64) | bulky attacker (solid) | – |
+| Ampharos | bulky attacker (solid, 0.56) | bulky setup (solid) | – |
+| Umbreon | bulky setup (strong, 0.72) | check / counter (solid) | – |
+| Espeon | late-game cleaner (loose, 0.50) | bulky setup (loose) | – |
 
 ## On the ladder
 

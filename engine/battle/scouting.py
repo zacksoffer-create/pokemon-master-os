@@ -122,7 +122,16 @@ class Scouting:
         return sum(v < value for v in vals) / len(vals)
 
     # --- moves -------------------------------------------------------------------------------
-    def accuracy(self, move):
+    def accuracy(self, move, gen=None):
+        """The move's accuracy as its generation had it (the move book's rollback), else today's (B3)."""
+        if gen:
+            try:
+                if not hasattr(self, "_book"):
+                    from battle.moves import MoveBook
+                    self._book = MoveBook(self.ref)
+                return self._book.get(gen, move).accuracy
+            except (KeyError, IndexError):
+                pass
         try:
             r = self.ref.q("SELECT accuracy FROM moves WHERE id=?", self.ref.move_id(move))
         except KeyError:
@@ -139,7 +148,7 @@ class Scouting:
         attacks that add the most new super-effective types, then its best setup or recovery move (D-024)."""
         gen = rules.GAME_GEN[game]
         types = rules.species(gen, species)["types"]
-        pool = [dict(a, value=a["score"] * self.accuracy(a["move"]) / 100)
+        pool = [dict(a, value=a["score"] * self.accuracy(a["move"], gen) / 100)
                 for a in self.battle.attacks(Member(species), game, potential=True)
                 if a["score"] >= min_score and a["move"] not in UNRELIABLE and a["move"] not in rejected]
         pool.sort(key=lambda a: -a["value"])
@@ -258,7 +267,7 @@ class Scouting:
         sp = rules.species(gen, member.species)
         bs = sp["bs"]
         abil = member.ability or (rules.abilities(gen, member.species) or [None])[0]
-        attacks = sorted(self.battle.attacks(member, game), key=lambda a: -a["score"] * self.accuracy(a["move"]))
+        attacks = sorted(self.battle.attacks(member, game), key=lambda a: -a["score"] * self.accuracy(a["move"], rules.GAME_GEN[game]))
         dmg = [m for m in member.moves if rules.category(gen, m) != "Status" and rules.move(gen, m)["bp"] > 20]
         phys = [m for m in dmg if rules.category(gen, m) == "Physical"]
         spec = [m for m in dmg if rules.category(gen, m) == "Special"]
@@ -308,7 +317,7 @@ class Scouting:
             "signature_missing": sig if sig and item != sig else None,
             "recoil_str": join([m for m in dmg if m in RECOIL]), "lock_str": join([m for m in dmg if m in LOCK_IN]),
             "charge_str": join([m for m in dmg if m in CHARGE]),
-            "shaky_str": join([f"{m} ({self.accuracy(m)}%)" for m in dmg if self.accuracy(m) < 90]),
+            "shaky_str": join([f"{m} ({self.accuracy(m, gen)}%)" for m in dmg if self.accuracy(m, gen) < 90]),
             "risky_str": join([m for m in member.moves if m in RISKY]),
             "protect_str": join([m for m in member.moves if m in PROTECT], "or"),
             "trouble_str": join(self.trouble(member, game)), "comps_str": join(self.comps(member.species, gen)),

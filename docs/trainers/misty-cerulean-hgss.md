@@ -30,8 +30,8 @@
 - Also open to Electric (3 weak).
 - Biggest single openings: Quagsire to Grass (four times the damage).
 - No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Quagsire (specially soft).
-- Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).
-- Don't lead with Water, Steel or Fire: 3 of 4 resist Water; 3 of 4 resist Steel; 3 of 4 resist Fire.
+- Watch the abilities: Quagsire's Water Absorb changes Water (from neutral to immune); Lapras's Water Absorb changes Water (from resists to immune).
+- Don't lead with Water, Steel or Fire: 4 of 4 resist Water; 3 of 4 resist Steel; 3 of 4 resist Fire.
 
 ## The matrix
 
@@ -40,9 +40,9 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Golduck** Lv 100 (Damp) | frail both ways | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
-| **Quagsire** Lv 100 (Damp) | specially soft | · | · | · | ½ | · | ½ | · | · | ½ | ½ | · | 4× | 0 | · | · | · | · |
+| **Quagsire** Lv 100 (Water Absorb) | specially soft | · | · | · | ½ | · | ½ | · | · | ½ | ½ | 0* | 4× | 0 | · | · | · | · |
 | **Lapras** Lv 100 (Water Absorb) | bulky both ways | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
-| **Starmie** Lv 100 (Illuminate) | frail both ways | · | ½ | · | · | · | · | 2× | 2× | ½ | ½ | ½ | 2× | 2× | ½ | ½ | · | 2× |
+| **Starmie** Lv 100 (Natural Cure) | frail both ways | · | ½ | · | · | · | · | 2× | 2× | ½ | ½ | ½ | 2× | 2× | ½ | ½ | · | 2× |
 
 **Gaps:** Grass and Electric · **Strengths:** Water, Steel, Fire and Ice · **Bring:** attackers by type (0 physically soft, 1 specially soft, 2 frail, 1 bulky both ways)
 
@@ -53,7 +53,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Golduck | wallbreaker (loose, 0.35) | – | – |
 | Quagsire | weather setter (solid, 0.55) | bulky setup (loose) | – |
 | Lapras | bulky attacker (loose, 0.49) | tank (loose) | – |
-| Starmie | wallbreaker (loose, 0.29) | late-game cleaner (loose) | – |
+| Starmie | sponge / status absorber (solid, 0.54) | wallbreaker (loose) | – |
 
 ## On the ladder
 
@@ -63,7 +63,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## The ace
 
-- Ace: Starmie (the highest level (54), the widest coverage and a wallbreaker).
+- Ace: Starmie (the highest level (54), the widest coverage and a sponge / status absorber).
 
 ## Who they go to
 

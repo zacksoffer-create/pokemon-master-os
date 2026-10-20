@@ -27,7 +27,8 @@ HGSS = {"Will": 245, "Koga": 247, "Bruno": 418, "Karen": 246, "Champion Lance": 
         "Champion Lance (rematch)": 701}
 # Crystal gives AI layers to trainer classes (data/trainers/attributes.asm): benchmark name -> class.
 AI_KEYS = {"crystal": {"Will": "WILL", "Koga": "KOGA", "Bruno": "BRUNO", "Karen": "KAREN", "Champion Lance": "CHAMPION LANCE",
-                       "Red": "RED", "Clair": "CLAIR", "Rival Silver (strongest team)": "RIVAL2"}}
+                       "Red": "RED", "Clair": "CLAIR", "Rival Silver": "RIVAL2", "Rival Silver (rematch)": "RIVAL2"}}
+RIVAL_STARTER = "MEGANIUM"     # our Crystal starter is Totodile (Feraligatr), so the rival raised Chikorita
 BENCHMARK_SETS = {
     "crystal": [("Will", "Will"), ("Koga", "Koga"), ("Bruno", "Bruno"), ("Karen", "Karen"),
                 ("Champion Lance", "Champion"), ("Red", "Red"), ("Clair", "Clair")],
@@ -35,11 +36,18 @@ BENCHMARK_SETS = {
                 ("Agatha", "sParty_EliteFourAgatha"), ("Lance", "sParty_EliteFourLance"),
                 ("Champion (rival, Squirtle variant)", "sParty_ChampionFirstSquirtle"),
                 ("Champion (rival, Bulbasaur variant)", "sParty_ChampionFirstBulbasaur"),
-                ("Champion (rival, Charmander variant)", "sParty_ChampionFirstCharmander")],
+                ("Champion (rival, Charmander variant)", "sParty_ChampionFirstCharmander"),
+                ("Lorelei (rematch)", "sParty_EliteFourLorelei2"), ("Bruno (rematch)", "sParty_EliteFourBruno2"),
+                ("Agatha (rematch)", "sParty_EliteFourAgatha2"), ("Lance (rematch)", "sParty_EliteFourLance2"),
+                ("Champion (rival, Squirtle variant, rematch)", "sParty_ChampionRematchSquirtle"),
+                ("Champion (rival, Bulbasaur variant, rematch)", "sParty_ChampionRematchBulbasaur"),
+                ("Champion (rival, Charmander variant, rematch)", "sParty_ChampionRematchCharmander")],
     "emerald": [("Sidney", "sParty_Sidney"), ("Phoebe", "sParty_Phoebe"), ("Glacia", "sParty_Glacia"),
                 ("Drake", "sParty_Drake"), ("Champion Wallace", "sParty_Wallace"), ("Steven", "sParty_Steven")],
     "platinum": [("Aaron", "elite_four_aaron"), ("Bertha", "elite_four_bertha"), ("Flint", "elite_four_flint"),
                  ("Lucian", "elite_four_lucian"), ("Champion Cynthia", "champion_cynthia"),
+                 ("Aaron (rematch)", "elite_four_aaron_rematch"), ("Bertha (rematch)", "elite_four_bertha_rematch"),
+                 ("Flint (rematch)", "elite_four_flint_rematch"), ("Lucian (rematch)", "elite_four_lucian_rematch"),
                  ("Cynthia (rematch)", "champion_cynthia_rematch")],
 }
 
@@ -154,11 +162,14 @@ class Benchmarks:
                 party = [self._mon(game, sp, lvl, mv, item, ivs) for lvl, sp, mv, item in tr["party"]]
                 out.append({"name": name, "game": game, "party": party,
                             "source": f"pret/pokecrystal data/trainers/parties.asm {group}Group (1)"})
-            rivals = groups["Rival2"]
-            final = max(rivals, key=lambda t: sum(m[0] for m in t["party"]))
             ivs = {k: v * 2 for k, v in dvs["RIVAL2"].items()}
-            out.append({"name": "Rival Silver (strongest team)", "game": game, "source": "pret/pokecrystal Rival2Group",
-                        "party": [self._mon(game, sp, lvl, mv, item, ivs) for lvl, sp, mv, item in final["party"]]})
+            # Rival2Group holds three teams per starter (one per player starter), first meeting then rematch. The
+            # journey's rival took the starter strong against ours (RIVAL_STARTER); both of its teams are benchmarks.
+            ours = [t for t in groups["Rival2"] if any(RIVAL_STARTER in sp for _, sp, _, _ in t["party"])]
+            ours.sort(key=lambda t: sum(m[0] for m in t["party"]))
+            for label, tr in zip(("Rival Silver", "Rival Silver (rematch)"), ours):
+                out.append({"name": label, "game": game, "source": "pret/pokecrystal Rival2Group",
+                            "party": [self._mon(game, sp, lvl, mv, item, ivs) for lvl, sp, mv, item in tr["party"]]})
         elif game in ("firered", "emerald"):
             parties = self._gen3(game)
             for name, sym in BENCHMARK_SETS[game]:
@@ -167,7 +178,7 @@ class Benchmarks:
                          for iv, lvl, sp, item, mv in parties[sym]]
                 out.append({"name": name, "game": game, "party": party,
                             "source": f"pret/poke{game} src/data/trainer_parties.h {sym}",
-                            "_symbol": "TRAINER_" + re.sub(r"(?<!^)(?=[A-Z])", "_", sym.replace("sParty_", "")).upper()})
+                            "_symbol": "TRAINER_" + re.sub(r"(?<!^)(?=[A-Z])|(?<=[a-z])(?=[0-9])", "_", sym.replace("sParty_", "")).upper()})
         elif game == "platinum":
             for name, fname in BENCHMARK_SETS["platinum"]:
                 d = json.load(open(os.path.join(RAW, f"platinum_{fname}.json"), encoding="utf-8"))
@@ -186,6 +197,11 @@ class Benchmarks:
                                    {s: p.get("difficulty", 0) * 31 // 255 for s in ("hp", "atk", "def", "spa", "spd", "spe")})
                          for p in trainers[idx]["party"]]
                 tr = trainers[idx]
+                for mon, p in zip(party, tr["party"]):   # the cartridge's ability slot (pret's abilityOverride)
+                    if "SECOND" in str(p.get("abilityOverride", "")):
+                        options = rules.abilities(rules.GAME_GEN[game], mon["species"])
+                        if len(options) > 1:
+                            mon["ability"] = options[1]
                 out.append({"name": name, "game": game, "party": party,
                             "source": f"pret/pokeheartgold files/poketool/trainer/trainers.json #{idx}",
                             "ai_flags": tr.get("ai_flags", 0), "items": tr.get("items", []),

@@ -31,7 +31,7 @@
 - Also open to Rock (2 weak).
 - Biggest single openings: Charizard to Rock (four times the damage).
 - No side of their bulk stands out as soft across the team: pick attackers by type, not by side.
-- Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).
+- Watch the abilities: Snorlax's Thick Fat changes Fire and Ice (from neutral to resists).
 - Don't lead with Steel: 3 of 6 resist Steel.
 
 ## Where their rigidity or recklessness leaves a gap
@@ -45,8 +45,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Pikachu** Lv 100 (Static) | frail both ways | · | · | ½ | · | 2× | · | · | · | ½ | · | · | · | ½ | · | · | · | · |
-| **Lapras** Lv 100 (Water Absorb) | bulky both ways | · | 2× | · | · | · | 2× | · | · | · | · | 0* | 2× | 2× | · | ½ | · | · |
-| **Snorlax** Lv 100 (Immunity) | bulky both ways | · | 2× | · | · | · | · | · | 0 | · | · | · | · | · | · | · | · | · |
+| **Lapras** Lv 100 (Shell Armor) | bulky both ways | · | 2× | · | · | · | 2× | · | · | · | · | ½ | 2× | 2× | · | ½ | · | · |
+| **Snorlax** Lv 100 (Thick Fat) | bulky both ways | · | 2× | · | · | · | · | · | 0 | · | ½* | · | · | · | · | ½* | · | · |
 | **Venusaur** Lv 100 (Overgrow) | even | · | ½ | 2× | · | · | · | · | · | · | 2× | ½ | ½ | ½ | 2× | 2× | · | · |
 | **Charizard** Lv 100 (Blaze) | frail both ways | · | ½ | · | · | 0 | 4× | ½ | · | ½ | ½ | 2× | ½ | 2× | · | · | · | · |
 | **Blastoise** Lv 100 (Torrent) | even | · | · | · | · | · | · | · | · | ½ | ½ | ½ | 2× | 2× | · | ½ | · | · |
@@ -58,8 +58,8 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
 | Pikachu | revenge killer (strong, 0.69) | late-game cleaner (solid) | – |
-| Lapras | bulky attacker (solid, 0.52) | tank (solid) | – |
-| Snorlax | bulky attacker (solid, 0.63) | sponge / status absorber (solid) | – |
+| Lapras | bulky attacker (solid, 0.52) | tank (loose) | – |
+| Snorlax | bulky attacker (solid, 0.63) | check / counter (solid) | – |
 | Venusaur | status spreader (loose, 0.48) | bulky attacker (loose) | – |
 | Charizard | wallbreaker (solid, 0.57) | – | – |
 | Blastoise | tank (loose, 0.50) | bulky attacker (loose) | – |

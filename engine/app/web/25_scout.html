@@ -575,7 +575,7 @@ var Scout = (function () {
         var ok = (!raises.length || raises.indexOf(up) >= 0) && (!spec.lowers || !spec.lowers.length || spec.lowers.indexOf(down) >= 0);
         out[name] = [up && ok ? 1.0 : 0.0, up && ok ? [ctx.filled.nature] : []];
       } else if (kind === 'evs') {
-        var total = sum(statsNamed.map(function (s) { return evs[s] || 0; }));
+        var total = ctx.evs_recorded ? sum(statsNamed.map(function (s) { return evs[s] || 0; })) : 0;   // a blank spread is no evidence (B19)
         var words = spec.label.indexOf('EVs') === 0 ? spec.label : spec.label.split(' EVs').join('') + ' EVs';
         out[name] = [Math.min(1.0, total / spec.full_at), total ? [total + ' ' + words] : []];
       } else if (kind === 'iv_low') {
@@ -651,7 +651,7 @@ var Scout = (function () {
     var margin = pyRound(top.score - second.score, 4), clear = margin >= R().confidence.clear_margin;
     var pick = function (r) { return {role: r.role, name: r.name, family: r.family, score: r.score, confidence: confidence(r.score)}; };
     var sigv = {}, evd = {}; Object.keys(sig).forEach(function (k) { sigv[k] = pyRound(sig[k][0], 3); if (sig[k][1].length) evd[k] = sig[k][1]; });
-    return {build: build.id, species: build.species, game: game, level: ctx.level, primary: Object.assign(pick(top), {margin: margin, clear: clear}),
+    return {build: build.id, species: build.species, game: game, level: ctx.level, primary: top.score > 0 ? Object.assign(pick(top), {margin: margin, clear: clear}) : {role: null, name: 'no clear role', family: null, score: 0.0, confidence: 'none', margin: 0.0, clear: false},
       secondary: second.score > 0 ? pick(second) : null, also: ranked.slice(2).filter(function (r) { return r.score >= R().confidence.also_at_least; }).map(pick),
       roles: ranked, signals: sigv, evidence: evd, defaults_used: ctx.defaults_used, matching: ctx.matching};
   }
@@ -684,7 +684,7 @@ var Scout = (function () {
     team.forEach(function (b) { Object.keys(weatherOf(b.moves, filled(b, gen)[0].ability)).forEach(function (w) { if (weather.indexOf(w) < 0) weather.push(w); }); });
     return [team.map(function (b) { var ctx = roleContext(b, version.game, level, weather); return [b, ctx, signalsOf(ctx), classify(b, version.game, level, weather)]; }), weather];
   }
-  function fitsFam(roleId, list) { return list.indexOf(roleId) >= 0 || list.indexOf(roleDefs()[roleId].family) >= 0; }
+  function fitsFam(roleId, list) { if (roleId == null) return false; return list.indexOf(roleId) >= 0 || list.indexOf(roleDefs()[roleId].family) >= 0; }
   function ace(reads) {
     var c = cfg().playsheet.ace, w = c.weights, gen = reads.length ? reads[0][1].gen : 4, typesN = typeList(gen).length;
     var lvls = reads.map(function (r) { return r[0].level; }).filter(Boolean), topLevel = lvls.length ? Math.max.apply(null, lvls) : null, rows = [];
@@ -870,6 +870,7 @@ var Scout = (function () {
     out.push({trainer: tid, id: vid, name: P.trainers[tid].name, title: v.title, game: v.game, mine: tid === 'me', status: v.status}); }); }); return out; }
   return {init: init, setConfig: setConfig, version: version, versions: versions, report: report, exposure: exposure, classify: function (b, game, level) { return classify(b, game, level, null); },
     roleLine: roleLine, moveInfo: moveInfo, types: types, abilities: abilities, gameGen: gameGen, pack: function () { return P; }, join: join, pyRound: pyRound, pyFixed: pyFixed,
+    roleContext: roleContext, covered: covered, roleDefs: roleDefs, moveR: moveR,
     SECTIONS: SECTIONS, PLAYSHEET: PLAYSHEET, POLES: POLES, speak: speak};
 })();
 function scoutReady() { return S.scout ? Promise.resolve(S.scout) : API.data('scout').then(function (p) { S.scoutPack = JSON.parse(JSON.stringify(p)); Scout.init(p); return (S.scout = Scout); }); }

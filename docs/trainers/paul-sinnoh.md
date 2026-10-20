@@ -53,12 +53,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Electivire | bulky attacker (solid, 0.55) | check / counter (solid) | – |
-| Torterra | bulky attacker (strong, 0.68) | tank (solid) | – |
-| Ninjask | Baton Pass chain starter (loose, 0.00) | – | – |
+| Electivire | bulky attacker (loose, 0.49) | check / counter (loose) | – |
+| Torterra | bulky attacker (solid, 0.61) | tank (solid) | – |
+| Ninjask | no clear role (none, 0.00) | – | – |
 | Froslass | weather setter (solid, 0.55) | revenge killer (solid) | – |
-| Drapion | hazard setter (solid, 0.64) | check / counter (solid) | – |
-| Gastrodon | bulky attacker (strong, 0.65) | check / counter (solid) | – |
+| Drapion | hazard setter (solid, 0.60) | check / counter (solid) | – |
+| Gastrodon | check / counter (solid, 0.62) | bulky attacker (solid) | – |
 
 ## On film
 
@@ -78,7 +78,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## The ace
 
-- The story's ace is Electivire; the data's is Torterra (set up by Ninjask and Drapion, the widest coverage and a bulky attacker). Plan for both.
+- The story's ace is Electivire; the data's is Torterra (set up by Drapion, the widest coverage and a bulky attacker). Plan for both.
 
 ## Who they go to
 

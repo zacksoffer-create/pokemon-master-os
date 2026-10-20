@@ -1353,20 +1353,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.5502,
-     "confidence": "solid",
-     "margin": 0.0457,
+     "score": 0.4859,
+     "confidence": "loose",
+     "margin": 0.0099,
      "clear": false
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.5045,
-     "confidence": "solid"
+     "score": 0.476,
+     "confidence": "loose"
     },
     "also": [],
-    "why": "bulky attacker (0.55, solid): Attack 303 (above 89% of the field); attacking moves: Thunder Punch, Giga Impact, Brick Break; attacks that use its better attacking stat: Thunder Punch, Giga Impact, Brick Break"
+    "why": "bulky attacker (0.49, loose): Attack 303 (above 89% of the field); attacking moves: Thunder Punch, Giga Impact, Brick Break; attacks that use its better attacking stat: Thunder Punch, Giga Impact, Brick Break"
    },
    {
     "species": "Torterra",
@@ -1375,30 +1375,30 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6781,
-     "confidence": "strong",
-     "margin": 0.128,
+     "score": 0.6138,
+     "confidence": "solid",
+     "margin": 0.0974,
      "clear": true
     },
     "secondary": {
      "role": "tank",
      "name": "tank",
      "family": "defense",
-     "score": 0.5501,
+     "score": 0.5164,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.68, strong): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Hyper Beam, Stone Edge, Frenzy Plant"
+    "why": "bulky attacker (0.61, solid): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Hyper Beam, Stone Edge, Frenzy Plant"
    },
    {
     "species": "Ninjask",
     "nickname": null,
     "primary": {
-     "role": "baton_pass_starter",
-     "name": "Baton Pass chain starter",
-     "family": "utility",
+     "role": null,
+     "name": "no clear role",
+     "family": null,
      "score": 0.0,
-     "confidence": "loose",
+     "confidence": "none",
      "margin": 0.0,
      "clear": false
     },
@@ -1415,14 +1415,14 @@
      "family": "support",
      "score": 0.5539,
      "confidence": "solid",
-     "margin": 0.002,
+     "margin": 0.0181,
      "clear": false
     },
     "secondary": {
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.5519,
+     "score": 0.5358,
      "confidence": "solid"
     },
     "also": [],
@@ -1435,42 +1435,42 @@
      "role": "hazard_setter",
      "name": "hazard setter",
      "family": "support",
-     "score": 0.6389,
+     "score": 0.5999,
      "confidence": "solid",
-     "margin": 0.0901,
-     "clear": true
-    },
-    "secondary": {
-     "role": "check_counter",
-     "name": "check / counter",
-     "family": "defense",
-     "score": 0.5488,
-     "confidence": "solid"
-    },
-    "also": [],
-    "why": "hazard setter (0.64, solid): Toxic Spikes; overall bulk above 57% of the field; attacking moves: Cross Poison, Poison Fang"
-   },
-   {
-    "species": "Gastrodon",
-    "nickname": null,
-    "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.6543,
-     "confidence": "strong",
-     "margin": 0.0102,
+     "margin": 0.0796,
      "clear": false
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.6441,
+     "score": 0.5203,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.65, strong): attacking moves: Water Pulse, Muddy Water, Body Slam, Ice Beam; overall bulk above 72% of the field; Sp. Atk 241 (above 66% of the field)"
+    "why": "hazard setter (0.60, solid): Toxic Spikes; overall bulk above 57% of the field; attacking moves: Cross Poison, Poison Fang"
+   },
+   {
+    "species": "Gastrodon",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6157,
+     "confidence": "solid",
+     "margin": 0.0257,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.59,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.62, solid): Water/Ground (Sticky Hold); overall bulk above 72% of the field; attacking moves: Water Pulse, Muddy Water, Body Slam, Ice Beam"
    }
   ],
   "ace": {
@@ -1481,14 +1481,13 @@
     {
      "species": "Torterra",
      "slot": 2,
-     "score": 0.703,
+     "score": 0.561,
      "parts": {
-      "support": 1.0,
+      "support": 0.5,
       "coverage": 0.412,
       "role": 0.7
      },
      "helpers": [
-      "Ninjask",
       "Drapion"
      ],
      "role": "bulky attacker",
@@ -1498,14 +1497,13 @@
     {
      "species": "Electivire",
      "slot": 1,
-     "score": 0.703,
+     "score": 0.561,
      "parts": {
-      "support": 1.0,
+      "support": 0.5,
       "coverage": 0.412,
       "role": 0.7
      },
      "helpers": [
-      "Ninjask",
       "Drapion"
      ],
      "role": "bulky attacker",
@@ -1515,14 +1513,13 @@
     {
      "species": "Froslass",
      "slot": 4,
-     "score": 0.696,
+     "score": 0.553,
      "parts": {
-      "support": 1.0,
+      "support": 0.5,
       "coverage": 0.235,
       "role": 0.8
      },
      "helpers": [
-      "Ninjask",
       "Drapion"
      ],
      "role": "weather setter",
@@ -1532,17 +1529,16 @@
     {
      "species": "Gastrodon",
      "slot": 6,
-     "score": 0.687,
+     "score": 0.544,
      "parts": {
-      "support": 1.0,
+      "support": 0.5,
       "coverage": 0.353,
       "role": 0.7
      },
      "helpers": [
-      "Ninjask",
       "Drapion"
      ],
-     "role": "bulky attacker",
+     "role": "check / counter",
      "level": null,
      "sent_out": "last"
     },
@@ -1556,7 +1552,7 @@
       "role": 0.3
      },
      "helpers": [],
-     "role": "Baton Pass chain starter",
+     "role": "no clear role",
      "level": null,
      "sent_out": "#3"
     },
@@ -1581,19 +1577,19 @@
     "label": "workhorse",
     "species": "Gastrodon",
     "role": "tank",
-    "fit": 0.6
+    "fit": 0.566
    },
    "ahead": {
     "label": "cleaner",
     "species": "Froslass",
     "role": "revenge killer",
-    "fit": 0.552
+    "fit": 0.536
    },
    "behind": {
     "label": "gambit",
     "species": "Gastrodon",
     "role": "wallbreaker",
-    "fit": 0.506,
+    "fit": 0.481,
     "last_resorts": []
    }
   },
@@ -2094,7 +2090,7 @@
    "ace": [
     {
      "section": "ace",
-     "text": "The story's ace is Electivire; the data's is Torterra (set up by Ninjask and Drapion, the widest coverage and a bulky attacker). Plan for both.",
+     "text": "The story's ace is Electivire; the data's is Torterra (set up by Drapion, the widest coverage and a bulky attacker). Plan for both.",
      "rule": "ace_disagree",
      "trigger": "ace_authored nonempty"
     }

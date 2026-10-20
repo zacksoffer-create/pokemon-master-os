@@ -55,12 +55,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Charizard | mixed setup sweeper (strong, 0.83) | special setup sweeper (strong) | – |
+| Charizard | mixed setup sweeper (strong, 0.77) | special setup sweeper (strong) | – |
 | Blastoise | hazard remover (strong, 0.82) | bulky attacker (solid) | – |
-| Venusaur | mixed setup sweeper (strong, 0.76) | physical setup sweeper (solid) | – |
-| Alakazam | special setup sweeper (strong, 0.81) | late-game cleaner (strong) | – |
-| Jolteon | mixed setup sweeper (strong, 0.77) | physical setup sweeper (solid) | – |
-| Machamp | physical setup sweeper (strong, 0.72) | bulky attacker (solid) | – |
+| Venusaur | mixed setup sweeper (strong, 0.71) | physical setup sweeper (solid) | – |
+| Alakazam | special setup sweeper (strong, 0.76) | late-game cleaner (strong) | – |
+| Jolteon | mixed setup sweeper (strong, 0.72) | late-game cleaner (solid) | – |
+| Machamp | physical setup sweeper (strong, 0.67) | bulky attacker (solid) | – |
 
 ## On the ladder
 
@@ -100,14 +100,14 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Flying | Thunderbolt (Jolteon, 142) | 2 |
 | Ghost | Bite (Charizard, 60) | 1 |
 | Grass | Overheat (Charizard, 189) | 1 |
-| Ground | Petal Dance (Venusaur, 180) | 1 |
+| Ground | Surf (Blastoise, 142) | 1 |
 | Ice | Overheat (Charizard, 189) | 1 |
 | Normal | Cross Chop (Machamp, 120) | 0 |
 | Poison | Psychic (Alakazam, 135) | 0 |
 | Psychic | Bite (Charizard, 60) | 2 |
-| Rock | Petal Dance (Venusaur, 180) | 1 |
+| Rock | Surf (Blastoise, 142) | 1 |
 | Steel | Overheat (Charizard, 189) | 0 |
-| Water | Petal Dance (Venusaur, 180) | 1 |
+| Water | Thunderbolt (Jolteon, 142) | 1 |
 
 ## Combos to watch
 

@@ -1352,20 +1352,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.8253,
+     "score": 0.7713,
      "confidence": "strong",
-     "margin": 0.0628,
+     "margin": 0.0528,
      "clear": false
     },
     "secondary": {
      "role": "special_setup_sweeper",
      "name": "special setup sweeper",
      "family": "offense",
-     "score": 0.7625,
+     "score": 0.7185,
      "confidence": "strong"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.83, strong): Dragon Dance; attacks on both sides: Earthquake, Overheat, Bite; types it hits super-effectively: Bug, Electric, Fire, Ghost, Grass, Ice, Poison, Psychic, Rock, Steel"
+    "why": "mixed setup sweeper (0.77, strong): Dragon Dance; attacks on both sides: Earthquake, Overheat, Bite; types it hits super-effectively: Bug, Electric, Fire, Ghost, Grass, Ice, Poison, Psychic, Rock, Steel"
    },
    {
     "species": "Blastoise",
@@ -1376,14 +1376,14 @@
      "family": "support",
      "score": 0.8206,
      "confidence": "strong",
-     "margin": 0.2221,
+     "margin": 0.2863,
      "clear": true
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.5985,
+     "score": 0.5343,
      "confidence": "solid"
     },
     "also": [],
@@ -1396,20 +1396,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.7608,
+     "score": 0.7068,
      "confidence": "strong",
-     "margin": 0.1198,
+     "margin": 0.1098,
      "clear": true
     },
     "secondary": {
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.641,
+     "score": 0.597,
      "confidence": "solid"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.76, strong): Swords Dance; attacks on both sides: Sludge Bomb, Earthquake, Petal Dance; types it hits super-effectively: Electric, Fire, Grass, Ground, Poison, Rock, Steel, Water"
+    "why": "mixed setup sweeper (0.71, strong): Swords Dance; attacks on both sides: Sludge Bomb, Earthquake, Petal Dance; types it hits super-effectively: Electric, Fire, Grass, Ground, Poison, Rock, Steel, Water"
    },
    {
     "species": "Alakazam",
@@ -1418,20 +1418,20 @@
      "role": "special_setup_sweeper",
      "name": "special setup sweeper",
      "family": "offense",
-     "score": 0.8085,
+     "score": 0.7645,
      "confidence": "strong",
-     "margin": 0.1419,
+     "margin": 0.1132,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.6666,
+     "score": 0.6513,
      "confidence": "strong"
     },
     "also": [],
-    "why": "special setup sweeper (0.81, strong): Calm Mind; Sp. Atk 327 (above 98% of the field); special attacks: Psychic, Fire Punch, Ice Punch"
+    "why": "special setup sweeper (0.76, strong): Calm Mind; Sp. Atk 327 (above 98% of the field); special attacks: Psychic, Fire Punch, Ice Punch"
    },
    {
     "species": "Jolteon",
@@ -1440,20 +1440,20 @@
      "role": "mixed_setup_sweeper",
      "name": "mixed setup sweeper",
      "family": "offense",
-     "score": 0.7719,
+     "score": 0.718,
      "confidence": "strong",
-     "margin": 0.2284,
+     "margin": 0.2176,
      "clear": true
     },
     "secondary": {
-     "role": "physical_setup_sweeper",
-     "name": "physical setup sweeper",
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.5435,
+     "score": 0.5004,
      "confidence": "solid"
     },
     "also": [],
-    "why": "mixed setup sweeper (0.77, strong): Curse; attacks on both sides: Iron Tail, Thunderbolt, Bite; Speed 317 (above 98% of the field)"
+    "why": "mixed setup sweeper (0.72, strong): Curse; attacks on both sides: Iron Tail, Thunderbolt, Bite; Speed 317 (above 98% of the field)"
    },
    {
     "species": "Machamp",
@@ -1462,20 +1462,20 @@
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.7189,
+     "score": 0.6749,
      "confidence": "strong",
-     "margin": 0.0868,
+     "margin": 0.107,
      "clear": true
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.6321,
+     "score": 0.5679,
      "confidence": "solid"
     },
     "also": [],
-    "why": "physical setup sweeper (0.72, strong): Bulk Up; Attack 317 (above 94% of the field); physical attacks: Cross Chop, Earthquake, Rock Slide"
+    "why": "physical setup sweeper (0.67, strong): Bulk Up; Attack 317 (above 94% of the field); physical attacks: Cross Chop, Earthquake, Rock Slide"
    }
   ],
   "ace": {
@@ -1584,19 +1584,19 @@
     "label": "workhorse",
     "species": "Blastoise",
     "role": "tank",
-    "fit": 0.546
+    "fit": 0.512
    },
    "ahead": {
     "label": "cleaner",
     "species": "Alakazam",
     "role": "late-game cleaner",
-    "fit": 0.667
+    "fit": 0.651
    },
    "behind": {
     "label": "gambit",
     "species": "Charizard",
     "role": "mixed setup sweeper",
-    "fit": 0.825,
+    "fit": 0.771,
     "last_resorts": []
    }
   },
@@ -1686,10 +1686,10 @@
     {
      "type": "Ground",
      "covered": true,
-     "move": "Petal Dance",
-     "member": "Venusaur",
-     "move_type": "Grass",
-     "power": 180,
+     "move": "Surf",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 142,
      "their_weak_to_it": 1
     },
     {
@@ -1731,10 +1731,10 @@
     {
      "type": "Rock",
      "covered": true,
-     "move": "Petal Dance",
-     "member": "Venusaur",
-     "move_type": "Grass",
-     "power": 180,
+     "move": "Surf",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 142,
      "their_weak_to_it": 1
     },
     {
@@ -1749,10 +1749,10 @@
     {
      "type": "Water",
      "covered": true,
-     "move": "Petal Dance",
-     "member": "Venusaur",
-     "move_type": "Grass",
-     "power": 180,
+     "move": "Thunderbolt",
+     "member": "Jolteon",
+     "move_type": "Electric",
+     "power": 142,
      "their_weak_to_it": 1
     }
    ],

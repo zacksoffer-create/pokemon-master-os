@@ -1573,42 +1573,42 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.7597,
+     "score": 0.7437,
      "confidence": "strong",
-     "margin": 0.1313,
+     "margin": 0.1306,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.6284,
+     "score": 0.6131,
      "confidence": "solid"
     },
     "also": [],
-    "why": "revenge killer (0.76, strong): Quick Attack; Attack 334 (above 97% of the field); Speed 237 (above 67% of the field)"
+    "why": "revenge killer (0.74, strong): Quick Attack; Attack 334 (above 97% of the field); Speed 237 (above 67% of the field)"
    },
    {
     "species": "Charizard",
     "nickname": null,
     "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.578,
-     "confidence": "solid",
-     "margin": 0.0201,
-     "clear": false
-    },
-    "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.5579,
+     "score": 0.5303,
+     "confidence": "solid",
+     "margin": 0.0166,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5137,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.58, solid): Sp. Atk 275 (above 84% of the field); attacking moves: Flamethrower, Wing Attack, Seismic Toss, Dragon Breath; overall bulk above 52% of the field"
+    "why": "wallbreaker (0.53, solid): Flamethrower (142); Sp. Atk 275 (above 84% of the field); attacks that use its better attacking stat: Flamethrower, Dragon Breath"
    },
    {
     "species": "Sceptile",
@@ -1617,20 +1617,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.7915,
+     "score": 0.7754,
      "confidence": "strong",
-     "margin": 0.1492,
+     "margin": 0.1484,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.6423,
+     "score": 0.627,
      "confidence": "solid"
     },
     "also": [],
-    "why": "revenge killer (0.79, strong): Quick Attack; Speed 297 (above 95% of the field); Sp. Atk 267 (above 82% of the field)"
+    "why": "revenge killer (0.78, strong): Quick Attack; Speed 297 (above 95% of the field); Sp. Atk 267 (above 82% of the field)"
    },
    {
     "species": "Infernape",
@@ -1639,20 +1639,20 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.767,
+     "score": 0.7509,
      "confidence": "strong",
-     "margin": 0.0972,
+     "margin": 0.0964,
      "clear": true
     },
     "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.6698,
+     "score": 0.6545,
      "confidence": "strong"
     },
     "also": [],
-    "why": "revenge killer (0.77, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
+    "why": "revenge killer (0.75, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
    },
    {
     "species": "Snorlax",
@@ -1661,42 +1661,42 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.7322,
+     "score": 0.6679,
      "confidence": "strong",
-     "margin": 0.0692,
+     "margin": 0.026,
      "clear": false
     },
     "secondary": {
      "role": "status_absorber",
      "name": "sponge / status absorber",
      "family": "defense",
-     "score": 0.663,
-     "confidence": "strong"
+     "score": 0.6419,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.73, strong): overall bulk above 97% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Hyper Beam, Ice Punch, Mega Punch"
+    "why": "bulky attacker (0.67, strong): overall bulk above 97% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Hyper Beam, Ice Punch, Mega Punch"
    },
    {
     "species": "Heracross",
     "nickname": null,
     "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.5996,
-     "confidence": "solid",
-     "margin": 0.0186,
-     "clear": false
-    },
-    "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.581,
+     "score": 0.5535,
+     "confidence": "solid",
+     "margin": 0.0181,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5354,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.60, solid): Attack 307 (above 91% of the field); attacking moves: Megahorn, Horn Attack, Focus Punch; overall bulk above 59% of the field"
+    "why": "wallbreaker (0.55, solid): Megahorn (153); strong attacks (effective power 90+, with the stat it uses): Megahorn, Focus Punch; Attack 307 (above 91% of the field)"
    }
   ],
   "ace": {
@@ -1729,7 +1729,7 @@
       "role": 0.9
      },
      "helpers": [],
-     "role": "bulky attacker",
+     "role": "wallbreaker",
      "level": null,
      "sent_out": "#2"
     },
@@ -1743,7 +1743,7 @@
       "role": 0.9
      },
      "helpers": [],
-     "role": "bulky attacker",
+     "role": "wallbreaker",
      "level": null,
      "sent_out": "last"
     },
@@ -1795,20 +1795,20 @@
    "even": {
     "label": "workhorse",
     "species": "Snorlax",
-    "role": "bulky attacker",
-    "fit": 0.622
+    "role": "tank",
+    "fit": 0.582
    },
    "ahead": {
     "label": "cleaner",
     "species": "Sceptile",
     "role": "revenge killer",
-    "fit": 0.791
+    "fit": 0.775
    },
    "behind": {
     "label": "gambit",
     "species": "Pikachu",
     "role": "wallbreaker",
-    "fit": 0.529,
+    "fit": 0.504,
     "last_resorts": []
    }
   },
@@ -2324,7 +2324,7 @@
    "go_to": [
     {
      "section": "go_to",
-     "text": "Even game: Snorlax is the workhorse (bulky attacker).",
+     "text": "Even game: Snorlax is the workhorse (tank).",
      "rule": "goto_even",
      "trigger": "one_for_all empty"
     },

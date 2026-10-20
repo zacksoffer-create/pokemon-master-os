@@ -302,6 +302,22 @@ def hq(store, bt):
             "staff_hires": bt["staff_proposals"]}
 
 
+def store_pack():
+    """store.json: the three-tier record store (engine/store/out, built by store/migrate.py) for the four labs."""
+    src = os.path.join(ENGINE, "store", "out")
+    if not os.path.isdir(src):
+        return
+    out = {}
+    for name in ("builds", "individuals", "teams", "lines"):
+        path = os.path.join(src, f"{name}.json")
+        if os.path.exists(path):
+            out[name] = {k: v for k, v in load(path).items() if not k.startswith("_")}
+    prop = os.path.join(ENGINE, "store", "proposed_lines.json")
+    if os.path.exists(prop):
+        out["proposed_lines"] = load(prop)["lines"]
+    dump("store.json", out)
+
+
 def main(breeder=False):
     from trainers.model import Store
     store = Store()
@@ -313,6 +329,7 @@ def main(breeder=False):
         print(f"{k:16} {v / 1024:7.1f} KB")
     print(f"{'total':16} {sum(sizes.values()) / 1024:7.1f} KB -> {OUT}")
     # the engines the app runs live or reads whole: each pack is its own module and can be run alone
+    store_pack()
     import advance_pack
     import battle_pack
     import field_pack

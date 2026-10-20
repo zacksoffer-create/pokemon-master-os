@@ -605,7 +605,7 @@ class Solver:
                                             ", differs on " + "; ".join(x["text"] for x in diffs))}
         if not rows or rows[0][0] >= a["far_at"]:
             role = self.book.classify(build, game, level)["primary"]["role"]
-            r = self.solve(build.species, role, game, level=level, explain=False)
+            r = self.solve(build.species, role, game, level=level, explain=False) if role else {"build": None}
             if r["build"]:
                 dv = Build(id=f"derived:{role}", **{k: v for k, v in r["build"].items() if k != "id"})
                 d, diffs = self._gap(build, dv, a)

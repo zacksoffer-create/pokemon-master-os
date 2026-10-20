@@ -44,11 +44,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Bulk | Nor | Fig | Fly | Poi | Gro | Roc | Bug | Gho | Ste | Fir | Wat | Gra | Ele | Psy | Ice | Dra | Dar |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Graveler** Lv 100 (Rock Head) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
+| **Graveler** Lv 100 (Sturdy) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
 | **Rhyhorn** Lv 100 (Lightning Rod) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
-| **Omastar** Lv 100 (Swift Swim) | specially soft | ½ | 2× | ½ | ½ | 2× | · | · | · | · | ½ | · | 4× | 2× | · | ½ | · | · |
+| **Omastar** Lv 100 (Shell Armor) | specially soft | ½ | 2× | ½ | ½ | 2× | · | · | · | · | ½ | · | 4× | 2× | · | ½ | · | · |
 | **Onix** Lv 100 (Rock Head) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
-| **Kabutops** Lv 100 (Swift Swim) | specially soft | ½ | 2× | ½ | ½ | 2× | · | · | · | · | ½ | · | 4× | 2× | · | ½ | · | · |
+| **Kabutops** Lv 100 (Battle Armor) | specially soft | ½ | 2× | ½ | ½ | 2× | · | · | · | · | ½ | · | 4× | 2× | · | ½ | · | · |
 
 **Gaps:** Grass, Fighting, Ground, Water, Steel and Ice · **Strengths:** Normal, Flying, Poison, Fire and Rock · **Bring:** special attackers (0 physically soft, 5 specially soft, 0 frail, 0 bulky both ways)
 

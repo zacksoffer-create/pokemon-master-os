@@ -57,12 +57,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Pikachu | late-game cleaner (solid, 0.58) | revenge killer (solid) | – |
-| Charizard | tank (solid, 0.54) | bulky attacker (solid) | – |
-| Bulbasaur | wallbreaker (loose, 0.40) | – | – |
-| Squirtle | bulky setup (loose, 0.45) | wallbreaker (loose) | – |
-| Pidgeotto | revenge killer (loose, 0.48) | late-game cleaner (loose) | – |
-| Kingler | wallbreaker (loose, 0.49) | physical wall (loose) | – |
+| Pikachu | late-game cleaner (solid, 0.56) | revenge killer (solid) | – |
+| Charizard | tank (solid, 0.51) | check / counter (loose) | – |
+| Bulbasaur | wallbreaker (loose, 0.37) | – | – |
+| Squirtle | bulky setup (loose, 0.40) | wallbreaker (loose) | – |
+| Pidgeotto | revenge killer (loose, 0.46) | late-game cleaner (loose) | – |
+| Kingler | wallbreaker (loose, 0.47) | physical wall (loose) | – |
 
 ## On the ladder
 

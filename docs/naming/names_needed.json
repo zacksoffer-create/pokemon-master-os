@@ -1,0 +1,572 @@
+{
+ "type": [
+  {
+   "id": "Dragon",
+   "means": "Dragon",
+   "builds_using_it": 18,
+   "named": false
+  },
+  {
+   "id": "Water",
+   "means": "Water",
+   "builds_using_it": 18,
+   "named": false
+  },
+  {
+   "id": "Normal",
+   "means": "Normal",
+   "builds_using_it": 16,
+   "named": false
+  },
+  {
+   "id": "Rock",
+   "means": "Rock",
+   "builds_using_it": 16,
+   "named": false
+  },
+  {
+   "id": "Steel",
+   "means": "Steel",
+   "builds_using_it": 12,
+   "named": false
+  },
+  {
+   "id": "Fire",
+   "means": "Fire",
+   "builds_using_it": 10,
+   "named": false
+  },
+  {
+   "id": "Electric",
+   "means": "Electric",
+   "builds_using_it": 9,
+   "named": false
+  },
+  {
+   "id": "Bug",
+   "means": "Bug",
+   "builds_using_it": 7,
+   "named": false
+  },
+  {
+   "id": "Grass",
+   "means": "Grass",
+   "builds_using_it": 6,
+   "named": false
+  },
+  {
+   "id": "Ground",
+   "means": "Ground",
+   "builds_using_it": 5,
+   "named": false
+  },
+  {
+   "id": "Dark",
+   "means": "Dark",
+   "builds_using_it": 4,
+   "named": false
+  },
+  {
+   "id": "Fighting",
+   "means": "Fighting",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "Ghost",
+   "means": "Ghost",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "Ice",
+   "means": "Ice",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "Psychic",
+   "means": "Psychic",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "Poison",
+   "means": "Poison",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "Flying",
+   "means": "Flying",
+   "builds_using_it": 0,
+   "named": false
+  }
+ ],
+ "noun": [
+  {
+   "id": "revenge_killer",
+   "means": "revenge killer",
+   "builds_using_it": 15,
+   "named": false
+  },
+  {
+   "id": "mixed_setup_sweeper",
+   "means": "mixed setup sweeper",
+   "builds_using_it": 9,
+   "named": false
+  },
+  {
+   "id": "physical_setup_sweeper",
+   "means": "physical setup sweeper",
+   "builds_using_it": 9,
+   "named": false
+  },
+  {
+   "id": "bulky_attacker",
+   "means": "bulky attacker",
+   "builds_using_it": 7,
+   "named": false
+  },
+  {
+   "id": "bulky_setup",
+   "means": "bulky setup",
+   "builds_using_it": 7,
+   "named": false
+  },
+  {
+   "id": "check_counter",
+   "means": "check / counter",
+   "builds_using_it": 6,
+   "named": false
+  },
+  {
+   "id": "hazard_remover",
+   "means": "hazard remover",
+   "builds_using_it": 5,
+   "named": false
+  },
+  {
+   "id": "pivot",
+   "means": "pivot",
+   "builds_using_it": 5,
+   "named": false
+  },
+  {
+   "id": "special_setup_sweeper",
+   "means": "special setup sweeper",
+   "builds_using_it": 4,
+   "named": false
+  },
+  {
+   "id": "hazard_setter",
+   "means": "hazard setter",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "status_absorber",
+   "means": "sponge / status absorber",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "wallbreaker",
+   "means": "wallbreaker",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "weather_setter",
+   "means": "weather setter",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "spinblocker",
+   "means": "spinblocker",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "stallbreaker",
+   "means": "stallbreaker",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "suicide_lead",
+   "means": "suicide lead",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "trapper",
+   "means": "trapper",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "baton_pass_starter",
+   "means": "Baton Pass chain starter",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "cleric",
+   "means": "cleric",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "lead_attacker",
+   "means": "lead attacker",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "phazer",
+   "means": "phazer",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "physical_wall",
+   "means": "physical wall",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "screens_setter",
+   "means": "screens setter",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "tailwind_setter",
+   "means": "Tailwind setter",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "tank",
+   "means": "tank",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "weather_sweeper",
+   "means": "weather sweeper",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "choice_locked_attacker",
+   "means": "Choice-locked attacker",
+   "builds_using_it": 0,
+   "named": false
+  },
+  {
+   "id": "fake_out_support",
+   "means": "Fake Out support",
+   "builds_using_it": 0,
+   "named": false
+  },
+  {
+   "id": "late_game_cleaner",
+   "means": "late-game cleaner",
+   "builds_using_it": 0,
+   "named": false
+  },
+  {
+   "id": "lure",
+   "means": "lure",
+   "builds_using_it": 0,
+   "named": false
+  },
+  {
+   "id": "special_wall",
+   "means": "special wall",
+   "builds_using_it": 0,
+   "named": false
+  },
+  {
+   "id": "staller",
+   "means": "staller",
+   "builds_using_it": 0,
+   "named": false
+  },
+  {
+   "id": "status_spreader",
+   "means": "status spreader",
+   "builds_using_it": 0,
+   "named": false
+  },
+  {
+   "id": "trick_room_setter",
+   "means": "Trick Room setter",
+   "builds_using_it": 0,
+   "named": false
+  }
+ ],
+ "hybrid": [
+  {
+   "id": "bulky_attacker+weather_setter",
+   "means": "bulky attacker + weather setter",
+   "builds_using_it": 5,
+   "named": false
+  },
+  {
+   "id": "bulky_attacker+physical_setup_sweeper+weather_setter",
+   "means": "bulky attacker + physical setup sweeper + weather setter",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "bulky_attacker+tank",
+   "means": "bulky attacker + tank",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "hazard_setter+phazer+physical_wall",
+   "means": "hazard setter + phazer + physical wall",
+   "builds_using_it": 3,
+   "named": false
+  },
+  {
+   "id": "bulky_setup+status_absorber",
+   "means": "bulky setup + sponge / status absorber",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "hazard_setter+phazer",
+   "means": "hazard setter + phazer",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "lead_attacker+stallbreaker",
+   "means": "lead attacker + stallbreaker",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "bulky_attacker+pivot+wallbreaker",
+   "means": "bulky attacker + pivot + wallbreaker",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "bulky_attacker+tank+weather_setter",
+   "means": "bulky attacker + tank + weather setter",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "bulky_attacker+trick_room_setter",
+   "means": "bulky attacker + Trick Room setter",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "bulky_attacker+wallbreaker",
+   "means": "bulky attacker + wallbreaker",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "check_counter+tank",
+   "means": "check / counter + tank",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "choice_locked_attacker+wallbreaker",
+   "means": "Choice-locked attacker + wallbreaker",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "cleric+physical_wall",
+   "means": "cleric + physical wall",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "cleric+special_wall",
+   "means": "cleric + special wall",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "cleric+special_wall+status_absorber",
+   "means": "cleric + special wall + sponge / status absorber",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "late_game_cleaner+physical_setup_sweeper",
+   "means": "late-game cleaner + physical setup sweeper",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "late_game_cleaner+revenge_killer+trapper",
+   "means": "late-game cleaner + revenge killer + trapper",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "lure+wallbreaker",
+   "means": "lure + wallbreaker",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "mixed_setup_sweeper+physical_setup_sweeper+special_setup_sweeper",
+   "means": "mixed setup sweeper + physical setup sweeper + special setup sweeper",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "mixed_setup_sweeper+special_setup_sweeper",
+   "means": "mixed setup sweeper + special setup sweeper",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "phazer+physical_wall+staller",
+   "means": "phazer + physical wall + staller",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "physical_wall+staller",
+   "means": "physical wall + staller",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "revenge_killer+trapper",
+   "means": "revenge killer + trapper",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "stallbreaker+wallbreaker",
+   "means": "stallbreaker + wallbreaker",
+   "builds_using_it": 1,
+   "named": false
+  }
+ ],
+ "moveset": [
+  {
+   "id": "setup_attack",
+   "means": "setup + attacks",
+   "builds_using_it": 24,
+   "named": false
+  },
+  {
+   "id": "status_attack",
+   "means": "status + attacks",
+   "builds_using_it": 19,
+   "named": false
+  },
+  {
+   "id": "priority_attack",
+   "means": "priority + attacks",
+   "builds_using_it": 15,
+   "named": false
+  },
+  {
+   "id": "mixed_bag",
+   "means": "anything else",
+   "builds_using_it": 10,
+   "named": false
+  },
+  {
+   "id": "coverage",
+   "means": "attacks covering many types",
+   "builds_using_it": 9,
+   "named": false
+  },
+  {
+   "id": "hazard_support",
+   "means": "hazards or screens + support",
+   "builds_using_it": 9,
+   "named": false
+  },
+  {
+   "id": "all_out_attack",
+   "means": "four attacks",
+   "builds_using_it": 6,
+   "named": false
+  },
+  {
+   "id": "stall",
+   "means": "recovery + status, little offense",
+   "builds_using_it": 4,
+   "named": false
+  }
+ ],
+ "team_role": [
+  {
+   "id": "ace",
+   "means": "Ace",
+   "builds_using_it": 25,
+   "named": false
+  },
+  {
+   "id": "sweeper",
+   "means": "Sweeper",
+   "builds_using_it": 15,
+   "named": false
+  },
+  {
+   "id": "none",
+   "means": "no team role",
+   "builds_using_it": 13,
+   "named": false
+  },
+  {
+   "id": "wall",
+   "means": "Wall",
+   "builds_using_it": 9,
+   "named": false
+  },
+  {
+   "id": "support",
+   "means": "Support",
+   "builds_using_it": 0,
+   "named": false
+  }
+ ],
+ "bst": [
+  {
+   "id": "bst_low",
+   "means": "BST below 400",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "bst_mid",
+   "means": "BST below 500",
+   "builds_using_it": 2,
+   "named": false
+  },
+  {
+   "id": "bst_high",
+   "means": "BST below 580",
+   "builds_using_it": 1,
+   "named": false
+  },
+  {
+   "id": "bst_top",
+   "means": "BST 580 and up",
+   "builds_using_it": 1,
+   "named": false
+  }
+ ]
+}

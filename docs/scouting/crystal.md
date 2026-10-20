@@ -63,12 +63,12 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 
 | Player | Philosophy | 1v1 vs the league | Build |
 |---|---|---|---|
-| **Feraligatr** | Win on momentum: take one free turn for Curse, then everything goes through. | 42-0 | no build on record: the engine filled in its strongest set |
-| **Miltank** | Be the wall: absorb what the other side throws and hit back steadily. | 42-0 | no build on record: the engine filled in its strongest set |
-| **Ampharos** | Win on momentum: take one free turn for Curse, then everything goes through. | 42-0 | no build on record: the engine filled in its strongest set |
-| **Umbreon** | Win the long game: take the hit, heal with Moonlight, and make the other side break first. | 42-0 | no build on record: the engine filled in its strongest set |
-| **Espeon** | Win on momentum: take one free turn for Curse, then everything goes through. | 42-0 | no build on record: the engine filled in its strongest set |
-| **Donphan** | Win on momentum: take one free turn for Curse, then everything goes through. | 40-2 | no build on record: the engine filled in its strongest set |
+| **Feraligatr** | Win on momentum: take one free turn for Curse, then everything goes through. | 48-0 | no build on record: the engine filled in its strongest set |
+| **Miltank** | Be the wall: absorb what the other side throws and hit back steadily. | 48-0 | no build on record: the engine filled in its strongest set |
+| **Ampharos** | Win on momentum: take one free turn for Curse, then everything goes through. | 48-0 | no build on record: the engine filled in its strongest set |
+| **Umbreon** | Win the long game: take the hit, heal with Moonlight, and make the other side break first. | 48-0 | no build on record: the engine filled in its strongest set |
+| **Espeon** | Win on momentum: take one free turn for Curse, then everything goes through. | 48-0 | no build on record: the engine filled in its strongest set |
+| **Donphan** | Win on momentum: take one free turn for Curse, then everything goes through. | 46-2 | no build on record: the engine filled in its strongest set |
 
 ## Scouting reports
 
@@ -81,7 +81,7 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 - **When it's behind:** Even behind, it can eat one more hit.
 - **Against types:** Feeds on Dark, Dragon, Fire, Flying, Grass, Ground, Ice, Normal, Rock and Steel. Look out for Electric (×2) and Grass (×2).
 - **How you beat it:** Hit it with something it can't hit back: Jolteon, Electrode, Electabuzz and Raichu are the classic answers.
-- **Production:** Won 42 of 42 one-on-ones against the league. An anchor.
+- **Production:** Won 48 of 48 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Poliwrath, Kingdra and Blastoise. Pokédex, Crystal: “Although it has a massive body, its powerful hind legs enable it to move quickly, even on the ground.”
 
 ### Miltank (Normal), Crystal
@@ -93,7 +93,7 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 - **When it's behind:** Even behind, it can eat one more hit.
 - **Against types:** Feeds on Dark, Electric, Fire, Ice, Normal, Poison, Rock and Steel. Look out for Fighting (×2). A free switch-in against Ghost.
 - **How you beat it:** Hit it with something it can't hit back: Heracross, Hitmonlee, Primeape and Machamp are the classic answers.
-- **Production:** Won 42 of 42 one-on-ones against the league. An anchor.
+- **Production:** Won 48 of 48 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Tauros, Kangaskhan and Pidgeot. Pokédex, Crystal: “In order to milk a MILTANK, one must have a knack for rhythmically pull ing up and down on its udders.”
 
 ### Donphan (Ground), Crystal
@@ -105,7 +105,7 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 - **When it's behind:** Even behind, it can eat one more hit.
 - **Against types:** Feeds on Bug, Electric, Fire, Flying, Ice, Poison, Rock and Steel. Look out for Water (×2), Grass (×2) and Ice (×2). A free switch-in against Electric.
 - **How you beat it:** Hit it with something it can't hit back: Starmie, Kingler, Feraligatr and Exeggutor are the classic answers.
-- **Production:** Won 40 of 42 one-on-ones against the league. An anchor.
+- **Production:** Won 46 of 48 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Golem, Rhydon and Sandslash. Pokédex, Crystal: “Because this POKéMON's skin is so tough, a normal attack won't even leave a scratch on it.”
 
 ### Ampharos (Electric), Crystal
@@ -117,7 +117,7 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 - **When it's behind:** Even behind, it can eat one more hit.
 - **Against types:** Feeds on Bug, Dark, Flying, Grass, Ice, Normal, Rock, Steel and Water. Look out for Ground (×2).
 - **How you beat it:** Hit it with something it can't hit back: Dugtrio, Nidoking, Donphan and Sandslash are the classic answers.
-- **Production:** Won 42 of 42 one-on-ones against the league. An anchor.
+- **Production:** Won 48 of 48 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Porygon2, Vileplume and Politoed. Pokédex, Crystal: “When it gets dark, the light from its bright, shiny tail can be seen from far away on the ocean's surface.”
 
 ### Umbreon (Dark), Crystal
@@ -129,7 +129,7 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 - **When it's behind:** Behind, it heals with Moonlight.
 - **Against types:** Feeds on Flying, Ice, Rock and Water. Struggles to hurt Electric. Look out for Fighting (×2) and Bug (×2). A free switch-in against Psychic.
 - **How you beat it:** Hit it with something it can't hit back: Pinsir, Heracross, Hitmonlee and Primeape are the classic answers.
-- **Production:** Won 42 of 42 one-on-ones against the league. An anchor.
+- **Production:** Won 48 of 48 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Suicune, Blastoise and Hypno. Pokédex, Crystal: “On the night of a full moon, or when it gets excited, the ring patterns on its body glow yellow.”
 
 ### Espeon (Psychic), Crystal
@@ -141,7 +141,7 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 - **When it's behind:** Behind, it has no way back. Get it out before it's caught low.
 - **Against types:** Feeds on Fighting, Flying, Ghost, Poison, Psychic and Water. Look out for Bug (×2), Ghost (×2) and Dark (×2).
 - **How you beat it:** Hit it with something it can't hit back: Pinsir, Sneasel, Houndoom and Scizor are the classic answers.
-- **Production:** Won 42 of 42 one-on-ones against the league. An anchor.
+- **Production:** Won 48 of 48 one-on-ones against the league. An anchor.
 - **Makeup:** Plays like Alakazam, Gengar and Jynx. Pokédex, Crystal: “The tip of its forked tail quivers when it is predicting its opponent's next move.”
 
 ## Call sheets
@@ -532,7 +532,69 @@ Against the Gen 2 OU usage field (48 Smogon sets): **builds first (p99), straigh
 | Dragonair | Donphan (W) | Earthquake / Ice Beam | Earthquake / Ice Beam | Earthquake / Ice Beam | Earthquake / Ice Beam | Earthquake / Ice Beam | Earthquake / Ice Beam | Earthquake / Ice Beam |
 | Kingdra | Ampharos (W) | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Hyper Beam | Thunderbolt / Surf | Thunderbolt / Hyper Beam |
 
-### Call sheet vs Rival Silver (strongest team) (Lv 50, pret/pokecrystal Rival2Group)
+### Call sheet vs Rival Silver (Lv 45, pret/pokecrystal Rival2Group)
+
+- **Order:** Sneasel (Lv 41), Golbat (Lv 42), Magneton (Lv 41), Gengar (Lv 43), Alakazam (Lv 43), Meganium (Lv 45). Lead with Ampharos: it handles their opener. It rarely switches: only when the matchup looks bad and its bench has something immune to your last attack that hits you super-effectively.
+- **Philosophy:** Its AI jumps on any knockout, otherwise throws its strongest hit, heals only under a quarter of its HP, and stops setting up after its first turn. Their best player: Sneasel, which beats 0 of your 6. Your last one standing: Feraligatr.
+
+| They send | Their moves | The call | Backup | Don't send |
+|---|---|---|---|---|
+| Sneasel L41 | Quick Attack · Screech · Feint Attack · Fury Cutter | Ampharos: Dynamic Punch 276.5-325.5% | Donphan: Earthquake 139.2-164.7% | — |
+| Golbat L42 | Leech Life · Bite · Confuse Ray · Wing Attack | Ampharos: Thunderbolt 165.3-195% | Espeon: Psychic 169.4-200% | — |
+| Magneton L41 | Thunder Shock · Sonic Boom · Thunder Wave · Swift | Miltank: Earthquake 190.8-224.5% | Donphan: Earthquake 367.3-432.7% | — |
+| Gengar L43 | Mean Look · Curse · Shadow Ball · Confuse Ray | Miltank: Earthquake 116.2-136.9% | Espeon: Psychic 180.2-212.6% | — |
+| Alakazam L43 | Disable · Recover · Future Sight · Psychic | Espeon: Bite 75.7-89.7% | Ampharos: Thunderbolt 81.3-96.3% | — |
+| Meganium L45 | Razor Leaf · Poison Powder · Body Slam · Light Screen | Ampharos: Fire Punch 58.2-68.7% | Espeon: Psychic 55.2-65.7% | — |
+
+**Sneasel L41**
+
+- **Order:** Leads off.
+- **Tendencies:** Moves first against Donphan, Ampharos and Umbreon. Its go-to: Feint Attack (its best hit on Feraligatr, Miltank, Donphan and Espeon). Otherwise: Quick Attack against Ampharos and Umbreon. Hits from both sides (Quick Attack physical, Feint Attack special): no single wall stops it.
+- **When it's ahead:** Once you're low, Quick Attack finishes you.
+- **How to attack it:** Hit it with Fighting, Fire, Rock and Steel. The call: Ampharos: Dynamic Punch 276.5-325.5%. Backup: Donphan: Earthquake 139.2-164.7%. Its blind spot: Feraligatr, Miltank, Donphan, Ampharos, Umbreon and Espeon take almost nothing from it.
+
+**Golbat L42**
+
+- **Tendencies:** You move first, every time. Its go-to: Wing Attack (its best hit on Feraligatr, Miltank, Donphan, Umbreon and Espeon). Otherwise: Bite against Ampharos. Hits from both sides (Wing Attack physical, Bite special): no single wall stops it.
+- **When it's ahead:** Expect Confuse Ray early.
+- **How to attack it:** Hit it with Electric, Ice, Psychic and Rock. The call: Ampharos: Thunderbolt 165.3-195%. Backup: Espeon: Psychic 169.4-200%. Its blind spot: Feraligatr, Miltank, Donphan, Ampharos, Umbreon and Espeon take almost nothing from it.
+
+**Magneton L41**
+
+- **Tendencies:** You move first, every time. Its go-to: Sonic Boom (its best hit on Donphan, Ampharos, Umbreon and Espeon). Otherwise: Thunder Shock against Feraligatr and Miltank. Hits from both sides (Swift physical, Thunder Shock special): no single wall stops it.
+- **When it's ahead:** Expect Thunder Wave early.
+- **How to attack it:** Hit it with Fighting, Fire and Ground. The call: Miltank: Earthquake 190.8-224.5%. Backup: Donphan: Earthquake 367.3-432.7%. Its blind spot: Feraligatr, Miltank, Donphan, Ampharos, Umbreon and Espeon take almost nothing from it.
+
+**Gengar L43**
+
+- **Tendencies:** Moves first against Donphan, Ampharos and Umbreon. Its go-to: Shadow Ball (its best hit on Feraligatr, Donphan, Ampharos, Umbreon and Espeon).
+- **When it's ahead:** Expect Confuse Ray early.
+- **How to attack it:** Hit it with Dark, Ground and Psychic. The call: Miltank: Earthquake 116.2-136.9%. Backup: Espeon: Psychic 180.2-212.6%. Its blind spot: Feraligatr, Miltank, Donphan, Ampharos and Umbreon take almost nothing from it.
+
+**Alakazam L43**
+
+- **Tendencies:** Moves first against Donphan, Ampharos and Umbreon. Its go-to: Psychic (its best hit on Feraligatr, Miltank, Donphan and Ampharos). Otherwise: Future Sight against Umbreon and Espeon.
+- **When it's behind:** When it's low, it heals itself with Recover.
+- **How to attack it:** Hit it with Dark. The call: Espeon: Bite 75.7-89.7%. Backup: Ampharos: Thunderbolt 81.3-96.3%. Its blind spot: Umbreon and Espeon take almost nothing from it.
+
+**Meganium L45**
+
+- **Order:** Last in the order.
+- **Tendencies:** You move first, every time. Its go-to: Razor Leaf (its best hit on Feraligatr, Miltank and Donphan). Otherwise: Body Slam against Ampharos, Umbreon and Espeon. Hits from both sides (Body Slam physical, Razor Leaf special): no single wall stops it.
+- **How to attack it:** Hit it with Fire and Ice. The call: Ampharos: Fire Punch 58.2-68.7%. Backup: Espeon: Psychic 55.2-65.7%. Its blind spot: Feraligatr, Miltank, Ampharos, Umbreon and Espeon take almost nothing from it.
+
+**Game plan by situation** (our call / theirs):
+
+| Their player | We send | Opening script | 1st and 10 | Short yardage | Goal line | 3rd and long | Blitz | Two-minute drill |
+|---|---|---|---|---|---|---|---|---|
+| Sneasel | Ampharos (W) | Fire Punch / Quick Attack | Fire Punch / Quick Attack | Fire Punch / Quick Attack | Fire Punch / Quick Attack | Fire Punch / Quick Attack | Fire Punch / Feint Attack | Fire Punch / Quick Attack |
+| Golbat | Ampharos (W) | Thunderbolt / Bite | Thunderbolt / Bite | Thunderbolt / Bite | Thunderbolt / Bite | Thunderbolt / Bite | Thunderbolt / Bite | Thunderbolt / Bite |
+| Magneton | Miltank (W) | Earthquake / Thunder Shock | Earthquake / Thunder Shock | Earthquake / Thunder Shock | Earthquake / Thunder Shock | Earthquake / Thunder Shock | Earthquake / Thunder Shock | Earthquake / Thunder Shock |
+| Gengar | Miltank (W) | Earthquake / Mean Look | Earthquake / Mean Look | Earthquake / Mean Look | Earthquake / Mean Look | Earthquake / Mean Look | Earthquake / Mean Look | Earthquake / Mean Look |
+| Alakazam | Espeon (W) | Bite / Future Sight | Bite / Future Sight | Bite / Future Sight | Bite / Future Sight | Bite / Future Sight | Bite / Future Sight | Bite / Future Sight |
+| Meganium | Ampharos (W) | Fire Punch / Body Slam | Fire Punch / Body Slam | Fire Punch / Body Slam | Fire Punch / Body Slam | Fire Punch / Body Slam | Fire Punch / Razor Leaf | Fire Punch / Body Slam |
+
+### Call sheet vs Rival Silver (rematch) (Lv 50, pret/pokecrystal Rival2Group)
 
 - **Order:** Sneasel (Lv 45), Crobat (Lv 48), Magneton (Lv 45), Gengar (Lv 46), Alakazam (Lv 46), Meganium (Lv 50). Lead with Ampharos: it handles their opener. It rarely switches: only when the matchup looks bad and its bench has something immune to your last attack that hits you super-effectively.
 - **Philosophy:** Its AI jumps on any knockout, otherwise throws its strongest hit, heals only under a quarter of its HP, and stops setting up after its first turn. Their best player: Meganium, which beats 1 of your 6. Your last one standing: Feraligatr.

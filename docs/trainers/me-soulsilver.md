@@ -54,11 +54,11 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Pikachu | revenge killer (solid, 0.64) | late-game cleaner (solid) | – |
-| Dragonite | check / counter (strong, 0.72) | bulky attacker (strong) | – |
-| Infernape | mixed setup sweeper (strong, 0.84) | physical setup sweeper (strong) | – |
-| Empoleon | check / counter (strong, 0.79) | bulky attacker (strong) | – |
-| Gengar | wallbreaker (solid, 0.53) | revenge killer (loose) | – |
+| Pikachu | revenge killer (solid, 0.62) | late-game cleaner (loose) | – |
+| Dragonite | check / counter (strong, 0.69) | bulky attacker (solid) | – |
+| Infernape | mixed setup sweeper (strong, 0.79) | physical setup sweeper (strong) | – |
+| Empoleon | check / counter (strong, 0.77) | bulky attacker (solid) | – |
+| Gengar | wallbreaker (solid, 0.50) | revenge killer (loose) | – |
 | Scizor | pivot (strong, 0.82) | check / counter (strong) | – |
 
 ## On the ladder

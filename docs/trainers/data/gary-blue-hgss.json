@@ -466,7 +466,7 @@
      "Ground",
      "Rock"
     ],
-    "ability": "Lightning Rod",
+    "ability": "Rock Head",
     "level": 100,
     "stats": {
      "hp": 350,
@@ -733,7 +733,7 @@
     "types": [
      "Fighting"
     ],
-    "ability": "Guts",
+    "ability": "No Guard",
     "level": 100,
     "stats": {
      "hp": 320,
@@ -1500,23 +1500,17 @@
     "species": "Machamp",
     "nickname": null,
     "primary": {
-     "role": "status_absorber",
-     "name": "sponge / status absorber",
-     "family": "defense",
-     "score": 0.4956,
-     "confidence": "loose",
-     "margin": 0.0035,
-     "clear": false
-    },
-    "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
      "score": 0.4921,
-     "confidence": "loose"
+     "confidence": "loose",
+     "margin": 0.4921,
+     "clear": true
     },
+    "secondary": null,
     "also": [],
-    "why": "sponge / status absorber (0.50, loose): Guts; overall bulk above 38% of the field; Fighting (Guts)"
+    "why": "wallbreaker (0.49, loose): Attack 295 (above 84% of the field); Earthquake (100); types it hits super-effectively: Bug, Dark, Electric, Fire, Flying, Ice, Normal, Poison, Rock, Steel, Water"
    },
    {
     "species": "Pidgeot",
@@ -1592,7 +1586,7 @@
      "helpers": [
       "Exeggutor"
      ],
-     "role": "sponge / status absorber",
+     "role": "wallbreaker",
      "level": 56,
      "sent_out": "#5"
     },

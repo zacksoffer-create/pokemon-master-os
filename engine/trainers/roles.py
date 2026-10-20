@@ -48,6 +48,10 @@ def _pct(value, pool):
     return (lo + hi) / 2 / len(pool)
 
 
+NO_ROLE = {"role": None, "name": "no clear role", "family": None, "score": 0.0, "confidence": "none", "margin": 0.0,
+           "clear": False}
+
+
 class RoleBook:
     def __init__(self, store, path=None):
         self.store, self.era = store, store.era
@@ -259,8 +263,8 @@ class RoleBook:
                 raises = [ctx["matching"] if s == "matching" else s for s in spec.get("raises", [])]
                 ok = (not raises or up in raises) and (not spec.get("lowers") or down in spec["lowers"])
                 out[name] = (1.0 if up and ok else 0.0, [ctx["filled"]["nature"]] if up and ok else [])
-            elif kind == "evs":
-                total = sum(evs.get(s, 0) for s in stats_named)
+            elif kind == "evs":                    # recorded EVs only: a blank spread is no evidence (B19)
+                total = sum(evs.get(s, 0) for s in stats_named) if ctx["evs_recorded"] else 0
                 words = spec["label"] if spec["label"].startswith("EVs") else spec["label"].replace(" EVs", "") + " EVs"
                 out[name] = (min(1.0, total / spec["full_at"]), [f"{total} {words}"] if total else [])
             elif kind == "iv_low":
@@ -458,8 +462,10 @@ class RoleBook:
         pick = lambda r: {"role": r["role"], "name": r["name"], "family": r["family"], "score": r["score"],
                           "confidence": self.confidence(r["score"])}
         also = [pick(r) for r in ranked[2:] if r["score"] >= self.cfg["confidence"]["also_at_least"]]
+        # a role nothing earned is no role: when every role scores 0 the build reads "no clear role" (B4)
+        primary = {**pick(top), "margin": margin, "clear": clear} if top["score"] > 0 else NO_ROLE
         return {"build": build.id, "species": build.species, "game": game, "level": ctx["level"],
-                "primary": {**pick(top), "margin": margin, "clear": clear},
+                "primary": primary,
                 "secondary": pick(second) if second["score"] > 0 else None, "also": also,
                 "roles": ranked, "signals": {k: round(v[0], 3) for k, v in sig.items()},
                 "evidence": {k: v[1] for k, v in sig.items() if v[1]}, "defaults_used": ctx["defaults_used"],

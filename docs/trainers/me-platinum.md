@@ -58,12 +58,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Infernape | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
-| Weavile | revenge killer (strong, 0.85) | late-game cleaner (strong) | – |
-| Roserade | suicide lead (strong, 0.77) | lead attacker (strong) | – |
-| Lucario | physical setup sweeper (strong, 0.75) | wallbreaker (solid) | – |
-| Garchomp | wallbreaker (strong, 0.66) | bulky attacker (strong) | – |
-| Magnezone | trapper (strong, 0.89) | check / counter (strong) | – |
+| Infernape | revenge killer (strong, 0.75) | late-game cleaner (strong) | – |
+| Weavile | revenge killer (strong, 0.84) | late-game cleaner (strong) | – |
+| Roserade | suicide lead (strong, 0.83) | lead attacker (strong) | – |
+| Lucario | physical setup sweeper (strong, 0.71) | wallbreaker (solid) | – |
+| Garchomp | wallbreaker (solid, 0.64) | bulky attacker (solid) | – |
+| Magnezone | trapper (strong, 0.89) | check / counter (solid) | – |
 
 ## On the ladder
 

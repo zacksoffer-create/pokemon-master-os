@@ -359,7 +359,7 @@
      "Water",
      "Ice"
     ],
-    "ability": "Water Absorb",
+    "ability": "Shell Armor",
     "level": 100,
     "stats": {
      "hp": 400,
@@ -420,10 +420,8 @@
       "multiplier": 1.0
      },
      "Water": {
-      "verdict": "immune",
-      "multiplier": 0.0,
-      "ability": "Water Absorb",
-      "before_ability": "resists"
+      "verdict": "resists",
+      "multiplier": 0.5
      },
      "Grass": {
       "verdict": "weak",
@@ -491,7 +489,7 @@
     "types": [
      "Normal"
     ],
-    "ability": "Immunity",
+    "ability": "Thick Fat",
     "level": 100,
     "stats": {
      "hp": 460,
@@ -548,8 +546,10 @@
       "multiplier": 1.0
      },
      "Fire": {
-      "verdict": "neutral",
-      "multiplier": 1.0
+      "verdict": "resists",
+      "multiplier": 0.5,
+      "ability": "Thick Fat",
+      "before_ability": "neutral"
      },
      "Water": {
       "verdict": "neutral",
@@ -568,8 +568,10 @@
       "multiplier": 1.0
      },
      "Ice": {
-      "verdict": "neutral",
-      "multiplier": 1.0
+      "verdict": "resists",
+      "multiplier": 0.5,
+      "ability": "Thick Fat",
+      "before_ability": "neutral"
      },
      "Dragon": {
       "verdict": "neutral",
@@ -1136,15 +1138,16 @@
     "Fire": {
      "weak": 1,
      "very weak": 0,
-     "neutral": 3,
-     "resists": 2,
+     "neutral": 2,
+     "resists": 3,
      "immune": 0,
      "weak_total": 1,
-     "covered": 2,
+     "covered": 3,
      "weak_members": [
       "Venusaur"
      ],
      "covered_by": [
+      "Snorlax",
       "Charizard",
       "Blastoise"
      ]
@@ -1153,8 +1156,8 @@
      "weak": 1,
      "very weak": 0,
      "neutral": 2,
-     "resists": 2,
-     "immune": 1,
+     "resists": 3,
+     "immune": 0,
      "weak_total": 1,
      "covered": 3,
      "weak_members": [
@@ -1217,16 +1220,17 @@
     "Ice": {
      "weak": 1,
      "very weak": 0,
-     "neutral": 3,
-     "resists": 2,
+     "neutral": 2,
+     "resists": 3,
      "immune": 0,
      "weak_total": 1,
-     "covered": 2,
+     "covered": 3,
      "weak_members": [
       "Venusaur"
      ],
      "covered_by": [
       "Lapras",
+      "Snorlax",
       "Blastoise"
      ]
     },
@@ -1354,7 +1358,7 @@
    },
    {
     "section": "beat",
-    "text": "Watch the abilities: Lapras's Water Absorb changes Water (from resists to immune).",
+    "text": "Watch the abilities: Snorlax's Thick Fat changes Fire and Ice (from neutral to resists).",
     "rule": "abilities",
     "trigger": "ability_str nonempty"
    },
@@ -1447,15 +1451,15 @@
      "family": "offense",
      "score": 0.522,
      "confidence": "solid",
-     "margin": 0.0137,
+     "margin": 0.0224,
      "clear": false
     },
     "secondary": {
      "role": "tank",
      "name": "tank",
      "family": "defense",
-     "score": 0.5083,
-     "confidence": "solid"
+     "score": 0.4996,
+     "confidence": "loose"
     },
     "also": [],
     "why": "bulky attacker (0.52, solid): overall bulk above 78% of the field; attacking moves: Blizzard, Brine, Psychic, Body Slam; attacks that use its better attacking stat: Blizzard, Brine, Psychic"
@@ -1469,14 +1473,14 @@
      "family": "offense",
      "score": 0.6302,
      "confidence": "solid",
-     "margin": 0.0039,
+     "margin": 0.0004,
      "clear": false
     },
     "secondary": {
-     "role": "status_absorber",
-     "name": "sponge / status absorber",
+     "role": "check_counter",
+     "name": "check / counter",
      "family": "defense",
-     "score": 0.6263,
+     "score": 0.6298,
      "confidence": "solid"
     },
     "also": [],
@@ -1646,7 +1650,7 @@
     "label": "workhorse",
     "species": "Snorlax",
     "role": "tank",
-    "fit": 0.566
+    "fit": 0.603
    },
    "ahead": {
     "label": "cleaner",

@@ -53,12 +53,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Swampert | check / counter (strong, 0.67) | bulky attacker (strong) | – |
-| Milotic | sponge / status absorber (strong, 0.78) | check / counter (strong) | – |
-| Altaria | mixed setup sweeper (strong, 0.72) | sponge / status absorber (solid) | – |
-| Arcanine | mixed setup sweeper (strong, 0.80) | special setup sweeper (strong) | – |
-| Absol | mixed setup sweeper (strong, 0.78) | physical setup sweeper (solid) | – |
-| Meganium | mixed setup sweeper (strong, 0.74) | physical setup sweeper (solid) | – |
+| Swampert | check / counter (solid, 0.64) | bulky attacker (solid) | – |
+| Milotic | sponge / status absorber (strong, 0.76) | check / counter (strong) | – |
+| Altaria | mixed setup sweeper (strong, 0.67) | sponge / status absorber (solid) | – |
+| Arcanine | mixed setup sweeper (strong, 0.75) | special setup sweeper (strong) | – |
+| Absol | mixed setup sweeper (strong, 0.72) | physical setup sweeper (solid) | – |
+| Meganium | mixed setup sweeper (strong, 0.69) | physical setup sweeper (solid) | – |
 
 ## On the ladder
 
@@ -79,7 +79,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## Who they go to
 
-- Even game: Swampert is the workhorse (tank).
+- Even game: Altaria is the workhorse (pivot).
 - Ahead: Arcanine closes it out (late-game cleaner).
 - Behind: they turn to Arcanine (mixed setup sweeper).
 
@@ -106,7 +106,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Psychic | Crunch (Arcanine, 74) | 0 |
 | Rock | Earthquake (Swampert, 150) | 2 |
 | Steel | Overheat (Arcanine, 175) | 0 |
-| Water | Giga Drain (Meganium, 112) | 1 |
+| Water | Giga Drain (Meganium, 90) | 1 |
 
 ## Combos to watch
 

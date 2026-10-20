@@ -1,0 +1,170 @@
+<script>
+/* ===== The four team roles and the build name, in the browser ==================================================
+   A line-for-line port of engine/trainers/team_roles.py: Ace (one-on-ones against the Elite Four and Champions,
+   both at level 100, in the battle engine), Wall (the 100 hardest-hitting attacks from those pools, or bulk),
+   Sweeper and Support (the role engine underneath), and Zack's name ladder. The rules are the pack's
+   (app/data/roles4.json → config, from trainers/team_roles.json). app/test_roles4_parity.mjs holds it to Python. */
+var TeamRoles = (function () {
+  var CFG = null, BST = {}, SETUP = ['setup_physical', 'setup_special', 'setup_speed', 'setup_defense'];
+  var GAME_OF_GEN = {2: 'crystal', 3: 'emerald', 4: 'platinum'}, ORDER = ['ace', 'wall', 'sweeper', 'support'];
+  var Sc = null, Bt = null, eng = null, pools = {};
+  function init(pack, scout, battle) { CFG = pack.config; BST = pack.bst || {}; Sc = scout; Bt = battle; eng = null; pools = {}; }
+  function engine() { return eng || (eng = Bt.engine()); }
+  function cmp(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+  function inter(a, b) { return a.filter(function (x) { return b.indexOf(x) >= 0; }); }
+  function pct(x) { return Bt.pyRound(100 * x); }
+  function fx(x) { return Sc.pyFixed(x, 2); }
+
+  function pool(gen) {
+    if (pools[gen]) return pools[gen];
+    var e = engine(), level = CFG.level, out = {};
+    Object.keys(CFG.pools[String(gen)]).forEach(function (pname) {
+      if (pname.charAt(0) === '_') return;
+      var seen = {}, order = [];
+      CFG.pools[String(gen)][pname].forEach(function (gm) {
+        var game = gm[0], name = gm[1], tr = e.opponents(game).filter(function (t) { return t.name === name; })[0];
+        if (!tr) throw new Error(name + ' (' + game + ') is not in the battle pack');
+        e.grid.theirs(tr, gen).forEach(function (c0) {
+          var c = Bt.Combatant(Object.assign({}, c0, {level: level, name: c0.species + ' (' + name + ', ' + game + ')'}));
+          if (seen[c.key]) seen[c.key][1].push(name + ' (' + game + ')');
+          else { seen[c.key] = [c, [name + ' (' + game + ')']]; order.push(c.key); }
+        });
+      });
+      out[pname] = order.map(function (k) { return seen[k]; });
+    });
+    return (pools[gen] = out);
+  }
+
+  function combatant(build, gen) {
+    var game = GAME_OF_GEN[gen];
+    var fill = function (sp, rej) { return Bt.strongestSet(sp, game, rej); };
+    var b = {moves: (build.moves || []).slice(), nature: build.nature || null, ability: build.ability || null, item: build.item || null,
+      evs: build.evs && Object.keys(build.evs).length ? build.evs : null, ivs: build.ivs && Object.keys(build.ivs).length ? build.ivs : null, level: CFG.level};
+    return Bt.fromBuild(gen, build.species, b, fill, CFG.level, build.species);
+  }
+
+  function fights(builds) {   // [{build, gen}] -> {id: {pool: [[Combatant, where, matchup]]}}
+    var byGen = {}, out = {};
+    builds.forEach(function (x) { (byGen[x.gen] = byGen[x.gen] || []).push(x.build); });
+    Object.keys(byGen).forEach(function (g) {
+      var gen = +g, P = pool(gen), field = [], fk = {};
+      Object.keys(P).forEach(function (p) { P[p].forEach(function (cw) { if (!fk[cw[0].key]) { fk[cw[0].key] = 1; field.push(cw[0]); } }); });
+      var ours = {}, ok = {}, uniqOurs = [];
+      byGen[g].forEach(function (b) { var c = combatant(b, gen); ours[b.id] = c; if (!ok[c.key]) { ok[c.key] = 1; uniqOurs.push(c); } });
+      var res = engine().ev.versus(uniqOurs, field);
+      byGen[g].forEach(function (b) {
+        var a = ours[b.id], o = {};
+        Object.keys(P).forEach(function (p) { o[p] = P[p].map(function (cw) { return [cw[0], cw[1], res[a.key + '\u0002' + cw[0].key]]; }); });
+        out[b.id] = o;
+      });
+    });
+    return out;
+  }
+
+  function ace(f) {
+    var r = CFG.roles.ace, rate = {}, lost = {}, n = {};
+    ['elite_four', 'champion'].forEach(function (p) {
+      var wins = f[p].map(function (x) { return x[2].outcome.winner === 'A'; });
+      rate[p] = wins.length ? Bt.pyRound(wins.filter(Boolean).length / wins.length, 4) : 0.0;
+      lost[p] = f[p].filter(function (x, i) { return !wins[i]; }).map(function (x) { return x[0].name; });
+      n[p] = f[p].length;
+    });
+    var earned = rate.elite_four >= r.elite_four_at_least && rate.champion >= r.champion_at_least;
+    return {role: 'ace', score: Bt.pyRound((rate.elite_four + rate.champion) / 2, 4), earned: earned,
+      why: ['beats ' + pct(rate.elite_four) + '% of ' + n.elite_four + ' Elite Four Pokémon (needs ' + pct(r.elite_four_at_least) + '%)',
+            'beats ' + pct(rate.champion) + '% of ' + n.champion + ' Champion Pokémon (needs ' + pct(r.champion_at_least) + '%)'],
+      numbers: {elite_four_rate: rate.elite_four, champion_rate: rate.champion, elite_four_n: n.elite_four, champion_n: n.champion, lost_to: lost}};
+  }
+
+  function wall(f, sig) {
+    var r = CFG.roles.wall, hits = [];
+    ['elite_four', 'champion'].forEach(function (p) { f[p].forEach(function (x) {
+      Object.keys(x[2].incoming).forEach(function (mv) { var lh = x[2].incoming[mv]; hits.push([lh[1], lh[0], x[0].name, mv]); }); }); });
+    hits.sort(function (a, b) { return (b[0] - a[0]) || (b[1] - a[1]) || cmp(a[2], b[2]) || cmp(a[3], b[3]); });
+    var top = hits.slice(0, r.hardest_attacks), n = r.hits_to_take, under = 100 / (n - 1);
+    var share = top.length ? top.filter(function (h) { return h[0] < under; }).length / top.length : 0.0;
+    var bulk = Math.min(sig.bulk_phys || 0.0, sig.bulk_spec || 0.0), byHits = share >= r.share_at_least, byBulk = bulk >= r.bulk_percentile_at_least;
+    return {role: 'wall', score: Bt.pyRound(Math.max(share, bulk), 4), earned: byHits || byBulk,
+      why: ['takes ' + n + ' or more hits from ' + pct(share) + '% of the ' + top.length + ' hardest-hitting Elite Four and Champion attacks (needs ' + pct(r.share_at_least) + '%)',
+            'its weaker side of bulk is above ' + pct(bulk) + '% of the field (needs ' + pct(r.bulk_percentile_at_least) + '%)'],
+      numbers: {hit_share: Bt.pyRound(share, 4), hits_to_take: n, attacks_read: top.length, bulk_low_side: Bt.pyRound(bulk, 4), by_hits: byHits, by_bulk: byBulk,
+        hardest: top.slice(0, 5).map(function (h) { return {attacker: h[2], move: h[3], max: h[0], min: h[1]}; })}};
+  }
+
+  function best(list) { var b = null; list.forEach(function (x) { if (!b || x.score > b.score) b = x; }); return b; }
+  function sweeper(cl) {
+    var r = CFG.roles.sweeper, b = best(cl.roles.filter(function (x) { return r.from_roles.indexOf(x.role) >= 0; }));
+    return {role: 'sweeper', score: b.score, earned: b.score >= r.score_at_least, why: ['best sweeping role: ' + b.name + ' ' + fx(b.score) + ' (needs ' + fx(r.score_at_least) + ')'], numbers: {from: b.role}};
+  }
+  function support(cl, moves) {
+    var r = CFG.roles.support, sup = moves.filter(function (m) { return inter(m.categories, r.support_categories).length; }).map(function (m) { return m.name; });
+    var b = best(cl.roles.filter(function (x) { return x.family === r.from_family; }));
+    var earned = sup.length >= r.moves_at_least && b.score >= r.score_at_least;
+    return {role: 'support', score: b.score, earned: earned,
+      why: ['support moves: ' + (sup.join(', ') || 'none') + ' (needs ' + r.moves_at_least + ')', 'best support role: ' + b.name + ' ' + fx(b.score) + ' (needs ' + fx(r.score_at_least) + ')'],
+      numbers: {support_moves: sup, from: b.role}};
+  }
+
+  function moveset(moves, gen) {
+    var n = CFG.naming.movesets, sup = CFG.roles.support.support_categories;
+    var attacks = moves.filter(function (m) { return m['class'] !== 'status' && m.power > 0; });
+    var has = function (cats) { return moves.filter(function (m) { return inter(m.categories, cats).length; }).length; };
+    var count = {setup_any: has(SETUP), attacks: attacks.length, recovery_or_rest: has(['recovery', 'rest']), support: has(sup),
+      hazard_or_screens: has(['hazard', 'screens']), priority_attack: has(['priority_attack'])};
+    var cover = Sc.covered(attacks, gen, 0).length;
+    for (var i = 0; i < n.order.length; i++) {
+      var id = n.order[i], spec = n[id];
+      var ok = Object.keys(spec.needs).every(function (k) { return count[k] >= spec.needs[k]; }) &&
+        count.attacks <= (spec.attacks_at_most == null ? 99 : spec.attacks_at_most) && cover >= (spec.coverage_types_at_least || 0);
+      if (ok) return id;
+    }
+    return 'mixed_bag';
+  }
+
+  function name(cl, team, moves, gen, speciesName) {
+    var nm = CFG.naming, words = nm.words, match = cl.primary.role ? cl.primary.score : 0.0;
+    var band = nm.bands.filter(function (b) { return match >= b.at_least; })[0] || null, mid = moveset(moves, gen);
+    if (!band) return {text: words.unnamed || '⟨unnamed⟩', match: match, band: null, tokens: [{slot: 'unnamed', id: 'unnamed', word: words.unnamed || null, placeholder: 'unnamed'}]};
+    var strong = Sc.sortBy ? null : null;
+    strong = cl.roles.filter(function (x) { return x.score >= nm.hybrid_at_least; }).map(function (x, i) { return [x, i]; })
+      .sort(function (a, b) { return (b[0].score - a[0].score) || (a[1] - b[1]); }).map(function (p) { return p[0]; }).slice(0, nm.hybrid_max_roles);
+    var tys = Sc.types(speciesName, gen), bst = (BST[String(gen)] || {})[speciesName];
+    var bstId = nm.bst_bands.filter(function (b) { return bst < b.below; })[0].id;
+    var earned = team.filter(function (r) { return r.earned; }), teamId = earned.length ? best(earned).role : 'none';
+    var defs = Sc.roleDefs(), tokens = [];
+    band.parts.forEach(function (part) {
+      if (part === 'type') tokens.push(['type', tys[0], tys[0]]);
+      else if (part === 'noun') {
+        if (strong.length >= 2) { var ss = strong.slice().sort(function (a, b) { return cmp(a.role, b.role); });
+          tokens.push(['hybrid', ss.map(function (x) { return x.role; }).join('+'), ss.map(function (x) { return defs[x.role].name; }).join(' + ')]); }
+        else tokens.push(['noun', cl.primary.role, cl.primary.name]);
+      } else if (part === 'moveset') tokens.push(['moveset', mid, nm.movesets[mid].label]);
+      else if (part === 'team_role') tokens.push(['team_role', teamId, teamId !== 'none' ? CFG.roles[teamId].name : 'no team role']);
+      else if (part === 'bst') tokens.push(['bst', bstId, 'BST ' + bst]);
+    });
+    var out = tokens.map(function (t) { var w = words[t[0]] && typeof words[t[0]] === 'object' ? words[t[0]][t[1]] : null;
+      return {slot: t[0], id: t[1], word: w || null, placeholder: t[2]}; });
+    return {text: out.map(function (t) { return t.word || '⟨' + t.placeholder + '⟩'; }).join(' '), match: match, band: band.at_least, tokens: out};
+  }
+
+  function readMany(list) {   // [{build, game}] -> {id: read}
+    var withGen = list.map(function (x) { var game = x.game || GAME_OF_GEN[x.build.generation || 4]; return {build: x.build, game: game, gen: Bt.GAME_GEN[game]}; });
+    var F = fights(withGen), out = {};
+    withGen.forEach(function (x) {
+      var b = x.build, gen = x.gen, game = x.game, filledMoves = combatant(b, gen).moves;
+      var filled = Object.assign({}, b, {moves: filledMoves.slice(), level: CFG.level});
+      var cl = Sc.classify(filled, game, CFG.level), ctx = Sc.roleContext(filled, game, CFG.level, null);
+      var team = [ace(F[b.id]), wall(F[b.id], cl.signals), sweeper(cl), support(cl, ctx.moves)];
+      var sorted = team.map(function (r, i) { return [r, i]; }).sort(function (p, q) { return (q[0].score - p[0].score) || cmp(p[0].role, q[0].role); }).map(function (p) { return p[0]; });
+      out[b.id] = {build: b.id, species: b.species, game: game, gen: gen, moves: filledMoves.slice(),
+        filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
+        earned: sorted.filter(function (r) { return r.earned; }).map(function (r) { return r.role; }),
+        second_layer: {primary: cl.primary, secondary: cl.secondary, top: cl.roles.slice(0, 5).map(function (x) { return {role: x.role, name: x.name, score: x.score}; })},
+        name: name(cl, team, ctx.moves, gen, b.species)};
+    });
+    return out;
+  }
+  function read(build, game) { var id = build.id || 'lab'; var b = Object.assign({}, build, {id: id}); return readMany([{build: b, game: game}])[id]; }
+  return {init: init, read: read, readMany: readMany, pool: pool, config: function () { return CFG; }, ORDER: ORDER, GAME_OF_GEN: GAME_OF_GEN};
+})();
+</script>

@@ -52,12 +52,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Pikachu | revenge killer (solid, 0.64) | late-game cleaner (solid) | – |
-| Infernape | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
-| Torterra | bulky attacker (strong, 0.65) | tank (solid) | – |
-| Staraptor | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
-| Gliscor | check / counter (solid, 0.54) | tank (loose) | – |
-| Buizel | revenge killer (solid, 0.54) | late-game cleaner (solid) | – |
+| Pikachu | revenge killer (solid, 0.62) | late-game cleaner (loose) | – |
+| Infernape | revenge killer (strong, 0.75) | late-game cleaner (strong) | – |
+| Torterra | bulky attacker (solid, 0.59) | tank (loose) | – |
+| Staraptor | revenge killer (strong, 0.76) | late-game cleaner (strong) | – |
+| Gliscor | check / counter (solid, 0.51) | tank (loose) | – |
+| Buizel | revenge killer (solid, 0.52) | late-game cleaner (solid) | – |
 
 ## On film
 

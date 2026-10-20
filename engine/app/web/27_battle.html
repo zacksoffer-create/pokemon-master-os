@@ -239,7 +239,8 @@ var Battle = (function () {
       var mon = function (p) { return new C.Pokemon(gen, p.species, {level: p.level == null ? 50 : p.level, nature: p.nature, evs: p.evs, ivs: p.ivs,
         ability: named(gen.abilities, p.ability), item: named(gen.items, p.item), boosts: p.boosts, status: p.status, curHP: p.curHP}); };
       if (req.stats) { var p = mon(req.stats); return {stats: p.stats, hp: p.maxHP(), types: p.types, ability: p.ability == null ? null : p.ability, item: p.item == null ? null : p.item}; }
-      var res = C.calculate(gen, mon(req.attacker), mon(req.defender), new C.Move(gen, req.move), new C.Field(req.field || {}));
+      var move = new C.Move(gen, req.move, {ability: named(gen.abilities, req.attacker.ability), item: named(gen.items, req.attacker.item), species: req.attacker.species});   // Skill Link and friends live on the move
+      var res = C.calculate(gen, mon(req.attacker), mon(req.defender), move, new C.Field(req.field || {}));
       var hp = res.defender.maxHP(), lo = 0, hi = 0;
       try { var r = res.range(); lo = r[0]; hi = r[1]; } catch (err) { if (String((err && err.message) || err).indexOf('=== 0') < 0) throw err; }
       return {damage: [lo, hi], percent: [+(100 * lo / hp).toFixed(1), +(100 * hi / hp).toFixed(1)], attacker_speed: res.attacker.stats.spe, defender_speed: res.defender.stats.spe};
@@ -1279,7 +1280,8 @@ var Battle = (function () {
     return POP[gen];
   }
   function shareBelow(gen, fn, value) { var vals = population(gen).map(function (sp) { return fn(sp.bs); }); return count(vals, function (v) { return v < value; }) / vals.length; }
-  function accuracyOf(m) {
+  function accuracyOf(m, gen) {   // as its generation had it (the move book's rollback), else today's (B3)
+    if (gen) { try { return mbGet(gen, m).accuracy; } catch (e) { /* not in this generation's book */ } }
     if (has(P.accuracy, m)) return P.accuracy[m];
     for (var g = 4; g >= 2; g--) { var x = MV[g][toId(m)]; if (x && has(P.accuracy, x.name)) return P.accuracy[x.name]; }
     return 100;
@@ -1294,7 +1296,7 @@ var Battle = (function () {
     rejected = rejected || [];
     var gen = GAME_GEN[game], types = species(gen, speciesName).types;
     var pool = attacksOf(Member(speciesName), game, true).filter(function (a) { return a.score >= 60 && !inA(a.move, UNRELIABLE) && !inA(a.move, rejected); })
-      .map(function (a) { return Object.assign({}, a, {value: a.score * accuracyOf(a.move) / 100}); });
+      .map(function (a) { return Object.assign({}, a, {value: a.score * accuracyOf(a.move, gen) / 100}); });
     pool = sortBy(pool, function (a) { return -a.value; });
     var se = function (a) { return seTypes(gen, a.type); }, picked = [], covered = [];
     var addCov = function (a) { se(a).forEach(function (t) { if (covered.indexOf(t) < 0) covered.push(t); }); };
@@ -1364,7 +1366,7 @@ var Battle = (function () {
   function metrics(member, game, build) {
     build = build || {};
     var gen = GAME_GEN[game], sp = species(gen, member.species), bs = sp.bs, abil = member.ability || (abilities(gen, member.species)[0] || null);
-    var attacks = sortBy(attacksOf(member, game), function (a) { return -a.score * accuracyOf(a.move); });
+    var attacks = sortBy(attacksOf(member, game), function (a) { return -a.score * accuracyOf(a.move, gen); });
     var dmg = member.moves.filter(function (m) { return category(gen, m) !== 'Status' && move(gen, m).bp > 20; });
     var phys = dmg.filter(function (m) { return category(gen, m) === 'Physical'; }), spec = dmg.filter(function (m) { return category(gen, m) === 'Special'; });
     var roles = movesByRole(member.moves, sp.types);
@@ -1400,7 +1402,7 @@ var Battle = (function () {
       item: item, item_note: item ? (ITEM_NOTES[item] || null) : null, signature_missing: sig && item !== sig ? sig : null,
       recoil_str: join(dmg.filter(function (m) { return inA(m, RECOIL); })), lock_str: join(dmg.filter(function (m) { return inA(m, LOCK_IN); })),
       charge_str: join(dmg.filter(function (m) { return inA(m, CHARGE); })),
-      shaky_str: join(dmg.filter(function (m) { return accuracyOf(m) < 90; }).map(function (m) { return m + ' (' + accuracyOf(m) + '%)'; })),
+      shaky_str: join(dmg.filter(function (m) { return accuracyOf(m, gen) < 90; }).map(function (m) { return m + ' (' + accuracyOf(m, gen) + '%)'; })),
       risky_str: join(member.moves.filter(function (m) { return inA(m, RISKY); })), protect_str: join(member.moves.filter(function (m) { return inA(m, PROTECT); }), 'or'),
       trouble_str: join(trouble(member, game)), comps_str: join(comps(member.species, gen)), makeup: makeup(member.species, game)};
   }
@@ -1750,7 +1752,7 @@ var Battle = (function () {
     this.ev = new Evaluator(); this.grid = new Grid(this.ev); this.book = opts.book || P.phrasebook;
   }
   var G = Engine.prototype;
-  G.opponents = function (game) { return (P.opponents[game] || []).filter(function (o) { return o.name.toLowerCase().indexOf('rematch') < 0; }); };
+  G.opponents = function (game) { return (P.opponents[game] || []).slice(); };   // every team, rematches too
   G.team = function (lineup) {
     var game = lineup.game, built = lineup.members.map(function (sb) { return memberFor(sb[0], game, sb[1]); });
     return [Team(game, built.map(function (x) { return x[0]; })), built];
@@ -1908,6 +1910,7 @@ var Battle = (function () {
 
   return {init: init, ready: ready, engine: function (o) { return new Engine(o); }, speak: speak, resolveLineup: resolveLineup,
     species: species, move: move, abilities: abilities, learnable: learnable, strongestSet: strongestSet, memberFor: memberFor, mbGet: mbGet,
+    memberReport: function (sp, game, build) { return report(sp, game, build || {}, null, P.phrasebook); }, effectiveness: effectiveness,
     fromBuild: fromBuild, Combatant: Combatant, Plan: Plan, planLabel: planLabel, outcomeValue: outcomeValue, Fight: Fight, calcRun: calcRun,
     pyRound: pyRound, mean: mean, Random: Random, SITUATIONS: SITUATIONS, SLIDERS: SLIDERS, SLIDER_NAMES: SLIDER_NAMES, POLES: POLES,
     SECTION_TITLES: SECTION_TITLES, GAME_TITLE: GAME_TITLE, GAME_GEN: GAME_GEN, TYPES: TYPES, ROLES: ROLES,

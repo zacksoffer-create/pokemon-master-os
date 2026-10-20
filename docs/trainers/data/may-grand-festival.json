@@ -1385,14 +1385,14 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.6169,
+     "score": 0.5893,
      "confidence": "solid",
-     "margin": 0.6169,
+     "margin": 0.5893,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.62, solid): strong attacks (effective power 90+, with the stat it uses): Blaze Kick, Sky Uppercut, Flamethrower; Flamethrower (133); Attack 297 (above 87% of the field)"
+    "why": "wallbreaker (0.59, solid): strong attacks (effective power 90+, with the stat it uses): Blaze Kick, Sky Uppercut, Flamethrower; Flamethrower (133); Attack 297 (above 87% of the field)"
    },
    {
     "species": "Venusaur",
@@ -1401,20 +1401,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.618,
+     "score": 0.5538,
      "confidence": "solid",
-     "margin": 0.0953,
-     "clear": true
+     "margin": 0.0649,
+     "clear": false
     },
     "secondary": {
      "role": "tank",
      "name": "tank",
      "family": "defense",
-     "score": 0.5227,
-     "confidence": "solid"
+     "score": 0.4889,
+     "confidence": "loose"
     },
     "also": [],
-    "why": "bulky attacker (0.62, solid): Sp. Atk 257 (above 77% of the field); attacking moves: Vine Whip, Razor Leaf, Petal Dance; overall bulk above 66% of the field"
+    "why": "bulky attacker (0.55, solid): Sp. Atk 257 (above 77% of the field); attacking moves: Vine Whip, Razor Leaf, Petal Dance; overall bulk above 66% of the field"
    },
    {
     "species": "Wartortle",
@@ -1425,14 +1425,14 @@
      "family": "support",
      "score": 0.715,
      "confidence": "strong",
-     "margin": 0.3211,
+     "margin": 0.3487,
      "clear": true
     },
     "secondary": {
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.3939,
+     "score": 0.3663,
      "confidence": "loose"
     },
     "also": [],
@@ -1445,20 +1445,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.4912,
+     "score": 0.4269,
      "confidence": "loose",
-     "margin": 0.1084,
-     "clear": true
+     "margin": 0.0778,
+     "clear": false
     },
     "secondary": {
      "role": "tank",
      "name": "tank",
      "family": "defense",
-     "score": 0.3828,
+     "score": 0.3491,
      "confidence": "loose"
     },
     "also": [],
-    "why": "bulky attacker (0.49, loose): attacking moves: Focus Punch, Tackle, Solar Beam; overall bulk above 64% of the field; attacks that use its better attacking stat: Focus Punch, Tackle"
+    "why": "bulky attacker (0.43, loose): attacking moves: Focus Punch, Tackle, Solar Beam; overall bulk above 64% of the field; attacks that use its better attacking stat: Focus Punch, Tackle"
    },
    {
     "species": "Beautifly",
@@ -1467,14 +1467,14 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.2268,
+     "score": 0.1992,
      "confidence": "loose",
-     "margin": 0.2268,
+     "margin": 0.1992,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.23, loose): Sp. Atk 237 (above 62% of the field); Silver Wind (90); attacks that use its better attacking stat: Silver Wind, Gust"
+    "why": "wallbreaker (0.20, loose): Sp. Atk 237 (above 62% of the field); Silver Wind (90); attacks that use its better attacking stat: Silver Wind, Gust"
    },
    {
     "species": "Skitty",
@@ -1483,14 +1483,14 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.1661,
+     "score": 0.1385,
      "confidence": "loose",
-     "margin": 0.1661,
+     "margin": 0.1385,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.17, loose): attacks that use its better attacking stat: Tackle, Double Slap; Blizzard (73); types it hits super-effectively: Dragon, Flying, Grass, Ground"
+    "why": "wallbreaker (0.14, loose): attacks that use its better attacking stat: Tackle, Double Slap; Blizzard (73); types it hits super-effectively: Dragon, Flying, Grass, Ground"
    }
   ],
   "ace": {
@@ -1598,8 +1598,8 @@
    "even": {
     "label": "workhorse",
     "species": "Venusaur",
-    "role": "bulky attacker",
-    "fit": 0.525
+    "role": "tank",
+    "fit": 0.489
    },
    "ahead": {
     "label": "cleaner",
@@ -1611,7 +1611,7 @@
     "label": "gambit",
     "species": "Blaziken",
     "role": "wallbreaker",
-    "fit": 0.555,
+    "fit": 0.53,
     "last_resorts": []
    }
   },
@@ -1969,7 +1969,7 @@
    "go_to": [
     {
      "section": "go_to",
-     "text": "Even game: Venusaur is the workhorse (bulky attacker).",
+     "text": "Even game: Venusaur is the workhorse (tank).",
      "rule": "goto_even",
      "trigger": "one_for_all empty"
     },

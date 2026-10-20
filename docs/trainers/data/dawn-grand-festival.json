@@ -1340,14 +1340,14 @@
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.4516,
+     "score": 0.4355,
      "confidence": "loose",
-     "margin": 0.4516,
+     "margin": 0.4355,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "revenge killer (0.45, loose): Bide; attacks that use its better attacking stat: Bubble Beam; strong attacks (effective power 90+, with the stat it uses): Bubble Beam"
+    "why": "revenge killer (0.44, loose): Bide; attacks that use its better attacking stat: Bubble Beam; strong attacks (effective power 90+, with the stat it uses): Bubble Beam"
    },
    {
     "species": "Togekiss",
@@ -1356,42 +1356,42 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.658,
-     "confidence": "strong",
-     "margin": 0.0428,
+     "score": 0.5938,
+     "confidence": "solid",
+     "margin": 0.007,
      "clear": false
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.6152,
+     "score": 0.5868,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.66, strong): Sp. Atk 297 (above 91% of the field); overall bulk above 85% of the field; attacking moves: Aura Sphere, Air Slash, Sky Attack"
+    "why": "bulky attacker (0.59, solid): Sp. Atk 297 (above 91% of the field); overall bulk above 85% of the field; attacking moves: Aura Sphere, Air Slash, Sky Attack"
    },
    {
     "species": "Mamoswine",
     "nickname": null,
     "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.6422,
-     "confidence": "solid",
-     "margin": 0.0093,
-     "clear": false
-    },
-    "secondary": {
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.6329,
+     "score": 0.6169,
+     "confidence": "solid",
+     "margin": 0.027,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5899,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.64, solid): Attack 317 (above 94% of the field); attacking moves: Ice Shard, Take Down, Ancient Power, Hidden Power; overall bulk above 61% of the field"
+    "why": "revenge killer (0.62, solid): Ice Shard; Attack 317 (above 94% of the field); Speed 217 (above 53% of the field)"
    },
    {
     "species": "Pachirisu",
@@ -1400,14 +1400,14 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.3652,
+     "score": 0.3376,
      "confidence": "loose",
-     "margin": 0.3652,
+     "margin": 0.3376,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.37, loose): strong attacks (effective power 90+, with the stat it uses): Discharge, Spark; Discharge (120); attacks that use its better attacking stat: Super Fang, Spark"
+    "why": "wallbreaker (0.34, loose): strong attacks (effective power 90+, with the stat it uses): Discharge, Spark; Discharge (120); attacks that use its better attacking stat: Super Fang, Spark"
    },
    {
     "species": "Buneary",
@@ -1416,14 +1416,14 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.3304,
+     "score": 0.3029,
      "confidence": "loose",
-     "margin": 0.3304,
+     "margin": 0.3029,
      "clear": true
     },
     "secondary": null,
     "also": [],
-    "why": "wallbreaker (0.33, loose): Dizzy Punch (105); strong attacks (effective power 90+, with the stat it uses): Dizzy Punch; attacks that use its better attacking stat: Dizzy Punch"
+    "why": "wallbreaker (0.30, loose): Dizzy Punch (105); strong attacks (effective power 90+, with the stat it uses): Dizzy Punch; attacks that use its better attacking stat: Dizzy Punch"
    },
    {
     "species": "Ambipom",
@@ -1432,27 +1432,41 @@
      "role": "wallbreaker",
      "name": "wallbreaker",
      "family": "offense",
-     "score": 0.521,
-     "confidence": "solid",
-     "margin": 0.1084,
+     "score": 0.4934,
+     "confidence": "loose",
+     "margin": 0.0968,
      "clear": true
     },
     "secondary": {
      "role": "revenge_killer",
      "name": "revenge killer",
      "family": "offense",
-     "score": 0.4126,
+     "score": 0.3966,
      "confidence": "loose"
     },
     "also": [],
-    "why": "wallbreaker (0.52, solid): strong attacks (effective power 90+, with the stat it uses): Double Hit, Swift; Double Hit (142); Attack 257 (above 70% of the field)"
+    "why": "wallbreaker (0.49, loose): strong attacks (effective power 90+, with the stat it uses): Double Hit, Swift; Double Hit (142); Attack 257 (above 70% of the field)"
    }
   ],
   "ace": {
-   "derived": "Ambipom",
+   "derived": "Mamoswine",
    "authored": null,
    "agree": true,
    "ranking": [
+    {
+     "species": "Mamoswine",
+     "slot": 3,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#3"
+    },
     {
      "species": "Ambipom",
      "slot": 6,
@@ -1466,20 +1480,6 @@
      "role": "wallbreaker",
      "level": null,
      "sent_out": "last"
-    },
-    {
-     "species": "Mamoswine",
-     "slot": 3,
-     "score": 0.461,
-     "parts": {
-      "support": 0.0,
-      "coverage": 0.412,
-      "role": 0.8
-     },
-     "helpers": [],
-     "role": "bulky attacker",
-     "level": null,
-     "sent_out": "#3"
     },
     {
      "species": "Buneary",
@@ -1544,19 +1544,19 @@
     "label": "workhorse",
     "species": "Togekiss",
     "role": "tank",
-    "fit": 0.572
+    "fit": 0.538
    },
    "ahead": {
     "label": "cleaner",
     "species": "Mamoswine",
     "role": "revenge killer",
-    "fit": 0.633
+    "fit": 0.617
    },
    "behind": {
     "label": "gambit",
     "species": "Togekiss",
     "role": "wallbreaker",
-    "fit": 0.489,
+    "fit": 0.464,
     "last_resorts": []
    }
   },
@@ -1960,7 +1960,7 @@
    "ace": [
     {
      "section": "ace",
-     "text": "Ace: Ambipom (a wallbreaker).",
+     "text": "Ace: Mamoswine (a revenge killer).",
      "rule": "ace_derived",
      "trigger": "always"
     }

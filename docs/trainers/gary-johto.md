@@ -54,12 +54,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Blastoise | bulky setup (solid, 0.60) | tank (solid) | – |
+| Blastoise | tank (solid, 0.56) | bulky setup (solid) | – |
 | Arcanine | pivot (strong, 0.65) | check / counter (solid) | – |
-| Nidoqueen | check / counter (loose, 0.47) | bulky attacker (loose) | – |
-| Magmar | wallbreaker (solid, 0.59) | – | – |
-| Golem | bulky attacker (solid, 0.62) | wallbreaker (loose) | – |
-| Scizor | bulky attacker (solid, 0.65) | revenge killer (solid) | – |
+| Nidoqueen | check / counter (loose, 0.44) | tank (loose) | – |
+| Magmar | wallbreaker (solid, 0.57) | – | – |
+| Golem | bulky attacker (solid, 0.56) | wallbreaker (loose) | – |
+| Scizor | revenge killer (solid, 0.63) | check / counter (solid) | – |
 
 ## On film
 

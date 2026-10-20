@@ -41,9 +41,9 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Exeggutor** Lv 100 (Chlorophyll) | specially soft | · | ½ | 2× | 2× | ½ | · | 4× | 2× | · | 2× | ½ | ½ | ½ | ½ | 2× | · | 2× |
 | **Arcanine** Lv 100 (Intimidate) | frail both ways | · | · | · | · | 2× | 2× | ½ | · | ½ | ½ | 2× | ½ | · | · | ½ | · | · |
-| **Rhydon** Lv 100 (Lightning Rod) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
+| **Rhydon** Lv 100 (Rock Head) | specially soft | ½ | 2× | ½ | ½ | 2× | ½ | · | · | 2× | ½ | 4× | 4× | 0 | · | 2× | · | · |
 | **Gyarados** Lv 100 (Intimidate) | even | · | ½ | · | · | 0 | 2× | ½ | · | ½ | ½ | ½ | · | 4× | · | · | · | · |
-| **Machamp** Lv 100 (Guts) | even | · | · | 2× | · | · | ½ | ½ | · | · | · | · | · | · | 2× | · | · | ½ |
+| **Machamp** Lv 100 (No Guard) | even | · | · | 2× | · | · | ½ | ½ | · | · | · | · | · | · | 2× | · | · | ½ |
 | **Pidgeot** Lv 100 (Keen Eye) | frail both ways | · | · | · | · | 0 | 2× | ½ | 0 | · | · | · | ½ | 2× | · | 2× | · | · |
 
 **Gaps:** Ice and Rock · **Strengths:** none · **Bring:** special attackers (0 physically soft, 2 specially soft, 2 frail, 0 bulky both ways)
@@ -56,7 +56,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 | Arcanine | pivot (solid, 0.61) | revenge killer (solid) | – |
 | Rhydon | wallbreaker (solid, 0.63) | bulky attacker (solid) | – |
 | Gyarados | physical setup sweeper (solid, 0.64) | check / counter (solid) | – |
-| Machamp | sponge / status absorber (loose, 0.50) | wallbreaker (loose) | – |
+| Machamp | wallbreaker (loose, 0.49) | – | – |
 | Pidgeot | phazer (solid, 0.50) | wallbreaker (loose) | – |
 
 ## On the ladder

@@ -125,7 +125,10 @@ class Engines(unittest.TestCase):
         self.assertEqual(lance[0]["ivs"]["atk"], 26)            # Crystal Champion class DVs 13/12/13/13
         self.assertIn("Garchomp", [p["species"] for p in {s["name"]: s for s in bm.load("platinum")}["Champion Cynthia"]["party"]])
         self.assertIn("Milotic", [p["species"] for p in {s["name"]: s for s in bm.load("emerald")}["Champion Wallace"]["party"]])
-        self.assertEqual(len([s for s in bm.load("firered") if s["name"].startswith("Champion")]), 3)
+        firered = bm.load("firered")                            # Zack: every rematch team, none skipped
+        self.assertEqual(len([s for s in firered if s["name"].startswith("Champion")]), 6)
+        self.assertEqual(len([s for s in firered if "rematch" in s["name"]]), 7)
+        self.assertIn("Cynthia (rematch)", [s["name"] for s in bm.load("platinum")])
 
     def test_default_moves_are_last_four_level_up(self):
         from battle.benchmarks import Benchmarks
@@ -929,8 +932,9 @@ class TrainerPlaysheet(unittest.TestCase):
         self.assertTrue({"career", "roles", "ace", "go_to", "type_read", "combos", "signature_moves", "aggression",
                          "text"} <= set(sh))
         self.assertEqual(len(sh["roles"]), 6)
-        ninjask = next(r for r in sh["roles"] if r["species"] == "Ninjask")
-        self.assertEqual(ninjask["primary"]["role"], "baton_pass_starter")
+        ninjask = next(r for r in sh["roles"] if r["species"] == "Ninjask")   # Agility, Fury Cutter, Giga Drain:
+        self.assertIsNone(ninjask["primary"]["role"])                          # no role earns a score (B4)
+        self.assertEqual(ninjask["primary"]["name"], "no clear role")
 
     def test_career_tags_come_from_the_records_and_each_changes_a_line(self):
         names = lambda rep: {t["name"] for t in rep["tags"]}

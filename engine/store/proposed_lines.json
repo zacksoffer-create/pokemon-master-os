@@ -1,0 +1,23 @@
+{
+ "_note": "Breeding lines proposed outside canon/ranch.json: Zack's examples (2026-10-20) and any line the Breeding Lab proposes. Not canon until approved.",
+ "lines": [
+  {
+   "id": "mamoswine-ancient-power",
+   "species": "Mamoswine",
+   "game": "heartgold",
+   "offspring": "Swinub",
+   "egg_moves": [
+    "Ancient Power"
+   ],
+   "signature": {
+    "moves": [
+     "Ancient Power",
+     "Hail"
+    ],
+    "ability": "Snow Cloak"
+   },
+   "status": "proposed (Zack's example, 2026-10-20)",
+   "why": "Zack: a Mamoswine with Ancient Power, Hail and Snow Cloak. Piloswine only becomes Mamoswine knowing Ancient Power, an egg move on the Swinub line; Snow Cloak hides it in the hail it calls."
+  }
+ ]
+}

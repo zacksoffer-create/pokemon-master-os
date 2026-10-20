@@ -56,12 +56,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Typhlosion | bulky attacker (solid, 0.58) | wallbreaker (solid) | – |
+| Typhlosion | wallbreaker (solid, 0.54) | bulky attacker (solid) | – |
 | Tyranitar | weather setter (strong, 0.83) | physical setup sweeper (strong) | – |
-| Mamoswine | revenge killer (strong, 0.73) | wallbreaker (strong) | – |
-| Crobat | pivot (strong, 0.80) | staller (solid) | – |
-| Lapras | cleric (strong, 0.79) | special wall (solid) | – |
-| Snorlax | bulky attacker (strong, 0.76) | check / counter (strong) | – |
+| Mamoswine | revenge killer (strong, 0.72) | wallbreaker (strong) | – |
+| Crobat | pivot (strong, 0.80) | staller (strong) | – |
+| Lapras | cleric (strong, 0.75) | special wall (solid) | – |
+| Snorlax | bulky attacker (strong, 0.69) | check / counter (solid) | – |
 
 ## On the ladder
 

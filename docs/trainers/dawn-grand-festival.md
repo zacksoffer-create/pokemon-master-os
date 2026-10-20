@@ -49,12 +49,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Piplup | revenge killer (loose, 0.45) | – | – |
-| Togekiss | bulky attacker (strong, 0.66) | check / counter (solid) | – |
-| Mamoswine | bulky attacker (solid, 0.64) | revenge killer (solid) | – |
-| Pachirisu | wallbreaker (loose, 0.37) | – | – |
-| Buneary | wallbreaker (loose, 0.33) | – | – |
-| Ambipom | wallbreaker (solid, 0.52) | revenge killer (loose) | – |
+| Piplup | revenge killer (loose, 0.44) | – | – |
+| Togekiss | bulky attacker (solid, 0.59) | check / counter (solid) | – |
+| Mamoswine | revenge killer (solid, 0.62) | late-game cleaner (solid) | – |
+| Pachirisu | wallbreaker (loose, 0.34) | – | – |
+| Buneary | wallbreaker (loose, 0.30) | – | – |
+| Ambipom | wallbreaker (loose, 0.49) | revenge killer (loose) | – |
 
 ## On the ladder
 
@@ -68,7 +68,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## The ace
 
-- Ace: Ambipom (a wallbreaker).
+- Ace: Mamoswine (a revenge killer).
 
 ## Who they go to
 

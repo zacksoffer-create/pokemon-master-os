@@ -1328,23 +1328,23 @@
     "species": "Feraligatr",
     "nickname": null,
     "primary": {
-     "role": "bulky_attacker",
-     "name": "bulky attacker",
-     "family": "offense",
-     "score": 0.7329,
-     "confidence": "strong",
-     "margin": 0.025,
-     "clear": false
-    },
-    "secondary": {
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.7079,
-     "confidence": "strong"
+     "score": 0.5775,
+     "confidence": "solid",
+     "margin": 0.0298,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.5477,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.73, strong): Attack 308 (above 82% of the field); overall bulk above 79% of the field; attacking moves: Hydro Pump, Dynamic Punch, Ice Beam"
+    "why": "physical setup sweeper (0.58, solid): Curse; Attack 308 (above 82% of the field); types it hits super-effectively: Dark, Dragon, Fire, Flying, Grass, Ground, Ice, Normal, Rock, Steel"
    },
    {
     "species": "Miltank",
@@ -1353,20 +1353,20 @@
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.7721,
-     "confidence": "strong",
-     "margin": 0.0958,
+     "score": 0.6417,
+     "confidence": "solid",
+     "margin": 0.0904,
      "clear": true
     },
     "secondary": {
      "role": "bulky_setup",
      "name": "bulky setup",
      "family": "defense",
-     "score": 0.6763,
-     "confidence": "strong"
+     "score": 0.5513,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "physical setup sweeper (0.77, strong): Curse; physical attacks: Body Slam, Earthquake, Dynamic Punch; Speed 298 (above 83% of the field)"
+    "why": "physical setup sweeper (0.64, solid): Curse; physical attacks: Body Slam, Earthquake, Dynamic Punch; Speed 298 (above 83% of the field)"
    },
    {
     "species": "Donphan",
@@ -1375,20 +1375,20 @@
      "role": "physical_setup_sweeper",
      "name": "physical setup sweeper",
      "family": "offense",
-     "score": 0.7747,
-     "confidence": "strong",
-     "margin": 0.0087,
+     "score": 0.6442,
+     "confidence": "solid",
+     "margin": 0.0686,
      "clear": false
     },
     "secondary": {
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.766,
-     "confidence": "strong"
+     "score": 0.5756,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "physical setup sweeper (0.77, strong): Curse; Attack 338 (above 90% of the field); physical attacks: Earthquake, Ancient Power, Double-Edge"
+    "why": "physical setup sweeper (0.64, solid): Curse; Attack 338 (above 90% of the field); physical attacks: Earthquake, Ancient Power, Double-Edge"
    },
    {
     "species": "Ampharos",
@@ -1397,20 +1397,20 @@
      "role": "bulky_attacker",
      "name": "bulky attacker",
      "family": "offense",
-     "score": 0.7543,
-     "confidence": "strong",
-     "margin": 0.1033,
-     "clear": true
+     "score": 0.5638,
+     "confidence": "solid",
+     "margin": 0.0378,
+     "clear": false
     },
     "secondary": {
      "role": "bulky_setup",
      "name": "bulky setup",
      "family": "defense",
-     "score": 0.651,
-     "confidence": "strong"
+     "score": 0.526,
+     "confidence": "solid"
     },
     "also": [],
-    "why": "bulky attacker (0.75, strong): Sp. Atk 328 (above 93% of the field); attacking moves: Thunderbolt, Dynamic Punch, Fire Punch; 252 HP EVs"
+    "why": "bulky attacker (0.56, solid): Sp. Atk 328 (above 93% of the field); attacking moves: Thunderbolt, Dynamic Punch, Fire Punch; overall bulk above 66% of the field"
    },
    {
     "species": "Umbreon",
@@ -1419,42 +1419,42 @@
      "role": "bulky_setup",
      "name": "bulky setup",
      "family": "defense",
-     "score": 0.8406,
+     "score": 0.7156,
      "confidence": "strong",
-     "margin": 0.2824,
+     "margin": 0.2136,
      "clear": true
     },
     "secondary": {
      "role": "check_counter",
      "name": "check / counter",
      "family": "defense",
-     "score": 0.5582,
+     "score": 0.502,
      "confidence": "solid"
     },
     "also": [],
-    "why": "bulky setup (0.84, strong): Curse; Moonlight; overall bulk above 96% of the field"
+    "why": "bulky setup (0.72, strong): Curse; Moonlight; overall bulk above 96% of the field"
    },
    {
     "species": "Espeon",
     "nickname": null,
     "primary": {
-     "role": "bulky_setup",
-     "name": "bulky setup",
-     "family": "defense",
-     "score": 0.596,
-     "confidence": "solid",
-     "margin": 0.0542,
-     "clear": false
-    },
-    "secondary": {
      "role": "late_game_cleaner",
      "name": "late-game cleaner",
      "family": "offense",
-     "score": 0.5418,
-     "confidence": "solid"
+     "score": 0.4963,
+     "confidence": "loose",
+     "margin": 0.0253,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.471,
+     "confidence": "loose"
     },
     "also": [],
-    "why": "bulky setup (0.60, solid): Curse; attacking moves: Psychic, Bite, Zap Cannon; 252 HP EVs"
+    "why": "late-game cleaner (0.50, loose): Speed 318 (above 90% of the field); Sp. Atk 358 (above 98% of the field); attacks that use its better attacking stat: Psychic, Bite, Zap Cannon"
    }
   ],
   "ace": {
@@ -1486,7 +1486,7 @@
       "role": 1.0
      },
      "helpers": [],
-     "role": "bulky attacker",
+     "role": "physical setup sweeper",
      "level": null,
      "sent_out": "lead"
     },
@@ -1514,7 +1514,7 @@
       "role": 0.9
      },
      "helpers": [],
-     "role": "bulky setup",
+     "role": "late-game cleaner",
      "level": null,
      "sent_out": "last"
     },
@@ -1553,19 +1553,19 @@
     "label": "workhorse",
     "species": "Donphan",
     "role": "bulky attacker",
-    "fit": 0.651
+    "fit": 0.489
    },
    "ahead": {
     "label": "cleaner",
     "species": "Miltank",
     "role": "late-game cleaner",
-    "fit": 0.545
+    "fit": 0.499
    },
    "behind": {
     "label": "gambit",
     "species": "Donphan",
     "role": "physical setup sweeper",
-    "fit": 0.775,
+    "fit": 0.644,
     "last_resorts": []
    }
   },

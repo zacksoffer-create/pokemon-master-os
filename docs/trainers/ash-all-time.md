@@ -61,12 +61,12 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 | Pokémon | Primary role | Secondary | Also |
 |---|---|---|---|
-| Pikachu | revenge killer (strong, 0.76) | late-game cleaner (solid) | – |
-| Charizard | bulky attacker (solid, 0.58) | wallbreaker (solid) | – |
-| Sceptile | revenge killer (strong, 0.79) | late-game cleaner (solid) | – |
-| Infernape | revenge killer (strong, 0.77) | late-game cleaner (strong) | – |
-| Snorlax | bulky attacker (strong, 0.73) | sponge / status absorber (strong) | – |
-| Heracross | bulky attacker (solid, 0.60) | wallbreaker (solid) | – |
+| Pikachu | revenge killer (strong, 0.74) | late-game cleaner (solid) | – |
+| Charizard | wallbreaker (solid, 0.53) | bulky attacker (solid) | – |
+| Sceptile | revenge killer (strong, 0.78) | late-game cleaner (solid) | – |
+| Infernape | revenge killer (strong, 0.75) | late-game cleaner (strong) | – |
+| Snorlax | bulky attacker (strong, 0.67) | sponge / status absorber (solid) | – |
+| Heracross | wallbreaker (solid, 0.55) | bulky attacker (solid) | – |
 
 ## On the ladder
 
@@ -88,7 +88,7 @@ Their Pokémon down the side, attacking types across the top. 0 immune · ½ res
 
 ## Who they go to
 
-- Even game: Snorlax is the workhorse (bulky attacker).
+- Even game: Snorlax is the workhorse (tank).
 - Ahead: Sceptile closes it out (revenge killer).
 - Behind: they turn to Pikachu (wallbreaker).
 
