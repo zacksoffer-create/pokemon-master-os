@@ -215,7 +215,8 @@
       "champion_at_least": 0.7,
       "_score_note": "The score is the mean of the two win rates, each divided by its bar and capped at 1, so 1.0 means both bars cleared.",
       "top_tier": {
-        "_note": "Placeholder: Zack wants an ace and a top-tier ace, well below Ash's Pikachu. The top-tier rule isn't set yet (NAMES_NEEDED, decisions).",
+        "name": "Joker",
+        "_note": "The tier above Ace. Zack named it Joker (2026-10-21, D-064), well below Ash's Pikachu. Off until it has a rule; Zack is fine with how many builds earn Ace.",
         "enabled": false
       }
     },

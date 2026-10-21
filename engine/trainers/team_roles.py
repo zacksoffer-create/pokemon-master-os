@@ -445,8 +445,9 @@ def write_docs(cfg, reads, book):
                "| id | means |" + (" builds using it |" if used else "") + " named |", "|---|---|" + ("---|" if used else "") + "---|"]
         ln += [f"| `{r['id']}` | {r['means']} |" + (f" {r['builds_using_it']} |" if used else "") + f" {'yes' if r['named'] else ''} |" for r in rows]
         ln.append("")
-    ln += ["## Waiting on a rule as well as a name", "",
-           "- **Top-tier Ace:** the rule for the tier above Ace, and its name (`roles.ace.top_tier`, off for now).", ""]
+    ln += ["## Named, still waiting on a rule", "",
+           f"- **{cfg['roles']['ace']['top_tier'].get('name') or 'Top-tier Ace'}** (the tier above Ace): named, but it still needs its rule "
+           "(`roles.ace.top_tier`, off until then).", ""]
     with open(os.path.join(ROOT, "docs", "naming", "NAMES_NEEDED.md"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(ln))
 

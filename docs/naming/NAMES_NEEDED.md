@@ -234,6 +234,6 @@ Fill in `naming.words.line.<id>`.
 | `platinum-roserade` | Roserade line, platinum: bred for Leaf Storm, Sleep Powder |  |
 | `mamoswine-ancient-power` | Mamoswine line, heartgold (proposed): Ancient Power, Hail, Snow Cloak |  |
 
-## Waiting on a rule as well as a name
+## Named, still waiting on a rule
 
-- **Top-tier Ace:** the rule for the tier above Ace, and its name (`roles.ace.top_tier`, off for now).
+- **Joker** (the tier above Ace): named, but it still needs its rule (`roles.ace.top_tier`, off until then).

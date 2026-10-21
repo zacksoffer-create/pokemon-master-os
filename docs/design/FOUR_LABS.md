@@ -14,7 +14,7 @@
 | Trainer lab | the Scouting Lab (#/scoutlab), under Labs in the menu | unchanged |
 | One rebuild command with before/after | engine/rebuild.py → engine/data_manifest/last_rebuild.json | done |
 | Hand overrides for team-role tags | team_roles.json → overrides (approved, both engines); the Pokémon lab's per-role menu (trial, this browser) | done |
-| Top-tier Ace | team_roles.json roles.ace.top_tier | off until it has a rule |
+| Joker (the tier above Ace) | team_roles.json roles.ace.top_tier | named; off until it has a rule |
 
 The rest of this document is the proposal as it was approved; §8's questions are answered in the ledger.
 
