@@ -1,536 +1,538 @@
 {
- "_note": "The four team roles (Ace, Wall, Sweeper, Support) and the build-name ladder. Every rule and number lives here; trainers/team_roles.py and its browser copy (app/web/28_teamroles.html) only evaluate them. The 34 roles in roles.json stay as the second layer underneath. Words shown as ⟨…⟩ are placeholders until Zack names them (docs/naming/NAMES_NEEDED.md).",
- "level": 100,
- "_level_note": "Zack, 2026-10-20: both sides at level 100 for the Ace test.",
- "field_evs_each": 85,
- "_field_evs_note": "Zack: the field gets the standard 85 in every stat. A build's blank EVs get the same 85 in fights (so they tilt nothing) and count as no evidence for any role (B19).",
- "neutral": {
-  "_note": "Zack: neutral = no type advantage either way (1x). The team lab's type read uses it.",
-  "multiplier": 1.0
- },
- "pools": {
-  "_note": "Named pools: the trainers whose Pokémon the Ace test fights, per generation. Every team, rematches included (Zack: don't skip any rematch). The same Pokémon with the same set counts once.",
-  "2": {
-   "elite_four": [
-    [
-     "crystal",
-     "Will"
-    ],
-    [
-     "crystal",
-     "Koga"
-    ],
-    [
-     "crystal",
-     "Bruno"
-    ],
-    [
-     "crystal",
-     "Karen"
-    ]
-   ],
-   "champion": [
-    [
-     "crystal",
-     "Champion Lance"
-    ]
-   ]
+  "_note": "The four team roles (Ace, Wall, Sweeper, Support) and the build-name ladder. Every rule and number lives here; trainers/team_roles.py and its browser copy (app/web/28_teamroles.html) only evaluate them. The 34 roles in roles.json stay as the second layer underneath. Words shown as ⟨…⟩ are placeholders until Zack names them (docs/naming/NAMES_NEEDED.md).",
+  "level": 100,
+  "fetch_rounds": 30,
+  "_fetch_rounds": "How many times a fight may go back to the damage calculator for numbers it hadn't fetched (a Calm Mind set facing a booster needs one per boost stage). A fight still unsettled after this reads as an error, never a guess.",
+  "_level_note": "Zack, 2026-10-20: both sides at level 100 for the Ace test.",
+  "field_evs_each": 85,
+  "_field_evs_note": "Zack: the field gets the standard 85 in every stat. A build's blank EVs get the same 85 in fights (so they tilt nothing) and count as no evidence for any role (B19).",
+  "neutral": {
+    "_note": "Zack: neutral = no type advantage either way (1x). The team lab's type read uses it.",
+    "multiplier": 1.0
   },
-  "3": {
-   "elite_four": [
-    [
-     "firered",
-     "Lorelei"
-    ],
-    [
-     "firered",
-     "Bruno"
-    ],
-    [
-     "firered",
-     "Agatha"
-    ],
-    [
-     "firered",
-     "Lance"
-    ],
-    [
-     "firered",
-     "Lorelei (rematch)"
-    ],
-    [
-     "firered",
-     "Bruno (rematch)"
-    ],
-    [
-     "firered",
-     "Agatha (rematch)"
-    ],
-    [
-     "firered",
-     "Lance (rematch)"
-    ],
-    [
-     "emerald",
-     "Sidney"
-    ],
-    [
-     "emerald",
-     "Phoebe"
-    ],
-    [
-     "emerald",
-     "Glacia"
-    ],
-    [
-     "emerald",
-     "Drake"
-    ]
-   ],
-   "champion": [
-    [
-     "firered",
-     "Champion (rival, Squirtle variant)"
-    ],
-    [
-     "firered",
-     "Champion (rival, Bulbasaur variant)"
-    ],
-    [
-     "firered",
-     "Champion (rival, Charmander variant)"
-    ],
-    [
-     "firered",
-     "Champion (rival, Squirtle variant, rematch)"
-    ],
-    [
-     "firered",
-     "Champion (rival, Bulbasaur variant, rematch)"
-    ],
-    [
-     "firered",
-     "Champion (rival, Charmander variant, rematch)"
-    ],
-    [
-     "emerald",
-     "Champion Wallace"
-    ]
-   ]
-  },
-  "4": {
-   "elite_four": [
-    [
-     "platinum",
-     "Aaron"
-    ],
-    [
-     "platinum",
-     "Bertha"
-    ],
-    [
-     "platinum",
-     "Flint"
-    ],
-    [
-     "platinum",
-     "Lucian"
-    ],
-    [
-     "platinum",
-     "Aaron (rematch)"
-    ],
-    [
-     "platinum",
-     "Bertha (rematch)"
-    ],
-    [
-     "platinum",
-     "Flint (rematch)"
-    ],
-    [
-     "platinum",
-     "Lucian (rematch)"
-    ],
-    [
-     "heartgold",
-     "Will"
-    ],
-    [
-     "heartgold",
-     "Koga"
-    ],
-    [
-     "heartgold",
-     "Bruno"
-    ],
-    [
-     "heartgold",
-     "Karen"
-    ],
-    [
-     "heartgold",
-     "Will (rematch)"
-    ],
-    [
-     "heartgold",
-     "Koga (rematch)"
-    ],
-    [
-     "heartgold",
-     "Bruno (rematch)"
-    ],
-    [
-     "heartgold",
-     "Karen (rematch)"
-    ]
-   ],
-   "champion": [
-    [
-     "platinum",
-     "Champion Cynthia"
-    ],
-    [
-     "platinum",
-     "Cynthia (rematch)"
-    ],
-    [
-     "heartgold",
-     "Champion Lance"
-    ],
-    [
-     "heartgold",
-     "Champion Lance (rematch)"
-    ]
-   ]
-  }
- },
- "roles": {
-  "ace": {
-   "name": "Ace",
-   "rule": "Beats at least 80% of the Elite Four's Pokémon and 70% of the Champions' Pokémon one-on-one, both sides at level 100, in the battle engine (battle/evaluate.py: our best plan against their game AI).",
-   "elite_four_at_least": 0.8,
-   "champion_at_least": 0.7,
-   "_score_note": "The score is the mean of the two win rates, each divided by its bar and capped at 1, so 1.0 means both bars cleared.",
-   "top_tier": {
-    "_note": "Placeholder: Zack wants an ace and a top-tier ace, well below Ash's Pikachu. The top-tier rule isn't set yet (NAMES_NEEDED, decisions).",
-    "enabled": false
-   }
-  },
-  "wall": {
-   "name": "Wall",
-   "rule": "Takes four or more hits (the top damage roll under a third of its HP) from at least 60% of the 100 hardest-hitting attacks the Elite Four and Champions have against it, both at level 100; or both its physical and special bulk sit in the top 20% of its generation's fully evolved Pokémon.",
-   "hardest_attacks": 100,
-   "hits_to_take": 4,
-   "share_at_least": 0.6,
-   "_measured": "2026-10-20 over 167 builds: at 3+ hits 95 builds qualified (cartridge attackers carry no EVs, so most things take three hits); at 4+ hits 37 do, about one build in five. Hence 4.",
-   "bulk_percentile_at_least": 0.8,
-   "_why": "Zack left the thresholds to Claude. The first path is his 'survives the top 100 most powerful attacks' idea; the second is his 'HP, Defense and Special Defense over a number' idea, as a share of the field so it means the same in every generation."
-  },
-  "sweeper": {
-   "name": "Sweeper",
-   "rule": "Its best sweeping role in the role engine (physical, special or mixed setup sweeper, late-game cleaner, weather sweeper) scores at least 0.60.",
-   "from_roles": [
-    "physical_setup_sweeper",
-    "special_setup_sweeper",
-    "mixed_setup_sweeper",
-    "late_game_cleaner",
-    "weather_sweeper"
-   ],
-   "score_at_least": 0.6
-  },
-  "support": {
-   "name": "Support",
-   "rule": "Carries at least two support moves (status, hazards, hazard removal, screens, healing the team, weather, phazing, Haze, Taunt, Encore, Trick, Trick Room, Tailwind, Fake Out, Baton Pass, trapping) and its best support role in the role engine scores at least 0.40.",
-   "support_categories": [
-    "status_infliction",
-    "confuse",
-    "sleep",
-    "residual",
-    "hazard",
-    "hazard_removal",
-    "cleric",
-    "screens",
-    "weather",
-    "phaze",
-    "anti_setup",
-    "trap",
-    "trick_room",
-    "tailwind",
-    "fake_out",
-    "baton_pass",
-    "taunt",
-    "encore",
-    "trick"
-   ],
-   "moves_at_least": 2,
-   "from_family": "support",
-   "score_at_least": 0.4,
-   "_why": "Zack: 'it has to have a move associated with that' and support needs more than one; the rest is left to Claude."
-  }
- },
- "naming": {
-  "_note": "Zack's ladder. 'Match' is the build's primary role score in the role engine (roles.json). The stronger the match, the fewer words the name needs. Below the last band the build has no name yet. Two or three roles at 0.80 or more get a hybrid noun from the hybrids table (it grows as builds need it).",
-  "bands": [
-   {
-    "at_least": 0.9,
-    "parts": [
-     "type",
-     "noun"
-    ]
-   },
-   {
-    "at_least": 0.8,
-    "parts": [
-     "moveset",
-     "type",
-     "noun"
-    ]
-   },
-   {
-    "at_least": 0.7,
-    "parts": [
-     "team_role",
-     "moveset",
-     "type",
-     "noun"
-    ]
-   },
-   {
-    "at_least": 0.6,
-    "parts": [
-     "bst",
-     "team_role",
-     "moveset",
-     "type",
-     "noun"
-    ]
-   }
-  ],
-  "below_last_band": "unnamed",
-  "hybrid_at_least": 0.8,
-  "hybrid_max_roles": 3,
-  "type_from": "first type of the species in the build's generation",
-  "bst_bands": [
-   {
-    "below": 400,
-    "id": "bst_low"
-   },
-   {
-    "below": 500,
-    "id": "bst_mid"
-   },
-   {
-    "below": 580,
-    "id": "bst_high"
-   },
-   {
-    "below": 9999,
-    "id": "bst_top"
-   }
-  ],
-  "movesets": {
-   "_note": "The first archetype whose test passes describes the moveset. Tests count moves by role-engine category.",
-   "order": [
-    "setup_attack",
-    "stall",
-    "hazard_support",
-    "status_attack",
-    "priority_attack",
-    "coverage",
-    "all_out_attack",
-    "mixed_bag"
-   ],
-   "setup_attack": {
-    "label": "setup + attacks",
-    "needs": {
-     "setup_any": 1,
-     "attacks": 2
-    }
-   },
-   "stall": {
-    "label": "recovery + status, little offense",
-    "needs": {
-     "recovery_or_rest": 1,
-     "support": 1
+  "pools": {
+    "_note": "Named pools: the trainers whose Pokémon the Ace test fights, per generation. Every team, rematches included (Zack: don't skip any rematch). The same Pokémon with the same set counts once.",
+    "2": {
+      "elite_four": [
+        [
+          "crystal",
+          "Will"
+        ],
+        [
+          "crystal",
+          "Koga"
+        ],
+        [
+          "crystal",
+          "Bruno"
+        ],
+        [
+          "crystal",
+          "Karen"
+        ]
+      ],
+      "champion": [
+        [
+          "crystal",
+          "Champion Lance"
+        ]
+      ]
     },
-    "attacks_at_most": 1
-   },
-   "hazard_support": {
-    "label": "hazards or screens + support",
-    "needs": {
-     "hazard_or_screens": 1,
-     "support": 2
-    }
-   },
-   "status_attack": {
-    "label": "status + attacks",
-    "needs": {
-     "support": 1,
-     "attacks": 2
-    }
-   },
-   "priority_attack": {
-    "label": "priority + attacks",
-    "needs": {
-     "priority_attack": 1,
-     "attacks": 3
-    }
-   },
-   "coverage": {
-    "label": "attacks covering many types",
-    "needs": {
-     "attacks": 3
+    "3": {
+      "elite_four": [
+        [
+          "firered",
+          "Lorelei"
+        ],
+        [
+          "firered",
+          "Bruno"
+        ],
+        [
+          "firered",
+          "Agatha"
+        ],
+        [
+          "firered",
+          "Lance"
+        ],
+        [
+          "firered",
+          "Lorelei (rematch)"
+        ],
+        [
+          "firered",
+          "Bruno (rematch)"
+        ],
+        [
+          "firered",
+          "Agatha (rematch)"
+        ],
+        [
+          "firered",
+          "Lance (rematch)"
+        ],
+        [
+          "emerald",
+          "Sidney"
+        ],
+        [
+          "emerald",
+          "Phoebe"
+        ],
+        [
+          "emerald",
+          "Glacia"
+        ],
+        [
+          "emerald",
+          "Drake"
+        ]
+      ],
+      "champion": [
+        [
+          "firered",
+          "Champion (rival, Squirtle variant)"
+        ],
+        [
+          "firered",
+          "Champion (rival, Bulbasaur variant)"
+        ],
+        [
+          "firered",
+          "Champion (rival, Charmander variant)"
+        ],
+        [
+          "firered",
+          "Champion (rival, Squirtle variant, rematch)"
+        ],
+        [
+          "firered",
+          "Champion (rival, Bulbasaur variant, rematch)"
+        ],
+        [
+          "firered",
+          "Champion (rival, Charmander variant, rematch)"
+        ],
+        [
+          "emerald",
+          "Champion Wallace"
+        ]
+      ]
     },
-    "coverage_types_at_least": 8
-   },
-   "all_out_attack": {
-    "label": "four attacks",
-    "needs": {
-     "attacks": 4
+    "4": {
+      "elite_four": [
+        [
+          "platinum",
+          "Aaron"
+        ],
+        [
+          "platinum",
+          "Bertha"
+        ],
+        [
+          "platinum",
+          "Flint"
+        ],
+        [
+          "platinum",
+          "Lucian"
+        ],
+        [
+          "platinum",
+          "Aaron (rematch)"
+        ],
+        [
+          "platinum",
+          "Bertha (rematch)"
+        ],
+        [
+          "platinum",
+          "Flint (rematch)"
+        ],
+        [
+          "platinum",
+          "Lucian (rematch)"
+        ],
+        [
+          "heartgold",
+          "Will"
+        ],
+        [
+          "heartgold",
+          "Koga"
+        ],
+        [
+          "heartgold",
+          "Bruno"
+        ],
+        [
+          "heartgold",
+          "Karen"
+        ],
+        [
+          "heartgold",
+          "Will (rematch)"
+        ],
+        [
+          "heartgold",
+          "Koga (rematch)"
+        ],
+        [
+          "heartgold",
+          "Bruno (rematch)"
+        ],
+        [
+          "heartgold",
+          "Karen (rematch)"
+        ]
+      ],
+      "champion": [
+        [
+          "platinum",
+          "Champion Cynthia"
+        ],
+        [
+          "platinum",
+          "Cynthia (rematch)"
+        ],
+        [
+          "heartgold",
+          "Champion Lance"
+        ],
+        [
+          "heartgold",
+          "Champion Lance (rematch)"
+        ]
+      ]
     }
-   },
-   "mixed_bag": {
-    "label": "anything else",
-    "needs": {}
-   }
   },
-  "words": {
-   "_note": "Zack fills these in; an empty value shows the placeholder ⟨id⟩. type.<Type>, noun.<role id>, hybrid.<role ids sorted, joined by +>, moveset.<id>, team_role.<ace|wall|sweeper|support|none>, bst.<id>, unnamed. team_shape.<id> and line.<line id> too.",
-   "type": {},
-   "noun": {},
-   "hybrid": {},
-   "moveset": {},
-   "team_role": {},
-   "bst": {},
-   "unnamed": "",
-   "team_shape": {},
-   "line": {}
-  }
- },
- "team": {
-  "_note": "The team lab's live reads. Every question is one entry; add one and the lab asks it (app/web/84_teamlab.html evaluates the kinds below). Zack: an extensible list of scenario questions.",
-  "questions": [
-   {
-    "id": "champions",
-    "ask": "Can this six beat every Champion Pokémon one-on-one?",
-    "kind": "pool_cover",
-    "pool": "champion",
-    "rule": "each Champion Pokémon is beaten one-on-one (level 100) by at least one of the six"
-   },
-   {
-    "id": "elite_four",
-    "ask": "Can this six beat every Elite Four Pokémon one-on-one?",
-    "kind": "pool_cover",
-    "pool": "elite_four",
-    "rule": "each Elite Four Pokémon is beaten one-on-one (level 100) by at least one of the six"
-   },
-   {
-    "id": "stacked_weakness",
-    "ask": "Is any attacking type a problem for three or more of them, with nobody resisting it?",
-    "kind": "stacked_weakness",
-    "weak_at_least": 3,
-    "rule": "three or more weak to it, none resist or are immune"
-   },
-   {
-    "id": "coverage_gap",
-    "ask": "Is there a type nobody hits super-effectively?",
-    "kind": "coverage_gap",
-    "rule": "single types no attack of the six hits for more than neutral"
-   },
-   {
-    "id": "speed",
-    "ask": "Who outspeeds a base-100 Speed Pokémon at level 100?",
-    "kind": "speed_over",
-    "base": 100,
-    "rule": "its Speed (neutral nature, 31 IVs, 85 EVs unless recorded) beats a base-100 at the same spread"
-   },
-   {
-    "id": "hazards",
-    "ask": "Does the team set or clear entry hazards?",
-    "kind": "categories",
-    "any": [
-     "hazard",
-     "hazard_removal"
-    ],
-    "rule": "at least one hazard or Rapid Spin move"
-   },
-   {
-    "id": "healing",
-    "ask": "Who can heal itself or the team?",
-    "kind": "categories",
-    "any": [
-     "recovery",
-     "rest",
-     "cleric"
-    ],
-    "rule": "recovery, Rest, Wish or Heal Bell-style moves"
-   },
-   {
-    "id": "setup_answer",
-    "ask": "Who stops a Dragon Dance or Swords Dance sweeper?",
-    "kind": "categories",
-    "any": [
-     "phaze",
-     "anti_setup",
-     "encore",
-     "priority_attack"
-    ],
-    "rule": "phazing, Haze, Encore or priority"
-   },
-   {
-    "id": "team_roles",
-    "ask": "Does the team have each team role?",
-    "kind": "roles",
-    "want": [
-     "ace",
-     "wall",
-     "sweeper",
-     "support"
-    ],
-    "rule": "at least one of the six earns each role"
-   }
-  ],
-  "shapes": {
-   "_note": "The team's shape from how many of each team role the six earn; the first that fits names it (naming.words.team_shape until named).",
-   "order": [
-    "hyper_offense",
-    "offense",
-    "stall",
-    "bulky",
-    "balance"
-   ],
-   "hyper_offense": {
-    "label": "hyper offense",
-    "needs": {
-     "sweeper": 3
+  "roles": {
+    "ace": {
+      "name": "Ace",
+      "rule": "Beats at least 80% of the Elite Four's Pokémon and 70% of the Champions' Pokémon one-on-one, both sides at level 100, in the battle engine (battle/evaluate.py: our best plan against their game AI).",
+      "elite_four_at_least": 0.8,
+      "champion_at_least": 0.7,
+      "_score_note": "The score is the mean of the two win rates, each divided by its bar and capped at 1, so 1.0 means both bars cleared.",
+      "top_tier": {
+        "_note": "Placeholder: Zack wants an ace and a top-tier ace, well below Ash's Pikachu. The top-tier rule isn't set yet (NAMES_NEEDED, decisions).",
+        "enabled": false
+      }
     },
-    "at_most": {
-     "wall": 1
+    "wall": {
+      "name": "Wall",
+      "rule": "Takes four or more hits (the top damage roll under a third of its HP) from at least 60% of the 100 hardest-hitting attacks the Elite Four and Champions have against it, both at level 100; or both its physical and special bulk sit in the top 20% of its generation's fully evolved Pokémon.",
+      "hardest_attacks": 100,
+      "hits_to_take": 4,
+      "share_at_least": 0.6,
+      "_measured": "2026-10-20 over 167 builds: at 3+ hits 95 builds qualified (cartridge attackers carry no EVs, so most things take three hits); at 4+ hits 37 do, about one build in five. Hence 4.",
+      "bulk_percentile_at_least": 0.8,
+      "_why": "Zack left the thresholds to Claude. The first path is his 'survives the top 100 most powerful attacks' idea; the second is his 'HP, Defense and Special Defense over a number' idea, as a share of the field so it means the same in every generation."
+    },
+    "sweeper": {
+      "name": "Sweeper",
+      "rule": "Its best sweeping role in the role engine (physical, special or mixed setup sweeper, late-game cleaner, weather sweeper) scores at least 0.60.",
+      "from_roles": [
+        "physical_setup_sweeper",
+        "special_setup_sweeper",
+        "mixed_setup_sweeper",
+        "late_game_cleaner",
+        "weather_sweeper"
+      ],
+      "score_at_least": 0.6
+    },
+    "support": {
+      "name": "Support",
+      "rule": "Carries at least two support moves (status, hazards, hazard removal, screens, healing the team, weather, phazing, Haze, Taunt, Encore, Trick, Trick Room, Tailwind, Fake Out, Baton Pass, trapping) and its best support role in the role engine scores at least 0.40.",
+      "support_categories": [
+        "status_infliction",
+        "confuse",
+        "sleep",
+        "residual",
+        "hazard",
+        "hazard_removal",
+        "cleric",
+        "screens",
+        "weather",
+        "phaze",
+        "anti_setup",
+        "trap",
+        "trick_room",
+        "tailwind",
+        "fake_out",
+        "baton_pass",
+        "taunt",
+        "encore",
+        "trick"
+      ],
+      "moves_at_least": 2,
+      "from_family": "support",
+      "score_at_least": 0.4,
+      "_why": "Zack: 'it has to have a move associated with that' and support needs more than one; the rest is left to Claude."
     }
-   },
-   "offense": {
-    "label": "offense",
-    "needs": {
-     "sweeper_or_ace": 3
+  },
+  "naming": {
+    "_note": "Zack's ladder. 'Match' is the build's primary role score in the role engine (roles.json). The stronger the match, the fewer words the name needs. Below the last band the build has no name yet. Two or three roles at 0.80 or more get a hybrid noun from the hybrids table (it grows as builds need it).",
+    "bands": [
+      {
+        "at_least": 0.9,
+        "parts": [
+          "type",
+          "noun"
+        ]
+      },
+      {
+        "at_least": 0.8,
+        "parts": [
+          "moveset",
+          "type",
+          "noun"
+        ]
+      },
+      {
+        "at_least": 0.7,
+        "parts": [
+          "team_role",
+          "moveset",
+          "type",
+          "noun"
+        ]
+      },
+      {
+        "at_least": 0.6,
+        "parts": [
+          "bst",
+          "team_role",
+          "moveset",
+          "type",
+          "noun"
+        ]
+      }
+    ],
+    "below_last_band": "unnamed",
+    "hybrid_at_least": 0.8,
+    "hybrid_max_roles": 3,
+    "type_from": "first type of the species in the build's generation",
+    "bst_bands": [
+      {
+        "below": 400,
+        "id": "bst_low"
+      },
+      {
+        "below": 500,
+        "id": "bst_mid"
+      },
+      {
+        "below": 580,
+        "id": "bst_high"
+      },
+      {
+        "below": 9999,
+        "id": "bst_top"
+      }
+    ],
+    "movesets": {
+      "_note": "The first archetype whose test passes describes the moveset. Tests count moves by role-engine category.",
+      "order": [
+        "setup_attack",
+        "stall",
+        "hazard_support",
+        "status_attack",
+        "priority_attack",
+        "coverage",
+        "all_out_attack",
+        "mixed_bag"
+      ],
+      "setup_attack": {
+        "label": "setup + attacks",
+        "needs": {
+          "setup_any": 1,
+          "attacks": 2
+        }
+      },
+      "stall": {
+        "label": "recovery + status, little offense",
+        "needs": {
+          "recovery_or_rest": 1,
+          "support": 1
+        },
+        "attacks_at_most": 1
+      },
+      "hazard_support": {
+        "label": "hazards or screens + support",
+        "needs": {
+          "hazard_or_screens": 1,
+          "support": 2
+        }
+      },
+      "status_attack": {
+        "label": "status + attacks",
+        "needs": {
+          "support": 1,
+          "attacks": 2
+        }
+      },
+      "priority_attack": {
+        "label": "priority + attacks",
+        "needs": {
+          "priority_attack": 1,
+          "attacks": 3
+        }
+      },
+      "coverage": {
+        "label": "attacks covering many types",
+        "needs": {
+          "attacks": 3
+        },
+        "coverage_types_at_least": 8
+      },
+      "all_out_attack": {
+        "label": "four attacks",
+        "needs": {
+          "attacks": 4
+        }
+      },
+      "mixed_bag": {
+        "label": "anything else",
+        "needs": {}
+      }
+    },
+    "words": {
+      "_note": "Zack fills these in; an empty value shows the placeholder ⟨id⟩. type.<Type>, noun.<role id>, hybrid.<role ids sorted, joined by +>, moveset.<id>, team_role.<ace|wall|sweeper|support|none>, bst.<id>, unnamed. team_shape.<id> and line.<line id> too.",
+      "type": {},
+      "noun": {},
+      "hybrid": {},
+      "moveset": {},
+      "team_role": {},
+      "bst": {},
+      "unnamed": "",
+      "team_shape": {},
+      "line": {}
     }
-   },
-   "stall": {
-    "label": "stall",
-    "needs": {
-     "wall": 4
+  },
+  "team": {
+    "_note": "The team lab's live reads. Every question is one entry; add one and the lab asks it (app/web/84_teamlab.html evaluates the kinds below). Zack: an extensible list of scenario questions.",
+    "questions": [
+      {
+        "id": "champions",
+        "ask": "Can this six beat every Champion Pokémon one-on-one?",
+        "kind": "pool_cover",
+        "pool": "champion",
+        "rule": "each Champion Pokémon is beaten one-on-one (level 100) by at least one of the six"
+      },
+      {
+        "id": "elite_four",
+        "ask": "Can this six beat every Elite Four Pokémon one-on-one?",
+        "kind": "pool_cover",
+        "pool": "elite_four",
+        "rule": "each Elite Four Pokémon is beaten one-on-one (level 100) by at least one of the six"
+      },
+      {
+        "id": "stacked_weakness",
+        "ask": "Is any attacking type a problem for three or more of them, with nobody resisting it?",
+        "kind": "stacked_weakness",
+        "weak_at_least": 3,
+        "rule": "three or more weak to it, none resist or are immune"
+      },
+      {
+        "id": "coverage_gap",
+        "ask": "Is there a type nobody hits super-effectively?",
+        "kind": "coverage_gap",
+        "rule": "single types no attack of the six hits for more than neutral"
+      },
+      {
+        "id": "speed",
+        "ask": "Who outspeeds a base-100 Speed Pokémon at level 100?",
+        "kind": "speed_over",
+        "base": 100,
+        "rule": "its Speed (neutral nature, 31 IVs, 85 EVs unless recorded) beats a base-100 at the same spread"
+      },
+      {
+        "id": "hazards",
+        "ask": "Does the team set or clear entry hazards?",
+        "kind": "categories",
+        "any": [
+          "hazard",
+          "hazard_removal"
+        ],
+        "rule": "at least one hazard or Rapid Spin move"
+      },
+      {
+        "id": "healing",
+        "ask": "Who can heal itself or the team?",
+        "kind": "categories",
+        "any": [
+          "recovery",
+          "rest",
+          "cleric"
+        ],
+        "rule": "recovery, Rest, Wish or Heal Bell-style moves"
+      },
+      {
+        "id": "setup_answer",
+        "ask": "Who stops a Dragon Dance or Swords Dance sweeper?",
+        "kind": "categories",
+        "any": [
+          "phaze",
+          "anti_setup",
+          "encore",
+          "priority_attack"
+        ],
+        "rule": "phazing, Haze, Encore or priority"
+      },
+      {
+        "id": "team_roles",
+        "ask": "Does the team have each team role?",
+        "kind": "roles",
+        "want": [
+          "ace",
+          "wall",
+          "sweeper",
+          "support"
+        ],
+        "rule": "at least one of the six earns each role"
+      }
+    ],
+    "shapes": {
+      "_note": "The team's shape from how many of each team role the six earn; the first that fits names it (naming.words.team_shape until named).",
+      "order": [
+        "hyper_offense",
+        "offense",
+        "stall",
+        "bulky",
+        "balance"
+      ],
+      "hyper_offense": {
+        "label": "hyper offense",
+        "needs": {
+          "sweeper": 3
+        },
+        "at_most": {
+          "wall": 1
+        }
+      },
+      "offense": {
+        "label": "offense",
+        "needs": {
+          "sweeper_or_ace": 3
+        }
+      },
+      "stall": {
+        "label": "stall",
+        "needs": {
+          "wall": 4
+        }
+      },
+      "bulky": {
+        "label": "bulky",
+        "needs": {
+          "wall": 3
+        }
+      },
+      "balance": {
+        "label": "balance",
+        "needs": {}
+      }
     }
-   },
-   "bulky": {
-    "label": "bulky",
-    "needs": {
-     "wall": 3
-    }
-   },
-   "balance": {
-    "label": "balance",
-    "needs": {}
-   }
   }
- }
 }

@@ -2087,6 +2087,32 @@ class WebApp(unittest.TestCase):
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
+    def test_the_four_labs_open_and_read_live(self):
+        """The Pokémon lab re-reads a build when a move changes, the compare screen lists every build of a species, the
+        team lab answers every scenario question with candidates, the breeding lab opens lines offspring-first, and
+        PKHeX export writes a set (app/test_labs.mjs, in Chromium)."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_labs.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_the_browser_team_roles_match_python(self):
+        """web/28_teamroles.html against trainers/team_roles.py: every journey companion plus a stock and a competitive
+        set, every field of every read (fights, the four roles, the role engine underneath, the name), number for number.
+        Every build: python3 -I trainers/team_roles.py --parity OUT && node app/test_roles4_parity.mjs OUT"""
+        import json as _json
+        with open(os.path.join(self.app, "data", "roles4.json"), encoding="utf-8") as fh:
+            have = _json.load(fh)["reads"]
+        ids = [k for k in have if k.startswith("me:")] + [k for k in ("stock/garchomp-sweeper", "competitive:gen41v1/azelf-c4f2f4b2") if k in have]
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "roles4.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "team_roles.py"), "--parity", dump, ",".join(ids)],
+                              capture_output=True, text=True, cwd=ENGINE)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_roles4_parity.mjs"), dump], capture_output=True, text=True, timeout=1500)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn("checks match Python over %d builds" % len(ids), out.stdout)
+
     def test_the_launcher_serves_the_zip_and_writes_only_the_app_tabs(self):
         out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])

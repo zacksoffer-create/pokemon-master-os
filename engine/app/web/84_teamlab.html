@@ -1,0 +1,179 @@
+<script>
+/* ===== The team lab: six slots, read live ======================================================================
+   docs/design/FOUR_LABS.md. Six slots per game, kept in this browser (localStorage); the default is your journey's
+   six for that game from the record store (HeartGold's opens first). Every read is the engines': each slot's four
+   team roles (28_teamroles), the type and move reads, Zack's scenario questions (trainers/team_roles.json → team.
+   questions: add one there and the lab asks it), the team's shape, candidates from the store with what each would
+   change, and nature swaps measured by the role engine. Nothing here writes to canon. */
+var TL = null;
+function tlDefault(game) {
+  var six = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return i.game === game; })
+    .sort(function (a, b) { return (a.chapter || 0) - (b.chapter || 0) || (a.species < b.species ? -1 : 1); }).slice(0, 6)
+    .map(function (i) { var b = indBuild(i); delete b.id; b._prov = 'yours'; b._from = i.id; return b; });
+  while (six.length < 6) six.push(null);
+  return six;
+}
+function tlLoad(game) { var s = store('team-' + game); var t = Array.isArray(s) && s.length === 6 ? s : tlDefault(game); return t.map(function (x) { return x ? JSON.parse(JSON.stringify(x)) : null; }); }
+function tlSave(game, t) { store('team-' + game, t); }
+function tlMembers(team, game) { return team.map(function (b) { return b ? {build: buildOf(b), read: liveRead(b, game), src: b} : null; }); }
+function teamLab(game) {
+  game = game || 'heartgold';
+  if (ALL_GAMES.indexOf(game) < 0) return '<div class="notice">No game called ' + esc(game) + '.</div>';
+  return labsReady().then(function () {
+    TL = {game: game, team: tlLoad(game), target: null, filters: {type: '', move: '', role: '', prov: '', answers: ''}, token: 0};
+    after(function (p) { tlBind(p); tlRender(); });
+    return '<div class="eyebrow">The team lab · six slots, read live</div><div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap"><h1 style="margin:6px 0">Your ' + esc(Battle.GAME_TITLE[game]) + ' team</h1>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="tlReset()">Back to your journey six</button><a class="btn" href="#/scoutlab">Trainer lab</a></div></div>' +
+      '<p class="lede">Swap a Pokémon in or out and every read below moves: each one\'s four team roles, how the six cover each other by type, the scenario questions, the team\'s shape, and the candidates that would close a gap. Kept in this browser only; canon doesn\'t change.</p>' +
+      '<div class="tabs" style="margin:12px 0 16px">' + ALL_GAMES.map(function (g) { return '<a' + (g === game ? ' class="on"' : '') + ' href="#/team/' + g + '">' + esc(Battle.GAME_TITLE[g]) + '</a>'; }).join('') + '</div>' +
+      '<div id="tlbody"><div class="empty">Reading the six…</div></div>';
+  });
+}
+function tlReset() { TL.team = tlDefault(TL.game); tlSave(TL.game, TL.team); tlRender(); }
+function tlRemove(i) { TL.team[i] = null; tlSave(TL.game, TL.team); TL.target = i; tlRender(); }
+function tlPut(id, i) {
+  var b = candBuild(id); if (!b) return;
+  TL.team[i] = b; tlSave(TL.game, TL.team); TL.target = null; tlRender();
+  toast(esc(b.species) + ' is in slot ' + (i + 1) + '.');
+}
+function tlTarget() { return TL.target != null ? TL.target : (TL.team.indexOf(null) >= 0 ? TL.team.indexOf(null) : 5); }
+function tlRender() {
+  var tok = ++TL.token, box = document.getElementById('tlbody');
+  if (!box) return;
+  if (box.firstElementChild && box.firstElementChild.className !== 'empty') box.insertAdjacentHTML('afterbegin', '<div class="notice" id="tlbusy" style="margin-bottom:12px">Re-reading…</div>');
+  setTimeout(function () {
+    if (tok !== TL.token || !document.getElementById('tlbody')) return;
+    try {
+      var mem = tlMembers(TL.team, TL.game), live = mem.filter(Boolean), comp = live.length ? teamComp(live, TL.game) : null;
+      TL.mem = mem; TL.comp = comp;
+      document.getElementById('tlbody').innerHTML = tlSlots(mem) + (comp ? tlReads(comp, live) : '<div class="empty" style="margin-top:16px">An empty team. Pick candidates below.</div>') + tlCandidates();
+      tlCandRun();
+    } catch (e) { document.getElementById('tlbody').innerHTML = '<div class="notice">The engines couldn\'t read this team: ' + esc(e && e.message || e) + '</div>'; console.error(e); }
+  }, 30);
+}
+function tlSlots(mem) {
+  return '<div class="tslots">' + mem.map(function (m, i) {
+    if (!m) return '<div class="slot tslot empty-slot' + (tlTarget() === i ? ' on' : '') + '" onclick="TL.target=' + i + ';tlRender()" style="' + (tlTarget() === i ? 'border-color:var(--gold)' : '') + '"><div><div class="no">' + (i + 1) + '</div>Empty: pick a candidate below</div></div>';
+    var r = m.read, n = numOf(m.build.species);
+    return '<div class="slot tslot" style="' + (tlTarget() === i ? 'border-color:var(--gold)' : '') + '" onclick="if(!event.target.closest(\'button,a\')){TL.target=' + i + ';tlRender();}"><div class="no">' + (i + 1) + '</div><button class="x" title="Take it out" onclick="tlRemove(' + i + ')">✕</button>' +
+      '<img src="' + art(n) + '" alt="" loading="lazy"><div class="nm">' + esc(m.build.species) + '</div><div class="ty">' + types(Battle.species(Battle.GAME_GEN[TL.game], m.build.species).types) + '</div>' +
+      (r.error ? '<div class="tr" style="color:var(--ember-2)">' + esc(r.error) + '</div>' : '<div class="tr">' + nameHtml(r.name) + '</div><div style="margin-top:6px">' + (r.earned.length ? r.earned.map(function (e) { return chip(roleName(e), 'forest'); }).join(' ') : '<span class="tiny muted">no team role</span>') + '</div>') +
+      '<div style="margin-top:8px">' + provChip(m.src._prov || 'yours') + ' <a class="link tiny" href="#/pokemon/team:' + TL.game + ':' + i + '">Open in the lab</a></div></div>';
+  }).join('') + '</div><div class="tiny muted" style="margin-top:6px">Slot ' + (tlTarget() + 1) + ' is the one candidates go into; click a slot to choose another.</div>';
+}
+function tlReads(comp, live) {
+  var cfgQ = TeamRoles.config().team.questions;
+  var qs = comp.questions.map(function (q) {
+    var mark = q.ok === true ? '<b class="ok">✓</b>' : q.ok === false ? '<b class="bad">✕</b>' : '<b class="na">?</b>';
+    return '<div class="q">' + mark + '<div><div class="small"><b>' + esc(q.ask) + '</b> ' + esc(q.answer) + '</div>' + (q.detail ? '<div class="tiny muted">' + esc(q.detail) + '</div>' : '') +
+      '<div class="tiny muted">Rule: ' + esc(q.rule) + (q.ok === false ? ' · <a class="link" href="javascript:void 0" onclick="tlAnswer(\'' + q.id + '\')">Find a Pokémon that answers it</a>' : '') + '</div></div></div>';
+  }).join('');
+  var side = comp.moves.side, sum = side.physical + side.special + side.status || 1;
+  var roleList = TeamRoles.ORDER.map(function (r) { return '<div class="small"><b>' + esc(roleName(r)) + '</b> <span class="num">' + comp.roles[r].length + '</span> <span class="tiny muted">' + esc(comp.roles[r].join(', ') || 'nobody') + '</span></div>'; }).join('');
+  var defCells = comp.defense.map(function (r) {
+    var hot = r.weak.length >= 3 && !r.resist.length && !r.immune.length, cool = r.resist.length + r.immune.length >= 2 && !r.weak.length;
+    return '<div class="typecell' + (hot ? ' hot2' : cool ? ' cool' : '') + '" title="weak: ' + esc(r.weak.join(', ') || '—') + '; resist: ' + esc(r.resist.join(', ') || '—') + '; immune: ' + esc(r.immune.join(', ') || '—') + '">' + typeBadge(r.type) +
+      '<div class="tiny" style="margin-top:4px"><span style="color:var(--ember-2)">' + r.weak.length + ' weak</span> · <span style="color:var(--forest-3)">' + r.resist.length + ' resist</span>' + (r.immune.length ? ' · ' + r.immune.length + ' immune' : '') + ' · ' + r.neutral.length + ' neutral</div></div>';
+  }).join('');
+  var offCells = comp.offense.map(function (r) {
+    return '<div class="typecell' + (r.best <= 1 ? ' hot2' : '') + '" title="' + esc(r.by.join(', ') || 'nobody hits it super-effectively') + '">' + typeBadge(r.type) + '<div class="tiny" style="margin-top:4px">' + (r.best > 1 ? '<span style="color:var(--forest-3)">' + r.best + '×</span> by ' + esc(uniqS(r.by.map(function (x) { return x.split(' (')[0]; })).join(', ')) : r.best === 1 ? 'neutral at best' : r.best === 0 ? 'nothing lands' : 'resisted at best') + '</div></div>';
+  }).join('');
+  return '<div class="grid" style="margin-top:16px"><div class="c7">' + card('The questions', qs, {eyebrow: plural(cfgQ.length, 'scenario question') + ' · trainers/team_roles.json', tools: false}) + '</div>' +
+    '<div class="c5">' + card('Shape and roles', '<div class="small">Team shape: <b>' + shapeHtml(comp.shape) + '</b></div><div class="tiny muted" style="margin-bottom:10px">The first shape whose role counts fit, in this order: ' + esc(TeamRoles.config().team.shapes.order.join(', ')) + '.</div>' + roleList +
+      '<div class="eyebrow" style="margin-top:14px">Move balance</div><div class="small">' + ['physical', 'special', 'status'].map(function (k) { return cap(k) + ' <span class="num">' + side[k] + '</span> <span class="tiny muted">(' + Math.round(100 * side[k] / sum) + '%)</span>'; }).join(' · ') + '</div>' +
+      '<div class="tiny muted">Counted on the moves the engines read (open slots filled with each one\'s strongest set).</div>', {eyebrow: 'From the four team roles', tools: false}) +
+      card('Nature swaps', tlNatures(live), {eyebrow: 'Measured by the role engine', tools: false, style: 'margin-top:16px'}) + '</div></div>' +
+    card('Taking hits: each attacking type against the six', '<div class="typegrid">' + defCells + '</div><div class="tiny muted" style="margin-top:8px">Red outline: three or more weak and nobody resists. Green: two or more resist or are immune and nobody is weak. Neutral means no type advantage either way. Abilities count (Levitate, Thick Fat...).</div>', {eyebrow: 'Defensive type read', tools: false, style: 'margin-top:16px'}) +
+    card('Hitting back: the best the six can do to each type', '<div class="typegrid">' + offCells + '</div><div class="tiny muted" style="margin-top:8px">Against a single-type target. Red outline: nobody hits it super-effectively.</div>', {eyebrow: 'Offensive coverage', tools: false, style: 'margin-top:16px'});
+}
+function tlNatures(live) {   // for each member, the natures that raise its primary role's score (role engine, level 100)
+  var gen = Battle.GAME_GEN[TL.game], level = TeamRoles.config().level;
+  if (gen < 3) return '<div class="tiny muted">Gen 2 has no natures.</div>';
+  var natures = (S.builds.natures || []).map(function (x) { return x.name; }), rows = [];
+  TL.mem.forEach(function (m, i) {
+    if (!m || m.read.error) return;
+    var b = Object.assign(buildOf(m.build), {moves: m.read.moves.slice(), level: level});
+    var base = Scout.classify(b, TL.game, level), prim = base.primary; if (!prim.role) return;
+    var score = function (cl) { return (cl.roles.filter(function (x) { return x.role === prim.role; })[0] || {score: 0}).score; }, s0 = score(base);
+    var best = natures.filter(function (n) { return n !== m.build.nature; }).map(function (n) { var cl = Scout.classify(Object.assign({}, b, {nature: n}), TL.game, level); return {nature: n, score: score(cl), primary: cl.primary}; })
+      .filter(function (x) { return x.score > s0 + 0.005; }).sort(function (a, c) { return c.score - a.score; }).slice(0, 2);
+    if (best.length) rows.push('<div class="small" style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><b>' + esc(m.build.species) + '</b> <span class="tiny muted">' + esc(prim.name) + ' ' + s0.toFixed(2) + ' as ' + esc(m.build.nature || 'no nature recorded') + '</span>' +
+      best.map(function (x) { return '<div class="tiny">' + esc(x.nature) + ': ' + x.score.toFixed(2) + ' ' + delta(s0, x.score) + (x.primary.role !== prim.role ? ' <span class="muted">(primary becomes ' + esc(x.primary.name) + ')</span>' : '') +
+        ' <a class="link" href="javascript:void 0" onclick="tlNature(' + i + ',\'' + x.nature + '\')">Try it</a></div>'; }).join('') + '</div>');
+  });
+  return rows.length ? rows.join('') + '<div class="tiny muted" style="margin-top:8px">The primary role\'s score from the role engine (trainers/roles.json) with only the nature changed. Trying one re-reads its four team roles.</div>' : '<div class="tiny muted">No nature raises anyone\'s primary role score.</div>';
+}
+function tlNature(i, n) { TL.team[i].nature = n; tlSave(TL.game, TL.team); tlRender(); }
+function tlAnswer(qid) { TL.filters.answers = qid; var el = document.querySelector('[data-tlf="answers"]'); if (el) el.value = qid; tlCandRun(); var c = document.getElementById('tlcand'); if (c) c.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+
+/* ---- candidates: every build on record for this generation, with what it would change ---- */
+function candPool() {
+  var gen = Battle.GAME_GEN[TL.game], out = [];
+  Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k], r = packRead(k);
+    if (Battle.GAME_GEN[i.game] === gen && r && !r.error) out.push({id: k, species: i.species, prov: 'yours', label: 'your ' + i.species + ' (' + cap(i.game) + ')', read: r}); });
+  Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k], r = packRead(k);
+    if (b.provenance !== 'yours' && Battle.GAME_GEN[gameOf(b)] === gen && r && !r.error) out.push({id: k, species: b.species, prov: b.provenance, label: b.name || k, read: r}); });
+  return out;
+}
+function candBuild(id) {
+  var ind = (S.store.individuals || {})[id];
+  if (ind) { var b = indBuild(ind); delete b.id; b._prov = 'yours'; b._from = id; return b; }
+  var sb = storeBuild(id); if (!sb) return null;
+  var c = buildOf(sb); delete c.id; c._prov = sb.provenance; c._from = id; return c;
+}
+function candPreview(cand) {   // the team with this candidate in the target slot, read again (pack reads only: no new fights)
+  var i = tlTarget(), mem = TL.mem.slice(); mem[i] = {build: buildOf(candBuild(cand.id)), read: cand.read, src: {}};
+  return teamComp(mem.filter(Boolean), TL.game);
+}
+function tlCandidates() {
+  var gen = Battle.GAME_GEN[TL.game], f = TL.filters, open = TL.comp ? TL.comp.questions.filter(function (q) { return q.ok === false; }) : [];
+  var TY = Battle.TYPES.filter(function (t) { try { Battle.effectiveness(gen, t, ['Normal'], null); return t !== '???'; } catch (e) { return false; } });
+  var sel = function (k, opts) { return '<select class="f" data-tlf="' + k + '">' + opts.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (f[k] === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; };
+  return '<div id="tlcand" style="margin-top:16px">' + card('Candidates', '<div class="row" style="flex-wrap:wrap">' +
+    '<div><label class="l">Type</label>' + sel('type', [['', 'any']].concat(TY.map(function (t) { return [t, t]; }))) + '</div>' +
+    '<div><label class="l">Knows a move</label><input class="f" data-tlf="move" value="' + esc(f.move) + '" placeholder="e.g. Rapid Spin"></div>' +
+    '<div><label class="l">Earns a team role</label>' + sel('role', [['', 'any']].concat(TeamRoles.ORDER.map(function (r) { return [r, roleName(r)]; }))) + '</div>' +
+    '<div><label class="l">Source</label>' + sel('prov', [['', 'any']].concat(PROV_ORDER.map(function (p) { return [p, p]; }))) + '</div>' +
+    '<div><label class="l">Answers an open question</label>' + sel('answers', [['', 'any']].concat(open.map(function (q) { return [q.id, q.ask]; }))) + '</div></div>' +
+    '<div id="tlclist" style="margin-top:12px"><div class="empty">Reading candidates…</div></div>',
+    {eyebrow: 'Every Gen ' + gen + ' build on record · going into slot ' + (tlTarget() + 1), tools: false}) + '</div>';
+}
+function tlCandRun() {
+  var box = document.getElementById('tlclist'); if (!box) return;
+  var f = TL.filters, mv = f.move.trim().toLowerCase(), onTeam = TL.team.map(function (b) { return b && b._from; });
+  var list = candPool().filter(function (c) {
+    if (onTeam.indexOf(c.id) >= 0) return false;
+    if (f.type && Battle.species(Battle.GAME_GEN[TL.game], c.species).types.indexOf(f.type) < 0) return false;
+    if (mv && !c.read.moves.some(function (m) { return m.toLowerCase().indexOf(mv) >= 0; })) return false;
+    if (f.role && c.read.earned.indexOf(f.role) < 0) return false;
+    if (f.prov && c.prov !== f.prov) return false;
+    return true;
+  });
+  var key = function (c) { return f.role ? roleOf(c.read, f.role).score : c.read.roles.reduce(function (a, r) { return a + (r.earned ? r.score : 0); }, 0); };
+  list.sort(function (a, b) { return key(b) - key(a) || (a.species < b.species ? -1 : 1); });
+  var before = TL.comp ? openQs(TL.comp) : [], shown = [], checked = 0;
+  for (var i = 0; i < list.length && shown.length < 24; i++) {
+    var c = list[i], pv = null;
+    pv = candPreview(c); checked++;
+    if (f.answers && pv && openQs(pv).indexOf(f.answers) >= 0) continue;
+    shown.push([c, pv]);
+  }
+  var qName = function (id) { return TeamRoles.config().team.questions.filter(function (q) { return q.id === id; })[0].ask; };
+  box.innerHTML = (shown.length ? shown.map(function (x) {
+    var c = x[0], pv = x[1], after_ = pv ? openQs(pv) : before, closes = before.filter(function (q) { return after_.indexOf(q) < 0; }), opens = after_.filter(function (q) { return before.indexOf(q) < 0; });
+    return '<div class="cand"><img src="' + sprite(numOf(c.species), TL.game) + '" alt="" loading="lazy"><div><div class="small"><b>' + esc(c.species) + '</b> ' + nameHtml(c.read.name) + ' ' + provChip(c.prov) + '</div>' +
+      '<div class="tiny muted">' + esc(c.label) + ' · ' + esc(c.read.moves.join(', ')) + '</div><div class="tiny">' + earnedChips(c.read) +
+      (pv ? ' · shape ' + shapeHtml(pv.shape) + (closes.length ? ' · <span style="color:var(--forest-3)">closes ' + esc(closes.map(qName).join('; ')) + '</span>' : '') + (opens.length ? ' · <span style="color:var(--ember-2)">opens ' + esc(opens.map(qName).join('; ')) + '</span>' : '') : '') + '</div></div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><a class="btn sm" href="#/pokemon/' + encodeURIComponent(c.id) + '">Lab</a><button class="btn sm gold" data-tlput="' + esc(c.id) + '">Into slot ' + (tlTarget() + 1) + '</button></div></div>';
+  }).join('') : '<div class="empty">No candidate fits these filters' + (f.answers ? ' and answers that question in slot ' + (tlTarget() + 1) : '') + '.</div>') +
+    '<div class="tiny muted" style="margin-top:8px">' + list.length + ' fit the filters' + (f.answers ? '; ' + checked + ' tried in slot ' + (tlTarget() + 1) : '') + '. Sorted by ' + (f.role ? roleName(f.role) + ' score' : 'the scores of the roles each one earns') + '. "Closes" and "opens" are the questions that change with it in slot ' + (tlTarget() + 1) + ' (from the stored reads; no new fights).</div>';
+}
+function tlBind(p) {
+  var t = null;
+  p.addEventListener('input', function (e) { var k = e.target.getAttribute && e.target.getAttribute('data-tlf'); if (!k) return; TL.filters[k] = e.target.value; clearTimeout(t); t = setTimeout(tlCandRun, 250); });
+  p.addEventListener('change', function (e) { var k = e.target.getAttribute && e.target.getAttribute('data-tlf'); if (!k) return; TL.filters[k] = e.target.value; tlCandRun(); });
+  p.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('[data-tlput]'); if (b) tlPut(b.getAttribute('data-tlput'), tlTarget()); });
+}
+route(/^\/team\/?$/, function () { return teamLab('heartgold'); }, 'The team lab', '#/team');
+route(/^\/team\/(\w+)$/, teamLab, function (g) { return 'Team lab · ' + cap(g); }, '#/team');
+</script>

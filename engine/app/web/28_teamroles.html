@@ -50,10 +50,12 @@ var TeamRoles = (function () {
       var gen = +g, P = pool(gen), field = [], fk = {};
       Object.keys(P).forEach(function (p) { P[p].forEach(function (cw) { if (!fk[cw[0].key]) { fk[cw[0].key] = 1; field.push(cw[0]); } }); });
       var ours = {}, ok = {}, uniqOurs = [];
-      byGen[g].forEach(function (b) { var c = combatant(b, gen); ours[b.id] = c; if (!ok[c.key]) { ok[c.key] = 1; uniqOurs.push(c); } });
-      var res = engine().ev.versus(uniqOurs, field);
+      byGen[g].forEach(function (b) { var c; try { c = combatant(b, gen); } catch (e) { return; } ours[b.id] = c; if (!ok[c.key]) { ok[c.key] = 1; uniqOurs.push(c); } });
+      var res = engine().ev.versus(uniqOurs, field, CFG.fetch_rounds);
       byGen[g].forEach(function (b) {
         var a = ours[b.id], o = {};
+        if (!a) return;
+        if (field.some(function (c) { return !res[a.key + '\u0002' + c.key]; })) return;   // didn't settle: an error read, not a guess
         Object.keys(P).forEach(function (p) { o[p] = P[p].map(function (cw) { return [cw[0], cw[1], res[a.key + '\u0002' + cw[0].key]]; }); });
         out[b.id] = o;
       });
@@ -125,8 +127,7 @@ var TeamRoles = (function () {
     var nm = CFG.naming, words = nm.words, match = cl.primary.role ? cl.primary.score : 0.0;
     var band = nm.bands.filter(function (b) { return match >= b.at_least; })[0] || null, mid = moveset(moves, gen);
     if (!band) return {text: words.unnamed || '⟨unnamed⟩', match: match, band: null, tokens: [{slot: 'unnamed', id: 'unnamed', word: words.unnamed || null, placeholder: 'unnamed'}]};
-    var strong = Sc.sortBy ? null : null;
-    strong = cl.roles.filter(function (x) { return x.score >= nm.hybrid_at_least; }).map(function (x, i) { return [x, i]; })
+    var strong = cl.roles.filter(function (x) { return x.score >= nm.hybrid_at_least; }).map(function (x, i) { return [x, i]; })
       .sort(function (a, b) { return (b[0].score - a[0].score) || (a[1] - b[1]); }).map(function (p) { return p[0]; }).slice(0, nm.hybrid_max_roles);
     var tys = Sc.types(speciesName, gen), bst = (BST[String(gen)] || {})[speciesName];
     var bstId = nm.bst_bands.filter(function (b) { return bst < b.below; })[0].id;
@@ -151,18 +152,23 @@ var TeamRoles = (function () {
     var withGen = list.map(function (x) { var game = x.game || GAME_OF_GEN[x.build.generation || 4]; return {build: x.build, game: game, gen: Bt.GAME_GEN[game]}; });
     var F = fights(withGen), out = {};
     withGen.forEach(function (x) {
-      var b = x.build, gen = x.gen, game = x.game, filledMoves = combatant(b, gen).moves;
-      var filled = Object.assign({}, b, {moves: filledMoves.slice(), level: CFG.level});
-      var cl = Sc.classify(filled, game, CFG.level), ctx = Sc.roleContext(filled, game, CFG.level, null);
-      var team = [ace(F[b.id]), wall(F[b.id], cl.signals), sweeper(cl), support(cl, ctx.moves)];
-      var sorted = team.map(function (r, i) { return [r, i]; }).sort(function (p, q) { return (q[0].score - p[0].score) || cmp(p[0].role, q[0].role); }).map(function (p) { return p[0]; });
-      out[b.id] = {build: b.id, species: b.species, game: game, gen: gen, moves: filledMoves.slice(),
-        filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
-        earned: sorted.filter(function (r) { return r.earned; }).map(function (r) { return r.role; }),
-        second_layer: {primary: cl.primary, secondary: cl.secondary, top: cl.roles.slice(0, 5).map(function (x) { return {role: x.role, name: x.name, score: x.score}; })},
-        name: name(cl, team, ctx.moves, gen, b.species)};
+      try { out[x.build.id] = readOne(x, F); } catch (e) { out[x.build.id] = {build: x.build.id, species: x.build.species, error: e && e.message || String(e)}; }
     });
     return out;
+  }
+  function readOne(x, F) {
+    var b = x.build, gen = x.gen, game = x.game;
+    if (!F[b.id]) throw new Error('its fights didn\'t settle in ' + CFG.fetch_rounds + ' calculator rounds (or it can\'t be built)');
+    var filledMoves = combatant(b, gen).moves;
+    var filled = Object.assign({}, b, {moves: filledMoves.slice(), level: CFG.level});
+    var cl = Sc.classify(filled, game, CFG.level), ctx = Sc.roleContext(filled, game, CFG.level, null);
+    var team = [ace(F[b.id]), wall(F[b.id], cl.signals), sweeper(cl), support(cl, ctx.moves)];
+    var sorted = team.map(function (r, i) { return [r, i]; }).sort(function (p, q) { return (q[0].score - p[0].score) || cmp(p[0].role, q[0].role); }).map(function (p) { return p[0]; });
+    return {build: b.id, species: b.species, game: game, gen: gen, moves: filledMoves.slice(),
+      filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
+      earned: sorted.filter(function (r) { return r.earned; }).map(function (r) { return r.role; }),
+      second_layer: {primary: cl.primary, secondary: cl.secondary, top: cl.roles.slice(0, 5).map(function (x) { return {role: x.role, name: x.name, score: x.score}; })},
+      name: name(cl, team, ctx.moves, gen, b.species)};
   }
   function read(build, game) { var id = build.id || 'lab'; var b = Object.assign({}, build, {id: id}); return readMany([{build: b, game: game}])[id]; }
   return {init: init, read: read, readMany: readMany, pool: pool, config: function () { return CFG; }, ORDER: ORDER, GAME_OF_GEN: GAME_OF_GEN};

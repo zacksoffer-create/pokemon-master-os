@@ -1,6 +1,22 @@
 # Four Labs: design (draft for Zack's review)
 
-**Status:** proposal, 2026-10-20. Nothing here is built yet, and no code or canon has changed.
+**Status:** built, 2026-10-21, after Zack's answers to §8 (D-059 to D-063). What was built, and where:
+
+| Part | Where | State |
+|---|---|---|
+| Engine fixes (B4, B19, B1, B2, B3, Skill Link, every rematch team) | engine/trainers, engine/battle, with their browser ports | done, tests pass |
+| The four team roles and the name ladder | engine/trainers/team_roles.py + .json; app/web/28_teamroles.html | done; 962 builds read; browser matches Python (app/test_roles4_parity.mjs) |
+| Everything still to be named | docs/naming/NAMES_NEEDED.md | 162 names waiting on Zack |
+| The record store (three tiers) | engine/store/migrate.py → engine/store/out; app/data/store.json | done; canon untouched |
+| Pokémon lab, build compare, PKHeX export | app/web/82_labs.html (#/pokemon, #/compare, #/pkhex) | done |
+| Team lab | app/web/84_teamlab.html (#/team) | done |
+| Breeding lab (offspring first) | app/web/86_breedlines.html (#/lines) | done |
+| Trainer lab | the Scouting Lab (#/scoutlab), under Labs in the menu | unchanged |
+| One rebuild command with before/after | engine/rebuild.py → engine/data_manifest/last_rebuild.json | done |
+| Hand overrides for team-role tags | — | not built yet |
+| Top-tier Ace | team_roles.json roles.ace.top_tier | off until it has a rule |
+
+The rest of this document is the proposal as it was approved; §8's questions are answered in the ledger.
 
 **Tags.** [ran] means I ran it in this session. [read] means I read code or data only. [yours] means you said it. [proposal] means it's my suggestion, waiting on you.
 

@@ -1,0 +1,362 @@
+<script>
+/* ===== The four labs: shared pieces, the Pokémon lab, the build compare screen and PKHeX export ================
+   docs/design/FOUR_LABS.md. Records come in three tiers (app/data/store.json, from engine/store/migrate.py):
+   species (reference data, never stored), build (moves, nature, ability, item, IVs, EVs) and individual (one of
+   your Pokémon: ball, met, gender, nickname...). Every number on these pages comes from the engines running in the
+   page: the four team roles and the build name from 28_teamroles (held to Python by app/test_roles4_parity.mjs),
+   the role engine and the trainer report from 25_scout, fights and scouting lines from 27_battle. A change shows
+   before and after; what moved is highlighted. Nothing here writes to canon. */
+var LABS = {reads: {}};
+function labsReady() {
+  if (!S.labsP) S.labsP = Promise.all([scoutReady(), battleReady(), API.data('roles4'), API.data('store'), withBuilds()]).then(function (r) {
+    S.r4 = r[2]; S.store = r[3]; TeamRoles.init(r[2], Scout, Battle); labsSeed(); return true;
+  }).catch(function (e) { S.labsP = null; throw e; });
+  return S.labsP;
+}
+function labsSeed() {   // the pack's reads (computed in Python, matched by the parity test) stand in for a live read of the same build
+  Object.keys(S.store.individuals || {}).forEach(function (id) { var ind = S.store.individuals[id], r = packRead(id);
+    if (r && !r.error) LABS.reads[readKey(indBuild(ind), ind.game)] = r; });
+  Object.keys(S.store.builds || {}).forEach(function (id) { var b = S.store.builds[id], r = packRead(id);
+    if (r && !r.error) LABS.reads[readKey(buildOf(b), gameOf(b))] = r; });
+}
+var PROV = {yours: ['yours', 'gold'], canonical: ['canonical', 'violet'], stock: ['stock', ''], ingested: ['ingested', 'ice'], competitive: ['competitive', 'ember']};
+var PROV_ORDER = ['yours', 'canonical', 'stock', 'ingested', 'competitive'];
+var ALL_GAMES = ['crystal', 'emerald', 'firered', 'platinum', 'heartgold', 'soulsilver'];
+function provChip(p) { var k = PROV[p] || [p, '']; return chip(k[0], k[1]); }
+function gamesOfGen(gen) { return ALL_GAMES.filter(function (g) { return Battle.GAME_GEN[g] === gen; }); }
+function storeBuild(id) { return (S.store.builds || {})[id] || (S.store.builds || {})[(S.store.aliases || {})[id]] || null; }
+function buildOf(rec, id) {   // a store record as the engines take it: species, moves, and only the fields it sets
+  var b = {species: rec.species, moves: (rec.moves || []).filter(Boolean).slice(0, 4)};
+  if (id || rec.id) b.id = id || rec.id;
+  if (rec.generation) b.generation = rec.generation;
+  ['nature', 'ability', 'item'].forEach(function (k) { if (rec[k]) b[k] = rec[k]; });
+  ['ivs', 'evs'].forEach(function (k) { if (rec[k] && Object.keys(rec[k]).length) b[k] = Object.assign({}, rec[k]); });
+  return b;
+}
+function indBuild(ind) { var sb = ind.build ? storeBuild(ind.build) : null; return buildOf(sb || {species: ind.species, moves: []}, ind.id); }
+function gameOf(rec) { return rec.game || TeamRoles.GAME_OF_GEN[rec.generation || 4]; }
+function packRead(id) { return (S.r4.reads || {})[id] || null; }
+function readKey(b, game) { return JSON.stringify([Battle.GAME_GEN[game], game, b.species, (b.moves || []).filter(Boolean), b.nature || null, b.ability || null, b.item || null, b.ivs || null, b.evs || null]); }
+function liveRead(b, game) {   // the four roles and the name for any build, read in the page (remembered by content)
+  var k = readKey(b, game);
+  if (!LABS.reads[k]) LABS.reads[k] = TeamRoles.read(Object.assign(buildOf(b), {id: 'live'}), game);
+  return LABS.reads[k];
+}
+function roleName(id) { return TeamRoles.config().roles[id].name; }
+function roleOf(read, id) { return (read.roles || []).filter(function (r) { return r.role === id; })[0] || {role: id, score: 0, earned: false, why: [], numbers: {}}; }
+function nameHtml(n) {
+  return (n.tokens || []).map(function (t) { return t.word ? esc(t.word) : '<span class="ph" title="' + esc(t.slot + '.' + t.id + ': not named yet (docs/naming/NAMES_NEEDED.md)') + '">⟨' + esc(t.placeholder) + '⟩</span>'; }).join(' ');
+}
+function earnedChips(read) { return read.earned.length ? read.earned.map(function (r) { return chip(roleName(r), 'forest'); }).join(' ') : '<span class="tiny muted">no team role earned</span>'; }
+function delta(a, b) { var d = Math.round((b - a) * 100) / 100; return !d ? '' : '<b class="num" style="color:' + (d > 0 ? 'var(--forest-3)' : 'var(--ember-2)') + '">' + (d > 0 ? '+' : '') + d.toFixed(2) + '</b>'; }
+function roleRows(read, base) {
+  return read.roles.map(function (r) {
+    var b = base ? roleOf(base, r.role) : null, moved = b && (Math.abs(b.score - r.score) > 1e-9 || b.earned !== r.earned);
+    return '<div class="rrow' + (moved ? ' moved' : '') + '"><b>' + esc(roleName(r.role)) + '</b>' +
+      '<div class="bar ' + (r.earned ? 'forest' : '') + '"><i style="width:' + Math.round(100 * Math.max(0, Math.min(1, r.score))) + '%"></i></div>' +
+      '<span class="num">' + r.score.toFixed(2) + '</span><span>' + (r.earned ? chip('earned', 'forest') : '<span class="tiny muted">not earned</span>') + '</span>' +
+      (moved ? '<span class="tiny muted">was ' + b.score.toFixed(2) + (b.earned !== r.earned ? (b.earned ? ' and earned' : ' and not earned') : '') + ' ' + delta(b.score, r.score) + '</span>' : '') + '</div>';
+  }).join('');
+}
+function workHtml(read) {   // show your work: every rule, number and fight behind the four roles
+  return read.roles.map(function (r) {
+    var cfg = TeamRoles.config().roles[r.role], n = r.numbers || {}, extra = '';
+    if (r.role === 'ace') extra = ['elite_four', 'champion'].map(function (p) { var l = (n.lost_to || {})[p] || [];
+      return l.length ? '<div class="tiny muted">Didn\'t beat (' + p.replace('_', ' ') + ', ' + l.length + '): ' + esc(l.join(', ')) + '</div>' : ''; }).join('');
+    if (r.role === 'wall' && n.hardest) extra = '<div class="tiny muted">Hardest hits on it: ' + esc(n.hardest.map(function (h) { return h.attacker + ' ' + h.move + ' ' + h.min + '–' + h.max + '%'; }).join(' · ')) + '</div>';
+    return '<div style="margin-bottom:12px"><div class="small"><b>' + esc(cfg.name) + '</b> ' + (r.earned ? chip('earned', 'forest') : '') + '</div><div class="tiny muted">Rule: ' + esc(cfg.rule) + '</div>' +
+      r.why.map(function (w) { return '<div class="small">· ' + esc(w) + '</div>'; }).join('') + extra + '</div>';
+  }).join('') +
+    '<div class="tiny muted">Name: match ' + read.name.match.toFixed(2) + ' (the role engine\'s primary score) puts it in the ' + (read.name.band == null ? 'unnamed band' : read.name.band.toFixed(2) + '+ band') + ': ' + esc(read.name.tokens.map(function (t) { return t.slot; }).join(' + ')) + '.</div>' +
+    '<div class="tiny muted">Role engine underneath (trainers/roles.json): ' + esc(read.second_layer.top.map(function (x) { return x.name + ' ' + x.score.toFixed(2); }).join(' · ')) + '</div>' +
+    (read.filled_moves && read.filled_moves.length ? '<div class="tiny muted">Open move slots filled with the engine\'s strongest set: ' + esc(read.filled_moves.join(', ')) + '</div>' : '');
+}
+
+/* ---- team composition (the team lab's reads; the Pokémon lab uses them for "how it fits") ---- */
+function teamComp(members, game) {   // members: [{build, read}] -> type, move and role reads, the questions and the shape
+  var gen = Battle.GAME_GEN[game], cfg = TeamRoles.config();
+  var TY = Battle.TYPES.filter(function (t) { try { Battle.effectiveness(gen, t, ['Normal'], null); return t !== '???'; } catch (e) { return false; } });
+  var info = members.map(function (m) { var sp = Battle.species(gen, m.build.species);
+    return {m: m, sp: sp, ability: gen >= 3 ? (m.build.ability || Battle.abilities(gen, m.build.species)[0] || null) : null, moves: m.read && !m.read.error ? m.read.moves : m.build.moves}; });
+  var defense = TY.map(function (t) {
+    var row = {type: t, weak: [], resist: [], immune: [], neutral: []};
+    info.forEach(function (x) { var e = Battle.effectiveness(gen, t, x.sp.types, x.ability);
+      (e === 0 ? row.immune : e > 1 ? row.weak : e < 1 ? row.resist : row.neutral).push(x.m.build.species); });
+    return row; });
+  var offense = TY.map(function (t) {
+    var best = 0, by = [];
+    info.forEach(function (x) { x.moves.forEach(function (mv) { var d; try { d = Battle.move(gen, mv); } catch (e) { return; }
+      if (d.cat === 'Status' || !d.bp) return;
+      var e = Battle.effectiveness(gen, d.type, [t], null);
+      if (e > best) { best = e; by = []; } if (e === best && e > 1) by.push(x.m.build.species + ' (' + mv + ')'); }); });
+    return {type: t, best: best, by: uniqS(by)}; });
+  var cats = {}, side = {physical: 0, special: 0, status: 0};
+  info.forEach(function (x) { x.moves.forEach(function (mv) {
+    var r; try { r = Scout.moveR(mv, gen); } catch (e) { return; }
+    side[r['class']] = (side[r['class']] || 0) + 1;
+    r.categories.forEach(function (c) { (cats[c] = cats[c] || []).push(x.m.build.species + ': ' + mv); }); }); });
+  var roles = {}; TeamRoles.ORDER.forEach(function (r) { roles[r] = members.filter(function (m) { return m.read && !m.read.error && m.read.earned.indexOf(r) >= 0; }).map(function (m) { return m.build.species; }); });
+  var out = {gen: gen, game: game, defense: defense, offense: offense, moves: {side: side, categories: cats}, roles: roles};
+  out.questions = cfg.team.questions.map(function (q) { return Object.assign({id: q.id, ask: q.ask, rule: q.rule}, teamQuestion(q, out, members, info, gen)); });
+  out.shape = teamShape(roles);
+  return out;
+}
+function teamQuestion(q, comp, members, info, gen) {
+  if (q.kind === 'pool_cover') {
+    var pool = ((S.r4.pools || {})[String(gen)] || {})[q.pool] || [], read = members.filter(function (m) { return m.read && !m.read.error; });
+    var left = pool.filter(function (p) { return !read.some(function (m) { return (((roleOf(m.read, 'ace').numbers || {}).lost_to || {})[q.pool] || []).indexOf(p.name) < 0; }); });
+    return {ok: !left.length && read.length > 0, answer: (pool.length - left.length) + ' of ' + pool.length + ' beaten by at least one', detail: left.length ? 'Nobody beats: ' + left.map(function (p) { return p.name; }).join(', ') : 'every one is covered', left: left.map(function (p) { return p.species; })};
+  }
+  if (q.kind === 'stacked_weakness') {
+    var bad = comp.defense.filter(function (r) { return r.weak.length >= q.weak_at_least && !r.resist.length && !r.immune.length; });
+    return {ok: !bad.length, answer: bad.length ? bad.map(function (r) { return r.type; }).join(', ') : 'none', detail: bad.map(function (r) { return r.type + ': ' + r.weak.join(', ') + ' weak, nobody resists'; }).join('; '), types: bad.map(function (r) { return r.type; })};
+  }
+  if (q.kind === 'coverage_gap') {
+    var gaps = comp.offense.filter(function (r) { return r.best <= 1; });
+    return {ok: !gaps.length, answer: gaps.length ? gaps.map(function (r) { return r.type; }).join(', ') : 'none', detail: gaps.length ? 'At best neutral (no type advantage) against these' : 'every single type is hit super-effectively by someone', types: gaps.map(function (r) { return r.type; })};
+  }
+  if (q.kind === 'speed_over') {
+    var who = info.filter(function (x) { return x.sp.bs.spe > q.base; }).map(function (x) { return x.m.build.species + ' (' + x.sp.bs.spe + ')'; });
+    return {ok: who.length > 0, answer: who.length ? who.join(', ') : 'nobody', detail: 'base Speed above ' + q.base + ', same spread on both sides'};
+  }
+  if (q.kind === 'categories') {
+    var hits = [].concat.apply([], q.any.map(function (c) { return comp.moves.categories[c] || []; }));
+    return {ok: hits.length > 0, answer: hits.length ? uniqS(hits.map(function (h) { return h.split(':')[0]; })).join(', ') : 'nobody', detail: uniqS(hits).join(' · '), categories: q.any};
+  }
+  if (q.kind === 'roles') {
+    var miss = q.want.filter(function (r) { return !comp.roles[r].length; });
+    return {ok: !miss.length, answer: miss.length ? 'missing ' + miss.map(roleName).join(', ') : 'all four', detail: q.want.map(function (r) { return roleName(r) + ': ' + (comp.roles[r].join(', ') || '—'); }).join(' · '), roles: miss};
+  }
+  return {ok: null, answer: 'the lab doesn\'t know the question kind "' + q.kind + '" yet', detail: ''};
+}
+function uniqS(a) { var o = []; a.forEach(function (x) { if (o.indexOf(x) < 0) o.push(x); }); return o; }
+function teamShape(roles) {
+  var sh = TeamRoles.config().team.shapes, n = {ace: roles.ace.length, wall: roles.wall.length, sweeper: roles.sweeper.length, support: roles.support.length};
+  n.sweeper_or_ace = uniqS(roles.sweeper.concat(roles.ace)).length;
+  var words = TeamRoles.config().naming.words.team_shape || {};
+  for (var i = 0; i < sh.order.length; i++) { var id = sh.order[i], s = sh[id];
+    var ok = Object.keys(s.needs || {}).every(function (k) { return n[k] >= s.needs[k]; }) && Object.keys(s.at_most || {}).every(function (k) { return n[k] <= s.at_most[k]; });
+    if (ok) return {id: id, label: s.label, word: words[id] || null, counts: n}; }
+  return {id: 'balance', label: 'balance', word: words.balance || null, counts: n};
+}
+function shapeHtml(s) { return s.word ? esc(s.word) : '<span class="ph" title="team_shape.' + esc(s.id) + ': not named yet">⟨' + esc(s.label) + '⟩</span>'; }
+function openQs(comp) { return comp.questions.filter(function (q) { return q.ok === false; }).map(function (q) { return q.id; }); }
+
+/* ---- the Pokémon lab ---- */
+var PL = null;
+function pokemonIndex() {
+  return labsReady().then(function () {
+    var mine = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; })
+      .sort(function (a, b) { return ALL_GAMES.indexOf(a.game) - ALL_GAMES.indexOf(b.game) || (a.species < b.species ? -1 : 1); });
+    after(function (p) { var go = function () { var v = p.querySelector('#plq').value.trim(); if (v) nav('#/compare/' + encodeURIComponent(cap(v.toLowerCase()))); };
+      p.querySelector('#plgo').onclick = go; p.querySelector('#plq').addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); }); });
+    var species = uniqS(Object.keys(S.store.builds).map(function (k) { return S.store.builds[k].species; })).sort();
+    return '<div class="eyebrow">The Pokémon lab · one Pokémon, live</div><h1 style="margin:6px 0">The Pokémon lab</h1>' +
+      '<p class="lede">Pick a Pokémon. Change a move, the nature, the spread, the item or the ability, and its four team roles, its build name, its scouting lines, its fit on your team and your trainer identity all re-read. Nothing here changes canon.</p>' +
+      card('Your Pokémon', '<div class="pickgrid">' + mine.map(function (i) {
+        var r = packRead(i.id);
+        return '<a class="pick" href="#/pokemon/' + encodeURIComponent(i.id) + '"><img src="' + sprite(numOf(i.species), i.game) + '" alt=""><div><b>' + esc(i.species) + '</b><div class="tiny muted">' + esc(cap(i.game)) + (i.build ? '' : ' · moves filled by the engine') + '</div>' +
+          (r && !r.error ? '<div class="tiny">' + nameHtml(r.name) + '</div>' : '') + '</div></a>'; }).join('') + '</div>', {eyebrow: plural(mine.length, 'companion') + ' across the journey', tools: false}) +
+      card('Any species', '<datalist id="plsp">' + species.map(function (s) { return '<option value="' + esc(s) + '">'; }).join('') + '</datalist>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap"><input class="f" id="plq" list="plsp" placeholder="Species…" style="flex:1;min-width:180px"><button class="btn" id="plgo">Compare its builds</button></div>' +
+        '<p class="tiny muted" style="margin:8px 0 0">The compare screen lists every build of a species side by side (' + PROV_ORDER.join(', ') + '); open any of them here. ' + Object.keys(S.store.builds).length + ' builds on record.</p>',
+        {eyebrow: 'Start from a species', tools: false, style: 'margin-top:16px'});
+  });
+}
+function plRecord(id) {   // an individual, a store build, or a team lab slot (team:<game>:<n>)
+  var ind = (S.store.individuals || {})[id];
+  if (ind) return {kind: 'individual', ind: ind, build: indBuild(ind), game: ind.game, prov: 'yours', title: 'your ' + ind.species + ' (' + cap(ind.game) + ')'};
+  var slot = String(id).match(/^team:(\w+):(\d)$/);
+  if (slot) { var t = tlLoad(slot[1]), b = t[+slot[2]]; if (!b) return null;
+    return {kind: 'slot', slot: +slot[2], build: buildOf(b), game: slot[1], prov: b._prov || 'yours', title: 'team lab slot ' + (+slot[2] + 1) + ' (' + cap(slot[1]) + ')'}; }
+  var rec = storeBuild(id);
+  if (rec) return {kind: 'build', rec: rec, build: buildOf(rec, id), game: gameOf(rec), prov: rec.provenance, title: rec.name || id};
+  return null;
+}
+function pokemonLab(id) {
+  return labsReady().then(function () {
+    var rec = plRecord(id);
+    if (!rec) return '<div class="notice">No Pokémon or build called ' + esc(id) + '. <a href="#/pokemon">Back to the lab</a></div>';
+    PL = {id: id, rec: rec, game: rec.game, base: buildOf(rec.build), cur: buildOf(rec.build), maxIV: !rec.build.ivs, token: 0};
+    after(function (p) { plBind(p); plRun(); });
+    return '<a class="link" href="#/pokemon">← The Pokémon lab</a><div style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;justify-content:space-between;margin-top:10px"><div style="display:flex;gap:14px;align-items:center">' +
+      '<img src="' + art(numOf(rec.build.species)) + '" style="width:96px;height:96px;object-fit:contain"><div>' +
+      '<div class="eyebrow">The Pokémon lab · ' + esc(rec.title) + '</div><h1 style="margin:6px 0" id="plname">…</h1><div class="small">' + provChip(rec.prov) + ' <span id="plearned"></span> <span class="muted tiny" id="plmatch"></span></div></div></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="plReset()">Back to the original</button><a class="btn" href="#/compare/' + encodeURIComponent(rec.build.species) + '">Compare its builds</a>' +
+      (rec.kind === 'individual' ? '<a class="btn" href="#/pkhex/' + encodeURIComponent(id) + '">PKHeX export</a>' : '') + '<button class="btn gold" onclick="plToTeam()">' + (rec.kind === 'slot' ? 'Save to the team' : 'Put it on the team') + '</button></div></div>' +
+      '<div class="labgrid" style="margin-top:16px"><div id="plin"></div><div id="plout"><div class="empty">Reading it against every Elite Four and Champion Pokémon…</div></div></div>';
+  });
+}
+function plInputs() {
+  var b = PL.cur, gen = Battle.GAME_GEN[PL.game], moves = [], abil = Battle.abilities(gen, b.species), iv = b.ivs || {}, ev = b.evs || {};
+  try { moves = Battle.learnable(b.species, PL.game); } catch (e) { moves = []; }
+  var natures = (S.builds.natures || []).map(function (x) { return x.name; }), items = Object.keys((S.scoutPack || {}).items || {}).sort();
+  return card('What you can change', '<datalist id="plmv">' + moves.map(function (m) { return '<option value="' + esc(m) + '">'; }).join('') + '</datalist>' +
+    '<datalist id="plit">' + items.map(function (m) { return '<option value="' + esc(m) + '">'; }).join('') + '</datalist>' +
+    '<label class="l">Game (the era every number is read in)</label><select class="f" data-pl="game">' + gamesOfGen(gen).map(function (g) { return '<option value="' + g + '"' + (g === PL.game ? ' selected' : '') + '>' + Battle.GAME_TITLE[g] + '</option>'; }).join('') + '</select>' +
+    '<label class="l" style="margin-top:10px">Moves <span class="tiny muted">(' + moves.length + ' it can learn in this game)</span></label>' +
+    [0, 1, 2, 3].map(function (i) { return '<input class="f" list="plmv" data-plmove="' + i + '" value="' + esc(b.moves[i] || '') + '" placeholder="open: the engine fills its strongest move" style="margin-bottom:6px">'; }).join('') +
+    (gen >= 3 ? '<div class="row" style="margin-top:4px"><div><label class="l">Nature</label><select class="f" data-pl="nature"><option value="">(none recorded)</option>' + natures.map(function (x) { return '<option' + (x === b.nature ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join('') + '</select></div>' +
+      '<div><label class="l">Ability</label><select class="f" data-pl="ability"><option value="">(first: ' + esc(abil[0] || '—') + ')</option>' + abil.map(function (x) { return '<option' + (x === b.ability ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join('') + '</select></div></div>'
+      : '<p class="tiny muted">Gen 2 has no natures or abilities.</p>') +
+    '<label class="l" style="margin-top:10px">Held item</label><input class="f" list="plit" data-pl="item" value="' + esc(b.item || '') + '" placeholder="(none)">' +
+    '<label class="small" style="display:block;margin-top:12px"><input type="checkbox" data-pl="maxiv"' + (PL.maxIV ? ' checked' : '') + '> Max IVs (31 in every stat)</label>' +
+    (PL.maxIV ? '' : '<div class="evgrid">' + STATS.map(function (s) { return '<label class="tiny">' + STAT_NAME[s] + '<input class="f" type="number" min="0" max="31" data-pliv="' + s + '" value="' + (iv[s] != null ? iv[s] : 31) + '"></label>'; }).join('') + '</div>') +
+    '<label class="l" style="margin-top:10px">EVs</label><div class="tiny muted">Blank means none recorded: fights read the standard 85 in each stat, and blank counts as no evidence for any role.</div>' +
+    '<div class="evgrid">' + STATS.map(function (s) { return '<label class="tiny">' + STAT_NAME[s] + '<input class="f" type="number" min="0" max="255" data-plev="' + s + '" value="' + (ev[s] != null ? ev[s] : '') + '" placeholder="—"></label>'; }).join('') + '</div>' +
+    '<p class="tiny muted" style="margin:10px 0 0">Each change re-reads the build here in the page: its one-on-ones against every Elite Four and Champion Pokémon of its generation (both level 100), the role engine, the trainer report and the scouting lines.</p>',
+    {eyebrow: 'The build', tools: false});
+}
+function plBind(p) {
+  var box = p.querySelector('#plin'); box.innerHTML = plInputs();
+  var t = null, fire = function () { clearTimeout(t); t = setTimeout(plRun, 450); };
+  box.addEventListener('input', function (e) {
+    var el = e.target, k;
+    if ((k = el.getAttribute('data-plmove')) != null) { PL.cur.moves = [0, 1, 2, 3].map(function (i) { var x = box.querySelector('[data-plmove="' + i + '"]'); return x ? x.value.trim() : ''; }).filter(Boolean); }
+    else if ((k = el.getAttribute('data-plev'))) { var ev = Object.assign({}, PL.cur.evs || {}); if (el.value === '') delete ev[k]; else ev[k] = Math.max(0, Math.min(255, +el.value || 0)); if (Object.keys(ev).length) PL.cur.evs = ev; else delete PL.cur.evs; }
+    else if ((k = el.getAttribute('data-pliv'))) { var iv = Object.assign({}, PL.cur.ivs || {}); iv[k] = Math.max(0, Math.min(31, +el.value || 0)); PL.cur.ivs = iv; }
+    else if (el.getAttribute('data-pl') === 'item') { if (el.value.trim()) PL.cur.item = el.value.trim(); else delete PL.cur.item; }
+    else return;
+    fire();
+  });
+  box.addEventListener('change', function (e) {
+    var el = e.target, k = el.getAttribute('data-pl');
+    if (k === 'game') { PL.game = el.value; box.innerHTML = plInputs(); }
+    else if (k === 'nature') { if (el.value) PL.cur.nature = el.value; else delete PL.cur.nature; }
+    else if (k === 'ability') { if (el.value) PL.cur.ability = el.value; else delete PL.cur.ability; }
+    else if (k === 'maxiv') { PL.maxIV = el.checked; if (el.checked) delete PL.cur.ivs; else PL.cur.ivs = Object.assign({hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31}, PL.cur.ivs || {}); box.innerHTML = plInputs(); }
+    else return;
+    fire();
+  });
+}
+function plReset() { PL.cur = buildOf(PL.base); PL.maxIV = !PL.base.ivs; PL.game = PL.rec.game; document.getElementById('plin').innerHTML = plInputs(); plRun(); }
+function plRun() {
+  var tok = ++PL.token, out = document.getElementById('plout');
+  if (!out) return;
+  if (out.firstElementChild && !document.getElementById('plbusy')) out.insertAdjacentHTML('afterbegin', '<div class="notice" id="plbusy" style="margin-bottom:12px">Re-reading…</div>');
+  setTimeout(function () {
+    if (tok !== PL.token || !document.getElementById('plout')) return;
+    try {
+      var base = PL.base, cur = PL.cur, rb = liveRead(base, PL.rec.game), rc = liveRead(cur, PL.game);
+      if (rc.error) throw new Error(rc.error);
+      var lb = Battle.memberReport(base.species, PL.rec.game, base), lc = Battle.memberReport(cur.species, PL.game, cur);
+      var fb = plFit(base, rb, PL.rec.game), fc = plFit(cur, rc, PL.game);
+      if (tok !== PL.token) return;
+      document.getElementById('plname').innerHTML = nameHtml(rc.name);
+      document.getElementById('plearned').innerHTML = earnedChips(rc);
+      document.getElementById('plmatch').textContent = 'match ' + rc.name.match.toFixed(2) + ' · ' + rc.second_layer.primary.name;
+      document.getElementById('plout').innerHTML = plOutput(cur, rb, rc, lb, lc, fb, fc);
+    } catch (e) { document.getElementById('plout').innerHTML = '<div class="notice">The engines couldn\'t read this build: ' + esc(e && e.message || e) + '</div>'; console.error(e); }
+  }, 30);
+}
+function plFit(b, read, game) {   // the team lab's six for this game, with this Pokémon in its species' slot (or the last one)
+  var team = tlLoad(game).map(function (x) { return x ? buildOf(x) : null; });
+  var i = team.map(function (x) { return x && x.species; }).indexOf(b.species);
+  if (i < 0) i = team.indexOf(null); if (i < 0) i = 5;
+  team[i] = b;
+  var members = team.filter(Boolean).map(function (x) { return {build: x, read: x === b ? read : liveRead(x, game)}; });
+  var comp = teamComp(members, game), rep = null;
+  try { var v = Scout.version('me', game); v.team = members.map(function (m) { return Object.assign({id: 'lab:' + m.build.species}, m.build); }); rep = Scout.report(v, {playsheet: false}); } catch (e) { rep = null; }
+  return {comp: comp, report: rep, slot: i};
+}
+function plOutput(cur, rb, rc, lb, lc, fb, fc) {
+  var gen = Battle.GAME_GEN[PL.game], sp = Battle.species(gen, cur.species), d = dexOf(cur.species) || {}, moved = [];
+  if (rb.name.text !== rc.name.text) moved.push(['Build name', nameHtml(rb.name), nameHtml(rc.name)]);
+  if (rb.earned.join() !== rc.earned.join()) moved.push(['Team roles earned', earnedChips(rb), earnedChips(rc)]);
+  var p1 = rb.second_layer.primary, p2 = rc.second_layer.primary;
+  if (p1.role !== p2.role || Math.abs(p1.score - p2.score) > 1e-9) moved.push(['Primary role (role engine)', esc(p1.name + ' ' + p1.score.toFixed(2)), esc(p2.name + ' ' + p2.score.toFixed(2))]);
+  var said = function (r) { return r.phrases.map(function (p) { return p.text; }); }, A = said(lb), B = said(lc);
+  var gone = A.filter(function (x) { return B.indexOf(x) < 0; }), came = B.filter(function (x) { return A.indexOf(x) < 0; });
+  var qb = openQs(fb.comp), qc = openQs(fc.comp), qName = function (id) { return TeamRoles.config().team.questions.filter(function (q) { return q.id === id; })[0].ask; };
+  var slB = fb.report && fb.report.sliders, slC = fc.report && fc.report.sliders;
+  return card('The four team roles', roleRows(rc, rb) + '<div class="tiny muted" style="margin-top:8px">Highest first. A row that moved from the build as it opened is highlighted and says what it was.</div>', {eyebrow: 'Ace · Wall · Sweeper · Support', tools: false}) +
+    card('What moved', (moved.length ? '<table class="t"><tr><th></th><th>Before</th><th>Now</th></tr>' + moved.map(function (m) { return '<tr class="moved"><td>' + m[0] + '</td><td>' + m[1] + '</td><td>' + m[2] + '</td></tr>'; }).join('') + '</table>' : '<div class="tiny muted">The name, the earned roles and the primary role are unchanged.</div>') +
+      '<div class="eyebrow" style="margin-top:14px">Its scouting report lines</div>' + (gone.length || came.length ? came.map(function (x) { return '<div class="sent new">' + esc(x) + '</div>'; }).join('') + gone.map(function (x) { return '<div class="sent gone"><div>' + esc(x) + '</div></div>'; }).join('')
+        : lc.phrases.slice(0, 4).map(function (p) { return '<div class="sent">' + esc(p.text) + '</div>'; }).join('') + '<div class="tiny muted">(unchanged)</div>') +
+      '<div class="eyebrow" style="margin-top:14px">On your ' + esc(Battle.GAME_TITLE[PL.game]) + ' team (team lab, slot ' + (fc.slot + 1) + ')</div>' +
+      '<div class="small">Team shape: ' + shapeHtml(fc.comp.shape) + (fb.comp.shape.id !== fc.comp.shape.id ? ' <span class="tiny muted">(was ' + shapeHtml(fb.comp.shape) + ')</span>' : '') + '</div>' +
+      '<div class="small">Open questions: ' + (qc.length ? esc(qc.map(qName).join(' · ')) : 'none') + '</div>' +
+      (qb.join() !== qc.join() ? '<div class="tiny">' + qc.filter(function (q) { return qb.indexOf(q) < 0; }).map(function (q) { return '<span style="color:var(--ember-2)">opens: ' + esc(qName(q)) + '</span>'; }).concat(qb.filter(function (q) { return qc.indexOf(q) < 0; }).map(function (q) { return '<span style="color:var(--forest-3)">closes: ' + esc(qName(q)) + '</span>'; })).join(' · ') + '</div>' : '') +
+      (slB && slC ? '<div class="eyebrow" style="margin-top:14px">Your trainer identity (measured from the team)</div>' + Object.keys(slC).map(function (k) {
+        var a = (slB[k] || {}).measured, c = slC[k].measured;
+        return '<div class="small' + (a !== c ? ' moved' : '') + '">' + esc(Battle.SLIDER_NAMES && Battle.SLIDER_NAMES[k] || cap(k)) + ': ' + (c == null ? 'no signal' : c) + (a !== c ? ' <span class="tiny muted">was ' + (a == null ? 'no signal' : a) + '</span>' : '') + '</div>'; }).join('') : '') +
+      '<div style="margin-top:10px"><a class="link" href="#/team/' + PL.game + '">Open the team lab →</a></div>',
+      {eyebrow: 'Before and after', tools: false, style: 'margin-top:16px'}) +
+    card('Show your work', workHtml(rc), {eyebrow: 'Every rule and number', tools: false, style: 'margin-top:16px'}) +
+    card('What it is', '<div class="small">' + types(sp.types) + ' · BST <b class="num">' + ((S.r4.bst[String(gen)] || {})[sp.name] || '—') + '</b>' + (d.genus ? ' · ' + esc(d.genus) : '') + (d.h ? ' · ' + d.h + ' m, ' + d.w + ' kg' : '') + '</div>' +
+      '<div style="margin-top:8px">' + statBars(sp.bs) + '</div>' +
+      '<div class="tiny muted" style="margin-top:6px">Abilities: ' + esc(Battle.abilities(gen, cur.species).join(', ') || '—') + (d.eg ? ' · egg groups: ' + esc(d.eg.join(', ')) : '') + '</div>' + (d.dex ? '<p class="small" style="margin:8px 0 0">“' + esc(d.dex) + '”</p>' : ''),
+      {eyebrow: 'Species · the same for every build', tools: false, style: 'margin-top:16px'});
+}
+function plToTeam() {
+  var t = tlLoad(PL.game), i = PL.rec.kind === 'slot' && PL.rec.game === PL.game ? PL.rec.slot : t.map(function (x) { return x && x.species; }).indexOf(PL.cur.species);
+  if (i < 0) i = t.indexOf(null); if (i < 0) i = 5;
+  t[i] = Object.assign(buildOf(PL.cur), {_prov: PL.rec.prov, _from: PL.id}); delete t[i].id; tlSave(PL.game, t);
+  toast('On your ' + esc(Battle.GAME_TITLE[PL.game]) + ' team, slot ' + (i + 1) + '. <a href="#/team/' + PL.game + '">Open the team lab →</a>');
+}
+
+/* ---- the build compare screen ---- */
+function compare(speciesName) {
+  return labsReady().then(function () {
+    var want = String(speciesName).toLowerCase(), B = S.store.builds;
+    var rows = Object.keys(B).filter(function (k) { return String(B[k].species).toLowerCase() === want; }).map(function (k) { return Object.assign({id: k}, B[k]); });
+    Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (String(i.species).toLowerCase() === want && !i.build) rows.push({id: k, species: i.species, game: i.game, moves: [], provenance: 'yours', status: 'no build on record', individual: true}); });
+    if (!rows.length) return '<div class="notice">No builds of ' + esc(speciesName) + ' on record. <a href="#/pokemon">Back to the lab</a></div>';
+    rows.sort(function (a, b) { return PROV_ORDER.indexOf(a.provenance) - PROV_ORDER.indexOf(b.provenance) || (a.generation || 9) - (b.generation || 9) || String(a.id).localeCompare(String(b.id)); });
+    var who = {}; Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (i.build) who[i.build] = k; });
+    var readOf = function (b) { var r = packRead(b.id) || (who[b.id] ? packRead(who[b.id]) : null); return r && !r.error ? r : null; };
+    var labId = function (b) { return who[b.id] || b.id; };
+    var cell = function (x) { return x == null || x === '' ? '<span class="muted">—</span>' : esc(x); };
+    after(function (p) { p.querySelectorAll('[data-cmpread]').forEach(function (bt) { bt.onclick = function () { var id = bt.getAttribute('data-cmpread'), b = storeBuild(id); bt.textContent = 'Reading…'; bt.disabled = true;
+      setTimeout(function () { try { var r = liveRead(buildOf(b), gameOf(b)); bt.outerHTML = r.error ? '<span class="tiny muted">' + esc(r.error) + '</span>' : cmpRoles(r); } catch (e) { bt.textContent = 'couldn\'t read: ' + e.message; } }, 20); }; }); });
+    var sp = rows[0].species, counts = {}; rows.forEach(function (b) { counts[b.provenance] = (counts[b.provenance] || 0) + 1; });
+    return '<a class="link" href="#/pokemon">← The Pokémon lab</a><div class="eyebrow" style="margin-top:10px">Build compare · every ' + esc(sp) + ' on record</div><h1 style="margin:6px 0">' + esc(sp) + ', side by side</h1>' +
+      '<p class="lede">Every build of this species: yours, the canonical ones trainers ran, stock archetypes, sets read off replays and Smogon\'s competitive sets. Every changeable field is a column. Open one in the Pokémon lab to change it or put it on the team.</p>' +
+      '<div style="margin:10px 0 14px">' + PROV_ORDER.filter(function (p) { return counts[p]; }).map(function (p) { return provChip(p) + ' <span class="tiny muted">' + counts[p] + '</span>'; }).join(' &nbsp; ') + '</div>' +
+      '<div class="card"><div class="bd" style="overflow-x:auto"><table class="t"><tr><th>Build</th><th>Source</th><th>Name and team roles</th><th>Move 1</th><th>Move 2</th><th>Move 3</th><th>Move 4</th><th>Nature</th><th>Ability</th><th>Item</th><th>IVs</th><th>EVs</th><th>Gen</th><th></th></tr>' +
+      rows.map(function (b) { var r = readOf(b), m = b.moves || [];
+        return '<tr><td><b>' + esc(cmpLabel(b)) + '</b><div class="tiny muted">' + esc(b.status || b.source || '') + '</div></td><td>' + provChip(b.provenance) + (b.trainers ? '<div class="tiny muted">' + esc(b.trainers.join(', ')) + '</div>' : '') + '</td>' +
+          '<td style="min-width:220px">' + (r ? cmpRoles(r) : b.individual ? '<span class="tiny muted">moves filled by the engine: open it in the lab</span>' : '<button class="btn sm" data-cmpread="' + esc(b.id) + '">Read it</button>') + '</td>' +
+          [0, 1, 2, 3].map(function (i) { return '<td>' + cell(m[i]) + '</td>'; }).join('') + '<td>' + cell(b.nature) + '</td><td>' + cell(b.ability) + '</td><td>' + cell(b.item) + '</td><td>' + cell(evLine(b.ivs) || 'max') + '</td><td>' + cell(evLine(b.evs) || 'none recorded') + '</td>' +
+          '<td>' + cell(b.generation || (b.game ? Battle.GAME_GEN[b.game] : '')) + '</td><td style="white-space:nowrap"><a class="btn sm" href="#/pokemon/' + encodeURIComponent(labId(b)) + '">Open in the lab</a></td></tr>'; }).join('') + '</table></div></div>';
+  });
+}
+function cmpLabel(b) {
+  var y = String(b.id).match(/^(?:yours|me):(\w+)\/(.+)$/), c = String(b.id).match(/^competitive:(\w+)\//);
+  if (y) return 'Your ' + y[2] + ' (' + (Battle.GAME_TITLE[y[1]] || cap(y[1])) + ')';
+  if (c) return (b.name || 'Smogon set') + ' · ' + c[1];
+  return b.name || b.id;
+}
+function cmpRoles(r) { return '<div class="small">' + nameHtml(r.name) + '</div><div class="tiny">' + r.roles.map(function (x) { return (x.earned ? '<b style="color:var(--forest-3)">' : '<span class="muted">') + esc(roleName(x.role)) + ' ' + x.score.toFixed(2) + (x.earned ? '</b>' : '</span>'); }).join(' · ') + '</div>'; }
+
+/* ---- PKHeX export (its own screen) ---- */
+function pkhex(id) {
+  return labsReady().then(function () {
+    var ids = Object.keys(S.store.individuals || {});
+    if (!id) return '<div class="eyebrow">PKHeX export</div><h1 style="margin:6px 0">PKHeX export</h1><p class="lede">One of your Pokémon as a Showdown set (PKHeX imports it) plus a PKHeX Batch Editor script for the parts a set can\'t carry: PID, IVs and EVs exactly, ball, met level, friendship.</p>' +
+      card('Your Pokémon', '<div class="pickgrid">' + ids.map(function (k) { var i = S.store.individuals[k]; return '<a class="pick" href="#/pkhex/' + encodeURIComponent(k) + '"><img src="' + sprite(numOf(i.species), i.game) + '" alt=""><div><b>' + esc(i.species) + '</b><div class="tiny muted">' + esc(cap(i.game)) + '</div></div></a>'; }).join('') + '</div>', {tools: false});
+    var rec = plRecord(id); if (!rec || rec.kind !== 'individual') return '<div class="notice">No individual called ' + esc(id) + '. <a href="#/pkhex">Pick one</a></div>';
+    var ind = rec.ind, b = rec.build, read = liveRead(b, rec.game), used = (ind.defaults_used || []).slice();
+    var level = ind.level || 100; if (!ind.level) used.push('level 100 (no level on record)');
+    if (read.filled_moves && read.filled_moves.length) used.push('moves ' + read.filled_moves.join(', ') + ' (the engine\'s strongest set; no moves on record)');
+    var ball = String(ind.ball || 'Poké Ball').replace(/ Ball$/, '').replace('é', 'e');
+    var sp = {species: b.species, game: rec.game, level: level, nickname: ind.nickname || '', moves: read.error ? b.moves : read.moves.slice(0, 4), item: b.item || '', nature: b.nature || '', ability: b.ability || '',
+      gender: ind.gender === 'M' || ind.gender === 'F' ? ind.gender : '', shiny: !!ind.shiny, ivs: b.ivs || {}, evs: b.evs || {}, ball: ball, friendship: ind.friendship == null ? null : ind.friendship, met_level: ind.caught_level};
+    var c = Specimen.derive(sp);
+    return '<a class="link" href="#/pkhex">← PKHeX export</a><div class="eyebrow" style="margin-top:10px">PKHeX export · ' + esc(rec.title) + '</div><h1 style="margin:6px 0">' + esc(b.species) + '</h1>' +
+      (c.conflicts.length ? '<div class="notice">' + esc(c.conflicts.join('; ')) + '</div>' : '') +
+      '<div class="grid" style="margin-top:12px"><div class="c5">' + card('The individual', [['nickname', ind.nickname], ['ball', ind.ball], ['met location', ind.met_location], ['met level', ind.caught_level], ['met as', ind.met_as], ['gender', ind.gender], ['shiny', ind.shiny ? 'yes' : 'no'], ['friendship', ind.friendship == null ? 'base' : ind.friendship]].map(function (x) {
+        return '<div class="small"><span class="muted">' + x[0] + ':</span> ' + esc(x[1] == null || x[1] === '' ? '—' : String(x[1])) + '</div>'; }).join('') +
+        (c.pid ? '<div class="small" style="margin-top:8px"><span class="muted">PID:</span> <span class="mono">' + esc(c.pid) + '</span> · ' + esc(c.nature + ', ' + c.nature_effect) + (c.hidden_power ? ' · Hidden Power ' + esc(c.hidden_power) : '') + '</div>' : '') +
+        (ind.note ? '<div class="tiny muted" style="margin-top:8px">' + esc(ind.note) + '</div>' : '') + c.notes.map(function (n) { return '<div class="tiny muted">' + esc(n) + '</div>'; }).join('') +
+        '<div class="tiny muted" style="margin-top:8px">Defaults used: ' + esc(used.join('; ') || 'none') + '</div>', {tools: false}) + '</div>' +
+      '<div class="c7">' + card('Showdown set (PKHeX imports it)', '<div class="paste">' + esc(Specimen.showdown(sp, c)) + '</div>', {tools: false}) +
+      card('Batch Editor script', '<div class="paste">' + esc(Specimen.batch(sp, c)) + '</div><p class="tiny muted">The met location is a name here and an index in PKHeX, so set it there by hand. .pk files aren\'t written yet (docs/SPECIMEN_LAB.md).</p>', {tools: false, style: 'margin-top:16px'}) + '</div></div>';
+  });
+}
+route(/^\/pokemon\/?$/, pokemonIndex, 'The Pokémon lab', '#/pokemon');
+route(/^\/pokemon\/(.+)$/, pokemonLab, function (i) { return 'Pokémon lab · ' + i; }, '#/pokemon');
+route(/^\/compare\/(.+)$/, compare, function (s) { return 'Build compare · ' + s; }, '#/pokemon');
+route(/^\/pkhex\/?$/, function () { return pkhex(null); }, 'PKHeX export', '#/pkhex');
+route(/^\/pkhex\/(.+)$/, pkhex, function (i) { return 'PKHeX export · ' + i; }, '#/pkhex');
+</script>

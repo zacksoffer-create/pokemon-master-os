@@ -112,6 +112,15 @@ def pack(store=None):
         if b.item:
             item_names.add(b.item)
     out["library"] = {i: build_dict(b) for i, b in store.library.items()}
+    # every build in the record store too (Smogon's sets name forms like Deoxys-Defense and Rotom-Wash; the labs read them)
+    record = os.path.join(ENGINE, "store", "out", "builds.json")
+    if os.path.exists(record):
+        with open(record, encoding="utf-8") as fh:
+            for b in json.load(fh)["builds"].values():
+                names.add(b["species"])
+                move_names.update(b.get("moves") or [])
+                if b.get("item"):
+                    item_names.add(b["item"])
     # species: every default species of Gens 1-4, the field's slugs, and every form a team names
     for sid in range(1, 494):
         names.add(ref.name(sid))

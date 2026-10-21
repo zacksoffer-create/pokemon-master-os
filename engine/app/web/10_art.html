@@ -132,7 +132,11 @@ var Art = (function () {
     engine: 'M12 8 A4 4 0 1 0 12 16 A4 4 0 1 0 12 8 M12 2 V5 M12 19 V22 M2 12 H5 M19 12 H22 M4.9 4.9 L7 7 M17 17 L19.1 19.1 M4.9 19.1 L7 17 M17 7 L19.1 4.9',
     advance: 'M8 4 H16 V6 H8Z M6 5 H5 V21 H19 V5 H18 M8 11 H16 M8 15 H13',
     field: 'M3 20 L12 5 L21 20Z M12 5 V20 M8 20 L12 13 L16 20',
-    inbox: 'M3 13 L6 5 H18 L21 13 V19 H3Z M3 13 H8 L9 15 H15 L16 13 H21'
+    inbox: 'M3 13 L6 5 H18 L21 13 V19 H3Z M3 13 H8 L9 15 H15 L16 13 H21',
+    plab: 'M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 M3 12 H9 M15 12 H21 M12 9.5 A2.5 2.5 0 1 0 12 14.5 A2.5 2.5 0 1 0 12 9.5 M17 4 L19 2 M19 6 L21 5',
+    tlab: 'M5 7 A2 2 0 1 0 5 11 A2 2 0 1 0 5 7 M12 5 A2 2 0 1 0 12 9 A2 2 0 1 0 12 5 M19 7 A2 2 0 1 0 19 11 A2 2 0 1 0 19 7 M5 14 A2 2 0 1 0 5 18 A2 2 0 1 0 5 14 M12 15 A2 2 0 1 0 12 19 A2 2 0 1 0 12 15 M19 14 A2 2 0 1 0 19 18 A2 2 0 1 0 19 14',
+    lines: 'M12 21 V12 M12 12 C12 8 9 6 6 6 C6 9 8 12 12 12 M12 15 C12 11 15 9 18 9 C18 12 16 15 12 15 M12 7 A2 2 0 1 0 12 3 A2 2 0 1 0 12 7',
+    pkhex: 'M4 5 H20 V19 H4Z M8 9 L6 12 L8 15 M16 9 L18 12 L16 15 M13 8 L11 16'
   };
   function icon(name) {
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="' + (ICON[name] || ICON.home) + '"/></svg>';

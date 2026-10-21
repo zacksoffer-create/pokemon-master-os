@@ -311,7 +311,10 @@ def store_pack():
     for name in ("builds", "individuals", "teams", "lines"):
         path = os.path.join(src, f"{name}.json")
         if os.path.exists(path):
-            out[name] = {k: v for k, v in load(path).items() if not k.startswith("_")}
+            d = load(path)
+            out[name] = d[name]
+            if name == "builds":
+                out["aliases"] = d.get("aliases", {})
     prop = os.path.join(ENGINE, "store", "proposed_lines.json")
     if os.path.exists(prop):
         out["proposed_lines"] = load(prop)["lines"]

@@ -35,7 +35,7 @@ STEPS = [
     ("census", PY + ["ranch/report.py"], "engine/data_manifest/ranch_census.json", []),
     ("dashboard", PY + ["ranch/dashboard.py"], "engine/data_manifest/blackthorn.json", []),
     ("sheet-calls", PY + ["ranch/sheet.py"], "engine/data_manifest/sheet/*.json (files only; never sent)", ["dashboard"]),
-    ("roles4", PY + ["trainers/team_roles.py", "--pack"], "engine/app/data/roles4.json, docs/roles/*", []),
+    ("roles4", PY + ["trainers/team_roles.py", "--pack"], "engine/app/data/roles4.json, docs/roles/*", ["store"]),
     ("store", PY + ["store/migrate.py"], "engine/store/out/*.json", []),
     ("app-data", PY + ["app/export.py"], "engine/app/data/*.json", ["reports", "packets-page", "dashboard", "roles4", "store"]),
     ("app", PY + ["app/build.py"], "engine/app/dist/ (zip, preview)", ["app-data"]),

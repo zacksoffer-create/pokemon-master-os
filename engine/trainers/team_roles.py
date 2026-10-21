@@ -7,6 +7,7 @@ Every rule and number is in trainers/team_roles.json; this file only evaluates t
     python3 -I trainers/team_roles.py --pack                 # every library and journey build: app/data/roles4.json,
                                                              #   docs/roles/ROLE_SCORES.md, docs/naming/NAMES_NEEDED.md
     python3 -I trainers/team_roles.py --parity OUT [ids]     # Python's reads for the browser parity test
+    python3 -I trainers/team_roles.py --docs                 # ROLE_SCORES.md and NAMES_NEEDED.md again from the stored pack
 
 - **Ace** plays the build one-on-one against every Pokémon of its generation's Elite Four and Champions (named pools,
   rematches included), both sides at level 100, in the battle engine (battle/evaluate.py: our best plan against the
@@ -100,8 +101,11 @@ class TeamRoles:
                     ours[b.id] = self.combatant(b, gen)
                 except (KeyError, IndexError, ValueError, TypeError):
                     pass
-            res = self.ev.versus(list({c.key: c for c in ours.values()}.values()), list({c.key: c for c in field}.values()))
+            res = self.ev.versus(list({c.key: c for c in ours.values()}.values()), list({c.key: c for c in field}.values()),
+                                 rounds=self.cfg["fetch_rounds"])
             for bid, a in ours.items():
+                if any((a.key, c.key) not in res for c in field):
+                    continue                  # a fight that didn't settle in the rounds allowed reads as an error, not a guess
                 out[bid] = {pool: [(c, where, res[(a.key, c.key)]) for c, where in members] for pool, members in pools.items()}
         return out
 
@@ -244,6 +248,8 @@ class TeamRoles:
 
     def _read_one(self, b, game, fights):
         gen = rules.GAME_GEN[game]
+        if b.id not in fights:
+            raise ValueError(f"its fights didn't settle in {self.cfg['fetch_rounds']} calculator rounds (or it can't be built)")
         filled = Build(**{**b.__dict__, "moves": list(self.combatant(b, gen).moves), "level": self.cfg["level"]})
         cl = self.book.classify(filled, game, self.cfg["level"])
         ctx = self.book.context(filled, game, self.cfg["level"])
@@ -305,6 +311,35 @@ def names_needed(cfg, reads, book):
         for (k, label), n in need.get(slot, {}).items():
             rows.setdefault(k, {"id": k, "means": label, "builds_using_it": 0, "named": False})["builds_using_it"] = n
         out[slot] = sorted(rows.values(), key=lambda r: (-r["builds_using_it"], r["id"]))
+    shapes = cfg["team"]["shapes"]
+    out["team_shape"] = [{"id": k, "means": shapes[k]["label"] + ": " + ", ".join(
+        [f"{n}+ {r.replace('_or_', ' or ')}" for r, n in shapes[k].get("needs", {}).items()] +
+        [f"at most {n} {r}" for r, n in shapes[k].get("at_most", {}).items()]) if shapes[k].get("needs") or shapes[k].get("at_most")
+        else shapes[k]["label"] + ": anything the others don't fit", "builds_using_it": None,
+        "named": bool((words.get("team_shape") or {}).get(k))} for k in shapes["order"]] + (
+        [] if "balance" in shapes["order"] else [{"id": "balance", "means": "balance: anything the others don't fit",
+                                                  "builds_using_it": None, "named": bool((words.get("team_shape") or {}).get("balance"))}])
+    out["line"] = [{"id": l["id"], "means": l["means"], "builds_using_it": None, "named": bool((words.get("line") or {}).get(l["id"]))}
+                   for l in breeding_lines()]
+    return out
+
+
+def breeding_lines():
+    """The boutique lines the breeding lab shows (app/web/86_breedlines.html uses the same ids)."""
+    out = []
+    path = os.path.join(ENGINE, "store", "out", "lines.json")
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as fh:
+            for l in json.load(fh)["lines"]:
+                lid = "-".join(x for x in "".join(c if c.isalnum() else " " for c in f"{l['game']}-{l['species']}".lower()).split())
+                out.append({"id": lid, "means": f"{l['species']} line, {l['game']}: bred for {', '.join(l['egg_moves'])}"})
+    path = os.path.join(ENGINE, "store", "proposed_lines.json")
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as fh:
+            for l in json.load(fh)["lines"]:
+                sig = l.get("signature") or {}
+                out.append({"id": l["id"], "means": f"{l['species']} line, {l['game']} (proposed): " + ", ".join(sig.get("moves") or l["egg_moves"])
+                            + (f", {sig['ability']}" if sig.get("ability") else "")})
     return out
 
 
@@ -333,7 +368,13 @@ def write_pack(tr, reads):
                       for g in (2, 3, 4)}}
     with open(os.path.join(ENGINE, "app", "data", "roles4.json"), "w", encoding="utf-8") as fh:
         json.dump(pack, fh, ensure_ascii=False, separators=(",", ":"))
-    need = names_needed(cfg, reads, tr.book)
+    write_docs(cfg, reads, tr.book)
+    return pack
+
+
+def write_docs(cfg, reads, book):
+    """docs/roles/ROLE_SCORES.md and docs/naming/NAMES_NEEDED.md (+ .json) from a set of reads."""
+    need = names_needed(cfg, reads, book)
     with open(os.path.join(ROOT, "docs", "naming", "names_needed.json"), "w", encoding="utf-8") as fh:
         json.dump(need, fh, indent=1, ensure_ascii=False)
     # the distribution report
@@ -342,7 +383,7 @@ def write_pack(tr, reads):
     match = [r["name"]["match"] for r in reads.values()]
     lines = ["# Role scores across every build", "",
              f"Generated by `python3 -I engine/trainers/team_roles.py --pack` from {len(reads)} builds "
-             "(the build library plus every journey companion), after the B4 and B19 fixes. Rules: "
+             "(the build library, every journey companion and every Smogon competitive set in the record store). Rules: "
              "`engine/trainers/team_roles.json`.", "",
              "## The match score (the role engine's primary score, which the name ladder reads)", "",
              "| Score | Builds |", "|---|---|"]
@@ -378,19 +419,23 @@ def write_pack(tr, reads):
           "Generated by `python3 -I engine/trainers/team_roles.py --pack`.", ""]
     titles = {"type": "Type words (the build's first type)", "noun": "Role nouns (the role engine's primary role)",
               "hybrid": "Hybrid nouns (two or three roles at 0.80 or more; only pairs builds use today)",
-              "moveset": "Moveset words", "team_role": "Team-role words", "bst": "Base-stat-total words"}
+              "moveset": "Moveset words", "team_role": "Team-role words", "bst": "Base-stat-total words",
+              "team_shape": "Team shapes (the team lab: the first shape whose role counts fit, in this order)",
+              "line": "Breeding lines (the breeding lab; one name per boutique line)"}
+    counts = {slot: sum(1 for r in rows if not r["named"]) for slot, rows in need.items()}
+    ln += ["## At a glance", "", "| What | Still to name |", "|---|---|"] + [f"| {titles[k]} | {n} |" for k, n in counts.items()]
+    ln += [f"| One word for a build below the last band (`naming.words.unnamed`) | {0 if cfg['naming']['words'].get('unnamed') else 1} |",
+           f"| **Total** | **{sum(counts.values()) + (0 if cfg['naming']['words'].get('unnamed') else 1)}** |", ""]
     for slot, rows in need.items():
-        ln += [f"## {titles[slot]}", "", "| id | means | builds using it | named |", "|---|---|---|---|"]
-        ln += [f"| `{r['id']}` | {r['means']} | {r['builds_using_it']} | {'yes' if r['named'] else ''} |" for r in rows]
+        used = rows and rows[0]["builds_using_it"] is not None
+        ln += [f"## {titles[slot]}", "", f"Fill in `naming.words.{slot}.<id>`.", "",
+               "| id | means |" + (" builds using it |" if used else "") + " named |", "|---|---|" + ("---|" if used else "") + "---|"]
+        ln += [f"| `{r['id']}` | {r['means']} |" + (f" {r['builds_using_it']} |" if used else "") + f" {'yes' if r['named'] else ''} |" for r in rows]
         ln.append("")
-    ln += ["## Other things waiting on a name or a rule", "",
-           "- **Top-tier Ace:** the rule (and its name) for the tier above Ace (team_roles.json → roles.ace.top_tier).",
-           "- **Below the last band:** what a build with no strong identity is called (naming.words.unnamed).",
-           "- **Breeding lines:** each boutique line's signature name (docs/naming/BREEDING_LINES.md, from the breeding pass).",
-           "- **Team identities:** the team lab's names for team shapes (docs/naming/TEAM_SHAPES.md, from the team lab pass).", ""]
+    ln += ["## Waiting on a rule as well as a name", "",
+           "- **Top-tier Ace:** the rule for the tier above Ace, and its name (`roles.ace.top_tier`, off for now).", ""]
     with open(os.path.join(ROOT, "docs", "naming", "NAMES_NEEDED.md"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(ln))
-    return pack
 
 
 def main(argv):
@@ -401,6 +446,10 @@ def main(argv):
         write_pack(tr, reads)
         earned = Counter(r for x in reads.values() for r in x["earned"])
         print(f"{len(reads)} builds read; earned: {dict(earned)}")
+        return
+    if argv and argv[0] == "--docs":                 # the docs again from the stored pack, without re-running the fights
+        with open(os.path.join(ENGINE, "app", "data", "roles4.json"), encoding="utf-8") as fh:
+            write_docs(tr.cfg, json.load(fh)["reads"], tr.book)
         return
     if argv and argv[0] == "--parity":
         ids = argv[2].split(",") if len(argv) > 2 else None

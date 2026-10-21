@@ -1,0 +1,82 @@
+<script>
+/* ===== The breeding lab: boutique lines, offspring first ===================================================
+   docs/design/FOUR_LABS.md. A line is what the program hatches and why: the baby first, then the signature moves and
+   ability it is bred to carry, and its story: biology (the atlas), natural selection (its abilities), the Pokédex,
+   where it comes from in canon, how each signature move gets into the egg, and the lineage that gets there (the
+   studbook's crosses, 50_breeding). Lines come from the record store (store.lines, built from canon's breeding
+   program) and proposed lines (engine/store/proposed_lines.json) that wait for Zack's approval. A line's name is a
+   placeholder ⟨line.id⟩ until Zack names it (docs/naming/NAMES_NEEDED.md). Nothing here writes to canon. */
+function linesAll() {
+  var prog = (S.hq && S.hq.program) || [], out = [];
+  var progOf = function (sp, game) { return prog.filter(function (p) { return p.species === sp && String(p.game).toLowerCase() === game; })[0] || null; };
+  (S.store.lines || []).forEach(function (l) { var p = progOf(l.species, l.game);
+    out.push({id: (l.game + '-' + l.species).toLowerCase().replace(/[^a-z0-9]+/g, '-'), species: l.species, game: l.game, offspring: (p && p.hatches_as) || baseForm(l.species),
+      moves: l.egg_moves.slice(), ability: null, status: p ? p.status : 'canon', source: l.source, origin: l.origin, why: p ? p.kept : null, build: l.target_build, program: p, proposed: false}); });
+  (S.store.proposed_lines || []).forEach(function (l) {
+    out.push({id: l.id, species: l.species, game: l.game, offspring: l.offspring || baseForm(l.species), moves: (l.signature && l.signature.moves || l.egg_moves).slice(), egg_moves: l.egg_moves,
+      ability: l.signature && l.signature.ability || null, status: l.status, source: 'proposed', origin: 'engine/store/proposed_lines.json', why: l.why, build: null, program: progOf(l.species, l.game), proposed: true}); });
+  out.forEach(function (l) { if (!l.egg_moves) l.egg_moves = l.moves.slice(); });
+  return out;
+}
+function baseForm(name) { var d = dexOf(name), guard = 0; while (d && d.from && DEX.byNum[d.from] && guard++ < 4) d = DEX.byNum[d.from]; return d ? d.name : name; }
+function lineName(l) { var w = ((TeamRoles.config().naming.words || {}).line || {})[l.id]; return w ? esc(w) : '<span class="ph" title="line.' + esc(l.id) + ': not named yet (docs/naming/NAMES_NEEDED.md)">⟨' + esc(l.offspring + ' line') + '⟩</span>'; }
+function linesReady() { return Promise.all([labsReady(), studbook()]); }
+function lines() {
+  return linesReady().then(function () {
+    var L = linesAll();
+    return '<div class="eyebrow">The breeding lab · boutique lines</div><h1 style="margin:6px 0">What the program hatches</h1>' +
+      '<p class="lede">Each line starts with the baby: what hatches, the moves and ability it\'s bred to carry, and the story of why. Open one for its biology, how each move gets into the egg, and the crosses that get there.</p>' +
+      '<div class="pickgrid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">' + L.map(function (l) {
+        return '<a class="pick" href="#/lines/' + encodeURIComponent(l.id) + '" style="align-items:flex-start"><img src="' + art(numOf(l.offspring)) + '" alt="" style="width:72px;height:72px"><div>' +
+          '<div class="tiny muted">' + esc(Battle.GAME_TITLE[l.game] || cap(l.game)) + ' · hatches as ' + esc(l.offspring) + ', grows into ' + esc(l.species) + '</div><b>' + lineName(l) + '</b>' +
+          '<div style="margin-top:6px">' + l.moves.map(function (m) { return chip(m, l.egg_moves.indexOf(m) >= 0 ? 'gold' : ''); }).join(' ') + (l.ability ? ' ' + chip(l.ability, 'violet') : '') + '</div>' +
+          '<div class="tiny" style="margin-top:6px">' + (l.proposed ? chip('proposed', 'ember') : chip(l.status, l.status === 'done' ? 'forest' : '')) + ' <span class="muted">' + esc(l.source) + '</span></div></div></a>';
+      }).join('') + '</div>' +
+      '<p class="tiny muted" style="margin-top:12px">Gold chips are egg moves (they come from a father); a violet chip is the ability the line keeps. Line names wait for Zack: see docs/naming/NAMES_NEEDED.md.</p>';
+  });
+}
+function lineDetail(id) {
+  return linesReady().then(function () {
+    var l = linesAll().filter(function (x) { return x.id === id; })[0];
+    if (!l) return '<div class="notice">No line called ' + esc(id) + '. <a href="#/lines">All lines</a></div>';
+    var gen = Battle.GAME_GEN[l.game], baby = dexOf(l.offspring) || {}, adult = dexOf(l.species) || {};
+    var learnB = [], learnA = []; try { learnB = Battle.learnable(l.offspring, l.game); } catch (e) {} try { learnA = Battle.learnable(l.species, l.game); } catch (e) {}
+    var who = {}; Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (i.build) who[i.build] = k; });
+    var indId = l.build ? who[l.build] : null, read = indId ? packRead(indId) : null;
+    var gr = function (d) { return d.gr == null ? '—' : d.gr < 0 ? 'genderless' : d.gr === 0 ? 'always male' : d.gr === 8 ? 'always female' : Math.round(100 * d.gr / 8) + '% female'; };
+    var bio = function (d, label) { return d.name ? '<div style="margin-bottom:10px"><div class="small"><b>' + esc(d.name) + '</b> <span class="tiny muted">' + esc(label) + '</span></div><div class="tiny">' + esc([d.genus, d.hab ? 'lives in ' + d.hab : null, d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.eg ? 'egg groups ' + d.eg.join(' and ') : null, d.cyc ? d.cyc + ' egg cycles' : null, gr(d)].filter(Boolean).join(' · ')) + '</div>' +
+      (d.dex ? '<div class="small" style="margin-top:4px">“' + esc(d.dex) + '” <span class="tiny muted">(' + esc(cap(d.dexg || '')) + ' Pokédex)</span></div>' : '') + '</div>' : ''; };
+    var abB = Battle.abilities(gen, l.offspring), abA = Battle.abilities(gen, l.species);
+    var inherit = l.moves.map(function (m) {
+      var egg = l.egg_moves.indexOf(m) >= 0, babyCan = learnB.indexOf(m) >= 0, adultCan = learnA.indexOf(m) >= 0, p = l.program, how;
+      if (egg && p && p.fathers_used && p.fathers_used.length) how = 'egg move: a father passes it (' + p.fathers_used.join(' → ') + ', ' + plural(p.steps, 'cross', 'crosses') + '); the kept stud is a ' + p.kept.replace(/^stud /, '');
+      else if (egg && p && p.timing && p.timing.length) how = 'egg move: ' + p.timing.join('; ');
+      else if (egg) how = 'egg move: no father on record yet (the studbook planner works one out once the line is approved)';
+      else how = adultCan ? 'learned after hatching (level-up, TM or tutor in ' + (Battle.GAME_TITLE[l.game] || l.game) + ')' : 'not learnable in ' + (Battle.GAME_TITLE[l.game] || l.game) + ' by this line';
+      return '<div class="chain"><b>' + esc(m) + '</b> <span class="tiny muted">' + (babyCan ? l.offspring + ' can have it' : l.offspring + ' can\'t have it') + ' · ' + (adultCan ? l.species + ' can have it' : l.species + ' can\'t have it') + '</span><div class="small">' + esc(how) + '</div></div>';
+    }).join('');
+    after(function (p) { var b = p.querySelector('#lnread'); if (b) b.onclick = function () { b.textContent = 'Reading…'; b.disabled = true;
+      setTimeout(function () { var r = liveRead({species: l.species, moves: l.moves.slice(0, 4), ability: l.ability || undefined}, l.game);
+        document.getElementById('lnadult').innerHTML = r.error ? '<div class="notice">' + esc(r.error) + '</div>' : lineAdult(r, null); }, 20); }; });
+    return '<a class="link" href="#/lines">← All lines</a><div class="grid" style="margin-top:12px;align-items:center"><div class="c3"><img src="' + art(numOf(l.offspring)) + '" style="width:100%;max-width:220px"></div><div class="c9">' +
+      '<div class="eyebrow">' + esc(Battle.GAME_TITLE[l.game] || l.game) + ' · hatches as ' + esc(l.offspring) + ', grows into ' + esc(l.species) + '</div><h1 style="margin:6px 0">' + lineName(l) + '</h1>' +
+      '<div>' + l.moves.map(function (m) { return chip(m, l.egg_moves.indexOf(m) >= 0 ? 'gold' : ''); }).join(' ') + (l.ability ? ' ' + chip(l.ability, 'violet') : '') + ' ' + (l.proposed ? chip('proposed: waiting for your approval', 'ember') : chip(l.status, l.status === 'done' ? 'forest' : '')) + '</div>' +
+      (l.why ? '<p class="lede" style="margin-top:10px">' + esc(l.why) + '</p>' : '') + '</div></div>' +
+      '<div class="grid" style="margin-top:16px"><div class="c7">' +
+      card('How each move gets into the egg', inherit, {eyebrow: 'Inheritance', tools: false}) +
+      card('How to get there', l.program ? chainHTML(l.program.target) + '<div style="margin-top:10px"><a class="link" href="#/breeding/project/' + encodeURIComponent(l.species) + '">The breeding project →</a></div>' : '<div class="empty">No crosses planned yet. Once the line is approved, the studbook planner (engine/breeding/) works out the fathers and the crosses.</div>', {eyebrow: 'The lineage', tools: false, style: 'margin-top:16px'}) + '</div>' +
+      '<div class="c5">' + card('Its story', bio(baby, 'what hatches') + (adult.name !== baby.name ? bio(adult, 'what it grows into') : '') +
+        '<div class="eyebrow" style="margin-top:10px">Natural selection</div><div class="small">' + esc(l.offspring) + ': ' + esc(abB.join(' or ') || 'no abilities in Gen ' + gen) + (l.species !== l.offspring ? '<br>' + esc(l.species) + ': ' + esc(abA.join(' or ') || '—') : '') + '</div>' +
+        (l.ability ? '<div class="tiny muted">The line keeps ' + esc(l.ability) + (abA.indexOf(l.ability) >= 0 ? '' : ' (which ' + esc(l.species) + ' can\'t have in Gen ' + gen + ': check it)') + '.</div>' : '') +
+        '<div class="eyebrow" style="margin-top:10px">Where it comes from</div><div class="small">' + esc(l.source) + '</div><div class="tiny muted">' + esc(l.origin) + '</div>', {eyebrow: 'Biology, the Pokédex and canon', tools: false}) +
+      card('The adult it grows into', '<div id="lnadult">' + (read && !read.error ? lineAdult(read, indId) : '<div class="tiny muted" style="margin-bottom:8px">' + (l.build ? 'No stored read for this build yet.' : 'No build on record: read the signature set (its open slots filled by the engine) against the Elite Four and Champions.') + '</div><button class="btn sm" id="lnread">Read the adult</button>') + '</div>',
+        {eyebrow: 'Four team roles', tools: false, style: 'margin-top:16px'}) + '</div></div>';
+  });
+}
+function lineAdult(r, indId) {
+  return '<div class="small">' + nameHtml(r.name) + '</div><div style="margin:6px 0">' + earnedChips(r) + '</div>' + roleRows(r, null) +
+    '<div class="tiny muted">Moves read: ' + esc(r.moves.join(', ')) + '</div>' + (indId ? '<div style="margin-top:8px"><a class="link" href="#/pokemon/' + encodeURIComponent(indId) + '">Open it in the Pokémon lab →</a></div>' : '');
+}
+route(/^\/lines\/?$/, lines, 'The breeding lab', '#/lines');
+route(/^\/lines\/(.+)$/, lineDetail, function (i) { return 'Breeding lab · ' + i; }, '#/lines');
+</script>
