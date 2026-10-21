@@ -32,6 +32,15 @@ await settle('#plout .rrow');
 const after = await page.evaluate(() => ({ rows: [...document.querySelectorAll('#plout .rrow')].map((r) => r.innerText).join('|'), lines: document.querySelectorAll('#plout .sent.new, #plout .sent.gone').length }));
 if (after.rows === before) fails.push('Pokémon lab: changing a move didn\'t change any team role score');
 if (!after.lines) fails.push('Pokémon lab: changing a move didn\'t change any scouting line');
+// a team role set by hand holds in the Pokémon lab and in the team lab
+await page.selectOption('[data-ov="ace"]', 'yes');
+await page.waitForTimeout(300); await settle('#plout .rrow');
+const hand = await page.evaluate(() => ({ chip: /by hand, trial/.test(document.getElementById('plout').innerText), earned: document.getElementById('plearned').innerText }));
+if (!hand.chip || !/Ace/.test(hand.earned)) fails.push('override: setting Ace by hand didn\'t show (' + JSON.stringify(hand) + ')');
+await go('#/team/heartgold', '.tslots');
+const inTeam = await page.evaluate(() => TL.comp.roles.ace.indexOf('Typhlosion') >= 0);
+if (!inTeam) fails.push('override: the team lab doesn\'t count Typhlosion as an Ace after setting it by hand');
+await page.evaluate(() => store('role-overrides', {}));
 await go('#/compare/Garchomp', 'table.t');
 const rows = await page.evaluate(() => document.querySelectorAll('#page table.t tr').length - 1);
 if (rows < 4) fails.push('compare: only ' + rows + ' Garchomp builds');

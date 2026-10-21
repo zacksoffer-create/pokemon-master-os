@@ -44,17 +44,41 @@ function liveRead(b, game) {   // the four roles and the name for any build, rea
 }
 function roleName(id) { return TeamRoles.config().roles[id].name; }
 function roleOf(read, id) { return (read.roles || []).filter(function (r) { return r.role === id; })[0] || {role: id, score: 0, earned: false, why: [], numbers: {}}; }
+/* hand overrides (D-059: team roles are computed, and can be set by hand). Approved ones live in trainers/team_roles.json →
+   overrides and both engines apply them; ones you try here stay in this browser until you copy them out for approval. */
+function trialOverrides() { return store('role-overrides') || {}; }
+function ovRead(read, id) {
+  var o = id ? trialOverrides()[id] : null;
+  if (!read || read.error || !o || !Object.keys(o).length) return read;
+  var roles = read.roles.map(function (r) { return r.role in o ? Object.assign({}, r, {earned: !!o[r.role], trial: true,
+    why: r.why.concat(['set by hand in this browser: ' + (o[r.role] ? 'earned' : 'not earned') + ' (not approved yet)'])}) : r; });
+  var earned = roles.filter(function (r) { return r.earned; }), best = earned.slice().sort(function (a, b) { return b.score - a.score; })[0];
+  var tokens = read.name.tokens.map(function (t) { if (t.slot !== 'team_role') return t; var id_ = best ? best.role : 'none', w = (TeamRoles.config().naming.words.team_role || {})[id_];
+    return {slot: 'team_role', id: id_, word: w || null, placeholder: best ? roleName(best.role) : 'no team role'}; });
+  return Object.assign({}, read, {roles: roles, earned: earned.map(function (r) { return r.role; }),
+    name: Object.assign({}, read.name, {tokens: tokens, text: tokens.map(function (t) { return t.word || '⟨' + t.placeholder + '⟩'; }).join(' ')})});
+}
+function setTrial(id, role, v) { var all = trialOverrides(), o = all[id] || {}; if (v === '') delete o[role]; else o[role] = v === 'yes';
+  if (Object.keys(o).length) all[id] = o; else delete all[id]; store('role-overrides', all); }
+function copyOverrides() {
+  var all = trialOverrides(), n = Object.keys(all).length;
+  openDrawer('<div class="eyebrow">Team roles set by hand</div><h2 style="margin:6px 0">For approval</h2><p class="small">' + (n ? plural(n, 'build') + ' with roles set by hand in this browser. Once you approve them they go into <span class="mono">engine/trainers/team_roles.json → overrides</span>, and both engines apply them everywhere.' : 'Nothing is set by hand in this browser.') + '</p>' +
+    (n ? '<div class="paste" style="white-space:pre-wrap">' + esc(JSON.stringify(all, null, 2)) + '</div><div style="margin-top:10px"><button class="btn" onclick="store(\'role-overrides\',{});closeDrawer();toast(\'Cleared the roles set by hand in this browser.\');if(PL)plRun();">Clear them</button></div>' : ''));
+}
 function nameHtml(n) {
   return (n.tokens || []).map(function (t) { return t.word ? esc(t.word) : '<span class="ph" title="' + esc(t.slot + '.' + t.id + ': not named yet (docs/naming/NAMES_NEEDED.md)') + '">⟨' + esc(t.placeholder) + '⟩</span>'; }).join(' ');
 }
 function earnedChips(read) { return read.earned.length ? read.earned.map(function (r) { return chip(roleName(r), 'forest'); }).join(' ') : '<span class="tiny muted">no team role earned</span>'; }
 function delta(a, b) { var d = Math.round((b - a) * 100) / 100; return !d ? '' : '<b class="num" style="color:' + (d > 0 ? 'var(--forest-3)' : 'var(--ember-2)') + '">' + (d > 0 ? '+' : '') + d.toFixed(2) + '</b>'; }
-function roleRows(read, base) {
+function roleRows(read, base, ovId) {
+  var trial = ovId ? (trialOverrides()[ovId] || {}) : null;
   return read.roles.map(function (r) {
     var b = base ? roleOf(base, r.role) : null, moved = b && (Math.abs(b.score - r.score) > 1e-9 || b.earned !== r.earned);
+    var hand = r.trial || (r.numbers && r.numbers.overridden);
     return '<div class="rrow' + (moved ? ' moved' : '') + '"><b>' + esc(roleName(r.role)) + '</b>' +
       '<div class="bar ' + (r.earned ? 'forest' : '') + '"><i style="width:' + Math.round(100 * Math.max(0, Math.min(1, r.score))) + '%"></i></div>' +
-      '<span class="num">' + r.score.toFixed(2) + '</span><span>' + (r.earned ? chip('earned', 'forest') : '<span class="tiny muted">not earned</span>') + '</span>' +
+      '<span class="num">' + r.score.toFixed(2) + '</span><span>' + (r.earned ? chip('earned', 'forest') : '<span class="tiny muted">not earned</span>') + (hand ? ' ' + chip(r.trial ? 'by hand, trial' : 'by hand', 'gold') : '') +
+      (trial ? ' <select class="f" data-ov="' + r.role + '" title="Set this role by hand" style="width:auto;display:inline-block;padding:2px 6px;font-size:11px"><option value="">computed</option><option value="yes"' + (trial[r.role] === true ? ' selected' : '') + '>earned</option><option value="no"' + (trial[r.role] === false ? ' selected' : '') + '>not earned</option></select>' : '') + '</span>' +
       (moved ? '<span class="tiny muted">was ' + b.score.toFixed(2) + (b.earned !== r.earned ? (b.earned ? ' and earned' : ' and not earned') : '') + ' ' + delta(b.score, r.score) + '</span>' : '') + '</div>';
   }).join('');
 }
@@ -209,6 +233,7 @@ function plInputs() {
 }
 function plBind(p) {
   var box = p.querySelector('#plin'); box.innerHTML = plInputs();
+  p.querySelector('#plout').addEventListener('change', function (e) { var k = e.target.getAttribute && e.target.getAttribute('data-ov'); var oid = plOvId(); if (!k || !oid) return; setTrial(oid, k, e.target.value); plRun(); });
   var t = null, fire = function () { clearTimeout(t); t = setTimeout(plRun, 450); };
   box.addEventListener('input', function (e) {
     var el = e.target, k;
@@ -237,7 +262,7 @@ function plRun() {
   setTimeout(function () {
     if (tok !== PL.token || !document.getElementById('plout')) return;
     try {
-      var base = PL.base, cur = PL.cur, rb = liveRead(base, PL.rec.game), rc = liveRead(cur, PL.game);
+      var base = PL.base, cur = PL.cur, oid = plOvId(), rb = ovRead(liveRead(base, PL.rec.game), oid), rc = ovRead(liveRead(cur, PL.game), oid);
       if (rc.error) throw new Error(rc.error);
       var lb = Battle.memberReport(base.species, PL.rec.game, base), lc = Battle.memberReport(cur.species, PL.game, cur);
       var fb = plFit(base, rb, PL.rec.game), fc = plFit(cur, rc, PL.game);
@@ -249,12 +274,13 @@ function plRun() {
     } catch (e) { document.getElementById('plout').innerHTML = '<div class="notice">The engines couldn\'t read this build: ' + esc(e && e.message || e) + '</div>'; console.error(e); }
   }, 30);
 }
+function plOvId() { return PL.rec.kind === 'slot' ? (tlLoad(PL.rec.game)[PL.rec.slot] || {})._from || null : PL.id; }
 function plFit(b, read, game) {   // the team lab's six for this game, with this Pokémon in its species' slot (or the last one)
-  var team = tlLoad(game).map(function (x) { return x ? buildOf(x) : null; });
+  var src = tlLoad(game), team = src.map(function (x) { return x ? buildOf(x) : null; });
   var i = team.map(function (x) { return x && x.species; }).indexOf(b.species);
   if (i < 0) i = team.indexOf(null); if (i < 0) i = 5;
   team[i] = b;
-  var members = team.filter(Boolean).map(function (x) { return {build: x, read: x === b ? read : liveRead(x, game)}; });
+  var members = team.map(function (x, k) { return x ? {build: x, read: x === b ? read : ovRead(liveRead(x, game), (src[k] || {})._from)} : null; }).filter(Boolean);
   var comp = teamComp(members, game), rep = null;
   try { var v = Scout.version('me', game); v.team = members.map(function (m) { return Object.assign({id: 'lab:' + m.build.species}, m.build); }); rep = Scout.report(v, {playsheet: false}); } catch (e) { rep = null; }
   return {comp: comp, report: rep, slot: i};
@@ -269,7 +295,8 @@ function plOutput(cur, rb, rc, lb, lc, fb, fc) {
   var gone = A.filter(function (x) { return B.indexOf(x) < 0; }), came = B.filter(function (x) { return A.indexOf(x) < 0; });
   var qb = openQs(fb.comp), qc = openQs(fc.comp), qName = function (id) { return TeamRoles.config().team.questions.filter(function (q) { return q.id === id; })[0].ask; };
   var slB = fb.report && fb.report.sliders, slC = fc.report && fc.report.sliders;
-  return card('The four team roles', roleRows(rc, rb) + '<div class="tiny muted" style="margin-top:8px">Highest first. A row that moved from the build as it opened is highlighted and says what it was.</div>', {eyebrow: 'Ace · Wall · Sweeper · Support', tools: false}) +
+  var oid = plOvId(), nTrial = Object.keys(trialOverrides()).length;
+  return card('The four team roles', roleRows(rc, rb, oid) + '<div class="tiny muted" style="margin-top:8px">Highest first. A row that moved from the build as it opened is highlighted and says what it was. ' + (oid ? 'Set a role by hand with its menu: it holds for this Pokémon in every lab, in this browser, until you approve it. ' : '') + (nTrial ? '<a class="link" href="javascript:void 0" onclick="copyOverrides()">' + plural(nTrial, 'build') + ' set by hand: copy for approval</a>' : '') + '</div>', {eyebrow: 'Ace · Wall · Sweeper · Support', tools: false}) +
     card('What moved', (moved.length ? '<table class="t"><tr><th></th><th>Before</th><th>Now</th></tr>' + moved.map(function (m) { return '<tr class="moved"><td>' + m[0] + '</td><td>' + m[1] + '</td><td>' + m[2] + '</td></tr>'; }).join('') + '</table>' : '<div class="tiny muted">The name, the earned roles and the primary role are unchanged.</div>') +
       '<div class="eyebrow" style="margin-top:14px">Its scouting report lines</div>' + (gone.length || came.length ? came.map(function (x) { return '<div class="sent new">' + esc(x) + '</div>'; }).join('') + gone.map(function (x) { return '<div class="sent gone"><div>' + esc(x) + '</div></div>'; }).join('')
         : lc.phrases.slice(0, 4).map(function (p) { return '<div class="sent">' + esc(p.text) + '</div>'; }).join('') + '<div class="tiny muted">(unchanged)</div>') +
@@ -304,7 +331,7 @@ function compare(speciesName) {
     if (!rows.length) return '<div class="notice">No builds of ' + esc(speciesName) + ' on record. <a href="#/pokemon">Back to the lab</a></div>';
     rows.sort(function (a, b) { return PROV_ORDER.indexOf(a.provenance) - PROV_ORDER.indexOf(b.provenance) || (a.generation || 9) - (b.generation || 9) || String(a.id).localeCompare(String(b.id)); });
     var who = {}; Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (i.build) who[i.build] = k; });
-    var readOf = function (b) { var r = packRead(b.id) || (who[b.id] ? packRead(who[b.id]) : null); return r && !r.error ? r : null; };
+    var readOf = function (b) { var r = packRead(b.id) || (who[b.id] ? packRead(who[b.id]) : null); return r && !r.error ? ovRead(r, who[b.id] || b.id) : null; };
     var labId = function (b) { return who[b.id] || b.id; };
     var cell = function (x) { return x == null || x === '' ? '<span class="muted">—</span>' : esc(x); };
     after(function (p) { p.querySelectorAll('[data-cmpread]').forEach(function (bt) { bt.onclick = function () { var id = bt.getAttribute('data-cmpread'), b = storeBuild(id); bt.textContent = 'Reading…'; bt.disabled = true;

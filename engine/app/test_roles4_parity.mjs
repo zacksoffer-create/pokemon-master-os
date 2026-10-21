@@ -20,6 +20,7 @@ vm.runInContext(part('28_teamroles.html') + '\nthis.TeamRoles = TeamRoles;', ctx
 const Scout = ctx.Scout.init(read('scout.json'));
 ctx.Battle.init(read('battle.json'), ctx.calc);
 const pack = read('roles4.json');
+if (py.overrides) pack.config.overrides = py.overrides;   // the same hand overrides on both sides
 ctx.TeamRoles.init(pack, Scout || ctx.Scout, ctx.Battle);
 
 const J = (x) => JSON.stringify(x);

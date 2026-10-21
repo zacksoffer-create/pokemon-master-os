@@ -156,13 +156,19 @@ var TeamRoles = (function () {
     });
     return out;
   }
+  function override(r, id) {   // a team role set by hand (config.overrides, once approved): earned follows it, the score stays computed
+    var o = (CFG.overrides || {})[id] || {};
+    if (!(r.role in o)) return r;
+    return Object.assign({}, r, {earned: !!o[r.role], why: r.why.concat(['set by hand: ' + (o[r.role] ? 'earned' : 'not earned') + (o.why ? ' (' + o.why + ')' : '')]),
+      numbers: Object.assign({}, r.numbers, {computed_earned: r.earned, overridden: true})});
+  }
   function readOne(x, F) {
     var b = x.build, gen = x.gen, game = x.game;
     if (!F[b.id]) throw new Error('its fights didn\'t settle in ' + CFG.fetch_rounds + ' calculator rounds (or it can\'t be built)');
     var filledMoves = combatant(b, gen).moves;
     var filled = Object.assign({}, b, {moves: filledMoves.slice(), level: CFG.level});
     var cl = Sc.classify(filled, game, CFG.level), ctx = Sc.roleContext(filled, game, CFG.level, null);
-    var team = [ace(F[b.id]), wall(F[b.id], cl.signals), sweeper(cl), support(cl, ctx.moves)];
+    var team = [ace(F[b.id]), wall(F[b.id], cl.signals), sweeper(cl), support(cl, ctx.moves)].map(function (r) { return override(r, b.id); });
     var sorted = team.map(function (r, i) { return [r, i]; }).sort(function (p, q) { return (q[0].score - p[0].score) || cmp(p[0].role, q[0].role); }).map(function (p) { return p[0]; });
     return {build: b.id, species: b.species, game: game, gen: gen, moves: filledMoves.slice(),
       filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
@@ -171,6 +177,6 @@ var TeamRoles = (function () {
       name: name(cl, team, ctx.moves, gen, b.species)};
   }
   function read(build, game) { var id = build.id || 'lab'; var b = Object.assign({}, build, {id: id}); return readMany([{build: b, game: game}])[id]; }
-  return {init: init, read: read, readMany: readMany, pool: pool, config: function () { return CFG; }, ORDER: ORDER, GAME_OF_GEN: GAME_OF_GEN};
+  return {init: init, read: read, readMany: readMany, pool: pool, override: override, config: function () { return CFG; }, ORDER: ORDER, GAME_OF_GEN: GAME_OF_GEN};
 })();
 </script>

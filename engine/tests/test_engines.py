@@ -2098,15 +2098,18 @@ class WebApp(unittest.TestCase):
 
     def test_the_browser_team_roles_match_python(self):
         """web/28_teamroles.html against trainers/team_roles.py: every journey companion plus a stock and a competitive
-        set, every field of every read (fights, the four roles, the role engine underneath, the name), number for number.
+        set, with two hand overrides, every field of every read (fights, the four roles, the role engine underneath, the
+        name), number for number.
         Every build: python3 -I trainers/team_roles.py --parity OUT && node app/test_roles4_parity.mjs OUT"""
         import json as _json
         with open(os.path.join(self.app, "data", "roles4.json"), encoding="utf-8") as fh:
             have = _json.load(fh)["reads"]
         ids = [k for k in have if k.startswith("me:")] + [k for k in ("stock/garchomp-sweeper", "competitive:gen41v1/azelf-c4f2f4b2") if k in have]
         with tempfile.TemporaryDirectory() as tmp:
-            dump = os.path.join(tmp, "roles4.json")
-            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "team_roles.py"), "--parity", dump, ",".join(ids)],
+            dump, over = os.path.join(tmp, "roles4.json"), os.path.join(tmp, "overrides.json")
+            with open(over, "w", encoding="utf-8") as fh:        # a hand override on each side, and one setting a role off
+                _json.dump({"stock/garchomp-sweeper": {"wall": True, "why": "parity test"}, "me:heartgold/Mamoswine": {"ace": False}}, fh)
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "team_roles.py"), "--parity", dump, ",".join(ids), over],
                               capture_output=True, text=True, cwd=ENGINE)
             self.assertEqual(out.returncode, 0, out.stderr[-1500:])
             out = self.sp.run(["node", os.path.join(self.app, "test_roles4_parity.mjs"), dump], capture_output=True, text=True, timeout=1500)

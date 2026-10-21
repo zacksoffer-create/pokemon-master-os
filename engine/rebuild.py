@@ -35,8 +35,8 @@ STEPS = [
     ("census", PY + ["ranch/report.py"], "engine/data_manifest/ranch_census.json", []),
     ("dashboard", PY + ["ranch/dashboard.py"], "engine/data_manifest/blackthorn.json", []),
     ("sheet-calls", PY + ["ranch/sheet.py"], "engine/data_manifest/sheet/*.json (files only; never sent)", ["dashboard"]),
-    ("roles4", PY + ["trainers/team_roles.py", "--pack"], "engine/app/data/roles4.json, docs/roles/*", ["store"]),
     ("store", PY + ["store/migrate.py"], "engine/store/out/*.json", []),
+    ("roles4", PY + ["trainers/team_roles.py", "--pack"], "engine/app/data/roles4.json, docs/roles/*", ["store"]),
     ("app-data", PY + ["app/export.py"], "engine/app/data/*.json", ["reports", "packets-page", "dashboard", "roles4", "store"]),
     ("app", PY + ["app/build.py"], "engine/app/dist/ (zip, preview)", ["app-data"]),
 ]
@@ -85,6 +85,10 @@ def lines_moved(a, b, n=3):
 
 def order(only=None):
     names = [s[0] for s in STEPS]
+    for i, (name, _, _, reads) in enumerate(STEPS):      # steps run in list order, so a step must come after what it reads
+        late = [r for r in reads if r not in names[:i]]
+        if late:
+            raise SystemExit(f"rebuild.py: step {name} is listed before {', '.join(late)}, which it reads")
     if not only:
         return STEPS
     want, grew = set(only), True

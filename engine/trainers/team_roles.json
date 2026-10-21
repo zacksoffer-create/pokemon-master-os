@@ -271,6 +271,8 @@
       "_why": "Zack: 'it has to have a move associated with that' and support needs more than one; the rest is left to Claude."
     }
   },
+  "_overrides": "Team roles set by hand, once Zack approves them (D-059: computed, and hand-overridable). {\"<build id>\": {\"<ace|wall|sweeper|support>\": true or false, \"why\": \"...\"}}. Earned follows the override; the score stays computed and the read says it was set by hand. The Pokémon lab tries overrides in the browser and copies them out in this shape.",
+  "overrides": {},
   "naming": {
     "_note": "Zack's ladder. 'Match' is the build's primary role score in the role engine (roles.json). The stronger the match, the fewer words the name needs. Below the last band the build has no name yet. Two or three roles at 0.80 or more get a hybrid noun from the hybrids table (it grows as builds need it).",
     "bands": [

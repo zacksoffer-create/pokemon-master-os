@@ -15,7 +15,7 @@ function tlDefault(game) {
 }
 function tlLoad(game) { var s = store('team-' + game); var t = Array.isArray(s) && s.length === 6 ? s : tlDefault(game); return t.map(function (x) { return x ? JSON.parse(JSON.stringify(x)) : null; }); }
 function tlSave(game, t) { store('team-' + game, t); }
-function tlMembers(team, game) { return team.map(function (b) { return b ? {build: buildOf(b), read: liveRead(b, game), src: b} : null; }); }
+function tlMembers(team, game) { return team.map(function (b) { return b ? {build: buildOf(b), read: ovRead(liveRead(b, game), b._from), src: b} : null; }); }
 function teamLab(game) {
   game = game || 'heartgold';
   if (ALL_GAMES.indexOf(game) < 0) return '<div class="notice">No game called ' + esc(game) + '.</div>';
@@ -110,9 +110,9 @@ function tlAnswer(qid) { TL.filters.answers = qid; var el = document.querySelect
 function candPool() {
   var gen = Battle.GAME_GEN[TL.game], out = [];
   Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k], r = packRead(k);
-    if (Battle.GAME_GEN[i.game] === gen && r && !r.error) out.push({id: k, species: i.species, prov: 'yours', label: 'your ' + i.species + ' (' + cap(i.game) + ')', read: r}); });
+    if (Battle.GAME_GEN[i.game] === gen && r && !r.error) out.push({id: k, species: i.species, prov: 'yours', label: 'your ' + i.species + ' (' + cap(i.game) + ')', read: ovRead(r, k)}); });
   Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k], r = packRead(k);
-    if (b.provenance !== 'yours' && Battle.GAME_GEN[gameOf(b)] === gen && r && !r.error) out.push({id: k, species: b.species, prov: b.provenance, label: b.name || k, read: r}); });
+    if (b.provenance !== 'yours' && Battle.GAME_GEN[gameOf(b)] === gen && r && !r.error) out.push({id: k, species: b.species, prov: b.provenance, label: cmpLabel(Object.assign({id: k}, b)), read: ovRead(r, k)}); });
   return out;
 }
 function candBuild(id) {
