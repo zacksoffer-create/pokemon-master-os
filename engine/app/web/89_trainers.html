@@ -193,6 +193,7 @@ function thinkHtml(v) {
   out.push('<div class="small" style="margin-top:10px"><b>Your reading</b> <span class="tiny muted">(authored sliders: an interpretation, not a measurement)</span></div>' + (Object.keys(sl).length ? Object.keys(sl).map(function (k) {
     return '<div class="tiny" style="margin:3px 0"><span style="display:inline-block;width:70px">' + esc(cap(k)) + '</span><span style="display:inline-block;width:110px;height:6px;background:var(--charcoal-3);border-radius:4px;vertical-align:middle;position:relative"><i style="position:absolute;left:0;top:0;bottom:0;width:' + sl[k].value + '%;background:var(--gold);border-radius:4px"></i></span> ' + sl[k].value + ' <span class="muted">' + esc(sl[k].why || '') + '</span></div>'; }).join('') : '<div class="tiny muted">Not authored for this version.</div>'));
   out.push('<div class="small" style="margin-top:10px"><b>Coach settings</b> <span class="tiny muted">(how a coach would tune the fights; tendencies, not evidence)</span>: <span class="muted">not set: the engine\'s defaults</span></div><div class="tiny muted">' + Object.keys(P.coach).map(function (k) { return esc(k.replace(/_/g, ' ')) + ' — ' + esc(P.coach[k]); }).join('<br>') + '</div>');
+  out.push('<div class="tiny muted" style="margin-top:10px"><b>How it shows in battle</b>: the one-on-one fights play the game\'s AI flags; how these tendencies play out across a whole 6v6 battle comes with the 6v6 engine (D-069).</div>');
   out.push('<div class="tiny muted" style="margin-top:10px"><b>What this can\'t know</b>: ' + (v.kind === 'cartridge' ? 'the nature and ability come from hidden values the data doesn\'t fix, and the AI flags describe how moves get scored, not a plan.' : 'anything off screen: moves never shown, held items, how training went between episodes.') + '</div>');
   return out.join('');
 }
@@ -267,6 +268,7 @@ function benchPage(query) {
         '<div style="min-width:200px"><label class="l">The bar: <b id="bnthr">' + Math.round(thr * 100) + '%</b></label><input type="range" name="thr" min="0.3" max="1" step="0.05" value="' + thr + '" style="width:100%"></div>' +
       '</div><div class="bd tiny muted" id="bnrule" style="padding-top:0"></div></form>' +
       '<div id="bnres" style="margin-top:16px"><div class="empty">Reading…</div></div>' +
+      (Library.teamEngine() ? '' : '<div class="callout small" style="margin-top:16px"><b>Team vs team (6v6)</b> comes with the 6v6 engine, built separately (D-069). It will run here: your saved team against any version, in batches of about 100, with what was held constant. Until then, every benchmark is one-on-one.</div>') +
       card('Make your own group', groupMaker(vers), {eyebrow: 'Any teams, a bar, a lens · kept in this browser', tools: false, style: 'margin-top:16px', id: 'm-bench-group'});
   });
 }

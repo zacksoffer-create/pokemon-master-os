@@ -219,7 +219,12 @@ var Library = (function () {
   }
   function flagsOf(v) { var f = v.ai_flags || []; return typeof f === 'number' ? (v.ai_flag_names || []) : f; }
 
-  return {init: init, attach: attach, ready: ready, setMine: setMine, asVersion: asVersion, version: version, allVersions: allVersions, identity: identity, identities: identities,
+  /* ---- the 6v6 seam (docs/design/SIXVSIX_SEAM.md, D-069): the separate 6v6 engine registers here ---- */
+  var TEAM_ENGINE = null;
+  function setTeamEngine(fn) { TEAM_ENGINE = typeof fn === 'function' ? fn : null; }
+  function teamEngine() { return TEAM_ENGINE; }
+
+  return {init: init, attach: attach, ready: ready, setTeamEngine: setTeamEngine, teamEngine: teamEngine, setMine: setMine, asVersion: asVersion, version: version, allVersions: allVersions, identity: identity, identities: identities,
     collection: collection, collections: collections, label: label, kindName: kindName, categoryName: categoryName, evidenceOf: evidenceOf, classCounts: classCounts,
     aceOf: aceOf, stamp: stamp, sha1: sha1, theirs: theirs, ours: ours, runGen: runGen, run: run, runAsync: runAsync, compare: compare, flagsOf: flagsOf,
     lensOf: lensOf, FIELDS: FIELDS, FILL_GAME: FILL_GAME, gameGen: gameGen, pack: function () { return L; }};
