@@ -30,8 +30,10 @@ class Sheet {
 }
 function world(sheets) {
   const unzips = { n: 0 };
+  const drive = { files: {}, n: 0, folders: 0, folder: null, props: {} };
   const cache = new Map();
   const zipFile = { getName: () => 'Blackthorn-HQ-app.zip', getId: () => 'zip1', getLastUpdated: () => new Date('2026-10-20T05:00:00Z'),
+    getParents: () => { let i = 0; return { hasNext: () => i < 1, next: () => { i++; return { getId: () => 'root' }; } }; },
     getBlob: () => ({ setContentType() { return this; }, path: ZIP }) };
   const ss = { sheets, getSheetByName: n => sheets[n] || null, insertSheet: n => (sheets[n] = new Sheet(n)) };
   const ctx = {
@@ -39,9 +41,15 @@ function world(sheets) {
     SpreadsheetApp: { getActive: () => ss, getUi: () => ({ showModalDialog() {} }) },
     DriveApp: {
       searchFiles: () => { let i = 0; const list = [zipFile, { getName: () => 'Blackthorn-HQ-app notes.txt' }]; return { hasNext: () => i < list.length, next: () => list[i++] }; },
-      getFileById: id => { if (id !== 'zip1') throw new Error('no file'); return zipFile; },
+      getFileById: id => { if (id === 'zip1') return zipFile; if (drive.files[id]) return drive.files[id]; throw new Error('no file'); },
+      createFolder: name => { const f = { name, getId: () => 'folder1', createFile: blob => { const fid = 'pic' + (++drive.n);
+        const file = { getId: () => fid, getBlob: () => ({ getContentType: () => blob.mime, getBytes: () => blob.bytes }), getParents: () => { let i = 0; return { hasNext: () => i < 1, next: () => { i++; return f; } }; } };
+        drive.files[fid] = file; return file; } }; drive.folder = f; drive.folders++; return f; },
+      getFolderById: id => { if (drive.folder && id === 'folder1') return drive.folder; throw new Error('no folder'); },
     },
-    Utilities: { unzip: blob => { unzips.n++;
+    PropertiesService: { getScriptProperties: () => ({ getProperty: k => drive.props[k] || null, setProperty: (k, v) => { drive.props[k] = v; } }) },
+    Utilities: { newBlob: (bytes, mime, name) => ({ bytes, mime, name }), base64Decode: s => Buffer.from(s, 'base64'), base64Encode: b => Buffer.from(b).toString('base64'),
+      unzip: blob => { unzips.n++;
       const listing = JSON.parse(execFileSync('python3', ['-I', '-c', 'import json,sys,zipfile\nz=zipfile.ZipFile(sys.argv[1])\nprint(json.dumps({n: z.read(n).decode("utf-8") for n in z.namelist()}))', blob.path], { maxBuffer: 1 << 26 }));
       return Object.entries(listing).map(([n, text]) => ({ getName: () => n, getDataAsString: () => text })); } },
     CacheService: { getScriptCache: () => ({
@@ -54,7 +62,7 @@ function world(sheets) {
   };
   vm.createContext(ctx);
   vm.runInContext(fs.readFileSync(path.join(HERE, 'WebApp.gs'), 'utf8'), ctx);
-  return { ctx, unzips, sheets };
+  return { ctx, unzips, sheets, drive };
 }
 
 let passed = 0;
@@ -126,6 +134,28 @@ test('a hatch lands in the Studbook columns, with the sprite formula in the unna
   assert.match(row[1], /^=IMAGE\(".*\/246\.png", 1\)$/);
   assert.equal(row[2], 'Larvitar (hatched)'); assert.equal(row[6], 3); assert.equal(row[16], 'ok');
   assert.equal(W.sheets.Studbook.rows[3].length, 18, 'the Studbook never grows columns');
+});
+
+test('your records append a row per save and never rewrite one (My Builds keeps every version)', () => {
+  api.apiAppend('My Builds', { id: 'yours:heartgold/Tyranitar', v: 2, species: 'Tyranitar', moves: 'Dragon Dance / Stone Edge / Earthquake / Outrage', evs: '0/252/0/0/4/252', _timeline: 'Saved Tyranitar v2' });
+  api.apiAppend('My Builds', { id: 'yours:heartgold/Tyranitar', v: 3, species: 'Tyranitar', moves: 'Dragon Dance / Crunch / Earthquake / Outrage', evs: '' });
+  const rows = api.apiTab('My Builds');
+  assert.equal(rows.length, 2); assert.equal(rows[0].v, 2); assert.equal(rows[1].v, 3); assert.equal(rows[0].evs, '0/252/0/0/4/252');
+  api.apiAppend('My Pokémon', { id: 'me:heartgold/Larvitar-abc', species: 'Larvitar', game: 'heartgold', shiny: 'yes' });
+  api.apiAppend('My Teams', { id: 'team:abc', game: 'heartgold', slots: [{ species: 'Tyranitar', from: 'me:heartgold/Tyranitar@2' }] });
+  assert.equal(api.apiTab('My Pokémon')[0].shiny, 'yes');
+  assert.match(api.apiTab('My Teams')[0].slots, /^\[\{"species":"Tyranitar"/, 'objects are stored as JSON text');
+});
+
+test('a picture goes into the one artwork folder and comes back as a data URL; nothing else is ever shown', () => {
+  const w = world({});
+  const png = Buffer.from('fake-picture').toString('base64');
+  const a = w.ctx.apiUpload('Tyranitar portrait.jpg', 'image/jpeg', png), b = w.ctx.apiUpload('second', 'image/png', png);
+  assert.equal(w.drive.folders, 1, 'one folder, made once and remembered');
+  assert.equal(w.ctx.apiImage(a.id), 'data:image/jpeg;base64,' + png);
+  assert.ok(b.id !== a.id);
+  assert.throws(() => w.ctx.apiImage('zip1'), /only shows pictures it saved/);
+  assert.throws(() => w.ctx.apiUpload('x.txt', 'text/plain', png), /Only pictures/);
 });
 
 test('apiAppend refuses tabs outside the app', () => {

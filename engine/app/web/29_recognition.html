@@ -1,0 +1,190 @@
+<script>
+/* ===== Tags, badges, archetypes and qualifications, in the browser ===========================================
+   A line-for-line port of engine/trainers/recognition.py over the rules in trainers/recognition.json (packed as
+   app/data/recognition.json). A pure function of a build and its team-role read (TeamRoles.read, which carries the
+   Ace fights' damage evidence): it describes what the mechanics already do and changes nothing in a fight.
+   app/test_recognition_parity.mjs holds it to Python. */
+var Recognize = (function () {
+  var CFG = null, Sc = null, Bt = null;
+  var STATS6 = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'], STAT_ID = {1: 'hp', 2: 'atk', 3: 'def', 4: 'spa', 5: 'spd', 6: 'spe'};
+  var POOL_NAME = {elite_four: 'Elite Four', champion: 'Champion'}, MEASURE = {'2hko': '2HKO', ohko: 'OHKO'};
+  var HELPS = {atk: 'Adamant', def: 'Impish', spa: 'Modest', spd: 'Careful', spe: 'Jolly'}, SHORT = {atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe'};
+  function init(cfg, scout, battle) { CFG = cfg; Sc = scout; Bt = battle; }
+  function pct(x) { return Bt.pyRound(100 * x); }
+  function r4(x) { return Bt.pyRound(x, 4); }
+  function idiv(a, b) { return Math.floor(a / b); }
+
+  function statOf(base, s, gen, level, up, down, iv, ev, shed) {
+    if (gen <= 2) iv = 2 * idiv(iv, 2);
+    var core = idiv((2 * base + iv + idiv(ev, 4)) * level, 100);
+    if (s === 'hp') return shed ? 1 : core + level + 10;
+    return idiv((core + 5) * (s === up ? 110 : s === down ? 90 : 100), 100);
+  }
+  function full(base, s, gen, level) { return statOf(base, s, gen, level, gen >= 3 && s !== 'hp' ? s : null, null, 31, 252); }
+  function natures(nature, gen) {
+    if (gen < 3 || !nature) return [null, null];
+    var n = Bt.pack().natures[String(nature).toLowerCase()];
+    if (!n) throw new Error('unknown nature ' + nature);
+    return n[0] === n[1] ? [null, null] : [STAT_ID[n[1]], STAT_ID[n[0]]];
+  }
+  function statsOf(species, gen, level, nature, ivs, evs) {
+    var sp = Bt.species(gen, species), base = sp.bs, iv = {}, ev = {}, nn = natures(nature, gen), out = {};
+    STATS6.forEach(function (s) { iv[s] = ivs && ivs[s] != null ? ivs[s] : 31; ev[s] = evs && evs[s] != null ? evs[s] : 0; });
+    if (gen <= 2) {
+      var dv = {}; STATS6.forEach(function (s) { dv[s] = idiv(iv[s], 2); });
+      dv.spd = dv.spa; dv.hp = (dv.atk % 2) * 8 + (dv.def % 2) * 4 + (dv.spe % 2) * 2 + dv.spa % 2;
+      STATS6.forEach(function (s) { iv[s] = 2 * dv[s]; }); ev.spd = ev.spa;
+    }
+    var shed = sp.name.toLowerCase().indexOf('shedinja') === 0;
+    STATS6.forEach(function (s) { out[s] = statOf(base[s], s, gen, level, nn[0], nn[1], iv[s], ev[s], shed); });
+    return out;
+  }
+  function sumV(o) { var t = 0; Object.keys(o || {}).forEach(function (k) { t += o[k]; }); return t; }
+  function leastEvs(species, gen, level, nature, ivs, evs, s, target) {
+    var tries = [[null, nature], ['a +' + (SHORT[s] || s) + ' nature', null]];
+    for (var i = 0; i < tries.length; i++) {
+      var note = tries[i][0], nat = tries[i][1];
+      if (note) { if (gen < 3 || s === 'hp' || natures(nature, gen)[0] === s) return null; nat = HELPS[s]; }
+      for (var e = 0; e < 253; e += 4) {
+        var trial = Object.assign({}, evs || {}); trial[s] = e;
+        if (statsOf(species, gen, level, nat, ivs, trial)[s] >= target) {
+          var left = null; if (gen >= 3) left = 510 - (sumV(evs) - ((evs || {})[s] || 0) + e);
+          return {evs: e, nature: note, left: left};
+        }
+      }
+    }
+    return null;
+  }
+  function hasEvs(b) { return !!(b.evs && Object.keys(b.evs).length); }
+  function statsPart(b, gen, level) {
+    var sc = CFG.stats; if (!hasEvs(b)) return {no_evs: true};
+    var st = statsOf(b.species, gen, level, b.nature, b.ivs, b.evs), out = {};
+    Object.keys(sc.bases).forEach(function (s) {
+      var bases = sc.bases[s], th = bases.map(function (x) { return full(x, s, gen, level); });
+      var tier = th.filter(function (t) { return st[s] >= t; }).length - 1, nxt = null;
+      if (tier + 1 < th.length) { var need = th[tier + 1]; nxt = {tier: CFG.tiers[tier + 1], at: need, base: bases[tier + 1], how: leastEvs(b.species, gen, level, b.nature, b.ivs, b.evs, s, need)}; }
+      out[s] = {name: sc.names[s], value: st[s], thresholds: th, tier: tier >= 0 ? CFG.tiers[tier] : null, next: nxt};
+    });
+    return out;
+  }
+  function speedPart(b, gen, level, ability, item, moves) {
+    var sp = CFG.speed; if (!hasEvs(b)) return {no_evs: true};
+    var v = statsOf(b.species, gen, level, b.nature, b.ivs, b.evs).spe;
+    var ms = sp.milestones.map(function (x) { var at = full(x, 'spe', gen, level) + 1; return {base: x, at: at, clears: v >= at, ties: v === at - 1}; });
+    var cleared = ms.filter(function (m) { return m.clears; }).map(function (m) { return m.base; });
+    var tier = sp.tiers.filter(function (x) { return cleared.indexOf(x) >= 0; }).length - 1, nxt = null;
+    if (tier + 1 < sp.tiers.length) { var base = sp.tiers[tier + 1], at = ms.filter(function (m) { return m.base === base; })[0].at;
+      nxt = {tier: CFG.tiers[tier + 1], at: at, base: base, how: leastEvs(b.species, gen, level, b.nature, b.ivs, b.evs, 'spe', at)}; }
+    var boosted = [];
+    if (item === 'Choice Scarf') boosted.push(['Choice Scarf', idiv(v * 3, 2)]);
+    [['Dragon Dance', 1], ['Agility', 2], ['Rock Polish', 2]].forEach(function (x) { if (moves.indexOf(x[0]) >= 0) boosted.push([x[0] + ' (+' + x[1] + ')', idiv(v * (2 + x[1]), 2)]); });
+    if (ability === 'Swift Swim' || ability === 'Chlorophyll') boosted.push([ability + ' in its weather', v * 2]);
+    var prio = moves.filter(function (mv) { var m = Bt.move(gen, mv); return m.priority > 0 && m.cat !== 'Status'; });
+    return {name: sp.name, value: v, milestones: ms, tier: tier >= 0 ? CFG.tiers[tier] : null, next: nxt,
+      boosted: boosted.map(function (x) { return {how: x[0], value: x[1], clears: ms.filter(function (m) { return x[1] >= m.at; }).map(function (m) { return m.base; })}; }),
+      priority: prio, paralyzed: idiv(v, 4)};
+  }
+  function says(d, x) {
+    if (d.both) return d.says;
+    if (x.missing) return d.none;
+    return d.says.replace('{share}', pct(x.share) + '%').replace('{n}', String(x.n)).replace('{of}', String(x.of)).replace('{move}', x.move || '').replace('{hp}', x.hp == null ? '' : String(x.hp)).replace('{measure}', MEASURE[x.measure] || '');
+  }
+  function badgesPart(ev) {   // tiers build on each other: a tier counts only with every one below
+    var D = CFG.damage.badges, tiers = CFG.tiers, out = {}, foes = ev.foes;
+    Object.keys(D).forEach(function (bid) {
+      var d = D[bid]; if (d.both) return;
+      var of = foes, extra = {}, x = null, hit, count;
+      if (d.from === 'physical' || d.from === 'special' || d.from === 'priority') {
+        x = ev[d.from];
+        if (!x) { extra = {missing: true}; hit = function () { return false; }; count = function () { return 0; }; }
+        else if (d.from === 'priority') {
+          extra = {move: x.move, by_hp: {'100': x['100'], '50': x['50'], '25': x['25']}};
+          count = function (t) { return x[String(t.hp)]; }; hit = function (t) { return !!of && x[String(t.hp)] / of >= t.share; };
+        } else {
+          extra = {move: x.move, near: x.near_2hko, ohko: x.ohko, '2hko': x['2hko']};
+          count = function (t) { return x[t.measure]; }; hit = function (t) { return !!of && x[t.measure] / of >= t.share; };
+        }
+      } else {
+        x = ev.taken[d.from.split('.')[1]]; of = x.hits;
+        count = function () { return x.takes[String(d.takes)]; }; hit = function (t) { return !!of && x.takes[String(d.takes)] / of >= t; };
+      }
+      var tier = -1;
+      for (var i = 0; i < d.tiers.length; i++) { if (!hit(d.tiers[i])) break; tier = i; }
+      var shown = d.tiers[Math.max(tier, 0)], n = count(shown), share = of ? r4(n / of) : 0.0;
+      if (shown && typeof shown === 'object') Object.keys(shown).forEach(function (k) { if (k !== 'share') extra[k] = shown[k]; });
+      var nxt = null;
+      if (tier + 1 < d.tiers.length) { var t = d.tiers[tier + 1]; nxt = {tier: tiers[tier + 1], needs: typeof t === 'object' ? t : {share: t}}; }
+      out[bid] = Object.assign({name: d.name, tier: tier >= 0 ? tiers[tier] : null, share: share, n: n, of: of}, extra, {next: nxt});
+    });
+    Object.keys(D).forEach(function (bid) {
+      var d = D[bid]; if (!d.both) return;
+      var ts = d.both.map(function (k) { return out[k].tier; }), tier = ts.every(Boolean) ? Math.min.apply(null, ts.map(function (t) { return tiers.indexOf(t); })) : -1;
+      out[bid] = {name: d.name, tier: tier >= 0 ? tiers[tier] : null, of_badges: d.both, next: null};
+    });
+    Object.keys(out).forEach(function (bid) { out[bid].says = says(D[bid], out[bid]); });
+    return out;
+  }
+  function tagsPart(sig) {
+    var out = [];
+    CFG.tags.list.forEach(function (t) {
+      var ok = t.all ? Object.keys(t.all).every(function (k) { return (sig[k] || 0) >= t.all[k]; }) : t.any.some(function (k) { return (sig[k] || 0) >= 1; });
+      if (ok) { var o = {id: t.id, name: t.name}; if (t.level) o.level = sig[t.level] || 0; out.push(o); }
+    });
+    return out;
+  }
+  function qualsPart(read) {
+    var ace = read.roles.filter(function (r) { return r.role === 'ace'; })[0], nums = ace.numbers, out = [];
+    CFG.qualifications.list.forEach(function (q) {
+      if (q.from === 'team_role') { out.push({id: q.id, name: q.name, earned: ace.earned, status: q.status, why: ace.why}); return; }
+      var checks = Object.keys(q).filter(function (k) { return /_at_least$/.test(k); }).map(function (k) { return [k.slice(0, -'_at_least'.length), q[k]]; });
+      var earned = checks.every(function (c) { return nums[c[0] + '_rate'] >= c[1]; });
+      out.push({id: q.id, name: q.name, earned: earned, status: q.status,
+        why: checks.map(function (c) { return 'beats ' + pct(nums[c[0] + '_rate']) + '% of ' + nums[c[0] + '_n'] + ' ' + POOL_NAME[c[0]] + ' Pokémon (needs ' + pct(c[1]) + '%)'; })});
+    });
+    return out;
+  }
+  function tagName(id) { var t = CFG.tags.list.filter(function (x) { return x.id === id; })[0]; return t ? t.name : id; }
+  function badgeName(id) { if (id === 'speed') return CFG.speed.name; if (CFG.stats.names[id]) return CFG.stats.names[id]; return CFG.damage.badges[id].name; }
+  function archetypePart(read, types, tags, badges, quals) {
+    var a = CFG.archetype, sl = read.second_layer, functional, src;
+    if (read.name.match >= a.ladder_at_least) { functional = read.name.text; src = 'ladder'; }
+    else {
+      var p = sl.primary, s = sl.secondary, hybrid = !!(s && p.score - s.score <= a.hybrid_within && s.score > 0);
+      functional = p.name + (hybrid ? ' / ' + s.name : ''); src = 'role engine' + (hybrid ? ' (hybrid)' : '');
+    }
+    var have = tags.map(function (t) { return t.id; }), tiers = CFG.tiers, earnedQ = quals.filter(function (q) { return q.earned; }).map(function (q) { return q.id; });
+    var sig = CFG.signature.list.map(function (d) {
+      var need = d.needs, unmet = [];
+      (need.types || []).forEach(function (t) { if (types.indexOf(t) < 0) unmet.push('a ' + t + ' type'); });
+      (need.tags || []).forEach(function (t) { if (have.indexOf(t) < 0) unmet.push('the ' + tagName(t) + ' tag'); });
+      Object.keys(need.badges || {}).forEach(function (bid) { var t = need.badges[bid], h = badges[bid] ? badges[bid].tier : null;
+        if (h == null || tiers.indexOf(h) < tiers.indexOf(t)) unmet.push(badgeName(bid) + ' ' + t + (h ? ' (has ' + h + ')' : '')); });
+      (need.qualifications || []).forEach(function (q) { if (earnedQ.indexOf(q) < 0) unmet.push(q); });
+      return {id: d.id, name: d.name, status: d.status, enabled: d.enabled, earned: !unmet.length && d.enabled, met: !unmet.length, unmet: unmet};
+    });
+    return {functional: functional, from: src, primary: sl.primary.name,
+      nearby: sl.top.slice(1, 4).map(function (x) { return {name: x.name, score: x.score, gap: r4(sl.primary.score - x.score)}; }), signature: sig};
+  }
+  function read(b, rd) {
+    if (!rd || rd.error) return {error: (rd || {}).error || 'no team-role read'};
+    if (!rd.evidence) return {error: 'this read was stored before the fights kept their damage evidence (rebuild the team roles)'};
+    var game = rd.game, gen = rd.gen, level = CFG.level;
+    var filled = Object.assign({}, b, {moves: rd.moves.slice(), level: level});
+    var cl = Sc.classify(filled, game, level), sp = Bt.species(gen, b.species);
+    var ability = gen >= 3 ? (b.ability || Bt.abilities(gen, b.species)[0] || null) : null;
+    var stats = statsPart(b, gen, level), speed = speedPart(b, gen, level, ability, b.item || null, rd.moves), badges = badgesPart(rd.evidence);
+    Object.keys(stats).forEach(function (s) { var x = stats[s]; if (x && typeof x === 'object' && x.tier) badges[s] = {name: x.name, tier: x.tier, says: x.name + ' ' + x.value + ' at level ' + level, next: x.next}; });
+    if (speed.tier) badges.speed = {name: speed.name, tier: speed.tier, says: 'Speed ' + speed.value + ' at level ' + level, next: speed.next};
+    var tags = tagsPart(cl.signals), quals = qualsPart(rd), arch = archetypePart(rd, sp.types, tags, badges, quals);
+    return {version: CFG.version, game: game, gen: gen, types: sp.types, stats: stats, speed: speed, badges: badges, tags: tags, qualifications: quals, archetype: arch};
+  }
+  function summary(r) {
+    if (r.error) return '';
+    var sig = r.archetype.signature.filter(function (s) { return s.earned; }).map(function (s) { return s.name; });
+    var bad = Object.keys(r.badges).map(function (k) { return r.badges[k]; }).filter(function (v) { return v.tier; }).map(function (v) { return v.name + ' ' + v.tier; });
+    var q = r.qualifications.filter(function (x) { return x.earned; }).map(function (x) { return x.name; });
+    return [sig.concat([r.archetype.functional]).join(' / '), bad.join(', '), q.join(', ')].filter(Boolean).join('; ') + ' (recognition@' + r.version + ')';
+  }
+  return {init: init, read: read, summary: summary, full: full, statsOf: statsOf, config: function () { return CFG; }, ready: function () { return !!CFG; }};
+})();
+</script>

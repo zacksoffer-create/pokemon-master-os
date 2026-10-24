@@ -23,6 +23,9 @@ from wilderness.world import WorldStore
 HERE = os.path.dirname(os.path.abspath(__file__))
 CANON = os.path.join(os.path.dirname(HERE), "canon")
 DEX_MAX = 493
+# The ranch is the present day at Blackthorn, under Gen 4 rules (D-042, D-044): every resident is read in this game
+# for staffing, not in the chapter it came from (B39: a Crystal companion had no abilities, FireRed only Pickup).
+PRESENT_GAME = "heartgold"
 EGG_GROUP_NAMES = {"monster": "Monster", "water1": "Water 1", "bug": "Bug", "flying": "Flying", "ground": "Field",
                    "fairy": "Fairy", "plant": "Grass", "humanshape": "Human-Like", "water3": "Water 3",
                    "mineral": "Mineral", "indeterminate": "Amorphous", "water2": "Water 2", "dragon": "Dragon"}
@@ -134,7 +137,7 @@ class RanchPlanner:
     def staffing(self, residents, facilities=None):
         """Per facility: Pokémon the games (or authored canon) back for each job, Pokédex story candidates,
         the people roles, open jobs, and jobs that hang on a single species."""
-        best = {r["id"]: self._best_evidence(r["species"], r["game"]) for r in residents}
+        best = {r["id"]: self._best_evidence(r["species"], PRESENT_GAME) for r in residents}
         species = {r["id"]: r["species"] for r in residents}
         out = {}
         for f in facilities or self.design["facilities"]:

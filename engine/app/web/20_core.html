@@ -124,11 +124,12 @@ function defenses(ts) {
 }
 
 /* ---- shell: rail, top bar, router ---- */
-var NAV = [
-  ['HEADQUARTERS', [['home', '#/', 'Home'], ['estate', '#/estate', 'The Estate'], ['glass', '#/glasshouse', 'The Glasshouse'], ['field', '#/field', 'Field readiness']]],
-  ['BREEDER', [['breed', '#/breeding', 'Breeding & lineage'], ['atlas', '#/atlas', 'Biological atlas'], ['journal', '#/journal', 'Research journal']]],
-  ['LABS', [['plab', '#/pokemon', 'Pokémon lab'], ['tlab', '#/team', 'Team lab'], ['slab', '#/scoutlab', 'Trainer lab'], ['lines', '#/lines', 'Breeding lab'], ['pkhex', '#/pkhex', 'PKHeX export']]],
-  ['CHAMPION', [['scout', '#/scouting', 'Scouting reports'], ['advance', '#/advance', 'Advance scouting'], ['blab', '#/battlelab', 'Battle Lab'], ['teams', '#/teams', 'Team reports'], ['builds', '#/builds', 'Builds & the Lab']]],
+var NAV = [   // the five spaces (docs/specs/BUILDER_UI_AND_INFORMATION_ARCHITECTURE.md §3), and the record underneath
+  ['MY WORLD', [['home', '#/', 'Home'], ['mine', '#/mine', 'Your Pokémon'], ['estate', '#/estate', 'The Estate'], ['glass', '#/glasshouse', 'The Glasshouse'], ['breed', '#/breeding', 'Breeding & lineage']]],
+  ['BUILDER & STUDIO', [['plab', '#/pokemon', 'Pokémon Studio'], ['tlab', '#/team', 'Team lab'], ['pkhex', '#/pkhex', 'PKHeX export']]],
+  ['LABS', [['blab', '#/battlelab', 'Battle Lab'], ['slab', '#/scoutlab', 'Trainer lab'], ['field', '#/field', 'Field readiness'], ['lines', '#/lines', 'Breeding lab'], ['std', '#/standards', 'The standards']]],
+  ['POKÉDEX & REFERENCE', [['atlas', '#/atlas', 'Biological atlas'], ['journal', '#/journal', 'Research journal'], ['builds', '#/builds', 'The builds book']]],
+  ['TRAINER LIBRARY', [['scout', '#/scouting', 'Scouting reports'], ['advance', '#/advance', 'Advance scouting'], ['teams', '#/teams', 'Team reports']]],
   ['RECORD', [['calls', '#/calls', 'Your calls'], ['inbox', '#/inbox', 'The inbox'], ['record', '#/record', 'The record'], ['engine', '#/engine', 'Engine room']]]
 ];
 var ROUTES = [];

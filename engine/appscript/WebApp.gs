@@ -7,15 +7,18 @@
  *   - apiData(name): one of the data files, as JSON text;
  *   - apiTab(name): the rows of a tab of this Sheet, as objects keyed by its header row;
  *   - apiAppend(tab, obj): adds a row to one of the app's tabs (made on first use), and a line to the Timeline;
- *     Variants holds the Scouting Lab's saved variants;
- *   - apiAnswer(id, text, status, meta): writes your call into the Your Calls tab.
+ *     Variants holds the Scouting Lab's saved variants; My Pokémon, My Builds and My Teams hold your records
+ *     (each save is a new row, never an edit, so every earlier version stays);
+ *   - apiAnswer(id, text, status, meta): writes your call into the Your Calls tab;
+ *   - apiUpload(name, mime, base64) / apiImage(id): your pictures, kept in one Drive folder the app makes.
  *
  * To update the app, upload a newer zip to Drive. The newest one wins; older ones can stay (or go to History).
  * Deploy: Deploy → New deployment → Web app → Execute as: Me · Who has access: Only myself.
  */
 
 var APP_ZIP = 'Blackthorn-HQ-app';            // the zip's name starts with this; the newest one is used
-var APP_TABS = ['Eggs', 'Egg Walks', 'Plantings', 'Harvests', 'Readings', 'Feedings', 'Journal', 'Timeline', 'Specimens', 'Variants'];
+var APP_TABS = ['Eggs', 'Egg Walks', 'Plantings', 'Harvests', 'Readings', 'Feedings', 'Journal', 'Timeline', 'Specimens', 'Variants',
+  'My Pokémon', 'My Builds', 'My Teams', 'My Artwork'];            // your records: append-only, the newest row wins (docs/design/DATA_CONTRACT.md)
 var WRITABLE = APP_TABS.concat(['Studbook']);
 var CALLS = 'Your Calls';
 var CHUNK = 30000;                            // characters per cache entry (100 KB per value, even if every one is 3 bytes)
@@ -166,6 +169,38 @@ function appendRow_(tab, obj) {
   var at = Math.max(sh.getLastRow() + 1, h + 2);
   sh.getRange(at, 1, 1, line.length).setValues([line]);
   return at;
+}
+
+// --- your pictures ------------------------------------------------------------------------------------------------
+// The app makes one folder in your Drive, "Blackthorn HQ artwork", and only ever adds pictures to it (made smaller in
+// the browser first). Showing one goes through here too: the app's frame can't load Drive links by itself.
+var ART_FOLDER = 'Blackthorn HQ artwork';
+var ART_MAX = 8 * 1024 * 1024;                // characters of base64, about 6 MB of picture
+
+/** Saves a picture into the artwork folder; returns its file id. */
+function apiUpload(name, mime, b64) {
+  if (!/^image\/(jpeg|png|webp)$/.test(String(mime))) throw new Error('Only pictures can be saved.');
+  if (String(b64).length > ART_MAX) throw new Error('That picture is too big.');
+  var safe = String(name || 'picture').replace(/[^A-Za-z0-9._-]+/g, '_').slice(0, 120);
+  var file = artFolder_().createFile(Utilities.newBlob(Utilities.base64Decode(String(b64)), String(mime), safe));
+  return {id: file.getId()};
+}
+
+/** A picture the app saved, as a data URL. Nothing outside the artwork folder is ever returned. */
+function apiImage(id) {
+  var file = DriveApp.getFileById(String(id)), folder = artFolder_().getId(), parents = file.getParents(), ours = false;
+  while (parents.hasNext()) if (parents.next().getId() === folder) ours = true;
+  if (!ours) throw new Error('The app only shows pictures it saved.');
+  var blob = file.getBlob();
+  return 'data:' + blob.getContentType() + ';base64,' + Utilities.base64Encode(blob.getBytes());
+}
+
+function artFolder_() {
+  var props = PropertiesService.getScriptProperties(), id = props.getProperty('ART_FOLDER_ID');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (e) {} }
+  var f = DriveApp.createFolder(ART_FOLDER);
+  props.setProperty('ART_FOLDER_ID', f.getId());
+  return f;
 }
 
 /** Writes your call (and its status) into the Your Calls tab; a call that isn't there yet gets a row. */

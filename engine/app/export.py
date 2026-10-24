@@ -75,8 +75,10 @@ def atlas(store):
             abil = era.abilities(name, 4)
         except (KeyError, IndexError):
             continue
-        sp = ref.q("SELECT evolves_from_species_id, habitat_id, gender_rate, hatch_counter, generation_id "
+        sp = ref.q("SELECT evolves_from_species_id, habitat_id, gender_rate, hatch_counter, generation_id, has_gender_differences "
                    "FROM pokemon_species WHERE id=?", sid)[0]
+        forms = {i.split("-", 1)[1]: int(p) for p, i in ref.q("SELECT id, identifier FROM pokemon WHERE species_id=? AND CAST(id AS INT) "
+                                                              "BETWEEN 10001 AND 10015", sid)}
         habitat = ref.q("SELECT identifier FROM pokemon_habitats WHERE id=?", sp[1]) if sp[1] else []
         genus = ref.q("SELECT genus FROM pokemon_species_names WHERE pokemon_species_id=? AND local_language_id=9", sid)
         size = ref.q("SELECT height, weight FROM pokemon WHERE id=?", sid)[0]
@@ -91,7 +93,7 @@ def atlas(store):
                      "gr": int(sp[2]), "cyc": int(sp[3]), "gen": int(sp[4]),
                      "from": int(sp[0]) if sp[0] else None, "hab": habitat[0][0] if habitat else None,
                      "genus": genus[0][0] if genus else "", "h": int(size[0]) / 10, "w": int(size[1]) / 10,
-                     "dex": text, "dexg": game})
+                     "dex": text, "dexg": game, **({"gd": 1} if str(sp[5]) == "1" else {}), **({"forms": forms} if forms else {})})
     return {"species": rows}
 
 
@@ -226,12 +228,19 @@ def scouting():
 def journal(bt):
     canon = os.path.join(ENGINE, "canon")
     out = []
+    # Ingested notes aren't yours: a fan work's claims are world-building, anything else sourced is research
+    # (docs/design/DATA_CONTRACT.md). A field note is a fan work when its source is a lore card marked fan_work.
+    lore = list(jsonl(os.path.join(canon, "lore.jsonl")))
+    fan = {(r.get("source_ref") or "").split(" @")[0] for r in lore if r.get("fan_work")}
+    def sourced(is_fan):
+        return "world-building" if is_fan else "research"
     for r in jsonl(os.path.join(canon, "field_notes.jsonl")):
-        out.append({"kind": "official" if r.get("canon") else "observation", "sp": r.get("species"),
+        ref = (r.get("source_ref") or "").split(" @")[0]
+        out.append({"kind": "official" if r.get("canon") else sourced(ref in fan), "sp": r.get("species"),
                     "aspect": r.get("aspect"), "text": r.get("note"), "src": r.get("source_ref") or r.get("source"),
                     "on": r.get("approved_on")})
-    for r in jsonl(os.path.join(canon, "lore.jsonl")):
-        out.append({"kind": "world-building" if r.get("fan_work") else "observation", "sp": r.get("subject"),
+    for r in lore:
+        out.append({"kind": sourced(r.get("fan_work")), "sp": r.get("subject"),
                     "aspect": "lore", "text": r.get("fact"), "src": r.get("source_ref") or r.get("source"),
                     "on": r.get("approved_on")})
     for e in bt["evidence"]:
@@ -315,6 +324,7 @@ def store_pack():
             out[name] = d[name]
             if name == "builds":
                 out["aliases"] = d.get("aliases", {})
+                out["versions"] = d.get("versions", {})
     prop = os.path.join(ENGINE, "store", "proposed_lines.json")
     if os.path.exists(prop):
         out["proposed_lines"] = load(prop)["lines"]
@@ -333,8 +343,15 @@ def main(breeder=False):
     print(f"{'total':16} {sum(sizes.values()) / 1024:7.1f} KB -> {OUT}")
     # the engines the app runs live or reads whole: each pack is its own module and can be run alone
     store_pack()
+    rec = load(os.path.join(ENGINE, "trainers", "recognition.json"))                     # the badge rules (29_recognition)
+    cal = os.path.join(ENGINE, "data_manifest", "recognition_calibration.json")
+    if os.path.exists(cal):
+        rec["calibration"] = load(cal)
+    dump("recognition.json", rec)
     import advance_pack
     import battle_pack
+    import explain_pack
+    explain_pack.main()
     import field_pack
     import room_pack
     import scout_pack

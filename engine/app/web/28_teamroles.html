@@ -93,6 +93,38 @@ var TeamRoles = (function () {
         hardest: top.slice(0, 5).map(function (h) { return {attacker: h[2], move: h[3], max: h[0], min: h[1]}; })}};
   }
 
+  function evidence(f, gen) {   // team_roles.py evidence(): what the Ace fights show, for the recognition badges
+    var foes = {}, order = [];
+    ['elite_four', 'champion'].forEach(function (p) { f[p].forEach(function (x) { if (!foes[x[0].key]) { foes[x[0].key] = [x[0], x[2]]; order.push(x[0].key); } }); });
+    var rows = order.map(function (k) { return foes[k]; }), ours = rows.length ? Object.keys(rows[0][1].damage).sort(cmp) : [];
+    var count = function (mv) { var lo = rows.map(function (r) { return r[1].damage[mv][0]; }), hi = rows.map(function (r) { return r[1].damage[mv][1]; });
+      return {move: mv, ohko: lo.filter(function (x) { return x >= 100; }).length, ohko_possible: hi.filter(function (x) { return x >= 100; }).length, '2hko': lo.filter(function (x) { return x >= 50; }).length}; };
+    var out = {foes: rows.length};
+    ['Physical', 'Special'].forEach(function (kind) {
+      var c = ours.filter(function (mv) { return Bt.move(gen, mv).cat === kind; }).map(count);
+      if (!c.length) { out[kind.toLowerCase()] = null; return; }
+      c.sort(function (a, b) { return (b['2hko'] - a['2hko']) || (b.ohko - a.ohko) || (b.ohko_possible - a.ohko_possible) || cmp(a.move, b.move); });
+      var b = c[0], near = rows.filter(function (r) { return r[1].damage[b.move][0] < 50; }).map(function (r) { return [r[1].damage[b.move][0], r[0].name]; })
+        .sort(function (p, q) { return (q[0] - p[0]) || cmp(p[1], q[1]); }).slice(0, 3);
+      out[kind.toLowerCase()] = Object.assign({}, b, {near_2hko: near.map(function (x) { return [x[1], x[0]]; })});
+    });
+    out.any = {ohko: rows.filter(function (r) { return ours.some(function (mv) { return r[1].damage[mv][0] >= 100; }); }).length,
+      '2hko': rows.filter(function (r) { return ours.some(function (mv) { return r[1].damage[mv][0] >= 50; }); }).length};
+    var prio = ours.filter(function (mv) { return Bt.move(gen, mv).priority > 0; });
+    if (prio.length) {
+      var pc = prio.map(function (mv) { var o = {move: mv}; [100, 50, 25].forEach(function (h) { o[String(h)] = rows.filter(function (r) { return r[1].damage[mv][0] >= h; }).length; }); return o; });
+      pc.sort(function (a, b) { return (b['25'] - a['25']) || (b['50'] - a['50']) || (b['100'] - a['100']) || cmp(a.move, b.move); });
+      out.priority = pc[0];
+    } else out.priority = null;
+    var taken = {physical: {hits: 0, takes: {'2': 0, '3': 0, '4': 0}}, special: {hits: 0, takes: {'2': 0, '3': 0, '4': 0}}}, walled = 0, attacking = 0;
+    rows.forEach(function (r) {
+      var inc = r[1].incoming, ks = Object.keys(inc);
+      if (ks.length) { attacking++; if (ks.every(function (mv) { return inc[mv][1] < 100; })) walled++; }
+      ks.forEach(function (mv) { var k = taken[String(Bt.move(gen, mv).cat).toLowerCase()]; if (k) { k.hits++; [2, 3, 4].forEach(function (n) { if (inc[mv][1] < 100 / (n - 1)) k.takes[String(n)]++; }); } });
+    });
+    out.taken = {physical: taken.physical, special: taken.special, foes: attacking, walled: walled};
+    return out;
+  }
   function best(list) { var b = null; list.forEach(function (x) { if (!b || x.score > b.score) b = x; }); return b; }
   function sweeper(cl) {
     var r = CFG.roles.sweeper, b = best(cl.roles.filter(function (x) { return r.from_roles.indexOf(x.role) >= 0; }));
@@ -174,7 +206,7 @@ var TeamRoles = (function () {
       filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
       earned: sorted.filter(function (r) { return r.earned; }).map(function (r) { return r.role; }),
       second_layer: {primary: cl.primary, secondary: cl.secondary, top: cl.roles.slice(0, 5).map(function (x) { return {role: x.role, name: x.name, score: x.score}; })},
-      name: name(cl, team, ctx.moves, gen, b.species)};
+      name: name(cl, team, ctx.moves, gen, b.species), evidence: evidence(F[b.id], gen)};
   }
   function read(build, game) { var id = build.id || 'lab'; var b = Object.assign({}, build, {id: id}); return readMany([{build: b, game: game}])[id]; }
   return {init: init, read: read, readMany: readMany, pool: pool, override: override, config: function () { return CFG; }, ORDER: ORDER, GAME_OF_GEN: GAME_OF_GEN};

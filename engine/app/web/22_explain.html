@@ -1,0 +1,50 @@
+<script>
+/* ===== One explanation system for every builder (docs/specs/BUILDER_UI_AND_INFORMATION_ARCHITECTURE.md) ========
+   What a nature, an ability, an item, a move or a mechanic does, where you're choosing it: one line always shown, the
+   rest one tap away, by generation. From app/data/explain.json (app/explain_pack.py: each game's own text, PokeAPI's
+   summaries labelled as today's rules, reference/mechanics.json) and the battle pack's move data. */
+var Explain = (function () {
+  var X = null;
+  function ready() { return X ? Promise.resolve(X) : API.data('explain').then(function (d) { X = d; return d; }); }
+  function g(o, gen) { if (!o) return null; return o[String(gen)] || o['4'] || o['3'] || o['2'] || null; }
+  function details(summary, body) { return body ? '<details class="xp tiny"><summary>' + summary + '</summary><div class="muted" style="margin:4px 0 2px">' + body + '</div></details>' : '<div class="xp tiny">' + summary + '</div>'; }
+  function concept(id, gen) {
+    var c = X && X.mechanics[id]; if (!c) return '';
+    var line = g(c.line, gen); if (!line) return '';
+    var more = c.more ? (c.more[String(gen)] || null) : null;
+    return details('<b>' + esc(c.title) + ':</b> ' + esc(line), more ? esc(more) : null);
+  }
+  function nature(name, gen) {
+    if (gen < 3) return '';
+    var n = X && name ? X.natures[name] : null;
+    if (!n) return '<div class="xp tiny muted">No nature recorded: fights read it as neutral.</div>';
+    var cmp = n.same_up && n.same_up.length ? ' Others that raise ' + {atk: 'Attack', def: 'Defense', spa: 'Special Attack', spd: 'Special Defense', spe: 'Speed'}[n.up] + ': ' + n.same_up.map(function (m) {
+      var o = X.natures[m]; return '<b>' + esc(m) + '</b> (−' + {atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe'}[o.down] + ')'; }).join(', ') + '.' : '';
+    return details('<b>' + esc(name) + ':</b> ' + esc(n.line) + cmp, esc(g(X.mechanics.nature.more, gen) || ''));
+  }
+  function ability(name, gen) {
+    if (gen < 3) return '';
+    var a = X && name ? X.abilities[name] : null;
+    if (!a) return '';
+    var game = g(a.game_text, gen);
+    return details('<b>' + esc(name) + ':</b> ' + esc(game || a.summary || ''), a.summary && game ? 'How it works (PokeAPI, written for today\'s rules; Gens III-IV can differ): ' + esc(a.summary) : null);
+  }
+  function item(name, gen) {
+    var it = X && name ? X.items[name] : null;
+    if (!name) return '';
+    if (!it) return '<div class="xp tiny muted">' + esc(name) + ': not an item the reference knows.</div>';
+    var game = g(it.game_text, gen), here = it.gens.indexOf(gen) >= 0;
+    return details('<b>' + esc(name) + ':</b> ' + esc(game || it.summary || '') + (here ? '' : ' <span style="color:var(--ember-2)">(not in Gen ' + gen + ')</span>'),
+      it.summary && game ? 'How it works (PokeAPI, today\'s rules): ' + esc(it.summary) : null);
+  }
+  function move(name, gen) {
+    if (!name) return '';
+    var m, e = null;
+    try { m = Battle.move(gen, name); } catch (err) { return '<div class="xp tiny" style="color:var(--ember-2)">' + esc(name) + ' isn\'t a Gen ' + gen + ' move.</div>'; }
+    try { e = Battle.mbGet(gen, m.name); } catch (err) { e = null; }
+    var bits = [m.type, m.cat, m.bp ? m.bp + ' power' : null, e && e.accuracy ? e.accuracy + '% accuracy' : null, m.priority ? (m.priority > 0 ? '+' : '') + m.priority + ' priority' : null].filter(Boolean);
+    return details(esc(bits.join(' · ')), e && e.effect ? esc(e.effect) : null);
+  }
+  return {ready: ready, concept: concept, nature: nature, ability: ability, item: item, move: move, data: function () { return X; }};
+})();
+</script>

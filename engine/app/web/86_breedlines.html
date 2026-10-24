@@ -42,7 +42,7 @@ function lineDetail(id) {
     var gen = Battle.GAME_GEN[l.game], baby = dexOf(l.offspring) || {}, adult = dexOf(l.species) || {};
     var learnB = [], learnA = []; try { learnB = Battle.learnable(l.offspring, l.game); } catch (e) {} try { learnA = Battle.learnable(l.species, l.game); } catch (e) {}
     var who = {}; Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (i.build) who[i.build] = k; });
-    var indId = l.build ? who[l.build] : null, read = indId ? packRead(indId) : null;
+    var indId = l.build ? who[l.build] : null, read = indId ? freshPackRead(indId) : null;
     var gr = function (d) { return d.gr == null ? '—' : d.gr < 0 ? 'genderless' : d.gr === 0 ? 'always male' : d.gr === 8 ? 'always female' : Math.round(100 * d.gr / 8) + '% female'; };
     var bio = function (d, label) { return d.name ? '<div style="margin-bottom:10px"><div class="small"><b>' + esc(d.name) + '</b> <span class="tiny muted">' + esc(label) + '</span></div><div class="tiny">' + esc([d.genus, d.hab ? 'lives in ' + d.hab : null, d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.eg ? 'egg groups ' + d.eg.join(' and ') : null, d.cyc ? d.cyc + ' egg cycles' : null, gr(d)].filter(Boolean).join(' · ')) + '</div>' +
       (d.dex ? '<div class="small" style="margin-top:4px">“' + esc(d.dex) + '” <span class="tiny muted">(' + esc(cap(d.dexg || '')) + ' Pokédex)</span></div>' : '') + '</div>' : ''; };

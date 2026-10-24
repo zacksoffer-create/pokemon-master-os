@@ -2054,6 +2054,45 @@ class Blackthorn(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
 
 
+class Recognition(unittest.TestCase):
+    """Tags, badges, archetypes and qualifications (trainers/recognition.py, docs/specs/TAGS_BADGES_…)."""
+
+    def test_the_thresholds_are_the_specs_numbers_computed_not_typed(self):
+        from trainers.recognition import full
+        self.assertEqual([full(b, "atk", 4, 100) for b in (100, 110, 130, 150)], [328, 350, 394, 438])
+        self.assertEqual([full(b, "hp", 4, 100) for b in (80, 100, 120, 150)], [364, 404, 444, 504])
+        self.assertEqual([full(b, "spe", 4, 100) + 1 for b in (100, 110, 115, 120, 130)], [329, 351, 362, 373, 395])
+
+    def test_speed_tells_an_outspeed_from_a_tie_and_keeps_boosts_apart(self):
+        from trainers.model import Build
+        from trainers.recognition import Recognition as R
+        r = R()
+        # Jolly 252 base-100 Speed is 328: one short of the base-100 milestone, a tie
+        sp = r.speed_part(Build(id="t", species="Salamence", nature="Jolly", evs={"spe": 252}), 4, 100, "Intimidate", "Choice Scarf", ["Dragon Dance"])
+        m = {x["base"]: x for x in sp["milestones"]}
+        self.assertEqual(sp["value"], 328)
+        self.assertTrue(m[100]["ties"])
+        self.assertFalse(m[100]["clears"])
+        self.assertIsNone(sp["tier"], "a tie isn't an outspeed")
+        self.assertEqual([b["how"] for b in sp["boosted"]], ["Choice Scarf", "Dragon Dance (+1)"])
+        self.assertEqual(sp["boosted"][0]["value"], 492)
+        # the least it takes to reach the next milestone: Salamence (base 100) can't outrun base 100 with any spread
+        self.assertIsNone(sp["next"]["how"])
+
+    def test_least_evs_reaches_a_threshold_exactly(self):
+        from trainers.recognition import Recognition as R
+        r = R()
+        how = r.least_evs("Garchomp", 4, 100, "Jolly", None, {"atk": 252, "spe": 0}, "spe", 329)
+        self.assertEqual(r.stats_of("Garchomp", 4, 100, "Jolly", None, {"atk": 252, "spe": how["evs"]})["spe"] >= 329, True)
+        self.assertLess(r.stats_of("Garchomp", 4, 100, "Jolly", None, {"atk": 252, "spe": how["evs"] - 4})["spe"], 329)
+        self.assertEqual(how["left"], 510 - 252 - how["evs"])
+
+    def test_a_blank_spread_earns_no_stat_tier(self):
+        from trainers.model import Build
+        from trainers.recognition import Recognition as R
+        self.assertEqual(R().stats_part(Build(id="t", species="Snorlax"), 4, 100), {"no_evs": True})
+
+
 class WebApp(unittest.TestCase):
     """Blackthorn HQ, the web app (docs/APP.md): the pages, the launcher, and the Lab's math against the engine's."""
     @classmethod
@@ -2116,6 +2155,27 @@ class WebApp(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
         self.assertIn("checks match Python over %d builds" % len(ids), out.stdout)
 
+    def test_the_browser_recognition_matches_python(self):
+        """web/29_recognition.html against trainers/recognition.py (tags, badges, Speed milestones, stat tiers, the
+        archetype and the qualifications), over the same team-role reads with their fight evidence: the journey
+        companions, a stock set and a competitive set.
+        Every build: python3 -I trainers/recognition.py --parity OUT && node app/test_recognition_parity.mjs OUT"""
+        import json as _json
+        with open(os.path.join(self.app, "data", "roles4.json"), encoding="utf-8") as fh:
+            have = _json.load(fh)["reads"]
+        ids = [k for k in have if k.startswith("me:")] + [k for k in ("stock/garchomp-sweeper", "competitive:gen41v1/azelf-c4f2f4b2") if k in have]
+        with tempfile.TemporaryDirectory() as tmp:
+            reads, dump = os.path.join(tmp, "roles4.json"), os.path.join(tmp, "rec.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "team_roles.py"), "--parity", reads, ",".join(ids)],
+                              capture_output=True, text=True, cwd=ENGINE)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "recognition.py"), "--parity", dump, ",".join(ids), reads],
+                              capture_output=True, text=True, cwd=ENGINE)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_recognition_parity.mjs"), dump], capture_output=True, text=True, timeout=600)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn("checks match Python over %d builds" % len(ids), out.stdout)
+
     def test_the_launcher_serves_the_zip_and_writes_only_the_app_tabs(self):
         out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])
@@ -2160,6 +2220,32 @@ class WebApp(unittest.TestCase):
             self.assertEqual(out.returncode, 0, out.stderr[-1500:])
             out = self.sp.run(["node", os.path.join(self.app, "test_field_parity.mjs"), dump], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_your_records_read_the_same_in_the_browser_and_python(self):
+        """web/21_records.html against store/personal.py (docs/design/DATA_CONTRACT.md): the same My Builds, My Pokémon
+        and My Teams rows decode to the same records; a save is a new version and the old one stays; and the rows the
+        browser appends merge into the store the way store/migrate.py does it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            fx = os.path.join(tmp, "rec.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "store", "personal.py"), "--fixture", fx], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_records.mjs"), fx], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+            from store import personal
+            mine = personal.load(os.path.join(tmp, "rec.tabs.json"))
+        tyranitar = mine["builds"]["yours:heartgold/Tyranitar"]
+        self.assertEqual([b["v"] for b in tyranitar], [2])
+        self.assertEqual(tyranitar[0]["moves"][1], "Stone Edge")
+        builds = {"yours:heartgold/Tyranitar": {"id": "yours:heartgold/Tyranitar", "species": "Tyranitar", "provenance": "yours",
+                                                "moves": ["Dragon Dance", "Crunch", "Earthquake", "Outrage"], "origin": "canon"}}
+        individuals = {"me:heartgold/Tyranitar": {"id": "me:heartgold/Tyranitar", "species": "Tyranitar", "ball": "Poké Ball"}}
+        versions = personal.merge(builds, individuals, {}, mine)
+        self.assertEqual([v["v"] for v in versions["yours:heartgold/Tyranitar"]], [1, 2])
+        self.assertEqual(versions["yours:heartgold/Tyranitar"][0]["moves"][1], "Crunch", "the canon build is v1 and stays")
+        self.assertEqual(builds["yours:heartgold/Tyranitar"]["origin"], "canon")
+        self.assertEqual(individuals["me:heartgold/Tyranitar"]["nickname"], "Rex")
+        self.assertEqual(individuals["me:heartgold/Tyranitar"]["ball"], "Poké Ball")
+        self.assertEqual(sum(1 for k in individuals if k.startswith("me:heartgold/Larvitar-")), 1)
 
     def test_the_browser_specimen_kernel_matches_python(self):
         """web/26_specimen.html against specimen.py: PIDs (a shiny search included, and Python's own random

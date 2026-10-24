@@ -200,7 +200,7 @@ def build_report(store, trainer_id, version_id=None, level=None, playsheet=True)
         lines = book.speak("playsheet", sheet_context(store, rep, sheet))
         sheet["text"] = {sid: [p for p in lines if p["section"] == sid] for sid, _ in PLAYSHEET}
         rep["playsheet"] = sheet
-        rep["tags"] = tag_list + sheet["career"]["tags"]          # one tag list: Part 1's badges and the career's
+        rep["tags"] = tag_list + sheet["career"]["tags"]          # one tag list: Part 1's report tags and the career's
     return rep
 
 

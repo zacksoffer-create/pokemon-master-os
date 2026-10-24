@@ -38,7 +38,7 @@ const js = ctx.TeamRoles.readMany(py.builds.map((x) => ({ build: x.build, game: 
 for (const [id, p] of Object.entries(py.reads)) {
   const r = js[id];
   if (!r) { same(id + ' missing', null, true); continue; }
-  for (const f of ['species', 'game', 'gen', 'moves', 'filled_moves', 'earned', 'second_layer', 'name']) same(`${id} ${f}`, r[f], p[f]);
+  for (const f of ['species', 'game', 'gen', 'moves', 'filled_moves', 'earned', 'second_layer', 'name', 'evidence']) same(`${id} ${f}`, r[f], p[f]);
   p.roles.forEach((role, i) => same(`${id} role ${role.role}`, r.roles[i], role));
 }
 console.log(`${checked - bad}/${checked} checks match Python over ${Object.keys(py.reads).length} builds; ${((Date.now() - t0) / 1000).toFixed(1)} s`);

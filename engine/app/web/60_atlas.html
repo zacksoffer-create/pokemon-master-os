@@ -2,6 +2,7 @@
 /* ===== Biological atlas, species pages, the research journal, search ======================================== */
 var HAB = {grassland: 'Grassland', forest: 'Forest', 'waters-edge': 'Water\'s edge', sea: 'Sea', cave: 'Cave', mountain: 'Mountain', 'rough-terrain': 'Rough terrain', urban: 'Urban', rare: 'Rare'};
 var KIND = {official: ['Official record', 'ice'], 'verified mechanic': ['Verified mechanic', 'forest'], observation: ['Personal observation', 'gold'],
+  research: ['Sourced research', ''],
   hypothesis: ['Research hypothesis', 'violet'], 'world-building': ['World-building', 'ember']};
 function kindChip(k) { var x = KIND[k] || [k, '']; return chip(x[0], x[1]); }
 function residentsOf(name) { return S.hq.residents.filter(function (r) { return r.species === name; }); }
@@ -121,7 +122,7 @@ function journal() {
       '<p class="lede">What the games say, what\'s been verified, what you\'ve watched, and what you\'ve made up, kept apart so nobody mistakes a story for a fact.</p></div><button class="btn gold" onclick="openForm(\'note\')">+ New entry</button></div>' +
       '<div class="grid" style="margin-top:16px"><div class="c3">' + card('Kinds of knowledge', Object.keys(KIND).map(function (k) {
         return '<button class="kindbtn" data-kind="' + esc(k) + '"><span>' + kindChip(k) + '</span><b class="num">' + (counts[k] || 0) + '</b></button>'; }).join('') +
-        '<p class="tiny muted" style="margin-top:12px">Official: the Pokédex and the games. Verified: checked against PokeAPI and Showdown. Observation: you saw it. Hypothesis: you think it. World-building: you decided it.</p>', {eyebrow: 'Tap to show or hide', tools: false}) + '</div>' +
+        '<p class="tiny muted" style="margin-top:12px">Official: the Pokédex and the games. Verified: checked against PokeAPI and Showdown. Observation: you saw it. Sourced research: a wiki or a video says it, filed through the inbox. Hypothesis: you think it. World-building: you decided it, or a fan work imagined it.</p>', {eyebrow: 'Tap to show or hide', tools: false}) + '</div>' +
       '<div class="c9">' + card('Entries', '<div style="display:flex;gap:10px;margin-bottom:6px"><input class="f" id="jq" placeholder="Search the journal: a species, a word, a place…" style="flex:1"><select class="f" id="jasp" style="width:auto"><option value="">Any aspect</option>' + Object.keys(aspects).sort().map(function (a) { return '<option>' + esc(a) + '</option>'; }).join('') + '</select></div>' +
         '<div id="jout"></div><div style="text-align:center;margin-top:12px"><button class="btn sm" id="jmore">Show more</button></div>', {eyebrow: plural(all.length, 'entry', 'entries'), tools: false}) + '</div></div>';
   });

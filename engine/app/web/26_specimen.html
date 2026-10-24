@@ -117,6 +117,13 @@ var Specimen = (function () {
     if (idx != null) out.push('.HeldItem=' + idx);
     return out.join('\n');
   }
-  return {derive: derive, showdown: showdown, batch: batch, findPid: findPid, MT: MT, NATURES: NATURES, BALL: BALL};
+  // the balls that exist in a game, by name (Gen II stores none, so its list is the story's: the shop balls and Kurt's)
+  function ballsIn(game) {
+    var ids = game === 'crystal' ? [4, 3, 2, 1, 17, 18, 19, 20, 21, 22, 23] : Object.keys(BALL).map(function (k) { return BALL[k]; }).filter(function (n) { return n <= (BALLS_IN[game] || 0); }).sort(function (a, b) { return a - b; });
+    var byId = {}; Object.keys(BALL).forEach(function (k) { byId[BALL[k]] = k === 'Poke' ? 'Poké Ball' : k + ' Ball'; });
+    var out = ids.map(function (n) { return byId[n]; });
+    return ['Poké Ball'].concat(out.filter(function (b) { return b !== 'Poké Ball'; }));
+  }
+  return {derive: derive, showdown: showdown, batch: batch, findPid: findPid, MT: MT, NATURES: NATURES, BALL: BALL, ballsIn: ballsIn};
 })();
 </script>

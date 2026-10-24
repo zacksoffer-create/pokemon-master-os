@@ -1,0 +1,230 @@
+<script>
+/* ===== My World: your Pokémon, each one's profile, its artwork and image packets ============================
+   docs/specs/INDIVIDUAL_POKEMON_EXPERIENCE.md (the approved hybrid profile) and the master plan's Phase 3.
+   #/mine        the collection
+   #/mon/<id>    one Pokémon: hero and identity, at a glance, the tools, its gallery, its history
+   #/mon/<id>/showcase   the same Pokémon presented, without the working parts (notes, drafts, controls)
+   Art: the default picture follows its sex, shininess and form (only the variants that exist upstream: shiny official
+   artwork; HOME renders for females of species whose sexes look different; form artwork for Gen IV's forms). Your own
+   images go to a Drive folder the app makes (WebApp.gs apiUpload) and are listed in the My Artwork tab. */
+var Pics = (function () {
+  var cache = {};
+  function variant(ind) {   // the right default picture for this individual
+    var d = dexOf(ind.species) || {}, n = d.n; if (!n) return {url: '', label: 'no artwork'};
+    var formId = ind.form && d.forms ? d.forms[String(ind.form).toLowerCase()] : null, shiny = !!ind.shiny;
+    if (ind.gender === 'F' && d.gd && !formId) return {url: SPR + 'pokemon/other/home/' + (shiny ? 'shiny/' : '') + 'female/' + n + '.png', label: (shiny ? 'Shiny female' : 'Female') + ' (a HOME render: the official artwork has no female version)', cls: 'reference'};
+    return {url: SPR + 'pokemon/other/official-artwork/' + (shiny ? 'shiny/' : '') + (formId || n) + '.png', label: (shiny ? 'Shiny ' : '') + (formId ? cap(ind.form) + ' form ' : '') + 'official artwork', cls: 'reference'};
+  }
+  function variants(ind) {   // the reference pictures worth offering for this species
+    var d = dexOf(ind.species) || {}, n = d.n, out = []; if (!n) return out;
+    out.push({url: SPR + 'pokemon/other/official-artwork/' + n + '.png', label: 'Official artwork'});
+    out.push({url: SPR + 'pokemon/other/official-artwork/shiny/' + n + '.png', label: 'Shiny official artwork'});
+    if (d.gd) { out.push({url: SPR + 'pokemon/other/home/female/' + n + '.png', label: 'Female (HOME render)'}); out.push({url: SPR + 'pokemon/other/home/shiny/female/' + n + '.png', label: 'Shiny female (HOME render)'}); }
+    Object.keys(d.forms || {}).forEach(function (f) { out.push({url: SPR + 'pokemon/other/official-artwork/' + d.forms[f] + '.png', label: cap(f) + ' form'}); });
+    return out;
+  }
+  function mine(subject) {   // your artwork for a subject, newest first (My Artwork tab)
+    var A = (S.store || {}).artwork || {};
+    return Object.keys(A).map(function (k) { return A[k]; }).filter(function (a) { return a.subject === subject && a.status !== 'retired'; })
+      .sort(function (a, b) { return String(b.at || '').localeCompare(String(a.at || '')); });
+  }
+  function image(a) {   // an artwork record's picture: a reference URL as is, a Drive file through the script (cached)
+    if (!a) return Promise.resolve('');
+    if (a.url) return Promise.resolve(a.url);
+    if (!a.file) return Promise.resolve('');
+    if (!cache[a.file]) cache[a.file] = API.run('apiImage', a.file).catch(function () { delete cache[a.file]; return ''; });
+    return cache[a.file];
+  }
+  function hero(ind) {   // the chosen picture, or the right default one
+    var A = (S.store || {}).artwork || {}, a = ind.hero ? A[ind.hero] : null;
+    return a ? {art: a, label: a.title || 'your picture', cls: a['class'] || 'creative'} : Object.assign({art: null}, variant(ind));
+  }
+  function fill(root) {   // swap in Drive pictures once they've loaded: <img data-artfile="file id">
+    (root || document).querySelectorAll('img[data-artfile]').forEach(function (img) { var f = img.getAttribute('data-artfile'); img.removeAttribute('data-artfile');
+      image({file: f}).then(function (u) { if (u) img.src = u; }); });
+  }
+  function imgTag(h, style) {
+    if (h.art && h.art.file) return '<img data-artfile="' + esc(h.art.file) + '" alt="" style="' + (style || '') + '">';
+    return '<img src="' + esc(h.art ? h.art.url : h.url) + '" alt="" style="' + (style || '') + '" loading="lazy">';
+  }
+  function shrink(file, max) {   // a picture made smaller in the browser before it's saved (max px on its long side, JPEG)
+    return new Promise(function (res, rej) {
+      var r = new FileReader();
+      r.onerror = function () { rej(new Error('couldn\'t read the file')); };
+      r.onload = function () {
+        var im = new Image();
+        im.onerror = function () { rej(new Error('that file isn\'t a picture the browser can read')); };
+        im.onload = function () {
+          var k = Math.min(1, (max || 1600) / Math.max(im.width, im.height)), c = document.createElement('canvas');
+          c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+          c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+          res(c.toDataURL('image/jpeg', 0.86));
+        };
+        im.src = r.result;
+      };
+      r.readAsDataURL(file);
+    });
+  }
+  function upload(file, rec) {   // to the app's Drive folder, then a My Artwork row; returns the artwork record
+    return shrink(file, 1600).then(function (dataUrl) {
+      var b64 = dataUrl.split(',')[1], name = (rec.subject || 'art').replace(/[^A-Za-z0-9-]+/g, '_') + '-' + Records.token() + '.jpg';
+      return API.run('apiUpload', name, 'image/jpeg', b64);
+    }).then(function (r) {
+      return Records.saveArtwork(Object.assign({}, rec, {file: r.id}));
+    });
+  }
+  return {variant: variant, variants: variants, mine: mine, image: image, hero: hero, fill: fill, imgTag: imgTag, upload: upload};
+})();
+
+/* ---- the collection ---- */
+function minePage() {
+  return labsReady().then(function () {
+    var all = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return i.status !== 'retired'; });
+    var byGame = {}; all.forEach(function (i) { (byGame[i.game] = byGame[i.game] || []).push(i); });
+    after(function (p) { Pics.fill(p); var f = p.querySelector('#mnew'); if (f) f.onsubmit = function (e) { e.preventDefault(); plNew(f.querySelector('[name=sp]').value.trim(), f.querySelector('[name=game]').value, f.querySelector('[name=nick]').value.trim()); return false; }; });
+    var species = Object.keys(DEX.byName).sort();
+    return '<div class="eyebrow">My World</div><h1 style="margin:6px 0">Your Pokémon</h1>' +
+      '<p class="lede">Every Pokémon that\'s yours: the journey\'s companions and the ones you\'ve added. Open one for its profile (who it is, what it\'s built to do, what it has earned, its pictures and its history); build it in the Studio.</p>' +
+      ALL_GAMES.filter(function (g) { return byGame[g]; }).map(function (g) {
+        var list = byGame[g].sort(function (a, b) { return (a.chapter || 99) - (b.chapter || 99) || (a.species < b.species ? -1 : 1); });
+        return card(Battle.GAME_TITLE[g], '<div class="mgrid">' + list.map(function (i) {
+          var h = Pics.hero(i), r = freshPackRead(i.id), ace = r && !r.error && r.earned.indexOf('ace') >= 0;
+          return '<a class="mcard" href="#/mon/' + encodeURIComponent(i.id) + '">' + Pics.imgTag(h, 'width:100%;aspect-ratio:1;object-fit:contain') +
+            '<div class="nm">' + esc(i.nickname || i.species) + (i.shiny ? ' <span title="shiny" style="color:var(--gold)">★</span>' : '') + '</div>' +
+            '<div class="tiny muted">' + (i.nickname ? esc(i.species) + ' · ' : '') + (i.gender === 'M' ? '♂' : i.gender === 'F' ? '♀' : '') + (ace ? ' · ' + chip('Ace', 'forest') : '') + '</div></a>'; }).join('') + '</div>',
+          {eyebrow: plural(list.length, 'Pokémon'), tools: false, style: 'margin-top:16px'});
+      }).join('') +
+      card('Add a Pokémon', '<datalist id="msp">' + species.map(function (s) { return '<option value="' + esc(s) + '">'; }).join('') + '</datalist><form id="mnew" style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">' +
+        '<div style="flex:1;min-width:150px"><label class="l">Species</label><input class="f" name="sp" list="msp" required></div>' +
+        '<div><label class="l">Game</label><select class="f" name="game">' + ALL_GAMES.map(function (g) { return '<option value="' + g + '"' + (g === 'heartgold' ? ' selected' : '') + '>' + esc(Battle.GAME_TITLE[g]) + '</option>'; }).join('') + '</select></div>' +
+        '<div style="flex:1;min-width:120px"><label class="l">Nickname</label><input class="f" name="nick"></div><button class="btn gold">Add it</button></form>', {eyebrow: 'Saved to your My Pokémon tab', tools: false, style: 'margin-top:16px'});
+  });
+}
+
+/* ---- one Pokémon ---- */
+function monPage(id, mode) {
+  var show = mode === 'showcase';
+  return Promise.all([labsReady(), fieldReady().catch(function () { return null; })]).then(function () {
+    var ind = (S.store.individuals || {})[id];
+    if (!ind) return '<div class="notice">No Pokémon of yours called ' + esc(id) + '. <a href="#/mine">Your Pokémon</a></div>';
+    var b = indBuild(ind), read = freshPackRead(id) || liveRead(b, ind.game), rec = Recognize.read(b, read), gen = Battle.GAME_GEN[ind.game];
+    var d = dexOf(ind.species) || {}, h = Pics.hero(ind), sp = Battle.species(gen, ind.species);
+    var name = ind.nickname || ind.species, sex = ind.gender === 'M' ? '♂' : ind.gender === 'F' ? '♀' : '';
+    var top = rec.error ? [] : Object.keys(rec.badges).map(function (k) { return Object.assign({id: k}, rec.badges[k]); }).filter(function (x) { return x.tier; })
+      .sort(function (a, c) { return Recognize.config().tiers.indexOf(c.tier) - Recognize.config().tiers.indexOf(a.tier); });
+    var quals = rec.error ? [] : rec.qualifications.filter(function (q) { return q.earned; });
+    var sigs = rec.error ? [] : rec.archetype.signature.filter(function (s) { return s.earned; });
+    after(function (p) { Pics.fill(p); monBind(p, ind); });
+    var hero = '<div class="mhero"><div class="mart">' + Pics.imgTag(h, 'width:100%;max-height:420px;object-fit:contain') + '<div class="tiny muted" style="text-align:center;margin-top:4px">' + esc(h.label) + (h.cls === 'creative' ? ' · creative artwork' : '') + '</div></div>' +
+      '<div class="mid"><div class="eyebrow">' + (show ? 'Showcase' : 'My World · your Pokémon') + '</div><h1 style="margin:6px 0">' + esc(name) + ' <span style="color:var(--gold)">' + sex + '</span>' + (ind.shiny ? ' <span title="shiny" style="color:var(--gold)">★</span>' : '') + '</h1>' +
+      '<div class="small">' + (ind.nickname ? esc(ind.species) + ' · ' : '') + types(sp.types) + (d.genus ? ' · ' + esc(d.genus) : '') + (ind.form ? ' · ' + esc(cap(ind.form)) + ' form' : '') + ' · ' + esc(Battle.GAME_TITLE[ind.game]) + '</div>' +
+      (rec.error ? '<div class="tiny muted" style="margin-top:8px">' + esc(rec.error) + '</div>' :
+        '<div style="margin-top:10px"><b>' + (rec.archetype.from === 'ladder' ? nameHtml(read.name) : esc(rec.archetype.functional)) + '</b>' + sigs.map(function (s) { return ' ' + chip(s.name, 'gold'); }).join('') + '</div>' +
+        '<div style="margin-top:8px">' + quals.map(function (q) { return chip(q.name, 'forest'); }).join(' ') + ' ' + top.slice(0, 4).map(function (x) { return chip(x.name + ' ' + x.tier, ''); }).join(' ') + '</div>') +
+      '<div class="small" style="margin-top:10px">' + [b.ability ? 'Ability <b>' + esc(b.ability) + '</b>' : null, b.nature ? 'Nature <b>' + esc(b.nature) + '</b>' : null, b.item ? 'Item <b>' + esc(b.item) + '</b>' : null, ind.ball ? '<img src="' + itemSprite(ind.ball.replace('é', 'e')) + '" alt="" style="width:20px;vertical-align:middle"> ' + esc(ind.ball) : null].filter(Boolean).join(' · ') + '</div>' +
+      (show ? '' : '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><a class="btn gold" href="#/pokemon/' + encodeURIComponent(id) + '">Edit the build</a><a class="btn" href="#/compare/' + encodeURIComponent(ind.species) + '">Compare</a><button class="btn" id="mpack">Create artwork</button><a class="btn" href="#/mon/' + encodeURIComponent(id) + '/showcase">Showcase</a></div>') +
+      (show ? '<div style="margin-top:14px"><a class="link" href="#/mon/' + encodeURIComponent(id) + '">← The working view</a></div>' : '') + '</div></div>';
+    var stats = rec.error || rec.stats.no_evs ? '<div class="tiny muted">Base stats (no EVs recorded):</div>' + statBars(sp.bs) :
+      '<div class="tiny muted">At level ' + Recognize.config().level + ' as built:</div>' + statBars(Recognize.statsOf(ind.species, gen, 100, b.nature, b.ivs, b.evs), 500);
+    var tags = rec.error ? '' : rec.tags.map(function (x) { return chip(x.name, ''); }).join(' ');
+    var teams = Object.keys(S.store.teams || {}).map(function (k) { return S.store.teams[k]; }).filter(function (t) { return Array.isArray(t.slots) && t.slots.some(function (s) { return s && String(s.from || '').split('@')[0] === id; }); });
+    var caps = [];
+    if (S.field) { var best = {}; Field.evidence(ind.game, ind.species).forEach(function (e) { if (!best[e.capability] || Field.RANK[e.tier] > Field.RANK[best[e.capability].tier]) best[e.capability] = e; });
+      caps = Object.keys(best).map(function (c) { return best[c]; }).sort(function (a, c) { return Field.RANK[c.tier] - Field.RANK[a.tier] || (a.capability < c.capability ? -1 : 1); }); }
+    var glance = card('At a glance', stats +
+      (tags ? '<div style="margin-top:10px">' + tags + '</div>' : '') +
+      (rec.error ? '' : '<div class="tiny muted" style="margin-top:8px">Underneath: ' + esc(rec.archetype.primary) + (rec.archetype.nearby.length ? ' · nearby: ' + esc(rec.archetype.nearby.map(function (x) { return x.name; }).join(', ')) : '') + '</div>') +
+      '<div class="small" style="margin-top:10px">Moves: ' + esc((read.moves || b.moves || []).join(' · ')) + (read.filled_moves && read.filled_moves.length ? ' <span class="tiny muted">(' + esc(read.filled_moves.join(', ')) + ' filled by the engine)</span>' : '') + '</div>' +
+      (teams.length ? '<div class="small" style="margin-top:8px">On: ' + teams.map(function (t) { return esc(t.title || t.id); }).join(' · ') + '</div>' : '') +
+      (caps.length ? '<div class="small" style="margin-top:8px">In the field: ' + caps.slice(0, 8).map(function (e) { return '<span title="' + esc(e.tier + ': ' + e.source) + '" style="color:' + (e.tier === 'cartridge' || e.tier === 'authored' ? 'var(--forest-3)' : 'var(--text-2)') + '">' + esc(e.capability.replace(/_/g, ' ')) + '</span>'; }).join(', ') + ' <span class="tiny muted">(green: the game or an approved record; grey: its Pokédex or biology suggests it)</span></div>' : ''),
+      {eyebrow: 'Stats · tags · teams · the field', tools: false});
+    var tools = show ? '' : card('Tools', [['#/pokemon/' + encodeURIComponent(id), 'The Studio', 'change the build, see every number move, save a version'], ['#/team/' + ind.game, 'Team lab', 'how it fits the six'], ['#/field', 'Field readiness', 'what it can do away from battle'],
+      ['#/atlas/' + d.n, 'Its species', 'Pokédex, biology, egg groups'], ['#/pkhex/' + encodeURIComponent(id), 'PKHeX export', 'the Showdown set and the batch script'], ['#/standards', 'The standards', 'what every badge means']].map(function (x) {
+        return '<a class="tool" href="' + x[0] + '"><b>' + esc(x[1]) + '</b><span class="tiny muted">' + esc(x[2]) + '</span></a>'; }).join(''), {eyebrow: 'Open it anywhere', tools: false, style: 'margin-top:16px'});
+    var mineArt = Pics.mine(id), vars = Pics.variants(ind);
+    var gallery = card('Gallery', '<div class="mgal">' + mineArt.map(function (a) {
+        return '<figure>' + Pics.imgTag({art: a}, 'width:100%;aspect-ratio:1;object-fit:cover') + '<figcaption class="tiny">' + esc(a.title || a.kind || 'your picture') + (a['class'] === 'creative' ? ' · creative' : '') + (show ? '' : '<br><a class="link" href="javascript:void 0" data-hero="' + esc(a.id) + '">' + (ind.hero === a.id ? 'the profile picture' : 'Make it the profile picture') + '</a>') + '</figcaption></figure>'; }).join('') +
+        vars.map(function (v) { return '<figure><img src="' + esc(v.url) + '" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain"><figcaption class="tiny muted">' + esc(v.label) + '</figcaption></figure>'; }).join('') + '</div>' +
+      (show ? '' : '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px"><label class="btn sm">Add a picture<input type="file" accept="image/*" id="mup" style="display:none"></label>' + (ind.hero ? '<button class="btn sm" id="mdef">Back to the default picture</button>' : '') +
+        '<span class="tiny muted">Pictures go to a Blackthorn folder in your Drive; references stay where they are. The default picture follows sex, shininess and form.</span></div>'),
+      {eyebrow: plural(mineArt.length, 'picture') + ' of yours · ' + plural(vars.length, 'reference'), tools: false, style: 'margin-top:16px'});
+    var vs = ind.build ? Records.versions(ind.build) : [];
+    var history = show && !vs.some(function (x) { return x.recognition; }) ? '' : card('History', (vs.length ? vs.slice().reverse().map(function (x) {
+        return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)"><b>v' + (x.v || 1) + '</b> <span class="tiny muted">' + esc(x.at ? fmtDate(x.at) : (x.origin || 'from the record')) + '</span>' +
+          (x.recognition ? '<div class="tiny" style="color:var(--gold)">' + esc(x.recognition) + '</div>' : '') + (!show && x.note ? '<div class="tiny muted">“' + esc(x.note) + '”</div>' : '') + '</div>'; }).join('') : '<div class="tiny muted">No build saved yet: the engines fill its moves.</div>') +
+      (!show && ind.note ? '<div class="tiny muted" style="margin-top:8px">Note: ' + esc(ind.note) + '</div>' : ''), {eyebrow: 'Every saved version, and what it earned then', tools: false, style: 'margin-top:16px'});
+    var bio = card('Its species', (d.dex ? '<p class="small" style="margin:0 0 8px">“' + esc(d.dex) + '”</p>' : '') + '<div class="tiny muted">' + esc([d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.hab ? 'lives in ' + d.hab : null, d.eg ? 'egg groups ' + d.eg.join(', ') : null].filter(Boolean).join(' · ')) + '</div>',
+      {eyebrow: 'The same for every ' + ind.species, tools: false, style: 'margin-top:16px'});
+    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + tools + bio + '</div><div class="c6">' + gallery + history + '</div></div>';
+  });
+}
+function monBind(p, ind) {
+  var up = p.querySelector('#mup');
+  if (up) up.onchange = function () {
+    var f = up.files && up.files[0]; if (!f) return;
+    askText('A new picture of ' + (ind.nickname || ind.species), 'What is it? (a title)', function (title) {
+      toast('Saving the picture…');
+      Pics.upload(f, {subject: ind.id, kind: 'portrait', title: title || null, 'class': 'creative', status: 'gallery'}).then(function (a) {
+        return Records.saveIndividual(Object.assign({}, ind, {hero: a.id}), 'A new picture of ' + (ind.nickname || ind.species));
+      }).then(function () { toast('Saved, and it\'s the profile picture now.'); nav('#/mon/' + encodeURIComponent(ind.id)); })
+        .catch(function (e) { toast('Couldn\'t save the picture: ' + esc(e && e.message || e)); });
+    });
+  };
+  var def = p.querySelector('#mdef');
+  if (def) def.onclick = function () { Records.saveIndividual(Object.assign({}, ind, {hero: ''}), 'Back to the default picture').then(function () { nav('#/mon/' + encodeURIComponent(ind.id)); }); };
+  p.querySelectorAll('[data-hero]').forEach(function (a) { a.onclick = function () { Records.saveIndividual(Object.assign({}, ind, {hero: a.getAttribute('data-hero')}), 'New profile picture').then(function () { nav('#/mon/' + encodeURIComponent(ind.id)); }); }; });
+  var pk = p.querySelector('#mpack'); if (pk) pk.onclick = function () { packetDrawer(ind); };
+}
+
+/* ---- image-generation packets: everything Blackthorn knows, assembled into one brief ---- */
+var PACKET_PURPOSE = {portrait: 'Profile portrait', battle: 'Battle scene', habitat: 'Natural habitat', homestead: 'Homestead scene', custom: 'Custom scene'};
+function packetPrefs() { return Object.assign({purpose: 'portrait', style: 'painterly, faithful to the official Pokémon art style', mood: 'calm and confident', orientation: 'portrait', setting: ''}, store('packet-prefs') || {}); }
+function packetFor(ind, o) {
+  var gen = Battle.GAME_GEN[ind.game], d = dexOf(ind.species) || {}, sp = Battle.species(gen, ind.species), b = indBuild(ind);
+  var read = freshPackRead(ind.id), rec = read ? Recognize.read(b, read) : null, h = Pics.variant(ind);
+  var name = ind.nickname ? ind.nickname + ', a' : 'A', sexWord = ind.gender === 'M' ? 'male' : ind.gender === 'F' ? 'female' : 'genderless';
+  var where = {portrait: 'A simple, elegant backdrop in deep charcoal with warm gold light (Blackthorn\'s colours), nothing competing with the subject.',
+    battle: 'A battlefield suited to its moves; the opponent may be implied, never the focus.',
+    habitat: 'Its natural habitat' + (d.hab ? ': ' + d.hab : '') + ', drawn from its Pokédex and biology.',
+    homestead: 'Blackthorn, the retired Champion\'s ranch in the Johto highlands near Blackthorn City, Dragon\'s Den and the Ice Path: ' + ((S.hq && S.hq.glasshouse) ? 'the Glasshouse (a hatchery inside a greenhouse, its rings of berry beds and the hatching loop), ' : '') + 'the grounds and the facilities it might work in.',
+    custom: o.setting || 'As described below.'}[o.purpose];
+  var pose = {portrait: 'A three-quarter portrait that shows its full silhouette and character.', battle: 'Mid-action, using ' + (b.moves && b.moves.length ? b.moves[0] : 'its signature attack') + ', true to how the move looks in the games.',
+    habitat: 'Doing what its species does there (feeding, resting, moving through the terrain).', homestead: 'At work or at rest on the ranch, at home among the other residents.', custom: 'As described below.'}[o.purpose];
+  var aspect = {portrait: '4:5, vertical', landscape: '16:9, horizontal', square: '1:1'}[o.orientation] || o.orientation;
+  var lines = [
+    '1. Subject: ' + name + ' ' + (ind.shiny ? 'shiny ' : '') + sexWord + ' ' + ind.species + (ind.form ? ' (' + ind.form + ' form)' : '') + (d.genus ? ', the ' + d.genus : '') + '.',
+    '2. Anatomy and colouring: ' + sp.types.join('/') + ' type' + (d.h ? ', ' + d.h + ' m tall and ' + d.w + ' kg' : '') + '. ' + (ind.shiny ? 'Use its shiny colouring exactly as in the reference. ' : 'Use its normal colouring. ') +
+      (d.gd ? (ind.gender === 'F' ? 'Females look different from males: follow the female reference. ' : 'Males and females look different: draw the male. ') : 'Its sexes look the same: don\'t invent a difference. ') + (d.dex ? 'Pokédex: "' + d.dex + '"' : ''),
+    '3. Identity: ' + (rec && !rec.error ? 'a ' + rec.archetype.primary.toLowerCase() + (rec.qualifications.some(function (q) { return q.earned && q.id === 'ace'; }) ? ', an Ace' : '') + '; ' : '') + (b.moves && b.moves.length ? 'it fights with ' + b.moves.join(', ') + '; ' : '') + (b.ability ? 'ability ' + b.ability + '; ' : '') + (b.item ? 'holds ' + b.item + '; ' : '') + (ind.ball ? 'lives in a ' + ind.ball + '.' : ''),
+    '4. Setting: ' + where + (o.setting && o.purpose !== 'custom' ? ' ' + o.setting : ''),
+    '5. Pose and activity: ' + pose,
+    '6. Style and light: ' + o.style + '; mood ' + o.mood + '.',
+    '7. Composition: ' + aspect + '; the Pokémon is the clear subject and fills most of the frame.',
+    '8. References: ' + h.url + (d.n ? ' · in-game sprite ' + sprite(d.n, ind.game) : ''),
+    '9. Keep it accurate: canonical anatomy, proportions and markings; no extra limbs; no text, logos or watermarks; no human trainer unless asked.',
+    '10. Use: the ' + PACKET_PURPOSE[o.purpose].toLowerCase() + ' for ' + (ind.nickname || ind.species) + ' in Blackthorn OS. It\'s creative artwork, labelled as such, never evidence.'];
+  return lines.join('\n\n');
+}
+function packetDrawer(ind) {
+  var o = packetPrefs(), sel = function (k, opts) { return '<select class="f" data-pk="' + k + '">' + opts.map(function (x) { return '<option value="' + esc(x[0]) + '"' + (o[k] === x[0] ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join('') + '</select>'; };
+  openDrawer('<div class="eyebrow">Create artwork · ' + esc(ind.nickname || ind.species) + '</div><h2 style="margin:6px 0">An image packet</h2>' +
+    '<p class="tiny muted">Everything Blackthorn knows about it, as one brief for any image tool. Pick a purpose; the rest is filled in. Your choices are remembered.</p>' +
+    '<label class="l">Purpose</label>' + sel('purpose', Object.keys(PACKET_PURPOSE).map(function (k) { return [k, PACKET_PURPOSE[k]]; })) +
+    '<div class="row"><div><label class="l">Orientation</label>' + sel('orientation', [['portrait', 'Portrait'], ['landscape', 'Landscape'], ['square', 'Square']]) + '</div><div><label class="l">Mood</label><input class="f" data-pk="mood" value="' + esc(o.mood) + '"></div></div>' +
+    '<label class="l">Style</label><input class="f" data-pk="style" value="' + esc(o.style) + '"><label class="l">Setting (optional)</label><input class="f" data-pk="setting" value="' + esc(o.setting) + '" placeholder="anything to add about where it is">' +
+    '<label class="l" style="margin-top:10px">The packet</label><textarea class="f" id="pktext" style="height:300px;font-size:12px"></textarea>' +
+    '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn gold" id="pkcopy">Copy it</button><label class="btn">Upload the result<input type="file" accept="image/*" id="pkup" style="display:none"></label></div>');
+  var din = document.getElementById('din'), draw = function () { document.getElementById('pktext').value = packetFor(ind, o); };
+  din.querySelectorAll('[data-pk]').forEach(function (el) { el.addEventListener('input', function () { o[el.getAttribute('data-pk')] = el.value; store('packet-prefs', o); draw(); }); el.addEventListener('change', function () { o[el.getAttribute('data-pk')] = el.value; store('packet-prefs', o); draw(); }); });
+  document.getElementById('pkcopy').onclick = function () { var t = document.getElementById('pktext'); t.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t.value).then(function () { toast('Copied.'); }, function () { toast(ok ? 'Copied.' : 'Selected: copy it with your keyboard.'); }); else toast(ok ? 'Copied.' : 'Selected: copy it with your keyboard.'); };
+  document.getElementById('pkup').onchange = function () { var f = this.files && this.files[0]; if (!f) return; closeDrawer(); toast('Saving the picture…');
+    Pics.upload(f, {subject: ind.id, kind: o.purpose, title: PACKET_PURPOSE[o.purpose], 'class': 'creative', status: 'gallery', note: 'from an image packet'}).then(function (a) {
+      return Records.saveIndividual(Object.assign({}, ind, {hero: o.purpose === 'portrait' ? a.id : ind.hero || ''}), 'Artwork for ' + (ind.nickname || ind.species)); })
+      .then(function () { toast('Saved to its gallery.'); nav('#/mon/' + encodeURIComponent(ind.id)); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); }); };
+  draw();
+}
+route(/^\/mine\/?$/, minePage, 'Your Pokémon', '#/mine');
+route(/^\/mon\/([^/]+)\/showcase$/, function (id) { return monPage(id, 'showcase'); }, function (i) { return 'Showcase · ' + i; }, '#/mine');
+route(/^\/mon\/([^/]+)$/, function (id) { return monPage(id); }, function (i) { return 'Your Pokémon · ' + i; }, '#/mine');
+</script>

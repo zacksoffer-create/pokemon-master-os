@@ -1,0 +1,45 @@
+<script>
+/* ===== The standards: every rule behind the badges, tiers, archetypes and qualifications ======================
+   trainers/recognition.json (packed as data/recognition.json) and the Ace pools (trainers/team_roles.json), shown as
+   they are, with the calibration against the stored builds (trainers/recognition.py --calibrate). Read-only here:
+   the rules change in the repo, versioned, after Zack decides (spec Part XII §18 "Qualification Standards"). */
+function standardsPage() {
+  return labsReady().then(function () {
+    var C = Recognize.config(), cal = C.calibration || null, tiers = C.tiers, lv = C.level;
+    var gens = [2, 3, 4], gname = {2: 'Gen II', 3: 'Gen III', 4: 'Gen IV'};
+    var statRows = Object.keys(C.stats.bases).map(function (s) {
+      return '<tr><td>' + esc(C.stats.names[s]) + '</td>' + gens.map(function (g) { return '<td class="num tiny">' + C.stats.bases[s].map(function (b, i) { return esc(tiers[i]) + ' ' + Recognize.full(b, s, g, lv) + ' <span class="muted">(' + b + ')</span>'; }).join('<br>') + '</td>'; }).join('') + '</tr>'; }).join('');
+    var spRows = C.speed.milestones.map(function (b) { var ti = C.speed.tiers.indexOf(b);
+      return '<tr><td>base ' + b + (ti >= 0 ? ' ' + tierChip(tiers[ti]) : ' <span class="tiny muted">milestone only</span>') + '</td>' + gens.map(function (g) { return '<td class="num">' + (Recognize.full(b, 'spe', g, lv) + 1) + '</td>'; }).join('') + '</tr>'; }).join('');
+    var D = C.damage.badges, dmgRows = Object.keys(D).map(function (k) { var d = D[k];
+      var tt = d.both ? 'the lower of ' + d.both.map(function (x) { return D[x].name; }).join(' and ') : d.tiers.map(function (t, i) { return esc(tiers[i]) + ' ' + (typeof t !== 'object' ? Battle.pyRound(100 * t) + '%' : t.measure ? ({'2hko': '2HKO', ohko: 'OHKO'}[t.measure] || t.measure) + ' ' + Battle.pyRound(100 * t.share) + '%' : Battle.pyRound(100 * t.share) + '% from ' + t.hp + '% HP'); }).join(' · ') + (d.both ? '' : ' <span class="muted">(each tier needs the ones below)</span>');
+      return '<tr><td>' + esc(d.name) + '</td><td class="tiny">' + tt + '</td><td class="tiny muted">' + esc(d.says.replace(/\{(share|n|of|move|hp|measure)\}/g, '…')) + (d.takes ? ' (taking ' + d.takes + ' hits)' : '') + '</td></tr>'; }).join('');
+    var tagRows = C.tags.list.map(function (x) { return '<tr><td>' + esc(x.name) + '</td><td class="tiny">' + (x.all ? Object.keys(x.all).map(function (k) { return esc(k) + ' ≥ ' + x.all[k]; }).join(' and ') : 'any of ' + esc(x.any.join(', '))) + (x.level ? ' · level: ' + esc(x.level) : '') + '</td></tr>'; }).join('');
+    var qRows = C.qualifications.list.map(function (q) { var ace = TeamRoles.config().roles.ace;
+      return '<tr><td>' + esc(q.name) + '</td><td class="tiny">' + (q.from === 'team_role' ? 'beats ≥ ' + Battle.pyRound(100 * ace.elite_four_at_least) + '% of the Elite Four and ≥ ' + Battle.pyRound(100 * ace.champion_at_least) + '% of the Champions, one-on-one at level 100' :
+        Object.keys(q).filter(function (k) { return /_at_least$/.test(k); }).map(function (k) { return 'beats ≥ ' + Battle.pyRound(100 * q[k]) + '% of the ' + (k.indexOf('elite') === 0 ? 'Elite Four' : 'Champions'); }).join(' and ')) + '</td><td class="tiny muted">' + esc(q.status) + '</td></tr>'; }).join('');
+    var sigRows = C.signature.list.map(function (s) { var n = s.needs;
+      return '<tr><td>' + esc(s.name) + '</td><td class="tiny">' + esc([(n.types || []).map(function (x) { return x + ' type'; }).join(', '), (n.tags || []).join(', '), Object.keys(n.badges || {}).map(function (k) { return k + ' ' + n.badges[k]; }).join(', ')].filter(Boolean).join(' · ')) + '<div class="muted">' + esc(s.why) + '</div></td><td class="tiny">' + esc(s.status) + (s.enabled ? '' : ', off') + '</td></tr>'; }).join('');
+    var pools = gens.map(function (g) { var P = TeamRoles.pool(g), slots = 0, sets = 0;
+      Object.keys(P).forEach(function (k) { sets += P[k].length; P[k].forEach(function (cw) { slots += cw[1].length; }); });
+      return '<tr><td>' + gname[g] + '</td>' + ['elite_four', 'champion'].map(function (k) { var n = (P[k] || []).length, sl = (P[k] || []).reduce(function (a, cw) { return a + cw[1].length; }, 0); return '<td class="num">' + n + ' <span class="tiny muted">sets of ' + sl + ' team slots</span></td>'; }).join('') + '</tr>'; }).join('');
+    var calHtml = cal ? '<table class="t"><tr><th>Badge</th>' + tiers.map(function (t) { return '<th>' + esc(t) + '</th>'; }).join('') + '<th>none</th></tr>' + Object.keys(cal.tiers).map(function (k) {
+      var c = cal.tiers[k]; return '<tr><td>' + esc(c.name) + '</td>' + tiers.map(function (t) { return '<td class="num">' + (c.counts[t] || 0) + '</td>'; }).join('') + '<td class="num muted">' + c.none + '</td></tr>'; }).join('') + '</table><div class="tiny muted" style="margin-top:6px">Across the ' + cal.builds + ' stored builds (' + esc(cal.built || '') + '). Qualifications: ' + Object.keys(cal.qualifications).map(function (k) { return esc(k) + ' ' + cal.qualifications[k]; }).join(' · ') + '.</div>' :
+      '<div class="tiny muted">Run trainers/recognition.py --calibrate to see how many builds reach each tier.</div>';
+    return '<div class="eyebrow">The standards · recognition@' + C.version + '</div><h1 style="margin:6px 0">Badges, tiers and qualifications</h1>' +
+      '<p class="lede">Every rule behind a badge, a tier, an archetype and a qualification, exactly as the engine applies it. ' + esc(C.damage._note) + ' Nothing here changes a fight. The numbers are provisional: the spec\'s proposals, calibrated below.</p>' +
+      '<div class="grid" style="margin-top:12px"><div class="c6">' +
+      card('Stat tiers', '<table class="t"><tr><th>Stat</th>' + gens.map(function (g) { return '<th>' + gname[g] + '</th>'; }).join('') + '</tr>' + statRows + '</table><div class="tiny muted" style="margin-top:6px">' + esc(C.stats._note) + '</div>', {eyebrow: 'At level ' + lv + ', full investment, by base', tools: false}) +
+      card('Speed milestones', '<table class="t"><tr><th>Outruns</th>' + gens.map(function (g) { return '<th>' + gname[g] + '</th>'; }).join('') + '</tr>' + spRows + '</table><div class="tiny muted" style="margin-top:6px">' + esc(C.speed._note) + '</div>', {eyebrow: 'One point above a +Speed base', tools: false, style: 'margin-top:16px'}) +
+      card('Tags', '<table class="t"><tr><th>Tag</th><th>From the role engine\'s signals</th></tr>' + tagRows + '</table>', {eyebrow: C.tags.list.length + ' tags', tools: false, style: 'margin-top:16px'}) +
+      '</div><div class="c6">' +
+      card('Damage badges', '<table class="t"><tr><th>Badge</th><th>Tiers</th><th>Reads as</th></tr>' + dmgRows + '</table>', {eyebrow: 'From the Ace fights', tools: false}) +
+      card('Qualifications', '<table class="t"><tr><th>Qualification</th><th>Standard</th><th>Status</th></tr>' + qRows + '</table>', {eyebrow: 'What a build has shown', tools: false, style: 'margin-top:16px'}) +
+      card('The collections', '<table class="t"><tr><th></th><th>Elite Four</th><th>Champions</th></tr>' + pools + '</table><div class="tiny muted" style="margin-top:6px">Each Pokémon and set counts once: a rematch with the same set isn\'t counted twice (the weighting is your call: master plan Q6). Every rematch team is loaded (D-062).</div>', {eyebrow: 'Who the fights are against', tools: false, style: 'margin-top:16px'}) +
+      card('Signature archetypes', '<table class="t"><tr><th>Name</th><th>Needs</th><th>Status</th></tr>' + sigRows + '</table><div class="tiny muted" style="margin-top:6px">' + esc(C.signature._note) + '</div>', {eyebrow: 'Proposed, all off until you approve', tools: false, style: 'margin-top:16px'}) +
+      card('Calibration', calHtml, {eyebrow: 'How many builds reach each tier', tools: false, style: 'margin-top:16px'}) +
+      '</div></div>';
+  });
+}
+route(/^\/standards\/?$/, standardsPage, 'The standards', '#/standards');
+</script>

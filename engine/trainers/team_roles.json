@@ -4,8 +4,7 @@
   "fetch_rounds": 30,
   "_fetch_rounds": "How many times a fight may go back to the damage calculator for numbers it hadn't fetched (a Calm Mind set facing a booster needs one per boost stage). A fight still unsettled after this reads as an error, never a guess.",
   "_level_note": "Zack, 2026-10-20: both sides at level 100 for the Ace test.",
-  "field_evs_each": 85,
-  "_field_evs_note": "Zack: the field gets the standard 85 in every stat. A build's blank EVs get the same 85 in fights (so they tilt nothing) and count as no evidence for any role (B19).",
+  "_field_evs_note": "The two sides' EVs. The Elite Four's and Champions' Pokémon fight with no EVs (battle/grid.py ZERO_EVS), which is how the Ace count Zack accepted in D-064 was made. One of our builds with no recorded EVs gets the standard 85 in every stat in fights (D-061), and blank EVs count as no evidence for any role (B19). There used to be a field_evs_each: 85 setting here that nothing read; it was removed in Phase 0 of the master plan so the file says what the engine does.",
   "neutral": {
     "_note": "Zack: neutral = no type advantage either way (1x). The team lab's type read uses it.",
     "multiplier": 1.0
@@ -213,7 +212,7 @@
       "rule": "Beats at least 80% of the Elite Four's Pokémon and 70% of the Champions' Pokémon one-on-one, both sides at level 100, in the battle engine (battle/evaluate.py: our best plan against their game AI).",
       "elite_four_at_least": 0.8,
       "champion_at_least": 0.7,
-      "_score_note": "The score is the mean of the two win rates, each divided by its bar and capped at 1, so 1.0 means both bars cleared.",
+      "_score_note": "The score is the plain mean of the two win rates (team_roles.py ace()). It's shown, not used to decide: Ace is earned only when both rates clear their bars.",
       "top_tier": {
         "name": "Joker",
         "_note": "The tier above Ace. Zack named it Joker (2026-10-21, D-064), well below Ash's Pikachu. Off until it has a rule; Zack is fine with how many builds earn Ace.",

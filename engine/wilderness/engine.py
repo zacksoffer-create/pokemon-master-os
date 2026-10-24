@@ -13,6 +13,7 @@ import re
 from dataclasses import dataclass
 
 import rules
+from specimen import EXCEPTIONS
 from refdb import Ref
 
 CAPABILITIES = {
@@ -97,23 +98,12 @@ GAME_VERSIONS = {"crystal": [6, 4, 5], "firered": [10, 11, 9], "emerald": [9, 7,
                  "heartgold": [15, 16, 14], "soulsilver": [16, 15, 14]}
 GEN24_VERSIONS = list(range(4, 17))
 SCENARIOS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scenarios.json")
-DEFAULT_SCENARIOS = {
-    "Mountain storm crossing": ["climbing", "cold_tolerance", "weather_handling", "light", "heat_source", "rescue"],
-    "Open-sea crossing": ["water_travel", "rescue", "light", "scouting"],
-    "A week at camp": ["foraging", "food_source", "cooking", "heat_source", "deterrence", "field_healing",
-                       "calming_presence"],
-    "Cave expedition": ["light", "clearing", "hauling", "escape", "digging"],
-    "Emergency far from town": ["field_healing", "air_travel", "rescue", "escape"],
-    "Night travel": ["night_travel", "light", "scouting", "danger_sense"],
-    "Living in town": ["town_fit", "calming_presence"],
-}
 
 
 def load_scenarios():
-    """Situations live in scenarios.json so they can be edited without touching code."""
-    if os.path.exists(SCENARIOS_FILE):
-        return json.load(open(SCENARIOS_FILE, encoding="utf-8"))["scenarios"]
-    return DEFAULT_SCENARIOS
+    """Situations live only in scenarios.json, so they're edited in one place."""
+    with open(SCENARIOS_FILE, encoding="utf-8") as fh:
+        return json.load(fh)["scenarios"]
 
 
 SCENARIOS = load_scenarios()
@@ -135,6 +125,8 @@ class WildernessEngine:
         self.proposals = proposals or []   # pending world records, shown but never counted
 
     def _knows_or_can_learn(self, species, move, game):
+        if (game, species.lower(), move.lower()) in EXCEPTIONS:      # a learnability exception Zack approved (D-028)
+            return True
         try:
             return bool(self.ref.learn(species, move, rules.GAME_VG[game])["routes"])
         except KeyError:
@@ -146,9 +138,11 @@ class WildernessEngine:
         for mv in sorted(GAME_FIELD_MOVES[game]):
             if self._knows_or_can_learn(species, mv, game):
                 cap, what = FIELD_MOVES[mv]
-                out.append(Evidence(cap, "cartridge", f"{mv} (field move)", what))
+                why = EXCEPTIONS.get((game, species.lower(), mv.lower()))
+                src = f"{mv} (field move; {why.split(' (')[0]})" if why else f"{mv} (field move)"
+                out.append(Evidence(cap, "cartridge", src, what))
                 if mv == "Waterfall":
-                    out.append(Evidence("water_travel", "cartridge", "Waterfall (field move)", what))
+                    out.append(Evidence("water_travel", "cartridge", src, what))
                 if mv == "Dig":
                     out.append(Evidence("digging", "cartridge", "Dig (field move)", "digs through to the surface"))
         if gen >= 3:

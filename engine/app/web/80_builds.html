@@ -67,7 +67,7 @@ function legalMove(name, sp, gen) {
 }
 function lab(qs) {
   var bid = (String(qs || '').match(/b=([^&]*)/) || [])[1];
-  return Promise.all([withBuilds(), API.data('learnsets'), API.tab('Specimens').catch(function () { return []; }), scoutReady()]).then(function (r) {
+  return Promise.all([withBuilds(), API.data('learnsets'), API.tab('Specimens').catch(function () { return []; }), scoutReady(), Explain.ready().catch(function () { return null; })]).then(function (r) {
     S.learn = r[1]; var saved = r[2] || [];
     if (bid) { var b = r[0].library.filter(function (x) { return x.id === decodeURIComponent(bid); })[0]; if (b) store('lab', labFrom(b)); navQuiet('#/builds/lab'); }
     S.lab = Object.assign({}, LAB_DEFAULT, store('lab') || {});
@@ -86,7 +86,8 @@ function labForm() {
     '<div class="row"><div><label class="l">Species</label><input class="f" name="sp" list="labdex" value="' + esc(x.sp) + '" data-re="1"></div><div><label class="l">Nickname</label><input class="f" name="nick" value="' + esc(x.nick || '') + '"></div></div>' +
     '<div class="row"><div><label class="l">Generation</label><select class="f" name="gen" data-re="1">' + [2, 3, 4].map(function (g) { return '<option value="' + g + '"' + (g === +x.gen ? ' selected' : '') + '>Gen ' + ['', '', 'II', 'III', 'IV'][g] + '</option>'; }).join('') + '</select></div><div><label class="l">Level</label><input class="f" name="lv" type="number" min="1" max="100" value="' + x.lv + '"></div></div>' +
     (g2 ? '' : '<div class="row"><div><label class="l">Nature</label><select class="f" name="nat">' + S.builds.natures.map(function (nt) { return '<option' + (nt.name === x.nat ? ' selected' : '') + '>' + nt.name + '</option>'; }).join('') + '</select></div><div><label class="l">Ability</label><select class="f" name="ab">' + d.ab.map(function (a) { return '<option' + (a === x.ab ? ' selected' : '') + '>' + esc(a) + '</option>'; }).join('') + '</select></div></div>') +
-    '<label class="l">Held item</label><input class="f" name="item" value="' + esc(x.item || '') + '">' +
+    (g2 ? Explain.concept('nature', +x.gen) : '<div id="labnatx"></div><div id="lababx"></div>') +
+    '<label class="l">Held item</label><input class="f" name="item" value="' + esc(x.item || '') + '"><div id="labitx"></div>' + Explain.concept('ivs', +x.gen) + Explain.concept('evs', +x.gen) +
     '<label class="l">' + (g2 ? 'DVs (0–15; HP follows from the others, Special is one DV)' : 'IVs (0–31)') + '</label><div class="ivgrid">' + STATS.map(function (s) {
       var v = g2 ? Math.floor(x.iv[s] / 2) : x.iv[s], lock = g2 && (s === 'hp' || s === 'spd');
       return '<div><div class="tiny muted" style="text-align:center">' + (g2 && s === 'spa' ? 'Spc' : STAT_NAME[s]) + '</div><input class="f" name="iv-' + s + '" type="number" min="0" max="' + (g2 ? 15 : 31) + '" value="' + v + '"' + (lock ? ' disabled' : '') + '></div>'; }).join('') + '</div>' +
@@ -126,7 +127,12 @@ function labBind(p) {
   p.querySelectorAll('[data-load]').forEach(function (el) { el.addEventListener('click', function () { API.tab('Specimens').then(function (rows) { var s = rows[+el.getAttribute('data-load')]; if (!s) return;
     try { store('lab', JSON.parse(s.json)); } catch (e) { return; } go(); }); }); });
 }
+function labExplain() {   // the same explanations as the Studio (22_explain), following the form
+  if (!Explain.data()) return; var x = S.lab, g = +x.gen, set = function (id, h) { var el = document.getElementById(id); if (el && el.getAttribute('data-x') !== h) { el.innerHTML = h; el.setAttribute('data-x', h); } };
+  set('labnatx', Explain.nature(x.nat, g)); set('lababx', Explain.ability(x.ab, g)); set('labitx', Explain.item(x.item, g));
+}
 function labOut() {
+  labExplain();
   var x = S.lab, out = document.getElementById('labout'); if (!out) return;
   var d = dexOf(x.sp), g2 = x.gen <= 2;
   if (!d) { out.innerHTML = '<div class="empty">Pick a species from Generations I–IV.</div>'; return; }

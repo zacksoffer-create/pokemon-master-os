@@ -1,0 +1,144 @@
+<script>
+/* ===== Your records: individuals, builds with versions, teams (docs/design/DATA_CONTRACT.md) ==================
+   The starting records come in store.json (store/migrate.py, with the snapshot of your tabs merged in); the Sheet's
+   My Pokémon, My Builds and My Teams tabs are read live and laid over them. Saving appends a row, never rewrites one.
+   The row formats match engine/store/personal.py (app/test_records.mjs holds them together). */
+var Records = (function () {
+  var TABS = {individual: 'My Pokémon', build: 'My Builds', team: 'My Teams', artwork: 'My Artwork'};
+  var SIX = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+  var BUILD_FIELDS = ['species', 'generation', 'game', 'level', 'nature', 'ability', 'item'];
+  var BUILD_TEXT = ['name', 'note', 'parent', 'individual', 'at', 'recognition'];
+  var IND_FIELDS = ['species', 'game', 'nickname', 'gender', 'shiny', 'form', 'ball', 'build', 'met_location', 'caught_level', 'friendship', 'origin', 'note', 'hero'];
+  var ART_FIELDS = ['subject', 'kind', 'file', 'url', 'title', 'class', 'status', 'note', 'at'];
+  var V = null, SEED = null;
+
+  function blank(v) { return v === undefined || v === null || v === ''; }
+  function num(v) { return blank(v) ? null : +v; }
+  function bool(v) { return typeof v === 'boolean' ? v : ['true', 'yes', '1'].indexOf(String(v).trim().toLowerCase()) >= 0; }
+  function encStats(d) { if (!d || !Object.keys(d).length) return ''; return SIX.map(function (s) { return String(Math.trunc(+d[s] || 0)); }).join('/'); }
+  function decStats(s) {
+    if (s && typeof s === 'object') { var o = {}; Object.keys(s).forEach(function (k) { o[k] = Math.trunc(+s[k]); }); return Object.keys(o).length ? o : null; }
+    s = String(s == null ? '' : s).trim(); if (!s) return null;
+    var p = s.split('/').map(function (x) { return x.trim(); });
+    if (p.length !== 6) throw new Error('a spread needs six numbers (HP/Atk/Def/SpA/SpD/Spe): ' + s);
+    var out = {}; SIX.forEach(function (k, i) { out[k] = Math.trunc(+(p[i] || 0)); }); return out;
+  }
+  function encMoves(m) { return (m || []).filter(Boolean).join(' / '); }
+  function decMoves(s) { if (Array.isArray(s)) return s.filter(Boolean); return String(s == null ? '' : s).split(' / ').map(function (x) { return x.trim(); }).filter(Boolean); }
+
+  function decBuild(row) {
+    var b = {id: String(row.id), v: Math.trunc(num(row.v) || 1), provenance: 'yours', status: row.status || 'saved'};
+    BUILD_FIELDS.forEach(function (k) { if (!blank(row[k])) b[k] = (k === 'generation' || k === 'level') ? num(row[k]) : row[k]; });
+    b.moves = decMoves(row.moves);
+    ['ivs', 'evs'].forEach(function (k) { var x = decStats(row[k]); if (x) b[k] = x; });
+    BUILD_TEXT.forEach(function (k) { if (!blank(row[k])) b[k] = String(row[k]); });
+    return b;
+  }
+  function encBuild(b) {
+    var row = {id: b.id, v: b.v || 1, status: b.status || 'saved'};
+    BUILD_FIELDS.forEach(function (k) { row[k] = b[k] == null ? '' : b[k]; });
+    row.moves = encMoves(b.moves); row.ivs = encStats(b.ivs); row.evs = encStats(b.evs);
+    BUILD_TEXT.forEach(function (k) { row[k] = b[k] == null ? '' : b[k]; });
+    return row;
+  }
+  function decIndividual(row) {
+    var i = {id: String(row.id), status: row.status || 'working'};
+    IND_FIELDS.forEach(function (k) { if (!blank(row[k])) i[k] = k === 'shiny' ? bool(row[k]) : (k === 'caught_level' || k === 'friendship') ? num(row[k]) : row[k]; });
+    if (!blank(row.at)) i.at = String(row.at);
+    return i;
+  }
+  function encIndividual(i) {
+    var row = {id: i.id, status: i.status || 'working'};
+    IND_FIELDS.forEach(function (k) { var v = i[k]; row[k] = k === 'shiny' && v != null ? (v ? 'yes' : 'no') : (v == null ? '' : v); });
+    row.at = i.at || ''; return row;
+  }
+  function decTeam(row) {
+    var slots = row.slots; if (typeof slots === 'string') slots = slots.trim() ? JSON.parse(slots) : [];
+    var t = {id: String(row.id), game: row.game, title: row.title || null, slots: slots || [], status: row.status || 'saved', origin: 'the app (My Teams)'};
+    ['note', 'at'].forEach(function (k) { if (!blank(row[k])) t[k] = String(row[k]); });
+    return t;
+  }
+  function decArtwork(row) { var a = {id: String(row.id)}; ART_FIELDS.forEach(function (k) { if (!blank(row[k])) a[k] = String(row[k]); }); return a; }
+  function encArtwork(a) { var row = {id: a.id}; ART_FIELDS.forEach(function (k) { row[k] = a[k] == null ? '' : a[k]; }); return row; }
+  function token() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 4); }
+  function copy(x) { return JSON.parse(JSON.stringify(x)); }
+
+  // the merged view: the starting records (store.json) with the live tabs laid over them
+  function build(rows) {
+    var st = SEED || S.store || {}, v = Object.assign({}, st, {builds: copy(st.builds || {}), versions: copy(st.versions || {}), individuals: copy(st.individuals || {}), teams: copy(st.teams || {}), artwork: copy(st.artwork || {}), live: rows});
+    var byId = {};
+    (rows.build || []).forEach(function (r) { var b = decBuild(r); (byId[b.id] = byId[b.id] || {})[b.v] = b; });
+    Object.keys(byId).forEach(function (id) {
+      var hist = versionsIn(v, id).slice(), seen = {};
+      hist.forEach(function (x, i) { seen[x.v || 1] = i; });
+      Object.keys(byId[id]).sort(function (a, b) { return a - b; }).forEach(function (n) { var b = byId[id][n]; if (seen[n] != null) hist[seen[n]] = b; else hist.push(b); });
+      hist.sort(function (a, b) { return (a.v || 1) - (b.v || 1); });
+      var start = v.builds[id], cur = Object.assign({}, hist[hist.length - 1]);
+      if (start) ['trainers', 'origin', 'source', 'role', 'tier'].forEach(function (k) { if (k in start && !(k in cur)) cur[k] = start[k]; });
+      if (!cur.origin) cur.origin = 'the app (My Builds)';
+      v.builds[id] = cur; if (hist.length > 1) v.versions[id] = hist;
+    });
+    (rows.individual || []).forEach(function (r) { var i = decIndividual(r), base = v.individuals[i.id] || {id: i.id, ribbons: [], defaults_used: [], origin_record: 'the app (My Pokémon)'};
+      v.individuals[i.id] = Object.assign({}, base, i); });
+    (rows.team || []).forEach(function (r) { var t = decTeam(r); v.teams[t.id] = t; });
+    (rows.artwork || []).forEach(function (r) { var a = decArtwork(r); v.artwork[a.id] = a; });
+    return v;
+  }
+  function versionsIn(v, id) { return v.versions[id] || (v.builds[id] ? [Object.assign({v: 1}, v.builds[id])] : []); }
+  // the starting records (store.json); every page that shows your records reads S.store, which is the merged view
+  function init(seed) { SEED = seed; V = null; }
+  function publish(v) { V = v; S.store = v; return v; }
+  function load(fresh) {
+    var keys = Object.keys(TABS);
+    return Promise.all(keys.map(function (k) { return API.tab(TABS[k], fresh).catch(function () { return []; }); })).then(function (r) {
+      var rows = {}; keys.forEach(function (k, i) { rows[k] = r[i] || []; });
+      return publish(build(rows));
+    });
+  }
+  function view() { if (!V) publish(build({})); return V; }
+  // the version a record had in store.json (what the pack's team-role reads were made from); later ones read live
+  function seedV(id) { var b = SEED && SEED.builds && SEED.builds[id]; return b ? (b.v || 1) : null; }
+  function seedInd(id) { return (SEED && SEED.individuals && SEED.individuals[id]) || null; }
+  function versions(id) { return versionsIn(view(), id); }
+  function version(id, n) { return versions(id).filter(function (x) { return (x.v || 1) === n; })[0] || null; }
+  function append(kind, row, line) {
+    var r = Object.assign({}, row); if (line) r._timeline = line;
+    return API.append(TABS[kind], r).then(function () { var x = view(), live = Object.assign({}, x.live); live[kind] = (live[kind] || []).concat([row]); return publish(build(live)); });
+  }
+  // a build version: opts.asNew starts a new build (a variant when opts.parent is given); otherwise the next version
+  function saveBuild(b, opts) {
+    opts = opts || {};
+    var rec = {}; BUILD_FIELDS.concat(['moves', 'ivs', 'evs', 'name', 'individual', 'recognition']).forEach(function (k) { if (b[k] != null && b[k] !== '') rec[k] = copy(b[k]); });
+    if (opts.asNew || !b.id) { rec.id = 'yours:' + String(b.species).replace(/\s+/g, '') + '-' + token(); rec.v = 1; if (opts.parent) rec.parent = opts.parent; }
+    else { rec.id = b.id; var vs = versions(b.id); rec.v = (vs.length ? (vs[vs.length - 1].v || 1) : 0) + 1; if (vs.length && vs[0].parent) rec.parent = vs[0].parent; }
+    rec.status = 'saved'; rec.note = opts.note || ''; rec.at = new Date().toISOString();
+    return append('build', encBuild(rec), 'Saved ' + rec.species + ' (' + rec.id + ' v' + rec.v + ')' + (rec.note ? ': ' + rec.note : '')).then(function () { return Object.assign({provenance: 'yours'}, rec); });
+  }
+  function saveIndividual(i, line) {
+    var rec = copy(i); if (!rec.id) rec.id = 'me:' + rec.game + '/' + String(rec.species).replace(/\s+/g, '') + '-' + token();
+    rec.at = new Date().toISOString();
+    return append('individual', encIndividual(rec), line || ('Saved your ' + (rec.nickname || rec.species))).then(function () { return view().individuals[rec.id]; });
+  }
+  function saveTeam(t) {
+    var rec = {id: t.id || 'team:' + token(), game: t.game, title: t.title || '', status: t.status || 'saved', note: t.note || '', at: new Date().toISOString(),
+      slots: JSON.stringify(t.slots || []), members: (t.slots || []).map(function (s) { return s ? s.species + (s.from ? ' @ ' + s.from : '') : '—'; }).join(' · ')};
+    return append('team', rec, 'Saved the team ' + (rec.title || rec.id)).then(function () { return view().teams[rec.id]; });
+  }
+  function saveArtwork(a) {   // a picture's record (the file itself is in Drive, or a reference URL)
+    var rec = copy(a); if (!rec.id) rec.id = 'art:' + token(); rec.at = new Date().toISOString();
+    return append('artwork', encArtwork(rec), 'A picture for ' + (rec.subject || 'Blackthorn') + (rec.title ? ': ' + rec.title : '')).then(function () { return view().artwork[rec.id]; });
+  }
+  function draft(id) { return store('draft:' + id) || null; }
+  function setDraft(id, b) { store('draft:' + id, {at: new Date().toISOString(), build: b}); }
+  function clearDraft(id) { try { localStorage.removeItem('bt-draft:' + id); } catch (e) {} }
+  return {TABS: TABS, init: init, seedV: seedV, seedInd: seedInd, encStats: encStats, decStats: decStats, encMoves: encMoves, decMoves: decMoves, decBuild: decBuild, encBuild: encBuild,
+    decIndividual: decIndividual, encIndividual: encIndividual, decTeam: decTeam, token: token, build: build, load: load, view: view,
+    versions: versions, version: version, saveBuild: saveBuild, saveIndividual: saveIndividual, saveTeam: saveTeam, saveArtwork: saveArtwork, decArtwork: decArtwork,
+    draft: draft, setDraft: setDraft, clearDraft: clearDraft};
+})();
+function recordsReady() {   // store.json and your three tabs, merged into S.store (cached; Records.load(true) to re-read)
+  if (!S.recordsP) S.recordsP = API.data('store').then(function (seed) { Records.init(seed); return Records.load(); })
+    .catch(function (e) { S.recordsP = null; throw e; });
+  return S.recordsP;
+}
+</script>

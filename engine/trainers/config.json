@@ -271,7 +271,7 @@
   ]
  },
  "tags": {
-  "_note": "Badges: simple rules that fire on thresholds. A tag earns its place only if it changes a line of the report (tested).",
+  "_note": "Report tags (not the recognition system's badges, docs/design/MASTER_PLAN.md §4.1): simple rules that fire on thresholds. A tag earns its place only if it changes a line of the report (tested).",
   "cohesive": {
    "name": "Cohesive",
    "rule": "at least this many members share a move",

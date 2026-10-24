@@ -44,14 +44,17 @@ var Field = (function () {
 })();
 function fieldReady() { return S.field ? Promise.resolve(S.field) : API.data('field').then(function (f) { Field.init(f); return (S.field = Field); }); }
 var FR = null;
-function frTeams() {   // the teams the page offers: yours, every scouted version, and the Scouting Lab's
+function frTeams() {   // the teams the page offers: your saved teams and team lab sixes, every scouted version, and the Scouting Lab's
   var out = [];
+  ALL_GAMES.forEach(function (g) { var s = store('team-' + g); if (Array.isArray(s) && s.some(Boolean)) out.push({key: 'teamlab/' + g, label: 'Your team lab · ' + (GAME_NAME[g] || g), game: g, species: s.filter(Boolean).map(function (b) { return b.species; }), mine: true}); });
+  Object.keys((S.store || {}).teams || {}).forEach(function (k) { var x = S.store.teams[k]; if (!Array.isArray(x.slots) || x.status === 'retired') return;
+    out.push({key: 'saved/' + k, label: 'Saved · ' + (x.title || k), game: x.game, species: x.slots.filter(Boolean).map(function (s) { return s.species; }), mine: true}); });
   Scout.versions().forEach(function (x) { var v = Scout.version(x.trainer, x.id); out.push({key: x.trainer + '/' + x.id, label: (x.mine ? 'Yours · ' : x.name + ' · ') + x.title, game: v.game, species: v.team.map(function (b) { return b.species; }), mine: x.mine}); });
   var sl = (SL && SL.v) ? SL : store('scoutlab'); if (sl && sl.v) out.unshift({key: 'lab', label: 'From the Scouting Lab · ' + sl.v.title, game: sl.v.game, species: sl.v.team.map(function (b) { return b.species; })});
   return out;
 }
 function fieldPage() {
-  return Promise.all([fieldReady(), scoutReady()]).then(function () {
+  return Promise.all([fieldReady(), scoutReady(), recordsReady().catch(function () { return null; })]).then(function () {
     var st = store('field') || {}, teams = frTeams();
     FR = Object.assign({key: 'me/heartgold', preview: []}, st);
     var t = teams.filter(function (x) { return x.key === FR.key; })[0] || teams.filter(function (x) { return x.mine; })[0];

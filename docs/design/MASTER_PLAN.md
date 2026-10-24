@@ -1,12 +1,24 @@
 # Blackthorn OS — master plan: architecture and gap analysis
 
-Status: **planning, not authorization.** Written 2026-10-24 from Zack's seven specifications (`docs/specs/`), four
+Status: **approved and being built** (D-065: *"Okay this is the new plan. Use the old framework but build the new plan. Feel free to change the old plan"*). The four blocking questions got reversible defaults (D-066). Progress is kept in §0 below.
+
+Written 2026-10-24 from Zack's seven specifications (`docs/specs/`), four
 read-only audits of the code and data made the same day, and the decision ledger (D-001…D-064). Nothing here has been
 built. Every spec asks for this document first; none asks for code from it.
 
 Where a fact below came from an audit, the file it lives in is named so it can be rechecked. The load-bearing ones
 (the Ace score, the unused field-EV setting, the Pokémon lab's EV limits, Drive access, ledger statuses) were rechecked
 by hand before writing.
+
+## 0. Build status
+
+| Phase | State | What's in |
+|---|---|---|
+| 0 | done | The Ace score note now matches the code (plain mean; it decides nothing); the unread `field_evs_each` is gone (the field keeps no EVs, D-064); the Pokémon lab's EVs are capped at 252 and 510 with a live count and a "how EVs work" note; engine-filled movesets say so (B9); ingested journal notes are research or world-building, never Personal observation; Crystal Feraligatr's Waterfall (D-028) reaches the field engine; staffing reads every resident in the present-day game (B39); scenarios live only in scenarios.json; report tags aren't called badges; docs/design/DATA_CONTRACT.md |
+| 1 | built, waiting on your Apps Script redeploy | Your records: My Pokémon, My Builds, My Teams tabs (append-only), read live and merged in the browser (`21_records.html`) and by the engine (`store/personal.py` → `store/migrate.py` → team roles). The Pokémon lab saves versions (the old one stays), keeps unsaved drafts across navigation, shows the version history and loads any version, edits the individual (nickname, sex, shiny, ball, met), adds new Pokémon (two of a species is fine), and makes anyone's build your own. The team lab saves and opens teams; the Field page offers them |
+| 2 | built | Recognition (`trainers/recognition.json`, `recognition.py`, `29_recognition.html`, held together by a parity test): damage evidence from the Ace fights (no new fights), stat tiers and Speed milestones computed from bases (the spec's numbers exactly), least-EVs-to-the-next-tier, tags from the role engine, functional archetypes for every build, proposed signature archetypes (all off), Ace plus two provisional qualifications, a Recognition card in the Pokémon lab, a version keeps its recognition line, the Standards page, a calibration step. Tiers were set from the calibration (each near the 50th/70th/85th/95th percentile, building on each other; walls count four hits), because the Elite Four's and Champions' Pokémon have no EVs and single-hit numbers saturate. Still to come: the solver in the browser for archetypes further away, trying a threshold in the Standards page before changing it, and a competitive-threats collection |
+| 3 | built, waiting on your Apps Script redeploy | The five spaces in the menu (My World, Builder & Studio, Labs, Pokédex & Reference, Trainer Library, with the record underneath); owner labels on every build (mine, trainer, reference, variant); one explanation system (`22_explain.html`, `app/explain_pack.py`, `reference/mechanics.json`: each game's own ability and item text, natures with what they raise and their alternatives, moves, EVs, IVs, STAB, category, priority, Speed ties, Hidden Power, learnability) in the Studio and the builds lab; Your Pokémon and the hybrid profile with the showcase view; default art by sex, shininess and form (only the variants that exist); pictures uploaded to a Drive folder with the My Artwork tab, a gallery, a chosen profile picture and back to default; image packets. Changed from the plan: Apps Script's DriveApp needs the full Drive permission to create a file (`drive.file` would need Google's advanced Drive API), so the script asks for `drive` and only writes in its own folder |
+| 4–8 | not started | |
 
 ---
 
@@ -128,7 +140,7 @@ These are the data contracts every module reads. They're shapes, not code. Field
 | Entity | Owner | Key fields | Built from |
 |---|---|---|---|
 | **Species** | Reference | dex, forms, gender rate, gender-visible flag, egg groups, cycles, base stats by era, capture rate | atlas + pokeref (forms and `has_gender_differences` to add) |
-| **Individual** | Mine / Trainer | `ind:` id (old `me:` id kept as an alias), species, form, sex, shiny, nickname, game/save, ball, origin (caught/hatched/traded/PKHeX), parents, **hatch moveset (never overwritten)**, active build, build list, hero art, gallery, status | `individuals.json`, lineage, studbook rows |
+| **Individual** | Mine / Trainer | `me:<game>/<Species>` id, with a token for every one made in the app (DATA_CONTRACT §2), species, form, sex, shiny, nickname, game/save, ball, origin (caught/hatched/traded/PKHeX), parents, **hatch moveset (never overwritten)**, active build, build list, hero art, gallery, status | `individuals.json`, lineage, studbook rows |
 | **Build** | any | content (species, level, nature, ability, item, IVs, EVs, 4 moves, generation), `content_key` (exists), id, parent build, version n, status draft/active/retired, ownership, class, note | `builds.json` (948) |
 | **Blueprint** | Mine | a Build marked as breeding stock, with an acquisition class per starting move (egg/level/TM/tutor/event), a pathway, and the four-state verdict (§4.5) | `lines.json`, `proposed_lines.json` |
 | **Team** | Mine / Trainer | slots → builds, game, notes | `teams.json` |
@@ -600,8 +612,8 @@ Unlocks everything else.
 
 - **Entities.**
   - Schemas for individual, build (parent, version, status), blueprint and team slot.
-  - `ind:` ids with the old `me:` ids kept as aliases.
-  - Studbook and lineage ids linked.
+  - The existing `me:` ids stay; individuals made in the app get a token, so two of a species in one game work. (Changed from the first draft's new `ind:` ids: no alias layer, nothing to migrate.)
+  - Studbook and lineage ids linked (moved to Phase 4, where breeding needs it).
 - **The §3.5 personal store:**
   - append-only Sheet tabs;
   - the browser joins them live;

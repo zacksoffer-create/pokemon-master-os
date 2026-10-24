@@ -110,6 +110,60 @@ class TeamRoles:
                 out[bid] = {pool: [(c, where, res[(a.key, c.key)]) for c, where in members] for pool, members in pools.items()}
         return out
 
+    def evidence(self, f, gen):
+        """What the Ace fights already show, for the recognition badges (trainers/recognition.json): how many of the
+        Elite Four and Champion Pokémon each kind of attack knocks out, and how many of their attacks it takes from full.
+        Damage is the calculator's roll range in % at no boosts, from full, every move landing (Matchup.damage and
+        .incoming); each Pokémon and set counts once (a set in both pools once). No new fights."""
+        foes, order = {}, []
+        for pool in ("elite_four", "champion"):
+            for c, _, m in f[pool]:
+                if c.key not in foes:
+                    foes[c.key] = (c, m)
+                    order.append(c.key)
+        rows = [foes[k] for k in order]
+        ours = sorted(rows[0][1].damage) if rows else []
+
+        def counts(mv):
+            lo = [m.damage[mv][0] for _, m in rows]
+            hi = [m.damage[mv][1] for _, m in rows]
+            return {"move": mv, "ohko": sum(1 for x in lo if x >= 100), "ohko_possible": sum(1 for x in hi if x >= 100),
+                    "2hko": sum(1 for x in lo if x >= 50)}
+
+        out = {"foes": len(rows)}
+        for kind in ("Physical", "Special"):
+            cands = [counts(mv) for mv in ours if rules.category(gen, mv) == kind]
+            if not cands:
+                out[kind.lower()] = None
+                continue
+            b = sorted(cands, key=lambda x: (-x["2hko"], -x["ohko"], -x["ohko_possible"], x["move"]))[0]
+            near = sorted(((m.damage[b["move"]][0], c.name) for c, m in rows if m.damage[b["move"]][0] < 50),
+                          key=lambda x: (-x[0], x[1]))[:3]
+            out[kind.lower()] = {**b, "near_2hko": [[n, lo] for lo, n in near]}
+        out["any"] = {"ohko": sum(1 for _, m in rows if any(m.damage[mv][0] >= 100 for mv in ours)),
+                      "2hko": sum(1 for _, m in rows if any(m.damage[mv][0] >= 50 for mv in ours))}
+        prio = [mv for mv in ours if rules.move(gen, mv)["priority"] > 0]
+        if prio:
+            pc = [{"move": mv, **{str(h): sum(1 for _, m in rows if m.damage[mv][0] >= h) for h in (100, 50, 25)}} for mv in prio]
+            out["priority"] = sorted(pc, key=lambda x: (-x["25"], -x["50"], -x["100"], x["move"]))[0]
+        else:
+            out["priority"] = None
+        # takes[n]: how many of their attacks it takes n or more of (the top roll under 100/(n-1)% of its HP)
+        taken = {k: {"hits": 0, "takes": {"2": 0, "3": 0, "4": 0}} for k in ("physical", "special")}
+        walled = attacking = 0
+        for c, m in rows:
+            if m.incoming:
+                attacking += 1
+                walled += all(hi < 100 for _, hi in m.incoming.values())
+            for mv, (_, hi) in m.incoming.items():
+                k = taken.get(rules.category(gen, mv).lower())
+                if k is not None:
+                    k["hits"] += 1
+                    for n in (2, 3, 4):
+                        k["takes"][str(n)] += hi < 100 / (n - 1)
+        out["taken"] = {**taken, "foes": attacking, "walled": walled}
+        return out
+
     def override(self, r, build_id):
         """A team role set by hand (team_roles.json → overrides, once approved): earned follows it, the score stays computed."""
         o = (self.cfg.get("overrides") or {}).get(build_id, {})
@@ -272,7 +326,8 @@ class TeamRoles:
                 "roles": team_sorted, "earned": [r["role"] for r in team_sorted if r["earned"]],
                 "second_layer": {"primary": cl["primary"], "secondary": cl["secondary"],
                                  "top": [{"role": x["role"], "name": x["name"], "score": x["score"]} for x in cl["roles"][:5]]},
-                "name": self.name(cl, team, ctx["moves"], gen, b.species)}
+                "name": self.name(cl, team, ctx["moves"], gen, b.species),
+                "evidence": self.evidence(fights[b.id], gen)}
 
     def read(self, build, game=None):
         return self.read_many([(build, game)])[build.id]
@@ -292,13 +347,39 @@ def all_builds(store, competitive=True):
             seen.add(key)
             out.append((replace(b, id=f"me:{v.game}/{b.species}"), v.game))
     path = os.path.join(ENGINE, "store", "out", "builds.json")
-    if competitive and os.path.exists(path):
+    store_builds = {}
+    if os.path.exists(path):
         with open(path, encoding="utf-8") as fh:
-            for bid, x in json.load(fh)["builds"].items():
-                if x["provenance"] == "competitive":
-                    out.append((Build(id=bid, species=x["species"], moves=list(x.get("moves") or []), nature=x.get("nature"),
-                                      ability=x.get("ability"), item=x.get("item"), ivs=x.get("ivs"), evs=x.get("evs"),
-                                      generation=x.get("generation"), source=x.get("source", ""), name=x.get("name")), None))
+            store_builds = json.load(fh)["builds"]
+    as_build = lambda bid, x: Build(id=bid, species=x["species"], moves=list(x.get("moves") or []), nature=x.get("nature"),
+                                    ability=x.get("ability"), item=x.get("item"), ivs=x.get("ivs"), evs=x.get("evs"),
+                                    generation=x.get("generation"), source=x.get("source", ""), name=x.get("name"))
+    if competitive:
+        for bid, x in store_builds.items():
+            if x["provenance"] == "competitive":
+                out.append((as_build(bid, x), None))
+    # your records from the app (store/personal.json, merged by store/migrate.py): a journey companion's newer version
+    # replaces its canon build, and Pokémon and builds made in the app are read too (docs/design/DATA_CONTRACT.md)
+    ipath = os.path.join(ENGINE, "store", "out", "individuals.json")
+    if os.path.exists(ipath):
+        with open(ipath, encoding="utf-8") as fh:
+            inds = json.load(fh)["individuals"]
+        at = {b.id: k for k, (b, _) in enumerate(out)}
+        owned = set()
+        for iid, i in inds.items():
+            x = store_builds.get(i.get("build")) if i.get("build") else None
+            if not x:
+                continue
+            owned.add(i["build"])
+            if (x.get("v") or 1) > 1 or x.get("origin") == "the app (My Builds)" or iid not in at:
+                b = replace(as_build(iid, x), generation=rules.GAME_GEN[i["game"]])
+                if iid in at:
+                    out[at[iid]] = (b, i["game"])
+                else:
+                    out.append((b, i["game"]))
+        for bid, x in store_builds.items():
+            if x["provenance"] == "yours" and bid not in owned and x.get("origin") == "the app (My Builds)" and x.get("game"):
+                out.append((as_build(bid, x), x["game"]))
     return out
 
 

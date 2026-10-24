@@ -26,7 +26,8 @@ C. Turn it into a web app (one minute)
   6. Deploy (top right) → New deployment → the gear next to "Select type" → Web app.
      Description: Blackthorn HQ · Execute as: Me · Who has access: Only myself → Deploy.
   7. Google asks you to approve the script (Authorize access → your account → Advanced → Go to the project
-     → Allow). It asks for: this Sheet, reading your Drive (to find the app zip), and showing its windows.
+     → Allow). It asks for: this Sheet, your Drive (to find the app zip and keep your pictures in one folder), and
+     showing its windows.
   8. Copy the Web app URL it shows you and open it. Bookmark it, or add it to your phone's home screen.
      The Blackthorn menu in the Sheet also gets "Open Blackthorn HQ (the web app)".
 
@@ -41,6 +42,18 @@ If you installed an earlier version than that: paste the new WebApp.gs (it now c
 Scouting Lab variants to the Variants tab), then Deploy → Manage deployments → the pencil → Version: New version →
 Deploy, and upload the new Blackthorn-HQ-app.zip.
 
+If you installed before your records and pictures (October 24 or earlier): this version keeps your own Pokémon,
+builds, teams and pictures, so the script changes once.
+  1. Paste the new WebApp.gs over the old one, and replace appsscript.json with the one from this zip. Save.
+  2. Deploy → Manage deployments → the pencil → Version: New version → Deploy.
+  3. Google asks you to approve again, because the script now asks to "see, edit, create and delete" Drive files
+     instead of only reading them. That's the only permission Apps Script's built-in Drive service accepts for creating a
+     file. What the code does with it: it makes one folder, "Blackthorn HQ artwork", saves the pictures you add there,
+     and reads the app zip. It never deletes, moves, shares or edits anything else.
+  4. Upload the new Blackthorn-HQ-app.zip (the old one goes to History).
+  The first time you save a Pokémon, a build or a team, the app makes the My Pokémon, My Builds and My Teams tabs; the
+  first picture makes My Artwork and the Drive folder.
+
 Updating later
   - A new version of the app is a new Blackthorn-HQ-app.zip: upload it to Drive. The newest one wins within two
     minutes; move the old one to History.
@@ -49,9 +62,11 @@ Updating later
 
 What the app writes, and where
   It only ever adds rows to its own tabs (Eggs, Egg Walks, Plantings, Harvests, Readings, Feedings, Journal,
-  Timeline, Specimens, Variants), adds hatches to the Studbook, and writes your answers into Your Calls ("Your call" and
-  "Status"). Everything else in the Sheet is read-only to it. An answer becomes canon when Claude writes it in as a
-  decision, never before.
+  Timeline, Specimens, Variants, and your records: My Pokémon, My Builds, My Teams, My Artwork), adds hatches to the
+  Studbook, and writes your answers into Your Calls ("Your call" and "Status"). Your records are append-only: every
+  save is a new row, so every earlier version stays. Pictures go into the Drive folder "Blackthorn HQ artwork".
+  Everything else in the Sheet is read-only to it. An answer becomes canon when Claude writes it in as a decision,
+  never before.
 
 Try it first without installing anything: open Blackthorn-HQ-preview.html in any browser. It's the whole app with
 the data inside; what you save stays in that browser only.

@@ -140,10 +140,13 @@ class Store:
         out = []
         for sp, b in lu["members"]:
             member, source = self._scout.member_for(sp, lu["game"], b)
-            notes = [] if b.get("moves") and len(b["moves"]) >= 4 else [source]
+            full = bool(b.get("moves")) and len(b["moves"]) >= 4
+            notes = [] if full else [source]
+            # B9: a moveset the engine filled in isn't the canon register's, so it doesn't carry that label
+            label = "canon register (canon/builds.json)" if full else f"engine-filled ({source})"
             out.append(Build(id=f"lineup:{lineup_id}/{sp}", species=member.species, moves=member.moves,
                              nature=member.nature, ability=member.ability, item=member.item, evs=b.get("evs"),
-                             ivs=b.get("ivs"), source="canon register (canon/builds.json)",
+                             ivs=b.get("ivs"), source=label,
                              status=b.get("status", "no build on record"), generation=GAME_GEN[lu["game"]], notes=notes))
         return out
 

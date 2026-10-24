@@ -33,6 +33,10 @@ var google = {script: {run: (function () {
     apiAppend: function (tab, obj) { var t = tabs(); (t[tab] = t[tab] || []).push(obj);
       if (obj._timeline) (t.Timeline = t.Timeline || []).push({at: new Date().toISOString(), kind: tab.toLowerCase(), text: obj._timeline});
       save(t); return {ok: true}; },
+    apiUpload: function (name, mime, b64) { var m = {}; try { m = JSON.parse(localStorage.getItem('bt-preview-images') || '{}'); } catch (e) {}
+      var id = 'preview-' + Date.now().toString(36); m[id] = 'data:' + mime + ';base64,' + b64;
+      try { localStorage.setItem('bt-preview-images', JSON.stringify(m)); } catch (e) { throw new Error('this browser has no room left for pictures'); } return {id: id}; },
+    apiImage: function (id) { try { return JSON.parse(localStorage.getItem('bt-preview-images') || '{}')[id] || ''; } catch (e) { return ''; } },
     apiAnswer: function (id, text, status) { var t = tabs(), at = new Date().toISOString(); (t.Answers = t.Answers || []).push({id: id, text: text, status: status, at: at});
       if (status === 'answered') (t.Timeline = t.Timeline || []).push({at: at, kind: 'your call', text: id + ': ' + text}); save(t); return {ok: true}; }
   };

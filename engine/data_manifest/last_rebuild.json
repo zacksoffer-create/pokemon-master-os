@@ -1,6 +1,13 @@
 {
- "started": "2026-10-21T00:11:07Z",
+ "started": "2026-10-24T14:23:09Z",
  "steps": [
+  {
+   "step": "app-data",
+   "command": "-I app/export.py",
+   "ok": true,
+   "seconds": 100.3,
+   "error": null
+  },
   {
    "step": "app",
    "command": "-I app/build.py",
@@ -9,5 +16,16 @@
    "error": null
   }
  ],
- "changed": []
+ "changed": [
+  {
+   "file": "engine/app/data/atlas.json",
+   "status": "changed",
+   "before": [
+    " spreading the broad petals of its flower and catching the sun’s rays, it fills its body with power.\",\"dexg\":\"heartgold\"},{\"n\":4,\"name\":\"Charmander\",\"t\":[\"Fire\"],\"b\":[39,52,43,60,50,65],\"ab\":[\"Blaze\"],\"eg\":[\"Dragon\",\"Monster\"],\"gr\":1,\"cyc\":"
+   ],
+   "after": [
+    " spreading the broad petals of its flower and catching the sun’s rays, it fills its body with power.\",\"dexg\":\"heartgold\",\"gd\":1},{\"n\":4,\"name\":\"Charmander\",\"t\":[\"Fire\"],\"b\":[39,52,43,60,50,65],\"ab\":[\"Blaze\"],\"eg\":[\"Dragon\",\"Monster\"],\"gr\":1"
+   ]
+  }
+ ]
 }

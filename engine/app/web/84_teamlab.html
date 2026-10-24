@@ -23,13 +23,35 @@ function teamLab(game) {
     TL = {game: game, team: tlLoad(game), target: null, filters: {type: '', move: '', role: '', prov: '', answers: ''}, token: 0};
     after(function (p) { tlBind(p); tlRender(); });
     return '<div class="eyebrow">The team lab · six slots, read live</div><div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap"><h1 style="margin:6px 0">Your ' + esc(Battle.GAME_TITLE[game]) + ' team</h1>' +
-      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="tlReset()">Back to your journey six</button><a class="btn" href="#/scoutlab">Trainer lab</a></div></div>' +
-      '<p class="lede">Swap a Pokémon in or out and every read below moves: each one\'s four team roles, how the six cover each other by type, the scenario questions, the team\'s shape, and the candidates that would close a gap. Kept in this browser only; canon doesn\'t change.</p>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="tlReset()">Back to your journey six</button>' + tlSavedPicker(game) + '<button class="btn gold" onclick="tlSaveTeam()">Save this team</button><a class="btn" href="#/scoutlab">Trainer lab</a></div></div>' +
+      '<p class="lede">Swap a Pokémon in or out and every read below moves: each one\'s four team roles, how the six cover each other by type, the scenario questions, the team\'s shape, and the candidates that would close a gap. What you\'re trying stays in this browser; Save this team keeps it in your My Teams tab (with each slot\'s build and where it came from), so the Field page and every lab can open it. Canon doesn\'t change.</p>' +
       '<div class="tabs" style="margin:12px 0 16px">' + ALL_GAMES.map(function (g) { return '<a' + (g === game ? ' class="on"' : '') + ' href="#/team/' + g + '">' + esc(Battle.GAME_TITLE[g]) + '</a>'; }).join('') + '</div>' +
       '<div id="tlbody"><div class="empty">Reading the six…</div></div>';
   });
 }
 function tlReset() { TL.team = tlDefault(TL.game); tlSave(TL.game, TL.team); tlRender(); }
+function savedTeams(game) {   // your saved teams for a game (My Teams), newest first
+  return Object.keys(S.store.teams || {}).map(function (k) { return S.store.teams[k]; }).filter(function (x) { return x.game === game && Array.isArray(x.slots) && x.status !== 'retired'; })
+    .sort(function (a, b) { return String(b.at || '').localeCompare(String(a.at || '')); });
+}
+function tlSavedPicker(game) {
+  var ts = savedTeams(game); if (!ts.length) return '';
+  return '<select class="f" style="width:auto" onchange="if(this.value)tlOpenSaved(this.value)"><option value="">Open a saved team…</option>' + ts.map(function (x) { return '<option value="' + esc(x.id) + '">' + esc(x.title || x.id) + (x.at ? ' · ' + esc(fmtDate(x.at)) : '') + '</option>'; }).join('') + '</select>';
+}
+function slotFrom(b) { if (!b || !b._from) return null; var ind = (S.store.individuals || {})[b._from], bid = ind ? ind.build : b._from, sb = bid ? storeBuild(bid) : null; return b._from + (sb ? '@' + (sb.v || 1) : ''); }
+function tlSaveTeam() {
+  askText('Save this team', 'A name for it (what you were going for)', function (title) {
+    var slots = TL.team.map(function (b) { if (!b) return null; var x = buildOf(b); delete x.id; return {species: b.species, from: slotFrom(b), prov: b._prov || 'yours', build: x}; });
+    Records.saveTeam({id: TL.savedId || null, game: TL.game, title: title || ('My ' + Battle.GAME_TITLE[TL.game] + ' six'), slots: slots}).then(function (team) {
+      TL.savedId = team.id; toast('Saved to My Teams. Open it from the Field page or here.'); })
+      .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+  });
+}
+function tlOpenSaved(id) {
+  var x = (S.store.teams || {})[id]; if (!x) return;
+  TL.team = [0, 1, 2, 3, 4, 5].map(function (i) { var s = x.slots[i]; if (!s || !s.build) return null; var b = Object.assign({}, s.build, {species: s.species}); b._prov = s.prov || 'yours'; b._from = s.from ? String(s.from).split('@')[0] : null; return b; });
+  TL.savedId = id; tlSave(TL.game, TL.team); tlRender(); toast('Opened ' + esc(x.title || id) + '.');
+}
 function tlRemove(i) { TL.team[i] = null; tlSave(TL.game, TL.team); TL.target = i; tlRender(); }
 function tlPut(id, i) {
   var b = candBuild(id); if (!b) return;
@@ -109,10 +131,15 @@ function tlAnswer(qid) { TL.filters.answers = qid; var el = document.querySelect
 /* ---- candidates: every build on record for this generation, with what it would change ---- */
 function candPool() {
   var gen = Battle.GAME_GEN[TL.game], out = [];
-  Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k], r = packRead(k);
-    if (Battle.GAME_GEN[i.game] === gen && r && !r.error) out.push({id: k, species: i.species, prov: 'yours', label: 'your ' + i.species + ' (' + cap(i.game) + ')', read: ovRead(r, k)}); });
-  Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k], r = packRead(k);
-    if (b.provenance !== 'yours' && Battle.GAME_GEN[gameOf(b)] === gen && r && !r.error) out.push({id: k, species: b.species, prov: b.provenance, label: cmpLabel(Object.assign({id: k}, b)), read: ovRead(r, k)}); });
+  var owned = {};
+  Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (i.build) owned[i.build] = true;
+    if (Battle.GAME_GEN[i.game] !== gen || i.status === 'retired') return;
+    var r = freshPackRead(k) || liveRead(indBuild(i), i.game);           // saved since the pack: read live (a handful)
+    if (r && !r.error) out.push({id: k, species: i.species, prov: 'yours', label: 'your ' + (i.nickname ? i.nickname + ' (' + i.species + ')' : i.species) + ' (' + cap(i.game) + ')', read: ovRead(r, k)}); });
+  Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k];
+    if (Battle.GAME_GEN[gameOf(b)] !== gen || owned[k] || (b.provenance === 'yours' && !/^yours:[^/]+-\w+$/.test(k))) return;
+    var r = freshPackRead(k) || (b.provenance === 'yours' ? liveRead(buildOf(b), gameOf(b)) : null);
+    if (r && !r.error) out.push({id: k, species: b.species, prov: b.provenance, label: cmpLabel(Object.assign({id: k}, b)), read: ovRead(r, k)}); });
   return out;
 }
 function candBuild(id) {
