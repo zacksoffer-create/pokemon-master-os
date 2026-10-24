@@ -55,23 +55,15 @@
      "where": "Goldenrod Dept. Store Roof",
      "price": 150,
      "requires": null,
-     "condition": "rooftop sale (before STATUSFLAGS_HALL_OF_FAME_F; engine/items/mart.asm RooftopSale)",
+     "condition": "rooftop sale (STATUSFLAGS_HALL_OF_FAME_F not set, i.e. before the Hall of Fame; engine/items/mart.asm RooftopSale); NPC hidden while EVENT_GOLDENROD_SALE_OFF is set",
      "source": "pokecrystal/maps/GoldenrodDeptStoreRoof.asm:42 GoldenrodDeptStoreRoofClerkScript; pokecrystal/data/items/rooftop_sale.asm:3 RooftopSaleMart1"
-    },
-    {
-     "how": "shop",
-     "where": "Goldenrod Underground",
-     "price": 200,
-     "requires": null,
-     "condition": null,
-     "source": "pokecrystal/maps/GoldenrodUnderground.asm:166 .Open; pokecrystal/data/items/marts.asm:405 MartUnderground"
     },
     {
      "how": "shop",
      "where": "Mahogany Mart 1F",
      "price": 200,
      "requires": null,
-     "condition": "EVENT_DECIDED_TO_HELP_LANCE not set",
+     "condition": "EVENT_DECIDED_TO_HELP_LANCE not set; NPC hidden while EVENT_TEAM_ROCKET_BASE_POPULATION is set",
      "source": "pokecrystal/maps/MahoganyMart1F.asm:37 MahoganyMart1FPharmacistScript; pokecrystal/data/items/marts.asm:199 MartMahogany1"
     },
     {
@@ -167,7 +159,7 @@
      "where": "Goldenrod Dept. Store Roof",
      "price": 500,
      "requires": null,
-     "condition": "rooftop sale (before STATUSFLAGS_HALL_OF_FAME_F; engine/items/mart.asm RooftopSale)",
+     "condition": "rooftop sale (STATUSFLAGS_HALL_OF_FAME_F not set, i.e. before the Hall of Fame; engine/items/mart.asm RooftopSale); NPC hidden while EVENT_GOLDENROD_SALE_OFF is set",
      "source": "pokecrystal/maps/GoldenrodDeptStoreRoof.asm:42 GoldenrodDeptStoreRoofClerkScript; pokecrystal/data/items/rooftop_sale.asm:4 RooftopSaleMart1"
     },
     {
@@ -183,7 +175,7 @@
      "where": "Mahogany Mart 1F",
      "price": 600,
      "requires": null,
-     "condition": null,
+     "condition": "NPC hidden while EVENT_MAHOGANY_MART_OWNERS is set",
      "source": "pokecrystal/maps/MahoganyMart1F.asm:109 MahoganyMart1FGrannyScript; pokecrystal/data/items/marts.asm:206 MartMahogany2"
     },
     {
@@ -249,7 +241,7 @@
     {
      "how": "other",
      "where": "Mystery Gift (link with another player)",
-     "note": "in the Mystery Gift item pool (unlocked at Goldenrod Dept. Store 5F)",
+     "note": "in the Mystery Gift item pool (Mystery Gift is unlocked at Goldenrod Dept. Store 5F)",
      "source": "pokecrystal/data/items/mystery_gift_items.asm:21 MysteryGiftItems; pokecrystal/maps/GoldenrodDeptStore5F.asm:112 special UnlockMysteryGift"
     }
    ],
@@ -291,7 +283,7 @@
      "where": "Goldenrod Dept. Store Roof",
      "price": 1000,
      "requires": null,
-     "condition": "rooftop sale (after STATUSFLAGS_HALL_OF_FAME_F; engine/items/mart.asm RooftopSale)",
+     "condition": "rooftop sale (STATUSFLAGS_HALL_OF_FAME_F set, i.e. after the Hall of Fame; engine/items/mart.asm RooftopSale); NPC hidden while EVENT_GOLDENROD_SALE_OFF is set",
      "source": "pokecrystal/maps/GoldenrodDeptStoreRoof.asm:42 GoldenrodDeptStoreRoofClerkScript; pokecrystal/data/items/rooftop_sale.asm:15 RooftopSaleMart2"
     },
     {
@@ -694,7 +686,7 @@
      "where": "Littleroot Town Professor Birch's Lab",
      "who": "LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls",
      "qty": 5,
-     "condition": "call_if_eq VAR_RESULT, MALE, LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls",
+     "condition": "VAR_RESULT == MALE",
      "source": "pokeemerald/data/maps/LittlerootTown_ProfessorBirchsLab/scripts.inc:519 LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls"
     },
     {
@@ -702,7 +694,7 @@
      "where": "Littleroot Town Professor Birch's Lab",
      "who": "LittlerootTown_ProfessorBirchsLab_EventScript_BrendanGivePokeBalls",
      "qty": 5,
-     "condition": "call_if_eq VAR_RESULT, FEMALE, LittlerootTown_ProfessorBirchsLab_EventScript_BrendanGivePokeBalls",
+     "condition": "VAR_RESULT == FEMALE",
      "source": "pokeemerald/data/maps/LittlerootTown_ProfessorBirchsLab/scripts.inc:527 LittlerootTown_ProfessorBirchsLab_EventScript_BrendanGivePokeBalls"
     }
    ],
@@ -818,7 +810,7 @@
      "where": "Petalburg Woods",
      "who": "PetalburgWoods_EventScript_DevonResearcherPostBattle",
      "qty": 1,
-     "condition": "call PetalburgWoods_EventScript_DevonResearcherPostBattle; call PetalburgWoods_EventScript_DevonResearcherPostBattle",
+     "condition": null,
      "source": "pokeemerald/data/maps/PetalburgWoods/scripts.inc:73 PetalburgWoods_EventScript_DevonResearcherPostBattle"
     },
     {
@@ -826,8 +818,15 @@
      "where": "Rustboro City",
      "who": "RustboroCity_EventScript_ReturnGoods",
      "qty": 1,
-     "condition": "goto RustboroCity_EventScript_ReturnGoods; goto RustboroCity_EventScript_ReturnGoods; goto RustboroCity_EventScript_ReturnGoods; goto RustboroCity_EventScript_ReturnGoods; goto RustboroCity_EventScript_ReturnGoods",
+     "condition": null,
      "source": "pokeemerald/data/maps/RustboroCity/scripts.inc:557 RustboroCity_EventScript_ReturnGoods"
+    },
+    {
+     "how": "other",
+     "where": "Trainer Hill",
+     "qty": 1,
+     "note": "Trainer Hill prize for a challenge time of 18+ minutes (the same in every prize list)",
+     "source": "pokeemerald/src/trainer_hill.c:144 sPrizeListRareCandy1; pokeemerald/src/trainer_hill.c:1026 GetPrizeItemId"
     },
     {
      "how": "other",
@@ -1038,7 +1037,7 @@
      "where": "Route 116",
      "who": "Route116_EventScript_GiveRepeatBall",
      "qty": 1,
-     "condition": "goto Route116_EventScript_GiveRepeatBall; goto Route116_EventScript_GiveRepeatBall",
+     "condition": null,
      "source": "pokeemerald/data/maps/Route116/scripts.inc:56 Route116_EventScript_GiveRepeatBall"
     }
    ],
@@ -1064,7 +1063,7 @@
      "where": "Route 110 Trick House Entrance",
      "who": "Route110_TrickHouseEntrance_EventScript_GivePuzzle2Reward",
      "qty": 1,
-     "condition": "goto_if_eq VAR_TRICK_HOUSE_LEVEL, 2, Route110_TrickHouseEntrance_EventScript_GivePuzzle2Reward",
+     "condition": "VAR_TRICK_HOUSE_LEVEL == 2",
      "source": "pokeemerald/data/maps/Route110_TrickHouseEntrance/scripts.inc:338 Route110_TrickHouseEntrance_EventScript_GivePuzzle2Reward"
     }
    ],
@@ -1089,8 +1088,22 @@
      "where": "Contest Hall",
      "who": "ContestHall_EventScript_GiveLuxuryBall",
      "qty": 1,
-     "condition": "goto_if_eq VAR_CONTEST_RANK, CONTEST_RANK_MASTER, ContestHall_EventScript_GiveLuxuryBall",
+     "condition": "VAR_CONTEST_RANK == CONTEST_RANK_MASTER",
      "source": "pokeemerald/data/scripts/contest_hall.inc:1109 ContestHall_EventScript_GiveLuxuryBall"
+    },
+    {
+     "how": "other",
+     "where": "Lilycove City Pokémon Center 1F",
+     "qty": 1,
+     "note": "one of the Quiz Lady's prizes",
+     "source": "pokeemerald/src/data/lilycove_lady.h:270 sQuizLadyPrizes"
+    },
+    {
+     "how": "other",
+     "where": "Lilycove City Pokémon Center 1F",
+     "qty": 1,
+     "note": "one of the Favor Lady's prizes",
+     "source": "pokeemerald/src/data/lilycove_lady.h:423 sFavorLadyPrizes"
     }
    ],
    "premier": [
@@ -1108,6 +1121,13 @@
      "qty": 1,
      "note": "bonus for buying 10+ Poké Balls at once",
      "source": "pokeemerald/src/shop.c:1153 Task_ReturnToItemListAfterItemPurchase"
+    },
+    {
+     "how": "other",
+     "where": "Lilycove City Pokémon Center 1F",
+     "qty": 1,
+     "note": "one of the Quiz Lady's prizes",
+     "source": "pokeemerald/src/data/lilycove_lady.h:270 sQuizLadyPrizes"
     }
    ]
   },
@@ -1164,7 +1184,7 @@
      "where": "Pallet Town Professor Oak's Lab",
      "who": "PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene",
      "qty": 5,
-     "condition": "goto_if_ge VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1, PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene",
+     "condition": "VAR_MAP_SCENE_VIRIDIAN_CITY_MART >= 1",
      "source": "pokefirered/data/maps/PalletTown_ProfessorOaksLab/scripts.inc:660 PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene"
     },
     {
@@ -1172,7 +1192,7 @@
      "where": "Pallet Town Professor Oak's Lab",
      "who": "PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls",
      "qty": 5,
-     "condition": "goto_if_ge VAR_MAP_SCENE_ROUTE22, 2, PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls",
+     "condition": "VAR_MAP_SCENE_ROUTE22 >= 2",
      "source": "pokefirered/data/maps/PalletTown_ProfessorOaksLab/scripts.inc:935 PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls"
     }
    ],
@@ -1254,7 +1274,7 @@
      "where": "Two Island",
      "price": 600,
      "requires": null,
-     "condition": null,
+     "condition": "VAR_MAP_SCENE_TWO_ISLAND == 2",
      "source": "pokefirered/data/maps/TwoIsland/scripts.inc:126 TwoIsland_EventScript_ShopExpanded1; pokefirered/data/maps/TwoIsland/scripts.inc:134 TwoIsland_Items_ShopExpanded1"
     },
     {
@@ -1262,7 +1282,7 @@
      "where": "Two Island",
      "price": 600,
      "requires": null,
-     "condition": null,
+     "condition": "VAR_MAP_SCENE_TWO_ISLAND == 3",
      "source": "pokefirered/data/maps/TwoIsland/scripts.inc:142 TwoIsland_EventScript_ShopExpanded2; pokefirered/data/maps/TwoIsland/scripts.inc:150 TwoIsland_Items_ShopExpanded2"
     },
     {
@@ -1364,7 +1384,7 @@
      "where": "Two Island",
      "price": 1200,
      "requires": null,
-     "condition": null,
+     "condition": "VAR_MAP_SCENE_TWO_ISLAND == 2",
      "source": "pokefirered/data/maps/TwoIsland/scripts.inc:126 TwoIsland_EventScript_ShopExpanded1; pokefirered/data/maps/TwoIsland/scripts.inc:133 TwoIsland_Items_ShopExpanded1"
     },
     {
@@ -1372,7 +1392,7 @@
      "where": "Two Island",
      "price": 1200,
      "requires": null,
-     "condition": null,
+     "condition": "VAR_MAP_SCENE_TWO_ISLAND == 3",
      "source": "pokefirered/data/maps/TwoIsland/scripts.inc:142 TwoIsland_EventScript_ShopExpanded2; pokefirered/data/maps/TwoIsland/scripts.inc:149 TwoIsland_Items_ShopExpanded2"
     },
     {
@@ -1380,7 +1400,7 @@
      "where": "Two Island",
      "price": 1200,
      "requires": null,
-     "condition": null,
+     "condition": "VAR_MAP_SCENE_TWO_ISLAND == 4",
      "source": "pokefirered/data/maps/TwoIsland/scripts.inc:160 TwoIsland_EventScript_ShopExpanded3; pokefirered/data/maps/TwoIsland/scripts.inc:167 TwoIsland_Items_ShopExpanded3"
     },
     {
@@ -1535,7 +1555,7 @@
      "where": "Route 12 Fishing House",
      "who": "Route12_FishingHouse_EventScript_NewRecordMagikarp",
      "qty": 1,
-     "condition": "FLAG_GOT_RECORD_SETTING_MAGIKARP not set",
+     "condition": "VAR_RESULT == 3; FLAG_GOT_RECORD_SETTING_MAGIKARP not set",
      "source": "pokefirered/data/maps/Route12_FishingHouse/scripts.inc:79 Route12_FishingHouse_EventScript_NewRecordMagikarp"
     }
    ],
@@ -1567,7 +1587,7 @@
      "where": "Six Island Water Path House 1",
      "who": "SixIsland_WaterPath_House1_EventScript_ShownBigHeracross",
      "qty": 1,
-     "condition": "FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1 not set",
+     "condition": "VAR_RESULT == 3; FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1 not set",
      "source": "pokefirered/data/maps/SixIsland_WaterPath_House1/scripts.inc:55 SixIsland_WaterPath_House1_EventScript_ShownBigHeracross"
     }
    ],
@@ -1577,7 +1597,7 @@
      "where": "Two Island",
      "price": 1000,
      "requires": null,
-     "condition": null,
+     "condition": "VAR_MAP_SCENE_TWO_ISLAND == 4",
      "source": "pokefirered/data/maps/TwoIsland/scripts.inc:160 TwoIsland_EventScript_ShopExpanded3; pokefirered/data/maps/TwoIsland/scripts.inc:168 TwoIsland_Items_ShopExpanded3"
     }
    ],
@@ -1587,11 +1607,19 @@
      "where": "Two Island",
      "price": 1000,
      "requires": null,
-     "condition": null,
+     "condition": "VAR_MAP_SCENE_TWO_ISLAND == 4",
      "source": "pokefirered/data/maps/TwoIsland/scripts.inc:160 TwoIsland_EventScript_ShopExpanded3; pokefirered/data/maps/TwoIsland/scripts.inc:169 TwoIsland_Items_ShopExpanded3"
     }
    ],
-   "luxury": [],
+   "luxury": [
+    {
+     "how": "other",
+     "where": "Five Island Resort Gorgeous House",
+     "qty": 1,
+     "note": "reward for showing the requested Pokémon; 70 in 100 requests carry this ball (SampleResortGorgeousReward)",
+     "source": "pokefirered/src/field_specials.c:714 SampleResortGorgeousReward; pokefirered/data/maps/FiveIsland_ResortGorgeous_House/scripts.inc:19; pokefirered/data/maps/FiveIsland_ResortGorgeous_House/scripts.inc:37"
+    }
+   ],
    "premier": []
   },
   "platinum": {
@@ -1601,126 +1629,105 @@
      "where": "Canalave City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_canalave_city_mart.s:13 CanalaveCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_canalave_city_mart.s:13 CanalaveCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Celestic Town Northwest House",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:18 CelesticTownNorthwestHouse_Vendor_Unused; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Celestic Town Northwest House",
-     "price": 200,
-     "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:23 CelesticTownNorthwestHouse_ExpertF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:23 CelesticTownNorthwestHouse_ExpertF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Eterna City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_eterna_city_mart.s:13 EternaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_eterna_city_mart.s:13 EternaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Fight Area Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_fight_area_mart.s:12 FightAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_fight_area_mart.s:12 FightAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Floaroma Town Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_town_mart.s:12 FloaromaTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_town_mart.s:12 FloaromaTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Hearthome City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_hearthome_city_mart.s:12 HearthomeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_hearthome_city_mart.s:12 HearthomeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Jubilife City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city_mart.s:13 JubilifeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city_mart.s:13 JubilifeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Oreburgh City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_oreburgh_city_mart.s:12 OreburghCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_oreburgh_city_mart.s:12 OreburghCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Pastoria City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pastoria_city_mart.s:13 PastoriaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_pastoria_city_mart.s:13 PastoriaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Pokémon League North Pokémon Center 1F",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:101 PokemonLeagueNorthPokecenter1F_VendorCommon; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 200,
-     "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:23 PokemonLeagueSouthPokecenter1F_VendorCommon_Unused; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:101 PokemonLeagueNorthPokecenter1F_VendorCommon; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Sandgem Town Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_sandgem_town_mart.s:12 SandgemTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_sandgem_town_mart.s:12 SandgemTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Snowpoint City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_snowpoint_city_mart.s:12 SnowpointCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_snowpoint_city_mart.s:12 SnowpointCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Solaceon Town Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_mart.s:12 SolaceonTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_mart.s:12 SolaceonTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Sunyshore City Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_sunyshore_city_mart.s:12 SunyshoreCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_sunyshore_city_mart.s:12 SunyshoreCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Survival Area Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_survival_area_mart.s:12 SurvivalAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Unused Resort Area Mart",
-     "price": 200,
-     "requires": "0 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_unused_resort_area_mart.s:9 ResortAreaMart_CashierF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_survival_area_mart.s:12 SurvivalAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
@@ -1784,7 +1791,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardPokeBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 2",
+     "condition": "VAR_RESULT == 2",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:81 SolaceonTownPokemonNewsPress_SetRewardPokeBall"
     }
    ],
@@ -1794,126 +1801,105 @@
      "where": "Canalave City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_canalave_city_mart.s:13 CanalaveCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_canalave_city_mart.s:13 CanalaveCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Celestic Town Northwest House",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:18 CelesticTownNorthwestHouse_Vendor_Unused; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Celestic Town Northwest House",
-     "price": 600,
-     "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:23 CelesticTownNorthwestHouse_ExpertF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:23 CelesticTownNorthwestHouse_ExpertF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Eterna City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_eterna_city_mart.s:13 EternaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_eterna_city_mart.s:13 EternaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Fight Area Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_fight_area_mart.s:12 FightAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_fight_area_mart.s:12 FightAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Floaroma Town Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_town_mart.s:12 FloaromaTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_town_mart.s:12 FloaromaTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Hearthome City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_hearthome_city_mart.s:12 HearthomeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_hearthome_city_mart.s:12 HearthomeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Jubilife City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city_mart.s:13 JubilifeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city_mart.s:13 JubilifeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Oreburgh City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_oreburgh_city_mart.s:12 OreburghCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_oreburgh_city_mart.s:12 OreburghCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Pastoria City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pastoria_city_mart.s:13 PastoriaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_pastoria_city_mart.s:13 PastoriaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Pokémon League North Pokémon Center 1F",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:101 PokemonLeagueNorthPokecenter1F_VendorCommon; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 600,
-     "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:23 PokemonLeagueSouthPokecenter1F_VendorCommon_Unused; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:101 PokemonLeagueNorthPokecenter1F_VendorCommon; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Sandgem Town Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_sandgem_town_mart.s:12 SandgemTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_sandgem_town_mart.s:12 SandgemTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Snowpoint City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_snowpoint_city_mart.s:12 SnowpointCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_snowpoint_city_mart.s:12 SnowpointCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Solaceon Town Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_mart.s:12 SolaceonTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_mart.s:12 SolaceonTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Sunyshore City Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_sunyshore_city_mart.s:12 SunyshoreCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_sunyshore_city_mart.s:12 SunyshoreCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Survival Area Mart",
      "price": 600,
      "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_survival_area_mart.s:12 SurvivalAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Unused Resort Area Mart",
-     "price": 600,
-     "requires": "3 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_unused_resort_area_mart.s:9 ResortAreaMart_CashierF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_survival_area_mart.s:12 SurvivalAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
@@ -1997,7 +1983,7 @@
      "where": "Celestic Town Pokémon Center 1F",
      "who": "CelesticTownPokecenter1F_GiveGreatBall",
      "qty": 1,
-     "condition": "Ge VAR_RESULT, 150",
+     "condition": "VAR_RESULT >= 150",
      "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_pokecenter_1f.s:38 CelesticTownPokecenter1F_GiveGreatBall"
     },
     {
@@ -2013,7 +1999,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardGreatBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 1",
+     "condition": "VAR_RESULT == 1",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:77 SolaceonTownPokemonNewsPress_SetRewardGreatBall"
     },
     {
@@ -2029,126 +2015,105 @@
      "where": "Canalave City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_canalave_city_mart.s:13 CanalaveCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_canalave_city_mart.s:13 CanalaveCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Celestic Town Northwest House",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:18 CelesticTownNorthwestHouse_Vendor_Unused; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Celestic Town Northwest House",
-     "price": 1200,
-     "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:23 CelesticTownNorthwestHouse_ExpertF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:23 CelesticTownNorthwestHouse_ExpertF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Eterna City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_eterna_city_mart.s:13 EternaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_eterna_city_mart.s:13 EternaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Fight Area Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_fight_area_mart.s:12 FightAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_fight_area_mart.s:12 FightAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Floaroma Town Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_town_mart.s:12 FloaromaTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_town_mart.s:12 FloaromaTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Hearthome City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_hearthome_city_mart.s:12 HearthomeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_hearthome_city_mart.s:12 HearthomeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Jubilife City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city_mart.s:13 JubilifeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city_mart.s:13 JubilifeCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Oreburgh City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_oreburgh_city_mart.s:12 OreburghCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_oreburgh_city_mart.s:12 OreburghCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Pastoria City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pastoria_city_mart.s:13 PastoriaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_pastoria_city_mart.s:13 PastoriaCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Pokémon League North Pokémon Center 1F",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:101 PokemonLeagueNorthPokecenter1F_VendorCommon; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1200,
-     "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:23 PokemonLeagueSouthPokecenter1F_VendorCommon_Unused; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:101 PokemonLeagueNorthPokecenter1F_VendorCommon; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Sandgem Town Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_sandgem_town_mart.s:12 SandgemTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_sandgem_town_mart.s:12 SandgemTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Snowpoint City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_snowpoint_city_mart.s:12 SnowpointCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_snowpoint_city_mart.s:12 SnowpointCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Solaceon Town Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_mart.s:12 SolaceonTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_mart.s:12 SolaceonTownMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Sunyshore City Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_sunyshore_city_mart.s:12 SunyshoreCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_sunyshore_city_mart.s:12 SunyshoreCityMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
      "where": "Survival Area Mart",
      "price": 1200,
      "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_survival_area_mart.s:12 SurvivalAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
-    },
-    {
-     "how": "shop",
-     "where": "Unused Resort Area Mart",
-     "price": 1200,
-     "requires": "5 badges",
-     "source": "pokeplatinum/res/field/scripts/scripts_unused_resort_area_mart.s:9 ResortAreaMart_CashierF; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c ScrCmd_PokeMartCommon"
+     "source": "pokeplatinum/res/field/scripts/scripts_survival_area_mart.s:12 SurvivalAreaMart_CommonVendor; pokeplatinum/include/data/mart_items.h:14 PokeMartCommonItems; pokeplatinum/src/scrcmd_shop.c:21 ScrCmd_PokeMartCommon"
     },
     {
      "how": "shop",
@@ -2364,7 +2329,7 @@
      "how": "other",
      "where": "Jubilife TV 1F",
      "qty": null,
-     "note": "lottery prize (JubilifeTV1F_SetFourthPrize, picked when Eq VAR_0x8008, 1)",
+     "note": "lottery prize (JubilifeTV1F_SetFourthPrize, chosen when VAR_0x8008 == 1)",
      "source": "pokeplatinum/res/field/scripts/scripts_jubilife_tv_1f.s:130 JubilifeTV1F_SetFourthPrize"
     },
     {
@@ -2372,7 +2337,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardUltraBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 0",
+     "condition": "VAR_RESULT == 0",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:73 SolaceonTownPokemonNewsPress_SetRewardUltraBall"
     },
     {
@@ -2395,7 +2360,7 @@
      "how": "other",
      "where": "Jubilife TV 1F",
      "qty": null,
-     "note": "lottery prize (JubilifeTV1F_SetJackpotPrize, picked when Eq VAR_0x8008, 5)",
+     "note": "lottery prize (JubilifeTV1F_SetJackpotPrize, chosen when VAR_0x8008 == 5)",
      "source": "pokeplatinum/res/field/scripts/scripts_jubilife_tv_1f.s:147 JubilifeTV1F_SetJackpotPrize"
     }
    ],
@@ -2446,13 +2411,6 @@
     },
     {
      "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1000,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
-     "how": "shop",
      "where": "Solaceon Town Mart",
      "price": 1000,
      "requires": null,
@@ -2478,7 +2436,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardNetBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 3",
+     "condition": "VAR_RESULT == 3",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:85 SolaceonTownPokemonNewsPress_SetRewardNetBall"
     }
    ],
@@ -2495,7 +2453,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardDiveBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 4",
+     "condition": "VAR_RESULT == 4",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:89 SolaceonTownPokemonNewsPress_SetRewardDiveBall"
     }
    ],
@@ -2530,13 +2488,6 @@
     },
     {
      "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1000,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
-     "how": "shop",
      "where": "Solaceon Town Mart",
      "price": 1000,
      "requires": null,
@@ -2554,7 +2505,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardNestBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 5",
+     "condition": "VAR_RESULT == 5",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:93 SolaceonTownPokemonNewsPress_SetRewardNestBall"
     }
    ],
@@ -2574,13 +2525,6 @@
      "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:105 PokemonLeagueNorthPokecenter1F_VendorSpecial; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
     },
     {
-     "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1000,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
      "how": "field",
      "where": "Route 224",
      "hidden": false,
@@ -2592,7 +2536,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardRepeatBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 6",
+     "condition": "VAR_RESULT == 6",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:97 SolaceonTownPokemonNewsPress_SetRewardRepeatBall"
     }
    ],
@@ -2620,13 +2564,6 @@
     },
     {
      "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1000,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
-     "how": "shop",
      "where": "Snowpoint City Mart",
      "price": 1000,
      "requires": null,
@@ -2644,7 +2581,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardTimerBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 7",
+     "condition": "VAR_RESULT == 7",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:101 SolaceonTownPokemonNewsPress_SetRewardTimerBall"
     }
    ],
@@ -2655,13 +2592,6 @@
      "price": 1000,
      "requires": null,
      "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:105 PokemonLeagueNorthPokecenter1F_VendorSpecial; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
-     "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1000,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
     },
     {
      "how": "shop",
@@ -2682,7 +2612,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardLuxuryBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 8",
+     "condition": "VAR_RESULT == 8",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:105 SolaceonTownPokemonNewsPress_SetRewardLuxuryBall"
     }
    ],
@@ -2719,13 +2649,6 @@
     },
     {
      "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1000,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
-     "how": "shop",
      "where": "Snowpoint City Mart",
      "price": 1000,
      "requires": null,
@@ -2758,7 +2681,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardDuskBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 9",
+     "condition": "VAR_RESULT == 9",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:109 SolaceonTownPokemonNewsPress_SetRewardDuskBall"
     }
    ],
@@ -2806,13 +2729,6 @@
      "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_north_pokecenter_1f.s:105 PokemonLeagueNorthPokecenter1F_VendorSpecial; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
     },
     {
-     "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 300,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
      "how": "field",
      "where": "Route 205 South",
      "hidden": false,
@@ -2832,7 +2748,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardHealBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 10",
+     "condition": "VAR_RESULT == 10",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:113 SolaceonTownPokemonNewsPress_SetRewardHealBall"
     }
    ],
@@ -2867,13 +2783,6 @@
     },
     {
      "how": "shop",
-     "where": "Pokémon League South Pokémon Center 1F",
-     "price": 1000,
-     "requires": null,
-     "source": "pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused; pokeplatinum/include/data/mart_items.h:200 PokemonLeagueMartSpecialties"
-    },
-    {
-     "how": "shop",
      "where": "Snowpoint City Mart",
      "price": 1000,
      "requires": null,
@@ -2891,7 +2800,7 @@
      "where": "Solaceon Town Pokémon News Press",
      "who": "SolaceonTownPokemonNewsPress_SetRewardQuickBall",
      "qty": 3,
-     "condition": "Eq VAR_RESULT, 11",
+     "condition": "VAR_RESULT == 11",
      "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_pokemon_news_press.s:117 SolaceonTownPokemonNewsPress_SetRewardQuickBall"
     }
    ],
@@ -2904,20 +2813,23 @@
      "where": "Frontier Access Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Mahogany Souvenir Shop",
      "price": 200,
      "requires": null,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0088_D35R0101.s:237 SetVar VAR_SPECIAL_x8004, 28; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0088_D35R0101.s:238 std_special_mart; pokeheartgold/src/scrcmd_mart.c:131 _020FBAB8 = _0210FA3C[28]"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0088_D35R0101.s:237 SetVar VAR_SPECIAL_x8004, 28; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0088_D35R0101.s:238 std_special_mart; pokeheartgold/src/scrcmd_mart.c:131 _020FBAB8 = _0210FA3C[28]; pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "gift",
      "where": "Route 29",
-     "who": "_04DC",
+     "who": "scr_seq_R29_001",
      "qty": 5,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0225_R29.s:309 _04DC"
     },
     {
@@ -2925,111 +2837,127 @@
      "where": "Viridian Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Pewter Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Cerulean Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0759_T04FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0759_T04FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Lavender Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Vermilion Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Celadon Department Store 2F",
      "price": 200,
      "requires": null,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:51 SetVar VAR_SPECIAL_x8004, 19; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:52 std_special_mart; pokeheartgold/src/scrcmd_mart.c:122 _020FBC4E = _0210FA3C[19]"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:51 SetVar VAR_SPECIAL_x8004, 19; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:52 std_special_mart; pokeheartgold/src/scrcmd_mart.c:122 _020FBC4E = _0210FA3C[19]; pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Fuchsia Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Saffron Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Cherrygrove Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0851_T21FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0851_T21FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Violet Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:21 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:21 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Azalea Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Goldenrod Department Store 2F",
      "price": 200,
      "requires": null,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:32 SetVar VAR_SPECIAL_x8004, 4; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:33 std_special_mart; pokeheartgold/src/scrcmd_mart.c:107 _020FBC1A = _0210FA3C[4]"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:32 SetVar VAR_SPECIAL_x8004, 4; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:33 std_special_mart; pokeheartgold/src/scrcmd_mart.c:107 _020FBC1A = _0210FA3C[4]; pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Olivine Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Ecruteak Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "shop",
      "where": "Blackthorn Poké Mart",
      "price": 200,
      "requires": "0 badges",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+     "condition": "not listed until FLAG_WATCHED_CATCHING_TUTORIAL is set",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy); pokeheartgold/src/overlay_03/shop_menu.c:192; pokeheartgold/src/sys_flags.c CheckUnlockedPokeBallsInMarts"
     },
     {
      "how": "gift",
      "where": "Goldenrod Radio Tower 2F",
-     "who": "_03F5",
+     "who": "scr_seq_D23R0102_009",
      "qty": 1,
+     "condition": "VAR_BLUE_CARD_POINTS == 1",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0030_D23R0102.s:315 _0499; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0030_D23R0102.s:291 _03F5"
     },
     {
@@ -3068,6 +2996,7 @@
      "where": "Frontier Access Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3075,6 +3004,7 @@
      "where": "Mahogany Souvenir Shop",
      "price": 600,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0088_D35R0101.s:269 SetVar VAR_SPECIAL_x8004, 29; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0088_D35R0101.s:270 std_special_mart; pokeheartgold/src/scrcmd_mart.c:132 _020FBBD8 = _0210FA3C[29]"
     },
     {
@@ -3082,6 +3012,7 @@
      "where": "Viridian Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3089,6 +3020,7 @@
      "where": "Pewter Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3096,6 +3028,7 @@
      "where": "Cerulean Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0759_T04FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3103,6 +3036,7 @@
      "where": "Lavender Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3110,6 +3044,7 @@
      "where": "Vermilion Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3117,6 +3052,7 @@
      "where": "Celadon Department Store 2F",
      "price": 600,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:51 SetVar VAR_SPECIAL_x8004, 19; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:52 std_special_mart; pokeheartgold/src/scrcmd_mart.c:122 _020FBC4E = _0210FA3C[19]"
     },
     {
@@ -3124,6 +3060,7 @@
      "where": "Fuchsia Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3131,6 +3068,7 @@
      "where": "Saffron Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3138,6 +3076,7 @@
      "where": "Cherrygrove Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0851_T21FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3145,6 +3084,7 @@
      "where": "Violet Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:21 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3152,6 +3092,7 @@
      "where": "Azalea Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3159,6 +3100,7 @@
      "where": "Goldenrod Department Store 2F",
      "price": 600,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:32 SetVar VAR_SPECIAL_x8004, 4; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:33 std_special_mart; pokeheartgold/src/scrcmd_mart.c:107 _020FBC1A = _0210FA3C[4]"
     },
     {
@@ -3166,6 +3108,7 @@
      "where": "Olivine Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3173,6 +3116,7 @@
      "where": "Ecruteak Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3180,6 +3124,7 @@
      "where": "Blackthorn Poké Mart",
      "price": 600,
      "requires": "3 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3212,7 +3157,7 @@
     },
     {
      "how": "field",
-     "where": "Ruins OF Alph",
+     "where": "Ruins of Alph",
      "hidden": true,
      "qty": 1,
      "source": "pokeheartgold/files/fielddata/eventdata/zone_event/110_D24R0101.json std_hiddenitem_d24r0101_great_ball; pokeheartgold/src/data/fieldmap/hidden_items.h:17 sHiddenItemParam"
@@ -3245,6 +3190,7 @@
      "where": "Frontier Access Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3252,6 +3198,7 @@
      "where": "Viridian Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3259,6 +3206,7 @@
      "where": "Pewter Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3266,6 +3214,7 @@
      "where": "Cerulean Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0759_T04FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3273,6 +3222,7 @@
      "where": "Lavender Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3280,6 +3230,7 @@
      "where": "Vermilion Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3287,6 +3238,7 @@
      "where": "Celadon Department Store 2F",
      "price": 1200,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:51 SetVar VAR_SPECIAL_x8004, 19; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0790_T07R0102.s:52 std_special_mart; pokeheartgold/src/scrcmd_mart.c:122 _020FBC4E = _0210FA3C[19]"
     },
     {
@@ -3294,6 +3246,7 @@
      "where": "Fuchsia Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:31 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3301,6 +3254,7 @@
      "where": "Pokémon League Entrance",
      "price": 1200,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0819_T10R0101.s:177 SetVar VAR_SPECIAL_x8004, 13; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0819_T10R0101.s:178 std_special_mart; pokeheartgold/src/scrcmd_mart.c:116 _020FBB84 = _0210FA3C[13]"
     },
     {
@@ -3308,6 +3262,7 @@
      "where": "Saffron Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3315,6 +3270,7 @@
      "where": "Cherrygrove Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0851_T21FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3322,6 +3278,7 @@
      "where": "Violet Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:21 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3329,6 +3286,7 @@
      "where": "Azalea Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3336,6 +3294,7 @@
      "where": "Goldenrod Department Store 2F",
      "price": 1200,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:32 SetVar VAR_SPECIAL_x8004, 4; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0900_T25R1002.s:33 std_special_mart; pokeheartgold/src/scrcmd_mart.c:107 _020FBC1A = _0210FA3C[4]"
     },
     {
@@ -3343,6 +3302,7 @@
      "where": "Olivine Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3350,6 +3310,7 @@
      "where": "Ecruteak Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
     },
     {
@@ -3357,7 +3318,16 @@
      "where": "Blackthorn Poké Mart",
      "price": 1200,
      "requires": "5 badges",
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:20 std_pokemart; pokeheartgold/src/scrcmd_mart.c:19 _020FBF22 (ScrCmd_MartBuy)"
+    },
+    {
+     "how": "gift",
+     "where": "Goldenrod Radio Tower 1F",
+     "who": "scr_seq_D23R0101_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_x8002 == 1",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0029_D23R0101.s:853 _0B0C; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0029_D23R0101.s:875 _0B4A"
     },
     {
      "how": "field",
@@ -3559,47 +3529,19 @@
    "master": [
     {
      "how": "gift",
-     "where": "shared script scr_seq_0003 (_std_misc)",
-     "who": "_0445",
-     "qty": 0,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:314 _0445; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:626 _080A"
-    },
-    {
-     "how": "gift",
-     "where": "shared script scr_seq_0003 (_std_misc)",
-     "who": "_0445",
-     "qty": 0,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:314 _0445; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:650 _085F"
+     "where": "Goldenrod Radio Tower 1F",
+     "who": "scr_seq_D23R0101_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_x8002 == 5",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0029_D23R0101.s:870 _0B3E; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0029_D23R0101.s:875 _0B4A"
     },
     {
      "how": "gift",
      "where": "New Bark Elm's Lab 1F",
      "who": "scr_seq_T20R0101_014",
      "qty": 1,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:909 scr_seq_T20R0101_014; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:918 _0BEF",
-     "version_check": "this script file branches on GetGameVersion; the way may differ between HG and SS"
-    },
-    {
-     "how": "gift",
-     "where": "shared script scr_seq_0003 (_std_misc)",
-     "who": "_080A",
-     "qty": 0,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:314 _0445; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:626 _080A"
-    },
-    {
-     "how": "gift",
-     "where": "shared script scr_seq_0003 (_std_misc)",
-     "who": "_085F",
-     "qty": 0,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:314 _0445; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0003.s:650 _085F"
-    },
-    {
-     "how": "gift",
-     "where": "New Bark Elm's Lab 1F",
-     "who": "_0BEF",
-     "qty": 1,
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:909 scr_seq_T20R0101_014; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:918 _0BEF",
-     "version_check": "this script file branches on GetGameVersion; the way may differ between HG and SS"
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:909 scr_seq_T20R0101_014; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:918 _0BEF"
     }
    ],
    "safari": [
@@ -3632,8 +3574,9 @@
     {
      "how": "gift",
      "where": "Route 32 Pokémon Center 1F",
-     "who": "_00E3",
+     "who": "scr_seq_R32PC0101_002",
      "qty": 2,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0233_R32PC0101.s:80 _00E3; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0233_R32PC0101.s:81 _00E3"
     },
     {
@@ -3691,15 +3634,8 @@
      "where": "Azalea Kurt House",
      "who": "scr_seq_T23R0501_005",
      "qty": 1,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:33 scr_seq_T23R0501_005; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:35 scr_seq_T23R0501_005"
-    },
-    {
-     "how": "gift",
-     "where": "Azalea Kurt House",
-     "who": "scr_seq_T23R0501_005",
-     "qty": null,
-     "qty_from": "VAR_SPECIAL_x8000",
-     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:33 scr_seq_T23R0501_005; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:136 _01A5"
     },
     {
      "how": "craft",
@@ -3741,6 +3677,7 @@
      "where": "Frontier Access Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:30 SetVar VAR_SPECIAL_x8004, 12; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:115 _020FBA80 = _0210FA3C[12]"
     },
     {
@@ -3748,6 +3685,7 @@
      "where": "Viridian Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:30 SetVar VAR_SPECIAL_x8004, 26; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:129 _020FBAA8 = _0210FA3C[26]"
     },
     {
@@ -3755,6 +3693,7 @@
      "where": "Violet Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:31 SetVar VAR_SPECIAL_x8004, 1; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:32 std_special_mart; pokeheartgold/src/scrcmd_mart.c:104 _020FBA78 = _0210FA3C[1]"
     },
     {
@@ -3762,6 +3701,7 @@
      "where": "Azalea Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:30 SetVar VAR_SPECIAL_x8004, 2; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:105 _020FBAB0 = _0210FA3C[2]"
     },
     {
@@ -3769,6 +3709,7 @@
      "where": "Olivine Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:30 SetVar VAR_SPECIAL_x8004, 10; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:113 _020FBA88 = _0210FA3C[10]"
     },
     {
@@ -3776,6 +3717,7 @@
      "where": "Ecruteak Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:30 SetVar VAR_SPECIAL_x8004, 9; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:112 _020FBA60 = _0210FA3C[9]"
     },
     {
@@ -3783,13 +3725,16 @@
      "where": "Blackthorn Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:30 SetVar VAR_SPECIAL_x8004, 12; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:115 _020FBA80 = _0210FA3C[12]"
     },
     {
-     "how": "gift",
+     "how": "other",
      "where": "Goldenrod Department Store 6F",
-     "who": "_038B",
+     "who": "scr_seq_T25R1006_004",
      "qty": 1,
+     "condition": "VAR_TEMP_x4000 == 3 (GetWeekday VAR_TEMP_x4000); VAR_TEMP_x4000 != 2 (GetWeekday VAR_TEMP_x4000)",
+     "note": "a paid draw: scr_seq_T25R1006_004 charges 300 (SubMoneyImmediate 300) before the prize is picked",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:212 _0322; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:237 _038B"
     }
    ],
@@ -3800,6 +3745,7 @@
      "where": "Safari Zone Gate",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0116_D47.s:116 SetVar VAR_SPECIAL_x8004, 14; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0116_D47.s:117 std_special_mart; pokeheartgold/src/scrcmd_mart.c:117 _020FBAC0 = _0210FA3C[14]"
     },
     {
@@ -3807,6 +3753,7 @@
      "where": "Pewter Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:19 SetVar VAR_SPECIAL_x8004, 25; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:20 std_special_mart; pokeheartgold/src/scrcmd_mart.c:128 _020FBAA0 = _0210FA3C[25]"
     },
     {
@@ -3814,40 +3761,49 @@
      "where": "Vermilion Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:30 SetVar VAR_SPECIAL_x8004, 14; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:117 _020FBAC0 = _0210FA3C[14]"
     },
     {
-     "how": "gift",
+     "how": "other",
      "where": "Goldenrod Department Store 6F",
-     "who": "_038B",
+     "who": "scr_seq_T25R1006_004",
      "qty": 1,
+     "condition": "VAR_TEMP_x4000 == 1 (GetWeekday VAR_TEMP_x4000); VAR_TEMP_x4000 != 0 (GetWeekday VAR_TEMP_x4000)",
+     "note": "a paid draw: scr_seq_T25R1006_004 charges 300 (SubMoneyImmediate 300) before the prize is picked",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:198 _02E4; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:237 _038B"
     }
    ],
    "repeat": [
     {
-     "how": "gift",
+     "how": "other",
      "where": "Goldenrod Department Store 6F",
-     "who": "_038B",
+     "who": "scr_seq_T25R1006_004",
      "qty": 1,
+     "condition": "VAR_TEMP_x4000 == 2 (GetWeekday VAR_TEMP_x4000); VAR_TEMP_x4000 != 1 (GetWeekday VAR_TEMP_x4000)",
+     "note": "a paid draw: scr_seq_T25R1006_004 charges 300 (SubMoneyImmediate 300) before the prize is picked",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:205 _0303; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:237 _038B"
     }
    ],
    "timer": [
     {
-     "how": "gift",
+     "how": "other",
      "where": "Goldenrod Department Store 6F",
-     "who": "_037F",
+     "who": "scr_seq_T25R1006_004",
      "qty": 1,
+     "condition": "VAR_TEMP_x4000 != 5 (GetWeekday VAR_TEMP_x4000)",
+     "note": "a paid draw: scr_seq_T25R1006_004 charges 300 (SubMoneyImmediate 300) before the prize is picked",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:231 _037F; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:237 _038B"
     }
    ],
    "luxury": [
     {
-     "how": "gift",
+     "how": "other",
      "where": "Goldenrod Department Store 6F",
-     "who": "_038B",
+     "who": "scr_seq_T25R1006_004",
      "qty": 1,
+     "condition": "VAR_TEMP_x4000 == 0 (GetWeekday VAR_TEMP_x4000); VAR_SPECIAL_RESULT >= 4 (Random VAR_SPECIAL_RESULT, 100)",
+     "note": "a paid draw: scr_seq_T25R1006_004 charges 300 (SubMoneyImmediate 300) before the prize is picked",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:191 _02B5; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:237 _038B"
     }
    ],
@@ -3866,6 +3822,7 @@
      "where": "Frontier Access Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:30 SetVar VAR_SPECIAL_x8004, 12; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0077_D32FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:115 _020FBA80 = _0210FA3C[12]"
     },
     {
@@ -3873,6 +3830,7 @@
      "where": "Safari Zone Gate",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0116_D47.s:116 SetVar VAR_SPECIAL_x8004, 14; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0116_D47.s:117 std_special_mart; pokeheartgold/src/scrcmd_mart.c:117 _020FBAC0 = _0210FA3C[14]"
     },
     {
@@ -3880,6 +3838,7 @@
      "where": "Lavender Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:30 SetVar VAR_SPECIAL_x8004, 16; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:119 _020FBA98 = _0210FA3C[16]"
     },
     {
@@ -3887,6 +3846,7 @@
      "where": "Vermilion Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:30 SetVar VAR_SPECIAL_x8004, 14; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:117 _020FBAC0 = _0210FA3C[14]"
     },
     {
@@ -3894,6 +3854,7 @@
      "where": "Fuchsia Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:19 SetVar VAR_SPECIAL_x8004, 24; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:20 std_special_mart; pokeheartgold/src/scrcmd_mart.c:127 _020FBA90 = _0210FA3C[24]"
     },
     {
@@ -3901,6 +3862,7 @@
      "where": "Saffron Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:30 SetVar VAR_SPECIAL_x8004, 15; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:118 _020FBA70 = _0210FA3C[15]"
     },
     {
@@ -3908,13 +3870,16 @@
      "where": "Blackthorn Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:30 SetVar VAR_SPECIAL_x8004, 12; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0942_T30FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:115 _020FBA80 = _0210FA3C[12]"
     },
     {
-     "how": "gift",
+     "how": "other",
      "where": "Goldenrod Department Store 6F",
-     "who": "_038B",
+     "who": "scr_seq_T25R1006_004",
      "qty": 1,
+     "condition": "VAR_TEMP_x4000 == 5 (GetWeekday VAR_TEMP_x4000); VAR_TEMP_x4000 != 4 (GetWeekday VAR_TEMP_x4000)",
+     "note": "a paid draw: scr_seq_T25R1006_004 charges 300 (SubMoneyImmediate 300) before the prize is picked",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:226 _0360; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:237 _038B"
     }
    ],
@@ -3924,6 +3889,7 @@
      "where": "Viridian Poké Mart",
      "price": 300,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:30 SetVar VAR_SPECIAL_x8004, 26; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0742_T02FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:129 _020FBAA8 = _0210FA3C[26]"
     },
     {
@@ -3931,6 +3897,7 @@
      "where": "Cherrygrove Poké Mart",
      "price": 300,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0851_T21FS0101.s:30 SetVar VAR_SPECIAL_x8004, 0; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0851_T21FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:103 _020FBA54 = _0210FA3C[0]"
     },
     {
@@ -3938,6 +3905,7 @@
      "where": "Violet Poké Mart",
      "price": 300,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:31 SetVar VAR_SPECIAL_x8004, 1; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0858_T22FS0101.s:32 std_special_mart; pokeheartgold/src/scrcmd_mart.c:104 _020FBA78 = _0210FA3C[1]"
     },
     {
@@ -3945,6 +3913,7 @@
      "where": "Azalea Poké Mart",
      "price": 300,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:30 SetVar VAR_SPECIAL_x8004, 2; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0867_T23FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:105 _020FBAB0 = _0210FA3C[2]"
     },
     {
@@ -3952,6 +3921,7 @@
      "where": "Olivine Poké Mart",
      "price": 300,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:30 SetVar VAR_SPECIAL_x8004, 10; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0912_T26FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:113 _020FBA88 = _0210FA3C[10]"
     },
     {
@@ -3959,6 +3929,7 @@
      "where": "Ecruteak Poké Mart",
      "price": 300,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:30 SetVar VAR_SPECIAL_x8004, 9; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0921_T27FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:112 _020FBA60 = _0210FA3C[9]"
     }
    ],
@@ -3968,6 +3939,7 @@
      "where": "Safari Zone Gate",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0116_D47.s:116 SetVar VAR_SPECIAL_x8004, 14; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0116_D47.s:117 std_special_mart; pokeheartgold/src/scrcmd_mart.c:117 _020FBAC0 = _0210FA3C[14]"
     },
     {
@@ -3975,6 +3947,7 @@
      "where": "Pewter Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:19 SetVar VAR_SPECIAL_x8004, 25; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0751_T03FS0101.s:20 std_special_mart; pokeheartgold/src/scrcmd_mart.c:128 _020FBAA0 = _0210FA3C[25]"
     },
     {
@@ -3982,6 +3955,7 @@
      "where": "Cerulean Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0759_T04FS0101.s:30 SetVar VAR_SPECIAL_x8004, 17; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0759_T04FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:120 _020FBA5A = _0210FA3C[17]"
     },
     {
@@ -3989,6 +3963,7 @@
      "where": "Lavender Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:30 SetVar VAR_SPECIAL_x8004, 16; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0768_T05FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:119 _020FBA98 = _0210FA3C[16]"
     },
     {
@@ -3996,6 +3971,7 @@
      "where": "Vermilion Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:30 SetVar VAR_SPECIAL_x8004, 14; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0777_T06FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:117 _020FBAC0 = _0210FA3C[14]"
     },
     {
@@ -4003,6 +3979,7 @@
      "where": "Fuchsia Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:19 SetVar VAR_SPECIAL_x8004, 24; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0808_T08FS0101.s:20 std_special_mart; pokeheartgold/src/scrcmd_mart.c:127 _020FBA90 = _0210FA3C[24]"
     },
     {
@@ -4010,13 +3987,16 @@
      "where": "Saffron Poké Mart",
      "price": 1000,
      "requires": null,
+     "condition": null,
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:30 SetVar VAR_SPECIAL_x8004, 15; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0828_T11FS0101.s:31 std_special_mart; pokeheartgold/src/scrcmd_mart.c:118 _020FBA70 = _0210FA3C[15]"
     },
     {
-     "how": "gift",
+     "how": "other",
      "where": "Goldenrod Department Store 6F",
-     "who": "_038B",
+     "who": "scr_seq_T25R1006_004",
      "qty": 1,
+     "condition": "VAR_TEMP_x4000 == 4 (GetWeekday VAR_TEMP_x4000); VAR_TEMP_x4000 != 3 (GetWeekday VAR_TEMP_x4000)",
+     "note": "a paid draw: scr_seq_T25R1006_004 charges 300 (SubMoneyImmediate 300) before the prize is picked",
      "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:219 _0341; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0904_T25R1006.s:237 _038B"
     }
    ],
@@ -4113,9 +4093,9 @@
      "Fuchsia"
     ],
     "tree_sources": [
-     "pokeheartgold/files/fielddata/eventdata/zone_event/038_R37.json obj_R37_bonguri (param0 13); pokeheartgold/src/apricorn_tree_sys.c:22 sTreeApricorns[13]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/043_R44.json obj_R44_bonguri (param0 22); pokeheartgold/src/apricorn_tree_sys.c:31 sTreeApricorns[22]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/053_T08.json obj_T08_bonguri (param0 28); pokeheartgold/src/apricorn_tree_sys.c:37 sTreeApricorns[28]"
+     "pokeheartgold/files/fielddata/eventdata/zone_event/038_R37.json obj_R37_bonguri (param0 13); pokeheartgold/src/apricorn_tree_sys.c:22 sTreeApricorns[13] (its comment says Route 37)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/043_R44.json obj_R44_bonguri (param0 22); pokeheartgold/src/apricorn_tree_sys.c:31 sTreeApricorns[22] (its comment says Route 44)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/053_T08.json obj_T08_bonguri (param0 28); pokeheartgold/src/apricorn_tree_sys.c:37 sTreeApricorns[28] (its comment says Fuchsia City)"
     ],
     "source": "pokeheartgold/asm/unk_02031B0C.s:9 _020F68D0[0] (ApricornBox_GetKurtBall); pokeheartgold/include/constants/apricorns.h APRICORN_RED; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:133 ScrCmd_737 (Kurt hands over the ball)"
    },
@@ -4129,10 +4109,10 @@
      "Violet"
     ],
     "tree_sources": [
-     "pokeheartgold/files/fielddata/eventdata/zone_event/013_R08.json obj_R08_bonguri (param0 2); pokeheartgold/src/apricorn_tree_sys.c:11 sTreeApricorns[2]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/041_R42.json obj_R42_bonguri_3 (param0 20); pokeheartgold/src/apricorn_tree_sys.c:29 sTreeApricorns[20]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/045_R46.json obj_R46_bonguri_2 (param0 25); pokeheartgold/src/apricorn_tree_sys.c:34 sTreeApricorns[25]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/070_T22.json obj_T22_bonguri (param0 29); pokeheartgold/src/apricorn_tree_sys.c:38 sTreeApricorns[29]"
+     "pokeheartgold/files/fielddata/eventdata/zone_event/013_R08.json obj_R08_bonguri (param0 2); pokeheartgold/src/apricorn_tree_sys.c:11 sTreeApricorns[2] (its comment says Route 8)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/041_R42.json obj_R42_bonguri_3 (param0 20); pokeheartgold/src/apricorn_tree_sys.c:29 sTreeApricorns[20] (its comment says Route 42)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/045_R46.json obj_R46_bonguri_2 (param0 25); pokeheartgold/src/apricorn_tree_sys.c:34 sTreeApricorns[25] (its comment says Route 46)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/070_T22.json obj_T22_bonguri (param0 29); pokeheartgold/src/apricorn_tree_sys.c:38 sTreeApricorns[29] (its comment says Violet City)"
     ],
     "source": "pokeheartgold/asm/unk_02031B0C.s:10 _020F68D0[1] (ApricornBox_GetKurtBall); pokeheartgold/include/constants/apricorns.h APRICORN_YLW; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:133 ScrCmd_737 (Kurt hands over the ball)"
    },
@@ -4146,10 +4126,10 @@
      "Pewter"
     ],
     "tree_sources": [
-     "pokeheartgold/files/fielddata/eventdata/zone_event/027_R26.json obj_R26_bonguri (param0 4); pokeheartgold/src/apricorn_tree_sys.c:13 sTreeApricorns[4]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/037_R36.json obj_R36_bonguri (param0 12); pokeheartgold/src/apricorn_tree_sys.c:21 sTreeApricorns[12]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/038_R37.json obj_R37_bonguri_2 (param0 14); pokeheartgold/src/apricorn_tree_sys.c:23 sTreeApricorns[14]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/048_T03.json obj_T03_bonguri (param0 26); pokeheartgold/src/apricorn_tree_sys.c:35 sTreeApricorns[26]"
+     "pokeheartgold/files/fielddata/eventdata/zone_event/027_R26.json obj_R26_bonguri (param0 4); pokeheartgold/src/apricorn_tree_sys.c:13 sTreeApricorns[4] (its comment says Route 26)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/037_R36.json obj_R36_bonguri (param0 12); pokeheartgold/src/apricorn_tree_sys.c:21 sTreeApricorns[12] (its comment says Route 36)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/038_R37.json obj_R37_bonguri_2 (param0 14); pokeheartgold/src/apricorn_tree_sys.c:23 sTreeApricorns[14] (its comment says Route 37)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/048_T03.json obj_T03_bonguri (param0 26); pokeheartgold/src/apricorn_tree_sys.c:35 sTreeApricorns[26] (its comment says Pewter City)"
     ],
     "source": "pokeheartgold/asm/unk_02031B0C.s:11 _020F68D0[2] (ApricornBox_GetKurtBall); pokeheartgold/include/constants/apricorns.h APRICORN_BLU; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:133 ScrCmd_737 (Kurt hands over the ball)"
    },
@@ -4167,14 +4147,14 @@
      "Route 46"
     ],
     "tree_sources": [
-     "pokeheartgold/files/fielddata/eventdata/zone_event/016_R11.json obj_R11_bonguri (param0 3); pokeheartgold/src/apricorn_tree_sys.c:12 sTreeApricorns[3]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/030_R29.json obj_R29_bonguri (param0 5); pokeheartgold/src/apricorn_tree_sys.c:14 sTreeApricorns[5]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/031_R30.json obj_R30_bonguri (param0 6); pokeheartgold/src/apricorn_tree_sys.c:15 sTreeApricorns[6]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/036_R35.json obj_R35_bonguri (param0 11); pokeheartgold/src/apricorn_tree_sys.c:20 sTreeApricorns[11]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/040_R39.json obj_R39_bonguri (param0 17); pokeheartgold/src/apricorn_tree_sys.c:26 sTreeApricorns[17]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/041_R42.json obj_R42_bonguri_2 (param0 19); pokeheartgold/src/apricorn_tree_sys.c:28 sTreeApricorns[19]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/044_R45.json obj_R45_bonguri (param0 23); pokeheartgold/src/apricorn_tree_sys.c:32 sTreeApricorns[23]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/045_R46.json obj_R46_bonguri (param0 24); pokeheartgold/src/apricorn_tree_sys.c:33 sTreeApricorns[24]"
+     "pokeheartgold/files/fielddata/eventdata/zone_event/016_R11.json obj_R11_bonguri (param0 3); pokeheartgold/src/apricorn_tree_sys.c:12 sTreeApricorns[3] (its comment says Route 11)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/030_R29.json obj_R29_bonguri (param0 5); pokeheartgold/src/apricorn_tree_sys.c:14 sTreeApricorns[5] (its comment says Route 29)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/031_R30.json obj_R30_bonguri (param0 6); pokeheartgold/src/apricorn_tree_sys.c:15 sTreeApricorns[6] (its comment says Route 30)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/036_R35.json obj_R35_bonguri (param0 11); pokeheartgold/src/apricorn_tree_sys.c:20 sTreeApricorns[11] (its comment says Route 35)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/040_R39.json obj_R39_bonguri (param0 17); pokeheartgold/src/apricorn_tree_sys.c:26 sTreeApricorns[17] (its comment says Route 39)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/041_R42.json obj_R42_bonguri_2 (param0 19); pokeheartgold/src/apricorn_tree_sys.c:28 sTreeApricorns[19] (its comment says Route 42)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/044_R45.json obj_R45_bonguri (param0 23); pokeheartgold/src/apricorn_tree_sys.c:32 sTreeApricorns[23] (its comment says Route 45)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/045_R46.json obj_R46_bonguri (param0 24); pokeheartgold/src/apricorn_tree_sys.c:33 sTreeApricorns[24] (its comment says Route 46)"
     ],
     "source": "pokeheartgold/asm/unk_02031B0C.s:12 _020F68D0[3] (ApricornBox_GetKurtBall); pokeheartgold/include/constants/apricorns.h APRICORN_GRN; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:133 ScrCmd_737 (Kurt hands over the ball)"
    },
@@ -4188,10 +4168,10 @@
      "Route 2 East"
     ],
     "tree_sources": [
-     "pokeheartgold/files/fielddata/eventdata/zone_event/031_R30.json obj_R30_bonguri_2 (param0 7); pokeheartgold/src/apricorn_tree_sys.c:16 sTreeApricorns[7]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/034_R33.json obj_R33_bonguri (param0 9); pokeheartgold/src/apricorn_tree_sys.c:18 sTreeApricorns[9]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/041_R42.json obj_R42_bonguri (param0 18); pokeheartgold/src/apricorn_tree_sys.c:27 sTreeApricorns[18]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/370_R02R0101.json obj_R02R0101_bonguri (param0 1); pokeheartgold/src/apricorn_tree_sys.c:10 sTreeApricorns[1]"
+     "pokeheartgold/files/fielddata/eventdata/zone_event/031_R30.json obj_R30_bonguri_2 (param0 7); pokeheartgold/src/apricorn_tree_sys.c:16 sTreeApricorns[7] (its comment says Route 30)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/034_R33.json obj_R33_bonguri (param0 9); pokeheartgold/src/apricorn_tree_sys.c:18 sTreeApricorns[9] (its comment says Route 33)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/041_R42.json obj_R42_bonguri (param0 18); pokeheartgold/src/apricorn_tree_sys.c:27 sTreeApricorns[18] (its comment says Route 42)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/370_R02R0101.json obj_R02R0101_bonguri (param0 1); pokeheartgold/src/apricorn_tree_sys.c:10 sTreeApricorns[1] (its comment says Route 2 North)"
     ],
     "source": "pokeheartgold/asm/unk_02031B0C.s:13 _020F68D0[4] (ApricornBox_GetKurtBall); pokeheartgold/include/constants/apricorns.h APRICORN_PNK; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:133 ScrCmd_737 (Kurt hands over the ball)"
    },
@@ -4204,9 +4184,9 @@
      "Azalea"
     ],
     "tree_sources": [
-     "pokeheartgold/files/fielddata/eventdata/zone_event/039_R38.json obj_R38_bonguri (param0 16); pokeheartgold/src/apricorn_tree_sys.c:25 sTreeApricorns[16]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/048_T03.json obj_T03_bonguri_2 (param0 27); pokeheartgold/src/apricorn_tree_sys.c:36 sTreeApricorns[27]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/071_T23.json obj_T23_bonguri (param0 30); pokeheartgold/src/apricorn_tree_sys.c:39 sTreeApricorns[30]"
+     "pokeheartgold/files/fielddata/eventdata/zone_event/039_R38.json obj_R38_bonguri (param0 16); pokeheartgold/src/apricorn_tree_sys.c:25 sTreeApricorns[16] (its comment says Route 38)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/048_T03.json obj_T03_bonguri_2 (param0 27); pokeheartgold/src/apricorn_tree_sys.c:36 sTreeApricorns[27] (its comment says Pewter City)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/071_T23.json obj_T23_bonguri (param0 30); pokeheartgold/src/apricorn_tree_sys.c:39 sTreeApricorns[30] (its comment says Azalea Town)"
     ],
     "source": "pokeheartgold/asm/unk_02031B0C.s:14 _020F68D0[5] (ApricornBox_GetKurtBall); pokeheartgold/include/constants/apricorns.h APRICORN_WHT; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:133 ScrCmd_737 (Kurt hands over the ball)"
    },
@@ -4221,35 +4201,40 @@
      "Route 43"
     ],
     "tree_sources": [
-     "pokeheartgold/files/fielddata/eventdata/zone_event/006_R01.json obj_R01_bonguri (param0 0); pokeheartgold/src/apricorn_tree_sys.c:9 sTreeApricorns[0]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/032_R31.json obj_R31_bonguri (param0 8); pokeheartgold/src/apricorn_tree_sys.c:17 sTreeApricorns[8]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/034_R33.json obj_R33_bonguri_2 (param0 10); pokeheartgold/src/apricorn_tree_sys.c:19 sTreeApricorns[10]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/038_R37.json obj_R37_bonguri_3 (param0 15); pokeheartgold/src/apricorn_tree_sys.c:24 sTreeApricorns[15]",
-     "pokeheartgold/files/fielddata/eventdata/zone_event/042_R43.json obj_R43_bonguri (param0 21); pokeheartgold/src/apricorn_tree_sys.c:30 sTreeApricorns[21]"
+     "pokeheartgold/files/fielddata/eventdata/zone_event/006_R01.json obj_R01_bonguri (param0 0); pokeheartgold/src/apricorn_tree_sys.c:9 sTreeApricorns[0] (its comment says Route 1)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/032_R31.json obj_R31_bonguri (param0 8); pokeheartgold/src/apricorn_tree_sys.c:17 sTreeApricorns[8] (its comment says Route 31)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/034_R33.json obj_R33_bonguri_2 (param0 10); pokeheartgold/src/apricorn_tree_sys.c:19 sTreeApricorns[10] (its comment says Route 33)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/038_R37.json obj_R37_bonguri_3 (param0 15); pokeheartgold/src/apricorn_tree_sys.c:24 sTreeApricorns[15] (its comment says Route 37)",
+     "pokeheartgold/files/fielddata/eventdata/zone_event/042_R43.json obj_R43_bonguri (param0 21); pokeheartgold/src/apricorn_tree_sys.c:30 sTreeApricorns[21] (its comment says Route 43)"
     ],
     "source": "pokeheartgold/asm/unk_02031B0C.s:15 _020F68D0[6] (ApricornBox_GetKurtBall); pokeheartgold/include/constants/apricorns.h APRICORN_BLK; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0874_T23R0501.s:133 ScrCmd_737 (Kurt hands over the ball)"
    }
   ]
  },
  "notes": [
-  "crystal: no Safari Ball item. SAFARI_BALL is only an alias of item $08 (MOON_STONE) under 'leftovers from red' (pokecrystal/constants/item_constants.asm:318).",
-  "emerald: the Dive Ball works anywhere; its bonus (35 vs 10, i.e. x3.5) applies only when the map type is MAP_TYPE_UNDERWATER (pokeemerald/src/battle_script_commands.c:9947 Cmd_handleballthrow).",
+  "crystal: no Safari Ball item. SAFARI_BALL is only a constant equal to item $08 (MOON_STONE), under the comment 'leftovers from red' (pokecrystal/constants/item_constants.asm:318).",
+  "emerald: sPrizeListLuxuryBall1 (pokeemerald/src/trainer_hill.c:145) has the ITEM_LUXURY_BALL as its grand prize, but the source's own notes in GetPrizeItemId (pokeemerald/src/trainer_hill.c:1026) list only sPrizeListBrickBreak, sPrizeListElixir2, sPrizeListGigaDrain, sPrizeListSunnyDay as reachable, so it isn't listed as a way",
+  "emerald: sPrizeListLuxuryBall2 (pokeemerald/src/trainer_hill.c:156) has the ITEM_LUXURY_BALL as its grand prize, but the source's own notes in GetPrizeItemId (pokeemerald/src/trainer_hill.c:1026) list only sPrizeListBrickBreak, sPrizeListElixir2, sPrizeListGigaDrain, sPrizeListSunnyDay as reachable, so it isn't listed as a way",
+  "emerald: the Dive Ball can be thrown anywhere; its multiplier is 35 when the map type is MAP_TYPE_UNDERWATER and 10 elsewhere (pokeemerald/src/battle_script_commands.c:9947 Cmd_handleballthrow), and the catch formula divides it by 10 (pokeemerald/src/battle_script_commands.c:9987).",
   "firered: src/shop.c has no Premier Ball bonus (no ITEM_PREMIER_BALL anywhere in the shop code); buying 10 Poké Balls gives nothing extra.",
   "platinum: no Park Ball item. generated/items.txt has no ITEM_PARK_BALL; the Pal Park's ball button runs the Safari throw (pokeplatinum/src/battle/battle_controller_player.c:377 PLAYER_INPUT_PAL_PARK_BALL) and a Pokémon caught there keeps the ball it already had (MON_DATA_POKEBALL, pokeplatinum/src/battle/battle_lib.c:6245).",
-  "heartgold: ways from script files that check the game version (HeartGold vs SoulSilver): master (scr_seq_0843_T20R0101.s)"
+  "heartgold: no ball way found here sits after a GetGameVersion check in its script entry, and the mart tables, item-ball and hidden-item tables and Kurt's table have no HeartGold/SoulSilver switch; the same ways apply to SoulSilver as far as these sources show."
  ],
  "gaps": [
-  "crystal: pokecrystal/maps/GoldenrodUnderground.asm:181 opens 0, which has no list in data/items/marts.asm",
   "emerald: item ball script pokeemerald/data/scripts/item_ball_scripts.inc:530 AquaHideout_B2F_EventScript_ItemMasterBall (ITEM_MASTER_BALL) isn't used by any map object (the source marks it Unused)",
   "emerald: item ball script pokeemerald/data/scripts/item_ball_scripts.inc:542 Route119_EventScript_ItemNestBall (ITEM_NEST_BALL) isn't used by any map object",
   "emerald: the Battle Pyramid's own Pickup table (src/battle_pyramid.c, used by Cmd_pickup there) wasn't read",
   "firered: dive is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)",
-  "firered: luxury is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)",
   "firered: premier is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)",
+  "platinum: pokeplatinum/res/field/scripts/scripts_celestic_town_northwest_house.s:18 CelesticTownNorthwestHouse_Vendor_Unused is a script entry that no event or init script of the map runs; skipped",
+  "platinum: pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:23 PokemonLeagueSouthPokecenter1F_VendorCommon_Unused is a script entry that no event or init script of the map runs; skipped",
+  "platinum: pokeplatinum/res/field/scripts/scripts_pokemon_league_south_pokecenter_1f.s:27 PokemonLeagueSouthPokecenter1F_VendorSpecial_Unused is a script entry that no event or init script of the map runs; skipped",
   "platinum: hidden item pokeplatinum/include/data/field/hidden_items.h:256 FLAG_OBTAINED_HIDDEN_MT_CORONET_4F_ROOMS_1_AND_2_ULTRA_BALL isn't placed by any event file",
-  "platinum: pokeplatinum/res/field/scripts/scripts_unk_1087.s has ball or mart lines but no map header uses it (skipped)",
+  "platinum: pokeplatinum/res/field/scripts/scripts_unk_1087.s has ball or mart lines but no map header uses it; skipped",
+  "platinum: pokeplatinum/res/field/scripts/scripts_unused_resort_area_mart.s has ball or mart lines but its only map header (MAP_HEADER_UNUSED_RESORT_AREA_MART) is named unused and no warp or script leads there; skipped",
   "platinum: cherish is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)",
-  "heartgold: 35 item-giving script lines take the item from a variable the script doesn't set nearby, so which item isn't known from the script alone (e.g. pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0010_D02R0104.s:649, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0029_D23R0101.s:875, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0123_D49R0101.s:694, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0123_D49R0101.s:704)",
+  "heartgold: 26 item-giving script lines (files/fielddata/script/scr_seq/) get the item from a variable filled elsewhere (C code, a menu, a calling script), so the scripts alone don't say which item; none of them was counted: scr_seq_0003.s:626 (unset), scr_seq_0003.s:650 (unset), scr_seq_0010_D02R0104.s:649 (VAR_SPECIAL_x8008/unset), scr_seq_0076_D32.s:575 (unset), scr_seq_0094_D37R0102.s:520 (unset), scr_seq_0123_D49R0101.s:694 (VAR_SPECIAL_x8001), scr_seq_0123_D49R0101.s:704 (unset), scr_seq_0141.s:1817 (VAR_SPECIAL_x8008/unset), scr_seq_0144.s:160 (@ScrCmd_811), scr_seq_0145.s:538 (VAR_SPECIAL_x8000/unset), scr_seq_0146.s:950 (VAR_SPECIAL_x8006), scr_seq_0151.s:226 (VAR_BUG_CONTEST_HELD_PRIZE), scr_seq_0151.s:323 (VAR_TEMP_x4001), scr_seq_0181_R05R0202.s:55 (TM_EXPLOSION), scr_seq_0232_R32.s:225 (unset), scr_seq_0263.s:149 (VAR_TEMP_x4000), scr_seq_0263.s:169 (VAR_TEMP_x4002), scr_seq_0263.s:189 (VAR_TEMP_x4004), scr_seq_0794_T07R0106.s:112 (VAR_SPECIAL_x8001), scr_seq_0794_T07R0106.s:122 (unset), scr_seq_0812_T08R0201.s:566 (VAR_SPECIAL_x8006), scr_seq_0896_T25R0601.s:202 (VAR_SPECIAL_x8001), scr_seq_0904_T25R1006.s:599 (VAR_SPECIAL_x8001), scr_seq_0904_T25R1006.s:609 (unset), scr_seq_0938_T29.s:487 (unset), scr_seq_0953.s:1606 (VAR_SPECIAL_RESULT/unset)",
+  "heartgold: the scratch-off card prizes (scr_seq_0263 GetScratchOffPrize; filled by overlay_87, which is not decompiled to named items) and the Pokéwalker weren't read",
   "heartgold: dive is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)",
   "heartgold: cherish is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)"
  ]

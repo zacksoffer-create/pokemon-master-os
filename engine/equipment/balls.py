@@ -299,13 +299,26 @@ def check():
 
 
 # --- the record ---------------------------------------------------------------------------------------------------
+def _said_of(acq):
+    """acquire.py's notes and gaps ("<game>: ...") by ball and game, for the ball page's How you get it."""
+    out = {}
+    for kind, items in (("note", acq.get("notes", [])), ("gap", acq.get("gaps", []))):
+        for text in items:
+            game, _, rest = text.partition(": ")
+            for bid, name, *_ in BALLS:
+                if (re.search(rf"\bITEM_{bid.upper()}_BALL\b|\b{re.escape(name)}\b", rest) or rest.startswith(f"{bid} is in the item list")
+                        or bid == "safari" and "SAFARI_BALL" in rest):
+                    out.setdefault(bid, {}).setdefault(game, []).append({"kind": kind, "says": rest})
+    return out
+
+
 def build():
     desc = descriptions()
     acq = {}
     if os.path.exists(ACQ):
         with open(ACQ, encoding="utf-8") as fh:
             acq = json.load(fh)
-    balls = []
+    balls, said = [], _said_of(acq)
     for bid, name, pkhex, gen, cat, games, tags, related in BALLS:
         mech = []
         for era in ("gen1", "crystal", "gen3", "platinum", "hgss"):
@@ -321,6 +334,7 @@ def build():
         balls.append({"id": bid, "name": name, "pkhex": pkhex, "introduced": gen, "category": cat, "category_name": CATEGORY[cat],
                       "games": {g: {"name": games[g] or name} for g in games}, "tags": tags, "related": related,
                       "apricorn": APRICORN.get(bid), "mechanics": mech, "descriptions": desc[bid], "acquisition": ways,
+                      "acquisition_notes": said.get(bid, {}),
                       "art": {"sprite": f"items/{bid}-ball.png" if bid != "poke" else "items/poke-ball.png",
                               "official": f"items/dream-world/{bid}-ball.png" if bid not in APRICORN and bid not in ("sport", "park", "cherish") else None},
                       "creative": {"design": design, "interior": interior, "class": "Blackthorn conceptual interpretation"}})
@@ -328,7 +342,7 @@ def build():
                      "acquisition from equipment/acquire.py; descriptions are the games' own words; creative fields are Blackthorn's.",
             "formula": {e: {"name": ERA_NAME[e], "says": FORMULA[e], "source": SRC[e]} for e in FORMULA},
             "era_of_game": ERA, "games": GAMES, "categories": CATEGORY, "balls": balls,
-            "apricorns": acq.get("apricorns", {}), "acquisition_gaps": acq.get("gaps", []), "acquisition_commits": acq.get("commits", {})}
+            "apricorns": acq.get("apricorns", {}), "acquisition_gaps": acq.get("gaps", []), "acquisition_notes": acq.get("notes", []), "acquisition_commits": acq.get("commits", {})}
 
 
 def main():

@@ -305,3 +305,11 @@ Poké Balls and Equipment sit under Pokédex & Reference; your ball shows on eac
 - **Why:** They're reference libraries first; the personal side lives on your Pokémon.
 - **See it:** `#/balls` (The menu)
 - **Could instead:** a sixth space for Equipment; under My World
+
+### A-38 · How you get each ball (D-070)
+
+Read from each game's own scripts, marts, item balls, hidden items, phone gifts, prize tables and Kurt's table at the pinned commits (1,132 ways, each citing its file and line). Not counted: HeartGold's 26 give lines whose item is set elsewhere, the scratch-off prizes, the Pokéwalker and Emerald's Battle Pyramid Pickup. Where nothing was found (FireRed's Dive and Premier Balls, HeartGold's Dive Ball, the Cherish Ball) the page says so. How you get each piece of gear isn't read yet.
+
+- **Why:** The spec asks for acquisition that's accurate per game; the code is exact, and saying what wasn't read keeps a gap from looking like a fact.
+- **See it:** `#/ball/luxury?g=emerald` (The Luxury Ball in Emerald)
+- **Could instead:** fill the gaps from Bulbapedia, labelled as such; read the gear's gifts the same way

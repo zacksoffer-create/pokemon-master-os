@@ -12,6 +12,7 @@
 var GR = {calc: {}};
 var BALL_GAMES = ['crystal', 'firered', 'emerald', 'platinum', 'heartgold'];
 var HOW_NAME = {shop: 'Bought', gift: 'Given', field: 'Found', craft: 'Crafted', other: 'Other'};
+var ORIGIN_VERB = {shop: 'bought at', gift: 'given at', field: 'found at', craft: 'made at', other: 'got at'};
 var STATUS_OPTS = [['', 'no status'], ['sleep', 'asleep'], ['freeze', 'frozen'], ['paralysis', 'paralyzed'], ['poison', 'poisoned'], ['burn', 'burned']];
 function gearReady() {
   if (!S.gearP) S.gearP = Promise.all([recordsReady(), API.data('equipment')]).then(function (r) { if (!Gear.ready()) Gear.init(r[1]); return true; })
@@ -102,7 +103,7 @@ function ballPage(id, query) {
         '<div class="tiny muted" style="margin-top:6px">' + chip('confirmed', 'forest') + ' from the game\'s catch code: ' + esc(mech.source) + '</div>' : '<div class="small muted">No mechanics on record for this game.</div>') +
       (b.descriptions[game] || b.descriptions[game === 'firered' ? 'emerald' : game] ? '<div class="small" style="margin-top:10px">The game says: <i>"' + esc(b.descriptions[game] || b.descriptions.emerald) + '"</i></div>' : '') +
       '<details style="margin-top:10px"><summary class="tiny muted">How the catch is worked out in ' + esc(F.name) + '</summary><div class="small" style="margin-top:6px">' + esc(F.says) + '</div><div class="tiny muted">' + esc(F.source) + '</div></details>' +
-      '<div class="eyebrow" style="margin-top:16px">How you get it</div>' + waysHtml(waysOf(b, game), game) +
+      '<div class="eyebrow" style="margin-top:16px">How you get it</div>' + waysHtml(waysOf(b, game), game) + saidHtml(b, game) +
       '<div class="eyebrow" style="margin-top:16px">Try it</div><div id="bcalc">' + calcHtml(b, game) + '</div>',
       {eyebrow: 'Mechanics and information · from the games', tools: false, style: 'margin-top:16px', id: 'm-ball-info'});
     var craft = b.apricorn ? card('Kurt and the ' + esc(b.apricorn), apricornHtml(b), {eyebrow: 'Origins and craftsmanship', tools: false, style: 'margin-top:16px'}) : originHtml(b);
@@ -120,13 +121,30 @@ function ballPage(id, query) {
     return '<a class="link" href="#/balls">← Poké Ball Collection</a>' + hero + '<div class="grid" style="margin-top:16px"><div class="c8">' + info + interior + '</div><div class="c4">' + craft + design + related + yours + '</div></div>';
   });
 }
+function itemWords(t) {   // ITEM_ULTRA_BALL -> Ultra Ball
+  return t.replace(/\bITEM_([A-Z_]+)/g, function (m, x) { return x.toLowerCase().split('_').map(function (w) { return w === 'poke' ? 'Poké' : w.charAt(0).toUpperCase() + w.slice(1); }).join(' '); });
+}
+function whoName(who) {   // a person's name, or the script label's last part read as words; a label that only names an action is dropped
+  if (!who || /^\d+$/.test(who)) return null;
+  if (who.indexOf('_') < 0 && !/[a-z][A-Z]/.test(who)) return who.replace(/\d+$/, '');
+  var last = who.split('_').pop().replace(/\d+$/, '').replace(/^(Trainer|EventScript)/, '');
+  if (!last || /Give|Script|Set|Reward|Receive|Return|Complet|Shown|Record|Post|Got|Lucky|Ball/.test(last)) return null;
+  return last.replace(/([a-z])([A-Z])/g, '$1 $2');
+}
+function saidHtml(b, game) {   // what the extraction noticed about this ball in this game (equipment/acquire.py's notes and gaps)
+  var said = (b.acquisition_notes || {})[game === 'soulsilver' ? 'heartgold' : game] || [];
+  return said.map(function (x) { return '<div class="tiny muted" style="margin-top:6px"><b>' + (x.kind === 'gap' ? 'Not found' : 'From the code') + '</b>: ' + esc(x.says) + '</div>'; }).join('');
+}
 function waysHtml(ways, game) {
   if (!ways.length) return '<div class="small muted">The games\' scripts and marts show no way to get it in ' + esc(GAME_NAME[game]) + '.</div>';
   var by = {}; ways.forEach(function (w) { (by[w.how] = by[w.how] || []).push(w); });
   return Object.keys(HOW_NAME).filter(function (h) { return by[h]; }).map(function (h) {
-    return '<div class="small" style="margin-top:6px"><b>' + HOW_NAME[h] + '</b>: ' + by[h].map(function (w) {
-      var bits = [w.where, w.who ? 'from ' + w.who : null, w.qty && w.qty > 1 ? '×' + w.qty : null, w.price ? '₽' + w.price : null, w.requires || null, w.hidden ? 'hidden' : null, w.note || null].filter(Boolean);
-      return '<span title="' + esc(w.source || '') + '">' + esc(bits.join(' · ')) + '</span>'; }).join('; ') + '</div>'; }).join('') +
+    var one = function (w) {
+      var who = whoName(w.who), bits = [w.where, who ? 'from ' + who : null, w.qty && w.qty > 1 ? '×' + w.qty : null, w.price ? '₽' + w.price : null, w.requires || null, w.hidden ? 'hidden' : null, w.note ? itemWords(w.note) : null].filter(Boolean);
+      return '<span title="' + esc((w.who && w.who !== who ? w.who + ' · ' : '') + (w.source || '')) + '">' + esc(bits.join(' · ')) + '</span>'; };
+    var list = by[h], head = list.length > 5 ? list.slice(0, 4) : list, rest = list.length > 5 ? list.slice(4) : [];
+    return '<div class="small" style="margin-top:6px"><b>' + HOW_NAME[h] + '</b>: ' + head.map(one).join('; ') +
+      (rest.length ? '<details style="display:inline"><summary class="tiny muted" style="display:inline;cursor:pointer"> and ' + rest.length + ' more</summary> ' + rest.map(one).join('; ') + '</details>' : '') + '</div>'; }).join('') +
     '<div class="tiny muted" style="margin-top:4px">From the game\'s own map scripts and marts (hover one for its source).</div>';
 }
 function apricornHtml(b) {
@@ -138,7 +156,7 @@ function apricornHtml(b) {
 }
 function originHtml(b) {
   var first = BALL_GAMES.filter(function (g) { return b.games[g]; })[0], firstWays = waysOf(b, first);
-  return card('Where it comes from', '<div class="small">Introduced in Generation ' + b.introduced + '. ' + (firstWays.length ? 'In ' + esc(GAME_NAME[first]) + ', ' + esc(firstWays.slice(0, 2).map(function (w) { return (HOW_NAME[w.how] || w.how).toLowerCase() + ' ' + (w.where || ''); }).join('; ')) + '.' : '') + '</div>' +
+  return card('Where it comes from', '<div class="small">Introduced in Generation ' + b.introduced + '. ' + (firstWays.length ? 'In ' + esc(GAME_NAME[first]) + ' it\'s ' + esc(firstWays.slice(0, 2).map(function (w) { return (ORIGIN_VERB[w.how] || 'had at') + ' ' + (w.where || '') + (w.how === 'other' && w.note ? ' (' + w.note + ')' : ''); }).join('; or ')) + '.' : '') + '</div>' +
     '<div class="tiny muted" style="margin-top:6px">Materials and manufacture aren\'t documented in the games beyond what\'s here; Blackthorn doesn\'t invent them.</div>', {eyebrow: 'Origins', tools: false, style: 'margin-top:16px'});
 }
 function calcHtml(b, game) {

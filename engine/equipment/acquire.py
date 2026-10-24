@@ -9,23 +9,35 @@ never from the working tree, so a sparse or blobless clone works: blobs it lacks
 inputs are only read and parsed; nothing in them is run.
 
 What each game's extractor reads:
-- Crystal: maps/*.asm (`pokemart`, `giveitem`, `verbosegiveitem[var]`, `itemball`, `hiddenitem`, `fruittree`,
-  `special GiveParkBalls`/`BuenaPrize`), data/items/ (marts, rooftop sale, Buena prizes, Mom's purchases, Mystery Gift
-  pool, Apricorn table, fruit trees, prices in attributes.asm), maps/KurtsHouse.asm for Kurt's Apricorn -> ball.
-- Emerald, FireRed: data/maps/*/scripts.inc (`pokemart` lists, `giveitem`, `giveitem_msg`), data/maps/*/map.json (item
-  ball objects and hidden items), data/scripts/ (item balls, shared gifts), src/ (prices, the Premier Ball bonus in
-  shop.c, Safari Balls, Emerald's Lottery Corner, Pickup).
-- Platinum: include/data/mart_items.h with src/scrcmd_shop.c's badge tiers, res/field/scripts/ (marts, gifts, visible
-  items), include/data/field/hidden_items.h, res/field/events/ to place visible and hidden items on maps,
-  include/data/map_headers.h for which script and event file belongs to which map, res/items/data/*.json for prices.
-- HeartGold: src/scrcmd_mart.c (badge mart and the unnamed specialty marts), files/fielddata/script/scr_seq/ (gifts,
-  marts; item ids there are often plain numbers, read through include/constants/items.h), files/fielddata/eventdata/
-  zone_event/ (item balls, hidden items, Apricorn trees), include/constants/maps.h (map code -> map name),
-  asm/unk_02031B0C.s (Kurt's Apricorn -> ball table), src/apricorn_tree_sys.c, files/itemtool/itemdata/item_data.csv.
+- Crystal: maps/*.asm (`pokemart` with the checkevent tests and the clerk's object_event flag in front of it,
+  `giveitem`, `verbosegiveitem[var]`, `itemball`/`hiddenitem` with their object_event/bg_event, `fruittree`,
+  `special GiveParkBalls`/`BuenaPrize`/`UnlockMysteryGift`), data/items/ (marts, rooftop sale and bargain shop with
+  their own prices, Buena prizes, Mom's purchases, the Mystery Gift pool, the Apricorn table, fruit trees, prices in
+  attributes.asm), engine/items/mart.asm (which rooftop list applies), maps/KurtsHouse.asm (Kurt's Apricorn -> ball,
+  cross-checked with data/items/apricorn_balls.asm).
+- Emerald, FireRed: data/maps/*/scripts.inc (`pokemart` lists with the goto_if tests in front of them, `giveitem`,
+  `giveitem_msg`), data/maps/*/map.json (which item-ball scripts a map really places; hidden items),
+  data/scripts/ (item balls, shared gifts such as the contest hall), src/ (prices, the Premier Ball bonus in shop.c,
+  the Safari Ball count, Pickup, and the prize tables in C: Emerald's Lottery Corner, Lilycove Lady and Trainer Hill,
+  FireRed's Resort Gorgeous reward).
+- Platinum: include/data/mart_items.h with src/scrcmd_shop.c's badge tiers, res/field/scripts/ (marts, gifts, the
+  lottery, the Great Marsh entry, visible items), include/data/field/hidden_items.h, res/field/events/ (which
+  visible/hidden item and which script entry a map really uses), include/data/map_headers.h (which script and event
+  file belongs to which map), res/items/data/*.json (prices), src/ (Premier bonus, Safari count, Pickup, Pal Park).
+- HeartGold: src/scrcmd_mart.c (badge mart and the unnamed specialty marts, picked by VAR_SPECIAL_x8004) and
+  src/overlay_03/shop_menu.c (Poké Balls hidden until a flag), files/fielddata/script/scr_seq/ (gifts and marts: item
+  ids there are often plain numbers, read through include/constants/items.h; a small reader follows what the
+  VAR_SPECIAL_x80NN variables hold up to the give command, one jump deep, and records the raw tests in front of it),
+  files/fielddata/eventdata/zone_event/ (item balls, hidden items, Apricorn trees), include/constants/maps.h (map code
+  -> map name), include/constants/std_script.h, asm/unk_02031B0C.s (Kurt's Apricorn -> ball table),
+  src/apricorn_tree_sys.c, the phone gift scripts, src/ (Bug-Catching Contest, Safari, Pal Park, Pickup in asm/),
+  files/itemtool/itemdata/item_data.csv (prices). SoulSilver shares this data; a way whose script entry checks
+  GetGameVersion first is flagged.
 
-A way is {"how": shop|gift|field|craft|other, "where", "source": "<repo>/<path>:<line> <label>", ...}. What the source
-can't settle goes to "gaps", never into a guess. Place names are the map or label names made readable; the raw label
-stays in "source".
+A way is {"how": shop|gift|field|craft|other, "where", "source": "<repo>/<path>:<line> <label>", ...}, plus price,
+requires (badges), condition (the raw flag/variable tests), who, qty, note where they apply. What the source can't
+settle goes to "gaps", never into a guess; "notes" hold source-backed remarks (a ball that isn't an item, a missing
+bonus). Place names are the map or label names made readable; the raw label stays in "source".
 """
 import json
 import os
@@ -36,7 +48,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ENGINE = os.path.dirname(HERE)
 OUT = os.path.join(ENGINE, "data_manifest", "ball_acquisition.json")
-PRET = os.environ.get("PRET_DIR") or "/tmp/claude-0/-home-user/ec141e37-3c55-55e4-88d6-8cd37fdd0b67/scratchpad/pret"
+PRET = os.environ.get("PRET_DIR") or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "raw", "pret")
 COMMITS = {"pokecrystal": "5c877ef55197039c9676e8e3eec6d254b1c40fe8",
            "pokeemerald": "731ad5bfd6e6f265508d0efcca0ba42f9dcf5881",
            "pokefirered": "ce6406d8c2eaf46d543c8a2606de0c3cb1951982",
@@ -48,13 +60,14 @@ BALLS = ["poke", "great", "ultra", "master", "safari", "level", "lure", "moon", 
          "park", "net", "dive", "nest", "repeat", "timer", "luxury", "premier", "dusk", "heal", "quick", "cherish"]
 # item constant (without ITEM_) -> ball id. Crystal's PARK_BALL is the Bug-Catching Contest ball (HGSS's SPORT_BALL).
 BALL_CONST = {f"{b.upper()}_BALL": b for b in BALLS if b not in ("sport", "park")}
-BALL_CONST_CRYSTAL = {**{k: v for k, v in BALL_CONST.items()}, "PARK_BALL": "sport"}
+BALL_CONST_CRYSTAL = {**BALL_CONST, "PARK_BALL": "sport"}
 BALL_CONST_GEN4 = {**BALL_CONST, "SPORT_BALL": "sport", "PARK_BALL": "park"}
 APRICORN_NAME = {c: f"{c.capitalize()} Apricorn" for c in ("RED", "BLU", "YLW", "GRN", "WHT", "BLK", "PNK")}
 WORD = {"Elms": "Elm's", "Kurts": "Kurt's", "Birchs": "Birch's", "Oaks": "Oak's", "Bills": "Bill's", "Stevens": "Steven's",
         "Dept": "Dept.", "Mt": "Mt.", "Mr": "Mr.", "Pokecenter": "Pokémon Center", "Pokemon": "Pokémon", "Pokemart": "Poké Mart",
         "Pokeathalon": "Pokéathlon", "Pokeathlon": "Pokéathlon", "Hq": "HQ", "Tv": "TV", "Ss": "S.S.", "Pc": "PC", "Ne": "NE",
-        "Nw": "NW", "Se": "SE", "Sw": "SW", "Ii": "II"}
+        "Nw": "NW", "Se": "SE", "Sw": "SW", "Ii": "II", "OF": "of", "Of": "of", "And": "and", "AND": "and", "THE": "the",
+        "The": "the", "TO": "to", "To": "to"}
 
 
 # --- reading the repos ------------------------------------------------------------------------------------------------
@@ -153,7 +166,7 @@ def ball_of(const, table):
 
 def add(ways, ball, **way):
     if ball:
-        ways.setdefault(ball, []).append({k: v for k, v in way.items()})
+        ways.setdefault(ball, []).append(dict(way))
 
 
 def blocks(lines, label_re):
@@ -179,17 +192,20 @@ def crystal(repo):
     ways, gaps, notes = {}, [], []
     maps = repo.files("maps/", ".asm")
     data = ["constants/item_constants.asm", "constants/mart_constants.asm", "constants/script_constants.asm",
-            "data/items/attributes.asm", "data/items/marts.asm", "data/items/rooftop_sale.asm",
+            "data/items/attributes.asm", "data/items/marts.asm", "data/items/rooftop_sale.asm", "data/items/bargain_shop.asm",
             "data/items/buena_prizes.asm", "data/items/mom_phone.asm", "data/items/mystery_gift_items.asm",
             "data/items/apricorn_balls.asm", "data/items/fruit_trees.asm", "engine/items/mart.asm",
             "engine/events/bug_contest/contest.asm", "engine/events/mom_phone.asm"]
     repo.load(maps + data)
     consts = re.findall(r"^\s*const (\w+)", repo.read("constants/item_constants.asm"), re.M)
     present = {BALL_CONST_CRYSTAL[c] for c in consts if c in BALL_CONST_CRYSTAL}
-    for n, line in enumerate(repo.lines("constants/item_constants.asm"), 1):
-        if re.match(r"DEF SAFARI_BALL\s+EQU", line):
-            notes.append(f"crystal: no Safari Ball item. SAFARI_BALL is only an alias of item ${line.split('$')[1][:2]} "
-                         f"(MOON_STONE) under 'leftovers from red' ({repo.src('constants/item_constants.asm', n)}).")
+    item_lines = repo.lines("constants/item_constants.asm")
+    for n, line in enumerate(item_lines, 1):
+        m = re.match(r"DEF SAFARI_BALL\s+EQU (\$\w+)\s*;\s*(\w+)", line)
+        if m:
+            heading = next((l.strip("; ").strip() for l in reversed(item_lines[:n - 1]) if l.startswith(";")), "")
+            notes.append(f"crystal: no Safari Ball item. SAFARI_BALL is only a constant equal to item {m.group(1)} "
+                         f"({m.group(2)}), under the comment '{heading}' ({repo.src('constants/item_constants.asm', n)}).")
     price = crystal_prices(repo)
     crystal_marts(repo, maps, ways, gaps, price)
     crystal_field_and_gifts(repo, maps, ways, gaps)
@@ -246,13 +262,15 @@ def crystal_marts(repo, maps, ways, gaps, price):
     label_of = dict(zip(order, table))
     stock, cur = {}, None
     for n, line in enumerate(text.splitlines(), 1):
-        m = re.match(r"^(Mart\w+):", line)
+        m = re.match(r"^(\w+):", line)
         if m:
             cur = m.group(1)
             stock[cur] = []
             continue
+        if re.match(r"^\s*db -1", line):
+            cur = None                                          # end of this mart's list
         m = re.match(r"^\s*db (\w+)", line)
-        if cur and m and not m.group(1).isdigit() and m.group(1) != "-1":
+        if cur and m and not m.group(1).isdigit():
             stock[cur].append((m.group(1), n))
     roof = crystal_rooftop(repo, gaps)
     for path in maps:
@@ -263,11 +281,19 @@ def crystal_marts(repo, maps, ways, gaps, price):
             m = re.match(r"^\s*pokemart (MARTTYPE_\w+),\s*(\w+)", line)
             if not m:
                 continue
-            cond = crystal_condition(lines, i, owner)
+            cond = "; ".join(c for c in (crystal_condition(lines, i, owner), crystal_shown(lines, owner, i)) if c) or None
+            if m.group(1) == "MARTTYPE_BARGAIN":                # its own list and prices
+                for n, row in enumerate(repo.lines("data/items/bargain_shop.asm"), 1):
+                    b = re.match(r"^\s*dbw (\w+),\s*(\d+)", row)
+                    if b and ball_of(b.group(1), BALL_CONST_CRYSTAL):
+                        add(ways, ball_of(b.group(1), BALL_CONST_CRYSTAL), how="shop", where=place, price=int(b.group(2)),
+                            requires=None, condition=cond,
+                            source=f"{repo.src(path, i + 1, owner[i][0])}; {repo.src('data/items/bargain_shop.asm', n, 'BargainShopData')}")
+                continue
             if m.group(1) == "MARTTYPE_ROOFTOP":
                 for item, cost, n, which, when in roof:
                     add(ways, ball_of(item, BALL_CONST_CRYSTAL), how="shop", where=place, price=cost, requires=None,
-                        condition=f"rooftop sale ({when})",
+                        condition="; ".join(c for c in (f"rooftop sale ({when})", cond) if c),
                         source=f"{repo.src(path, i + 1, owner[i][0])}; {repo.src('data/items/rooftop_sale.asm', n, which)}")
                 continue
             label = label_of.get(m.group(2))
@@ -279,6 +305,16 @@ def crystal_marts(repo, maps, ways, gaps, price):
                     condition=cond, source=f"{repo.src(path, i + 1, owner[i][0])}; {repo.src('data/items/marts.asm', n, label)}")
 
 
+def crystal_shown(lines, owner, i):
+    """The NPC running this script is hidden while its object_event flag is set (Crystal object_event's last field)."""
+    script = cr_global(lines, owner, i)
+    for line in lines:
+        m = re.match(rf"^\s*object_event .*,\s*{re.escape(script or '')},\s*(\w+)\s*$", line) if script else None
+        if m and m.group(1) != "-1":
+            return f"NPC hidden while {m.group(1)} is set"
+    return None
+
+
 def crystal_rooftop(repo, gaps):
     """The Goldenrod rooftop sale's two lists and which one engine/items/mart.asm picks (before/after the Hall of Fame)."""
     when = {}
@@ -287,7 +323,8 @@ def crystal_rooftop(repo, gaps):
     flag = re.search(r"bit (STATUSFLAGS_HALL_OF_FAME_F)", body)
     later = re.findall(r"ld de, (RooftopSaleMart\d)", body)
     if first and flag and len(later) == 2:
-        when = {later[0]: f"before {flag.group(1)}", later[1]: f"after {flag.group(1)}"}
+        when = {later[0]: f"{flag.group(1)} not set, i.e. before the Hall of Fame",
+                later[1]: f"{flag.group(1)} set, i.e. after the Hall of Fame"}
     else:
         gaps.append("crystal: couldn't read which rooftop sale list engine/items/mart.asm RooftopSale uses when")
     rows, cur = [], None
@@ -342,13 +379,14 @@ def crystal_other(repo, maps, ways, gaps):
             if m:
                 specials.setdefault(m.group(1), []).append((path, i + 1))
     balls = re.search(r"DEF BUG_CONTEST_BALLS EQU (\d+)", repo.read("constants/script_constants.asm"))
+    give = next((k for k, l in enumerate(repo.lines("engine/events/bug_contest/contest.asm"), 1) if l.startswith("GiveParkBalls:")), None)
     for path, n in specials.get("GiveParkBalls", []):
         add(ways, "sport", how="other", where=humanize(os.path.basename(path)[:-4]),
             qty=int(balls.group(1)) if balls else None,
             note="Bug-Catching Contest entry: the gate officer gives the contest's Park Balls. GiveParkBalls sets the "
                  "wParkBallsRemaining counter (BUG_CONTEST_BALLS); they are not put in the Bag",
             source=f"{repo.src(path, n, 'special GiveParkBalls')}; "
-                   f"{repo.src('engine/events/bug_contest/contest.asm', 1, 'GiveParkBalls')}; "
+                   f"{repo.src('engine/events/bug_contest/contest.asm', give, 'GiveParkBalls')}; "
                    f"{repo.src('constants/script_constants.asm', None, 'BUG_CONTEST_BALLS')}")
     for n, line in enumerate(repo.lines("data/items/buena_prizes.asm"), 1):
         m = re.match(r"^\s*db (\w+),\s*(\d+)", line)
@@ -369,8 +407,9 @@ def crystal_other(repo, maps, ways, gaps):
     for n, line in enumerate(repo.lines("data/items/mystery_gift_items.asm"), 1):
         m = re.match(r"^\s*db (\w+)", line)
         if m and ball_of(m.group(1), BALL_CONST_CRYSTAL):
+            unlock = ", ".join(humanize(os.path.basename(p)[:-4]) for p, _ in specials.get("UnlockMysteryGift", []))
             add(ways, ball_of(m.group(1), BALL_CONST_CRYSTAL), how="other", where="Mystery Gift (link with another player)",
-                note="in the Mystery Gift item pool (unlocked at Goldenrod Dept. Store 5F)",
+                note="in the Mystery Gift item pool" + (f" (Mystery Gift is unlocked at {unlock})" if unlock else ""),
                 source=f"{repo.src('data/items/mystery_gift_items.asm', n, 'MysteryGiftItems')}"
                        + "".join(f"; {repo.src(p, at, 'special UnlockMysteryGift')}" for p, at in specials.get("UnlockMysteryGift", [])))
 
@@ -397,7 +436,7 @@ def crystal_kurt(repo, ways, gaps, maps):
         if m:
             table[m.group(1)] = (m.group(2), n)
     rows = []
-    trees = crystal_trees(repo, maps)
+    trees = crystal_trees(repo, maps, gaps)
     for code, label in goes.items():
         item, n = script.get(label, (None, None))
         t_item, t_n = table.get(code, (None, None))
@@ -415,7 +454,7 @@ def crystal_kurt(repo, ways, gaps, maps):
     return rows
 
 
-def crystal_trees(repo, maps):
+def crystal_trees(repo, maps, gaps):
     """FRUITTREE_* -> Apricorn (data/items/fruit_trees.asm, entries in constant order with the constant as a comment)."""
     consts = re.findall(r"^\s*const (FRUITTREE_\w+)", repo.read("constants/script_constants.asm"), re.M)
     rows = re.findall(r"^\s*db (\w+)\s*;\s*(\w+)", repo.read("data/items/fruit_trees.asm"), re.M)
@@ -423,6 +462,10 @@ def crystal_trees(repo, maps):
     for const, (item, comment) in zip(consts, rows):
         if const == f"FRUITTREE_{comment}":
             item_of[const] = item
+        else:
+            gaps.append(f"crystal: data/items/fruit_trees.asm's entry for {const} is commented {comment}; tree skipped")
+    if len(consts) != len(rows):
+        gaps.append(f"crystal: {len(consts)} FRUITTREE_ constants but {len(rows)} FruitTreeItems entries")
     out = {}
     for path in maps:
         for i, line in enumerate(repo.lines(path)):
@@ -446,7 +489,8 @@ def gen3(repo, game):
     items_h = "include/constants/items.h"
     src = ["src/shop.c", "src/safari_zone.c", "src/battle_script_commands.c"]
     src += ["src/data/items.h"] if repo.has("src/data/items.h") else ["src/data/items.json"]
-    src += ["src/lottery_corner.c"] if repo.has("src/lottery_corner.c") else []
+    src += [p for p in ("src/lottery_corner.c", "src/data/lilycove_lady.h", "src/trainer_hill.c", "src/field_specials.c")
+            if repo.has(p)]
     repo.load(scripts + jsons + [items_h] + src)
     present = {ball_of(c, BALL_CONST) for c in re.findall(r"\b(ITEM_[A-Z]+_BALL)\b", repo.read(items_h))} - {None}
     price = gen3_prices(repo)
@@ -479,10 +523,14 @@ def place_of_label(label):
 def gen3_condition(lines, i, owner):
     label, at = owner[i]
     conds = []
+    ops = {"eq": "==", "ne": "!=", "lt": "<", "le": "<=", "gt": ">", "ge": ">="}
     for line in lines:
         m = re.match(rf"^\s*(goto|call)_if_(set|unset)\s+(\w+),\s*{re.escape(label)}\s*$", line) if label else None
         if m:
             conds.append(f"{m.group(3)} {'set' if m.group(2) == 'set' else 'not set'}")
+        m = re.match(rf"^\s*(goto|call)_if_(eq|ne|lt|le|gt|ge)\s+(\w+),\s*(\w+),\s*{re.escape(label)}\s*$", line) if label else None
+        if m:
+            conds.append(f"{m.group(3)} {ops[m.group(2)]} {m.group(4)}")
     for j in range((at or 0) + 1, i):
         m = re.match(r"^\s*goto_if_(set|unset)\s+(\w+),\s*(\w+)", lines[j])
         if m and m.group(3) != label:
@@ -564,7 +612,8 @@ def gen3_gifts(repo, game, scripts, ways):
 
 def gen3_jumps_to(lines, label):
     """For a shared script: the lines that send the player to this label (switch cases and goto_if tests), raw."""
-    hits = [l.strip() for l in lines if label and re.search(rf"\b{re.escape(label)}\s*$", l) and not l.startswith(label)]
+    hits = [l.strip() for l in lines if label and re.search(rf"\b{re.escape(label)}\s*$", l) and not l.startswith(label)
+            and re.match(r"^\s*((goto|call)_if_\w+|case)\b", l)]
     return "; ".join(hits) or None
 
 
@@ -592,15 +641,26 @@ def gen3_other(repo, game, scripts, ways, gaps, notes):
         gaps.append(f"{game}: couldn't find the Safari Ball count in src/safari_zone.c")
     if repo.has("src/lottery_corner.c"):
         gen3_lottery(repo, game, scripts, ways)
+    if repo.has("src/data/lilycove_lady.h"):
+        gen3_lilycove_lady(repo, scripts, ways)
+    if repo.has("src/trainer_hill.c"):
+        gen3_trainer_hill(repo, ways, notes)
+    if game == "firered":
+        gen3_resort_gorgeous(repo, scripts, ways)
     pickup(repo, game, "src/battle_script_commands.c", r"sPickupItems\[\]\s*=\s*\{(.*?)\};", BALL_CONST, ways)
     if game == "emerald":
         gaps.append("emerald: the Battle Pyramid's own Pickup table (src/battle_pyramid.c, used by Cmd_pickup there) "
                     "wasn't read")
         bsc = repo.lines("src/battle_script_commands.c")
         n = next((i for i, l in enumerate(bsc) if "case ITEM_DIVE_BALL" in l), None)
-        if n is not None and "MAP_TYPE_UNDERWATER" in " ".join(bsc[n:n + 4]):
-            notes.append("emerald: the Dive Ball works anywhere; its bonus (35 vs 10, i.e. x3.5) applies only when the "
-                         f"map type is MAP_TYPE_UNDERWATER ({repo.src('src/battle_script_commands.c', n + 1, 'Cmd_handleballthrow')}).")
+        mult = re.findall(r"ballMultiplier = (\d+);", " ".join(bsc[n:n + 5])) if n is not None else []
+        odds = next((i for i, l in enumerate(bsc) if "catchRate * ballMultiplier / 10" in l), None)
+        if n is not None and "MAP_TYPE_UNDERWATER" in " ".join(bsc[n:n + 4]) and len(mult) == 2:
+            notes.append(f"emerald: the Dive Ball can be thrown anywhere; its multiplier is {mult[0]} when the map type is "
+                         f"MAP_TYPE_UNDERWATER and {mult[1]} elsewhere "
+                         f"({repo.src('src/battle_script_commands.c', n + 1, 'Cmd_handleballthrow')})"
+                         + (f", and the catch formula divides it by 10 ({repo.src('src/battle_script_commands.c', odds + 1)})"
+                            if odds is not None else "") + ".")
 
 
 def gen3_lottery(repo, game, scripts, ways):
@@ -619,6 +679,79 @@ def gen3_lottery(repo, game, scripts, ways):
                 note=f"Lottery Corner prize: a Pokémon's OT ID matching {digits} digits of the day's number" if digits
                 else "Lottery Corner prize",
                 source=f"{repo.src('src/lottery_corner.c', line, 'sLotteryPrizes')}; {repo.src(p, at, 'special PickLotteryCornerTicket')}")
+
+
+def gen3_lilycove_lady(repo, scripts, ways):
+    """Emerald's Lilycove Lady: the Quiz Lady's and the Favor Lady's prize tables (src/data/lilycove_lady.h)."""
+    path = "src/data/lilycove_lady.h"
+    text = repo.read(path)
+    at = [p for p in scripts if "LilycoveLady" in repo.read(p) or "QuizLady" in repo.read(p)]
+    where = " / ".join(humanize(map_of(p)) for p in at if map_of(p)) or "Lilycove City"
+    for name, who in (("sQuizLadyPrizes", "the Quiz Lady"), ("sFavorLadyPrizes", "the Favor Lady")):
+        m = re.search(rf"{name}\[\]\s*=\s*\{{(.*?)\}};", text, re.S)
+        if not m:
+            continue
+        line = text[:m.start()].count("\n") + 1
+        for item in dict.fromkeys(re.findall(r"(ITEM_\w+)", m.group(1))):
+            add(ways, ball_of(item, BALL_CONST), how="other", where=where, qty=1,
+                note=f"one of {who}'s prizes",
+                source=repo.src(path, line, name))
+
+
+def gen3_trainer_hill(repo, ways, notes):
+    """Emerald's Trainer Hill prizes (src/trainer_hill.c GetPrizeItemId): which slot a time earns, and the lists."""
+    path = "src/trainer_hill.c"
+    text = repo.read(path)
+    lines = text.splitlines()
+    lists = {m.group(1): (re.findall(r"(ITEM_\w+)", m.group(2)), text[:m.start()].count("\n") + 1)
+             for m in re.finditer(r"static const u16 (sPrizeList\w+)\[\]\s*=\s*\{(.*?)\};", text)}
+    start = text.index("static u16 GetPrizeItemId(void)\n{")
+    body = text[start:].split("\n}\n", 1)[0]
+    base = text[:start].count("\n") + 1
+    slots, low = {}, 0
+    for m in re.finditer(r"(?:if|else if) \(minutes < (\d+)\)\s*\n\s*id = (\d+);|else\s*\n\s*id = (\d+);", body):
+        if m.group(3):
+            slots[int(m.group(3))] = f"{low}+ minutes"
+        else:
+            slots[int(m.group(2))] = f"under {m.group(1)} minutes" if low == 0 else f"{low} to {m.group(1)} minutes"
+            low = int(m.group(1))
+    sets = [re.findall(r"(sPrizeList\w+)", m.group(1)) for m in
+            re.finditer(r"static const u16 \*const sPrizeLists\d\[\w+\]\s*=\s*\{(.*?)\};", text, re.S)]
+    reach = {(int(a), int(b)) for a, b in re.findall(r"//\s*sPrizeListSets\[(\d)\]\[(\d)\]", body)}
+    reach_names = {sets[a][b] for a, b in reach if a < len(sets) and b < len(sets[a])}
+    done = set()
+    for name, (items, line) in lists.items():
+        for slot, item in enumerate(items):
+            ball = ball_of(item, BALL_CONST)
+            if not ball or (ball, slot, slot == 0 and name) in done:
+                continue
+            if slot == 0 and reach and name not in reach_names:
+                notes.append(f"emerald: {name} ({repo.src(path, line)}) has the {item} as its grand prize, but the "
+                             f"source's own notes in GetPrizeItemId ({repo.src(path, base)}) list only "
+                             f"{', '.join(sorted(reach_names))} as reachable, so it isn't listed as a way")
+                continue
+            done.add((ball, slot, slot == 0 and name))
+            every = all(len(v[0]) > slot and v[0][slot] == item for v in lists.values())
+            add(ways, ball, how="other", where="Trainer Hill", qty=1,
+                note=f"Trainer Hill prize for a challenge time of {slots.get(slot, f'slot {slot}')}"
+                     + ("" if slot else f" ({name})") + (" (the same in every prize list)" if slot and every else ""),
+                source=f"{repo.src(path, line, name)}; {repo.src(path, base, 'GetPrizeItemId')}")
+
+
+def gen3_resort_gorgeous(repo, scripts, ways):
+    """FireRed's Resort Gorgeous reward (src/field_specials.c SampleResortGorgeousReward)."""
+    path = "src/field_specials.c"
+    lines = repo.lines(path)
+    for i, line in enumerate(lines):
+        m = re.search(r"return (ITEM_\w+);", line)
+        if m and ball_of(m.group(1), BALL_CONST) and "SampleResortGorgeousReward" in "\n".join(lines[max(0, i - 6):i]):
+            cond = re.search(r"\(Random\(\) % (\d+)\) >= (\d+)", lines[i - 1])
+            share = f"{int(cond.group(1)) - int(cond.group(2))} in {cond.group(1)}" if cond else "some"
+            at = [(p, k + 1) for p in scripts for k, l in enumerate(repo.lines(p)) if "special SampleResortGorgeousMonAndReward" in l]
+            where = " / ".join(dict.fromkeys(humanize(map_of(p)) for p, _ in at)) or "Resort Gorgeous"
+            add(ways, ball_of(m.group(1), BALL_CONST), how="other", where=where, qty=1,
+                note=f"reward for showing the requested Pokémon; {share} requests carry this ball (SampleResortGorgeousReward)",
+                source="; ".join([repo.src(path, i + 1, "SampleResortGorgeousReward")] + [repo.src(p, k) for p, k in at]))
 
 
 def pickup(repo, game, path, pattern, table, ways, extra=""):
@@ -652,6 +785,8 @@ def platinum(repo):
     if "ITEM_PARK_BALL" not in items:
         notes.append(platinum_park_note(repo))
     headers = platinum_headers(repo)
+    headers["unused"] = platinum_unused_entries(repo, scripts, headers)
+    platinum_drop_unused_maps(repo, scripts, events, headers, gaps)
     price = {f"ITEM_{os.path.basename(p)[:-5].upper()}": json.loads(repo.read(p)).get("price")
              for p in repo.files("res/items/data/", ".json")}
     platinum_marts(repo, scripts, headers, ways, gaps, price)
@@ -662,7 +797,9 @@ def platinum(repo):
         if s not in headers["scripts"] and os.path.basename(s) not in ("scripts_visible_items.s", "scripts_hidden_items.s"):
             text = repo.read(s)
             if re.search(r"ITEM_\w+_BALL|PokeMart", text):
-                gaps.append(f"platinum: {repo.src(s)} has ball or mart lines but no map header uses it (skipped)")
+                why = (f"its only map header ({', '.join(headers['dropped'][s])}) is named unused and no warp or script "
+                       "leads there" if s in headers["dropped"] else "no map header uses it")
+                gaps.append(f"platinum: {repo.src(s)} has ball or mart lines but {why}; skipped")
     return present, ways, gaps, notes, None
 
 
@@ -670,11 +807,12 @@ def platinum_park_note(repo):
     ctl = repo.lines("src/battle/battle_controller_player.c")
     lib = repo.lines("src/battle/battle_lib.c")
     a = next((i + 1 for i, l in enumerate(ctl) if "PLAYER_INPUT_PAL_PARK_BALL" in l), None)
-    b = next((i + 1 for i, l in enumerate(lib) if "BATTLE_TYPE_PAL_PARK" in l and "if" in l), None)
+    b = next((i + 1 for i, l in enumerate(lib) if "BATTLE_TYPE_PAL_PARK" in l and "if" in l
+              and "MON_DATA_POKEBALL" in lib[i + 1]), None)
+    keeps = (" and a Pokémon caught there keeps the ball it already had (MON_DATA_POKEBALL, "
+             f"{repo.src('src/battle/battle_lib.c', b)})") if b else ""
     return ("platinum: no Park Ball item. generated/items.txt has no ITEM_PARK_BALL; the Pal Park's ball button runs the "
-            f"Safari throw ({repo.src('src/battle/battle_controller_player.c', a, 'PLAYER_INPUT_PAL_PARK_BALL')}) and a "
-            "Pokémon caught there keeps the ball it already had (MON_DATA_POKEBALL, "
-            f"{repo.src('src/battle/battle_lib.c', b)}).")
+            f"Safari throw ({repo.src('src/battle/battle_controller_player.c', a, 'PLAYER_INPUT_PAL_PARK_BALL')}){keeps}.")
 
 
 def platinum_headers(repo):
@@ -688,6 +826,59 @@ def platinum_headers(repo):
         if e:
             out["events"].setdefault(f"res/field/events/{e.group(1)}.json", []).append(m.group(1))
     return out
+
+
+def platinum_drop_unused_maps(repo, scripts, events, headers, gaps):
+    """Leave out maps the decomp names UNUSED that no warp event and no script sends the player to."""
+    into = set()
+    for ev in events:
+        into |= {w.get("dest_header_id") for w in json.loads(repo.read(ev)).get("warp_events", [])}
+    for path in scripts:
+        into |= set(re.findall(r"\b(MAP_HEADER_\w+)", repo.read(path)))
+    headers["dropped"] = {}
+    for kind in ("scripts", "events"):
+        for path, names in list(headers[kind].items()):
+            keep = [n for n in names if "UNUSED" not in n or n in into]
+            if kind == "scripts" and len(keep) < len(names):
+                headers["dropped"][path] = sorted(set(names) - set(keep))
+            if keep:
+                headers[kind][path] = keep
+            else:
+                del headers[kind][path]
+
+
+def platinum_unused_entries(repo, scripts, headers):
+    """Script entries (1-based ScriptEntry index) that no event of the map and no init script refers to."""
+    hdr = repo.read("include/data/map_headers.h")
+    init = {}
+    for m in re.finditer(r"\.scriptsArchiveID = (scripts_\w+),\s*\n\s*\.initScriptsArchiveID = (scripts_init_\w+)", hdr):
+        init.setdefault(f"res/field/scripts/{m.group(1)}.s", []).append(f"res/field/scripts/{m.group(2)}.s")
+    out = {}
+    for path in scripts:
+        names = headers["scripts"].get(path)
+        if not names:
+            continue
+        used = set()
+        for ev, hs in headers["events"].items():
+            if set(hs) & set(names) and repo.has(ev):
+                d = json.loads(repo.read(ev))
+                for k in ("object_events", "bg_events", "coord_events"):
+                    used |= {o.get("script") for o in d.get(k, []) if isinstance(o.get("script"), int)}
+        for ip in init.get(path, []):
+            if repo.has(ip):
+                used |= {int(n) for l in repo.lines(ip) if l.strip().startswith("InitScript") for n in re.findall(r"\b(\d+)\b", l)}
+        entries = re.findall(r"^\s*ScriptEntry (\w+)", repo.read(path), re.M)
+        out[path] = {e for k, e in enumerate(entries, 1) if k not in used}
+    return out
+
+
+def pt_skip(repo, headers, path, label, line, gaps):
+    """True (and a gap) when the way sits directly in a script entry nothing runs."""
+    if label in headers["unused"].get(path, set()):
+        gaps.append(f"platinum: {repo.src(path, line, label)} is a script entry that no event or init script of the map "
+                    "runs; skipped")
+        return True
+    return False
 
 
 def pt_where(headers, kind, path):
@@ -727,6 +918,7 @@ def platinum_marts(repo, scripts, headers, ways, gaps, price):
     hdr = "include/data/mart_items.h"
     text = repo.read(hdr)
     tiers = platinum_tiers(repo, "src/scrcmd_shop.c", "BOOL ScrCmd_PokeMartCommon(")
+    tier_line = next((k for k, l in enumerate(repo.lines("src/scrcmd_shop.c"), 1) if l.startswith("BOOL ScrCmd_PokeMartCommon(")), None)
     base = text.index("PokeMartCommonItems[]")
     common = [(m.group(1), int(m.group(2), 0), text[:base].count("\n") + 1)
               for m in re.finditer(r"\{ (ITEM_\w+), (0x[0-9A-Fa-f]+|\d+) \}", text[base:].split("};", 1)[0])]
@@ -741,13 +933,17 @@ def platinum_marts(repo, scripts, headers, ways, gaps, price):
         lines = repo.lines(path)
         owner = blocks(lines, PT_LABEL)
         for i, line in enumerate(lines):
+            if re.match(r"^\s*PokeMart", line) and pt_skip(repo, headers, path, owner[i][0], i + 1, gaps):
+                continue
             if re.match(r"^\s*PokeMartCommon(WithGreeting)?\b", line):
                 for item, need, n in common:
                     b = min_badges(tiers, need)
+                    if b is None and ball_of(item, BALL_CONST_GEN4):
+                        gaps.append(f"platinum: {item} needs mart tier {need}, which no badge count reaches; not listed")
+                        continue
                     add(ways, ball_of(item, BALL_CONST_GEN4), how="shop", where=where, price=price.get(item),
-                        requires=f"{b} badges" if b is not None else f"tier {need} (unreachable?)",
-                        source=f"{repo.src(path, i + 1, owner[i][0])}; {repo.src(hdr, n, 'PokeMartCommonItems')}; "
-                               f"{repo.src('src/scrcmd_shop.c', None, 'ScrCmd_PokeMartCommon')}")
+                        requires=f"{b} badges", source=f"{repo.src(path, i + 1, owner[i][0])}; "
+                        f"{repo.src(hdr, n, 'PokeMartCommonItems')}; {repo.src('src/scrcmd_shop.c', tier_line, 'ScrCmd_PokeMartCommon')}")
             m = re.match(r"^\s*PokeMartSpecialties(?:WithGreeting)?\s+(MART_SPECIALTIES_ID_\w+)", line)
             if m:
                 name = ids.get(m.group(1))
@@ -818,12 +1014,21 @@ def platinum_items(repo, events, headers, ways, gaps):
 
 
 def pt_condition(lines, label):
+    """The tests that jump or call into this label: GoToIfEq VAR_X, 2, Label -> 'VAR_X == 2'."""
+    ops = {"Eq": "==", "Ne": "!=", "Lt": "<", "Le": "<=", "Gt": ">", "Ge": ">="}
     hits = []
     for line in lines:
-        m = re.match(rf"^\s*(GoTo|Call)If(\w+)\s+(.*?),\s*{re.escape(label)}\s*$", line) if label else None
-        if m:
-            hits.append(f"{m.group(2)} {m.group(3)}")
-    return "; ".join(hits) or None
+        m = re.match(rf"^\s*(?:GoTo|Call)If(\w+)\s+(.*?),\s*{re.escape(label)}\s*$", line) if label else None
+        if not m:
+            continue
+        args = [a.strip() for a in m.group(2).split(",")]
+        if m.group(1) in ops and len(args) == 2:
+            hits.append(f"{args[0]} {ops[m.group(1)]} {args[1]}")
+        elif m.group(1) in ("Set", "Unset") and len(args) == 1:
+            hits.append(f"{args[0]} {'set' if m.group(1) == 'Set' else 'not set'}")
+        else:
+            hits.append(line.strip())
+    return "; ".join(dict.fromkeys(hits)) or None
 
 
 def platinum_gifts(repo, scripts, headers, ways, gaps):
@@ -839,10 +1044,12 @@ def platinum_gifts(repo, scripts, headers, ways, gaps):
             if not ball:
                 continue
             label = owner[i][0]
+            if pt_skip(repo, headers, path, label, i + 1, gaps):
+                continue
             qty = pt_qty(lines, i, owner, label)
             if m.group(1) == "3":                               # Jubilife TV's lottery: the prize goes through VAR_0x8003
                 add(ways, ball, how="other", where=where, qty=qty,
-                    note=f"lottery prize ({label}, picked when {pt_condition(lines, label)})",
+                    note=f"lottery prize ({label}, chosen when {pt_condition(lines, label)})",
                     source=repo.src(path, i + 1, label))
                 continue
             add(ways, ball, how="gift", where=where, who=label, qty=qty, condition=pt_condition(lines, label),
@@ -879,6 +1086,8 @@ def platinum_other(repo, scripts, headers, ways):
     n = next((i for i, l in enumerate(cmd) if re.search(r"\*safariBallCount = [1-9]\d*;", l)), None)
     for path in scripts:
         where = pt_where(headers, "scripts", path)
+        if not where:
+            continue
         lines = repo.lines(path)
         for i, line in enumerate(lines):
             if re.match(r"^\s*StartSafariGame\b", line) and n is not None:
@@ -908,7 +1117,7 @@ class HG:
                      "src/overlay_bug_contest.c", "src/scrcmd_c.c", "src/catching_show.c",
                      "src/battle/battle_controller_player.c", "asm/overlay_12_battle_command.s",
                      "src/application/pokegear/phone/phone_script_defs.c",
-                     "src/application/pokegear/phone/overlay_101_021F1D74.c"]
+                     "src/application/pokegear/phone/overlay_101_021F1D74.c", "src/sys_flags.c"]
         repo.load(self.scripts + self.zones + self.data)
         self.items = self._items()
         self.map_name = {code: name for name, code in re.findall(r"#define (MAP_\w+)\s+\d+\s*//\s*MAP_(\w+)",
@@ -919,7 +1128,7 @@ class HG:
             cells = row.split(",")
             if len(cells) > 1 and cells[1].isdigit():
                 self.price[cells[0]] = int(cells[1])
-        self.unresolved = []
+        self.unresolved, self.resolved = [], set()
 
     def _items(self):
         """items.h numbers -> ITEM_ names, from the item list only (later #defines reuse small numbers)."""
@@ -964,9 +1173,16 @@ def heartgold(repo):
     hg_phone(hg, ways, gaps)
     hg_other(hg, ways, gaps, notes)
     trees = hg_kurt(hg, ways, gaps)
-    if hg.unresolved:
-        gaps.append(f"heartgold: {len(hg.unresolved)} item-giving script lines take the item from a variable the script "
-                    f"doesn't set nearby, so which item isn't known from the script alone (e.g. {', '.join(hg.unresolved[:4])})")
+    left = {}
+    for where, var in hg.unresolved:
+        if where not in hg.resolved:
+            left.setdefault(where, set()).add(var)
+    if left:
+        gaps.append(f"heartgold: {len(left)} item-giving script lines (files/fielddata/script/scr_seq/) get the item from "
+                    "a variable filled elsewhere (C code, a menu, a calling script), so the scripts alone don't say which "
+                    "item; none of them was counted: " + ", ".join(f"{w} ({'/'.join(sorted(v))})" for w, v in sorted(left.items())))
+    gaps.append("heartgold: the scratch-off card prizes (scr_seq_0263 GetScratchOffPrize; filled by overlay_87, which is "
+                "not decompiled to named items) and the Pokéwalker weren't read")
     hg_versions(hg, ways, notes)
     return present, ways, gaps, notes, trees
 
@@ -986,19 +1202,18 @@ def hg_marts(hg):
 
 
 def hg_marts_and_gifts(hg, ways, gaps):
-    tiers, common, cline, arrays, special, sline = hg_marts(hg)
+    marts = hg_marts(hg)
     jumps = []                                                  # (target label, state, path) to follow one level
     for path in hg.scripts:
         lines = hg.repo.lines(path)
         state = {}
         for i, line in enumerate(lines):
-            if re.match(HG_LABEL, line) and (i == 0 or re.match(r"^\s*(End|Return|GoTo \w+)\s*$", lines[i - 1])):
+            if re.match(HG_LABEL, line) and hg_after_end(lines, i):
                 state = {}
-            hg_step(hg, path, lines, i, line, state, ways, jumps, (tiers, common, cline, arrays, special, sline), gaps)
+            hg_step(hg, path, lines, i, line, state, ways, jumps, marts, gaps)
     labels = {}
     for path in hg.scripts:
-        lines = hg.repo.lines(path)
-        for i, line in enumerate(lines):
+        for i, line in enumerate(hg.repo.lines(path)):
             m = re.match(HG_LABEL, line)
             if m:
                 labels[(path, m.group(1))] = i
@@ -1011,78 +1226,166 @@ def hg_marts_and_gifts(hg, ways, gaps):
         for j in range(i + 1, len(lines)):
             if re.match(HG_LABEL, lines[j]) or re.match(r"^\s*(End|Return)\b", lines[j]):
                 break
-            if "VAR_SPECIAL_x8004" in lines[j] and not re.match(r"^\s*(HasSpaceForItem|GiveItem|BufferItemName\w*)\b", lines[j]):
-                break                                           # x8004 means something else here
-            if hg_step(hg, path, lines, j, lines[j], st, ways, None, None, gaps, via=target) == "gave":
+            if hg_step(hg, path, lines, j, lines[j], st, ways, None, None, gaps) == "gave":
                 break
 
 
-def hg_step(hg, path, lines, i, line, state, ways, jumps, marts, gaps, via=None):
+def hg_after_end(lines, i):
+    """True when the code before this label can't fall through into it (the last real line ends or jumps)."""
+    for j in range(i - 1, -1, -1):
+        t = lines[j].strip()
+        if t and not t.startswith(".") and not t.startswith("//"):
+            return bool(re.match(r"(End|Return|GoTo \w+)$", t))
+    return True
+
+
+HG_READS_X8004 = {"HasSpaceForItem", "GiveItem", "GetItemPocket", "BufferItemName", "BufferItemNamePlural",
+                  "BufferItemNameIndef", "Compare", "TakeItem", "BufferBackgroundName", "ItemIsTMOrHM"}
+
+
+def hg_step(hg, path, lines, i, line, state, ways, jumps, marts, gaps):
     """One script line: track what VAR_SPECIAL_x8004/x8005 hold, and record a gift or a mart when one happens."""
     s = line.strip()
-    m = re.match(r"SetVar VAR_SPECIAL_x800([45]), (\w+)$", s)
+    m = re.match(r"(SetVar|CopyVar) (VAR_SPECIAL_x80[0-9A-F]{2}), (\w+)$", s)
     if m:
-        state["item" if m.group(1) == "4" else "qty"] = (m.group(2), i + 1)
-        return None
-    m = re.match(r"CopyVar VAR_SPECIAL_x800([45]), (\w+)$", s)
-    if m:
-        state["item" if m.group(1) == "4" else "qty"] = (m.group(2), i + 1)
+        value = state.get(m.group(3), (m.group(3), i + 1))     # a copy of another tracked variable keeps its origin
+        state[m.group(2)] = value if m.group(1) == "CopyVar" else (m.group(3), i + 1)
+        if m.group(2) in ("VAR_SPECIAL_x8004", "VAR_SPECIAL_x8005"):
+            state["item" if m.group(2).endswith("4") else "qty"] = state[m.group(2)]
         return None
     m = re.match(r"(ItemVars|GoToIfNoItemSpace2?) (\w+), (\w+)", s)
     if m:
-        state["item"], state["qty"] = (m.group(2), i + 1), (m.group(3), i + 1)
+        state["item"] = state.get(m.group(2), (m.group(2), i + 1))
+        state["qty"] = state.get(m.group(3), (m.group(3), i + 1))
         return None
     m = re.match(r"GiveItemNoCheck (\w+), (\w+)", s)
     if m:
-        hg_gift(hg, path, lines, i, m.group(1), m.group(2), i + 1, ways, via)
+        hg_gift(hg, path, lines, i, m.group(1), m.group(2), i + 1, ways)
         return "gave"
     m = re.match(r"GiveItem (\w+), (\w+), \w+", s)
     if m:
         item = state.get("item", (None,))[0] if m.group(1) == "VAR_SPECIAL_x8004" else m.group(1)
         qty = state.get("qty", (None,))[0] if m.group(2) == "VAR_SPECIAL_x8005" else m.group(2)
-        hg_gift(hg, path, lines, i, item, qty, state.get("item", (None, i + 1))[1], ways, via)
+        hg_gift(hg, path, lines, i, item, qty, state.get("item", (None, i + 1))[1], ways)
         return "gave"
     m = re.match(r"CallStd (\w+)$", s)
     if m and m.group(1) in HG_GIVE_STD:
         item, at = state.get("item", (None, i + 1))
-        hg_gift(hg, path, lines, i, item, state.get("qty", (None,))[0], at, ways, via)
+        hg_gift(hg, path, lines, i, item, state.get("qty", (None,))[0], at, ways)
         return "gave"
     if m and marts and m.group(1) in ("std_pokemart", "std_special_mart"):
         hg_mart(hg, path, i, m.group(1), state, ways, marts, gaps)
         return None
-    m = re.match(r"(GoTo|Call)\w* (?:.*, )?(\w+)$", s)
-    if m and jumps is not None and "item" in state:
-        jumps.append((m.group(2), dict(state), path))
+    m = re.match(r"(\w+) VAR_SPECIAL_x8004\b", s)
+    if m and m.group(1) not in HG_READS_X8004:
+        state["item"] = (f"@{m.group(1)}", i + 1)            # written by another command (e.g. Kurt's ScrCmd_737)
+        return None
+    m = re.match(r"(GoTo|Call)\w* (?:.*, )?(\w+)$", s) or re.match(r"Case \w+, (\w+)$", s)
+    if m and jumps is not None and any(k.startswith("VAR_SPECIAL_x80") or k == "item" for k in state):
+        jumps.append((m.groups()[-1], dict(state), path))
     return None
 
 
-def hg_gift(hg, path, lines, i, item_value, qty, at, ways, via):
+def hg_entry(lines, at):
+    """The script entry (ScrDef scr_seq_<map>_NNN) a line belongs to, and its line index."""
+    for j in range(at, -1, -1):
+        m = re.match(r"^(scr_seq_\w+_\d{3}):", lines[j])
+        if m:
+            return m.group(1), j
+    return None, 0
+
+
+def hg_conditions(lines, at):
+    """The raw tests that lead to line `at`: Compare/GoToIf pairs in its block, the jumps and menu cases that enter the
+    block, and where each tested variable was last written (GetWeekday, Random, ...)."""
+    owner = blocks(lines, HG_LABEL)
+    label, top = owner[at]
+    neg = {"Ne": "==", "Eq": "!=", "Lt": ">=", "Ge": "<", "Gt": "<=", "Le": ">"}
+    pos = {"Ne": "!=", "Eq": "==", "Lt": "<", "Ge": ">=", "Gt": ">", "Le": "<="}
+    conds = []
+    entries_conditional = label is not None and hg_after_end(lines, top) and not any(
+        re.match(rf"^\s*(GoTo|Call) {re.escape(label)}$", l) for l in lines)
+    for j in range((top or 0) + 1, at):
+        c = re.match(r"^\s*Compare (\w+), (\w+)", lines[j])
+        g = re.match(r"^\s*GoToIf(\w+) \w+$", lines[j + 1]) if c and j + 1 < at else None
+        if g and g.group(1) in neg:
+            conds.append((c.group(1), f"{c.group(1)} {neg[g.group(1)]} {c.group(2)}", j))
+    for j, line in enumerate(lines if entries_conditional else []):
+        g = re.match(rf"^\s*GoToIf(\w+) {re.escape(label)}$", line) if label else None
+        if g and j and g.group(1) in pos:
+            c = re.match(r"^\s*Compare (\w+), (\w+)", lines[j - 1])
+            if c:
+                conds.append((c.group(1), f"{c.group(1)} {pos[g.group(1)]} {c.group(2)}", j))
+        k = re.match(rf"^\s*Case (\w+), {re.escape(label)}$", line) if label else None
+        if k:
+            sw = next((re.match(r"^\s*Switch (\w+)", lines[x]).group(1) for x in range(j, -1, -1)
+                       if re.match(r"^\s*Switch \w+", lines[x])), "?")
+            conds.append((sw, f"{sw} == {k.group(1)}", j))
+    out = []
+    for var, text, j in conds:
+        src = next((lines[x].strip() for x in range(j, -1, -1)
+                    if re.match(rf"^\s*(?!Compare|SetVar|CopyVar|AddVar|Switch|GoTo|Call|BufferInt)\w+ {re.escape(var)}\b", lines[x])), None)
+        out.append(text + (f" ({src})" if src else ""))
+    return "; ".join(dict.fromkeys(out)) or None
+
+
+def hg_gift(hg, path, lines, i, item_value, qty, at, ways):
+    if (item_value or "").startswith("@ScrCmd_737"):
+        return                                                  # Kurt's Apricorn ball: hg_kurt records it as craft
     item = hg.item(item_value)
     if item is None:
-        hg.unresolved.append(hg.repo.src(path, i + 1))
+        hg.unresolved.append((f"{os.path.basename(path)}:{i + 1}", item_value or "unset"))
         return
+    hg.resolved.add(f"{os.path.basename(path)}:{i + 1}")
     ball = ball_of(item, BALL_CONST_GEN4)
     if not ball:
         return
     owner = blocks(lines, HG_LABEL)
-    label = owner[i][0]
+    entry, top = hg_entry(lines, at - 1)
     src = hg.repo.src(path, at, owner[at - 1][0])
     if at != i + 1:
-        src += f"; {hg.repo.src(path, i + 1, label)}"
+        src += f"; {hg.repo.src(path, i + 1, owner[i][0])}"
+    flow = lines[top:max(at, i + 1)]
+    cost = next((re.match(r"^\s*SubMoneyImmediate (\d+)", l).group(1) for l in flow if re.match(r"^\s*SubMoneyImmediate \d+", l)), None)
+    way = {"how": "other" if cost else "gift", "where": hg.where(path), "who": entry or owner[at - 1][0]}
     qty = str(qty) if qty is not None else ""
-    add(ways, ball, how="gift", where=hg.where(path), who=via or owner[at - 1][0], qty=int(qty) if qty.isdigit() else None,
-        **({"qty_from": qty} if qty and not qty.isdigit() else {}), source=src)
+    way["qty"] = int(qty) if qty.isdigit() else None
+    if qty and not qty.isdigit():
+        way["qty_from"] = qty
+    way["condition"] = hg_conditions(lines, at - 1)
+    if cost:
+        way["note"] = f"a paid draw: {entry} charges {cost} (SubMoneyImmediate {cost}) before the prize is picked"
+    if any("GetGameVersion" in l for l in flow):
+        way["version_check"] = f"{entry} checks GetGameVersion before this; HeartGold and SoulSilver may differ"
+    way["source"] = src
+    add(ways, ball, **way)
+
+
+def hg_ball_unlock(hg):
+    """Marts drop the Poké Ball from their list until a flag is set (src/overlay_03/shop_menu.c + src/sys_flags.c)."""
+    shop = hg.repo.lines("src/overlay_03/shop_menu.c")
+    n = next((k for k, l in enumerate(shop) if "unlockedPokeBallsInMarts == FALSE" in l), None)
+    flags = re.search(r"BOOL CheckUnlockedPokeBallsInMarts\(.*?\)\s*\{\s*return CheckScriptFlag\(state, (\w+)\);",
+                      hg.repo.read("src/sys_flags.c"), re.S)
+    if n is None or not flags or "ITEM_POKE_BALL" not in shop[n + 1]:
+        return None
+    return (f"not listed until {flags.group(1)} is set",
+            f"{hg.repo.src('src/overlay_03/shop_menu.c', n + 1)}; {hg.repo.src('src/sys_flags.c', None, 'CheckUnlockedPokeBallsInMarts')}")
 
 
 def hg_mart(hg, path, i, std, state, ways, marts, gaps):
     tiers, common, cline, arrays, special, sline = marts
     src_line = hg.repo.src(path, i + 1, std)
+    if not hasattr(hg, "unlock"):
+        hg.unlock = hg_ball_unlock(hg)
     if std == "std_pokemart":
         for item, need in common:
             b = min_badges(tiers, need)
+            lock = hg.unlock if item == "ITEM_POKE_BALL" and hg.unlock else (None, None)
             add(ways, ball_of(item, BALL_CONST_GEN4), how="shop", where=hg.where(path), price=hg.price.get(item),
-                requires=f"{b} badges" if b is not None else None,
-                source=f"{src_line}; {hg.repo.src('src/scrcmd_mart.c', cline, '_020FBF22 (ScrCmd_MartBuy)')}")
+                requires=f"{b} badges" if b is not None else None, condition=lock[0],
+                source=f"{src_line}; {hg.repo.src('src/scrcmd_mart.c', cline, '_020FBF22 (ScrCmd_MartBuy)')}"
+                       + (f"; {lock[1]}" if lock[1] else ""))
         return
     which, at = state.get("item", (None, None))
     if not (which or "").isdigit() or int(which) >= len(special):
@@ -1091,9 +1394,10 @@ def hg_mart(hg, path, i, std, state, ways, marts, gaps):
     name = special[int(which)]
     items, n = arrays[name]
     for item in items:
+        lock = hg.unlock if item == "ITEM_POKE_BALL" and hg.unlock else (None, None)
         add(ways, ball_of(item, BALL_CONST_GEN4), how="shop", where=hg.where(path), price=hg.price.get(item), requires=None,
-            source=f"{hg.repo.src(path, at, f'SetVar VAR_SPECIAL_x8004, {which}')}; {src_line}; "
-                   f"{hg.repo.src('src/scrcmd_mart.c', n, f'{name} = _0210FA3C[{which}]')}")
+            condition=lock[0], source=f"{hg.repo.src(path, at, f'SetVar VAR_SPECIAL_x8004, {which}')}; {src_line}; "
+                   f"{hg.repo.src('src/scrcmd_mart.c', n, f'{name} = _0210FA3C[{which}]')}" + (f"; {lock[1]}" if lock[1] else ""))
 
 
 def hg_field(hg, ways, gaps):
@@ -1267,27 +1571,24 @@ def hg_trees(hg, apri, sys_c):
                 idx = o.get("param0")
                 code, comment = kinds[idx] if isinstance(idx, int) and idx < len(kinds) else (None, None)
                 if code:
+                    note = f" (its comment says {comment.strip()})" if comment else ""
                     out.setdefault(code, []).append({"where": hg.where(zp),
                                                      "source": f"{repo.src(zp, None, o.get('id'))} (param0 {idx}); "
-                                                               f"{repo.src('src/apricorn_tree_sys.c', line0 + 1 + idx, f'sTreeApricorns[{idx}]')}"})
+                                                               f"{repo.src('src/apricorn_tree_sys.c', line0 + 1 + idx, f'sTreeApricorns[{idx}]')}{note}"})
     return out
 
 
 def hg_versions(hg, ways, notes):
-    """HeartGold/SoulSilver differences: any ball way whose script file branches on GetGameVersion is flagged."""
-    flagged = []
-    for ball, rows in ways.items():
-        for w in rows:
-            path = w["source"].split(";")[0].split(":")[0].replace(f"{hg.repo.name}/", "", 1)
-            if path.endswith(".s") and hg.repo.has(path) and "GetGameVersion" in hg.repo.read(path):
-                w["version_check"] = "this script file branches on GetGameVersion; the way may differ between HG and SS"
-                flagged.append(f"{ball} ({os.path.basename(path)})")
+    """HeartGold/SoulSilver differences: list the ways whose script entry checks GetGameVersion before giving."""
+    flagged = sorted({f"{b} ({w['source'].split(':')[0].split('/')[-1]})" for b, rows in ways.items() for w in rows
+                      if w.get("version_check")})
     if flagged:
-        notes.append("heartgold: ways from script files that check the game version (HeartGold vs SoulSilver): "
-                     + ", ".join(sorted(set(flagged))))
+        notes.append("heartgold: ball ways whose script entry checks GetGameVersion first (may differ in SoulSilver): "
+                     + ", ".join(flagged))
     else:
-        notes.append("heartgold: none of the ball ways found sit in a script that checks GetGameVersion; the marts, "
-                     "item tables and Kurt's table read here have no HeartGold/SoulSilver switch.")
+        notes.append("heartgold: no ball way found here sits after a GetGameVersion check in its script entry, and the "
+                     "mart tables, item-ball and hidden-item tables and Kurt's table have no HeartGold/SoulSilver switch; "
+                     "the same ways apply to SoulSilver as far as these sources show.")
 
 
 # --- the whole ------------------------------------------------------------------------------------------------------
