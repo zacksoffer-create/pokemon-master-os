@@ -307,7 +307,7 @@ function blSheets(d, b) {
 function blSheet(d, si, o) {
   var s = d.sheets[si]; if (!s) return '<div class="empty">No opponents on file.</div>';
   var a = s.advance, tys = a.pitch_types.map(function (x) { return x.type; }), sit = Battle.SITUATIONS, game = d.game;
-  return '<div class="grid"><div class="c5">' + card(s.opponent + ' · level ' + s.level, blPhrases(s.trainer_phrases, o ? o.trainer_phrases : null, s._missed) + blCtx(s._ctx) + '<div class="tiny muted" style="margin-top:8px">' + esc(s.source) + '</div>', {eyebrow: 'The opponent, from the game\'s own AI flags, bag and lines', tools: false}) +
+  return '<div class="grid"><div class="c5">' + card(s.opponent + ' · level ' + s.level, blPhrases(s.trainer_phrases, o ? o.trainer_phrases : null, s._missed) + blCtx(s._ctx) + '<div class="tiny muted" style="margin-top:8px">' + esc(s.source) + ' · <a href="#/trainers/find?game=' + encodeURIComponent(BL.lu.game) + '&opp=' + encodeURIComponent(s.opponent) + '">In the Trainer Library</a></div>', {eyebrow: 'The opponent, from the game\'s own AI flags, bag and lines', tools: false}) +
       card('The game plan', '<table class="t"><tbody>' + s.plan.assignments.map(function (x, j) { var y = o && o.plan.assignments[j];
         return '<tr><td class="small"><b>' + esc(x.theirs) + '</b></td><td class="small">→ ' + esc(x.ours || 'no answer') + (y && y.ours !== x.ours ? ' <span class="tiny" style="color:var(--ember-2)">(was ' + esc(y.ours || 'no answer') + ')</span>' : '') + '</td><td class="tiny muted">' + esc(x.how || '') + '</td></tr>'; }).join('') + '</tbody></table>' +
         blPhrases(s.plan.phrases, o ? o.plan.phrases : null, s.plan._missed) + blCtx(s.plan._ctx),

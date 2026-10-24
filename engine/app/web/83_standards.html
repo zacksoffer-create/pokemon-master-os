@@ -38,8 +38,36 @@ function standardsPage() {
       card('The collections', '<table class="t"><tr><th></th><th>Elite Four</th><th>Champions</th></tr>' + pools + '</table><div class="tiny muted" style="margin-top:6px">Each Pokémon and set counts once: a rematch with the same set isn\'t counted twice (the weighting is your call: master plan Q6). Every rematch team is loaded (D-062).</div>', {eyebrow: 'Who the fights are against', tools: false, style: 'margin-top:16px'}) +
       card('Signature archetypes', '<table class="t"><tr><th>Name</th><th>Needs</th><th>Status</th></tr>' + sigRows + '</table><div class="tiny muted" style="margin-top:6px">' + esc(C.signature._note) + '</div>', {eyebrow: 'Proposed, all off until you approve', tools: false, style: 'margin-top:16px'}) +
       card('Calibration', calHtml, {eyebrow: 'How many builds reach each tier', tools: false, style: 'margin-top:16px'}) +
-      '</div></div>';
+      '</div></div>' + card('Try a bar', trialHtml(), {eyebrow: 'Move the Ace test\'s bars; see who clears them. A trial: nothing is saved', tools: false, style: 'margin-top:16px', id: 'm-try-bar'});
   });
+}
+/* the Ace bars, adjustable (Trainer Library spec criterion 8): every stored read already carries its two rates, so moving
+   a bar re-sorts them without a fight. The published bars change in trainers/team_roles.json once you decide. */
+function trialRows() {
+  var reads = (S.r4 && S.r4.reads) || {};
+  return Object.keys(reads).map(function (k) { var r = reads[k], a = (r.roles || []).filter(function (x) { return x.role === 'ace'; })[0];
+    return a && a.numbers && a.numbers.elite_four_rate != null ? {id: k, species: r.species, game: r.game, e4: a.numbers.elite_four_rate, ch: a.numbers.champion_rate, mine: /^(me:|yours:)/.test(k)} : null; }).filter(Boolean);
+}
+function trialHtml() {
+  var ace = TeamRoles.config().roles.ace;
+  after(function (p) {
+    var f = p.querySelector('#trybar'); if (!f) return;
+    var draw = function () {
+      var e = +f.e4.value, c = +f.ch.value, rows = trialRows(), clears = function (r, a, b) { return r.e4 >= a && r.ch >= b; };
+      var now = rows.filter(function (r) { return clears(r, e, c); }), pub = rows.filter(function (r) { return clears(r, ace.elite_four_at_least, ace.champion_at_least); });
+      var gain = rows.filter(function (r) { return clears(r, e, c) && !clears(r, ace.elite_four_at_least, ace.champion_at_least); }), lose = rows.filter(function (r) { return !clears(r, e, c) && clears(r, ace.elite_four_at_least, ace.champion_at_least); });
+      var name = function (r) { return '<a href="#/pokemon/' + encodeURIComponent(r.id) + '">' + esc(r.species) + '</a> <span class="muted">(' + esc(GAME_NAME[r.game] || r.game) + (r.mine ? ', yours' : '') + ', ' + Battle.pyRound(100 * r.e4) + '% / ' + Battle.pyRound(100 * r.ch) + '%)</span>'; };
+      var mineFirst = function (xs) { return xs.slice().sort(function (a, b) { return (b.mine - a.mine) || (b.e4 + b.ch - a.e4 - a.ch); }); };
+      p.querySelector('#trye4').textContent = Battle.pyRound(100 * e) + '%'; p.querySelector('#trych').textContent = Battle.pyRound(100 * c) + '%';
+      p.querySelector('#tryout').innerHTML = '<div class="small"><b>' + now.length + '</b> of ' + rows.length + ' stored builds clear these bars (' + now.filter(function (r) { return r.mine; }).length + ' of yours); at the published bars, ' + pub.length + ' (' + pub.filter(function (r) { return r.mine; }).length + ' of yours).</div>' +
+        (gain.length ? '<div class="tiny" style="margin-top:6px"><b style="color:var(--forest-3)">Would clear</b>: ' + mineFirst(gain).slice(0, 24).map(name).join(', ') + (gain.length > 24 ? ' and ' + (gain.length - 24) + ' more' : '') + '</div>' : '') +
+        (lose.length ? '<div class="tiny" style="margin-top:6px"><b style="color:var(--ember-2)">Would fall short</b>: ' + mineFirst(lose).slice(0, 24).map(name).join(', ') + (lose.length > 24 ? ' and ' + (lose.length - 24) + ' more' : '') + '</div>' : '');
+    };
+    f.addEventListener('input', draw); draw();
+  });
+  var sl = function (n, v, label, id) { return '<div style="flex:1;min-width:200px"><label class="l">' + label + ': <b id="' + id + '"></b></label><input type="range" name="' + n + '" min="0.3" max="1" step="0.01" value="' + v + '" style="width:100%"></div>'; };
+  return '<form id="trybar" onsubmit="return false" style="display:flex;gap:16px;flex-wrap:wrap">' + sl('e4', ace.elite_four_at_least, 'Elite Four bar', 'trye4') + sl('ch', ace.champion_at_least, 'Champion bar', 'trych') + '</form><div id="tryout" style="margin-top:10px"></div>' +
+    '<div class="tiny muted" style="margin-top:8px">The rates are the ones each build already earned in its Ace fights (one-on-one, Lv 100, each distinct Pokémon once), so the bars move without a fight; a hand-set role isn\'t counted here. Any other group of trainers, with any bar: <a href="#/bench">Benchmarks</a>.</div>';
 }
 route(/^\/standards\/?$/, standardsPage, 'The standards', '#/standards');
 </script>

@@ -24,6 +24,7 @@ live.
     engines.json, inbox.json   the Engine Room and the intake inbox (app/room_pack.py)
     breeder.json   every line's egg moves with the breeding engine's lineages (app/breeder_pack.py, a few seconds)
     breeding.json  the breeding-stock engine's data for the browser's copy (app/breeding_pack.py, web/23_stock.html)
+    library.json   the Trainer Library: every trainer and version, evidence, lenses, collections (app/library_pack.py)
 
     python3 -I app/export.py               # writes engine/app/data/*.json and prints their sizes
 """
@@ -355,6 +356,8 @@ def main(breeder=False):
     import explain_pack
     explain_pack.main()
     breeding_pack.main()
+    import library_pack
+    library_pack.main()
     import field_pack
     import room_pack
     import scout_pack

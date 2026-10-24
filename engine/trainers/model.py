@@ -78,6 +78,22 @@ class Version:
     overrides: dict = field(default_factory=dict)    # per-trainer text overrides for named characters
     notes: list = field(default_factory=list)        # lore and canon notes: data, never logic
     signature_moves: list = field(default_factory=list)   # authored: [{pokemon, move, why, status}]
+    kind_: str = None                                      # explicit kind from canon, if any
+
+    @property
+    def kind(self):
+        """What sort of record (docs/specs/TRAINER_ECOSYSTEM.md §3): cartridge (exact in-game), anime (reconstructed),
+        all-time (a curated project), journey (your own lineups) or custom (made in the app). Canon can say so
+        explicitly (`kind`); otherwise it follows from the team and the source."""
+        if self.kind_:
+            return self.kind_
+        if "lineup" in self.team_ref:
+            return "journey"
+        if "cartridge" in self.team_ref or "library" in self.team_ref:
+            return "cartridge"
+        if "all-time" in self.id or "all-time" in self.title.lower():
+            return "all-time"
+        return "anime" if str(self.source).startswith("anime") else "custom"
 
 
 @dataclass
@@ -109,7 +125,8 @@ class Store:
             versions = {vid: Version(id=vid, trainer=tid, title=v["title"], game=v["game"], team_ref=v["team"],
                                      sliders=v.get("sliders", {}), roles=v.get("roles", []), source=v.get("source", ""),
                                      status=v.get("status", "proposed"), overrides=v.get("overrides", {}),
-                                     notes=v.get("notes", []), signature_moves=v.get("signature_moves", []))
+                                     notes=v.get("notes", []), signature_moves=v.get("signature_moves", []),
+                                     kind_=v.get("kind"))
                         for vid, v in t["versions"].items()}
             self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=versions, notes=t.get("notes", []),
                                          career=t.get("career", []))
@@ -128,7 +145,20 @@ class Store:
             return self._lineup(ref["lineup"])
         if "cartridge" in ref:
             return self._cartridge(**ref["cartridge"])
+        if "library" in ref:
+            return self._library(ref["library"])
         raise ValueError(f"{version.trainer}/{version.id}: a team needs builds, a lineup or a cartridge trainer")
+
+    def _library(self, record_id):
+        """An encounter from the Trainer Library (trainers/library.py), exactly as the game has it."""
+        path = os.path.join(ENGINE, "data_manifest", "trainer_library.json")
+        with open(path, encoding="utf-8") as fh:
+            rec = next(r for r in json.load(fh)["records"] if r["id"] == record_id)
+        return [Build(id=f"library:{record_id}/{i}", species=p["species"], moves=p["moves"], level=p["level"], ivs=p["ivs"],
+                      evs={s: 0 for s in STATS}, item=self.era.item_name(p["item"]) if p.get("item") else None,
+                      ability=p.get("ability"), source=f"cartridge: {rec['source']}", generation=rec["generation"],
+                      status="cartridge", notes=["nature: set by the game from a hidden value; not modeled"])
+                for i, p in enumerate(rec["party"])]
 
     def _lineup(self, lineup_id):
         from battle.engine import BattleEngine

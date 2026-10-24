@@ -37,6 +37,18 @@ PRET = "https://raw.githubusercontent.com/pret/"
 PLATINUM_TRAINERS = ["elite_four_aaron", "elite_four_bertha", "elite_four_flint", "elite_four_lucian",
                      "champion_cynthia", "elite_four_aaron_rematch", "elite_four_bertha_rematch",
                      "elite_four_flint_rematch", "elite_four_lucian_rematch", "champion_cynthia_rematch"]
+# The Trainer Library's Platinum trainers (trainers/library.py): every Gym Leader, the rival at each meeting, Team
+# Galactic's commanders and Cyrus, the Fight Area's Flint and Volkner (pokeplatinum res/trainers/data/*.json).
+PLATINUM_TRAINERS += [f"leader_{n}{r}" for n in ("roark", "gardenia", "maylene", "wake", "fantina", "byron", "candice",
+                                                 "volkner") for r in ("", "_rematch")] + \
+    ["leader_volkner_fight_area", "elite_four_flint_fight_area"] + \
+    [f"rival_{w}_{s}" for w in ("route_201", "route_203", "route_209", "canalave_city", "pastoria_city", "spear_pillar",
+                                "pokemon_league", "fight_area", "survival_area_1", "survival_area_2")
+     for s in ("turtwig", "chimchar", "piplup")] + \
+    ["commander_mars_valley_windworks", "commander_mars_lake_verity", "commander_mars_spear_pillar",
+     "commander_mars_stark_mountain", "commander_jupiter_team_galactic_eterna_building", "commander_jupiter_spear_pillar",
+     "commander_jupiter_stark_mountain", "commander_saturn_valor_cavern", "commander_saturn_galactic_hq",
+     "galactic_boss_cyrus_galactic_hq", "galactic_boss_cyrus_celestic_town_ruins", "galactic_boss_cyrus_distortion_world"]
 EXTRA = {  # independent cross-check sources, and in-game trainer teams straight from the games' code
     "showdown_learnsets.ts": "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/learnsets.ts",
     "trainers/crystal_parties.asm": PRET + "pokecrystal/master/data/trainers/parties.asm",
@@ -44,6 +56,10 @@ EXTRA = {  # independent cross-check sources, and in-game trainer teams straight
     "trainers/firered_trainer_parties.h": PRET + "pokefirered/master/src/data/trainer_parties.h",
     "trainers/emerald_trainer_parties.h": PRET + "pokeemerald/master/src/data/trainer_parties.h",
     "trainers/hgss_trainers.json": PRET + "pokeheartgold/master/files/poketool/trainer/trainers.json",
+    # each Gen 3 trainer's class, name, bag items, AI flags and party symbol; Crystal's per-class items and AI
+    "trainers/emerald_trainers.h": PRET + "pokeemerald/master/src/data/trainers.h",
+    "trainers/firered_trainers.h": PRET + "pokefirered/master/src/data/trainers.h",
+    "trainers/crystal_attributes.asm": PRET + "pokecrystal/master/data/trainers/attributes.asm",
 } | {f"trainers/platinum_{t}.json": PRET + f"pokeplatinum/main/res/trainers/data/{t}.json" for t in PLATINUM_TRAINERS}
 
 
@@ -71,7 +87,29 @@ def fetch_smogon_sets():
     return names
 
 
+def fetch_new_trainers():
+    """Only the trainer files not on disk yet; their checksums are added, nothing already fetched is rewritten (B30)."""
+    os.makedirs(os.path.join(RAW, "trainers"), exist_ok=True)
+    sums = os.path.join(MANIFEST, "SHA256SUMS.txt")
+    lines = open(sums).read().splitlines() if os.path.exists(sums) else []
+    have = {ln.split("  ", 1)[1] for ln in lines if "  " in ln}
+    for name, url in EXTRA.items():
+        dest = os.path.join(RAW, name)
+        if not name.startswith("trainers/") or os.path.exists(dest):
+            continue
+        tmp = dest + ".part"
+        fetch(url, tmp)
+        os.replace(tmp, dest)
+        if name not in have:
+            lines.append(f"{hashlib.sha256(open(dest, 'rb').read()).hexdigest()}  {name}")
+        print("fetched", name)
+    with open(sums, "w") as out:
+        out.write("\n".join(sorted(lines, key=lambda ln: ln.split("  ", 1)[-1])) + "\n")
+
+
 def main():
+    if "--trainers" in sys.argv:
+        return fetch_new_trainers()
     os.makedirs(os.path.join(RAW, "trainers"), exist_ok=True)
     os.makedirs(MANIFEST, exist_ok=True)
     targets = {f"{t}.csv": POKEAPI + f"{t}.csv" for t in CSV_TABLES} | EXTRA

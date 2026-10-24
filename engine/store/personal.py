@@ -127,13 +127,16 @@ def enc_individual(i):
     return {k: ("" if v is None else v) for k, v in row.items()}
 
 
+TEAM_EXTRA = ("kind", "trainer", "parent")   # a trainer's version of your own (the Trainer Library): kind, the trainer, the version it came from
+
+
 def dec_team(row):
     slots = row.get("slots")
     if isinstance(slots, str):
         slots = json.loads(slots) if slots.strip() else []
     t = {"id": str(row["id"]), "game": row.get("game"), "title": row.get("title") or None,
          "slots": slots or [], "status": row.get("status") or "saved", "origin": "the app (My Teams)"}
-    for k in ("note", "at"):
+    for k in ("note", "at") + TEAM_EXTRA:
         if not _blank(row.get(k)):
             t[k] = str(row[k])
     return t

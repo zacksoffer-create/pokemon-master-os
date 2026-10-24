@@ -2040,6 +2040,70 @@ class Stock(unittest.TestCase):
         self.assertEqual(json.dumps(again.blueprint(*args), default=str), json.dumps(self.s.blueprint(*args), default=str))
 
 
+class TrainerLibrary(unittest.TestCase):
+    """The Trainer Library (trainers/library.py, trainers/catalog.py): every notable in-game encounter of the five games,
+    read exactly from the pret data, joined with the authored trainers into identities, versions and collections."""
+    @classmethod
+    def setUpClass(cls):
+        from trainers.catalog import Catalog
+        from trainers.library import Library
+        cls.lib = Library().build()
+        cls.cat = Catalog().build()
+
+    def test_coverage(self):
+        by = {}
+        for r in self.lib:
+            by[(r["game"], r["category"])] = by.get((r["game"], r["category"]), 0) + 1
+        self.assertEqual(by[("heartgold", "gym")], 33)         # 16 leaders, their rematches, Clair's tag-battle team
+        self.assertEqual(by[("emerald", "gym")], 40)           # eight leaders, four rematches each
+        self.assertEqual(by[("platinum", "rival")], 30)        # Barry, ten meetings, three starters
+        self.assertGreaterEqual(len(self.lib), 350)
+
+    def test_every_benchmark_team_is_in_the_library_exactly(self):
+        from battle.benchmarks import Benchmarks
+        b = Benchmarks(DB, None)
+        key = lambda p: json.dumps([(m["species"], m["level"], m["moves"], m["item"], m["ivs"]) for m in p])
+        for g in ("crystal", "firered", "emerald", "platinum", "heartgold"):
+            have = {key(r["party"]): r for r in self.lib if r["game"] == g}
+            for t in b.load(g):
+                self.assertIn(key(t["party"]), have, f"{g} {t['name']}")
+                r = have[key(t["party"])]
+                a, la = t.get("ai_flags"), r.get("ai_flags")
+                self.assertEqual(sorted(a) if isinstance(a, list) else a, sorted(la) if isinstance(la, list) else la)
+
+    def test_a_rematch_is_its_own_record(self):
+        ids = {r["id"]: r for r in self.lib}
+        first, again = ids["platinum/cynthia"], ids["platinum/cynthia-rematch"]
+        self.assertEqual([p["species"] for p in first["party"]][-1], "Garchomp")
+        self.assertEqual((first["top_level"], again["top_level"]), (62, 78))
+        self.assertEqual(ids["emerald/roxanne-rematch-4"]["encounter"], "rematch 4")
+
+    def test_placeholder_names_become_the_names_the_game_shows(self):
+        names = {r["name"] for r in self.lib}
+        self.assertFalse(names & {"Terry", "Cedric", "?"})
+        self.assertEqual({r["identity"] for r in self.lib if r["category"] == "rival" and r["game"] == "platinum"}, {"barry"})
+        self.assertIn("firered/gary-oaks-lab-he-chose-squirtle", {r["id"] for r in self.lib})
+
+    def test_the_catalog_joins_authored_and_in_game(self):
+        v = self.cat["versions"]
+        self.assertEqual(v["heartgold/lance"]["canon_version"], "champion-hgss")     # one record, the reading joined to it
+        self.assertNotIn("lance/champion-hgss", v)
+        self.assertEqual(v["ash/kanto"]["kind"], "anime")
+        self.assertEqual(v["ash/all-time"]["kind"], "all-time")
+        ev = v["ash/kanto"]["evidence"][0]
+        self.assertEqual(ev["nature"][0], "standardized")
+        self.assertEqual(ev["species"][0], "confirmed")
+        self.assertIn("Dragonite", self.cat["identities"]["lance"]["signature"])
+
+    def test_the_ace_collections_are_the_team_roles_pools(self):
+        col = {c["id"]: c for c in self.cat["collections"]}
+        roles = json.load(open(os.path.join(ENGINE, "trainers", "team_roles.json")))
+        for gen in ("2", "3", "4"):
+            self.assertEqual(len(col[f"ace-elite-four-gen{gen}"]["members"]), len(roles["pools"][gen]["elite_four"]))
+            self.assertEqual(col[f"ace-elite-four-gen{gen}"]["rule"]["threshold"], roles["roles"]["ace"]["elite_four_at_least"])
+        self.assertEqual(col["platinum-elite-four"]["lens"], "authentic")
+
+
 class Blackthorn(unittest.TestCase):
     """The ranch in the present (docs/BLACKTHORN.md): the lineage tracker, the export, the Sheet and its script."""
     @classmethod
@@ -2232,6 +2296,18 @@ class WebApp(unittest.TestCase):
         make an exact set, what makes two different, what a set might suggest; save, version, record a hatch; the
         Mamoswine line's Ancient Power (B27); no Mamoswine in Crystal (B26)."""
         out = self.sp.run(["node", os.path.join(self.app, "test_stock.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_the_trainer_library_meets_the_spec_in_the_browser(self):
+        """The Trainer Library pages in the preview (app/test_library.mjs, in Chromium), against the spec's success
+        criteria 1-4 and 7-10: Cynthia's actual team, her two versions compared, Sinnoh Ash's research and assumptions,
+        a team as a one-on-one benchmark, collections with the rule shown and the bar movable (the Ace collections
+        reproduce the Ace test's rates; every version stamp matches Python), your own group, an optimized version that
+        leaves the original alone, and the same records from the Studio, team lab, scouting reports, Battle Lab and
+        the standards."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_library.mjs")], capture_output=True, text=True, timeout=1500)
         if "SKIP" in out.stdout:
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])

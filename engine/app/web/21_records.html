@@ -54,10 +54,11 @@ var Records = (function () {
     IND_FIELDS.forEach(function (k) { var v = i[k]; row[k] = k === 'shiny' && v != null ? (v ? 'yes' : 'no') : (v == null ? '' : v); });
     row.hatch_moves = encMoves(i.hatch_moves); row.at = i.at || ''; return row;
   }
+  var TEAM_EXTRA = ['kind', 'trainer', 'parent'];
   function decTeam(row) {
     var slots = row.slots; if (typeof slots === 'string') slots = slots.trim() ? JSON.parse(slots) : [];
     var t = {id: String(row.id), game: row.game, title: row.title || null, slots: slots || [], status: row.status || 'saved', origin: 'the app (My Teams)'};
-    ['note', 'at'].forEach(function (k) { if (!blank(row[k])) t[k] = String(row[k]); });
+    ['note', 'at'].concat(TEAM_EXTRA).forEach(function (k) { if (!blank(row[k])) t[k] = String(row[k]); });
     return t;
   }
   function decArtwork(row) { var a = {id: String(row.id)}; ART_FIELDS.forEach(function (k) { if (!blank(row[k])) a[k] = String(row[k]); }); return a; }
@@ -124,6 +125,8 @@ var Records = (function () {
   function saveTeam(t) {
     var rec = {id: t.id || 'team:' + token(), game: t.game, title: t.title || '', status: t.status || 'saved', note: t.note || '', at: new Date().toISOString(),
       slots: JSON.stringify(t.slots || []), members: (t.slots || []).map(function (s) { return s ? s.species + (s.from ? ' @ ' + s.from : '') : '—'; }).join(' · ')};
+    var old = t.id ? (view().teams || {})[t.id] : null;   // a trainer's version of your own (the Trainer Library) stays one when it's saved again
+    TEAM_EXTRA.forEach(function (k) { var x = t[k] || (old && old[k]); if (x) rec[k] = x; });
     return append('team', rec, 'Saved the team ' + (rec.title || rec.id)).then(function () { return view().teams[rec.id]; });
   }
   function saveArtwork(a) {   // a picture's record (the file itself is in Drive, or a reference URL)

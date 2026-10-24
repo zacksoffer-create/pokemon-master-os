@@ -1,0 +1,227 @@
+<script>
+/* ===== The Trainer Library, in the browser =====================================================================
+   docs/specs/TRAINER_LIBRARY.md; MASTER_PLAN Phase 5. app/data/library.json (app/library_pack.py from
+   trainers/catalog.py) holds every trainer as an identity with versions: the cartridge encounters read from the
+   five games' code (trainers/library.py), the authored anime, all-time and journey versions (canon/trainers.json),
+   evidence classes, the two lenses and the collections. Your variants are teams in My Teams that name a trainer
+   (kind, trainer, parent); they read as versions here and never touch the original.
+   The benchmark runs one of your builds one-on-one against a version or a collection with the battle engine
+   (27_battle), the way the Ace test does (28_teamroles): their Pokémon as the game has them (AI included), each
+   distinct set once, and a draw isn't a win. The standardized lens is the Ace test's terms exactly, so the Ace
+   collections give the Ace test's own rates (app/test_library.mjs checks it). */
+var Library = (function () {
+  var L = null, Bt = null, eng = null, ROUNDS = 30, mine = {};
+  // the game a generation's strongest-set fill reads (the Ace test's: 28_teamroles GAME_OF_GEN)
+  var FILL_GAME = {2: 'crystal', 3: 'emerald', 4: 'platinum'};
+  var KIND = {cartridge: 'from the cartridge', anime: 'anime reconstruction', 'all-time': 'all-time version', journey: 'your journey team', custom: 'custom version'};
+  var CATEGORY = {gym: 'Gym Leader', elite_four: 'Elite Four', champion: 'Champion', rival: 'Rival', villain: 'Villain', special: 'Special battle', frontier: 'Battle Frontier', anime: 'Anime', journey: 'Journey'};
+  var FIELDS = ['species', 'level', 'moves', 'ability', 'item', 'nature', 'ivs', 'evs'];
+  function init(pack) { L = pack; mine = {}; }
+  function attach(battle, rounds) { Bt = battle; eng = null; if (rounds) ROUNDS = rounds; }
+  function ready() { return !!L; }
+  function engine() { if (!Bt) throw new Error('the battle engine isn\'t loaded'); return eng || (eng = Bt.engine()); }
+  function copy(o) { return JSON.parse(JSON.stringify(o)); }
+  function same(a, b) { return JSON.stringify(a == null ? null : a) === JSON.stringify(b == null ? null : b); }
+  function gameGen(g) { return {crystal: 2, firered: 3, emerald: 3, platinum: 4, heartgold: 4, soulsilver: 4}[g] || 4; }
+
+  /* ---- your variants: My Teams rows that name a trainer ---- */
+  function setMine(teams) {
+    mine = {};
+    Object.keys(teams || {}).forEach(function (k) { var v = asVersion(teams[k]); if (v) mine[v.id] = v; });
+  }
+  function asVersion(t) {   // a My Teams row that names a trainer, read as a version of that trainer
+      if (!t || !t.trainer) return null;
+      var parent = t.parent ? L.versions[t.parent] || null : null, idn = L.identities[t.trainer] || {};
+      var party = (t.slots || []).filter(Boolean).map(function (s) {
+        var b = s.build || {}, p = {species: s.species};
+        ['level', 'moves', 'item', 'ability', 'nature', 'ivs', 'evs'].forEach(function (f) { if (b[f] != null && b[f] !== '' && !(typeof b[f] === 'object' && !Array.isArray(b[f]) && !Object.keys(b[f]).length)) p[f] = copy(b[f]); });
+        p.moves = (p.moves || []).filter(Boolean); return p;
+      });
+      var v = {id: t.id, identity: t.trainer, name: idn.name || (parent && parent.name) || t.trainer, title: t.title || 'your version', kind: t.kind || 'custom',
+        game: t.game, generation: gameGen(t.game), region: parent ? parent.region : null, encounter: 'your variant', party: party, parent: t.parent || null,
+        source: 'your variant (My Teams' + (t.at ? ', saved ' + String(t.at).slice(0, 10) : '') + ')', mine: true, note: t.note || '',
+        ai_flags: parent ? parent.ai_flags : [], reading: parent ? parent.reading : null, top_level: Math.max.apply(null, party.map(function (p) { return p.level || 100; }).concat([1]))};
+      v.evidence = variantEvidence(v, parent);
+      return v;
+  }
+  function variantEvidence(v, parent) {   // a field you kept reads as the original's; one you changed is your hypothesis
+    var pe = parent ? evidenceOf(parent) : [];
+    return v.party.map(function (p, i) {
+      var q = parent && parent.party[i] && parent.party[i].species === p.species ? parent.party[i] : null, out = {};
+      FIELDS.forEach(function (f) {
+        if (q && (f === 'species' || same(norm(f, p[f]), norm(f, q[f])))) out[f] = (pe[i] || {})[f] || ['unknown', 'the original doesn\'t say'];
+        else if (f === 'species') out[f] = ['hypothetical', 'your choice for this slot'];
+        else if (p[f] == null || (Array.isArray(p[f]) && !p[f].length)) out[f] = ['standardized', f === 'level' ? 'Lv 100 in fights' : f === 'moves' ? 'filled from the strongest set' : 'left to the standard (D-061)'];
+        else out[f] = ['hypothetical', 'changed in this version'];
+      });
+      return out;
+    });
+  }
+  function itemId(x) { return x ? String(x).toLowerCase().replace(/[^a-z0-9]/g, '').replace(/^item/, '') : null; }   // 'Sitrus Berry' and 'sitrusberry' are one item
+  function norm(f, x) { return f === 'moves' ? (x || []).slice().sort() : f === 'item' ? itemId(x) : x == null || x === '' ? null : x; }
+
+  /* ---- reading the pack ---- */
+  function version(id) { return (L && L.versions[id]) || mine[id] || null; }
+  function allVersions() { return Object.keys(L.versions).map(function (k) { return L.versions[k]; }).concat(Object.keys(mine).map(function (k) { return mine[k]; })); }
+  function identity(id) {
+    var x = L.identities[id]; if (!x) return null;
+    var vs = x.versions.slice(); Object.keys(mine).forEach(function (k) { if (mine[k].identity === id) vs.push(k); });
+    return Object.assign({id: id}, x, {versions: vs});
+  }
+  function identities() { return Object.keys(L.identities).map(identity); }
+  function collection(id) { return L.collections.filter(function (c) { return c.id === id; })[0] || null; }
+  function collections() { return L.collections.slice(); }
+  function label(v) {   // "Cynthia, Champion (Platinum, first battle)"
+    if (!v) return '';
+    if (v.kind !== 'cartridge') return (String(v.title || '').indexOf(v.name) >= 0 ? v.title : v.name + ', ' + (v.title || kindName(v.kind))) + (v.mine ? ' (yours)' : '');
+    var where = [GAME_NAME[v.game] || v.game, v.encounter && v.encounter !== 'first battle' ? v.encounter : v.kind === 'cartridge' ? 'first battle' : ''].filter(Boolean).join(', ');
+    return v.name + (v.title ? ', ' + v.title : '') + (where ? ' (' + where + ')' : '');
+  }
+  function kindName(k) { return KIND[k] || k; }
+  function categoryName(c) { return CATEGORY[c] || cap(String(c || '').replace(/_/g, ' ')); }
+  function evidenceOf(v) {   // per member, per field: [class, why]
+    if (v.evidence) return v.evidence;
+    if (v.kind !== 'cartridge') return v.party.map(function () { return {}; });
+    return v.party.map(function (p) {
+      var t = copy(L.cartridge_evidence[(p.moves_from || 'game') + '|' + (p.ability_set ? 1 : 0)] || {});
+      t.item = L.item_evidence[p.item ? 'with' : 'without'];
+      if (v.generation <= 2) { delete t.ability; delete t.nature; }
+      return t;
+    });
+  }
+  function classCounts(v) {
+    var n = {}; evidenceOf(v).forEach(function (m) { Object.keys(m).forEach(function (f) { var c = m[f][0]; n[c] = (n[c] || 0) + 1; }); });
+    return n;
+  }
+  function aceOf(v) { if (v.ace !== undefined) return v.ace; var top = Math.max.apply(null, v.party.map(function (p) { return p.level || 0; })), at = v.party.filter(function (p) { return (p.level || 0) === top; }); return at.length === 1 ? at[0].species : null; }
+
+  /* ---- the stamp: sha1 of [sorted members, threshold, lens], the way trainers/catalog.py stamp() writes it ---- */
+  function pyNum(x) { return Math.round(x) === x ? x + '.0' : String(x); }
+  function stamp(members, threshold, lens) {
+    var s = '[[' + members.slice().sort().map(function (m) { return JSON.stringify(m); }).join(', ') + '], ' + pyNum(threshold) + ', ' + JSON.stringify(lens) + ']';
+    return sha1(s).slice(0, 8);
+  }
+  function rol(x, n) { return (x << n) | (x >>> (32 - n)); }
+  function sha1(str) {
+    var bytes = unescape(encodeURIComponent(str)), n = bytes.length, words = [], i, j, w = new Array(80);
+    for (i = 0; i < n; i++) words[i >> 2] |= bytes.charCodeAt(i) << (24 - (i % 4) * 8);
+    words[n >> 2] |= 0x80 << (24 - (n % 4) * 8);
+    var len = (((n + 8) >> 6) + 1) * 16; words[len - 1] = n * 8;
+    var h = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0];
+    for (i = 0; i < len; i += 16) {
+      var a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
+      for (j = 0; j < 80; j++) {
+        w[j] = j < 16 ? (words[i + j] | 0) : rol(w[j - 3] ^ w[j - 8] ^ w[j - 14] ^ w[j - 16], 1);
+        var f = j < 20 ? (b & c) | (~b & d) : j < 40 ? b ^ c ^ d : j < 60 ? (b & c) | (b & d) | (c & d) : b ^ c ^ d;
+        var k = j < 20 ? 0x5A827999 : j < 40 ? 0x6ED9EBA1 : j < 60 ? 0x8F1BBCDC : 0xCA62C1D6;
+        var t = (rol(a, 5) + f + e + k + w[j]) | 0; e = d; d = c; c = rol(b, 30); b = a; a = t;
+      }
+      h[0] = (h[0] + a) | 0; h[1] = (h[1] + b) | 0; h[2] = (h[2] + c) | 0; h[3] = (h[3] + d) | 0; h[4] = (h[4] + e) | 0;
+    }
+    return h.map(function (x) { return ('00000000' + (x >>> 0).toString(16)).slice(-8); }).join('');
+  }
+
+  /* ---- the fighters ---- */
+  function lensOf(v, lens) { return v.kind === 'cartridge' ? lens : 'standardized'; }   // only a cartridge team has the game's own levels
+  function theirs(v, lens) {
+    var gen = v.generation, std = lensOf(v, lens) === 'standardized', who = v.name + (v.encounter && v.encounter !== 'first battle' && v.kind === 'cartridge' ? ', ' + v.encounter : '') + ', ' + (GAME_NAME[v.game] || v.game);
+    if (v.kind === 'cartridge') {
+      var opp = {game: v.game, source: v.source, ai_flags: v.ai_flags, party: v.party.map(function (p) {
+        var q = {species: p.species, level: p.level, moves: p.moves.slice(), item: p.item, ivs: p.ivs}; if (p.ability_set) q.ability = p.ability; return q; })};
+      return engine().grid.theirs(opp, gen).map(function (c0) { return Bt.Combatant(Object.assign({}, c0, {level: std ? 100 : c0.level, name: c0.species + ' (' + who + ')'})); });
+    }
+    var game = FILL_GAME[gen], fill = function (sp, rej) { return Bt.strongestSet(sp, game, rej); };
+    return v.party.map(function (p) {
+      var b = {moves: (p.moves || []).filter(Boolean).slice(0, 4), item: p.item || null, nature: p.nature || null, ability: p.ability || null,
+        ivs: p.ivs && Object.keys(p.ivs).length ? p.ivs : null, evs: p.evs && Object.keys(p.evs).length ? p.evs : null, level: 100};
+      return Bt.fromBuild(gen, p.species, b, fill, 100, Bt.species(gen, p.species).name + ' (' + who + ')');
+    });
+  }
+  function ours(build, gen, level) {   // 28_teamroles combatant(), at the lens's level
+    var game = FILL_GAME[gen], fill = function (sp, rej) { return Bt.strongestSet(sp, game, rej); };
+    var b = {moves: (build.moves || []).filter(Boolean).slice(0, 4), nature: build.nature || null, ability: build.ability || null, item: build.item || null,
+      evs: build.evs && Object.keys(build.evs).length ? build.evs : null, ivs: build.ivs && Object.keys(build.ivs).length ? build.ivs : null, level: level};
+    return Bt.fromBuild(gen, build.species, b, fill, level, build.species);
+  }
+
+  /* ---- the benchmark: one build, one-on-one against every Pokémon of every version given ---- */
+  function* runGen(build, ids, lens, threshold) {
+    var gen = build.generation || gameGen(build.game), rows = [], skipped = [], groups = {}, order = [];
+    ids.forEach(function (id) {
+      var v = version(id);
+      if (!v) { skipped.push({id: id, why: 'not in the library'}); return; }
+      if (v.generation !== gen) { skipped.push({id: id, label: label(v), why: 'a Gen ' + v.generation + ' team (your build is read in Gen ' + gen + ')'}); return; }
+      var cs; try { cs = theirs(v, lens); } catch (e) { skipped.push({id: id, label: label(v), why: String(e.message || e)}); return; }
+      var lv = lensOf(v, lens) === 'standardized' ? 100 : (v.top_level || Math.max.apply(null, cs.map(function (c) { return c.level; })));
+      if (!groups[lv]) { groups[lv] = {level: lv, field: [], seen: {}}; order.push(lv); }
+      cs.forEach(function (c) { if (!groups[lv].seen[c.key]) { groups[lv].seen[c.key] = 1; groups[lv].field.push(c); } });
+      rows.push({v: v, level: lv, cs: cs});
+    });
+    var res = {}, us = {};
+    for (var i = 0; i < order.length; i++) {
+      var g = groups[order[i]];
+      us[g.level] = ours(build, gen, g.level);
+      res[g.level] = engine().ev.versus([us[g.level]], g.field, ROUNDS);
+      yield 'Lv ' + g.level + ': ' + plural(g.field.length, 'Pokémon');
+    }
+    var uniq = {}, trainers = rows.map(function (r) {
+      var a = us[r.level], fights = r.cs.map(function (c, j) {
+        var m = res[r.level][a.key + '\u0002' + c.key], k = r.level + '|' + c.key, first = !uniq[k];
+        var f = {species: c.species, level: c.level, name: c.name, key: c.key, slot: j, result: m ? m.outcome.winner : null, settled: !!m,
+          turns: m ? m.outcome.turns : null, hp: m ? m.outcome.hp : null, plan: m && m.plan ? Bt.planLabel(m.plan) : null, first: first};
+        if (first) uniq[k] = f;
+        return f;
+      });
+      var won = fights.filter(function (f) { return f.result === 'A'; }).length, drew = fights.filter(function (f) { return f.result === 'draw'; }).length,
+        settled = fights.filter(function (f) { return f.settled; }).length;
+      return {id: r.v.id, label: label(r.v), name: r.v.name, kind: r.v.kind, lens: lensOf(r.v, lens), level: r.level, fights: fights,
+        won: won, drew: drew, lost: settled - won - drew, n: settled, unsettled: fights.length - settled, rate: settled ? won / settled : 0};
+    });
+    var all = Object.keys(uniq).map(function (k) { return uniq[k]; }), done = all.filter(function (f) { return f.settled; });
+    var won = done.filter(function (f) { return f.result === 'A'; }).length, drew = done.filter(function (f) { return f.result === 'draw'; }).length;
+    var rate = done.length ? Bt.pyRound(won / done.length, 4) : 0, ref = us[order[0]] || null;
+    return {gen: gen, lens: lens, threshold: threshold, rate: rate, won: won, drew: drew, lost: done.length - won - drew, n: done.length, unsettled: all.length - done.length,
+      qualifies: done.length > 0 && rate >= threshold, trainers: trainers, skipped: skipped, levels: order,
+      ours: ref ? {species: ref.species, moves: ref.moves.slice(), assumed: ref.assumed.slice(), ability: ref.ability, item: ref.item, nature: ref.nature} : null,
+      stamp: stamp(ids, threshold, lens)};
+  }
+  function run(build, ids, lens, threshold) { var it = runGen(build, ids, lens, threshold), r; while (!(r = it.next()).done) {} return r.value; }
+  function runAsync(build, ids, lens, threshold, onStep) {   // a group at a time, so the page can say where it is
+    var it = runGen(build, ids, lens, threshold);
+    return new Promise(function (ok, fail) {
+      (function step() { try { var r = it.next(); if (r.done) return ok(r.value); if (onStep) onStep(r.value); setTimeout(step, 0); } catch (e) { fail(e); } })();
+    });
+  }
+
+  /* ---- what differs between two versions ---- */
+  function compare(a, b) {
+    var used = {}, pairs = [], onlyA = [];
+    a.party.forEach(function (p, i) {
+      var j = -1; b.party.forEach(function (q, k) { if (j < 0 && !used[k] && q.species === p.species) j = k; });
+      if (j < 0) onlyA.push({slot: i, mon: p}); else { used[j] = 1; pairs.push([i, j]); }
+    });
+    var onlyB = b.party.map(function (q, k) { return used[k] ? null : {slot: k, mon: q}; }).filter(Boolean);
+    var changed = pairs.map(function (ij) {
+      var p = a.party[ij[0]], q = b.party[ij[1]], d = [];
+      if ((p.level || null) !== (q.level || null)) d.push({field: 'level', a: p.level, b: q.level});
+      var pm = p.moves || [], qm = q.moves || [], gone = pm.filter(function (m) { return qm.indexOf(m) < 0; }), added = qm.filter(function (m) { return pm.indexOf(m) < 0; });
+      if (gone.length || added.length) d.push({field: 'moves', gone: gone, added: added});
+      ['item', 'ability', 'nature'].forEach(function (f) { if (norm(f, p[f]) !== norm(f, q[f])) d.push({field: f, a: p[f] || null, b: q[f] || null}); });
+      if (!same(p.ivs, q.ivs)) d.push({field: 'ivs', a: p.ivs || null, b: q.ivs || null});
+      return {species: p.species, slots: ij, diffs: d};
+    });
+    var fa = a.ai_flags || [], fb = b.ai_flags || [];
+    if (typeof fa === 'number') fa = (a.ai_flag_names || []); if (typeof fb === 'number') fb = (b.ai_flag_names || []);
+    return {a: a.id, b: b.id, only_a: onlyA, only_b: onlyB, changed: changed.filter(function (c) { return c.diffs.length; }), kept: changed.filter(function (c) { return !c.diffs.length; }).map(function (c) { return c.species; }),
+      top_level: [a.top_level || null, b.top_level || null], kind: [a.kind, b.kind], game: [a.game, b.game],
+      ai: {only_a: fa.filter(function (f) { return fb.indexOf(f) < 0; }), only_b: fb.filter(function (f) { return fa.indexOf(f) < 0; })},
+      ace: [aceOf(a), aceOf(b)]};
+  }
+  function flagsOf(v) { var f = v.ai_flags || []; return typeof f === 'number' ? (v.ai_flag_names || []) : f; }
+
+  return {init: init, attach: attach, ready: ready, setMine: setMine, asVersion: asVersion, version: version, allVersions: allVersions, identity: identity, identities: identities,
+    collection: collection, collections: collections, label: label, kindName: kindName, categoryName: categoryName, evidenceOf: evidenceOf, classCounts: classCounts,
+    aceOf: aceOf, stamp: stamp, sha1: sha1, theirs: theirs, ours: ours, runGen: runGen, run: run, runAsync: runAsync, compare: compare, flagsOf: flagsOf,
+    lensOf: lensOf, FIELDS: FIELDS, FILL_GAME: FILL_GAME, gameGen: gameGen, pack: function () { return L; }};
+})();
+</script>
