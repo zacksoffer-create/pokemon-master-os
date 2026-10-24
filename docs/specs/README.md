@@ -1,6 +1,7 @@
 # Blackthorn OS master-plan specifications
 
-Zack's planning specifications, kept verbatim as the source for docs/design/MASTER_PLAN.md. Received 2026-10-24.
+Zack's planning specifications, kept verbatim as the source for [the master plan](../design/MASTER_PLAN.md)
+(architecture, gap analysis, build order and open questions). Received 2026-10-24.
 They are planning inputs, not authorizations to build: each one asks for an integrated architecture and gap
 analysis before implementation, and none of them is to be implemented alone.
 
