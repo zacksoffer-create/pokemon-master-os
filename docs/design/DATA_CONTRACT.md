@@ -117,7 +117,10 @@ Ids are opaque strings; nothing parses meaning out of them except the prefix.
 | `moves` | moves joined with `" / "` | |
 | `ivs`, `evs` | six numbers in HP/Atk/Def/SpA/SpD/Spe order, joined with `/` | `0/252/0/0/4/252` |
 | blank `ivs` / `evs` | none recorded | |
+| `hatch_moves` (My Pokémon) | written like `moves` | the moves it hatched with, kept whatever it learns later |
 | other fields | a plain value | |
+
+**Breeding stock (Phase 4).** A blueprint is a build with `kind` `blueprint`, plus `purpose` (competitive, environment, versatility, personal, other) and `labels` (comma-separated). Its `moves` are the whole starting set in hatch slot order, the order PKHeX checks. An individual made from one has `blueprint` (the build id), `hatch_moves`, `origin` "hatched (blueprint …)", and its own build: a variant whose `parent` is the blueprint's `<id>@<v>`, so editing the Pokémon never changes the design. `sire` and `dam` name its parents by id: a studbook id (`S-TYRANITAR`, `D-TYRANITAR`) or one of yours. This is how studbook ids link to individuals (X3).
 
 The browser (`20_core.html` `Records`) and Python (`store/personal.py`) share these formats, held together by a test.
 

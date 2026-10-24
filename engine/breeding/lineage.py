@@ -11,7 +11,8 @@ one. Two kinds of record, merged by id:
   father who turned out to be a companion. An authored record overrides the planned one with the same id, field by
   field, and new ids add hatchlings to the tree.
 
-The rules every bred individual is checked against (Gen 4, the ranch era, D-044) are in `check`: parents exist; the
+The rules every bred individual is checked against (the game its cross is planned for; Gen 4, the ranch era, D-044,
+unless a target says otherwise; B28) are in `check`: parents exist; the
 sire can be male and the dam female (or one is Ditto); they share an egg group; the egg hatches as the dam's line;
 each move inherited from the sire is an egg move of that line and one the sire can know; the generation is one past
 the older parent; nobody is their own ancestor; a stud is male-capable and carries his line's whole program set.
@@ -25,11 +26,12 @@ from breeding.engine import INCENSE_BABIES, BreedingEngine
 HERE = os.path.dirname(os.path.abspath(__file__))
 CANON = os.path.join(os.path.dirname(HERE), "canon")
 LAB_GAME, LAB_GEN = "heartgold", 4
+GAME_GEN = {"crystal": 2, "firered": 3, "emerald": 3, "platinum": 4, "soulsilver": 4, "heartgold": 4}
 GAME_ABBR = {"crystal": "C", "firered": "FR", "emerald": "E", "platinum": "PT", "soulsilver": "SS", "heartgold": "HG"}
 GAME_NAME = {"crystal": "Crystal", "firered": "FireRed", "emerald": "Emerald", "platinum": "Platinum",
              "soulsilver": "SoulSilver", "heartgold": "HeartGold"}
 FIELDS = ("id", "name", "species", "hatched_as", "line", "sex", "generation", "sire", "dam", "moves", "inherited",
-          "role", "origin", "fate", "status", "program", "chapter", "decision", "note")
+          "role", "origin", "fate", "status", "program", "chapter", "decision", "note", "game")
 
 
 def _key(s):
@@ -70,24 +72,26 @@ class Lineage:
         fam = self.ref.family(self.sid(species))
         return sorted({g for s in fam for g in self.ref.egg_groups(s) if g not in ("no-eggs",)})
 
-    def hatches_as(self, species):
-        """What an egg from this line's female hatches as in Gen 4: the line's first stage, except an incense
-        baby, which needs its incense held (otherwise the next stage)."""
-        chain = list(reversed(self.ref.line(self.sid(species))))          # oldest first
+    def hatches_as(self, species, game=LAB_GAME):
+        """What an egg from this line's female hatches as in that game (Gen 4 at the ranch): the line's first stage,
+        except an incense baby, which needs its incense held (otherwise the next stage)."""
+        gen = GAME_GEN.get(game, LAB_GEN)
+        chain = [s for s in reversed(self.ref.line(self.sid(species))) if s <= {2: 251, 3: 386, 4: 493}[gen]]
         names = [self.ref.name(s) for s in chain]
-        if names[0] in INCENSE_BABIES[LAB_GEN] and len(names) > 1:
+        if names[0] in INCENSE_BABIES.get(gen, {}) and len(names) > 1:
             return names[1]
         return names[0]
 
-    def egg_moves(self, species):
-        if species not in self._egg:
-            self._egg[species] = set(self.breeding.egg_moves(species, LAB_GAME))
-        return self._egg[species]
+    def egg_moves(self, species, game=LAB_GAME):
+        if (species, game) not in self._egg:
+            self._egg[(species, game)] = set(self.breeding.egg_moves(species, game))
+        return self._egg[(species, game)]
 
-    def knows_itself(self, species, move):
-        """Can this line learn the move without inheriting it (level-up, TM, tutor; transfer allowed, D-048)?"""
+    def knows_itself(self, species, move, game=LAB_GAME):
+        """Can this line learn the move without inheriting it (level-up, TM, tutor; transfer allowed, D-048)?
+        B28: in the game the cross is planned for, not always HeartGold."""
         try:
-            res = self.ref.learn(species, move, 10)          # 10 = HeartGold/SoulSilver
+            res = self.ref.learn(species, move, {"crystal": 4, "firered": 7, "emerald": 6, "platinum": 9}.get(game, 10))
         except KeyError:
             return False
         return any(r[2] in ("level-up", "machine", "tutor") for r in res["routes"])
@@ -99,17 +103,40 @@ class Lineage:
             for sp in ch["roster"]:
                 b = self.builds.get(ch["game"], {}).get(sp, {})
                 out.append({"id": f"{GAME_ABBR[ch['game']]}-{_key(sp)}", "name": f"{GAME_NAME[ch['game']]} {sp}",
-                            "species": sp, "hatched_as": None, "line": self.hatches_as(sp), "sex": "open",
+                            "species": sp, "hatched_as": None, "line": self.hatches_as(sp, ch["game"]), "sex": "open",
                             "generation": 0, "sire": None, "dam": None, "moves": b.get("moves", []), "inherited": [],
                             "role": "companion", "origin": f"the journey: {GAME_NAME[ch['game']]}",
                             "fate": "open (D-037)", "status": ch["status"], "program": None,
                             "chapter": GAME_NAME[ch["game"]], "decision": ch.get("decision"),
-                            "note": f"build: {b.get('status')}" if b else "no build on record"})
+                            "note": f"build: {b.get('status')}" if b else "no build on record", "game": ch["game"]})
         return out
 
     # --- the program's crosses ----------------------------------------------------------------------------
-    def _companion_of(self, species, founders):
-        return [f for f in founders if f["species"] == species]
+    def _companion_of(self, species, founders, game=None):
+        """Journey companions of this species, the ones that can reach `game` on cartridge first (the same
+        generation, or Gen 3 -> 4 by Pal Park); a Crystal companion in a Gen 4 cross stays possible (B29, your call)."""
+        comps = [f for f in founders if f["species"] == species]
+        if game:
+            comps.sort(key=lambda f: not self._reaches(f, game))
+        return comps
+
+    @staticmethod
+    def _reaches(founder, game):
+        src = next((g for g, n in GAME_NAME.items() if n == founder.get("chapter")), None)
+        a, b = GAME_GEN.get(src), GAME_GEN.get(game)
+        return a is not None and (a == b or (a, b) == (3, 4))
+
+    def _pick(self, plans, game, founders):
+        """The plan to build: the shortest, and among the shortest one whose first father is a companion who can
+        reach the game (D-038: a journey companion can be the father); otherwise the engine's first."""
+        best = min(p["steps"] for p in plans)
+        for p in plans:
+            node = p
+            while node["via"]:
+                node = node["via"]
+            if p["steps"] == best and any(self._reaches(c, game) for c in self._companion_of(node["father"], founders)):
+                return p
+        return plans[0]
 
     def program(self, founders=None):
         """The planned pedigree for every breeding-program target: the steps oldest first, each a cross."""
@@ -118,13 +145,13 @@ class Lineage:
         for t in self.program_targets:
             plan = self.breeding.plan_lineage(t["species"], t["moves"], t["game"])
             target = f"{GAME_NAME[t['game']]} {t['species']}"
-            line = self.hatches_as(t["species"])
+            line = self.hatches_as(t["species"], t["game"])
             if not plan["plans"]:
                 if plan["by_held_item"]:
                     crosses.append({"program": target, "kind": "item", "line": line, "moves": t["moves"],
                                     "note": plan["by_held_item"][0]})
                 continue
-            chain, node = [], plan["plans"][0]
+            chain, node = [], self._pick(plan["plans"], t["game"], founders)
             while node:
                 chain.append(node)
                 node = node["via"]
@@ -134,7 +161,7 @@ class Lineage:
                 fam = step["father"]
                 passes = list(step["learns_itself"]) + step["inherits"]
                 if i == 0:                                       # the first father learns it all himself
-                    comps = self._companion_of(fam, founders)
+                    comps = self._companion_of(fam, founders, t["game"])
                     if comps:
                         sire_id, origin = comps[0]["id"], comps[0]["origin"]
                         note = f"a journey companion, if he's male ({comps[0]['name']})"
@@ -143,32 +170,32 @@ class Lineage:
                         people.append(self._record(sire_id, f"{fam} (borrowed father)", fam, None, "male", 0, None,
                                                    None, passes, [], "father used", "borrowed for the cross",
                                                    "goes home (D-038)", target,
-                                                   f"learns {', '.join(step['learns_itself'])} itself"))
+                                                   f"learns {', '.join(step['learns_itself'])} itself", t["game"]))
                     sire_gen = 0
                     continue
                 # a bred father in between: the previous father x a female of this line
                 dam_id = f"D-{_key(fam)}-{_key(t['species'])}"            # a line female, for this target
-                people.append(self._dam(dam_id, fam, target, founders))
+                people.append(self._dam(dam_id, fam, target, founders, t["game"]))
                 bred_id = f"B-{_key(fam)}-{_key(t['species'])}"
                 people.append(self._record(
-                    bred_id, f"{fam} ♂ bred for the {t['species']} line", fam, self.hatches_as(fam), "male",
+                    bred_id, f"{fam} ♂ bred for the {t['species']} line", fam, self.hatches_as(fam, t["game"]), "male",
                     sire_gen + 1, sire_id, dam_id, passes, [{"move": m, "from": sire_id} for m in step["inherits"]],
                     "father used", "bred at Blackthorn", "goes home (D-038)", target,
                     f"hatches knowing {', '.join(step['inherits'])}; then learns "
-                    f"{', '.join(step['learns_itself']) or 'nothing more'} itself"))
+                    f"{', '.join(step['learns_itself']) or 'nothing more'} itself", t["game"]))
                 crosses.append({"program": target, "kind": "cross", "sire": sire_id, "dam": dam_id, "child": bred_id,
                                 "moves": step["inherits"]})
                 sire_id, sire_gen = bred_id, sire_gen + 1
             # the final cross: the last father x a female of the target line -> the stud that's kept
             dam_id = f"D-{_key(t['species'])}"
-            people.append(self._dam(dam_id, t["species"], target, founders))
+            people.append(self._dam(dam_id, t["species"], target, founders, t["game"]))
             stud_id = f"S-{_key(t['species'])}"
             last = chain[-1]
             people.append(self._record(
                 stud_id, f"{t['species']}-line stud", t["species"], line, "male", sire_gen + 1, sire_id, dam_id,
                 plan["egg_moves"], [{"move": m, "from": sire_id} for m in plan["egg_moves"]], "stud",
                 "bred at Blackthorn", "kept: sires every future egg of the line in one step (D-038)", target,
-                f"hatches as {line} knowing {', '.join(plan['egg_moves'])}" + self._incense(t["species"])))
+                f"hatches as {line} knowing {', '.join(plan['egg_moves'])}" + self._incense(t["species"]), t["game"]))
             crosses.append({"program": target, "kind": "cross", "sire": sire_id, "dam": dam_id, "child": stud_id,
                             "moves": plan["egg_moves"], "last_father": last["father"]})
         return people, crosses
@@ -178,20 +205,20 @@ class Lineage:
         item = INCENSE_BABIES[LAB_GEN].get(root)
         return f" (as {root} if a parent holds {item})" if item else ""
 
-    def _dam(self, dam_id, species, target, founders):
-        comps = [f for f in self._companion_of(species, founders) if self.can_be(species, "female")]
+    def _dam(self, dam_id, species, target, founders, game=LAB_GAME):
+        comps = [f for f in self._companion_of(species, founders, game) if self.can_be(species, "female")]
         could = f" Could be {', '.join(c['name'] for c in comps)}, if she's female." if comps else ""
         return self._record(dam_id, f"{species}-line female", species, None, "female", 0, None, None, [], [], "dam",
                             "a ranch female of the line", "stays at the ranch", target,
-                            f"any female of the line carries the egg.{could}")
+                            f"any female of the line carries the egg.{could}", game)
 
     @staticmethod
     def _record(id_, name, species, hatched_as, sex, gen, sire, dam, moves, inherited, role, origin, fate, program,
-                note):
+                note, game=LAB_GAME):
         return {"id": id_, "name": name, "species": species, "hatched_as": hatched_as, "line": hatched_as or species,
                 "sex": sex, "generation": gen, "sire": sire, "dam": dam, "moves": list(moves),
                 "inherited": inherited, "role": role, "origin": origin, "fate": fate, "status": "planned",
-                "program": program, "chapter": None, "decision": "D-038", "note": note}
+                "program": program, "chapter": None, "decision": "D-038", "note": note, "game": game}
 
     # --- merged ---------------------------------------------------------------------------------------------
     def individuals(self):
@@ -207,7 +234,7 @@ class Lineage:
         rows = list(by_id.values())
         for r in rows:
             if not r.get("line"):
-                r["line"] = self.hatches_as(r["species"]) if r.get("species") else None
+                r["line"] = self.hatches_as(r["species"], r.get("game") or LAB_GAME) if r.get("species") else None
         return rows
 
     # --- the rules --------------------------------------------------------------------------------------------
@@ -242,15 +269,16 @@ class Lineage:
                 shared = set(self.groups(sire["species"])) & set(self.groups(dam["species"]))
                 if not shared:
                     bad.append((r["id"], f"{sire['species']} and {dam['species']} share no egg group"))
+            g = r.get("game") or LAB_GAME                            # B28: the game the cross is for
             mother_line = sire["species"] if dam["species"] == "Ditto" else dam["species"]
-            if self.hatches_as(mother_line) != self.hatches_as(sp):
-                bad.append((r["id"], f"an egg from a {mother_line} hatches as {self.hatches_as(mother_line)}, "
-                                     f"not {self.hatches_as(sp)}"))
+            if self.hatches_as(mother_line, g) != self.hatches_as(sp, g):
+                bad.append((r["id"], f"an egg from a {mother_line} hatches as {self.hatches_as(mother_line, g)}, "
+                                     f"not {self.hatches_as(sp, g)}"))
             for inh in r.get("inherited") or []:
                 if inh.get("from") == sire["id"]:
-                    if inh["move"] not in self.egg_moves(sp):
-                        bad.append((r["id"], f"{inh['move']} isn't an egg move of the {self.hatches_as(sp)} line"))
-                    if inh["move"] not in (sire.get("moves") or []) and not self.knows_itself(sire["species"], inh["move"]):
+                    if inh["move"] not in self.egg_moves(sp, g):
+                        bad.append((r["id"], f"{inh['move']} isn't an egg move of the {self.hatches_as(sp, g)} line"))
+                    if inh["move"] not in (sire.get("moves") or []) and not self.knows_itself(sire["species"], inh["move"], g):
                         bad.append((r["id"], f"the sire {sire['id']} can't know {inh['move']}"))
                 if ditto and inh.get("from") == sire["id"] and sire["species"] == "Ditto":
                     bad.append((r["id"], "a Ditto passes no egg moves"))

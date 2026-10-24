@@ -215,7 +215,7 @@ class Ranch(unittest.TestCase):
         # D-038: the lineage's fathers are used, not kept; the ranch keeps a stud of the target line
         t = self.ranch.program_entry({"species": "Tyranitar", "game": "heartgold",
                                       "moves": ["Dragon Dance", "Outrage"], "source": "test"})
-        self.assertEqual(t["fathers_used"], ["Kingdra", "Feraligatr"])
+        self.assertEqual(t["fathers_used"], ["Kingdra", "Charizard"])     # the first of the two-step chains
         self.assertEqual((t["kept"]["kind"], t["kept"]["species"], t["kept"]["sex"]), ("stud", "Tyranitar", "male"))
         self.assertEqual(sorted(t["kept"]["knows"]), ["Dragon Dance", "Outrage"])
         p = self.ranch.program_entry({"species": "Pikachu", "game": "soulsilver", "moves": ["Volt Tackle"], "source": "test"})
@@ -1949,6 +1949,97 @@ class EngineAudit(unittest.TestCase):
 
 
 
+class Stock(unittest.TestCase):
+    """Breeding stock (breeding/stock.py): the hatch order read from the games' code, whole four-move sets, the
+    parents and lineage that make them, and the four-state verdict."""
+    @classmethod
+    def setUpClass(cls):
+        from breeding import stock
+        cls.mod = stock
+        cls.s = stock.stock(DB)
+
+    def test_hatch_order_differs_by_generation(self):
+        hatch = self.mod.Stock.hatch
+        egg, tm, lu = {1}, {2}, {3}
+        # Gen 3-4: every egg move first, then TMs, then moves both parents know; Gen 2 goes father slot by slot
+        self.assertEqual([m for m, _ in hatch(4, [10, 11], [3, 2, 1], {3}, egg, tm, lu)], [10, 11, 1, 2, 3][-4:])
+        self.assertEqual([m for m, _ in hatch(2, [10, 11], [3, 2, 1], {3}, egg, tm, lu)], [11, 3, 2, 1])
+        self.assertEqual([m for m, _ in hatch(3, [10, 11], [3, 2, 1], {3}, egg, tm, lu)], [11, 1, 2, 3])
+        self.assertEqual(hatch(4, [10], [], set(), egg, tm, lu, light_ball=99)[-1], (99, "light-ball"))
+
+    def test_hatch_level_defaults(self):
+        lar = self.s.sid("Larvitar")
+        self.assertEqual([self.s.move_name(m) for m in self.s.defaults(lar, "heartgold")[0]], ["Bite", "Leer"])
+        self.assertEqual(self.mod.HATCH_LEVEL, {2: 5, 3: 5, 4: 1})
+
+    def test_keeping_a_default_takes_both_parents(self):
+        b = self.s.blueprint("Larvitar", ["Bite", "Dragon Dance", "Pursuit", "Outrage"], "heartgold")
+        self.assertEqual(b["recipe"]["mother"], ["Bite"])                 # pushed out, then put back as shared
+        self.assertEqual([x["move"] for x in b["recipe"]["slots"]], ["Dragon Dance", "Pursuit", "Outrage", "Bite"])
+        leer = self.s.blueprint("Larvitar", ["Leer", "Dragon Dance", "Pursuit", "Outrage"], "heartgold")
+        self.assertEqual(leer["recipe"]["mother"], [])                    # Leer is the newer default: it stays
+
+    def test_possible_is_not_obtainable(self):
+        # no father in reach can know Dragon Dance and Pursuit together: the rules allow the set, the world doesn't
+        v = self.s.blueprint("Larvitar", ["Dragon Dance", "Pursuit"], "heartgold")["verdict"]
+        self.assertEqual((v["possible"]["ok"], v["obtainable"]["ok"], v["pkhex"]["ok"]), (True, False, "expected"))
+
+    def test_fewer_than_four_fill_with_the_eggs_own(self):
+        b = self.s.blueprint("Cyndaquil", ["Extrasensory"], "heartgold")
+        self.assertEqual([x["move"] for x in b["recipe"]["slots"]], ["Tackle", "Leer", "Extrasensory"])
+        self.assertTrue(b["verdict"]["obtainable"]["ok"])
+
+    def test_the_mamoswine_line_b27(self):
+        b = self.s.blueprint("Swinub", ["Ancient Power", "Hail", "Bite", "Powder Snow"], "heartgold")
+        row = {r["move"]: r for r in b["moves"]}
+        self.assertEqual(row["Ancient Power"]["how"], "egg")
+        self.assertTrue(any("tutor" in a for a in row["Ancient Power"]["also"]))      # B27: also the tutor
+        evo = b["evolution"][0]
+        self.assertEqual((evo["from"], evo["to"], evo["move"]), ("Piloswine", "Mamoswine", "Ancient Power"))
+        self.assertTrue(any("egg move" in w for w in evo["ways"]))
+        self.assertTrue(b["verdict"]["obtainable"]["ok"])
+
+    def test_families_exist_in_their_generation_b26(self):
+        swinub = self.s.sid("Swinub")
+        self.assertNotIn(self.s.sid("Mamoswine"), self.s.family(swinub, 2))
+        p = self.s.plan_lineage("Swinub", ["Ancient Power"], "crystal")["plans"]
+        names = set()
+        for pl in p:
+            node = pl
+            while node:
+                names |= set(node["family"])
+                node = node["via"]
+        self.assertTrue(names)
+        self.assertTrue(all(self.s.sid(n) <= 251 for n in names))
+        self.assertEqual(self.s.blueprint("Swinub", ["Ancient Power"], "crystal")["evolution"], [])
+
+    def test_lines_without_females_breed_only_with_ditto(self):
+        b = self.s.blueprint("Tauros", ["Earthquake"], "heartgold")
+        self.assertEqual(b["lineage"]["plans"][0]["family"], ["Tauros"])
+        self.assertIn("Ditto", b["mother"][0])
+
+    def test_the_egg_checks_its_own_species(self):
+        b = self.s.blueprint("Azurill", ["Belly Drum"], "heartgold")
+        self.assertIn("Marill", b["moves"][0]["problem"])
+        self.assertTrue(self.s.blueprint("Marill", ["Belly Drum"], "heartgold")["verdict"]["possible"]["ok"])
+
+    def test_light_ball_by_game(self):
+        self.assertTrue(self.s.blueprint("Pichu", ["Volt Tackle"], "emerald")["verdict"]["possible"]["ok"])
+        self.assertFalse(self.s.blueprint("Pichu", ["Volt Tackle"], "firered")["verdict"]["possible"]["ok"])
+
+    def test_documented_reads_your_hatch_moves(self):
+        mine = [{"id": "me:heartgold/Cyndaquil-x", "species": "Typhlosion", "game": "heartgold",
+                 "hatch_moves": ["Tackle", "Leer", "Extrasensory"]}]
+        v = self.s.blueprint("Cyndaquil", ["Extrasensory"], "heartgold", individuals=mine)["verdict"]
+        self.assertEqual(v["documented"]["who"], ["me:heartgold/Cyndaquil-x"])
+
+    def test_the_pack_survives_json(self):
+        # the browser gets this pack as JSON; the engine must read the same answers from it
+        again = self.mod.Stock(json.loads(json.dumps(self.mod.load(DB))))
+        args = ("Swinub", ["Ancient Power", "Hail", "Bite", "Powder Snow"], "heartgold")
+        self.assertEqual(json.dumps(again.blueprint(*args), default=str), json.dumps(self.s.blueprint(*args), default=str))
+
+
 class Blackthorn(unittest.TestCase):
     """The ranch in the present (docs/BLACKTHORN.md): the lineage tracker, the export, the Sheet and its script."""
     @classmethod
@@ -1961,14 +2052,15 @@ class Blackthorn(unittest.TestCase):
         roles = {}
         for r in self.rows:
             roles[r["role"]] = roles.get(r["role"], 0) + 1
-        self.assertEqual(roles, {"companion": 36, "father used": 8, "dam": 10, "stud": 9})
+        self.assertEqual(roles, {"companion": 36, "father used": 7, "dam": 10, "stud": 9})
         self.assertEqual(self.lin.check(self.rows), [])
         by = {r["id"]: r for r in self.rows}
-        stud = by["S-TYRANITAR"]                     # Kingdra -> a bred Feraligatr -> the Larvitar stud
+        stud = by["S-TYRANITAR"]                     # Kingdra -> a bred Charizard -> the Larvitar stud
         self.assertEqual((stud["generation"], stud["hatched_as"], sorted(stud["moves"])),
                          (2, "Larvitar", ["Dragon Dance", "Outrage"]))
         self.assertEqual(by[stud["sire"]]["sire"], "F-KINGDRA-TYRANITAR")
-        self.assertEqual(by["S-INFERNAPE"]["sire"], "C-AMPHAROS")          # a journey companion can be the father
+        self.assertEqual(by["S-INFERNAPE"]["sire"], "FR-ALAKAZAM")         # a journey companion can be the father,
+        self.assertEqual(by["S-SWAMPERT"]["sire"], "E-MILOTIC")            # one that reaches the game (Pal Park, B29)
         self.assertIn("Budew", by["S-ROSERADE"]["note"])                   # an incense baby says so
 
     def test_the_rules_catch_a_bad_pedigree(self):
@@ -2002,7 +2094,7 @@ class Blackthorn(unittest.TestCase):
             rows = lin.individuals()
             by = {r["id"]: r for r in rows}
             self.assertEqual((by["HG-TYRANITAR"]["sex"], by["HG-TYRANITAR"]["generation"]), ("female", 0))
-            self.assertEqual(len(rows), 64)
+            self.assertEqual(len(rows), 63)
             self.assertEqual(lin.check(rows), [])
             self.assertEqual([r["id"] for r in lin.descendants("S-TYRANITAR", rows)], ["H-LARVITAR-1"])
         finally:
@@ -2013,7 +2105,7 @@ class Blackthorn(unittest.TestCase):
         d = dashboard.build()
         k = d["kpis"]
         self.assertEqual((k["residents"], k["at_hq"], k["lines"], k["individuals"], k["generations"], k["rule_issues"]),
-                         (45, 41, 10, 63, 3, 0))
+                         (45, 41, 10, 62, 3, 0))
         self.assertGreaterEqual(len(d["decisions"]), 53)
         self.assertTrue(any(q["id"] == "Q-RANCH-1" for q in d["questions"]))
         calls = sheet.build(d)
@@ -2135,6 +2227,15 @@ class WebApp(unittest.TestCase):
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
+    def test_breeding_stock_pages_answer_the_four_questions(self):
+        """The breeding-stock pages in the preview (app/test_stock.mjs, in Chromium): what a line can start with, how to
+        make an exact set, what makes two different, what a set might suggest; save, version, record a hatch; the
+        Mamoswine line's Ancient Power (B27); no Mamoswine in Crystal (B26)."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_stock.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_the_browser_team_roles_match_python(self):
         """web/28_teamroles.html against trainers/team_roles.py: every journey companion plus a stock and a competitive
         set, with two hand overrides, every field of every read (fights, the four roles, the role engine underneath, the
@@ -2220,6 +2321,19 @@ class WebApp(unittest.TestCase):
             self.assertEqual(out.returncode, 0, out.stderr[-1500:])
             out = self.sp.run(["node", os.path.join(self.app, "test_field_parity.mjs"), dump], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_the_browser_breeding_stock_matches_python(self):
+        """web/23_stock.html against breeding/stock.py: the breeding program's lineages, the proposed lines, and a fixed
+        random sample of species and starting sets in every game (blueprints, catalogues, pickers)."""
+        out = self.sp.run([sys.executable, "-I", os.path.join(self.app, "breeding_pack.py")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "stock.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "breeding", "stock.py"), "--parity", dump], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_stock_parity.mjs"), dump], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn("breeding-stock cases match Python", out.stdout)
 
     def test_your_records_read_the_same_in_the_browser_and_python(self):
         """web/21_records.html against store/personal.py (docs/design/DATA_CONTRACT.md): the same My Builds, My Pokémon

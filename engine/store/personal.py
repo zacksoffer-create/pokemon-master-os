@@ -19,9 +19,12 @@ SNAPSHOT = os.path.join(HERE, "personal.json")
 TABS = {"individual": "My Pokémon", "build": "My Builds", "team": "My Teams", "artwork": "My Artwork"}
 STATS = ("hp", "atk", "def", "spa", "spd", "spe")
 BUILD_FIELDS = ("species", "generation", "game", "level", "nature", "ability", "item")
-BUILD_TEXT = ("name", "note", "parent", "individual", "at", "recognition")   # a version keeps the recognition it earned
+BUILD_TEXT = ("name", "note", "parent", "individual", "at", "recognition",   # a version keeps the recognition it earned
+              "kind", "purpose", "labels")       # kind "blueprint": breeding stock (its purpose and your labels with it)
 IND_FIELDS = ("species", "game", "nickname", "gender", "shiny", "form", "ball", "build", "met_location", "caught_level",
-              "friendship", "origin", "note", "hero")
+              "friendship", "origin", "note", "hero",
+              "sire", "dam", "blueprint")         # its parents' ids (the studbook's or yours) and the blueprint it was bred to
+# hatch_moves (a list, written like moves): the moves it hatched with, kept even after it learns others
 
 
 # --- formats (the browser's Records.enc / Records.dec do the same) -------------------------------------------------
@@ -106,6 +109,9 @@ def dec_individual(row):
         if not _blank(row.get(k)):
             v = row[k]
             i[k] = _bool(v) if k == "shiny" else _num(v) if k in ("caught_level", "friendship") else v
+    hm = dec_moves(row.get("hatch_moves"))
+    if hm:
+        i["hatch_moves"] = hm
     if not _blank(row.get("at")):
         i["at"] = str(row["at"])
     return i
@@ -116,6 +122,7 @@ def enc_individual(i):
     for k in IND_FIELDS:
         v = i.get(k)
         row[k] = ("yes" if v else "no") if k == "shiny" and v is not None else v
+    row["hatch_moves"] = enc_moves(i.get("hatch_moves"))
     row["at"] = i.get("at", "")
     return {k: ("" if v is None else v) for k, v in row.items()}
 
@@ -210,10 +217,13 @@ def fixture(path):
     b = {"id": "yours:Larvitar-test", "v": 2, "status": "saved", "species": "Larvitar", "generation": 4, "game": "heartgold",
          "level": 100, "nature": "Adamant", "ability": "Guts", "item": "", "moves": ["Dragon Dance", "Stone Edge", "Crunch", "Earthquake"],
          "ivs": {s: 31 for s in STATS}, "evs": {"hp": 4, "atk": 252, "def": 0, "spa": 0, "spd": 0, "spe": 252},
-         "name": "", "note": "more speed", "parent": "yours:heartgold/Tyranitar@1", "individual": "me:heartgold/Larvitar-test", "at": "2026-10-24T12:00:00Z"}
+         "name": "", "note": "more speed", "parent": "yours:heartgold/Tyranitar@1", "individual": "me:heartgold/Larvitar-test", "at": "2026-10-24T12:00:00Z",
+         "kind": "blueprint", "purpose": "competitive", "labels": "dragon dance, mixed"}
     i = {"id": "me:heartgold/Larvitar-test", "status": "working", "species": "Larvitar", "game": "heartgold", "nickname": "Pebble",
          "gender": "F", "shiny": True, "form": None, "ball": "Heavy Ball", "build": "yours:Larvitar-test", "met_location": None,
-         "caught_level": 5, "friendship": None, "origin": "hatched", "note": None, "at": "2026-10-24T12:00:00Z"}
+         "caught_level": 5, "friendship": None, "origin": "hatched", "note": None, "at": "2026-10-24T12:00:00Z",
+         "hatch_moves": ["Bite", "Leer", "Dragon Dance", "Outrage"], "sire": "S-TYRANITAR", "dam": "D-TYRANITAR",
+         "blueprint": "yours:Larvitar-test"}
     rows = {"build": enc_build(b), "individual": enc_individual(i),
             "blank_spread": {"id": "yours:x", "v": 1, "species": "Snorlax", "moves": "Body Slam / Rest", "ivs": "", "evs": ""}}
     out = {"rows": rows, "decoded": {"build": dec_build(rows["build"]), "individual": dec_individual(rows["individual"]),

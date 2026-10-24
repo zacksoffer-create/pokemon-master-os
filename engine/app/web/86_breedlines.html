@@ -36,7 +36,7 @@ function lines() {
   });
 }
 function lineDetail(id) {
-  return linesReady().then(function () {
+  return Promise.all([linesReady(), stockReady()]).then(function () {
     var l = linesAll().filter(function (x) { return x.id === id; })[0];
     if (!l) return '<div class="notice">No line called ' + esc(id) + '. <a href="#/lines">All lines</a></div>';
     var gen = Battle.GAME_GEN[l.game], baby = dexOf(l.offspring) || {}, adult = dexOf(l.species) || {};
@@ -47,7 +47,16 @@ function lineDetail(id) {
     var bio = function (d, label) { return d.name ? '<div style="margin-bottom:10px"><div class="small"><b>' + esc(d.name) + '</b> <span class="tiny muted">' + esc(label) + '</span></div><div class="tiny">' + esc([d.genus, d.hab ? 'lives in ' + d.hab : null, d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.eg ? 'egg groups ' + d.eg.join(' and ') : null, d.cyc ? d.cyc + ' egg cycles' : null, gr(d)].filter(Boolean).join(' · ')) + '</div>' +
       (d.dex ? '<div class="small" style="margin-top:4px">“' + esc(d.dex) + '” <span class="tiny muted">(' + esc(cap(d.dexg || '')) + ' Pokédex)</span></div>' : '') + '</div>' : ''; };
     var abB = Battle.abilities(gen, l.offspring), abA = Battle.abilities(gen, l.species);
-    var inherit = l.moves.map(function (m) {
+    var bp = null; try { bp = Stock.blueprint(l.offspring, l.moves, l.game, mineList()); } catch (e) { bp = null; }
+    var stockRows = bp ? l.moves.map(function (m) {   // the stock engine: how each move gets in, other routes (B27), the hatch order
+      var name = m; try { name = Stock.moveName(Stock.mid(m)); } catch (e) { name = m; }
+      var row = bp.moves.filter(function (x) { return x.move === name; })[0] || {}, slot = bp.recipe ? bp.recipe.slots.filter(function (x) { return x.move === name; })[0] : null;
+      return '<div class="chain"><b>' + esc(m) + '</b> ' + (row.how ? howChip(row.how) : chip('can\'t be in the egg', 'ember')) + '<div class="small">' + esc(row.problem || (slot ? slot.why : '')) + '</div>' +
+        (row.also && row.also.length ? '<div class="tiny" style="color:var(--gold)">Also learnable without breeding: ' + esc(row.also.join('; ')) + '</div>' : '') + '</div>';
+    }).join('') + bp.evolution.map(function (x) { return '<div class="callout" style="margin-top:8px"><b>' + esc(x.line) + '.</b> <span class="small">' + esc(x.ways.join('; ')) + '.</span></div>'; }).join('') +
+      '<div style="margin-top:8px">' + verdictChips(bp.verdict) + ' <a class="link" href="' + designHref(l.game, bp.species, l.moves, null) + '">Open it as a blueprint →</a></div>' +
+      (bp.recipe ? '<div class="tiny muted" style="margin-top:4px">It hatches with ' + esc(bp.recipe.slots.map(function (x) { return x.move; }).join(', ')) + '.</div>' : '') : null;
+    var inherit = stockRows || l.moves.map(function (m) {
       var egg = l.egg_moves.indexOf(m) >= 0, babyCan = learnB.indexOf(m) >= 0, adultCan = learnA.indexOf(m) >= 0, p = l.program, how;
       if (egg && p && p.fathers_used && p.fathers_used.length) how = 'egg move: a father passes it (' + p.fathers_used.join(' → ') + ', ' + plural(p.steps, 'cross', 'crosses') + '); the kept stud is a ' + p.kept.replace(/^stud /, '');
       else if (egg && p && p.timing && p.timing.length) how = 'egg move: ' + p.timing.join('; ');
@@ -63,8 +72,10 @@ function lineDetail(id) {
       '<div>' + l.moves.map(function (m) { return chip(m, l.egg_moves.indexOf(m) >= 0 ? 'gold' : ''); }).join(' ') + (l.ability ? ' ' + chip(l.ability, 'violet') : '') + ' ' + (l.proposed ? chip('proposed: waiting for your approval', 'ember') : chip(l.status, l.status === 'done' ? 'forest' : '')) + '</div>' +
       (l.why ? '<p class="lede" style="margin-top:10px">' + esc(l.why) + '</p>' : '') + '</div></div>' +
       '<div class="grid" style="margin-top:16px"><div class="c7">' +
-      card('How each move gets into the egg', inherit, {eyebrow: 'Inheritance', tools: false}) +
-      card('How to get there', l.program ? chainHTML(l.program.target) + '<div style="margin-top:10px"><a class="link" href="#/breeding/project/' + encodeURIComponent(l.species) + '">The breeding project →</a></div>' : '<div class="empty">No crosses planned yet. Once the line is approved, the studbook planner (engine/breeding/) works out the fathers and the crosses.</div>', {eyebrow: 'The lineage', tools: false, style: 'margin-top:16px'}) + '</div>' +
+      card('How each move gets into the egg', inherit, {eyebrow: 'Inheritance, by the game\'s hatch rules', tools: false}) +
+      card('How to get there', l.program ? chainHTML(l.program.target) + '<div style="margin-top:10px"><a class="link" href="#/breeding/project/' + encodeURIComponent(l.species) + '">The breeding project →</a></div>' : bp && bp.lineage.plans.length ? chainSteps(bp.lineage.plans[0], bp) + '<div class="tiny muted" style="margin-top:8px">The stock engine\'s plan for this set. The studbook plans the actual crosses once the line is approved.</div>' :
+        (bp && bp.lineage.plans.length ? chainSteps(bp.lineage.plans[0], bp) + '<div class="tiny muted" style="margin-top:8px">The stock engine\'s plan for this set. The studbook plans the actual crosses once the line is approved.</div>' :
+        '<div class="empty">No crosses planned yet. Once the line is approved, the studbook planner (engine/breeding/) works out the fathers and the crosses.</div>'), {eyebrow: 'The lineage', tools: false, style: 'margin-top:16px'}) + '</div>' +
       '<div class="c5">' + card('Its story', bio(baby, 'what hatches') + (adult.name !== baby.name ? bio(adult, 'what it grows into') : '') +
         '<div class="eyebrow" style="margin-top:10px">Natural selection</div><div class="small">' + esc(l.offspring) + ': ' + esc(abB.join(' or ') || 'no abilities in Gen ' + gen) + (l.species !== l.offspring ? '<br>' + esc(l.species) + ': ' + esc(abA.join(' or ') || '—') : '') + '</div>' +
         (l.ability ? '<div class="tiny muted">The line keeps ' + esc(l.ability) + (abA.indexOf(l.ability) >= 0 ? '' : ' (which ' + esc(l.species) + ' can\'t have in Gen ' + gen + ': check it)') + '.</div>' : '') +

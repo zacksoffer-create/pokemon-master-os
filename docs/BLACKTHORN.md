@@ -48,7 +48,7 @@ The studbook (`breeding/studbook.py`) says what each species can pass on; the li
 - nobody is their own ancestor;
 - a stud is male-capable and carries his line's whole program set.
 
-Today: **63 individuals, 3 generations, no rule issues.**
+Today: **62 individuals, 3 generations, no rule issues.**
 
 ## The Apps Script (`engine/appscript/`)
 

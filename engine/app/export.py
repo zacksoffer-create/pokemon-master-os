@@ -22,9 +22,10 @@ live.
     battle.json, calc.json   the battle engine pack and Smogon's damage calculator, so the browser runs the battle
                    engine itself (app/battle_pack.py)
     engines.json, inbox.json   the Engine Room and the intake inbox (app/room_pack.py)
-    breeder.json   every line's egg moves with the breeding engine's lineages (app/breeder_pack.py, slow: --breeder)
+    breeder.json   every line's egg moves with the breeding engine's lineages (app/breeder_pack.py, a few seconds)
+    breeding.json  the breeding-stock engine's data for the browser's copy (app/breeding_pack.py, web/23_stock.html)
 
-    python3 -I app/export.py [--breeder]   # writes engine/app/data/*.json and prints their sizes
+    python3 -I app/export.py               # writes engine/app/data/*.json and prints their sizes
 """
 import glob
 import json
@@ -350,8 +351,10 @@ def main(breeder=False):
     dump("recognition.json", rec)
     import advance_pack
     import battle_pack
+    import breeding_pack
     import explain_pack
     explain_pack.main()
+    breeding_pack.main()
     import field_pack
     import room_pack
     import scout_pack
@@ -360,9 +363,8 @@ def main(breeder=False):
     advance_pack.main()
     battle_pack.pack()
     room_pack.main()
-    if breeder:
-        import breeder_pack
-        breeder_pack.main()
+    import breeder_pack                  # seconds since the search moved to breeding/stock.py; --breeder is kept, unneeded
+    breeder_pack.main()
 
 
 if __name__ == "__main__":

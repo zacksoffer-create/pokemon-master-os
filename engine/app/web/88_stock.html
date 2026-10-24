@@ -1,0 +1,317 @@
+<script>
+/* ===== Breeding stock: blueprints, the line's catalogue, the designer, compare =================================
+   docs/specs/BREEDING_INHERITANCE_ECOLOGY.md; MASTER_PLAN §4.5 and Phase 4. A blueprint is a build marked as breeding
+   stock (kind "blueprint" in My Builds): the whole starting set an egg hatches with, checked by the stock engine
+   (23_stock, the browser's copy of breeding/stock.py, held to it by app/test_stock_parity.mjs). Saving adds a version;
+   recording a hatch makes one of your Pokémon from it (its hatch moves kept for good). The spec's four questions:
+   what a line can start with (#/stock/<game>/<species>), how to make an exact set (the designer), what makes two sets
+   different (compare), and what a set might suggest (the evidence only; nothing here invents biology). */
+var ST = {d: null, timer: null};
+var PURPOSES = ['competitive', 'environment', 'versatility', 'personal', 'other'];
+var HOW_CHIP = {'default': ['at hatch', ''], egg: ['egg move', 'gold'], tm: ['father\'s TM', 'ice'], shared: ['both parents', 'forest'], 'light-ball': ['Light Ball', 'violet']};
+var WEATHER = {Hail: ['Snow Cloak', 'Ice Body'], Sandstorm: ['Sand Veil'], 'Rain Dance': ['Swift Swim', 'Rain Dish', 'Hydration', 'Dry Skin'],
+  'Sunny Day': ['Chlorophyll', 'Solar Power', 'Leaf Guard', 'Flower Gift', 'Dry Skin']};   // abilities that act in the weather a move calls (Gens 3-4)
+function stockReady() {
+  if (!S.stockP) S.stockP = Promise.all([labsReady(), API.data('breeding'), fieldReady().catch(function () { return null; })]).then(function (r) { if (!Stock.ready()) Stock.init(r[1]); return true; })
+    .catch(function (e) { S.stockP = null; throw e; });
+  return S.stockP;
+}
+function stockGame() { var g = store('stock-game'); return Stock.GAMES[g] ? g : 'heartgold'; }
+function blueprints(filter) {
+  var out = []; Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k]; if (b.kind === 'blueprint' && (!filter || filter(b))) out.push(b); });
+  return out.sort(function (a, b) { return String(b.at || '').localeCompare(String(a.at || '')); });
+}
+function mineList() { return Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }); }
+function bpRead(b) { try { return Stock.blueprint(b.species, b.moves || [], b.game, mineList()); } catch (e) { return {error: String(e.message || e)}; } }
+function howChip(h) { var c = HOW_CHIP[h] || [h || 'not in the set', 'ember']; return chip(c[0], c[1]); }
+function vgName(v) { return {1: 'Red/Blue', 2: 'Yellow', 3: 'Gold/Silver', 4: 'Crystal', 5: 'Ruby/Sapphire', 6: 'Emerald', 7: 'FireRed/LeafGreen', 8: 'Diamond/Pearl', 9: 'Platinum', 10: 'HeartGold/SoulSilver'}[v] || 'vg' + v; }
+function prettyRoute(r) {   // "Sunflora level-up L33 (vg10)" -> "Sunflora at Lv 33 (HeartGold/SoulSilver)"
+  return String(r).replace(/ level-up L(\d+)/, ' at Lv $1').replace(/ machine/, ' by TM/HM').replace(/ tutor/, ' from the move tutor').replace(/ egg/, ' as an egg move')
+    .replace(/\(vg(\d+)\)/, function (m, v) { return '(' + vgName(+v) + ')'; });
+}
+function verdictStrip(v, compact) {
+  var box = function (label, ok, why, cls, extra) {
+    var col = ok === true || ok === 'expected' ? 'var(--forest-3)' : ok === false ? 'var(--ember-2)' : 'var(--text-2)';
+    return '<div class="vbox" style="flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:8px 10px"><div class="tiny muted">' + esc(label) + ' <span title="what kind of claim this is">· ' + esc(cls) + '</span></div>' +
+      '<b style="color:' + col + '">' + (ok === true ? 'Yes' : ok === 'expected' ? 'Expected' : 'No') + (extra ? ' <span class="tiny">' + esc(extra) + '</span>' : '') + '</b>' + (compact ? '' : '<div class="tiny" style="margin-top:4px">' + esc(why) + '</div>') + '</div>';
+  };
+  return '<div style="display:flex;gap:8px;flex-wrap:wrap">' + box('1 · Possible under the hatch rules', v.possible.ok, v.possible.why, v.possible['class']) +
+    box('2 · Obtainable in the generation', v.obtainable.ok, v.obtainable.why, v.obtainable['class'], v.obtainable.scope) +
+    box('3 · PKHeX should accept it', v.pkhex.ok, v.pkhex.why, v.pkhex['class']) + box('4 · Documented in your collection', v.documented.ok, v.documented.why, 'yours') + '</div>';
+}
+function verdictChips(v) {
+  return [v.possible.ok ? chip('possible', 'forest') : chip('not possible', 'ember'), v.obtainable.ok ? chip('obtainable ' + v.obtainable.scope, 'forest') : v.possible.ok ? chip('not obtainable', 'ember') : '',
+    v.documented.ok ? chip('documented', 'gold') : ''].filter(Boolean).join(' ');
+}
+function chainSteps(plan, res) {   // a lineage, oldest father first, as steps you'd actually do
+  var chain = [], n = plan; while (n) { chain.push(n); n = n.via; } chain.reverse();
+  var own = function (st) { return Object.keys(st.learns_itself).map(function (mv) { return '<b>' + esc(mv) + '</b> <span class="tiny muted">(' + esc(prettyRoute(st.learns_itself[mv][0])) + ')</span>'; }).join(', '); };
+  var steps = chain.map(function (st, i) {
+    var line = st.family[0] === st.father ? st.father : st.family[0] + ' line, as ' + st.father;
+    if (i === 0) return '<li>A <b>' + esc(st.father) + '</b> ♂ learns ' + (own(st) || 'nothing it needs') + (st.catchable_in_game ? '' : ' <span class="tiny muted">(not found in this game: a trade)</span>') + '.</li>';
+    return '<li>Breed him with a female of the <b>' + esc(st.family[0]) + '</b> line: the egg hatches knowing ' + esc(st.inherits.join(', ')) + '. Raise it (' + esc(line) + ' ♂)' + (Object.keys(st.learns_itself).length ? ' and teach it ' + own(st) : '') + '.</li>';
+  });
+  steps.push('<li>Breed the last father with a female <b>' + esc(res.species) + '</b>-line Pokémon' + (res.recipe && res.recipe.mother.length ? ' that knows ' + esc(res.recipe.mother.join(', ')) : '') + ': the egg hatches with the set.</li>');
+  return '<ol class="small" style="margin:6px 0 0 18px;padding:0">' + steps.join('') + '</ol>';
+}
+
+/* ---- #/stock: your blueprints and where to start ---- */
+function stockHome() {
+  return stockReady().then(function () {
+    var game = stockGame(), bps = blueprints(), by = {};
+    bps.forEach(function (b) { (by[b.species] = by[b.species] || []).push(b); });
+    after(function (p) { stockPickBind(p); });
+    var lines = (typeof linesAll === 'function' ? linesAll() : []);
+    return '<div class="eyebrow">Builder &amp; Studio · breeding stock</div><h1 style="margin:6px 0">Breeding stock</h1>' +
+      '<p class="lede">Whole starting sets: the four moves an egg hatches with, checked against each game\'s own hatch code, with the parents and the crosses that make them. Keep as many as you like; which animals actually live at the ranch is still D-038\'s call.</p>' +
+      '<div class="grid" style="margin-top:12px"><div class="c5">' + card('Explore a line', stockPicker(game, 'explore'), {eyebrow: 'What could its eggs start with?', tools: false}) +
+      card('The four answers', '<div class="small"><b>1 · Possible.</b> The hatch rules can make this exact set from parents who know the right moves.</div><div class="small" style="margin-top:6px"><b>2 · Obtainable.</b> Those parents can actually be had in the generation: a father who can know the moves together (bred into him if needed, up to three generations back) and a mother for any move both must know. It says whether that takes trades or a transfer.</div>' +
+        '<div class="small" style="margin-top:6px"><b>3 · PKHeX.</b> PKHeX checks each move\'s source and the hatch order, not whether a father could carry the set: a set can pass PKHeX and still be impossible in the game. Not run here.</div><div class="small" style="margin-top:6px"><b>4 · Documented.</b> One of your Pokémon is recorded as hatching with it.</div>' +
+        '<div class="tiny muted" style="margin-top:8px">The verdict informs; learnability stays the gate (D-024, D-048).</div>', {eyebrow: 'How a blueprint is read', tools: false, style: 'margin-top:16px'}) + '</div>' +
+      '<div class="c7">' + card('Your blueprints', bps.length ? Object.keys(by).sort().map(function (sp) {
+          return '<div style="margin-bottom:12px"><div class="eyebrow">' + esc(sp) + ' · ' + plural(by[sp].length, 'blueprint') + '</div>' + by[sp].map(bpRow).join('') + '</div>'; }).join('') :
+        '<div class="empty">No blueprints yet. Explore a line, design a starting set, and save it: it goes to your My Builds tab as breeding stock.</div>', {eyebrow: 'Saved in My Builds', tools: false}) +
+      (lines.length ? card('Lines to start from', lines.map(function (l) {
+          return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)">' + portrait(l.offspring, 28) + ' <b>' + esc(l.offspring) + '</b> <span class="tiny muted">' + esc(Battle.GAME_TITLE[l.game] || l.game) + ' · ' + esc(l.moves.join(', ')) + '</span> ' +
+            '<a class="link" href="' + designHref(l.game, l.offspring, l.moves, null) + '">Open as a blueprint →</a> <a class="link tiny" href="#/lines/' + encodeURIComponent(l.id) + '">the line</a></div>'; }).join(''), {eyebrow: 'The breeding lab\'s lines', tools: false, style: 'margin-top:16px'}) : '') + '</div></div>';
+  });
+}
+function bpRow(b) {
+  var r = bpRead(b), v = r.verdict;
+  return '<a class="pick" href="#/stock/bp/' + encodeURIComponent(b.id) + '" style="align-items:flex-start;margin-top:6px"><img src="' + sprite(numOf(b.species), b.game) + '" alt=""><div style="flex:1"><b>' + (b.name ? esc(b.name) : '<span class="ph">⟨unnamed⟩</span>') + '</b> <span class="tiny muted">' + esc(Battle.GAME_TITLE[b.game] || b.game) + ' · v' + (b.v || 1) + '</span>' +
+    '<div class="tiny">' + esc((b.moves || []).join(' · ')) + '</div><div style="margin-top:4px">' + (v ? verdictChips(v) : chip('can\'t read: ' + (r.error || '?'), 'ember')) + (b.purpose ? ' ' + chip(b.purpose, '') : '') +
+    (b.labels ? String(b.labels).split(',').map(function (x) { return x.trim() ? ' ' + chip(x.trim(), 'violet') : ''; }).join('') : '') + '</div></div></a>';
+}
+function stockPicker(game, mode, species) {
+  return '<form id="stpick"><div class="row"><div><label class="l">Game</label><select class="f" name="game">' + Object.keys(Stock.GAMES).map(function (g) { return '<option value="' + g + '"' + (g === game ? ' selected' : '') + '>' + esc(Battle.GAME_TITLE[g] || g) + '</option>'; }).join('') + '</select></div>' +
+    '<div><label class="l">Species</label><input class="f" name="species" list="stsp" value="' + esc(species || '') + '" placeholder="Larvitar, Swinub…" autocomplete="off"></div></div>' +
+    '<datalist id="stsp">' + Stock.breedable(game).map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>' +
+    '<div style="margin-top:10px"><button class="btn gold">' + (mode === 'explore' ? 'Explore the line' : 'Open') + '</button> <span class="tiny muted">Ask for the adult (Tyranitar) or the egg (Larvitar): it reads what hatches.</span></div></form>';
+}
+function stockPickBind(p) {
+  var f = p.querySelector('#stpick'); if (!f) return;
+  f.game.onchange = function () { store('stock-game', f.game.value); var dl = p.querySelector('#stsp'); if (dl) dl.innerHTML = Stock.breedable(f.game.value).map(function (n) { return '<option value="' + esc(n) + '">'; }).join(''); };
+  f.onsubmit = function (e) { e.preventDefault(); var sp = f.species.value.trim(); if (!sp) return false;
+    try { Stock.sid(sp); } catch (err) { toast('No species called ' + esc(sp) + '.'); return false; }
+    store('stock-game', f.game.value); nav('#/stock/' + f.game.value + '/' + encodeURIComponent(sp)); return false; };
+}
+function designHref(game, species, moves, bp) {
+  return '#/stock/' + game + '/' + encodeURIComponent(species) + '/design' + (moves && moves.length ? '?m=' + moves.map(encodeURIComponent).join('|') : '') + (bp ? (moves && moves.length ? '&' : '?') + 'bp=' + encodeURIComponent(bp) : '');
+}
+
+/* ---- #/stock/<game>/<species>: everything its eggs can start with ---- */
+function stockLine(game, species) {
+  return stockReady().then(function () {
+    if (!Stock.GAMES[game]) return '<div class="notice">No game called ' + esc(game) + '.</div>';
+    var e; try { e = Stock.explore(species, game); } catch (err) { return '<div class="notice">No species called ' + esc(species) + '. <a href="#/stock">Breeding stock</a></div>'; }
+    var gen = e.generation, mine = blueprints(function (b) { return b.game && Stock.GAMES[b.game] && Stock.GAMES[b.game][0] === gen && e.family.indexOf(b.species) >= 0; });
+    var mvLine = function (m) { var x = ''; try { x = Explain.move(m, gen); } catch (err) { x = ''; } return x; };
+    after(function (p) {
+      var cmp = p.querySelector('#stcmp'); if (cmp) cmp.onclick = function () { var ids = Array.prototype.slice.call(p.querySelectorAll('input[data-bp]:checked')).map(function (x) { return x.getAttribute('data-bp'); });
+        if (ids.length !== 2) { toast('Tick two blueprints to compare.'); return; } nav('#/stock/compare/' + encodeURIComponent(ids[0]) + '/' + encodeURIComponent(ids[1])); };
+    });
+    var eggRows = e.egg.map(function (x) {
+      return '<div style="padding:8px 0;border-top:1px solid var(--line)"><div class="small"><b>' + esc(x.move) + '</b> ' + (x.one_step.length ? chip(plural(x.one_step.length, 'father') + ' learn it themselves', 'forest') : chip('a father must be bred to it first', 'ember')) +
+        ' <a class="link tiny" href="' + designHref(game, e.species, [x.move], null) + '">design with it →</a></div>' + mvLine(x.move) +
+        (x.also.length ? '<div class="tiny" style="color:var(--gold)">Also learnable without breeding: ' + esc(x.also.join('; ')) + '</div>' : '') +
+        (x.one_step.length ? '<div class="tiny muted">One-step fathers: ' + esc(x.one_step.slice(0, 12).join(', ')) + (x.one_step.length > 12 ? '…' : '') + '</div>' : '') + '</div>'; }).join('');
+    var bundles = e.bundles.map(function (b) {
+      return '<div style="padding:8px 0;border-top:1px solid var(--line)"><div>' + b.moves.map(function (m) { return chip(m, 'gold'); }).join(' ') + '</div><div class="tiny muted" style="margin-top:4px">A ' + esc(b.fathers.join(', ')) + ' ♂ can learn ' + (b.moves.length > 4 ? 'any four of these' : 'these') + ' himself and pass them in one egg. ' +
+        '<a class="link" href="' + designHref(game, e.species, b.moves.slice(0, 4), null) + '">Design with ' + (b.moves.length > 4 ? 'the first four' : 'them') + ' →</a></div></div>'; }).join('');
+    return '<a class="link" href="#/stock">← Breeding stock</a><div class="grid" style="margin-top:12px;align-items:center"><div class="c3"><img src="' + art(numOf(e.species)) + '" style="width:100%;max-width:200px" alt=""></div><div class="c9">' +
+      '<div class="eyebrow">' + esc(Battle.GAME_TITLE[game] || game) + ' · Gen ' + gen + ' · hatches at Lv ' + e.hatch_level + '</div><h1 style="margin:6px 0">What a ' + esc(e.species) + ' egg can start with</h1>' +
+      '<div class="small">The ' + esc(e.family.join(' → ')) + ' line. It always knows ' + esc(e.defaults.join(', ') || 'nothing') + ' at hatch, until four inherited moves push them out.' + (e.incense ? ' It hatches only if a parent holds ' + esc(e.incense) + '.' : '') + '</div>' +
+      e.feasibility.notes.map(function (n) { return '<div class="tiny muted">' + esc(n) + '</div>'; }).join('') +
+      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="' + designHref(game, e.species, [], null) + '">Design a starting set</a><a class="btn" href="#/atlas/' + numOf(e.species) + '">Its biology</a></div></div></div>' +
+      e.evolution.map(function (x) { return '<div class="callout" style="margin-top:12px"><b>' + esc(x.line) + '.</b> <span class="small">' + esc(x.ways.join('; ')) + '.</span></div>'; }).join('') +
+      '<div class="grid" style="margin-top:16px"><div class="c7">' +
+      card('Egg moves', eggRows || '<div class="empty">No egg moves for this line in ' + esc(Battle.GAME_TITLE[game] || game) + '.</div>', {eyebrow: plural(e.egg.length, 'egg move') + ' · each from the father', tools: false}) +
+      card('Carried together by one father', bundles || '<div class="empty">No single father learns two of its egg moves himself: sets of egg moves come from a bred father (the designer finds him).</div>', {eyebrow: 'Sets one father passes in a single step', tools: false, style: 'margin-top:16px'}) + '</div>' +
+      '<div class="c5">' + card('Your blueprints of this line', mine.length ? mine.map(function (b) { return '<label style="display:flex;gap:6px;align-items:flex-start"><input type="checkbox" data-bp="' + esc(b.id) + '" style="margin-top:14px">' + bpRow(b) + '</label>'; }).join('') +
+          (mine.length > 1 ? '<div style="margin-top:8px"><button class="btn sm" id="stcmp">Compare the two ticked</button></div>' : '') : '<div class="empty">None yet.</div>', {eyebrow: 'Saved in My Builds', tools: false}) +
+      card('From the father\'s TMs', '<div class="small">' + esc(e.tm.join(', ') || 'none') + '</div><div class="tiny muted" style="margin-top:6px">A TM or HM move the father knows passes if the egg can learn that TM' + (gen === 2 ? ' (in Crystal, the three tutor moves too)' : '') + '.</div>', {eyebrow: plural(e.tm.length, 'move'), tools: false, style: 'margin-top:16px'}) +
+      card('From both parents', '<div class="small">' + esc(e.shared.join(', ') || 'none') + '</div><div class="tiny muted" style="margin-top:6px">A move the egg learns by level-up passes when both parents know it. It also keeps a default move that four inherited moves would push out.</div>', {eyebrow: plural(e.shared.length, 'level-up move'), tools: false, style: 'margin-top:16px'}) +
+      (e.light_ball.length ? card('A Light Ball', '<div class="small">' + esc(e.light_ball.join(', ')) + ': either parent holds a Light Ball when the egg is made.</div>', {tools: false, style: 'margin-top:16px'}) : '') + '</div></div>';
+  });
+}
+
+/* ---- the designer: an exact starting set, how to make it, save it ---- */
+function stockDesign(game, species, query) {
+  return stockReady().then(function () {
+    if (!Stock.GAMES[game]) return '<div class="notice">No game called ' + esc(game) + '.</div>';
+    var q = {}; String(query || '').replace(/^\?/, '').split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); });
+    var hs; try { hs = Stock.hatchSpecies(species, game); } catch (e) { return '<div class="notice">No species called ' + esc(species) + '.</div>'; }
+    var hatch = Stock.name(hs[0]), gen = Stock.GAMES[game][0], bp = q.bp ? storeBuild(q.bp) : null;
+    var base = bp ? {moves: (bp.moves || []).slice(), name: bp.name || '', purpose: bp.purpose || '', labels: bp.labels || '', ability: bp.ability || '', nature: bp.nature || '', ivs: bp.ivs ? Records.encStats(bp.ivs) : ''} :
+      {moves: q.m ? q.m.split('|').filter(Boolean) : [], name: '', purpose: '', labels: '', ability: '', nature: '', ivs: ''};
+    var key = 'stock:' + (bp ? bp.id : game + '/' + hatch), dr = !q.m ? Records.draft(key) : null;
+    if (dr && dr.build) base = Object.assign(base, dr.build);
+    ST.d = {game: game, species: hatch, asked: species, gen: gen, bp: bp, key: key, cur: base, draft: !!(dr && dr.build)};
+    after(function (p) { stockDesignBind(p); stockRender(); });
+    var pool = Stock.startMoves(hatch, game);
+    var abil = gen >= 3 ? Battle.abilities(gen, hatch) : [], natures = gen >= 3 ? (S.builds.natures || []).map(function (x) { return x.name; }) : [];
+    var sel = function (i) { var v = base.moves[i] || ''; return '<select class="f" data-mv="' + i + '"><option value="">(empty)</option>' + pool.map(function (m) { return '<option' + (m === v ? ' selected' : '') + '>' + esc(m) + '</option>'; }).join('') + '</select>'; };
+    var vs = bp ? Records.versions(bp.id) : [];
+    return '<a class="link" href="#/stock/' + game + '/' + encodeURIComponent(hatch) + '">← What a ' + esc(hatch) + ' egg can start with</a>' +
+      '<div class="eyebrow" style="margin-top:10px">' + esc(Battle.GAME_TITLE[game] || game) + ' · breeding stock · ' + (bp ? 'blueprint ' + esc(bp.id) + ' v' + (bp.v || 1) : 'a new blueprint') + '</div>' +
+      '<h1 style="margin:6px 0">' + (bp && bp.name ? esc(bp.name) : esc(hatch) + ' starting set') + '</h1>' + (ST.d.draft ? '<div class="draftline tiny">Unsaved changes from earlier, kept in this browser. <a class="link" href="javascript:void 0" id="stdiscard">Discard them</a></div>' : '') +
+      '<div class="grid" style="margin-top:12px"><div class="c4">' + card('The four moves', '<form id="stform">' + [0, 1, 2, 3].map(sel).join('<div style="height:6px"></div>') +
+        '<div class="tiny muted" style="margin-top:6px">Leave slots empty and the egg\'s own moves at hatch fill them. Every move here can be in a ' + esc(hatch) + ' egg\'s starting set in ' + esc(Battle.GAME_TITLE[game] || game) + '.</div>' +
+        (gen >= 3 ? '<div class="row" style="margin-top:10px"><div><label class="l">Ability</label><select class="f" name="ability"><option value="">(either)</option>' + abil.map(function (a) { return '<option' + (a === base.ability ? ' selected' : '') + '>' + esc(a) + '</option>'; }).join('') + '</select></div>' +
+          '<div><label class="l">Nature</label><select class="f" name="nature"><option value="">(any)</option>' + natures.map(function (n) { return '<option' + (n === base.nature ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</select></div></div>' : '<div class="tiny muted" style="margin-top:10px">Gen 2 has no natures or abilities.</div>') +
+        '<label class="l" style="margin-top:6px">IVs ' + (gen === 2 ? '(DVs)' : '') + ' <span class="tiny muted">HP/Atk/Def/SpA/SpD/Spe, optional</span></label><input class="f" name="ivs" value="' + esc(base.ivs || '') + '" placeholder="31/31/31/31/31/31">' +
+        '<div class="eyebrow" style="margin-top:12px">Keep it</div><label class="l">Name</label><input class="f" name="name" value="' + esc(base.name || '') + '" placeholder="(your name for it, optional)">' +
+        '<div class="row" style="margin-top:6px"><div><label class="l">Purpose</label><select class="f" name="purpose"><option value="">(none)</option>' + PURPOSES.map(function (x) { return '<option' + (x === base.purpose ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
+        '<div><label class="l">Labels</label><input class="f" name="labels" value="' + esc(base.labels || '') + '" placeholder="comma, separated"></div></div>' +
+        '<label class="l" style="margin-top:6px">Note on this save</label><input class="f" name="note" placeholder="what changed (optional)">' +
+        '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' + (bp ? '<button class="btn gold" data-save="next">Save as v' + ((vs.length ? vs[vs.length - 1].v || 1 : 1) + 1) + '</button><button class="btn" data-save="new">Save as a new blueprint</button>' : '<button class="btn gold" data-save="new">Save the blueprint</button>') + '</div></form>' +
+        '<div class="tiny muted" style="margin-top:8px">Saved to your My Builds tab as breeding stock; a save adds a version and the old one stays.</div>', {eyebrow: esc(hatch) + ' · hatches at Lv ' + Stock.HATCH_LEVEL[gen], tools: false}) +
+        (bp ? card('This blueprint', '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm gold" id="sthatch">Record one hatched</button><a class="btn sm" href="#/stock/' + game + '/' + encodeURIComponent(hatch) + '">Compare with another</a></div>' +
+          '<div class="tiny muted" style="margin-top:6px">Recording a hatch makes one of your Pokémon from it: its hatch moves are kept for good, and PKHeX export can make it.</div>' +
+          (vs.length > 1 ? '<div style="margin-top:10px">' + vs.slice().reverse().map(function (x) { return '<div class="small" style="padding:4px 0;border-top:1px solid var(--line)"><b>v' + (x.v || 1) + '</b> <span class="tiny muted">' + esc(x.at ? fmtDate(x.at) : '') + '</span> <span class="tiny">' + esc((x.moves || []).join(' · ')) + '</span>' + (x.note ? '<div class="tiny muted">“' + esc(x.note) + '”</div>' : '') + '</div>'; }).join('') + '</div>' : ''),
+          {eyebrow: plural(vs.length, 'version'), tools: false, style: 'margin-top:16px'}) : '') +
+      '</div><div class="c8" id="stres"><div class="empty">Reading…</div></div></div>';
+  });
+}
+function stockCur(form) {
+  var f = form.elements, mv = [];
+  form.querySelectorAll('[data-mv]').forEach(function (s) { if (s.value) mv.push(s.value); });
+  return {moves: mv, name: f.name.value.trim(), purpose: f.purpose.value, labels: f.labels.value.trim(), ability: f.ability ? f.ability.value : '', nature: f.nature ? f.nature.value : '', ivs: f.ivs.value.trim()};
+}
+function stockDesignBind(p) {
+  var form = p.querySelector('#stform'); if (!form) return;
+  var changed = function () { ST.d.cur = stockCur(form); Records.setDraft(ST.d.key, ST.d.cur); clearTimeout(ST.timer); ST.timer = setTimeout(stockRender, 120); };
+  form.addEventListener('change', changed); form.addEventListener('input', function (e) { if (e.target.tagName === 'INPUT') changed(); });
+  var dis = p.querySelector('#stdiscard'); if (dis) dis.onclick = function () { Records.clearDraft(ST.d.key); nav(designHref(ST.d.game, ST.d.species, ST.d.bp ? ST.d.bp.moves : [], ST.d.bp ? ST.d.bp.id : null), true); };
+  form.querySelectorAll('[data-save]').forEach(function (b) { b.onclick = function (e) { e.preventDefault(); stockSave(b.getAttribute('data-save') === 'new'); }; });
+  form.onsubmit = function (e) { e.preventDefault(); return false; };
+  var h = p.querySelector('#sthatch'); if (h) h.onclick = stockHatch;
+}
+function stockRender() {
+  var d = ST.d, el = document.getElementById('stres'); if (!d || !el) return;
+  var res = Stock.blueprint(d.species, d.cur.moves, d.game, mineList()); d.res = res;
+  el.innerHTML = stockResult(res, d);
+}
+function stockResult(res, d) {
+  var gen = res.generation, v = res.verdict, r = res.recipe, html = card('The verdict', verdictStrip(v), {eyebrow: 'Four separate claims', tools: false});
+  var probs = res.moves.filter(function (m) { return m.problem; }).map(function (m) { return '<div class="notice">' + esc(m.problem) + '</div>'; }).join('') + (res.unknown.length ? '<div class="notice">Not moves the reference knows: ' + esc(res.unknown.join(', ')) + '</div>' : '');
+  if (r) {
+    html += card('The egg', r.slots.map(function (s, i) { return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)"><span class="tiny muted">slot ' + (i + 1) + '</span> <b>' + esc(s.move) + '</b> ' + howChip(s.how) + '<div class="tiny muted">' + esc(s.why) + '</div></div>'; }).join('') +
+      '<div class="tiny muted" style="margin-top:6px">In this slot order: that\'s what PKHeX checks. ' + (res.incense ? 'It hatches as ' + esc(res.species) + ' only if a parent holds ' + esc(res.incense) + '.' : '') + '</div>', {eyebrow: 'What hatches, slot by slot', tools: false, style: 'margin-top:16px'});
+    html += card('The parents', '<div class="small"><b>The father</b> knows ' + (r.father.length ? esc(r.father.join(', ')) + (r.order_matters ? ' <span style="color:var(--ember-2)">in this order</span> (swap them on his summary screen)' : '') : 'none of these: any compatible father who knows nothing the egg could inherit') + '.</div>' +
+      (r.father.length ? '<div class="tiny muted">Anything else he knows must be a move this egg can\'t take; the Move Deleter clears the rest.</div>' : '') +
+      '<div class="small" style="margin-top:8px"><b>The mother</b>: ' + esc(res.mother.map(function (n) { return n.replace(/: (.+)$/, function (m, r) { return ': ' + prettyRoute(r); }); }).join('; ')) + '.</div>' + (r.light_ball ? '<div class="small" style="margin-top:8px"><b>A Light Ball</b> held by either parent.</div>' : ''), {eyebrow: 'Who knows what when the egg is made', tools: false, style: 'margin-top:16px'});
+    var plans = res.lineage.plans;
+    html += card('The father\'s lineage', !r.father.length ? '<div class="small">No father has to know anything: no lineage needed.</div>' : plans.length ? chainSteps(plans[0], res) +
+        (plans.length > 1 ? '<div class="tiny muted" style="margin-top:8px">Other fathers that work: ' + esc(plans.slice(1).map(function (x) { return x.father + ' (' + plural(x.steps, 'step') + ')'; }).join(', ')) + '.</div>' : '') :
+        '<div class="notice">' + esc(res.lineage.note || 'No father who can know ' + r.father.join(', ') + ' together was found within three generations of fathers.') + '</div>', {eyebrow: plans.length ? plural(plans[0].steps, 'generation') + ' of fathers' : 'The father has to know these together', tools: false, style: 'margin-top:16px'});
+  }
+  var notes = [];
+  res.moves.forEach(function (m) { if (m.also.length) notes.push('<b>' + esc(m.move) + '</b>: also learnable without breeding: ' + esc(m.also.join('; ')) + '.'); });
+  res.lineage.timing.forEach(function (t) { notes.push(esc(t)); });
+  res.evolution.forEach(function (x) { notes.push('<b>' + esc(x.line) + '.</b> ' + esc(x.ways.join('; ')) + '.'); });
+  res.feasibility.notes.forEach(function (n) { notes.push(esc(n)); });
+  html = probs + html;
+  if (notes.length) html += card('Worth knowing', notes.map(function (n) { return '<div class="small" style="padding:4px 0">' + n + '</div>'; }).join(''), {eyebrow: 'Other routes, timing, evolution', tools: false, style: 'margin-top:16px'});
+  html += card('What else the parents pass', stockOdds(res, d), {eyebrow: 'Mechanics and chances; how long it takes isn\'t estimated', tools: false, style: 'margin-top:16px'});
+  html += card('What this set might suggest', stockSuggests(res, d), {eyebrow: 'The evidence, by kind of claim', tools: false, style: 'margin-top:16px'});
+  return html;
+}
+function stockOdds(res, d) {
+  var o = res.odds, gen = res.generation;
+  var stats = o.stats ? '<div class="small" style="margin-top:6px">' + ['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map(function (s) { return STAT_NAME[s] + ' ' + Math.round(o.stats[s] * 100) + '%'; }).join(' · ') + ' <span class="tiny muted">(the chance each stat comes from a parent)</span></div>' : '';
+  var ab = gen >= 3 ? Battle.abilities(gen, res.species) : [];
+  return '<div class="small"><b>IVs.</b> ' + esc(o.ivs) + '</div>' + stats + '<div class="small" style="margin-top:6px"><b>Nature.</b> ' + esc(o.nature) + (d.cur.nature ? ' (for ' + esc(d.cur.nature) + ')' : '') + '</div>' +
+    '<div class="small" style="margin-top:6px"><b>Ability.</b> ' + esc(o.ability) + (ab.length ? ' ' + esc(res.species) + ': ' + esc(ab.join(' or ')) + '.' : '') + '</div>' +
+    '<div class="small" style="margin-top:6px"><b>Egg cycles.</b> ' + res.egg_cycles + ' (a species\' fixed number; a Flame Body or Magma Armor partner halves the walking in Gen 4).</div>' +
+    '<div class="tiny muted" style="margin-top:6px">Sources: ' + esc(o.source) + '. Probabilities are mechanics; time per egg depends on how you play, so it isn\'t estimated.</div>';
+}
+function stockSuggests(res, d) {   // the spec's fourth question, answered with evidence only (no invented biology)
+  var gen = res.generation, slots = res.recipe ? res.recipe.slots.map(function (s) { return s.move; }) : res.moves.map(function (m) { return m.move; });
+  var mech = [], canon = [], fieldMoves = S.field ? (S.field.data().field_moves || {}) : {};
+  slots.forEach(function (m) { var mv = null, eff = null; try { mv = Battle.move(gen, m); eff = Battle.mbGet(gen, mv.name); } catch (e) { mv = null; }
+    if (mv) mech.push('<b>' + esc(m) + '</b>: ' + esc([mv.type, mv.cat, mv.bp ? mv.bp + ' power' : null].filter(Boolean).join(' · ')) + (eff && eff.effect ? ' — ' + esc(eff.effect) : ''));
+    if (fieldMoves[m]) mech.push('<b>' + esc(m) + '</b> outside battle: ' + esc(fieldMoves[m]) + '.'); });
+  if (d.cur.ability) {
+    var at = Explain.data() && Explain.data().abilities[d.cur.ability], txt = at ? ((at.game_text || {})[String(gen)] || at.summary) : null;
+    if (txt) mech.push('<b>' + esc(d.cur.ability) + '</b>: ' + esc(txt));
+    if (S.field) Field.evidence(d.game, res.species).forEach(function (e) { if (e.source.indexOf(d.cur.ability) === 0) mech.push('<b>' + esc(d.cur.ability) + '</b> outside battle: ' + esc(e.detail || e.source) + '.'); });
+    Object.keys(WEATHER).forEach(function (w) { if (slots.indexOf(w) >= 0 && WEATHER[w].indexOf(d.cur.ability) >= 0) mech.push('<b>' + esc(w) + ' and ' + esc(d.cur.ability) + '</b>: the ability works in the weather the move calls.'); });
+  }
+  res.evolution.forEach(function (x) { if (slots.indexOf(x.move) >= 0) mech.push('<b>' + esc(x.move) + '</b> is what lets ' + esc(x.from) + ' become ' + esc(x.to) + '.'); });
+  var dd = dexOf(res.species) || {};
+  if (dd.dex) canon.push('“' + esc(dd.dex) + '” <span class="tiny muted">(' + esc(cap(dd.dexg || '')) + ' Pokédex)</span>');
+  if (dd.hab) canon.push('Lives in ' + esc(dd.hab) + ' (the Pokédex habitat).');
+  if (S.field) Field.evidence(d.game, res.species).filter(function (e) { return e.tier === 'lore'; }).slice(0, 4).forEach(function (e) { canon.push(esc(cap(e.capability.replace(/_/g, ' '))) + ': its ' + esc(e.source) + ' entry suggests it' + (e.detail ? ' (“' + esc(e.detail) + '”)' : '') + '.'); });
+  return '<div class="eyebrow">Game mechanics</div>' + (mech.length ? mech.map(function (x) { return '<div class="small" style="padding:3px 0">' + x + '</div>'; }).join('') : '<div class="tiny muted">None recorded.</div>') +
+    '<div class="eyebrow" style="margin-top:10px">Canon about the species</div>' + (canon.length ? canon.map(function (x) { return '<div class="small" style="padding:3px 0">' + x + '</div>'; }).join('') : '<div class="tiny muted">None recorded.</div>') +
+    '<div class="eyebrow" style="margin-top:10px">Interpretation</div><div class="small">Blackthorn draws no conclusion from a starting set on its own. A move doesn\'t make a lineage: an Extrasensory Cyndaquil is an individual specialization until something more shows otherwise. A reading of this set would be a hypothesis, filed in the <a class="link" href="#/journal">research journal</a>, next to <a class="link" href="#/atlas/' + numOf(res.species) + '">its biology</a>.</div>';
+}
+function stockSave(asNew) {
+  var d = ST.d, c = d.cur, res = d.res || Stock.blueprint(d.species, c.moves, d.game, mineList());
+  var ivs = null; if (c.ivs) { try { ivs = Records.decStats(c.ivs); } catch (e) { toast(esc(e.message)); return; } }
+  var b = {species: res.species, game: d.game, generation: res.generation, level: res.hatch_level, moves: res.recipe ? res.recipe.slots.map(function (s) { return s.move; }) : c.moves,
+    kind: 'blueprint', purpose: c.purpose || null, labels: c.labels || null, name: c.name || null, ability: c.ability || null, nature: c.nature || null, ivs: ivs};
+  if (!asNew && d.bp) b.id = d.bp.id;
+  var note = (document.querySelector('#stform [name=note]') || {}).value || '';
+  Records.saveBuild(b, {asNew: asNew || !d.bp, note: note}).then(function (saved) { Records.clearDraft(d.key); toast('Saved: ' + esc(saved.id) + ' v' + saved.v + (res.recipe ? '' : ' (the hatch rules can\'t make it yet: see the verdict)')); nav('#/stock/bp/' + encodeURIComponent(saved.id)); })
+    .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+}
+function stockHatch() {   // a realized individual from the blueprint: a build of its own (a variant), its hatch moves kept
+  var d = ST.d, bp = d.bp, res = d.res; if (!bp || !res) return;
+  if (!res.recipe) { toast('The hatch rules can\'t make this set, so nothing can hatch with it.'); return; }
+  var slots = res.recipe.slots.map(function (s) { return s.move; }), gr = (dexOf(res.species) || {}).gr;
+  var vb = {species: res.species, game: d.game, generation: res.generation, level: res.hatch_level, moves: slots, ability: bp.ability || null, nature: bp.nature || null, ivs: bp.ivs || null, name: bp.name ? bp.name + ' (hatched)' : null};
+  Records.saveBuild(vb, {asNew: true, parent: bp.id + '@' + (bp.v || 1), note: 'hatched from the blueprint'}).then(function (saved) {
+    return Records.saveIndividual({species: res.species, game: d.game, build: saved.id, hatch_moves: slots, blueprint: bp.id, origin: 'hatched (blueprint ' + bp.id + ' v' + (bp.v || 1) + ')',
+      caught_level: res.hatch_level, met_location: 'hatched from an egg', gender: gr === -1 ? 'genderless' : gr === 8 ? 'F' : 'M', shiny: false, ball: 'Poké Ball', status: 'working'}, 'Hatched a ' + res.species + ' from the blueprint ' + (bp.name || bp.id));
+  }).then(function (ind) { toast('Recorded. Its hatch moves stay on its profile whatever it learns later.'); nav('#/mon/' + encodeURIComponent(ind.id)); })
+    .catch(function (e) { toast('Couldn\'t record it: ' + esc(e && e.message || e)); });
+}
+function stockBp(id) {
+  return stockReady().then(function () {
+    var b = storeBuild(id);
+    if (!b || b.kind !== 'blueprint') return '<div class="notice">No blueprint called ' + esc(id) + '. <a href="#/stock">Breeding stock</a></div>';
+    return stockDesign(b.game, b.species, '?bp=' + encodeURIComponent(id));
+  });
+}
+
+/* ---- compare two blueprints: what makes them different ---- */
+function stockCompare(a, b) {
+  return stockReady().then(function () {
+    var A = storeBuild(a), B = storeBuild(b);
+    if (!A || !B) return '<div class="notice">Pick two blueprints to compare. <a href="#/stock">Breeding stock</a></div>';
+    var ra = bpRead(A), rb = bpRead(B), gen = ra.generation;
+    var ma = (A.moves || []), mb = (B.moves || []), both = ma.filter(function (m) { return mb.indexOf(m) >= 0; });
+    var onlyA = ma.filter(function (m) { return mb.indexOf(m) < 0; }), onlyB = mb.filter(function (m) { return ma.indexOf(m) < 0; });
+    var how = function (r, m) { var x = (r.recipe ? r.recipe.slots : []).filter(function (s) { return s.move === m; })[0]; return x ? x.how : null; };
+    var desc = function (r, m) { var mv = null; try { mv = Battle.move(r.generation, m); } catch (e) { mv = null; } return mv ? mv.type + ' ' + mv.cat + (mv.bp ? ' ' + mv.bp : '') : 'unknown move'; };
+    var steps = function (r) { return r.lineage && r.lineage.plans.length ? r.lineage.plans[0].steps : 0; };
+    var title = function (x) { return x.name ? esc(x.name) : '<span class="ph">⟨' + esc(x.species + ' ' + x.id.split('-').pop()) + '⟩</span>'; };
+    var diffs = [];
+    onlyA.forEach(function (m) { diffs.push('The first starts with <b>' + esc(m) + '</b> (' + esc(desc(ra, m)) + '; ' + esc((HOW_CHIP[how(ra, m)] || ['?'])[0]) + ').'); });
+    onlyB.forEach(function (m) { diffs.push('The second starts with <b>' + esc(m) + '</b> (' + esc(desc(rb, m)) + '; ' + esc((HOW_CHIP[how(rb, m)] || ['?'])[0]) + ').'); });
+    if (steps(ra) !== steps(rb)) diffs.push('Effort: the first needs ' + plural(steps(ra), 'generation') + ' of fathers, the second ' + plural(steps(rb), 'generation') + '.');
+    var mom = function (r) { return r.recipe ? r.recipe.mother : []; };
+    if (mom(ra).length !== mom(rb).length) diffs.push('The mother must know ' + (mom(ra).length ? esc(mom(ra).join(', ')) : 'nothing') + ' for the first, ' + (mom(rb).length ? esc(mom(rb).join(', ')) : 'nothing') + ' for the second.');
+    ['possible', 'obtainable', 'documented'].forEach(function (k) { if (ra.verdict && rb.verdict && String(ra.verdict[k].ok) !== String(rb.verdict[k].ok)) diffs.push(cap(k) + ': ' + (ra.verdict[k].ok ? 'only the first' : 'only the second') + '.'); });
+    if ((A.ability || '') !== (B.ability || '')) diffs.push('Ability: ' + esc(A.ability || 'either') + ' vs ' + esc(B.ability || 'either') + '.');
+    if ((A.purpose || '') !== (B.purpose || '')) diffs.push('Purpose: ' + esc(A.purpose || 'none') + ' vs ' + esc(B.purpose || 'none') + '.');
+    var col = function (x, r) {
+      return card(title(x), '<div class="tiny muted">' + esc(Battle.GAME_TITLE[x.game] || x.game) + ' · ' + esc(x.species) + ' · v' + (x.v || 1) + (x.purpose ? ' · ' + esc(x.purpose) : '') + '</div>' +
+        (r.recipe ? r.recipe.slots.map(function (s) { return '<div class="small" style="padding:4px 0;border-top:1px solid var(--line)"><b' + (both.indexOf(s.move) < 0 ? ' style="color:var(--gold)"' : '') + '>' + esc(s.move) + '</b> ' + howChip(s.how) + ' <span class="tiny muted">' + esc(desc(r, s.move)) + '</span></div>'; }).join('') : '<div class="notice">' + esc(r.verdict ? r.verdict.possible.why : r.error) + '</div>') +
+        (r.verdict ? '<div style="margin-top:8px">' + verdictStrip(r.verdict, true) + '</div>' : '') +
+        '<div style="margin-top:8px"><a class="link" href="#/stock/bp/' + encodeURIComponent(x.id) + '">Open it →</a></div>', {tools: false});
+    };
+    return '<a class="link" href="#/stock">← Breeding stock</a><div class="eyebrow" style="margin-top:10px">Breeding stock · compare</div><h1 style="margin:6px 0">What makes these two different</h1>' +
+      card('The differences', (diffs.length ? diffs.map(function (x) { return '<div class="small" style="padding:4px 0">' + x + '</div>'; }).join('') : '<div class="small">The same starting set, made the same way.</div>') +
+        (both.length ? '<div class="tiny muted" style="margin-top:8px">Both start with ' + esc(both.join(', ')) + '.</div>' : ''), {eyebrow: 'Moves, how they get in, effort, verdict', tools: false, style: 'margin-top:12px'}) +
+      '<div class="grid" style="margin-top:16px"><div class="c6">' + col(A, ra) + '</div><div class="c6">' + col(B, rb) + '</div></div>';
+  });
+}
+route(/^\/stock\/?$/, stockHome, 'Breeding stock', '#/stock');
+route(/^\/stock\/bp\/(.+)$/, stockBp, function (i) { return 'Breeding stock · ' + i; }, '#/stock');
+route(/^\/stock\/compare\/([^/]+)\/([^/]+)$/, stockCompare, 'Breeding stock · compare', '#/stock');
+route(/^\/stock\/(\w+)\/([^/?]+)\/design\/?(\?.*)?$/, stockDesign, function (g, s) { return 'Breeding stock · ' + s + ' · design'; }, '#/stock');
+route(/^\/stock\/(\w+)\/([^/?]+)\/?$/, stockLine, function (g, s) { return 'Breeding stock · ' + s; }, '#/stock');
+</script>

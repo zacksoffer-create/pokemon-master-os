@@ -1,0 +1,449 @@
+<script>
+/* ===== Breeding stock: the hatch order, whole starting sets, the parents and lineage that make them ===========
+   The browser's copy of engine/breeding/stock.py, over the same data pack (app/data/breeding.json); the parity test
+   app/test_stock_parity.mjs holds the two together, answer for answer. How an egg's moves are made comes from the
+   games' own code (pret decompilations): Gen 2 goes through the father's moves one by one (egg move, then a move both
+   parents know that the egg learns by level-up, then a TM, HM or Crystal tutor move); Gens 3-4 add all his egg moves,
+   then his TMs, then the moves both parents know; Light Ball last. Hatch level 5 in Gens 2-3, 1 in Gen 4. A fifth
+   move pushes the oldest out. The verdict keeps four claims apart: possible, obtainable, PKHeX, documented. */
+var Stock = (function () {
+  var GAMES = {crystal: [2, 4], firered: [3, 7], emerald: [3, 6], platinum: [4, 9], heartgold: [4, 10], soulsilver: [4, 10]};
+  var VG_GEN = {1: 1, 2: 1, 3: 2, 4: 2, 5: 3, 6: 3, 7: 3, 8: 4, 9: 4, 10: 4};
+  var VG_NAME = {1: 'Red/Blue', 2: 'Yellow', 3: 'Gold/Silver', 4: 'Crystal', 5: 'Ruby/Sapphire', 6: 'Emerald',
+    7: 'FireRed/LeafGreen', 8: 'Diamond/Pearl', 9: 'Platinum', 10: 'HeartGold/SoulSilver'};
+  var TRANSFER_FROM = {2: [1], 3: [], 4: [3]};
+  var CAP = {1: 151, 2: 251, 3: 386, 4: 493};
+  var HATCH_LEVEL = {2: 5, 3: 5, 4: 1};
+  var RANK = {'level-up': 0, egg: 1, tutor: 2, machine: 3, 'light-ball-egg': 4};
+  var INCENSE = {3: {Azurill: 'Sea Incense', Wynaut: 'Lax Incense'},
+    4: {Azurill: 'Sea Incense', Wynaut: 'Lax Incense', Munchlax: 'Full Incense', Happiny: 'Luck Incense', 'Mime Jr.': 'Odd Incense',
+      Bonsly: 'Rock Incense', Budew: 'Rose Incense', Chingling: 'Pure Incense', Mantyke: 'Wave Incense'}};
+  var P = null, SP = {}, SIDS = [], CHAINS = {}, BYNAME = {}, MV = {}, BYMOVE = {}, SQUASH = {}, LEARN = {}, LU = {}, SETS = {}, WILD = {}, EVO = {}, MEMBERS = {};
+
+  // --- the pack ----------------------------------------------------------------------------------------------
+  function slug(s) {
+    s = String(s).trim().toLowerCase().replace(/’/g, '').replace(/'/g, '').replace(/\./g, '').replace(/♀/g, '-f').replace(/♂/g, '-m');
+    var o = ''; for (var i = 0; i < s.length; i++) { var c = s[i]; o += /[a-z0-9]/.test(c) || (c.toLowerCase() !== c.toUpperCase()) ? c : '-'; }
+    o = o.replace(/^-+|-+$/g, ''); return o.replace(/--/g, '-');
+  }
+  function unbits(h, moves) { var out = []; for (var c = 0; c < h.length; c++) { var v = parseInt(h[c], 16); for (var b = 0; b < 4; b++) if (v >> b & 1) out.push(moves[c * 4 + b]); } return out; }
+  function init(pack) {
+    P = pack; SP = {}; CHAINS = {}; BYNAME = {}; MV = {}; BYMOVE = {}; SQUASH = {}; LEARN = {}; LU = {}; SETS = {}; WILD = {}; EVO = {}; MEMBERS = {};
+    SIDS = Object.keys(pack.species).map(Number).sort(function (a, b) { return a - b; });
+    SIDS.forEach(function (sid) { var v = pack.species[sid]; SP[sid] = v; (CHAINS[v.c] = CHAINS[v.c] || []).push(sid); BYNAME[slug(v.n)] = sid;
+      v.eg.forEach(function (g) { (MEMBERS[g] = MEMBERS[g] || []).push(sid); }); });
+    Object.keys(pack.moves).forEach(function (k) { MV[+k] = pack.moves[k]; BYMOVE[slug(pack.moves[k][0])] = +k; });
+    Object.keys(BYMOVE).sort().forEach(function (k) { SQUASH[k.replace(/-/g, '')] = BYMOVE[k]; });
+    Object.keys(pack.learn).forEach(function (vg) {
+      var d = pack.learn[vg], L = {}, lu = {}, sets = {E: {}, T: {}, M: {}, B: {}};
+      Object.keys(d.L).forEach(function (s) { L[+s] = d.L[s]; var st = new Set(); for (var i = 0; i < d.L[s].length; i += 2) st.add(d.L[s][i]); lu[+s] = st; });
+      ['E', 'T', 'B'].forEach(function (k) { Object.keys(d[k]).forEach(function (s) { sets[k][+s] = new Set(d[k][s]); }); });
+      Object.keys(d.M.bits).forEach(function (s) { sets.M[+s] = new Set(unbits(d.M.bits[s], d.M.moves)); });
+      LEARN[+vg] = L; LU[+vg] = lu; SETS[+vg] = sets;
+    });
+    Object.keys(pack.wild).forEach(function (g) { WILD[g] = new Set(pack.wild[g]); });
+    pack.evo_move.forEach(function (r) { EVO[r[0]] = r[1]; });
+    return api;
+  }
+
+  // --- identity ----------------------------------------------------------------------------------------------
+  function sid(name) {
+    if (typeof name === 'number') return name;
+    var s = slug(name); if (s in BYNAME) return BYNAME[s];
+    while (s.indexOf('-') >= 0) { s = s.slice(0, s.lastIndexOf('-')); if (s in BYNAME) return BYNAME[s]; }
+    throw new Error('KeyError: ' + name);
+  }
+  function mid(name) {
+    if (typeof name === 'number') return name;
+    var s = slug(name); if (s in BYMOVE) return BYMOVE[s];
+    var q = s.replace(/-/g, ''); if (q in SQUASH) return SQUASH[q];
+    throw new Error('KeyError: ' + name);
+  }
+  function name(s) { return SP[s].n; }
+  function moveName(m) { return MV[m][0]; }
+  function family(s, gen) { if (gen == null) gen = 4; return CHAINS[SP[s].c].filter(function (x) { return x <= CAP[gen]; }); }
+  function line(s) { var out = []; while (s) { out.push(s); s = SP[s].f; } return out; }
+  function gr(s) { return SP[s].gr; }
+  function key(arr) { return arr.join(','); }
+  function cmp(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+  function cmpArr(a, b) { for (var i = 0; i < Math.min(a.length, b.length); i++) { var c = cmp(a[i], b[i]); if (c) return c; } return cmp(a.length, b.length); }
+  function byName(a, b) { return cmp(moveName(a), moveName(b)); }
+  function uniq(rows) { var seen = {}, out = []; rows.forEach(function (r) { var k = r.join('|'); if (!seen[k]) { seen[k] = 1; out.push(r); } }); return out; }
+
+  function methods(s, m, vg) {
+    var out = [], L = LEARN[vg]; if (!L) return out;
+    if (LU[vg][s] && LU[vg][s].has(m)) { var lst = L[s]; for (var i = 0; i < lst.length; i += 2) if (lst[i] === m) out.push(['level-up', lst[i + 1]]); }
+    [['E', 'egg'], ['T', 'tutor'], ['M', 'machine'], ['B', 'light-ball-egg']].forEach(function (x) { var st = SETS[vg][x[0]][s]; if (st && st.has(m)) out.push([x[1], 0]); });
+    return out;
+  }
+  function routes(fam, m, vgs, meths) {
+    var out = [];
+    fam.forEach(function (s) { vgs.forEach(function (v) { methods(s, m, v).forEach(function (r) { if (meths.indexOf(r[0]) >= 0) out.push([s, r[0], r[1], v]); }); }); });
+    return out;
+  }
+  function ctx(game) {
+    var g = GAMES[game], gen = g[0], vg = g[1], genVgs = [], src = [];
+    Object.keys(VG_GEN).forEach(function (v) { if (VG_GEN[v] === gen) genVgs.push(+v); });
+    src = genVgs.slice(); Object.keys(VG_GEN).forEach(function (v) { if ((TRANSFER_FROM[gen] || []).indexOf(VG_GEN[v]) >= 0) src.push(+v); });
+    return {gen: gen, vg: vg, genVgs: genVgs, srcVgs: src};
+  }
+
+  // --- the lineage search ----------------------------------------------------------------------------------------
+  function candidates(fam, gen) {
+    if (!fam.some(function (s) { return gr(s) !== -1 && gr(s) !== 0; })) return fam.some(function (s) { return gr(s) !== 8; }) ? [fam] : [];
+    var groups = {}; fam.forEach(function (s) { SP[s].eg.forEach(function (g) { if (g !== 'no-eggs' && g !== 'ditto') groups[g] = 1; }); });
+    var out = {}, list = [];
+    Object.keys(groups).forEach(function (g) { (MEMBERS[g] || []).forEach(function (s) {
+      if (s > CAP[gen]) return; var f = family(s, gen), k = key(f);
+      if (!out[k] && f.some(function (x) { return gr(x) !== -1 && gr(x) !== 8; })) { out[k] = 1; list.push(f); } }); });
+    return list.sort(cmpArr);
+  }
+  function search(fam, need, game, depth, visited, memo) {
+    var mk = key(fam) + '|' + need.slice().sort(function (a, b) { return a - b; }).join(',') + '|' + depth;
+    if (memo[mk]) return memo[mk];
+    var c = ctx(game), plans = [], famK = key(fam);
+    candidates(fam, c.gen).forEach(function (f) {
+      var direct = {}; need.forEach(function (m) { direct[m] = routes(f, m, c.srcVgs, ['level-up', 'tutor', 'machine']); });
+      var inherit = need.filter(function (m) { return !direct[m].length; });
+      if (inherit.some(function (m) { return !routes(f, m, c.genVgs, ['egg']).length; })) return;
+      var sub = null, fK = key(f);
+      if (inherit.length) {
+        if (depth <= 1) return;
+        if (fK === famK) { if (inherit.length === need.length) return; }
+        else if (visited.has(fK)) return;
+        if (!f.some(function (s) { return gr(s) !== -1 && gr(s) !== 0; })) return;
+        var v2 = new Set(visited); v2.add(fK);
+        var subs = search(f, inherit, game, depth - 1, v2, memo);
+        if (!subs.length) return;
+        sub = subs[0];
+      }
+      var native = need.every(function (m) { return !direct[m].length || direct[m].some(function (r) { return c.genVgs.indexOf(r[3]) >= 0; }); }) && (sub === null || sub.native);
+      var catchable = CHAINS[SP[f[0]].c].some(function (s) { return WILD[game].has(s); });
+      var stage = null, bestN = -1;
+      f.forEach(function (s) { var n = need.filter(function (m) { return routes([s], m, c.srcVgs, ['level-up', 'tutor', 'machine']).length; }).length;
+        if (n > bestN || (n === bestN && s > stage)) { bestN = n; stage = s; } });
+      var ord = function (r) { return [r[0] !== stage ? 1 : 0, r[3] !== c.vg ? 1 : 0, c.genVgs.indexOf(r[3]) < 0 ? 1 : 0, r[3], RANK[r[1]], r[2], r[0]]; };
+      var learns = {}, where = {};
+      need.slice().sort(byName).forEach(function (m) {
+        if (!direct[m].length) return;
+        var best = uniq(direct[m]).sort(function (a, b) { return cmpArr(ord(a), ord(b)); });
+        learns[moveName(m)] = best.slice(0, 2).map(function (r) { return name(r[0]) + ' ' + r[1] + (r[1] === 'level-up' ? ' L' + r[2] : '') + ' (vg' + r[3] + ')'; });
+        where[moveName(m)] = best[0][3];
+      });
+      var trades = 0; Object.keys(where).forEach(function (k) { if (where[k] !== c.vg) trades++; });
+      plans.push({father: name(stage), family: f.map(name), learns_itself: learns, learns_in: where,
+        inherits: inherit.map(moveName).sort(cmp), via: sub, steps: 1 + (sub ? sub.steps : 0), native: native, catchable_in_game: catchable,
+        trades: trades + (sub ? sub.trades : 0), _f: f.slice()});
+    });
+    plans.sort(function (a, b) {
+      return cmpArr([a.steps, a.native ? 0 : 1, a.catchable_in_game ? 0 : 1, a.trades, a.inherits.length], [b.steps, b.native ? 0 : 1, b.catchable_in_game ? 0 : 1, b.trades, b.inherits.length]) || cmpArr(a._f, b._f);
+    });
+    memo[mk] = plans.slice(0, 5);
+    return memo[mk];
+  }
+  function feasibility(species, game) {
+    var gen = GAMES[game][0], fam = family(sid(species), gen), rates = {}, gs = {}, notes = [];
+    fam.forEach(function (s) { rates[name(s)] = gr(s); SP[s].eg.forEach(function (g) { if (g !== 'no-eggs' && g !== 'ditto') gs[g] = 1; }); });
+    var groups = Object.keys(gs).sort(cmp), vals = Object.keys(rates).map(function (k) { return rates[k]; });
+    if (!groups.length) return {breedable: false, notes: ["this line can't breed (No Eggs group)"]};
+    if (vals.every(function (r) { return r === -1; })) return {breedable: true, egg_moves_possible: false, notes: ['genderless: breeds only with Ditto, so no egg moves can be inherited']};
+    if (vals.every(function (r) { return r === 0; })) return {breedable: true, egg_moves_possible: false, notes: ['male-only: breeds only with Ditto, so no egg moves can be inherited']};
+    var inc = INCENSE[gen] || {};
+    Object.keys(inc).forEach(function (baby) { if (baby in rates) notes.push(baby + ' only hatches if a parent holds ' + inc[baby] + '; otherwise the egg is the next stage'); });
+    var fs = Math.max.apply(null, vals.filter(function (r) { return r >= 0; })) / 8;
+    if (fs < 0.5) notes.push('only ' + (fs * 100).toFixed(1) + '% of this line is female; a female of the line must be the mother');
+    return {breedable: true, egg_moves_possible: true, egg_groups: groups, notes: notes};
+  }
+  function timing(species, move, game) {
+    var c = ctx(game), s = sid(species), m = mid(move), nat = [], other = [];
+    line(s).forEach(function (st) {
+      methods(st, m, c.vg).forEach(function (r) { nat.push([st, r[0], r[1]]); });
+      c.genVgs.filter(function (x) { return x !== c.vg; }).concat(c.srcVgs.filter(function (x) { return c.genVgs.indexOf(x) < 0; })).forEach(function (v) {
+        methods(st, m, v).forEach(function () { other.push(v); }); });
+    });
+    var notes = [], mn = moveName(m);
+    if (nat.some(function (r) { return r[1] === 'light-ball-egg'; })) notes.push(mn + ': a parent must hold a Light Ball when the egg is made');
+    if (nat.length && nat.every(function (r) { return r[1] === 'level-up' && r[0] !== s; })) {
+      var lo = nat[0]; nat.forEach(function (r) { if (r[2] < lo[2]) lo = r; });
+      var at = SP[lo[0]].evo_at;
+      notes.push(mn + ': must be learned as ' + name(lo[0]) + ' at Lv ' + lo[2] + (at ? ' before it evolves at Lv ' + at : ' before it evolves') + "; later forms can't relearn it");
+    }
+    if (!nat.length && other.length) {
+      var vs = Array.from(new Set(other)).sort(function (a, b) { return a - b; });
+      notes.push(mn + ': not learnable in ' + game + ' itself; only in ' + vs.map(function (v) { return 'vg' + v; }).join(', ') + ' (trade/transfer)');
+    }
+    return notes;
+  }
+  function planLineage(species, moves, game, maxDepth, needExtra) {
+    if (maxDepth == null) maxDepth = 3; needExtra = needExtra || [];
+    var c = ctx(game), s = sid(species), fam = family(s, c.gen), mids = moves.map(mid);
+    var lb = mids.filter(function (m) { return routes(fam, m, [c.vg], ['light-ball-egg']).length; });
+    var egg = []; mids.forEach(function (m) { if (lb.indexOf(m) < 0 && routes(fam, m, [c.vg], ['egg']).length && egg.indexOf(m) < 0) egg.push(m); });
+    var result = {target: species, game: game, egg_moves: egg.map(moveName).sort(cmp),
+      by_held_item: lb.map(function (m) { return moveName(m) + ': either parent holds a Light Ball; no father needed'; }),
+      learn_after_hatching: mids.filter(function (m) { return egg.indexOf(m) < 0 && lb.indexOf(m) < 0; }).map(moveName),
+      timing: [].concat.apply([], moves.map(function (m) { return timing(species, m, game); })), feasibility: feasibility(species, game)};
+    var need = egg.slice(); needExtra.forEach(function (x) { var m = mid(x); if (need.indexOf(m) < 0) need.push(m); });
+    if (need.length > 4) { result.plans = []; result.note = "more than four egg moves can't be carried at once"; return result; }
+    result.plans = need.length ? search(fam, need, game, maxDepth, new Set([key(fam)]), {}) : [];
+    return result;
+  }
+
+  // --- the egg's starting moves ------------------------------------------------------------------------------
+  function hatchSpecies(species, game) {
+    var gen = GAMES[game][0], s = sid(species), chain = line(s).reverse().filter(function (x) { return x <= CAP[gen]; });
+    var inc = (INCENSE[gen] || {})[name(chain[0])] || null;
+    if (s === chain[0]) return [chain[0], inc];
+    if (inc && chain.length > 1) return [chain[1], null];
+    return [chain[0], null];
+  }
+  function defaults(s, game) {
+    var g = GAMES[game], lst = LEARN[g[1]][s] || [], slots = [], lvls = {};
+    for (var i = 0; i < lst.length; i += 2) {
+      var m = lst[i], l = lst[i + 1];
+      if (l > HATCH_LEVEL[g[0]] || slots.indexOf(m) >= 0) continue;
+      if (slots.length === 4) slots.shift();
+      slots.push(m); lvls[m] = l;
+    }
+    return [slots, lvls];
+  }
+  function eggLists(s, game) {
+    var g = GAMES[game], st = SETS[g[1]];
+    var tm = new Set(st.M[s] || []); if (g[0] === 2) (st.T[s] || new Set()).forEach(function (m) { tm.add(m); });
+    var lu = new Set(LU[g[1]][s] || []);
+    if (!family(s, g[0]).some(function (x) { return gr(x) !== -1 && gr(x) !== 0; })) lu = new Set();
+    return [new Set(st.E[s] || []), tm, lu, new Set(st.B[s] || [])];
+  }
+  function hatch(gen, dflt, father, mother, egg, tm, lu, lightBall) {
+    var slots = [];
+    function add(m, how) { if (slots.some(function (x) { return x[0] === m; })) return; if (slots.length === 4) slots.shift(); slots.push([m, how]); }
+    dflt.forEach(function (m) { add(m, 'default'); });
+    if (gen === 2) {
+      father.forEach(function (m) { if (egg.has(m)) add(m, 'egg'); else if (mother.has(m) && lu.has(m)) add(m, 'shared'); else if (tm.has(m)) add(m, 'tm'); });
+    } else {
+      father.forEach(function (m) { if (egg.has(m)) add(m, 'egg'); });
+      father.forEach(function (m) { if (tm.has(m)) add(m, 'tm'); });
+      father.forEach(function (m) { if (mother.has(m) && lu.has(m)) add(m, 'shared'); });
+      if (lightBall) add(lightBall, 'light-ball');
+    }
+    return slots;
+  }
+  function perms(arr, k) {   // itertools.permutations order
+    var out = [];
+    (function go(pre, used) { if (pre.length === k) { out.push(pre.slice()); return; }
+      for (var i = 0; i < arr.length; i++) if (!used[i]) { used[i] = 1; pre.push(arr[i]); go(pre, used); pre.pop(); used[i] = 0; } })([], {});
+    return out;
+  }
+  function combos(arr, k) {
+    var out = [];
+    (function go(start, pre) { if (pre.length === k) { out.push(pre.slice()); return; } for (var i = start; i < arr.length; i++) { pre.push(arr[i]); go(i + 1, pre); pre.pop(); } })(0, []);
+    return out;
+  }
+  function recipes(s, mids, game) {
+    var gen = GAMES[game][0], dflt = defaults(s, game)[0], L = eggLists(s, game), egg = L[0], tm = L[1], lu = L[2], lb = L[3];
+    var want = new Set(mids), ball = null;
+    if (gen >= 3) for (var i = 0; i < mids.length; i++) if (lb.has(mids[i])) { ball = mids[i]; break; }
+    var pool = mids.filter(function (m) { return egg.has(m) || tm.has(m) || lu.has(m); }), out = [];
+    for (var k = 0; k <= pool.length; k++) perms(pool, k).forEach(function (father) {
+      var shared = father.filter(function (m) { return lu.has(m); });
+      for (var j = 0; j <= shared.length; j++) combos(shared, j).forEach(function (mom) {
+        var got = hatch(gen, dflt, father, new Set(mom), egg, tm, lu, ball), have = new Set(got.map(function (x) { return x[0]; }));
+        var ok = Array.from(want).every(function (m) { return have.has(m); }) && Array.from(have).every(function (m) { return want.has(m) || dflt.indexOf(m) >= 0; });
+        if (ok) out.push({father: father, mother: mom, light_ball: ball !== null, slots: got});
+      });
+    });
+    var rank = {}; mids.forEach(function (m, i) { rank[m] = i; });
+    var r = function (xs) { return xs.map(function (m) { return rank[m]; }); };
+    out.sort(function (a, b) { return cmpArr([a.mother.length, a.father.length], [b.mother.length, b.father.length]) || cmpArr(r(a.father), r(b.father)) || cmpArr(r(a.mother), r(b.mother)); });
+    return out;
+  }
+  function options(s, m, game) {
+    var d = defaults(s, game)[0], L = eggLists(s, game), gen = GAMES[game][0], o = [];
+    if (d.indexOf(m) >= 0) o.push('default'); if (L[0].has(m)) o.push('egg'); if (L[1].has(m)) o.push('tm'); if (L[2].has(m)) o.push('shared');
+    if (L[3].has(m) && gen >= 3) o.push('light-ball');
+    return o;
+  }
+  function ways(s, m, game, egg) {
+    var c = ctx(game), fam = family(s, c.gen), dflt = defaults(s, game)[0];
+    var rows = uniq(routes(fam, m, [c.vg], ['level-up', 'tutor', 'machine', 'egg'])).sort(function (a, b) { return cmpArr([a[0], RANK[a[1]], a[2]], [b[0], RANK[b[1]], b[2]]); });
+    var out = [], tutor = [], tms = [];
+    rows.forEach(function (r) {
+      var st = r[0], mm = r[1], l = r[2];
+      if (mm === 'egg') { if (egg) out.push(name(st) + ' hatches with it as an egg move (it stays through evolution)'); }
+      else if (mm === 'tutor') { if (tutor.indexOf(name(st)) < 0) tutor.push(name(st)); }
+      else if (mm === 'machine') { if (tms.indexOf(name(st)) < 0) tms.push(name(st)); }
+      else if (!(st === s && dflt.indexOf(m) >= 0)) {
+        var evolved = st !== fam[0] && SP[st].f !== null, note = '';
+        if (evolved && l <= 1) note = c.gen >= 3 ? ' (from the Move Reminder: it starts above Lv 1)' : " (a Lv 1 move it can't learn once evolved: Gen 2 has no Move Reminder)";
+        out.push(name(st) + ' learns it at Lv ' + l + note);
+      }
+    });
+    if (tutor.length) out.push('the move tutor teaches it (' + tutor.join(', ') + ')');
+    if (tms.length) out.push('a TM or HM (' + tms.join(', ') + ')');
+    return out;
+  }
+  function evolutionNeeds(s, game) {
+    var gen = GAMES[game][0], out = [];
+    family(s, gen).forEach(function (x) { if (x in EVO) { var frm = SP[x].f, m = EVO[x];
+      out.push({from: name(frm), to: name(x), move: moveName(m), line: name(frm) + ' evolves into ' + name(x) + ' only while it knows ' + moveName(m), ways: ways(s, m, game, true)}); } });
+    return out;
+  }
+
+  // --- a blueprint ---------------------------------------------------------------------------------------------
+  function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }
+  function blueprint(species, moves, game, individuals, maxDepth) {
+    if (maxDepth == null) maxDepth = 3;
+    var c = ctx(game), hs = hatchSpecies(species, game), s = hs[0], mids = [], unknown = [];
+    moves.filter(Boolean).forEach(function (m) { try { mids.push(mid(m)); } catch (e) { unknown.push(m); } });
+    var D = defaults(s, game), dflt = D[0], lvls = D[1], fam = family(s, c.gen);
+    var out = {species: name(s), asked: species, game: game, generation: c.gen, hatch_level: HATCH_LEVEL[c.gen], incense: hs[1],
+      family: fam.map(name), defaults: dflt.map(moveName), unknown: unknown, moves: []};
+    var bad = [];
+    mids.forEach(function (m) {
+      var o = options(s, m, game), row = {move: moveName(m), options: o, also: ways(s, m, game)};
+      if (MV[m][1] > c.gen) row.problem = moveName(m) + " doesn't exist until Gen " + MV[m][1];
+      else if (!o.length) {
+        var later = routes(fam, m, [c.vg], ['level-up', 'tutor', 'machine']);
+        var kin = fam.filter(function (x) { return x !== s && SETS[c.vg].E[x] && SETS[c.vg].E[x].has(m); });
+        if (kin.length) row.problem = moveName(m) + ' is an egg move of ' + name(kin[0]) + ', not ' + name(s) + ": the game checks the egg's own species, so hatch " + name(kin[0]);
+        else if (later.length) row.problem = moveName(m) + " can't be in a hatched set in " + game + ': the line learns it only after hatching (' + row.also.slice(0, 3).join('; ') + ')';
+        else row.problem = moveName(m) + " isn't learnable by the " + name(s) + ' line in ' + game;
+      }
+      if ('problem' in row) bad.push(row.problem);
+      out.moves.push(row);
+    });
+    if (new Set(mids).size !== mids.length) bad.push('a move is listed twice');
+    if (mids.length > 4) bad.push('more than four moves');
+    var feas = feasibility(name(s), game); out.feasibility = feas;
+    if (!feas.breedable) bad.push(feas.notes[0]);
+    var rs = (bad.length || unknown.length) ? [] : recipes(s, mids, game);
+    out.recipes = rs.length;
+    if (!rs.length && !bad.length && !unknown.length) bad.push(whyNot(s, mids, game));
+    var best = rs.length ? rs[0] : null;
+    if (best) {
+      var sorted = function (a) { return a.slice().sort(function (x, y) { return x - y; }).join(','); };
+      var orders = new Set(rs.filter(function (r) { return sorted(r.father) === sorted(best.father) && key(r.mother) === key(best.mother); }).map(function (r) { return key(r.father); }));
+      out.recipe = {father: best.father.map(moveName), mother: best.mother.map(moveName), light_ball: best.light_ball,
+        slots: best.slots.map(function (x) { return {move: moveName(x[0]), how: x[1], why: P.how[x[1]].replace('{lvl}', lvls[x[0]] != null ? lvls[x[0]] : 1)}; }),
+        order_matters: orders.size < factorial(best.father.length)};
+      var how = {}; best.slots.forEach(function (x) { how[moveName(x[0])] = x[1]; });
+      out.moves.forEach(function (row) { row.how = how[row.move] != null ? how[row.move] : null; });
+    }
+    var lineage = null;
+    if (best && best.father.length) {
+      var E = eggLists(s, game)[0];
+      var eggPart = best.father.filter(function (m) { return E.has(m); }).map(moveName), extra = best.father.filter(function (m) { return !E.has(m); }).map(moveName);
+      lineage = planLineage(name(s), eggPart, game, maxDepth, extra);
+      out.lineage = {plans: lineage.plans.slice(0, 3), note: lineage.note != null ? lineage.note : null, timing: lineage.timing};
+    } else out.lineage = {plans: [], note: null, timing: []};
+    var mom = mother(s, best ? best.mother : [], game);
+    out.mother = mom.notes; out.evolution = evolutionNeeds(s, game); out.odds = P.odds[game]; out.egg_cycles = SP[s].cy;
+    out.verdict = verdict(out, best, lineage, mom, bad, game, individuals, s, mids);
+    return out;
+  }
+  function whyNot(s, mids, game) {
+    var dflt = defaults(s, game)[0], names = dflt.map(moveName);
+    var missing = dflt.filter(function (m) { return mids.indexOf(m) < 0; }).map(moveName), inherited = mids.filter(function (m) { return dflt.indexOf(m) < 0; });
+    if (mids.length < 4 && missing.length) return 'the egg always knows ' + names.join(', ') + ' at hatch; with only ' + mids.length + ' moves listed, ' + missing.join(', ') + " can't be left out (only a full set of four pushes a default out)";
+    return "the hatch order can't make this set: the egg starts with " + (names.join(', ') || 'no moves') + ', and with ' + inherited.length +
+      ' inherited move(s) the oldest defaults are pushed out first; keep a default by having both parents know it (if the egg learns it by level-up), or list a different one';
+  }
+  function mother(s, mom, game) {
+    var c = ctx(game), fam = family(s, c.gen), females = fam.filter(function (x) { return gr(x) !== -1 && gr(x) !== 0; });
+    var m = {ok: true, notes: [], vgs: [], wild: true};
+    if (!females.length) {
+      m.notes.push('no female in the ' + name(s) + ' line: the mother is Ditto');
+      if (mom.length) { m.ok = false; m.notes.push('Ditto knows only Transform, so no move can come from both parents'); }
+      return m;
+    }
+    m.wild = CHAINS[SP[s].c].some(function (x) { return WILD[game].has(x); });
+    m.notes.push('a female of the line (' + females.map(name).join(', ') + ')' + (m.wild ? '' : '; none is found in ' + game + ', wild or as a gift: a trade'));
+    mom.forEach(function (x) {
+      var r = uniq(routes(females, x, c.srcVgs, ['level-up', 'tutor', 'machine']));
+      if (r.length) {
+        var o = function (y) { return [y[3] !== c.vg ? 1 : 0, c.genVgs.indexOf(y[3]) < 0 ? 1 : 0, y[3], RANK[y[1]], y[2], y[0]]; };
+        var b = r.sort(function (p, q) { return cmpArr(o(p), o(q)); })[0];
+        m.vgs.push(b[3]);
+        m.notes.push('she knows ' + moveName(x) + ': ' + name(b[0]) + ' ' + b[1] + (b[1] === 'level-up' ? ' L' + b[2] : '') + ' (vg' + b[3] + ')');
+      } else { m.ok = false; m.notes.push('no female of the line can know ' + moveName(x)); }
+    });
+    return m;
+  }
+  function verdict(out, best, lineage, mom, bad, game, individuals, s, mids) {
+    var c = ctx(game), possible = best !== null;
+    var v = {possible: {ok: possible, class: 'mechanic', why: possible ? 'the hatch rules make this exact set from parents who know the right moves' : (bad.join('; ') || 'no pair of parents makes this set')}};
+    if (!possible) v.obtainable = {ok: false, class: 'mechanic', scope: null, why: 'not possible under the hatch rules'};
+    else if (best.father.length && !(lineage && lineage.plans.length))
+      v.obtainable = {ok: false, class: 'mechanic', scope: null, why: (lineage && lineage.note) || 'no father who can know these moves together was found within three generations of fathers'};
+    else if (!mom.ok) v.obtainable = {ok: false, class: 'mechanic', scope: null, why: mom.notes.slice(1).join('; ')};
+    else {
+      var rank = {'this game': 0, 'with trades or gifts': 1, 'with a transfer': 2}, scope = 'this game', why = [];
+      var need = function (sc, text) { why.push(text); if (rank[sc] > rank[scope]) scope = sc; };
+      var node = lineage && lineage.plans.length ? lineage.plans[0] : null;
+      while (node) {
+        Object.keys(node.learns_in).forEach(function (mv) { var w = node.learns_in[mv];
+          if (c.genVgs.indexOf(w) < 0) need('with a transfer', node.father + ' learns ' + mv + ' in ' + VG_NAME[w] + ' (Pal Park or the Time Capsule)');
+          else if (w !== c.vg) need('with trades or gifts', node.father + ' learns ' + mv + ' in ' + VG_NAME[w]); });
+        if (!node.catchable_in_game) need('with trades or gifts', 'no ' + node.father + '-line Pokémon is found in ' + game + ' (wild or a gift)');
+        node = node.via;
+      }
+      mom.vgs.forEach(function (w) { if (c.genVgs.indexOf(w) < 0) need('with a transfer', 'the mother learns a move in ' + VG_NAME[w]); else if (w !== c.vg) need('with trades or gifts', 'the mother learns a move in ' + VG_NAME[w]); });
+      if (!mom.wild) need('with trades or gifts', 'no female of the line is found in ' + game + ' (wild or a gift)');
+      v.obtainable = {ok: true, class: 'mechanic', scope: scope, why: why.length ? why.join('; ') : 'every parent and move is found in ' + game};
+    }
+    v.pkhex = {ok: possible ? 'expected' : false, class: 'inferred', why: possible ? 'enter the moves in this slot order: ' + out.recipe.slots.map(function (x) { return x.move; }).join(', ') +
+      ". PKHeX checks each move's source and the hatch order, not whether a father could carry the set; not run here" : "PKHeX would reject a set the hatch rules can't make"};
+    var mine = [], want = possible ? new Set(out.recipe.slots.map(function (x) { return x.move; })) : new Set(mids.map(moveName));
+    (individuals || []).forEach(function (i) {
+      var same = false; try { same = CHAINS[SP[s].c].indexOf(sid(i.species || '')) >= 0; } catch (e) { same = false; }
+      var hm = new Set(i.hatch_moves || []);
+      if (same && hm.size && hm.size === want.size && Array.from(hm).every(function (x) { return want.has(x); }) && (GAMES[i.game] || [0])[0] === c.gen) mine.push(i.id);
+    });
+    v.documented = {ok: mine.length > 0, class: 'mine', who: mine, why: mine.length ? mine.length + ' of your Pokémon hatched with this set' : 'none of your Pokémon is recorded as hatching with this set'};
+    return v;
+  }
+
+  // --- the catalogue -----------------------------------------------------------------------------------------
+  function explore(species, game) {
+    var c = ctx(game), hs = hatchSpecies(species, game), s = hs[0], fam = family(s, c.gen), dflt = defaults(s, game)[0];
+    var L = eggLists(s, game), egg = Array.from(L[0]), feas = feasibility(name(s), game);
+    var srt = function (ms) { return ms.slice().sort(byName); };
+    var fathers = [];
+    (feas.egg_moves_possible ? candidates(fam, c.gen) : []).forEach(function (f) {
+      var got = egg.filter(function (m) { return routes(f, m, c.srcVgs, ['level-up', 'tutor', 'machine']).length; });
+      if (got.length) fathers.push([f, got]);
+    });
+    var oneStep = {}; egg.forEach(function (m) { oneStep[m] = fathers.filter(function (x) { return x[1].indexOf(m) >= 0; }).map(function (x) { return name(x[0][0]); }).sort(cmp); });
+    var bundles = {}, bkeys = [];
+    fathers.forEach(function (x) { if (x[1].length >= 2) { var k = key(srt(x[1])); if (!bundles[k]) { bundles[k] = {moves: srt(x[1]), fathers: []}; bkeys.push(k); } bundles[k].fathers.push(name(x[0][0])); } });
+    var top = bkeys.map(function (k) { return bundles[k]; }).sort(function (a, b) {
+      return cmp(b.moves.length, a.moves.length) || cmp(b.fathers.length, a.fathers.length) || cmpArr(a.moves.map(moveName), b.moves.map(moveName)); });
+    var lu = Array.from(L[2]).filter(function (m) { return dflt.indexOf(m) < 0; });
+    return {species: name(s), game: game, generation: c.gen, hatch_level: HATCH_LEVEL[c.gen], incense: hs[1], family: fam.map(name), feasibility: feas,
+      defaults: dflt.map(moveName),
+      egg: srt(egg).map(function (m) { return {move: moveName(m), one_step: oneStep[m], also: ways(s, m, game)}; }),
+      tm: srt(Array.from(L[1])).map(moveName), shared: srt(lu).map(moveName),
+      light_ball: c.gen >= 3 ? srt(Array.from(L[3])).map(moveName) : [],
+      bundles: top.slice(0, 12).map(function (b) { return {moves: b.moves.map(moveName), fathers: b.fathers.slice().sort(cmp)}; }),
+      evolution: evolutionNeeds(s, game)};
+  }
+  // for the pickers: every species that hatches, and the moves a line's egg can start with
+  function breedable(game) {
+    var gen = GAMES[game][0], seen = {}, out = [];
+    SIDS.forEach(function (x) {
+      if (x > CAP[gen]) return; var h = hatchSpecies(x, game)[0]; if (seen[h]) return; seen[h] = 1;
+      if (family(h, gen).some(function (y) { return SP[y].eg.some(function (g) { return g !== 'no-eggs' && g !== 'ditto'; }); })) out.push(name(h));
+    });
+    return out;
+  }
+  function startMoves(species, game) {
+    var s = hatchSpecies(species, game)[0], d = defaults(s, game)[0], L = eggLists(s, game), all = new Set(d);
+    [L[0], L[1], L[2], GAMES[game][0] >= 3 ? L[3] : new Set()].forEach(function (st) { st.forEach(function (m) { all.add(m); }); });
+    return Array.from(all).sort(byName).map(moveName);
+  }
+  var api = {init: init, GAMES: GAMES, HATCH_LEVEL: HATCH_LEVEL, sid: sid, mid: mid, name: name, moveName: moveName, family: family, hatchSpecies: hatchSpecies,
+    defaults: defaults, hatch: hatch, recipes: recipes, planLineage: planLineage, blueprint: blueprint, explore: explore, feasibility: feasibility,
+    timing: timing, breedable: breedable, startMoves: startMoves, ready: function () { return !!P; }};
+  return api;
+})();
+</script>

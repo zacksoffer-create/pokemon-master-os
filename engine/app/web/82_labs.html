@@ -299,16 +299,22 @@ function plIndCard() {   // the individual's own fields: who it is, not how it's
     '<label class="l" style="margin-top:6px">Ball</label>' + (balls ? '<select class="f" name="ball">' + balls.map(function (b) { return '<option' + (b === i.ball ? ' selected' : '') + '>' + esc(b) + '</option>'; }).join('') + '</select>' : '<input class="f" name="ball" value="' + esc(i.ball || '') + '">') +
     (gen === 2 ? '<div class="tiny muted">Gen II stores no ball: it\'s a story detail here (E-017).</div>' : '') +
     '<div class="row" style="margin-top:6px"><div><label class="l">Met at</label><input class="f" name="met_location" value="' + esc(i.met_location || '') + '"></div><div><label class="l">Level met</label><input class="f" name="caught_level" type="number" min="1" max="100" value="' + esc(i.caught_level == null ? '' : i.caught_level) + '"></div></div>' +
+    '<label class="l" style="margin-top:6px">Hatched with <span class="tiny muted">(kept for good, whatever it learns later)</span></label><input class="f" name="hatch_moves" value="' + esc(Records.encMoves(i.hatch_moves)) + '" placeholder="Move / Move / Move / Move (if it hatched)">' +
+    '<div class="row" style="margin-top:6px"><div><label class="l">Sire</label><input class="f" name="sire" list="plstud" value="' + esc(i.sire || '') + '" placeholder="a studbook or your id"></div><div><label class="l">Dam</label><input class="f" name="dam" list="plstud" value="' + esc(i.dam || '') + '" placeholder="a studbook or your id"></div></div>' +
+    '<datalist id="plstud">' + ((S.hq && S.hq.lineage) || []).map(function (r) { return '<option value="' + esc(r.id) + '">' + esc(r.name || '') + '</option>'; }).join('') + Object.keys(S.store.individuals || {}).map(function (k) { return '<option value="' + esc(k) + '">'; }).join('') + '</datalist>' +
+    (i.blueprint ? '<div class="tiny" style="margin-top:6px">Bred to the blueprint <a class="link" href="#/stock/bp/' + encodeURIComponent(i.blueprint) + '">' + esc(i.blueprint) + '</a>.</div>' : '') +
     '<label class="l" style="margin-top:6px">Note</label><input class="f" name="note" value="' + esc(i.note || '') + '" placeholder="anything worth remembering">' +
     (i.status === 'LOCKED' || /locked/i.test(i.status || '') ? '<div class="tiny muted" style="margin-top:6px">On the locked HeartGold roster (D-006): its build can change, it stays on the team.</div>' : '') +
     '<div style="margin-top:10px"><button class="btn sm gold">Save the individual</button></div></form>' +
     ((i.defaults_used || []).length ? '<div class="tiny muted" style="margin-top:8px">Defaults until you set them: ' + esc(i.defaults_used.join(', ')) + '.</div>' : ''),
-    {eyebrow: 'Nickname, sex, shiny, ball, where it was met', tools: false, style: 'margin-top:16px'});
+    {eyebrow: 'Nickname, sex, shiny, ball, where it was met, where it came from', tools: false, style: 'margin-top:16px'});
 }
 function plIndSave(form) {
   var i = Object.assign({}, PL.rec.ind), f = form.elements;
   i.nickname = f.nickname.value.trim() || null; i.gender = f.gender.value; i.shiny = f.shiny.value === 'yes'; i.ball = f.ball.value || null;
   i.met_location = f.met_location.value.trim() || null; i.caught_level = f.caught_level.value ? +f.caught_level.value : null; i.note = f.note.value.trim() || null;
+  var hm = Records.decMoves(f.hatch_moves.value); if (hm.length > 4) { toast('A Pokémon hatches with four moves at most.'); return; }
+  i.hatch_moves = hm.length ? hm : null; i.sire = f.sire.value.trim() || null; i.dam = f.dam.value.trim() || null;
   i.defaults_used = (i.defaults_used || []).filter(function (x) { return !/^(ball|shiny|gender|met location)/.test(x); });
   Records.saveIndividual(i, 'Updated ' + (i.nickname || i.species)).then(function () { toast('Saved.'); route_go(PL.id); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
 }

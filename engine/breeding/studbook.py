@@ -29,7 +29,7 @@ class Studbook:
             self.builds = json.load(fh)
         with open(os.path.join(canon_dir, "ranch.json"), encoding="utf-8") as fh:
             self.program = {t["species"] for t in json.load(fh)["breeding_program"]}
-        _, self.gen_vgs, self.src_vgs = self.breeding._ctx(LAB_GAME)
+        _, _, self.gen_vgs, self.src_vgs = self.breeding.stock.ctx(LAB_GAME)
         self._cache = {}
 
     def companions(self):

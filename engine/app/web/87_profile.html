@@ -153,9 +153,16 @@ function monPage(id, mode) {
         return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)"><b>v' + (x.v || 1) + '</b> <span class="tiny muted">' + esc(x.at ? fmtDate(x.at) : (x.origin || 'from the record')) + '</span>' +
           (x.recognition ? '<div class="tiny" style="color:var(--gold)">' + esc(x.recognition) + '</div>' : '') + (!show && x.note ? '<div class="tiny muted">“' + esc(x.note) + '”</div>' : '') + '</div>'; }).join('') : '<div class="tiny muted">No build saved yet: the engines fill its moves.</div>') +
       (!show && ind.note ? '<div class="tiny muted" style="margin-top:8px">Note: ' + esc(ind.note) + '</div>' : ''), {eyebrow: 'Every saved version, and what it earned then', tools: false, style: 'margin-top:16px'});
+    var lin = (S.hq && S.hq.lineage) || [], who = function (x) { var r = lin.filter(function (y) { return y.id === x; })[0], m = (S.store.individuals || {})[x];
+      return r ? '<a class="link" href="#/breeding/tree/' + encodeURIComponent(x) + '">' + esc(r.name || x) + '</a>' : m ? '<a class="link" href="#/mon/' + encodeURIComponent(x) + '">' + esc(m.nickname || m.species) + '</a>' : esc(x); };
+    var origin = (ind.hatch_moves || ind.sire || ind.dam || ind.blueprint) ? card('Where it came from', (ind.hatch_moves ? '<div class="small">Hatched with <b>' + esc(ind.hatch_moves.join(' · ')) + '</b></div>' +
+        (b.moves && b.moves.join('|') !== ind.hatch_moves.join('|') ? '<div class="tiny muted">It knows ' + esc((b.moves || []).join(' · ')) + ' now; the hatch set stays on record.</div>' : '') : '') +
+      (ind.sire || ind.dam ? '<div class="small" style="margin-top:6px">Sire ' + (ind.sire ? who(ind.sire) : '—') + ' · dam ' + (ind.dam ? who(ind.dam) : '—') + '</div>' : '') +
+      (ind.blueprint ? '<div class="small" style="margin-top:6px">Bred to the blueprint <a class="link" href="#/stock/bp/' + encodeURIComponent(ind.blueprint) + '">' + esc((storeBuild(ind.blueprint) || {}).name || ind.blueprint) + '</a></div>' : ''),
+      {eyebrow: 'Its breeding: what it hatched with and who its parents are', tools: false, style: 'margin-top:16px'}) : '';
     var bio = card('Its species', (d.dex ? '<p class="small" style="margin:0 0 8px">“' + esc(d.dex) + '”</p>' : '') + '<div class="tiny muted">' + esc([d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.hab ? 'lives in ' + d.hab : null, d.eg ? 'egg groups ' + d.eg.join(', ') : null].filter(Boolean).join(' · ')) + '</div>',
       {eyebrow: 'The same for every ' + ind.species, tools: false, style: 'margin-top:16px'});
-    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + tools + bio + '</div><div class="c6">' + gallery + history + '</div></div>';
+    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + origin + tools + bio + '</div><div class="c6">' + gallery + history + '</div></div>';
   });
 }
 function monBind(p, ind) {

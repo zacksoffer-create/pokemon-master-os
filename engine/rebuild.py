@@ -3,7 +3,7 @@
     python3 -I engine/rebuild.py                 # every step; prints which output files changed and how
     python3 -I engine/rebuild.py --only reports,ranch     # just those steps (and nothing that depends on them)
     python3 -I engine/rebuild.py --list          # the steps, their commands and what each writes
-    python3 -I engine/rebuild.py --breeder       # also the slow Breeder Lab data (app/export.py --breeder)
+    python3 -I engine/rebuild.py --breeder       # kept for old habits: the Breeder Lab data is part of app-data now
 
 Before anything runs it fingerprints every output (docs/, engine/data_manifest/, engine/app/data/); afterwards it
 compares, and writes the comparison to engine/data_manifest/last_rebuild.json: every file that changed, plus the

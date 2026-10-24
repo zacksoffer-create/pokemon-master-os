@@ -7,8 +7,9 @@ var Records = (function () {
   var TABS = {individual: 'My Pokémon', build: 'My Builds', team: 'My Teams', artwork: 'My Artwork'};
   var SIX = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
   var BUILD_FIELDS = ['species', 'generation', 'game', 'level', 'nature', 'ability', 'item'];
-  var BUILD_TEXT = ['name', 'note', 'parent', 'individual', 'at', 'recognition'];
-  var IND_FIELDS = ['species', 'game', 'nickname', 'gender', 'shiny', 'form', 'ball', 'build', 'met_location', 'caught_level', 'friendship', 'origin', 'note', 'hero'];
+  var BUILD_TEXT = ['name', 'note', 'parent', 'individual', 'at', 'recognition', 'kind', 'purpose', 'labels'];   // kind 'blueprint': breeding stock
+  var IND_FIELDS = ['species', 'game', 'nickname', 'gender', 'shiny', 'form', 'ball', 'build', 'met_location', 'caught_level', 'friendship', 'origin', 'note', 'hero',
+    'sire', 'dam', 'blueprint'];   // its parents' ids and the blueprint it was bred to; hatch_moves (a list) is kept even after it learns others
   var ART_FIELDS = ['subject', 'kind', 'file', 'url', 'title', 'class', 'status', 'note', 'at'];
   var V = null, SEED = null;
 
@@ -44,13 +45,14 @@ var Records = (function () {
   function decIndividual(row) {
     var i = {id: String(row.id), status: row.status || 'working'};
     IND_FIELDS.forEach(function (k) { if (!blank(row[k])) i[k] = k === 'shiny' ? bool(row[k]) : (k === 'caught_level' || k === 'friendship') ? num(row[k]) : row[k]; });
+    var hm = decMoves(row.hatch_moves); if (hm.length) i.hatch_moves = hm;
     if (!blank(row.at)) i.at = String(row.at);
     return i;
   }
   function encIndividual(i) {
     var row = {id: i.id, status: i.status || 'working'};
     IND_FIELDS.forEach(function (k) { var v = i[k]; row[k] = k === 'shiny' && v != null ? (v ? 'yes' : 'no') : (v == null ? '' : v); });
-    row.at = i.at || ''; return row;
+    row.hatch_moves = encMoves(i.hatch_moves); row.at = i.at || ''; return row;
   }
   function decTeam(row) {
     var slots = row.slots; if (typeof slots === 'string') slots = slots.trim() ? JSON.parse(slots) : [];
@@ -108,7 +110,7 @@ var Records = (function () {
   // a build version: opts.asNew starts a new build (a variant when opts.parent is given); otherwise the next version
   function saveBuild(b, opts) {
     opts = opts || {};
-    var rec = {}; BUILD_FIELDS.concat(['moves', 'ivs', 'evs', 'name', 'individual', 'recognition']).forEach(function (k) { if (b[k] != null && b[k] !== '') rec[k] = copy(b[k]); });
+    var rec = {}; BUILD_FIELDS.concat(['moves', 'ivs', 'evs', 'name', 'individual', 'recognition', 'kind', 'purpose', 'labels']).forEach(function (k) { if (b[k] != null && b[k] !== '') rec[k] = copy(b[k]); });
     if (opts.asNew || !b.id) { rec.id = 'yours:' + String(b.species).replace(/\s+/g, '') + '-' + token(); rec.v = 1; if (opts.parent) rec.parent = opts.parent; }
     else { rec.id = b.id; var vs = versions(b.id); rec.v = (vs.length ? (vs[vs.length - 1].v || 1) : 0) + 1; if (vs.length && vs[0].parent) rec.parent = vs[0].parent; }
     rec.status = 'saved'; rec.note = opts.note || ''; rec.at = new Date().toISOString();

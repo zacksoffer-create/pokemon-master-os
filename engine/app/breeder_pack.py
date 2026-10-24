@@ -2,8 +2,8 @@
 breeding engine's shortest lineages (breeding/engine.py plan_lineage), its timing warnings and the line's
 feasibility. Gen 4 rules at Blackthorn (D-044); the engine searches up to three generations of fathers.
 
-The search takes about a second per move, so this runs once in parallel and writes engine/app/data/breeder.json;
-the app reads it when the Breeder Lab opens. Re-run it after the reference data changes.
+The search (breeding/stock.py, the same one Breeding stock runs in the page) takes a few milliseconds per move; this
+writes engine/app/data/breeder.json, which the app reads when the Breeder Lab opens. export.py runs it every time.
 
     python3 -I app/breeder_pack.py [processes]
 """

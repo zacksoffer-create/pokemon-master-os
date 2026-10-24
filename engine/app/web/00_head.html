@@ -132,6 +132,7 @@ label.l { display: block; font-size: 10.5px; letter-spacing: .14em; text-transfo
 @media (max-width: 820px) { .mhero { grid-template-columns: 1fr; } }
 .mgal { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; } .mgal figure { margin: 0; } .mgal figcaption { margin-top: 4px; }
 .tool { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-top: 1px solid var(--line); text-decoration: none; color: inherit; } .tool:first-child { border-top: 0; }
+.callout { display: block; padding: 10px 14px; border-radius: var(--r-sm); background: rgba(124,170,140,.07); border: 1px solid rgba(124,170,140,.28); color: var(--text-2); font-size: 12.5px; }
 .draftline { display: block; padding: 10px 14px; border-radius: var(--r-sm); background: rgba(201,169,106,.05); border: 1px dashed var(--gold-line); color: var(--text-2); font-size: 12.5px; }
 .xp { margin: 3px 0 2px; color: var(--text-2); } .xp summary { cursor: pointer; list-style: none; } .xp summary::-webkit-details-marker { display: none; } details.xp summary::after { content: ' ⓘ'; color: var(--gold); }
 .toast { position: fixed; right: 22px; bottom: 22px; z-index: 99; background: var(--charcoal-3); border: 1px solid var(--gold); color: var(--ivory); padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow); max-width: 380px; }
