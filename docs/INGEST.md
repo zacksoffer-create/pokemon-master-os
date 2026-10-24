@@ -56,8 +56,9 @@ The core is identical to Food OS's. The `pokemon` block is this project's lens; 
 | build | species, moves, generation | `canon/build_library.json` (yours, or `external: <source>`) |
 | lore | subject, fact | `canon/lore.jsonl` |
 | career record | trainer, region, event, result | `canon/trainers.json` |
+| trainer version | trainer, version, title, game, kind, team | a new version in `canon/trainers.json`, its team as builds in `canon/build_library.json` (`<trainer>-<version>/<species>`). Never replaces a version: a revision names its `parent`, which stays. A trainer not in canon yet needs `name` |
 | style card | name | `canon/video_styles.jsonl` |
-| correction | target, value, why | the named value, only on allowed paths |
+| correction | target, value, why | the named value, only on allowed paths. A corrected build becomes a new version: its old values stay under `history` with their `v` |
 
 **Review:**
 - `approve` refuses a claim that's missing what its kind needs; `edit` fills it in.

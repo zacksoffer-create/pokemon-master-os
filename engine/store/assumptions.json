@@ -1,0 +1,424 @@
+{
+ "_note": "The assumptions register: every call the assistant made on its own while building (Zack, 2026-10-24: 'make assumptions and decisions as you need to, just keep track so I can have my input but need to see it to evaluate it'). Each item says what was assumed, why, where to see it in the app, and what it could be instead. They're shown in Your calls (#/calls) with Keep / Change / Reject; your answer goes to the Answers tab like any call, and a changed or rejected item becomes a decision when it's written in. store/assumptions.py renders docs/design/ASSUMPTIONS.md from this file.",
+ "items": [
+  {
+   "id": "A-01",
+   "decision": "D-066",
+   "phase": "Master plan defaults",
+   "area": "Ace test",
+   "what": "The Ace score is the plain average of the two win rates (Elite Four and Champions). It decides nothing on its own: Ace is earned only by clearing both bars.",
+   "why": "Q1 of the master plan was open and blocked the build; the average was already what the engine computed.",
+   "where": [
+    "#/standards",
+    "The standards"
+   ],
+   "instead": [
+    "weight the Champions more",
+    "use the lower of the two rates"
+   ]
+  },
+  {
+   "id": "A-02",
+   "decision": "D-066",
+   "phase": "Master plan defaults",
+   "area": "Ace test",
+   "what": "The Elite Four's and Champions' Pokémon fight with no EVs (the games give trainers none); the unread field_evs_each: 85 setting was removed. Our builds with blank EVs still fight on 85 each (D-061).",
+   "why": "Q2: it's how the Ace count you accepted in D-064 was made, so the numbers stay what you saw.",
+   "where": [
+    "#/standards",
+    "The standards"
+   ],
+   "instead": [
+    "give their side 85 each too (every Ace number would move)"
+   ]
+  },
+  {
+   "id": "A-03",
+   "decision": "D-066",
+   "phase": "Master plan defaults",
+   "area": "Storage",
+   "what": "Reference data and definitions live in git; your own records (My Pokémon, My Builds, My Teams) in append-only Sheet tabs; pictures in a Drive folder the app makes. D-025's 'canon lives in the Sheet' is read as 'your data lives in the Sheet'.",
+   "why": "Q3, read as approved by D-065 (use the old framework, build the new plan).",
+   "where": [
+    "#/record",
+    "The record"
+   ],
+   "instead": [
+    "everything in the Sheet",
+    "everything in git"
+   ]
+  },
+  {
+   "id": "A-04",
+   "decision": "D-066",
+   "phase": "Master plan defaults",
+   "area": "Your Pokémon",
+   "what": "You can have several of the same species in one game; each gets its own id with a token.",
+   "why": "Q4: a breeding program needs more than one of a line.",
+   "where": [
+    "#/mine",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "one per species per game"
+   ]
+  },
+  {
+   "id": "A-05",
+   "decision": "D-067",
+   "phase": "Phase 4 · breeding stock",
+   "area": "Blueprints",
+   "what": "A blueprint is a design: a build marked kind 'blueprint' in My Builds, as many as you like. D-038 still decides which animals live at the ranch.",
+   "why": "Q10 of the master plan; a design costs nothing to keep.",
+   "where": [
+    "#/stock",
+    "Breeding stock"
+   ],
+   "instead": [
+    "cap blueprints per line",
+    "blueprints only for ranch lines"
+   ]
+  },
+  {
+   "id": "A-06",
+   "decision": "D-067",
+   "phase": "Phase 4 · breeding stock",
+   "area": "Hatch rules",
+   "what": "'Possible' follows the hatch rules as the games' own code builds an egg (the pret decompilations: move order, push-out, hatch level 5 in Gens 2-3 and 1 in Gen 4). The four-state verdict informs and decides nothing; learnability stays the gate.",
+   "why": "The code is the most exact source there is.",
+   "where": [
+    "#/stock/heartgold/Swinub",
+    "Swinub's catalogue"
+   ],
+   "instead": [
+    "a simpler 'any egg move' rule"
+   ]
+  },
+  {
+   "id": "A-07",
+   "decision": "D-067",
+   "phase": "Phase 4 · breeding stock",
+   "area": "Lineages",
+   "what": "A line's own male can be a link in a breeding chain (hatched with some moves, learns the rest himself).",
+   "why": "Larvitar's lines were empty without it.",
+   "where": [
+    "#/stock/heartgold/Tyranitar",
+    "Larvitar's catalogue"
+   ],
+   "instead": [
+    "fathers from other lines only"
+   ]
+  },
+  {
+   "id": "A-08",
+   "decision": "D-067",
+   "phase": "Phase 4 · breeding stock",
+   "area": "Studbook",
+   "what": "Among equally short planned pedigrees, the studbook prefers a journey companion who can reach the game on cartridge (same generation, or Gen 3 to 4 by Pal Park). A Crystal companion in a Gen 4 cross is still allowed; B29 stays your call.",
+   "why": "It keeps a plan doable on real cartridges.",
+   "where": [
+    "#/breeding/studbook",
+    "The studbook"
+   ],
+   "instead": [
+    "no preference",
+    "only same-generation companions"
+   ]
+  },
+  {
+   "id": "A-09",
+   "decision": "D-067",
+   "phase": "Phase 4 · breeding stock",
+   "area": "What a set suggests",
+   "what": "'What a set might suggest' shows only evidence by kind (game mechanics, canon about the species) and draws no conclusion.",
+   "why": "An interpretation would be a hypothesis for the journal, not a fact.",
+   "where": [
+    "#/stock",
+    "Breeding stock"
+   ],
+   "instead": [
+    "let it propose an interpretation, marked hypothetical"
+   ]
+  },
+  {
+   "id": "A-10",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Who's in the library",
+   "what": "Every Gym Leader, Elite Four member, Champion, rival meeting, rematch and villain boss or admin of the five games, plus the special battles (Red, the Kimono Girls, Eusine, Li and a few more). Route trainers, the Battle Tower and Frontier facilities, and partner-only teams are left out.",
+   "why": "The spec's 'notable trainers'; the left-out ones are thousands of teams nobody benchmarks against.",
+   "where": [
+    "#/trainers",
+    "The directory"
+   ],
+   "instead": [
+    "add the Frontier Brains",
+    "add the Battle Tower or route trainers"
+   ]
+  },
+  {
+   "id": "A-11",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Names",
+   "what": "Rivals you name in the game get their usual names: Crystal and HeartGold's '?' is Silver, Platinum's 'Cedric' placeholder is Barry, FireRed's 'Terry' placeholder is Blue.",
+   "why": "The data holds a placeholder, not a name; these are the names everyone uses.",
+   "where": [
+    "#/trainer/silver",
+    "Silver"
+   ],
+   "instead": [
+    "your own names for them"
+   ]
+  },
+  {
+   "id": "A-12",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Identities",
+   "what": "The games' Blue and the anime's Gary are one trainer (Gary, also listed as Blue), with every version under him.",
+   "why": "They're the same character; the library is identity → versions.",
+   "where": [
+    "#/trainer/gary",
+    "Gary"
+   ],
+   "instead": [
+    "two identities, Blue and Gary"
+   ]
+  },
+  {
+   "id": "A-13",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Identities",
+   "what": "The anime's May and Emerald's rival May are one trainer. Brendan stays his own.",
+   "why": "Same character across media, like Blue and Gary.",
+   "where": [
+    "#/trainer/may",
+    "May"
+   ],
+   "instead": [
+    "separate the anime May from the games' May"
+   ]
+  },
+  {
+   "id": "A-14",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Identities",
+   "what": "Crystal's unnamed Rocket Executives are one group identity (Rocket Executives, Crystal); HeartGold's named ones (Archer, Ariana, Petrel, Proton) are their own trainers. The five Kimono Girls are one group identity.",
+   "why": "Crystal doesn't say which executive is which; the Kimono Girls fight as a set.",
+   "where": [
+    "#/trainer/rocket-executive",
+    "Rocket Executives"
+   ],
+   "instead": [
+    "map Crystal's executives onto Archer, Ariana, Petrel and Proton",
+    "each Kimono Girl her own trainer"
+   ]
+  },
+  {
+   "id": "A-15",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Encounters",
+   "what": "Each encounter is its own version: a rematch is its own record, a rival's team per starter you chose is its own version ('you chose Chikorita'), and repeat meetings are numbered ('meeting 3 of 7'). HeartGold's tag battles are kept as the trainer's three-Pokémon team; double battles are kept as teams (benchmarks are one-on-one either way).",
+   "why": "The spec asks for versions you can compare and pick; one record per real fight does that.",
+   "where": [
+    "#/trainer/silver",
+    "Silver's meetings"
+   ],
+   "instead": [
+    "fold rival starter variants into one version"
+   ]
+  },
+  {
+   "id": "A-16",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Abilities and natures",
+   "what": "When the game doesn't fix a trainer Pokémon's ability, Blackthorn reads the species' first ability (marked standardized); HeartGold's ability overrides are kept. Natures come from a hidden value the data doesn't fix: marked unknown, and fights use a neutral nature.",
+   "why": "The ability and nature are rolled from values the trainer data doesn't hold; guessing would look like fact.",
+   "where": [
+    "#/trainer/cynthia",
+    "Cynthia's team"
+   ],
+   "instead": [
+    "compute the Gen 4 personality value (deterministic, but a lot of code)",
+    "try both abilities"
+   ]
+  },
+  {
+   "id": "A-17",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Evidence classes",
+   "what": "Every field of every team member carries one of five classes. Cartridge: species, level, moves, IVs, EVs and item confirmed, ability standardized unless the game sets it, nature unknown. Reconstructions: species confirmed; approved moves confirmed, drafted ones strongly inferred; an authored ability strongly inferred, else standardized; item unknown unless shown; nature, IVs, EVs and level standardized. In your own versions a field you kept keeps the original's class, a changed one is hypothetical.",
+   "why": "Spec criterion 3: say what a version rests on, field by field.",
+   "where": [
+    "#/trainer/ash/ash%2Fsinnoh",
+    "Sinnoh Ash's research"
+   ],
+   "instead": [
+    "fewer classes (known / assumed)"
+   ]
+  },
+  {
+   "id": "A-18",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "How they think",
+   "what": "The games' AI flags are read two ways: tendencies (sets up early, takes risks, weather...) and competence (avoids failing moves, weighs damage, expert judgment). Coach settings are tendencies, measured sliders are evidence, authored sliders are 'your reading', an interpretation (master plan Q9).",
+   "why": "A flag says how moves get scored, not what the trainer plans; keeping the kinds apart stops an interpretation passing as a measurement.",
+   "where": [
+    "#/trainer/cynthia",
+    "How Cynthia thinks"
+   ],
+   "instead": [
+    "one combined 'AI level'"
+   ]
+  },
+  {
+   "id": "A-19",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Benchmarks",
+   "what": "A collection's default bar is 70%. The Ace collections keep the Ace test's own bars (80% Elite Four, 70% Champions). You can move any bar on the benchmark page; the group's version stamp changes with it.",
+   "why": "70% matches the Champion bar you already accepted.",
+   "where": [
+    "#/bench",
+    "Benchmarks"
+   ],
+   "instead": [
+    "a different default",
+    "a bar per collection"
+   ]
+  },
+  {
+   "id": "A-20",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Benchmarks",
+   "what": "A group's rate counts each distinct Pokémon once (the same species, set and level is one fight), as the Ace test does; a team's own line counts each of its Pokémon. A draw isn't a win.",
+   "why": "It's the Ace test's rule, so the Ace collections give the Ace test's numbers. How rematches should weigh is still master plan Q6.",
+   "where": [
+    "#/bench?c=ace-champion-gen4",
+    "The Ace collections"
+   ],
+   "instead": [
+    "count every team slot (a rematch counts twice)",
+    "a draw as half a win"
+   ]
+  },
+  {
+   "id": "A-21",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Lenses",
+   "what": "Two lenses. 'As encountered': their team exactly as the game has it, yours at their top level. 'Standardized': both at Lv 100 (the Ace test's terms). Game collections default to as encountered; the Ace, anime and journey groups to standardized. A reconstruction has no game levels, so it's always standardized.",
+   "why": "The spec asks both 'how would mine do in the game' and 'how does mine compare on equal footing'.",
+   "where": [
+    "#/bench",
+    "Benchmarks"
+   ],
+   "instead": [
+    "yours at its own level",
+    "a level cap per game"
+   ]
+  },
+  {
+   "id": "A-22",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Benchmarks",
+   "what": "A benchmark runs in your Pokémon's generation; a team from another generation is skipped and listed, not converted. Moves your build doesn't list are filled from the strongest set in the generation's reference game (Crystal, Emerald, Platinum), as the Ace test fills them.",
+   "why": "Converting a team across generations would invent moves and mechanics.",
+   "where": [
+    "#/bench",
+    "Benchmarks"
+   ],
+   "instead": [
+    "read Gen 3 teams in Gen 4 rules"
+   ]
+  },
+  {
+   "id": "A-23",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Your versions",
+   "what": "Your versions of a trainer are teams in My Teams with three new fields (kind, trainer, parent): kind 'custom' (optimized or what-if) or 'all-time'. 'Optimize' gives every member the engine's strongest set at Lv 100 and keeps species, ability and item. The original version never changes.",
+   "why": "Spec criterion 9, on the record store you already have; the team lab opens them like any saved team.",
+   "where": [
+    "#/trainers/variant/platinum%2Fcynthia",
+    "Make a version of Cynthia"
+   ],
+   "instead": [
+    "a separate Trainer Versions tab",
+    "optimize by fights instead of the strongest set"
+   ]
+  },
+  {
+   "id": "A-24",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Your groups",
+   "what": "Groups of teams you make on the benchmark page stay in this browser, not the Sheet.",
+   "why": "A quick test shouldn't need a Sheet change; if you use them a lot they can move to a tab.",
+   "where": [
+    "#/bench",
+    "Benchmarks"
+   ],
+   "instead": [
+    "save them to a My Groups tab in the Sheet"
+   ]
+  },
+  {
+   "id": "A-25",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Collections",
+   "what": "The collections are: per game, the Gym Leaders, Gym rematches, Elite Four with the Champion, their rematches, rival battles, villains and special battles; the Ace test's pools; the Gen 4 anime reconstructions; and your three Gen 4 journey teams.",
+   "why": "One group per question you'd ask of a game; the Ace pools so the library and the Ace test agree.",
+   "where": [
+    "#/trainers",
+    "The directory's collections"
+   ],
+   "instead": [
+    "add a 'whole league' group per game",
+    "add your Gen 2-3 journey teams"
+   ]
+  },
+  {
+   "id": "A-26",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Intake",
+   "what": "A new claim kind, trainer_version, adds a version of a trainer with its roster once approved: its id must be new (a revision names the version it revises as parent, and the original stays), a trainer not in canon yet is added only when the claim gives a name, and each team member becomes a build in the library (<trainer>-<version>/<species>).",
+   "why": "The master plan's 'intake that can create versions and rosters', without ever overwriting a version (D-049: approved before it lands).",
+   "where": [
+    "#/inbox",
+    "The inbox"
+   ],
+   "instead": [
+    "let a claim replace a version's roster in place",
+    "a separate claim kind per roster change"
+   ]
+  },
+  {
+   "id": "A-27",
+   "decision": "D-068",
+   "phase": "Phase 5 · Trainer Library",
+   "area": "Corrections",
+   "what": "A correction to a build in the library makes a new version of it: the old values are kept under the build's history with their version number, and the record store lists both. Corrections to a trainer's career or signature moves still change the value in place (the claim keeps the old value in its note).",
+   "why": "The master plan: approved corrections overwrote build fields in place, which broke 'never overwrite canonical'.",
+   "where": [
+    "#/inbox",
+    "The inbox"
+   ],
+   "instead": [
+    "version trainer corrections too",
+    "make each correction a separate build id"
+   ]
+  }
+ ]
+}

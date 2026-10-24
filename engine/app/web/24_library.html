@@ -13,8 +13,8 @@ var Library = (function () {
   var L = null, Bt = null, eng = null, ROUNDS = 30, mine = {};
   // the game a generation's strongest-set fill reads (the Ace test's: 28_teamroles GAME_OF_GEN)
   var FILL_GAME = {2: 'crystal', 3: 'emerald', 4: 'platinum'};
-  var KIND = {cartridge: 'from the cartridge', anime: 'anime reconstruction', 'all-time': 'all-time version', journey: 'your journey team', custom: 'custom version'};
-  var CATEGORY = {gym: 'Gym Leader', elite_four: 'Elite Four', champion: 'Champion', rival: 'Rival', villain: 'Villain', special: 'Special battle', frontier: 'Battle Frontier', anime: 'Anime', journey: 'Journey'};
+  var KIND = {cartridge: 'from the cartridge', anime: 'anime reconstruction', 'all-time': 'all-time version', journey: 'your journey team', custom: 'custom version', manga: 'manga reconstruction'};
+  var CATEGORY = {gym: 'Gym Leader', elite_four: 'Elite Four', champion: 'Champion', rival: 'Rival', villain: 'Villain', special: 'Special battle', frontier: 'Battle Frontier', anime: 'Anime', journey: 'Journey', custom: 'Custom'};
   var FIELDS = ['species', 'level', 'moves', 'ability', 'item', 'nature', 'ivs', 'evs'];
   function init(pack) { L = pack; mine = {}; }
   function attach(battle, rounds) { Bt = battle; eng = null; if (rounds) ROUNDS = rounds; }
@@ -30,19 +30,19 @@ var Library = (function () {
     Object.keys(teams || {}).forEach(function (k) { var v = asVersion(teams[k]); if (v) mine[v.id] = v; });
   }
   function asVersion(t) {   // a My Teams row that names a trainer, read as a version of that trainer
-      if (!t || !t.trainer) return null;
-      var parent = t.parent ? L.versions[t.parent] || null : null, idn = L.identities[t.trainer] || {};
-      var party = (t.slots || []).filter(Boolean).map(function (s) {
-        var b = s.build || {}, p = {species: s.species};
-        ['level', 'moves', 'item', 'ability', 'nature', 'ivs', 'evs'].forEach(function (f) { if (b[f] != null && b[f] !== '' && !(typeof b[f] === 'object' && !Array.isArray(b[f]) && !Object.keys(b[f]).length)) p[f] = copy(b[f]); });
-        p.moves = (p.moves || []).filter(Boolean); return p;
-      });
-      var v = {id: t.id, identity: t.trainer, name: idn.name || (parent && parent.name) || t.trainer, title: t.title || 'your version', kind: t.kind || 'custom',
-        game: t.game, generation: gameGen(t.game), region: parent ? parent.region : null, encounter: 'your variant', party: party, parent: t.parent || null,
-        source: 'your variant (My Teams' + (t.at ? ', saved ' + String(t.at).slice(0, 10) : '') + ')', mine: true, note: t.note || '',
-        ai_flags: parent ? parent.ai_flags : [], reading: parent ? parent.reading : null, top_level: Math.max.apply(null, party.map(function (p) { return p.level || 100; }).concat([1]))};
-      v.evidence = variantEvidence(v, parent);
-      return v;
+    if (!t || !t.trainer) return null;
+    var parent = t.parent ? L.versions[t.parent] || null : null, idn = L.identities[t.trainer] || {};
+    var party = (t.slots || []).filter(Boolean).map(function (s) {
+      var b = s.build || {}, p = {species: s.species};
+      ['level', 'moves', 'item', 'ability', 'nature', 'ivs', 'evs'].forEach(function (f) { if (b[f] != null && b[f] !== '' && !(typeof b[f] === 'object' && !Array.isArray(b[f]) && !Object.keys(b[f]).length)) p[f] = copy(b[f]); });
+      p.moves = (p.moves || []).filter(Boolean); return p;
+    });
+    var v = {id: t.id, identity: t.trainer, name: idn.name || (parent && parent.name) || t.trainer, title: t.title || 'your version', kind: t.kind || 'custom',
+      game: t.game, generation: gameGen(t.game), region: parent ? parent.region : null, encounter: 'your variant', party: party, parent: t.parent || null,
+      source: 'your variant (My Teams' + (t.at ? ', saved ' + String(t.at).slice(0, 10) : '') + ')', mine: true, note: t.note || '',
+      ai_flags: [], reading: null, top_level: Math.max.apply(null, party.map(function (p) { return p.level || 100; }).concat([1]))};
+    v.evidence = variantEvidence(v, parent);
+    return v;
   }
   function variantEvidence(v, parent) {   // a field you kept reads as the original's; one you changed is your hypothesis
     var pe = parent ? evidenceOf(parent) : [];

@@ -159,14 +159,18 @@ def migrate():
         for vid, v in t["versions"].items():
             for b in (v.get("team") or {}).get("builds", []):
                 owner.setdefault(b, []).append(f"{tid}/{vid}")
+    lib_versions = {}
     for lid, b in lib.items():
+        if b.get("history"):                                # a corrected build: its earlier versions (ingest/cards.py)
+            lib_versions[lid] = [{k: v for k, v in h.items() if v not in (None, [], {}, "")} for h in b["history"]] + \
+                [dict({k: v for k, v in b.items() if k != "history"}, v=b.get("v", len(b["history"]) + 1))]
         src = b.get("source", "")
-        prov = "stock" if src.startswith("stock") else "canonical" if src.startswith("anime") else "ingested"
+        prov = "stock" if src.startswith("stock") else "canonical" if src.startswith(("anime", "trainer")) else "ingested"
         add({"id": lid, "species": b["species"], "generation": b.get("generation"), "moves": b.get("moves"),
              "nature": b.get("nature"), "ability": b.get("ability"), "item": b.get("item"), "ivs": b.get("ivs"),
              "evs": b.get("evs"), "level": b.get("level"), "name": b.get("name"), "role": b.get("role"),
              "provenance": prov, "trainers": owner.get(lid), "status": b.get("status"), "source": src,
-             "tier": b.get("tier"), "notes": b.get("notes")}, f"canon/build_library.json {lid}")
+             "tier": b.get("tier"), "notes": b.get("notes"), "v": b.get("v")}, f"canon/build_library.json {lid}")
     # 4. competitive: Smogon's usage sets (@smogon/sets 2.0.0 stats), every set per species and format
     from battle.knowledge import SMOGON
     for gen in (2, 3, 4):
@@ -194,7 +198,7 @@ def migrate():
     # 6. your records from the app (the Sheet's My Pokémon / My Builds / My Teams, snapshot in store/personal.json)
     from store import personal
     mine = personal.load()
-    versions = personal.merge(builds, individuals, teams, mine)
+    versions = dict(lib_versions, **personal.merge(builds, individuals, teams, mine))
     n = sum(len(v) for v in mine["builds"].values())
     if n or mine["individuals"] or mine["teams"]:
         report.append(f"your records from the app: {n} build versions, {len(mine['individuals'])} individuals, "

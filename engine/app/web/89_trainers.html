@@ -9,7 +9,7 @@
    The assumptions behind these pages are listed in Your calls (engine/store/assumptions.json). */
 var TRL = {d: null, run: 0};
 var EVC = {confirmed: 'forest', 'strongly inferred': 'ice', standardized: '', hypothetical: 'violet', unknown: 'ember'};
-var CAT_ORDER = ['champion', 'elite_four', 'gym', 'rival', 'villain', 'special', 'anime', 'all-time', 'journey'];
+var CAT_ORDER = ['champion', 'elite_four', 'gym', 'rival', 'villain', 'special', 'anime', 'all-time', 'custom', 'journey'];
 var ITEM_NAME = {blacksludge: 'Black Sludge', flameorb: 'Flame Orb', ironball: 'Iron Ball', lightball: 'Light Ball', toxicorb: 'Toxic Orb', whiteherb: 'White Herb', leftovers: 'Leftovers',
   direhit: 'Dire Hit', fullheal: 'Full Heal', fullrestore: 'Full Restore', hyperpotion: 'Hyper Potion', maxpotion: 'Max Potion', potion: 'Potion', superpotion: 'Super Potion'};
 var FIELD_NAME = {species: 'Species', level: 'Level', moves: 'Moves', ability: 'Ability', item: 'Item', nature: 'Nature', ivs: 'IVs', evs: 'EVs'};
@@ -138,7 +138,7 @@ function trainerPage(ident, vid) {
     var hero = '<section class="card" style="overflow:hidden"><div class="bd" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">' +
       (n ? '<img src="' + art(n) + '" alt="" style="width:150px;height:150px;object-fit:contain">' : '') +
       '<div style="flex:1;min-width:240px"><div class="eyebrow">' + esc(idn.categories.map(Library.categoryName).join(' · ') + (idn.regions.length ? ' · ' + idn.regions.join(', ') : '')) + '</div>' +
-      '<h1 style="margin:4px 0">' + esc(idn.name) + '</h1>' + (idn.aka.length ? '<div class="small muted">Also called ' + esc(idn.aka.join(', ')) + ' (the games\' placeholder or an alternate name; one trainer here)</div>' : '') +
+      '<h1 style="margin:4px 0">' + esc(idn.name) + '</h1>' + (idn.aka.length ? '<div class="small muted">Also listed as ' + esc(idn.aka.join(', ')) + '</div>' : '') +
       '<div class="small" style="margin-top:4px">' + esc(idn.titles.join(' · ')) + '</div>' + (idn.signature.length ? '<div class="tiny muted" style="margin-top:4px">Signature: ' + esc(idn.signature.join(', ')) + '</div>' : '') +
       '<div style="margin-top:10px">' + picker + '</div></div></div></section>';
     var verCard = card(esc(Library.label(v)), [

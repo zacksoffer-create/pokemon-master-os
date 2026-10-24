@@ -1142,6 +1142,56 @@ class Intake(unittest.TestCase):
         with self.assertRaises(PermissionError):                              # only allowed paths can change
             self.inbox.apply(card2["id"])
 
+    def test_a_trainer_version_claim_adds_a_version_and_its_roster(self):
+        """Trainer Library intake (MASTER_PLAN Phase 5): an approved trainer_version claim adds a version with its team
+        as builds; a version is never overwritten, a revision names its parent, and a new trainer needs a name."""
+        from trainers.model import Store
+        team = [{"species": "Pikachu", "moves": ["Thunderbolt", "Quick Attack", "Iron Tail", "Volt Tackle"]},
+                {"species": "Charizard", "moves": ["Flamethrower", "Wing Attack"], "ability": "Blaze"}]
+        claim = self.inbox.claim("trainer_version", {"trainer": "ash", "version": "Battle Frontier", "title": "Ash at the Battle Frontier",
+                                                     "game": "platinum", "kind": "anime", "team": team}, source_ref="Advanced Generation 145-192")
+        card, _ = self.inbox.new("note", "ash-frontier", {"title": "research"}, "lore", "", [claim])
+        self.assertEqual(self.inbox.approve(card["id"]), [f"{card['id']}:c1 approved"])
+        out = self.inbox.apply(card["id"])
+        self.assertIn("trainers.ash.versions.battle-frontier", out[0])
+        st = Store(canon=os.path.join(self.tmp, "canon"))
+        v = st.trainers["ash"].versions["battle-frontier"]
+        self.assertEqual((v.kind, v.status, v.game), ("anime", "approved", "platinum"))
+        self.assertEqual([b.species for b in st.team(v)], ["Pikachu", "Charizard"])
+        self.assertEqual(st.library["ash-battle-frontier/charizard"].ability, "Blaze")
+        again = self.inbox.claim("trainer_version", {"trainer": "ash", "version": "battle-frontier", "title": "x", "game": "platinum",
+                                                     "kind": "anime", "team": team})
+        card2, _ = self.inbox.new("note", "ash-frontier-2", {"title": "x"}, "lore", "", [again])
+        self.inbox.approve(card2["id"])
+        with self.assertRaisesRegex(ValueError, "never overwritten"):
+            self.inbox.apply(card2["id"])
+        rev = self.inbox.claim("trainer_version", {"trainer": "ash", "version": "battle-frontier-2", "parent": "battle-frontier",
+                                                   "title": "Ash at the Battle Frontier (revised)", "game": "platinum", "kind": "anime", "team": team[:1]})
+        new_t = self.inbox.claim("trainer_version", {"trainer": "red-manga", "name": "Red (Adventures)", "version": "kanto",
+                                                     "title": "Red, Pokémon Adventures", "game": "firered", "kind": "manga", "team": team[:1]})
+        card3, _ = self.inbox.new("note", "revisions", {"title": "x"}, "lore", "", [rev, new_t])
+        self.inbox.approve(card3["id"])
+        self.inbox.apply(card3["id"])
+        st = Store(canon=os.path.join(self.tmp, "canon"))
+        self.assertEqual(len(st.team(st.trainers["ash"].versions["battle-frontier"])), 2)       # the original is untouched
+        self.assertEqual(st.trainers["ash"].versions["battle-frontier-2"].parent, "battle-frontier")
+        self.assertEqual((st.trainers["red-manga"].name, st.trainers["red-manga"].versions["kanto"].kind), ("Red (Adventures)", "manga"))
+
+    def test_a_build_correction_keeps_the_old_values_as_a_version(self):
+        """Corrections become versions (MASTER_PLAN §4.2): the build's old values stay under history with their
+        version number, and the record store lists both."""
+        from trainers.model import Store
+        before = Store(canon=os.path.join(self.tmp, "canon")).library["ash-sinnoh/buizel"].moves
+        fix = self.inbox.claim("correction", {"target": "canon/build_library.json:builds.ash-sinnoh/buizel.moves",
+                                              "value": ["Water Gun", "Aqua Jet", "Ice Punch", "Sonic Boom"], "why": "test"})
+        card, _ = self.inbox.new("note", "buizel", {"title": "research"}, "ingested", "", [fix])
+        self.inbox.approve(card["id"])
+        self.inbox.apply(card["id"])
+        with open(os.path.join(self.tmp, "canon", "build_library.json"), encoding="utf-8") as fh:
+            b = json.load(fh)["builds"]["ash-sinnoh/buizel"]
+        self.assertEqual((b["v"], b["moves"][1], b["history"][0]["v"], b["history"][0]["moves"]), (2, "Aqua Jet", 1, before))
+        self.assertEqual(Store(canon=os.path.join(self.tmp, "canon")).library["ash-sinnoh/buizel"].v, 2)
+
     def test_the_gemini_call_and_answer(self):
         from ingest.media import Gemini, parse_response, platform_of, video_key
         cfg = self.inbox.cfg
@@ -2049,6 +2099,30 @@ class TrainerLibrary(unittest.TestCase):
         from trainers.library import Library
         cls.lib = Library().build()
         cls.cat = Catalog().build()
+
+    def test_the_assumptions_register_is_complete_and_current(self):
+        """store/assumptions.json: every item says what, why, where and what else; each names a ledger row that's
+        PROVISIONAL and by the assistant; its link opens a page the app has; docs/design/ASSUMPTIONS.md is current."""
+        import glob
+        import re
+        sys.path.insert(0, os.path.join(ENGINE, "store"))
+        import assumptions
+        items = assumptions.load()
+        self.assertGreaterEqual(len(items), 27)
+        with open(os.path.join(os.path.dirname(ENGINE), "docs", "DECISION_LEDGER.md"), encoding="utf-8") as fh:
+            ledger = {m.group(1): m.group(0) for m in re.finditer(r"^\| (D-\d+) \|.*$", fh.read(), re.M)}
+        routes = []
+        for f in glob.glob(os.path.join(ENGINE, "app", "web", "*.html")):
+            with open(f, encoding="utf-8") as fh:
+                routes += [re.compile(r) for r in re.findall(r"^route\(/(.+?)/, ", fh.read(), re.M)]
+        for a in items:
+            self.assertIn(a["decision"], ledger, a["id"])
+            self.assertIn("PROVISIONAL | assistant", ledger[a["decision"]], a["id"])
+            path = a["where"][0][1:].split("?")[0]
+            from urllib.parse import unquote
+            self.assertTrue(any(r.search(unquote(path)) or r.search(path) for r in routes), f"{a['id']}: no page for {a['where'][0]}")
+        with open(assumptions.DOC, encoding="utf-8") as fh:
+            self.assertEqual(fh.read(), assumptions.markdown(items), "run python3 -I engine/store/assumptions.py")
 
     def test_coverage(self):
         by = {}

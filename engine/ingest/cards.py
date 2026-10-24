@@ -11,8 +11,9 @@ The flow is propose → approve → apply:
 - `approve` checks the claim has what its kind requires (a build needs its generation; nothing external without a
   source) and marks it approved; `reject` marks it rejected with a reason; `edit` fills a missing field;
 - `apply` writes approved claims into canon (field notes, observations, lore and style cards append to JSONL files;
-  builds join the build library; career records join a trainer; a correction changes one allowed value) and
-  records where each landed.
+  builds join the build library; career records join a trainer; a trainer version adds a version and its roster,
+  never replacing one; a correction changes one allowed value, and a corrected build keeps its old values as an
+  earlier version) and records where each landed.
 
 Cards live one per file in canon/inbox/cards/, the raw analysis beside them in canon/inbox/raw/, so the review is
 plain data you can read in any editor and diff in git. Kinds, required fields and destinations are in
@@ -282,6 +283,53 @@ class Inbox:
         _write_json(path, data)
         return f"{rel} (trainers.{tid}.career)"
 
+    def _apply_trainer_version(self, card, c):
+        """A new version of a trainer and its roster (Trainer Library, MASTER_PLAN Phase 5). The version id must be new:
+        a revision names the version it revises as `parent`, and the original stays as it was. A trainer not in canon
+        yet is added when the claim gives its `name` (a manga trainer, say). Each team member becomes a build in the
+        library (<trainer>-<version>/<species>)."""
+        rel_t, rel_b = "canon/trainers.json", self.kinds["build"]["lands_in"]
+        tpath, bpath = os.path.join(self.base, rel_t), os.path.join(self.base, rel_b)
+        data, lib = _read_json(tpath), _read_json(bpath)
+        d = dict(c["data"])
+        tid, vid = d["trainer"], slug(d["version"], 40)
+        if tid not in data["trainers"]:
+            if not d.get("name"):
+                raise KeyError(f"no trainer {tid} in {rel_t}; give the claim a name to add one")
+            data["trainers"][tid] = {"name": d["name"], "notes": [], "versions": {}, "career": []}
+        t = data["trainers"][tid]
+        if vid in t["versions"]:
+            raise ValueError(f"{tid} already has a version {vid}: a version is never overwritten; propose a new id with "
+                             f"parent: {vid}")
+        if d.get("parent") and d["parent"] not in t["versions"]:
+            raise KeyError(f"{tid} has no version {d['parent']} to revise")
+        ref = c.get("source_ref") or card["source"].get("url") or card["source"].get("title") or card["id"]
+        source = f"anime: {ref}" if d["kind"] == "anime" else f"trainer ({d['kind']}): {ref}"   # a trainer's build (store: canonical)
+        ids = []
+        for m in d["team"]:
+            base = f"{tid}-{vid}/{slug(m['species'], 24)}"
+            bid, n = base, 2
+            while bid in lib["builds"]:
+                bid, n = f"{base}-{n}", n + 1
+            entry = {k: m[k] for k in ("species", "moves", "nature", "ivs", "evs", "item", "ability", "level", "friendship",
+                                       "ball", "gender", "nickname", "role", "notes") if m.get(k) not in (None, "", [], {})}
+            entry.setdefault("moves", [])
+            entry.update(generation=d.get("generation") or {"crystal": 2, "firered": 3, "emerald": 3}.get(d["game"], 4),
+                         source=source, status="approved", tier=entry.get("tier", "unrated"))
+            entry.setdefault("notes", []).append(f"from {card['id']} ({c['id']}): {tid}/{vid}")
+            lib["builds"][bid] = entry
+            ids.append(bid)
+        v = {"title": d["title"], "game": d["game"], "kind": d["kind"], "source": ref, "status": "approved",
+             "team": {"builds": ids}, "sliders": d.get("sliders") or {}, "roles": d.get("roles") or [],
+             "notes": list(d.get("notes") or []), "signature_moves": d.get("signature_moves") or []}
+        if d.get("parent"):
+            v["parent"] = d["parent"]
+            v["notes"].append(f"a revision of {tid}/{d['parent']}, which stays as it was")
+        t["versions"][vid] = v
+        _write_json(bpath, lib)
+        _write_json(tpath, data)
+        return f"{rel_t} (trainers.{tid}.versions.{vid}) + {rel_b} ({len(ids)} builds)"
+
     def _apply_correction(self, card, c):
         d = c["data"]
         file_rel, _, dotted = d["target"].partition(":")
@@ -297,6 +345,12 @@ class Inbox:
             node = node[int(k)] if isinstance(node, list) else node[k]
         last = keys[-1]
         before = node[int(last)] if isinstance(node, list) else node.get(last)
+        if file_rel == "canon/build_library.json" and len(keys) == 3 and keys[0] == "builds":
+            # a corrected build becomes a new version: its old values stay under history, nothing is overwritten
+            b = data["builds"][keys[1]]
+            prior = {k: v for k, v in b.items() if k not in ("history", "v")}
+            b.setdefault("history", []).append(dict(prior, v=b.get("v", 1), until=today(), changed_by=f"{card['id']}:{c['id']}"))
+            b["v"] = b.get("v", 1) + 1
         if isinstance(node, list):
             node[int(last)] = d["value"]
         else:

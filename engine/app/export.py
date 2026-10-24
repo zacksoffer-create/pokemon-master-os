@@ -253,6 +253,8 @@ def journal(bt):
 
 # --- the HQ: home and breeder pages -----------------------------------------------------------------------------------
 def hq(store, bt):
+    sys.path.insert(0, os.path.join(ENGINE, "store"))
+    import assumptions                    # store/assumptions.json: what the assistant assumed, for Your calls
     with open(os.path.join(ENGINE, "canon", "builds.json"), encoding="utf-8") as fh:
         builds_ = json.load(fh)
     world = bt["world"]
@@ -307,7 +309,7 @@ def hq(store, bt):
             "lineage": lineage, "fathers": bt["fathers"],
             "tinker": [{"c": r["companion"], "roles": r["roles"], "menu": r.get("tinker_menu") or {},
                         "as_father": r["as_father"]} for r in bt["breeding_roles"]],
-            "questions": bt["questions"], "world": world,
+            "questions": bt["questions"], "world": world, "assumptions": assumptions.load(),
             "decisions": [{k: d[k] for k in ("id", "date", "title", "area", "status", "who")} for d in bt["decisions"]],
             "locks": bt["locks"], "single_points": bt["single_points"], "open_jobs": bt["open_jobs"],
             "staff_hires": bt["staff_proposals"]}

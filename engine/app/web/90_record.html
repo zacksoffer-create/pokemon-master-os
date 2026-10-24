@@ -18,6 +18,15 @@ function callCard(c, a) {
     '<div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap"><button class="btn sm gold" onclick="answerCall(\'' + esc(c.id) + '\',\'answered\')">Record my call</button><button class="btn sm" onclick="answerCall(\'' + esc(c.id) + '\',\'deferred\')">Not yet</button>' +
     '<span class="tiny muted" style="flex:1;text-align:right">' + esc(c.source || '') + '</span></div></div></div>';
 }
+function assumptionCard(a, ans) {   // store/assumptions.json: a call the assistant made, for you to keep, change or reject
+  var done = ans && ans.status && ans.status !== 'open', verdict = done ? (/^keep/i.test(ans.text) ? ['kept', 'forest'] : /^reject/i.test(ans.text) ? ['rejected', 'ember'] : [ans.status === 'deferred' ? 'not yet' : 'changed', 'gold']) : null;
+  return '<div class="card call' + (done ? ' done' : '') + '" id="call-' + esc(a.id) + '"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(a.id) + ' · ' + esc(a.area) + ' · ' + esc(a.decision) + '</div>' +
+    '<h3 style="font-size:17px;line-height:1.35;font-family:inherit">' + esc(a.what) + '</h3></div>' + (verdict ? chip(verdict[0], verdict[1]) : chip('assumed', 'ember')) + '</div>' +
+    '<div class="bd"><p class="small" style="color:var(--text-2);margin:0"><b>Why:</b> ' + esc(a.why) + ' <a class="link" href="' + esc(a.where[0]) + '">See it: ' + esc(a.where[1]) + ' →</a></p>' +
+    '<div class="opts">' + ['Keep'].concat(a.instead.map(function (x) { return 'Change: ' + x; }), ['Reject']).map(function (o) { return '<button type="button" class="opt" onclick="pickOpt(this)">' + esc(o) + '</button>'; }).join('') + '</div>' +
+    '<label class="l">Your call</label><textarea class="f" rows="2" data-ans="' + esc(a.id) + '" placeholder="Keep, change (how), or reject; in your words">' + esc(ans && ans.text || '') + '</textarea>' +
+    '<div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap"><button class="btn sm gold" onclick="answerCall(\'' + esc(a.id) + '\',\'answered\')">Record my call</button><button class="btn sm" onclick="answerCall(\'' + esc(a.id) + '\',\'deferred\')">Not yet</button></div></div></div>';
+}
 function pickOpt(b) { var t = b.closest('.card').querySelector('textarea'); t.value = b.textContent; b.parentNode.querySelectorAll('.opt').forEach(function (x) { x.classList.toggle('on', x === b); }); t.focus(); }
 function answerCall(id, status) {
   var t = document.querySelector('[data-ans="' + id + '"]'), text = t ? t.value.trim() : '';
@@ -31,13 +40,17 @@ function calls() {
     var qs = h.questions.map(function (q) { return {id: q.id, area: q.area, q: q.question, why: q.why, options: q.options, blocks: q.blocks, source: q.source}; });
     var world = h.world.filter(function (w) { return w.status === 'proposed'; }).map(function (w) { return {id: w.id, area: 'world record · ' + w.species, q: w.statement, why: w.note + '. ' + w.capability.replace(/_/g, ' ') + ' for ' + w.species + ' (' + (GAME_NAME[w.game] || w.game) + ').', options: ['Approve', 'Reject', 'Approve with changes'], source: w.source}; });
     var dec = h.decisions.filter(function (d) { return /^PROPOSED/.test(d.status); }).map(function (d) { return {id: d.id, area: 'decision · ' + d.area, q: d.title, why: 'Proposed ' + fmtLoose(d.date) + ' and not yet confirmed. Confirming makes it working canon.', options: ['Confirm', 'Reject', 'Confirm with changes'], source: d.status}; });
-    var all = qs.concat(world, dec);
+    var asm = h.assumptions || [], all = qs.concat(world, dec);
     S.callMeta = {}; all.forEach(function (c) { S.callMeta[c.id] = {area: c.area, question: c.q}; });
-    var open = all.filter(function (c) { return !ans[c.id] || ans[c.id].status === 'open'; }).length;
+    asm.forEach(function (a) { S.callMeta[a.id] = {area: 'assumption · ' + a.area + ' (' + a.decision + ')', question: a.what}; });
+    var open = all.filter(function (c) { return !ans[c.id] || ans[c.id].status === 'open'; }).length, aOpen = asm.filter(function (a) { return !ans[a.id] || ans[a.id].status === 'open'; }).length;
+    var phases = []; asm.forEach(function (a) { if (phases.indexOf(a.phase) < 0) phases.push(a.phase); });
+    var asmHtml = asm.length ? '<div class="ornament" style="margin:26px 0 8px" id="assumptions">Assumptions I made</div><p class="small muted" style="margin:0 0 12px">' + aOpen + ' of ' + asm.length + ' waiting on you. You asked me to make the calls I needed and keep track of them: each one says what I assumed, why, where to see it, and what it could be instead. Keep, change or reject; nothing changes until a call is written in (docs/design/ASSUMPTIONS.md).</p>' +
+      phases.map(function (ph) { return '<div class="eyebrow" style="margin:16px 0 8px">' + esc(ph) + '</div><div class="grid">' + asm.filter(function (a) { return a.phase === ph; }).map(function (a) { return '<div class="c6">' + assumptionCard(a, ans[a.id]) + '</div>'; }).join('') + '</div>'; }).join('') : '';
     function group(title, eyebrow, list) { return list.length ? '<div class="ornament" style="margin:26px 0 14px">' + eyebrow + '</div><div class="grid">' + list.map(function (c) { return '<div class="c6">' + callCard(c, ans[c.id]) + '</div>'; }).join('') + '</div>' : ''; }
     return '<div class="eyebrow">What the estate is waiting on</div><h1 style="margin:6px 0">Your calls</h1>' +
-      '<p class="lede">' + open + ' of ' + all.length + ' open. Nothing here changes canon by itself: your answer is written to the Your Calls tab of the Sheet, and an answered call becomes a decision (a D- number) when it\'s written in. Suggestions never become locks without you.</p>' +
-      group('Open questions', 'The ranch, the breeding lab and the chapters', qs) + group('World records', 'World records waiting on approval', world) + group('Decisions', 'Decisions proposed, not confirmed', dec);
+      '<p class="lede">' + open + ' of ' + all.length + ' open' + (asm.length ? ', and <a href="javascript:void 0" onclick="document.getElementById(\'assumptions\').scrollIntoView()">' + aOpen + ' assumptions</a> to review' : '') + '. Nothing here changes canon by itself: your answer is written to the Your Calls tab of the Sheet, and an answered call becomes a decision (a D- number) when it\'s written in. Suggestions never become locks without you.</p>' +
+      group('Open questions', 'The ranch, the breeding lab and the chapters', qs) + group('World records', 'World records waiting on approval', world) + group('Decisions', 'Decisions proposed, not confirmed', dec) + asmHtml;
   });
 }
 function recordPage(tab) {

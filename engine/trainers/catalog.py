@@ -67,6 +67,9 @@ FLAG_READ = {
 DEFAULT_THRESHOLD = 0.7      # a collection's bar unless it says otherwise (the Ace collections keep Ace's own bars)
 
 
+GROUP_NAME = {"kimono-girls": "The Kimono Girls", "rocket-executive": "Rocket Executives (Crystal)"}   # identities that are a group
+
+
 def stamp(*parts):
     return hashlib.sha1(json.dumps(parts, sort_keys=True).encode()).hexdigest()[:8]
 
@@ -108,7 +111,7 @@ def evidence(b, kind, cfg):
     approved = b.get("status") == "approved"
     out["species"] = ["confirmed", "on the team in the show"] if kind == "anime" else \
         ["confirmed", "one of the trainer's own Pokémon; which six is a curated choice"] if kind == "all-time" else \
-        ["hypothetical", "your variant"]
+        ["confirmed", "on the team in the source"] if kind == "manga" else ["hypothetical", "your variant"]
     out["moves"] = ["confirmed", "used in the show, checked against the games' learnsets, approved"] if approved else \
         ["strongly inferred", "drafted from the show and checked against the games' learnsets; not approved yet"]
     out["ability"] = ["strongly inferred", "the show rarely names abilities: one the species can have"] if b.get("ability") else \
@@ -157,6 +160,8 @@ class Catalog:
                        "generation": GAME_GEN[v.game], "party": party, "source": v.source, "status": v.status,
                        "sliders": v.sliders, "roles": v.roles, "notes": v.notes, "signature_moves": v.signature_moves,
                        "report": f"{tid}-{vid}", "library": lid}
+                if v.parent:
+                    rec["parent"] = f"{tid}/{v.parent}"
                 if kind != "cartridge":
                     rec["evidence"] = [evidence(p, kind, cfg) for p in party]
                 out[f"{tid}/{vid}"] = rec
@@ -180,7 +185,7 @@ class Catalog:
             c = dict(c)
             c["id"] = k
             c["name"] = self.store.trainers[c["identity"]].name
-            c["category"] = {"journey": "journey", "all-time": "all-time"}.get(c["kind"], "anime")
+            c["category"] = c["kind"] if c["kind"] in ("journey", "all-time", "anime") else "custom"
             c["encounter"] = c["title"]
             c["top_level"] = max([p.get("level") or 0 for p in c["party"]] or [0])
             versions[k] = c
@@ -210,7 +215,7 @@ class Catalog:
             vs = [versions[x] for x in vids]
             t = self.store.trainers.get(ident)
             names = list(dict.fromkeys(v.get("name") for v in vs if v.get("name")))
-            name = t.name if t else names[0]
+            name = t.name if t else GROUP_NAME.get(ident, names[0])
             aces = {}
             for v in vs:
                 if v.get("ace"):

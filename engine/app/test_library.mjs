@@ -133,6 +133,14 @@ t = await text();
 const m = t.match(/(\d+) of (\d+) stored builds clear these bars[^;]*; at the published bars, (\d+)/);
 expect('8/10: the standards page tries a stricter Ace bar (' + (m && m[0]) + ')', m && +m[1] < +m[3] && /Would fall short/.test(t));
 
+// the assumptions register: every call made while building, reviewable in Your calls
+await go('#/calls', '#assumptions', true);
+t = await text();
+expect('the register lists every assumption with where to see it', /assumptions i made/i.test(t) && (t.match(/A-\d\d · /g) || []).length >= 27 && /See it: Make a version of Cynthia/.test(t));
+await page.evaluate(() => { const c = document.getElementById('call-A-19'); [...c.querySelectorAll('.opt')].find((b) => b.textContent === 'Keep').click(); [...c.querySelectorAll('button')].find((b) => /Record my call/.test(b.textContent)).click(); });
+await page.waitForFunction(() => { const c = document.getElementById('call-A-19'); return c && /kept/.test(c.querySelector('.hd').innerText); }, null, { timeout: 30000 }).catch(() => {});
+expect('keeping an assumption records it', await page.evaluate(() => { const c = document.getElementById('call-A-19'); return !!c && /kept/.test(c.querySelector('.hd').innerText); }));
+
 await browser.close();
 if (errors.length) fails.push('page errors: ' + errors.join(' || '));
 console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: the Trainer Library meets the spec\'s criteria 1-4 and 7-10 in the browser');

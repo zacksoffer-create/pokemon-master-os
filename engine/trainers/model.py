@@ -59,9 +59,11 @@ class Build:
     tier: str = None
     status: str = ""                 # "proposed", "approved", or the canon register's own label
     notes: list = field(default_factory=list)
+    v: int = None                    # its version once corrected (ingest/cards.py keeps earlier ones under history)
+    history: list = field(default_factory=list)
 
     def to_dict(self):
-        return {k: v for k, v in asdict(self).items() if v not in (None, [], {}, "")}
+        return {k: v for k, v in asdict(self).items() if v not in (None, [], {}, "") and k != "history"}
 
 
 @dataclass
@@ -79,6 +81,7 @@ class Version:
     notes: list = field(default_factory=list)        # lore and canon notes: data, never logic
     signature_moves: list = field(default_factory=list)   # authored: [{pokemon, move, why, status}]
     kind_: str = None                                      # explicit kind from canon, if any
+    parent: str = None                                     # the version this one revises (it stays as it was)
 
     @property
     def kind(self):
@@ -126,7 +129,7 @@ class Store:
                                      sliders=v.get("sliders", {}), roles=v.get("roles", []), source=v.get("source", ""),
                                      status=v.get("status", "proposed"), overrides=v.get("overrides", {}),
                                      notes=v.get("notes", []), signature_moves=v.get("signature_moves", []),
-                                     kind_=v.get("kind"))
+                                     kind_=v.get("kind"), parent=v.get("parent"))
                         for vid, v in t["versions"].items()}
             self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=versions, notes=t.get("notes", []),
                                          career=t.get("career", []))

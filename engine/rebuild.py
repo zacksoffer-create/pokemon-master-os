@@ -36,9 +36,11 @@ STEPS = [
     ("dashboard", PY + ["ranch/dashboard.py"], "engine/data_manifest/blackthorn.json", []),
     ("sheet-calls", PY + ["ranch/sheet.py"], "engine/data_manifest/sheet/*.json (files only; never sent)", ["dashboard"]),
     ("store", PY + ["store/migrate.py"], "engine/store/out/*.json", []),
+    ("trainer-library", PY + ["trainers/library.py"], "engine/data_manifest/trainer_library.json", []),
+    ("assumptions", PY + ["store/assumptions.py"], "docs/design/ASSUMPTIONS.md", []),
     ("roles4", PY + ["trainers/team_roles.py", "--pack"], "engine/app/data/roles4.json, docs/roles/*", ["store"]),
     ("recognition", PY + ["trainers/recognition.py", "--calibrate"], "docs/recognition/CALIBRATION.md, engine/data_manifest/recognition_calibration.json", ["roles4", "store"]),
-    ("app-data", PY + ["app/export.py"], "engine/app/data/*.json", ["reports", "packets-page", "dashboard", "roles4", "store", "recognition"]),
+    ("app-data", PY + ["app/export.py"], "engine/app/data/*.json", ["reports", "packets-page", "dashboard", "roles4", "store", "recognition", "trainer-library", "assumptions"]),
     ("app", PY + ["app/build.py"], "engine/app/dist/ (zip, preview)", ["app-data"]),
 ]
 WATCH = ["docs", os.path.join("engine", "data_manifest"), os.path.join("engine", "app", "data"),

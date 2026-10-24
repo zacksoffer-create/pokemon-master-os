@@ -72,11 +72,11 @@ test('a hatch row: id, line, generation and sprite', () => {
 });
 
 test('the pedigree goes three generations up from the Tyranitar stud', () => {
-  const t = R.pedigree(records, 'S-TYRANITAR', 3);
-  assert.equal(t.sire.id, 'B-FERALIGATR-TYRANITAR');
+  const t = R.pedigree(records, 'S-TYRANITAR', 3);   // the bridge father is the FireRed Charizard: a companion who reaches HeartGold by Pal Park (D-067 d)
+  assert.equal(t.sire.id, 'B-CHARIZARD-TYRANITAR');
   assert.equal(t.sire.sire.id, 'F-KINGDRA-TYRANITAR');
   assert.equal(t.dam.id, 'D-TYRANITAR');
-  same(R.descendants(records, 'F-KINGDRA-TYRANITAR').map(r => r.id), ['B-FERALIGATR-TYRANITAR', 'S-TYRANITAR']);
+  same(R.descendants(records, 'F-KINGDRA-TYRANITAR').map(r => r.id), ['B-CHARIZARD-TYRANITAR', 'S-TYRANITAR']);
 });
 
 console.log(`${n} tests passed`);
