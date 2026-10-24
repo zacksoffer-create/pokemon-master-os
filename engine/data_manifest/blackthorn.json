@@ -7,14 +7,14 @@
   "companions": 36,
   "studs": 9,
   "lines": 10,
-  "individuals": 63,
+  "individuals": 62,
   "generations": 3,
   "rule_issues": 0,
   "facilities": 9,
   "open_jobs": 3,
   "single_points": 5,
   "open_questions": 10,
-  "decisions": 66,
+  "decisions": 67,
   "world_records": 17
  },
  "chapters": [
@@ -2583,15 +2583,15 @@
    ],
    "fathers_used": [
     "Kingdra",
-    "Feraligatr"
+    "Charizard"
    ],
    "chain": [
     "Kingdra",
-    "Feraligatr",
+    "Charizard",
     "Tyranitar stud"
    ],
    "steps": 2,
-   "kept": "stud ♂ knowing Outrage, Dragon Dance",
+   "kept": "stud ♂ knowing Dragon Dance, Outrage",
    "hatches_as": "Larvitar",
    "stud_id": "S-TYRANITAR",
    "status": "planned",
@@ -2656,10 +2656,10 @@
     "Aqua Ring"
    ],
    "fathers_used": [
-    "Azumarill"
+    "Dewgong"
    ],
    "chain": [
-    "Azumarill",
+    "Dewgong",
     "Empoleon stud"
    ],
    "steps": 1,
@@ -2701,10 +2701,10 @@
     "Refresh"
    ],
    "fathers_used": [
-    "Milotic"
+    "Corsola"
    ],
    "chain": [
-    "Milotic",
+    "Corsola",
     "Swampert stud"
    ],
    "steps": 1,
@@ -2725,10 +2725,10 @@
     "Thunder Punch"
    ],
    "fathers_used": [
-    "Ampharos"
+    "Raichu"
    ],
    "chain": [
-    "Ampharos",
+    "Raichu",
     "Infernape stud"
    ],
    "steps": 1,
@@ -2812,6 +2812,7 @@
    "chapter": "Crystal",
    "decision": "D-002",
    "note": "no build on record",
+   "game": "crystal",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/160.png",
    "check": "ok"
   },
@@ -2835,6 +2836,7 @@
    "chapter": "Crystal",
    "decision": "D-002",
    "note": "no build on record",
+   "game": "crystal",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/241.png",
    "check": "ok"
   },
@@ -2858,6 +2860,7 @@
    "chapter": "Crystal",
    "decision": "D-002",
    "note": "no build on record",
+   "game": "crystal",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/232.png",
    "check": "ok"
   },
@@ -2881,6 +2884,7 @@
    "chapter": "Crystal",
    "decision": "D-002",
    "note": "no build on record",
+   "game": "crystal",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/181.png",
    "check": "ok"
   },
@@ -2904,6 +2908,7 @@
    "chapter": "Crystal",
    "decision": "D-002",
    "note": "no build on record",
+   "game": "crystal",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/197.png",
    "check": "ok"
   },
@@ -2927,6 +2932,7 @@
    "chapter": "Crystal",
    "decision": "D-002",
    "note": "no build on record",
+   "game": "crystal",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/196.png",
    "check": "ok"
   },
@@ -2950,6 +2956,7 @@
    "chapter": "FireRed",
    "decision": "D-003",
    "note": "no build on record",
+   "game": "firered",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/6.png",
    "check": "ok"
   },
@@ -2978,6 +2985,7 @@
    "chapter": "FireRed",
    "decision": "D-003",
    "note": "build: historical (sheet)",
+   "game": "firered",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/9.png",
    "check": "ok"
   },
@@ -3001,6 +3009,7 @@
    "chapter": "FireRed",
    "decision": "D-003",
    "note": "no build on record",
+   "game": "firered",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/3.png",
    "check": "ok"
   },
@@ -3024,6 +3033,7 @@
    "chapter": "FireRed",
    "decision": "D-003",
    "note": "no build on record",
+   "game": "firered",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/65.png",
    "check": "ok"
   },
@@ -3047,6 +3057,7 @@
    "chapter": "FireRed",
    "decision": "D-003",
    "note": "no build on record",
+   "game": "firered",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/135.png",
    "check": "ok"
   },
@@ -3070,6 +3081,7 @@
    "chapter": "FireRed",
    "decision": "D-003",
    "note": "no build on record",
+   "game": "firered",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/68.png",
    "check": "ok"
   },
@@ -3095,6 +3107,7 @@
    "chapter": "Emerald",
    "decision": "D-004",
    "note": "build: established example (one move known)",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/260.png",
    "check": "ok"
   },
@@ -3118,6 +3131,7 @@
    "chapter": "Emerald",
    "decision": "D-004",
    "note": "no build on record",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/350.png",
    "check": "ok"
   },
@@ -3141,6 +3155,7 @@
    "chapter": "Emerald",
    "decision": "D-004",
    "note": "no build on record",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/334.png",
    "check": "ok"
   },
@@ -3164,6 +3179,7 @@
    "chapter": "Emerald",
    "decision": "D-004",
    "note": "no build on record",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/59.png",
    "check": "ok"
   },
@@ -3187,6 +3203,7 @@
    "chapter": "Emerald",
    "decision": "D-004",
    "note": "no build on record",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/359.png",
    "check": "ok"
   },
@@ -3210,6 +3227,7 @@
    "chapter": "Emerald",
    "decision": "D-004",
    "note": "no build on record",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/154.png",
    "check": "ok"
   },
@@ -3238,6 +3256,7 @@
    "chapter": "Platinum",
    "decision": "D-005",
    "note": "build: accepted working direction (D-015)",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png",
    "check": "ok"
   },
@@ -3266,6 +3285,7 @@
    "chapter": "Platinum",
    "decision": "D-005",
    "note": "build: historical (sheet), not reaffirmed",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/461.png",
    "check": "ok"
   },
@@ -3294,6 +3314,7 @@
    "chapter": "Platinum",
    "decision": "D-005",
    "note": "build: historical (sheet), not reaffirmed",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/407.png",
    "check": "ok"
   },
@@ -3317,6 +3338,7 @@
    "chapter": "Platinum",
    "decision": "D-005",
    "note": "no build on record",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/448.png",
    "check": "ok"
   },
@@ -3345,6 +3367,7 @@
    "chapter": "Platinum",
    "decision": "D-005",
    "note": "build: accepted working direction (D-016); 4th slot evaluative",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/445.png",
    "check": "ok"
   },
@@ -3373,6 +3396,7 @@
    "chapter": "Platinum",
    "decision": "D-005",
    "note": "build: historical (sheet), not reaffirmed",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/462.png",
    "check": "ok"
   },
@@ -3401,6 +3425,7 @@
    "chapter": "SoulSilver",
    "decision": "D-010",
    "note": "build: historical (former six)",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/25.png",
    "check": "ok"
   },
@@ -3429,6 +3454,7 @@
    "chapter": "SoulSilver",
    "decision": "D-010",
    "note": "build: historical (former six)",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/149.png",
    "check": "ok"
   },
@@ -3452,6 +3478,7 @@
    "chapter": "SoulSilver",
    "decision": "D-010",
    "note": "no build on record",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png",
    "check": "ok"
   },
@@ -3480,6 +3507,7 @@
    "chapter": "SoulSilver",
    "decision": "D-010",
    "note": "build: historical (former six)",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png",
    "check": "ok"
   },
@@ -3508,6 +3536,7 @@
    "chapter": "SoulSilver",
    "decision": "D-010",
    "note": "build: historical (former six)",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png",
    "check": "ok"
   },
@@ -3536,6 +3565,7 @@
    "chapter": "SoulSilver",
    "decision": "D-010",
    "note": "build: historical (former six)",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png",
    "check": "ok"
   },
@@ -3564,6 +3594,7 @@
    "chapter": "HeartGold",
    "decision": "D-006",
    "note": "build: confirmed by user, July 2026",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png",
    "check": "ok"
   },
@@ -3592,6 +3623,7 @@
    "chapter": "HeartGold",
    "decision": "D-006",
    "note": "build: proposed, July 14",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png",
    "check": "ok"
   },
@@ -3620,6 +3652,7 @@
    "chapter": "HeartGold",
    "decision": "D-006",
    "note": "build: proposed, July 14",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/473.png",
    "check": "ok"
   },
@@ -3648,6 +3681,7 @@
    "chapter": "HeartGold",
    "decision": "D-006",
    "note": "build: every source agrees",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/169.png",
    "check": "ok"
   },
@@ -3676,6 +3710,7 @@
    "chapter": "HeartGold",
    "decision": "D-006",
    "note": "build: proposed, July 14",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/131.png",
    "check": "ok"
   },
@@ -3704,6 +3739,7 @@
    "chapter": "HeartGold",
    "decision": "D-006",
    "note": "build: proposed, July 14",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/143.png",
    "check": "ok"
   },
@@ -3729,6 +3765,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "learns Extrasensory itself",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/274.png",
    "check": "ok"
   },
@@ -3752,6 +3789,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be HeartGold Typhlosion, if she's female.",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/157.png",
    "check": "ok"
   },
@@ -3782,6 +3820,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Cyndaquil knowing Extrasensory",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/155.png",
    "check": "ok"
   },
@@ -3807,15 +3846,16 @@
    "chapter": null,
    "decision": "D-038",
    "note": "learns Dragon Dance itself",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/230.png",
    "check": "ok"
   },
   {
-   "id": "D-FERALIGATR-TYRANITAR",
-   "name": "Feraligatr-line female",
-   "species": "Feraligatr",
+   "id": "D-CHARIZARD-TYRANITAR",
+   "name": "Charizard-line female",
+   "species": "Charizard",
    "hatched_as": null,
-   "line": "Feraligatr",
+   "line": "Charizard",
    "sex": "female",
    "generation": 0,
    "sire": null,
@@ -3829,20 +3869,21 @@
    "program": "HeartGold Tyranitar",
    "chapter": null,
    "decision": "D-038",
-   "note": "any female of the line carries the egg. Could be Crystal Feraligatr, if she's female.",
-   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/160.png",
+   "note": "any female of the line carries the egg. Could be FireRed Charizard, if she's female.",
+   "game": "heartgold",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/6.png",
    "check": "ok"
   },
   {
-   "id": "B-FERALIGATR-TYRANITAR",
-   "name": "Feraligatr ♂ bred for the Tyranitar line",
-   "species": "Feraligatr",
-   "hatched_as": "Totodile",
-   "line": "Totodile",
+   "id": "B-CHARIZARD-TYRANITAR",
+   "name": "Charizard ♂ bred for the Tyranitar line",
+   "species": "Charizard",
+   "hatched_as": "Charmander",
+   "line": "Charmander",
    "sex": "male",
    "generation": 1,
    "sire": "F-KINGDRA-TYRANITAR",
-   "dam": "D-FERALIGATR-TYRANITAR",
+   "dam": "D-CHARIZARD-TYRANITAR",
    "moves": [
     "Outrage",
     "Dragon Dance"
@@ -3861,7 +3902,8 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches knowing Dragon Dance; then learns Outrage itself",
-   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/158.png",
+   "game": "heartgold",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/4.png",
    "check": "ok"
   },
   {
@@ -3884,6 +3926,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be HeartGold Tyranitar, if she's female.",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/248.png",
    "check": "ok"
   },
@@ -3895,20 +3938,20 @@
    "line": "Larvitar",
    "sex": "male",
    "generation": 2,
-   "sire": "B-FERALIGATR-TYRANITAR",
+   "sire": "B-CHARIZARD-TYRANITAR",
    "dam": "D-TYRANITAR",
    "moves": [
-    "Outrage",
-    "Dragon Dance"
+    "Dragon Dance",
+    "Outrage"
    ],
    "inherited": [
     {
-     "move": "Outrage",
-     "from": "B-FERALIGATR-TYRANITAR"
+     "move": "Dragon Dance",
+     "from": "B-CHARIZARD-TYRANITAR"
     },
     {
-     "move": "Dragon Dance",
-     "from": "B-FERALIGATR-TYRANITAR"
+     "move": "Outrage",
+     "from": "B-CHARIZARD-TYRANITAR"
     }
    ],
    "role": "stud",
@@ -3918,7 +3961,8 @@
    "program": "HeartGold Tyranitar",
    "chapter": null,
    "decision": "D-038",
-   "note": "hatches as Larvitar knowing Outrage, Dragon Dance",
+   "note": "hatches as Larvitar knowing Dragon Dance, Outrage",
+   "game": "heartgold",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/246.png",
    "check": "ok"
   },
@@ -3944,6 +3988,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "learns Disable itself",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/89.png",
    "check": "ok"
   },
@@ -3967,6 +4012,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be SoulSilver Gengar, if she's female.",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/94.png",
    "check": "ok"
   },
@@ -3997,32 +4043,8 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Gastly knowing Disable",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/92.png",
-   "check": "ok"
-  },
-  {
-   "id": "F-HERACROSS-SCIZOR",
-   "name": "Heracross (borrowed father)",
-   "species": "Heracross",
-   "hatched_as": null,
-   "line": "Heracross",
-   "sex": "male",
-   "generation": 0,
-   "sire": null,
-   "dam": null,
-   "moves": [
-    "Counter"
-   ],
-   "inherited": [],
-   "role": "father used",
-   "origin": "borrowed for the cross",
-   "fate": "goes home (D-038)",
-   "status": "planned",
-   "program": "SoulSilver Scizor",
-   "chapter": null,
-   "decision": "D-038",
-   "note": "learns Counter itself",
-   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/214.png",
    "check": "ok"
   },
   {
@@ -4045,6 +4067,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be SoulSilver Scizor, if she's female.",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/212.png",
    "check": "ok"
   },
@@ -4056,7 +4079,7 @@
    "line": "Scyther",
    "sex": "male",
    "generation": 1,
-   "sire": "F-HERACROSS-SCIZOR",
+   "sire": "SS-SCIZOR",
    "dam": "D-SCIZOR",
    "moves": [
     "Counter"
@@ -4064,7 +4087,7 @@
    "inherited": [
     {
      "move": "Counter",
-     "from": "F-HERACROSS-SCIZOR"
+     "from": "SS-SCIZOR"
     }
    ],
    "role": "stud",
@@ -4075,15 +4098,16 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Scyther knowing Counter",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/123.png",
    "check": "ok"
   },
   {
-   "id": "F-AZUMARILL-EMPOLEON",
-   "name": "Azumarill (borrowed father)",
-   "species": "Azumarill",
+   "id": "F-DEWGONG-EMPOLEON",
+   "name": "Dewgong (borrowed father)",
+   "species": "Dewgong",
    "hatched_as": null,
-   "line": "Azumarill",
+   "line": "Dewgong",
    "sex": "male",
    "generation": 0,
    "sire": null,
@@ -4100,7 +4124,8 @@
    "chapter": null,
    "decision": "D-038",
    "note": "learns Aqua Ring itself",
-   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/184.png",
+   "game": "soulsilver",
+   "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/87.png",
    "check": "ok"
   },
   {
@@ -4123,6 +4148,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be SoulSilver Empoleon, if she's female.",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/395.png",
    "check": "ok"
   },
@@ -4134,7 +4160,7 @@
    "line": "Piplup",
    "sex": "male",
    "generation": 1,
-   "sire": "F-AZUMARILL-EMPOLEON",
+   "sire": "F-DEWGONG-EMPOLEON",
    "dam": "D-EMPOLEON",
    "moves": [
     "Aqua Ring"
@@ -4142,7 +4168,7 @@
    "inherited": [
     {
      "move": "Aqua Ring",
-     "from": "F-AZUMARILL-EMPOLEON"
+     "from": "F-DEWGONG-EMPOLEON"
     }
    ],
    "role": "stud",
@@ -4153,6 +4179,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Piplup knowing Aqua Ring",
+   "game": "soulsilver",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/393.png",
    "check": "ok"
   },
@@ -4176,6 +4203,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be Emerald Swampert, if she's female.",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/260.png",
    "check": "ok"
   },
@@ -4206,6 +4234,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Mudkip knowing Refresh",
+   "game": "emerald",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/258.png",
    "check": "ok"
   },
@@ -4229,6 +4258,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be Platinum Infernape, SoulSilver Infernape, if she's female.",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/392.png",
    "check": "ok"
   },
@@ -4240,7 +4270,7 @@
    "line": "Chimchar",
    "sex": "male",
    "generation": 1,
-   "sire": "C-AMPHAROS",
+   "sire": "FR-ALAKAZAM",
    "dam": "D-INFERNAPE",
    "moves": [
     "Thunder Punch"
@@ -4248,7 +4278,7 @@
    "inherited": [
     {
      "move": "Thunder Punch",
-     "from": "C-AMPHAROS"
+     "from": "FR-ALAKAZAM"
     }
    ],
    "role": "stud",
@@ -4259,6 +4289,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Chimchar knowing Thunder Punch",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/390.png",
    "check": "ok"
   },
@@ -4284,6 +4315,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "learns Ice Shard itself",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/87.png",
    "check": "ok"
   },
@@ -4307,6 +4339,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be Platinum Weavile, if she's female.",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/461.png",
    "check": "ok"
   },
@@ -4337,6 +4370,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Sneasel knowing Ice Shard",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/215.png",
    "check": "ok"
   },
@@ -4363,6 +4397,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "learns Leaf Storm, Sleep Powder itself",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/182.png",
    "check": "ok"
   },
@@ -4386,6 +4421,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "any female of the line carries the egg. Could be Platinum Roserade, if she's female.",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/407.png",
    "check": "ok"
   },
@@ -4421,6 +4457,7 @@
    "chapter": null,
    "decision": "D-038",
    "note": "hatches as Roselia knowing Leaf Storm, Sleep Powder (as Budew if a parent holds Rose Incense)",
+   "game": "platinum",
    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/315.png",
    "check": "ok"
   }
@@ -6484,6 +6521,15 @@
    "title": "Defaults taken for the master plan's four blocking questions, so the build could start",
    "text": "Defaults taken for the master plan's four blocking questions, so the build could start (each reversible; Zack may overturn any): Q1 the Ace score stays the plain mean of the two win rates and its note now says so (it decides nothing; Ace is earned on both bars); Q2 the unread `field_evs_each: 85` setting is removed and the Elite Four and Champions keep fighting on no EVs, the basis of the Ace count accepted in D-064 (D-061's 85 stays for our blank builds); Q3 the plan's storage split (reference and definitions in git; your records in append-only Sheet tabs My Pokémon / My Builds / My Teams; images in a Drive folder the app makes), read as approved by D-065, with D-025's \"canon lives in the Sheet\" read as \"your data lives in the Sheet\"; Q4 several of the same species in one game are allowed (ids get a token: docs/design/DATA_CONTRACT.md §2)",
    "area": "engine and storage defaults",
+   "status": "PROVISIONAL",
+   "who": "assistant"
+  },
+  {
+   "id": "D-067",
+   "date": "2026-10-24",
+   "title": "Breeding stock (Phase 4): the defaults it was built on",
+   "text": "Breeding stock (Phase 4): the defaults it was built on (each reversible; Zack may overturn any): (a) Q10: a blueprint is a design, a build marked `kind: blueprint` in My Builds, and you can keep any number of them; D-038 still decides which animals actually live at the ranch; (b) \"possible\" means the hatch rules as the games' own code builds an egg (pret decompilations of Crystal, Emerald, FireRed and Platinum: the move order, the push-out, hatch level 5 in Gens 2-3 and 1 in Gen 4); the four-state verdict informs and decides nothing, learnability stays the gate (D-024, D-048); (c) a line's own male can be a link in a chain (hatched with some moves, learns the rest himself); (d) among equally short planned pedigrees, the studbook prefers a journey companion who can reach the game on cartridge (the same generation, or Gen 3 to 4 by Pal Park); a Crystal companion in a Gen 4 cross is still allowed, B29 stays your call; (e) \"what a set might suggest\" shows only evidence by kind (game mechanics, canon about the species) and draws no conclusion; an interpretation would be a hypothesis in the journal",
+   "area": "breeding defaults",
    "status": "PROVISIONAL",
    "who": "assistant"
   }

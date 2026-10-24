@@ -78,7 +78,8 @@ def main(procs=4):
                 print(f"  {i}/{len(jobs)}", flush=True)
     out = {"game": GAME, "rules": "Gen 4 (HeartGold/SoulSilver), up to three generations of fathers (D-044)", "lines": []}
     for f in fams:
-        out["lines"].append({**f, "plans": results.get(f["sid"], {})})
+        got = results.get(f["sid"], {})             # the line's own move order, whatever order the workers finished in
+        out["lines"].append({**f, "plans": {m: got[m] for m in f["moves"] if m in got}})
     path = os.path.join(HERE, "data", "breeder.json")
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, separators=(",", ":"))
