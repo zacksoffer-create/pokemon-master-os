@@ -219,13 +219,14 @@ function plRecord(id) {   // an individual, a store build, or a team lab slot (t
 }
 function plOwn() { return PL.rec.kind === 'individual' || (PL.rec.kind === 'build' && PL.rec.prov === 'yours'); }   // a new version is yours to save
 function pokemonLab(id) {
-  return labsReady().then(function () {
+  return Promise.all([labsReady(), gearReady().catch(function () { return null; })]).then(function () {
     var rec = plRecord(id);
     if (!rec) return '<div class="notice">No Pokémon or build called ' + esc(id) + '. <a href="#/pokemon">Back to the lab</a></div>';
     var dr = rec.kind === 'slot' ? null : Records.draft(id);
     PL = {id: id, rec: rec, game: rec.game, base: buildOf(rec.build), cur: buildOf(dr ? dr.build : rec.build), maxIV: !(dr ? dr.build : rec.build).ivs, token: 0, draftAt: dr ? dr.at : null};
     if (dr && dr.game) PL.game = dr.game;
-    after(function (p) { plBind(p); var f = p.querySelector('#plindf'); if (f) f.onsubmit = function (e) { e.preventDefault(); plIndSave(f); return false; }; plRun(); });
+    after(function (p) { plBind(p); var f = p.querySelector('#plindf'); if (f) { f.onsubmit = function (e) { e.preventDefault(); plIndSave(f); return false; };
+      var fit = p.querySelector('#plballfit'); if (fit && f.ball) f.ball.addEventListener('change', function () { fit.innerHTML = plBallFit(PL.rec.ind, f.ball.value); }); } plRun(); });
     return '<a class="link" href="#/pokemon">← The Pokémon lab</a><div style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;justify-content:space-between;margin-top:10px"><div style="display:flex;gap:14px;align-items:center">' +
       '<img src="' + art(numOf(rec.build.species)) + '" style="width:96px;height:96px;object-fit:contain"><div>' +
       '<div class="eyebrow">The Pokémon lab · ' + esc(rec.title) + (rec.v ? ' · v' + rec.v : '') + '</div><h1 style="margin:6px 0" id="plname">…</h1><div class="small">' + provChip(rec.prov, rec.rec || (rec.buildId ? storeBuild(rec.buildId) : null)) + ' <span id="plearned"></span> <span class="muted tiny" id="plmatch"></span></div></div></div>' +
@@ -289,16 +290,23 @@ function plHistory() {   // every saved version of this build, newest first, wit
   return card('Versions', rows.join('') + (vs[0].parent ? '<div class="tiny muted" style="margin-top:6px">Branched from ' + esc(vs[0].parent) + '.</div>' : ''), {eyebrow: plural(vs.length, 'version') + ' · the newest is what every lab reads', tools: false, style: 'margin-top:16px'});
 }
 function plLoadV(n) { var x = Records.version(PL.rec.buildId, n); if (!x) return; PL.cur = buildOf(x); PL.game = x.game || PL.game; PL.maxIV = !x.ivs; document.getElementById('plin').innerHTML = plInputs(); plKeepDraft(); plRun(); toast('v' + n + ' loaded: compare it with the current one, or save it as the next version.'); }
+function plBallFit(i, name) {   // does the games' data allow this ball for it, and the ball's profile
+  var id = Gear.ballIdOf(name, i.game); if (!id) return '';
+  var v = Gear.fits(i.game, id, i.species, {hatched: /^hatched/.test(i.origin || '')});
+  return (v.ok === true ? '✓ ' : v.ok === false ? 'A story choice: ' : '') + esc(v.why) + ' · <a href="#/ball/' + id + '">the ' + esc(Gear.ball(id).name) + '</a>';
+}
 function plIndCard() {   // the individual's own fields: who it is, not how it's built
   var i = PL.rec.ind, d = dexOf(i.species) || {}, gen = Battle.GAME_GEN[i.game];
   var sexes = d.gr === -1 ? ['genderless'] : d.gr === 0 ? ['M'] : d.gr === 8 ? ['F'] : ['M', 'F'];
-  var balls = typeof Specimen !== 'undefined' && Specimen.ballsIn ? Specimen.ballsIn(i.game) : null;
+  var G = typeof Gear !== 'undefined' && Gear.ready() ? Gear : null;   // the Poké Ball collection's per-game list, when it's loaded
+  var balls = G ? G.ballsIn(i.game).map(function (b) { return G.nameIn(b.id, i.game); }) : typeof Specimen !== 'undefined' && Specimen.ballsIn ? Specimen.ballsIn(i.game) : null;
+  if (balls && i.ball && balls.indexOf(i.ball) < 0) balls = [i.ball].concat(balls);
   return card('The individual', '<form id="plindf">' +
     '<label class="l">Nickname</label><input class="f" name="nickname" value="' + esc(i.nickname || '') + '" placeholder="(none)">' +
     '<div class="row" style="margin-top:6px"><div><label class="l">Sex</label><select class="f" name="gender">' + sexes.map(function (s) { return '<option value="' + s + '"' + (s === i.gender ? ' selected' : '') + '>' + (s === 'M' ? 'Male' : s === 'F' ? 'Female' : 'Genderless') + '</option>'; }).join('') + '</select></div>' +
     '<div><label class="l">Shiny</label><select class="f" name="shiny"><option value="no">No</option><option value="yes"' + (i.shiny ? ' selected' : '') + '>Yes</option></select></div></div>' +
     '<label class="l" style="margin-top:6px">Ball</label>' + (balls ? '<select class="f" name="ball">' + balls.map(function (b) { return '<option' + (b === i.ball ? ' selected' : '') + '>' + esc(b) + '</option>'; }).join('') + '</select>' : '<input class="f" name="ball" value="' + esc(i.ball || '') + '">') +
-    (gen === 2 ? '<div class="tiny muted">Gen II stores no ball: it\'s a story detail here (E-017).</div>' : '') +
+    (G ? '<div class="tiny muted" id="plballfit">' + plBallFit(i, i.ball || 'Poké Ball') + '</div>' : gen === 2 ? '<div class="tiny muted">Gen II stores no ball: it\'s a story detail here (E-017).</div>' : '') +
     '<div class="row" style="margin-top:6px"><div><label class="l">Met at</label><input class="f" name="met_location" value="' + esc(i.met_location || '') + '"></div><div><label class="l">Level met</label><input class="f" name="caught_level" type="number" min="1" max="100" value="' + esc(i.caught_level == null ? '' : i.caught_level) + '"></div></div>' +
     '<label class="l" style="margin-top:6px">Hatched with <span class="tiny muted">(kept for good, whatever it learns later)</span></label><input class="f" name="hatch_moves" value="' + esc(Records.encMoves(i.hatch_moves)) + '" placeholder="Move / Move / Move / Move (if it hatched)">' +
     '<div class="row" style="margin-top:6px"><div><label class="l">Sire</label><input class="f" name="sire" list="plstud" value="' + esc(i.sire || '') + '" placeholder="a studbook or your id"></div><div><label class="l">Dam</label><input class="f" name="dam" list="plstud" value="' + esc(i.dam || '') + '" placeholder="a studbook or your id"></div></div>' +

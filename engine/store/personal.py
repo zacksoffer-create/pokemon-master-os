@@ -16,7 +16,8 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SNAPSHOT = os.path.join(HERE, "personal.json")
-TABS = {"individual": "My Pokémon", "build": "My Builds", "team": "My Teams", "artwork": "My Artwork"}
+TABS = {"individual": "My Pokémon", "build": "My Builds", "team": "My Teams", "artwork": "My Artwork", "gear": "My Gear"}
+GEAR_FIELDS = ("item", "game", "qty", "note", "at")   # your equipment (Phase 6): one row per item per game, the newest wins
 STATS = ("hp", "atk", "def", "spa", "spd", "spe")
 BUILD_FIELDS = ("species", "generation", "game", "level", "nature", "ability", "item")
 BUILD_TEXT = ("name", "note", "parent", "individual", "at", "recognition",   # a version keeps the recognition it earned
@@ -142,6 +143,22 @@ def dec_team(row):
     return t
 
 
+def dec_gear(row):
+    """A My Gear row: one piece of equipment you have in one game (qty 0 = you don't have it any more)."""
+    g = {"id": str(row["id"]), "owned": str(row.get("owned", "")).strip().lower() in ("true", "yes", "1")}
+    for k in GEAR_FIELDS:
+        if not _blank(row.get(k)):
+            g[k] = int(float(row[k])) if k == "qty" else str(row[k])
+    return g
+
+
+def enc_gear(g):
+    row = {"id": g["id"], "owned": "yes" if g.get("owned") else "no"}
+    for k in GEAR_FIELDS:
+        row[k] = "" if g.get(k) is None else g[k]
+    return row
+
+
 # --- the snapshot ----------------------------------------------------------------------------------------------
 def rows_of(table):
     """A tab's rows as dicts, from either a list of dicts or a values grid whose first row is the header."""
@@ -157,7 +174,7 @@ def rows_of(table):
 
 def load(path=SNAPSHOT):
     """Your records from the snapshot: {'builds': {id: [v1, v2…]}, 'individuals': {id: rec}, 'teams': {id: rec}}."""
-    out = {"builds": {}, "individuals": {}, "teams": {}}
+    out = {"builds": {}, "individuals": {}, "teams": {}, "gear": {}}
     if not os.path.exists(path):
         return out
     with open(path, encoding="utf-8") as fh:
@@ -173,6 +190,9 @@ def load(path=SNAPSHOT):
     for row in rows_of(snap.get(TABS["team"])):
         t = dec_team(row)
         out["teams"][t["id"]] = t
+    for row in rows_of(snap.get(TABS["gear"])):
+        g = dec_gear(row)
+        out["gear"][g["id"]] = g
     return out
 
 
@@ -227,10 +247,11 @@ def fixture(path):
          "caught_level": 5, "friendship": None, "origin": "hatched", "note": None, "at": "2026-10-24T12:00:00Z",
          "hatch_moves": ["Bite", "Leer", "Dragon Dance", "Outrage"], "sire": "S-TYRANITAR", "dam": "D-TYRANITAR",
          "blueprint": "yours:Larvitar-test"}
-    rows = {"build": enc_build(b), "individual": enc_individual(i),
+    g = {"id": "heartgold:super-rod", "owned": True, "item": "super-rod", "game": "heartgold", "qty": 1, "note": "from the Route 12 fisherman", "at": "2026-10-24T12:00:00Z"}
+    rows = {"build": enc_build(b), "individual": enc_individual(i), "gear": enc_gear(g),
             "blank_spread": {"id": "yours:x", "v": 1, "species": "Snorlax", "moves": "Body Slam / Rest", "ivs": "", "evs": ""}}
     out = {"rows": rows, "decoded": {"build": dec_build(rows["build"]), "individual": dec_individual(rows["individual"]),
-                                     "blank_spread": dec_build(rows["blank_spread"])},
+                                     "blank_spread": dec_build(rows["blank_spread"]), "gear": dec_gear(rows["gear"])},
            "stats": {"enc": enc_stats({"atk": 252, "spe": 252, "hp": 4}), "dec": dec_stats("4/252/0/0/0/252")}}
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1, sort_keys=True)

@@ -18,7 +18,7 @@
 
 var APP_ZIP = 'Blackthorn-HQ-app';            // the zip's name starts with this; the newest one is used
 var APP_TABS = ['Eggs', 'Egg Walks', 'Plantings', 'Harvests', 'Readings', 'Feedings', 'Journal', 'Timeline', 'Specimens', 'Variants',
-  'My Pokémon', 'My Builds', 'My Teams', 'My Artwork'];            // your records: append-only, the newest row wins (docs/design/DATA_CONTRACT.md)
+  'My Pokémon', 'My Builds', 'My Teams', 'My Artwork', 'My Gear']; // your records: append-only, the newest row wins (docs/design/DATA_CONTRACT.md)
 var WRITABLE = APP_TABS.concat(['Studbook']);
 var CALLS = 'Your Calls';
 var CHUNK = 30000;                            // characters per cache entry (100 KB per value, even if every one is 3 bytes)

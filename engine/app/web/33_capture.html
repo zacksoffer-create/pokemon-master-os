@@ -1,0 +1,160 @@
+<script>
+/* ===== Poké Balls and equipment, in the browser ================================================================
+   docs/specs/POKE_BALLS_EQUIPMENT.md; MASTER_PLAN Phase 6. app/data/equipment.json (app/equipment_pack.py) holds the
+   25 Gen I-IV balls (equipment/balls.py: each game's mechanics, checked against its own catch code; the games' own
+   descriptions; acquisition from their map scripts and marts; Blackthorn's creative reading, labelled), the equipment
+   library, each generation's catch numbers and how each species is met in the wild. The catch chance is
+   equipment/capture.py line for line (Crystal's byte arithmetic and bugs; the Gen 3 and Gen 4 shake checks; HeartGold's
+   Apricorn rules), held to Python by app/test_capture_parity.mjs. */
+var Gear = (function () {
+  var P = null, byId = {}, byName = {};
+  var GEN = {crystal: 2, emerald: 3, firered: 3, platinum: 4, heartgold: 4, soulsilver: 4};
+  var SLEEP_FREEZE = ['sleep', 'freeze'], OTHER_STATUS = ['poison', 'burn', 'paralysis', 'toxic'];
+  var GEN2_FAST_BALL = ['Magnemite', 'Grimer', 'Tangela'], GEN2_HEAVY_BAD_WEIGHT = ['Kadabra', 'Tauros', 'Sunflora'];
+  var HGSS_MOON_BALL = ['Nidoran♀', 'Nidorina', 'Nidoqueen', 'Nidoran♂', 'Nidorino', 'Nidoking', 'Cleffa', 'Clefairy', 'Clefable',
+    'Igglybuff', 'Jigglypuff', 'Wigglytuff', 'Skitty', 'Delcatty'];
+  function init(pack) {
+    P = pack; byId = {}; byName = {};
+    P.balls.forEach(function (b) { byId[b.id] = b; byName[b.name] = b.id; Object.keys(b.games).forEach(function (g) { byName[g + '|' + b.games[g].name] = b.id; }); });
+  }
+  function ready() { return !!P; }
+  function pack() { return P; }
+  function isqrt(n) { var x = Math.floor(Math.sqrt(n)); while (x * x > n) x--; while ((x + 1) * (x + 1) <= n) x++; return x; }
+  function idiv(a, b) { return Math.floor(a / b); }
+
+  /* ---- the balls ---- */
+  function balls() { return P.balls.slice(); }
+  function ball(id) { return byId[id] || null; }
+  function gameKey(game) { return game === 'soulsilver' ? 'heartgold' : game; }
+  function ballIdOf(name, game) { if (!name) return null; var n = String(name).replace(/Poke Ball/, 'Poké Ball'); return byName[gameKey(game) + '|' + n] || byName[n] || null; }
+  function nameIn(id, game) { var b = byId[id], g = b && b.games[gameKey(game)]; return g ? g.name : b ? b.name : id; }
+  function ballsIn(game) { return P.balls.filter(function (b) { return b.games[gameKey(game)]; }); }
+  function eraOf(game) { return P.era_of_game[game]; }
+  function mechanics(id, game) { var e = eraOf(game); return (byId[id].mechanics || []).filter(function (m) { return m.era === e; })[0] || null; }
+
+  /* ---- the catch chance: equipment/capture.py ---- */
+  function flat(name, game) {
+    var rec = P.species[name]; if (!rec) return null;
+    var g = rec['gen' + GEN[game]]; if (!g) return null;
+    return {name: name, rate: g.rate, hp: g.hp, spe: g.spe, types: g.types, weight: rec.weight, lbs10: rec.lbs10, gender_rate: rec.gender_rate};
+  }
+  function gen2Weight(lbs10) { var h = lbs10 >> 1; return h - (h >> 4) - (h >> 5); }
+  function maxHp(gen, base, level) { return gen === 2 ? idiv((base + 8) * 2 * level, 100) + level + 10 : idiv((2 * base + 15) * level, 100) + level + 10; }
+  function pyRound(x) { var f = Math.floor(x), d = x - f; return d > 0.5 ? f + 1 : d < 0.5 ? f : (f % 2 === 0 ? f : f + 1); }   // Python's round()
+  function currentHp(mx, pct) { return Math.max(1, Math.min(mx, pyRound(mx * pct / 100))); }
+  function gen2Rate(ball, sp, level, ctx) {
+    var b = sp.rate, mine = ctx.mine || {};
+    if (ball === 'ultra') b = Math.min(255, b * 2);
+    else if (ball === 'great' || ball === 'safari' || ball === 'sport') b = Math.min(255, b + (b >> 1));
+    else if (ball === 'heavy') {
+      var hi = gen2Weight(sp.lbs10) >> 8;
+      if (hi < 4) b = b >= 20 ? b - 20 : 1;
+      else b = Math.min(255, b + (hi < 8 ? 0 : hi < 12 ? 20 : hi < 16 ? 30 : 40));
+    } else if (ball === 'level') {
+      var c = mine.level || 0, a = level;
+      if (a < c) for (var i = 0; i < 3; i++) { if (b * 2 > 255) { b = 255; break; } b *= 2; c >>= 1; if (a >= c) break; }
+    } else if (ball === 'lure') { if (ctx.fishing) b = Math.min(255, b * 3); }
+    else if (ball === 'love') { if (mine.species === sp.name && sp.gender_rate >= 0 && mine.gender === ctx.their_gender) b = Math.min(255, b * 8); }
+    else if (ball === 'fast') { if (GEN2_FAST_BALL.indexOf(sp.name) >= 0) b = Math.min(255, b * 4); }
+    return b;
+  }
+  function crystal(ball, sp, level, pct, status, ctx) {
+    if (ball === 'master') return {p: 1, why: 'the Master Ball never fails'};
+    if (ball === 'heavy' && GEN2_HEAVY_BAD_WEIGHT.indexOf(sp.name) >= 0) return {p: null, why: 'the Heavy Ball reads another Pokémon\'s weight for ' + sp.name + ' (a bug), so the chance isn\'t known'};
+    var b = gen2Rate(ball, sp, level, ctx), fin;
+    if (ball === 'level') fin = b;
+    else {
+      var mx = maxHp(2, sp.hp, level), cur = currentHp(mx, pct), bc = (cur * 2) & 0xFFFF, de = (mx * 3) & 0xFFFF;
+      if (de >> 8) { de >>= 2; bc >>= 2; if ((bc & 0xFF) === 0) bc = (bc & 0xFF00) | 1; }
+      var e = de & 0xFF, c = bc & 0xFF, mult = (e - c) & 0xFF, q = e ? idiv(b * mult, e) & 0xFF : 0;
+      if (q === 0) q = 1;
+      fin = Math.min(255, q + (SLEEP_FREEZE.indexOf(status) >= 0 ? 10 : 0));
+    }
+    return {p: Math.min(1, (fin + 1) / 256), rate: b, final: fin};
+  }
+  function shakes(odds) {
+    if (odds >= 255) return [1, null];
+    if (odds <= 0) return [0, 0];
+    var b = idiv(1048560, isqrt(isqrt(idiv(16711680, odds))));
+    return [Math.pow(Math.min(1, b / 65536), 4), b];
+  }
+  function ballMult(game, ball, sp, level, ctx) {
+    var gen = GEN[game], std = {ultra: 20, great: 15, poke: 10, safari: 15};
+    if (ball in std) return std[ball];
+    if (ball === 'net') return sp.types.indexOf('Water') >= 0 || sp.types.indexOf('Bug') >= 0 ? 30 : 10;
+    if (ball === 'dive') return (gen === 3 ? ctx.underwater : ctx.water) ? 35 : 10;
+    if (ball === 'nest') return level < 40 ? Math.max(10, 40 - level) : 10;
+    if (ball === 'repeat') return ctx.caught_before ? 30 : 10;
+    if (ball === 'timer') return Math.min(40, 10 + (ctx.turn || 0));
+    if (ball === 'dusk' && gen === 4) return ctx.night || ctx.cave ? 35 : 10;
+    if (ball === 'quick' && gen === 4) return (ctx.turn || 0) < 1 ? 40 : 10;
+    if (ball === 'sport' && (game === 'heartgold' || game === 'soulsilver')) return 15;
+    return 10;
+  }
+  function hgssRate(ball, sp, level, ctx) {
+    var r = sp.rate, mine = ctx.mine || {};
+    if (ball === 'fast' && sp.spe >= 100) r *= 4;
+    else if (ball === 'level') { var a = mine.level || 0, d = level; r *= a <= d ? 1 : idiv(a, 2) <= d ? 2 : idiv(a, 4) <= d ? 4 : 8; }
+    else if (ball === 'lure' && ctx.fishing) r *= 3;
+    else if (ball === 'heavy') { var w = sp.weight; r += w >= 4096 ? 40 : w >= 3072 ? 30 : w >= 2048 ? 20 : -20; }
+    else if (ball === 'love') { if (mine.species === sp.name && sp.gender_rate >= 0 && mine.gender !== ctx.their_gender) r *= 8; }
+    else if (ball === 'moon' && HGSS_MOON_BALL.indexOf(sp.name) >= 0) r *= 4;
+    return r > 255 ? 255 : r < 0 ? 1 : r;
+  }
+  function gens34(game, ball, sp, level, pct, status, ctx) {
+    var gen = GEN[game], hgss = game === 'heartgold' || game === 'soulsilver';
+    if (ball === 'master') return {p: 1, why: 'the Master Ball never fails'};
+    if (ball === 'park' && gen === 4) return {p: 1, why: 'Pal Park battles always catch'};
+    var rate = hgss && ['ultra', 'great', 'poke', 'safari'].indexOf(ball) < 0 ? hgssRate(ball, sp, level, ctx) : sp.rate;
+    var mult = ballMult(game, ball, sp, level, ctx), mx = maxHp(gen, sp.hp, level), cur = currentHp(mx, pct);
+    var odds = idiv(idiv(rate * mult, 10) * (mx * 3 - cur * 2), mx * 3);
+    if (SLEEP_FREEZE.indexOf(status) >= 0) odds *= 2;
+    else if (OTHER_STATUS.indexOf(status) >= 0) odds = idiv(odds * 15, 10);
+    var s = shakes(odds);
+    return {p: s[0], rate: rate, mult: mult, odds: odds, shake: s[1]};
+  }
+  function round6(x) { return Math.floor(x * 1e6 + 0.5) / 1e6; }
+  function chance(game, ball, sp, level, pct, status, ctx) {
+    ctx = ctx || {}; level = level == null ? 10 : level; pct = pct == null ? 100 : pct;
+    var out = GEN[game] === 2 ? crystal(ball, sp, level, pct, status || null, ctx) : gens34(game, ball, sp, level, pct, status || null, ctx);
+    if (out.p != null) out.p = round6(out.p);
+    return out;
+  }
+  function rank(game, name, level, pct, status, ctx) {   // every ball in the game, best first
+    var sp = flat(name, game); if (!sp) return [];
+    return ballsIn(game).map(function (b) { return Object.assign({id: b.id, name: nameIn(b.id, game)}, chance(game, b.id, sp, level, pct, status, ctx)); })
+      .sort(function (a, b) { return (b.p == null ? -1 : b.p) - (a.p == null ? -1 : a.p) || a.name.localeCompare(b.name); });
+  }
+
+  /* ---- could this species be in this ball, in this game? ---- */
+  function lineOf(name) { var out = [name], seen = {}; while (P.pre[out[out.length - 1]] && !seen[out[out.length - 1]]) { seen[out[out.length - 1]] = 1; out.push(P.pre[out[out.length - 1]]); } return out; }
+  function metBits(game, name) { var m = P.met[game] || {}, b = 0; lineOf(name).forEach(function (s) { b |= m[s] || 0; }); return b; }
+  function fits(game, id, name, opts) {   // {ok: true/false/null, why}: null = a story choice the games can't confirm or rule out
+    opts = opts || {};
+    var b = byId[id];
+    if (!b) return {ok: false, why: 'not a Poké Ball Blackthorn knows'};
+    if (!b.games[gameKey(game)]) return {ok: false, why: b.name + ' doesn\'t exist in ' + (GAME_NAME[game] || game) + ': a story note only (D-024)'};
+    if (GEN[game] === 2) return {ok: null, why: 'Gen 2 stores no ball: in Crystal it\'s a story detail (E-017)'};
+    if (opts.hatched) return id === 'poke' ? {ok: true, why: 'an egg hatches in a Poké Ball in Gens 3 and 4'} : {ok: false, why: 'an egg hatches in a Poké Ball in Gens 3 and 4, so a hatched Pokémon can\'t be in a ' + b.name};
+    var m = metBits(game, name), wild = m & ~64, line = lineOf(name);
+    var who = line.length > 1 ? name + ' (or the ' + line.slice(1).join(' or ') + ' it evolved from)' : name;
+    if (id === 'cherish') return {ok: null, why: 'only event Pokémon come in a Cherish Ball'};
+    if (id === 'park') return {ok: false, why: 'the Park Ball is only thrown in Pal Park; Pokémon brought over keep the ball they came in'};
+    if (!m) return {ok: null, why: 'the reference data has no wild encounter for ' + who + ' in ' + (GAME_NAME[game] || game) + ' (a trade or another game)'};
+    if (!wild) return {ok: id === 'poke' ? true : false, why: who + ' only comes as a gift, trade or egg in ' + (GAME_NAME[game] || game) + ', in a Poké Ball'};
+    if (id === 'safari' && !(m & 16)) return {ok: false, why: who + ' isn\'t found in ' + (game === 'platinum' ? 'the Great Marsh' : 'the Safari Zone') + ' in ' + (GAME_NAME[game] || game)};
+    if (id === 'sport' && !(m & 32)) return {ok: false, why: who + ' isn\'t found in National Park (the Bug-Catching Contest)'};
+    if (id === 'lure' && !(m & 2)) return {ok: null, why: 'it works only on a hooked Pokémon, and ' + who + ' isn\'t fished up in ' + (GAME_NAME[game] || game) + ' (still a legal ball, just no bonus)'};
+    if (id !== 'safari' && !(m & 1) && (m & 16)) return {ok: false, why: who + ' is only found in ' + (game === 'platinum' ? 'the Great Marsh' : 'the Safari Zone') + ', where only Safari Balls are thrown'};
+    return {ok: true, why: who + ' is met in the wild in ' + (GAME_NAME[game] || game)};
+  }
+
+  /* ---- gear ---- */
+  function gear() { return P.gear.slice(); }
+  function gearItem(id) { return P.gear.filter(function (g) { return g.id === id; })[0] || null; }
+
+  return {init: init, ready: ready, pack: pack, balls: balls, ball: ball, ballIdOf: ballIdOf, nameIn: nameIn, ballsIn: ballsIn, eraOf: eraOf,
+    mechanics: mechanics, flat: flat, chance: chance, rank: rank, fits: fits, lineOf: lineOf, metBits: metBits, gear: gear, gearItem: gearItem,
+    maxHp: maxHp, GEN: GEN};
+})();
+</script>

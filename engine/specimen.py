@@ -26,8 +26,9 @@ HP_TYPES = ["Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "S
 BALL_ID = {"Master": 1, "Ultra": 2, "Great": 3, "Poke": 4, "Safari": 5, "Net": 6, "Dive": 7,
            "Nest": 8, "Repeat": 9, "Timer": 10, "Luxury": 11, "Premier": 12, "Dusk": 13,
            "Heal": 14, "Quick": 15, "Cherish": 16, "Fast": 17, "Level": 18, "Lure": 19,
-           "Heavy": 20, "Love": 21, "Friend": 22, "Moon": 23, "Sport": 24}
-BALLS_IN_GAME = {6: range(1, 13), 7: range(1, 13), 9: range(1, 17), 10: range(1, 25)}
+           "Heavy": 20, "Love": 21, "Friend": 22, "Moon": 23, "Sport": 24, "Park": 25}
+# the balls each game has (by version group); Gen 4 adds Pal Park's Park Ball (25), HeartGold the Apricorns and Sport
+BALLS_IN_GAME = {6: range(1, 13), 7: range(1, 13), 9: [*range(1, 17), 25], 10: range(1, 26)}
 GEN34_FEMALE_BELOW = {1: 31, 2: 63, 4: 127, 6: 191, 7: 225}   # female if (PID & 0xFF) < value
 GEN2_FEMALE_MAX_ATK_DV = {1: 1, 2: 3, 4: 7, 6: 11}            # female if Attack DV <= value
 GEN2_SHINY_ATK = {2, 3, 6, 7, 10, 11, 14, 15}

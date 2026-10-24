@@ -60,7 +60,28 @@ EXTRA = {  # independent cross-check sources, and in-game trainer teams straight
     "trainers/emerald_trainers.h": PRET + "pokeemerald/master/src/data/trainers.h",
     "trainers/firered_trainers.h": PRET + "pokefirered/master/src/data/trainers.h",
     "trainers/crystal_attributes.asm": PRET + "pokecrystal/master/data/trainers/attributes.asm",
-} | {f"trainers/platinum_{t}.json": PRET + f"pokeplatinum/main/res/trainers/data/{t}.json" for t in PLATINUM_TRAINERS}
+} | {f"trainers/platinum_{t}.json": PRET + f"pokeplatinum/main/res/trainers/data/{t}.json" for t in PLATINUM_TRAINERS} | {
+    # Poké Ball mechanics, each from the game's own catch code, at a pinned commit (equipment/balls.py checks them)
+    f"equipment/{name}": PRET + path for name, path in {
+        "red_item_effects.asm": "pokered/171e2c204f9c1ff8e577ca387a4bbb009e130843/engine/items/item_effects.asm",
+        "crystal_item_effects.asm": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/engine/items/item_effects.asm",
+        "crystal_bugs_and_glitches.md": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/docs/bugs_and_glitches.md",
+        "crystal_flee_mons.asm": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/data/wild/flee_mons.asm",
+        "crystal_apricorn_balls.asm": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/data/items/apricorn_balls.asm",
+        "crystal_item_descriptions.asm": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/data/items/descriptions.asm",
+        "crystal_item_constants.asm": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/constants/item_constants.asm",
+        "emerald_battle_script_commands.c": "pokeemerald/731ad5bfd6e6f265508d0efcca0ba42f9dcf5881/src/battle_script_commands.c",
+        "emerald_item_descriptions.h": "pokeemerald/731ad5bfd6e6f265508d0efcca0ba42f9dcf5881/src/data/text/item_descriptions.h",
+        "emerald_pokemon.c": "pokeemerald/731ad5bfd6e6f265508d0efcca0ba42f9dcf5881/src/pokemon.c",
+        "firered_battle_script_commands.c": "pokefirered/ce6406d8c2eaf46d543c8a2606de0c3cb1951982/src/battle_script_commands.c",
+        "platinum_battle_script.c": "pokeplatinum/be36a9db3d2390a5009adc087c7aef550ce335e7/src/battle/battle_script.c",
+        "platinum_pokemon.c": "pokeplatinum/be36a9db3d2390a5009adc087c7aef550ce335e7/src/pokemon.c",
+        "heartgold_battle_command.c": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/src/battle/battle_command.c",
+        "heartgold_battle_command_data.s": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/asm/overlay_12_battle_command.s",
+        "heartgold_item_descriptions.json": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/files/msgdata/msg/msg_0221.json",
+        "heartgold_items.h": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/include/constants/items.h",
+    }.items()} | {   # how each wild Pokémon is met (rod, surf, the Safari Zone...), for which balls it could be caught in
+    f"equipment/{t}.csv": POKEAPI + f"{t}.csv" for t in ("encounter_slots", "encounter_methods")}
 
 
 def fetch(url, dest):
@@ -87,15 +108,16 @@ def fetch_smogon_sets():
     return names
 
 
-def fetch_new_trainers():
-    """Only the trainer files not on disk yet; their checksums are added, nothing already fetched is rewritten (B30)."""
-    os.makedirs(os.path.join(RAW, "trainers"), exist_ok=True)
+def fetch_new_trainers(prefix="trainers/"):
+    """Only the files under `prefix` not on disk yet (trainers/, equipment/); their checksums are added, nothing already
+    fetched is rewritten (B30)."""
+    os.makedirs(os.path.join(RAW, prefix), exist_ok=True)
     sums = os.path.join(MANIFEST, "SHA256SUMS.txt")
     lines = open(sums).read().splitlines() if os.path.exists(sums) else []
     have = {ln.split("  ", 1)[1] for ln in lines if "  " in ln}
     for name, url in EXTRA.items():
         dest = os.path.join(RAW, name)
-        if not name.startswith("trainers/") or os.path.exists(dest):
+        if not name.startswith(prefix) or os.path.exists(dest):
             continue
         tmp = dest + ".part"
         fetch(url, tmp)
@@ -110,7 +132,10 @@ def fetch_new_trainers():
 def main():
     if "--trainers" in sys.argv:
         return fetch_new_trainers()
+    if "--equipment" in sys.argv:
+        return fetch_new_trainers("equipment/")
     os.makedirs(os.path.join(RAW, "trainers"), exist_ok=True)
+    os.makedirs(os.path.join(RAW, "equipment"), exist_ok=True)
     os.makedirs(MANIFEST, exist_ok=True)
     targets = {f"{t}.csv": POKEAPI + f"{t}.csv" for t in CSV_TABLES} | EXTRA
     for name, url in targets.items():

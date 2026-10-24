@@ -4,7 +4,8 @@
    My Pokémon, My Builds and My Teams tabs are read live and laid over them. Saving appends a row, never rewrites one.
    The row formats match engine/store/personal.py (app/test_records.mjs holds them together). */
 var Records = (function () {
-  var TABS = {individual: 'My Pokémon', build: 'My Builds', team: 'My Teams', artwork: 'My Artwork'};
+  var TABS = {individual: 'My Pokémon', build: 'My Builds', team: 'My Teams', artwork: 'My Artwork', gear: 'My Gear'};
+  var GEAR_FIELDS = ['item', 'game', 'qty', 'note', 'at'];   // your equipment (Phase 6): one row per item per game, the newest wins
   var SIX = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
   var BUILD_FIELDS = ['species', 'generation', 'game', 'level', 'nature', 'ability', 'item'];
   var BUILD_TEXT = ['name', 'note', 'parent', 'individual', 'at', 'recognition', 'kind', 'purpose', 'labels'];   // kind 'blueprint': breeding stock
@@ -61,6 +62,12 @@ var Records = (function () {
     ['note', 'at'].concat(TEAM_EXTRA).forEach(function (k) { if (!blank(row[k])) t[k] = String(row[k]); });
     return t;
   }
+  function decGear(row) {   // store/personal.py dec_gear: qty 0 = you don't have it any more
+    var g = {id: String(row.id), owned: bool(row.owned)};
+    GEAR_FIELDS.forEach(function (k) { if (!blank(row[k])) g[k] = k === 'qty' ? Math.trunc(+row[k]) : String(row[k]); });
+    return g;
+  }
+  function encGear(g) { var row = {id: g.id, owned: g.owned ? 'yes' : 'no'}; GEAR_FIELDS.forEach(function (k) { row[k] = g[k] == null ? '' : g[k]; }); return row; }
   function decArtwork(row) { var a = {id: String(row.id)}; ART_FIELDS.forEach(function (k) { if (!blank(row[k])) a[k] = String(row[k]); }); return a; }
   function encArtwork(a) { var row = {id: a.id}; ART_FIELDS.forEach(function (k) { row[k] = a[k] == null ? '' : a[k]; }); return row; }
   function token() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 4); }
@@ -68,7 +75,7 @@ var Records = (function () {
 
   // the merged view: the starting records (store.json) with the live tabs laid over them
   function build(rows) {
-    var st = SEED || S.store || {}, v = Object.assign({}, st, {builds: copy(st.builds || {}), versions: copy(st.versions || {}), individuals: copy(st.individuals || {}), teams: copy(st.teams || {}), artwork: copy(st.artwork || {}), live: rows});
+    var st = SEED || S.store || {}, v = Object.assign({}, st, {builds: copy(st.builds || {}), versions: copy(st.versions || {}), individuals: copy(st.individuals || {}), teams: copy(st.teams || {}), artwork: copy(st.artwork || {}), gear: copy(st.gear || {}), live: rows});
     var byId = {};
     (rows.build || []).forEach(function (r) { var b = decBuild(r); (byId[b.id] = byId[b.id] || {})[b.v] = b; });
     Object.keys(byId).forEach(function (id) {
@@ -85,6 +92,7 @@ var Records = (function () {
       v.individuals[i.id] = Object.assign({}, base, i); });
     (rows.team || []).forEach(function (r) { var t = decTeam(r); v.teams[t.id] = t; });
     (rows.artwork || []).forEach(function (r) { var a = decArtwork(r); v.artwork[a.id] = a; });
+    (rows.gear || []).forEach(function (r) { var g = decGear(r); v.gear[g.id] = g; });
     return v;
   }
   function versionsIn(v, id) { return v.versions[id] || (v.builds[id] ? [Object.assign({v: 1}, v.builds[id])] : []); }
@@ -133,12 +141,16 @@ var Records = (function () {
     var rec = copy(a); if (!rec.id) rec.id = 'art:' + token(); rec.at = new Date().toISOString();
     return append('artwork', encArtwork(rec), 'A picture for ' + (rec.subject || 'Blackthorn') + (rec.title ? ': ' + rec.title : '')).then(function () { return view().artwork[rec.id]; });
   }
+  function saveGear(g) {   // one piece of equipment in one game: owned or not, how many, a note
+    var rec = {id: g.game + ':' + g.item, owned: g.owned !== false, item: g.item, game: g.game, qty: g.qty == null ? (g.owned === false ? 0 : 1) : g.qty, note: g.note || '', at: new Date().toISOString()};
+    return append('gear', encGear(rec), (rec.owned ? 'Has ' : 'No longer has ') + g.item + ' in ' + g.game).then(function () { return view().gear[rec.id]; });
+  }
   function draft(id) { return store('draft:' + id) || null; }
   function setDraft(id, b) { store('draft:' + id, {at: new Date().toISOString(), build: b}); }
   function clearDraft(id) { try { localStorage.removeItem('bt-draft:' + id); } catch (e) {} }
   return {TABS: TABS, init: init, seedV: seedV, seedInd: seedInd, encStats: encStats, decStats: decStats, encMoves: encMoves, decMoves: decMoves, decBuild: decBuild, encBuild: encBuild,
     decIndividual: decIndividual, encIndividual: encIndividual, decTeam: decTeam, token: token, build: build, load: load, view: view,
-    versions: versions, version: version, saveBuild: saveBuild, saveIndividual: saveIndividual, saveTeam: saveTeam, saveArtwork: saveArtwork, decArtwork: decArtwork,
+    versions: versions, version: version, saveBuild: saveBuild, saveIndividual: saveIndividual, saveTeam: saveTeam, saveArtwork: saveArtwork, decArtwork: decArtwork, saveGear: saveGear, decGear: decGear, encGear: encGear,
     draft: draft, setDraft: setDraft, clearDraft: clearDraft};
 })();
 function recordsReady() {   // store.json and your three tabs, merged into S.store (cached; Records.load(true) to re-read)

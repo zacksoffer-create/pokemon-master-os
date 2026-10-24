@@ -24,6 +24,8 @@ function sortKeys(o) { if (Array.isArray(o)) return o.map(sortKeys); if (o && ty
 same('build row decodes', R.decBuild(fx.rows.build), fx.decoded.build);
 same('individual row decodes', R.decIndividual(fx.rows.individual), fx.decoded.individual);
 same('blank spread decodes', R.decBuild(fx.rows.blank_spread), fx.decoded.blank_spread);
+same('gear row decodes', R.decGear(fx.rows.gear), fx.decoded.gear);
+same('gear row round trip', R.encGear(R.decGear(fx.rows.gear)), fx.rows.gear);
 same('stats encode', R.encStats({ atk: 252, spe: 252, hp: 4 }), fx.stats.enc);
 same('stats decode', R.decStats('4/252/0/0/0/252'), fx.stats.dec);
 same('build row round trip', R.encBuild(R.decBuild(fx.rows.build)), fx.rows.build);

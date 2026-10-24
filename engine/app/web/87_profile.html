@@ -104,7 +104,7 @@ function minePage() {
 /* ---- one Pokémon ---- */
 function monPage(id, mode) {
   var show = mode === 'showcase';
-  return Promise.all([labsReady(), fieldReady().catch(function () { return null; })]).then(function () {
+  return Promise.all([labsReady(), fieldReady().catch(function () { return null; }), gearReady().catch(function () { return null; })]).then(function () {
     var ind = (S.store.individuals || {})[id];
     if (!ind) return '<div class="notice">No Pokémon of yours called ' + esc(id) + '. <a href="#/mine">Your Pokémon</a></div>';
     var b = indBuild(ind), read = freshPackRead(id) || liveRead(b, ind.game), rec = Recognize.read(b, read), gen = Battle.GAME_GEN[ind.game];
@@ -162,10 +162,35 @@ function monPage(id, mode) {
       {eyebrow: 'Its breeding: what it hatched with and who its parents are', tools: false, style: 'margin-top:16px'}) : '';
     var bio = card('Its species', (d.dex ? '<p class="small" style="margin:0 0 8px">“' + esc(d.dex) + '”</p>' : '') + '<div class="tiny muted">' + esc([d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.hab ? 'lives in ' + d.hab : null, d.eg ? 'egg groups ' + d.eg.join(', ') : null].filter(Boolean).join(' · ')) + '</div>',
       {eyebrow: 'The same for every ' + ind.species, tools: false, style: 'margin-top:16px'});
-    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + origin + tools + bio + '</div><div class="c6">' + gallery + history + '</div></div>';
+    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + origin + tools + bio + '</div><div class="c6">' + ballPanel(ind, show) + gallery + history + '</div></div>';
   });
 }
+/* its Poké Ball (Phase 6): the ball's exterior and name, whether the games allow it, and the Pokémon at home inside it:
+   its own picture (My Artwork kind ball-interior), else the ball's standard interior, else the brief to make one */
+function ballPanel(ind, show) {
+  if (typeof Gear === 'undefined' || !Gear.ready()) return '';
+  var bid = Gear.ballIdOf(ind.ball || 'Poké Ball', ind.game), b = bid ? Gear.ball(bid) : null, name = ind.nickname || ind.species;
+  if (!b) return card('Its Poké Ball', '<div class="small">' + esc(ind.ball || 'No ball on record') + ': not a ball Blackthorn knows.</div>', {tools: false, style: 'margin-bottom:16px'});
+  var v = Gear.fits(ind.game, bid, ind.species, {hatched: /^hatched/.test(ind.origin || '')});
+  var own = Pics.mine(ind.id).filter(function (a) { return a.kind === 'ball-interior' || a.kind === 'ball'; }), std = ballMine(bid, 'interior');
+  var pic = own[0] ? {art: own[0], label: (own[0].title || name + ' at home in its ' + b.name) + ' · creative'} : std[0] ? {art: std[0], label: 'The standard ' + b.name + ' interior · no picture of ' + name + ' in it yet'} : null;
+  var mark = v.ok === true ? chip('the games allow it', 'forest') : v.ok === false ? chip('a story choice', 'ember') : chip('a story detail', '');
+  return card('Its Poké Ball', '<div style="display:flex;gap:14px;align-items:center"><a href="#/ball/' + bid + '?g=' + (ind.game === 'soulsilver' ? 'heartgold' : ind.game) + '" class="ballart" style="width:84px;height:84px">' + ballArt(b, 64) + '</a>' +
+      '<div><div class="serif" style="font-size:22px">' + esc(Gear.nameIn(bid, ind.game)) + '</div><div class="small">' + mark + ' <span class="tiny muted">' + esc(v.why) + '</span></div>' +
+      '<div class="tiny" style="margin-top:4px"><a href="#/ball/' + bid + '">The ' + esc(b.name) + '\'s profile →</a></div></div></div>' +
+    (pic ? '<div class="interior" id="mballpic" style="margin-top:12px" title="Click to see it large">' + Pics.imgTag(pic, 'width:100%;aspect-ratio:16/9;object-fit:cover') + '</div><div class="tiny muted" style="margin-top:4px">' + esc(pic.label) + '</div>' :
+      '<div class="interior empty-int" style="margin-top:12px"><div><div class="eyebrow">' + esc(name) + ' at home · Blackthorn conceptual interpretation</div><div class="small" style="margin-top:6px">Inside its ' + esc(b.name) + ': ' + esc(b.creative.interior) + '.</div><div class="tiny muted" style="margin-top:8px">No picture yet: make the brief (it has everything about ' + esc(name) + ' and the ball), then add the result.</div></div></div>') +
+    (show ? '' : '<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn sm gold" id="mballbrief">Make the brief</button><label class="btn sm">Add the picture<input type="file" accept="image/*" id="mballup" style="display:none"></label>' +
+      '<a class="btn sm" href="#/pokemon/' + encodeURIComponent(ind.id) + '">Change the ball</a></div>'),
+    {eyebrow: 'Assigned ball · its own place', tools: false, style: 'margin-bottom:16px', id: 'm-its-ball'});
+}
 function monBind(p, ind) {
+  var mb = p.querySelector('#mballpic'); if (mb) mb.onclick = function () { lightbox(mb.innerHTML.replace(/style="[^"]*"/, 'style="max-width:94vw;max-height:84vh;object-fit:contain"')); };
+  var mbb = p.querySelector('#mballbrief'); if (mbb) mbb.onclick = function () { var o = packetPrefs(); o.purpose = 'ball'; o.orientation = 'landscape'; store('packet-prefs', o); packetDrawer(ind); };
+  var mbu = p.querySelector('#mballup'); if (mbu) mbu.onchange = function () { var f = mbu.files && mbu.files[0]; if (!f) return; var bid = Gear.ballIdOf(ind.ball || 'Poké Ball', ind.game);
+    toast('Saving the picture…');
+    Pics.upload(f, {subject: ind.id, kind: 'ball-interior', title: (ind.nickname || ind.species) + ' at home in its ' + (bid ? Gear.ball(bid).name : 'ball'), 'class': 'creative', status: 'gallery'})
+      .then(function () { toast('Saved.'); go(); }).catch(function (e) { toast('Not saved: ' + esc(e && e.message || e)); }); };
   var up = p.querySelector('#mup');
   if (up) up.onchange = function () {
     var f = up.files && up.files[0]; if (!f) return;
@@ -184,8 +209,16 @@ function monBind(p, ind) {
 }
 
 /* ---- image-generation packets: everything Blackthorn knows, assembled into one brief ---- */
-var PACKET_PURPOSE = {portrait: 'Profile portrait', battle: 'Battle scene', habitat: 'Natural habitat', homestead: 'Homestead scene', custom: 'Custom scene'};
+var PACKET_PURPOSE = {portrait: 'Profile portrait', battle: 'Battle scene', habitat: 'Natural habitat', homestead: 'Homestead scene', ball: 'Inside its Poké Ball', custom: 'Custom scene'};
 function packetPrefs() { return Object.assign({purpose: 'portrait', style: 'painterly, faithful to the official Pokémon art style', mood: 'calm and confident', orientation: 'portrait', setting: ''}, store('packet-prefs') || {}); }
+function packetBall(ind, d) {   // the 'Inside its Poké Ball' setting: the ball's established interior, adapted to this Pokémon
+  if (typeof Gear === 'undefined' || !Gear.ready()) return 'Inside its Poké Ball.';
+  var bid = Gear.ballIdOf(ind.ball || 'Poké Ball', ind.game), b = bid ? Gear.ball(bid) : null; if (!b) return 'Inside its ' + (ind.ball || 'Poké Ball') + '.';
+  var std = ballMine(bid, 'interior')[0], types = (Gear.flat(ind.species, ind.game) || {types: []}).types.join('/');
+  return 'Inside its ' + b.name + ', a habitable room (Blackthorn\'s conceptual interior, not canon): ' + b.creative.interior + '. Keep the ' + b.name + '\'s established architecture' +
+    (std ? ' exactly as in the standard interior picture (' + (std.title || 'the ' + b.name + ' interior') + ')' : '') + ': a round room, the band as a ring, the button as a round window. Adapt it to a ' + types + '-type ' +
+    (d.h ? d.h + ' m, ' + d.w + ' kg ' : '') + ind.species + (d.hab ? ' that lives in ' + d.hab : '') + ': what it needs to rest, eat and feel safe there (water for a swimmer, perches for a flyer, warmth or cold as its type wants).';
+}
 function packetFor(ind, o) {
   var gen = Battle.GAME_GEN[ind.game], d = dexOf(ind.species) || {}, sp = Battle.species(gen, ind.species), b = indBuild(ind);
   var read = freshPackRead(ind.id), rec = read ? Recognize.read(b, read) : null, h = Pics.variant(ind);
@@ -194,9 +227,11 @@ function packetFor(ind, o) {
     battle: 'A battlefield suited to its moves; the opponent may be implied, never the focus.',
     habitat: 'Its natural habitat' + (d.hab ? ': ' + d.hab : '') + ', drawn from its Pokédex and biology.',
     homestead: 'Blackthorn, the retired Champion\'s ranch in the Johto highlands near Blackthorn City, Dragon\'s Den and the Ice Path: ' + ((S.hq && S.hq.glasshouse) ? 'the Glasshouse (a hatchery inside a greenhouse, its rings of berry beds and the hatching loop), ' : '') + 'the grounds and the facilities it might work in.',
+    ball: packetBall(ind, d),
     custom: o.setting || 'As described below.'}[o.purpose];
   var pose = {portrait: 'A three-quarter portrait that shows its full silhouette and character.', battle: 'Mid-action, using ' + (b.moves && b.moves.length ? b.moves[0] : 'its signature attack') + ', true to how the move looks in the games.',
-    habitat: 'Doing what its species does there (feeding, resting, moving through the terrain).', homestead: 'At work or at rest on the ranch, at home among the other residents.', custom: 'As described below.'}[o.purpose];
+    habitat: 'Doing what its species does there (feeding, resting, moving through the terrain).', homestead: 'At work or at rest on the ranch, at home among the other residents.',
+    ball: 'At home inside it: resting or at ease, the clear subject filling a good part of the frame (never a tiny figure in a big room), the room adapted to its body and needs.', custom: 'As described below.'}[o.purpose];
   var aspect = {portrait: '4:5, vertical', landscape: '16:9, horizontal', square: '1:1'}[o.orientation] || o.orientation;
   var lines = [
     '1. Subject: ' + name + ' ' + (ind.shiny ? 'shiny ' : '') + sexWord + ' ' + ind.species + (ind.form ? ' (' + ind.form + ' form)' : '') + (d.genus ? ', the ' + d.genus : '') + '.',

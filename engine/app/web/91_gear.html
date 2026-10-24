@@ -1,0 +1,323 @@
+<script>
+/* ===== Poké Balls and equipment: the collection, ball profiles, the catch planner, the equipment library ==========
+   docs/specs/POKE_BALLS_EQUIPMENT.md; MASTER_PLAN Phase 6. The data and the catch chance are 33_capture (Gear).
+   #/balls                     the Poké Ball Collection: every Gen I-IV ball, searchable and filterable
+   #/ball/<id>[?g=game]        one ball: exterior art first, then each game's mechanics (from its own code), how you get
+                               it, its craft and origin, a live catch calculator, Blackthorn's design reading and its
+                               conceptual interior (your picture, or the brief to make one), related balls, your Pokémon in it
+   #/balls/catch               which ball to throw: every ball in a game ranked for one Pokémon and situation
+   #/equipment[/<id>]          the equipment library and your inventory (My Gear), with the Apricorns
+   Pictures are your own (My Artwork: subject ball:<id>, kind exterior or interior); the default exterior is the
+   official Dream World art where it exists, else the game's sprite. Creative pictures are labelled as such. */
+var GR = {calc: {}};
+var BALL_GAMES = ['crystal', 'firered', 'emerald', 'platinum', 'heartgold'];
+var HOW_NAME = {shop: 'Bought', gift: 'Given', field: 'Found', craft: 'Crafted', other: 'Other'};
+var STATUS_OPTS = [['', 'no status'], ['sleep', 'asleep'], ['freeze', 'frozen'], ['paralysis', 'paralyzed'], ['poison', 'poisoned'], ['burn', 'burned']];
+function gearReady() {
+  if (!S.gearP) S.gearP = Promise.all([recordsReady(), API.data('equipment')]).then(function (r) { if (!Gear.ready()) Gear.init(r[1]); return true; })
+    .catch(function (e) { S.gearP = null; throw e; });
+  return S.gearP;
+}
+function artBase() { return Gear.pack().art; }
+function ballMine(id, kind) { return typeof Pics !== 'undefined' ? Pics.mine('ball:' + id).filter(function (a) { return a.kind === kind; }) : []; }
+function ballArt(b, size, opts) {   // your exterior first, then the official Dream World art, then the game's sprite
+  opts = opts || {}; size = size || 96;
+  var mine = opts.noMine ? [] : ballMine(b.id, 'exterior');
+  if (mine.length) return Pics.imgTag({art: mine[0]}, 'width:' + size + 'px;height:' + size + 'px;object-fit:contain');
+  if (b.art.official && !opts.sprite) return '<img src="' + esc(artBase() + b.art.official) + '" alt="' + esc(b.name) + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:contain" loading="lazy">';
+  return '<img class="pix" src="' + esc(artBase() + b.art.sprite) + '" alt="' + esc(b.name) + '" style="width:' + size + 'px;height:' + size + 'px;object-fit:contain" loading="lazy">';
+}
+function lightbox(html) {
+  var d = document.createElement('div'); d.className = 'lightbox'; d.innerHTML = html + '<div class="tiny muted" style="margin-top:10px">Click anywhere to close</div>';
+  d.onclick = function () { d.remove(); }; document.body.appendChild(d);
+  if (typeof Pics !== 'undefined') Pics.fill(d);
+}
+function waysOf(b, game) { return (b.acquisition || {})[game === 'soulsilver' ? 'heartgold' : game] || []; }
+
+/* ---- #/balls: the collection ---- */
+function ballsPage(query) {
+  return gearReady().then(function () {
+    var q = qparse(query), all = Gear.balls(), cats = Gear.pack().categories, tags = {};
+    all.forEach(function (b) { b.tags.forEach(function (t) { tags[t] = 1; }); });
+    after(function (p) {
+      var f = p.querySelector('#blf'); if (!f) return;
+      var apply = function () {
+        var s = f.q.value.toLowerCase(), g = f.gen.value, c = f.cat.value, h = f.how.value, t = f.tag.value, n = 0;
+        p.querySelectorAll('[data-ball]').forEach(function (a) {
+          var b = Gear.ball(a.getAttribute('data-ball')), ways = [].concat.apply([], Object.keys(b.acquisition || {}).map(function (k) { return b.acquisition[k]; }));
+          var ok = (!s || (b.name + ' ' + b.category_name + ' ' + b.tags.join(' ') + ' ' + (b.apricorn || '')).toLowerCase().indexOf(s) >= 0) && (!g || String(b.introduced) === g) &&
+            (!c || b.category === c) && (!h || ways.some(function (w) { return w.how === h; })) && (!t || b.tags.indexOf(t) >= 0);
+          a.style.display = ok ? '' : 'none'; if (ok) n++;
+        });
+        p.querySelector('#bln').textContent = plural(n, 'ball');
+        navQuiet('#/balls' + qstring({q: f.q.value, gen: g, cat: c, how: h, tag: t}));
+      };
+      f.addEventListener('input', apply); f.addEventListener('change', apply); apply();
+    });
+    var opt = function (v, txt, cur) { return '<option value="' + esc(v) + '"' + (cur === v ? ' selected' : '') + '>' + esc(txt) + '</option>'; };
+    return '<div class="eyebrow">Equipment · Generations I to IV</div><h1 style="margin:6px 0">Poké Ball Collection</h1>' +
+      '<p class="lede">Every Poké Ball from the first four generations: what each one does in each game, read from that game\'s own code, how you get it, and where it came from. Open one for its full profile and a live catch calculator.</p>' +
+      '<form id="blf" class="card" style="margin-top:14px" onsubmit="return false"><div class="bd" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">' +
+        '<div style="flex:2;min-width:170px"><label class="l">Search</label><input class="f" name="q" value="' + esc(q.q || '') + '" placeholder="Moon, fishing, Kurt…"></div>' +
+        '<div><label class="l">Generation</label><select class="f" name="gen">' + opt('', 'any', q.gen) + [1, 2, 3, 4].map(function (g) { return opt(String(g), 'Gen ' + g, q.gen); }).join('') + '</select></div>' +
+        '<div><label class="l">Kind</label><select class="f" name="cat">' + opt('', 'any', q.cat) + Object.keys(cats).map(function (c) { return opt(c, cats[c], q.cat); }).join('') + '</select></div>' +
+        '<div><label class="l">How you get it</label><select class="f" name="how">' + opt('', 'any', q.how) + Object.keys(HOW_NAME).map(function (h) { return opt(h, HOW_NAME[h], q.how); }).join('') + '</select></div>' +
+        '<div><label class="l">Special</label><select class="f" name="tag">' + opt('', 'any', q.tag) + Object.keys(tags).sort().map(function (t) { return opt(t, t, q.tag); }).join('') + '</select></div>' +
+        '<div class="tiny muted" id="bln" style="padding-bottom:8px"></div></div></form>' +
+      '<div class="ballgrid" style="margin-top:16px">' + all.map(function (b) {
+        return '<a class="ballcard" href="#/ball/' + b.id + '" data-ball="' + b.id + '"><div class="ballart">' + ballArt(b, 92) + '</div><b>' + esc(b.name) + '</b>' +
+          '<span class="tiny muted">Gen ' + b.introduced + ' · ' + esc(b.category_name) + (b.apricorn ? ' · ' + esc(b.apricorn) : '') + '</span></a>'; }).join('') + '</div>' +
+      '<div class="grid" style="margin-top:20px"><div class="c6">' + card('Which ball should I throw?', '<p class="small">Pick a game, a Pokémon and the situation; every ball in that game is ranked by its exact chance to catch on one throw.</p><a class="btn gold sm" href="#/balls/catch">Open the throw planner</a>', {eyebrow: 'The catch planner', tools: false}) + '</div>' +
+      '<div class="c6">' + card('The rest of the gear', '<p class="small">Bicycles, rods, finders, devices, cases and the Apricorns: the equipment library, with what you have in each game.</p><a class="btn sm" href="#/equipment">The equipment library</a>', {eyebrow: 'Equipment', tools: false}) + '</div></div>';
+  });
+}
+
+/* ---- #/ball/<id>: one ball ---- */
+function ballPage(id, query) {
+  return gearReady().then(function () {
+    var b = Gear.ball(id);
+    if (!b) return '<div class="notice">No Poké Ball called ' + esc(id) + '.</div>';
+    var q = qparse(query), games = BALL_GAMES.filter(function (g) { return b.games[g]; });
+    var game = q.g && games.indexOf(q.g) >= 0 ? q.g : (store('ball-game') && games.indexOf(store('ball-game')) >= 0 ? store('ball-game') : games[games.length - 1]);
+    var latest = b.descriptions.heartgold || b.descriptions.emerald || b.descriptions.crystal || '';
+    var ext = ballMine(id, 'exterior'), intr = ballMine(id, 'interior');
+    var views = [b.art.official ? {src: artBase() + b.art.official, label: 'Official art (Dream World)'} : null, {src: artBase() + b.art.sprite, label: 'In-game sprite', pix: true}].filter(Boolean);
+    after(function (p) { ballBind(p, b, game); });
+    var mine = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return Gear.ballIdOf(i.ball, i.game) === id; });
+    var hero = '<section class="card ballhero"><div class="bd" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">' +
+      '<div class="ballstage" id="bhero" title="Click to enlarge">' + ballArt(b, 240) + '</div>' +
+      '<div style="flex:1;min-width:240px"><div class="eyebrow">Introduced in Generation ' + b.introduced + ' · ' + esc(b.category_name) + '</div>' +
+      '<h1 style="margin:4px 0;font-size:44px">' + esc(b.name) + '</h1>' + (b.games.crystal && b.games.crystal.name !== b.name ? '<div class="small muted">Called the ' + esc(b.games.crystal.name) + ' in Crystal</div>' : '') +
+      '<p class="serif" style="font-size:19px;color:var(--text-2);margin:10px 0">' + esc(latest) + '</p>' +
+      '<div>' + [chip(b.category_name, 'gold')].concat(b.tags.slice(0, 3).map(function (t) { return chip(t, ''); })).join(' ') + '</div>' +
+      '<div class="tiny muted" style="margin-top:8px">In ' + esc(games.map(function (g) { return GAME_NAME[g]; }).join(', ')) + (b.games.heartgold ? ' (and SoulSilver)' : '') + '</div>' +
+      '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">' + views.concat(ext.map(function (a) { return {art: a, label: a.title || 'Your exterior art'}; })).map(function (v, i) {
+        return '<button class="thumb" data-view="' + i + '" title="' + esc(v.label) + '">' + (v.art ? Pics.imgTag({art: v.art}, 'width:44px;height:44px;object-fit:contain') : '<img ' + (v.pix ? 'class="pix" ' : '') + 'src="' + esc(v.src) + '" style="width:44px;height:44px;object-fit:contain" alt="">') + '</button>'; }).join('') +
+        '<label class="btn sm" title="Your own exterior picture replaces the default everywhere">Add exterior art<input type="file" accept="image/*" id="bext" style="display:none"></label></div></div></div></section>';
+    var tabs = '<div class="tabs" style="margin:0 0 12px">' + games.map(function (g) { return '<a href="#/ball/' + id + '?g=' + g + '"' + (g === game ? ' class="on"' : '') + '>' + esc(GAME_NAME[g]) + '</a>'; }).join('') +
+      (b.mechanics.some(function (m) { return m.era === 'gen1'; }) ? '<a href="javascript:void 0" data-gen1="1">Gen 1</a>' : '') + '</div>';
+    var mech = Gear.mechanics(id, game), era = Gear.eraOf(game), F = Gear.pack().formula[era];
+    var info = card('In ' + esc(GAME_NAME[game]) + (game === 'heartgold' ? ' and SoulSilver' : ''), tabs +
+      (mech ? '<div class="serif" style="font-size:20px;color:var(--ivory)">' + esc(mech.says) + '</div>' + (mech.bug ? '<div class="callout small" style="margin-top:8px"><b>The game\'s own bug</b>: ' + esc(mech.bug) + '</div>' : '') +
+        '<div class="tiny muted" style="margin-top:6px">' + chip('confirmed', 'forest') + ' from the game\'s catch code: ' + esc(mech.source) + '</div>' : '<div class="small muted">No mechanics on record for this game.</div>') +
+      (b.descriptions[game] || b.descriptions[game === 'firered' ? 'emerald' : game] ? '<div class="small" style="margin-top:10px">The game says: <i>"' + esc(b.descriptions[game] || b.descriptions.emerald) + '"</i></div>' : '') +
+      '<details style="margin-top:10px"><summary class="tiny muted">How the catch is worked out in ' + esc(F.name) + '</summary><div class="small" style="margin-top:6px">' + esc(F.says) + '</div><div class="tiny muted">' + esc(F.source) + '</div></details>' +
+      '<div class="eyebrow" style="margin-top:16px">How you get it</div>' + waysHtml(waysOf(b, game), game) +
+      '<div class="eyebrow" style="margin-top:16px">Try it</div><div id="bcalc">' + calcHtml(b, game) + '</div>',
+      {eyebrow: 'Mechanics and information · from the games', tools: false, style: 'margin-top:16px', id: 'm-ball-info'});
+    var craft = b.apricorn ? card('Kurt and the ' + esc(b.apricorn), apricornHtml(b), {eyebrow: 'Origins and craftsmanship', tools: false, style: 'margin-top:16px'}) : originHtml(b);
+    var interior = card('Conceptual interior', (intr.length ?
+        '<div class="interior" id="bint" title="Click to see it large">' + Pics.imgTag({art: intr[0]}, 'width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px') + '</div><div class="tiny muted" style="margin-top:6px">' + esc(intr[0].title || 'Your interior') + ' · Blackthorn conceptual interpretation, not Pokémon canon</div>' :
+        '<div class="interior empty-int"><div><div class="eyebrow">Blackthorn conceptual interpretation</div><div class="serif" style="font-size:18px;margin-top:6px;color:var(--text)">' + esc(cap(b.creative.interior)) + '.</div>' +
+        '<div class="tiny muted" style="margin-top:10px">No picture yet. Make the brief, paste it into any image tool, and add the result: it becomes the standard interior for every ' + esc(b.name) + ' in Blackthorn.</div></div></div>') +
+      '<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn sm gold" id="bbrief">Make the interior brief</button><label class="btn sm">Add the interior picture<input type="file" accept="image/*" id="bintup" style="display:none"></label></div>',
+      {eyebrow: 'Inside the ' + b.name + ' · creative, never canon', tools: false, style: 'margin-top:16px'});
+    var design = card('Design interpretation', '<div class="small">' + esc(b.creative.design) + '</div><div class="tiny muted" style="margin-top:6px">Blackthorn\'s reading of the design, not Pokémon canon.</div>', {eyebrow: 'Why it looks the way it does', tools: false, style: 'margin-top:16px'});
+    var related = card('Related balls', '<div class="strip">' + b.related.map(Gear.ball).filter(Boolean).map(function (r) {
+      return '<a class="ballmini" href="#/ball/' + r.id + '">' + ballArt(r, 44) + '<span class="tiny">' + esc(r.name) + '</span></a>'; }).join('') + '</div>', {tools: false, style: 'margin-top:16px'});
+    var yours = card('Your Pokémon in it', mine.length ? mine.map(function (i) { return '<a class="tool" href="#/mon/' + encodeURIComponent(i.id) + '"><b>' + esc(i.nickname || i.species) + '</b><span class="tiny muted">' + esc(GAME_NAME[i.game] || i.game) + '</span></a>'; }).join('') :
+      '<div class="tiny muted">None of yours yet. Assign a ball in the Pokémon Studio (its identity card).</div>', {eyebrow: plural(mine.length, 'Pokémon', 'Pokémon'), tools: false, style: 'margin-top:16px'});
+    return '<a class="link" href="#/balls">← Poké Ball Collection</a>' + hero + '<div class="grid" style="margin-top:16px"><div class="c8">' + info + interior + '</div><div class="c4">' + craft + design + related + yours + '</div></div>';
+  });
+}
+function waysHtml(ways, game) {
+  if (!ways.length) return '<div class="small muted">The games\' scripts and marts show no way to get it in ' + esc(GAME_NAME[game]) + '.</div>';
+  var by = {}; ways.forEach(function (w) { (by[w.how] = by[w.how] || []).push(w); });
+  return Object.keys(HOW_NAME).filter(function (h) { return by[h]; }).map(function (h) {
+    return '<div class="small" style="margin-top:6px"><b>' + HOW_NAME[h] + '</b>: ' + by[h].map(function (w) {
+      var bits = [w.where, w.who ? 'from ' + w.who : null, w.qty && w.qty > 1 ? '×' + w.qty : null, w.price ? '₽' + w.price : null, w.requires || null, w.hidden ? 'hidden' : null, w.note || null].filter(Boolean);
+      return '<span title="' + esc(w.source || '') + '">' + esc(bits.join(' · ')) + '</span>'; }).join('; ') + '</div>'; }).join('') +
+    '<div class="tiny muted" style="margin-top:4px">From the game\'s own map scripts and marts (hover one for its source).</div>';
+}
+function apricornHtml(b) {
+  var A = Gear.pack().apricorns || {}, rows = [];
+  ['crystal', 'heartgold'].forEach(function (g) { (A[g] || []).filter(function (x) { return x.ball === b.id; }).forEach(function (x) {
+    rows.push('<div class="small" style="margin-top:6px"><b>' + esc(GAME_NAME[g]) + '</b>: ' + esc(x.apricorn) + (x.trees && x.trees.length ? ' grows on ' + esc(x.trees.join(', ')) : '') + '</div>'); }); });
+  return '<div class="small">Kurt, the Ball maker of Azalea Town, turns a ' + esc(b.apricorn) + ' into a ' + esc(b.name) + '. Apricorn Balls exist only in Johto\'s games: Crystal, and HeartGold and SoulSilver.</div>' + rows.join('') +
+    '<div class="tiny muted" style="margin-top:6px">From the games\' Apricorn table and fruit trees. <a href="#/equipment#apricorns">All seven Apricorns</a></div>';
+}
+function originHtml(b) {
+  var first = BALL_GAMES.filter(function (g) { return b.games[g]; })[0], firstWays = waysOf(b, first);
+  return card('Where it comes from', '<div class="small">Introduced in Generation ' + b.introduced + '. ' + (firstWays.length ? 'In ' + esc(GAME_NAME[first]) + ', ' + esc(firstWays.slice(0, 2).map(function (w) { return (HOW_NAME[w.how] || w.how).toLowerCase() + ' ' + (w.where || ''); }).join('; ')) + '.' : '') + '</div>' +
+    '<div class="tiny muted" style="margin-top:6px">Materials and manufacture aren\'t documented in the games beyond what\'s here; Blackthorn doesn\'t invent them.</div>', {eyebrow: 'Origins', tools: false, style: 'margin-top:16px'});
+}
+function calcHtml(b, game) {
+  var c = GR.calc, sp = Object.keys(Gear.pack().species).filter(function (n) { return Gear.flat(n, game); });
+  var name = c.species && sp.indexOf(c.species) >= 0 ? c.species : 'Pikachu';
+  var flag = function (k, label) { return '<label class="tiny" style="margin-right:10px"><input type="checkbox" data-cx="' + k + '"' + (c[k] ? ' checked' : '') + '> ' + label + '</label>'; };
+  var gen = Gear.GEN[game], needs = {lure: flag('fishing', 'hooked with a rod'), dive: gen === 3 ? flag('underwater', 'underwater') : flag('water', 'on water (surfing or fishing)'),
+    dusk: flag('night', 'at night') + flag('cave', 'in a cave'), repeat: flag('caught_before', 'already caught'), quick: '', timer: ''}[b.id] || '';
+  return '<datalist id="bspl">' + sp.map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist><form id="bcf" onsubmit="return false" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end">' +
+    '<div style="flex:1;min-width:140px"><label class="l">Wild Pokémon</label><input class="f" name="species" list="bspl" value="' + esc(name) + '"></div>' +
+    '<div style="width:70px"><label class="l">Level</label><input class="f" name="level" type="number" min="1" max="100" value="' + (c.level || 20) + '"></div>' +
+    '<div style="width:90px"><label class="l">HP left</label><select class="f" name="hp">' + [[100, 'full'], [50, 'half'], [25, 'a quarter'], [1, '1 HP']].map(function (x) { return '<option value="' + x[0] + '"' + (+c.hp === x[0] ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></div>' +
+    '<div><label class="l">Status</label><select class="f" name="status">' + STATUS_OPTS.map(function (x) { return '<option value="' + x[0] + '"' + ((c.status || '') === x[0] ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></div>' +
+    (b.id === 'timer' || b.id === 'quick' ? '<div style="width:80px"><label class="l">Turn</label><input class="f" name="turn" type="number" min="0" max="60" value="' + (c.turn || 0) + '"></div>' : '') +
+    (b.id === 'level' || b.id === 'love' ? '<div style="width:90px"><label class="l">Yours: level</label><input class="f" name="mylevel" type="number" min="1" max="100" value="' + (c.mylevel || 50) + '"></div>' : '') +
+    (b.id === 'love' ? '<div><label class="l">Yours</label><input class="f" name="myspecies" list="bspl" value="' + esc(c.myspecies || name) + '" style="width:120px"></div><div><label class="l">Genders</label><select class="f" name="genders"><option value="MF">yours ♂, theirs ♀</option><option value="MM">both ♂</option></select></div>' : '') +
+    '</form><div style="margin-top:6px">' + needs + '</div><div id="bcout" class="small" style="margin-top:8px"></div>';
+}
+function calcRead(f) {
+  var c = GR.calc, get = function (n) { return f[n] ? f[n].value : null; };
+  c.species = get('species'); c.level = +get('level') || 20; c.hp = +get('hp') || 100; c.status = get('status') || '';
+  if (f.turn) c.turn = +f.turn.value || 0; if (f.mylevel) c.mylevel = +f.mylevel.value || 50; if (f.myspecies) c.myspecies = f.myspecies.value;
+  f.parentNode.parentNode.querySelectorAll('[data-cx]').forEach(function (x) { c[x.getAttribute('data-cx')] = x.checked; });
+  var g = f.genders ? f.genders.value : 'MF';
+  return {species: c.species, level: c.level, hp: c.hp, status: c.status || null,
+    ctx: {fishing: !!c.fishing, underwater: !!c.underwater, water: !!c.water, night: !!c.night, cave: !!c.cave, caught_before: !!c.caught_before, turn: c.turn || 0,
+      mine: {level: c.mylevel || 50, species: c.myspecies || c.species, gender: 'M'}, their_gender: g === 'MF' ? 'F' : 'M'}};
+}
+function calcShow(b, game) {
+  var f = document.getElementById('bcf'), out = document.getElementById('bcout'); if (!f || !out) return;
+  var x = calcRead(f), sp = Gear.flat(x.species, game);
+  if (!sp) { out.innerHTML = '<span class="muted">' + esc(x.species || 'That') + ' isn\'t in ' + esc(GAME_NAME[game]) + '.</span>'; return; }
+  var r = Gear.chance(game, b.id, sp, x.level, x.hp, x.status, x.ctx), base = Gear.chance(game, 'poke', sp, x.level, x.hp, x.status, x.ctx);
+  out.innerHTML = r.p == null ? '<span style="color:var(--ember-2)">' + esc(r.why) + '</span>' :
+    '<span class="serif" style="font-size:26px;color:var(--ivory)">' + pctTxt(r.p) + '</span> a throw' + (b.id !== 'poke' && base.p != null ? ' <span class="muted">(a Poké Ball: ' + pctTxt(base.p) + ')</span>' : '') +
+    '<div class="tiny muted">' + esc(sp.name) + ': catch rate ' + sp.rate + (r.rate != null && r.rate !== sp.rate ? ' → ' + r.rate + ' with this ball' : '') + (r.mult != null ? ' · ball ×' + (r.mult / 10) : '') +
+      (r.odds != null ? ' · value ' + r.odds + (r.shake ? ' · each of four shakes passes ' + pctTxt(Math.min(1, r.shake / 65536)) : ' (caught outright)') : r.final != null ? ' · final ' + r.final + ' of 255' : '') +
+      ' · max HP ' + Gear.maxHp(Gear.GEN[game], sp.hp, x.level) + ' (IV ' + (Gear.GEN[game] === 2 ? 'DV 8' : '15') + ', no EVs)' + (r.why ? ' · ' + esc(r.why) : '') + '</div>' +
+    '<div class="tiny" style="margin-top:4px"><a href="#/balls/catch' + qstring({g: game, s: sp.name, l: x.level, hp: x.hp, st: x.status || ''}) + '">Every ball for this throw →</a></div>';
+}
+function pctTxt(p) { return p >= 1 ? '100%' : p >= 0.1 ? (p * 100).toFixed(1) + '%' : p >= 0.001 ? (p * 100).toFixed(2) + '%' : (p * 100).toPrecision(2) + '%'; }
+function ballBrief(b) {
+  var ref = b.art.official ? artBase() + b.art.official : artBase() + b.art.sprite;
+  return ['1. Subject: the inside of a ' + b.name + ' as a real, habitable room. A Blackthorn conceptual interpretation, not Pokémon canon.',
+    '2. Architecture: a round room whose shape follows the ball: a domed ceiling, the band around its middle as a ring, balcony or rail, the button as a round window or doorway. Colours and motifs from the exterior (reference below).',
+    '3. Direction: ' + b.creative.interior + '.',
+    '4. Why it looks this way: ' + b.creative.design + ' In the games: ' + (Gear.mechanics(b.id, 'heartgold') || Gear.mechanics(b.id, 'platinum') || Gear.mechanics(b.id, 'emerald') || Gear.mechanics(b.id, 'crystal') || {says: ''}).says,
+    '5. Light and mood: warm, inviting, cinematic; rich materials and fine architectural detail worth zooming into.',
+    '6. Composition: 16:9, a wide establishing view of the whole room from just inside the entrance.',
+    '7. Keep it a place to live: furniture, materials, light. Never an abstract energy field, a technical cutaway, a sterile sci-fi chamber or a schematic. No Pokémon, no people, no text, no logos.',
+    '8. Reference (the exterior): ' + ref,
+    '9. Consistency: this becomes the standard interior of every ' + b.name + ' in Blackthorn; personal pictures of a Pokémon at home in one keep its architecture.'].join('\n\n');
+}
+function briefDrawer(title, text, onUpload) {
+  openDrawer('<div class="eyebrow">Create artwork</div><h2 style="margin:6px 0">' + esc(title) + '</h2><p class="tiny muted">Everything Blackthorn knows, as one brief for any image tool. Copy it, make the picture, and add it here.</p>' +
+    '<textarea class="f" id="brtext" style="height:330px;font-size:12px">' + esc(text) + '</textarea>' +
+    '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn gold" id="brcopy">Copy it</button><label class="btn">Upload the result<input type="file" accept="image/*" id="brup" style="display:none"></label></div>');
+  document.getElementById('brcopy').onclick = function () { var t = document.getElementById('brtext'); t.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} toast(ok ? 'Copied.' : 'Selected: copy it with your keyboard.'); };
+  document.getElementById('brup').onchange = function () { var f = this.files && this.files[0]; if (f) { closeDrawer(); onUpload(f); } };
+}
+function ballUpload(b, kind, file) {
+  toast('Saving the picture…');
+  return Pics.upload(file, {subject: 'ball:' + b.id, kind: kind, title: (kind === 'exterior' ? 'Exterior art' : 'Interior') + ' of the ' + b.name, 'class': kind === 'interior' ? 'creative' : 'reference', status: 'gallery'})
+    .then(function () { toast('Saved: it shows wherever the ' + esc(b.name) + ' does.'); go(); })
+    .catch(function (e) { toast('Not saved: ' + esc(e && e.message || e)); });
+}
+function ballBind(p, b, game) {
+  Pics.fill(p);
+  var views = [b.art.official ? {src: artBase() + b.art.official} : null, {src: artBase() + b.art.sprite, pix: true}].filter(Boolean).concat(ballMine(b.id, 'exterior').map(function (a) { return {art: a}; }));
+  var big = function (v) { lightbox(v.art ? Pics.imgTag({art: v.art}, 'max-width:90vw;max-height:80vh;object-fit:contain') : '<img ' + (v.pix ? 'class="pix" ' : '') + 'src="' + esc(v.src) + '" style="width:min(80vw,520px);height:min(80vw,520px);object-fit:contain" alt="">'); };
+  var hero = p.querySelector('#bhero'); if (hero) hero.onclick = function () { big(views[views.length > 2 ? views.length - 1 : 0]); };
+  p.querySelectorAll('[data-view]').forEach(function (x) { x.onclick = function () { big(views[+x.getAttribute('data-view')]); }; });
+  var ext = p.querySelector('#bext'); if (ext) ext.onchange = function () { var f = this.files && this.files[0]; if (f) ballUpload(b, 'exterior', f); };
+  var iu = p.querySelector('#bintup'); if (iu) iu.onchange = function () { var f = this.files && this.files[0]; if (f) ballUpload(b, 'interior', f); };
+  var bi = p.querySelector('#bint'); if (bi) bi.onclick = function () { lightbox(Pics.imgTag({art: ballMine(b.id, 'interior')[0]}, 'max-width:94vw;max-height:84vh;object-fit:contain')); };
+  var br = p.querySelector('#bbrief'); if (br) br.onclick = function () { briefDrawer('The ' + b.name + '\'s interior', ballBrief(b), function (f) { ballUpload(b, 'interior', f); }); };
+  var g1 = p.querySelector('[data-gen1]'); if (g1) g1.onclick = function () { var m = b.mechanics.filter(function (x) { return x.era === 'gen1'; })[0];
+    openDrawer('<div class="eyebrow">' + esc(m.name) + '</div><h2 style="margin:6px 0">' + esc(b.name) + ' in Gen 1</h2><p class="serif" style="font-size:18px">' + esc(m.says) + '</p><p class="small">' + esc(Gear.pack().formula.gen1.says) + '</p><p class="tiny muted">' + esc(m.source) + '. Blackthorn\'s games start with Crystal; this is for history.</p>'); };
+  store('ball-game', game);
+  var f = p.querySelector('#bcf'); if (f) { var redo = function () { calcShow(b, game); }; f.addEventListener('input', redo); f.addEventListener('change', redo); p.querySelectorAll('[data-cx]').forEach(function (x) { x.onchange = redo; }); redo(); }
+}
+
+/* ---- #/balls/catch: which ball to throw ---- */
+function catchPage(query) {
+  return gearReady().then(function () {
+    var q = qparse(query), game = BALL_GAMES.concat(['soulsilver']).indexOf(q.g) >= 0 ? q.g : 'heartgold';
+    GR.plan = {game: game, species: q.s || 'Pikachu', level: +q.l || 20, hp: +q.hp || 100, status: q.st || '', ctx: {fishing: q.fish === '1', water: q.water === '1', underwater: q.under === '1', night: q.night === '1', cave: q.cave === '1', caught_before: q.caught === '1', turn: +q.turn || 0,
+      mine: {level: +q.ml || 50, species: q.ms || q.s || 'Pikachu', gender: 'M'}, their_gender: q.tg || 'F'}};
+    after(function (p) { planBind(p); planShow(); });
+    var sp = Object.keys(Gear.pack().species);
+    var flag = function (k, label) { return '<label class="tiny" style="margin-right:12px"><input type="checkbox" name="' + k + '"' + (GR.plan.ctx[k] ? ' checked' : '') + '> ' + label + '</label>'; };
+    return '<a class="link" href="#/balls">← Poké Ball Collection</a><div class="eyebrow" style="margin-top:10px">The catch planner</div><h1 style="margin:6px 0">Which ball should I throw?</h1>' +
+      '<p class="lede">Every ball in the game, ranked by its exact chance to catch on one throw, worked out the way that game\'s own code does it (bugs included).</p>' +
+      '<datalist id="cpl">' + sp.map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>' +
+      '<form id="cpf" class="card" onsubmit="return false" style="margin-top:12px"><div class="bd"><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">' +
+        '<div><label class="l">Game</label><select class="f" name="game">' + BALL_GAMES.map(function (g) { return '<option value="' + g + '"' + (g === game ? ' selected' : '') + '>' + esc(GAME_NAME[g]) + '</option>'; }).join('') + '</select></div>' +
+        '<div style="flex:1;min-width:150px"><label class="l">Wild Pokémon</label><input class="f" name="species" list="cpl" value="' + esc(GR.plan.species) + '"></div>' +
+        '<div style="width:70px"><label class="l">Level</label><input class="f" name="level" type="number" min="1" max="100" value="' + GR.plan.level + '"></div>' +
+        '<div style="width:100px"><label class="l">HP left</label><select class="f" name="hp">' + [[100, 'full'], [50, 'half'], [25, 'a quarter'], [1, '1 HP']].map(function (x) { return '<option value="' + x[0] + '"' + (GR.plan.hp === x[0] ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></div>' +
+        '<div><label class="l">Status</label><select class="f" name="status">' + STATUS_OPTS.map(function (x) { return '<option value="' + x[0] + '"' + (GR.plan.status === x[0] ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></div>' +
+        '<div style="width:70px"><label class="l">Turn</label><input class="f" name="turn" type="number" min="0" max="60" value="' + GR.plan.ctx.turn + '"></div>' +
+        '<div style="width:90px"><label class="l">Yours: level</label><input class="f" name="ml" type="number" min="1" max="100" value="' + GR.plan.ctx.mine.level + '"></div>' +
+        '<div><label class="l">Yours: species</label><input class="f" name="ms" list="cpl" value="' + esc(GR.plan.ctx.mine.species) + '" style="width:130px"></div>' +
+        '<div><label class="l">Their gender</label><select class="f" name="tg"><option value="F"' + (GR.plan.ctx.their_gender === 'F' ? ' selected' : '') + '>♀ (yours ♂)</option><option value="M"' + (GR.plan.ctx.their_gender === 'M' ? ' selected' : '') + '>♂ (like yours)</option></select></div></div>' +
+        '<div style="margin-top:8px">' + flag('fishing', 'hooked with a rod') + flag('water', 'on water (Gen 4)') + flag('underwater', 'underwater (Gen 3)') + flag('night', 'at night') + flag('cave', 'in a cave') + flag('caught_before', 'already caught') + '</div></div></form>' +
+      '<div id="cpout" style="margin-top:16px"></div>';
+  });
+}
+function planBind(p) {
+  var f = p.querySelector('#cpf'); if (!f) return;
+  var read = function () {
+    var P = GR.plan; P.game = f.game.value; P.species = f.species.value; P.level = +f.level.value || 1; P.hp = +f.hp.value; P.status = f.status.value;
+    ['fishing', 'water', 'underwater', 'night', 'cave', 'caught_before'].forEach(function (k) { P.ctx[k] = f[k].checked; });
+    P.ctx.turn = +f.turn.value || 0; P.ctx.mine = {level: +f.ml.value || 1, species: f.ms.value, gender: 'M'}; P.ctx.their_gender = f.tg.value;
+    navQuiet('#/balls/catch' + qstring({g: P.game, s: P.species, l: P.level, hp: P.hp, st: P.status, fish: P.ctx.fishing ? 1 : '', water: P.ctx.water ? 1 : '', under: P.ctx.underwater ? 1 : '',
+      night: P.ctx.night ? 1 : '', cave: P.ctx.cave ? 1 : '', caught: P.ctx.caught_before ? 1 : '', turn: P.ctx.turn || '', ml: P.ctx.mine.level, ms: P.ctx.mine.species, tg: P.ctx.their_gender}));
+    planShow();
+  };
+  f.addEventListener('input', read); f.addEventListener('change', read);
+}
+function planShow() {
+  var el = document.getElementById('cpout'); if (!el) return;
+  var P = GR.plan, rows = Gear.rank(P.game, P.species, P.level, P.hp, P.status || null, P.ctx);
+  if (!rows.length) { el.innerHTML = '<div class="notice">' + esc(P.species) + ' isn\'t in ' + esc(GAME_NAME[P.game]) + '.</div>'; return; }
+  var fits = function (id) { var v = Gear.fits(P.game, id, P.species); return v.ok === false ? ' <span class="tiny muted" title="' + esc(v.why) + '">· can\'t really be in one here</span>' : ''; };
+  el.innerHTML = card(esc(P.species) + ' in ' + esc(GAME_NAME[P.game]), '<table class="t"><tbody>' + rows.map(function (r, i) {
+    var b = Gear.ball(r.id);
+    return '<tr><td style="width:48px">' + ballArt(b, 36) + '</td><td><a href="#/ball/' + r.id + '?g=' + (P.game === 'soulsilver' ? 'heartgold' : P.game) + '"><b>' + esc(r.name) + '</b></a>' + fits(r.id) + '</td>' +
+      '<td style="min-width:160px">' + (r.p == null ? '<span class="tiny" style="color:var(--ember-2)">' + esc(r.why) + '</span>' : '<div class="bar ' + (i === 0 ? 'forest' : '') + '"><i style="width:' + (r.p * 100) + '%"></i></div><span class="small">' + pctTxt(r.p) + '</span>') + '</td>' +
+      '<td class="tiny muted">' + esc((Gear.mechanics(r.id, P.game) || {says: ''}).says) + '</td></tr>'; }).join('') + '</tbody></table>' +
+    '<div class="tiny muted" style="margin-top:8px">One throw\'s chance, from the game\'s own catch code: the wild Pokémon\'s max HP uses IV 15 (Gen 2: DV 8) and no EVs; the Safari Zone\'s rocks and bait and the Great Marsh\'s mood aren\'t modelled.</div>',
+    {eyebrow: 'Every ball in the game, best first', tools: false});
+}
+
+/* ---- #/equipment: the library, your inventory, the Apricorns ---- */
+function gearMine(item, game) { return ((S.store || {}).gear || {})[game + ':' + item] || null; }
+function equipmentPage() {
+  return gearReady().then(function () {
+    var all = Gear.gear(), kinds = Gear.pack().gear_kinds, by = {};
+    all.forEach(function (g) { (by[g.kind] = by[g.kind] || []).push(g); });
+    var A = Gear.pack().apricorns || {};
+    var apr = ['crystal', 'heartgold'].map(function (g) { return (A[g] || []).length ? '<div class="eyebrow" style="margin-top:10px">' + esc(GAME_NAME[g]) + (g === 'heartgold' ? ' and SoulSilver' : '') + '</div><table class="t"><tbody>' + A[g].map(function (x) {
+      var b = Gear.ball(x.ball); return '<tr><td>' + esc(x.apricorn) + '</td><td>' + (b ? '<a href="#/ball/' + b.id + '">' + ballArt(b, 24) + ' ' + esc(b.name) + '</a>' : esc(x.ball)) + '</td><td class="tiny muted">' + esc((x.trees || []).join(', ') || '—') + '</td></tr>'; }).join('') + '</tbody></table>' : ''; }).join('');
+    return '<div class="eyebrow">Equipment · Generations II to IV</div><h1 style="margin:6px 0">The equipment library</h1>' +
+      '<p class="lede">The trainer\'s gear beyond the Poké Balls: what each piece is for, in the game\'s own words, which games have it, how you get it, and what you have in each of yours.</p>' +
+      Object.keys(kinds).filter(function (k) { return by[k]; }).map(function (k) {
+        return '<div class="ornament" style="margin:22px 0 12px">' + esc(kinds[k]) + '</div><div class="pickgrid">' + by[k].map(function (g) {
+          var have = Object.keys(g.games).filter(function (gm) { var m = gearMine(g.id, gm); return m && m.owned; });
+          return '<a class="pick" href="#/equipment/' + g.id + '"><img class="pix" src="' + esc(artBase() + g.art) + '" alt="" onerror="this.style.visibility=\'hidden\'"><div><b>' + esc(g.name) + '</b><div class="tiny muted">' + esc(Object.keys(g.games).map(function (x) { return GAME_NAME[x]; }).join(', ')) + '</div>' +
+            (have.length ? '<div class="tiny" style="color:var(--forest-3)">yours in ' + esc(have.map(function (x) { return GAME_NAME[x]; }).join(', ')) + '</div>' : '') + '</div></a>'; }).join('') + '</div>'; }).join('') +
+      '<div class="ornament" style="margin:22px 0 12px" id="apricorns">Apricorns</div>' + card('The seven Apricorns', '<div class="small">Kurt in Azalea Town makes each Apricorn into its own Poké Ball. They grow on trees in Johto (Crystal, HeartGold and SoulSilver).</div>' + (apr || '<div class="tiny muted">The Apricorn trees aren\'t extracted yet.</div>'), {tools: false});
+  });
+}
+function equipmentItem(id) {
+  return gearReady().then(function () {
+    var g = Gear.gearItem(id);
+    if (!g) return '<div class="notice">No equipment called ' + esc(id) + '.</div>';
+    after(function (p) { p.querySelectorAll('[data-own]').forEach(function (f) { f.onsubmit = function (e) { e.preventDefault();
+      var game = f.getAttribute('data-own'), owned = f.owned.checked;
+      Records.saveGear({item: g.id, game: game, owned: owned, qty: owned ? (+f.qty.value || 1) : 0, note: f.note.value}).then(function () { toast('Saved to My Gear.'); go(); })
+        .catch(function (err) { toast('Not saved: ' + esc(err && err.message || err) + (/write to My Gear/.test(String(err && err.message)) ? ' (paste the new WebApp.gs: docs/APP.md)' : '')); });
+      return false; }; }); });
+    return '<a class="link" href="#/equipment">← The equipment library</a><section class="card" style="margin-top:10px"><div class="bd" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">' +
+      '<img class="pix" src="' + esc(artBase() + g.art) + '" alt="" style="width:120px;height:120px;object-fit:contain" onerror="this.style.visibility=\'hidden\'"><div style="flex:1;min-width:220px"><div class="eyebrow">' + esc(g.kind_name) + '</div><h1 style="margin:4px 0">' + esc(g.name) + '</h1>' +
+      (g.connects ? '<div class="small muted">In Blackthorn it connects to ' + esc(g.connects) + '.</div>' : '') + '</div></div></section>' +
+      '<div class="grid" style="margin-top:16px"><div class="c7">' + card('In each game', Object.keys(g.games).map(function (gm) { var x = g.games[gm];
+        return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b class="small">' + esc(GAME_NAME[gm]) + '</b>' + (x.item ? '' : ' ' + chip('not a bag item', '')) + '<div class="small" style="margin-top:3px">' + esc(x.says || '') + '</div>' +
+          '<div class="tiny muted">' + esc(x.from || '') + '</div>' + (x.ways && x.ways.length ? waysHtml(x.ways, gm) : '') + '</div>'; }).join(''), {eyebrow: 'What it does, in the game\'s words', tools: false}) + '</div>' +
+      '<div class="c5">' + card('Yours', Object.keys(g.games).map(function (gm) { var m = gearMine(g.id, gm);
+        return '<form data-own="' + gm + '" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;border-bottom:1px solid var(--line)"><b class="small" style="width:90px">' + esc(GAME_NAME[gm]) + '</b>' +
+          '<label class="tiny"><input type="checkbox" name="owned"' + (m && m.owned ? ' checked' : '') + '> have it</label><input class="f" name="qty" type="number" min="0" value="' + (m && m.qty != null ? m.qty : 1) + '" style="width:60px">' +
+          '<input class="f" name="note" value="' + esc(m && m.note || '') + '" placeholder="a note" style="flex:1;min-width:100px"><button class="btn sm">Save</button></form>'; }).join('') +
+        '<div class="tiny muted" style="margin-top:6px">Saved to your My Gear tab (one row per item per game; the newest wins).</div>', {eyebrow: 'Your inventory', tools: false}) + '</div></div>';
+  });
+}
+
+route(/^\/balls\/?(\?.*)?$/, ballsPage, 'Poké Ball Collection', '#/balls');
+route(/^\/balls\/catch\/?(\?.*)?$/, catchPage, 'Poké Balls · the catch planner', '#/balls');
+route(/^\/ball\/(\w+)\/?(\?.*)?$/, ballPage, function (i) { return 'Poké Balls · ' + i; }, '#/balls');
+route(/^\/equipment\/?$/, equipmentPage, 'The equipment library', '#/equipment');
+route(/^\/equipment\/([\w-]+)$/, equipmentItem, function (i) { return 'Equipment · ' + i; }, '#/equipment');
+</script>

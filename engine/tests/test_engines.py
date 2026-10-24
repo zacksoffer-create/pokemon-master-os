@@ -2090,6 +2090,78 @@ class Stock(unittest.TestCase):
         self.assertEqual(json.dumps(again.blueprint(*args), default=str), json.dumps(self.s.blueprint(*args), default=str))
 
 
+class Equipment(unittest.TestCase):
+    """Poké Balls and equipment (equipment/balls.py, capture.py, species.py, gear.py; MASTER_PLAN Phase 6): every
+    ball's mechanics held to the games' own catch code, the catch chance computed the way each game does it."""
+    @classmethod
+    def setUpClass(cls):
+        import json as _json
+        from equipment import balls, capture
+        cls.balls, cls.capture = balls, capture
+        with open(os.path.join(ENGINE, "data_manifest", "catch_species.json"), encoding="utf-8") as fh:
+            cls.species = _json.load(fh)["species"]
+
+    def throw(self, game, ball, name, **kw):
+        return self.capture.chance(game, ball, self.capture.flat(name, self.species[name], game), **kw)
+
+    def test_the_mechanics_match_the_games_code(self):
+        self.assertEqual(self.balls.check(), [])
+        net = self.balls.MECH["net"]["gen3"]
+        try:                                           # a wrong number is caught
+            self.balls.MECH["net"]["gen3"] = (net[0], {"x10": 25})
+            self.assertTrue(any("net" in b for b in self.balls.check()))
+        finally:
+            self.balls.MECH["net"]["gen3"] = net
+
+    def test_every_ball_has_a_complete_record(self):
+        rec = self.balls.build()
+        self.assertEqual(len(rec["balls"]), 25)
+        self.assertEqual(sorted(b["pkhex"] for b in rec["balls"]), list(range(1, 26)))
+        eras = {"crystal": "crystal", "firered": "gen3", "emerald": "gen3", "platinum": "platinum", "heartgold": "hgss"}
+        for b in rec["balls"]:
+            have = {m["era"] for m in b["mechanics"]}
+            for g in b["games"]:
+                self.assertIn(eras[g], have, f"{b['id']} has no mechanics for {g}")
+            self.assertTrue(b["descriptions"], b["id"])
+            self.assertTrue(b["creative"]["interior"] and b["creative"]["class"].startswith("Blackthorn"), b["id"])
+            self.assertNotIn("crystal", b["games"]) if b["id"] == "safari" else None   # Crystal's SAFARI_BALL is the Moon Stone
+        self.assertEqual(rec["balls"][[b["id"] for b in rec["balls"]].index("sport")]["games"]["crystal"]["name"], "Park Ball")
+
+    def test_catch_chances_are_the_games_own(self):
+        self.assertEqual(self.throw("platinum", "ultra", "Snorlax", level=30)["p"], 0.070955)
+        poke, moon = self.throw("crystal", "poke", "Clefairy", level=15), self.throw("crystal", "moon", "Clefairy", level=15)
+        self.assertEqual(moon["p"], poke["p"])                             # Crystal's Moon Ball bug: no boost
+        self.assertEqual(self.throw("heartgold", "moon", "Clefairy", level=15)["rate"], 255)   # HeartGold: x4, capped
+        self.assertEqual(self.throw("heartgold", "heavy", "Pikachu", level=10)["rate"], 190 - 20)   # the HGSS Heavy Ball bug
+        mine = {"mine": {"level": 50, "species": "Pikachu", "gender": "M"}}
+        self.assertEqual(self.throw("crystal", "love", "Pikachu", level=10, ctx=dict(mine, their_gender="M"))["rate"], 255)   # same gender: the bug
+        self.assertEqual(self.throw("heartgold", "love", "Pikachu", level=10, ctx=dict(mine, their_gender="M"))["rate"], 190)
+        full, low = self.throw("crystal", "level", "Snorlax", level=10, ctx=mine), self.throw("crystal", "level", "Snorlax", level=10, hp_pct=1, ctx=mine)
+        self.assertEqual(full["p"], low["p"])                              # Crystal's Level Ball skips the HP step
+        self.assertIsNone(self.throw("crystal", "heavy", "Tauros", level=20)["p"])   # the wrong-weight bug: unknowable
+        self.assertEqual(self.throw("platinum", "dive", "Magikarp", level=20, ctx={"water": True})["mult"], 35)
+        self.assertEqual(self.throw("emerald", "dive", "Magikarp", level=20, ctx={"water": True})["mult"], 10)   # Gen 3: only underwater
+
+    def test_species_numbers_come_from_each_game(self):
+        self.assertEqual(self.species["Dialga"]["gen4"]["rate"], 30)
+        self.assertEqual((self.species["Rayquaza"]["gen3"]["rate"], self.species["Kyogre"]["gen4"]["rate"]), (3, 5))
+        self.assertEqual(self.species["Clefairy"]["gen4"]["types"], ["Normal"])
+
+    def test_the_browser_catch_matches_python(self):
+        import subprocess
+        out = os.path.join(tempfile.mkdtemp(), "cap.json")
+        subprocess.run([sys.executable, "-I", os.path.join(ENGINE, "equipment", "capture.py"), "--parity", out], check=True, capture_output=True)
+        r = subprocess.run(["node", os.path.join(ENGINE, "app", "test_capture_parity.mjs"), out], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-1000:])
+
+    def test_gear_reads_the_games_own_words(self):
+        from equipment import gear
+        g = {x["id"]: x for x in gear.build()}
+        self.assertEqual(g["old-rod"]["games"]["crystal"]["says"], "Use by water to fish for Pokémon.")
+        self.assertIn("Running Shoes", g["bicycle"]["games"]["heartgold"]["says"])
+        self.assertTrue(all(v["says"] for x in g.values() for v in x["games"].values()))
+
+
 class TrainerLibrary(unittest.TestCase):
     """The Trainer Library (trainers/library.py, trainers/catalog.py): every notable in-game encounter of the five games,
     read exactly from the pret data, joined with the authored trainers into identities, versions and collections."""

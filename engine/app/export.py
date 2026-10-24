@@ -25,6 +25,7 @@ live.
     breeder.json   every line's egg moves with the breeding engine's lineages (app/breeder_pack.py, a few seconds)
     breeding.json  the breeding-stock engine's data for the browser's copy (app/breeding_pack.py, web/23_stock.html)
     library.json   the Trainer Library: every trainer and version, evidence, lenses, collections (app/library_pack.py)
+    equipment.json the Poké Ball collection and the equipment library, each generation's catch numbers (app/equipment_pack.py)
 
     python3 -I app/export.py               # writes engine/app/data/*.json and prints their sizes
 """
@@ -360,6 +361,8 @@ def main(breeder=False):
     breeding_pack.main()
     import library_pack
     library_pack.main()
+    import equipment_pack
+    equipment_pack.main()
     import field_pack
     import room_pack
     import scout_pack
