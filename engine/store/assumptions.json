@@ -419,6 +419,162 @@
     "version trainer corrections too",
     "make each correction a separate build id"
    ]
+  },
+  {
+   "id": "A-28",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Exterior art",
+   "what": "Each ball's exterior is the official Dream World art where it exists (15 balls), otherwise the game's own sprite, shown large and crisp. Art you upload replaces it everywhere. No AI-made exteriors.",
+   "why": "Image generation isn't open to this project's free Gemini key, the spec rules out new paid services, and a made-up exterior could get the design wrong.",
+   "where": [
+    "#/balls",
+    "The Poké Ball Collection"
+   ],
+   "instead": [
+    "commission or generate high-resolution exteriors and upload them",
+    "hotlink a fan wiki's renders"
+   ]
+  },
+  {
+   "id": "A-29",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Interior art",
+   "what": "Every ball has a written interior direction (creative, labelled) and a brief to make its picture; the first interior you upload becomes that ball's standard interior. A Pokémon's own picture inside its ball uses the image packet's new 'Inside its Poké Ball' purpose. Until a picture exists the profile shows the direction and works fine without it.",
+   "why": "No image generator is available here; the spec allows the brief-and-upload workflow when there isn't one.",
+   "where": [
+    "#/ball/luxury",
+    "The Luxury Ball's interior"
+   ],
+   "instead": [
+    "connect a paid image service",
+    "a set of commissioned interiors"
+   ]
+  },
+  {
+   "id": "A-30",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Mechanics",
+   "what": "Every ball's effect comes from the game's own catch code at a pinned commit (Red, Crystal, Emerald and FireRed, Platinum, HeartGold) and is re-checked against it on every build; the games' bugs are kept and named. Gen 1 is shown for history only.",
+   "why": "The spec asks for verified, game-specific mechanics; the code is the most exact source.",
+   "where": [
+    "#/ball/moon",
+    "The Moon Ball, Crystal vs HeartGold"
+   ],
+   "instead": [
+    "the intended behaviour, with the bugs as footnotes"
+   ]
+  },
+  {
+   "id": "A-31",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "The catch calculator",
+   "what": "One throw's chance, worked out the game's own way: the wild Pokémon's max HP assumes IV 15 (DV 8 in Gen 2) and no EVs; each generation's catch rates come from its own data (Crystal, Emerald for FireRed too, Platinum for HeartGold too); Crystal's Heavy Ball reads Platinum's Pokédex pounds through Crystal's own conversion; the Safari Zone's rocks and bait and the Great Marsh's mood aren't modelled.",
+   "why": "These are the only inputs the calculator can't know; the defaults are the average case.",
+   "where": [
+    "#/balls/catch",
+    "The catch planner"
+   ],
+   "instead": [
+    "let you set IVs",
+    "model Safari bait and rocks"
+   ]
+  },
+  {
+   "id": "A-32",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Ball names",
+   "what": "Crystal's Park Ball (the Bug-Catching Contest's ball) and HeartGold's Sport Ball are one ball, shown as the Park Ball in Crystal; Gen 4's Park Ball is Pal Park's, a different ball. Crystal has no Safari Ball (its constant is an alias of the Moon Stone).",
+   "why": "That's how the games and PKHeX number them (24 and 25).",
+   "where": [
+    "#/ball/sport",
+    "The Sport Ball"
+   ],
+   "instead": [
+    "list Crystal's Park Ball as its own ball"
+   ]
+  },
+  {
+   "id": "A-33",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Could it be in that ball?",
+   "what": "Blackthorn checks a ball against how the species (or what it evolved from) is met in that game: a hatched Pokémon in Gens 3-4 is in a Poké Ball, a gift or trade comes in a Poké Ball, a Safari Zone-only Pokémon in a Safari Ball, a Park Ball is never kept (Pal Park Pokémon keep their Gen 3 ball: from Bulbapedia, not yet checked in the code), a Cherish Ball means an event, and Gen 2 stores no ball. It's a note, never a block (D-024).",
+   "why": "The spec asks for the legal ball for an individual in its game; your story still wins.",
+   "where": [
+    "#/pokemon/me%3Aheartgold%2FSnorlax",
+    "Snorlax's ball in the Studio"
+   ],
+   "instead": [
+    "block illegal balls",
+    "drop the check"
+   ]
+  },
+  {
+   "id": "A-34",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Categories",
+   "what": "Six kinds: Standard (Poké, Great, Ultra, Master), Apricorn (Kurt's seven), Specialized (Net, Dive, Nest, Repeat, Timer, Dusk, Quick), Comfort (Luxury, Heal), Safari and parks (Safari, Sport, Park), Commemorative (Premier, Cherish), plus a 'special' filter for what each one's for.",
+   "why": "The spec's categories, made to cover all 25 without overlap.",
+   "where": [
+    "#/balls",
+    "The collection's filters"
+   ],
+   "instead": [
+    "put Luxury and Heal under Specialized"
+   ]
+  },
+  {
+   "id": "A-35",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "The equipment library",
+   "what": "28 pieces of gear (bikes, rods, finders, devices, cases, gardening tools, scopes) in the games' own words; the Running Shoes, Pokégear, PokéNav and Pokétch aren't bag items and get short Blackthorn summaries. Which games have each is authored, checked against the games' item lists where they're fetched.",
+   "why": "The spec asks for a simpler library beyond the balls.",
+   "where": [
+    "#/equipment",
+    "The equipment library"
+   ],
+   "instead": [
+    "include every key item",
+    "only gear with a field use"
+   ]
+  },
+  {
+   "id": "A-36",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Your inventory",
+   "what": "Your gear is a new My Gear tab in the Sheet: one row per item per game (have it, how many, a note), the newest row wins. Saving it needs the updated WebApp.gs (its list of the app's tabs gains My Gear).",
+   "why": "The same append-only pattern as your Pokémon, builds and teams.",
+   "where": [
+    "#/equipment/super-rod",
+    "The Super Rod's inventory"
+   ],
+   "instead": [
+    "keep inventory in the browser only"
+   ]
+  },
+  {
+   "id": "A-37",
+   "decision": "D-070",
+   "phase": "Phase 6 · Poké Balls and equipment",
+   "area": "Menu",
+   "what": "Poké Balls and Equipment sit under Pokédex & Reference; your ball shows on each Pokémon's profile.",
+   "why": "They're reference libraries first; the personal side lives on your Pokémon.",
+   "where": [
+    "#/balls",
+    "The menu"
+   ],
+   "instead": [
+    "a sixth space for Equipment",
+    "under My World"
+   ]
   }
  ]
 }

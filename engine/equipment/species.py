@@ -3,8 +3,8 @@ Heavy Ball reads.
 
     python3 -I engine/equipment/species.py [PRET_DIR]     # engine/data_manifest/catch_species.json
 
-Read from the games' data (sparse clones of the pret decompilations under PRET_DIR, the commits recorded in the
-output): Crystal's data/pokemon/base_stats/*.asm (Gen 2), Emerald's src/data/pokemon/species_info.h (Gen 3; FireRed
+Read from the games' data (sparse clones of the pret decompilations under PRET_DIR, default engine/data/raw/pret; the
+commits are recorded in the output, and catch_species.json is kept in git so a rebuild doesn't need the clones): Crystal's data/pokemon/base_stats/*.asm (Gen 2), Emerald's src/data/pokemon/species_info.h (Gen 3; FireRed
 shares it), Platinum's res/pokemon/*/data.json (Gen 4; HeartGold shares it), which also has each Pokédex weight in
 pounds. The modern reference data differs for a few legendaries (Kyogre and Groudon 5 in Gens 3-4, Rayquaza 3, Dialga
 and Palkia 30 in Gen 4), which is why these come from the games. Gender ratios and kilogram weights come from the
@@ -19,7 +19,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ENGINE = os.path.dirname(HERE)
-PRET = "/tmp/claude-0/-home-user/ec141e37-3c55-55e4-88d6-8cd37fdd0b67/scratchpad/pret"
+PRET = os.environ.get("PRET_DIR") or os.path.join(ENGINE, "data", "raw", "pret")   # one folder per repo: pokecrystal, pokeemerald, pokeplatinum
 OUT = os.path.join(ENGINE, "data_manifest", "catch_species.json")
 DB = os.path.join(ENGINE, "data", "pokeref.sqlite")
 

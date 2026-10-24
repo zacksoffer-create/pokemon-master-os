@@ -100,10 +100,11 @@ Ids are opaque strings; nothing parses meaning out of them except the prefix.
 |---|---|---|
 | Reference data, definitions, canonical trainers, the journey's starting records | git (`engine/canon`, `engine/data`), packed into the app zip | Claude, after approval |
 | Your individuals, builds and teams made or changed in the app | the Sheet's **My Pokémon**, **My Builds** and **My Teams** tabs (append-only) | the app (`apiAppend`) |
+| Your equipment, per game | the Sheet's **My Gear** tab (append-only: `id` `<game>:<item>`, `owned` yes/no, `item`, `game`, `qty`, `note`, `at`) | the app (`apiAppend`) |
 | Your pictures | the Drive folder **Blackthorn HQ artwork** (the files) and the **My Artwork** tab (one row per picture: `id`, `subject`, `kind`, `file` or `url`, `title`, `class` creative or reference, `status`, `note`, `at`); an individual's `hero` names its profile picture | the app (`apiUpload`, `apiAppend`) |
 | A snapshot of those tabs for engine runs | `engine/store/personal.json` | `store/personal.py`, from the tabs' rows |
 
-**Append-only rules for the three tabs:**
+**Append-only rules for the four tabs (My Gear too):**
 
 - **Rows only get added.** Each row is a whole record at that moment: an individual, one build version, or a team.
 - **The newest row wins.** For an individual or team, that's the latest row per `id`. For a build, it's the latest row per `id` and `v`.
@@ -121,6 +122,8 @@ Ids are opaque strings; nothing parses meaning out of them except the prefix.
 | other fields | a plain value | |
 
 **Trainer Library (Phase 5).** A team in My Teams can be a version of a trainer: `kind` (`custom` for optimized or what-if, `all-time`), `trainer` (the identity id, e.g. `cynthia`) and `parent` (the library version it came from, e.g. `platinum/cynthia`). Its `slots` are the usual `{species, from, prov, build}` with `prov` `variant`; a kept member keeps the game's IVs. Saving it again keeps the three fields. The library reads it as a version of that trainer; the original is never written. Library version ids are `<game>/<identity>[-<encounter>]` for cartridge teams and `<identity>/<version>` for authored ones. In `canon/build_library.json` a corrected build carries `v` and `history` (its earlier versions, each with `v`, `until` and `changed_by`); `canon/trainers.json` versions may carry `kind` and `parent` (ingest's `trainer_version` claim).
+
+**Poké Balls and equipment (Phase 6).** An individual's `ball` is the ball's name as that game says it (`Moon Ball`; Crystal's `Park Ball` is the Sport Ball), checked in the Studio against how the species is met, never refused. A ball's own pictures are My Artwork rows with `subject` `ball:<id>` (`ball:moon`) and `kind` `exterior` or `interior`; the newest of each kind is the one shown, and the exterior replaces the default art. A Pokémon's own picture inside its ball is a row with its individual's id as `subject` and `kind` `ball-interior` (from the image packet's 'Inside its Poké Ball' purpose). My Gear keeps one record per item per game, the newest row wins, and `owned` `no` is how you stop having one. Ball ids are `equipment/balls.py`'s (`poke`, `great`, … `cherish`), item ids `equipment/gear.py`'s (`super-rod`, `apricorn-box`).
 
 **Breeding stock (Phase 4).** A blueprint is a build with `kind` `blueprint`, plus `purpose` (competitive, environment, versatility, personal, other) and `labels` (comma-separated). Its `moves` are the whole starting set in hatch slot order, the order PKHeX checks. An individual made from one has `blueprint` (the build id), `hatch_moves`, `origin` "hatched (blueprint …)", and its own build: a variant whose `parent` is the blueprint's `<id>@<v>`, so editing the Pokémon never changes the design. `sire` and `dam` name its parents by id: a studbook id (`S-TYRANITAR`, `D-TYRANITAR`) or one of yours. This is how studbook ids link to individuals (X3).
 

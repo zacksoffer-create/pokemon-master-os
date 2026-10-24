@@ -1,0 +1,2013 @@
+{
+ "_note": "The 25 Gen I-IV Poké Balls (equipment/balls.py). Mechanics from each game's own catch code (checked by check()); acquisition from equipment/acquire.py; descriptions are the games' own words; creative fields are Blackthorn's.",
+ "formula": {
+  "gen1": {
+   "name": "Red, Blue and Yellow (Gen 1)",
+   "says": "A different method from every later game: the ball sets the range of a first random number; status subtracts 25 (sleep, freeze) or 12 (burn, paralysis, poison) from it; the HP check divides max HP x 255 by the ball factor and by a quarter of current HP.",
+   "source": "pret/pokered engine/items/item_effects.asm ItemUseBall"
+  },
+  "crystal": {
+   "name": "Crystal (Gen 2)",
+   "says": "Catch rate after the ball, x (3 x max HP - 2 x HP) / (3 x max HP), +10 for sleep or freeze, capped at 255; caught when a random 0-255 is at most that. Burn, poison and paralysis add nothing (a bug), and a Pokémon with more than 341 max HP breaks the arithmetic (a bug). Gen 2 doesn't store which ball a Pokémon was caught in.",
+   "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect"
+  },
+  "gen3": {
+   "name": "Emerald and FireRed (Gen 3)",
+   "says": "Catch rate x ball x (3 x max HP - 2 x HP) / (3 x max HP), x2 for sleep or freeze, x1.5 for burn, poison or paralysis. 255 or more catches outright; otherwise four shake checks, each passing with odds 1048560 / sqrt(sqrt(16711680 / that)) out of 65536.",
+   "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow"
+  },
+  "platinum": {
+   "name": "Platinum (Gen 4)",
+   "says": "The same formula as Gen 3, with Gen 4's balls added.",
+   "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes"
+  },
+  "hgss": {
+   "name": "HeartGold and SoulSilver (Gen 4)",
+   "says": "The same formula, except that the Apricorn balls multiply or add to the catch rate itself (capped at 255) instead of being a ball multiplier, so very catchable Pokémon gain less from them.",
+   "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes"
+  }
+ },
+ "era_of_game": {
+  "crystal": "crystal",
+  "firered": "gen3",
+  "emerald": "gen3",
+  "platinum": "platinum",
+  "heartgold": "hgss",
+  "soulsilver": "hgss"
+ },
+ "games": [
+  "crystal",
+  "firered",
+  "emerald",
+  "platinum",
+  "heartgold"
+ ],
+ "categories": {
+  "standard": "Standard",
+  "apricorn": "Apricorn",
+  "specialized": "Specialized",
+  "comfort": "Comfort",
+  "parks": "Safari and parks",
+  "commemorative": "Commemorative"
+ },
+ "balls": [
+  {
+   "id": "poke",
+   "name": "Poké Ball",
+   "pkhex": 4,
+   "introduced": 1,
+   "category": "standard",
+   "category_name": "Standard",
+   "games": {
+    "crystal": {
+     "name": "Poké Ball"
+    },
+    "firered": {
+     "name": "Poké Ball"
+    },
+    "emerald": {
+     "name": "Poké Ball"
+    },
+    "platinum": {
+     "name": "Poké Ball"
+    },
+    "heartgold": {
+     "name": "Poké Ball"
+    }
+   },
+   "tags": [],
+   "related": [
+    "great",
+    "ultra",
+    "premier"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen1",
+     "name": "Red, Blue and Yellow (Gen 1)",
+     "says": "The first random number is drawn from 0-255 and the HP check uses a ball factor of 12.",
+     "numbers": {
+      "range": 255,
+      "factor": 12
+     },
+     "source": "pret/pokered engine/items/item_effects.asm ItemUseBall",
+     "class": "confirmed"
+    },
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "No change to the catch rate (x1).",
+     "numbers": {
+      "x": 1
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x1.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x1.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "An item for catching Pokémon.",
+    "emerald": "A tool used for catching wild Pokémon.",
+    "heartgold": "A device for catching wild Pokémon. It is thrown like a ball at the target. It is designed as a capsule system."
+   },
+   "acquisition": {
+    "crystal": [],
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/poke-ball.png",
+    "official": "items/dream-world/poke-ball.png"
+   },
+   "creative": {
+    "design": "The original: red over white, the black band and white button that every other design varies.",
+    "interior": "a warm, lived-in round den: a red-lacquered dome, white plaster walls, a black ring of shelves at the equator, a brass-rimmed round window where the button sits",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "great",
+   "name": "Great Ball",
+   "pkhex": 3,
+   "introduced": 1,
+   "category": "standard",
+   "category_name": "Standard",
+   "games": {
+    "crystal": {
+     "name": "Great Ball"
+    },
+    "firered": {
+     "name": "Great Ball"
+    },
+    "emerald": {
+     "name": "Great Ball"
+    },
+    "platinum": {
+     "name": "Great Ball"
+    },
+    "heartgold": {
+     "name": "Great Ball"
+    }
+   },
+   "tags": [
+    "a better rate"
+   ],
+   "related": [
+    "poke",
+    "ultra"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen1",
+     "name": "Red, Blue and Yellow (Gen 1)",
+     "says": "The first random number is drawn from 0-200; the HP check uses a ball factor of 8.",
+     "numbers": {
+      "range": 200,
+      "factor": 8
+     },
+     "source": "pret/pokered engine/items/item_effects.asm ItemUseBall",
+     "class": "confirmed"
+    },
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "x1.5 to the catch rate (capped at 255).",
+     "numbers": {
+      "x": 1.5
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x1.5.",
+     "numbers": {
+      "x10": 15
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x1.5.",
+     "numbers": {
+      "x10": 15
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1.5.",
+     "numbers": {
+      "x10": 15
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball with a decent success rate.",
+    "emerald": "A good Ball with a higher catch rate than a Poké Ball.",
+    "heartgold": "A good, high-performance Ball that provides a higher Pokémon catch rate than a standard Poké Ball."
+   },
+   "acquisition": {
+    "crystal": [],
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/great-ball.png",
+    "official": "items/dream-world/great-ball.png"
+   },
+   "creative": {
+    "design": "Blue with two red fins: a step up, built to look quicker.",
+    "interior": "a traveler's cabin under a blue dome, the two red fins as crimson canopies over a reading nook and a bunk, maps and a compass-rose floor",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "ultra",
+   "name": "Ultra Ball",
+   "pkhex": 2,
+   "introduced": 1,
+   "category": "standard",
+   "category_name": "Standard",
+   "games": {
+    "crystal": {
+     "name": "Ultra Ball"
+    },
+    "firered": {
+     "name": "Ultra Ball"
+    },
+    "emerald": {
+     "name": "Ultra Ball"
+    },
+    "platinum": {
+     "name": "Ultra Ball"
+    },
+    "heartgold": {
+     "name": "Ultra Ball"
+    }
+   },
+   "tags": [
+    "a better rate"
+   ],
+   "related": [
+    "great",
+    "master"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen1",
+     "name": "Red, Blue and Yellow (Gen 1)",
+     "says": "The first random number is drawn from 0-150; the HP check uses a ball factor of 12.",
+     "numbers": {
+      "range": 150,
+      "factor": 12
+     },
+     "source": "pret/pokered engine/items/item_effects.asm ItemUseBall",
+     "class": "confirmed"
+    },
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "x2 to the catch rate (capped at 255).",
+     "numbers": {
+      "x": 2
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x2.",
+     "numbers": {
+      "x10": 20
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x2.",
+     "numbers": {
+      "x10": 20
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x2.",
+     "numbers": {
+      "x10": 20
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball with a high rate of success.",
+    "emerald": "A better Ball with a higher catch rate than a Great Ball.",
+    "heartgold": "An ultra-performance Ball that provides a higher Pokémon catch rate than a Great Ball."
+   },
+   "acquisition": {
+    "crystal": [],
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/ultra-ball.png",
+    "official": "items/dream-world/ultra-ball.png"
+   },
+   "creative": {
+    "design": "Black with yellow bands: serious equipment.",
+    "interior": "a black-and-gold observatory workshop, the yellow bands as brass gantries across the dome, a telescope at the round window",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "master",
+   "name": "Master Ball",
+   "pkhex": 1,
+   "introduced": 1,
+   "category": "standard",
+   "category_name": "Standard",
+   "games": {
+    "crystal": {
+     "name": "Master Ball"
+    },
+    "firered": {
+     "name": "Master Ball"
+    },
+    "emerald": {
+     "name": "Master Ball"
+    },
+    "platinum": {
+     "name": "Master Ball"
+    },
+    "heartgold": {
+     "name": "Master Ball"
+    }
+   },
+   "tags": [
+    "never fails"
+   ],
+   "related": [
+    "ultra",
+    "cherish"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen1",
+     "name": "Red, Blue and Yellow (Gen 1)",
+     "says": "Always catches.",
+     "numbers": {
+      "always": true
+     },
+     "source": "pret/pokered engine/items/item_effects.asm ItemUseBall",
+     "class": "confirmed"
+    },
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "Always catches.",
+     "numbers": {
+      "always": true
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "Always catches.",
+     "numbers": {
+      "always": true
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "Always catches.",
+     "numbers": {
+      "always": true
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "Always catches.",
+     "numbers": {
+      "always": true
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "The best Ball. It never misses.",
+    "emerald": "The best Ball that catches a Pokémon without fail.",
+    "heartgold": "The best Ball with the ultimate level of performance. It will catch any wild Pokémon without fail."
+   },
+   "acquisition": {
+    "crystal": [],
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/master-ball.png",
+    "official": "items/dream-world/master-ball.png"
+   },
+   "creative": {
+    "design": "Purple with two pink domes and an M: the one that never fails.",
+    "interior": "a violet hall of honor, the two pink domes as rose-lit rotundas, an M cartouche over the doorway, polished white stone below",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "safari",
+   "name": "Safari Ball",
+   "pkhex": 5,
+   "introduced": 1,
+   "category": "parks",
+   "category_name": "Safari and parks",
+   "games": {
+    "firered": {
+     "name": "Safari Ball"
+    },
+    "emerald": {
+     "name": "Safari Ball"
+    },
+    "platinum": {
+     "name": "Safari Ball"
+    },
+    "heartgold": {
+     "name": "Safari Ball"
+    }
+   },
+   "tags": [
+    "Safari Zone only"
+   ],
+   "related": [
+    "sport",
+    "park"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen1",
+     "name": "Red, Blue and Yellow (Gen 1)",
+     "says": "Like the Ultra Ball: random number from 0-150, ball factor 12. Thrown only in the Safari Zone.",
+     "numbers": {
+      "range": 150,
+      "factor": 12
+     },
+     "source": "pret/pokered engine/items/item_effects.asm ItemUseBall",
+     "class": "confirmed"
+    },
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x1.5. Thrown only in the Safari Zone; rocks and bait move the catch rate instead.",
+     "numbers": {
+      "x10": 15
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x1.5. Thrown only in the Great Marsh, where the Pokémon's mood moves the catch rate.",
+     "numbers": {
+      "x10": 15
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1.5. Thrown only in the Safari Zone, where the Pokémon's mood moves the catch rate.",
+     "numbers": {
+      "x10": 15
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A special Ball that is used only in the Safari Zone.",
+    "heartgold": "A special Poké Ball that is used only in the Great Marsh. It is decorated in a camouflage pattern."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/safari-ball.png",
+    "official": "items/dream-world/safari-ball.png"
+   },
+   "creative": {
+    "design": "Camouflage greens: made for the Safari Zone's grass.",
+    "interior": "a canvas safari lodge, camouflage tent-cloth on timber ribs, khaki rugs, field gear, a slatted window onto tall grass",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "level",
+   "name": "Level Ball",
+   "pkhex": 18,
+   "introduced": 2,
+   "category": "apricorn",
+   "category_name": "Apricorn",
+   "games": {
+    "crystal": {
+     "name": "Level Ball"
+    },
+    "heartgold": {
+     "name": "Level Ball"
+    }
+   },
+   "tags": [
+    "your Pokémon's level"
+   ],
+   "related": [
+    "fast",
+    "heavy",
+    "lure"
+   ],
+   "apricorn": "Red Apricorn",
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "x2 if your Pokémon's level is above theirs, x4 if half your level is above theirs, x8 if a quarter is. It skips the HP and status step entirely: a full-health Pokémon is as easy as a weakened one.",
+     "numbers": {
+      "x": [
+       2,
+       4,
+       8
+      ]
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x2 if your Pokémon's level is above theirs, x4 if half your level is above theirs, x8 if a quarter is. It multiplies the catch rate itself, capped at 255.",
+     "numbers": {
+      "x": [
+       2,
+       4,
+       8
+      ]
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball for lowerlevel Pokémon.",
+    "heartgold": "A Poké Ball for catching Pokémon that are a lower level than your own."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/level-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Kurt's Red Apricorn ball, for training up.",
+    "interior": "a training dojo of tiered wooden platforms rising level by level around a central mat",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "lure",
+   "name": "Lure Ball",
+   "pkhex": 19,
+   "introduced": 2,
+   "category": "apricorn",
+   "category_name": "Apricorn",
+   "games": {
+    "crystal": {
+     "name": "Lure Ball"
+    },
+    "heartgold": {
+     "name": "Lure Ball"
+    }
+   },
+   "tags": [
+    "fishing"
+   ],
+   "related": [
+    "net",
+    "dive",
+    "level"
+   ],
+   "apricorn": "Blu Apricorn",
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "x3 to the catch rate against a Pokémon hooked with a rod.",
+     "numbers": {
+      "x": 3
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x3 to the catch rate against a Pokémon hooked with a rod (capped at 255).",
+     "numbers": {
+      "x": 3
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball for Pokémon hooked by a Rod.",
+    "heartgold": "A Poké Ball for catching Pokémon hooked by a Rod when fishing."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/lure-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Kurt's Blu Apricorn ball, for the water.",
+    "interior": "a seaside boathouse: rods and nets on the walls, water lapping through a floor hatch, a round porthole",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "moon",
+   "name": "Moon Ball",
+   "pkhex": 23,
+   "introduced": 2,
+   "category": "apricorn",
+   "category_name": "Apricorn",
+   "games": {
+    "crystal": {
+     "name": "Moon Ball"
+    },
+    "heartgold": {
+     "name": "Moon Ball"
+    }
+   },
+   "tags": [
+    "Moon Stone lines"
+   ],
+   "related": [
+    "dusk",
+    "love",
+    "friend"
+   ],
+   "apricorn": "Ylw Apricorn",
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "Meant to give x4 to Pokémon that evolve with a Moon Stone, but it never does.",
+     "numbers": {
+      "x": 1
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed",
+     "bug": "The code checks the wrong item (Burn Heal's id), so no Pokémon ever gets the boost."
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x4 to the catch rate for the Nidoran lines, Clefairy's, Jigglypuff's and Skitty's (capped at 255).",
+     "numbers": {
+      "x": 4,
+      "list": 14
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball for Moon Stone evolvers.",
+    "heartgold": "A Poké Ball for catching Pokémon that evolve using the Moon Stone."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/moon-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Kurt's Ylw Apricorn ball, with its crescent.",
+    "interior": "a peaceful nocturnal retreat lit by moonlight through a crescent skylight, deep blue cushions, silver lamps",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "friend",
+   "name": "Friend Ball",
+   "pkhex": 22,
+   "introduced": 2,
+   "category": "apricorn",
+   "category_name": "Apricorn",
+   "games": {
+    "crystal": {
+     "name": "Friend Ball"
+    },
+    "heartgold": {
+     "name": "Friend Ball"
+    }
+   },
+   "tags": [
+    "friendship"
+   ],
+   "related": [
+    "luxury",
+    "heal",
+    "love"
+   ],
+   "apricorn": "Grn Apricorn",
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "No change to the catch rate; the Pokémon's friendship starts at 200.",
+     "numbers": {
+      "x": 1,
+      "friendship": 200
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "No change to the catch rate; the Pokémon's friendship starts at 200.",
+     "numbers": {
+      "x10": 10,
+      "friendship": 200
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball that makes Pokémon friendly.",
+    "heartgold": "A Poké Ball that makes caught Pokémon more friendly."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/friend-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Kurt's Grn Apricorn ball, made to put a Pokémon at ease.",
+    "interior": "a warm, natural, welcoming nook of living wood and moss, sunlight through leaves, a woven hammock",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "love",
+   "name": "Love Ball",
+   "pkhex": 21,
+   "introduced": 2,
+   "category": "apricorn",
+   "category_name": "Apricorn",
+   "games": {
+    "crystal": {
+     "name": "Love Ball"
+    },
+    "heartgold": {
+     "name": "Love Ball"
+    }
+   },
+   "tags": [
+    "same species, opposite gender"
+   ],
+   "related": [
+    "friend",
+    "moon"
+   ],
+   "apricorn": "Pnk Apricorn",
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "Meant to give x8 against the same species of the opposite gender; it boosts the same gender instead.",
+     "numbers": {
+      "x": 8
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed",
+     "bug": "The comparison is reversed: same species and the same gender gets x8. Genderless Pokémon never do."
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x8 to the catch rate against the same species as yours, of the opposite gender (capped at 255).",
+     "numbers": {
+      "x": 8
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "For catching the opposite gender.",
+    "heartgold": "Poké Ball for catching Pokémon that are the opposite gender of your Pokémon."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/love-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Kurt's Pnk Apricorn ball, with its heart.",
+    "interior": "a soft rose parlor with a heart-shaped arch, paired armchairs, pressed flowers and warm lamplight",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "heavy",
+   "name": "Heavy Ball",
+   "pkhex": 20,
+   "introduced": 2,
+   "category": "apricorn",
+   "category_name": "Apricorn",
+   "games": {
+    "crystal": {
+     "name": "Heavy Ball"
+    },
+    "heartgold": {
+     "name": "Heavy Ball"
+    }
+   },
+   "tags": [
+    "weight"
+   ],
+   "related": [
+    "level",
+    "fast"
+   ],
+   "apricorn": "Blk Apricorn",
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "Adds to the catch rate by weight: -20 under 102.4 kg, +0 under 204.8 kg, +20 under 307.2 kg, +30 under 409.6 kg, +40 from 409.6 kg.",
+     "numbers": {
+      "weights": [
+       1024,
+       2048,
+       3072,
+       4096
+      ],
+      "add": [
+       -20,
+       0,
+       20,
+       30,
+       40
+      ]
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed",
+     "bug": "Kadabra, Tauros and Sunflora are read with another Pokémon's weight."
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "Adds to the catch rate by weight: +20 from 204.8 kg, +30 from 307.2 kg, +40 from 409.6 kg; -20 for everything lighter.",
+     "numbers": {
+      "weights": [
+       2048,
+       3072,
+       4096
+      ],
+      "add": [
+       -20,
+       20,
+       30,
+       40
+      ]
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed",
+     "bug": "Its last test reads the catch rate instead of the weight, so every Pokémon under 204.8 kg takes the -20 (the 102.4 kg step is gone)."
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball for catching heavy Pokémon.",
+    "heartgold": "A Poké Ball for catching very heavy Pokémon."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/heavy-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Kurt's Blk Apricorn ball, built solid.",
+    "interior": "a solid, grounded, sheltered vault of stone and iron, thick walls, a low hearth, heavy timber beams",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "fast",
+   "name": "Fast Ball",
+   "pkhex": 17,
+   "introduced": 2,
+   "category": "apricorn",
+   "category_name": "Apricorn",
+   "games": {
+    "crystal": {
+     "name": "Fast Ball"
+    },
+    "heartgold": {
+     "name": "Fast Ball"
+    }
+   },
+   "tags": [
+    "fast Pokémon"
+   ],
+   "related": [
+    "quick",
+    "level",
+    "heavy"
+   ],
+   "apricorn": "Wht Apricorn",
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "Meant to give x4 to Pokémon that tend to flee; only Magnemite, Grimer and Tangela get it.",
+     "numbers": {
+      "x": 4
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed",
+     "bug": "The loop reads just the first three entries of the flee list."
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x4 to the catch rate for Pokémon with a base Speed of 100 or more (capped at 255).",
+     "numbers": {
+      "x": 4,
+      "speed": 100
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "A Ball for catching fast Pokémon.",
+    "heartgold": "A Poké Ball that makes it easier to catch fast Pokémon."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/fast-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Kurt's Wht Apricorn ball, for the quick ones.",
+    "interior": "an airy streamlined lounge like a wind tunnel, sweeping curved benches, banners rippling",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "sport",
+   "name": "Sport Ball",
+   "pkhex": 24,
+   "introduced": 2,
+   "category": "parks",
+   "category_name": "Safari and parks",
+   "games": {
+    "crystal": {
+     "name": "Park Ball"
+    },
+    "heartgold": {
+     "name": "Sport Ball"
+    }
+   },
+   "tags": [
+    "Bug-Catching Contest"
+   ],
+   "related": [
+    "safari",
+    "park",
+    "net"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "crystal",
+     "name": "Crystal (Gen 2)",
+     "says": "x1.5 to the catch rate. Called the Park Ball here: the Bug-Catching Contest's ball.",
+     "numbers": {
+      "x": 1.5
+     },
+     "source": "pret/pokecrystal engine/items/item_effects.asm PokeBallEffect",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1.5. The Bug-Catching Contest's ball.",
+     "numbers": {
+      "x10": 15
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "crystal": "The Bug-Catching Contest Ball.",
+    "heartgold": "A special Poké Ball for the Bug-Catching Contest."
+   },
+   "acquisition": {
+    "crystal": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/sport-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "The Bug-Catching Contest's ball.",
+    "interior": "a meadow clubhouse for the contest, net racks, glass terrariums, a window onto National Park's grass",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "park",
+   "name": "Park Ball",
+   "pkhex": 25,
+   "introduced": 4,
+   "category": "parks",
+   "category_name": "Safari and parks",
+   "games": {
+    "platinum": {
+     "name": "Park Ball"
+    },
+    "heartgold": {
+     "name": "Park Ball"
+    }
+   },
+   "tags": [
+    "Pal Park"
+   ],
+   "related": [
+    "sport",
+    "safari"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "Always catches: it's thrown only in Pal Park, at Pokémon brought over from Gen 3.",
+     "numbers": {
+      "always": true
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "Always catches: it's thrown only in Pal Park, at Pokémon brought over from Gen 3.",
+     "numbers": {
+      "always": true
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "heartgold": "A special Poké Ball for the Pal Park."
+   },
+   "acquisition": {
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/park-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Pal Park's ball, for the ones who come across.",
+    "interior": "a quiet park pavilion, a lawn and old trees seen through arches, a bench by a fountain",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "net",
+   "name": "Net Ball",
+   "pkhex": 6,
+   "introduced": 3,
+   "category": "specialized",
+   "category_name": "Specialized",
+   "games": {
+    "firered": {
+     "name": "Net Ball"
+    },
+    "emerald": {
+     "name": "Net Ball"
+    },
+    "platinum": {
+     "name": "Net Ball"
+    },
+    "heartgold": {
+     "name": "Net Ball"
+    }
+   },
+   "tags": [
+    "Water and Bug types"
+   ],
+   "related": [
+    "dive",
+    "lure",
+    "nest"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x3 against Water- and Bug-type Pokémon.",
+     "numbers": {
+      "x10": 30
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x3 against Water- and Bug-type Pokémon.",
+     "numbers": {
+      "x10": 30
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x3 against Water- and Bug-type Pokémon.",
+     "numbers": {
+      "x10": 30
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A Ball that works well on Waterand BUG-type Pokémon.",
+    "heartgold": "A somewhat different Poké Ball that works especially well on Waterand Bug-type Pokémon."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/net-ball.png",
+    "official": "items/dream-world/net-ball.png"
+   },
+   "creative": {
+    "design": "A net over blue: for water and bugs.",
+    "interior": "a room woven from nets and rope lattice, hammocks strung across, cool aquatic light through the mesh",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "dive",
+   "name": "Dive Ball",
+   "pkhex": 7,
+   "introduced": 3,
+   "category": "specialized",
+   "category_name": "Specialized",
+   "games": {
+    "firered": {
+     "name": "Dive Ball"
+    },
+    "emerald": {
+     "name": "Dive Ball"
+    },
+    "platinum": {
+     "name": "Dive Ball"
+    },
+    "heartgold": {
+     "name": "Dive Ball"
+    }
+   },
+   "tags": [
+    "underwater (Gen 3), on water (Gen 4)"
+   ],
+   "related": [
+    "net",
+    "lure"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x3.5 underwater (Emerald's dives; FireRed has no underwater, so x1 there).",
+     "numbers": {
+      "x10": 35
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x3.5 when the battle is on water (surfing or fishing).",
+     "numbers": {
+      "x10": 35
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x3.5 when the battle is on water (surfing or fishing).",
+     "numbers": {
+      "x10": 35
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A Ball that works better on Pokémon on the ocean floor.",
+    "heartgold": "A somewhat different Poké Ball that works especially well on Pokémon that live in the sea."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/dive-ball.png",
+    "official": "items/dream-world/dive-ball.png"
+   },
+   "creative": {
+    "design": "Blue waves: built for the deep.",
+    "interior": "a serene underwater grotto suite, rippling light on the ceiling, coral ledges, a still pool to sink into",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "nest",
+   "name": "Nest Ball",
+   "pkhex": 8,
+   "introduced": 3,
+   "category": "specialized",
+   "category_name": "Specialized",
+   "games": {
+    "firered": {
+     "name": "Nest Ball"
+    },
+    "emerald": {
+     "name": "Nest Ball"
+    },
+    "platinum": {
+     "name": "Nest Ball"
+    },
+    "heartgold": {
+     "name": "Nest Ball"
+    }
+   },
+   "tags": [
+    "low level"
+   ],
+   "related": [
+    "net",
+    "level",
+    "repeat"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "Better the lower the Pokémon's level: (40 - level) / 10 below level 40, never worse than x1 (up to x3.9 at level 1).",
+     "numbers": {
+      "x10": "40-level"
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "Better the lower the Pokémon's level: (40 - level) / 10 below level 40, never worse than x1 (up to x3.9 at level 1).",
+     "numbers": {
+      "x10": "40-level"
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "Better the lower the Pokémon's level: (40 - level) / 10 below level 40, never worse than x1 (up to x3.9 at level 1).",
+     "numbers": {
+      "x10": "40-level"
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A Ball that works better on weaker Pokémon.",
+    "heartgold": "A somewhat different Poké Ball that works especially well on weaker Pokémon in the wild."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/nest-ball.png",
+    "official": "items/dream-world/nest-ball.png"
+   },
+   "creative": {
+    "design": "Green and gentle: for the young and small.",
+    "interior": "a cozy woven nest-room of interlaced twigs and grasses, soft down bedding, green leaf light",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "repeat",
+   "name": "Repeat Ball",
+   "pkhex": 9,
+   "introduced": 3,
+   "category": "specialized",
+   "category_name": "Specialized",
+   "games": {
+    "firered": {
+     "name": "Repeat Ball"
+    },
+    "emerald": {
+     "name": "Repeat Ball"
+    },
+    "platinum": {
+     "name": "Repeat Ball"
+    },
+    "heartgold": {
+     "name": "Repeat Ball"
+    }
+   },
+   "tags": [
+    "already caught"
+   ],
+   "related": [
+    "timer",
+    "nest"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x3 if the species is already caught in your Pokédex.",
+     "numbers": {
+      "x10": 30
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x3 if the species is already caught in your Pokédex.",
+     "numbers": {
+      "x10": 30
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x3 if the species is already caught in your Pokédex.",
+     "numbers": {
+      "x10": 30
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A Ball that works better on Pokémon caught before.",
+    "heartgold": "A somewhat different Poké Ball that works especially well on Pokémon species that were previously caught."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/repeat-ball.png",
+    "official": "items/dream-world/repeat-ball.png"
+   },
+   "creative": {
+    "design": "Orange with yellow rings: the ball for a familiar face.",
+    "interior": "a homecoming room of repeating arches in orange and yellow, a wall of keepsakes from the last time",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "timer",
+   "name": "Timer Ball",
+   "pkhex": 10,
+   "introduced": 3,
+   "category": "specialized",
+   "category_name": "Specialized",
+   "games": {
+    "firered": {
+     "name": "Timer Ball"
+    },
+    "emerald": {
+     "name": "Timer Ball"
+    },
+    "platinum": {
+     "name": "Timer Ball"
+    },
+    "heartgold": {
+     "name": "Timer Ball"
+    }
+   },
+   "tags": [
+    "long battles"
+   ],
+   "related": [
+    "quick",
+    "repeat"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "(10 + turns) / 10: x1 on the first turn, rising by 0.1 a turn to x4 from turn 30.",
+     "numbers": {
+      "x10": "10+turns",
+      "max10": 40
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "(10 + turns) / 10: x1 on the first turn, rising by 0.1 a turn to x4 from turn 30.",
+     "numbers": {
+      "x10": "10+turns",
+      "max10": 40
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "(10 + turns) / 10: x1 on the first turn, rising by 0.1 a turn to x4 from turn 30.",
+     "numbers": {
+      "x10": "10+turns",
+      "max10": 40
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A Ball that gains power in battles taking many turns.",
+    "heartgold": "A somewhat different Ball that becomes progressively better the more turns there are in a battle."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/timer-ball.png",
+    "official": "items/dream-world/timer-ball.png"
+   },
+   "creative": {
+    "design": "Marked like a clock face: patience pays.",
+    "interior": "a clockwork study of brass gears and hourglasses, a great clock face as the round window, a calm place where time is felt",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "luxury",
+   "name": "Luxury Ball",
+   "pkhex": 11,
+   "introduced": 3,
+   "category": "comfort",
+   "category_name": "Comfort",
+   "games": {
+    "firered": {
+     "name": "Luxury Ball"
+    },
+    "emerald": {
+     "name": "Luxury Ball"
+    },
+    "platinum": {
+     "name": "Luxury Ball"
+    },
+    "heartgold": {
+     "name": "Luxury Ball"
+    }
+   },
+   "tags": [
+    "friendship"
+   ],
+   "related": [
+    "friend",
+    "heal",
+    "premier"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x1; every friendship gain is 1 bigger for a Pokémon that lives in one.",
+     "numbers": {
+      "x10": 10,
+      "friendship": 1
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x1; every friendship gain is 1 bigger for a Pokémon that lives in one.",
+     "numbers": {
+      "x10": 10,
+      "friendship": 1
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1; every friendship gain is 1 bigger for a Pokémon that lives in one.",
+     "numbers": {
+      "x10": 10,
+      "friendship": 1
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A cozy Ball that makes Pokémon more friendly.",
+    "heartgold": "A comfortable Poké Ball that makes a caught wild Pokémon quickly grow friendly."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/luxury-ball.png",
+    "official": "items/dream-world/luxury-ball.png"
+   },
+   "creative": {
+    "design": "Black and gold: comfort as a design principle.",
+    "interior": "an elegant, comfortable private sanctuary: a richly furnished circular lounge with warm gold lighting, beautiful furniture and substantial architectural detail",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "premier",
+   "name": "Premier Ball",
+   "pkhex": 12,
+   "introduced": 3,
+   "category": "commemorative",
+   "category_name": "Commemorative",
+   "games": {
+    "firered": {
+     "name": "Premier Ball"
+    },
+    "emerald": {
+     "name": "Premier Ball"
+    },
+    "platinum": {
+     "name": "Premier Ball"
+    },
+    "heartgold": {
+     "name": "Premier Ball"
+    }
+   },
+   "tags": [
+    "commemorative"
+   ],
+   "related": [
+    "poke",
+    "cherish",
+    "luxury"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "gen3",
+     "name": "Emerald and FireRed (Gen 3)",
+     "says": "x1.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeemerald and pokefirered src/battle_script_commands.c Cmd_handleballthrow",
+     "class": "confirmed"
+    },
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x1.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "emerald": "A rare Ball made in commemoration of some event.",
+    "heartgold": "A somewhat rare Poké Ball that has been specially made to commemorate an event of some sort."
+   },
+   "acquisition": {
+    "firered": [],
+    "emerald": [],
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/premier-ball.png",
+    "official": "items/dream-world/premier-ball.png"
+   },
+   "creative": {
+    "design": "White with a red band: made for an occasion.",
+    "interior": "a white marble gallery of ceremony, a single red velvet band around the room, soft daylight on commemorative plaques",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "dusk",
+   "name": "Dusk Ball",
+   "pkhex": 13,
+   "introduced": 4,
+   "category": "specialized",
+   "category_name": "Specialized",
+   "games": {
+    "platinum": {
+     "name": "Dusk Ball"
+    },
+    "heartgold": {
+     "name": "Dusk Ball"
+    }
+   },
+   "tags": [
+    "night and caves"
+   ],
+   "related": [
+    "moon",
+    "quick"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x3.5 at night or in a cave.",
+     "numbers": {
+      "x10": 35
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x3.5 at night or in a cave.",
+     "numbers": {
+      "x10": 35
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "heartgold": "A somewhat different Poké Ball that makes it easier to catch wild Pokémon at night or in dark places like caves."
+   },
+   "acquisition": {
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/dusk-ball.png",
+    "official": "items/dream-world/dusk-ball.png"
+   },
+   "creative": {
+    "design": "Dark green and black: for the dark.",
+    "interior": "a twilight cave terrace of dark stone and ember lanterns, the last orange light of evening through the cave mouth",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "heal",
+   "name": "Heal Ball",
+   "pkhex": 14,
+   "introduced": 4,
+   "category": "comfort",
+   "category_name": "Comfort",
+   "games": {
+    "platinum": {
+     "name": "Heal Ball"
+    },
+    "heartgold": {
+     "name": "Heal Ball"
+    }
+   },
+   "tags": [
+    "heals"
+   ],
+   "related": [
+    "luxury",
+    "friend"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x1; the caught Pokémon's HP and status are restored.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1; the caught Pokémon's HP and status are restored.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "heartgold": "A remedial Poké Ball that restores the caught Pokémon’s HP and eliminates any status problem."
+   },
+   "acquisition": {
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/heal-ball.png",
+    "official": "items/dream-world/heal-ball.png"
+   },
+   "creative": {
+    "design": "Pink and white: soft by design.",
+    "interior": "a soft pink-and-white spa, warm baths, folded towels, gentle steam and rest",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "quick",
+   "name": "Quick Ball",
+   "pkhex": 15,
+   "introduced": 4,
+   "category": "specialized",
+   "category_name": "Specialized",
+   "games": {
+    "platinum": {
+     "name": "Quick Ball"
+    },
+    "heartgold": {
+     "name": "Quick Ball"
+    }
+   },
+   "tags": [
+    "first turn"
+   ],
+   "related": [
+    "timer",
+    "fast",
+    "dusk"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x4 on the first turn of the battle.",
+     "numbers": {
+      "x10": 40
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x4 on the first turn of the battle.",
+     "numbers": {
+      "x10": 40
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "heartgold": "A somewhat different Poké Ball that provides a better catch rate if it is used at the start of a wild encounter."
+   },
+   "acquisition": {
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/quick-ball.png",
+    "official": "items/dream-world/quick-ball.png"
+   },
+   "creative": {
+    "design": "Blue with yellow streaks: first-move speed.",
+    "interior": "a bright launch deck, starting-line stripes on the floor, streamlined benches, open sky beyond",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  },
+  {
+   "id": "cherish",
+   "name": "Cherish Ball",
+   "pkhex": 16,
+   "introduced": 4,
+   "category": "commemorative",
+   "category_name": "Commemorative",
+   "games": {
+    "platinum": {
+     "name": "Cherish Ball"
+    },
+    "heartgold": {
+     "name": "Cherish Ball"
+    }
+   },
+   "tags": [
+    "event"
+   ],
+   "related": [
+    "premier",
+    "master"
+   ],
+   "apricorn": null,
+   "mechanics": [
+    {
+     "era": "platinum",
+     "name": "Platinum (Gen 4)",
+     "says": "x1. Only event Pokémon come in one.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeplatinum src/battle/battle_script.c BattleScript_CalcCatchShakes",
+     "class": "confirmed"
+    },
+    {
+     "era": "hgss",
+     "name": "HeartGold and SoulSilver (Gen 4)",
+     "says": "x1. Only event Pokémon come in one.",
+     "numbers": {
+      "x10": 10
+     },
+     "source": "pret/pokeheartgold src/battle/battle_command.c BattleSystem_CalculateBallShakes",
+     "class": "confirmed"
+    }
+   ],
+   "descriptions": {
+    "heartgold": "A quite rare Poké Ball that has been specially crafted to commemorate an occasion of some sort."
+   },
+   "acquisition": {
+    "platinum": [],
+    "heartgold": []
+   },
+   "art": {
+    "sprite": "items/cherish-ball.png",
+    "official": null
+   },
+   "creative": {
+    "design": "Deep red: kept for the rarest.",
+    "interior": "a jewel-box keepsake chamber of deep red velvet, glass cases of mementos, candlelight",
+    "class": "Blackthorn conceptual interpretation"
+   }
+  }
+ ],
+ "apricorns": {},
+ "acquisition_gaps": [],
+ "acquisition_commits": {}
+}

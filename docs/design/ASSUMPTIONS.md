@@ -223,3 +223,85 @@ A correction to a build in the library makes a new version of it: the old values
 - **Why:** The master plan: approved corrections overwrote build fields in place, which broke 'never overwrite canonical'.
 - **See it:** `#/inbox` (The inbox)
 - **Could instead:** version trainer corrections too; make each correction a separate build id
+
+## Phase 6 · Poké Balls and equipment
+
+### A-28 · Exterior art (D-070)
+
+Each ball's exterior is the official Dream World art where it exists (15 balls), otherwise the game's own sprite, shown large and crisp. Art you upload replaces it everywhere. No AI-made exteriors.
+
+- **Why:** Image generation isn't open to this project's free Gemini key, the spec rules out new paid services, and a made-up exterior could get the design wrong.
+- **See it:** `#/balls` (The Poké Ball Collection)
+- **Could instead:** commission or generate high-resolution exteriors and upload them; hotlink a fan wiki's renders
+
+### A-29 · Interior art (D-070)
+
+Every ball has a written interior direction (creative, labelled) and a brief to make its picture; the first interior you upload becomes that ball's standard interior. A Pokémon's own picture inside its ball uses the image packet's new 'Inside its Poké Ball' purpose. Until a picture exists the profile shows the direction and works fine without it.
+
+- **Why:** No image generator is available here; the spec allows the brief-and-upload workflow when there isn't one.
+- **See it:** `#/ball/luxury` (The Luxury Ball's interior)
+- **Could instead:** connect a paid image service; a set of commissioned interiors
+
+### A-30 · Mechanics (D-070)
+
+Every ball's effect comes from the game's own catch code at a pinned commit (Red, Crystal, Emerald and FireRed, Platinum, HeartGold) and is re-checked against it on every build; the games' bugs are kept and named. Gen 1 is shown for history only.
+
+- **Why:** The spec asks for verified, game-specific mechanics; the code is the most exact source.
+- **See it:** `#/ball/moon` (The Moon Ball, Crystal vs HeartGold)
+- **Could instead:** the intended behaviour, with the bugs as footnotes
+
+### A-31 · The catch calculator (D-070)
+
+One throw's chance, worked out the game's own way: the wild Pokémon's max HP assumes IV 15 (DV 8 in Gen 2) and no EVs; each generation's catch rates come from its own data (Crystal, Emerald for FireRed too, Platinum for HeartGold too); Crystal's Heavy Ball reads Platinum's Pokédex pounds through Crystal's own conversion; the Safari Zone's rocks and bait and the Great Marsh's mood aren't modelled.
+
+- **Why:** These are the only inputs the calculator can't know; the defaults are the average case.
+- **See it:** `#/balls/catch` (The catch planner)
+- **Could instead:** let you set IVs; model Safari bait and rocks
+
+### A-32 · Ball names (D-070)
+
+Crystal's Park Ball (the Bug-Catching Contest's ball) and HeartGold's Sport Ball are one ball, shown as the Park Ball in Crystal; Gen 4's Park Ball is Pal Park's, a different ball. Crystal has no Safari Ball (its constant is an alias of the Moon Stone).
+
+- **Why:** That's how the games and PKHeX number them (24 and 25).
+- **See it:** `#/ball/sport` (The Sport Ball)
+- **Could instead:** list Crystal's Park Ball as its own ball
+
+### A-33 · Could it be in that ball? (D-070)
+
+Blackthorn checks a ball against how the species (or what it evolved from) is met in that game: a hatched Pokémon in Gens 3-4 is in a Poké Ball, a gift or trade comes in a Poké Ball, a Safari Zone-only Pokémon in a Safari Ball, a Park Ball is never kept (Pal Park Pokémon keep their Gen 3 ball: from Bulbapedia, not yet checked in the code), a Cherish Ball means an event, and Gen 2 stores no ball. It's a note, never a block (D-024).
+
+- **Why:** The spec asks for the legal ball for an individual in its game; your story still wins.
+- **See it:** `#/pokemon/me%3Aheartgold%2FSnorlax` (Snorlax's ball in the Studio)
+- **Could instead:** block illegal balls; drop the check
+
+### A-34 · Categories (D-070)
+
+Six kinds: Standard (Poké, Great, Ultra, Master), Apricorn (Kurt's seven), Specialized (Net, Dive, Nest, Repeat, Timer, Dusk, Quick), Comfort (Luxury, Heal), Safari and parks (Safari, Sport, Park), Commemorative (Premier, Cherish), plus a 'special' filter for what each one's for.
+
+- **Why:** The spec's categories, made to cover all 25 without overlap.
+- **See it:** `#/balls` (The collection's filters)
+- **Could instead:** put Luxury and Heal under Specialized
+
+### A-35 · The equipment library (D-070)
+
+28 pieces of gear (bikes, rods, finders, devices, cases, gardening tools, scopes) in the games' own words; the Running Shoes, Pokégear, PokéNav and Pokétch aren't bag items and get short Blackthorn summaries. Which games have each is authored, checked against the games' item lists where they're fetched.
+
+- **Why:** The spec asks for a simpler library beyond the balls.
+- **See it:** `#/equipment` (The equipment library)
+- **Could instead:** include every key item; only gear with a field use
+
+### A-36 · Your inventory (D-070)
+
+Your gear is a new My Gear tab in the Sheet: one row per item per game (have it, how many, a note), the newest row wins. Saving it needs the updated WebApp.gs (its list of the app's tabs gains My Gear).
+
+- **Why:** The same append-only pattern as your Pokémon, builds and teams.
+- **See it:** `#/equipment/super-rod` (The Super Rod's inventory)
+- **Could instead:** keep inventory in the browser only
+
+### A-37 · Menu (D-070)
+
+Poké Balls and Equipment sit under Pokédex & Reference; your ball shows on each Pokémon's profile.
+
+- **Why:** They're reference libraries first; the personal side lives on your Pokémon.
+- **See it:** `#/balls` (The menu)
+- **Could instead:** a sixth space for Equipment; under My World

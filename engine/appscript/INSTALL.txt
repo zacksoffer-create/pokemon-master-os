@@ -54,6 +54,14 @@ builds, teams and pictures, so the script changes once.
   The first time you save a Pokémon, a build or a team, the app makes the My Pokémon, My Builds and My Teams tabs; the
   first picture makes My Artwork and the Drive folder.
 
+If you installed the version with your records (before the Poké Balls): to keep your equipment, the script changes
+once more, in one line (its list of the app's tabs gains My Gear; no new permission).
+  1. Paste the new WebApp.gs over the old one. Save.
+  2. Deploy → Manage deployments → the pencil → Version: New version → Deploy.
+  3. Upload the new Blackthorn-HQ-app.zip (the old one goes to History).
+  Everything else works without step 1 and 2; only saving what gear you have needs them. The first save makes the
+  My Gear tab.
+
 Updating later
   - A new version of the app is a new Blackthorn-HQ-app.zip: upload it to Drive. The newest one wins within two
     minutes; move the old one to History.
@@ -62,7 +70,7 @@ Updating later
 
 What the app writes, and where
   It only ever adds rows to its own tabs (Eggs, Egg Walks, Plantings, Harvests, Readings, Feedings, Journal,
-  Timeline, Specimens, Variants, and your records: My Pokémon, My Builds, My Teams, My Artwork), adds hatches to the
+  Timeline, Specimens, Variants, and your records: My Pokémon, My Builds, My Teams, My Artwork, My Gear), adds hatches to the
   Studbook, and writes your answers into Your Calls ("Your call" and "Status"). Your records are append-only: every
   save is a new row, so every earlier version stays. Pictures go into the Drive folder "Blackthorn HQ artwork".
   Everything else in the Sheet is read-only to it. An answer becomes canon when Claude writes it in as a decision,

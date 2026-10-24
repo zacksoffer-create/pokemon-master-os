@@ -2458,6 +2458,17 @@ class WebApp(unittest.TestCase):
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
+    def test_the_poke_balls_meet_the_spec_in_the_browser(self):
+        """The Poké Ball collection in the preview (app/test_gear.mjs, in Chromium), against the Ball spec's acceptance
+        criteria 1-10: the 25 balls with exterior art, a profile led by its exterior, game-specific mechanics from the
+        code with the games' bugs, how you get it, an interior viewable large, a ball given to one of yours and checked
+        against how its species is met, the ball and a personal interior on its profile, the ball listing it, the catch
+        planner's order, My Gear, and every page at phone width."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_gear.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_the_browser_team_roles_match_python(self):
         """web/28_teamroles.html against trainers/team_roles.py: every journey companion plus a stock and a competitive
         set, with two hand overrides, every field of every read (fights, the four roles, the role engine underneath, the
