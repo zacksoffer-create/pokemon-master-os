@@ -76,13 +76,13 @@ LORE_PATTERNS = {
     "rescue": r"\brescu|guides? .{0,30}to (?:shore|safety)|saves? (?:people|drowning)",
     "light": r"\blight\b|\bglow|\bshin(?:e|es|ing)\b|illuminat|\bbright",
     "air_travel": r"\bfl(?:y|ies|ying)\b|\bsoar",
-    "water_travel": r"\bswim|\bseas?\b|\bocean|ferr(?:y|ies)|carr(?:y|ies) people",
+    "water_travel": r"\bswim|ferr(?:y|ies)|carr(?:y|ies) (?:people|humans|passengers)|across (?:the )?(?:seas?|oceans?|waters?)\b",
     "hauling": r"\bcarr(?:y|ies)\b|\bhaul|\blift",
     "digging": r"\bdig|\bburrow|\btunnel",
     "heat_source": r"\bheat\b|\bwarmth\b|\bhot\b|\bflames?\b",
     "cold_tolerance": r"\bcold\b|\bsnow|\bice\b|\bfreez",
-    "danger_sense": r"\bsens(?:e|es|ing)\b|\bpredict|\bdisaster|\bdanger",
-    "scouting": r"through walls|\bkeen\b|far away|\bdistan",
+    "danger_sense": r"\bsens(?:e|es|ing)\b|\bpredict|\bforesee|\bdisaster|\bdanger\b(?!ous)",
+    "scouting": r"through walls|\bkeen (?:eyes|eyesight|sight|vision|senses)|\bsees? (?:far|great distances|for miles|.{0,20}far away)|\bspots? .{0,30}from (?:far|high|miles|a distance)|\bdistant",
     "calming_presence": r"\bcalm\b|\bgentle\b|\bkind(?:hearted)?\b|\bsooth",
     "food_source": r"\bmilk\b|\bnutriti|\bhoney\b",
     "cooking": r"\broast|\bcook|\bbak(?:e|es)\b",
@@ -90,9 +90,12 @@ LORE_PATTERNS = {
     "night_travel": r"\bnight\b|\bin the dark|\bdarkness\b",
     "plant_care": r"revive (?:dead )?(?:grass|plants|flowers)|(?:plants|flowers|trees) (?:grow|bloom)|scatters pollen",
 }
-# A sentence that matches one of these is not evidence for the capability ("steals heat", "turned warm").
+# A sentence that matches one of these is not evidence for the capability ("steals heat", "wings not used for flying",
+# "sense of smell" is tracking, not danger sense).
 LORE_EXCLUDE = {
     "heat_source": r"(?:steal|absorb)\w* .{0,25}heat|\bcool",
+    "air_travel": r"not used for flying|\b(?:can't|cannot|can not|unable to|doesn't|does not) fly|flightless",
+    "danger_sense": r"sense of smell",
 }
 GAME_VERSIONS = {"crystal": [6, 4, 5], "firered": [10, 11, 9], "emerald": [9, 7, 8], "platinum": [14, 12, 13],
                  "heartgold": [15, 16, 14], "soulsilver": [16, 15, 14]}

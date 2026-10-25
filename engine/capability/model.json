@@ -1,0 +1,145 @@
+{
+  "_note": "The capability model (Phase 7; spec SURVIVAL_HOMESTEAD_WORLD_CAPABILITY §3-4, MASTER_PLAN §3.2-3.3 and §4.7). One definition per capability, read by every module: the Survival Lab, the Homestead, the profiles, the scenarios and the facilities all refer to these ids. The 27 capabilities the wilderness engine has always had keep their ids and their evidence (wilderness/engine.py produces it); the eight new ones get theirs from the rules below (capability/records.py). Edit freely; capability/records.py and app/capability_pack.py rebuild everything that reads this.",
+  "areas": [
+    {"id": "mobility", "name": "Mobility & traversal", "spec": "7A", "caps": ["climbing", "water_travel", "underwater", "air_travel", "night_travel", "carrying_rider"]},
+    {"id": "food_water", "name": "Food & water", "spec": "7B", "caps": ["foraging", "food_source", "cooking", "plant_care", "water_supply"]},
+    {"id": "shelter", "name": "Shelter & environment", "spec": "7C", "caps": ["camp_making", "heat_source", "cold_source", "cold_tolerance", "heat_tolerance", "weather_handling", "light"]},
+    {"id": "safety", "name": "Safety & recovery", "spec": "7D", "caps": ["field_healing", "rescue", "escape", "deterrence", "danger_sense"]},
+    {"id": "tools", "name": "Tools & construction", "spec": "7E", "caps": ["clearing", "digging", "hauling", "manipulation", "construction", "electricity"]},
+    {"id": "ecology", "name": "Ecological awareness", "spec": "7F", "caps": ["scouting", "tracking", "navigation"]},
+    {"id": "home", "name": "Life at home", "spec": "10-11", "caps": ["town_fit", "calming_presence", "egg_care"]}
+  ],
+  "capabilities": {
+    "climbing": {"name": "Climbing", "what": "mountains, cliffs, waterfalls"},
+    "water_travel": {"name": "Water travel", "what": "carrying the trainer across water"},
+    "underwater": {"name": "Underwater travel", "what": "travel beneath the surface"},
+    "air_travel": {"name": "Air travel", "what": "flying the trainer"},
+    "night_travel": {"name": "Night travel", "what": "moving safely in darkness"},
+    "carrying_rider": {"name": "Carrying a rider", "what": "carrying a person"},
+    "foraging": {"name": "Foraging", "what": "finding items, food or Pokémon"},
+    "food_source": {"name": "Food source", "what": "producing food"},
+    "cooking": {"name": "Cooking", "what": "preparing food"},
+    "plant_care": {"name": "Plant care", "what": "growing and tending plants"},
+    "water_supply": {"name": "Water supply", "what": "finding or making water fit to drink", "new": true},
+    "camp_making": {"name": "Camp making", "what": "making a base or shelter"},
+    "heat_source": {"name": "Heat source", "what": "fire and warmth"},
+    "cold_source": {"name": "Cold source", "what": "making cold: chilling, freezing, keeping things cold", "new": true},
+    "cold_tolerance": {"name": "Cold tolerance", "what": "working in snow and ice"},
+    "heat_tolerance": {"name": "Heat tolerance", "what": "working in heat: deserts, volcanoes, hot springs", "new": true},
+    "weather_handling": {"name": "Weather handling", "what": "fog, sand, hail"},
+    "light": {"name": "Light", "what": "light in caves and at night"},
+    "field_healing": {"name": "Field healing", "what": "healing a teammate outside battle"},
+    "rescue": {"name": "Rescue", "what": "saving people in trouble"},
+    "escape": {"name": "Escape", "what": "getting everyone out fast"},
+    "deterrence": {"name": "Deterrence", "what": "keeping wild Pokémon away"},
+    "danger_sense": {"name": "Danger sense", "what": "sensing danger early"},
+    "clearing": {"name": "Clearing", "what": "clearing trees and rocks"},
+    "digging": {"name": "Digging", "what": "digging and tunneling"},
+    "hauling": {"name": "Hauling", "what": "moving heavy things"},
+    "manipulation": {"name": "Manipulation", "what": "holding, gripping and handling objects", "new": true},
+    "construction": {"name": "Construction", "what": "building and shaping structures", "new": true},
+    "electricity": {"name": "Electricity", "what": "producing electricity", "new": true},
+    "scouting": {"name": "Scouting", "what": "seeing far or through obstacles"},
+    "tracking": {"name": "Tracking", "what": "following a scent or a trail", "new": true},
+    "navigation": {"name": "Navigation", "what": "finding the way over long distances", "new": true},
+    "town_fit": {"name": "Town fit", "what": "living comfortably in towns"},
+    "calming_presence": {"name": "Calming presence", "what": "a gentle, steadying presence"},
+    "egg_care": {"name": "Egg care", "what": "keeping eggs warm"}
+  },
+  "layers": {
+    "A": "Official game mechanics: field moves, overworld abilities, the games' own rules",
+    "B": "Natural biology: what the species could do, from its Pokédex text, body, type, size and habitat, or a move it knows put to use",
+    "C": "Equipment-assisted or trained: what it could do with a tool, a harness or training"
+  },
+  "classes": {
+    "mechanic": {"name": "Game mechanic", "means": "established by the game's rules or data"},
+    "canon": {"name": "Canon", "means": "stated by an identifiable Pokémon source (its Pokédex text)"},
+    "inferred": {"name": "Inferred", "means": "reasoned from evidence: its Pokédex text, its body, type, size or habitat"},
+    "hypothesis": {"name": "Hypothesis", "means": "plausible, needs investigation: a move it knows put to use outside battle"},
+    "creative": {"name": "Blackthorn", "means": "Blackthorn world-building, never canon (yours when approved)"},
+    "standardized": {"name": "Blackthorn standard", "means": "filled by a declared Blackthorn method"}
+  },
+  "standing": {
+    "_note": "How a member's best evidence for a capability reads. Never one overall score: every need shows its own standing and who holds it.",
+    "order": ["covered", "equipped", "teachable", "plausible", "proposed", "gap"],
+    "names": {"covered": "Covered", "equipped": "With equipment", "teachable": "If taught", "plausible": "Plausible", "proposed": "Needs your approval", "gap": "Gap"},
+    "means": {
+      "covered": "a game mechanic it actually has (a field move it knows, an overworld ability it has) or a record you approved",
+      "equipped": "a piece of kit you're bringing covers it, or a Pokémon can do it with kit you're bringing",
+      "teachable": "a member can learn the field move but doesn't know it",
+      "plausible": "its biology suggests it (Pokédex text, body, type, size, habitat) or a move it knows could be put to use; not a game mechanic and not yet your call",
+      "proposed": "a Blackthorn record waiting for your approval, or kit it would need that isn't packed",
+      "gap": "nobody and nothing covers it"
+    }
+  },
+  "shapes": {
+    "_note": "The Gen 4 Pokédex's body shapes (PokeAPI pokemon_shapes). Only shapes that say something about what a body can do are used; wings aren't read as flight (Scizor's Pokédex: its wings aren't used for flying).",
+    "names": {"1": "head only", "2": "serpentine", "3": "fins", "4": "head and arms", "5": "head and a base", "6": "bipedal with a tail", "7": "head and legs", "8": "four-legged", "9": "one pair of wings", "10": "tentacles or many legs", "11": "several bodies", "12": "bipedal, no tail", "13": "two or more pairs of wings", "14": "insect body"},
+    "caps": {
+      "4": [["manipulation", "it has arms", "how fine its handling is varies; the shape doesn't say"]],
+      "6": [["manipulation", "it stands on two legs with its forelimbs free", "how fine its handling is varies; the shape doesn't say"]],
+      "12": [["manipulation", "it stands on two legs with its forelimbs free", "how fine its handling is varies; the shape doesn't say"]],
+      "10": [["manipulation", "it has tentacles or many limbs", "some multi-legged bodies grip poorly"]],
+      "8": [["hauling", "a four-legged body that bears weight", "only large or huge four-legged Pokémon count; speed and terrain limit it", "large"]]
+    }
+  },
+  "lore": {
+    "_note": "Pokédex patterns for the new capabilities (the original 16 live in wilderness/engine.py LORE_PATTERNS). A match is canon text with an inferred reading: 'its Pokédex says X, so it could Y'.",
+    "manipulation": "\\b(?:hands?|fingers|pincers|claws?|tentacles|grips?|grab(?:s|bed)?|grasps?|gets a hold of|holds? (?:it|them|things|objects|on))\\b",
+    "construction": "\\bbuilds?\\b|\\bbuilt\\b|\\bdams?\\b|\\bconstruct|\\bweaves?\\b|\\bnests? (?:of|from|made)",
+    "electricity": "\\belectric(?:ity|al)?\\b|\\bvolts?\\b|\\bvoltage|\\bcharges? (?:up|electricity|itself|its)|\\bstores? (?:up )?electricity|\\bgenerat\\w* (?:electricity|power)",
+    "tracking": "sense of smell|\\bsniff|\\bscent (?:of|trail)|\\bsmells? (?:anything|prey|out)|\\btracks? (?:down|prey|its prey)|\\bfollows? .{0,20}(?:scent|trail)|\\bkeen nose",
+    "navigation": "\\bnavigat|sense of direction|never (?:gets? )?lost|finds? its way|\\bhoming\\b|\\bmigrat|\\bcompass|magnetic (?:field|waves)",
+    "water_supply": "purif(?:y|ies) (?:\\w+ )?(?:\\w+ )?water|\\bspouts? water|\\bsprays? water|water from its|\\bstores? water|\\bclean water",
+    "cold_source": "\\bfreez(?:es|ing) (?:the |its |water|moisture|prey|foes|anything|everything|the air)|\\bicy breath|\\bcold air|\\bchills?\\b|\\bfrozen breath|makes? snow|\\bblizzards?\\b|\\bsnowstorms?\\b",
+    "heat_tolerance": "\\bdesert|\\bvolcan|\\bmagma|\\blava\\b|\\bhot springs?|\\bscorching|\\bhigh temperatures?"
+  },
+  "lore_exclude": {
+    "electricity": "\\bnon-?electric|\\bimmune to electric",
+    "tracking": "\\bfoul|\\bstench|\\bterrible smell|\\bawful smell"
+  },
+  "types": {
+    "_note": "Type readings for the new capabilities (the originals are in wilderness/engine.py _inference).",
+    "electricity": [["Electric", "a living source of electricity"]],
+    "cold_source": [["Ice", "its body is cold enough to chill what's around it"]],
+    "heat_tolerance": [["Fire", "at home in heat"]]
+  },
+  "move_uses": {
+    "_note": "A move a Pokémon knows, put to use outside battle (layer B, class hypothesis): counted only for a build that knows it. Field moves aren't here; they're game mechanics (layer A).",
+    "heat_source": ["Ember", "Flamethrower", "Fire Blast", "Flame Wheel", "Fire Spin", "Heat Wave", "Lava Plume", "Eruption", "Overheat", "Blaze Kick", "Fire Punch", "Fire Fang", "Flare Blitz", "Sacred Fire", "Blast Burn", "Magma Storm"],
+    "cold_source": ["Powder Snow", "Ice Beam", "Blizzard", "Icy Wind", "Aurora Beam", "Ice Shard", "Ice Fang", "Ice Punch", "Sheer Cold", "Avalanche", "Mist", "Hail"],
+    "electricity": ["Thunder Shock", "Thunderbolt", "Thunder", "Spark", "Charge", "Charge Beam", "Discharge", "Shock Wave", "Thunder Punch", "Thunder Fang", "Zap Cannon", "Volt Tackle"],
+    "water_supply": ["Water Gun", "Bubble", "Bubble Beam", "Hydro Pump", "Water Pulse", "Water Spout", "Rain Dance", "Octazooka", "Brine"],
+    "clearing": ["Fury Cutter", "Slash", "X-Scissor", "Leaf Blade", "Night Slash", "Razor Leaf", "Brick Break"],
+    "field_healing": ["Heal Bell", "Aromatherapy", "Wish"],
+    "weather_handling": ["Rain Dance", "Sunny Day", "Hail", "Sandstorm"],
+    "deterrence": ["Roar", "Whirlwind", "Scary Face"],
+    "tracking": ["Odor Sleuth", "Foresight", "Miracle Eye"]
+  },
+  "layer_c": {
+    "_note": "Equipment-assisted and trained capabilities (layer C, class creative, proposed until you approve one). A Pokémon qualifies when its own evidence (not a move-use hypothesis) meets `requires`; it counts in a plan only when the kit holds the equipment.",
+    "rules": [
+      {"id": "C-HARNESS", "capability": "hauling", "name": "Pulls a cart or sled in a harness", "requires": {"any": ["hauling", "carrying_rider"]}, "min_size": "large", "equipment": "pack-harness", "training": "used to a harness", "limitations": "speed and terrain limit it; it needs rest stops"},
+      {"id": "C-SADDLE", "capability": "carrying_rider", "name": "Carries a rider in a saddle", "requires": {"any": ["carrying_rider", "hauling"]}, "min_size": "large", "equipment": "saddle", "training": "used to a rider", "limitations": "one rider; long days tire it"},
+      {"id": "C-TOOLS", "capability": "construction", "name": "Builds with hand tools", "requires": {"any": ["manipulation"]}, "equipment": "tool-kit", "training": "taught to use tools", "limitations": "fine work depends on its grip"},
+      {"id": "C-GARDEN", "capability": "plant_care", "name": "Tends crops with garden tools", "requires": {"any": ["manipulation"]}, "equipment": "garden-tools", "training": "taught to tend crops", "limitations": "being a Grass type doesn't make it a gardener; it learns the work"},
+      {"id": "C-RESCUE", "capability": "rescue", "name": "Trained search and rescue", "requires": {"any": ["tracking", "scouting"]}, "equipment": "rescue-kit", "training": "search-and-rescue training", "limitations": "finds people; carrying them out needs a strong teammate"},
+      {"id": "C-DYNAMO", "capability": "electricity", "name": "Charges a storage battery", "requires": {"any": ["electricity"]}, "equipment": "dynamo", "training": "used to the dynamo", "limitations": "its output isn't unlimited; it needs rest between charges"},
+      {"id": "C-LAMP", "capability": "light", "name": "Powers electric lamps", "requires": {"any": ["electricity"]}, "equipment": "dynamo", "training": "used to the dynamo", "limitations": "only as long as it's rested and the battery holds"}
+    ]
+  },
+  "field_policy": {
+    "_note": "The field-function policy (D-018, D-026-D-030) and the Blackthorn standard for a field move's slot cost. A field move earns its slot in battle if it's a damaging move of at least `battle_worthy_bp` power that generation, or one of `battle_worthy`; anything else costs a battle slot. That threshold is a Blackthorn standard, not a game rule: change it here.",
+    "battle_worthy_bp": 70,
+    "battle_worthy": ["Soft-Boiled", "Milk Drink"],
+    "minimum": ["Surf", "Fly"],
+    "exceptions": {"platinum": {"Fly": "D-029: Platinum has no Fly by design (city-based); Garchomp doesn't count as its flyer"}},
+    "hm_slave": "a member carrying two or more field moves that cost a battle slot (the policy says no HM slaves)"
+  },
+  "provisions": {
+    "_note": "A Blackthorn standard for what to carry if nobody forages: rations a day by body size (the habitat engine's size class), the trainer's two, and water as much again. Not canon; change it here.",
+    "per_day": {"small": 1, "medium": 2, "large": 4, "huge": 8},
+    "trainer": 2,
+    "water_per_ration": 1
+  }
+}

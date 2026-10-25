@@ -1,0 +1,28 @@
+{
+  "_note": "What an expedition can pack (spec §12). Game items do what the game says they do (class mechanic: Potions heal outside battle, an Escape Rope takes you to a cave's entrance, Repel keeps weaker wild Pokémon away); camp gear is Blackthorn's (class creative). `covers` lists the capabilities an item meets on its own; `for` names the layer C rule (capability/model.json) it equips a Pokémon for. `gear` links the equipment library (equipment/gear.py) where the item is one of the games' own.",
+  "items": [
+    {"id": "potion", "name": "Potions and Full Heals", "kind": "game", "class": "mechanic", "covers": ["field_healing"], "what": "restore HP and cure status outside battle", "limitations": "only as many as you carry"},
+    {"id": "escape-rope", "name": "Escape Rope", "kind": "game", "class": "mechanic", "covers": ["escape"], "what": "takes you back to a cave's entrance", "limitations": "caves and dungeons only"},
+    {"id": "repel", "name": "Repel", "kind": "game", "class": "mechanic", "covers": ["deterrence"], "what": "weaker wild Pokémon stay away for a set number of steps", "limitations": "only Pokémon weaker than your lead"},
+    {"id": "rod", "name": "Fishing rods", "kind": "game", "class": "mechanic", "covers": ["foraging"], "gear": "super-rod", "what": "Pokémon (and food) from the water", "limitations": "needs water"},
+    {"id": "finder", "name": "Itemfinder or Dowsing Machine", "kind": "game", "class": "mechanic", "covers": ["foraging"], "gear": "dowsing-machine", "what": "finds hidden items", "limitations": "items, not food"},
+    {"id": "map", "name": "A map (Town Map, Pokégear, PokéNav)", "kind": "game", "class": "mechanic", "covers": ["navigation"], "gear": "town-map", "what": "where you are and the way on", "limitations": "the region's charted roads"},
+    {"id": "go-goggles", "name": "Go-Goggles", "kind": "game", "class": "mechanic", "covers": ["weather_handling"], "gear": "go-goggles", "what": "lets you through a sandstorm (Emerald's desert)", "limitations": "sand only"},
+    {"id": "bicycle", "name": "Bicycle", "kind": "game", "class": "mechanic", "covers": [], "gear": "bicycle", "what": "faster travel on roads", "limitations": "roads and paths"},
+    {"id": "tent", "name": "Tent and bedrolls", "kind": "world", "class": "creative", "covers": ["camp_making"], "what": "shelter from rain and wind", "limitations": "needs a dry, level pitch"},
+    {"id": "stove", "name": "Camp stove and fuel", "kind": "world", "class": "creative", "covers": ["cooking", "heat_source"], "what": "cooking and a little warmth", "limitations": "fuel runs out"},
+    {"id": "lantern", "name": "Lanterns", "kind": "world", "class": "creative", "covers": ["light"], "what": "light in caves and at night", "limitations": "oil or batteries run out"},
+    {"id": "water-filter", "name": "Water filter", "kind": "world", "class": "creative", "covers": ["water_supply"], "what": "safe water from streams and snowmelt", "limitations": "needs a water source to filter"},
+    {"id": "rations", "name": "Rations", "kind": "world", "class": "creative", "covers": ["food_source"], "what": "food for the days packed", "limitations": "only the days you packed for"},
+    {"id": "cold-gear", "name": "Cold-weather clothing and sleeping bags", "kind": "world", "class": "creative", "covers": ["cold_tolerance"], "what": "keeps the trainer warm", "limitations": "the trainer, not the team"},
+    {"id": "sun-gear", "name": "Shade, wide hats and light clothing", "kind": "world", "class": "creative", "covers": ["heat_tolerance"], "what": "keeps the trainer cool", "limitations": "the trainer, not the team"},
+    {"id": "climbing-kit", "name": "Rope, harness and ice axe", "kind": "world", "class": "creative", "covers": ["climbing"], "what": "the trainer's own climbing gear", "limitations": "slow; no substitute for a Pokémon that climbs"},
+    {"id": "first-aid", "name": "First-aid kit", "kind": "world", "class": "creative", "covers": [], "what": "for people: cuts, sprains, cold", "limitations": "people, not Pokémon"},
+    {"id": "pack-harness", "name": "Pack harness and sled", "kind": "world", "class": "creative", "covers": [], "for": ["C-HARNESS"], "what": "lets a large, strong Pokémon pull a load", "limitations": "the Pokémon has to be used to it"},
+    {"id": "saddle", "name": "Saddle", "kind": "world", "class": "creative", "covers": [], "for": ["C-SADDLE"], "what": "lets a large Pokémon carry a rider", "limitations": "the Pokémon has to be used to it"},
+    {"id": "tool-kit", "name": "Tool kit", "kind": "world", "class": "creative", "covers": [], "for": ["C-TOOLS"], "what": "hand tools a Pokémon with a grip can use", "limitations": "the Pokémon has to be taught"},
+    {"id": "garden-tools", "name": "Garden tools", "kind": "world", "class": "creative", "covers": [], "for": ["C-GARDEN"], "what": "tools for tending crops", "limitations": "the Pokémon has to be taught"},
+    {"id": "rescue-kit", "name": "Rescue kit", "kind": "world", "class": "creative", "covers": [], "for": ["C-RESCUE"], "what": "harness, lines and a stretcher for search and rescue", "limitations": "the Pokémon has to be trained"},
+    {"id": "dynamo", "name": "Dynamo and storage battery", "kind": "world", "class": "creative", "covers": [], "for": ["C-DYNAMO", "C-LAMP"], "what": "turns an Electric type's charge into stored power and lamps", "limitations": "output depends on the Pokémon resting"}
+  ]
+}

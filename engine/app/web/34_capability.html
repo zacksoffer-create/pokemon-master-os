@@ -1,0 +1,256 @@
+<script>
+/* ===== Capabilities: the assessments in the page ===============================================================
+   capability/assess.py, ported: cartridge readiness, world readiness against a scenario, lock-and-optimise,
+   comparison, facility assessments. It reads the capability records (app/capability_pack.py → capability.json) and
+   app/test_capability_parity.mjs holds it to Python case by case. Strings compare by code point, like Python. */
+var Cap = (function () {
+  var P = null;
+  var ORDER = ['covered', 'equipped', 'teachable', 'plausible', 'proposed', 'gap'], RANK = {}, READY = ['covered', 'equipped'], PRIORITIES = ['critical', 'important', 'useful'];
+  ORDER.forEach(function (s, i) { RANK[s] = i; });
+  var KINDS = {move: ['A', 'mechanic'], ability: ['A', 'mechanic'], lore: ['B', 'inferred'], type: ['B', 'inferred'], size: ['B', 'inferred'], habitat: ['B', 'inferred'], shape: ['B', 'inferred'],
+    move_use: ['B', 'hypothesis'], gear: ['C', 'creative'], world: ['B', 'creative']};
+  var ORDER_TEXT = {covered: 'covered', equipped: 'covered by kit', teachable: 'only if a member is taught the move',
+    plausible: 'only plausible (biology, not a game mechanic or your call)', proposed: 'only a proposal waiting for your approval', gap: 'nobody and nothing covers it'};
+  var ROUTE_TEXT = {trade: 'by trade from the other version', transfer: 'only from an earlier generation', exception: 'your approved exception'};
+  function cmp(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+  function nz(x) { return x === undefined ? null : x; }
+  function has(a, x) { return (a || []).indexOf(x) >= 0; }
+  function capName(cap) { return P.model.capabilities[cap].name; }
+  function ready(st) { return READY.indexOf(st) >= 0; }
+
+  function records(game, species) {
+    var rows = ((P.games[game] || {}).records || {})[species] || [], src = P.sources;
+    return rows.map(function (j) { var x = P.rows[j], cap = x[0], kind = x[1], e = x[4];
+      var r = {cap: cap, kind: kind, source: src[x[2]], detail: x[3] != null ? src[x[3]] : null};
+      if (kind === 'move') { r.move = e[0]; r.route = e[1]; if (e.length > 2) r.note = e[2]; }
+      else if (kind === 'ability') r.ability = e;
+      else if (kind === 'gear') { r.rule = e[0]; r.equipment = e[1]; r.limitations = e[2]; }
+      else if (kind === 'shape') r.limitations = e;
+      return r; });
+  }
+  function abilitiesOf(game, species) { return (P.abilities[String(P.gen[game])] || {})[species] || []; }
+  function evidence(game, member, kit, preview) {
+    kit = kit || []; preview = preview || [];
+    var known = member.moves == null ? null : member.moves, ab = member.ability || null, out = [], recs = records(game, member.species);
+    recs.forEach(function (r) { var k = r.kind, st;
+      if (k === 'move') st = known != null && known.indexOf(r.move) >= 0 ? 'covered' : 'teachable';
+      else if (k === 'ability') {
+        if (ab && ab !== r.ability) return;
+        var same = recs.filter(function (x) { return x.kind === 'ability' && x.cap === r.cap; }).map(function (x) { return x.ability; });
+        var all = abilitiesOf(game, member.species), others = all.filter(function (a) { return same.indexOf(a) < 0; });
+        if (ab || !others.length) st = 'covered';
+        else { st = 'plausible'; r = Object.assign({}, r, {note: 'if it has ' + all.filter(function (a) { return same.indexOf(a) >= 0; }).join(' or ') + ' (it could have ' + others.join(' or ') + ' instead)'}); }
+      } else if (k === 'gear') st = kit.indexOf(r.equipment) >= 0 ? 'equipped' : 'proposed';
+      else st = 'plausible';
+      out.push([st, r]); });
+    if (known && known.length) Object.keys(P.model.move_uses).forEach(function (cap) { if (cap.charAt(0) === '_') return;
+      P.model.move_uses[cap].forEach(function (mv) { if (known.indexOf(mv) >= 0) out.push(['plausible', {cap: cap, kind: 'move_use', move: mv, source: mv + ' (a move it knows)', detail: 'put to use outside battle: a hypothesis, not a game mechanic'}]); }); });
+    var ind = member.ind;
+    if (ind) P.world.forEach(function (w) { if (w.ind !== ind) return;
+      if (w.status === 'approved') out.push(['covered', w]);
+      else if (preview.indexOf(w.id) >= 0) out.push(['covered', Object.assign({}, w, {note: 'preview: as if you approved it'})]);
+      else out.push(['proposed', w]); });
+    return out;
+  }
+  function best(game, member, kit, preview) {
+    var out = {};
+    evidence(game, member, kit, preview).forEach(function (e) { var cur = out[e[1].cap]; if (!cur || RANK[e[0]] < RANK[cur[0]]) out[e[1].cap] = e; });
+    return out;
+  }
+  function holder(member, i, st, r) {
+    var lc = KINDS[r.kind], h = {who: member.label || member.species, i: i, standing: st, kind: r.kind, layer: lc[0], 'class': lc[1], source: r.source, detail: nz(r.detail)};
+    ['move', 'route', 'ability', 'rule', 'equipment', 'note', 'limitations', 'id', 'status'].forEach(function (k) { if (r[k] != null) h[k] = r[k]; });
+    return h;
+  }
+  function kitItems(kit) { return P.kit.filter(function (x) { return (kit || []).indexOf(x.id) >= 0; }); }
+  function needHolders(game, cap, members, kit, preview, bests) {
+    var hs = [];
+    members.forEach(function (m, i) { var b = (bests ? bests[i] : best(game, m, kit, preview))[cap]; if (b) hs.push(holder(m, i, b[0], b[1])); });
+    kitItems(kit).forEach(function (x) { if (x.covers.indexOf(cap) >= 0) hs.push({who: x.name, kit: x.id, standing: 'equipped', kind: 'kit', layer: 'kit', 'class': x['class'], source: x.name, detail: x.what, limitations: x.limitations}); });
+    hs.sort(function (a, b) { return RANK[a.standing] - RANK[b.standing] || ((a.i != null ? a.i : 99) - (b.i != null ? b.i : 99)); });
+    return hs;
+  }
+  function provisions(members, days) {
+    var p = P.model.provisions, per = p.trainer;
+    members.forEach(function (m) { per += p.per_day[(P.facts[m.species] || ['medium'])[0]]; });
+    return {per_day: per, days: days, rations: per * days, water: per * days * p.water_per_ration};
+  }
+  function scenarioOf(s) { return typeof s === 'string' ? P.scenarios.filter(function (x) { return x.id === s; })[0] : s; }
+  function worldReport(game, scenario, members, kit, preview) {
+    kit = kit || []; preview = preview || [];
+    var sc = scenarioOf(scenario), bests = members.map(function (m) { return best(game, m, kit, preview); }), needs = [];
+    sc.needs.forEach(function (n) {
+      var hs = needHolders(game, n.cap, members, kit, preview, bests), st = hs.length ? hs[0].standing : 'gap';
+      var covered = hs.filter(function (h) { return h.standing === 'covered' && h.kit == null; }), kitBackup = hs.some(function (h) { return h.kit != null; });
+      needs.push({cap: n.cap, name: capName(n.cap), priority: n.priority, why: n.why, standing: st, holders: hs, covered_n: covered.length,
+        single_point: st === 'covered' && covered.length === 1 && !kitBackup}); });
+    var counts = {}; PRIORITIES.forEach(function (p) { counts[p] = {total: 0, ready: 0, teachable: 0, plausible: 0, proposed: 0, gap: 0}; });
+    needs.forEach(function (n) { var c = counts[n.priority]; c.total++; c[ready(n.standing) ? 'ready' : n.standing]++; });
+    var failures = [];
+    needs.forEach(function (n) { if (n.priority !== 'critical') return;
+      if (!ready(n.standing)) failures.push({cap: n.cap, why: n.name + ': ' + ORDER_TEXT[n.standing]});
+      else if (n.single_point) failures.push({cap: n.cap, why: n.name + ': hangs on ' + n.holders[0].who + ' alone'}); });
+    var strengths = needs.filter(function (n) { return n.covered_n >= 2; }).map(function (n) { return {cap: n.cap, why: n.name + ': ' + n.covered_n + ' members have it'}; });
+    var weaknesses = needs.filter(function (n) { return !ready(n.standing); }).map(function (n) { return {cap: n.cap, priority: n.priority, why: n.name + ': ' + ORDER_TEXT[n.standing]}; });
+    var missing = missingEquipment(game, sc, needs, members, kit, preview), forage = {};
+    needs.forEach(function (n) { if (['foraging', 'food_source', 'water_supply'].indexOf(n.cap) < 0) return;
+      n.holders.forEach(function (h) { if (h.kit == null && (h.standing === 'covered' || h.standing === 'plausible')) forage[h.who] = 1; }); });
+    return {scenario: sc.id, game: game, needs: needs, counts: counts, failure_points: failures, strengths: strengths, weaknesses: weaknesses,
+      missing_equipment: missing, preparations: preparations(game, needs, missing, members), provisions: provisions(members, sc.days),
+      foragers: Object.keys(forage).sort(cmp)};
+  }
+  function missingEquipment(game, sc, needs, members, kit, preview) {
+    var by = {}, out = []; needs.forEach(function (n) { by[n.cap] = n; });
+    sc.kit.forEach(function (kid) { if (kit.indexOf(kid) >= 0) return;
+      var x = P.kit.filter(function (k) { return k.id === kid; })[0];
+      out.push({id: kid, name: x.name, covers: x.covers, closes: x.covers.filter(function (c) { return by[c] && !ready(by[c].standing); }), why: 'recommended for this scenario'}); });
+    needs.forEach(function (n) { if (ready(n.standing)) return;
+      n.holders.forEach(function (h) { if (h.kind === 'gear' && kit.indexOf(h.equipment) < 0 && !out.some(function (o) { return o.id === h.equipment; })) {
+        var x = P.kit.filter(function (k) { return k.id === h.equipment; })[0];
+        out.push({id: x.id, name: x.name, covers: [], closes: [n.cap], why: h.who + ' could then: ' + h.source.split(': ').slice(1).join(': ')}); } }); });
+    return out;
+  }
+  function preparations(game, needs, missing, members) {
+    var field = P.field[game] || {}, out = [], seen = {};
+    PRIORITIES.forEach(function (pr) { needs.forEach(function (n) {
+      if (n.priority !== pr || ready(n.standing)) return;
+      for (var j = 0; j < n.holders.length; j++) { var h = n.holders[j];
+        if (h.standing === 'teachable' && h.kind === 'move') { var key = 'teach|' + h.who + '|' + h.move;
+          if (seen[key]) continue; seen[key] = 1;
+          var f = field[h.move] || {}, bits = [f.machine, f.badge ? f.badge + ' to use it' : null, ROUTE_TEXT[h.route]].filter(Boolean);
+          out.push({kind: 'teach', cap: n.cap, priority: pr, text: 'Teach ' + h.move + ' to ' + h.who + (bits.length ? ' (' + bits.join('; ') + ')' : '') + ': ' + n.name.toLowerCase()});
+          break; } }
+      missing.forEach(function (m) { if (m.closes.indexOf(n.cap) >= 0 && !seen['pack|' + m.id]) { seen['pack|' + m.id] = 1;
+        out.push({kind: 'pack', cap: n.cap, priority: pr, text: 'Pack ' + m.name + ': ' + n.name.toLowerCase() + (m.why !== 'recommended for this scenario' ? ' (' + m.why + ')' : '')}); } });
+      n.holders.forEach(function (h) { if (h.kind === 'world' && h.standing === 'proposed' && !seen['approve|' + h.id]) { seen['approve|' + h.id] = 1;
+        out.push({kind: 'approve', cap: n.cap, priority: pr, text: 'Approve ' + h.id + ' (' + h.who + ': ' + n.name.toLowerCase() + ') in Your calls'}); } });
+    }); });
+    return out;
+  }
+  function battleWorthy(game, move) {
+    var pol = P.model.field_policy, bp = (P.move_bp[String(P.gen[game])] || {})[move] || 0;
+    return pol.battle_worthy.indexOf(move) >= 0 || bp >= pol.battle_worthy_bp;
+  }
+  function cartridgeReport(game, members, moves) {
+    var all = P.field_moves[game], want = (moves != null ? moves : all).filter(function (m) { return all.indexOf(m) >= 0; }), field = P.field[game] || {};
+    var can = members.map(function (m) { var o = {}; records(game, m.species).forEach(function (r) { if (r.kind === 'move') o[r.move] = r.route; }); return o; });
+    function standing(mv) {
+      var knows = [], could = [];
+      members.forEach(function (m, i) { if (m.moves != null && m.moves.indexOf(mv) >= 0) knows.push(i); });
+      members.forEach(function (m, i) { if (knows.indexOf(i) < 0 && Object.prototype.hasOwnProperty.call(can[i], mv)) could.push({i: i, route: can[i][mv]}); });
+      return [knows.length ? 'covered' : could.length ? 'teachable' : 'gap', knows, could];
+    }
+    var rows = want.map(function (mv) { var s = standing(mv), f = field[mv] || {};
+      return {move: mv, standing: s[0], knows: s[1], could: s[2], machine: nz(f.machine), badge: nz(f.badge), requires: nz(f.requires), does: f.does || nz(P.field_does[mv]),
+        battle_worthy: battleWorthy(game, mv), candidates: s[0] === 'gap' ? candidates(game, mv, members) : []}; });
+    var slots = members.map(function (m, i) { if (m.moves == null) return {i: i, known: null, costs: [], hm_slave: false};
+      var known = m.moves.filter(function (mv) { return all.indexOf(mv) >= 0; }), costs = known.filter(function (mv) { return !battleWorthy(game, mv); });
+      return {i: i, known: known, costs: costs, hm_slave: costs.length >= 2}; });
+    var pol = P.model.field_policy, policy = [];
+    pol.minimum.forEach(function (mv) { if (all.indexOf(mv) < 0) return; policy.push({move: mv, standing: standing(mv)[0], exception: nz((pol.exceptions[game] || {})[mv])}); });
+    return {game: game, moves: rows, slots: slots, policy: policy, missing: rows.filter(function (r) { return r.standing === 'gap'; }).map(function (r) { return r.move; }),
+      teachable: rows.filter(function (r) { return r.standing === 'teachable'; }).map(function (r) { return r.move; })};
+  }
+  function candidates(game, move, members, limit) {
+    limit = limit || 6;
+    var have = members.map(function (m) { return m.species; }), out = [], recs = P.games[game].records;
+    Object.keys(recs).forEach(function (sp) { if (have.indexOf(sp) >= 0 || P.facts[sp][4]) return;
+      var learn = {}; recs[sp].forEach(function (j) { var x = P.rows[j]; if (x[1] === 'move' && x[4][1] === 'native') learn[x[4][0]] = 1; });
+      if (learn[move]) out.push([Object.keys(learn).length, sp]); });
+    out.sort(function (a, b) { return b[0] - a[0] || cmp(a[1], b[1]); });
+    return out.slice(0, limit).map(function (x) { return x[1]; });
+  }
+  function recommend(game, scenario, members, kit, preview, pool) {
+    kit = kit || []; preview = preview || [];
+    var base = worldReport(game, scenario, members, kit, preview), critOpen = base.needs.some(function (n) { return n.priority === 'critical' && !ready(n.standing); });
+    var taken = members.map(function (m) { return m.species + '|' + (m.ind || ''); }), out = {recommended: [], potential: [], rest: []};
+    (pool || []).forEach(function (c) { if (taken.indexOf(c.species + '|' + (c.ind || '')) >= 0) return;
+      var rep = worldReport(game, scenario, members.concat([c]), kit, preview), better = [];
+      base.needs.forEach(function (a, k) { var b = rep.needs[k]; if (RANK[b.standing] < RANK[a.standing]) {
+        var via = b.holders.filter(function (h) { return h.i === members.length; })[0];
+        better.push({cap: a.cap, name: a.name, priority: a.priority, from: a.standing, to: b.standing, via: via ? via.source : null}); } });
+      var rd = better.filter(function (x) { return ready(x.to); }), crit = rd.filter(function (x) { return x.priority === 'critical'; }), imp = rd.filter(function (x) { return x.priority === 'important'; });
+      var item = {label: c.label || c.species, species: c.species, ind: nz(c.ind), better: better, critical: crit.length, important: imp.length,
+        rations: rep.provisions.per_day - base.provisions.per_day,
+        why: better.map(function (x) { return x.name + ': ' + x.from + ' → ' + x.to + (x.via ? ' (' + x.via + ')' : ''); })};
+      if (crit.length || (!critOpen && imp.length)) out.recommended.push(item); else if (better.length) out.potential.push(item); else out.rest.push(item); });
+    var key = function (a, b) { return b.critical - a.critical || b.important - a.important || b.better.length - a.better.length || a.rations - b.rations || cmp(a.label, b.label); };
+    Object.keys(out).forEach(function (k) { out[k].sort(key); });
+    return out;
+  }
+  function compare(game, scenario, a, b) {
+    var ra = worldReport(game, scenario, a.members, a.kit || [], a.preview || []), rb = worldReport(game, scenario, b.members, b.kit || [], b.preview || []);
+    var sc = scenarioOf(scenario), ca = cartridgeReport(game, a.members, sc.field_moves), cb = cartridgeReport(game, b.members, sc.field_moves);
+    var rows = [], aOnly = [], bOnly = [];
+    ra.needs.forEach(function (x, k) { var y = rb.needs[k], side = RANK[x.standing] < RANK[y.standing] ? 'a' : RANK[y.standing] < RANK[x.standing] ? 'b' : null;
+      rows.push({cap: x.cap, name: x.name, priority: x.priority, a: x.standing, b: y.standing, better: side, a_n: x.covered_n, b_n: y.covered_n});
+      if (side === 'a') aOnly.push(x.name.toLowerCase() + ' (' + x.standing + ' vs ' + y.standing + ')');
+      if (side === 'b') bOnly.push(y.name.toLowerCase() + ' (' + y.standing + ' vs ' + x.standing + ')'); });
+    var la = a.label || 'A', lb = b.label || 'B', says = [];
+    if (aOnly.length) says.push(la + ' is stronger on ' + aOnly.join(', ') + '.');
+    if (bOnly.length) says.push(lb + ' is stronger on ' + bOnly.join(', ') + '.');
+    if (!aOnly.length && !bOnly.length) says.push('They meet this scenario\'s needs equally; the difference is elsewhere.');
+    var pa = ra.provisions.per_day, pb = rb.provisions.per_day;
+    if (pa !== pb) says.push((pa > pb ? la : lb) + ' needs more food: ' + Math.max(pa, pb) + ' rations a day against ' + Math.min(pa, pb) + '.');
+    var fa = ca.moves.filter(function (r) { return r.standing === 'covered'; }).length, fb = cb.moves.filter(function (r) { return r.standing === 'covered'; }).length;
+    if (fa !== fb) says.push((fa > fb ? la : lb) + ' knows more of the field moves this ground calls for (' + Math.max(fa, fb) + ' against ' + Math.min(fa, fb) + ').');
+    var sa = 0, sb = 0; ca.slots.forEach(function (s) { sa += s.costs.length; }); cb.slots.forEach(function (s) { sb += s.costs.length; });
+    if (sa !== sb) says.push((sa > sb ? la : lb) + ' gives up more battle slots to field moves (' + Math.max(sa, sb) + ' against ' + Math.min(sa, sb) + ').');
+    return {rows: rows, a: ra, b: rb, a_cart: ca, b_cart: cb, says: says};
+  }
+  function facilityReport(facility, staff, pool, preview, game) {
+    staff = staff || []; pool = pool || []; preview = preview || [];
+    var fac = typeof facility === 'string' ? P.facilities.filter(function (f) { return f.id === facility; })[0] : facility;
+    game = game || P.present_game;
+    var cache = {};
+    function b(m) { var k = JSON.stringify([m.species, m.ind || null, m.moves == null ? null : m.moves, m.ability || null]); if (!cache[k]) cache[k] = best(game, m, [], preview); return cache[k]; }
+    var reqs = fac.requirements.map(function (rq) {
+      function standingOf(m) { var bb = b(m), hits = rq.any.filter(function (c) { return bb[c]; }).map(function (c) { return bb[c]; });
+        hits.sort(function (x, y) { return RANK[x[0]] - RANK[y[0]]; }); return hits[0] || null; }
+      var assigned = [];
+      staff.forEach(function (s, j) { if (s.need != null && s.need !== rq.id) return; var h = standingOf(s); if (h) assigned.push(holder(s, j, h[0], h[1])); });
+      assigned.sort(function (x, y) { return RANK[x.standing] - RANK[y.standing] || x.i - y.i; });
+      var st = assigned.length ? assigned[0].standing : 'gap', cands = [];
+      pool.forEach(function (m, i) { var h = standingOf(m); if (h) { var x = holder(m, i, h[0], h[1]); x.can_staff = h[0] === 'covered'; cands.push(x); } });
+      cands.sort(function (x, y) { return RANK[x.standing] - RANK[y.standing] || cmp(x.who, y.who); });
+      var nCov = assigned.filter(function (h) { return h.standing === 'covered'; }).length, canStaff = cands.filter(function (c) { return c.can_staff; }).map(function (c) { return c.who; });
+      return {id: rq.id, name: rq.name, group: rq.group, priority: rq.priority, any: rq.any, why: rq.why, infrastructure: rq.infrastructure, standing: st, staff: assigned,
+        covered_n: nCov, single_point: nCov === 1, candidates: cands, can_staff: canStaff,
+        hires: canStaff.length ? [] : hires(game, rq.any, pool.map(function (m) { return m.species; }))}; });
+    var groups = []; reqs.forEach(function (r) { if (groups.indexOf(r.group) < 0) groups.push(r.group); });
+    return {facility: fac.id, name: fac.name, status: fac.status, game: game, requirements: reqs, groups: groups,
+      staffed: reqs.filter(function (r) { return r.standing === 'covered'; }).map(function (r) { return r.id; }),
+      open: reqs.filter(function (r) { return r.standing !== 'covered'; }).map(function (r) { return r.id; }),
+      open_critical: reqs.filter(function (r) { return r.standing !== 'covered' && r.priority === 'critical'; }).map(function (r) { return r.id; }),
+      single_points: reqs.filter(function (r) { return r.single_point; }).map(function (r) { return r.id; }),
+      nobody: reqs.filter(function (r) { return !r.can_staff.length; }).map(function (r) { return r.id; })};
+  }
+  var HIRE = {};
+  function hires(game, caps, have, limit) {   // species you don't have that could staff the job on a game mechanic alone
+    limit = limit || 6;
+    var out = [];
+    Object.keys(P.games[game].records).forEach(function (sp) { if (have.indexOf(sp) >= 0 || P.facts[sp][4]) return;
+      var k = game + '|' + sp, bb = HIRE[k] || (HIRE[k] = best(game, {species: sp}));
+      var hit = caps.filter(function (c) { return bb[c] && bb[c][0] === 'covered'; }).map(function (c) { return bb[c][1]; });
+      if (hit.length) out.push({species: sp, source: hit[0].source}); });
+    out.sort(function (a, b) { return cmp(a.species, b.species); });
+    return out.slice(0, limit);
+  }
+  function compareStaff(facility, a, b, preview) {
+    var ra = facilityReport(facility, a.staff, [], preview), rb = facilityReport(facility, b.staff, [], preview), la = a.label || 'A', lb = b.label || 'B', rows = [], says = [];
+    ra.requirements.forEach(function (x, k) { var y = rb.requirements[k], side = RANK[x.standing] < RANK[y.standing] ? 'a' : RANK[y.standing] < RANK[x.standing] ? 'b' : null;
+      rows.push({id: x.id, name: x.name, a: x.standing, b: y.standing, better: side, a_n: x.covered_n, b_n: y.covered_n}); });
+    [['a', la], ['b', lb]].forEach(function (s) { var wins = rows.filter(function (r) { return r.better === s[0]; }).map(function (r) { return r.name.toLowerCase(); });
+      if (wins.length) says.push(s[1] + ' covers ' + wins.join(', ') + ' that the other doesn\'t.'); });
+    var redA = rows.filter(function (r) { return r.a_n >= 2; }).length, redB = rows.filter(function (r) { return r.b_n >= 2; }).length;
+    if (redA !== redB) says.push((redA > redB ? la : lb) + ' has more backup: ' + Math.max(redA, redB) + ' jobs held by two or more, against ' + Math.min(redA, redB) + '.');
+    if (a.staff.length !== b.staff.length) says.push((a.staff.length > b.staff.length ? la : lb) + ' uses more Pokémon (' + Math.max(a.staff.length, b.staff.length) + ' against ' + Math.min(a.staff.length, b.staff.length) + ').');
+    if (!says.length) says.push('They staff this facility the same way.');
+    return {rows: rows, a: ra, b: rb, says: says};
+  }
+  return {init: function (p) { P = p; HIRE = {}; return this; }, ready: function () { return !!P; }, pack: function () { return P; },
+    records: records, evidence: evidence, best: best, worldReport: worldReport, cartridgeReport: cartridgeReport, recommend: recommend, compare: compare,
+    facilityReport: facilityReport, compareStaff: compareStaff, provisions: provisions, candidates: candidates, capName: capName, battleWorthy: battleWorthy,
+    ORDER: ORDER, RANK: RANK, READY: READY, KINDS: KINDS, ORDER_TEXT: ORDER_TEXT};
+})();
+</script>

@@ -1,0 +1,131 @@
+{
+  "_note": "Facilities as capability networks (spec §10-11). Each requirement is met by any of its capabilities (capability/model.json), or by the infrastructure listed with it. Staffing follows D-039: a Pokémon fills a job on a game mechanic it has or a record you approved; anything else (Pokédex readings, body, type, move uses, proposed records) shows as a candidate, never as staff. Staff plans are plans, never facts (Q13, assumed): saving one changes nobody's team. The Glasshouse and its cold vault are approved (D-045); the ranch facilities come from canon/ranch.json (D-035-D-040); the Research Institute, Workshop, Habitats and Dragon's Den operations are the spec's starting concepts, proposed until you approve them.",
+  "facilities": [
+    {"id": "glasshouse", "name": "The Glasshouse", "status": "approved", "decision": "D-045", "site": "S-JOHTO",
+     "function": "The hatchery and greenhouse in one building: egg racks round a Magcargo hearth, berry beds and Apricorn trees in the rings, the hatching loop through the rows, the nursery yard.",
+     "rooms": ["Hearth hall", "Glasshouse rings", "Hatching loop", "Nursery yard", "Cold vault", "Studbook office"],
+     "people": ["head breeder", "orchard keeper", "nursery hands", "archivist"],
+     "outputs": ["hatched eggs", "medicine berries", "Apricorns for Kurt"],
+     "dependencies": ["cold-vault (seed and berry store)", "kitchen-orchard (hatchlings' food)"],
+     "limitations": ["Blackthorn winters are long and dark; the heat and light can't stop", "eggs hatch by being walked, so the loop needs walkers"],
+     "requirements": [
+       {"id": "heat", "group": "Climate management", "name": "Heat for eggs and crops", "room": "Hearth hall", "any": ["heat_source"], "priority": "critical", "why": "Blackthorn sits against the Ice Path", "infrastructure": [{"name": "a boiler or geothermal pipes", "note": "none at Blackthorn yet"}]},
+       {"id": "light", "group": "Climate management", "name": "Light through the winter", "room": "Glasshouse rings", "any": ["light"], "priority": "important", "why": "short winter days", "infrastructure": [{"name": "electric lamps", "note": "needs power (electricity)"}]},
+       {"id": "plants", "group": "Horticulture", "name": "Tending the berry beds and Apricorn trees", "room": "Glasshouse rings", "any": ["plant_care"], "priority": "critical", "why": "the crops are the point", "infrastructure": []},
+       {"id": "water", "group": "Horticulture", "name": "Watering", "room": "Glasshouse rings", "any": ["water_supply"], "priority": "important", "why": "beds under glass get no rain", "infrastructure": [{"name": "rain cisterns and the Route 45 river", "note": "pipes and a pump"}]},
+       {"id": "harvest", "group": "Horticulture", "name": "Picking and gathering", "room": "Glasshouse rings", "any": ["foraging", "manipulation"], "priority": "useful", "why": "berries off the bush", "infrastructure": []},
+       {"id": "eggs", "group": "Nursery support", "name": "Keeping eggs warm", "room": "Hearth hall", "any": ["egg_care"], "priority": "critical", "why": "the hatchery", "infrastructure": []},
+       {"id": "meals", "group": "Nursery support", "name": "Hatchlings' first meals", "room": "Nursery yard", "any": ["food_source"], "priority": "important", "why": "milk and berries", "infrastructure": []},
+       {"id": "calm", "group": "Nursery support", "name": "A gentle presence for hatchlings", "room": "Nursery yard", "any": ["calming_presence"], "priority": "important", "why": "first days", "infrastructure": []},
+       {"id": "health", "group": "Nursery support", "name": "Healing hatchlings", "room": "Nursery yard", "any": ["field_healing"], "priority": "important", "why": "small and fragile", "infrastructure": [{"name": "the clinic", "note": "a walk away"}]},
+       {"id": "watch", "group": "Nursery support", "name": "Keeping the yard safe", "room": "Nursery yard", "any": ["deterrence"], "priority": "useful", "why": "wild Pokémon from the mountain", "infrastructure": []},
+       {"id": "loop", "group": "Nursery support", "name": "Carrying eggs round the loop", "room": "Hatching loop", "any": ["hauling"], "priority": "useful", "why": "eggs hatch by being walked", "infrastructure": []}
+     ]},
+    {"id": "cold-vault", "name": "Ice Path cold vault", "status": "approved", "decision": "D-045", "site": "S-JOHTO", "part_of": "glasshouse",
+     "function": "Cut into the Ice Path rock: the seed vault and the berry store, and room for biological samples.",
+     "people": [], "outputs": ["stored seeds and berries", "samples kept cold"], "dependencies": ["glasshouse"],
+     "limitations": ["summer warms the outer rooms"],
+     "requirements": [
+       {"id": "cold", "group": "Cold storage", "name": "Keeping the store cold", "any": ["cold_source"], "priority": "critical", "why": "seeds, berries and samples", "infrastructure": [{"name": "the Ice Path's own ice and rock", "note": "enough in winter; the outer rooms warm in summer"}]},
+       {"id": "cold-work", "group": "Cold storage", "name": "Working in the cold", "any": ["cold_tolerance"], "priority": "important", "why": "long hours below freezing", "infrastructure": []},
+       {"id": "stores", "group": "Cold storage", "name": "Moving stores in and out", "any": ["hauling"], "priority": "useful", "why": "crates of berries and ice", "infrastructure": []}
+     ]},
+    {"id": "nursery", "name": "Nursery & hatchery", "status": "plan", "decision": "D-035-D-040", "site": "S-JOHTO", "ranch": "nursery & hatchery",
+     "function": "Pens by egg group: first steps, first meals, the hatchery.", "people": ["head breeder"], "outputs": ["hatchlings"], "dependencies": ["glasshouse"], "limitations": [],
+     "requirements": [
+       {"id": "eggs", "group": "Nursery", "name": "Keeping eggs warm", "any": ["egg_care"], "priority": "critical", "why": "the hatchery", "infrastructure": []},
+       {"id": "calm", "group": "Nursery", "name": "A gentle presence", "any": ["calming_presence"], "priority": "important", "why": "young Pokémon", "infrastructure": []}
+     ]},
+    {"id": "daycare", "name": "Day-care preserve", "status": "plan", "decision": "D-040", "site": "S-JOHTO", "ranch": "day-care preserve",
+     "function": "The one open part of the ranch: clients' Pokémon live in real habitat, not pens.", "people": ["Day-Care keepers"], "outputs": ["guests cared for"], "dependencies": [], "limitations": ["open by invitation only"],
+     "requirements": [
+       {"id": "calm", "group": "Care", "name": "A gentle presence", "any": ["calming_presence"], "priority": "important", "why": "other people's Pokémon", "infrastructure": []},
+       {"id": "watch", "group": "Care", "name": "Keeping the peace", "any": ["deterrence"], "priority": "important", "why": "strangers' Pokémon together", "infrastructure": []},
+       {"id": "health", "group": "Care", "name": "Healing", "any": ["field_healing"], "priority": "important", "why": "guests get hurt", "infrastructure": [{"name": "the clinic", "note": ""}]},
+       {"id": "food", "group": "Care", "name": "Feeding", "any": ["foraging"], "priority": "useful", "why": "guests eat", "infrastructure": []}
+     ]},
+    {"id": "clinic", "name": "Clinic", "status": "plan", "decision": "D-039", "site": "S-JOHTO", "ranch": "clinic",
+     "function": "Healing for residents, hatchlings and the preserve's guests.", "people": ["Pokémon nurse"], "outputs": [], "dependencies": [], "limitations": [],
+     "requirements": [
+       {"id": "heal", "group": "Medicine", "name": "Healing", "any": ["field_healing"], "priority": "critical", "why": "the point of a clinic", "infrastructure": [{"name": "medicine (Potions, berries from the Glasshouse)", "note": "game items heal outside battle"}]},
+       {"id": "calm", "group": "Medicine", "name": "A gentle presence", "any": ["calming_presence"], "priority": "important", "why": "frightened patients", "infrastructure": []}
+     ]},
+    {"id": "kitchen-orchard", "name": "Kitchen & orchard", "status": "plan", "decision": "D-034", "site": "S-JOHTO", "ranch": "kitchen & orchard",
+     "function": "Food and cooking, the orchard and the Apricorns.", "people": ["cook", "orchard keeper"], "outputs": ["meals", "Apricorns"], "dependencies": ["glasshouse"], "limitations": [],
+     "requirements": [
+       {"id": "food", "group": "Food", "name": "Producing food", "any": ["food_source"], "priority": "critical", "why": "everyone eats", "infrastructure": [{"name": "the Glasshouse's crops and bought food", "note": ""}]},
+       {"id": "forage", "group": "Food", "name": "Gathering", "any": ["foraging"], "priority": "important", "why": "the orchard and the hills", "infrastructure": []},
+       {"id": "cook", "group": "Food", "name": "Cooking", "any": ["cooking"], "priority": "important", "why": "meals", "infrastructure": [{"name": "a kitchen range", "note": ""}]},
+       {"id": "fire", "group": "Food", "name": "Fire", "any": ["heat_source"], "priority": "important", "why": "the stove", "infrastructure": [{"name": "a wood or gas range", "note": ""}]}
+     ]},
+    {"id": "works", "name": "Works (building & upkeep)", "status": "plan", "decision": "D-039", "site": "S-JOHTO", "ranch": "works (building & upkeep)",
+     "function": "The crews that build and keep the estate.", "people": ["ranch hands"], "outputs": ["buildings", "repairs"], "dependencies": ["workshop"], "limitations": [],
+     "requirements": [
+       {"id": "haul", "group": "Labor", "name": "Moving heavy things", "any": ["hauling"], "priority": "critical", "why": "stone and timber", "infrastructure": [{"name": "carts and a winch", "note": ""}]},
+       {"id": "dig", "group": "Labor", "name": "Digging", "any": ["digging"], "priority": "important", "why": "foundations and ditches", "infrastructure": []},
+       {"id": "clear", "group": "Labor", "name": "Clearing trees and rocks", "any": ["clearing"], "priority": "important", "why": "new ground", "infrastructure": []},
+       {"id": "build", "group": "Labor", "name": "Building", "any": ["construction", "manipulation"], "priority": "useful", "why": "putting it together", "infrastructure": []}
+     ]},
+    {"id": "transport", "name": "Transport", "status": "plan", "decision": "D-036", "site": "S-JOHTO", "ranch": "transport",
+     "function": "Air, water and underground travel between Blackthorn, the satellite and the world.", "people": [], "outputs": [], "dependencies": [], "limitations": [],
+     "requirements": [
+       {"id": "air", "group": "Travel", "name": "Flying", "any": ["air_travel"], "priority": "critical", "why": "the satellite is far", "infrastructure": []},
+       {"id": "water", "group": "Travel", "name": "Crossing water", "any": ["water_travel"], "priority": "important", "why": "the river and the sea", "infrastructure": [{"name": "a boat", "note": ""}]},
+       {"id": "out", "group": "Travel", "name": "Getting out fast", "any": ["escape"], "priority": "useful", "why": "emergencies", "infrastructure": []}
+     ]},
+    {"id": "security", "name": "Security & watch", "status": "plan", "decision": "D-039", "site": "S-JOHTO", "ranch": "security & watch",
+     "function": "Wardens and watchers: deterrence on the ground, scouting from the air.", "people": ["wardens"], "outputs": [], "dependencies": [], "limitations": [],
+     "requirements": [
+       {"id": "deter", "group": "Watch", "name": "Keeping wild Pokémon away", "any": ["deterrence"], "priority": "critical", "why": "the estate is on a mountain road", "infrastructure": [{"name": "fences", "note": ""}]},
+       {"id": "scout", "group": "Watch", "name": "Seeing far", "any": ["scouting"], "priority": "important", "why": "the grounds are big", "infrastructure": []},
+       {"id": "sense", "group": "Watch", "name": "Sensing danger", "any": ["danger_sense"], "priority": "important", "why": "rockfall, storms, intruders", "infrastructure": []}
+     ]},
+    {"id": "climate", "name": "Climate", "status": "plan", "decision": "D-039", "site": "S-JOHTO", "ranch": "climate",
+     "function": "Heat and cold for every habitat; weather where it's needed.", "people": [], "outputs": [], "dependencies": [], "limitations": [],
+     "requirements": [
+       {"id": "heat", "group": "Climate", "name": "Heat", "any": ["heat_source"], "priority": "critical", "why": "warm habitats in a cold place", "infrastructure": [{"name": "boilers", "note": ""}]},
+       {"id": "cold", "group": "Climate", "name": "Cold", "any": ["cold_source", "cold_tolerance"], "priority": "important", "why": "cold habitats in summer", "infrastructure": [{"name": "the Ice Path", "note": ""}]},
+       {"id": "weather", "group": "Climate", "name": "Weather", "any": ["weather_handling"], "priority": "useful", "why": "fog, hail and sand where a habitat needs them", "infrastructure": []}
+     ]},
+    {"id": "research-institute", "name": "Research Institute", "status": "proposed", "decision": null, "site": "S-JOHTO",
+     "function": "Species research, biology dossiers, ecological and breeding research, habitat observations, egg-move specializations and field capability documentation; the research journal and the atlas are its library.",
+     "people": ["researchers"], "outputs": ["journal entries", "dossiers"], "dependencies": ["cold-vault (samples)"], "limitations": ["a spec concept, not yet yours"],
+     "requirements": [
+       {"id": "field", "group": "Field studies", "name": "Following wild Pokémon", "any": ["tracking", "scouting"], "priority": "important", "why": "observation in the field", "infrastructure": []},
+       {"id": "handle", "group": "Laboratory", "name": "Handling samples", "any": ["manipulation"], "priority": "useful", "why": "careful work", "infrastructure": [{"name": "lab staff", "note": "people"}]},
+       {"id": "samples", "group": "Laboratory", "name": "Keeping samples cold", "any": ["cold_source"], "priority": "useful", "why": "biological samples", "infrastructure": [{"name": "the cold vault", "note": ""}]},
+       {"id": "calm", "group": "Field studies", "name": "Calm with wild subjects", "any": ["calming_presence"], "priority": "useful", "why": "observation without stress", "infrastructure": []}
+     ]},
+    {"id": "workshop", "name": "Workshop & equipment depot", "status": "proposed", "decision": null, "site": "S-JOHTO",
+     "function": "Tools, equipment storage, repairs, materials, field kits, crafting and expedition preparation; the Poké Ball collection and the equipment library are its catalogue.",
+     "people": ["smith", "quartermaster"], "outputs": ["field kits", "repairs"], "dependencies": [], "limitations": ["a spec concept, not yet yours"],
+     "requirements": [
+       {"id": "hands", "group": "Craft", "name": "Handling tools and parts", "any": ["manipulation"], "priority": "critical", "why": "a workshop is hand work", "infrastructure": [{"name": "the smith", "note": "people"}]},
+       {"id": "build", "group": "Craft", "name": "Building and repairing", "any": ["construction"], "priority": "important", "why": "repairs and kit", "infrastructure": []},
+       {"id": "haul", "group": "Depot", "name": "Moving stock", "any": ["hauling"], "priority": "important", "why": "materials and crates", "infrastructure": [{"name": "carts", "note": ""}]},
+       {"id": "forge", "group": "Craft", "name": "A forge", "any": ["heat_source"], "priority": "useful", "why": "metal work", "infrastructure": [{"name": "a coal forge", "note": ""}]},
+       {"id": "power", "group": "Craft", "name": "Power for tools", "any": ["electricity"], "priority": "useful", "why": "power tools and lamps", "infrastructure": []},
+       {"id": "cut", "group": "Craft", "name": "Cutting timber and stone", "any": ["clearing"], "priority": "useful", "why": "materials", "infrastructure": []}
+     ]},
+    {"id": "habitats", "name": "Habitats & conservation grounds", "status": "proposed", "decision": null, "site": "S-JOHTO",
+     "function": "Species-specific environments, accommodation, feeding, exercise, enrichment, ecological observation and habitat compatibility (the census's land and pens).",
+     "people": ["keepers"], "outputs": ["healthy residents"], "dependencies": ["climate"], "limitations": ["a spec concept, not yet yours"],
+     "requirements": [
+       {"id": "calm", "group": "Care", "name": "A settled home", "any": ["calming_presence"], "priority": "important", "why": "residents living together", "infrastructure": []},
+       {"id": "watch", "group": "Care", "name": "Keeping the peace", "any": ["deterrence"], "priority": "important", "why": "predators and prey", "infrastructure": [{"name": "fences and separate pens", "note": ""}]},
+       {"id": "feed", "group": "Care", "name": "Feeding", "any": ["foraging", "food_source"], "priority": "important", "why": "every resident eats", "infrastructure": [{"name": "the kitchen", "note": ""}]},
+       {"id": "water", "group": "Upkeep", "name": "Water", "any": ["water_supply"], "priority": "important", "why": "ponds and troughs", "infrastructure": [{"name": "the river", "note": ""}]},
+       {"id": "plants", "group": "Upkeep", "name": "Habitat upkeep", "any": ["plant_care"], "priority": "useful", "why": "living habitats", "infrastructure": []}
+     ]},
+    {"id": "dragons-den", "name": "Dragon's Den research operations", "status": "proposed", "decision": null, "site": "S-JOHTO",
+     "function": "Cave exploration, field studies, environmental research, wildlife observation and expedition preparation in the dragon clan's shrine behind Blackthorn Gym.",
+     "people": ["researchers", "the dragon clan's permission"], "outputs": ["journal entries"], "dependencies": ["research-institute"], "limitations": ["a sacred site: the clan decides", "a spec concept, not yet yours"],
+     "requirements": [
+       {"id": "lake", "group": "Access", "name": "Crossing the lake", "any": ["water_travel"], "priority": "critical", "why": "the shrine is on an island", "infrastructure": [{"name": "a boat", "note": "if the clan allows it"}]},
+       {"id": "light", "group": "Access", "name": "Light in the cave", "any": ["light"], "priority": "important", "why": "it's a cave", "infrastructure": [{"name": "lanterns", "note": ""}]},
+       {"id": "sense", "group": "Fieldwork", "name": "Sensing danger", "any": ["danger_sense"], "priority": "important", "why": "wild dragons", "infrastructure": []},
+       {"id": "scout", "group": "Fieldwork", "name": "Observing", "any": ["scouting", "tracking"], "priority": "important", "why": "the den's Pokémon", "infrastructure": []},
+       {"id": "calm", "group": "Fieldwork", "name": "Respect for the site", "any": ["calming_presence"], "priority": "useful", "why": "a shrine", "infrastructure": []}
+     ]}
+  ]
+}
