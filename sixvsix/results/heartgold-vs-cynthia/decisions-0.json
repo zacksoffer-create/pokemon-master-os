@@ -1,0 +1,1355 @@
+[
+ {
+  "turn": 1,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Flamethrower",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   0,
+   75,
+   100
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 1,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dark Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   120,
+   90,
+   30,
+   120
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Flamethrower",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   0,
+   75,
+   100
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 51,
+    "known_moves": [
+     "Dark Pulse"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dark Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   120,
+   90,
+   30,
+   120
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 71,
+    "known_moves": [
+     "Flamethrower"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 6",
+  "label": "Garchomp",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   135,
+   120,
+   160,
+   285,
+   300
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 71,
+    "known_moves": [
+     "Flamethrower"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 3,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   71.3,
+   80,
+   0,
+   100
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 100
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 3,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   112.5,
+   300,
+   47.5,
+   135
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 71,
+    "known_moves": [
+     "Flamethrower"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 3,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Lapras",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   240,
+   370.5,
+   128.3,
+   570,
+   127.5
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 80,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 4,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   112.5,
+   150,
+   95,
+   135
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Lapras",
+    "pct": 100
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 4,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   570,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 80,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 4,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Lucario",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5"
+  ],
+  "scores": [
+   240,
+   180,
+   270,
+   90
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Lapras",
+    "pct": 68,
+    "known_moves": [
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 5,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   71.3,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 5,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Aura Sphere",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   270,
+   80,
+   80,
+   160
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Lapras",
+    "pct": 68,
+    "known_moves": [
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 5,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 2",
+  "label": "Roserade",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 5"
+  ],
+  "scores": [
+   240,
+   180,
+   90
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Lapras",
+    "pct": 27,
+    "known_moves": [
+     "Ice Beam",
+     "Surf"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 6,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   71.3,
+   285,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Roserade",
+    "pct": 100
+   },
+   "foe_seen": 4,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 6,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Energy Ball",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   240,
+   135,
+   0,
+   80
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Lapras",
+    "pct": 27,
+    "known_moves": [
+     "Ice Beam",
+     "Surf"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 6,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Crobat",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 6"
+  ],
+  "scores": [
+   120,
+   185.3,
+   256.5,
+   144
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Roserade",
+    "pct": 100,
+    "known_moves": [
+     "Energy Ball"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 7,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Extrasensory",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   30,
+   67.5,
+   0,
+   160
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 7,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   256.5,
+   0,
+   70,
+   0
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Roserade",
+    "pct": 100,
+    "known_moves": [
+     "Energy Ball"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 8,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Extrasensory",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   30,
+   67.5,
+   0,
+   160
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 8,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "scores": [
+   256.5
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Roserade",
+    "pct": 100,
+    "known_moves": [
+     "Energy Ball",
+     "Extrasensory"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 8,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Milotic",
+  "options": [
+   "switch 3",
+   "switch 5"
+  ],
+  "scores": [
+   120,
+   190
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 9,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   128.3,
+   0,
+   70,
+   0
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Milotic",
+    "pct": 100
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 9,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   190,
+   0,
+   90
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 10,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "scores": [
+   128.3
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Milotic",
+    "pct": 100,
+    "known_moves": [
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 10,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   190,
+   0,
+   90
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   128.3,
+   0,
+   70,
+   0
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Milotic",
+    "pct": 60,
+    "known_moves": [
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 11,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   190,
+   0,
+   90
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Crobat",
+    "pct": 59,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 12,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "scores": [
+   128.3
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Milotic",
+    "pct": 60,
+    "known_moves": [
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   190,
+   0,
+   90
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Crobat",
+    "pct": 65,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   128.3,
+   0,
+   70,
+   0
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Milotic",
+    "pct": 21,
+    "known_moves": [
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 13,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   190,
+   0,
+   90
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Crobat",
+    "pct": 18,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 14,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "scores": [
+   128.3
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Milotic",
+    "pct": 21,
+    "known_moves": [
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 14,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   142.5,
+   190,
+   0,
+   90
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Crobat",
+    "pct": 24,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 14,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 3",
+  "label": "Togekiss",
+  "options": [
+   "switch 3"
+  ],
+  "scores": [
+   120
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Crobat",
+    "pct": 30,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 15,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   128.3,
+   0,
+   35,
+   0
+  ],
+  "knew": {
+   "turn": 15,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 100
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 15,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Shock Wave",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   106.9,
+   22.5,
+   60,
+   120
+  ],
+  "knew": {
+   "turn": 15,
+   "foe": {
+    "species": "Crobat",
+    "pct": 30,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 16,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "scores": [
+   128.3
+  ],
+  "knew": {
+   "turn": 16,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 100,
+    "known_moves": [
+     "Shock Wave"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 16,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Shock Wave",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   106.9,
+   22.5,
+   60,
+   120
+  ],
+  "knew": {
+   "turn": 16,
+   "foe": {
+    "species": "Crobat",
+    "pct": 36,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 17,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   128.3,
+   0,
+   35,
+   0
+  ],
+  "knew": {
+   "turn": 17,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 62,
+    "known_moves": [
+     "Shock Wave"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 17,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Shock Wave",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   106.9,
+   22.5,
+   60,
+   120
+  ],
+  "knew": {
+   "turn": 17,
+   "foe": {
+    "species": "Crobat",
+    "pct": 8,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 18,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "scores": [
+   128.3
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 62,
+    "known_moves": [
+     "Shock Wave"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 18,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Shock Wave",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   106.9,
+   22.5,
+   60,
+   120
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Crobat",
+    "pct": 14,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 18,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 3",
+  "label": "Mamoswine",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 6"
+  ],
+  "scores": [
+   120,
+   185.3,
+   150
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 28,
+    "known_moves": [
+     "Shock Wave"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 19,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Aura Sphere",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   106.9,
+   180,
+   120,
+   0
+  ],
+  "knew": {
+   "turn": 19,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 100
+   },
+   "foe_seen": 4,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 19,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Ice Fang",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   120,
+   185.3,
+   120
+  ],
+  "knew": {
+   "turn": 19,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 28,
+    "known_moves": [
+     "Shock Wave"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ }
+]

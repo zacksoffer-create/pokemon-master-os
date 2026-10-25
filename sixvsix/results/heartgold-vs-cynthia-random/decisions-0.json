@@ -1,0 +1,3398 @@
+[
+ {
+  "turn": 1,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Crobat",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 1,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Togekiss",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "U-turn",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 100
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Milotic",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 2",
+  "label": "Tyranitar",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Milotic",
+    "pct": 79
+   },
+   "foe_seen": 3,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 3,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 100
+   },
+   "foe_seen": 3,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 3,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Lapras",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Milotic",
+    "pct": 73
+   },
+   "foe_seen": 3,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 4,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ice Beam",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Lapras",
+    "pct": 100
+   },
+   "foe_seen": 4,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 4,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Crobat",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Milotic",
+    "pct": 67,
+    "known_moves": [
+     "Surf"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 5,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Mirror Coat",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Crobat",
+    "pct": 49,
+    "known_moves": [
+     "U-turn"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 5,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Typhlosion",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Milotic",
+    "pct": 61,
+    "known_moves": [
+     "Surf",
+     "Ice Beam"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 6,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 95
+   },
+   "foe_seen": 4,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 6,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Tyranitar",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Milotic",
+    "pct": 55,
+    "known_moves": [
+     "Surf",
+     "Ice Beam",
+     "Mirror Coat"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 7,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Garchomp",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88
+   },
+   "foe_seen": 4,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 7,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Snorlax",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Milotic",
+    "pct": 49,
+    "known_moves": [
+     "Surf",
+     "Ice Beam",
+     "Mirror Coat",
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 8,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Spiritomb",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 8,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Zen Headbutt",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 100
+   },
+   "foe_seen": 4,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 9,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Roserade",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100,
+    "known_moves": [
+     "Zen Headbutt"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 9,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Tyranitar",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 94
+   },
+   "foe_seen": 4,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 10,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Garchomp",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 10,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Roserade",
+    "pct": 94
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 11,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Spiritomb",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Dance",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 100
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Garchomp",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "boosts": {
+     "atk": 1,
+     "spe": 1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 12,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 88
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 13,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Roserade",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "boosts": {
+     "atk": 1,
+     "spe": 1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Crobat",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 54
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 14,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Sludge Bomb",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Crobat",
+    "pct": 49,
+    "known_moves": [
+     "U-turn"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 14,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Snorlax",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Roserade",
+    "pct": 88
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 15,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Toxic",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 15,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 66,
+    "status": "psn",
+    "known_moves": [
+     "Zen Headbutt"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 15,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Thunder Punch",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 15,
+   "foe": {
+    "species": "Roserade",
+    "pct": 82,
+    "known_moves": [
+     "Sludge Bomb"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 16,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Energy Ball",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 16,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 53,
+    "status": "psn",
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 16,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Crobat",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 16,
+   "foe": {
+    "species": "Roserade",
+    "pct": 53,
+    "known_moves": [
+     "Sludge Bomb",
+     "Toxic"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 17,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Toxic",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 17,
+   "foe": {
+    "species": "Crobat",
+    "pct": 40,
+    "known_moves": [
+     "U-turn"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 17,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Mamoswine",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 17,
+   "foe": {
+    "species": "Roserade",
+    "pct": 47,
+    "known_moves": [
+     "Sludge Bomb",
+     "Toxic",
+     "Energy Ball"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 18,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Lucario",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 94,
+    "status": "tox"
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 18,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Tyranitar",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Roserade",
+    "pct": 41,
+    "known_moves": [
+     "Sludge Bomb",
+     "Toxic",
+     "Energy Ball"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 19,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Togekiss",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 19,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 19,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Mamoswine",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 19,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 20,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Aura Sphere",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 20,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 88,
+    "status": "tox"
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 20,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ancient Power",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 20,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 94
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 21,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Aura Sphere",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 21,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 20,
+    "status": "tox",
+    "known_moves": [
+     "Ancient Power"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 21,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Ancient Power",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 21,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 68,
+    "known_moves": [
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 21,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 6",
+  "label": "Snorlax",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 21,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 43,
+    "known_moves": [
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 22,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Lucario",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 22,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 53,
+    "status": "psn",
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 22,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Rest",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 22,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 43,
+    "known_moves": [
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 23,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Togekiss",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 23,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100,
+    "status": "slp",
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 23,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Zen Headbutt",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 23,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 24,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Spiritomb",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 24,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100,
+    "status": "slp",
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 24,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Zen Headbutt",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 24,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 37,
+    "known_moves": [
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 25,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Lucario",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 25,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100,
+    "status": "slp",
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 25,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Lapras",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 25,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 82
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 26,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Stone Edge",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 26,
+   "foe": {
+    "species": "Lapras",
+    "pct": 100
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 26,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Crobat",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 26,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 26,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 3",
+  "label": "Lapras",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 26,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100,
+    "known_moves": [
+     "Stone Edge"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 27,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Shadow Ball",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 27,
+   "foe": {
+    "species": "Lapras",
+    "pct": 100
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 27,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Heal Bell",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 27,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100,
+    "known_moves": [
+     "Stone Edge"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 28,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Aura Sphere",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 28,
+   "foe": {
+    "species": "Lapras",
+    "pct": 86,
+    "known_moves": [
+     "Heal Bell"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 28,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Rest",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 28,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100,
+    "known_moves": [
+     "Stone Edge",
+     "Shadow Ball"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 29,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Spiritomb",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 29,
+   "foe": {
+    "species": "Lapras",
+    "pct": 100,
+    "status": "slp",
+    "known_moves": [
+     "Heal Bell",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 29,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Typhlosion",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 29,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100,
+    "known_moves": [
+     "Stone Edge",
+     "Shadow Ball",
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 30,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Garchomp",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 30,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 89
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 30,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Lapras",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 30,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 75
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 31,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Togekiss",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 31,
+   "foe": {
+    "species": "Lapras",
+    "pct": 100,
+    "status": "slp",
+    "known_moves": [
+     "Heal Bell",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 31,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Snorlax",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 31,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 54
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 32,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Milotic",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 32,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100,
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 32,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Lapras",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 32,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 30,
+    "known_moves": [
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 33,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Togekiss",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 33,
+   "foe": {
+    "species": "Lapras",
+    "pct": 100,
+    "status": "slp",
+    "known_moves": [
+     "Heal Bell",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 33,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Snorlax",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 33,
+   "foe": {
+    "species": "Milotic",
+    "pct": 43,
+    "known_moves": [
+     "Surf",
+     "Ice Beam",
+     "Mirror Coat",
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 34,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Lucario",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 34,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100,
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 34,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Tyranitar",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 34,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 24,
+    "known_moves": [
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 35,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Garchomp",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 35,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 35,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 35,
+   "foe": {
+    "species": "Lucario",
+    "pct": 100,
+    "known_moves": [
+     "Stone Edge",
+     "Shadow Ball",
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 36,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Giga Impact",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 36,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 36,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Lapras",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 36,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 45
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 37,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Recharge",
+  "options": [
+   "move 1"
+  ],
+  "knew": {
+   "turn": 37,
+   "foe": {
+    "species": "Lapras",
+    "pct": 64,
+    "status": "slp",
+    "known_moves": [
+     "Heal Bell",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 37,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Tyranitar",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 37,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 45,
+    "known_moves": [
+     "Giga Impact"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 38,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Milotic",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 38,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 38,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Typhlosion",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 38,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 45,
+    "known_moves": [
+     "Giga Impact"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 39,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 39,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 83
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 39,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Flamethrower",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 39,
+   "foe": {
+    "species": "Milotic",
+    "pct": 37,
+    "known_moves": [
+     "Surf",
+     "Ice Beam",
+     "Mirror Coat",
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 40,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 40,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 4,
+    "known_moves": [
+     "Flamethrower"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 40,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 40,
+   "foe": {
+    "species": "Milotic",
+    "pct": 13,
+    "known_moves": [
+     "Surf",
+     "Ice Beam",
+     "Mirror Coat",
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 6,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 40,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Roserade",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 40,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 0,
+    "status": "fnt",
+    "known_moves": [
+     "Flamethrower",
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 40,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Tyranitar",
+  "options": [
+   "switch 2",
+   "switch 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 40,
+   "foe": {
+    "species": "Milotic",
+    "pct": 0,
+    "status": "fnt",
+    "known_moves": [
+     "Surf",
+     "Ice Beam",
+     "Mirror Coat",
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 41,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Spiritomb",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 41,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 41,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Crunch",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 41,
+   "foe": {
+    "species": "Roserade",
+    "pct": 41,
+    "known_moves": [
+     "Sludge Bomb",
+     "Toxic",
+     "Energy Ball"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 42,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dark Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 42,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 88,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 42,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Dance",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 42,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 21,
+    "boosts": {
+     "def": -1
+    }
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 43,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Lucario",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 43,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 81,
+    "boosts": {
+     "atk": 1,
+     "spe": 1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 43,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 43,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 15,
+    "boosts": {
+     "def": -1
+    },
+    "known_moves": [
+     "Dark Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 43,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 2",
+  "label": "Spiritomb",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 43,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 81,
+    "boosts": {
+     "atk": 1,
+     "spe": 1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 44,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Lapras",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 44,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 15,
+    "known_moves": [
+     "Dark Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 44,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Shadow Ball",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 44,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 81,
+    "boosts": {
+     "atk": 1,
+     "spe": 1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 45,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Rest",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 45,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 9,
+    "known_moves": [
+     "Dark Pulse",
+     "Shadow Ball"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 45,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Shadow Ball",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 45,
+   "foe": {
+    "species": "Lapras",
+    "pct": 47,
+    "status": "slp",
+    "boosts": {
+     "spd": -1
+    },
+    "known_moves": [
+     "Heal Bell",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 46,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Rest",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 46,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 3,
+    "known_moves": [
+     "Dark Pulse",
+     "Shadow Ball"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 46,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Shadow Ball",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 46,
+   "foe": {
+    "species": "Lapras",
+    "pct": 21,
+    "status": "slp",
+    "boosts": {
+     "spd": -1
+    },
+    "known_moves": [
+     "Heal Bell",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 46,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 2",
+  "label": "Tyranitar",
+  "options": [
+   "switch 2",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 46,
+   "foe": {
+    "species": "Spiritomb",
+    "pct": 0,
+    "status": "fnt",
+    "known_moves": [
+     "Dark Pulse",
+     "Shadow Ball"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 46,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 6",
+  "label": "Garchomp",
+  "options": [
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 46,
+   "foe": {
+    "species": "Lapras",
+    "pct": 0,
+    "status": "fnt",
+    "boosts": {
+     "spd": -1
+    },
+    "known_moves": [
+     "Heal Bell",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 47,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Outrage",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 47,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 45,
+    "known_moves": [
+     "Giga Impact"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 47,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Rush",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 3",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 47,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 81,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 47,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 3",
+  "label": "Roserade",
+  "options": [
+   "switch 3",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 47,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 81,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch",
+     "Outrage"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 48,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Outrage",
+  "options": [
+   "move 1"
+  ],
+  "knew": {
+   "turn": 48,
+   "foe": {
+    "species": "Roserade",
+    "pct": 41,
+    "known_moves": [
+     "Sludge Bomb",
+     "Toxic",
+     "Energy Ball"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 48,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Sludge Bomb",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 48,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 81,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch",
+     "Outrage"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 48,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Togekiss",
+  "options": [
+   "switch 5"
+  ],
+  "knew": {
+   "turn": 48,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 69,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch",
+     "Outrage"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 49,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Snorlax",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 49,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 24,
+    "known_moves": [
+     "Aura Sphere"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 49,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Water Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "knew": {
+   "turn": 49,
+   "foe": {
+    "species": "Tyranitar",
+    "pct": 69,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Dance",
+     "Crunch",
+     "Outrage"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 50,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Rest",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 50,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 18,
+    "known_moves": [
+     "Aura Sphere",
+     "Water Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 50,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Water Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "knew": {
+   "turn": 50,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 92,
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 51,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Rest",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 51,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 12,
+    "known_moves": [
+     "Aura Sphere",
+     "Water Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 51,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Water Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "knew": {
+   "turn": 51,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 74,
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 52,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Tyranitar",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 4"
+  ],
+  "knew": {
+   "turn": 52,
+   "foe": {
+    "species": "Togekiss",
+    "pct": 6,
+    "known_moves": [
+     "Aura Sphere",
+     "Water Pulse"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1,
+   "weather": "Sandstorm"
+  }
+ },
+ {
+  "turn": 52,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Aura Sphere",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "knew": {
+   "turn": 52,
+   "foe": {
+    "species": "Snorlax",
+    "pct": 100,
+    "status": "slp",
+    "known_moves": [
+     "Zen Headbutt",
+     "Thunder Punch",
+     "Rest"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2,
+   "weather": "Sandstorm"
+  }
+ }
+]

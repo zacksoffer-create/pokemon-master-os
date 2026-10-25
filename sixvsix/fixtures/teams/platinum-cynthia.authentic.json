@@ -1,0 +1,452 @@
+{
+ "kind": "TeamVersion",
+ "id": "library:platinum/cynthia",
+ "version": 1,
+ "name": "Champion Cynthia (Platinum)",
+ "trainer": "cynthia",
+ "game": "platinum",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "library:platinum/cynthia#1",
+   "version": 1,
+   "species": "Spiritomb",
+   "game": "platinum",
+   "generation": 4,
+   "level": 58,
+   "nature": "Hardy",
+   "ability": "Pressure",
+   "item": null,
+   "moves": [
+    "Dark Pulse",
+    "Psychic",
+    "Silver Wind",
+    "Shadow Ball"
+   ],
+   "ivs": {
+    "hp": 30,
+    "atk": 30,
+    "def": 30,
+    "spa": 30,
+    "spd": 30,
+    "spe": 30
+   },
+   "evs": {
+    "hp": 0,
+    "atk": 0,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "the game's own team"
+    ],
+    "level": [
+     "confirmed",
+     "the game's own level"
+    ],
+    "moves": [
+     "confirmed",
+     "the game's own moveset"
+    ],
+    "ivs": [
+     "confirmed",
+     "the game's IV rule for this trainer"
+    ],
+    "evs": [
+     "confirmed",
+     "the games give trainers no EVs"
+    ],
+    "nature": [
+     "unknown",
+     "set by the game from a hidden value the data doesn't fix"
+    ],
+    "ability": [
+     "standardized",
+     "the game picks it from a hidden value; Blackthorn reads the first ability"
+    ],
+    "item": [
+     "confirmed",
+     "the game gives it no item"
+    ]
+   },
+   "filled": [
+    "nature: Hardy (neutral; the game sets it from a hidden value)"
+   ],
+   "source": "pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:platinum/cynthia#2",
+   "version": 1,
+   "species": "Roserade",
+   "game": "platinum",
+   "generation": 4,
+   "level": 58,
+   "nature": "Hardy",
+   "ability": "Natural Cure",
+   "item": null,
+   "moves": [
+    "Energy Ball",
+    "Sludge Bomb",
+    "Toxic",
+    "Extrasensory"
+   ],
+   "ivs": {
+    "hp": 30,
+    "atk": 30,
+    "def": 30,
+    "spa": 30,
+    "spd": 30,
+    "spe": 30
+   },
+   "evs": {
+    "hp": 0,
+    "atk": 0,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "the game's own team"
+    ],
+    "level": [
+     "confirmed",
+     "the game's own level"
+    ],
+    "moves": [
+     "confirmed",
+     "the game's own moveset"
+    ],
+    "ivs": [
+     "confirmed",
+     "the game's IV rule for this trainer"
+    ],
+    "evs": [
+     "confirmed",
+     "the games give trainers no EVs"
+    ],
+    "nature": [
+     "unknown",
+     "set by the game from a hidden value the data doesn't fix"
+    ],
+    "ability": [
+     "standardized",
+     "the game picks it from a hidden value; Blackthorn reads the first ability"
+    ],
+    "item": [
+     "confirmed",
+     "the game gives it no item"
+    ]
+   },
+   "filled": [
+    "nature: Hardy (neutral; the game sets it from a hidden value)"
+   ],
+   "source": "pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:platinum/cynthia#3",
+   "version": 1,
+   "species": "Togekiss",
+   "game": "platinum",
+   "generation": 4,
+   "level": 60,
+   "nature": "Hardy",
+   "ability": "Hustle",
+   "item": null,
+   "moves": [
+    "Air Slash",
+    "Aura Sphere",
+    "Water Pulse",
+    "Shock Wave"
+   ],
+   "ivs": {
+    "hp": 30,
+    "atk": 30,
+    "def": 30,
+    "spa": 30,
+    "spd": 30,
+    "spe": 30
+   },
+   "evs": {
+    "hp": 0,
+    "atk": 0,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "the game's own team"
+    ],
+    "level": [
+     "confirmed",
+     "the game's own level"
+    ],
+    "moves": [
+     "confirmed",
+     "the game's own moveset"
+    ],
+    "ivs": [
+     "confirmed",
+     "the game's IV rule for this trainer"
+    ],
+    "evs": [
+     "confirmed",
+     "the games give trainers no EVs"
+    ],
+    "nature": [
+     "unknown",
+     "set by the game from a hidden value the data doesn't fix"
+    ],
+    "ability": [
+     "standardized",
+     "the game picks it from a hidden value; Blackthorn reads the first ability"
+    ],
+    "item": [
+     "confirmed",
+     "the game gives it no item"
+    ]
+   },
+   "filled": [
+    "nature: Hardy (neutral; the game sets it from a hidden value)"
+   ],
+   "source": "pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:platinum/cynthia#4",
+   "version": 1,
+   "species": "Lucario",
+   "game": "platinum",
+   "generation": 4,
+   "level": 60,
+   "nature": "Hardy",
+   "ability": "Steadfast",
+   "item": null,
+   "moves": [
+    "Aura Sphere",
+    "Extreme Speed",
+    "Shadow Ball",
+    "Stone Edge"
+   ],
+   "ivs": {
+    "hp": 30,
+    "atk": 30,
+    "def": 30,
+    "spa": 30,
+    "spd": 30,
+    "spe": 30
+   },
+   "evs": {
+    "hp": 0,
+    "atk": 0,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "the game's own team"
+    ],
+    "level": [
+     "confirmed",
+     "the game's own level"
+    ],
+    "moves": [
+     "confirmed",
+     "the game's own moveset"
+    ],
+    "ivs": [
+     "confirmed",
+     "the game's IV rule for this trainer"
+    ],
+    "evs": [
+     "confirmed",
+     "the games give trainers no EVs"
+    ],
+    "nature": [
+     "unknown",
+     "set by the game from a hidden value the data doesn't fix"
+    ],
+    "ability": [
+     "standardized",
+     "the game picks it from a hidden value; Blackthorn reads the first ability"
+    ],
+    "item": [
+     "confirmed",
+     "the game gives it no item"
+    ]
+   },
+   "filled": [
+    "nature: Hardy (neutral; the game sets it from a hidden value)"
+   ],
+   "source": "pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:platinum/cynthia#5",
+   "version": 1,
+   "species": "Milotic",
+   "game": "platinum",
+   "generation": 4,
+   "level": 58,
+   "nature": "Hardy",
+   "ability": "Marvel Scale",
+   "item": null,
+   "moves": [
+    "Surf",
+    "Ice Beam",
+    "Mirror Coat",
+    "Dragon Pulse"
+   ],
+   "ivs": {
+    "hp": 30,
+    "atk": 30,
+    "def": 30,
+    "spa": 30,
+    "spd": 30,
+    "spe": 30
+   },
+   "evs": {
+    "hp": 0,
+    "atk": 0,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "the game's own team"
+    ],
+    "level": [
+     "confirmed",
+     "the game's own level"
+    ],
+    "moves": [
+     "confirmed",
+     "the game's own moveset"
+    ],
+    "ivs": [
+     "confirmed",
+     "the game's IV rule for this trainer"
+    ],
+    "evs": [
+     "confirmed",
+     "the games give trainers no EVs"
+    ],
+    "nature": [
+     "unknown",
+     "set by the game from a hidden value the data doesn't fix"
+    ],
+    "ability": [
+     "standardized",
+     "the game picks it from a hidden value; Blackthorn reads the first ability"
+    ],
+    "item": [
+     "confirmed",
+     "the game gives it no item"
+    ]
+   },
+   "filled": [
+    "nature: Hardy (neutral; the game sets it from a hidden value)"
+   ],
+   "source": "pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:platinum/cynthia#6",
+   "version": 1,
+   "species": "Garchomp",
+   "game": "platinum",
+   "generation": 4,
+   "level": 62,
+   "nature": "Hardy",
+   "ability": "Sand Veil",
+   "item": "Sitrus Berry",
+   "moves": [
+    "Dragon Rush",
+    "Earthquake",
+    "Flamethrower",
+    "Giga Impact"
+   ],
+   "ivs": {
+    "hp": 30,
+    "atk": 30,
+    "def": 30,
+    "spa": 30,
+    "spd": 30,
+    "spe": 30
+   },
+   "evs": {
+    "hp": 0,
+    "atk": 0,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "the game's own team"
+    ],
+    "level": [
+     "confirmed",
+     "the game's own level"
+    ],
+    "moves": [
+     "confirmed",
+     "the game's own moveset"
+    ],
+    "ivs": [
+     "confirmed",
+     "the game's IV rule for this trainer"
+    ],
+    "evs": [
+     "confirmed",
+     "the games give trainers no EVs"
+    ],
+    "nature": [
+     "unknown",
+     "set by the game from a hidden value the data doesn't fix"
+    ],
+    "ability": [
+     "standardized",
+     "the game picks it from a hidden value; Blackthorn reads the first ability"
+    ],
+    "item": [
+     "confirmed",
+     "the game's own held item"
+    ]
+   },
+   "filled": [
+    "nature: Hardy (neutral; the game sets it from a hidden value)"
+   ],
+   "source": "pret/pokeplatinum res/trainers/data/champion_cynthia.json"
+  }
+ ],
+ "lead": "first",
+ "lens": "authentic",
+ "source": {
+  "kind": "blackthorn-trainer-library",
+  "version_id": "platinum/cynthia",
+  "library_kind": "cartridge",
+  "record": "pret/pokeplatinum res/trainers/data/champion_cynthia.json",
+  "read_only": true
+ }
+}

@@ -1,0 +1,220 @@
+{
+ "kind": "TeamVersion",
+ "id": "sample:gen4ou-balance",
+ "version": 1,
+ "name": "Gen 4 OU sample (hazards, pivots, Choice items)",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "sample:gen4ou-balance#1",
+   "version": 1,
+   "species": "Swampert",
+   "generation": 4,
+   "level": 100,
+   "nature": "Relaxed",
+   "ability": "Torrent",
+   "item": "Leftovers",
+   "moves": [
+    "Stealth Rock",
+    "Surf",
+    "Earthquake",
+    "Roar"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 240,
+    "atk": 0,
+    "def": 216,
+    "spa": 0,
+    "spd": 52,
+    "spe": 0
+   },
+   "source": "authored sample"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "sample:gen4ou-balance#2",
+   "version": 1,
+   "species": "Skarmory",
+   "generation": 4,
+   "level": 100,
+   "nature": "Impish",
+   "ability": "Keen Eye",
+   "item": "Leftovers",
+   "moves": [
+    "Spikes",
+    "Roost",
+    "Whirlwind",
+    "Brave Bird"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 252,
+    "atk": 0,
+    "def": 224,
+    "spa": 0,
+    "spd": 0,
+    "spe": 32
+   },
+   "source": "authored sample"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "sample:gen4ou-balance#3",
+   "version": 1,
+   "species": "Scizor",
+   "generation": 4,
+   "level": 100,
+   "nature": "Adamant",
+   "ability": "Technician",
+   "item": "Choice Band",
+   "moves": [
+    "Bullet Punch",
+    "U-turn",
+    "Superpower",
+    "Pursuit"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 200,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 56
+   },
+   "source": "authored sample"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "sample:gen4ou-balance#4",
+   "version": 1,
+   "species": "Gengar",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hasty",
+   "ability": "Levitate",
+   "item": "Life Orb",
+   "moves": [
+    "Shadow Ball",
+    "Focus Blast",
+    "Thunderbolt",
+    "Explosion"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 0,
+    "atk": 4,
+    "def": 0,
+    "spa": 252,
+    "spd": 0,
+    "spe": 252
+   },
+   "source": "authored sample"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "sample:gen4ou-balance#5",
+   "version": 1,
+   "species": "Heatran",
+   "generation": 4,
+   "level": 100,
+   "nature": "Timid",
+   "ability": "Flash Fire",
+   "item": "Choice Scarf",
+   "moves": [
+    "Fire Blast",
+    "Earth Power",
+    "Dragon Pulse",
+    "Hidden Power Grass"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 30,
+    "def": 31,
+    "spa": 30,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 0,
+    "def": 0,
+    "spa": 252,
+    "spd": 0,
+    "spe": 252
+   },
+   "source": "authored sample"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "sample:gen4ou-balance#6",
+   "version": 1,
+   "species": "Gyarados",
+   "generation": 4,
+   "level": 100,
+   "nature": "Adamant",
+   "ability": "Intimidate",
+   "item": "Leftovers",
+   "moves": [
+    "Dragon Dance",
+    "Waterfall",
+    "Earthquake",
+    "Stone Edge"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "source": "authored sample"
+  }
+ ],
+ "lead": "first",
+ "game": "platinum",
+ "source": {
+  "kind": "authored",
+  "note": "written for the Phase 1 tests: a common DPP OU balance shape"
+ },
+ "lens": "standardized"
+}

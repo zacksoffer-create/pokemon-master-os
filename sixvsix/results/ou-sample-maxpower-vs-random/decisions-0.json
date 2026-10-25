@@ -1,0 +1,1232 @@
+[
+ {
+  "turn": 1,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   150,
+   0
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 1,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Stealth Rock",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   150,
+   0
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Swampert",
+    "pct": 80,
+    "known_moves": [
+     "Stealth Rock"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Heatran",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Gengar",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 3,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   300,
+   0
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Gengar",
+    "pct": 100
+   },
+   "foe_seen": 3,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 3,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Scizor",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 4,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   150,
+   0
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Scizor",
+    "pct": 64
+   },
+   "foe_seen": 4,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 4,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Swampert",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 5,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   150,
+   0
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Swampert",
+    "pct": 59,
+    "known_moves": [
+     "Stealth Rock"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 5,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Gyarados",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 6,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   71.3,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 100
+   },
+   "foe_seen": 5,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 6,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 7,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   71.3,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 79,
+    "known_moves": [
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 7,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 5",
+  "label": "Scizor",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Swampert",
+    "pct": 78,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 8,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   150,
+   0
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Scizor",
+    "pct": 31
+   },
+   "foe_seen": 5,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 8,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Skarmory",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Swampert",
+    "pct": 84,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 9,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 100
+   },
+   "foe_seen": 6,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 9,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Brave Bird",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Swampert",
+    "pct": 91,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 10,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 52,
+    "known_moves": [
+     "Brave Bird"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 10,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Gengar",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Swampert",
+    "pct": 52,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   300,
+   0
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Gengar",
+    "pct": 54
+   },
+   "foe_seen": 6,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 11,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Explosion",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Swampert",
+    "pct": 59,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Gengar",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   180,
+   80,
+   240,
+   180,
+   200
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Gengar",
+    "pct": 0,
+    "known_moves": [
+     "Explosion"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 11,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Gyarados",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Swampert",
+    "pct": 0,
+    "status": "fnt",
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 12,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Thunderbolt",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   120,
+   42,
+   380,
+   250
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 79,
+    "known_moves": [
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Gengar",
+    "pct": 88,
+    "boosts": {
+     "atk": -1
+    }
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 6",
+  "label": "Swampert",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 6"
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Gengar",
+    "pct": 78,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Thunderbolt"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Explosion",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   120,
+   84,
+   0,
+   250
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Swampert",
+    "pct": 59,
+    "known_moves": [
+     "Stealth Rock"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 13,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3"
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Gengar",
+    "pct": 78,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Thunderbolt"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Heatran",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   180,
+   120,
+   280,
+   120
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Swampert",
+    "pct": 19,
+    "known_moves": [
+     "Stealth Rock",
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 14,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3"
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 14,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   76.5,
+   90,
+   90,
+   0
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Swampert",
+    "pct": 19,
+    "known_moves": [
+     "Stealth Rock",
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 14,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 3",
+  "label": "Skarmory",
+  "options": [
+   "switch 2",
+   "switch 3"
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 15,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 3"
+  ],
+  "scores": [
+   45
+  ],
+  "knew": {
+   "turn": 15,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 52,
+    "known_moves": [
+     "Brave Bird"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 15,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 2",
+  "label": "Scizor",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2"
+  ],
+  "knew": {
+   "turn": 15,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 16,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 3"
+  ],
+  "scores": [
+   45
+  ],
+  "knew": {
+   "turn": 16,
+   "foe": {
+    "species": "Scizor",
+    "pct": 10
+   },
+   "foe_seen": 6,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 16,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Superpower",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2"
+  ],
+  "knew": {
+   "turn": 16,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 16,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 2",
+  "label": "Skarmory",
+  "options": [
+   "switch 2"
+  ],
+  "knew": {
+   "turn": 16,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 17,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 3"
+  ],
+  "scores": [
+   45
+  ],
+  "knew": {
+   "turn": 17,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 52,
+    "known_moves": [
+     "Brave Bird"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 17,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Spikes",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "knew": {
+   "turn": 17,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 18,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 3"
+  ],
+  "scores": [
+   45
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 17,
+    "known_moves": [
+     "Brave Bird",
+     "Spikes"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 18,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Spikes",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ }
+]

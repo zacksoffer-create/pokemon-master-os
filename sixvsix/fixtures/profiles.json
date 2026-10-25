@@ -1,0 +1,91 @@
+{
+ "platinum/cynthia": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/cynthia:maxpower",
+  "version": 1,
+  "name": "Champion Cynthia (Platinum)",
+  "identity": "cynthia",
+  "source_version": "platinum/cynthia",
+  "agent": "maxpower",
+  "params": {},
+  "information": "partial",
+  "tendencies": {
+   "sliders": {
+    "offense": {
+     "value": 65,
+     "why": "strong attackers, no wasted turns"
+    },
+    "rigidity": {
+     "value": 20,
+     "why": "a balanced team that covers everything"
+    },
+    "bond": {
+     "value": 85,
+     "why": "calm trust in each partner"
+    },
+    "risk": {
+     "value": 30,
+     "why": "plays the percentages"
+    }
+   },
+   "coach": {}
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Phase 1: decisions come from the maxpower baseline agent; the library's AI reading is recorded, not yet played."
+ },
+ "me/heartgold": {
+  "kind": "TrainerProfile",
+  "id": "profile:me/heartgold:maxpower",
+  "version": 1,
+  "name": "Zack",
+  "identity": "me",
+  "source_version": "me/heartgold",
+  "agent": "maxpower",
+  "params": {},
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {}
+  },
+  "competence": {
+   "reading": {}
+  },
+  "playbook": null,
+  "ai_flags": [],
+  "reading": {},
+  "note": "Phase 1: decisions come from the maxpower baseline agent; the library's AI reading is recorded, not yet played."
+ }
+}

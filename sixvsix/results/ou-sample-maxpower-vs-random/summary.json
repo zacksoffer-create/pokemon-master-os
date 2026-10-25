@@ -1,0 +1,312 @@
+{
+ "kind": "SimulationResult",
+ "engine": "showdown-sim@0.10.11",
+ "format": "gen4 singles, 6v6, level 100 (Gen IV OU (Smogon, as Showdown defines it))",
+ "a": "sample:gen4ou-balance",
+ "b": "sample:gen4ou-balance",
+ "lens": "standardized",
+ "held_constant": [
+  "A: sample:gen4ou-balance v1 (every field of all 6 builds), played by maxpower",
+  "B: sample:gen4ou-balance v1 (every field of all 6 builds), played by random",
+  "ruleset gen4-ou v1",
+  "lens standardized",
+  "engine @pkmn/sim 0.10.11",
+  "lead order (each team leads with its first member)"
+ ],
+ "varied": [
+  "battle RNG (damage rolls, accuracy, critical hits, secondary effects, speed ties)",
+  "policy RNG (tie-breaks; every choice for a random agent)",
+  "sides: A plays p1 in even battles and p2 in odd ones",
+  "each pair of battles shares one battle seed with the sides swapped",
+  "genders not on record (12 Pokémon): Showdown draws them from the battle seed"
+ ],
+ "seed": "phase1-ou-mirror",
+ "n": 100,
+ "won": 97,
+ "lost": 3,
+ "drew": 0,
+ "made_at": "2026-10-25T15:38:46.984Z",
+ "evidence_class": "simulated",
+ "job": {
+  "id": "job:gen4ou-sample:maxpower-vs-random",
+  "label": "Gen 4 OU sample mirror: max-power baseline vs random",
+  "contract": "0.1.0",
+  "ruleset": "gen4-ou v1",
+  "a": {
+   "team": "sample:gen4ou-balance",
+   "team_version": 1,
+   "profile": "profile:baseline:maxpower",
+   "agent": "maxpower"
+  },
+  "b": {
+   "team": "sample:gen4ou-balance",
+   "team_version": 1,
+   "profile": "profile:baseline:random",
+   "agent": "random"
+  },
+  "trials": {
+   "n": 100,
+   "seed": "phase1-ou-mirror",
+   "pairing": "mirrored",
+   "turn_limit": 1000
+  },
+  "legality": {
+   "a": {
+    "team": "sample:gen4ou-balance",
+    "team_version": 1,
+    "ruleset": "gen4-ou",
+    "ok": true,
+    "required": [
+     "structural",
+     "obtainable",
+     "format"
+    ],
+    "failed": [],
+    "verdicts": {
+     "structural": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@-Nonexistent,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100,EV Limit = 510"
+     },
+     "obtainable": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@Obtainable,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100"
+     },
+     "format": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4ou"
+     }
+    },
+    "checked_by": "Showdown TeamValidator (@pkmn/sim 0.10.11)",
+    "not_checked": [
+     "encounter legality: whether this Pokémon could be had at this point in this game"
+    ]
+   },
+   "b": {
+    "team": "sample:gen4ou-balance",
+    "team_version": 1,
+    "ruleset": "gen4-ou",
+    "ok": true,
+    "required": [
+     "structural",
+     "obtainable",
+     "format"
+    ],
+    "failed": [],
+    "verdicts": {
+     "structural": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@-Nonexistent,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100,EV Limit = 510"
+     },
+     "obtainable": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@Obtainable,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100"
+     },
+     "format": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4ou"
+     }
+    },
+    "checked_by": "Showdown TeamValidator (@pkmn/sim 0.10.11)",
+    "not_checked": [
+     "encounter legality: whether this Pokémon could be had at this point in this game"
+    ]
+   }
+  }
+ },
+ "summary": {
+  "n": 100,
+  "won": 97,
+  "lost": 3,
+  "drew": 0,
+  "win_rate": 0.97,
+  "score": 0.97,
+  "win_rate_95": [
+   0.915,
+   0.99
+  ],
+  "margin_95": 0.037,
+  "by_side": {
+   "a_as_p1": {
+    "n": 50,
+    "won": 50
+   },
+   "a_as_p2": {
+    "n": 50,
+    "won": 47
+   }
+  },
+  "pairs": {
+   "n": 50,
+   "a_won_both": 47,
+   "b_won_both": 0,
+   "split": 3
+  },
+  "turns": {
+   "mean": 26,
+   "median": 26,
+   "min": 14,
+   "max": 43
+  },
+  "left_a_when_won": 3.464,
+  "left_b_when_won": 1.333,
+  "ends": {
+   "win": 100
+  },
+  "members": {
+   "a": [
+    {
+     "name": "Swampert",
+     "slot": 0,
+     "appeared": 1,
+     "kos_per_battle": 1.82,
+     "fainted_rate": 0.73,
+     "damage_dealt_per_battle": 304.2,
+     "damage_taken_per_battle": 138.1,
+     "switch_ins_per_battle": 1.39,
+     "turns_active_per_battle": 13.1
+    },
+    {
+     "name": "Skarmory",
+     "slot": 1,
+     "appeared": 0.67,
+     "kos_per_battle": 0.69,
+     "fainted_rate": 0.29,
+     "damage_dealt_per_battle": 79.9,
+     "damage_taken_per_battle": 63.8,
+     "switch_ins_per_battle": 0.77,
+     "turns_active_per_battle": 4.2
+    },
+    {
+     "name": "Scizor",
+     "slot": 2,
+     "appeared": 0.37,
+     "kos_per_battle": 0.31,
+     "fainted_rate": 0.22,
+     "damage_dealt_per_battle": 33.5,
+     "damage_taken_per_battle": 26.4,
+     "switch_ins_per_battle": 0.4,
+     "turns_active_per_battle": 1.3
+    },
+    {
+     "name": "Gengar",
+     "slot": 3,
+     "appeared": 0.91,
+     "kos_per_battle": 1.18,
+     "fainted_rate": 0.76,
+     "damage_dealt_per_battle": 98,
+     "damage_taken_per_battle": 35.8,
+     "switch_ins_per_battle": 0.91,
+     "turns_active_per_battle": 2.1
+    },
+    {
+     "name": "Heatran",
+     "slot": 4,
+     "appeared": 0.73,
+     "kos_per_battle": 0.97,
+     "fainted_rate": 0.47,
+     "damage_dealt_per_battle": 79.2,
+     "damage_taken_per_battle": 55.4,
+     "switch_ins_per_battle": 0.78,
+     "turns_active_per_battle": 3.1
+    },
+    {
+     "name": "Gyarados",
+     "slot": 5,
+     "appeared": 0.47,
+     "kos_per_battle": 0.6,
+     "fainted_rate": 0.17,
+     "damage_dealt_per_battle": 53.5,
+     "damage_taken_per_battle": 32.8,
+     "switch_ins_per_battle": 0.52,
+     "turns_active_per_battle": 2.2
+    }
+   ],
+   "b": [
+    {
+     "name": "Swampert",
+     "slot": 0,
+     "appeared": 1,
+     "kos_per_battle": 0.24,
+     "fainted_rate": 1,
+     "damage_dealt_per_battle": 65.4,
+     "damage_taken_per_battle": 126.1,
+     "switch_ins_per_battle": 3.59,
+     "turns_active_per_battle": 6
+    },
+    {
+     "name": "Skarmory",
+     "slot": 1,
+     "appeared": 1,
+     "kos_per_battle": 0.05,
+     "fainted_rate": 0.99,
+     "damage_dealt_per_battle": 23.9,
+     "damage_taken_per_battle": 141.8,
+     "switch_ins_per_battle": 2.77,
+     "turns_active_per_battle": 5.5
+    },
+    {
+     "name": "Scizor",
+     "slot": 2,
+     "appeared": 1,
+     "kos_per_battle": 0.25,
+     "fainted_rate": 1,
+     "damage_dealt_per_battle": 39.7,
+     "damage_taken_per_battle": 100,
+     "switch_ins_per_battle": 2.58,
+     "turns_active_per_battle": 3
+    },
+    {
+     "name": "Gengar",
+     "slot": 3,
+     "appeared": 1,
+     "kos_per_battle": 0.58,
+     "fainted_rate": 0.99,
+     "damage_dealt_per_battle": 77.5,
+     "damage_taken_per_battle": 70.4,
+     "switch_ins_per_battle": 2.44,
+     "turns_active_per_battle": 3.4
+    },
+    {
+     "name": "Heatran",
+     "slot": 4,
+     "appeared": 1,
+     "kos_per_battle": 0.2,
+     "fainted_rate": 1,
+     "damage_dealt_per_battle": 24.4,
+     "damage_taken_per_battle": 100,
+     "switch_ins_per_battle": 1.71,
+     "turns_active_per_battle": 1.7
+    },
+    {
+     "name": "Gyarados",
+     "slot": 5,
+     "appeared": 1,
+     "kos_per_battle": 0.69,
+     "fainted_rate": 0.98,
+     "damage_dealt_per_battle": 81.5,
+     "damage_taken_per_battle": 125.3,
+     "switch_ins_per_battle": 3.29,
+     "turns_active_per_battle": 6.4
+    }
+   ]
+  },
+  "reading": "97 of 100 won (97%); the 95% interval is 92–99%. "
+ },
+ "failures": [],
+ "timing": {
+  "total_ms": 3625,
+  "per_battle_ms": {
+   "mean": 35.9,
+   "median": 33.7,
+   "max": 65.6
+  },
+  "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
+ },
+ "fingerprint": "be0c4cb9b2421ef0"
+}

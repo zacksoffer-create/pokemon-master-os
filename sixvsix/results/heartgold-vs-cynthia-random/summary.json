@@ -1,0 +1,298 @@
+{
+ "kind": "SimulationResult",
+ "engine": "showdown-sim@0.10.11",
+ "format": "gen4 singles, 6v6, level 100 (Gen IV singles, as the cartridge plays it)",
+ "a": "library:me/heartgold",
+ "b": "library:platinum/cynthia",
+ "lens": "standardized",
+ "held_constant": [
+  "A: library:me/heartgold v1 (every field of all 6 builds), played by random",
+  "B: library:platinum/cynthia v1 (every field of all 6 builds), played by random",
+  "ruleset gen4-historical v1",
+  "lens standardized",
+  "engine @pkmn/sim 0.10.11",
+  "lead order (each team leads with its first member)"
+ ],
+ "varied": [
+  "battle RNG (damage rolls, accuracy, critical hits, secondary effects, speed ties)",
+  "policy RNG (tie-breaks; every choice for a random agent)",
+  "sides: A plays p1 in even battles and p2 in odd ones",
+  "each pair of battles shares one battle seed with the sides swapped",
+  "genders not on record (12 Pokémon): Showdown draws them from the battle seed"
+ ],
+ "seed": "phase1-heartgold-vs-cynthia-random",
+ "n": 100,
+ "won": 77,
+ "lost": 23,
+ "drew": 0,
+ "made_at": "2026-10-25T15:38:43.348Z",
+ "evidence_class": "simulated",
+ "job": {
+  "id": "job:heartgold-vs-cynthia:standardized:random",
+  "label": "The same matchup with both sides choosing at random",
+  "contract": "0.1.0",
+  "ruleset": "gen4-historical v1",
+  "a": {
+   "team": "library:me/heartgold",
+   "team_version": 1,
+   "profile": "profile:me/heartgold:random",
+   "agent": "random"
+  },
+  "b": {
+   "team": "library:platinum/cynthia",
+   "team_version": 1,
+   "profile": "profile:platinum/cynthia:random",
+   "agent": "random"
+  },
+  "trials": {
+   "n": 100,
+   "seed": "phase1-heartgold-vs-cynthia-random",
+   "pairing": "mirrored",
+   "turn_limit": 1000
+  },
+  "legality": {
+   "a": {
+    "team": "library:me/heartgold",
+    "team_version": 1,
+    "ruleset": "gen4-historical",
+    "ok": true,
+    "required": [
+     "structural"
+    ],
+    "failed": [],
+    "verdicts": {
+     "structural": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@-Nonexistent,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100,EV Limit = 510"
+     },
+     "obtainable": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@Obtainable,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100"
+     }
+    },
+    "checked_by": "Showdown TeamValidator (@pkmn/sim 0.10.11)",
+    "not_checked": [
+     "encounter legality: whether this Pokémon could be had at this point in this game"
+    ]
+   },
+   "b": {
+    "team": "library:platinum/cynthia",
+    "team_version": 1,
+    "ruleset": "gen4-historical",
+    "ok": true,
+    "required": [
+     "structural"
+    ],
+    "failed": [],
+    "verdicts": {
+     "structural": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@-Nonexistent,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100,EV Limit = 510"
+     },
+     "obtainable": {
+      "ok": true,
+      "problems": [],
+      "format": "gen4customgame@@@Obtainable,!! Max Team Size = 6,!! Max Move Count = 4,!! Max Level = 100"
+     }
+    },
+    "checked_by": "Showdown TeamValidator (@pkmn/sim 0.10.11)",
+    "not_checked": [
+     "encounter legality: whether this Pokémon could be had at this point in this game"
+    ]
+   }
+  }
+ },
+ "summary": {
+  "n": 100,
+  "won": 77,
+  "lost": 23,
+  "drew": 0,
+  "win_rate": 0.77,
+  "score": 0.77,
+  "win_rate_95": [
+   0.678,
+   0.842
+  ],
+  "margin_95": 0.082,
+  "by_side": {
+   "a_as_p1": {
+    "n": 50,
+    "won": 45
+   },
+   "a_as_p2": {
+    "n": 50,
+    "won": 32
+   }
+  },
+  "pairs": {
+   "n": 50,
+   "a_won_both": 27,
+   "b_won_both": 0,
+   "split": 23
+  },
+  "turns": {
+   "mean": 47.5,
+   "median": 48,
+   "min": 22,
+   "max": 74
+  },
+  "left_a_when_won": 2.896,
+  "left_b_when_won": 1.174,
+  "ends": {
+   "win": 100
+  },
+  "members": {
+   "a": [
+    {
+     "name": "Typhlosion",
+     "slot": 0,
+     "appeared": 1,
+     "kos_per_battle": 0.41,
+     "fainted_rate": 0.87,
+     "damage_dealt_per_battle": 79.1,
+     "damage_taken_per_battle": 93.7,
+     "switch_ins_per_battle": 3.8,
+     "turns_active_per_battle": 5.9
+    },
+    {
+     "name": "Tyranitar",
+     "slot": 1,
+     "appeared": 0.99,
+     "kos_per_battle": 2.41,
+     "fainted_rate": 0.63,
+     "damage_dealt_per_battle": 244,
+     "damage_taken_per_battle": 81.8,
+     "switch_ins_per_battle": 4.39,
+     "turns_active_per_battle": 8.2
+    },
+    {
+     "name": "Mamoswine",
+     "slot": 2,
+     "appeared": 1,
+     "kos_per_battle": 0.89,
+     "fainted_rate": 0.76,
+     "damage_dealt_per_battle": 85.3,
+     "damage_taken_per_battle": 85.8,
+     "switch_ins_per_battle": 3.99,
+     "turns_active_per_battle": 5.8
+    },
+    {
+     "name": "Crobat",
+     "slot": 3,
+     "appeared": 0.97,
+     "kos_per_battle": 0.74,
+     "fainted_rate": 0.55,
+     "damage_dealt_per_battle": 68.1,
+     "damage_taken_per_battle": 139.4,
+     "switch_ins_per_battle": 4.66,
+     "turns_active_per_battle": 8.4
+    },
+    {
+     "name": "Lapras",
+     "slot": 4,
+     "appeared": 0.98,
+     "kos_per_battle": 0.56,
+     "fainted_rate": 0.47,
+     "damage_dealt_per_battle": 58.9,
+     "damage_taken_per_battle": 146.6,
+     "switch_ins_per_battle": 4.92,
+     "turns_active_per_battle": 8.9
+    },
+    {
+     "name": "Snorlax",
+     "slot": 5,
+     "appeared": 0.99,
+     "kos_per_battle": 0.72,
+     "fainted_rate": 0.49,
+     "damage_dealt_per_battle": 66.7,
+     "damage_taken_per_battle": 163.6,
+     "switch_ins_per_battle": 5.1,
+     "turns_active_per_battle": 10.3
+    }
+   ],
+   "b": [
+    {
+     "name": "Spiritomb",
+     "slot": 0,
+     "appeared": 1,
+     "kos_per_battle": 0.16,
+     "fainted_rate": 0.98,
+     "damage_dealt_per_battle": 62.8,
+     "damage_taken_per_battle": 99.8,
+     "switch_ins_per_battle": 4.35,
+     "turns_active_per_battle": 7.5
+    },
+    {
+     "name": "Roserade",
+     "slot": 1,
+     "appeared": 1,
+     "kos_per_battle": 0.3,
+     "fainted_rate": 0.99,
+     "damage_dealt_per_battle": 46,
+     "damage_taken_per_battle": 99.4,
+     "switch_ins_per_battle": 3.14,
+     "turns_active_per_battle": 4.6
+    },
+    {
+     "name": "Togekiss",
+     "slot": 2,
+     "appeared": 1,
+     "kos_per_battle": 0.37,
+     "fainted_rate": 0.99,
+     "damage_dealt_per_battle": 81.9,
+     "damage_taken_per_battle": 100,
+     "switch_ins_per_battle": 3.83,
+     "turns_active_per_battle": 6.9
+    },
+    {
+     "name": "Lucario",
+     "slot": 3,
+     "appeared": 1,
+     "kos_per_battle": 0.8,
+     "fainted_rate": 0.95,
+     "damage_dealt_per_battle": 117.5,
+     "damage_taken_per_battle": 97,
+     "switch_ins_per_battle": 4.34,
+     "turns_active_per_battle": 9.1
+    },
+    {
+     "name": "Milotic",
+     "slot": 4,
+     "appeared": 1,
+     "kos_per_battle": 0.3,
+     "fainted_rate": 1,
+     "damage_dealt_per_battle": 63.1,
+     "damage_taken_per_battle": 100,
+     "switch_ins_per_battle": 3.86,
+     "turns_active_per_battle": 6.9
+    },
+    {
+     "name": "Garchomp",
+     "slot": 5,
+     "appeared": 1,
+     "kos_per_battle": 1.39,
+     "fainted_rate": 0.82,
+     "damage_dealt_per_battle": 189.1,
+     "damage_taken_per_battle": 106,
+     "switch_ins_per_battle": 4.78,
+     "turns_active_per_battle": 12.5
+    }
+   ]
+  },
+  "reading": "77 of 100 won (77%); the 95% interval is 68–84%. A difference smaller than that interval between two builds needs more battles before it means anything."
+ },
+ "failures": [],
+ "timing": {
+  "total_ms": 5013,
+  "per_battle_ms": {
+   "mean": 50,
+   "median": 48.7,
+   "max": 83.4
+  },
+  "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
+ },
+ "fingerprint": "dda4287d6a1bf6d3"
+}

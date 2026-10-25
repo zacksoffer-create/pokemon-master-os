@@ -1,0 +1,26 @@
+{
+  "name": "blackthorn-sixvsix",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Blackthorn OS 6v6 simulator, Phases 0-1: Showdown's Gen IV mechanics (@pkmn/sim), a shared simulation contract, baseline agents, a batch runner and a browser build. Isolated from the production app.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "fixtures": "node cli/make-fixtures.mjs",
+    "battle": "node cli/battle.mjs",
+    "run": "node cli/run.mjs",
+    "build": "node browser/build.mjs",
+    "test:browser": "node browser/test-browser.mjs"
+  },
+  "dependencies": {
+    "@pkmn/sim": "0.10.11"
+  },
+  "devDependencies": {
+    "@smogon/calc": "0.12.0",
+    "esbuild": "0.28.1"
+  }
+}
