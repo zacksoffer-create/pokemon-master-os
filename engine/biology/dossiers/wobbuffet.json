@@ -1,0 +1,96 @@
+{
+  "species": "Wobbuffet",
+  "id": 202,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A patient blue cave dweller that never attacks first and puts everything into enduring blows and returning them. It keeps its black tail hidden in the dark, comes out only at night, and fights ferociously only when the tail is attacked, when it may try to take the attacker down with it. Its young, Wynaut, love sweet fruit and gather in fruit gardens, but no entry says what an adult eats; Wobbuffet that meet are even said to compete over who can go longest without food. In the highlands it lives only at the Blackthorn end of Dark Cave.",
+  "sections": {
+    "anatomy": [
+      {"text": "A blob-shaped body, 1.3 m and 28.5 kg, typed Psychic.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "It has a pitch-black tail that it works hard to keep hidden.", "class": "canon", "confidence": "high", "evidence": ["202.2", "202.3", "202.7", "C202.3", "C202.5", "C202.14"]},
+      {"text": "If attacked, it inflates its body to build up its counterstrike.", "class": "canon", "confidence": "high", "evidence": ["202.1", "202.8", "C202.2", "C202.16"], "analogy": "Pufferfish (Tetraodontidae) inflate when threatened, though as a defence rather than a wind-up to strike back."}
+    ],
+    "diet": [
+      {"text": "No entry says what an adult Wobbuffet eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its young, Wynaut, love sweet fruit, which they pick with their earlike arms; they gather in fruit gardens, drawn by the fragrance.", "class": "canon", "confidence": "high", "evidence": ["360.3", "360.5", "C360.6", "C360.7", "C360.8", "C360.12"]},
+      {"text": "When Wobbuffet meet, they may compete to see which can endure longest without food, so an adult can evidently fast for a long time.", "class": "canon", "confidence": "medium", "evidence": ["202.4", "C202.7"], "analogy": "Many cave animals have low metabolic rates; the olm (Proteus anguinus), a cave salamander, has survived years without food in captivity."},
+      {"text": "Adults may leave the cave at night to feed on fruit as their young do.", "class": "hypothesis", "confidence": "low", "evidence": ["202.3", "360.3"], "note": "Combines the night-only movement of the adult with the diet of the young; nothing states it."}
+    ],
+    "habitat": [
+      {"text": "It lives quietly in darkness, in a dark cave, and makes its lair in caves where it waits for nightfall.", "class": "canon", "confidence": "high", "evidence": ["202.2", "202.3", "202.6", "C202.5", "C202.13"]},
+      {"text": "In HeartGold and SoulSilver: the Blackthorn end of Dark Cave, walking 15% (Lv 20-25) with no time split, Cerulean Cave (5%), and the Johto Safari Zone only at night. It is not in the Ice Path.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Gold and Silver had the same Dark Cave slot; Crystal had it only at night there, which matches Crystal's own entry, and also as a Goldenrod Game Corner prize (1,500 coins). Elsewhere: the Hoenn Safari Zone, Cerulean Cave and Ruin Valley in FireRed and LeafGreen, and the Sinnoh lakes only with the Poké Radar. The Gen 3 Pokédex habitat is cave.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat", "202.3"]},
+      {"text": "The radio's Hoenn and Sinnoh sounds add Makuhita, Absol, Chingling and Bronzor to the same Dark Cave table; they are radio-only and not treated as residents here.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It is never first to attack and does nothing but endure attacks; it is usually docile.", "class": "canon", "confidence": "high", "evidence": ["202.2", "202.5", "202.6", "C202.4", "C202.9", "C202.12"]},
+      {"text": "It only moves about at night.", "class": "canon", "confidence": "high", "evidence": ["202.3", "202.6", "C202.5", "C202.13"]},
+      {"text": "It hates light and shock.", "class": "canon", "confidence": "high", "evidence": ["202.1", "202.8", "C202.1"]}
+    ],
+    "social": [
+      {"text": "If two or more Wobbuffet meet, they turn competitive and try to outdo each other's endurance, even in going without food. Trainers are warned to beware of this habit.", "class": "canon", "confidence": "high", "evidence": ["202.4", "C202.6", "C202.7", "C202.8"]},
+      {"text": "The young are social: Wynaut move in packs, squeeze against one another to toughen up, and cluster in a tight group to sleep in a cave.", "class": "canon", "confidence": "high", "evidence": ["360.2", "360.4", "360.6", "C360.4", "C360.9", "C360.10", "C360.13", "C360.14"]},
+      {"text": "Adults are described only meeting as rivals, so the line may go from pack-living young to more solitary adults.", "class": "inferred", "confidence": "low", "evidence": ["202.4", "360.4"]}
+    ],
+    "reproduction": [
+      {"text": "Amorphous egg group, 20 egg cycles, even sex ratio; Wynaut is a baby Pokémon in the Undiscovered egg group. Nothing in the Pokédex describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Wynaut"]}
+    ],
+    "defense": [
+      {"text": "It will not endure an attack on its tail: then it strikes back ferociously and tries to take the foe with it using Destiny Bond.", "class": "canon", "confidence": "high", "evidence": ["202.5", "202.6", "C202.10", "C202.11", "C202.12"]},
+      {"text": "Its whole repertoire is four moves, all at Lv 1 and all reactive: Counter, Mirror Coat, Safeguard and Destiny Bond. Shadow Tag stops a foe from escaping.", "class": "mechanic", "confidence": "high", "evidence": ["move:Counter", "move:Mirror Coat", "move:Safeguard", "move:Destiny Bond", "game:abilities"]},
+      {"text": "Any predator that attacks it is hit back with its own force, and cannot run; a learning predator would leave it alone.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Counter", "move:Mirror Coat", "game:abilities"], "note": "A reading of the move set; no predator of Wobbuffet is recorded."}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Hating light suggests eyes, or skin, adapted to the dark.", "class": "inferred", "confidence": "low", "evidence": ["202.1", "202.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Wynaut at Lv 15, growing from 0.6 m and 14 kg to 1.3 m and 28.5 kg; both are Psychic with Shadow Tag.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Wynaut"]},
+      {"text": "The young train for the adult's life: Wynaut push and squeeze against each other on moonlit nights, gaining endurance and learning to deliver powerful counterattacks.", "class": "canon", "confidence": "high", "evidence": ["360.2", "360.5", "C360.5", "C360.11"]},
+      {"text": "In both stages the tail carries the feeling: an angry Wynaut slaps the ground with its tail, and an adult turns ferocious when its tail is attacked.", "class": "inferred", "confidence": "medium", "evidence": ["360.1", "202.6", "C360.3"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "It has no egg, tutor or machine moves in HeartGold and SoulSilver at all, and neither does Wynaut (Splash, Charm, Encore, then the same four). This is the only line in the community whose whole repertoire is its own, and it is entirely defensive.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset", "move:Splash", "move:Charm", "move:Encore"]},
+      {"text": "With no attacking moves it cannot hunt in the ordinary sense; whatever it eats has to be gathered, not caught.", "class": "inferred", "confidence": "medium", "evidence": ["game:learnset", "202.2"]}
+    ],
+    "ecology": [
+      {"text": "Its place in the food web is unknown. If adults eat fruit as their young do, they bring energy into the cave from outside each night.", "class": "hypothesis", "confidence": "low", "evidence": ["360.3", "202.3"], "note": "Rests on the young's diet and the adult's night movements."},
+      {"text": "An animal that can fast for long periods suits an energy-poor cave.", "class": "inferred", "confidence": "low", "evidence": ["202.4"]},
+      {"text": "No predator is named. Golbat and Zubat share its end of Dark Cave.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Trainers are warned about its fasting contests.", "class": "canon", "confidence": "high", "evidence": ["202.4", "C202.8"]},
+      {"text": "Its tail is said to be proof that the tail hides a secret.", "class": "canon", "confidence": "low", "evidence": ["202.7", "C202.15"], "note": "Hearsay; filed under folklore."}
+    ],
+    "homestead": [
+      {"text": "It needs a dark, quiet place, such as a cellar or root store, and should be kept away from bright light and electricity.", "class": "inferred", "confidence": "medium", "evidence": ["202.1", "202.3"]},
+      {"text": "Keep children and other animals away from its tail; an attack there brings out Destiny Bond.", "class": "inferred", "confidence": "high", "evidence": ["202.5", "202.6"]},
+      {"text": "A passive guard: it won't start a fight, but anything that attacks it can't get away (Shadow Tag) and gets its own force back.", "class": "hypothesis", "confidence": "low", "evidence": ["game:abilities", "move:Counter", "202.2"], "capability": "deterrence", "note": "Untested whether it would hold an intruder that doesn't attack it."},
+      {"text": "Feed it sweet fruit, as the young like, and don't keep two together without watching: they may compete at fasting.", "class": "inferred", "confidence": "medium", "evidence": ["360.3", "202.4"]},
+      {"text": "The homestead's Wobbuffet lives in the root cellar and is the reason nobody steals the apples.", "class": "creative", "evidence": ["202.3"]}
+    ]
+  },
+  "niche": {"guild": "frugivore", "trophic_level": 2, "microhabitat": ["dark cave lairs (Blackthorn end of Dark Cave)"], "activity": "nocturnal",
+            "foraging": "unknown for adults; the young pick sweet fruit, and adults move about only at night", "evidence": ["202.3", "360.3"], "class": "hypothesis", "confidence": "low"},
+  "relationships": [
+    {"with": "sweet fruit (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["360.3", "360.5"], "note": "Stated for Wynaut, the young form; unknown for adults."},
+    {"with": "dark caves", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["202.3", "202.6"]},
+    {"with": "Geodude", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude"]},
+    {"with": "Graveler", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Graveler"]},
+    {"with": "Zubat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat"]},
+    {"with": "Golbat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golbat"]}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What does an adult Wobbuffet eat?",
+    "What is the secret of the black tail (202.7), and why must it stay hidden?",
+    "Where does it go at night when it moves about (202.3)?",
+    "How long can it fast?",
+    "Why does it hate light and shock (202.1)?",
+    "No ecotypes: neither Wobbuffet nor Wynaut has any egg moves in HeartGold and SoulSilver, so there is nothing in the line's moves to read lineages from. Any variation would have to come from elsewhere."
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It desperately tries to keep its black tail hidden; this is said to be proof that the tail hides a secret.", "kind": "it is said", "evidence": ["202.7", "C202.15"]}
+  ]
+}

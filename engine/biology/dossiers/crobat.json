@@ -1,0 +1,695 @@
+{
+  "species": "Crobat",
+  "id": 169,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A four-winged bat whose hind legs have become a second pair of wings, built for fast, nearly silent flight in the dark. Crobat sneaks up on prey on wings that barely make a sound, and on long flights it rests one pair while flying on the other. Its line is the most familiar night animal of Johto's caves: eyeless, echolocating Zubat that roost by day and avoid sunlight, and Golbat, which drink the blood of people and Pokémon and are common in the Ice Path next to Blackthorn. Crobat itself is never wild; it comes only from a Golbat that is close to its trainer.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A large bat (1.8 m, 75.0 kg) with four wings: its hind legs have turned into a second pair.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.2",
+          "169.3",
+          "169.6",
+          "169.8",
+          "C169.8",
+          "C169.12",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Four wings make it faster and quieter in flight, and clumsier on the ground.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.7",
+          "169.9",
+          "C169.10",
+          "C169.13"
+        ],
+        "analogy": "Owls achieve near-silent flight differently, with comb-like leading edges and soft fringes on their flight feathers that break up turbulence."
+      },
+      {
+        "text": "Golbat has four sharp fangs with small holes for sucking blood, able to puncture even thick, tough hides.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "42.7",
+          "42.8",
+          "42.13",
+          "C42.13",
+          "C42.22"
+        ]
+      },
+      {
+        "text": "Zubat has no eyes (or eyes grown shut) and finds its way by ultrasonic cries from its mouth.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.8",
+          "41.9",
+          "41.11",
+          "41.13",
+          "C41.14",
+          "C41.17"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "Crobat hunts by stealth: it sneaks up on its intended prey with wings that barely make a sound. The prey is not named.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.5",
+          "C169.6"
+        ]
+      },
+      {
+        "text": "Golbat drinks blood, from people and Pokémon alike: more than ten ounces (about 300 ml) at a gulp, and it won't stop until it is full, even if it then gets too heavy to fly well.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "42.1",
+          "42.3",
+          "42.4",
+          "42.5",
+          "42.6",
+          "42.8",
+          "42.9",
+          "42.10",
+          "42.11",
+          "42.12"
+        ],
+        "analogy": "The common vampire bat (Desmodus rotundus) also lives on blood alone and can take about half its body weight in a feed, which leaves it heavy enough that it has to shed water quickly before flying."
+      },
+      {
+        "text": "Golbat looks for neck veins and strikes from behind without warning.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "42.2",
+          "42.8",
+          "42.11",
+          "C42.15",
+          "C42.19"
+        ]
+      },
+      {
+        "text": "Whether Crobat still drinks blood is not stated; its moves suggest it does (Leech Life at Lv 1, Bite, Poison Fang), and its stealthy approach fits the same feeding.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "169.5",
+          "move:Leech Life",
+          "move:Poison Fang",
+          "42.2"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Caves and dark places: Zubat forms colonies in perpetually dark places and roosts by day in caves, old buildings and deep forest. Its Gen 3 Pokédex habitat is cave.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.1",
+          "41.5",
+          "41.7",
+          "41.12",
+          "C41.1",
+          "C41.7",
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "Crobat rests by hanging from a tree branch with its rear legs, so it roosts in trees as well as caves.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.5",
+          "C169.7"
+        ]
+      },
+      {
+        "text": "Crobat is not found in the wild in any Gen I-IV game.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Golbat is common in the Ice Path (30% on every floor at any hour in HeartGold and SoulSilver; 50-60% in Crystal) and present at the Blackthorn entrance of Dark Cave, so the line lives right around Blackthorn. Zubat and Golbat are in nearly every Johto cave, plus some routes at night.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Golbat",
+          "species:Zubat"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Nocturnal: Crobat turns active when night comes; Golbat is most active in pitch-black, moonless nights; Zubat sleeps until sundown.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.7",
+          "42.6",
+          "42.7",
+          "41.12",
+          "C169.11"
+        ]
+      },
+      {
+        "text": "Zubat avoids sunlight, which burns it slightly or makes it unhealthy; it spends daylight hanging upside down, unmoving, in dark places.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.6",
+          "41.7",
+          "C41.8",
+          "C41.9",
+          "C41.10",
+          "C41.11"
+        ]
+      },
+      {
+        "text": "Crobat flies long distances by switching wings: flying on one pair means it has come a long way, and by alternately resting front and rear wings it can fly all day without stopping.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.4",
+          "169.6",
+          "C169.4",
+          "C169.5",
+          "C169.9"
+        ]
+      },
+      {
+        "text": "It flies so silently through the dark that it may go unnoticed even close by.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.1",
+          "C169.1"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Zubat are colonial: they gather by day and hang from the ceilings of caves and old buildings.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.1",
+          "41.5",
+          "41.10",
+          "C41.16"
+        ]
+      },
+      {
+        "text": "Nothing says whether Golbat or Crobat live in colonies.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "169.5",
+          "42.6"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Flying egg group, even sex ratio, 15 egg cycles (shorter than most). Nothing is said about roost nurseries or young.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:egg_cycles"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Silence and darkness are its cover; no entry describes predators of the line.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "169.1",
+          "41.6"
+        ]
+      },
+      {
+        "text": "Inner Focus, its only ability, means it can't be made to flinch. Its own moves include Confuse Ray, Supersonic, Screech and Haze.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities",
+          "move:Confuse Ray",
+          "move:Supersonic",
+          "move:Screech",
+          "move:Haze"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Echolocation: Zubat emits ultrasonic waves from its mouth and reads their reflections to find its way and detect obstacles and targets.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.1",
+          "41.2",
+          "41.3",
+          "41.4",
+          "41.13",
+          "C41.2",
+          "C41.4",
+          "C41.19"
+        ],
+        "analogy": "Most bats echolocate the same way, by reading the echoes of their own calls, though unlike Zubat all real bats have working eyes."
+      },
+      {
+        "text": "Its eyes grew shut over generations of living in pitch-black caverns, by the Emerald account.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "41.8",
+          "C41.12"
+        ],
+        "analogy": "Cave animals often lose their eyes over evolutionary time, as in the blind cave form of the Mexican tetra (Astyanax mexicanus)."
+      },
+      {
+        "text": "Whether Crobat keeps echolocating is not said, but its silent approach to prey in the dark implies a sense that works without light.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "169.1",
+          "169.5",
+          "41.3"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Zubat (0.8 m, 7.5 kg) becomes Golbat at level 22 (1.6 m, 55.0 kg), and Golbat becomes Crobat (1.8 m, 75.0 kg) when it levels up with high friendship.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Zubat",
+          "species:Golbat"
+        ]
+      },
+      {
+        "text": "The new hind wings appear at the last change. Crystal describes them as growing 'as a result of its pursuit of faster, yet more silent flight', a striving-produces-the-trait explanation.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.3",
+          "C169.3",
+          "169.6"
+        ],
+        "note": "Lamarckian phrasing, and Emerald's 'over the course of evolution' blurs individual development with descent. Worth a reviewer's eye."
+      },
+      {
+        "text": "That the final stage needs a close bond with a trainer, not age or size, means wild Crobat may be rare or absent.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:evolution",
+          "game:encounters"
+        ],
+        "note": "A friendship trigger read as biology."
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "The feeding moves are its own: Leech Life (Lv 1), Bite (Lv 13), Poison Fang (Lv 39), and Cross Poison at Lv 1 for Crobat; draining and biting, as the blood-drinking canon would predict.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Leech Life",
+          "move:Bite",
+          "move:Poison Fang",
+          "move:Cross Poison",
+          "42.3"
+        ]
+      },
+      {
+        "text": "Supersonic (Lv 5) and Screech are the sound-producing moves of an echolocating animal used offensively.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Supersonic",
+          "move:Screech",
+          "41.2"
+        ]
+      },
+      {
+        "text": "Mean Look (Lv 33) stops prey escaping, which matches Golbat's refusal to let go once it bites.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Mean Look",
+          "42.1"
+        ]
+      },
+      {
+        "text": "Wing Attack, Air Cutter and Air Slash are its own flight moves; Fly is taught.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Wing Attack",
+          "move:Air Cutter",
+          "move:Air Slash",
+          "move:Fly"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "A blood-feeding micropredator of large animals, people included (trophic level about 3): it takes a meal without killing the host.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "42.4",
+          "42.8",
+          "42.11"
+        ]
+      },
+      {
+        "text": "Colonial cave roosts concentrate the line, and their droppings (not described) would feed cave communities as bat guano does in real caves.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "41.1",
+          "41.5"
+        ],
+        "note": "Guano is not mentioned anywhere in the entries."
+      },
+      {
+        "text": "Golbat is in the Ice Path with Swinub and Jynx, and on Mt. Silver with Sneasel and Larvitar. Since it drinks the blood of Pokémon, these are its likeliest hosts there.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:encounters",
+          "42.8",
+          "species:Swinub",
+          "species:Larvitar",
+          "species:Sneasel"
+        ],
+        "note": "Co-occurrence plus a general diet; no entry names a host species."
+      },
+      {
+        "text": "Zubat shares Sinnoh's Wayward Cave with Gible (Zubat 35%).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Gible"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Golbat attacks people at night and drinks their blood, seeking neck veins.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "42.7",
+          "42.8",
+          "42.11",
+          "C42.12",
+          "C42.14",
+          "C42.18"
+        ]
+      },
+      {
+        "text": "Crobat is the opposite case: it exists only through a strong bond with a person.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution"
+        ]
+      },
+      {
+        "text": "Zubat roosts under the eaves of old houses as well as in caves.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.7",
+          "C41.11"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "A local threat: Golbat are common in the Ice Path and at Dark Cave's Blackthorn entrance, and they drink the blood of people and Pokémon at night. Shut the nursery, pens and Glasshouse at dusk, and expect them in the Ice Path cold vault.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "42.8",
+          "42.11"
+        ],
+        "capability": "deterrence"
+      },
+      {
+        "text": "A bonded Crobat as a night scout: fast, silent flight in the dark, unnoticed even close by.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "169.1",
+          "169.7",
+          "game:capability"
+        ],
+        "capability": "scouting"
+      },
+      {
+        "text": "A long-range courier: it can fly all day by resting its wings in turn.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "169.6",
+          "169.4"
+        ],
+        "capability": "air_travel"
+      },
+      {
+        "text": "Night travel: the line is built for it, and Zubat's echolocation finds obstacles in total darkness.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.4",
+          "169.7"
+        ],
+        "capability": "night_travel"
+      },
+      {
+        "text": "Needs: a dark, quiet roost for the day, away from sunlight, which harms the young.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "41.6",
+          "41.7",
+          "41.12"
+        ]
+      },
+      {
+        "text": "It walks badly; give it perches, not floor space.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "169.9",
+          "169.5"
+        ],
+        "capability": "town_fit"
+      }
+    ]
+  },
+  "niche": {
+    "guild": "parasite",
+    "trophic_level": 3,
+    "microhabitat": [
+      "cave roosts",
+      "old buildings and eaves",
+      "tree branches (Crobat)",
+      "night sky"
+    ],
+    "activity": "nocturnal",
+    "foraging": "silent nocturnal approach and blood-feeding through punctured skin, guided by echolocation",
+    "evidence": [
+      "169.5",
+      "42.3",
+      "42.11",
+      "41.3"
+    ],
+    "class": "inferred",
+    "confidence": "medium",
+    "note": "Blood-feeding is Golbat's; Crobat's own prey is not named. 'Parasite' in the sense of a blood-feeding micropredator that leaves its host alive."
+  },
+  "relationships": [
+    {
+      "with": "people",
+      "kind": "parasitism",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "42.7",
+        "42.8",
+        "42.11"
+      ],
+      "note": "Golbat feeds on their blood."
+    },
+    {
+      "with": "Pokémon (unnamed hosts)",
+      "kind": "parasitism",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "42.8",
+        "42.11"
+      ]
+    },
+    {
+      "with": "caves and old buildings",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "41.5",
+        "41.7"
+      ],
+      "note": "Day roosts."
+    },
+    {
+      "with": "Swinub",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Swinub"
+      ],
+      "note": "Ice Path (Golbat)."
+    },
+    {
+      "with": "Larvitar",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Larvitar"
+      ],
+      "note": "Mt. Silver (Golbat)."
+    },
+    {
+      "with": "Gible",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Gible"
+      ],
+      "note": "Wayward Cave, Sinnoh (Zubat)."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Sleeper's bat",
+      "moves": [
+        "Hypnosis",
+        "Feint Attack"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "A lineage that feeds on hosts it has put to sleep: Hypnosis induces sleep, and Feint Attack is an approach that never misses. A quiet way to take blood from a large animal without a struggle. Fits pasture and farmland near cave roosts, where large animals sleep in the open.",
+      "behavior": "Lands beside a sleeping animal, keeps it asleep, feeds and leaves before it wakes.",
+      "evidence": [
+        "42.11",
+        "move:Hypnosis",
+        "move:Feint Attack"
+      ],
+      "analogy": "Common vampire bats mostly feed on sleeping livestock, approaching on the ground."
+    },
+    {
+      "name": "Wind-rider",
+      "moves": [
+        "Gust",
+        "Whirlwind",
+        "Brave Bird"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage for open air: Gust and Whirlwind are blasts of wing-driven air, Brave Bird a reckless full-speed dive. A strong, fast flier that commutes far from its roost to feed. Fits windy highland ridges and sea cliffs.",
+      "behavior": "Flies further and higher than cave-bound kin; dives on prey in the open.",
+      "evidence": [
+        "169.6",
+        "move:Gust",
+        "move:Whirlwind",
+        "move:Brave Bird"
+      ]
+    },
+    {
+      "name": "Fleeing-prey hawk",
+      "moves": [
+        "Pursuit",
+        "Quick Attack"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A chaser rather than a sneak: Pursuit hits harder at prey that tries to flee, Quick Attack closes the distance first. A lineage that takes active, flying prey on the wing. Fits forest edges and clearings at night, where flying prey is abundant.",
+      "behavior": "Hunts moving prey in the air; less dependent on sleeping hosts.",
+      "evidence": [
+        "move:Pursuit",
+        "move:Quick Attack"
+      ]
+    }
+  ],
+  "open_questions": [
+    "Does Crobat still drink blood, or does its stealth serve some other prey?",
+    "Does Crobat echolocate, and does it have eyes? Zubat's entries disagree about eyes.",
+    "If four wings make it 'tough to stop and rest' (169.2), how does that fit Sapphire's account of resting on a branch (169.5)?",
+    "Do Golbat and Crobat form colonies like Zubat?",
+    "Which Pokémon does Golbat actually feed on in the Ice Path and on Mt. Silver?",
+    "Are wild Crobat possible, given that the trigger is friendship with a trainer?"
+  ],
+  "contradictions": [
+    {
+      "text": "Resting: Silver and SoulSilver say four wings make it tough to stop and rest; Sapphire describes it resting by hanging from a branch with its rear legs.",
+      "entries": [
+        "169.2",
+        "169.5"
+      ]
+    },
+    {
+      "text": "Activity: Diamond says Crobat becomes active at night; Emerald says it can fly all day without stopping.",
+      "entries": [
+        "169.7",
+        "169.6"
+      ],
+      "note": "'All day' may mean continuously rather than in daylight."
+    },
+    {
+      "text": "Zubat's eyes: Emerald says they grew shut over time; FireRed and Diamond say it has no eyes.",
+      "entries": [
+        "41.8",
+        "41.9",
+        "41.11"
+      ]
+    }
+  ],
+  "folklore": []
+}

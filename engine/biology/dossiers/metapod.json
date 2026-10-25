@@ -1,0 +1,89 @@
+{
+  "species": "Metapod",
+  "id": 11,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The pupa of the Butterfree line: a hardened green shell, nearly motionless, inside which Caterpie's body is rebuilt into Butterfree. It doesn't eat and can do little but harden its shell further; the body inside is soft and tender, and a large enough knock can pop it out of the shell. Its whole strategy is to stay still, armoured and out of the way. In HeartGold it is met in Ilex Forest's grass in the morning and by day and in the common Headbutt trees, a stage that lasts, in the games, from level 7 to level 10.",
+  "sections": {
+    "anatomy": [
+      {"text": "A green shell (0.7 m, 9.9 kg) around a soft, weak, tender body.", "class": "canon", "confidence": "high", "evidence": ["11.3", "11.8", "11.9", "C11.14", "C11.16", "game:size", "game:color"]},
+      {"text": "Once set, the shell is described as hard as an iron slab, or steel-hard; while it is still soft the tender body is exposed and vulnerable.", "class": "canon", "confidence": "high", "evidence": ["11.1", "11.6", "11.7", "11.9", "C11.1", "C11.9", "C11.12"]},
+      {"text": "By game size the pupa is heavier and more than twice as long as the larva (9.9 kg against Caterpie's 2.9 kg, 0.7 against 0.3 m), though it hasn't eaten in between. A non-feeding pupa can't gain mass, so the stage sizes are best read as stylised.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "species:Caterpie", "11.5"]}
+    ],
+    "diet": [
+      {"text": "It doesn't feed. No entry mentions food, and every entry has it motionless inside its shell, preparing to evolve.", "class": "inferred", "confidence": "high", "evidence": ["11.3", "11.5", "11.6", "C11.5"], "analogy": "Real insect pupae do not feed; they live on reserves laid down by the larva."},
+      {"text": "Everything it uses to build the adult must come from what Caterpie ate.", "class": "inferred", "confidence": "medium", "evidence": ["10.6", "11.6"]}
+    ],
+    "habitat": [
+      {"text": "A forest animal. In HeartGold it is in Ilex Forest's grass (30% of encounters in the morning and by day, none at night) and common Headbutt trees (10%), on Routes 30 and 31, in National Park, in Route 47's secret Headbutt trees, and in Kanto on Route 2 and in Viridian Forest. In SoulSilver it appears only in the Bug-Catching Contest.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "Being met in the grass suggests many Metapod pupate low, in understory vegetation; the Headbutt records show others up in trees.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Motionless: it stays still in its shell and hardly moves, because it is preparing its soft insides for evolution.", "class": "canon", "confidence": "high", "evidence": ["11.3", "11.5", "11.6", "11.7", "C11.10", "C11.11", "C11.13"]},
+      {"text": "It quietly endures hardships while it waits.", "class": "canon", "confidence": "high", "evidence": ["11.9", "C11.17"]},
+      {"text": "The time-of-day split in its tables (morning and day only) can't be activity, since a pupa does nothing at any hour. It probably mirrors where and when Caterpie pupates, or how findable pupae are; it is unexplained.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "11.5"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about other Metapod or any other animal.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "In the games Metapod is in the Bug egg group (15 egg cycles) and can breed.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Biologically a pupa is not a reproductive stage; breeding Metapod is best read as a game convention rather than part of its natural history.", "class": "inferred", "confidence": "high", "evidence": ["11.3", "11.5"]}
+    ],
+    "defense": [
+      {"text": "Its only active defence is to harden its shell, and it stays motionless to avoid drawing attack.", "class": "canon", "confidence": "high", "evidence": ["11.2", "11.4", "11.5", "C11.2", "C11.6", "C11.8"]},
+      {"text": "The shell has limits: the tender body inside can't withstand a harsh attack, and a large impact can pop it out of the shell.", "class": "canon", "confidence": "high", "evidence": ["11.2", "11.8", "C11.3", "C11.15"]},
+      {"text": "Harden (Lv 1, again at Lv 7) is its entire level-up repertoire; its ability, Shed Skin, may heal its own status problems.", "class": "mechanic", "confidence": "high", "evidence": ["move:Harden", "game:abilities"]},
+      {"text": "Being green like Caterpie, it is probably hidden among leaves as well as armoured.", "class": "hypothesis", "confidence": "low", "evidence": ["game:color", "10.5"], "note": "No Metapod entry mentions camouflage."}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Metapod is the pupa between Caterpie and Butterfree: Caterpie sheds its skin, covers itself with silk and becomes a cocoon, and Metapod becomes Butterfree at level 10. Crystal calls this stage its 'pre-evolved form'.", "class": "canon", "confidence": "high", "evidence": ["10.8", "11.5", "C11.7", "game:evolution"]},
+      {"text": "Inside, the body is soft and is being prepared for evolution while the shell is hardened as much as possible.", "class": "canon", "confidence": "high", "evidence": ["11.3", "11.4", "11.6", "C11.4", "C11.6", "C11.11"], "analogy": "Complete metamorphosis: inside a real pupa much of the larval body is broken down and the adult is built from small clusters of cells (imaginal discs) carried over from the larva."},
+      {"text": "Whether the hard shell is hardened silk (the cocoon of 10.8) or the pupa's own skin beneath it isn't stated.", "class": "unknown", "confidence": "medium", "evidence": ["10.8", "11.6"]},
+      {"text": "In game terms the stage lasts three levels, 7 to 10, the shortest in the line.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Harden is all a wild Metapod does, which matches every entry.", "class": "mechanic", "confidence": "high", "evidence": ["move:Harden", "11.5"]},
+      {"text": "Its tutor moves (String Shot, Iron Defense, Bug Bite) are taught by people and say nothing about the wild animal.", "class": "mechanic", "confidence": "high", "evidence": ["move:String Shot", "move:Iron Defense", "move:Bug Bite", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A non-feeding stage: it takes nothing from the forest, and is a store of energy that predators might take.", "class": "inferred", "confidence": "medium", "evidence": ["11.3", "11.5"]},
+      {"text": "For anything able to break or prise open the shell it is a large, immobile parcel of food; its defence is being hard and hidden, not being inedible.", "class": "hypothesis", "confidence": "low", "evidence": ["11.2", "11.8"], "note": "No entry names a predator."},
+      {"text": "How many pupae survive sets how many Butterfree reach the flowers, so this stage links the forest's leaf-eating to its flower-visiting.", "class": "inferred", "confidence": "low", "evidence": ["10.8", "12.5"]}
+    ],
+    "humans": [
+      {"text": "Trainers mostly meet it as a stage to get through on the way to Butterfree at level 10. No entry describes people using it.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "It needs a quiet, sheltered, undisturbed spot, ideally among foliage, and protection from knocks, which can pop it out of its shell.", "class": "inferred", "confidence": "high", "evidence": ["11.2", "11.5"]},
+      {"text": "Empty shells or cocoon silk left after Butterfree emerges could be collected as a material.", "class": "creative", "evidence": ["10.8", "11.6"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": 2, "microhabitat": ["understory foliage", "tree branches"], "activity": "unknown",
+            "foraging": "none: a non-feeding pupa living on reserves from the larva", "evidence": ["11.3", "11.5", "game:encounters"], "class": "inferred", "confidence": "high",
+            "note": "No feeding guild applies. Trophic level 2 is its position as food: its body is built from Caterpie's leaf-eating."},
+  "relationships": [
+    {"with": "Butterfree", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Caterpie", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Caterpie"], "note": "Same grass and the same common Headbutt trees in HeartGold's Ilex Forest; it is Caterpie's next stage."},
+    {"with": "Kakuna", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Kakuna"], "note": "Version counterparts in Ilex Forest; together only in National Park's Bug-Catching Contest."},
+    {"with": "Hoothoot", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "move:Harden", "species:Hoothoot"], "note": "Both are in Ilex Forest's common Headbutt trees and Hoothoot pecks (Peck, Lv 9); whether a peck gets through an iron-hard shell is doubtful. No predator of Metapod is named."}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "Is the hard shell hardened silk or the pupa's own skin?",
+    "How long is the pupal stage in real time?",
+    "What, if anything, preys on pupae? None is named.",
+    "Why is it absent from the night tables when it can't move?",
+    "What happens to a Metapod knocked out of its shell (11.2): can it survive, or finish developing?",
+    "Why does the pupa outweigh the larva by more than three times without feeding?",
+    "The line has no HeartGold-SoulSilver egg moves, so no ecotypes can be read from breeding."
+  ],
+  "contradictions": [
+    {"entries": ["11.6", "11.7", "11.9", "11.2", "11.8"], "text": "How protective is the shell? Ruby/Sapphire, Emerald and Diamond/Pearl/Platinum make it iron- or steel-hard (11.6, 11.7, 11.9); Yellow and FireRed say a large impact can pop it out and it can't withstand a harsh attack (11.2, 11.8).", "note": "Probably both true: a hard shell with fragile contents. Recorded because the entries differ in how safe they make it sound."}
+  ],
+  "folklore": []
+}

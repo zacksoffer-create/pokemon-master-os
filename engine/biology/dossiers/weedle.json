@@ -1,0 +1,95 @@
+{
+  "species": "Weedle",
+  "id": 13,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The leaf-eating larva of Beedrill, and SoulSilver's counterpart to Caterpie in Ilex Forest. Weedle carries a two-inch poison barb on its head and a bright body that warns enemies off; it hides in grass and bushes and under the leaves it eats, and it eats its own weight in leaves every day. A keen sense of smell, through a big red nose, lets it tell the leaves it likes from those it doesn't. In Ilex Forest it is met in the morning and by day, never at night.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small larva (0.3 m, 3.2 kg) with a sharp poison barb, about two inches long, on top of its head.", "class": "canon", "confidence": "high", "evidence": ["13.1", "13.4", "13.8", "C13.7", "C13.16", "game:size"]},
+      {"text": "A big red proboscis, which the entries call its nose.", "class": "canon", "confidence": "high", "evidence": ["13.6", "13.7", "C13.12", "C13.14"]},
+      {"text": "Its category is Hairy Bug Pokémon, though no entry mentions hair.", "class": "mechanic", "confidence": "high", "evidence": ["game:genus"]}
+    ],
+    "diet": [
+      {"text": "Leaves. It is usually found under the leaves it eats, eats leaves in grass and bushes, and eats its own weight in leaves every day.", "class": "canon", "confidence": "high", "evidence": ["13.1", "13.2", "13.4", "13.9", "13.10", "C13.1", "C13.4", "C13.8", "C13.18"]},
+      {"text": "A selective feeder: it has favourite kinds of leaves and ones it dislikes, and tells them apart by smell.", "class": "canon", "confidence": "high", "evidence": ["13.6", "13.7", "C13.12", "C13.14"], "analogy": "Real caterpillars choose food plants by taste and smell receptors on the antennae and mouthparts, and many eat only a few related plants."},
+      {"text": "Eating its body weight daily, over 3 kg of leaves at game size, makes it a heavy leaf-eater; Caterpie's entries describe a similar appetite.", "class": "inferred", "confidence": "medium", "evidence": ["13.10", "game:size", "10.6"]}
+    ],
+    "habitat": [
+      {"text": "Forests and grasslands, in grass and bushes.", "class": "canon", "confidence": "high", "evidence": ["13.1", "13.2", "13.8", "C13.15", "game:habitat"]},
+      {"text": "In SoulSilver it is in Ilex Forest's grass (50% of encounters in the morning, 60% by day, none at night) and common Headbutt trees (30%), on Routes 30 and 31, in National Park, and in Kanto on Route 2 and in Viridian Forest. In HeartGold it appears only in the Bug-Catching Contest, and Caterpie takes its slots.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Caterpie"]},
+      {"text": "Its microhabitat is low and sheltered: grass, bushes and the undersides of leaves.", "class": "inferred", "confidence": "medium", "evidence": ["13.2", "13.4"]}
+    ],
+    "behavior": [
+      {"text": "It hides, in grass and bushes and under its food leaves.", "class": "canon", "confidence": "high", "evidence": ["13.2", "13.4", "C13.4", "C13.8"]},
+      {"text": "In Ilex Forest it is met only in the morning and by day; SoulSilver's Route 2 tables also have it at night (10%), so it isn't strictly diurnal. This rests on the time-of-day split in the tables only.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or any dealings with its own kind.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 15 egg cycles, an even sex ratio. Nothing in the Pokédex describes eggs or where they are laid.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "A venomous barb on its head: very powerful, it secretes a strong poison and injects it.", "class": "canon", "confidence": "high", "evidence": ["13.1", "13.3", "13.5", "13.9", "C13.2", "C13.5", "C13.9", "C13.17"], "analogy": "Real venomous caterpillars, such as slug moth (Limacodidae) and flannel moth (Megalopygidae) larvae, deliver venom through many hollow spines rather than one barb."},
+      {"text": "Warning colours: its bright body is meant to warn enemies off.", "class": "canon", "confidence": "high", "evidence": ["13.3", "C13.6"], "analogy": "Aposematism: a conspicuous colour paired with a real defence, which predators such as birds learn to avoid."},
+      {"text": "It fends off attackers with the needle, and attacks with it too.", "class": "canon", "confidence": "high", "evidence": ["13.4", "13.5", "13.10", "C13.7", "C13.10", "C13.19"]},
+      {"text": "Poison Sting (Lv 1) is the barb in game form; its ability, Shield Dust, blocks the added effects of attacks taken.", "class": "mechanic", "confidence": "high", "evidence": ["move:Poison Sting", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "An extremely acute sense of smell, through its big red nose, good enough to sort favourite leaves from disliked ones.", "class": "canon", "confidence": "high", "evidence": ["13.6", "13.7", "C13.11", "C13.13"]},
+      {"text": "The capability records turn this into tracking (following a scent), but no entry says it follows anything except leaves.", "class": "inferred", "confidence": "medium", "evidence": ["game:capability", "13.6"]}
+    ],
+    "life_cycle": [
+      {"text": "Weedle becomes Kakuna at level 7, and Kakuna becomes Beedrill at level 10: larva, pupa, adult.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Larva and adult lead opposite lives: Weedle eats leaves, Beedrill hunts prey with its stings and carries victims to its nest.", "class": "inferred", "confidence": "high", "evidence": ["13.10", "15.5"]},
+      {"text": "The larva lives free among leaves, not in Beedrill's nest: it is found under the leaves it eats. Whatever Beedrill's nest is provisioned for, it isn't Weedle's food.", "class": "inferred", "confidence": "medium", "evidence": ["13.4", "15.5"], "analogy": "Among real Hymenoptera only sawflies have free-living, leaf-eating, caterpillar-like larvae, and adult sawflies don't sting; stinging wasps and bees raise legless grubs that are fed in a nest. The Weedle line combines a sawfly-type larva with a stinging, nest-provisioning adult."},
+      {"text": "Kakuna hides under leaves and in nooks of branches, close to where Weedle feeds, so the larva probably pupates near its food plants.", "class": "inferred", "confidence": "low", "evidence": ["13.4", "14.10"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Poison Sting and String Shot are its moves from hatching. Bug Bite comes at level 15, but it becomes Kakuna at 7, so a wild Weedle stings and spins, and that's all.", "class": "mechanic", "confidence": "high", "evidence": ["move:Poison Sting", "move:String Shot", "move:Bug Bite", "game:learnset", "game:evolution"]},
+      {"text": "String Shot is presumably the silk it pupates in, though no Weedle or Kakuna entry mentions silk.", "class": "hypothesis", "confidence": "low", "evidence": ["move:String Shot"], "note": "By analogy with Caterpie's cocoon (10.8), not from any Weedle-line entry."},
+      {"text": "The line has no egg moves in HeartGold and SoulSilver.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A primary consumer of leaves (trophic level 2) in SoulSilver's Ilex Forest, chemically defended, which should make it a poor meal for predators that have learned its colours.", "class": "inferred", "confidence": "medium", "evidence": ["13.3", "13.10"]},
+      {"text": "Its choosy palate could shape which plants get eaten in the understory, but its food plants aren't named.", "class": "hypothesis", "confidence": "low", "evidence": ["13.6", "13.7"], "note": "Nothing says which leaves it prefers or how much damage it does."},
+      {"text": "The Weedle line routes leaf energy into a predator (Beedrill), where the Caterpie line routes it into a flower-visitor (Butterfree). The two versions of Ilex Forest differ by that one switch.", "class": "inferred", "confidence": "medium", "evidence": ["13.10", "15.5", "12.5", "game:encounters"]}
+    ],
+    "humans": [
+      {"text": "People are told to beware the stinger on its head.", "class": "canon", "confidence": "high", "evidence": ["13.2", "C13.3"]},
+      {"text": "Easy to catch (catch rate 255) and common on Johto's first routes in SoulSilver.", "class": "mechanic", "confidence": "high", "evidence": ["game:catch_rate", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "Not a garden helper: it eats its own weight in leaves daily. Its choosiness might make it easier to keep off crops it dislikes, but nobody knows which those are.", "class": "inferred", "confidence": "medium", "evidence": ["13.10", "13.6"], "capability": "plant_care"},
+      {"text": "Its nose sorts leaves by smell; whether that could be put to sorting forage for people has never been described.", "class": "hypothesis", "confidence": "low", "evidence": ["13.6", "13.7"], "note": "Its smell is only ever described in the service of its own diet.", "capability": "foraging"},
+      {"text": "The capability records list Weedle under light because 13.3 calls its body 'bright-colored'. That means conspicuous, not luminous; it gives no light.", "class": "inferred", "confidence": "high", "evidence": ["13.3", "game:capability"], "capability": "light"},
+      {"text": "Handle with gloves: the head barb injects a strong poison.", "class": "canon", "confidence": "high", "evidence": ["13.5", "13.9"]}
+    ]
+  },
+  "niche": {"guild": "herbivore", "trophic_level": 2, "microhabitat": ["understory grass and bushes", "undersides of leaves", "tree foliage"], "activity": "diurnal",
+            "foraging": "selective leaf-eating, choosing leaves by smell, hidden under its food", "evidence": ["C13.8", "C13.12", "C13.18", "game:encounters"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "tree and shrub leaves (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["13.1", "13.4", "13.10"]},
+    {"with": "Kakuna", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Caterpie", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["13.10", "10.6", "game:encounters", "species:Caterpie"], "note": "Both larvae eat leaves in the same forest; the games never let them share Ilex Forest in one version and give each the other's slots at the same rates. Read as competitive exclusion it is a hypothesis resting on a version-exclusive design device."},
+    {"with": "Caterpie", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Caterpie"], "note": "Together only in National Park's Bug-Catching Contest, in both versions."},
+    {"with": "Hoothoot", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["13.3", "game:encounters", "species:Hoothoot"], "note": "Both in Ilex Forest's common Headbutt trees; warning colours imply predators that learn. Against it: Hoothoot's grass records are at night and Weedle's by day, and the barb makes it a risky meal. Hoothoot's diet isn't stated."},
+    {"with": "Noctowl", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["164.4", "game:encounters", "species:Noctowl"], "note": "Noctowl catches prey in darkness and shares the forest's trees; a resting larva at night is within reach. Prey is never named."},
+    {"with": "Carnivine", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["455.4", "species:Carnivine"], "note": "Carnivine (the 'Bug Catcher Pokémon') dangles from branches to ambush prey; it is in Ilex Forest only when the Sinnoh Sound plays on the radio."},
+    {"with": "Paras", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Paras"]},
+    {"with": "Oddish", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Oddish"], "note": "Same grass, opposite shifts: Weedle morning and day, Oddish night only."}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "Which leaves does it favour, and which does it reject?",
+    "Is its poison made by Weedle itself or taken from the plants it eats?",
+    "Does it ever live in or near Beedrill's nest?",
+    "Why is it met at night on SoulSilver's Route 2 but never in Ilex Forest?",
+    "What learns to avoid its warning colours? No predator is named.",
+    "The line has no HeartGold-SoulSilver egg moves, so no ecotypes can be read from breeding."
+  ],
+  "contradictions": [],
+  "folklore": []
+}

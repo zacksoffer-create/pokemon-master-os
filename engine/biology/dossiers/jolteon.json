@@ -1,0 +1,91 @@
+{
+  "species": "Jolteon",
+  "id": 135,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Jolteon is the Thunder Stone form of Eevee, a 0.8 m, 24.5 kg Electric type that makes its own lightning. Its cells give off weak charges, which it concentrates and amplifies through the static of its fur to drop thunderbolts of 10,000 volts. When it is charged, angered or startled every hair stands up into sharp, charged needles that pierce attackers, and Platinum has it launching them in small bunches. A sensitive animal, it charges up with every change of mood, and its fur crackles constantly. Like every Eevee form it is never wild in Gen I–IV.",
+  "sections": {
+    "anatomy": [
+      {"text": "A light quadruped of 0.8 m and 24.5 kg, Electric type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its cells generate a low level of electricity, which it concentrates into lightning bolts.", "class": "canon", "confidence": "high", "evidence": ["135.3", "135.6", "135.7", "C135.4", "C135.7", "C135.10"], "analogy": "Electric eels (Electrophorus) work the same way in principle: thousands of modified muscle cells, each producing a small voltage, discharge together to deliver several hundred volts."},
+      {"text": "Its fur amplifies that power with static electricity, and the bristling fur is made of electrically charged needles.", "class": "canon", "confidence": "high", "evidence": ["135.6", "135.7", "C135.8", "C135.9"]},
+      {"text": "Negatively charged ions generated in its fur make a constant sparking noise.", "class": "canon", "confidence": "high", "evidence": ["135.5", "C135.6"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Jolteon eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "It can take in electricity: Volt Absorb heals it when it is hit by an Electric move, and the Red, Blue and LeafGreen entries have it gathering negative ions from the atmosphere. That is energy uptake, but nothing shows it replaces food.", "class": "hypothesis", "confidence": "low", "evidence": ["game:abilities", "135.1", "135.9"], "note": "The machine reading's 'electrotroph' came from its type; these are the only pieces that bear on it."}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat: urban, the same as every Eevee form, which probably reflects where people get Eevee rather than a wild habitat.", "class": "inferred", "confidence": "medium", "evidence": ["game:habitat", "game:encounters", "species:Eevee"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Eevee is a gift in Celadon City, at Bill's house in Goldenrod City, a Game Corner prize in the Johto games, and a gift in Hearthome City; it is wild only in Sinnoh's Trophy Garden after the National Pokédex.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Eevee"]}
+    ],
+    "behavior": [
+      {"text": "A sensitive animal that easily becomes sad or angry, and every change of mood charges it up.", "class": "canon", "confidence": "high", "evidence": ["135.2", "C135.2", "C135.3"]},
+      {"text": "Its fur sparks audibly all the time.", "class": "canon", "confidence": "high", "evidence": ["135.5"]},
+      {"text": "Its activity pattern is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "No entry describes how it lives with its own kind.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "An animal whose charge rises with its mood would be unpredictable company; close quarters with others of its kind, or with people, may keep it charged.", "class": "hypothesis", "confidence": "low", "evidence": ["135.2"], "note": "An extension of 135.2, not a described behaviour."}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 35 egg cycles, 87.5% male.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Its eggs hatch as Eevee, so Jolteon doesn't breed true; each young takes its own adult form.", "class": "inferred", "confidence": "high", "evidence": ["game:evolution", "133.4"]}
+    ],
+    "defense": [
+      {"text": "If angered or startled, the fur all over its body bristles like sharp needles that pierce attackers.", "class": "canon", "confidence": "high", "evidence": ["135.8", "135.10", "C135.11", "C135.13"], "analogy": "Porcupine quills are modified hairs that the animal raises when threatened."},
+      {"text": "When agitated it uses electricity to straighten its fur and launch it in small bunches.", "class": "canon", "confidence": "high", "evidence": ["135.11", "C135.14"], "analogy": "Many New World tarantulas defend themselves by kicking clouds of barbed hairs off the abdomen at an attacker."},
+      {"text": "Every hair stands sharply on end when it becomes charged, so the needle defence and the charge are linked.", "class": "canon", "confidence": "high", "evidence": ["135.4", "C135.5"]},
+      {"text": "Pin Missile (Lv 36), a volley of needles, is its needle fur in move form; Thunder Wave (Lv 57) paralyses, and Volt Absorb turns an opponent's electricity to its own benefit.", "class": "mechanic", "confidence": "high", "evidence": ["move:Pin Missile", "move:Thunder Wave", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. 'Sensitive' in 135.2 refers to its temperament.", "class": "unknown", "confidence": "high", "evidence": ["135.2"]}
+    ],
+    "life_cycle": [
+      {"text": "Eevee (0.3 m, 6.5 kg) becomes Jolteon when exposed to a Thunder Stone; Jolteon is nearly four times Eevee's mass.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Eevee"]},
+      {"text": "Eevee's entries describe this as mutation caused by radiation from evolutionary stones acting on its irregular genetic code.", "class": "canon", "confidence": "high", "evidence": ["133.1", "133.6", "133.7", "C133.2", "C133.10"]},
+      {"text": "Unlike Espeon and Umbreon, Jolteon needs no bond with a person to form, only a stone. Like the other stone forms, it could in principle arise wherever an Eevee meets the right mineral.", "class": "inferred", "confidence": "low", "evidence": ["game:evolution", "133.6", "species:Espeon", "species:Umbreon"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Electric attacks by level-up: Thunder Shock (Lv 15), Thunder Fang (Lv 43), Thunder (Lv 71) and Discharge (Lv 78).", "class": "mechanic", "confidence": "high", "evidence": ["move:Thunder Shock", "move:Thunder Fang", "move:Thunder", "move:Discharge"]},
+      {"text": "Speed: Quick Attack (Lv 22) and Agility (Lv 64), with Double Kick (Lv 29) as a hind-leg strike.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Quick Attack", "move:Agility", "move:Double Kick"]},
+      {"text": "These describe what a Jolteon could do on its own; no game has wild ones to observe.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset", "game:encounters"]}
+    ],
+    "ecology": [
+      {"text": "Its role in any wild community is unknown: no diet, no wild population and no predators or prey are named.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Its thunderbolts are described at 10,000 volts, enough to make it dangerous to handle when upset.", "class": "canon", "confidence": "high", "evidence": ["135.1", "135.9", "135.10", "C135.1", "C135.12"]},
+      {"text": "Almost every Jolteon in these games comes from an Eevee given to someone and a stone a person provides.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution"]}
+    ],
+    "homestead": [
+      {"text": "An electricity source: it generates charge in its own cells. Whether it could charge a battery steadily, and how often, is untested.", "class": "hypothesis", "confidence": "low", "evidence": ["135.6", "game:types"], "note": "The capability records list battery-charging as gear, not as anything an entry describes.", "capability": "electricity"},
+      {"text": "A deterrent: bristling needle fur, a crackling coat and thunderbolts would keep most wild animals off.", "class": "inferred", "confidence": "medium", "evidence": ["135.8", "135.5", "135.1"], "capability": "deterrence"},
+      {"text": "Flash, a taught move, makes it a light source for the Glasshouse or a barn.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Flash"], "capability": "light"},
+      {"text": "Keep it calm and keep it away from hay and kindling: its fur sparks constantly and its charge rises with every upset.", "class": "inferred", "confidence": "medium", "evidence": ["135.5", "135.2"]},
+      {"text": "Groom with care: startling it raises the needles, and in Platinum's account it can launch them.", "class": "inferred", "confidence": "high", "evidence": ["135.8", "135.11"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["near people (Gen 3 habitat: urban)"], "activity": "unknown", "foraging": "not described", "evidence": ["game:habitat", "game:encounters"], "class": "inferred", "confidence": "low", "note": "Diet is never stated, so no guild or trophic level is given. It can take in electricity (Volt Absorb, 135.1), but that is not shown to be food."},
+  "relationships": [
+    {"with": "atmospheric charge (negative ions)", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["135.1", "135.9"], "note": "Only the Red, Blue and LeafGreen entries say this; later entries put the source in its cells (see contradictions)."},
+    {"with": "Thunder Stone", "kind": "uses_resource", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "133.6"], "note": "Needed for Eevee to become Jolteon."}
+  ],
+  "ecotypes": [
+    {"name": "Last-spark sprinter", "moves": ["Endure", "Flail", "Detect"], "class": "hypothesis", "confidence": "low", "reading": "Detect sidesteps an attack, Endure survives one that should fell it, and Flail hits harder the closer the user is to defeat. With Jolteon's speed (Quick Attack, Agility), the set describes a lineage that relies on escape first and a desperate counterattack second. Fits open, exposed ground with little cover.", "behavior": "Runs at the first sign of trouble; cornered, it is at its most dangerous.", "evidence": ["move:Agility", "move:Endure", "move:Flail", "move:Detect"]},
+    {"name": "Mood-charger", "moves": ["Fake Tears", "Charm"], "class": "hypothesis", "confidence": "low", "reading": "Fake Tears and Charm are both emotional displays, one of distress and one of appeal. If every change of mood charges Jolteon, a lineage that displays its feelings often would also stay charged. Fits life in groups, or close to people, where displays get answered.", "behavior": "Sulks, pleads and sparks in turn; never quite discharged.", "evidence": ["135.2", "move:Fake Tears", "move:Charm"]}
+  ],
+  "open_questions": [
+    "Where does its electricity come from: the air, its cells, or its moods? (see contradictions)",
+    "What does it eat?",
+    "Can it shed or regrow its needle fur, and how quickly after launching it?",
+    "Could it charge a battery or light a lamp steadily without harm?",
+    "Does the constant sparking make it a fire risk around dry material?",
+    "Could Jolteon arise in the wild where Eevee and Thunder Stones occur together?"
+  ],
+  "contradictions": [
+    {"topic": "Where its electricity comes from", "entries": ["135.1", "135.9", "135.3", "135.6", "135.7", "135.2"], "note": "Red, Blue and LeafGreen (135.1, 135.9) say it gathers negative ions from the atmosphere; Gold, HeartGold, Ruby, Sapphire and Emerald (135.3, 135.6, 135.7) say its own cells produce weak charges that it concentrates and amplifies; Yellow (135.2) says it charges up with every change of mood. Crystal (135.5) has the ions generated in its fur. These may be parts of one system, but each entry names a different source."}
+  ],
+  "folklore": []
+}

@@ -1,0 +1,114 @@
+{
+  "species": "Donphan",
+  "id": 232,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Donphan is a heavy, tusked herd animal of rough mountain country: 1.1 m tall but 120 kg, with a hide so tough that ordinary blows don't scratch it. It attacks by curling into a ball and rolling into its foe, and its charge is said to be able to knock down a house. Rank in the herd goes by tusk size, and tusks take a long time to grow. As Phanpy it is a riverbank youngster that nests in pits dug at the water's edge, showers with its trunk in the quiet morning hours and cools itself by fanning its ears. In Johto the line lives on Route 45, the mountain road below Blackthorn, but only in Silver, Crystal and HeartGold.",
+  "sections": {
+    "anatomy": [
+      {"text": "A compact, very dense quadruped: 1.1 m and 120 kg, Ground type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Sharp, hard tusks and a rugged hide toughened to a rock-hard state; an ordinary attack won't leave a scratch on it.", "class": "canon", "confidence": "high", "evidence": ["232.1", "232.3", "232.6", "C232.1", "C232.5", "C232.11", "C232.12"]},
+      {"text": "Its tusks take a long time to grow.", "class": "canon", "confidence": "high", "evidence": ["232.2", "232.7", "C232.4", "C232.13"], "analogy": "Elephant tusks are incisors that keep growing through life, so their size broadly tracks age."},
+      {"text": "As Phanpy it has a long, dexterous trunk and big ears that it uses as fans.", "class": "canon", "confidence": "high", "evidence": ["231.3", "231.5", "231.6", "C231.7", "C231.10"]},
+      {"text": "Its body can curl into a ball for rolling.", "class": "canon", "confidence": "high", "evidence": ["232.4", "232.8", "C232.6", "C232.14"]}
+    ],
+    "diet": [
+      {"text": "No entry for Phanpy or Donphan says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Phanpy learns Natural Gift by level-up (Lv 19), a move that needs a held Berry, and has the Pickup ability; both hint that the line handles and collects food items, perhaps fruit.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Natural Gift", "game:abilities"], "note": "The machine reading's 'lithovore' came from its Ground type alone; nothing supports rock-eating."}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat: rough terrain. The adult entries put it on mountain trails, where it clears rock and mud slides.", "class": "canon", "confidence": "high", "evidence": ["game:habitat", "232.5", "C232.9"]},
+      {"text": "The juvenile is tied to rivers: Phanpy digs its nest at a river's edge, comes ashore to shower, and dries itself at the water's edge.", "class": "canon", "confidence": "high", "evidence": ["231.3", "231.4", "231.5", "C231.5", "C231.9"]},
+      {"text": "Taken together, the line seems to need both: rugged slopes for the adults and river margins for nesting and young.", "class": "inferred", "confidence": "medium", "evidence": ["231.4", "232.5", "game:habitat"]},
+      {"text": "In Johto it is a version exclusive: Silver and HeartGold have it, Gold and SoulSilver do not. Phanpy is on Route 45 (and in HeartGold on Mt. Silver); Donphan on Mt. Silver, Route 28 and Victory Road, and in Crystal on Route 45.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Route 45 is the mountain road running south from Blackthorn, so in the games that carry it the line is a near neighbour of the homestead.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"], "note": "The route's position is from the game map, not from the evidence pack."},
+      {"text": "Outside Johto, Phanpy only: in the Hoenn Safari Zone (the acro-bike area), on two canyons of the Sevii Islands in FireRed and LeafGreen, and on Sinnoh's Route 207 only during a swarm.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Phanpy"]}
+    ],
+    "behavior": [
+      {"text": "Its favourite attack is to curl into a ball and charge, rolling at high speed; once rolling it can't easily stop.", "class": "canon", "confidence": "high", "evidence": ["232.4", "232.8", "C232.6", "C232.7"], "analogy": "Rolling into a ball is a defence in pangolins and three-banded armadillos; using it as an attack has no close real counterpart."},
+      {"text": "Phanpy comes ashore during the deserted morning hours to shower with its trunk.", "class": "canon", "confidence": "high", "evidence": ["231.3", "C231.4"]},
+      {"text": "Crystal's tables agree: Phanpy appears only in the morning, on Routes 45 and 46, and Donphan on Route 45 only in the morning and day. The line looks diurnal with a morning peak, at least in Crystal; Silver and HeartGold don't split by time for Phanpy.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "231.3"]},
+      {"text": "Phanpy cools off by flapping its ears when hot.", "class": "canon", "confidence": "high", "evidence": ["231.6", "C231.11"], "analogy": "African elephants dump heat the same way: blood flowing through the thin, vessel-rich ears is cooled as the ears are flapped."}
+    ],
+    "social": [
+      {"text": "Donphan lives in herds ranked by tusk size: the longer and bigger the tusks, the higher the rank.", "class": "canon", "confidence": "high", "evidence": ["232.2", "232.7", "C232.3"]},
+      {"text": "Because tusks take long to grow, rank probably tracks age, with the oldest animals at the top.", "class": "inferred", "confidence": "medium", "evidence": ["232.2", "C232.4"]},
+      {"text": "Phanpy are social at the water: when they gather they douse each other thoroughly with water.", "class": "canon", "confidence": "high", "evidence": ["231.5", "C231.8"], "analogy": "Elephants spray water and dust over themselves and each other with the trunk."},
+      {"text": "Phanpy shows affection by bumping with its snout, hard enough to send a person flying.", "class": "canon", "confidence": "high", "evidence": ["231.2", "C231.2", "C231.3"]}
+    ],
+    "reproduction": [
+      {"text": "Phanpy nests in a vertical pit it digs in the ground at the edge of a river, and marks the area around the nest with its trunk to show it is taken.", "class": "canon", "confidence": "high", "evidence": ["231.4", "C231.5", "C231.6"]},
+      {"text": "Nest-site marking implies nest sites are contested, and that others of its kind read the marks.", "class": "inferred", "confidence": "medium", "evidence": ["231.4", "C231.6"]},
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Even the young are very strong.", "class": "canon", "confidence": "high", "evidence": ["231.6", "C231.12"]},
+      {"text": "Crystal has a Phanpy at level 2 on Route 46 in the morning, the lowest-level wild one in any game, which could be read as a hatchling near its nest.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters"], "note": "Encounter levels are a game-design choice; this is a lead, not evidence of breeding there."}
+    ],
+    "defense": [
+      {"text": "Armour: a hide so tough that a normal attack won't scratch it.", "class": "canon", "confidence": "high", "evidence": ["232.3", "232.6"]},
+      {"text": "Sturdy means it can't be knocked out in one blow, the game form of that hide.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "The claim that ordinary attacks don't scratch it is best read as a description of a very tough hide, not an immunity: Normal-type moves damage it normally in every game.", "class": "inferred", "confidence": "high", "evidence": ["232.3", "232.6", "game:types"]},
+      {"text": "Attack as defence: the rolling charge, and a tackle that can destroy a house.", "class": "canon", "confidence": "high", "evidence": ["232.1", "232.5", "232.8", "C232.2", "C232.8", "C232.15"]},
+      {"text": "Scary Face (Lv 39) and Growl (Lv 1) are its threat displays among level-up moves.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Scary Face", "move:Growl"]}
+    ],
+    "senses": [
+      {"text": "Phanpy learns Odor Sleuth at level 1, a sniffing move, which suggests the trunk is a nose in function as well as form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Odor Sleuth", "game:learnset"]},
+      {"text": "If it smells well, the trunk-marking around the nest (231.4) is most plausibly scent marking.", "class": "hypothesis", "confidence": "low", "evidence": ["231.4", "move:Odor Sleuth"], "note": "The entry says it marks the area with its trunk, not how."}
+    ],
+    "life_cycle": [
+      {"text": "Phanpy (0.5 m, 33.5 kg) becomes Donphan at level 25 (1.1 m, 120 kg), more than tripling its mass.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Phanpy"]},
+      {"text": "Development runs from a playful, trunk-swinging juvenile tied to the riverbank to an armoured, tusked adult of the slopes; the tusks keep growing after evolution and set the animal's rank.", "class": "inferred", "confidence": "medium", "evidence": ["231.1", "231.4", "232.2", "232.5"]},
+      {"text": "The juvenile's playful swinging of its snout is already dangerous because of its strength.", "class": "canon", "confidence": "high", "evidence": ["231.1", "231.7", "231.9", "C231.1", "C231.13", "C231.16"]},
+      {"text": "Phanpy is strong enough to pick up and carry an adult human on its back.", "class": "canon", "confidence": "high", "evidence": ["231.8", "C231.14", "C231.15"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Travel and attack: Defense Curl (Lv 1), Rapid Spin (Lv 6) and Rollout (Lv 15) are the rolling charge in move form.", "class": "mechanic", "confidence": "high", "evidence": ["move:Defense Curl", "move:Rapid Spin", "move:Rollout", "232.4"]},
+      {"text": "Tusks: Horn Attack (Lv 1) and Fury Attack (Lv 25) are jabbing moves, the natural use of a pair of tusks.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Horn Attack", "move:Fury Attack"]},
+      {"text": "Ground: Magnitude (Lv 19) and Earthquake (Lv 46) shake the ground, which fits a 120 kg animal that rolls and stamps.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Magnitude", "move:Earthquake", "game:size"]},
+      {"text": "Knock Off (Lv 10), which knocks an item from the target's grip, matches a trunk or tusks that can swat.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Knock Off"], "note": "A reading of the move, not of any entry."}
+    ],
+    "ecology": [
+      {"text": "A landscape engineer: it clears rock and mud slides from mountain trails, so it shapes the routes that other animals and people use.", "class": "canon", "confidence": "high", "evidence": ["232.5", "C232.9"]},
+      {"text": "Phanpy's nest pits in riverbanks are excavations that other animals could reuse once abandoned.", "class": "hypothesis", "confidence": "low", "evidence": ["231.4"], "note": "Nothing says what happens to old nests."},
+      {"text": "It shares Route 45 and the slopes of Mt. Silver with Geodude, Graveler and Gligar, all rock or ground animals of broken terrain.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Graveler", "species:Gligar"]},
+      {"text": "Its trophic role is unclear because its diet is unknown; if it grazes or browses, it is a primary consumer (level 2).", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat"], "note": "Diet is never stated."}
+    ],
+    "humans": [
+      {"text": "It helps people by clearing rock and mud slides that block mountain trails.", "class": "canon", "confidence": "high", "evidence": ["232.5", "C232.9"]},
+      {"text": "It is strong enough to haul a dump truck easily.", "class": "canon", "confidence": "high", "evidence": ["232.6", "C232.10"]},
+      {"text": "Danger: its tackle can knock down a house, and even the juvenile's affectionate bumps can send a person flying.", "class": "canon", "confidence": "high", "evidence": ["232.1", "232.8", "231.2"]}
+    ],
+    "homestead": [
+      {"text": "The homestead's heavy hauler: it can easily haul a dump truck, so carts, sledges and logs are well within reach.", "class": "canon", "confidence": "high", "evidence": ["232.6"], "capability": "hauling"},
+      {"text": "Track and road crew for the mountain approaches: clearing rock and mud slides is something it already does for people.", "class": "canon", "confidence": "high", "evidence": ["232.5"], "capability": "clearing"},
+      {"text": "Phanpy can carry an adult on its back, but only over short distances and for light riders at its 0.5 m size; how far is unrecorded.", "class": "inferred", "confidence": "low", "evidence": ["231.8", "game:size"], "capability": "carrying_rider"},
+      {"text": "Needs: a stream or pond for showering and cooling, especially for the young, and digging ground at the bank if it is to breed.", "class": "inferred", "confidence": "medium", "evidence": ["231.3", "231.4", "231.6"], "capability": "water_supply"},
+      {"text": "Keep it away from buildings when it is excited or rolling: once it starts rolling it can't easily stop, and its charge can knock a house down.", "class": "inferred", "confidence": "high", "evidence": ["232.4", "232.1"]},
+      {"text": "Its herd sorts itself by tusk size, so keeping several adults together may mean contests over rank.", "class": "inferred", "confidence": "low", "evidence": ["232.2"]}
+    ]
+  },
+  "niche": {"guild": "herbivore", "trophic_level": 2, "microhabitat": ["rocky mountain slopes and trails", "riverbanks (nesting and young)"], "activity": "diurnal", "foraging": "not described", "evidence": ["game:habitat", "232.5", "231.4", "231.3", "game:encounters"], "class": "hypothesis", "confidence": "low", "note": "Diet is never stated; the guild follows from body plan alone. The diurnal reading rests on Crystal's tables and 231.3."},
+  "relationships": [
+    {"with": "riverbanks", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["231.4", "231.5"], "note": "Nest pits are dug at the river's edge; the young shower and dry off there."},
+    {"with": "mountain trails", "kind": "engineers", "class": "canon", "confidence": "high", "evidence": ["232.5"], "note": "It clears rock and mud slides that block them."},
+    {"with": "Graveler", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Graveler"], "note": "Route 45, Mt. Silver and Victory Road."},
+    {"with": "Gligar", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gligar"], "note": "Route 45 in Crystal and HeartGold."},
+    {"with": "Larvitar", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Larvitar"], "note": "Mt. Silver in HeartGold."},
+    {"with": "Skarmory", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Skarmory"], "note": "Route 45 in Crystal, by day."}
+  ],
+  "ecotypes": [
+    {"name": "Rockfall ram", "moves": ["Head Smash", "Focus Energy", "Body Slam"], "class": "hypothesis", "confidence": "low", "reading": "Head Smash is a headlong ram that hurts the user too, Focus Energy is a gathering-up before the strike, and Body Slam is the full weight thrown in. Together they suggest a lineage that charges head-first through obstacles instead of rolling: the trail-clearing habit made into a way of life. Fits steep scree and avalanche-prone slopes.", "behavior": "Lowers its head and drives straight through fallen rock.", "evidence": ["232.5", "move:Head Smash", "move:Focus Energy", "move:Body Slam"]},
+    {"name": "Herd shield", "moves": ["Counter", "Endeavor"], "class": "hypothesis", "confidence": "low", "reading": "Counter returns a physical blow twice as hard, and Endeavor drags an attacker down to the user's own condition. With Sturdy, which lets it survive any single hit, the pair describes an animal that takes the first charge and gives it back. A lineage whose senior animals stand at the front of the herd. Fits open river flats where a herd with young can be caught in the open.", "behavior": "Takes the blow meant for the calves, then answers it.", "evidence": ["232.2", "game:abilities", "move:Counter", "move:Endeavor"]},
+    {"name": "Crevasse walker", "moves": ["Fissure", "Ice Shard", "Ancient Power"], "class": "hypothesis", "confidence": "low", "reading": "Fissure splits the ground, Ice Shard flings ice fast, and Ancient Power lifts rock. A lineage at home in frozen, broken ground, working with ice and stone rather than mud. Fits glaciated high country like the upper slopes of Mt. Silver or the Ice Path beside Blackthorn.", "behavior": "Breaks ice and frozen ground to open a way, or a wallow.", "evidence": ["game:habitat", "move:Fissure", "move:Ice Shard", "move:Ancient Power"]}
+  ],
+  "open_questions": [
+    "What does it eat? No entry for either stage says.",
+    "Does the adult return to rivers to breed, or does only Phanpy live at the water?",
+    "How is the nest area marked: scent, scraping, or something else?",
+    "Do tusks grow for life, and does rank simply follow age?",
+    "Why is the line found only in Silver and HeartGold among the Johto games?",
+    "Who uses the nest pits after Phanpy leaves them?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

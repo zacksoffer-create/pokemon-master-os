@@ -1,0 +1,465 @@
+<script>
+/* ===== The Arena's pages (v1, D-077; docs/ARENA.md) ==============================================================
+   The 2K modes on Blackthorn's 6v6 engine (35_arena): Play Now (#/arena: any team against any team, every battle
+   watchable with each decision's reasons), Legends (#/legends: the all-time field ranked, and a best-of-seven against
+   any of them), Leagues (#/leagues: a round robin, standings, leaders, awards and playoffs), the Draft (#/draft: a
+   snake draft against GMs with traits, then a league) and Your trainer (#/trainer: the philosophy and coach settings
+   your teams play by). Results you keep go to the Arena tab (append-only), which careers and the Hall of Fame read. */
+function arPct(x) { return Math.round(100 * (x || 0)) + '%'; }
+function arCI(ci) { return ci ? arPct(ci[0]) + '–' + arPct(ci[1]) : ''; }
+function arBar(rate, ci, kind) {
+  return '<div class="arbar ' + (kind || '') + '"><i style="width:' + (100 * rate).toFixed(1) + '%"></i>' +
+    (ci ? '<b style="left:' + (100 * ci[0]).toFixed(1) + '%;width:' + (100 * (ci[1] - ci[0])).toFixed(1) + '%"></b>' : '') + '</div>';
+}
+function arStrip(team, game, size) {
+  return '<span class="arstrip">' + team.members.map(function (m) { var n = numOf(m.species);
+    return n ? '<img src="' + sprite(n, game || team.game) + '" alt="' + esc(m.species) + '" title="' + esc(m.species + (m.item ? ' @ ' + m.item : '') + ' · ' + m.moves.join(', ')) + '" style="width:' + (size || 40) + 'px;height:' + (size || 40) + 'px">' : '<span class="chip">' + esc(m.species) + '</span>'; }).join('') + '</span>';
+}
+function arProgress(id) { return '<div id="' + id + '" class="tiny muted" style="margin-top:10px"></div>'; }
+function arTick(id, label) { var t0 = Date.now(); return function (d, n) { var el = document.getElementById(id); if (el) el.innerHTML = esc(label) + ' · ' + d + ' of ' + n + ' battles' + (d > 4 ? ' · about ' + Math.max(1, Math.round((Date.now() - t0) / d * (n - d) / 1000)) + ' s left' : '') + arBar(d / n); }; }
+function arFail(id, e) { var el = document.getElementById(id); if (el) el.innerHTML = '<div class="notice">' + esc(e && e.message || e) + '</div>'; console.error(e); }
+function arKeep() { var k = store('arena-keep'); return k == null ? true : !!k; }
+function arRecord(row) {   // the Arena tab: one row per result you keep (append-only)
+  if (!arKeep()) return Promise.resolve(null);
+  row = Object.assign({id: 'AR-' + Date.now().toString(36), at: new Date().toISOString(), engine: (Arena.pack() || {}).engine ? Arena.pack().engine.name + ' ' + Arena.pack().engine.version : ''}, row);
+  return API.append('Arena', row).then(function () { S.live.Arena = null; return row; }).catch(function (e) { console.error(e); toast('The result wasn\'t saved: ' + esc(e && e.message || e)); return null; });
+}
+function arMembersRow(m) { return {name: m.name, kos: Math.round(1000 * m.kos_per_battle) / 1000, dmg: Math.round(m.damage_dealt_per_battle || m.damage_per_battle || 0), fnt: Math.round(1000 * m.fainted_rate) / 1000, app: m.appeared != null ? Math.round(1000 * m.appeared) / 1000 : null}; }
+function arMembers(ms, game) {
+  return '<table class="t"><thead><tr><th>Pokémon</th><th>Played</th><th>KOs / battle</th><th>Damage / battle</th><th>Fainted</th></tr></thead><tbody>' + ms.map(function (m) {
+    var n = numOf(m.name);
+    return '<tr><td>' + (n ? '<img src="' + sprite(n, game) + '" style="width:28px;height:28px;vertical-align:middle"> ' : '') + esc(m.name) + '</td><td>' + arPct(m.appeared) + '</td><td>' + (m.kos_per_battle || 0).toFixed(2) +
+      '</td><td>' + Math.round(m.damage_dealt_per_battle != null ? m.damage_dealt_per_battle : m.damage_per_battle || 0) + '%</td><td>' + arPct(m.fainted_rate) + '</td></tr>';
+  }).join('') + '</tbody></table><div class="tiny muted" style="margin-top:6px">Damage is in percent of the target\'s HP (200% is two Pokémon\'s worth). A knockout from hazards, status or weather is credited to whoever caused it (sixvsix/src/analyze.js).</div>';
+}
+function arNeedsEngine(e) {
+  return '<div class="notice">The 6v6 engine couldn\'t start here: ' + esc(e && e.message || e) + '. It needs sixvsix.json and arena.json in the app zip (python3 -I engine/rebuild.py --only arena).</div>';
+}
+var AR_THEIRS = [['blackthorn', 'Blackthorn\'s reading'], ['game', 'As the game plays them'], ['aggressive', 'An aggressive version'], ['cautious', 'A cautious version'], ['sharp', 'At their sharpest'], ['sloppy', 'Off their game']];
+var AR_OURS = [['blackthorn', 'Your coach settings (#/trainer)'], ['plain', 'Blackthorn\'s default'], ['aggressive', 'Aggressive'], ['cautious', 'Cautious'], ['sharp', 'At your sharpest']];
+function arSelect(id, list, sel) { return '<select id="' + id + '">' + list.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === sel ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; }
+
+/* ---- the replay: one battle, turn by turn, with each decision's reasons ---- */
+function arWatch(key, i) {
+  var m = Arena.save(key); if (!m) return;
+  openDrawer('<div class="empty">Playing battle ' + (i + 1) + ' again…</div>');
+  setTimeout(function () {
+    try {
+      var r = Arena.replay(m, i), L = {a: m.a.label, b: m.b.label};
+      var html = '<div class="eyebrow">Battle ' + (i + 1) + ' · ' + esc(r.row.winner === 'a' ? m.a.label + ' won' : r.row.winner === 'b' ? m.b.label + ' won' : 'a draw') + ' in ' + r.row.turns + ' turns</div>' +
+        '<h2 style="margin:6px 0">' + esc(m.a.label) + ' <span class="muted">vs</span> ' + esc(m.b.label) + '</h2>' +
+        '<p class="tiny muted">The same battle as in the batch (seed ' + esc(String(r.row.seed).slice(0, 18)) + '…, A on ' + r.row.a_side + '), played again with its full log. Each decision shows the option it took and the reasons for the top options, in HP percentage points swung (sixvsix/docs/TRAINER_AI.md).</p>';
+      r.turns.forEach(function (t) {
+        if (!t.turn && !t.events.length) return;
+        html += '<div class="arturn">' + (t.turn ? '<div class="arth"><b>Turn ' + t.turn + '</b><span>' + esc(t.start.a.mon || '') + ' ' + t.start.a.pct + '%</span><span class="muted">vs</span><span>' + esc(t.start.b.mon || '') + ' ' + t.start.b.pct + '%</span></div>' : '<div class="arth"><b>Leads</b></div>');
+        t.decisions.forEach(function (d) {
+          html += '<div class="ardec ' + d.side + '"><b>' + esc(L[d.side]) + (d.forced ? ' · replacing' : '') + ':</b> ' + esc(d.pick) +
+            (d.options && d.options.length > 1 && d.why && d.why.length ? '<div class="tiny muted">' + d.why.slice(0, 3).map(esc).join('<br>') + '</div>' : '') + '</div>';
+        });
+        html += '<div class="arev">' + t.events.map(function (e) {
+          var w = e.side ? esc(L[e.side]) + '\'s ' + esc(e.mon || '') : '';
+          var txt = e.kind === 'switch' ? esc(L[e.side]) + (e.dragged ? ' is dragged to ' : ' sends out ') + esc(e.mon) + ' (' + e.pct + '%)' : e.kind === 'move' ? w + ' used <b>' + esc(e.move) + '</b>' + (e.missed ? ' (missed)' : '') :
+            e.kind === 'damage' ? w + ' → ' + e.pct + '%' + (e.from ? ' (' + esc(e.from) + ')' : '') : e.kind === 'heal' ? w + ' healed to ' + e.pct + '%' : e.kind === 'faint' ? '<b>' + w + ' fainted</b>' :
+            e.kind === 'boost' ? w + ' ' + esc(e.stat) + ' ' + (e.by > 0 ? '+' : '−') + Math.abs(e.by) : e.kind === 'end' ? '<b>' + esc(e.text) + '</b>' : (w ? w + ': ' : '') + esc(e.text || '');
+          return '<div>' + txt + '</div>'; }).join('') + '</div></div>';
+      });
+      document.getElementById('din').innerHTML = html;
+    } catch (e) { document.getElementById('din').innerHTML = '<div class="notice">' + esc(e.message || e) + '</div>'; }
+  }, 30);
+}
+
+/* ---- Play Now: #/arena ---- */
+function arenaPage(query) {
+  var q = qparse(query), st = Object.assign({a: 'pack:me/heartgold', b: 'lib:platinum/cynthia-rematch', n: 20, lens: 'standardized', ours: 'blackthorn', theirs: 'blackthorn'}, store('arena') || {});
+  ['a', 'b', 'lens', 'ours', 'theirs'].forEach(function (k) { if (q[k]) st[k] = q[k]; }); if (q.n) st.n = +q.n;
+  return Arena.ready().then(function () {
+    after(function () {
+      document.getElementById('arrun').onclick = function () { arPlay(); };
+      document.getElementById('arswap').onclick = function () { var a = document.getElementById('ara'), b = document.getElementById('arb'), x = a.value; a.value = b.value; b.value = x; arPreview(); };
+      ['ara', 'arb', 'arlens'].forEach(function (id) { document.getElementById(id).onchange = arPreview; });
+      document.getElementById('arkeep').onchange = function () { store('arena-keep', this.checked); };
+      arPreview(); if (q.go) arPlay();
+    });
+    return '<div class="eyebrow">The Arena · play now</div><h1 style="margin:6px 0">Any team against any team, six on six</h1>' +
+      '<p class="lede">Showdown\'s Gen IV engine, with each trainer played the way the Trainer Library reads them (or as the game plays them). Battles come in mirrored pairs: each pair shares a seed with the sides swapped, so neither side gets the lucky one. You get a win rate with an honest interval, what each Pokémon did, and every battle to watch with the reasons behind each decision.</p>' +
+      '<div class="slgrid" style="margin-top:16px"><div id="arin">' +
+      card('The matchup', '<label class="tiny muted">Side A</label><select id="ara" style="width:100%">' + Arena.options(st.a) + '</select><div id="arpa" style="margin:6px 0 12px"></div>' +
+        '<div style="text-align:center"><button class="btn sm ghost" id="arswap">⇅ swap</button></div>' +
+        '<label class="tiny muted">Side B</label><select id="arb" style="width:100%">' + Arena.options(st.b) + '</select><div id="arpb" style="margin:6px 0 12px"></div>' +
+        '<div class="row"><div><label class="tiny muted">Battles</label><select id="arn">' + [10, 20, 50, 100].map(function (n) { return '<option' + (n === st.n ? ' selected' : '') + '>' + n + '</option>'; }).join('') + '</select></div>' +
+        '<div><label class="tiny muted">Lens</label>' + arSelect('arlens', [['standardized', 'Standardized (Lv 100, 85 EVs)'], ['authentic', 'As encountered (their levels)']], st.lens) + '</div></div>' +
+        '<div class="row" style="margin-top:8px"><div><label class="tiny muted">How A plays</label>' + arSelect('arours', AR_OURS, st.ours) + '</div><div><label class="tiny muted">How B plays</label>' + arSelect('artheirs', AR_THEIRS, st.theirs) + '</div></div>' +
+        '<label class="tiny" style="display:block;margin-top:10px"><input type="checkbox" id="arkeep"' + (arKeep() ? ' checked' : '') + '> Keep the result in the record (the Arena tab; careers and the Hall of Fame read it)</label>' +
+        '<div style="margin-top:12px"><button class="btn gold" id="arrun">Play the battles</button></div>' + arProgress('arprog'), {tools: false}) +
+      '</div><div id="arout">' + card('What you\'ll see', '<p class="small">A win rate with its 95% interval (Wilson), wins, losses and draws, how many Pokémon were left when it won, what each Pokémon contributed, and the battles themselves. Battles run in ' + esc(Arena.workers() === 'unknown' ? 'Web Workers where this page allows them' : Arena.workers()) + '; the numbers are the same either way.</p>' +
+        '<p class="small muted">Your journey teams fight with the EV spreads the 6v6 Lab optimized for them (D-072); every other team carries 85 EVs in every stat on the standardized lens. Gen II and III teams play under Gen IV rules, and say so.</p>', {tools: false}) + '</div></div>';
+  }).catch(function (e) { return arNeedsEngine(e); });
+}
+function arPreview() {
+  ['a', 'b'].forEach(function (w) {
+    var el = document.getElementById('arp' + w), ref = document.getElementById('ar' + w).value;
+    try { var s = Arena.side(ref, {lens: document.getElementById('arlens').value}); el.innerHTML = arStrip(s.team, s.game, 36) + (s.note.length ? '<div class="tiny muted">' + s.note.map(esc).join(' · ') + '</div>' : ''); }
+    catch (e) { el.innerHTML = '<div class="tiny" style="color:var(--ember-2)">' + esc(e.message) + '</div>'; }
+  });
+}
+function arPlay() {
+  var o = {a: document.getElementById('ara').value, b: document.getElementById('arb').value, n: +document.getElementById('arn').value, lens: document.getElementById('arlens').value,
+    ours: document.getElementById('arours').value, theirs: document.getElementById('artheirs').value};
+  store('arena', o);
+  var btn = document.getElementById('arrun'); btn.disabled = true;
+  Arena.match(o.a, o.b, {n: o.n, lens: o.lens, ours: o.ours, theirs: o.theirs, onProgress: arTick('arprog', 'Playing')}).then(function (m) {
+    btn.disabled = false; document.getElementById('arprog').innerHTML = '';
+    var key = 'm' + Date.now(); Arena.save(key, m);
+    document.getElementById('arout').innerHTML = arResult(m, key);
+    var r = m.result;
+    arRecord({kind: 'match', a: o.a, b: o.b, a_name: m.a.label, b_name: m.b.label, n: r.n, won: r.won, lost: r.lost, drew: r.drew, lens: o.lens, ours: o.ours, theirs: o.theirs,
+      ruleset: r.job.ruleset, seed: r.seed, members: JSON.stringify(r.summary.members.a.map(arMembersRow)), them: JSON.stringify(r.summary.members.b.map(arMembersRow)),
+      _timeline: 'Arena: ' + m.a.label + ' ' + r.won + '–' + r.lost + (r.drew ? '–' + r.drew : '') + ' against ' + m.b.label});
+  }).catch(function (e) { btn.disabled = false; arFail('arprog', e); });
+}
+function arResult(m, key) {
+  var r = m.result, s = r.summary, ci = s.win_rate_95, lean = ci[0] > 0.5 ? 'A is ahead, and the interval says it isn\'t luck' : ci[1] < 0.5 ? 'B is ahead, and the interval says it isn\'t luck' : 'too close to call at this many battles: the interval straddles 50%';
+  var left = s.left_a_when_won;
+  return card(esc(m.a.label) + ' <span class="muted">vs</span> ' + esc(m.b.label),
+    '<div class="row" style="align-items:center"><div>' + arStrip(m.a.team, m.a.game) + '</div><div style="text-align:right">' + arStrip(m.b.team, m.b.game) + '</div></div>' +
+    '<div class="kpis" style="margin-top:12px"><div class="kpi"><div class="tiny muted">A wins</div><b style="font-size:26px">' + arPct(s.win_rate) + '</b><div class="tiny muted">95%: ' + arCI(ci) + '</div></div>' +
+    '<div class="kpi"><div class="tiny muted">Record</div><b style="font-size:22px">' + r.won + '–' + r.lost + (r.drew ? '–' + r.drew : '') + '</b><div class="tiny muted">of ' + r.n + ' battles</div></div>' +
+    '<div class="kpi"><div class="tiny muted">Length</div><b style="font-size:22px">' + Math.round(s.turns.mean) + '</b><div class="tiny muted">turns on average</div></div>' +
+    '<div class="kpi"><div class="tiny muted">Left when A won</div><b style="font-size:22px">' + (left != null ? (Math.round(10 * (left.mean != null ? left.mean : left)) / 10) : '—') + '</b><div class="tiny muted">Pokémon standing</div></div></div>' +
+    '<div style="margin-top:10px">' + arBar(s.win_rate, ci) + '</div><p class="small" style="margin-top:6px">' + esc(lean) + '.</p>' +
+    (r.failures.length ? '<div class="notice">' + plural(r.failures.length, 'battle') + ' ended in an error or a stall and aren\'t counted.</div>' : '') +
+    '<details style="margin-top:8px"><summary class="tiny muted">What was held constant, what varied, and how it was checked</summary><div class="tiny" style="margin-top:6px"><b>Held constant:</b> ' + r.held_constant.map(esc).join('; ') + '<br><b>Varied:</b> ' + r.varied.map(esc).join('; ') +
+      '<br><b>Ruleset:</b> ' + esc(r.job.ruleset) + ' · <b>legality:</b> A ' + esc(r.job.legality.a.checked_by) + '; B ' + esc(r.job.legality.b.checked_by) + '<br><b>Ran on:</b> ' + esc(r.timing.platform) + ' in ' + (r.timing.total_ms / 1000).toFixed(1) + ' s · <b>evidence class:</b> simulated</div></details>', {tools: false}) +
+    '<div class="grid" style="margin-top:18px"><div class="c6">' + card('What A\'s Pokémon did', arMembers(s.members.a, m.a.game), {tools: false}) + '</div><div class="c6">' + card('What B\'s Pokémon did', arMembers(s.members.b, m.b.game), {tools: false}) + '</div></div>' +
+    '<div style="margin-top:18px">' + card('The battles', '<p class="tiny muted">Watch any one: it\'s played again from its seed, exactly as it went in the batch, with its full log and every decision\'s reasons.</p><table class="t"><thead><tr><th>#</th><th>A played</th><th>Result</th><th>Turns</th><th>Left</th><th></th></tr></thead><tbody>' +
+      r.battles.slice(0, 100).map(function (b) { return '<tr><td>' + (b.i + 1) + '</td><td>' + b.a_side + '</td><td>' + (b.winner === 'a' ? chip('A won', 'forest') : b.winner === 'b' ? chip('B won', 'ember') : chip(b.end === 'error' ? 'error' : 'draw', '')) + '</td><td>' + b.turns + '</td><td>' + b.left.a + '–' + b.left.b + '</td><td><button class="btn sm" onclick="arWatch(\'' + key + '\',' + b.i + ')">Watch</button></td></tr>'; }).join('') + '</tbody></table>', {tools: false}) + '</div>';
+}
+
+/* ---- Legends: #/legends ---- */
+function legendsPage(query) {
+  var q = qparse(query);
+  return Arena.ready().then(function () {
+    var L = Arena.pack().legends, F = L.field;
+    var group = {yours: 'Yours', champions: 'Champion', anime: 'Anime', 'all-time': 'All-time'};
+    after(function () {
+      var b = document.getElementById('lgrun'); if (b) b.onclick = lgSeries;
+      if (q.vs) { document.getElementById('lgvs').value = q.vs; }
+    });
+    var rows = L.order.map(function (i, rank) {
+      var t = F[i];
+      return '<tr><td>' + (rank + 1) + '</td><td><b>' + esc(t.name) + '</b><div class="tiny muted">' + chip(group[t.group] || t.group, t.group === 'yours' ? 'gold' : t.group === 'anime' ? 'violet' : 'ice') + ' ' + esc(GAME_NAME[t.game] || t.game || '') + '</div></td><td>' +
+        t.species.map(function (sp) { var n = numOf(sp); return n ? '<img src="' + sprite(n, t.game) + '" title="' + esc(sp) + '" style="width:30px;height:30px">' : esc(sp); }).join('') + '</td><td>' + arPct(t.win_rate) + '<div style="width:110px">' + arBar(t.win_rate, t.win_rate_95, t.group === 'yours' ? '' : 'ice') + '</div></td><td class="tiny">' + t.series_won + '–' + t.series_lost + '</td>' +
+        '<td><button class="btn sm" onclick="document.getElementById(\'lgvs\').value=\'' + (t.from === 'pack' ? 'pack:' : 'lib:') + esc(t.id) + '\';window.scrollTo(0,0)">Challenge</button></td></tr>';
+    }).join('');
+    var stars = L.players.slice().sort(function (a, b) { return b.kos_per_battle - a.kos_per_battle; }).slice(0, 12);
+    var walls = L.players.filter(function (p) { return p.fainted_rate > 0; }).sort(function (a, b) { return a.fainted_rate - b.fainted_rate; }).slice(0, 6);
+    var vsOpts = L.order.map(function (i) { var t = F[i]; return '<option value="' + (t.from === 'pack' ? 'pack:' : 'lib:') + esc(t.id) + '">' + esc(t.name) + '</option>'; }).join('');
+    return '<div class="eyebrow">The Arena · Legends</div><h1 style="margin:6px 0">The all-time teams</h1>' +
+      '<p class="lede">Every Champion at their strongest, Red, the anime\'s teams, the all-time team and your six journeys, each played against every other ' + L.n_per_pairing + ' times and ranked. Then take any of them on in a best-of-seven: the "your team against the \'96 Bulls" question.</p>' +
+      '<div class="grid" style="margin-top:16px"><div class="c5">' + card('Best of seven', '<label class="tiny muted">Your team</label><select id="lgus" style="width:100%">' + Arena.options('pack:me/heartgold', ['yours', 'saved']) + '</select>' +
+        '<label class="tiny muted" style="display:block;margin-top:8px">The Legend</label><select id="lgvs" style="width:100%">' + vsOpts + '</select>' +
+        '<div class="row" style="margin-top:8px"><div><label class="tiny muted">Series</label>' + arSelect('lgbest', [['7', 'Best of seven'], ['5', 'Best of five'], ['3', 'Best of three']], '7') + '</div><div><label class="tiny muted">How they play</label>' + arSelect('lgtheirs', AR_THEIRS, 'blackthorn') + '</div></div>' +
+        '<div style="margin-top:12px"><button class="btn gold" id="lgrun">Play the series</button></div>' + arProgress('lgprog') + '<div id="lgout" style="margin-top:12px"></div>', {tools: false}) +
+        card('The stars', '<p class="tiny muted">Across the whole round robin: knockouts per battle.</p>' + stars.map(function (p) { var t = F[p.team], n = numOf(p.name);
+          return '<div class="small" style="display:flex;gap:8px;align-items:center;margin:4px 0">' + (n ? '<img src="' + sprite(n, t.game) + '" style="width:30px;height:30px">' : '') + '<b>' + esc(p.name) + '</b><span class="muted">' + esc(t.name) + '</span><span style="margin-left:auto">' + p.kos_per_battle.toFixed(2) + ' KOs</span></div>'; }).join('') +
+          '<p class="tiny muted" style="margin-top:10px">Hardest to bring down (fainted least often):</p>' + walls.map(function (p) { var t = F[p.team]; return '<div class="tiny">' + esc(p.name) + ' <span class="muted">(' + esc(t.name) + ')</span> · fainted in ' + arPct(p.fainted_rate) + '</div>'; }).join(''), {tools: false, style: 'margin-top:18px'}) + '</div>' +
+      '<div class="c7">' + card('Power rankings', '<p class="tiny muted">' + esc(L.rule) + '. Series record: pairings won by more battles than lost. Played ' + esc(fmtDate(L.made_at)) + ' on the standardized lens; your teams with D-072\'s optimized spreads, everyone else on 85 EVs, which is part of why yours rank high.</p><table class="t"><thead><tr><th>#</th><th>Team</th><th>Six</th><th>Win rate</th><th>Series</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>', {tools: false}) + '</div></div>';
+  }).catch(function (e) { return arNeedsEngine(e); });
+}
+function lgSeries() {
+  var a = document.getElementById('lgus').value, b = document.getElementById('lgvs').value, best = +document.getElementById('lgbest').value, theirs = document.getElementById('lgtheirs').value;
+  var btn = document.getElementById('lgrun'); btn.disabled = true; document.getElementById('lgprog').innerHTML = 'Playing the series…';
+  setTimeout(function () {
+    Arena.series(a, b, {best: best, theirs: theirs}).then(function (s) {
+      btn.disabled = false; document.getElementById('lgprog').innerHTML = '';
+      var key = 's' + Date.now(); Arena.save(key, {a: s.a, b: s.b, opt: Object.assign({}, s.opt, {n: best, pairing: 'alternate', seed: 'series|v1|' + a + '|' + b})});
+      var html = '<div class="row" style="align-items:center"><div>' + arStrip(s.a.team, s.a.game, 32) + '</div><div style="text-align:right">' + arStrip(s.b.team, s.b.game, 32) + '</div></div>' +
+        '<h3 style="margin:10px 0">' + (s.winner === 'a' ? esc(s.a.label) + ' win the series ' : esc(s.b.label) + ' win the series ') + Math.max(s.wins.a, s.wins.b) + '–' + Math.min(s.wins.a, s.wins.b) + '</h3>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap">' + s.games.map(function (g, k) { return '<button class="btn sm" onclick="arWatch(\'' + key + '\',' + g.i + ')">Game ' + (k + 1) + ' · ' + (g.winner === 'a' ? 'W' : g.winner === 'b' ? 'L' : 'D') + ' · ' + g.turns + ' turns</button>'; }).join('') + '</div>' +
+        '<p class="tiny muted" style="margin-top:8px">Games alternate sides; each is its own seed, and a game can be watched exactly as it went.</p>';
+      document.getElementById('lgout').innerHTML = html;
+      arRecord({kind: 'series', a: a, b: b, a_name: s.a.label, b_name: s.b.label, n: s.games.length, won: s.wins.a, lost: s.wins.b, drew: s.games.length - s.wins.a - s.wins.b, best: best, theirs: theirs,
+        _timeline: 'Legends: ' + s.a.label + (s.winner === 'a' ? ' beat ' : ' lost to ') + s.b.label + ' ' + s.wins.a + '–' + s.wins.b + ' (best of ' + best + ')'});
+    }).catch(function (e) { btn.disabled = false; arFail('lgprog', e); });
+  }, 30);
+}
+
+/* ---- Leagues: #/leagues ---- */
+var LG_PRESETS = {
+  champions: {name: 'The Champions\' League', refs: ['pack:me/heartgold', 'lib:platinum/cynthia-rematch', 'lib:heartgold/lance-rematch', 'lib:heartgold/red', 'lib:gen4:emerald/wallace', 'lib:gen4:firered/gary-rematch-he-chose-bulbasaur', 'lib:gen4:crystal/lance', 'lib:gen4:crystal/red']},
+  journeys: {name: 'Your six journeys', refs: ['pack:me/heartgold', 'pack:me/soulsilver', 'pack:me/platinum', 'lib:gen4:me/crystal', 'lib:gen4:me/firered', 'lib:gen4:me/emerald']},
+  anime: {name: 'The anime league', refs: null},
+  johto: {name: 'Johto\'s finest (HeartGold)', refs: ['pack:me/heartgold', 'lib:heartgold/lance-rematch', 'lib:heartgold/red', 'lib:heartgold/clair-rematch', 'lib:heartgold/will-rematch', 'lib:heartgold/koga-rematch', 'lib:heartgold/bruno-rematch', 'lib:heartgold/karen-rematch']}
+};
+function lgPresetRefs(k) {
+  if (k === 'anime') { var g = Arena.choices(); return g.anime.slice(0, 10).map(function (o) { return o.ref; }); }
+  var lib = Arena.lib();
+  return (LG_PRESETS[k].refs || []).filter(function (r) { return r.indexOf('lib:') !== 0 || lib.versions[r.slice(4)]; });
+}
+function leaguesPage(query) {
+  var q = qparse(query);
+  return Arena.ready().then(function () {
+    var g = Arena.choices(), st = store('league') || {preset: 'champions', refs: lgPresetRefs('champions'), n: 6};
+    after(function () {
+      document.getElementById('lgpreset').onchange = function () { var r = lgPresetRefs(this.value); document.querySelectorAll('.lgpick').forEach(function (c) { c.checked = r.indexOf(c.value) >= 0; }); lgCount(); };
+      document.querySelectorAll('.lgpick').forEach(function (c) { c.onchange = lgCount; });
+      document.getElementById('lgplay').onclick = lgPlay; lgCount();
+    });
+    var box = function (list, title) { return list.length ? '<div class="tiny muted" style="margin:8px 0 4px">' + esc(title) + '</div>' + list.map(function (o) {
+      return '<label class="tiny" style="display:block"><input type="checkbox" class="lgpick" value="' + esc(o.ref) + '"' + (st.refs.indexOf(o.ref) >= 0 ? ' checked' : '') + '> ' + esc(o.label) + '</label>'; }).join('') : ''; };
+    return '<div class="eyebrow">The Arena · Leagues</div><h1 style="margin:6px 0">Run a league</h1>' +
+      '<p class="lede">Pick the teams, and each plays every other the same number of times. You get the standings (pairings won, then win rate), the head-to-head grid, the league leaders, the season awards, and a playoff: the top four in best-of-seven semifinals and a final.</p>' +
+      '<div class="slgrid" style="margin-top:16px"><div>' + card('The teams', '<label class="tiny muted">Start from</label>' + arSelect('lgpreset', Object.keys(LG_PRESETS).map(function (k) { return [k, LG_PRESETS[k].name]; }), st.preset) +
+        '<div style="max-height:420px;overflow-y:auto;margin-top:8px;padding-right:4px">' + box(g.yours, 'Your journey teams') + box(g.saved, 'Your saved teams') + box(g.champions, 'Champions and Red') + box(g.anime, 'Anime and all-time') + box(g.converted.filter(function (o) { return /champion|elite|red|lance|steven|wallace|blue|gary/i.test(o.label); }), 'Gen II–III, under Gen IV rules') + box(g.cartridge.filter(function (o) { return /rematch/.test(o.label); }), 'Gen IV rematch teams') + '</div>' +
+        '<div class="row" style="margin-top:10px"><div><label class="tiny muted">Battles per pairing</label>' + arSelect('lgn', [['4', '4 (quick)'], ['6', '6'], ['10', '10'], ['20', '20 (thorough)']], String(st.n)) + '</div></div>' +
+        '<div id="lgcount" class="tiny muted" style="margin-top:8px"></div><div style="margin-top:10px"><button class="btn gold" id="lgplay">Play the season</button></div>' + arProgress('lgprog'), {tools: false}) + '</div><div id="lgout">' +
+        card('How a season works', '<p class="small">Every pairing is played in mirrored pairs (sides swapped on one seed), every trainer as the Trainer Library reads them, your teams by your coach settings. The standings rank pairings won first, then win rate across every battle. Leaders and awards come from the battles\' own logs: knockouts with how they happened, damage in percent of HP, and how often each Pokémon fainted.</p>', {tools: false}) + '</div></div>';
+  }).catch(function (e) { return arNeedsEngine(e); });
+}
+function lgPicked() { return Array.prototype.slice.call(document.querySelectorAll('.lgpick')).filter(function (c) { return c.checked; }).map(function (c) { return c.value; }); }
+function lgCount() { var k = lgPicked().length, n = +document.getElementById('lgn').value, pairs = k * (k - 1) / 2; document.getElementById('lgcount').innerHTML = k + ' teams · ' + pairs + ' pairings · ' + pairs * n + ' battles'; }
+function lgPlay() {
+  var refs = lgPicked(), n = +document.getElementById('lgn').value;
+  if (refs.length < 3) { toast('Pick at least three teams.'); return; }
+  store('league', {preset: document.getElementById('lgpreset').value, refs: refs, n: n});
+  var btn = document.getElementById('lgplay'); btn.disabled = true;
+  Arena.roundRobin(refs, {n: n, onProgress: arTick('lgprog', 'The regular season')}).then(function (L) {
+    btn.disabled = false; document.getElementById('lgprog').innerHTML = '';
+    Arena.save('league', L);
+    document.getElementById('lgout').innerHTML = lgRender(L);
+    var top = L.table[L.order[0]];
+    arRecord({kind: 'league', a: refs.join(','), a_name: L.order.map(function (i) { return L.sides[i].label; }).join(' > '), n: L.results.reduce(function (t, r) { return t + r.n; }, 0),
+      won: top.w, lost: top.l, drew: top.d, members: JSON.stringify(L.players.filter(function (p) { return L.sides[p.team].yours; }).map(function (p) { return {team: L.sides[p.team].label, name: p.name, kos: +p.kos_per_battle.toFixed(3), dmg: Math.round(p.damage_per_battle), fnt: +p.fainted_rate.toFixed(3)}; })),
+      _timeline: 'League: ' + L.sides[L.order[0]].label + ' finished first of ' + refs.length});
+  }).catch(function (e) { btn.disabled = false; arFail('lgprog', e); });
+}
+function lgAwards(L) {
+  var pl = L.players.filter(function (p) { return p.appeared > 0.3; });
+  var by = function (f, dir) { return pl.slice().sort(function (a, b) { return dir * (f(b) - f(a)); })[0]; };
+  var aw = [['MVP', 'most knockouts per battle', by(function (p) { return p.kos_per_battle; }, 1)],
+    ['The wall', 'fainted least often (played at least a third of its battles)', by(function (p) { return -p.fainted_rate; }, 1)],
+    ['Heavy hitter', 'most damage per battle', by(function (p) { return p.damage_per_battle; }, 1)]];
+  return aw.filter(function (a) { return a[2]; }).map(function (a) { var p = a[2], s = L.sides[p.team], n = numOf(p.name);
+    return '<div class="kpi">' + (n ? '<img src="' + sprite(n, s.game) + '" style="width:44px;height:44px;float:right">' : '') + '<div class="eyebrow">' + esc(a[0]) + '</div><b>' + esc(p.name) + '</b><div class="tiny muted">' + esc(s.label) + '</div><div class="tiny" style="margin-top:4px">' + esc(a[1]) + ': ' +
+      (a[0] === 'MVP' ? p.kos_per_battle.toFixed(2) + ' KOs' : a[0] === 'The wall' ? arPct(p.fainted_rate) : Math.round(p.damage_per_battle) + '%') + '</div></div>'; }).join('');
+}
+function lgRender(L) {
+  var rows = L.order.map(function (i, k) { var t = L.table[i];
+    return '<tr' + (k < 4 ? ' style="background:rgba(201,169,106,.05)"' : '') + '><td>' + (k + 1) + '</td><td><b>' + esc(t.side.label) + '</b><div>' + arStrip(t.side.team, t.side.game, 26) + '</div></td><td>' + t.sw + '–' + t.sl + '</td><td>' + t.w + '–' + t.l + (t.d ? '–' + t.d : '') + '</td><td>' + arPct(t.rate) + '<div style="width:100px">' + arBar(t.rate, t.ci) + '</div></td></tr>'; }).join('');
+  var grid = '<table class="t board"><thead><tr><th></th>' + L.order.map(function (i, k) { return '<th title="' + esc(L.sides[i].label) + '">' + (k + 1) + '</th>'; }).join('') + '</tr></thead><tbody>' + L.order.map(function (i, k) {
+    return '<tr><td class="tiny">' + (k + 1) + '. ' + esc(L.sides[i].label.slice(0, 28)) + '</td>' + L.order.map(function (j) {
+      if (i === j) return '<td class="muted">—</td>'; var m = L.matrix[Math.min(i, j) + '-' + Math.max(i, j)], w = i < j ? m[0] : m[1], l = i < j ? m[1] : m[0];
+      return '<td class="tiny" style="color:' + (w > l ? 'var(--forest-3)' : w < l ? 'var(--ember-2)' : 'var(--text-3)') + '">' + w + '–' + l + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+  var leaders = L.players.slice().sort(function (a, b) { return b.kos_per_battle - a.kos_per_battle; }).slice(0, 10);
+  return card('Standings', '<table class="t"><thead><tr><th>#</th><th>Team</th><th>Pairings</th><th>Battles</th><th>Win rate</th></tr></thead><tbody>' + rows + '</tbody></table><p class="tiny muted">Played on ' + esc(L.platform) + ' in ' + (L.ms / 1000).toFixed(1) + ' s.</p>' +
+      '<div style="margin-top:10px"><button class="btn gold" onclick="lgPlayoffs()">Play the playoffs (top four, best of seven)</button></div><div id="lgpo" style="margin-top:10px"></div>', {tools: false}) +
+    '<div class="kpis" style="margin-top:18px">' + lgAwards(L) + '</div>' +
+    '<div class="grid" style="margin-top:18px"><div class="c7">' + card('Head to head', '<div style="overflow-x:auto">' + grid + '</div><p class="tiny muted">Each cell is the row team\'s battles won–lost against the column team.</p>', {tools: false}) + '</div>' +
+    '<div class="c5">' + card('League leaders', leaders.map(function (p) { var s = L.sides[p.team], n = numOf(p.name); return '<div class="small" style="display:flex;gap:8px;align-items:center;margin:4px 0">' + (n ? '<img src="' + sprite(n, s.game) + '" style="width:28px;height:28px">' : '') + '<b>' + esc(p.name) + '</b><span class="muted tiny">' + esc(s.label.slice(0, 26)) + '</span><span style="margin-left:auto">' + p.kos_per_battle.toFixed(2) + ' KOs · ' + Math.round(p.damage_per_battle) + '%</span></div>'; }).join(''), {tools: false}) + '</div></div>';
+}
+function lgPlayoffs() {
+  var L = Arena.save('league'); if (!L) return;
+  var seeds = L.order.slice(0, 4).map(function (i) { return L.sides[i]; }), el = document.getElementById('lgpo');
+  if (seeds.length < 4) { el.innerHTML = '<div class="notice">A playoff needs four teams.</div>'; return; }
+  el.innerHTML = '<div class="tiny muted">Semifinals: 1 v 4, 2 v 3…</div>';
+  var line = function (s, title) { return '<div class="small" style="margin:4px 0"><b>' + esc(title) + ':</b> ' + esc(s.a.label) + ' ' + s.wins.a + '–' + s.wins.b + ' ' + esc(s.b.label) + ' → <b>' + esc((s.winner === 'a' ? s.a : s.b).label) + '</b></div>'; };
+  var out = '';
+  Arena.series(seeds[0], seeds[3], {best: 7, seed: 'playoff|semi1'}).then(function (s1) { out += line(s1, 'Semifinal'); el.innerHTML = out;
+    return Arena.series(seeds[1], seeds[2], {best: 7, seed: 'playoff|semi2'}).then(function (s2) { out += line(s2, 'Semifinal'); el.innerHTML = out;
+      var f1 = s1.winner === 'a' ? s1.a : s1.b, f2 = s2.winner === 'a' ? s2.a : s2.b;
+      return Arena.series(f1, f2, {best: 7, seed: 'playoff|final'}).then(function (f) {
+        var champ = f.winner === 'a' ? f.a : f.b;
+        out += line(f, 'Final') + '<div class="kpi" style="margin-top:8px"><div class="eyebrow">Champions</div><b style="font-size:20px">' + esc(champ.label) + '</b><div>' + arStrip(champ.team, champ.game, 36) + '</div></div>';
+        el.innerHTML = out;
+        arRecord({kind: 'playoff', a: champ.ref || champ.label, a_name: champ.label, b_name: (f.winner === 'a' ? f.b : f.a).label, n: f.games.length, won: Math.max(f.wins.a, f.wins.b), lost: Math.min(f.wins.a, f.wins.b), drew: 0,
+          _timeline: 'Playoffs: ' + champ.label + ' won the title ' + Math.max(f.wins.a, f.wins.b) + '–' + Math.min(f.wins.a, f.wins.b)});
+      });
+    });
+  }).catch(function (e) { el.innerHTML = '<div class="notice">' + esc(e.message || e) + '</div>'; });
+}
+
+/* ---- the Draft: #/draft ---- */
+var DR_TRAITS = {
+  speed: {name: 'Speed merchant', why: 'drafts the fastest Pokémon on the board', w: function (b) { return 1.6 * b[5]; }, params: {aggression: 65}},
+  power: {name: 'Heavy hitter', why: 'takes the biggest attacker', w: function (b) { return 1.3 * Math.max(b[1], b[3]); }, params: {aggression: 75, risk: 55}},
+  wall: {name: 'Wall builder', why: 'builds around bulk', w: function (b) { return 0.7 * (b[0] + b[2] + b[4]); }, params: {preservation: 70, patience: 70, heal_line: 55}},
+  coverage: {name: 'Type collector', why: 'won\'t double up on types', w: function () { return 0; }, params: {switching: 75}},
+  dragons: {name: 'Dragon tamer', why: 'can\'t pass up a Dragon', w: function (b, t) { return t.indexOf('Dragon') >= 0 ? 90 : 0; }, params: {aggression: 70}},
+  star: {name: 'Star hunter', why: 'chases the highest base stat total', w: function (b) { var s = b.reduce(function (x, y) { return x + y; }, 0); return s > 500 ? 0.6 * (s - 500) : 0; }, params: {competence: 95}},
+  status: {name: 'Disruptor', why: 'values status and hazards', w: function (b, t, m) { return (m.moves || []).filter(function (x) { return /Toxic|Thunder Wave|Will-O-Wisp|Spikes|Stealth Rock|Spore|Sleep Powder|Hypnosis/.test(x); }).length * 35; }, params: {harassment: 80}}
+};
+var DR_GMS = [['Mira', ['speed', 'power']], ['Okafor', ['wall', 'coverage']], ['Sato', ['dragons', 'star']], ['Ferreira', ['status', 'wall']], ['Lindqvist', ['coverage', 'power']]];
+var DR_ERAS = {heartgold: 'HeartGold and SoulSilver: every trainer\'s Pokémon', platinum: 'Platinum: every trainer\'s Pokémon', legends: 'The Legends: the all-time teams\' Pokémon'};
+var DR = null;
+function drRank(v) { return {champion: 6, elite_four: 5, anime: 5, 'all-time': 6, journey: 6, gym: 4, special: 3, rival: 3, villain: 2}[v.category] || 1; }
+function drPool(era) {
+  var lib = Arena.lib(), X = Arena.X(), pk = Arena.pack(), by = {};
+  var ids = era === 'legends' ? pk.legends.field.map(function (f) { return f; }) : Object.keys(lib.versions).filter(function (id) { var v = lib.versions[id]; return v.generation === 4 && (v.game === era || (era === 'heartgold' && v.game === 'soulsilver')) && !v.mine && id.indexOf('mine:') !== 0; }).map(function (id) { return {id: id, from: 'library'}; });
+  ids.forEach(function (f) {
+    var team, v = f.from === 'pack' ? {category: 'journey', name: 'Zack'} : lib.versions[f.id];
+    try { team = f.from === 'pack' ? pk.teams[f.id] : X.teamFromLibrary(lib, f.id, {lens: 'standardized'}); } catch (e) { return; }
+    team.members.forEach(function (m) {
+      var d = dexOf(m.species); if (!d) return;
+      var score = drRank(v) * 1000 + (v.top_level || 100);
+      if (!by[m.species] || by[m.species].score < score) by[m.species] = {species: m.species, build: m, from: team.name, score: score, b: d.b, t: d.t, bst: d.b.reduce(function (x, y) { return x + y; }, 0)};
+    });
+  });
+  return Object.keys(by).map(function (k) { return by[k]; }).sort(function (a, b) { return b.bst - a.bst; });
+}
+function drValue(gm, c, roster) {
+  var v = c.bst;
+  gm.traits.forEach(function (t) { v += DR_TRAITS[t].w(c.b, c.t, c.build); });
+  if (gm.traits.indexOf('coverage') >= 0) roster.forEach(function (r) { c.t.forEach(function (ty) { if (r.t.indexOf(ty) >= 0) v -= 70; }); });
+  roster.forEach(function (r) { if (r.species === c.species) v -= 9999; });
+  return v;
+}
+function draftPage() {
+  return Arena.ready().then(function () {
+    after(function () { document.getElementById('drstart').onclick = drStart; if (DR) drDraw(); });
+    return '<div class="eyebrow">The Arena · the Draft</div><h1 style="margin:6px 0">Draft a team, then win the league</h1>' +
+      '<p class="lede">Every Pokémon from an era\'s trainers goes on the board, each with the build its strongest trainer used. You and five GMs take turns in a snake draft, six picks each. Each GM drafts by two traits, and their traits also shape how their trainer plays. Then the six drafted teams play a league.</p>' +
+      '<div class="grid" style="margin-top:16px"><div class="c4">' + card('Set up', '<label class="tiny muted">Era</label>' + arSelect('drera', Object.keys(DR_ERAS).map(function (k) { return [k, DR_ERAS[k]]; }), DR ? DR.era : 'heartgold') +
+        '<label class="tiny muted" style="display:block;margin-top:8px">Your pick in the first round</label>' + arSelect('drslot', [['0', '1st'], ['2', '3rd'], ['5', '6th (and 7th)']], '0') +
+        '<div style="margin-top:12px"><button class="btn gold" id="drstart">Start a draft</button></div>' +
+        '<div class="tiny muted" style="margin-top:12px">The GMs: ' + DR_GMS.map(function (g) { return '<b>' + esc(g[0]) + '</b> (' + g[1].map(function (t) { return esc(DR_TRAITS[t].name); }).join(', ') + ')'; }).join('; ') + '.</div>', {tools: false}) + '</div>' +
+      '<div class="c8" id="drboard">' + (DR ? '' : card('The board', '<div class="empty">Start a draft to fill the board.</div>', {tools: false})) + '</div></div>';
+  }).catch(function (e) { return arNeedsEngine(e); });
+}
+function drStart() {
+  var era = document.getElementById('drera').value, slot = +document.getElementById('drslot').value;
+  var gms = DR_GMS.map(function (g) { return {name: g[0], traits: g[1], roster: []}; });
+  gms.splice(slot, 0, {name: 'You', you: true, traits: [], roster: []});
+  DR = {era: era, pool: drPool(era), gms: gms, pick: 0, picks: []};
+  drAuto(); drDraw();
+}
+function drTurn(k) { var n = DR.gms.length, round = Math.floor(k / n), i = k % n; return round % 2 ? n - 1 - i : i; }
+function drAuto() {
+  while (DR.pick < DR.gms.length * 6) {
+    var g = DR.gms[drTurn(DR.pick)]; if (g.you) return;
+    var left = DR.pool.filter(function (c) { return !c.taken; }), best = left.map(function (c) { return [drValue(g, c, g.roster), c]; }).sort(function (a, b) { return b[0] - a[0]; })[0];
+    if (!best) return; drTake(g, best[1]);
+  }
+}
+function drTake(g, c) { c.taken = g.name; g.roster.push(c); DR.picks.push({gm: g.name, species: c.species, n: DR.pick + 1}); DR.pick++; }
+function drPick(species) { var g = DR.gms[drTurn(DR.pick)]; if (!g || !g.you) return; var c = DR.pool.filter(function (x) { return x.species === species && !x.taken; })[0]; if (!c) return; drTake(g, c); drAuto(); drDraw(); }
+function drDraw() {
+  var el = document.getElementById('drboard'); if (!el || !DR) return;
+  var done = DR.pick >= DR.gms.length * 6, me = DR.gms.filter(function (g) { return g.you; })[0];
+  var teams = '<div class="grid">' + DR.gms.map(function (g) { return '<div class="c4"><div class="kpi"><div class="eyebrow">' + esc(g.name) + '</div><div class="tiny muted">' + (g.you ? 'your picks' : g.traits.map(function (t) { return esc(DR_TRAITS[t].name); }).join(' · ')) + '</div><div style="margin-top:6px">' +
+    g.roster.map(function (c) { var n = numOf(c.species); return n ? '<img src="' + sprite(n, 'heartgold') + '" title="' + esc(c.species + ' (' + c.from + ')') + '" style="width:34px;height:34px">' : esc(c.species); }).join('') + '</div></div></div>'; }).join('') + '</div>';
+  var board = done ? '<div style="margin-top:12px"><button class="btn gold" onclick="drLeague()">Play the league</button> <span class="tiny muted">Six teams, six battles per pairing.</span></div>' + arProgress('drprog') + '<div id="drout" style="margin-top:12px"></div>' :
+    '<div class="tiny muted" style="margin:12px 0 6px">Pick ' + (me.roster.length + 1) + ' of 6 · round ' + (Math.floor(DR.pick / DR.gms.length) + 1) + '. The board, by base stat total; the build is the one its strongest trainer used.</div><div style="max-height:520px;overflow-y:auto"><table class="t"><thead><tr><th>Pokémon</th><th>BST</th><th>Speed</th><th>Build (from)</th><th></th></tr></thead><tbody>' +
+      DR.pool.filter(function (c) { return !c.taken; }).slice(0, 120).map(function (c) { var n = numOf(c.species);
+        return '<tr><td>' + (n ? '<img src="' + sprite(n, 'heartgold') + '" style="width:28px;height:28px;vertical-align:middle"> ' : '') + esc(c.species) + ' <span class="tiny muted">' + c.t.join('/') + '</span></td><td>' + c.bst + '</td><td>' + c.b[5] + '</td><td class="tiny">' + esc(c.build.moves.join(', ')) + (c.build.item ? ' @ ' + esc(c.build.item) : '') + '<div class="muted">' + esc(c.from) + '</div></td><td><button class="btn sm" onclick="drPick(\'' + esc(c.species).replace(/'/g, '\\\'') + '\')">Draft</button></td></tr>'; }).join('') + '</tbody></table></div>';
+  el.innerHTML = card(done ? 'The draft is done' : 'The board', teams + board, {tools: false});
+}
+function drSide(g, k) {
+  var X = Arena.X(), lib = Arena.lib(), base = X.profileFromLibrary(lib, 'me/heartgold');
+  var members = g.roster.map(function (c, i) { return Object.assign({}, c.build, {id: 'draft:' + g.name + '#' + (i + 1)}); });
+  var team = {kind: 'TeamVersion', id: 'draft:' + DR.era + ':' + g.name, version: 1, name: g.name + '\'s draft', trainer: g.you ? 'me' : g.name.toLowerCase(), game: DR.era === 'platinum' ? 'platinum' : 'heartgold', generation: 4,
+    members: members, lead: 'first', lens: 'standardized', source: {kind: 'arena-draft', era: DR.era, gm: g.name}};
+  var params = {}; g.traits.forEach(function (t) { Object.assign(params, DR_TRAITS[t].params); });
+  var prof = g.you ? null : Object.assign({}, base, {id: 'profile:draft:' + g.name, name: g.name, identity: g.name.toLowerCase(), params: Object.assign({}, base.params, params)});
+  var sd = {ref: 'draft:' + g.name, team: team, profiles: {trainer: base, game: null}, label: g.name + '\'s draft', game: team.game, yours: !!g.you, note: [], trainer: g.name};
+  if (prof) sd.profile = prof;
+  return sd;
+}
+function drLeague() {
+  var sides = DR.gms.map(drSide);
+  Arena.roundRobin(sides, {n: 6, seed: 'draft|' + DR.era + '|' + DR.picks.map(function (p) { return p.species; }).join(','), onProgress: arTick('drprog', 'The draft league')}).then(function (L) {
+    document.getElementById('drprog').innerHTML = ''; Arena.save('league', L);
+    document.getElementById('drout').innerHTML = lgRender(L);
+    var mine = L.order.map(function (i) { return L.sides[i]; }).map(function (s, k) { return s.yours ? k + 1 : null; }).filter(Boolean)[0];
+    arRecord({kind: 'draft', a: 'draft:' + DR.era, a_name: 'Your draft (' + DR.era + ')', b_name: L.sides[L.order[0]].label, n: L.results.reduce(function (t, r) { return t + r.n; }, 0), won: mine || 0, lost: 0, drew: 0,
+      members: JSON.stringify(DR.gms.filter(function (g) { return g.you; })[0].roster.map(function (c) { return c.species; })), _timeline: 'Draft: your ' + DR.era + ' draft finished ' + mine + ' of ' + L.sides.length});
+  }).catch(function (e) { arFail('drprog', e); });
+}
+
+/* ---- Your trainer: #/trainer ---- */
+var TR_PARAMS = {
+  aggression: ['Aggression', 'weight on damage dealt over damage taken; how readily it stays in'],
+  risk: ['Risk', 'how little it discounts an inaccurate move'],
+  patience: ['Patience', 'how much HP it will spend to set up, and what setup is worth'],
+  heal_line: ['Heal line', 'heals at or under this HP %'],
+  switching: ['Switching', 'how readily it switches out of a bad matchup'],
+  preservation: ['Preservation', 'how much it protects its ace'],
+  harassment: ['Harassment', 'what status moves are worth to it'],
+  setup_first: ['Set up first', 'a push to set up on the first turn'],
+  competence: ['Sharpness', 'how reliably it takes the best option (100 always does)']
+};
+var TR_PHILOSOPHY = {   // 2K's coaching styles, read for Pokémon
+  default: {name: 'Blackthorn\'s default', why: 'the trainer agent as it stands', params: {}},
+  allout: {name: 'All-out offense', why: 'hit first, hit hardest, rarely switch: run-and-gun', params: {aggression: 80, risk: 60, switching: 35, preservation: 30, patience: 35}},
+  momentum: {name: 'Momentum', why: 'win the matchup, not the turn: pivot into the right answer', params: {switching: 85, aggression: 55, preservation: 55}},
+  attrition: {name: 'Attrition', why: 'status, hazards and healing; wear them down', params: {aggression: 35, patience: 75, heal_line: 60, harassment: 80, preservation: 70}},
+  setup: {name: 'Set up and sweep', why: 'buy a turn, boost, and let the ace close it out', params: {patience: 80, setup_first: 60, risk: 50, preservation: 75}},
+  percentages: {name: 'Play the percentages', why: 'never the risky move, always the best one', params: {risk: 15, competence: 100, aggression: 50}}
+};
+function trTraits(params) {   // GM-style traits read from the settings (descriptive: they name the style, they don't change it)
+  var p = Object.assign({}, Arena.X().TRAINER_DEFAULTS, params || {}), out = [];
+  if (p.aggression >= 70) out.push(['Run-and-gun', 'aggression ' + p.aggression]);
+  if (p.switching >= 75) out.push(['Pivot master', 'switching ' + p.switching]);
+  if (p.harassment >= 70) out.push(['Disruptor', 'harassment ' + p.harassment]);
+  if (p.preservation >= 70) out.push(['Ace protector', 'preservation ' + p.preservation]);
+  if (p.patience >= 70 || p.setup_first >= 50) out.push(['Setup artist', 'patience ' + p.patience + ', set up first ' + p.setup_first]);
+  if (p.risk <= 20) out.push(['Percentage player', 'risk ' + p.risk]);
+  if (p.risk >= 65) out.push(['Gambler', 'risk ' + p.risk]);
+  if (p.competence >= 98) out.push(['Ice cold', 'sharpness ' + p.competence]);
+  if (p.heal_line >= 60) out.push(['Medic', 'heals at ' + p.heal_line + '%']);
+  return out;
+}
+function trainerPage() {
+  return Arena.ready().then(function () {
+    var st = store('trainer') || {philosophy: 'default', params: {}}, D = Arena.X().TRAINER_DEFAULTS;
+    after(function () {
+      document.getElementById('trphil').onchange = function () { var ph = TR_PHILOSOPHY[this.value]; Object.keys(TR_PARAMS).forEach(function (k) { var v = ph.params[k] != null ? ph.params[k] : D[k]; document.getElementById('trp-' + k).value = v; document.getElementById('trv-' + k).textContent = v; }); trShow(); };
+      Object.keys(TR_PARAMS).forEach(function (k) { document.getElementById('trp-' + k).oninput = function () { document.getElementById('trv-' + k).textContent = this.value; trShow(); }; });
+      document.getElementById('trsave').onclick = trSave; document.getElementById('trtest').onclick = trTest; trShow();
+    });
+    var val = function (k) { return st.params && st.params[k] != null ? st.params[k] : D[k]; };
+    return '<div class="eyebrow">The Arena · your trainer</div><h1 style="margin:6px 0">How your teams play</h1>' +
+      '<p class="lede">Your coaching philosophy and the settings the trainer agent plays your teams by in the Arena, Legends, Leagues and the Draft. It\'s 2K\'s coach settings for Pokémon: the same nine dials every trainer in the library is read onto, so your style and Cynthia\'s are on one scale. Traits name the style; they never change a battle on their own.</p>' +
+      '<div class="grid" style="margin-top:16px"><div class="c6">' + card('Your philosophy', '<label class="tiny muted">Start from</label>' + arSelect('trphil', Object.keys(TR_PHILOSOPHY).map(function (k) { return [k, TR_PHILOSOPHY[k].name + ': ' + TR_PHILOSOPHY[k].why]; }), st.philosophy) +
+        Object.keys(TR_PARAMS).map(function (k) { return '<div style="margin-top:10px"><div class="small"><b>' + esc(TR_PARAMS[k][0]) + '</b> <span id="trv-' + k + '">' + val(k) + '</span> <span class="tiny muted">(default ' + D[k] + ')</span></div><input type="range" min="0" max="100" id="trp-' + k + '" value="' + val(k) + '" style="width:100%"><div class="tiny muted">' + esc(TR_PARAMS[k][1]) + '</div></div>'; }).join('') +
+        '<div style="margin-top:14px"><button class="btn gold" id="trsave">Save my settings</button> <button class="btn" id="trtest">Test them: HeartGold vs Cynthia</button></div>' + arProgress('trprog'), {tools: false}) + '</div>' +
+      '<div class="c6"><div id="trtraits"></div><div id="trout" style="margin-top:18px"></div>' + card('Where the library\'s trainers sit', trLibraryTable(), {tools: false, style: 'margin-top:18px'}) + '</div></div>';
+  }).catch(function (e) { return arNeedsEngine(e); });
+}
+function trCurrent() { var p = {}; Object.keys(TR_PARAMS).forEach(function (k) { p[k] = +document.getElementById('trp-' + k).value; }); return p; }
+function trShow() {
+  var t = trTraits(trCurrent());
+  document.getElementById('trtraits').innerHTML = card('Your trainer traits', t.length ? t.map(function (x) { return '<div style="margin:4px 0">' + chip(x[0], 'gold') + ' <span class="tiny muted">' + esc(x[1]) + '</span></div>'; }).join('') : '<div class="small muted">No trait yet: every dial is near the middle, a balanced trainer.</div>', {tools: false});
+}
+function trSave() {
+  var p = trCurrent(), D = Arena.X().TRAINER_DEFAULTS, diff = {};
+  Object.keys(p).forEach(function (k) { if (p[k] !== D[k]) diff[k] = p[k]; });
+  store('trainer', {philosophy: document.getElementById('trphil').value, params: diff, at: new Date().toISOString()});
+  toast('Saved. Your teams play by these settings in the Arena.');
+}
+function trTest() {
+  trSave(); var el = document.getElementById('trout'), btn = document.getElementById('trtest'); btn.disabled = true;
+  var o = {n: 20, theirs: 'blackthorn'};
+  Arena.match('pack:me/heartgold', 'lib:platinum/cynthia-rematch', Object.assign({ours: 'plain', onProgress: arTick('trprog', 'Default settings')}, o)).then(function (a) {
+    return Arena.match('pack:me/heartgold', 'lib:platinum/cynthia-rematch', Object.assign({ours: 'blackthorn', onProgress: arTick('trprog', 'Your settings')}, o)).then(function (b) {
+      btn.disabled = false; document.getElementById('trprog').innerHTML = '';
+      var ra = a.result.summary, rb = b.result.summary;
+      el.innerHTML = card('Default against yours', '<p class="small">Your HeartGold six against Cynthia (rematch), ' + o.n + ' battles each, the same seeds for both.</p><div class="kpis"><div class="kpi"><div class="tiny muted">Default</div><b style="font-size:22px">' + arPct(ra.win_rate) + '</b><div class="tiny muted">' + arCI(ra.win_rate_95) + '</div></div><div class="kpi"><div class="tiny muted">Your settings</div><b style="font-size:22px">' + arPct(rb.win_rate) + '</b><div class="tiny muted">' + arCI(rb.win_rate_95) + '</div></div></div>' +
+        '<p class="tiny muted" style="margin-top:8px">At 20 battles, a difference smaller than about 25 points can be noise; the 6v6 Lab\'s "compare" experiment pairs the battles and tests it properly.</p>', {tools: false});
+    });
+  }).catch(function (e) { btn.disabled = false; arFail('trprog', e); });
+}
+function trLibraryTable() {
+  var lib = Arena.lib(), X = Arena.X(), ids = ['platinum/cynthia-rematch', 'heartgold/lance-rematch', 'heartgold/red', 'heartgold/karen-rematch', 'heartgold/will-rematch', 'ash/all-time', 'paul/sinnoh', 'gary/johto'].filter(function (id) { return lib.versions[id]; });
+  return '<table class="t"><thead><tr><th>Trainer</th><th>Aggr.</th><th>Risk</th><th>Switch</th><th>Sharp</th><th>Traits</th></tr></thead><tbody>' + ids.map(function (id) {
+    var p; try { p = X.profileFromLibrary(lib, id).params; } catch (e) { return ''; }
+    var full = Object.assign({}, X.TRAINER_DEFAULTS, p);
+    return '<tr><td class="small">' + esc(Library.label ? Library.label(lib.versions[id]) : id) + '</td><td>' + full.aggression + '</td><td>' + full.risk + '</td><td>' + full.switching + '</td><td>' + full.competence + '</td><td>' + trTraits(p).map(function (t) { return chip(t[0], ''); }).join(' ') + '</td></tr>'; }).join('') + '</tbody></table>' +
+    '<p class="tiny muted">Read from the library: the authored sliders, the coach settings and the cartridge AI flags (sixvsix/docs/TRAINER_AI.md, "where each comes from").</p>';
+}
+
+route(/^\/arena\/?(\?.*)?$/, arenaPage, 'The Arena', '#/arena');
+route(/^\/legends\/?(\?.*)?$/, legendsPage, 'The Arena · Legends', '#/legends');
+route(/^\/leagues\/?(\?.*)?$/, leaguesPage, 'The Arena · Leagues', '#/leagues');
+route(/^\/draft\/?$/, draftPage, 'The Arena · Draft', '#/draft');
+route(/^\/trainer\/?$/, trainerPage, 'The Arena · your trainer', '#/trainer');
+</script>

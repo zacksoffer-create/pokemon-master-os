@@ -1,0 +1,569 @@
+{
+  "species": "Lapras",
+  "id": 131,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A large, gentle sea animal that carries people across the water and has been hunted almost to extinction for its trouble. Lapras understands human speech, is said in one entry to read minds, and sings an enchanting cry when it is in a good mood; Hoenn's entries add that in the evenings it is said to sing plaintively, searching for the few others of its kind still left. Because it rarely fights, many were caught, and the games reflect that scarcity: in Johto a single Lapras surfaces in Union Cave, only on Fridays. Nothing in the Pokédex says what it eats.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A large swimming animal (2.5 m, 220.0 kg) with a body shape the games class as fish-like, and a back broad enough to carry people and Pokémon.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.2",
+          "131.10",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Its ability Shell Armor (it can't suffer critical hits) implies a protective shell; the Pokédex never describes one.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:abilities"
+        ]
+      },
+      {
+        "text": "Water and Ice types, which fit a cold-sea animal.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:types",
+          "game:habitat"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "No entry says what it eats.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "131.1"
+        ]
+      },
+      {
+        "text": "The machine reading's 'aquatic grazer or filter feeder' comes from its Water type alone and should not be relied on.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "game:types"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "The sea: it ferries people across it, and its Gen 3 Pokédex habitat is sea.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.2",
+          "131.4",
+          "131.10",
+          "C131.4",
+          "C131.8",
+          "C131.18",
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "Yet nearly every wild Lapras in the games is in enclosed or inland water: one in Union Cave's lowest floor, only on Fridays (Gold to SoulSilver); rarely at the Icefall Cave waterfall (FireRed, LeafGreen, 1%); in the water inside Victory Road (Diamond to Platinum, 10%); and on the Johto Safari Zone's water.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "The cave records could mean a hunted sea animal surviving in refuges people rarely reach.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:encounters",
+          "131.6"
+        ],
+        "note": "A reading of the encounter pattern against the overhunting canon; nothing says Lapras retreat into caves."
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Gentle and non-aggressive: they rarely fight.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.2",
+          "131.3",
+          "C131.5",
+          "C131.6"
+        ]
+      },
+      {
+        "text": "It likes, even loves, carrying people and Pokémon across the water, and is a very comfortable ride.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.5",
+          "131.8",
+          "131.10",
+          "C131.10",
+          "C131.15",
+          "C131.18"
+        ]
+      },
+      {
+        "text": "It may sing an enchanting cry when it is in a good mood.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.4",
+          "C131.9"
+        ],
+        "analogy": "Humpback whales (Megaptera novaeangliae) sing long, structured songs, mostly males on the breeding grounds."
+      },
+      {
+        "text": "Evenings bring singing in the Hoenn accounts; no activity pattern is otherwise stated. The Johto Safari Zone has it morning, day and night.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "131.6",
+          "game:encounters"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "It seeks out others of its kind: in the evenings it is said to sing plaintively, searching for the few that remain.",
+        "class": "canon",
+        "confidence": "low",
+        "evidence": [
+          "131.6",
+          "131.7"
+        ],
+        "note": "Reported as hearsay ('is said to'); see folklore."
+      },
+      {
+        "text": "If the song is a contact call, a population thinned by hunting would depend on it to find mates.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "131.6",
+          "131.3"
+        ],
+        "note": "Builds on a folklore entry."
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Monster and Water 1 egg groups, even sex ratio, slow growth, and 40 egg cycles (twice the usual). It is a single-stage species.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:growth",
+          "game:egg_cycles",
+          "game:evolution"
+        ]
+      },
+      {
+        "text": "Long incubation and slow growth mean a population recovers slowly once reduced, which makes overhunting all the more damaging.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "game:egg_cycles",
+          "game:growth",
+          "131.1"
+        ],
+        "analogy": "The same life history (large, slow-breeding, long-lived) is why great whale populations took decades to recover from commercial whaling."
+      }
+    ],
+    "defense": [
+      {
+        "text": "Its gentleness is a liability: because it rarely fights, many have been caught.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.3",
+          "C131.6",
+          "C131.7"
+        ],
+        "analogy": "Steller's sea cow (Hydrodamalis gigas), a slow, unaggressive marine mammal, was hunted to extinction within about 27 years of its discovery in 1741."
+      },
+      {
+        "text": "Its own moves are mostly non-violent defences: Sing (Lv 1) and Perish Song (Lv 27) use its voice, Mist and Safeguard protect, Confuse Ray disorients. Sheer Cold (Lv 55) is the exception.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Sing",
+          "move:Perish Song",
+          "move:Mist",
+          "move:Safeguard",
+          "move:Confuse Ray",
+          "move:Sheer Cold"
+        ]
+      },
+      {
+        "text": "Water Absorb lets it heal from Water attacks; Shell Armor stops critical hits.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Intelligent enough to understand human speech.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.8",
+          "131.10",
+          "C131.14",
+          "C131.19"
+        ]
+      },
+      {
+        "text": "Yellow says it can read the minds of people.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "131.2",
+          "C131.3"
+        ],
+        "note": "A single entry; stated as fact."
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Lapras does not evolve; it has no pre-evolution and no later stage.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution"
+        ]
+      },
+      {
+        "text": "Nothing is said about how young Lapras grow or how long Lapras live.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "131.1"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Voice is central: Sing is its first move, and Perish Song, a song that makes every listener faint in three turns unless it leaves, comes at Lv 27. Both fit the singing canon.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Sing",
+          "move:Perish Song",
+          "131.4"
+        ]
+      },
+      {
+        "text": "Its attacks are water and ice: Water Gun, Ice Shard, Water Pulse, Ice Beam (Lv 32), Brine, Hydro Pump (Lv 49).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Water Gun",
+          "move:Ice Shard",
+          "move:Water Pulse",
+          "move:Ice Beam",
+          "move:Brine",
+          "move:Hydro Pump"
+        ]
+      },
+      {
+        "text": "Rain Dance (Lv 22) is its own move as well as a machine move.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Rain Dance"
+        ]
+      },
+      {
+        "text": "Surf, Waterfall and Strength, behind its transport and hauling records, are machine moves. The ferrying itself is canon; the field moves are taught.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Surf",
+          "move:Waterfall",
+          "game:capability"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "Its food-web role is unknown because its diet is.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "131.1"
+        ]
+      },
+      {
+        "text": "A species reduced by people to a remnant: its ecological role in the sea, whatever it was, is now played by very few animals.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "131.1",
+          "131.6",
+          "131.9"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "People drove it almost to extinction: overhunted (Red, Blue, LeafGreen; Ruby, Sapphire, Emerald) and over-caught because it rarely fights (Gold, HeartGold).",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.1",
+          "131.3",
+          "131.6",
+          "131.7",
+          "131.9",
+          "C131.1",
+          "C131.11",
+          "C131.16"
+        ]
+      },
+      {
+        "text": "It is also the classic water transport for people.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.1",
+          "131.5",
+          "131.9",
+          "C131.2",
+          "C131.17"
+        ]
+      },
+      {
+        "text": "Kanto's games give one away in Saffron City; Johto's let you meet the Union Cave Lapras only on Fridays.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "Water transport: it loves to carry people and Pokémon and is a very comfortable ride, suited to the Transport facility's water routes.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.5",
+          "131.10",
+          "game:capability"
+        ],
+        "capability": "water_travel"
+      },
+      {
+        "text": "A calming presence: a gentle animal whose good-mood song is enchanting.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "131.3",
+          "131.4"
+        ],
+        "capability": "calming_presence"
+      },
+      {
+        "text": "Easy to direct: it understands spoken instructions.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "131.8",
+          "131.10"
+        ],
+        "capability": "manipulation"
+      },
+      {
+        "text": "Its Ice type and sea habitat suggest Blackthorn's winters won't trouble it, but it needs open water: a frozen lake is no use to it.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "game:types",
+          "game:habitat"
+        ],
+        "capability": "cold_tolerance"
+      },
+      {
+        "text": "Needs: large, deep, clean water, and others of its kind if it is to breed; one alone may sing for company.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "131.6",
+          "game:habitat"
+        ],
+        "capability": "water_supply"
+      },
+      {
+        "text": "Blackthorn could keep a small breeding group as a conservation effort for an overhunted species, with long hatching times planned for.",
+        "class": "creative",
+        "evidence": [
+          "131.1",
+          "131.6"
+        ]
+      }
+    ]
+  },
+  "niche": {
+    "guild": null,
+    "trophic_level": null,
+    "microhabitat": [
+      "open sea (canon)",
+      "cave lakes and inland water (game records)"
+    ],
+    "activity": "unknown",
+    "foraging": "unknown; no entry says what it eats",
+    "evidence": [
+      "131.4",
+      "game:habitat",
+      "game:encounters"
+    ],
+    "class": "unknown",
+    "confidence": "high",
+    "note": "Guild left empty: the machine reading's aquatic grazer comes from the Water type alone."
+  },
+  "relationships": [
+    {
+      "with": "people (as hunters)",
+      "kind": "preyed_on_by",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "131.1",
+        "131.6",
+        "131.9"
+      ],
+      "note": "Overhunted almost to extinction; why it was hunted is not said."
+    },
+    {
+      "with": "people (as passengers)",
+      "kind": "commensalism",
+      "class": "canon",
+      "confidence": "medium",
+      "evidence": [
+        "131.5",
+        "131.8",
+        "131.10"
+      ],
+      "note": "People benefit; Lapras seems to enjoy it, but no benefit to Lapras is stated."
+    },
+    {
+      "with": "open sea",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "131.2",
+        "131.4",
+        "131.10"
+      ]
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Pack-ice breaker",
+      "moves": [
+        "Horn Drill",
+        "Fissure"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "Two one-hit moves that drill and split: Horn Drill with a horn, Fissure by cracking the ground beneath a target. In an Ice-type sea animal they read as tools for breaking ice. A lineage of polar seas, keeping breathing holes and channels open through pack ice.",
+      "behavior": "Rams and splits ice; travels where others are frozen out.",
+      "evidence": [
+        "game:types",
+        "move:Horn Drill",
+        "move:Fissure"
+      ]
+    },
+    {
+      "name": "Sleeping voyager",
+      "moves": [
+        "Sleep Talk",
+        "Refresh",
+        "Whirlpool"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A long-distance lineage: Sleep Talk lets it act while asleep, Refresh clears its own poison, burns and paralysis, and Whirlpool traps a pursuer in a current. An animal that can keep going for days at sea. Fits open ocean crossings far from shore.",
+      "behavior": "Travels without stopping, resting on the move.",
+      "evidence": [
+        "131.10",
+        "move:Sleep Talk",
+        "move:Refresh",
+        "move:Whirlpool"
+      ],
+      "analogy": "Dolphins rest one half of the brain at a time (unihemispheric sleep), which lets them keep swimming and surfacing while asleep."
+    },
+    {
+      "name": "Gentle evader",
+      "moves": [
+        "Substitute",
+        "Tickle"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "The canon's gentleness as a survival strategy: Substitute leaves a decoy to take the hit, Tickle weakens an attacker without harming it. A lineage that avoids capture and conflict instead of fighting. Fits waters still hunted by people, where the animals that survived are the ones that slipped away.",
+      "behavior": "Rarely fights; disappears behind a decoy when approached.",
+      "evidence": [
+        "131.3",
+        "move:Substitute",
+        "move:Tickle"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does Lapras eat?",
+    "Why was it hunted, and for what? The entries only say it was.",
+    "Is the evening song (131.6, 131.7) a contact call? Does it work?",
+    "Why does every wild Lapras in the games live in caves or inland water when the entries say it lives at sea?",
+    "Is the Union Cave Lapras one individual returning each Friday, or several?",
+    "Can it really read minds (131.2), or is that an interpretation of its sensitivity to people?",
+    "How large must a population be for it to breed successfully, given 40 egg cycles and slow growth?"
+  ],
+  "contradictions": [
+    {
+      "text": "Why its numbers fell: Red, Blue and LeafGreen say it was overhunted; Gold and HeartGold say it was caught, because it rarely fights.",
+      "entries": [
+        "131.1",
+        "131.9",
+        "131.3"
+      ],
+      "note": "Killing versus capture. Both are human causes; they are not the same pressure."
+    },
+    {
+      "text": "Habitat: every entry that names a place says the sea, but the games' wild Lapras are in caves, a waterfall pool, Victory Road and the Safari Zone.",
+      "entries": [
+        "131.2",
+        "131.4",
+        "131.10"
+      ],
+      "note": "Entries versus encounter data."
+    }
+  ],
+  "folklore": [
+    {
+      "text": "In the evenings, Lapras is said to sing plaintively as it seeks the few others of its kind that remain.",
+      "evidence": [
+        "131.6",
+        "131.7",
+        "C131.12",
+        "C131.13"
+      ],
+      "note": "The near-extinction in the same entries is stated as fact; the song is hearsay."
+    }
+  ]
+}

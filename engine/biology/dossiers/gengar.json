@@ -1,0 +1,126 @@
+{
+  "species": "Gengar",
+  "id": 94,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A night-active shadow-dweller that feeds, by every account, on the warmth and life of other creatures. Gengar slips into its target's shadow and waits, absorbing heat until the victim shivers; a sudden chill is the classic sign that one is near. It also plays: on full-moon nights it mimics people's shadows and laughs at their fright, or runs past them under a streetlight pretending to be their shadow. Its line begins as Gastly, a body that is 95% gas, poisonous to breathe, and so light that strong wind blows it apart; in Johto they shelter in the old towers of Violet and Ecruteak and come out only at night.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright, solid-bodied ghost (1.5 m, 40.5 kg), unlike its pre-evolutions, which weigh 0.1 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "species:Gastly", "species:Haunter"]},
+      {"text": "Gastly's body is about 95% gas and contains poison; anyone engulfed in it faints.", "class": "canon", "confidence": "high", "evidence": ["92.9", "92.11", "92.4", "C92.16", "C92.19"]},
+      {"text": "Haunter has a tongue and hands made of gas, and can slip through any obstacle, including walls.", "class": "canon", "confidence": "high", "evidence": ["93.4", "93.10", "93.12", "C93.5", "C93.14"]},
+      {"text": "What Gengar's own body is made of is not said; the jump from 0.1 kg to 40.5 kg suggests it is no longer mostly gas.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "92.9"]}
+    ],
+    "diet": [
+      {"text": "It takes heat: Gengar steals warmth from its surroundings and absorbs the heat of people whose shadows it hides in, leaving them shaking with cold.", "class": "canon", "confidence": "high", "evidence": ["94.3", "94.5", "C94.4", "C94.7", "C94.8"]},
+      {"text": "It takes life: it slips into its prey's shadow and waits silently for the chance to steal its life force, lurking in the shadowy corners of rooms.", "class": "canon", "confidence": "high", "evidence": ["94.4", "94.11", "C94.6", "C94.16"]},
+      {"text": "Haunter licks to sap its victim's life; the victim shakes until it dies.", "class": "canon", "confidence": "high", "evidence": ["93.2", "93.4", "93.11", "C93.2", "C93.16"]},
+      {"text": "Gastly kills more directly: it envelops prey of any size in gas, suffocating it or poisoning it through the skin, and can topple an elephant in two seconds.", "class": "canon", "confidence": "high", "evidence": ["92.4", "92.5", "92.8", "92.12", "C92.8", "C92.15"]},
+      {"text": "Whether heat and 'life force' are the same thing, or whether the line eats any matter at all, is not said.", "class": "unknown", "confidence": "high", "evidence": ["94.3", "94.4"]}
+    ],
+    "habitat": [
+      {"text": "Shadows and darkness, often in human places: the shadowy corners of rooms, people's own shadows, streets lit by streetlights. Its Gen 3 Pokédex habitat is cave.", "class": "canon", "confidence": "high", "evidence": ["94.6", "94.7", "94.10", "94.11", "game:habitat"]},
+      {"text": "Gengar is wild in only one Gen I-IV place: the Old Chateau in Sinnoh (one room, 4%), and only with a Gen 3 game in the DS's second slot. Elsewhere it exists only by trade evolution.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution"]},
+      {"text": "In HeartGold and SoulSilver, Gastly lives in the Sprout Tower (Violet City) and the Bell Tower (Ecruteak City), at night only and very common (80-85%); Haunter is on Kanto's Route 8 at night. Both also turn up at night in the Johto Safari Zone.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gastly", "species:Haunter"]},
+      {"text": "Across all the games the line favours old buildings and towers (Pokémon Tower, Lost Tower, Old Chateau, Sprout and Bell Towers) and caves; Gastly is 'said to appear in decrepit, deserted buildings'.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "92.2"]}
+    ],
+    "behavior": [
+      {"text": "Night-active: it hides in shadows at night, and the full moon brings out its shadow mimicry.", "class": "canon", "confidence": "high", "evidence": ["94.1", "94.5", "94.9", "C94.1", "C94.13"]},
+      {"text": "Johto's Gastly and Haunter appear only at night in the encounter tables.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Playful in a way that looks like it enjoys fear: it mimics people's shadows and laughs at their fright, and runs past them pretending to be their shadow.", "class": "canon", "confidence": "high", "evidence": ["94.1", "94.6", "94.7", "C94.9", "C94.10", "C94.11"]},
+      {"text": "An ambusher: it waits silently in a shadow for its opportunity. Haunter does the same in total darkness, or beckons from the dark.", "class": "canon", "confidence": "high", "evidence": ["94.4", "93.3", "93.5", "93.6", "93.7", "C93.4", "C93.7"]}
+    ],
+    "social": [
+      {"text": "Gastly gather in groups under the eaves of houses to shelter from wind.", "class": "canon", "confidence": "high", "evidence": ["92.6", "92.7", "C92.11", "C92.13"]},
+      {"text": "Nothing is said about Gengar living with others of its kind.", "class": "unknown", "confidence": "high", "evidence": ["94.11"]}
+    ],
+    "reproduction": [
+      {"text": "Amorphous egg group, even sex ratio, 20 egg cycles. In the games it hatches from eggs like any other Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:gender", "game:egg_cycles"]},
+      {"text": "Pearl and Platinum say Gastly is 'born from poison gases', which sits oddly with hatching from an egg.", "class": "canon", "confidence": "medium", "evidence": ["92.10", "92.11", "C92.17"]}
+    ],
+    "defense": [
+      {"text": "Concealment is its first defence: it hides in shadows, and Haunter lurks inside walls to watch its foes.", "class": "canon", "confidence": "high", "evidence": ["94.10", "93.10", "C94.14", "C93.15"]},
+      {"text": "The young are fragile to weather: strong wind makes Gastly's gas body dwindle away, which is why they shelter under eaves.", "class": "canon", "confidence": "high", "evidence": ["92.3", "92.6", "92.7", "92.9", "C92.10", "C92.12"]},
+      {"text": "Levitate, its only ability, makes it immune to Ground attacks. Its own level-up list holds several moves that punish an attacker: Spite, Curse, Destiny Bond (which takes the attacker down with it).", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Spite", "move:Curse", "move:Destiny Bond"]}
+    ],
+    "senses": [
+      {"text": "It operates where nothing is visible: Haunter stalks in total darkness, and Gengar ambushes from shadow, so it does not seem to rely on light.", "class": "inferred", "confidence": "medium", "evidence": ["93.3", "94.4"]},
+      {"text": "No sense organs are described.", "class": "unknown", "confidence": "high", "evidence": ["94.1"]}
+    ],
+    "life_cycle": [
+      {"text": "Gastly (1.3 m, 0.1 kg) becomes Haunter at level 25 (1.6 m, 0.1 kg), and Haunter becomes Gengar (1.5 m, 40.5 kg) only when traded.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Gastly", "species:Haunter"]},
+      {"text": "The line goes from a formless gas cloud, to a gas body with hands and tongue, to a solid-looking body four hundred times heavier.", "class": "inferred", "confidence": "medium", "evidence": ["92.2", "93.12", "game:size"]},
+      {"text": "The prey shifts with the body: Gastly suffocates and poisons, Haunter licks, Gengar draws heat and life from a victim's shadow without touching it.", "class": "inferred", "confidence": "medium", "evidence": ["92.4", "93.11", "94.4", "94.5"]},
+      {"text": "Trade evolution has no obvious wild equivalent, which may be why wild Gengar are almost unknown.", "class": "hypothesis", "confidence": "low", "evidence": ["game:evolution", "game:encounters"], "note": "Game mechanic read as biology."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its own level-up moves describe a sleep-and-feed predator: Hypnosis (Lv 1), then Dream Eater (Lv 39), which restores the user by draining a sleeping target, and Nightmare (Lv 55), which harms a sleeper every turn.", "class": "mechanic", "confidence": "high", "evidence": ["move:Hypnosis", "move:Dream Eater", "move:Nightmare"]},
+      {"text": "Lick (Lv 1) is the canon life-sapping lick of Haunter; Mean Look (Lv 8) stops prey escaping; Sucker Punch (Lv 22) strikes first when the target is about to attack, a classic ambusher's move.", "class": "mechanic", "confidence": "high", "evidence": ["move:Lick", "move:Mean Look", "move:Sucker Punch", "93.2"]},
+      {"text": "Confuse Ray, Night Shade, Shadow Punch and Shadow Ball make up its other natural attacks.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Confuse Ray", "move:Night Shade", "move:Shadow Punch", "move:Shadow Ball"]},
+      {"text": "Fire, Ice and Thunder Punch reach the line as egg moves and as tutor moves, so a Gengar that knows them may have been taught.", "class": "mechanic", "confidence": "high", "evidence": ["move:Fire Punch", "move:Ice Punch", "move:Thunder Punch", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A predator or parasite of warm-bodied animals, including people, taking heat or life rather than flesh. Its trophic position is hard to place because it may not consume matter.", "class": "inferred", "confidence": "low", "evidence": ["94.3", "94.4", "94.11"]},
+      {"text": "In the Sprout Tower the same common slot holds Rattata by day and morning and Gastly at night: the tower is shared by time of day.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gastly"]},
+      {"text": "Gengar cools its surroundings when it hides; if true, it makes small cold spots in rooms and shadows.", "class": "canon", "confidence": "medium", "evidence": ["94.3", "94.10"], "note": "Gold and HeartGold state the heat theft as fact; Diamond hedges the 10 °F figure."}
+    ],
+    "humans": [
+      {"text": "Dangerous to people: it hides in their shadows and takes their heat, and Haunter will try to lick you and steal your life. 'If one beckons you while floating in darkness, you must never approach it.'", "class": "canon", "confidence": "high", "evidence": ["94.5", "93.6", "93.7", "C93.8", "C93.9", "C93.10"]},
+      {"text": "Its harassment of people seems to be partly for amusement: it laughs at their fright.", "class": "canon", "confidence": "high", "evidence": ["94.1", "94.9"]},
+      {"text": "It is tied to human places of the dead and the old: the towers of Violet and Ecruteak in Johto, and Kanto's and Sinnoh's grave towers.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Haunter gives people the feeling of being watched in the dark when no one is there.", "class": "canon", "confidence": "medium", "evidence": ["93.8", "C93.12"]}
+    ],
+    "homestead": [
+      {"text": "Not for the nursery, clinic or bedrooms: it takes body heat and life from sleepers' shadows, and its own moves include Hypnosis and Dream Eater.", "class": "inferred", "confidence": "high", "evidence": ["94.5", "94.11", "move:Dream Eater"], "capability": "town_fit"},
+      {"text": "A cold source: it steals heat from its surroundings, so a resident Gengar in the Ice Path cold vault might help keep it cold. It would also chill anyone working there.", "class": "hypothesis", "confidence": "low", "evidence": ["94.3", "94.10", "game:capability"], "note": "The cooling is canon; whether it can be directed is not.", "capability": "cold_source"},
+      {"text": "A scout through walls: Haunter slips through any obstacle and watches from inside walls.", "class": "canon", "confidence": "medium", "evidence": ["93.10"], "capability": "scouting"},
+      {"text": "Moves freely in the dark: night travel is its normal state.", "class": "inferred", "confidence": "medium", "evidence": ["94.5", "93.3", "game:capability"], "capability": "night_travel"},
+      {"text": "Gastly need wind shelter: Blackthorn's exposed highland would blow them apart. Eaves, towers or a cave are essential.", "class": "inferred", "confidence": "high", "evidence": ["92.6", "92.7", "92.9"]},
+      {"text": "FireRed's mountain folklore (Gengar taking the lives of people lost in mountains) is the kind of story that will attach to any Gengar kept near the Ice Path; worth knowing, not worth believing.", "class": "creative", "evidence": ["94.8"]}
+    ]
+  },
+  "niche": {"guild": "psychotroph", "trophic_level": null, "microhabitat": ["shadows and dark corners of buildings", "old towers and abandoned buildings", "caves"], "activity": "nocturnal",
+            "foraging": "ambush from a victim's shadow, draining heat and life force; sleep-inducing and dream-draining moves",
+            "evidence": ["94.4", "94.5", "94.11", "move:Dream Eater", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "It may be thermotroph as much as psychotroph: the entries name heat and life force equally. Trophic level left null because it may take energy rather than matter."},
+  "relationships": [
+    {"with": "people and other warm-bodied animals", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["94.4", "94.5", "94.11"], "note": "Heat and life force, taken from their shadows."},
+    {"with": "shadows and darkness", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["94.4", "94.10", "94.11"]},
+    {"with": "house eaves", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["92.6", "92.7"], "note": "Wind shelter for groups of Gastly."},
+    {"with": "Rattata", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Rattata"], "note": "Sprout Tower: Rattata by day, Gastly at night (HeartGold and SoulSilver)."}
+  ],
+  "ecotypes": [
+    {"name": "Marsh lantern", "moves": ["Will-O-Wisp", "Astonish"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that lures and startles: Will-O-Wisp is a floating ghost-flame that burns, Astonish is a sudden fright that makes the target flinch. Together they look like the lights that draw travellers off a path. Fits open marsh and moor at night, away from buildings.",
+     "behavior": "Shows a light, draws the curious close, then frightens them.", "evidence": ["93.6", "move:Will-O-Wisp", "move:Astonish"],
+     "analogy": "The will-o'-the-wisp of European folklore: lights seen over marshes at night, often attributed to burning marsh gas, though the explanation is still debated."},
+    {"name": "Still-air haze", "moves": ["Haze", "Disable", "Psywave"], "class": "hypothesis", "confidence": "medium",
+     "reading": "The gas body as a weapon in sheltered air: Haze spreads a black fog that wipes out every stat change, Disable shuts down an attacker's move, Psywave hits at variable strength. A lineage that fills enclosed spaces rather than drifting outdoors. Fits tower interiors, deep eaves and still caves, where no wind can break it up.",
+     "behavior": "Stays indoors and fills a room; avoids open ground entirely.", "evidence": ["92.6", "move:Haze", "move:Disable", "move:Psywave"]},
+    {"name": "Death-song haunt", "moves": ["Perish Song", "Grudge", "Explosion"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that makes itself too costly to kill: Perish Song dooms everything that hears it, Grudge strips the moves of whatever knocks it out, and Explosion takes the attacker with it. Defence by guaranteed retaliation. Fits haunts shared with strong predators, where hiding alone isn't enough.",
+     "behavior": "Rarely fights; when cornered, ensures the attacker loses too.", "evidence": ["move:Perish Song", "move:Grudge", "move:Explosion"]}
+  ],
+  "open_questions": [
+    "What does it actually take from its prey: heat, 'life force', or both, and are they the same?",
+    "Does it eat any matter at all, and what is Gengar's body made of, given that Gastly and Haunter weigh 0.1 kg?",
+    "How does a Gastly that is 'born from poison gases' (92.10) square with hatching from an egg?",
+    "Does a wild Gengar population exist, given that evolution needs a trade?",
+    "Why the full moon (94.1, 94.9)? Is it more active then, or just more visible?",
+    "Is its fright-and-laughter behaviour play, display, or a way to stress prey before feeding?"
+  ],
+  "contradictions": [
+    {"text": "Cooling: Gold and HeartGold say it steals heat and that a sudden chill means a Gengar is certainly there; Diamond only says it is 'said' to cool the area by nearly 10 °F; Yellow treats the chill as a sign it 'may' be cursing you.", "entries": ["94.3", "94.10", "94.2"]},
+    {"text": "What it takes from its victims: heat (Gold, Crystal) or life and life force (Silver, Pearl).", "entries": ["94.3", "94.5", "94.4", "94.11"], "note": "Possibly the same thing described two ways."},
+    {"text": "Gastly's origin: 'born from poison gases' in Pearl and Platinum, versus the egg it hatches from in the games.", "entries": ["92.10", "92.11"], "note": "Entry versus breeding mechanic."}
+  ],
+  "folklore": [
+    {"text": "A sudden chill means a Gengar may be trying to lay a curse on you.", "evidence": ["94.2", "C94.3"]},
+    {"text": "It is said to emerge from darkness to steal the lives of those who become lost in mountains.", "evidence": ["94.8", "C94.12"]},
+    {"text": "It is said that a hiding Gengar cools the area by nearly 10 °F (about 5.5 °C).", "evidence": ["94.10", "C94.15"]},
+    {"text": "The leer that floats in darkness belongs to a Gengar delighting in casting curses on people.", "evidence": ["94.12", "C94.17"], "note": "Curses are reported in Yellow and Platinum but never described working."},
+    {"text": "Haunter's ability to slip through walls has led people to say it comes from another dimension.", "evidence": ["93.1", "93.9", "C93.1", "C93.13"]},
+    {"text": "Gastly is said to appear in decrepit, deserted buildings.", "evidence": ["92.2", "C92.2"], "note": "The encounter data agrees: old towers and abandoned buildings."}
+  ]
+}

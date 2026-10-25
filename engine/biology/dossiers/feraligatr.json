@@ -1,0 +1,107 @@
+{
+  "species": "Feraligatr",
+  "id": 160,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Feraligatr is the adult of the Big Jaw line: a 2.3 m, 89 kg predator of the water's edge, built around its bite. Most of the time it moves slowly; when it attacks it goes at blinding speed, clamps on and shakes its head to tear its victim apart. Out of water its weight is hard to carry, so it often drops to all fours, yet its thick hind legs can still launch a charge. No Gen I–IV game has a wild one: every Feraligatr in these games grew from a Totodile handed to a new trainer, so canon says nothing about where wild ones live or what they hunt.",
+  "sections": {
+    "anatomy": [
+      {"text": "A large, upright, tailed reptile-like body: 2.3 m and 88.8 kg, Water type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Massive, powerful jaws and a huge mouth that it can open wide.", "class": "canon", "confidence": "high", "evidence": ["160.1", "160.4", "160.5", "C160.5"]},
+      {"text": "Thick, powerful hind legs that drive fast movement even on the ground.", "class": "canon", "confidence": "high", "evidence": ["160.3", "160.4", "C160.4", "C160.6"]},
+      {"text": "In the middle stage, Croconaw, the mouth holds 48 fangs whose tips slant backward like barbed fishhooks; lost fangs grow back quickly.", "class": "canon", "confidence": "high", "evidence": ["159.1", "159.3", "159.4", "159.6", "C159.2", "C159.8", "C159.12"], "analogy": "Crocodilians also replace their teeth throughout life, each tooth position being refilled many times."},
+      {"text": "No Feraligatr entry mentions fangs, but an animal that bites and tears as it does most likely keeps the replaceable, back-slanted fangs of Croconaw.", "class": "inferred", "confidence": "medium", "evidence": ["159.1", "159.3", "160.1"]},
+      {"text": "Its body is heavy enough that it struggles to support itself out of water, which suggests a body built to be carried by water most of the time.", "class": "inferred", "confidence": "medium", "evidence": ["160.2", "160.8", "C160.2", "C160.11"]}
+    ],
+    "diet": [
+      {"text": "A predator: it bites prey, striking at blinding speed.", "class": "canon", "confidence": "high", "evidence": ["160.7", "C160.10"]},
+      {"text": "It kills or dismembers by biting hard, then shaking its head to tear the victim up.", "class": "canon", "confidence": "high", "evidence": ["160.1", "160.6", "C160.1", "C160.9"], "analogy": "Crocodilians cannot chew, and tear pieces off prey too large to swallow by twisting and shaking it in their jaws."},
+      {"text": "No entry names its prey. Its Water type and water's-edge habitat point to aquatic and bank-side animals, but that is a guess from habitat, not a diet record.", "class": "unknown", "confidence": "high", "evidence": ["game:habitat", "game:types"]},
+      {"text": "The juvenile bites anything that moves, so the line's feeding strike seems to be set off by movement rather than by recognising particular prey.", "class": "inferred", "confidence": "medium", "evidence": ["158.2", "158.3", "158.6", "C158.4", "C158.11"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex files the whole line under the water's edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "It is hard for it to support its weight out of water, so it probably spends most of its time in water and comes ashore for short spells.", "class": "inferred", "confidence": "medium", "evidence": ["160.2", "160.8"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Totodile is only a starter gift: in New Bark Town in Gold, Silver, Crystal, HeartGold and SoulSilver, and in Littleroot Town in Emerald. Croconaw and Feraligatr are reached only by raising one.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Totodile", "species:Croconaw"]},
+      {"text": "Where wild populations live, at what altitude and in what kind of water, is not recorded anywhere.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Usually slow-moving, it switches to bursts of blinding speed when it attacks.", "class": "canon", "confidence": "high", "evidence": ["160.7", "C160.10"], "analogy": "The pattern of an ambush predator such as a crocodile: long stillness or slow movement, then an explosive strike."},
+      {"text": "In a fight it kicks the ground hard with its hind legs and charges at great speed.", "class": "canon", "confidence": "high", "evidence": ["160.4", "160.5", "C160.6", "C160.8"]},
+      {"text": "Out of water it often goes on all fours, but it can still move fast.", "class": "canon", "confidence": "high", "evidence": ["160.2", "160.8", "C160.3"]},
+      {"text": "Its activity pattern is unknown: no entry mentions day or night, and there are no wild encounter tables to show it.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or territory.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The juvenile nips at others in what it takes for play, which hints at play-biting with siblings or companions while young.", "class": "hypothesis", "confidence": "low", "evidence": ["158.4", "158.5", "C158.8", "C158.10"], "note": "The entries describe its nips at people; play with its own kind is not stated."},
+      {"text": "The line is 87.5% male. The other starter lines checked here (Charmander, Squirtle, Bulbasaur, Mudkip) have exactly the same ratio, so it reads as a game convention for starters rather than a fact about its social life.", "class": "mechanic", "confidence": "medium", "evidence": ["game:gender", "species:Charmander", "species:Squirtle", "species:Bulbasaur", "species:Mudkip"]}
+    ],
+    "reproduction": [
+      {"text": "Monster and Water 1 egg groups, 20 egg cycles, 87.5% male; the egg groups place it between land-living and water-living breeding pools.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Nothing in the Pokédex describes courtship, nests, eggs or care of young.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "Threat display: it opens its huge mouth to intimidate foes.", "class": "canon", "confidence": "high", "evidence": ["160.4", "160.5", "C160.5", "C160.7"]},
+      {"text": "Once Croconaw clamps down it will not let go until it loses its fangs; the hooked tips make the bite impossible to pull free.", "class": "canon", "confidence": "high", "evidence": ["159.4", "159.5", "159.6", "C159.7", "C159.11"]},
+      {"text": "Its wild repertoire carries the same threat display: Leer at Lv 1, Scary Face at Lv 15 and Screech at Lv 45 are all level-up moves.", "class": "mechanic", "confidence": "high", "evidence": ["move:Leer", "move:Scary Face", "move:Screech"]},
+      {"text": "Torrent makes its Water moves stronger when it is close to defeat, the game's version of fighting harder when cornered.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Totodile chomps at any moving object it sees, which points to sight, and specifically sensitivity to movement, as the trigger for the line's strike.", "class": "inferred", "confidence": "medium", "evidence": ["158.3", "C158.5"]},
+      {"text": "No entry describes the adult's senses: its eyesight, hearing, smell or any sense of vibration in water are all unrecorded.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Totodile (0.6 m, 9.5 kg) becomes Croconaw at level 18 (1.1 m, 25 kg) and Feraligatr at level 30 (2.3 m, 88.8 kg): about nine times the juvenile's mass.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Totodile", "species:Croconaw"]},
+      {"text": "The juvenile is small, rough and tough and bites anything that moves; its jaws can crush anything and even its trainer must be careful.", "class": "canon", "confidence": "high", "evidence": ["158.1", "158.2", "158.7", "C158.1", "C158.3", "C158.13"]},
+      {"text": "Read as development, the line goes from indiscriminate biting (Totodile), through a hooked, never-let-go grip (Croconaw), to a slow-moving adult that strikes fast and tears; and as the body grows, moving on land gets harder.", "class": "inferred", "confidence": "medium", "evidence": ["158.2", "159.4", "160.7", "160.2"]},
+      {"text": "The adult gains Agility on evolving (Feraligatr learns it at Lv 30; Croconaw never does), matching the adult entries' stress on bursts of speed.", "class": "mechanic", "confidence": "high", "evidence": ["move:Agility", "game:learnset", "160.7"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Feeding: its level-up moves are mostly jaw attacks, Bite (Lv 13), Ice Fang (Lv 21) and Crunch (Lv 32), matching the bite-and-tear entries; Slash (Lv 37) adds the claws.", "class": "mechanic", "confidence": "high", "evidence": ["move:Bite", "move:Ice Fang", "move:Crunch", "move:Slash", "160.1"]},
+      {"text": "Thrash (Lv 50), a frenzied attack that runs for several turns, is a fair reading of the head-shaking, tearing attack.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Thrash", "160.1"], "note": "The move is about frenzy, not specifically head-shaking."},
+      {"text": "Travel and pursuit: Agility (Lv 30) and Aqua Tail (Lv 58) suit a fast swimmer with a strong tail; Hydro Pump (Lv 71) is its strongest water attack.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Agility", "move:Aqua Tail", "move:Hydro Pump"]},
+      {"text": "Surf, Waterfall, Strength, Dig and Rock Climb are machine moves, taught by people; they say what the body can be trained to do, not how wild ones live.", "class": "mechanic", "confidence": "high", "evidence": ["move:Surf", "move:Waterfall", "move:Strength", "move:Dig", "move:Rock Climb"]}
+    ],
+    "ecology": [
+      {"text": "A large predator of the water's edge, probably near the top of its food web (trophic level about 4), though no entry names what it eats or what, if anything, eats it.", "class": "inferred", "confidence": "low", "evidence": ["160.7", "game:size", "game:habitat"]},
+      {"text": "Because no wild population exists in these games, its effect on any real community is unrecorded.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Its bite is a hazard from the start: Totodile's playful nips can cause serious injury, and even its trainer must be careful.", "class": "canon", "confidence": "high", "evidence": ["158.1", "158.4", "158.5", "158.6", "C158.2", "C158.12"]},
+      {"text": "Turning your back on a Totodile is not recommended, because it chomps at anything moving.", "class": "canon", "confidence": "high", "evidence": ["158.3", "C158.6"]},
+      {"text": "In canon the line is known almost entirely as a trained animal: it reaches people as a starter given to new trainers, not from the wild.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Totodile"]}
+    ],
+    "homestead": [
+      {"text": "A strong guard by presence alone: the open-mouth threat display, plus Leer, Scary Face and Screech, would keep most intruders back.", "class": "inferred", "confidence": "medium", "evidence": ["160.4", "160.5", "move:Scary Face", "move:Screech"], "capability": "deterrence"},
+      {"text": "Better in water than on land: it could ferry people or loads across a lake or river (Surf and Waterfall are taught moves), but it is a poor draught animal on dry ground because its weight is hard to support out of water.", "class": "inferred", "confidence": "medium", "evidence": ["160.2", "move:Surf", "move:Waterfall", "game:size"], "capability": "water_travel"},
+      {"text": "Strength, a taught move, and its powerful hind legs make short, heavy pulls possible, best done near water so it can rest its weight.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Strength", "160.3", "160.2"], "note": "Untested: how long it can work out of water is not recorded.", "capability": "hauling"},
+      {"text": "It needs a pond or slow river deep enough to take its weight, and a meat diet the homestead would have to supply or let it hunt for.", "class": "inferred", "confidence": "medium", "evidence": ["160.2", "160.7", "game:habitat"]},
+      {"text": "Handling rule: keep children and livestock clear of its mouth, never turn your back on a young one, and expect bites to be serious even when meant as play.", "class": "inferred", "confidence": "high", "evidence": ["158.3", "158.4", "158.1"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 4, "microhabitat": ["water's edge", "shallows and banks of lakes and rivers"], "activity": "unknown", "foraging": "slow movement or stillness, then a fast lunge and bite; large prey torn apart by head-shaking", "evidence": ["160.7", "160.1", "game:habitat"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "prey animals (not named in any entry)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["160.7", "159.3"]},
+    {"with": "open water", "kind": "uses_resource", "class": "inferred", "confidence": "medium", "evidence": ["160.2", "160.8", "game:habitat"], "note": "It struggles to carry its weight out of water."}
+  ],
+  "ecotypes": [
+    {"name": "Mudbank lurker", "moves": ["Mud Sport", "Water Sport", "Aqua Jet"], "class": "hypothesis", "confidence": "low", "reading": "Mud Sport and Water Sport both coat the body, in mud or water, and Aqua Jet is a strike that lands before the target can act. Together they suggest a lineage that lies coated in silt in shallow, muddy margins and takes prey with a first-strike lunge, the slow-then-sudden habit of the adult pushed further. Fits slow lowland rivers and marsh edges more than clear highland streams.", "behavior": "Lies half-buried at the edge; the first a prey animal knows of it is the lunge.", "evidence": ["160.7", "move:Mud Sport", "move:Water Sport", "move:Aqua Jet"]},
+    {"name": "Boulder-river crusher", "moves": ["Rock Slide", "Metal Claw", "Crunch"], "class": "hypothesis", "confidence": "low", "reading": "Crunch and Metal Claw are hard-contact bites and strikes, and Rock Slide brings stones down. A lineage of rocky, fast-running water that works among boulders and crushes hard-bodied prey, using the line's jaws that can crush anything. Fits steep highland rivers of the kind around Blackthorn.", "behavior": "Pries and crushes among stones in the current instead of waiting in mud.", "evidence": ["158.1", "move:Rock Slide", "move:Metal Claw", "move:Crunch"]},
+    {"name": "Thrashing displayer", "moves": ["Dragon Dance", "Dragon Claw", "Thrash"], "class": "hypothesis", "confidence": "low", "reading": "Dragon Dance raises speed and strength in the games, which reads as a vigorous display that also readies the body to charge; Thrash and Dragon Claw are the sustained, slashing fight that follows. A lineage where rivals settle contests by display and open charge rather than ambush. Fits crowded waters where many adults meet.", "behavior": "Dances and gapes before it charges; rivals fight in the open.", "evidence": ["160.4", "move:Dragon Dance", "move:Dragon Claw", "move:Thrash"]}
+  ],
+  "open_questions": [
+    "Where do wild Feraligatr live? No Gen I–IV game has a wild population of any stage.",
+    "What does it eat? No entry names a single prey species.",
+    "On land, is it a quadruped or a biped? The entries disagree (see contradictions).",
+    "Does the adult keep Croconaw's 48 replaceable, hooked fangs?",
+    "Is the 87.5% male ratio biology, or a game convention for starter lines?",
+    "Is it diurnal or nocturnal? Nothing in canon or the encounter data says.",
+    "How does it breed: where are eggs laid, and does either parent guard them?"
+  ],
+  "contradictions": [
+    {"topic": "Posture on land", "entries": ["160.2", "160.8", "160.3", "160.4", "160.5"], "note": "Silver and FireRed (160.2) say that out of water it gets down on all fours; SoulSilver (160.8) softens this to 'sometimes'. Crystal (160.3) and Ruby, Sapphire and Emerald (160.4, 160.5) describe it running and charging on its powerful hind legs on the ground. They can be reconciled (all fours at rest, hind legs for a charge), but no entry says so."},
+    {"topic": "Fast or slow", "entries": ["160.7", "160.2", "160.3"], "note": "Diamond, Pearl and Platinum (160.7) say it usually moves slowly and is fast only when it attacks; Silver and FireRed (160.2) and Crystal (160.3) simply say it moves fast. Probably the same animal at rest and in attack, but the earlier entries don't mention the slowness."}
+  ],
+  "folklore": []
+}

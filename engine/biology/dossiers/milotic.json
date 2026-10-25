@@ -1,0 +1,110 @@
+{
+  "species": "Milotic",
+  "id": 350,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Milotic is a 6.2 m serpentine Pokémon of the bottoms of large lakes, famous above all for its looks: its scales shift through rainbow colours with the angle of view, and it has been painted and sculpted for generations. It can calm anger and hostility; Sapphire says its body glows vivid pink and sends out a pulsing wave that soothes restless spirits, and several games repeat the saying that one glimpse of it ends a quarrel. It develops from Feebas, a ragged, ignored, hardy fish that eats anything and schools in weedy ponds and rivers, and in Gen III–IV only a Feebas whose beauty has been raised becomes Milotic. No Milotic is wild in these games.",
+  "sections": {
+    "anatomy": [
+      {"text": "A long, serpentine body of 6.2 m and 162 kg, Water type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its scales are described as rainbow-coloured and change colour with the viewing angle.", "class": "canon", "confidence": "high", "evidence": ["350.7", "C350.12", "C350.13"], "analogy": "This is iridescence, a structural colour, as in many fish scales and the wings of Morpho butterflies, where microscopic layers rather than pigments reflect different colours at different angles."},
+      {"text": "Its body can glow vivid pink.", "class": "canon", "confidence": "high", "evidence": ["350.2", "C350.4"]},
+      {"text": "Marvel Scale toughens it when it is suffering a status condition, the game's version of its scales as armour.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]},
+      {"text": "Feebas, by contrast, has ragged, tattered fins from the start of its life.", "class": "canon", "confidence": "high", "evidence": ["349.1", "C349.1"]}
+    ],
+    "diet": [
+      {"text": "No Milotic entry says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Feebas eats anything, which lets it live even in polluted streams and lakes.", "class": "canon", "confidence": "high", "evidence": ["349.6", "C349.12"]},
+      {"text": "Whether the adult keeps the juvenile's eat-anything habit is not stated; a 162 kg lake-bottom animal must eat a good deal of something.", "class": "inferred", "confidence": "low", "evidence": ["349.6", "game:size", "350.2"]}
+    ],
+    "habitat": [
+      {"text": "It lives at the bottom of large lakes.", "class": "canon", "confidence": "high", "evidence": ["350.2", "C350.3"]},
+      {"text": "Gen 3 Pokédex habitat for the line: the water's edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "Feebas is far more flexible: it can live in the sea and in rivers, in weed-choked ponds, in polluted water, and on little water at all; HeartGold and SoulSilver put it at the bottom of rivers.", "class": "canon", "confidence": "high", "evidence": ["349.1", "349.2", "349.3", "349.4", "349.6", "349.7", "349.8", "C349.3", "C349.4", "C349.6", "C349.9", "C349.15", "C349.17"]},
+      {"text": "Milotic is not wild in any Gen I–IV game. Feebas is fished only from a few particular water tiles: on Hoenn's Route 119 in Ruby, Sapphire and Emerald, and in Mt. Coronet's basement in Diamond, Pearl and Platinum. It is absent from Johto and Kanto.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Feebas"]},
+      {"text": "That mechanic matches the Pokédex: Feebas are populous but cluster in set locations.", "class": "canon", "confidence": "high", "evidence": ["349.5", "C349.11", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When its body glows vivid pink, it releases a pulsing wave of energy that brings calm to restless spirits.", "class": "canon", "confidence": "high", "evidence": ["350.2", "C350.4"]},
+      {"text": "It has the power to calm anger and hostility and to settle bitter feuds.", "class": "canon", "confidence": "high", "evidence": ["350.1", "C350.2"]},
+      {"text": "Its activity pattern and daily routine are unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "No entry describes how Milotic live with their own kind.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Feebas forms schools at the bottom of rivers.", "class": "canon", "confidence": "high", "evidence": ["349.8", "C349.17"]},
+      {"text": "An animal whose main stated power is to end conflict may live where conflict is costly, among many others in a crowded lake, but this is a reading, not a record.", "class": "hypothesis", "confidence": "low", "evidence": ["350.1", "350.2"], "note": "The entries describe its effect on people and 'restless spirits', not on its own kind."}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Dragon egg groups, 20 egg cycles, an even sex ratio; its eggs hatch as Feebas.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:evolution"]},
+      {"text": "Nothing describes courtship, spawning or care of young.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "Its defence seems to be pacification: those who see it are calmed, and its pulsing wave soothes restless spirits.", "class": "inferred", "confidence": "medium", "evidence": ["350.2", "350.4", "350.8"]},
+      {"text": "Its wild repertoire is unusually restorative: Refresh (Lv 9), Recover (Lv 21), Safeguard (Lv 45) and Aqua Ring (Lv 49) all heal or protect.", "class": "mechanic", "confidence": "high", "evidence": ["move:Refresh", "move:Recover", "move:Safeguard", "move:Aqua Ring"]},
+      {"text": "Wrap (Lv 1), a constricting hold, suits a 6 m serpentine body.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Wrap", "game:shape"]},
+      {"text": "Feebas has no real defence: slow and dim-witted, it is an easy catch, and survives by being hardy and ignored.", "class": "canon", "confidence": "high", "evidence": ["349.2", "C349.5"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Feebas (0.6 m, 7.4 kg, fish-shaped) becomes Milotic (6.2 m, 162 kg, serpentine): ten times the length and more than twenty times the mass in one step.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "game:shape", "species:Feebas"]},
+      {"text": "In Gen III–IV the change needs a Feebas with high beauty, a condition these games raise by feeding it Pokéblocks or Poffins. Read biologically, Milotic forms only from a Feebas that someone has fed and cared for.", "class": "inferred", "confidence": "medium", "evidence": ["game:evolution"], "note": "The beauty mechanic is general game knowledge, not stated in the pack."},
+      {"text": "The pack also lists a trade while holding a Prism Scale. That item comes from later games and does not exist in Gen III–IV, so it should not count for these games.", "class": "mechanic", "confidence": "medium", "evidence": ["game:evolution"], "note": "Outside knowledge, flagged for checking against the data."},
+      {"text": "Its growth rate is erratic: slow at first, then very fast.", "class": "mechanic", "confidence": "high", "evidence": ["game:growth"]},
+      {"text": "Feebas's only level-up moves are Splash, Tackle and Flail; the juvenile has almost no repertoire, and nearly everything Milotic does arrives with the change.", "class": "mechanic", "confidence": "high", "evidence": ["move:Splash", "move:Tackle", "move:Flail", "species:Feebas"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Water: Water Gun (Lv 1), Water Pulse (Lv 13), Aqua Tail (Lv 29) and Hydro Pump (Lv 37); Twister (Lv 17) reflects its Dragon egg group.", "class": "mechanic", "confidence": "high", "evidence": ["move:Water Gun", "move:Water Pulse", "move:Aqua Tail", "move:Hydro Pump", "move:Twister"]},
+      {"text": "Attraction: Captivate (Lv 25) and Attract (Lv 41) are the move forms of a beauty that disarms.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Captivate", "move:Attract", "350.4"]},
+      {"text": "Rain Dance (Lv 33) is a level-up move, so a wild Milotic could bring rain, which no entry mentions.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Rain Dance"]}
+    ],
+    "ecology": [
+      {"text": "Its role in a lake community is unrecorded: no diet, prey or predators are named for the adult.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Feebas, eating anything and tolerating polluted water, is a hardy generalist that can occupy waters most species avoid.", "class": "inferred", "confidence": "medium", "evidence": ["349.6", "349.2"]}
+    ],
+    "humans": [
+      {"text": "It is called the world's most beautiful Pokémon and features in many works of art, including paintings and statues.", "class": "canon", "confidence": "high", "evidence": ["350.6", "350.3", "C350.10", "C350.11"]},
+      {"text": "It is breathtakingly beautiful.", "class": "canon", "confidence": "high", "evidence": ["350.4", "C350.7"]},
+      {"text": "Feebas is the opposite: ridiculed for its shabby looks, ignored by researchers, and raised by few trainers.", "class": "canon", "confidence": "high", "evidence": ["349.3", "349.4", "349.5", "349.6", "349.7", "349.8", "C349.2", "C349.7", "C349.8", "C349.10", "C349.13", "C349.14", "C349.16"]}
+    ],
+    "homestead": [
+      {"text": "A calming presence: it can calm anger and hostility, which makes it a candidate for anywhere tempers run high, people's or animals'.", "class": "canon", "confidence": "high", "evidence": ["350.1", "350.2"], "capability": "calming_presence"},
+      {"text": "Water travel on a large lake: at 6.2 m it is big enough to carry a rider, and Surf is a taught move.", "class": "mechanic", "confidence": "medium", "evidence": ["game:size", "move:Surf"], "capability": "water_travel"},
+      {"text": "Its pink glow could serve as a faint light near water, but nothing says it is bright or steady.", "class": "hypothesis", "confidence": "low", "evidence": ["350.2"], "note": "The capability records list light from this entry.", "capability": "light"},
+      {"text": "It needs a large, deep lake; a 6 m animal that lives on the bottom cannot be kept in a pond.", "class": "inferred", "confidence": "high", "evidence": ["350.2", "game:size"]},
+      {"text": "Feebas is easy to keep: it eats anything, tolerates poor water and survives on little of it, so a weedy pond would do. Turning one into Milotic takes a deliberate feeding regime.", "class": "inferred", "confidence": "medium", "evidence": ["349.6", "349.7", "349.3", "game:evolution"]}
+    ]
+  },
+  "niche": {"guild": "generalist", "trophic_level": 2.5, "microhabitat": ["bottoms of large lakes (adult)", "weedy ponds, river bottoms, even polluted water (Feebas)"], "activity": "unknown", "foraging": "not described for the adult; Feebas eats anything", "evidence": ["350.2", "349.6", "349.8"], "class": "hypothesis", "confidence": "low", "note": "Guild and trophic level come from Feebas's 'eats anything'; the adult's diet is never stated."},
+  "relationships": [
+    {"with": "large lakes", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["350.2"]},
+    {"with": "weed-choked ponds", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["349.3", "349.4"], "note": "Feebas's habitat."},
+    {"with": "people in conflict", "kind": "commensalism", "class": "hypothesis", "confidence": "low", "evidence": ["350.1", "350.5"], "note": "It calms quarrelling people; what it gains, if anything, is unknown. 350.5's 'rises from the lake when people bicker' is folklore."}
+  ],
+  "ecotypes": [
+    {"name": "Deepwater lantern", "moves": ["Confuse Ray", "Hypnosis", "Light Screen"], "class": "hypothesis", "confidence": "low", "reading": "Confuse Ray is a dazzling light that confuses, Hypnosis lulls to sleep, and Light Screen is a shield of light. With the pink glow of 350.2, the set suggests a lineage that works with light in the dark: dazzling, lulling and shielding at depth. Fits deep, dark lake bottoms.", "behavior": "Glows in the depths; whatever comes close becomes drowsy and confused.", "evidence": ["350.2", "move:Confuse Ray", "move:Hypnosis", "move:Light Screen"]},
+    {"name": "Fog-lake peacemaker", "moves": ["Mist", "Haze"], "class": "hypothesis", "confidence": "low", "reading": "Mist shrouds the user in a protective fog, and Haze wipes out every stat change on the field, read here as damping down a fight for everyone in it. A lineage whose calming is built into its repertoire as well as its looks. Fits cold, often-misty mountain lakes.", "behavior": "Rises in the fog when the water is disturbed, and the disturbance stops.", "evidence": ["350.1", "move:Mist", "move:Haze"]},
+    {"name": "Weedbed dweller", "moves": ["Mud Sport", "Tickle"], "class": "hypothesis", "confidence": "low", "reading": "Mud Sport coats the user in mud, and Tickle lowers a foe's guard by distraction. A lineage that keeps to the muddy, weed-choked shallows of Feebas's youth rather than moving to deep lakes. Fits small, weedy, eutrophic ponds.", "behavior": "Stays in the weeds and mud where it hatched; rarely seen in open water.", "evidence": ["349.3", "move:Mud Sport", "move:Tickle"]}
+  ],
+  "open_questions": [
+    "What does Milotic eat?",
+    "How does it calm others: by being seen (350.4, 350.8), or by a pulsing wave of energy (350.2)?",
+    "Is the lake-bottom habitat fact (350.2) or saying (350.3)?",
+    "Could a Feebas become Milotic in the wild, without anyone raising its beauty?",
+    "Does the pink glow give usable light?",
+    "How long does it live, and how does it breed?"
+  ],
+  "contradictions": [
+    {"topic": "How it calms", "entries": ["350.2", "350.4", "350.8", "350.1"], "note": "Sapphire (350.2) gives a physical mechanism: a pulsing wave of energy when its body glows pink. FireRed, LeafGreen, HeartGold and SoulSilver (350.4, 350.8) say the sight of it does it, but only as a saying. Ruby (350.1) just calls it a power."},
+    {"topic": "Lake bottom: fact or saying", "entries": ["350.2", "350.3"], "note": "Sapphire (350.2) states that Milotic live at the bottom of large lakes; Emerald (350.3) says only that it is said to."},
+    {"topic": "Most beautiful: fact or saying", "entries": ["350.6", "350.1", "350.3"], "note": "Pearl (350.6) states it is the world's most beautiful Pokémon; Ruby and Emerald (350.1, 350.3) report it as what is said or considered."}
+  ],
+  "folklore": [
+    {"text": "It is said to be the most beautiful of all Pokémon.", "evidence": ["350.1", "350.3", "C350.1", "C350.6"]},
+    {"text": "Those who see it are said to forget their will to fight, and a glimpse of it is said to calm any hostile feeling.", "evidence": ["350.4", "350.8", "C350.8", "C350.14"]},
+    {"text": "When people bicker, it is said to rise from the depths of lakes to calm violent hearts.", "evidence": ["350.5", "C350.9"]},
+    {"text": "It is said to live at the bottom of large lakes.", "evidence": ["350.3", "C350.5"], "note": "Sapphire (350.2) states this as fact."}
+  ]
+}

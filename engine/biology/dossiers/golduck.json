@@ -1,0 +1,100 @@
+{
+  "species": "Golduck",
+  "id": 55,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The adult of Psyduck, and the strongest swimmer in the Ilex Forest community. Golduck has long limbs ending in webbed flippers and a streamlined body; the entries call it the fastest swimmer among Pokémon, faster than any human champion, and it copes with rough seas as well as the quiet lakes and slow rivers it prefers. It appears by waterways at dusk, and its forehead glows when it swims flat out or uses its psychic power. People have mistaken it for the kappa, and it has rescued sailors from wrecks. In Ilex Forest it is the rarer of the pond's two surfing encounters (10%).",
+  "sections": {
+    "anatomy": [
+      {"text": "A large, blue, upright duck (1.7 m, 76.6 kg) with slim, long limbs ending in broad, webbed flippers on fore- and hind legs, and a streamlined body.", "class": "canon", "confidence": "high", "evidence": ["55.2", "55.6", "55.9", "C55.3", "C55.9", "C55.17", "game:size", "game:color"]},
+      {"text": "Its forehead glows or shimmers when it swims at full speed and when it uses psychic or telekinetic power.", "class": "canon", "confidence": "high", "evidence": ["55.3", "55.4", "55.8", "C55.5", "C55.7", "C55.16"]},
+      {"text": "Its well-developed limbs and flippers give it its speed.", "class": "canon", "confidence": "high", "evidence": ["55.12", "55.13", "C55.22"]}
+    ],
+    "diet": [
+      {"text": "Not stated in any entry.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its speed suggests a pursuit hunter, and the pond's fish make the obvious prey: Magikarp (0.9 m, 10.0 kg) and Poliwag (0.6 m, 12.4 kg) share its water and are far smaller.", "class": "hypothesis", "confidence": "low", "evidence": ["55.6", "55.11", "game:encounters", "game:size", "species:Magikarp", "species:Poliwag"], "note": "Rests on speed, size and shared water; no entry says it hunts."}
+    ],
+    "habitat": [
+      {"text": "Lakes and lakeshores, and the quiet, slow-moving rivers it is fond of; it also swims easily in rough, stormy seas.", "class": "canon", "confidence": "high", "evidence": ["55.1", "55.2", "55.5", "55.7", "55.9", "55.10", "55.11", "C55.1", "C55.4", "C55.8", "C55.12", "C55.18", "C55.20"]},
+      {"text": "In HeartGold and SoulSilver it is surfed on Ilex Forest's pond (10%), Route 35 and Route 6, and walks in Seafoam Islands and inside Mt. Silver.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "game:encounters"]},
+      {"text": "The Mt. Silver records put it on land inside a high mountain, well away from water.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It swims elegantly, gracefully and dynamically, using its limbs and flippers.", "class": "canon", "confidence": "high", "evidence": ["55.1", "55.2", "55.9", "55.10", "55.13", "C55.19", "C55.24"]},
+      {"text": "Crepuscular: it appears by waterways at dusk.", "class": "canon", "confidence": "medium", "evidence": ["55.4", "C55.6"]},
+      {"text": "The surfing tables have no time of day; on Mt. Silver it is in the walking tables at every hour.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about other Golduck. Its sociability is described only towards people (see People).", "class": "unknown", "confidence": "high", "evidence": ["55.8"]}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, an even sex ratio. Nothing in the Pokédex describes nesting or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "No entry describes a defence; speed in the water is the obvious one.", "class": "inferred", "confidence": "low", "evidence": ["55.6", "55.11"]},
+      {"text": "Its abilities are Damp and Cloud Nine; Disable, Confusion and Screech are among its moves.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Disable", "move:Screech"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Psyduck at level 33. Psyduck's headaches and forgetting give way to power tied to the glowing forehead.", "class": "inferred", "confidence": "medium", "evidence": ["game:evolution", "54.9", "55.4", "55.8"]},
+      {"text": "Its egg moves sit with Psyduck, the line's first stage; the ecotypes below use them.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Aqua Jet (Lv 1) is a fast first strike in water, apt for the fastest swimmer; Water Gun, Water Pulse and Hydro Pump (56) are water force, Fury Swipes (27) its claws.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Aqua Jet", "move:Water Gun", "move:Water Pulse", "move:Hydro Pump", "move:Fury Swipes"]},
+      {"text": "Confusion (18), Zen Headbutt (44), Psych Up and Disable are the psychic side, which the entries link to the glowing forehead.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Confusion", "move:Zen Headbutt", "move:Psych Up", "55.8"]}
+    ],
+    "ecology": [
+      {"text": "The pond's largest resident and probably its top predator (trophic level about 3.3), if it hunts the fish its speed suggests.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "game:encounters", "55.11"], "note": "Its diet is undescribed."},
+      {"text": "At dusk by the water it overlaps Noctowl's hunting hours at the pond edge.", "class": "hypothesis", "confidence": "low", "evidence": ["55.4", "164.4"], "note": "Rests on activity times only."}
+    ],
+    "humans": [
+      {"text": "It is often mistaken for the kappa (see Folklore).", "class": "canon", "confidence": "high", "evidence": ["55.1", "55.10"]},
+      {"text": "It sometimes rescues people from wrecked ships floundering in high seas.", "class": "canon", "confidence": "high", "evidence": ["55.7", "C55.13"]},
+      {"text": "It sometimes joins competitive swimmers in training, and swims faster than any human champion.", "class": "canon", "confidence": "high", "evidence": ["55.6", "55.8", "55.11", "C55.10", "C55.15", "C55.21"]},
+      {"text": "The fastest and best swimmer among Pokémon, by two entries.", "class": "canon", "confidence": "medium", "evidence": ["55.7", "55.12", "C55.11", "C55.23"]}
+    ],
+    "homestead": [
+      {"text": "Water rescue: it has rescued people from wrecks in high seas, and it is sociable with swimmers.", "class": "canon", "confidence": "high", "evidence": ["55.7", "55.8"], "capability": "rescue"},
+      {"text": "Water travel: a large, fast swimmer could carry a person across Blackthorn's waters. Surf is a TM, but the swimming is its own.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "55.7", "game:capability"], "capability": "water_travel"},
+      {"text": "Watering and garden work, as for Psyduck: the capability records credit its upright body with handling objects, and Water Gun is in its wild repertoire.", "class": "inferred", "confidence": "low", "evidence": ["game:shape", "move:Water Gun"], "capability": "plant_care"},
+      {"text": "It needs open water to swim in. Cold tolerance is unknown, though the Mt. Silver records put it on a high mountain.", "class": "inferred", "confidence": "low", "evidence": ["55.5", "game:encounters"]}
+    ]
+  },
+  "niche": {"guild": "piscivore", "trophic_level": 3.3, "microhabitat": ["open water of lakes and slow rivers", "pond", "shorelines at dusk"], "activity": "crepuscular",
+            "foraging": "unknown; a fast pursuit swimmer, so probably chases fish", "evidence": ["C55.6", "C55.9", "C55.11", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "No entry gives its diet; the guild rests on its speed and on the fish that share its water. Activity rests on 55.4."},
+  "relationships": [
+    {"with": "Magikarp", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["129.4", "game:encounters", "game:size", "species:Magikarp"], "note": "The weakest fish in the pond, easy prey by its own entries, in the same water as the fastest swimmer."},
+    {"with": "Poliwag", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["60.6", "game:encounters", "species:Poliwag"], "note": "Same water; but Poliwag's skin is so flexible that sharp fangs bounce off it."},
+    {"with": "lakes and slow rivers (non-Pokémon)", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["55.5", "55.11"]},
+    {"with": "Psyduck", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Psyduck"]},
+    {"with": "Noctowl", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["55.4", "129.4", "species:Noctowl"], "note": "If both take Magikarp at the surface around dusk; neither diet is described."}
+  ],
+  "ecotypes": [
+    {"name": "Shallows brawler", "moves": ["Cross Chop", "Mud Bomb"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that fights hand to hand and flings mud. Fits muddy rivers and marshes where visibility is poor and prey or rivals are met at close range.",
+     "behavior": "Wades and grapples instead of sprinting.", "evidence": ["game:shape", "move:Cross Chop", "move:Mud Bomb"]},
+    {"name": "Hypnotic hunter", "moves": ["Hypnosis", "Confuse Ray", "Psybeam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that stuns or confuses with its power before the chase, saving the sprint. Fits big lakes where prey is spread out and chases are long.",
+     "behavior": "Forehead glowing, it stalks before it swims.", "evidence": ["55.4", "move:Hypnosis", "move:Confuse Ray", "move:Psybeam"]},
+    {"name": "Sentinel", "moves": ["Foresight", "Future Sight", "Refresh"], "class": "hypothesis", "confidence": "low",
+     "reading": "A watchful lineage: it sees through evasion, strikes later, and shakes off status conditions. Fits rough coasts where its rescues are described (55.7) and danger is frequent.",
+     "behavior": "Patrols shorelines and comes to trouble rather than avoiding it.", "evidence": ["55.7", "move:Foresight", "move:Future Sight", "move:Refresh"]}
+  ],
+  "open_questions": [
+    "What does it eat?",
+    "Lakes or seas: is it a freshwater animal that copes with the sea, or both by nature?",
+    "What makes the forehead glow?",
+    "Why does it appear at dusk?",
+    "Are its rescues deliberate?"
+  ],
+  "contradictions": [
+    {"entries": ["55.11", "55.5", "55.7"], "text": "Freshwater or sea? Diamond says it lives in lakes (55.11) and Crystal that it is fond of quiet, slow rivers and lakes (55.5); Sapphire has it swimming easily in rough, stormy seas and rescuing people from wrecks in high seas (55.7).", "note": "Compatible if it lives in lakes and can cope with the sea; recorded because the habitat matters for where it belongs."}
+  ],
+  "folklore": [
+    {"text": "It is often mistaken for the kappa, a monster of Japanese folklore.", "evidence": ["55.1", "55.10", "C55.2"], "note": "The entries record a mistaken identity, not that Golduck is a kappa.", "analogy": "In Japanese legend the kappa is a water creature said to live in rivers and ponds."}
+  ]
+}

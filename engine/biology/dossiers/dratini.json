@@ -1,0 +1,110 @@
+{
+  "species": "Dratini",
+  "id": 147,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A long, very light water serpent that lives in Dragon's Den and a few other remote waters. Dratini is born large and grows by shedding its skin again and again; the entries put the constant moulting down to 'life energy' building up inside it. It was long thought to be mythical and is still called the Mirage Pokémon because so few people have seen one, though its shed skins turn up. No entry says what it eats, so its place in the den's food web is a gap, not a fact.",
+  "sections": {
+    "anatomy": [
+      {"text": "A serpentine body (squiggle shape) 1.8 m long that weighs only 3.3 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape"]},
+      {"text": "That is very little mass for the length, so the body must be narrow and light-built along its whole length.", "class": "inferred", "confidence": "medium", "evidence": ["game:size"]},
+      {"text": "It is born large and grows by repeatedly shedding its skin; even the young can exceed 6.5 feet (about 2 m).", "class": "canon", "confidence": "high", "evidence": ["147.3", "147.8", "C147.3", "C147.4", "C147.12", "C147.13"]},
+      {"text": "The moult is continual and comes away in many layers.", "class": "canon", "confidence": "high", "evidence": ["147.4", "147.5", "147.6", "147.7", "C147.6", "C147.7", "C147.9", "C147.11"], "analogy": "Snakes shed the outer layer of the skin in one piece (ecdysis), and growing young snakes shed more often than adults."}
+    ],
+    "diet": [
+      {"text": "No entry says what Dratini eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its first moves are Wrap and Leer (Lv 1) and Thunder Wave (Lv 5): a coiling grip and a paralysing jolt, the kit of an animal that holds and stuns prey rather than biting it.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Wrap", "move:Leer", "move:Thunder Wave", "game:learnset"], "analogy": "Boas and pythons subdue prey by coiling around it and squeezing."},
+      {"text": "Magikarp is the only other species on Dragon's Den's fishing and surfing tables, and Magikarp are named elsewhere as easy prey that collect in pooled water. If Dratini hunts fish in the den, Magikarp is the obvious candidate.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Magikarp", "129.4", "129.8"], "note": "Co-occurrence plus Magikarp's general reputation as prey; no entry links the two species."}
+    ],
+    "habitat": [
+      {"text": "An aquatic animal: a small colony was found living underwater, and Crystal places it under a rapid waterfall while it moults.", "class": "canon", "confidence": "high", "evidence": ["147.1", "147.5", "C147.1", "C147.8"]},
+      {"text": "In HeartGold and SoulSilver the only wild ones are in Dragon's Den: Good Rod 10% (Lv 20), Super Rod 30% (Lv 40) and surfing 10% (Lv 5-15), with no time-of-day split. There is also a gift Dratini in the den (Lv 15, tied to story progress, the condition naming a TM from Clair), a Goldenrod Game Corner prize (2,100 coins), and Johto Safari Zone fishing, part of which depends on how many water blocks are placed.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Gold, Silver and Crystal also had it on Route 45 by Good and Super Rod; the remakes dropped Route 45, so in HeartGold and SoulSilver the den is the only highland water with Dratini.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Outside Johto it is always in remote water: the Kanto Safari Zone (Red, Blue, Yellow, FireRed, LeafGreen) and Mt. Coronet 4F in Sinnoh, both by Super Rod. The Gen 3 Pokédex habitat is waters-edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]}
+    ],
+    "behavior": [
+      {"text": "Rarely seen: it is called the Mirage Pokémon because so few have seen it, and its existence was only recently confirmed by a fisherman who caught one.", "class": "canon", "confidence": "high", "evidence": ["147.2", "147.9", "C147.2", "C147.14"]},
+      {"text": "Its shed skin has been found where the animal itself is not seen, the usual sign of a secretive animal that keeps to deep or fast water.", "class": "inferred", "confidence": "medium", "evidence": ["147.9", "C147.15"]},
+      {"text": "Activity pattern isn't stated, and HeartGold's Dragon's Den tables don't split it by time of day.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "It was found as 'a small colony', so at least some Dratini live in groups.", "class": "canon", "confidence": "medium", "evidence": ["147.1", "C147.1"], "note": "The sentence also carries the 'long considered mythical' framing, which is legend; the colony itself is reported as a finding."},
+      {"text": "Nothing is said about how members of a colony interact.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Dragon egg groups, an even sex ratio, and 40 egg cycles, twice the 20 of most species in the highlands community.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:gender", "game:egg_cycles"]},
+      {"text": "A long incubation and a hatchling that is 'born large' fit a species that puts a lot into each egg.", "class": "inferred", "confidence": "low", "evidence": ["147.3", "game:egg_cycles"]}
+    ],
+    "defense": [
+      {"text": "While it moults it is protected by a rapid waterfall, which implies the moult leaves it vulnerable and that fast water keeps attackers off.", "class": "inferred", "confidence": "medium", "evidence": ["147.5", "C147.8"]},
+      {"text": "Its ability, Shed Skin, lets it heal its own status problems: the games tie moulting to recovery.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Agility (Lv 25) and Safeguard (Lv 41) are its defensive level-up moves; speed and avoidance, not armour.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Agility", "move:Safeguard"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Leer at Lv 1 is a stare, which suggests sight matters to it, but that is a reading of a move, not a description.", "class": "inferred", "confidence": "low", "evidence": ["move:Leer"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Dragonair at Lv 30 and Dragonite at Lv 55; the type stays Dragon until Dragonite adds Flying.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:types", "species:Dragonair", "species:Dragonite"]},
+      {"text": "The entries give a reason for the moulting: Dratini is full of life energy, which builds to uncontrollable levels, and it sloughs its skin because of it.", "class": "canon", "confidence": "high", "evidence": ["147.4", "147.6", "147.7", "C147.5", "C147.10"]},
+      {"text": "Read as development, the moult works as a release for an energy that keeps accumulating; Dragonair, the next stage, 'stores an enormous amount of energy' and discharges it through crystals, as if the adult grows an organ for what the juvenile has to shed.", "class": "hypothesis", "confidence": "low", "evidence": ["147.6", "148.6"], "note": "No entry links the Dratini moult to the Dragonair crystals."},
+      {"text": "Size through the line: 1.8 m and 3.3 kg, then 4.0 m and 16.5 kg, then 2.2 m and 210 kg. The line lengthens and then shortens into a heavy flier, so the last change is a remodelling, not just growth.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "species:Dragonair", "species:Dragonite"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "It fights with its body: Wrap (Lv 1), Slam (Lv 21), Aqua Tail (Lv 31) and Dragon Rush (Lv 35) are all coils, lashes and rams, as a serpent would use. Twister (Lv 11) and Dragon Rage (Lv 15) are its ranged attacks.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Wrap", "move:Slam", "move:Aqua Tail", "move:Dragon Rush", "move:Twister", "move:Dragon Rage"]},
+      {"text": "Thunder Wave at Lv 5 gives a water animal an electrical way to stop prey or attackers.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Thunder Wave"], "analogy": "Electric eels (Electrophorus) use high-voltage discharges that make prey's muscles seize."},
+      {"text": "Surf, Waterfall and Whirlpool are machine moves, taught by people; its own repertoire has Aqua Tail but no swimming field move.", "class": "mechanic", "confidence": "high", "evidence": ["move:Surf", "move:Waterfall", "move:Whirlpool", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "If it eats fish, Dratini and Dragonair are the top predators of Dragon's Den's water, where the only other recorded species is Magikarp.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Magikarp", "species:Dragonair"], "note": "Rests on the constricting move set and co-occurrence; no diet is recorded."},
+      {"text": "Its shed skins stay behind in its habitat and are presumably used by something (scavengers, decomposers); nothing says what.", "class": "hypothesis", "confidence": "low", "evidence": ["147.9", "C147.15"], "note": "A regular input of skin into a cave pool is real material; who uses it is not recorded."},
+      {"text": "What feeds the den's water in the first place (the base under Magikarp) is not recorded.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Long considered mythical until a small colony was found; its existence was confirmed by a fisherman.", "class": "canon", "confidence": "high", "evidence": ["147.1", "147.2"]},
+      {"text": "People hand Dratini on: it is a gift in Dragon's Den and a Game Corner prize in Goldenrod (HeartGold, SoulSilver) and Celadon (Red, Blue, FireRed, LeafGreen).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "It would need clean water deep or fast enough to hide in, ideally with a fall or strong current to shelter under while it moults. A still stock pond is a poor fit.", "class": "inferred", "confidence": "medium", "evidence": ["147.5", "game:habitat"]},
+      {"text": "Taught Surf or Waterfall it can travel water with a trainer in the games, but at 3.3 kg it could not plausibly carry a person; treat that as a game convention.", "class": "inferred", "confidence": "medium", "evidence": ["move:Surf", "move:Waterfall", "game:size"], "capability": "water_travel"},
+      {"text": "Breeding them would be slow: each egg takes 40 egg cycles, twice the usual 20.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_cycles"]},
+      {"text": "Its shed skins, collected from the pool edge, as a light, tough craft material at the homestead.", "class": "creative", "evidence": ["147.9"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["dragon's den pool", "deep or fast water under falls"], "activity": "unknown",
+            "foraging": "unknown; the level-up moves suggest a constrictor that grips with Wrap and stuns with Thunder Wave", "evidence": ["move:Wrap", "move:Thunder Wave", "147.1", "147.5"], "class": "hypothesis", "confidence": "low"},
+  "relationships": [
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"], "note": "Dragon's Den fishing and surfing tables in HeartGold and SoulSilver."},
+    {"with": "Magikarp", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "move:Wrap", "129.4"], "note": "The only other species in the den's water; Magikarp is named as easy prey elsewhere (129.4). Untested."},
+    {"with": "Dragonair", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Dragonair"], "note": "Dragonair is on the same Dragon's Den Super Rod table."},
+    {"with": "Dragonair", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "fast water and waterfalls", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["147.5"], "note": "Shelter during the moult (Crystal)."}
+  ],
+  "ecotypes": [
+    {"name": "Torrent striker", "moves": ["Extreme Speed", "Dragon Rush"], "class": "hypothesis", "confidence": "low",
+     "reading": "A burst-speed lunge and a full-body ram: a lineage built for the fast water the Crystal entry puts it in. Fits plunge pools under falls, where prey is swept past and has to be taken quickly.",
+     "behavior": "Holds station in the current and strikes out of it.", "evidence": ["147.5", "move:Extreme Speed", "move:Dragon Rush"]},
+    {"name": "Fog-veiled", "moves": ["Mist", "Haze", "Light Screen"], "class": "hypothesis", "confidence": "low",
+     "reading": "Three moves that blunt or screen an opponent's efforts rather than attack. A concealment lineage that fits the Mirage Pokémon's reputation and the weather lore of Dragonair; its place is still, misty water where not being seen is the defence.",
+     "behavior": "Rarely surfaces; avoids contests rather than winning them.", "evidence": ["147.9", "148.1", "move:Mist", "move:Haze", "move:Light Screen"]},
+    {"name": "Sonar hunter", "moves": ["Supersonic", "Dragon Breath"], "class": "hypothesis", "confidence": "low",
+     "reading": "A sound attack that confuses and a breath attack to follow it up: a lineage for dark or murky water, such as the cave water of Dragon's Den, where prey must be found without good light.",
+     "behavior": "Hunts at close range in darkness.", "evidence": ["move:Supersonic", "move:Dragon Breath", "game:encounters"]}
+  ],
+  "open_questions": [
+    "What does Dratini eat? No entry says, and the den's only recorded fish is Magikarp.",
+    "What is the 'life energy' that builds up (147.4, 147.6), and where does it come from if not from food?",
+    "How often does it moult, and does the Dragon's Den population shelter under falls as the Crystal entry describes (147.5)?",
+    "How big is the den colony, and is it isolated from the Mt. Coronet and Safari Zone populations?",
+    "What uses the shed skins left in the den (147.9)?",
+    "Gold, Silver and Crystal had Dratini on Route 45; HeartGold and SoulSilver do not. For the reconstruction, is Route 45's water connected to the den?"
+  ],
+  "contradictions": [
+    {"entries": ["147.8"], "text": "147.8 says even the young can exceed 6.5 feet (about 2 m), but the game height is 1.8 m.", "reading": "Entry against game data rather than entry against entry. Either the listed height is a typical young animal and adults run larger, or the entry exaggerates. Not resolved here."}
+  ],
+  "folklore": [
+    {"text": "Long considered a mythical Pokémon until a small colony was found living underwater.", "kind": "legend, since confirmed", "evidence": ["147.1", "C147.1"]},
+    {"text": "Its existence was only recently confirmed by a fisherman who caught one.", "kind": "report", "evidence": ["147.2", "C147.2"]},
+    {"text": "Called the Mirage Pokémon because so few have seen it; its shed skin has been found.", "kind": "reputation", "evidence": ["147.9", "C147.14", "C147.15"]}
+  ]
+}

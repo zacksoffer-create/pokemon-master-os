@@ -1,0 +1,105 @@
+{
+  "species": "Magcargo",
+  "id": 219,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A lava snail whose shell is its own skin, cooled and hardened, and so brittle it crumbles at a touch; flames escape through the gaps. Its entries give a body temperature of about 18,000°F, a figure hard to square with a shell that is simply cooled skin. No game puts Magcargo or its young form Slugma anywhere near Blackthorn, so its place in the highlands community is Blackthorn's own choice: a possible heat source in a frozen, energy-poor landscape, and a test of whether hot ground exists there at all. Swinub's habit of rooting out hot springs is the only canon hint that it might.",
+  "sections": {
+    "anatomy": [
+      {"text": "A slug-like body (squiggle shape) with a shell, 0.8 m and 55.0 kg, typed Fire and Rock.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "The shell on its back is just skin that has cooled and hardened, also described as hardened magma. It is very brittle and crumbles if touched.", "class": "canon", "confidence": "high", "evidence": ["219.1", "219.4", "219.6", "C219.1", "C219.2", "C219.6", "C219.7", "C219.12"]},
+      {"text": "Its body is as hot as lava and always billowing; flames burst from gaps in the shell and circulate through its body.", "class": "canon", "confidence": "high", "evidence": ["219.2", "219.3", "219.7", "C219.3", "C219.4", "C219.5", "C219.15"]},
+      {"text": "Its body temperature is given as roughly 18,000°F.", "class": "canon", "confidence": "high", "evidence": ["219.5", "219.7", "C219.9", "C219.14"]},
+      {"text": "That figure can't be taken literally alongside a shell of cooled skin that people can touch; read it as 'extremely hot', not as a measurement.", "class": "inferred", "confidence": "medium", "evidence": ["219.1", "219.5"], "analogy": "Basaltic lava erupts at roughly 1,100-1,200 °C (about 2,000-2,200 °F). 18,000 °F is about 10,000 °C, hotter than the visible surface of the Sun (about 5,500 °C)."},
+      {"text": "In the young form, Slugma, there is no blood: magma circulates through the body instead, carrying nutrients and oxygen to the organs.", "class": "canon", "confidence": "high", "evidence": ["218.5", "C218.9", "C218.10"]}
+    ],
+    "diet": [
+      {"text": "No entry says it eats anything.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "It returns to its original size by dipping itself in magma, so magma restores its body.", "class": "canon", "confidence": "high", "evidence": ["219.4", "C219.8"]},
+      {"text": "Slugma slithers in a constant search for warm places and sleeps near magma.", "class": "canon", "confidence": "high", "evidence": ["218.2", "218.6", "C218.3", "C218.13"]},
+      {"text": "Taken together: it seems to take its heat from hot ground and its substance from magma, a thermotroph in the project's terms.", "class": "hypothesis", "confidence": "low", "evidence": ["219.4", "218.2", "218.5"], "note": "Nothing says how heat becomes energy for it.", "analogy": "Real hydrothermal-vent communities run on chemical energy (bacteria oxidising hydrogen sulphide), not on heat itself; no known organism uses heat directly as its energy source."}
+    ],
+    "habitat": [
+      {"text": "Volcanic craters, where Magcargo have lived for tens of thousands of years; Slugma are a common sight in volcanic areas.", "class": "canon", "confidence": "high", "evidence": ["219.6", "218.2", "218.6", "C219.13", "C218.3", "C218.11"]},
+      {"text": "Magcargo is not wild anywhere in HeartGold or SoulSilver. Slugma is on Kanto Routes 16 and 18 (5%) and Route 17 (5%, 30% by day), and comes as a gift Egg in Violet City's Pokémon Center with a password. Wild Magcargo appear only on Mt. Ember B3F (FireRed, LeafGreen, by Rock Smash) and Stark Mountain (Diamond, Pearl, Platinum).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Slugma"]},
+      {"text": "No game places Magcargo or Slugma in the Blackthorn highlands. It is part of this community by Blackthorn's choice, as the geothermal member.", "class": "creative", "evidence": ["game:encounters"]},
+      {"text": "If it lives in the highlands at all, it can only be where there is geothermal heat. Swinub's entries say Swinub roots out hot springs, which is the only canon sign of such heat in the community.", "class": "hypothesis", "confidence": "low", "evidence": ["220.1", "220.4", "220.8"], "note": "The Swinub entries aren't tied to Blackthorn specifically."}
+    ],
+    "behavior": [
+      {"text": "Slugma never sleeps: it has to keep moving because if it stopped, its magma body would cool and harden. The Magcargo entries don't say whether the adult shares this.", "class": "canon", "confidence": "high", "evidence": ["218.1", "218.7", "C218.1", "C218.2", "C218.15"]},
+      {"text": "If it is caught in rain, the raindrops turn to steam on contact and cloak the area in thick fog.", "class": "canon", "confidence": "high", "evidence": ["219.5", "C219.10", "C219.11"]},
+      {"text": "Activity pattern isn't stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Slugma group together in places hotter than normal: aggregations at heat, not necessarily social bonds.", "class": "canon", "confidence": "medium", "evidence": ["218.3", "C218.4"]}
+    ],
+    "reproduction": [
+      {"text": "Amorphous egg group, 20 egg cycles, even sex ratio. Nothing in the Pokédex describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "The capability records list both its abilities, Flame Body and Magma Armor, as egg care in the overworld.", "class": "mechanic", "confidence": "high", "evidence": ["game:capability", "game:abilities"]}
+    ],
+    "defense": [
+      {"text": "Flame Body (contact may burn the attacker) and Magma Armor (it can't be frozen); in the highlands the second matters as much as the first.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "The shell gives little protection: it crumbles at a touch. Heat is the real defence.", "class": "inferred", "confidence": "medium", "evidence": ["219.1", "219.3"]},
+      {"text": "Harden (Lv 16), Recover (Lv 23) and Amnesia (Lv 31) are its defensive level-up moves; Recover fits an animal that must keep rebuilding a crumbling body.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Harden", "move:Recover", "move:Amnesia"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Slugma's constant search for warm places implies it can sense heat.", "class": "inferred", "confidence": "low", "evidence": ["218.2"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Slugma at Lv 38, from 0.7 m and 35 kg to 0.8 m and 55 kg, gaining the Rock type with the shell.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:types", "species:Slugma"]},
+      {"text": "Cold costs the line its body: a chilled Slugma's magma hardens, turns brittle and falls off in chunks, reducing its size, and Magcargo regains its size by dipping in magma.", "class": "canon", "confidence": "high", "evidence": ["218.4", "219.4", "C218.7", "C218.8", "C219.8"]},
+      {"text": "In a cold place that loss would be constant, so a highland Magcargo would need regular access to magma or something like it to stay whole.", "class": "inferred", "confidence": "medium", "evidence": ["218.4", "219.4"]},
+      {"text": "Tens of thousands of years living in volcanic craters have turned Magcargo's bodies into magma: the entry gives an origin, not a development.", "class": "canon", "confidence": "medium", "evidence": ["219.6", "C219.13"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up moves are heat and rock: Smog and Ember (Lv 1), Rock Throw, Lava Plume (Lv 40), Rock Slide (Lv 45), Flamethrower (Lv 61), Earth Power (Lv 66). Yawn (Lv 1) is its oddity, a move that makes others drowsy.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Smog", "move:Ember", "move:Lava Plume", "move:Flamethrower", "move:Earth Power", "move:Yawn"]}
+    ],
+    "ecology": [
+      {"text": "If it lives in the highlands, it is a moving heat source: it would melt snow and ice around it and turn rain to fog, opening warm, wet patches in frozen ground.", "class": "hypothesis", "confidence": "low", "evidence": ["219.3", "219.5"], "note": "Rests on its canon heat; its presence in the highlands is Blackthorn's choice."},
+      {"text": "Its crumbling shell and Slugma's shed chunks are rock, and would add mineral fragments to the ground where it lives.", "class": "hypothesis", "confidence": "low", "evidence": ["219.4", "218.4"], "note": "As with Golem's shed hide returning to soil (76.8); untested."},
+      {"text": "No predator and no prey are recorded.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Dangerous to touch: its body is as hot as lava and contact may burn.", "class": "inferred", "confidence": "high", "evidence": ["219.3", "game:abilities"]},
+      {"text": "In HeartGold and SoulSilver trainers meet the line only through Slugma on Kanto Routes 16-18 or the Violet City gift Egg.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Slugma"]}
+    ],
+    "homestead": [
+      {"text": "A living heater for a highland winter, if it can be kept somewhere safe. In practice treat it as a fire that moves: stone floors, nothing flammable nearby.", "class": "inferred", "confidence": "medium", "evidence": ["219.3", "219.7", "game:types"], "capability": "heat_source"},
+      {"text": "The capability records list it for egg care (Flame Body, Magma Armor in the overworld).", "class": "mechanic", "confidence": "medium", "evidence": ["game:capability", "game:abilities"], "capability": "egg_care"},
+      {"text": "The cold is the obstacle: a chilled body hardens and crumbles, and rebuilding it takes magma. Unless there is geothermal heat near the homestead, keeping one through winter is an open problem.", "class": "inferred", "confidence": "medium", "evidence": ["218.4", "219.4"]},
+      {"text": "Keep it out of the rain near buildings: rain on it becomes thick fog.", "class": "inferred", "confidence": "medium", "evidence": ["219.5"]},
+      {"text": "The homestead's forge, built around a Magcargo's corner of the workshop.", "class": "creative", "evidence": ["219.3"]}
+    ]
+  },
+  "niche": {"guild": "thermotroph", "trophic_level": 1, "microhabitat": ["geothermal ground, if any exists in the highlands (unconfirmed)", "volcanic craters (elsewhere)"], "activity": "unknown",
+            "foraging": "seeks heat and dips in magma to restore its body; no food recorded", "evidence": ["219.4", "218.2", "218.6"], "class": "hypothesis", "confidence": "low"},
+  "relationships": [
+    {"with": "magma", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["219.4", "218.6"]},
+    {"with": "geothermal heat (warm ground)", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["218.2", "218.3"], "note": "Stated for Slugma."},
+    {"with": "Swinub", "kind": "commensalism", "class": "hypothesis", "confidence": "low", "evidence": ["220.4", "218.2"], "note": "Hot springs that Swinub roots out would be warm ground for Magcargo; no entry links them, and Magcargo's presence in the highlands is Blackthorn's choice."}
+  ],
+  "ecotypes": [
+    {"name": "Heat banker", "moves": ["Stockpile", "Swallow", "Spit Up"], "class": "hypothesis", "confidence": "low",
+     "reading": "Three moves for storing something inside and releasing it later: read as banking heat or molten material so it can range away from a hot spot for longer. The lineage most likely to cope with a cold highland.",
+     "behavior": "Charges up at a hot spot, then ranges out into the cold.", "evidence": ["218.1", "218.4", "move:Stockpile", "move:Swallow", "move:Spit Up"]},
+    {"name": "Fumarole", "moves": ["Smokescreen", "Heat Wave"], "class": "hypothesis", "confidence": "low",
+     "reading": "Smoke and broad hot air rather than flame: a lineage of steaming vents and hot-spring margins rather than lava. Fits the cooler, wetter end of geothermal ground, the kind of place a Swinub's hot spring would offer.",
+     "behavior": "Sits in steam; vents heat in waves.", "evidence": ["219.5", "move:Smokescreen", "move:Heat Wave"]},
+    {"name": "Molten", "moves": ["Acid Armor", "Curse"], "class": "hypothesis", "confidence": "low",
+     "reading": "Acid Armor melts the body to toughen it, and Curse (for a non-Ghost) trades speed for strength and toughness. A lineage that stays soft and molten instead of relying on a brittle crust; fits only the hottest ground.",
+     "behavior": "Barely moves; never crusts over.", "evidence": ["219.1", "move:Acid Armor", "move:Curse"]}
+  ],
+  "open_questions": [
+    "Is there any geothermal heat in the Blackthorn highlands? Swinub's hot springs (220.1) are the only hint; without it, Magcargo has no habitat there.",
+    "Should Magcargo be in the highlands community at all, given that no game places it or Slugma near Blackthorn?",
+    "What does it actually take in: heat, magma, minerals? How does heat become energy for it?",
+    "How can a shell of cooled skin sit on an 18,000°F body (219.1, 219.5)?",
+    "Magma Armor says it can't be frozen, but Slugma's body hardens and immobilises when it cools (218.6). How does that play out in a highland winter?",
+    "Does the adult, like Slugma, have to keep moving and never sleep?"
+  ],
+  "contradictions": [
+    {"entries": ["219.1", "219.4", "219.5", "219.7"], "text": "Gold/HeartGold and Ruby say the shell is skin that has cooled and hardened and crumbles when touched; Sapphire and Diamond/Pearl/Platinum give a body temperature of about 18,000°F.", "reading": "A body that hot could not keep a cooled skin, and nothing could touch it. Not strictly entry against entry, but the two claims can't both be literal. Read the temperature as hyperbole unless Zack prefers otherwise."}
+  ],
+  "folklore": []
+}

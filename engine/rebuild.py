@@ -41,8 +41,10 @@ STEPS = [
     ("balls", PY + ["equipment/balls.py"], "engine/data_manifest/balls.json (checked against the games' code)", []),
     ("roles4", PY + ["trainers/team_roles.py", "--pack"], "engine/app/data/roles4.json, docs/roles/*", ["store"]),
     ("recognition", PY + ["trainers/recognition.py", "--calibrate"], "docs/recognition/CALIBRATION.md, engine/data_manifest/recognition_calibration.json", ["roles4", "store"]),
-    ("app-data", PY + ["app/export.py"], "engine/app/data/*.json", ["reports", "packets-page", "dashboard", "roles4", "store", "recognition", "trainer-library", "assumptions", "balls"]),
-    ("app", PY + ["app/build.py"], "engine/app/dist/ (zip, preview)", ["app-data"]),
+    ("biology", PY + ["biology/build.py"], "engine/data_manifest/biology/*.json, evidence/*.md (the archive, claims, webs, ecotypes)", []),
+    ("app-data", PY + ["app/export.py"], "engine/app/data/*.json", ["reports", "packets-page", "dashboard", "roles4", "store", "recognition", "trainer-library", "assumptions", "balls", "biology"]),
+    ("arena", ["node", os.path.join("..", "sixvsix", "cli", "arena-pack.mjs")], "engine/app/data/sixvsix.json, arena.json (the 6v6 engine and the Legends)", ["app-data"]),
+    ("app", PY + ["app/build.py"], "engine/app/dist/ (zip, preview)", ["app-data", "arena"]),
 ]
 WATCH = ["docs", os.path.join("engine", "data_manifest"), os.path.join("engine", "app", "data"),
          os.path.join("engine", "store", "out")]

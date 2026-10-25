@@ -1,0 +1,98 @@
+{
+  "species": "Psyduck",
+  "id": 54,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A pond duck with a constant headache and powers it can't remember using. When the headache peaks, Psyduck shows psychic or telekinetic power, apparently in an altered state like deep sleep, and afterwards it has no memory of it, which is why it always looks puzzled. Not one entry says what it eats or where it lives. HeartGold and SoulSilver put it on the water: it is 90% of what is met surfing Ilex Forest's pond.",
+  "sections": {
+    "anatomy": [
+      {"text": "A yellow duck (0.8 m, 19.6 kg) that stands upright.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:color", "game:shape", "game:genus"]},
+      {"text": "When it uses its power it produces brain waves otherwise seen only in sleepers, a discovery that caused controversy among scholars.", "class": "canon", "confidence": "high", "evidence": ["54.6", "C54.10", "C54.11"]},
+      {"text": "It can use its psychic power only when its sleeping brain cells happen to wake.", "class": "canon", "confidence": "medium", "evidence": ["54.5", "C54.8"]}
+    ],
+    "diet": [
+      {"text": "Not stated in any entry.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its moves suggest a scratching, splashing forager (Scratch at Lv 1, Water Gun 9, Fury Swipes 27), and a duck at the water's edge suggests water plants and small animals; but that is a guess from its body plan.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Scratch", "move:Water Gun", "move:Fury Swipes", "game:habitat"], "note": "No entry or capability record gives a diet.", "analogy": "Real dabbling ducks eat a mix of water plants, seeds and invertebrates."}
+    ],
+    "habitat": [
+      {"text": "Water's edge by Gen 3 habitat. In HeartGold and SoulSilver it is surfed on Ilex Forest's pond (90%), Route 35 and Route 6, walks in Seafoam Islands, surfs in Cerulean Cave, and is in the Johto Safari Zone.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "game:encounters"]},
+      {"text": "Golduck's entries put the line on lakes and quiet, slow rivers.", "class": "canon", "confidence": "medium", "evidence": ["55.5", "55.11"]},
+      {"text": "In Crystal it also walked Ilex Forest's grass at night (10%); HeartGold and SoulSilver keep it on the water.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It is constantly tormented by headaches, and when a headache peaks or worsens it starts using strange powers.", "class": "canon", "confidence": "high", "evidence": ["54.2", "54.4", "54.8", "54.9", "54.10", "54.12", "C54.2", "C54.6", "C54.14", "C54.16", "C54.17", "C54.18", "C54.21"]},
+      {"text": "It can't remember using its powers, so it always looks puzzled and tilts its head.", "class": "canon", "confidence": "high", "evidence": ["54.3", "54.4", "54.7", "54.10", "54.11", "C54.4", "C54.5", "C54.7", "C54.12", "C54.19", "C54.20"]},
+      {"text": "During an episode it goes into an altered state much like deep sleep, and so forms no memory of it.", "class": "canon", "confidence": "high", "evidence": ["54.7", "C54.13"]},
+      {"text": "Activity is unknown: surfing tables have no time of day, and its land records (Crystal's Ilex Forest, HeartGold-SoulSilver's Safari Zone) are at night only.", "class": "mechanic", "confidence": "low", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about other Psyduck.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, an even sex ratio. Nothing in the Pokédex describes nesting or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "It lulls enemies with its vacant look while it uses psychokinetic powers: a 'wily' animal, in the oldest entry.", "class": "canon", "confidence": "medium", "evidence": ["54.1", "C54.1"]},
+      {"text": "Its abilities are Damp (no one can self-destruct near it) and Cloud Nine (weather has no effect); Disable (14), Confusion (18) and Screech (31) are its disruptive moves.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Disable", "move:Confusion", "move:Screech"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Psyduck becomes Golduck at level 33: the yellow, puzzled duck becomes a blue, fast, graceful swimmer whose forehead glows when it uses its power.", "class": "canon", "confidence": "high", "evidence": ["55.3", "55.4", "55.6", "game:evolution"]},
+      {"text": "The headaches and forgetting belong to Psyduck alone; Golduck's entries describe its power as tied to a glowing forehead, not to pain or blackouts.", "class": "inferred", "confidence": "medium", "evidence": ["54.9", "55.4", "55.8"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Water Sport (Lv 1), Water Gun (9), Water Pulse (22) and Hydro Pump (48): water used with growing force.", "class": "mechanic", "confidence": "high", "evidence": ["move:Water Sport", "move:Water Gun", "move:Water Pulse", "move:Hydro Pump"]},
+      {"text": "Confusion (18) and Zen Headbutt (40) are its psychic episodes in game form; Psych Up (35) and Amnesia (44) are status moves with no counterpart in the entries.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Confusion", "move:Zen Headbutt", "move:Psych Up", "move:Amnesia"]}
+    ],
+    "ecology": [
+      {"text": "By surfing rate the pond's commonest surface animal, so probably its main large consumer, whatever it eats.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters"]},
+      {"text": "With no described diet, the pond's commonest surface animal has no food link at all; water plants, invertebrates, and the smaller Poliwag and Magikarp are the candidates.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Poliwag", "species:Magikarp"], "note": "A gap in the reconstructed web."},
+      {"text": "Damp stops anything near it from self-destructing, and Pineco, which explodes when its tree is shaken, lives in the same forest. The interaction is a game mechanic only.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "species:Pineco"]}
+    ],
+    "humans": [
+      {"text": "Its psychic episodes interest scholars: the sleep-like brain waves caused controversy.", "class": "canon", "confidence": "high", "evidence": ["54.6"]},
+      {"text": "The capability records say it could use hand tools and garden tools, because of its upright, handed body; that rests on body shape, not on any entry.", "class": "inferred", "confidence": "medium", "evidence": ["game:capability", "game:shape"]}
+    ],
+    "homestead": [
+      {"text": "Watering: Water Gun is in its wild repertoire from level 9, and the capability records credit its upright body with handling objects, so it could carry water too. It could water the Glasshouse rows, which need heavy watering.", "class": "hypothesis", "confidence": "medium", "evidence": ["move:Water Gun", "game:shape", "game:capability"], "note": "Untested; depends on it being calm enough for routine work.", "capability": "plant_care"},
+      {"text": "Its headaches and the powers that come with them are unpredictable; keep it away from eggs and fragile equipment when it is visibly suffering.", "class": "hypothesis", "confidence": "low", "evidence": ["54.4", "54.12"], "note": "No entry says its episodes are dangerous, only that they happen and it can't remember them."},
+      {"text": "It needs water to live by: a pond, a stream, or at least a large tub.", "class": "inferred", "confidence": "medium", "evidence": ["game:habitat", "game:encounters", "55.5"]},
+      {"text": "Damp is an odd but real benefit near anything that self-destructs, such as Pineco.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]}
+    ]
+  },
+  "niche": {"guild": "omnivore", "trophic_level": 2.5, "microhabitat": ["pond surface", "pond margin"], "activity": "unknown",
+            "foraging": "unknown; probably dabbling and scratching at the pond margin", "evidence": ["game:habitat", "game:encounters", "move:Scratch", "move:Water Gun"], "class": "hypothesis", "confidence": "low",
+            "note": "No entry gives its diet; the guild is a guess from a duck body at the water's edge."},
+  "relationships": [
+    {"with": "Golduck", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "water plants and invertebrates (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat", "move:Scratch"], "note": "A guess from body plan and habitat; no entry gives its diet."},
+    {"with": "Golduck", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golduck"], "note": "Ilex Forest's surfing table is Psyduck (90%) and Golduck (10%)."},
+    {"with": "Poliwag", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Poliwag"]},
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"]}
+  ],
+  "ecotypes": [
+    {"name": "Seer", "moves": ["Future Sight", "Foresight", "Psychic"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage in which the power is stronger and steadier, with a flavour of anticipation (Future Sight, Foresight). Fits waters with many threats, where early warning pays.",
+     "behavior": "Fewer blackouts, more deliberate use of its power.", "evidence": ["54.12", "move:Future Sight", "move:Foresight", "move:Psychic"]},
+    {"name": "Drowsy lure", "moves": ["Yawn", "Hypnosis", "Confuse Ray"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that disarms threats by making them sleepy or confused, turning the 'vacant look' that lulls enemies (54.1) into a real tactic. Fits ponds with many predators and few hiding places.",
+     "behavior": "Stares, yawns, and lets attackers lose interest.", "evidence": ["54.1", "move:Yawn", "move:Hypnosis", "move:Confuse Ray"]},
+    {"name": "Mud-bank brawler", "moves": ["Mud Bomb", "Cross Chop"], "class": "hypothesis", "confidence": "low",
+     "reading": "A physical lineage of muddy pond margins, flinging mud and striking with its arms, using its upright body. Fits shallow, silty ponds and marsh.",
+     "behavior": "Fights on the bank rather than retreating to open water.", "evidence": ["game:shape", "move:Mud Bomb", "move:Cross Chop"]}
+  ],
+  "open_questions": [
+    "What does it eat?",
+    "Where does it live, by the entries? None say; its habitat comes from game data and from Golduck.",
+    "What causes the headaches, and are the powers involuntary or deliberate?",
+    "Is it active by day or by night?",
+    "Does it nest at the pond margin?"
+  ],
+  "contradictions": [
+    {"entries": ["54.1", "54.2", "54.3", "54.7"], "text": "Deliberate or involuntary? Red/Blue calls it wily and has it lull enemies before using its power (54.1); Yellow says no one knows whether it means to use it (54.2), and later entries say it can't even remember using it (54.3, 54.7)."}
+  ],
+  "folklore": []
+}

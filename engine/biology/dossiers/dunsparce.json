@@ -1,0 +1,102 @@
+{
+  "species": "Dunsparce",
+  "id": 206,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A 1.5-metre 'land snake' with a drill-tipped tail and small wings. The moment it is spotted it bores backwards into the ground with its tail; the wings let it float or fly just a little. It hides deep in caves where no light reaches, stays almost motionless, and digs complex, maze-like nests deep underground. Nothing says what it eats. In HeartGold and SoulSilver it lives at the Violet City end of Dark Cave, nearly always found by smashing rocks, and not at the Blackthorn end.",
+  "sections": {
+    "anatomy": [
+      {"text": "A long body (squiggle shape), 1.5 m and 14.0 kg, typed Normal.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its tail ends in a drill.", "class": "canon", "confidence": "high", "evidence": ["206.4", "206.5", "C206.5", "C206.8"]},
+      {"text": "It has wings that let it float, hover or fly just a little.", "class": "canon", "confidence": "high", "evidence": ["206.2", "206.6", "206.7", "C206.3", "C206.9", "C206.11"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Dunsparce eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its early level-up moves immobilise rather than wound, Yawn (Lv 9) and Glare (Lv 13), and Pursuit (Lv 25) hits a fleeing target. If it eats animals, the kit fits taking slow or fleeing small prey.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Yawn", "move:Glare", "move:Pursuit"], "note": "A reading of moves only."},
+      {"text": "An animal that burrows deep and stays still in the dark may live on soil animals or on detritus, as most deep-cave animals do.", "class": "hypothesis", "confidence": "low", "evidence": ["206.3", "206.4"], "note": "Nothing in the pack names any food."}
+    ],
+    "habitat": [
+      {"text": "It hides deep inside caves where no light ever reaches.", "class": "canon", "confidence": "high", "evidence": ["206.3", "C206.4"]},
+      {"text": "It makes its nest in complex, maze-like shapes deep underground.", "class": "canon", "confidence": "high", "evidence": ["206.4", "206.5", "206.7", "C206.7", "C206.10"]},
+      {"text": "In HeartGold and SoulSilver it is only at the Violet City end of Dark Cave: Rock Smash 90% (Lv 4-8), walking 1% (Lv 4), and walking 40% (Lv 2-3) on swarm days. Gold, Silver and Crystal had the 1% and the swarm. Elsewhere: Three Isle Port (FireRed, LeafGreen, 100%) and Route 208 swarms in Sinnoh. The Gen 3 Pokédex habitat is cave.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "Found nine times in ten by smashing rocks, it shelters in or under breakable boulders.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"]},
+      {"text": "It is recorded at the Violet City end of Dark Cave but not the Blackthorn end, so in the highland reconstruction it belongs to the cave system as a whole rather than to the Blackthorn side.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When spotted, it escapes backward by furiously boring into the ground with its tail.", "class": "canon", "confidence": "high", "evidence": ["206.1", "206.2", "206.6", "C206.1", "C206.2", "C206.6"]},
+      {"text": "It remains virtually motionless in the dark.", "class": "canon", "confidence": "high", "evidence": ["206.3", "C206.4"]},
+      {"text": "Swarm days, when it suddenly makes up 40% of walking encounters, could be read as emergence events, when many come up at once.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters"], "note": "Swarms are a game mechanic that picks a species for the day; the biological reading is speculative."},
+      {"text": "Activity pattern isn't stated, and the tables don't split it by time.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or interactions.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Its nest is a complex maze deep underground; nothing says what happens in it.", "class": "canon", "confidence": "high", "evidence": ["206.4", "206.7"]},
+      {"text": "Field egg group, 20 egg cycles, even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Escape by burrowing is its defence; Run Away (a sure getaway from wild Pokémon) is the game form of it. Its other ability is Serene Grace.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "206.1"]},
+      {"text": "Staying motionless in total darkness keeps it from being noticed at all.", "class": "inferred", "confidence": "medium", "evidence": ["206.3"]},
+      {"text": "Defense Curl (Lv 5), Glare (Lv 13), Yawn (Lv 9), Screech (Lv 29) and Roost (Lv 33) are its wild defensive moves.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Defense Curl", "move:Glare", "move:Yawn", "move:Screech", "move:Roost"]}
+    ],
+    "senses": [
+      {"text": "Living where no light ever reaches, it can't rely on sight there; how it senses its surroundings is not described.", "class": "inferred", "confidence": "low", "evidence": ["206.3"]}
+    ],
+    "life_cycle": [
+      {"text": "A single-stage species: no evolution in Generations I-IV.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Young are not described.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Dig is a natural move for it (Lv 45), matching the burrowing in every entry. Roost (Lv 33) is resting to heal, in keeping with the motionless habit, and Rollout (Lv 17) with Defense Curl is the curled roll.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Dig", "move:Roost", "move:Rollout", "move:Defense Curl", "206.3"]},
+      {"text": "Ancient Power (Lv 41) and Take Down (Lv 37) are its heavier attacks.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Ancient Power", "move:Take Down"]}
+    ],
+    "ecology": [
+      {"text": "A burrower whose maze nests make underground galleries other animals could use, and which open up soil to air and water.", "class": "hypothesis", "confidence": "low", "evidence": ["206.4", "206.7"], "note": "No other species is recorded using them.", "analogy": "Gopher tortoise (Gopherus polyphemus) burrows shelter hundreds of other species."},
+      {"text": "Its diet, and so its trophic level, is unknown.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "No predator is named. Zubat and Geodude share its end of Dark Cave.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "It flees the moment it is spotted, so people rarely get a look at it.", "class": "canon", "confidence": "high", "evidence": ["206.1", "206.2"]},
+      {"text": "Trainers find it by smashing the rocks it shelters under; the usual way of meeting it destroys its cover.", "class": "inferred", "confidence": "high", "evidence": ["game:encounters", "move:Rock Smash"]}
+    ],
+    "homestead": [
+      {"text": "A tunneller: a drill tail that bores into the ground backwards could open narrow channels for drainage or pipes, if it can be got to dig on purpose rather than in flight.", "class": "hypothesis", "confidence": "low", "evidence": ["206.1", "206.4"], "capability": "digging", "note": "It digs to escape; digging on request is untested."},
+      {"text": "Its burrows might aerate garden soil.", "class": "hypothesis", "confidence": "low", "evidence": ["206.7"], "capability": "plant_care", "note": "Untested; it may simply undermine beds."},
+      {"text": "It needs dark, undisturbed ground and will vanish into the ground whenever it is watched.", "class": "inferred", "confidence": "medium", "evidence": ["206.1", "206.3"]},
+      {"text": "A Dunsparce maze under the potato beds, discovered only when a spade goes through the ceiling.", "class": "creative", "evidence": ["206.7"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["deep cave beyond the light", "under breakable rocks", "burrows deep underground"], "activity": "unknown",
+            "foraging": "unknown; nothing records what it eats", "evidence": ["206.3", "206.7"], "class": "unknown", "confidence": "high"},
+  "relationships": [
+    {"with": "soil and deep ground", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["206.4", "206.7"], "note": "Burrows and nests."},
+    {"with": "breakable boulders", "kind": "uses_resource", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"], "note": "Found by Rock Smash 90% of the time."},
+    {"with": "other burrowing and cave animals", "kind": "engineers", "class": "hypothesis", "confidence": "low", "evidence": ["206.7"], "note": "Maze burrows as shared shelter; nothing recorded."},
+    {"with": "Geodude", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude"], "note": "Violet City end of Dark Cave; both turn up under smashed rocks."},
+    {"with": "Zubat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat"]},
+    {"with": "Goldeen", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Goldeen"], "note": "The cave's water."}
+  ],
+  "ecotypes": [
+    {"name": "Still sleeper", "moves": ["Bide", "Curse", "Snore"], "class": "hypothesis", "confidence": "low",
+     "reading": "Bide waits and returns damage, Curse (for a non-Ghost) trades speed for strength and toughness, and Snore works while asleep. A low-energy lineage built around not moving; fits the deepest, food-poorest reaches of a cave.",
+     "behavior": "Barely stirs; tough to dislodge when it does.", "evidence": ["206.3", "move:Bide", "move:Curse", "move:Snore"]},
+    {"name": "Ambush biter", "moves": ["Bite", "Astonish"], "class": "hypothesis", "confidence": "low",
+     "reading": "A bite and a startle: a predatory lineage that strikes from a burrow mouth at whatever passes. Fits soft-floored passages where burrows are easy to dig.",
+     "behavior": "Waits at the mouth of its maze.", "evidence": ["206.7", "move:Bite", "move:Astonish"]},
+    {"name": "Rock-borer", "moves": ["Rock Slide", "Ancient Power", "Headbutt"], "class": "hypothesis", "confidence": "low",
+     "reading": "Three moves that work rock: a lineage that tunnels through rubble rather than soil. Fits boulder-choked passages like the Violet City end of Dark Cave, where Dunsparce turn up under smashed rocks.",
+     "behavior": "Lives in the rubble, not the earth.", "evidence": ["game:encounters", "move:Rock Slide", "move:Ancient Power", "move:Headbutt"]}
+  ],
+  "open_questions": [
+    "What does Dunsparce eat?",
+    "How does it sense its surroundings in total darkness?",
+    "What are the 'complex shapes' of its nest for: ventilation, defence, rearing young?",
+    "Why is it absent from the Blackthorn end of Dark Cave?",
+    "Can it really fly, or only hover? The entries say float, hover and 'fly just a little' (206.2, 206.6, 206.7).",
+    "Is a swarm day a real emergence, or only a game device?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

@@ -1,0 +1,568 @@
+{
+  "species": "Infernape",
+  "id": 392,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A fast, fire-crowned primate of high crags that fights with all four limbs. The line starts as Chimchar, which climbs sheer cliffs to live on craggy mountaintops and burns gas made in its belly as a flame at its rear; that flame is a signal as well as a weapon, weakening when the animal is sick and, in Monferno, showing rank in the pack. Infernape carries its fire as a crown and on its hands and feet, and its fire never goes out. Nothing in the Pokédex says what any stage eats, and no game has it in the wild.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "An upright, primate-like animal (1.2 m, 55.0 kg) with a crown of fire on its head and fire on its hands and feet.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "392.2",
+          "392.3",
+          "C392.5",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "In Chimchar the fuel is a gas made in the belly, burned at the rear end.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "390.2",
+          "390.4",
+          "C390.3",
+          "C390.7"
+        ],
+        "analogy": "Mammal guts do make flammable gases (methane and hydrogen from microbial fermentation), though no real animal burns them."
+      },
+      {
+        "text": "Whether Infernape's head and limb fires run on the same belly gas is not said.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "390.2",
+          "392.3"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "No entry for any stage says what the line eats.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "392.1",
+          "390.1",
+          "391.1"
+        ]
+      },
+      {
+        "text": "Whatever it eats has to feed both the animal and a fire that never goes out, so its food needs are probably high for its size.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "392.1",
+          "390.2"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Chimchar climbs sheer cliffs to live on top of craggy mountains.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "390.1",
+          "C390.1"
+        ]
+      },
+      {
+        "text": "Monferno uses ceilings and walls to launch attacks from above, which fits overhangs, caves or cliff faces.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "391.2",
+          "C391.2"
+        ]
+      },
+      {
+        "text": "It is not found in the wild in any Gen I-IV game. Chimchar is a starter gift at Lake Verity in Diamond and Pearl and on Route 201 in Platinum; no Johto game offers it.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Chimchar"
+        ]
+      },
+      {
+        "text": "No Gen 3 habitat is given, because the line is from Generation 4.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:habitat"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Extremely fast and agile: beaten by none in quickness, and it throws its enemies around.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "392.2",
+          "392.4",
+          "C392.4",
+          "C392.7"
+        ]
+      },
+      {
+        "text": "Bold to the point of recklessness: it will take on any opponent.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "392.3",
+          "C392.6"
+        ]
+      },
+      {
+        "text": "Chimchar puts out its tail flame when it sleeps; Platinum says it does so on purpose, to prevent fires.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "390.1",
+          "390.3",
+          "C390.6"
+        ]
+      },
+      {
+        "text": "No entry gives a time of day for activity.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "390.1"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Monferno lives in packs with ranks: a bigger tail fire and a brighter blue pattern on the face mean higher rank.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "391.4",
+          "C391.5"
+        ],
+        "analogy": "Male mandrills (Mandrillus sphinx) show rank the same way: dominant males have brighter red and blue facial colour."
+      },
+      {
+        "text": "A fire that burns weakly when the animal is sick makes the flame an honest signal of condition, which is the kind of signal a ranked pack can rely on.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "390.4",
+          "C390.8",
+          "391.4"
+        ]
+      },
+      {
+        "text": "Whether Infernape still lives in packs is not said; the entries describe it only as a fighter.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "392.1",
+          "392.3"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Field and Human-Like egg groups, 20 egg cycles, 87.5% male (the usual starter ratio). Nothing in the Pokédex describes breeding or young.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:egg_cycles",
+          "game:gender"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Monferno manages distance with fire: it stretches its tail flame to look bigger and intimidate attackers, and controls the flame's intensity to keep foes at the range it wants.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "391.1",
+          "391.3",
+          "C391.1",
+          "C391.4"
+        ]
+      },
+      {
+        "text": "Infernape's defence is attack: a martial art using all four limbs, with fire on its hands and feet.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "392.1",
+          "392.3",
+          "392.4",
+          "C392.1",
+          "C392.8"
+        ]
+      },
+      {
+        "text": "Chimchar's fire survives rain.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "390.2",
+          "C390.4"
+        ]
+      },
+      {
+        "text": "Blaze, its only ability, strengthens its Fire moves when it is badly hurt.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Nothing is said about its senses. Reading rank from flame size and the brightness of a blue face pattern implies good colour vision in Monferno.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "391.4"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Chimchar (0.5 m, 6.2 kg, Fire) becomes Monferno at level 14 (0.9 m, 22.0 kg, Fire/Fighting) and Infernape at level 36 (1.2 m, 55.0 kg).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:types",
+          "game:size",
+          "species:Chimchar",
+          "species:Monferno"
+        ]
+      },
+      {
+        "text": "The fire moves through development: at the rear in Chimchar, on the tail in Monferno (as a weapon and a rank badge), then a crown on the head and flames on the hands and feet in Infernape.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "390.2",
+          "390.3",
+          "391.2",
+          "391.4",
+          "392.2",
+          "392.3"
+        ]
+      },
+      {
+        "text": "The young can put the fire out; the adult cannot, or does not: Chimchar's flame goes out in sleep, Infernape's never goes out.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "390.1",
+          "390.3",
+          "392.1",
+          "C392.2"
+        ]
+      },
+      {
+        "text": "Read as development, the line shifts from a climber that avoids trouble to a pack animal that displays, to a fighter that seeks out opponents.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "390.1",
+          "391.1",
+          "392.3"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "No wild Infernape exists in the games, so the level-up list is the species' own repertoire, not observed behaviour. Provocation first: Leer, Taunt (Lv 1 and 9), and in Chimchar, Torment; then speed, with Mach Punch (Lv 14), which matches 'beaten by none in quickness'.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Leer",
+          "move:Taunt",
+          "move:Torment",
+          "move:Mach Punch",
+          "392.2"
+        ]
+      },
+      {
+        "text": "Flame Wheel (Lv 21), a rolling charge wrapped in fire, and Close Combat (Lv 41) fit an animal that fights with all its limbs; Fire Spin (Lv 45) traps an opponent in flame.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Flame Wheel",
+          "move:Close Combat",
+          "move:Fire Spin",
+          "392.1"
+        ]
+      },
+      {
+        "text": "Chimchar (Lv 39) and Monferno (Lv 46) learn Slack Off, a rest-and-recover move, which sits well with a young animal that puts its fire out to sleep; Infernape does not learn it.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "move:Slack Off",
+          "390.3"
+        ]
+      },
+      {
+        "text": "Fire Punch and Thunder Punch reach this line both as egg moves and as tutor moves; when a trained Infernape uses them, they are more likely taught than inherited.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Fire Punch",
+          "move:Thunder Punch",
+          "game:learnset"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "Its role in a food web is unknown, because its diet is.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "392.1"
+        ]
+      },
+      {
+        "text": "A permanent fire on an animal living on dry mountain crags is a wildfire risk; Chimchar's habit of putting out its flame before sleep 'to prevent fires' shows the line's fire can and does ignite its surroundings.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "390.3",
+          "392.1"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Its line reaches people as a Sinnoh starter, handed to new trainers at Lake Verity or on Route 201.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Chimchar"
+        ]
+      },
+      {
+        "text": "No entry describes a working relationship with people; the record is entirely about fighting.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "392.1",
+          "392.4"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "A heat source that doesn't need fuel from the woodpile: Infernape's fire never goes out, and Chimchar's survives rain.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "392.1",
+          "390.2",
+          "game:types"
+        ],
+        "capability": "heat_source"
+      },
+      {
+        "text": "That same fire needs managing: keep it away from hay, timber and the Glasshouse's dry stores. A young Chimchar puts its flame out to sleep; an adult cannot be relied on to.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "390.3",
+          "392.1"
+        ],
+        "capability": "heat_source"
+      },
+      {
+        "text": "A free health check: Chimchar's flame burns weakly when it feels sick.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "390.4",
+          "C390.8"
+        ]
+      },
+      {
+        "text": "At home on Blackthorn's crags: the line climbs sheer cliffs and lives on craggy mountains, so steep ground is its habitat, not an obstacle. Rock Climb is a taught move, but the climbing is its own.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "390.1",
+          "move:Rock Climb"
+        ],
+        "capability": "climbing"
+      },
+      {
+        "text": "A guard that will take on anything, with hands that can grip; whether that boldness can be trained into deterrence rather than picking fights is untested.",
+        "class": "hypothesis",
+        "confidence": "medium",
+        "evidence": [
+          "392.3",
+          "391.1",
+          "game:shape"
+        ],
+        "note": "Boldness is canon; its usefulness as a guard is a guess.",
+        "capability": "deterrence"
+      },
+      {
+        "text": "Hauling and clearing would be taught: Strength, Rock Smash and Cut are machines, not its own moves.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Strength",
+          "move:Rock Smash",
+          "move:Cut",
+          "game:capability"
+        ],
+        "capability": "hauling"
+      },
+      {
+        "text": "If several are kept, expect a rank order: in Monferno the size of the tail fire and the face pattern decide it.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "391.4"
+        ],
+        "capability": "town_fit"
+      }
+    ]
+  },
+  "niche": {
+    "guild": "omnivore",
+    "trophic_level": null,
+    "microhabitat": [
+      "cliff faces",
+      "craggy mountaintops",
+      "overhangs and cave walls"
+    ],
+    "activity": "unknown",
+    "foraging": "unknown; no entry says what any stage eats",
+    "evidence": [
+      "390.1",
+      "391.2",
+      "game:shape"
+    ],
+    "class": "hypothesis",
+    "confidence": "low",
+    "note": "Guild guessed from the primate-like body plan and Human-Like egg group only. The machine reading's 'thermotroph' comes from the Fire type alone."
+  },
+  "relationships": [
+    {
+      "with": "gas made in its own belly",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "390.2",
+        "390.4"
+      ],
+      "note": "Its fuel, at least in Chimchar."
+    },
+    {
+      "with": "sheer cliffs and craggy mountains",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "390.1"
+      ]
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Four-limb striker",
+      "moves": [
+        "Fire Punch",
+        "Blaze Kick",
+        "Double Kick"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "The canon fighting style made heritable: burning fists, a burning kick, and a two-footed kick. A lineage that commits to close striking with hands and feet rather than flame at range. Fits narrow ledges where there's no room to keep distance.",
+      "behavior": "Closes in fast and strikes with every limb; uses its fire as a glove, not a torch.",
+      "evidence": [
+        "392.1",
+        "392.3",
+        "move:Fire Punch",
+        "move:Blaze Kick",
+        "move:Double Kick"
+      ]
+    },
+    {
+      "name": "Troop helper",
+      "moves": [
+        "Helping Hand",
+        "Assist",
+        "Fake Out"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A cooperative lineage: Helping Hand strengthens a packmate's attack, Assist borrows a packmate's move, and Fake Out makes an attacker flinch so the group can act first. Fits the ranked packs Monferno lives in, on crags where a troop defends one stretch of cliff together.",
+      "behavior": "Fights alongside others and covers them; low-ranked animals that make themselves useful.",
+      "evidence": [
+        "391.4",
+        "move:Helping Hand",
+        "move:Assist",
+        "move:Fake Out"
+      ]
+    },
+    {
+      "name": "Cliff trickster",
+      "moves": [
+        "Encore",
+        "Counter",
+        "Focus Energy"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that wins by reading its opponent: Encore locks an attacker into repeating its last move, Counter returns physical blows, and Focus Energy readies a decisive hit. Together they make fights short and predictable. Fits crowded cliff colonies where conflicts are frequent and must not be costly.",
+      "behavior": "Baits, waits and punishes; rarely the first to commit.",
+      "evidence": [
+        "move:Encore",
+        "move:Counter",
+        "move:Focus Energy"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does any stage eat, and what in the diet becomes the belly gas that fuels the fire?",
+    "Do Infernape's head, hand and foot fires run on the same gas as Chimchar's rear flame?",
+    "Can an Infernape put its fire out at all, or does 'never goes out' (392.1) mean it can't?",
+    "Does Infernape still live in a ranked pack, and does its crown fire signal rank as Monferno's tail does?",
+    "Where does a wild population live? The games give it only as a Sinnoh starter.",
+    "Is it diurnal? Chimchar's sleep habits are described but never their timing."
+  ],
+  "contradictions": [
+    {
+      "text": "Chimchar's flame and sleep: Diamond says its fire is put out when it sleeps, as if passively; Platinum says it puts the flame out itself before sleeping, to prevent fires.",
+      "entries": [
+        "390.1",
+        "390.3"
+      ],
+      "note": "Probably compatible (a deliberate act that happens at sleep), but the two entries describe different agency."
+    },
+    {
+      "text": "Across the line: Chimchar's fire goes out when it sleeps, but Infernape's never goes out.",
+      "entries": [
+        "390.1",
+        "392.1"
+      ],
+      "note": "Different stages, so this may be development (the adult loses or gives up control of the flame) rather than a true contradiction."
+    }
+  ],
+  "folklore": []
+}

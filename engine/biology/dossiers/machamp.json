@@ -1,0 +1,108 @@
+{
+  "species": "Machamp",
+  "id": 68,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Machamp is a four-armed, 130 kg mountain fighter: its arms react faster than it can think and can throw a thousand punches in two seconds, and once it pins a foe's limbs the fight is all but over. It is strong enough to hurl almost anything aside, yet hopeless at careful work with its fingers, which tangle when it tries. The line lives for training: Machop lifts boulders and even Graveler as weights in the mountains, and Machoke, which wears a belt to hold its power in check, willingly does heavy work for people. Machamp forms only when a Machoke is traded, so it is never wild in Gen I–IV.",
+  "sections": {
+    "anatomy": [
+      {"text": "A humanoid body of 1.6 m and 130 kg, Fighting type, with four arms.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "68.2"]},
+      {"text": "Heavy, rugged muscles on four arms that can launch 1,000 punches in two seconds.", "class": "canon", "confidence": "high", "evidence": ["68.1", "68.9", "68.11", "C68.1", "C68.15", "C68.17", "C68.18"]},
+      {"text": "Its arms react more quickly than it can think.", "class": "canon", "confidence": "high", "evidence": ["68.5", "C68.6"]},
+      {"text": "It is terrible at delicate work with its fingers; anything needing care and dexterity gets its arms tangled.", "class": "canon", "confidence": "high", "evidence": ["68.6", "68.12", "C68.8", "C68.20"]},
+      {"text": "In the juveniles the whole body is muscle that never gets sore or cramps however much it is used, and Machoke's toned muscles have the hardness of steel.", "class": "canon", "confidence": "high", "evidence": ["66.6", "66.9", "66.11", "67.6", "C66.11", "C66.17", "C66.21", "C67.9"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage says what the line eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "An animal that is almost all muscle and trains all day must eat a great deal; what it eats is not recorded.", "class": "inferred", "confidence": "low", "evidence": ["66.4", "66.9", "67.3"]}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat for the whole line: mountain. Machop lives in the mountains away from humans and trains by lifting rocks there.", "class": "canon", "confidence": "high", "evidence": ["game:habitat", "66.5", "66.11", "C66.9", "C66.22"]},
+      {"text": "Machamp is never wild in Gen I–IV, because it forms only when a Machoke is traded.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]},
+      {"text": "Machop and Machoke live in mountain caves and passes: in HeartGold and SoulSilver, Mt. Mortar, Rock Tunnel, the cave on Route 47 and the Johto Safari Zone, with Machoke also in Cerulean Cave; elsewhere Victory Road, Mt. Ember, Jagged Pass, Fiery Path and Mt. Coronet.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Machop", "species:Machoke"]},
+      {"text": "Trades link it with the Abra line: Crystal's Goldenrod City trade gives a Machop for an Abra, and Sinnoh's Oreburgh City trade gives an Abra for a Machop. Both lines finish evolving only by trade.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Machop", "species:Abra"]}
+    ],
+    "behavior": [
+      {"text": "It tends to leap into action before it thinks.", "class": "canon", "confidence": "high", "evidence": ["68.6", "C68.9"]},
+      {"text": "Its fighting spirit flares when it faces a tough opponent.", "class": "canon", "confidence": "high", "evidence": ["68.8", "C68.14"]},
+      {"text": "The line trains constantly: Machop passes time lifting boulders, is never satisfied however hard it trains, and some travel the world to master martial arts; Machoke never tires and its muscles thicken after every battle.", "class": "canon", "confidence": "high", "evidence": ["66.1", "66.3", "66.4", "66.7", "66.8", "67.3", "67.5", "C66.5", "C66.8", "C66.14", "C66.15", "C67.4", "C67.8"]},
+      {"text": "Probably diurnal: Crystal lists Machop and Machoke only in the morning and day, while the Geodude and Graveler in the same caves also appear at night; HeartGold's Cerulean Cave has Machoke at 20% by day and 2% at night.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "species:Machop", "species:Machoke"]}
+    ],
+    "social": [
+      {"text": "No entry describes how Machamp live with their own kind.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "'Some Machop travel the world' to master martial arts, which reads as dispersal by young animals away from where they were raised.", "class": "inferred", "confidence": "low", "evidence": ["66.7", "C66.14"]}
+    ],
+    "reproduction": [
+      {"text": "Human-Like egg group, 20 egg cycles, 75% male.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Nothing describes breeding or care of young.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "Its punches and chops from four arms are impossible to defend against.", "class": "canon", "confidence": "high", "evidence": ["68.8", "68.3", "68.13", "C68.13", "C68.4", "C68.21"]},
+      {"text": "It grapples: it pins a foe's limbs with its four arms, and once it has hold the battle is all but over; the foe is thrown far over the horizon.", "class": "canon", "confidence": "high", "evidence": ["68.4", "68.7", "C68.5", "C68.11", "C68.12"]},
+      {"text": "No Guard, which makes every attack by or against it land, is the game form of 'impossible to defend against'; Guts makes it hit harder when it is hurt by a status condition.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "68.8"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Foresight (Lv 13), a level-up move that sees through evasion, hints at a watchful fighter, but that is a move reading only.", "class": "unknown", "confidence": "medium", "evidence": ["move:Foresight"]}
+    ],
+    "life_cycle": [
+      {"text": "Machop (0.8 m, 19.5 kg) becomes Machoke at level 28 (1.5 m, 70.5 kg), and Machoke becomes Machamp (1.6 m, 130 kg) only when traded. The last step nearly doubles its mass and adds a second pair of arms.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Machop", "species:Machoke"]},
+      {"text": "Read biologically, the four-armed adult depends on exchange between people: no Machamp can arise in a wild population, which fits its absence from every encounter table.", "class": "inferred", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]},
+      {"text": "Machoke wears a belt that holds back its power so it can regulate its movements; it is so dangerous without it that no one has ever removed one.", "class": "canon", "confidence": "high", "evidence": ["67.1", "67.2", "67.8", "67.10", "C67.1", "C67.2", "C67.3", "C67.13", "C67.14", "C67.17"]},
+      {"text": "Where Machoke's belt comes from, and whether wild Machoke wear one, is not stated.", "class": "unknown", "confidence": "high", "evidence": ["67.1"]},
+      {"text": "Even standing still, Machoke gives off a strong sense of power, and it always stays focused.", "class": "canon", "confidence": "medium", "evidence": ["67.4", "67.5", "C67.5", "C67.6", "C67.7"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Throws: Seismic Toss (Lv 19), Vital Throw (Lv 25) and Submission (Lv 32) are the 'thrown over the horizon' of its entries in move form.", "class": "mechanic", "confidence": "high", "evidence": ["move:Seismic Toss", "move:Vital Throw", "move:Submission", "68.4"]},
+      {"text": "Strikes: Karate Chop (Lv 10), Cross Chop (Lv 40) and Dynamic Punch (Lv 51), matching its punches and chops.", "class": "mechanic", "confidence": "high", "evidence": ["move:Karate Chop", "move:Cross Chop", "move:Dynamic Punch", "68.3"]},
+      {"text": "Focus Energy (Lv 7), Revenge (Lv 22) and Scary Face (Lv 44) round out a fighter's set; Wake-Up Slap (Lv 36) is an open-handed blow.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Focus Energy", "move:Revenge", "move:Scary Face", "move:Wake-Up Slap"]}
+    ],
+    "ecology": [
+      {"text": "Machop uses Graveler and Geodude as training weights: it hefts Graveler like a barbell and can throw several Geodude at once.", "class": "canon", "confidence": "high", "evidence": ["66.5", "66.7", "66.10", "66.12", "C66.10", "C66.13", "C66.19", "C66.23"]},
+      {"text": "The encounter data agree: Machop and Geodude share every floor of Mt. Mortar, and Graveler shares the upper cave with Machoke.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude", "species:Graveler"]},
+      {"text": "Its trophic position is unknown because its diet is never given.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Machoke willingly does hard work for people, moving heavy goods and helping with demanding labour; it can lift a dump truck with one hand, and on days off it goes to the fields and mountains to train.", "class": "canon", "confidence": "high", "evidence": ["67.7", "67.9", "67.11", "67.12", "C67.11", "C67.12", "C67.16", "C67.18", "C67.19", "C67.20", "C67.21"]},
+      {"text": "The arrangement benefits both sides: people get the labour and Machoke gets the training it wants ('it happily carries heavy cargo to toughen up').", "class": "inferred", "confidence": "medium", "evidence": ["67.12", "67.7"]},
+      {"text": "Machop has the strength to hurl a hundred adult humans and to hoist a sumo wrestler; Machamp can knock a train flying.", "class": "canon", "confidence": "high", "evidence": ["66.6", "66.8", "66.9", "68.12", "C66.12", "C66.16", "C66.18", "C68.19"]}
+    ],
+    "homestead": [
+      {"text": "Heavy hauling: the line moves heavy goods for people by choice, and Machamp can hurl anything aside.", "class": "canon", "confidence": "high", "evidence": ["67.9", "67.12", "68.6"], "capability": "hauling"},
+      {"text": "Clearing boulders and fallen timber: one arm alone can move mountains, and Rock Smash is a taught move it can use.", "class": "canon", "confidence": "medium", "evidence": ["68.2", "move:Rock Smash"], "capability": "clearing"},
+      {"text": "Construction labour, but only the lifting: it can raise beams and stones, not fit them, because careful work tangles its arms.", "class": "inferred", "confidence": "medium", "evidence": ["68.6", "68.12"], "capability": "construction"},
+      {"text": "Keep it away from the Glasshouse panes, eggs and anything fragile.", "class": "inferred", "confidence": "high", "evidence": ["68.6", "68.12"]},
+      {"text": "It needs work and exercise every day: the line is never satisfied with its training, and idle strength is the risk.", "class": "inferred", "confidence": "medium", "evidence": ["66.4", "67.7"]},
+      {"text": "The capability records list it as a calming presence (from its Sapphire entry) and for air travel (from LeafGreen). Neither is supported: 68.7 is about mastering martial arts and throwing foes, and 68.10 about knocking victims flying.", "class": "inferred", "confidence": "high", "evidence": ["68.7", "68.10"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["mountain caves and rocky passes"], "activity": "diurnal", "foraging": "not described", "evidence": ["game:habitat", "66.11", "game:encounters"], "class": "inferred", "confidence": "low", "note": "Diet is never stated. Machamp has no wild niche in these games; the habitat and activity come from Machop and Machoke."},
+  "relationships": [
+    {"with": "Graveler", "kind": "commensalism", "class": "canon", "confidence": "low", "evidence": ["66.5", "66.7", "66.10", "species:Graveler"], "note": "Machop lifts Graveler as a training weight. The interaction is canon; whether it harms Graveler is not stated, so 'commensalism' is a guess."},
+    {"with": "Geodude", "kind": "commensalism", "class": "canon", "confidence": "low", "evidence": ["66.12", "species:Geodude"], "note": "Machop throws several Geodude at once; effect on Geodude unstated."},
+    {"with": "Geodude", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude"], "note": "Every floor of Mt. Mortar, and Rock Tunnel."},
+    {"with": "Graveler", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Graveler"], "note": "Mt. Mortar's upper cave, with Machoke."},
+    {"with": "people", "kind": "mutualism", "class": "canon", "confidence": "medium", "evidence": ["67.12", "67.7", "67.11"], "note": "Machoke works for people and treats the work as training."},
+    {"with": "rocks and boulders", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["66.3", "66.5"], "note": "As training weights."}
+  ],
+  "ecotypes": [
+    {"name": "Quarry lifter", "moves": ["Rock Slide", "Power Trick"], "class": "hypothesis", "confidence": "low", "reading": "Rock Slide brings stone down, and Power Trick swaps the user's attack and defence, turning a body hardened by lifting into a weapon. A lineage built around working rock, the boulder-lifting habit of Machop made into a way of life. Fits rocky caves and quarry-like scree such as Mt. Mortar.", "behavior": "Moves rock all day, whether or not anything needs moving.", "evidence": ["66.3", "move:Rock Slide", "move:Power Trick"]},
+    {"name": "Patient counterstriker", "moves": ["Meditate", "Counter", "Light Screen"], "class": "hypothesis", "confidence": "low", "reading": "Meditate builds strength calmly, Counter returns a physical blow twice as hard, and Light Screen blunts special attacks. A lineage that waits and returns force rather than leaping in first, the opposite of 68.6's 'leaps into action before it thinks'. Fits narrow passes where foes come one at a time.", "behavior": "Stands still and lets the other animal make the first mistake.", "evidence": ["68.6", "move:Meditate", "move:Counter", "move:Light Screen"]},
+    {"name": "Flurry boxer", "moves": ["Bullet Punch", "Close Combat", "Rolling Kick"], "class": "hypothesis", "confidence": "low", "reading": "Bullet Punch is a jab that lands first, Close Combat an all-out exchange that leaves the user open, and Rolling Kick a spinning strike. A lineage built entirely on speed and volume of blows, the thousand punches in two seconds of 68.9. Fits open slopes where fights are short and decided at once.", "behavior": "Wins in the first second or not at all.", "evidence": ["68.9", "move:Bullet Punch", "move:Close Combat", "move:Rolling Kick"]}
+  ],
+  "open_questions": [
+    "What does the line eat, and how much?",
+    "Where does Machoke's belt come from, and do wild Machoke wear one?",
+    "Could Machamp ever arise without people trading it?",
+    "Does lifting Graveler and Geodude harm them, or do they tolerate it?",
+    "Is the line diurnal? Crystal's tables say so; Gold, Silver and HeartGold mostly don't split by time.",
+    "Machop 'lives in the mountains away from humans' (66.11), yet Machoke works willingly for people (67.12). When does the line move from shy to tame?"
+  ],
+  "contradictions": [
+    {"topic": "Over the horizon: fact or saying", "entries": ["68.1", "68.4", "68.7", "68.10"], "note": "Red, Blue, Silver, SoulSilver and Sapphire (68.1, 68.4, 68.7) state that it throws or punches victims over the horizon; LeafGreen (68.10), rewording Red and Blue, makes it something 'said'."},
+    {"topic": "Shy of people or eager to work for them", "entries": ["66.11", "67.12", "67.7"], "note": "Pearl (66.11) says Machop lives in the mountains away from humans; Sapphire and Platinum (67.7, 67.12) say Machoke helps people willingly and happily. Different stages, so not strictly a contradiction, but the shift is never explained."}
+  ],
+  "folklore": [
+    {"text": "Its punches are said to knock the victim flying clear over the horizon.", "evidence": ["68.10", "C68.16"], "note": "Other entries state it as fact (see contradictions)."}
+  ]
+}

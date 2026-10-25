@@ -193,7 +193,10 @@ function thinkHtml(v) {
   out.push('<div class="small" style="margin-top:10px"><b>Your reading</b> <span class="tiny muted">(authored sliders: an interpretation, not a measurement)</span></div>' + (Object.keys(sl).length ? Object.keys(sl).map(function (k) {
     return '<div class="tiny" style="margin:3px 0"><span style="display:inline-block;width:70px">' + esc(cap(k)) + '</span><span style="display:inline-block;width:110px;height:6px;background:var(--charcoal-3);border-radius:4px;vertical-align:middle;position:relative"><i style="position:absolute;left:0;top:0;bottom:0;width:' + sl[k].value + '%;background:var(--gold);border-radius:4px"></i></span> ' + sl[k].value + ' <span class="muted">' + esc(sl[k].why || '') + '</span></div>'; }).join('') : '<div class="tiny muted">Not authored for this version.</div>'));
   out.push('<div class="small" style="margin-top:10px"><b>Coach settings</b> <span class="tiny muted">(how a coach would tune the fights; tendencies, not evidence)</span>: <span class="muted">not set: the engine\'s defaults</span></div><div class="tiny muted">' + Object.keys(P.coach).map(function (k) { return esc(k.replace(/_/g, ' ')) + ' — ' + esc(P.coach[k]); }).join('<br>') + '</div>');
-  out.push('<div class="tiny muted" style="margin-top:10px"><b>How it shows in battle</b>: the one-on-one fights play the game\'s AI flags; how these tendencies play out across a whole 6v6 battle comes with the 6v6 engine (D-069).</div>');
+  var arenaId = v.generation === 4 ? v.id : v.generation < 4 && !v.mine ? 'gen4:' + v.id : null;
+  out.push('<div class="small" style="margin-top:10px"><b>How it shows in battle (6v6)</b> <span class="tiny muted">(criterion 6: the trainer agent plays them by this reading; the decisions it logs are counted by kind)</span></div>' +
+    (arenaId && !v.mine ? '<div id="trtend" class="tiny muted">Six battles against your HeartGold team, every decision logged.</div><div style="margin-top:6px"><button class="btn sm" onclick="trTendencies(\'' + esc(arenaId) + '\')">Watch them decide</button> <a class="btn sm" href="#/arena?b=lib:' + esc(arenaId) + '">Play them in the Arena</a></div>' :
+      '<div class="tiny muted">' + (v.mine ? 'Your version plays in the Arena from Play now (your saved teams).' : 'Not playable in the 6v6 engine.') + '</div>'));
   out.push('<div class="tiny muted" style="margin-top:10px"><b>What this can\'t know</b>: ' + (v.kind === 'cartridge' ? 'the nature and ability come from hidden values the data doesn\'t fix, and the AI flags describe how moves get scored, not a plan.' : 'anything off screen: moves never shown, held items, how training went between episodes.') + '</div>');
   return out.join('');
 }
@@ -268,9 +271,20 @@ function benchPage(query) {
         '<div style="min-width:200px"><label class="l">The bar: <b id="bnthr">' + Math.round(thr * 100) + '%</b></label><input type="range" name="thr" min="0.3" max="1" step="0.05" value="' + thr + '" style="width:100%"></div>' +
       '</div><div class="bd tiny muted" id="bnrule" style="padding-top:0"></div></form>' +
       '<div id="bnres" style="margin-top:16px"><div class="empty">Reading…</div></div>' +
-      (Library.teamEngine() ? '' : '<div class="callout small" style="margin-top:16px"><b>Team vs team (6v6)</b> comes with the 6v6 engine, built separately (D-069). It will run here: your saved team against any version, in batches of about 100, with what was held constant. Until then, every benchmark is one-on-one.</div>') +
+      '<div class="callout small" style="margin-top:16px"><b>Team vs team (6v6)</b> runs in the Arena: your team against any version or a whole league of them, in mirrored pairs, with what was held constant and every battle watchable (criteria 4–5). <a href="#/arena">Play now →</a> · <a href="#/leagues">Run a league →</a> · <a href="#/legends">The Legends →</a> The benchmark above stays one-on-one: the measuring stick (D-043).</div>' +
       card('Make your own group', groupMaker(vers), {eyebrow: 'Any teams, a bar, a lens · kept in this browser', tools: false, style: 'margin-top:16px', id: 'm-bench-group'});
   });
+}
+function trTendencies(id) {   // criterion 6, on the trainer's profile: the 6v6 engine's logged decisions, by kind
+  var el = document.getElementById('trtend'); if (!el) return;
+  el.innerHTML = 'Starting the 6v6 engine…';
+  Arena.tendencies('lib:' + id, {n: 6, onProgress: function (d, n) { el.innerHTML = 'Playing ' + d + ' of ' + n + '…'; }}).then(function (t) {
+    var c = t.counts, n = c.decisions || 1, pct = function (x) { return Math.round(100 * x / n) + '%'; }, p = Object.assign({}, Arena.X().TRAINER_DEFAULTS, t.profile.params);
+    el.innerHTML = '<div class="kpis" style="margin-top:6px">' + [['Attacked', c.attack], ['Switched', c['switch']], ['Status moves', c.status], ['Set up', c.setup], ['Healed', c.heal]].map(function (x) {
+      return '<div class="kpi" style="padding:8px 12px"><div class="tiny muted">' + x[0] + '</div><b>' + pct(x[1]) + '</b></div>'; }).join('') + '</div>' +
+      '<div class="tiny" style="margin-top:6px">' + c.decisions + ' decisions in ' + t.battles + ' battles (' + t.won + '–' + t.lost + ' against ' + esc(t.against.label) + '). Took the option it rated best ' + pct(c.top) + ' of the time (sharpness ' + p.competence + '); ' + pct(c.close) + ' of decisions were close calls (within 5 points). ' +
+      'Read as: aggression ' + p.aggression + ', switching ' + p.switching + ', harassment ' + p.harassment + ', patience ' + p.patience + '.</div>';
+  }).catch(function (e) { el.innerHTML = '<span style="color:var(--ember-2)">' + esc(e.message || e) + '</span>'; });
 }
 function groupMaker(vers) {
   return '<div class="small muted">Tick the teams, name the group, and save. It shows up under Your groups here and on the directory, with its own version stamp.</div>' +

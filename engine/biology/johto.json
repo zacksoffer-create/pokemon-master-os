@@ -1,0 +1,1075 @@
+{
+ "_note": "Johto as a landscape (v1 B6, D-077): every place in HeartGold and SoulSilver as a node, with how they connect. The connections are the games' own map (class mechanic: you can walk, surf or tunnel from one to the other). Biome, elevation and water are Blackthorn's reading of each place from how it looks in the games and how its Pokémon are found there (class inferred); edit them freely. keys are the reference data's location keys (location_areas -> locations.identifier).",
+ "biomes": {
+  "forest": "closed-canopy woodland: trees, understory, leaf litter and deadwood",
+  "woodland-edge": "grassland broken by tree lines and thickets",
+  "grassland": "open grass and scrub",
+  "pasture": "grazed grassland (the Moomoo Farm hills)",
+  "wetland": "ponds, marsh and slow water among grass",
+  "lake": "a large freshwater lake",
+  "river": "running freshwater, falls and rapids",
+  "coast": "the shore: beach, cliff and shallows",
+  "sea": "open salt water",
+  "cave": "underground: dark, cool, energy-poor, fed from outside",
+  "sea-cave": "a cave open to the sea",
+  "ice-cave": "an underground glacier: ice, meltwater, almost no producers",
+  "montane": "mountain slopes above the lowlands",
+  "alpine": "high mountain above the tree line",
+  "urban": "a town: gardens, buildings, refuse, people",
+  "ruins": "old stone structures with grass growing through",
+  "tower": "an old wooden or stone tower, inhabited by Pokémon",
+  "sacred-pool": "a guarded spring-fed pool in a cave",
+  "managed": "a managed reserve whose habitat is arranged by people (the Safari Zone)"
+ },
+ "nodes": {
+  "new-bark-town": {
+   "name": "New Bark Town",
+   "biome": [
+    "urban",
+    "woodland-edge"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "note": "a coastal town where winds blow from the sea",
+   "xy": [
+    17,
+    13
+   ]
+  },
+  "johto-route-29": {
+   "name": "Route 29",
+   "biome": [
+    "grassland",
+    "woodland-edge"
+   ],
+   "elevation": "low",
+   "water": [],
+   "xy": [
+    14,
+    13
+   ]
+  },
+  "cherrygrove-city": {
+   "name": "Cherrygrove City",
+   "biome": [
+    "urban",
+    "coast"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    11,
+    14
+   ]
+  },
+  "johto-route-30": {
+   "name": "Route 30",
+   "biome": [
+    "woodland-edge",
+    "grassland"
+   ],
+   "elevation": "low",
+   "water": [
+    "wetland"
+   ],
+   "note": "Berry trees and a pond",
+   "xy": [
+    11,
+    11
+   ]
+  },
+  "johto-route-31": {
+   "name": "Route 31",
+   "biome": [
+    "grassland"
+   ],
+   "elevation": "low",
+   "water": [
+    "wetland"
+   ],
+   "xy": [
+    11,
+    8
+   ]
+  },
+  "violet-city": {
+   "name": "Violet City",
+   "biome": [
+    "urban",
+    "woodland-edge"
+   ],
+   "elevation": "low",
+   "water": [
+    "wetland"
+   ],
+   "xy": [
+    9,
+    8
+   ]
+  },
+  "sprout-tower": {
+   "name": "Sprout Tower",
+   "biome": [
+    "tower"
+   ],
+   "elevation": "low",
+   "water": [],
+   "xy": [
+    9,
+    6.8
+   ]
+  },
+  "johto-route-32": {
+   "name": "Route 32",
+   "biome": [
+    "grassland",
+    "coast"
+   ],
+   "elevation": "low",
+   "water": [
+    "river",
+    "sea"
+   ],
+   "note": "a long coastal route with a pier",
+   "xy": [
+    9,
+    11
+   ]
+  },
+  "ruins-of-alph": {
+   "name": "Ruins of Alph",
+   "biome": [
+    "ruins",
+    "grassland"
+   ],
+   "elevation": "low",
+   "water": [
+    "river"
+   ],
+   "xy": [
+    7,
+    9.5
+   ]
+  },
+  "union-cave": {
+   "name": "Union Cave",
+   "biome": [
+    "cave"
+   ],
+   "elevation": "low",
+   "water": [
+    "lake"
+   ],
+   "note": "an underground lake in its depths",
+   "xy": [
+    9,
+    13.5
+   ]
+  },
+  "johto-route-33": {
+   "name": "Route 33",
+   "biome": [
+    "grassland"
+   ],
+   "elevation": "low",
+   "water": [],
+   "note": "it always rains here",
+   "xy": [
+    8,
+    15.2
+   ]
+  },
+  "azalea-town": {
+   "name": "Azalea Town",
+   "biome": [
+    "urban",
+    "forest"
+   ],
+   "elevation": "low",
+   "water": [],
+   "xy": [
+    6.8,
+    15.2
+   ]
+  },
+  "slowpoke-well": {
+   "name": "Slowpoke Well",
+   "biome": [
+    "cave"
+   ],
+   "elevation": "low",
+   "water": [
+    "wetland"
+   ],
+   "note": "a flooded well under the town",
+   "xy": [
+    6.8,
+    16.6
+   ]
+  },
+  "ilex-forest": {
+   "name": "Ilex Forest",
+   "biome": [
+    "forest"
+   ],
+   "elevation": "low",
+   "water": [
+    "wetland"
+   ],
+   "note": "a dense, ancient forest with a shrine and a pond",
+   "xy": [
+    5,
+    15.2
+   ]
+  },
+  "johto-route-34": {
+   "name": "Route 34",
+   "biome": [
+    "grassland",
+    "coast"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea",
+    "wetland"
+   ],
+   "xy": [
+    5,
+    12.6
+   ]
+  },
+  "goldenrod-city": {
+   "name": "Goldenrod City",
+   "biome": [
+    "urban"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    5,
+    10.6
+   ]
+  },
+  "johto-route-35": {
+   "name": "Route 35",
+   "biome": [
+    "grassland"
+   ],
+   "elevation": "low",
+   "water": [
+    "wetland"
+   ],
+   "xy": [
+    5,
+    8.6
+   ]
+  },
+  "national-park": {
+   "name": "National Park",
+   "biome": [
+    "grassland",
+    "woodland-edge"
+   ],
+   "elevation": "low",
+   "water": [
+    "wetland"
+   ],
+   "note": "a managed park; the Bug-Catching Contest stocks it with bugs",
+   "xy": [
+    5,
+    7
+   ]
+  },
+  "johto-route-36": {
+   "name": "Route 36",
+   "biome": [
+    "woodland-edge"
+   ],
+   "elevation": "low",
+   "water": [],
+   "xy": [
+    7,
+    6
+   ]
+  },
+  "johto-route-37": {
+   "name": "Route 37",
+   "biome": [
+    "woodland-edge"
+   ],
+   "elevation": "low",
+   "water": [],
+   "xy": [
+    6.2,
+    4.6
+   ]
+  },
+  "ecruteak-city": {
+   "name": "Ecruteak City",
+   "biome": [
+    "urban",
+    "woodland-edge"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    6.2,
+    3.2
+   ]
+  },
+  "burned-tower": {
+   "name": "Burned Tower",
+   "biome": [
+    "tower",
+    "ruins"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    5.2,
+    2.2
+   ]
+  },
+  "bell-tower": {
+   "name": "Bell Tower",
+   "biome": [
+    "tower"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    7.2,
+    2
+   ]
+  },
+  "johto-route-38": {
+   "name": "Route 38",
+   "biome": [
+    "pasture",
+    "woodland-edge"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    4.2,
+    3.4
+   ]
+  },
+  "johto-route-39": {
+   "name": "Route 39",
+   "biome": [
+    "pasture"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "note": "the Moomoo Farm",
+   "xy": [
+    2.6,
+    4.4
+   ]
+  },
+  "olivine-city": {
+   "name": "Olivine City",
+   "biome": [
+    "urban",
+    "coast"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    2.6,
+    6.4
+   ]
+  },
+  "johto-sea-route-40": {
+   "name": "Sea Route 40",
+   "biome": [
+    "sea",
+    "coast"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    1.6,
+    8
+   ]
+  },
+  "johto-sea-route-41": {
+   "name": "Sea Route 41",
+   "biome": [
+    "sea"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    1.2,
+    10.4
+   ]
+  },
+  "whirl-islands": {
+   "name": "Whirl Islands",
+   "biome": [
+    "sea-cave"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    2.6,
+    11.6
+   ]
+  },
+  "cianwood-city": {
+   "name": "Cianwood City",
+   "biome": [
+    "urban",
+    "coast"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    -0.4,
+    10.4
+   ]
+  },
+  "johto-route-47": {
+   "name": "Route 47",
+   "biome": [
+    "coast",
+    "montane"
+   ],
+   "elevation": "mid",
+   "water": [
+    "sea",
+    "river"
+   ],
+   "note": "sea cliffs and a cave",
+   "xy": [
+    -1.6,
+    9
+   ]
+  },
+  "johto-route-48": {
+   "name": "Route 48",
+   "biome": [
+    "grassland",
+    "coast"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    -1.8,
+    7.2
+   ]
+  },
+  "safari-zone-gate": {
+   "name": "Safari Zone Gate",
+   "biome": [
+    "grassland"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    -1.8,
+    5.8
+   ]
+  },
+  "johto-safari-zone": {
+   "name": "Johto Safari Zone",
+   "biome": [
+    "managed"
+   ],
+   "elevation": "mid",
+   "water": [
+    "wetland",
+    "lake"
+   ],
+   "note": "its areas and their blocks are arranged by people",
+   "xy": [
+    -1.8,
+    4.4
+   ]
+  },
+  "johto-route-42": {
+   "name": "Route 42",
+   "biome": [
+    "montane",
+    "woodland-edge"
+   ],
+   "elevation": "mid",
+   "water": [
+    "lake"
+   ],
+   "note": "lakes below Mt. Mortar",
+   "xy": [
+    9,
+    3.2
+   ]
+  },
+  "mt-mortar": {
+   "name": "Mt. Mortar",
+   "biome": [
+    "cave",
+    "montane"
+   ],
+   "elevation": "high",
+   "water": [
+    "river"
+   ],
+   "note": "a mountain with a waterfall inside",
+   "xy": [
+    9,
+    2
+   ]
+  },
+  "mahogany-town": {
+   "name": "Mahogany Town",
+   "biome": [
+    "urban",
+    "montane"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    11.6,
+    3.2
+   ]
+  },
+  "johto-route-43": {
+   "name": "Route 43",
+   "biome": [
+    "woodland-edge",
+    "grassland"
+   ],
+   "elevation": "mid",
+   "water": [
+    "wetland"
+   ],
+   "xy": [
+    11.6,
+    1.6
+   ]
+  },
+  "lake-of-rage": {
+   "name": "Lake of Rage",
+   "biome": [
+    "lake",
+    "grassland"
+   ],
+   "elevation": "mid",
+   "water": [
+    "lake"
+   ],
+   "xy": [
+    11.6,
+    0
+   ]
+  },
+  "johto-route-44": {
+   "name": "Route 44",
+   "biome": [
+    "montane",
+    "woodland-edge"
+   ],
+   "elevation": "high",
+   "water": [
+    "wetland"
+   ],
+   "xy": [
+    13.6,
+    3.2
+   ]
+  },
+  "ice-path": {
+   "name": "Ice Path",
+   "biome": [
+    "ice-cave"
+   ],
+   "elevation": "high",
+   "water": [
+    "wetland"
+   ],
+   "note": "a frozen cave between Mahogany and Blackthorn",
+   "xy": [
+    15.2,
+    3.2
+   ]
+  },
+  "blackthorn-city": {
+   "name": "Blackthorn City",
+   "biome": [
+    "urban",
+    "montane"
+   ],
+   "elevation": "high",
+   "water": [
+    "lake"
+   ],
+   "note": "a mountain city of dragon tamers; home of the homestead",
+   "xy": [
+    16.8,
+    3.2
+   ]
+  },
+  "dragons-den": {
+   "name": "Dragon's Den",
+   "biome": [
+    "sacred-pool",
+    "cave"
+   ],
+   "elevation": "high",
+   "water": [
+    "lake"
+   ],
+   "note": "a guarded pool behind the Gym",
+   "xy": [
+    17.6,
+    1.8
+   ]
+  },
+  "johto-route-45": {
+   "name": "Route 45",
+   "biome": [
+    "montane"
+   ],
+   "elevation": "high",
+   "water": [
+    "river"
+   ],
+   "note": "a steep mountain road down from Blackthorn",
+   "xy": [
+    16.8,
+    6.6
+   ]
+  },
+  "johto-route-46": {
+   "name": "Route 46",
+   "biome": [
+    "montane",
+    "grassland"
+   ],
+   "elevation": "mid",
+   "water": [],
+   "xy": [
+    14.6,
+    10
+   ]
+  },
+  "dark-cave": {
+   "name": "Dark Cave",
+   "biome": [
+    "cave"
+   ],
+   "elevation": "mid",
+   "water": [
+    "lake"
+   ],
+   "note": "a pitch-dark cave from Route 31 to Route 45",
+   "xy": [
+    13.6,
+    7.6
+   ]
+  },
+  "kanto-route-27": {
+   "name": "Route 27",
+   "biome": [
+    "coast",
+    "grassland"
+   ],
+   "elevation": "low",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    19.2,
+    13
+   ]
+  },
+  "tohjo-falls": {
+   "name": "Tohjo Falls",
+   "biome": [
+    "cave",
+    "river"
+   ],
+   "elevation": "low",
+   "water": [
+    "river"
+   ],
+   "xy": [
+    20.6,
+    13
+   ]
+  },
+  "kanto-route-26": {
+   "name": "Route 26",
+   "biome": [
+    "coast",
+    "grassland"
+   ],
+   "elevation": "mid",
+   "water": [
+    "sea"
+   ],
+   "xy": [
+    21.8,
+    11
+   ]
+  },
+  "kanto-victory-road-1": {
+   "name": "Victory Road",
+   "biome": [
+    "cave"
+   ],
+   "elevation": "high",
+   "water": [],
+   "xy": [
+    21.8,
+    8.6
+   ]
+  },
+  "kanto-route-28": {
+   "name": "Route 28",
+   "biome": [
+    "montane",
+    "woodland-edge"
+   ],
+   "elevation": "high",
+   "water": [],
+   "xy": [
+    23.2,
+    5.6
+   ]
+  },
+  "mt-silver": {
+   "name": "Mt. Silver",
+   "biome": [
+    "alpine",
+    "cave"
+   ],
+   "elevation": "high",
+   "water": [
+    "river"
+   ],
+   "note": "the highest peak, a restricted area",
+   "xy": [
+    24.4,
+    4.2
+   ]
+  }
+ },
+ "edges": [
+  [
+   "new-bark-town",
+   "johto-route-29",
+   "path"
+  ],
+  [
+   "new-bark-town",
+   "kanto-route-27",
+   "sea"
+  ],
+  [
+   "johto-route-29",
+   "cherrygrove-city",
+   "path"
+  ],
+  [
+   "johto-route-29",
+   "johto-route-46",
+   "path"
+  ],
+  [
+   "cherrygrove-city",
+   "johto-route-30",
+   "path"
+  ],
+  [
+   "johto-route-30",
+   "johto-route-31",
+   "path"
+  ],
+  [
+   "johto-route-31",
+   "violet-city",
+   "path"
+  ],
+  [
+   "johto-route-31",
+   "dark-cave",
+   "cave"
+  ],
+  [
+   "violet-city",
+   "sprout-tower",
+   "path"
+  ],
+  [
+   "violet-city",
+   "johto-route-32",
+   "path"
+  ],
+  [
+   "violet-city",
+   "johto-route-36",
+   "path"
+  ],
+  [
+   "johto-route-32",
+   "ruins-of-alph",
+   "path"
+  ],
+  [
+   "johto-route-32",
+   "union-cave",
+   "cave"
+  ],
+  [
+   "union-cave",
+   "johto-route-33",
+   "cave"
+  ],
+  [
+   "union-cave",
+   "ruins-of-alph",
+   "cave"
+  ],
+  [
+   "johto-route-33",
+   "azalea-town",
+   "path"
+  ],
+  [
+   "azalea-town",
+   "slowpoke-well",
+   "cave"
+  ],
+  [
+   "azalea-town",
+   "ilex-forest",
+   "path"
+  ],
+  [
+   "ilex-forest",
+   "johto-route-34",
+   "path"
+  ],
+  [
+   "johto-route-34",
+   "goldenrod-city",
+   "path"
+  ],
+  [
+   "goldenrod-city",
+   "johto-route-35",
+   "path"
+  ],
+  [
+   "johto-route-35",
+   "national-park",
+   "path"
+  ],
+  [
+   "national-park",
+   "johto-route-36",
+   "path"
+  ],
+  [
+   "johto-route-36",
+   "ruins-of-alph",
+   "path"
+  ],
+  [
+   "johto-route-36",
+   "johto-route-37",
+   "path"
+  ],
+  [
+   "johto-route-37",
+   "ecruteak-city",
+   "path"
+  ],
+  [
+   "ecruteak-city",
+   "burned-tower",
+   "path"
+  ],
+  [
+   "ecruteak-city",
+   "bell-tower",
+   "path"
+  ],
+  [
+   "ecruteak-city",
+   "johto-route-38",
+   "path"
+  ],
+  [
+   "ecruteak-city",
+   "johto-route-42",
+   "path"
+  ],
+  [
+   "johto-route-38",
+   "johto-route-39",
+   "path"
+  ],
+  [
+   "johto-route-39",
+   "olivine-city",
+   "path"
+  ],
+  [
+   "olivine-city",
+   "johto-sea-route-40",
+   "sea"
+  ],
+  [
+   "johto-sea-route-40",
+   "johto-sea-route-41",
+   "sea"
+  ],
+  [
+   "johto-sea-route-41",
+   "whirl-islands",
+   "sea"
+  ],
+  [
+   "johto-sea-route-41",
+   "cianwood-city",
+   "sea"
+  ],
+  [
+   "cianwood-city",
+   "johto-route-47",
+   "path"
+  ],
+  [
+   "johto-route-47",
+   "johto-route-48",
+   "path"
+  ],
+  [
+   "johto-route-48",
+   "safari-zone-gate",
+   "path"
+  ],
+  [
+   "safari-zone-gate",
+   "johto-safari-zone",
+   "path"
+  ],
+  [
+   "johto-route-42",
+   "mt-mortar",
+   "cave"
+  ],
+  [
+   "johto-route-42",
+   "mahogany-town",
+   "path"
+  ],
+  [
+   "mahogany-town",
+   "johto-route-43",
+   "path"
+  ],
+  [
+   "johto-route-43",
+   "lake-of-rage",
+   "path"
+  ],
+  [
+   "mahogany-town",
+   "johto-route-44",
+   "path"
+  ],
+  [
+   "johto-route-44",
+   "ice-path",
+   "cave"
+  ],
+  [
+   "ice-path",
+   "blackthorn-city",
+   "cave"
+  ],
+  [
+   "blackthorn-city",
+   "dragons-den",
+   "path"
+  ],
+  [
+   "blackthorn-city",
+   "johto-route-45",
+   "path"
+  ],
+  [
+   "johto-route-45",
+   "dark-cave",
+   "cave"
+  ],
+  [
+   "johto-route-45",
+   "johto-route-46",
+   "path"
+  ],
+  [
+   "kanto-route-27",
+   "tohjo-falls",
+   "cave"
+  ],
+  [
+   "tohjo-falls",
+   "kanto-route-26",
+   "cave"
+  ],
+  [
+   "kanto-route-26",
+   "kanto-victory-road-1",
+   "path"
+  ],
+  [
+   "kanto-route-28",
+   "mt-silver",
+   "path"
+  ]
+ ],
+ "ecosystems": {
+  "ilex-forest": {
+   "name": "Ilex Forest",
+   "flagship": true,
+   "places": [
+    "ilex-forest"
+   ],
+   "why": "the first ecosystem: a closed forest with a canopy, an understory, a pond, deadwood and soil, and a community whose links the Pokédex documents (Paras and its mushroom, Pineco and flying insects, Oddish rooted in soil)"
+  },
+  "blackthorn-highlands": {
+   "name": "The Blackthorn highlands",
+   "flagship": true,
+   "places": [
+    "ice-path",
+    "blackthorn-city",
+    "dragons-den",
+    "johto-route-45",
+    "dark-cave",
+    "johto-route-44"
+   ],
+   "why": "home: the ice cave, the dragons' pool, the mountain roads and the dark cave around the homestead, an energy-poor alpine and cave system fed from outside"
+  }
+ }
+}

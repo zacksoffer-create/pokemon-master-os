@@ -1,0 +1,640 @@
+{
+  "species": "Magnezone",
+  "id": 462,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A floating, magnetic Steel-and-Electric Pokémon that exists only because of where its parent was standing. Magnezone forms when a Magneton is exposed to a special magnetic field, which the HeartGold and SoulSilver Pokédex says changes its molecular structure; a group that tried to make it happen by scientific means failed. Its line feeds on electricity, hovers on electromagnetic waves, and in numbers disrupts radios, televisions and machinery, and Magneton is said to be three Magnemite linked by magnetism. Few animals in the Pokédex sit so far from ordinary biology: genderless, without egg moves, and impossible to evolve anywhere in Johto.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A heavy, hovering body (1.2 m, 180.0 kg) with three units that generate its magnetism.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "462.1",
+          "C462.2",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "In Magnemite the side units do the work: they emit electromagnetic waves that keep it aloft, act as powerful magnets, and generate more magnetic force the faster they spin.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.4",
+          "81.5",
+          "81.7",
+          "81.8",
+          "81.11",
+          "81.12"
+        ]
+      },
+      {
+        "text": "Magneton is a linked cluster of Magnemite, held by a strong magnetic force; most entries say three, older ones say 'several'.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "82.1",
+          "82.3",
+          "82.8",
+          "82.9",
+          "82.11"
+        ]
+      },
+      {
+        "text": "The weights don't add up: three Magnemite are 18 kg, Magneton is 60 kg and Magnezone 180 kg. Whatever linking does, it is not simple addition of bodies.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:size",
+          "species:Magnemite",
+          "species:Magneton"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "The line feeds on electricity; Magnemite attach to power lines to feed.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.6",
+          "81.11",
+          "C81.9",
+          "C81.21"
+        ],
+        "analogy": "Some real bacteria, such as Geobacter, can take electrons directly from an electrode, which microbiologists call electrotrophy; nothing larger than a microbe does."
+      },
+      {
+        "text": "Its energy store is finite: a Magnemite whose internal electrical supply runs out can no longer fly.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.7",
+          "C81.14"
+        ]
+      },
+      {
+        "text": "No entry says what Magnezone itself eats; electricity is the obvious inference from the line.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "81.11",
+          "462.1",
+          "game:types"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Magnezone is not found in the wild in any Gen I-IV game.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "It forms only at a special magnetic field: the archive gives Mt. Coronet (Sinnoh) and Chargestone Cave. Neither is in Johto or Kanto (Chargestone Cave is not a Gen I-IV location at all), so a HeartGold or SoulSilver Magneton cannot become Magnezone.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "462.1",
+          "462.3"
+        ]
+      },
+      {
+        "text": "The line favours electrical and industrial places: Kanto's Power Plant, Hoenn's New Mauville and Sinnoh's Fuego Ironworks. In Johto, Magnemite lives on the pasture of Routes 38 and 39 at any hour, and on Kanto's Routes 6 and 11; Magneton lives in Cerulean Cave. Its Gen 3 Pokédex habitat is rough terrain.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "game:habitat",
+          "species:Magnemite",
+          "species:Magneton"
+        ]
+      },
+      {
+        "text": "Gold and Silver also have a Magnemite swarm on Route 38.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Magnemite"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "It hovers constantly; Magnemite is born able to defy gravity.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.2",
+          "81.9",
+          "C81.3",
+          "C81.17"
+        ]
+      },
+      {
+        "text": "It approaches electromagnetic sources: Magnemite is attracted to electromagnetic waves and may approach trainers using a PokéGear.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.3",
+          "C81.5",
+          "C81.6"
+        ]
+      },
+      {
+        "text": "Magneton appear in numbers when sunspots flare up.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "82.1",
+          "82.10",
+          "82.12",
+          "C82.2",
+          "C82.19"
+        ]
+      },
+      {
+        "text": "Johto and Kanto tables have Magnemite morning, day and night, so it is active around the clock.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Aggregation is the line's social life: Magnemite gather in large numbers on breaker boxes; Magneton is several Magnemite linked; many Magneton together raise a magnetic storm.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.6",
+          "82.1",
+          "82.5",
+          "82.11",
+          "C81.11",
+          "C82.8",
+          "C82.18"
+        ]
+      },
+      {
+        "text": "Whether the linked units of a Magneton are still individuals, or become one animal, is not said; Magnezone's three units raise the same question.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "82.8",
+          "462.1"
+        ],
+        "analogy": "Siphonophores, such as the Portuguese man o' war (Physalia), are colonies of specialised individuals (zooids) that function as one animal."
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Genderless, in the Mineral egg group, 20 egg cycles. In the games a genderless Pokémon breeds only with Ditto.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:gender",
+          "game:egg_groups",
+          "game:egg_cycles"
+        ]
+      },
+      {
+        "text": "No stage of the line has any egg moves in HeartGold and SoulSilver, so lineages can't carry inherited specialisations the way other species here can.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:learnset"
+        ]
+      },
+      {
+        "text": "Magnemite is 'born' able to defy gravity, the only word in the record about its beginnings.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "81.2",
+          "C81.3"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Sturdy (it can't be knocked out in one hit) or Magnet Pull (Steel-type opponents can't escape it).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ]
+      },
+      {
+        "text": "Its magnetic force is fatal to mechanical devices, electronics and precision instruments, and Magneton dries all moisture around it; standing close to one gives you earache.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "82.3",
+          "82.4",
+          "82.6",
+          "82.7",
+          "82.13",
+          "C82.6",
+          "C82.9",
+          "C82.11"
+        ]
+      },
+      {
+        "text": "Magnezone starts with Barrier and Mirror Coat (Lv 1), a defensive screen and a move that reflects special attacks back.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Barrier",
+          "move:Mirror Coat"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "It detects electromagnetic waves, as its approach to PokéGear users shows.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.3"
+        ]
+      },
+      {
+        "text": "Lock-On (Lv 27), which makes its next attack certain to hit, is the closest the games come to describing how it targets.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "move:Lock-On"
+        ]
+      },
+      {
+        "text": "No eyes, ears or other sense organs are described.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "462.1"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Magnemite (0.3 m, 6.0 kg) becomes Magneton at level 30 (1.0 m, 60.0 kg), and Magneton becomes Magnezone (1.2 m, 180.0 kg) only by levelling up in a special magnetic field.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Magnemite",
+          "species:Magneton"
+        ]
+      },
+      {
+        "text": "The final change is environmental, not age- or size-driven: exposure to a special magnetic field alters Magneton's molecular structure.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "462.1",
+          "462.3",
+          "C462.1",
+          "C462.4"
+        ]
+      },
+      {
+        "text": "It can't be forced: a group that tried to make Magnezone evolve by scientific means failed.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "462.2",
+          "C462.3"
+        ]
+      },
+      {
+        "text": "The canon and the mechanic disagree about Magneton: the entries say three Magnemite link up, but in the games one Magnemite levels up into one Magneton.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "82.8",
+          "82.11",
+          "game:evolution"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Thunder Wave (Lv 17) is in the canon itself: Magnemite appears without warning and uses Thunder Wave and similar moves, discharged from its side units.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.1",
+          "81.9",
+          "81.10",
+          "C81.2",
+          "C81.18",
+          "move:Thunder Wave"
+        ]
+      },
+      {
+        "text": "Its sound moves, Supersonic (Lv 11), Sonic Boom (Lv 14), Screech (Lv 33-34) and Metal Sound (Lv 1), fit the earaches Magneton causes.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Supersonic",
+          "move:Sonic Boom",
+          "move:Screech",
+          "move:Metal Sound",
+          "82.3"
+        ]
+      },
+      {
+        "text": "Magnet Rise (Lv 46-50) is the levitation of the canon in move form, and Gyro Ball (Lv 49-54) fits units that spin.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Magnet Rise",
+          "move:Gyro Ball",
+          "81.7",
+          "81.12"
+        ]
+      },
+      {
+        "text": "Discharge and Zap Cannon are its own electrical attacks; Thunderbolt and Thunder are taught by machine.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Discharge",
+          "move:Zap Cannon",
+          "move:Thunderbolt",
+          "game:learnset"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "Outside the carbon food web: it takes energy from electricity, not from other organisms, and nothing is recorded eating it.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "81.6",
+          "81.11"
+        ]
+      },
+      {
+        "text": "Magneton changes its surroundings: its radio waves raise the temperature by 3.6 °F (about 2 °C) within 3,300 feet (about 1 km), and its magnetism dries the moisture around it. A group could alter a local microclimate.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "82.2",
+          "82.8",
+          "82.4",
+          "C82.4",
+          "C82.14"
+        ]
+      },
+      {
+        "text": "On Routes 38 and 39, Magnemite shares the pasture with Miltank and Tauros, and the trees with Pineco.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Miltank",
+          "species:Pineco"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "A pest of electrical systems: Magnemite feed on power lines, and in a power cut you may find many clinging to the breaker box.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "81.6",
+          "C81.10",
+          "C81.11"
+        ]
+      },
+      {
+        "text": "A public hazard in numbers: large cities sound sirens for big Magneton outbreaks; their magnetic storms disrupt radio and stop televisions displaying properly.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "82.5",
+          "82.6",
+          "82.12",
+          "C82.10",
+          "C82.20"
+        ]
+      },
+      {
+        "text": "Kanto's Power Plant offers a Magneton in trade for a Dugtrio in Crystal, HeartGold and SoulSilver.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Magneton"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "Electricity: an Electric type whose capability records include charging a storage battery. Whether it gives power as readily as it takes it is untested; the record says it feeds on electricity.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:types",
+          "game:capability",
+          "81.11"
+        ],
+        "capability": "electricity"
+      },
+      {
+        "text": "It will drain the homestead's own supply if it can: keep it off the power lines and away from the breaker box.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "81.6"
+        ],
+        "capability": "electricity"
+      },
+      {
+        "text": "Keep it far from the clinic's instruments, the radios, the PokéGear and anything with a circuit: the line's magnetism is fatal to electronics and precision instruments.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "82.6",
+          "82.7"
+        ],
+        "capability": "town_fit"
+      },
+      {
+        "text": "A magnetic retriever: Magnemite can draw iron objects from over 300 feet (about 90 m) away, useful for recovering lost tools, nails and wire.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "81.8",
+          "C81.16"
+        ],
+        "capability": "foraging"
+      },
+      {
+        "text": "Drying: Magneton dries the moisture around it, which could serve seed and berry storage in the Ice Path cold vault, if its effect on everything else in the vault can be managed.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "82.4",
+          "82.13"
+        ],
+        "note": "An extrapolation from a canon side effect; untested and possibly harmful to stored samples.",
+        "capability": "cold_source"
+      },
+      {
+        "text": "Blackthorn can't produce its own Magnezone: there is no special magnetic field in Johto, so one has to come from Sinnoh.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution"
+        ]
+      },
+      {
+        "text": "Light is a taught move here (Flash is a machine), not its own.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:capability",
+          "game:learnset"
+        ],
+        "capability": "light"
+      }
+    ]
+  },
+  "niche": {
+    "guild": "electrotroph",
+    "trophic_level": null,
+    "microhabitat": [
+      "power lines and electrical installations",
+      "industrial sites",
+      "open pasture and rough terrain (Magnemite)",
+      "caves (Magneton)"
+    ],
+    "activity": "cathemeral",
+    "foraging": "attaches to electrical sources to feed; drawn to electromagnetic waves",
+    "evidence": [
+      "81.6",
+      "81.3",
+      "81.11",
+      "game:encounters"
+    ],
+    "class": "inferred",
+    "confidence": "medium",
+    "note": "Trophic level is left null: it feeds on electricity, not on organisms, so it sits outside the usual food-chain count."
+  },
+  "relationships": [
+    {
+      "with": "power lines and electrical supplies",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "81.6",
+        "81.11"
+      ]
+    },
+    {
+      "with": "iron objects",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "low",
+      "evidence": [
+        "81.8"
+      ],
+      "note": "It draws them in; whether it uses them for anything is not said."
+    },
+    {
+      "with": "sunspots and solar activity",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "low",
+      "evidence": [
+        "82.1",
+        "82.12"
+      ],
+      "note": "A correlation in the entries (Magneton appear when sunspots flare), not a stated dependency."
+    },
+    {
+      "with": "special magnetic fields (Mt. Coronet)",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "462.1",
+        "462.3",
+        "game:evolution"
+      ],
+      "note": "Required for Magnezone to form at all."
+    },
+    {
+      "with": "Miltank",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Miltank"
+      ],
+      "note": "Routes 38 and 39 pasture, HeartGold and SoulSilver (Magnemite)."
+    }
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "No ecotypes are possible from the games: the line is genderless (it breeds only with Ditto) and has no egg moves at any stage in HeartGold and SoulSilver.",
+    "Is a Magneton three individuals or one? The entries say three Magnemite link; the games evolve one Magnemite into one Magneton.",
+    "Why do the weights jump (6 kg, 60 kg, 180 kg) if Magneton is just three linked Magnemite?",
+    "What makes a magnetic field 'special' enough to trigger Magnezone, and why did the scientific attempt fail (462.2)?",
+    "Does Magnezone feed on electricity as Magnemite does?",
+    "Why do Magneton appear when sunspots flare? Is solar activity a food source, a trigger, or a cue?",
+    "Is Magnemite on Johto's pasture routes for a reason (power lines, fencing wire), or is that a game convenience?"
+  ],
+  "contradictions": [
+    {
+      "text": "How many Magnemite make a Magneton: 'several' in Red, Blue, FireRed and LeafGreen; exactly three in Gold, Emerald, Diamond and Pearl.",
+      "entries": [
+        "82.1",
+        "82.9",
+        "82.10",
+        "82.3",
+        "82.8",
+        "82.11"
+      ]
+    },
+    {
+      "text": "How Magnemite floats: anti-gravity energy that blocks gravity (Red, Blue, LeafGreen, Silver, SoulSilver, Sapphire) versus floating on electromagnetic waves (Yellow, Diamond and Pearl).",
+      "entries": [
+        "81.1",
+        "81.10",
+        "81.4",
+        "81.7",
+        "81.2",
+        "81.11"
+      ],
+      "note": "Sapphire reconciles them: electromagnetic waves that block gravity."
+    }
+  ],
+  "folklore": [
+    {
+      "text": "It is said that some towns warn people to keep Magneton inside a Poké Ball because of its effect on electronics.",
+      "evidence": [
+        "82.7",
+        "C82.12"
+      ],
+      "note": "The effect on electronics is stated as fact; the town warnings are hearsay."
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "species": "Roserade",
+  "id": 407,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A small, flower-handed predator that lures with scent and kills with poison. Roserade attracts prey with a sweet aroma, then strikes with poison-thorned whips hidden in its arms; HeartGold and SoulSilver add that the more toxic it is, the sweeter it smells. Its line starts as Budew, a bud that waits out winter closed and opens in spring sun beside clear pools, and passes through Roselia, whose scent relaxes people and whose flowers carry poisoned thorns. Roserade itself is never found in the wild; it is made by touching a Roselia with a Shiny Stone.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small upright animal (0.9 m, 14.5 kg) with a flower on each hand and thorny whips hidden in its arms; the whips are densely lined with poison thorns.", "class": "canon", "confidence": "high", "evidence": ["407.1", "407.2", "C407.1", "game:size", "game:shape"]},
+      {"text": "Each hand carries a different toxin, and both can jab with near-fatal power.", "class": "canon", "confidence": "high", "evidence": ["407.3", "C407.3"]},
+      {"text": "It also spews poison, a third delivery route beside whips and jabs.", "class": "canon", "confidence": "high", "evidence": ["407.4", "C407.5"]},
+      {"text": "Two separate toxins in two hands suggests either two glands or two sources of toxin; nothing says which, or what the toxins do.", "class": "unknown", "confidence": "high", "evidence": ["407.3"]}
+    ],
+    "diet": [
+      {"text": "A predator: it draws prey in with a sweet aroma, then downs it with its whips or poison.", "class": "canon", "confidence": "high", "evidence": ["407.1", "407.4", "C407.1", "C407.4"], "analogy": "Carnivorous plants such as pitcher plants (Sarracenia, Nepenthes) also lure prey with scent and nectar, while still photosynthesising; prey mainly supplies nitrogen and phosphorus."},
+      {"text": "The prey is never named. A lure based on sweet scent suggests insects or other nectar seekers, but that is a guess.", "class": "hypothesis", "confidence": "low", "evidence": ["407.4"], "note": "Sweet-scent lures attract nectar feeders in real systems; nothing in the entries says what Roserade catches."},
+      {"text": "As a Grass type with Mega Drain at Lv 1 (and Synthesis and Giga Drain in the line), it probably also lives partly on sunlight and drains what it catches.", "class": "inferred", "confidence": "medium", "evidence": ["move:Mega Drain", "move:Synthesis", "move:Giga Drain", "game:types"]},
+      {"text": "Roselia's flowers respond to the water it drinks: nutritionally rich springwater or clean water gives lovely, vivid blooms.", "class": "canon", "confidence": "high", "evidence": ["315.3", "315.5", "C315.5", "C315.9"]}
+    ],
+    "habitat": [
+      {"text": "Roserade is not found in the wild in any Gen I-IV game, and no entry says where it lives.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "407.1"]},
+      {"text": "Budew lives alongside clear ponds and pools; Roselia's Gen 3 habitat is grassland.", "class": "canon", "confidence": "high", "evidence": ["406.2", "406.4", "C406.3", "C406.7", "species:Roselia"]},
+      {"text": "In HeartGold and SoulSilver the line is barely present: Budew only through the Sinnoh Sound radio in Ilex and Viridian Forests, and Budew and Roselia only in the Johto Safari Zone once enough plains or forest blocks are placed. It is common in Sinnoh (Eterna Forest, Routes 204 and 212, Trophy Garden, Great Marsh).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Budew", "species:Roselia"]},
+      {"text": "Water quality matters to the line: Budew picks clear water, and Roselia's flowers show what it drinks.", "class": "inferred", "confidence": "medium", "evidence": ["406.4", "315.5"]}
+    ],
+    "behavior": [
+      {"text": "It fights with the movements of a dancer.", "class": "canon", "confidence": "high", "evidence": ["407.2", "C407.2"]},
+      {"text": "A lure-and-strike forager: it lets scent do the searching and the prey come to it.", "class": "inferred", "confidence": "medium", "evidence": ["407.1", "407.4"]},
+      {"text": "Probably day-active: Budew opens in the sun's warmth and evolves by day, and Sinnoh tables add day and morning slots for Budew and Roselia. Nothing is said about Roserade's own hours.", "class": "inferred", "confidence": "low", "evidence": ["406.4", "game:evolution", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or interactions with its own kind.", "class": "unknown", "confidence": "high", "evidence": ["407.1"]}
+    ],
+    "reproduction": [
+      {"text": "Roselia and Roserade are in the Fairy and Grass egg groups, with an even sex ratio and 20 egg cycles; Budew is a baby Pokémon in the Undiscovered group and can't breed.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:gender", "game:egg_cycles", "species:Budew"]},
+      {"text": "Budew's bud opens in spring to release pollen, which in a plant is reproductive. Oddly, the stage that releases pollen is the one the games say cannot breed.", "class": "hypothesis", "confidence": "low", "evidence": ["406.1", "406.4", "C406.2"], "note": "Pollen is described only as an irritant and a seasonal release; no entry ties it to breeding."}
+    ],
+    "defense": [
+      {"text": "Chemical and mechanical at once: poison-thorned whips, toxic jabs, sprayed poison, and Poison Point (contact may poison an attacker).", "class": "canon", "confidence": "high", "evidence": ["407.2", "407.3", "407.4", "game:abilities"]},
+      {"text": "Roselia defends its flowers: it shoots sharp thorns at anything trying to steal them, the thorns on its head carry a vicious poison, and its arm flowers have toxic thorns.", "class": "canon", "confidence": "high", "evidence": ["315.1", "315.2", "315.6", "C315.1", "C315.4", "C315.10"]},
+      {"text": "Roselia's fragrance makes its foes careless, a softer defence that disarms rather than injures.", "class": "canon", "confidence": "high", "evidence": ["315.3", "C315.6"]},
+      {"text": "Natural Cure, its other possible ability, clears its status problems when it withdraws from a fight.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Budew is sensitive to temperature and opens its bud when it feels the sun's warmth.", "class": "canon", "confidence": "high", "evidence": ["406.4", "C406.6"], "note": "Platinum (406.3) hedges the same thing as 'said to'; see folklore."},
+      {"text": "Nothing is said about how Roserade detects prey that its scent has drawn in.", "class": "unknown", "confidence": "high", "evidence": ["407.1"]}
+    ],
+    "life_cycle": [
+      {"text": "Budew (0.2 m, 1.2 kg) becomes Roselia (0.3 m, 2.0 kg) when it levels up with high friendship by day, and Roselia becomes Roserade (0.9 m, 14.5 kg) when exposed to a Shiny Stone. The archive lists the line as Roselia, Budew, Roserade, but Budew is the first stage.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Budew", "species:Roselia"]},
+      {"text": "Budew spends winter as a closed bud enduring the cold, and opens in spring to release pollen.", "class": "canon", "confidence": "high", "evidence": ["406.1", "C406.1", "C406.2"]},
+      {"text": "The line goes from a bud, to flowers on the arms, to a bouquet on each hand with whips inside the arms; the defensive thorns of Roselia become the predatory weapons of Roserade.", "class": "inferred", "confidence": "medium", "evidence": ["406.1", "315.6", "407.1", "407.3"]},
+      {"text": "The scent changes meaning: in Roselia a stronger aroma means a healthier animal; in Roserade a sweeter aroma means a more toxic one. Both may be the same thing, if a healthy animal makes more toxin.", "class": "inferred", "confidence": "low", "evidence": ["315.4", "315.7", "407.4", "C407.6"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Roserade's own level-up list in HeartGold is short, all at Lv 1: Sweet Scent (the lure), Poison Sting (the thorns), Mega Drain and Magical Leaf. Sweet Scent is the canon hunting method in move form.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sweet Scent", "move:Poison Sting", "move:Mega Drain", "move:Magical Leaf", "407.1"]},
+      {"text": "Roselia's level-up list holds most of the line's natural repertoire: Stun Spore, Leech Seed, Grass Whistle, Toxic Spikes, Ingrain, Toxic, Aromatherapy and Synthesis, which together read as a plant that drugs, drains and poisons rather than chases.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Stun Spore", "move:Leech Seed", "move:Grass Whistle", "move:Toxic Spikes", "move:Ingrain", "move:Toxic", "move:Aromatherapy", "move:Synthesis"]},
+      {"text": "Budew learns Water Sport (Lv 7), which fits a pond-edge animal.", "class": "mechanic", "confidence": "low", "evidence": ["move:Water Sport", "406.4"]}
+    ],
+    "ecology": [
+      {"text": "A small ambush predator using scent as bait (trophic level about 3 if its prey are herbivores or nectar feeders).", "class": "inferred", "confidence": "low", "evidence": ["407.1", "407.4"]},
+      {"text": "Budew's pollen goes into the air in spring and causes harsh sneezing and runny noses, so the line affects the animals around clear ponds as an allergen source.", "class": "canon", "confidence": "medium", "evidence": ["406.2", "C406.4"], "analogy": "Hay fever in people is mostly caused by wind-dispersed pollen, from grasses, birch and the like."},
+      {"text": "Because Roselia's flowers track water quality, the line could serve as a living indicator of clean water.", "class": "hypothesis", "confidence": "low", "evidence": ["315.3", "315.5"], "note": "The entries say water changes the flowers; whether poor water dulls them is not stated."}
+    ],
+    "humans": [
+      {"text": "Its flowers tempt people, which is dangerous: 'Don't even think about picking those flowers.'", "class": "canon", "confidence": "high", "evidence": ["315.6", "C315.11"]},
+      {"text": "Roselia's scent deeply relaxes people and brings serenity to living things.", "class": "canon", "confidence": "high", "evidence": ["315.1", "315.7", "C315.2", "C315.13"]},
+      {"text": "People make Roserade: it comes only from a Roselia exposed to a Shiny Stone.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "A handling hazard: near-fatal toxins in both hands, poison-lined whips and Poison Point. Keep it away from children, grazing animals and the nursery, and handle with gloves.", "class": "inferred", "confidence": "high", "evidence": ["407.2", "407.3", "game:abilities"], "capability": "deterrence"},
+      {"text": "A possible pest trap for the Glasshouse: it lures and kills small animals with scent. Whether it takes pests rather than pollinators is untested and important.", "class": "hypothesis", "confidence": "low", "evidence": ["407.1", "407.4"], "note": "Prey identity is unknown; a lure that works on pollinators would harm the berry beds.", "capability": "plant_care"},
+      {"text": "Keep Budew out of the house and the Glasshouse in spring: its pollen causes harsh sneezing.", "class": "canon", "confidence": "high", "evidence": ["406.2", "406.1"], "capability": "town_fit"},
+      {"text": "Budew survives winter by closing up, which suits Blackthorn's cold season without heated housing; whether Roserade is as hardy is not said.", "class": "inferred", "confidence": "medium", "evidence": ["406.1", "game:capability"], "capability": "cold_tolerance"},
+      {"text": "A Roselia's flowers as a check on the water it is drinking.", "class": "hypothesis", "confidence": "low", "evidence": ["315.5"], "note": "Unproven as an indicator.", "capability": "water_supply"},
+      {"text": "Sweet Scent, its own move, draws wild Pokémon out, which a forager can use and a guard should know about.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Sweet Scent", "game:capability"], "capability": "foraging"},
+      {"text": "Needs: clean water, sun, and a pond edge for the young.", "class": "inferred", "confidence": "medium", "evidence": ["406.4", "315.5", "move:Synthesis"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["clear pond and pool margins (Budew)", "grassland and flower meadow (Roselia)"], "activity": "diurnal",
+            "foraging": "sit-and-wait lure predator: draws prey with a sweet scent and strikes with poison-thorned whips; probably also photosynthetic",
+            "evidence": ["407.1", "407.4", "406.4", "game:habitat"], "class": "inferred", "confidence": "low",
+            "note": "Prey never named; activity read from Budew and Roselia, not Roserade."},
+  "relationships": [
+    {"with": "unnamed prey drawn by scent", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["407.1", "407.4"]},
+    {"with": "clear ponds and springwater", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["406.2", "406.4", "315.3", "315.5"]},
+    {"with": "sunlight", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["406.4"]}
+  ],
+  "ecotypes": [
+    {"name": "Thorn thicket", "moves": ["Pin Missile", "Spikes"], "class": "hypothesis", "confidence": "medium",
+     "reading": "Roselia's thorn-shooting made heritable and extended: Pin Missile fires a volley of thorns, Spikes scatters barbs on the ground. A lineage that defends a fixed patch, like a dense flowerbed, from browsers and flower thieves rather than hunting. Fits crowded meadow and garden edges where its blooms draw trouble.",
+     "behavior": "Holds a patch, fires at anything that reaches for a flower, and litters the approach with barbs.", "evidence": ["315.1", "move:Pin Missile", "move:Spikes"]},
+    {"name": "Sleeping lure", "moves": ["Sleep Powder", "Cotton Spore", "Mind Reader"], "class": "hypothesis", "confidence": "low",
+     "reading": "The scent lure with a sedative behind it: Sleep Powder puts the animal it has drawn in to sleep, Cotton Spore slows anything that tries to leave, and Mind Reader makes the next strike certain. A sit-and-wait trap that needs no venom to work. Fits sheltered pond margins where prey come to drink.",
+     "behavior": "Lures, drugs and only then strikes; rarely needs to chase.", "evidence": ["407.1", "move:Sleep Powder", "move:Cotton Spore", "move:Mind Reader"]},
+    {"name": "Sun-fed bloom", "moves": ["Synthesis", "Razor Leaf", "Leaf Storm"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that leans on sunlight rather than prey: Synthesis for recovery in the sun, Razor Leaf for everyday defence, Leaf Storm as a single all-out burst that costs it afterwards. Fits open, sunny grassland where prey is scarce and light is not.",
+     "behavior": "Basks more and lures less; hits hard once when threatened, then retreats to recover.", "evidence": ["move:Synthesis", "move:Razor Leaf", "move:Leaf Storm", "game:habitat"]}
+  ],
+  "open_questions": [
+    "What does Roserade catch? Its prey is never named.",
+    "What are the two toxins in its two hands (407.3), and does it choose between them?",
+    "If sweeter means more toxic (407.4), what tells prey to keep coming? Is the scent a lure, a warning, or both?",
+    "Is Budew's spring pollen reproductive, given that Budew itself cannot breed in the games?",
+    "Where does a wild Roserade live? Shiny Stones are the only route the games give.",
+    "Does Roserade keep Budew's winter dormancy?"
+  ],
+  "contradictions": [
+    {"text": "Water and flower colour: Diamond states as known fact that Roselia raised on clean drinking water grow vividly coloured flowers; HeartGold and SoulSilver say only that Roselia drinking rich springwater are 'said to' reveal rare coloration; Emerald states that springwater gives lovely flowers.", "entries": ["315.5", "315.8", "315.3"], "note": "Vivid versus rare colour, and fact versus report. The rare-colour version is filed as folklore."},
+    {"text": "Budew's bloom on the sun's warmth: HeartGold and SoulSilver state it plainly; Platinum says the bud is 'said to' bloom that way.", "entries": ["406.4", "406.3"]}
+  ],
+  "folklore": [
+    {"text": "On extremely rare occasions a Roselia is said to appear with its flowers in unusual colours.", "evidence": ["315.2", "C315.3"], "note": "Reported as hearsay. Likely the games' rare colour variants described in-world."},
+    {"text": "Roselia that drink nutritionally rich springwater are said to show rare colouring when they bloom.", "evidence": ["315.8", "C315.14"]},
+    {"text": "Budew's bud is said to bloom when it feels the sun's warm touch.", "evidence": ["406.3", "C406.5"], "note": "Hedged in Platinum, stated as fact in HeartGold and SoulSilver (406.4)."}
+  ]
+}

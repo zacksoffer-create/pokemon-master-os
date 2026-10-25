@@ -1,0 +1,108 @@
+{
+  "species": "Graveler",
+  "id": 75,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The heavy, rolling middle stage of the Geodude line, and the only animal in the highlands community whose diet is plainly stated as rock. Graveler eats a ton of rock a day and prefers rock covered in moss; it climbs a mountain eating as it goes, then rolls back down, flattening whatever is in its way. It makes its home in rows of horizontal holes it gouges in sheer cliffs. On Route 45 it has the highest encounter rate of any Pokémon in both HeartGold and SoulSilver.",
+  "sections": {
+    "anatomy": [
+      {"text": "1.0 m and 105.0 kg, a bipedal body with no tail, typed Rock and Ground.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Pieces of its body break off as it rolls, and it doesn't mind.", "class": "canon", "confidence": "high", "evidence": ["75.3", "75.11", "C75.5", "C75.21"]}
+    ],
+    "diet": [
+      {"text": "It grows by feeding on rocks, its favourite food, and eats its way through a ton of rock a day.", "class": "canon", "confidence": "high", "evidence": ["75.6", "75.7", "75.11", "C75.10", "C75.12", "C75.13", "C75.22"]},
+      {"text": "It apparently prefers rocks covered in moss.", "class": "canon", "confidence": "medium", "evidence": ["75.6", "C75.11"], "note": "Hedged ('Apparently')."},
+      {"text": "It feeds as it climbs: from the base of a mountain to the summit, crunching rocks all the way, then rolls back down.", "class": "canon", "confidence": "high", "evidence": ["75.7", "C75.14", "C75.15"]},
+      {"text": "A ton a day is roughly ten times its body weight, so it must pass most of what it swallows and extract only a small part of it.", "class": "inferred", "confidence": "medium", "evidence": ["75.6", "game:size"], "analogy": "Earthworms swallow soil in bulk, digest the organic matter in it and pass the mineral fraction as casts."},
+      {"text": "The moss preference suggests the energy comes from the moss, lichen and microbes on the rock, with the rock itself supplying minerals and bulk.", "class": "hypothesis", "confidence": "low", "evidence": ["75.6", "C75.11"], "note": "If rock alone fed it, it would need a metabolism no animal is known to have."}
+    ],
+    "habitat": [
+      {"text": "Mountains: trails, steep slopes and the paths it rolls down.", "class": "canon", "confidence": "high", "evidence": ["75.2", "75.5", "75.8", "75.9", "75.12", "C75.3", "C75.8", "C75.16", "C75.23"]},
+      {"text": "It makes its homes on sheer cliff faces by gouging out numerous horizontal holes.", "class": "canon", "confidence": "high", "evidence": ["75.10", "C75.20"]},
+      {"text": "In HeartGold and SoulSilver: Route 45 walking 40% (HeartGold, Lv 23-27) or 55% (SoulSilver, Lv 23-25), the highest rate on that route; the Blackthorn end of Dark Cave 20% (Lv 25); no time-of-day split. Also Mt. Mortar's upper cave, the Route 47 cave (4% by day and morning), Mt. Silver 1F, Victory Road and Cerulean Cave (Rock Smash).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Crystal's Route 45 table had it at 30% by day and morning and 50% at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "The open mountain road of Route 45 is its main highland ground; Dark Cave is the edge of its range rather than its centre.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "game:habitat"]}
+    ],
+    "behavior": [
+      {"text": "A slow walker, it rolls to move.", "class": "canon", "confidence": "high", "evidence": ["75.1", "75.4", "C75.1", "C75.6"]},
+      {"text": "It rolls over obstacles without slowing or changing direction, paying no attention to what is in its path; once it has momentum, no Pokémon can easily stop it.", "class": "canon", "confidence": "high", "evidence": ["75.1", "75.2", "75.4", "75.12", "C75.2", "C75.4", "C75.7", "C75.24"]},
+      {"text": "Read together, the entries give a daily round: it walks slowly uphill eating, and rolls down when it reaches the top.", "class": "inferred", "confidence": "medium", "evidence": ["75.4", "75.7"]},
+      {"text": "Activity pattern isn't stated; only Crystal's Route 45 table leans to night.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Entries speak of Graveler in the plural ('They descend from mountains') but say nothing about groups. Whether the hardness contests of Geodude continue is unknown.", "class": "unknown", "confidence": "high", "evidence": ["75.8", "74.5"]}
+    ],
+    "reproduction": [
+      {"text": "Mineral egg group, 15 egg cycles, even sex ratio; the line's egg moves sit on Geodude. Nothing in the Pokédex describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Sturdy and Rock Head; Defense Curl, Self-Destruct (Lv 18) and Explosion (Lv 38).", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Defense Curl", "move:Self-Destruct", "move:Explosion"]},
+      {"text": "Its main defence is mass: few things in the highlands could hurt 105 kg of rolling rock.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "75.12"]}
+    ],
+    "senses": [
+      {"text": "It pays no attention to objects in its path; nothing is said about how it perceives.", "class": "canon", "confidence": "medium", "evidence": ["75.4", "C75.7"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Geodude at Lv 25 and into Golem by trade.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Geodude", "species:Golem"]},
+      {"text": "Golem sheds its hide once a year to grow larger; the shed hide crumbles and returns to the soil.", "class": "canon", "confidence": "high", "evidence": ["76.3", "76.8", "76.9", "C76.15", "C76.16"]},
+      {"text": "Across the line the body is constantly worn and renewed: chipped with age (Geodude), shedding pieces as it rolls (Graveler), moulting yearly (Golem).", "class": "inferred", "confidence": "medium", "evidence": ["74.6", "75.11", "76.8"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Rollout (Lv 22) is its way of travelling; Magnitude (Lv 15), Earthquake (Lv 33), Rock Blast (Lv 27) and Double-Edge (Lv 44) fit an animal that smashes trees and boulders aside with its tackles.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Rollout", "move:Magnitude", "move:Earthquake", "move:Rock Blast", "move:Double-Edge", "75.8"]},
+      {"text": "Dig is a machine move; its cliff holes are described, but how it gouges them is not.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Dig", "75.10"]}
+    ],
+    "ecology": [
+      {"text": "An engineer: its rows of cliff holes are cavities other animals could use once made.", "class": "hypothesis", "confidence": "low", "evidence": ["75.10"], "note": "Nobody is recorded using them. Delibird, which nests at the edge of sharp cliffs (225.2), is a candidate."},
+      {"text": "A disturber: it smashes trees and boulders aside on the way down, so it clears and breaks up slopes as it goes.", "class": "canon", "confidence": "medium", "evidence": ["75.8", "C75.17"]},
+      {"text": "Eating rock by the ton and shedding pieces as it rolls, the line turns bedrock into gravel and grit on a large scale: the community's main living agent of weathering, if the entries are literal.", "class": "hypothesis", "confidence": "low", "evidence": ["75.11", "75.3", "76.8"], "note": "Scale is the entries'; whether a ton a day is meant literally is unknown."},
+      {"text": "A grazer of moss on rock, which puts it at trophic level 2 if the moss is its real food.", "class": "hypothesis", "confidence": "low", "evidence": ["75.6"], "note": "One hedged entry."}
+    ],
+    "humans": [
+      {"text": "A hazard on mountain trails: it may come rolling down the path without slowing.", "class": "canon", "confidence": "high", "evidence": ["75.9", "C75.18", "C75.19"]},
+      {"text": "People engineer around the line: grooves have been dug into mountainsides to steer rolling Golem away from homes downhill.", "class": "canon", "confidence": "high", "evidence": ["76.7", "C76.13"]}
+    ],
+    "homestead": [
+      {"text": "Keep buildings and paths out of a Graveler's downhill line, or cut a diversion groove as people do for Golem.", "class": "inferred", "confidence": "high", "evidence": ["75.1", "76.7"], "capability": "construction"},
+      {"text": "It would eat the dry-stone walls: rock, preferably mossy, by the ton.", "class": "inferred", "confidence": "medium", "evidence": ["75.6", "75.11"]},
+      {"text": "A land-clearer, if it can be steered: it smashes aside trees and boulders on the way down.", "class": "hypothesis", "confidence": "low", "evidence": ["75.8"], "capability": "clearing", "note": "Nothing suggests it can be pointed anywhere; 75.2 says it goes straight over obstacles."},
+      {"text": "Taught Strength, a 105 kg bipedal body could haul stone.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Strength", "game:size", "game:shape"], "capability": "hauling"},
+      {"text": "A Graveler that cuts storage niches into the rock face behind the homestead, the way it cuts its own homes.", "class": "creative", "evidence": ["75.10"]}
+    ]
+  },
+  "niche": {"guild": "lithovore", "trophic_level": 2, "microhabitat": ["mountain trails and slopes", "cliff faces (horizontal burrows)", "cave floor"], "activity": "unknown",
+            "foraging": "grazes rock while climbing, preferring mossy rock; rolls back down. Trophic level 2 assumes moss is the real food", "evidence": ["C75.10", "C75.11", "C75.14"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "rock (non-living)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["75.6", "75.7", "75.11"]},
+    {"with": "moss on rock (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["75.6"], "note": "'Apparently' prefers mossy rock."},
+    {"with": "cliff faces", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["75.10"]},
+    {"with": "Delibird", "kind": "engineers", "class": "hypothesis", "confidence": "low", "evidence": ["75.10", "225.2"], "note": "Cliff holes as possible nest sites for a cliff-nesting bird; neither entry mentions the other."},
+    {"with": "Golem", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Geodude", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude"]},
+    {"with": "Gligar", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gligar"], "note": "Route 45, HeartGold."},
+    {"with": "Skarmory", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Skarmory"], "note": "Route 45, SoulSilver."},
+    {"with": "Wobbuffet", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Wobbuffet"], "note": "Blackthorn end of Dark Cave."}
+  ],
+  "ecotypes": [
+    {"name": "Cliff-cutter", "moves": ["Hammer Arm", "Mega Punch"], "class": "hypothesis", "confidence": "low",
+     "reading": "Heavy arm strikes in a lineage that gouges horizontal homes into sheer cliffs (75.10): a burrowing specialist of hard rock faces, such as the cliffs above Route 45.",
+     "behavior": "Spends more time cutting than rolling; colonies of holes in one face.", "evidence": ["75.10", "move:Hammer Arm", "move:Mega Punch"]},
+    {"name": "Avalanche", "moves": ["Rock Slide", "Flail"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that sends rock ahead of itself on the steepest slopes and fights hardest when battered. Fits scree and talus where its rolling sets off rockfalls.",
+     "behavior": "Rolls in a shower of stones.", "evidence": ["75.8", "move:Rock Slide", "move:Flail"]},
+    {"name": "Roadblock", "moves": ["Block", "Curse"], "class": "hypothesis", "confidence": "low",
+     "reading": "Block and Curse (slower, stronger, tougher) in a lineage that has given up rolling for holding ground: a Graveler that sits on the trail instead of thundering down it. Fits gentler slopes where rolling gains little.",
+     "behavior": "Grazes in place; rarely rolls.", "evidence": ["75.4", "move:Block", "move:Curse"]}
+  ],
+  "open_questions": [
+    "How much of a ton of rock is food? What does the moss contribute?",
+    "Is 'a ton a day' (75.6, 75.11) meant literally? At ten times body weight it would make Graveler the community's biggest earth-mover by far.",
+    "What lives in the cliff holes, during or after Graveler's use of them?",
+    "Does it eat building stone?",
+    "Is it night-active? Crystal's Route 45 table leans that way; the others don't split by time."
+  ],
+  "contradictions": [
+    {"entries": ["75.5", "75.8"], "text": "Crystal says that if it gains too much speed it stops by running into huge rocks; Emerald says it smashes aside obstructing trees and massive boulders.", "reading": "The entries disagree on whether a big rock stops a rolling Graveler or is knocked aside by it. Perhaps size of rock or speed decides; not resolved here."}
+  ],
+  "folklore": []
+}

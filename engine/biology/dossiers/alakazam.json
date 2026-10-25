@@ -1,0 +1,113 @@
+{
+  "species": "Alakazam",
+  "id": 65,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Alakazam is a humanoid Psychic Pokémon whose brain never stops growing: its brain cells multiply until it dies, it forgets nothing, and its head becomes too heavy for its neck, so it holds it up by psychokinesis. Its muscles are very weak, it moves its body with psychic power, and it would rather not fight hand to hand. It is the end of a line that begins with Abra, which sleeps 18 hours a day and teleports away from danger even in its sleep. Alakazam only forms when a Kadabra is traded between people, so no Gen I–IV game has a wild one.",
+  "sections": {
+    "anatomy": [
+      {"text": "A humanoid body of 1.5 m and 48 kg, Psychic type; it holds spoons in its hands.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "65.13"]},
+      {"text": "Its brain cells multiply continually until it dies, and the brain keeps growing.", "class": "canon", "confidence": "high", "evidence": ["65.4", "65.6", "65.7", "C65.7", "C65.11", "C65.13"]},
+      {"text": "The head becomes far too heavy for its neck, so it holds its head up with psychokinetic power.", "class": "canon", "confidence": "high", "evidence": ["65.6", "C65.11", "C65.12"]},
+      {"text": "Its muscles are very weak; it moves its body by psychic power.", "class": "canon", "confidence": "high", "evidence": ["65.8", "C65.16", "C65.17"]},
+      {"text": "Alakazam (48 kg) weighs less than Kadabra (56.5 kg) although it is taller, consistent with an animal that loses muscle as it comes to rely on psychokinesis.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "species:Kadabra", "65.8"]},
+      {"text": "Its brain is described as able to outperform a supercomputer.", "class": "canon", "confidence": "high", "evidence": ["65.1", "65.10", "65.12", "C65.1", "C65.20", "C65.24"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage says what the line eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A brain that never stops growing must be expensive to run, so its energy needs are probably high; how it meets them is unrecorded.", "class": "hypothesis", "confidence": "low", "evidence": ["65.4", "65.7"], "note": "The machine reading's 'psychotroph' came from its Psychic type alone."}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat for the whole line: urban.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "Alakazam is never wild in Gen I–IV, because it forms only when a Kadabra is traded.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]},
+      {"text": "Abra is widespread: grassy routes in Kanto and Johto (in HeartGold and SoulSilver, Routes 34, 35, 5, 6, 8, 24 and 25), Granite Cave and Route 116 in Hoenn, Routes 203 and 215 in Sinnoh. Kadabra is wild on Kanto's Route 8, in Cerulean Cave, and in Sinnoh's Victory Road and Route 215.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Abra", "species:Kadabra"]},
+      {"text": "Abra is also a Game Corner prize in Celadon City and Goldenrod City, and in Diamond, Pearl and Platinum a person in Oreburgh City trades one for a Machop.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Abra", "species:Machop"]}
+    ],
+    "behavior": [
+      {"text": "It calculates many things in order to gain the edge in every battle.", "class": "canon", "confidence": "high", "evidence": ["65.5", "C65.10"]},
+      {"text": "It does not like physical attacks, and uses extrasensory powers to defeat foes instead.", "class": "canon", "confidence": "high", "evidence": ["65.9", "C65.18", "C65.19"]},
+      {"text": "Abra sleeps 18 hours a day, because using psychic power strains its brain; without that sleep it loses its telekinetic powers.", "class": "canon", "confidence": "high", "evidence": ["63.2", "63.6", "63.7", "63.8", "63.9", "63.11", "63.13", "C63.10", "C63.11", "C63.21"]},
+      {"text": "Whether the adult also needs that much sleep is not stated, but a brain that keeps growing gives no reason to expect less.", "class": "inferred", "confidence": "low", "evidence": ["63.13", "65.4"]},
+      {"text": "Activity pattern: Abra is on Gold, Silver and Crystal's tables morning, day and night alike, so the line's waking hours are not tied to the time of day.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters", "species:Abra"]}
+    ],
+    "social": [
+      {"text": "No entry describes how Alakazam live with their own kind.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Human-Like egg group, 20 egg cycles, 75% male.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Its superb memory lets it recall everything it has experienced from birth.", "class": "canon", "confidence": "high", "evidence": ["65.11", "C65.22"]},
+      {"text": "Nothing describes breeding or care of young.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "It avoids physical fighting and defeats foes with extrasensory power.", "class": "canon", "confidence": "high", "evidence": ["65.9"]},
+      {"text": "The line's first defence is to leave: Abra senses or reads impending danger and teleports to safety, even while asleep, putting itself into a trance so that it can.", "class": "canon", "confidence": "high", "evidence": ["63.1", "63.3", "63.5", "63.10", "63.12", "C63.1", "C63.4", "C63.6", "C63.17", "C63.20"]},
+      {"text": "When Abra teleports at random it creates the illusion of copies of itself.", "class": "canon", "confidence": "high", "evidence": ["63.4", "63.14", "C63.5", "C63.22"]},
+      {"text": "Teleport is still in Alakazam's level-up set (Lv 1), alongside Reflect (Lv 28) and Recover (Lv 30).", "class": "mechanic", "confidence": "high", "evidence": ["move:Teleport", "move:Reflect", "move:Recover"]},
+      {"text": "Inner Focus keeps it from flinching, and Synchronize passes poison, burns or paralysis back to an attacker.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Closing both its eyes heightens all its other senses, letting it use its abilities to their extremes.", "class": "canon", "confidence": "high", "evidence": ["65.3", "C65.5", "C65.6"]},
+      {"text": "Abra keeps a telepathic radar even while asleep and can sense foes in its sleep.", "class": "canon", "confidence": "high", "evidence": ["63.6", "63.12", "C63.8", "C63.19"]},
+      {"text": "Kadabra gives off twice as many alpha particles when it closes its eyes, the same eyes-closed heightening seen in the adult.", "class": "canon", "confidence": "high", "evidence": ["64.5", "C64.7", "65.3"]}
+    ],
+    "life_cycle": [
+      {"text": "Abra (0.9 m, 19.5 kg) becomes Kadabra at level 16 (1.3 m, 56.5 kg), and Kadabra becomes Alakazam (1.5 m, 48 kg) only when traded.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Abra", "species:Kadabra"]},
+      {"text": "Read biologically, the final stage depends on exchange between people. No Alakazam can arise in a wild population, which fits its absence from every encounter table.", "class": "inferred", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]},
+      {"text": "Kadabra emits alpha waves that cause headaches in people close by, make machines malfunction and ruin precision devices; it holds a silver spoon to amplify those waves.", "class": "canon", "confidence": "high", "evidence": ["64.1", "64.4", "64.7", "64.10", "64.12", "64.13", "C64.1", "C64.6", "C64.10", "C64.11", "C64.18", "C64.19"]},
+      {"text": "Kadabra's psychic power grows stronger the more danger it faces, and many odd things happen near it, such as clocks running backwards and eerie shadows on television screens.", "class": "canon", "confidence": "medium", "evidence": ["64.2", "64.3", "64.11", "C64.3", "C64.5", "C64.16"]},
+      {"text": "Development runs from a sleeping, fleeing juvenile, through a disruptive, spoon-focused adolescent, to an adult whose growing brain outstrips its body.", "class": "inferred", "confidence": "medium", "evidence": ["63.2", "64.7", "65.6", "65.8"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Abra's only level-up move is Teleport: the juvenile's entire repertoire is escape.", "class": "mechanic", "confidence": "high", "evidence": ["move:Teleport", "species:Abra"]},
+      {"text": "Kinesis (Lv 1), in which the user bends a spoon to distract the target, is the spoon of the Kadabra entries in move form.", "class": "mechanic", "confidence": "high", "evidence": ["move:Kinesis", "64.7"]},
+      {"text": "Its level-up attacks are all psychic: Confusion, Psybeam (Lv 24), Psycho Cut (Lv 34), Psychic (Lv 40) and Future Sight (Lv 42); Calm Mind (Lv 36) and Miracle Eye (Lv 22) fit a mind that calculates and sees through tricks.", "class": "mechanic", "confidence": "high", "evidence": ["move:Confusion", "move:Psybeam", "move:Psycho Cut", "move:Psychic", "move:Future Sight", "move:Calm Mind", "move:Miracle Eye"]},
+      {"text": "This is a repertoire nothing observes in the wild, since no wild Alakazam exists in these games.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "ecology": [
+      {"text": "Its role in a wild community is unknown, and in the games' terms it has none: it exists only through trade.", "class": "unknown", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]},
+      {"text": "Abra, which is wild and common, is a small prey-sized animal that survives by sleeping, sensing and teleporting rather than hiding or fighting.", "class": "inferred", "confidence": "medium", "evidence": ["63.2", "63.3", "game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Only people with a particularly strong psyche can hope to train a Kadabra.", "class": "canon", "confidence": "high", "evidence": ["64.6", "C64.9"]},
+      {"text": "Its whole final stage is created by people trading it, which makes Alakazam as much a product of human exchange as of biology.", "class": "inferred", "confidence": "high", "evidence": ["game:evolution"]}
+    ],
+    "homestead": [
+      {"text": "An emergency exit: Teleport is part of its own repertoire and gets everyone out fast.", "class": "mechanic", "confidence": "high", "evidence": ["move:Teleport", "63.3"], "capability": "escape"},
+      {"text": "Early warning: the line senses danger before it arrives, and the adult's senses sharpen further when it closes its eyes.", "class": "canon", "confidence": "medium", "evidence": ["63.3", "65.3"], "capability": "danger_sense"},
+      {"text": "Fine handling: it holds spoons and moves its body by psychokinesis, so delicate work at a distance is plausible.", "class": "inferred", "confidence": "low", "evidence": ["65.8", "65.13"], "capability": "manipulation"},
+      {"text": "The homestead's memory: an animal that forgets nothing could keep the breeding records in its head.", "class": "creative", "evidence": ["65.2", "65.11"]},
+      {"text": "Not a labourer: its muscles are very weak.", "class": "canon", "confidence": "high", "evidence": ["65.8"]},
+      {"text": "Keep a Kadabra away from incubators, radios and any precision equipment: its alpha waves make machines malfunction. Whether Alakazam does the same is not stated.", "class": "inferred", "confidence": "medium", "evidence": ["64.4", "64.12"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["towns (Gen 3 habitat: urban)", "grassy routes and caves (Abra and Kadabra)"], "activity": "unknown", "foraging": "not described", "evidence": ["game:habitat", "game:encounters"], "class": "inferred", "confidence": "low", "note": "Diet is never stated. Alakazam has no wild niche in these games."},
+  "relationships": [
+    {"with": "silver spoons", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["64.7", "64.13", "65.13"], "note": "Kadabra uses one to amplify its alpha waves; Alakazam's spoons are said to be made by its psychic powers."}
+  ],
+  "ecotypes": [
+    {"name": "Elemental fist", "moves": ["Fire Punch", "Ice Punch", "Thunder Punch"], "class": "hypothesis", "confidence": "low", "reading": "Three punches that each carry an element. A lineage that does fight hand to hand, making up for weak muscles with fire, cold and charge delivered on contact. It runs against the adult's dislike of physical attacks (65.9). Fits close quarters, such as caves like Granite Cave where foes come within reach before they can be sensed.", "behavior": "Lets a foe close in, then strikes once, hard, with whatever element suits.", "evidence": ["65.9", "move:Fire Punch", "move:Ice Punch", "move:Thunder Punch"]},
+    {"name": "Walled sleeper", "moves": ["Barrier", "Guard Swap"], "class": "hypothesis", "confidence": "low", "reading": "Barrier raises a sharp defensive wall and Guard Swap trades defensive advantages with a foe. A lineage that protects its long sleep with walls instead of teleporting away. Fits narrow caves and crowded towns where teleporting at random is risky.", "behavior": "Sleeps behind a barrier and doesn't flee.", "evidence": ["63.2", "move:Barrier", "move:Guard Swap"]},
+    {"name": "Trickster", "moves": ["Encore", "Knock Off", "Power Trick"], "class": "hypothesis", "confidence": "low", "reading": "Encore locks a foe into repeating its last move, Knock Off strips what it holds, and Power Trick swaps the user's own attack and defence. A calculating lineage that disarms and controls foes instead of overpowering them, the 'calculates many things' of 65.5 put to work. Fits towns, where people and their objects are always within reach.", "behavior": "Makes its opponent predictable, then takes its things.", "evidence": ["65.5", "move:Encore", "move:Knock Off", "move:Power Trick"]}
+  ],
+  "open_questions": [
+    "What does the line eat, and how does it fuel a brain that never stops growing?",
+    "Does the adult still sleep 18 hours a day, as Abra does?",
+    "Where do its spoons come from: found, made, or psychically created (65.13)?",
+    "Does Alakazam make machines malfunction, as Kadabra does?",
+    "Could Alakazam ever arise without people trading it?",
+    "What is its memory of: its own life (65.11), or 'everything that has occurred in the world' (65.7)?",
+    "Was there ever a boy who became a Kadabra? (see folklore and contradictions)"
+  ],
+  "contradictions": [
+    {"topic": "IQ: fact or saying", "entries": ["65.1", "65.10", "65.5", "65.7", "65.11"], "note": "Red, Blue and LeafGreen (65.1, 65.10) give an IQ of 5,000 as something 'it is said'; Crystal and Sapphire (65.5, 65.7) state it as fact; Diamond (65.11) says it exceeds 5,000."},
+    {"topic": "What it remembers", "entries": ["65.11", "65.7"], "note": "Diamond (65.11) says it recalls everything it has experienced since birth; Sapphire (65.7) says it has a thorough memory of everything that has occurred in the world, which is a much larger claim."},
+    {"topic": "The boy who became a Kadabra", "entries": ["64.8", "64.9"], "note": "Emerald (64.8) reports it as a rumour; FireRed (64.9) narrates it as an event."}
+  ],
+  "folklore": [
+    {"text": "Its IQ is said to be about 5,000.", "evidence": ["65.1", "65.10", "C65.2", "C65.21"], "note": "Other entries state the figure as fact (see contradictions)."},
+    {"text": "The spoons in its hands are said to have been created by its psychic powers.", "evidence": ["65.13", "C65.26"]},
+    {"text": "A boy with psychic abilities is rumoured to have turned into a Kadabra while helping with research into extrasensory powers; another version has him wake one morning transformed.", "evidence": ["64.8", "64.9", "C64.13", "C64.14"], "note": "Line folklore, from Kadabra's entries."},
+    {"text": "Without its spoon, Kadabra is said to have only half its usual telekinetic power, and seeing the shadow it casts on television screens is said to bring bad luck.", "evidence": ["64.7", "64.11", "C64.12", "C64.17"], "note": "Line folklore."}
+  ]
+}

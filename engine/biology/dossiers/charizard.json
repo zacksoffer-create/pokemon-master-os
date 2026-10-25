@@ -1,0 +1,110 @@
+{
+  "species": "Charizard",
+  "id": 6,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Charizard is a winged, fire-breathing mountain Pokémon: 1.7 m and 90.5 kg, able to fly to nearly 4,600 feet and breathe fire hot enough to melt boulders. It flies about looking for strong opponents and never turns its fire on one weaker than itself, though its flames can start forest fires by accident. Its tail flame, which in Charmander is a measure of its life, flares whitish-blue when it is furious. Every Charizard in Gen I–IV is raised from a Charmander given to a trainer; the line's wild home is described only as the rocky mountains where Charmeleon's tails shine at night like stars.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright, winged, tailed body of 1.7 m and 90.5 kg, Fire and Flying type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Wings strong enough to carry it high, close to 4,600 feet (about 1,400 m).", "class": "canon", "confidence": "high", "evidence": ["6.5", "6.8", "C6.7", "C6.15"]},
+      {"text": "A flame burns at the tip of its tail; it burns more intensely when Charizard breathes out a blast of fire, and flares whitish-blue or light blue when it is furious.", "class": "canon", "confidence": "high", "evidence": ["6.2", "6.3", "6.11", "C6.3", "C6.4", "C6.20"]},
+      {"text": "It breathes or spits fire hot enough to melt boulders, or almost anything.", "class": "canon", "confidence": "high", "evidence": ["6.1", "6.4", "6.6", "6.7", "6.9", "6.12", "C6.1", "C6.5", "C6.10", "C6.13", "C6.17", "C6.21"]},
+      {"text": "In the juvenile, the tail flame burns from birth and reflects its health; Charmander's life would end if the flame went out.", "class": "canon", "confidence": "high", "evidence": ["4.3", "4.4", "4.8", "4.10", "C4.5", "C4.14", "C4.15"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage says what the line eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Charmander prefers hot places and hot things, but that is a preference for heat, not a diet; the machine reading's 'thermotroph' came from its Fire type alone.", "class": "canon", "confidence": "medium", "evidence": ["4.1", "4.9", "C4.1", "C4.16"]},
+      {"text": "Charmeleon knocks foes down with its tail and tears them up with its claws, which describes fighting, not necessarily feeding.", "class": "canon", "confidence": "medium", "evidence": ["5.8", "C5.14", "C5.15"]}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat for the whole line: mountain. Charmeleon live in rocky mountains, where their fiery tails shine at night like stars.", "class": "canon", "confidence": "high", "evidence": ["game:habitat", "5.10", "C5.17"]},
+      {"text": "It ranges into forest as well: its flames are known to cause forest fires.", "class": "canon", "confidence": "high", "evidence": ["6.1", "6.9", "C6.2", "C6.18"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Charmander is a starter gift in Pallet Town (Red, Blue, FireRed, LeafGreen, and HeartGold and SoulSilver after beating Red) and on Route 24 in Yellow.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Charmander"]}
+    ],
+    "behavior": [
+      {"text": "It flies about in search of strong opponents.", "class": "canon", "confidence": "high", "evidence": ["6.6", "6.7", "C6.9", "C6.12"]},
+      {"text": "It never turns its fiery breath on an opponent weaker than itself.", "class": "canon", "confidence": "high", "evidence": ["6.6", "6.7", "C6.11", "C6.14"]},
+      {"text": "This is a change from the middle stage: Charmeleon is hotheaded, constantly seeks opponents, and calms down only when it wins, with no mention of sparing the weak.", "class": "canon", "confidence": "high", "evidence": ["5.3", "C5.4", "C5.5"]},
+      {"text": "Its activity pattern is unknown. Charmeleon's tails are seen shining at night, which shows they are out at night, not necessarily active.", "class": "unknown", "confidence": "medium", "evidence": ["5.10"]}
+    ],
+    "social": [
+      {"text": "No entry describes Charizard living in groups or pairs.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Seeking strong opponents while sparing weak ones suggests contests with rivals of similar strength, as ritual or status contests rather than predation.", "class": "inferred", "confidence": "medium", "evidence": ["6.6", "6.7"]},
+      {"text": "Charmeleon's tails shining 'like stars' in the rocky mountains implies many individuals within sight of each other at night.", "class": "inferred", "confidence": "low", "evidence": ["5.10"]}
+    ],
+    "reproduction": [
+      {"text": "Monster and Dragon egg groups, 20 egg cycles, 87.5% male; the sex ratio is shared with the other starter lines and is probably a game convention.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Squirtle", "species:Bulbasaur"]},
+      {"text": "The young hatch with the tail flame already burning.", "class": "canon", "confidence": "high", "evidence": ["4.8", "C4.14"]},
+      {"text": "Nothing describes courtship, nests or parental care.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "Its breath inflicts terrible pain on enemies.", "class": "canon", "confidence": "high", "evidence": ["6.4", "6.12", "C6.6"]},
+      {"text": "Smokescreen (Lv 10) and Scary Face (Lv 21) are wild level-up moves: smoke to blind and a threat face to deter.", "class": "mechanic", "confidence": "high", "evidence": ["move:Smokescreen", "move:Scary Face"]},
+      {"text": "Blaze strengthens its fire when it is close to defeat.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Its sheer size, flight and fire leave few animals that could threaten it; no predator is named.", "class": "inferred", "confidence": "low", "evidence": ["game:size", "6.5", "6.4"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Charmander's tail flame makes a sound as it burns, audible only in quiet places; whether the adult's is louder is not recorded.", "class": "canon", "confidence": "high", "evidence": ["4.2", "C4.3", "C4.4"]}
+    ],
+    "life_cycle": [
+      {"text": "Charmander (0.6 m, 8.5 kg) becomes Charmeleon at level 16 (1.1 m, 19 kg) and Charizard at level 36 (1.7 m, 90.5 kg). The last step nearly quintuples its mass as it gains wings and the Flying type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "game:types", "species:Charmander", "species:Charmeleon"]},
+      {"text": "The juvenile's flame shows its strength and emotions: weak when it is weak, bright when healthy, wavering when happy, blazing when enraged; when healthy it keeps burning even if a bit wet.", "class": "canon", "confidence": "high", "evidence": ["4.3", "4.4", "4.5", "4.6", "4.7", "C4.10", "C4.11", "C4.13"]},
+      {"text": "Charmeleon is the aggressive stage: barbaric in nature, it whips its fiery tail around, slashes with sharp claws and destroys foes without pity; a strong foe makes its tail flare bluish-white.", "class": "canon", "confidence": "high", "evidence": ["5.2", "5.4", "5.6", "5.7", "C5.6", "C5.7", "C5.11", "C5.13"]},
+      {"text": "As Charmeleon, its swinging tail raises the air temperature to unbearable levels, and when agitated it spouts flames that incinerate its surroundings.", "class": "canon", "confidence": "high", "evidence": ["5.1", "5.5", "5.9", "C5.1", "C5.8", "C5.16"]},
+      {"text": "Crystal says its fire grows hotter as it gains battle experience; Diamond, Pearl and Platinum give the same idea only as something 'it is said'.", "class": "canon", "confidence": "medium", "evidence": ["6.5", "C6.8", "6.10"]},
+      {"text": "Read as development, the line goes from a fragile juvenile whose flame is its life, through an indiscriminately aggressive adolescent, to a flying adult that chooses its fights.", "class": "inferred", "confidence": "medium", "evidence": ["4.8", "5.3", "6.6"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Fire by level-up: Ember (Lv 7), Fire Fang (Lv 28), Flamethrower (Lv 42), Fire Spin (Lv 49), Heat Wave (Lv 59) and Flare Blitz (Lv 66).", "class": "mechanic", "confidence": "high", "evidence": ["move:Ember", "move:Fire Fang", "move:Flamethrower", "move:Fire Spin", "move:Heat Wave", "move:Flare Blitz"]},
+      {"text": "Claws: Slash (Lv 32), with Dragon Claw and Shadow Claw available at Lv 1, matching the sharp claws of the Charmeleon entries.", "class": "mechanic", "confidence": "high", "evidence": ["move:Slash", "move:Dragon Claw", "move:Shadow Claw", "5.6"]},
+      {"text": "Flight: Wing Attack comes at Lv 36, as it evolves, and Air Slash at Lv 1. Fly itself is a machine move taught by people.", "class": "mechanic", "confidence": "high", "evidence": ["move:Wing Attack", "move:Air Slash", "move:Fly"]}
+    ],
+    "ecology": [
+      {"text": "A fire-maker that changes landscapes: its flames can set forests alight, by accident.", "class": "canon", "confidence": "high", "evidence": ["6.1", "6.9"]},
+      {"text": "Fires it starts would open the canopy and reset parts of a forest, with knock-on effects for everything living there.", "class": "inferred", "confidence": "medium", "evidence": ["6.1", "6.9"]},
+      {"text": "Its trophic position is unknown because its diet is never given.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Known to cause forest fires unintentionally, so it is a fire hazard wherever it lives near people.", "class": "canon", "confidence": "high", "evidence": ["6.1", "6.9"]},
+      {"text": "In the games the line reaches people only as a starter: there are no wild ones.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Charmander"]}
+    ],
+    "homestead": [
+      {"text": "Air travel and long-range errands: its wings carry it close to 4,600 feet, and Fly (a taught move) lets it carry its trainer.", "class": "canon", "confidence": "medium", "evidence": ["6.8", "move:Fly", "game:size"], "capability": "air_travel"},
+      {"text": "A heat source in winter, if kept under control: it already features as a candidate for the Hearth hall.", "class": "inferred", "confidence": "medium", "evidence": ["6.2", "game:types"], "capability": "heat_source"},
+      {"text": "A light after dark: the tail flame of the line shines at night like a star.", "class": "canon", "confidence": "medium", "evidence": ["5.10", "6.2"], "capability": "light"},
+      {"text": "Fire safety comes first: keep it away from the hay store, timber and the Glasshouse plantings, and never let it fight near buildings, since its fire melts boulders and can start forest fires by accident.", "class": "inferred", "confidence": "high", "evidence": ["6.1", "6.4"]},
+      {"text": "Its tail flame is a built-in health check: in the juvenile a weak flame means a weak animal, so keepers can read it daily.", "class": "inferred", "confidence": "medium", "evidence": ["4.3", "4.4"]},
+      {"text": "Young Charmander need shelter from Blackthorn's rain and snow: their life depends on the tail flame, which only a healthy one keeps burning when a bit wet.", "class": "inferred", "confidence": "medium", "evidence": ["4.5", "4.8"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["rocky mountains", "high air up to about 1,400 m", "forest (visits)"], "activity": "unknown", "foraging": "not described; it flies widely in search of opponents", "evidence": ["game:habitat", "5.10", "6.8", "6.6"], "class": "inferred", "confidence": "low", "note": "Diet is never stated for any stage, so no guild or trophic level is given."},
+  "relationships": [
+    {"with": "forests", "kind": "engineers", "class": "canon", "confidence": "high", "evidence": ["6.1", "6.9"], "note": "It sets forest fires by accident."},
+    {"with": "hot places", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["4.1", "4.9"], "note": "Charmander prefers them; whether the adult does is not stated."},
+    {"with": "rocky mountains", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["5.10", "game:habitat"]}
+  ],
+  "ecotypes": [
+    {"name": "Crag duellist", "moves": ["Dragon Dance", "Dragon Rush", "Outrage"], "class": "hypothesis", "confidence": "low", "reading": "Dragon Dance raises speed and strength, read here as a display before a fight; Dragon Rush is a full-body charge and Outrage a sustained rampage. A lineage that settles contests with rivals by display and then open combat, the adult's search for strong opponents made central. Fits high crags where flying rivals meet.", "behavior": "Displays from a high perch, then dives at the challenger.", "evidence": ["6.6", "move:Dragon Dance", "move:Dragon Rush", "move:Outrage"]},
+    {"name": "Scree hunter", "moves": ["Rock Slide", "Ancient Power", "Metal Claw"], "class": "hypothesis", "confidence": "low", "reading": "Rock Slide and Ancient Power bring stone down or hurl it, and Metal Claw is a hard-edged slash. A lineage that works broken rock, loosening scree onto whatever is below and finishing with claws. Fits steep, rocky mountains like those where Charmeleon live.", "behavior": "Hunts along cliff edges, sending stones down before it follows.", "evidence": ["5.10", "move:Rock Slide", "move:Ancient Power", "move:Metal Claw"]},
+    {"name": "Pack raider", "moves": ["Beat Up", "Bite", "Crunch"], "class": "hypothesis", "confidence": "low", "reading": "Beat Up is an attack the user's companions all join, and Bite and Crunch are jaw attacks. A lineage that hunts or fights in groups and uses its jaws more than its fire. Fits mountain valleys where many Charmeleon live within sight of one another.", "behavior": "Attacks as a group; the jaws do the work, the fire is held back.", "evidence": ["5.10", "move:Beat Up", "move:Bite", "move:Crunch"]}
+  ],
+  "open_questions": [
+    "What does any stage of the line eat?",
+    "Where do wild Charizard live? No Gen I–IV game has a wild one of any stage.",
+    "Does the adult's life depend on its tail flame, as Charmander's does?",
+    "Does its fire really grow hotter with experience? Crystal says so; Diamond, Pearl and Platinum only report it as hearsay.",
+    "Why does it spare weaker opponents? Is it a contest rule, or about energy?",
+    "Do Charmeleon live in groups, as 'tails shine at night like stars' suggests?",
+    "How does a flame-tailed juvenile survive rain and snow in the mountains?"
+  ],
+  "contradictions": [
+    {"topic": "Fire temperature and experience: fact or saying", "entries": ["6.5", "6.10"], "note": "Crystal (6.5) states that its fire gets hotter as it gains battle experience; Diamond, Pearl and Platinum (6.10) give the same claim only as 'it is said'. The content agrees; the confidence doesn't."}
+  ],
+  "folklore": [
+    {"text": "It is said that Charizard's fire burns hotter if it has experienced harsh battles.", "evidence": ["6.10", "C6.19"], "note": "Crystal (6.5) states the same thing as fact."},
+    {"text": "When it rains, steam is said to spout from the tip of Charmander's tail.", "evidence": ["4.1", "4.9", "C4.2"], "note": "Line folklore, from the juvenile's entries."}
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "species": "Swampert",
+  "id": 260,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Swampert is a 1.5 m, 82 kg amphibious Pokémon of shores and mud, and enormously strong: it can drag a boulder of more than a ton, swim as fast as a jet ski while towing a large ship, and break rock with a swing of its arms. It nests on beaches, and it hears a storm coming in the sound of the waves and the tidal winds, then piles up boulders to shield its nest. The line grows up in mud: Mudkip breathes through gills on its cheeks and senses water movement with the fin on its head, and Marshtomp must keep its skin wet by playing in mud. No Gen I–IV game has it in the wild; every Swampert comes from a Mudkip given to a trainer.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright, tailed body of 1.5 m and 81.9 kg, Water and Ground type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its thick arms are as hard as rock and can break a boulder into pieces with one swing.", "class": "canon", "confidence": "high", "evidence": ["260.4", "260.5", "260.6", "C260.8", "C260.13", "C260.14"]},
+      {"text": "It has fins sensitive enough to pick up subtle differences in the sound of waves and tidal winds.", "class": "canon", "confidence": "high", "evidence": ["260.2", "C260.4"]},
+      {"text": "In Mudkip, gills on the cheeks let it breathe in water, a large tail fin drives it through water, and the fin on its head works as a sensitive detector of water and air movement.", "class": "canon", "confidence": "high", "evidence": ["258.1", "258.2", "258.4", "C258.1", "C258.3", "C258.7"], "analogy": "The axolotl (Ambystoma mexicanum) also carries external gills on the sides of its head."},
+      {"text": "Marshtomp's body is covered by a thin, sticky film that lets it live on land, but it weakens if its skin dries out.", "class": "canon", "confidence": "high", "evidence": ["259.1", "259.3", "C259.1", "C259.6"], "analogy": "Amphibians lose water quickly through their thin, mucus-covered skin and must keep it moist."},
+      {"text": "Whether the adult keeps gills, or breathes air only, is not stated.", "class": "unknown", "confidence": "high", "evidence": ["258.2"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage says what the line eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Seeing clearly in murky water would help a hunter or a forager of the bottom alike, so it doesn't settle the question.", "class": "inferred", "confidence": "low", "evidence": ["260.1"]}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat for the whole line: the water's edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "The adult is coastal: it makes its nest on beautiful beaches and guards a seaside nest against storms and tidal waves.", "class": "canon", "confidence": "high", "evidence": ["260.3", "260.4", "C260.6", "C260.10"]},
+      {"text": "The juveniles live in mud and fresh water: Mudkip sleeps buried in soil at the water's edge or rests covered in mud at the bottom of a river, and Marshtomp plays in beach mud at low tide.", "class": "canon", "confidence": "high", "evidence": ["258.3", "258.6", "259.1", "C258.6", "C258.12", "C259.2"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Mudkip is a starter gift on Route 101 in Ruby, Sapphire and Emerald, and in HeartGold and SoulSilver it is given in Saffron City after beating Red, to a player who received a Kanto starter.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Mudkip"]}
+    ],
+    "behavior": [
+      {"text": "It predicts storms: it senses subtle changes in the sound of waves and tidal winds and, if a storm or tidal wave is coming, piles up boulders to protect itself and its nest.", "class": "canon", "confidence": "high", "evidence": ["260.2", "260.3", "C260.4", "C260.5", "C260.6"], "analogy": "Young blacktip sharks have been recorded leaving shallow nursery waters ahead of a tropical storm, apparently in response to falling air pressure; the cue differs, the early warning is the same."},
+      {"text": "It swims as fast as a jet ski.", "class": "canon", "confidence": "high", "evidence": ["260.3", "C260.7"]},
+      {"text": "Marshtomp is much faster in mud than in water, burrows into dirt to sleep, and is at its best on muddy ground with poor footing.", "class": "canon", "confidence": "high", "evidence": ["259.2", "259.4", "259.5", "C259.3", "C259.7", "C259.10"]},
+      {"text": "Its activity pattern is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or territory.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "It nests on beaches and defends the nest by building boulder walls before storms.", "class": "canon", "confidence": "high", "evidence": ["260.3", "260.4"], "analogy": "Sea turtles also nest on sandy beaches above the tide line, where storm surges are the main threat to their nests."},
+      {"text": "Monster and Water 1 egg groups, 20 egg cycles, 87.5% male; the sex ratio is shared with the other starter lines and is probably a game convention.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Totodile", "species:Squirtle"]},
+      {"text": "What is in the nest, how long it is tended and by which parent, is not described.", "class": "unknown", "confidence": "high", "evidence": ["260.4"]}
+    ],
+    "defense": [
+      {"text": "It bashes down foes with one swing of its rock-hard arms.", "class": "canon", "confidence": "high", "evidence": ["260.4", "260.5", "C260.9", "C260.12"]},
+      {"text": "Marshtomp fights on its own ground: it quickly overwhelms foes struggling in mud.", "class": "canon", "confidence": "high", "evidence": ["259.4", "C259.8"]},
+      {"text": "In a tight spot even Mudkip can crush rocks bigger than itself.", "class": "canon", "confidence": "high", "evidence": ["258.2", "C258.4"]},
+      {"text": "Torrent strengthens its Water moves when it is close to defeat, matching the juvenile's burst of strength in a pinch; Protect (Lv 46) is its guard.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Protect", "258.2"]}
+    ],
+    "senses": [
+      {"text": "Powerful vision lets it see even in murky water.", "class": "canon", "confidence": "high", "evidence": ["260.1", "C260.3"]},
+      {"text": "Its fins pick up the sound of waves and tidal winds.", "class": "canon", "confidence": "high", "evidence": ["260.2"]},
+      {"text": "Mudkip relies on its head fin instead of its eyes, sensing water and air movement to tell what is happening around it; the adult adds strong eyesight.", "class": "canon", "confidence": "high", "evidence": ["258.1", "258.5", "C258.2", "C258.9", "260.1"], "analogy": "The lateral line of fishes and aquatic amphibians detects water movement and pressure changes in the same way."}
+    ],
+    "life_cycle": [
+      {"text": "Mudkip (0.4 m, 7.6 kg, four-legged) becomes Marshtomp at level 16 (0.7 m, 28 kg, upright, gaining the Ground type) and Swampert at level 36 (1.5 m, 81.9 kg).", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "game:shape", "game:types", "species:Mudkip", "species:Marshtomp"]},
+      {"text": "Marshtomp's hindquarters are well developed, so it can walk on its hind legs; living on muddy ground with poor footing has made its legs sturdy.", "class": "canon", "confidence": "high", "evidence": ["259.2", "259.3", "259.5", "259.6", "C259.4", "C259.5", "C259.9", "C259.11"]},
+      {"text": "Read as development, the line moves from a gilled, fin-sensing animal of rivers and mud, through an upright mud-dweller that must stay damp, to a powerful swimmer of the coast that sees well in murky water.", "class": "inferred", "confidence": "medium", "evidence": ["258.2", "259.3", "260.3", "260.1"], "analogy": "Broadly like amphibian development, from a gilled, water-bound larva to a more land-capable adult, though Swampert returns to open water."},
+      {"text": "Strength is there from the start: Mudkip lifts large boulders by planting its four feet and heaving, and has the strength to crush them.", "class": "canon", "confidence": "high", "evidence": ["258.3", "258.5", "258.6", "C258.5", "C258.8", "C258.10", "C258.11"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Mud: Mud-Slap (Lv 6), Mud Shot (Lv 16), Mud Bomb (Lv 25) and Muddy Water (Lv 39), the move form of a life spent in mud.", "class": "mechanic", "confidence": "high", "evidence": ["move:Mud-Slap", "move:Mud Shot", "move:Mud Bomb", "move:Muddy Water", "259.4"]},
+      {"text": "Arms and ground: Hammer Arm (Lv 69) is the rock-hard swing of its entries, and Earthquake (Lv 52) suits an 82 kg Ground type.", "class": "mechanic", "confidence": "high", "evidence": ["move:Hammer Arm", "move:Earthquake", "260.6"]},
+      {"text": "Foresight (Lv 20) sees through evasion, consistent with an animal that perceives its surroundings well in murky conditions.", "class": "mechanic", "confidence": "low", "evidence": ["move:Foresight", "260.1"]},
+      {"text": "Surf, Waterfall, Strength, Dig and Rock Climb are machine moves taught by people.", "class": "mechanic", "confidence": "high", "evidence": ["move:Surf", "move:Waterfall", "move:Strength", "move:Dig", "move:Rock Climb"]}
+    ],
+    "ecology": [
+      {"text": "A builder: it piles boulders into storm walls around its nest, changing the shape of the beach.", "class": "canon", "confidence": "high", "evidence": ["260.2", "260.3"]},
+      {"text": "Those boulder walls would give shelter to other shore animals as well, during and after storms.", "class": "hypothesis", "confidence": "low", "evidence": ["260.3"], "note": "Nothing says what else uses them."},
+      {"text": "Its trophic position is unknown because its diet is never given.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "It can swim while towing a large ship.", "class": "canon", "confidence": "high", "evidence": ["260.5", "C260.11"]},
+      {"text": "It is strong enough to drag a boulder of more than a ton with ease.", "class": "canon", "confidence": "high", "evidence": ["260.1", "C260.1", "C260.2"]},
+      {"text": "In the games it reaches people only as a starter gift.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Mudkip"]}
+    ],
+    "homestead": [
+      {"text": "Storm warning: it hears a storm coming in the waves and wind. On a mountain lake rather than a coast, how far that sense still works is untested.", "class": "canon", "confidence": "medium", "evidence": ["260.2"], "capability": "danger_sense"},
+      {"text": "Heavy hauling: it drags boulders of more than a ton and tows ships.", "class": "canon", "confidence": "high", "evidence": ["260.1", "260.5"], "capability": "hauling"},
+      {"text": "Dry-stone walling: it already piles boulders into protective walls of its own accord, which is close to useful building work.", "class": "inferred", "confidence": "medium", "evidence": ["260.2", "260.3"], "capability": "construction"},
+      {"text": "Rock clearing: one swing breaks a boulder into pieces.", "class": "canon", "confidence": "high", "evidence": ["260.6"], "capability": "clearing"},
+      {"text": "Water crossings: it swims as fast as a jet ski, and Surf is a taught move.", "class": "canon", "confidence": "medium", "evidence": ["260.3", "move:Surf"], "capability": "water_travel"},
+      {"text": "Needs: water and a mud wallow, especially for young Marshtomp, which weaken if their skin dries; on cold, dry highland days the mud must not freeze solid.", "class": "inferred", "confidence": "medium", "evidence": ["259.3", "258.6"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["beaches and rocky coasts (adult nests)", "tidal mudflats", "muddy river bottoms and banks (juveniles)"], "activity": "unknown", "foraging": "not described", "evidence": ["260.4", "259.1", "258.6", "game:habitat"], "class": "inferred", "confidence": "low", "note": "Diet is never stated for any stage, so no guild or trophic level is given."},
+  "relationships": [
+    {"with": "mud", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["259.3", "258.6", "259.5"], "note": "Marshtomp keeps its skin wet in mud; the young sleep buried in it."},
+    {"with": "beaches", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["260.4"], "note": "Nest sites."},
+    {"with": "boulders at its nest site", "kind": "engineers", "class": "canon", "confidence": "high", "evidence": ["260.2", "260.3"], "note": "Piled into walls before storms."}
+  ],
+  "ecotypes": [
+    {"name": "Mudflat brawler", "moves": ["Mud Bomb", "Stomp", "Counter"], "class": "hypothesis", "confidence": "low", "reading": "Mud Bomb blinds with a blob of mud, Stomp tramples, and Counter returns a blow twice as hard. A lineage that fights on the soft ground where its rivals flounder, Marshtomp's 'overwhelms foes struggling in mud' kept into adulthood. Fits wide tidal mudflats and estuaries.", "behavior": "Draws a foe onto the mud and fights it there.", "evidence": ["259.4", "move:Mud Bomb", "move:Stomp", "move:Counter"]},
+    {"name": "Storm-wall mason", "moves": ["Ancient Power", "Double-Edge", "Curse"], "class": "hypothesis", "confidence": "low", "reading": "Ancient Power lifts and hurls rock, Double-Edge is a full-weight ram, and Curse trades speed for toughness. A lineage given over to building and holding ground, moving stone and bracing against what comes. Fits exposed rocky coasts where storms hit hardest and the nest needs the strongest wall.", "behavior": "Builds higher walls than its neighbours and sits behind them.", "evidence": ["260.3", "move:Ancient Power", "move:Double-Edge", "move:Curse"]},
+    {"name": "Channel ambusher", "moves": ["Whirlpool", "Bite"], "class": "hypothesis", "confidence": "low", "reading": "Whirlpool traps a target in a vortex, and Bite seizes it. A lineage that hunts in moving water, holding prey in the current and then taking it. Fits tidal channels and river mouths with strong flow.", "behavior": "Lurks where the current narrows and spins up a trap.", "evidence": ["move:Whirlpool", "move:Bite"]},
+    {"name": "Cold-river sleeper", "moves": ["Ice Ball", "Yawn"], "class": "hypothesis", "confidence": "low", "reading": "Ice Ball rolls a growing ball of ice, and Yawn brings on drowsiness. Read together, a lineage of cold, slow water that spends long spells buried and torpid, as Mudkip already rests covered in mud on the river bottom. Fits icy highland streams such as those around Blackthorn.", "behavior": "Winters half-asleep in the mud of a cold river bed.", "evidence": ["258.6", "move:Ice Ball", "move:Yawn"]}
+  ],
+  "open_questions": [
+    "What does the line eat?",
+    "Does the adult keep Mudkip's gills, and can it stay underwater indefinitely?",
+    "Is it a sea animal, a freshwater animal, or both at different ages? (see contradictions)",
+    "What does it hear when it predicts a storm, and would that work on a mountain lake?",
+    "What is in its beach nest, and who tends it?",
+    "Can Marshtomp survive a highland winter if its mud freezes?"
+  ],
+  "contradictions": [
+    {"topic": "Fresh water or sea", "entries": ["258.6", "258.3", "260.3", "260.4", "259.1"], "note": "HeartGold, SoulSilver and Emerald put Mudkip in river mud and at the water's edge (258.6, 258.3); Emerald and FireRed put Swampert's nest on beaches facing tidal waves (260.3, 260.4), and Ruby has Marshtomp on beaches at low tide (259.1). It may move from rivers to the coast as it grows, but no entry says so."}
+  ],
+  "folklore": []
+}

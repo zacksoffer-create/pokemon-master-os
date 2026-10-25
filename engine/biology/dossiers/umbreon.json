@@ -1,0 +1,101 @@
+{
+  "species": "Umbreon",
+  "id": 197,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Umbreon is the night form of Eevee: a 1 m, 27 kg Dark-type ambusher that hides silently in darkness and waits for prey or foes to move first. The rings on its body glow yellow after dark, on full-moon nights, when it is excited and as it leaps, and the glow strikes fear in anyone nearby. When agitated it sprays poisonous sweat from its pores. The entries credit its origin to moonlight changing Eevee's genes; the games make it from an Eevee that is devoted to its trainer and levels up at night, and no Umbreon is wild in any Gen I–IV game.",
+  "sections": {
+    "anatomy": [
+      {"text": "A lean quadruped of 1.0 m and 27 kg, Dark type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Ring patterns on its body glow yellow.", "class": "canon", "confidence": "high", "evidence": ["197.2", "197.3", "C197.2", "C197.3"]},
+      {"text": "Its skin has pores that can spray a poisonous sweat.", "class": "canon", "confidence": "high", "evidence": ["197.1", "C197.1"]},
+      {"text": "Nothing is said about its eyes, ears or teeth.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "diet": [
+      {"text": "A predator: it lurks in darkness for prey.", "class": "canon", "confidence": "high", "evidence": ["197.7", "C197.11"]},
+      {"text": "No entry names its prey.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Moonlight gives it 'a mysterious power' and Moonlight (Lv 71) is a level-up move that restores its health, which hints that moonlight is an energy source for it as well as a trigger. Nothing says it lives on moonlight instead of food.", "class": "hypothesis", "confidence": "low", "evidence": ["197.8", "move:Moonlight"], "note": "Its prey-hunting is canon; moonlight as nourishment is not."}
+    ],
+    "habitat": [
+      {"text": "It lives and hunts in darkness.", "class": "canon", "confidence": "high", "evidence": ["197.4", "197.5", "197.7", "C197.5", "C197.8"]},
+      {"text": "Gen 3 Pokédex habitat: urban, the same as every Eevee form. That probably reflects where people get Eevee (as gifts in cities) more than where Umbreon would live wild.", "class": "inferred", "confidence": "medium", "evidence": ["game:habitat", "game:encounters", "species:Eevee"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Eevee itself is a gift in Celadon City (Kanto games), at Bill's house in Goldenrod City (Johto games), as a Game Corner prize in Gold, Silver, HeartGold and SoulSilver, and in Hearthome City in Sinnoh; it is wild only in Sinnoh's Trophy Garden after the National Pokédex.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Eevee"]}
+    ],
+    "behavior": [
+      {"text": "A sit-and-wait ambusher: it hides silently in darkness, waits for its foe to make a move, and leaps to attack.", "class": "canon", "confidence": "high", "evidence": ["197.4", "197.5", "C197.5", "C197.6", "C197.8"]},
+      {"text": "Nocturnal: its rings begin to glow when darkness falls, it lurks in darkness for prey, and in the games it forms only at night.", "class": "inferred", "confidence": "high", "evidence": ["197.2", "197.6", "197.7", "game:evolution"]},
+      {"text": "Its rings glow on the night of a full moon, when it is excited, and as it leaps.", "class": "canon", "confidence": "high", "evidence": ["197.3", "197.4", "C197.3", "C197.6"]}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or territory.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "It keeps Helping Hand from Eevee at Lv 1, the only hint of cooperation in its repertoire; no entry describes Umbreon helping one another.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Helping Hand"], "note": "A move shared by every Eevee form, so it says more about Eevee than about Umbreon."}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 35 egg cycles (longer than the 20 of most species in these dossiers), 87.5% male.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "An Umbreon's eggs hatch as Eevee, not Umbreon, so it doesn't breed true: each young takes its adult form from its own circumstances.", "class": "inferred", "confidence": "high", "evidence": ["game:evolution", "133.4", "C133.7"]}
+    ],
+    "defense": [
+      {"text": "When agitated it protects itself by spraying poisonous sweat from its pores.", "class": "canon", "confidence": "high", "evidence": ["197.1", "C197.1"]},
+      {"text": "The glow of its rings after dark strikes fear in anyone nearby.", "class": "canon", "confidence": "high", "evidence": ["197.2", "197.6", "C197.2", "C197.9"]},
+      {"text": "A glowing pattern on an animal that also carries poison reads like a warning signal: the light advertises the defence.", "class": "hypothesis", "confidence": "low", "evidence": ["197.1", "197.2"], "note": "No entry links the glow to the poison.", "analogy": "Millipedes of the genus Motyxia glow in the dark, and the glow is thought to warn nocturnal predators of their cyanide defences."},
+      {"text": "Its level-up moves include Confuse Ray (Lv 29), a dazzling light that confuses, and Mean Look (Lv 57), a stare that stops the target fleeing; Synchronize passes poison, burns or paralysis back to an attacker.", "class": "mechanic", "confidence": "high", "evidence": ["move:Confuse Ray", "move:Mean Look", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "No entry describes its senses. An ambusher that waits in darkness for prey to move must detect movement in low light, by sight, hearing or both.", "class": "inferred", "confidence": "low", "evidence": ["197.4", "197.7"]},
+      {"text": "It responds to the moon: exposure to the moon's aura makes its rings glow faintly and gives it a mysterious power.", "class": "canon", "confidence": "high", "evidence": ["197.8", "C197.12"]}
+    ],
+    "life_cycle": [
+      {"text": "Eevee (0.3 m, 6.5 kg) becomes Umbreon on levelling up at night with high friendship; Umbreon is about four times Eevee's mass.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Eevee"]},
+      {"text": "The entries say Umbreon evolved from exposure to the moon's waves, or energy pulses, and that the moon's light changed Eevee's genetic structure.", "class": "canon", "confidence": "high", "evidence": ["197.4", "197.5", "197.7", "C197.4", "C197.7", "C197.10"]},
+      {"text": "That fits Eevee's own entries, which say its unstable DNA is changed by its surroundings and it evolves when its environment changes.", "class": "canon", "confidence": "high", "evidence": ["133.4", "133.6", "C133.6", "C133.7"]},
+      {"text": "The games' night condition agrees with the moonlight story; the friendship condition appears in no entry. Read biologically, Umbreon would form only in an Eevee that is closely bonded to someone, which would make it rare or absent in the wild.", "class": "inferred", "confidence": "medium", "evidence": ["game:evolution", "197.7", "game:encounters"]},
+      {"text": "Its base friendship is 35, half the 70 of Espeon and most other species, so an Umbreon met outside a trainer's care would start out warier.", "class": "mechanic", "confidence": "medium", "evidence": ["game:friendship", "species:Espeon"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Hunting: Pursuit (Lv 15) strikes a target as it flees, Quick Attack (Lv 22) is a fast lunge, and Feint Attack (Lv 36) is an attack that can't be dodged; together they fit the wait-and-leap habit.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Pursuit", "move:Quick Attack", "move:Feint Attack", "197.4"]},
+      {"text": "Moonlight (Lv 71) restores its health, the move form of the power the moon gives it.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Moonlight", "197.8"]},
+      {"text": "Sucker Punch, which hits first only if the target is about to attack, is the closest match in any move list to 'waits for its foes to make a move', but Umbreon gets it from a tutor, not in the wild.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sucker Punch", "197.4"]},
+      {"text": "Its wild repertoire is a level-up list read for a species no game has in the wild; it describes what an Umbreon could do on its own, not what wild ones are seen doing.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset", "game:encounters"]}
+    ],
+    "ecology": [
+      {"text": "A nocturnal ambush predator, probably at trophic level about 3, though its prey is unknown.", "class": "inferred", "confidence": "low", "evidence": ["197.7", "197.4"]},
+      {"text": "With no wild population in these games, its place in any community is unrecorded.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Its glowing rings strike fear in people as well as other animals nearby.", "class": "canon", "confidence": "high", "evidence": ["197.2", "197.6"]},
+      {"text": "In the games it exists only through people: it forms in an Eevee that is close to its trainer, and every Eevee outside Sinnoh's Trophy Garden comes from a person, as a gift or a Game Corner prize.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:encounters", "species:Eevee"]}
+    ],
+    "homestead": [
+      {"text": "A night watch: it sits silent in the dark, waits for movement, and its glowing rings frighten intruders.", "class": "inferred", "confidence": "medium", "evidence": ["197.4", "197.2"], "capability": "deterrence"},
+      {"text": "A walking companion after dark: its rings give a faint glow, enough to keep sight of it on a night path.", "class": "inferred", "confidence": "low", "evidence": ["197.2", "197.8"], "capability": "night_travel"},
+      {"text": "Flash, a taught move, would make it a light for the Glasshouse or a dark barn, though the rings alone are faint.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Flash", "197.8"], "capability": "light"},
+      {"text": "Handle it calmly: an agitated Umbreon sprays poisonous sweat, so gloves and hand-washing after grooming a stressed one are sensible.", "class": "inferred", "confidence": "medium", "evidence": ["197.1"]},
+      {"text": "Night-time pest control around stores and pens is possible if its prey includes small vermin, but its prey has never been named.", "class": "hypothesis", "confidence": "low", "evidence": ["197.7"], "note": "Untested; also a risk to small livestock for the same reason.", "capability": "deterrence"}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["dark cover at night", "towns and settlements (Gen 3 habitat: urban)"], "activity": "nocturnal", "foraging": "sit-and-wait ambush in darkness, leaping when prey moves", "evidence": ["197.4", "197.7", "197.2", "game:habitat"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "prey animals (not named in any entry)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["197.7"]},
+    {"with": "moonlight", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["197.4", "197.7", "197.8"], "note": "Moonlight is credited with its evolution and gives it power."},
+    {"with": "darkness as cover", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["197.4", "197.5"]}
+  ],
+  "ecotypes": [
+    {"name": "Moonwatch sentinel", "moves": ["Detect", "Endure", "Curse"], "class": "hypothesis", "confidence": "low", "reading": "Detect reads an attack in time to avoid it, Endure holds on through a blow, and Curse trades speed for toughness. Together they make a patient, hardened ambusher that sits still for long periods and outlasts whatever finds it. Fits rocky ground and ruins with deep shadow to wait in.", "behavior": "Waits longer than anything else on the hillside; hard to flush and harder to hurt.", "evidence": ["197.4", "move:Detect", "move:Endure", "move:Curse"]},
+    {"name": "Lull hunter", "moves": ["Yawn", "Tickle", "Fake Tears"], "class": "hypothesis", "confidence": "low", "reading": "Yawn makes a target drowsy, and Tickle and Fake Tears lower its guard. A lineage that disarms prey before the leap instead of relying on darkness alone. Fits the lit edges of towns, where full darkness is rare.", "behavior": "Settles near its prey, yawning, until the prey settles too.", "evidence": ["197.7", "move:Yawn", "move:Tickle", "move:Fake Tears"]},
+    {"name": "Yard thief", "moves": ["Covet", "Charm"], "class": "hypothesis", "confidence": "low", "reading": "Covet steals what the target holds, and Charm softens an attacker's blows. A lineage that lives off people's stores at night by theft and disarming manners rather than hunting. Fits the towns and farms the Gen 3 Pokédex already files every Eevee form under.", "behavior": "Raids larders after dark and is forgiven by morning.", "evidence": ["game:habitat", "move:Covet", "move:Charm"]}
+  ],
+  "open_questions": [
+    "What does Umbreon hunt?",
+    "Why do the rings glow: at dusk, at full moon, when excited, or when it leaps? (see contradictions)",
+    "Is the glow a warning linked to its poisonous sweat?",
+    "Does it take energy from moonlight, or does moonlight only shape its development?",
+    "Could an Umbreon form in the wild, without a close bond to anyone? The games say friendship is required; the entries say moonlight.",
+    "What is its poison, and how dangerous is it to people?"
+  ],
+  "contradictions": [
+    {"topic": "When the rings glow", "entries": ["197.2", "197.6", "197.3", "197.4", "197.5", "197.8"], "note": "Silver, FireRed and SoulSilver (197.2, 197.6) say whenever darkness falls; Crystal (197.3) on full-moon nights or when it is excited; Ruby, Sapphire and Emerald (197.4, 197.5) when it leaps to attack; Platinum (197.8) faintly when exposed to the moon's aura. These may be different triggers of one glow, but no entry gives them all."},
+    {"topic": "Hidden or conspicuous", "entries": ["197.4", "197.7", "197.2"], "note": "It hides silently in darkness to ambush (197.4, 197.7), yet its rings glow as soon as darkness falls (197.2). A glowing ambusher is a contradiction unless the glow is controlled, appearing only when excited or leaping, as 197.3 and 197.4 suggest."}
+  ],
+  "folklore": []
+}

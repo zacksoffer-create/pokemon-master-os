@@ -1,0 +1,102 @@
+{
+  "species": "Absol",
+  "id": 359,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Absol is a white, horned mountain quadruped (1.2 m, 47 kg) that senses subtle changes in the sky and the land and foretells natural disasters. It rarely comes down from its harsh, rugged mountains, and when it does appear before people it has come to warn them. Because disasters followed its appearances it was long mistaken for a bringer of doom, and a rumour that its horn senses disaster made it a target, so it fled deeper into the mountains. It lives a hundred years or more. In Johto it is not native: HeartGold and SoulSilver have it only through the Hoenn radio broadcast, which puts it in nearly every cave, including the Ice Path and the Dark Cave at Blackthorn.",
+  "sections": {
+    "anatomy": [
+      {"text": "A quadruped of 1.2 m and 47 kg, white, Dark type, with a horn.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:color", "game:types", "359.6"]},
+      {"text": "It is long-lived, with a life span of 100 years or more.", "class": "canon", "confidence": "high", "evidence": ["359.3", "359.7", "C359.7", "C359.14"]},
+      {"text": "Whether the horn is a sense organ is only a rumour (359.6); no entry states it as fact.", "class": "canon", "confidence": "high", "evidence": ["359.6", "C359.11"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Absol eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its wild moves are mostly cutting and biting attacks (Slash, Night Slash, Psycho Cut, Bite, Pursuit), which suggests a predator, but that is a reading of moves.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Slash", "move:Night Slash", "move:Psycho Cut", "move:Bite", "move:Pursuit"], "note": "The machine reading's 'predator' came from its Dark type alone."}
+    ],
+    "habitat": [
+      {"text": "It lives in a harsh, rugged mountain environment and very rarely ventures down.", "class": "canon", "confidence": "high", "evidence": ["359.2", "C359.4", "C359.5", "game:habitat"]},
+      {"text": "In Hoenn it is on Route 120 (8%, all three Hoenn games); in Diamond and Pearl only during a swarm on Route 213; in Platinum on the snowy exterior of Mt. Coronet, in snowfall and blizzard.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "In HeartGold and SoulSilver it appears only when the Hoenn radio broadcast is playing, at 20% in almost every cave in Johto and Kanto: Union Cave, Slowpoke Well, Mt. Mortar, the Ice Path, Dark Cave, Mt. Silver, Victory Road and more. That is one radio slot applied to every cave, not evidence of a cave-dwelling population.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Platinum's snowy Mt. Coronet tables suit its mountain entries best: high, cold and rugged.", "class": "inferred", "confidence": "medium", "evidence": ["359.2", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It foretells natural disasters by sharply sensing subtle changes in the sky and the land.", "class": "canon", "confidence": "high", "evidence": ["359.2", "359.3", "359.7", "C359.3", "C359.6", "C359.13"]},
+      {"text": "It appears before people when it senses a coming disaster, and does so only to warn them.", "class": "canon", "confidence": "high", "evidence": ["359.4", "359.5", "C359.8", "C359.10"]},
+      {"text": "Its activity pattern is unknown; none of its encounter tables split by time of day.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or territory.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its base friendship is 35, half the usual 70, and its catch rate is low (30): in game terms a wary, hard-to-win animal, which fits its history with people.", "class": "mechanic", "confidence": "medium", "evidence": ["game:friendship", "game:catch_rate", "359.6"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 25 egg cycles, an even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "A century-long life with a longer incubation than most species here suggests a slow-breeding animal, but nothing describes how often it breeds.", "class": "inferred", "confidence": "low", "evidence": ["359.3", "game:egg_cycles"]}
+    ],
+    "defense": [
+      {"text": "Its first defence is distance: it lives high in rugged mountains and, once hunted, fled deeper into them.", "class": "canon", "confidence": "high", "evidence": ["359.2", "359.6", "C359.12"]},
+      {"text": "Its wild repertoire favours avoiding blows: Double Team (Lv 33), Detect (Lv 49) and Sucker Punch (Lv 44), which strikes first only when the foe is about to attack.", "class": "mechanic", "confidence": "high", "evidence": ["move:Double Team", "move:Detect", "move:Sucker Punch"]},
+      {"text": "Pressure makes opponents spend their moves faster, and Super Luck raises its chance of a critical hit.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It senses even subtle changes in the sky and the land, which is how it predicts disasters; which changes it feels is not said.", "class": "canon", "confidence": "high", "evidence": ["359.3", "C359.6"], "analogy": "Common toads were recorded abandoning a breeding site in the days before the 2009 L'Aquila earthquake in Italy, but whether any animal can reliably sense coming earthquakes remains unproven."},
+      {"text": "The horn as its sensor is a rumour, and the rumour is what made it a target.", "class": "canon", "confidence": "medium", "evidence": ["359.6"]}
+    ],
+    "life_cycle": [
+      {"text": "Absol doesn't evolve and has no pre-evolution; its growth rate is medium slow.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:growth"]},
+      {"text": "It lives 100 years or more.", "class": "canon", "confidence": "high", "evidence": ["359.3", "359.7"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Foresight in move form: Future Sight (Lv 41), an attack that lands two turns later, matches its foretelling.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Future Sight", "359.2"]},
+      {"text": "Blades: Razor Wind (Lv 17), Slash (Lv 36), Night Slash (Lv 52) and Psycho Cut (Lv 60).", "class": "mechanic", "confidence": "high", "evidence": ["move:Razor Wind", "move:Slash", "move:Night Slash", "move:Psycho Cut"]},
+      {"text": "Perish Song (Lv 65), which makes everything that hears it faint after three turns, is a grim fit for an animal known as the Disaster Pokémon; no entry links the two.", "class": "mechanic", "confidence": "low", "evidence": ["move:Perish Song", "game:genus"]}
+    ],
+    "ecology": [
+      {"text": "A rare, long-lived mountain animal; its place in the food web is unknown because its diet is never stated.", "class": "unknown", "confidence": "high", "evidence": ["359.3"]},
+      {"text": "On Hoenn's Route 120 it shares the grass with Poochyena and Mightyena, the other Dark-type quadrupeds there; on Platinum's Mt. Coronet slopes with Snover and Abomasnow.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Mightyena", "species:Snover"]}
+    ],
+    "humans": [
+      {"text": "Disasters followed its appearances before people, so it became known as the Disaster Pokémon.", "class": "canon", "confidence": "high", "evidence": ["359.1", "C359.1", "C359.2"]},
+      {"text": "That reputation was a mistake: it appears because it senses disaster coming, and comes to warn people.", "class": "canon", "confidence": "high", "evidence": ["359.4", "359.5", "C359.9"]},
+      {"text": "A rumour that its horn senses disaster made it a target, and it fled deep into the mountains.", "class": "canon", "confidence": "high", "evidence": ["359.6"], "analogy": "Rhinoceroses have been hunted close to extinction for their horn, prized on the strength of unfounded beliefs about its powers."},
+      {"text": "Its retreat into the mountains may therefore be partly the result of persecution rather than a natural preference.", "class": "inferred", "confidence": "low", "evidence": ["359.6", "359.2"]}
+    ],
+    "homestead": [
+      {"text": "Disaster warning for a mountain homestead: avalanche, rockfall, flood or earthquake. It senses changes in sky and land, and comes to people to warn them.", "class": "canon", "confidence": "high", "evidence": ["359.3", "359.5"], "capability": "danger_sense"},
+      {"text": "Make sure neighbours in Blackthorn know what an Absol's appearance means, so that the warning isn't mistaken for a curse.", "class": "inferred", "confidence": "medium", "evidence": ["359.1", "359.4"]},
+      {"text": "Its horn must never be treated as a medicine or charm; that rumour is what drove it into the mountains.", "class": "inferred", "confidence": "high", "evidence": ["359.6"]},
+      {"text": "Needs: high, rugged ground nearby and room to keep its distance; it is wary by nature and slow to trust.", "class": "inferred", "confidence": "medium", "evidence": ["359.2", "game:friendship"]},
+      {"text": "Flash, a taught move, would make it a light source.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Flash"], "capability": "light"},
+      {"text": "A 100-year lifespan means an Absol taken in may outlive its keeper; the homestead would need to plan for its care across generations.", "class": "inferred", "confidence": "medium", "evidence": ["359.3", "359.7"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["harsh, rugged high mountains", "snowy upper slopes"], "activity": "unknown", "foraging": "not described", "evidence": ["359.2", "game:habitat", "game:encounters"], "class": "inferred", "confidence": "low", "note": "Diet is never stated. Its HeartGold and SoulSilver cave records come from the Hoenn radio, not a native population."},
+  "relationships": [
+    {"with": "rugged mountains", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["359.2", "359.6"]},
+    {"with": "Mightyena", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Mightyena"], "note": "Route 120 in Ruby, Sapphire and Emerald."},
+    {"with": "Snover", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Snover"], "note": "Mt. Coronet's snowy exterior in Platinum."},
+    {"with": "Abomasnow", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Abomasnow"], "note": "Mt. Coronet's snowy exterior in Platinum."}
+  ],
+  "ecotypes": [
+    {"name": "Horn-charger", "moves": ["Megahorn", "Zen Headbutt", "Double-Edge"], "class": "hypothesis", "confidence": "low", "reading": "Megahorn is a ramming horn strike, Zen Headbutt a head blow, and Double-Edge a full-weight charge. A lineage that uses its horn as a weapon rather than a sensor, meeting threats head-on. Fits contested ridges where retreat is not possible.", "behavior": "Lowers its horn and charges instead of slipping away.", "evidence": ["359.6", "move:Megahorn", "move:Zen Headbutt", "move:Double-Edge"]},
+    {"name": "Decoy shadow", "moves": ["Substitute", "Baton Pass", "Feint Attack"], "class": "hypothesis", "confidence": "low", "reading": "Substitute leaves a decoy, Baton Pass hands off and withdraws, and Feint Attack strikes unseen. A lineage built to avoid being taken: decoys and disappearances in place of fighting. Fits mountains where it is hunted, as the Platinum entry describes.", "behavior": "Seen once, then gone; trackers follow the wrong trail.", "evidence": ["359.6", "move:Substitute", "move:Baton Pass", "move:Feint Attack"]},
+    {"name": "Snowfield watcher", "moves": ["Curse", "Mean Look"], "class": "hypothesis", "confidence": "low", "reading": "Curse trades speed for toughness, and Mean Look pins a target with a stare so it can't flee. A lineage that holds still on open snow and stares down whatever approaches, rather than retreating. Fits high snowfields like Platinum's Mt. Coronet slopes.", "behavior": "Stands motionless on a snow ridge, watching the valley for days.", "evidence": ["game:encounters", "move:Curse", "move:Mean Look"]}
+  ],
+  "open_questions": [
+    "What does Absol eat?",
+    "What exactly does it sense: pressure, ground vibration, animal behaviour, something else? And is the horn involved?",
+    "Did it always live high in the mountains (359.2), or was it driven there by persecution (359.6)?",
+    "How often does it breed, given its century-long life?",
+    "Would a wild Absol near Blackthorn warn the homestead, or only people it already knows?",
+    "Is it truly absent from Johto's wild, apart from the radio broadcast?"
+  ],
+  "contradictions": [
+    {"topic": "Bringer or warner of disaster", "entries": ["359.1", "359.4", "359.5"], "note": "Ruby (359.1) reports that disasters follow its appearances and names it accordingly; FireRed, LeafGreen, Diamond and Pearl (359.4, 359.5) say this was a mistake and that it comes to warn. The later entries correct the earlier one."},
+    {"topic": "Native mountain animal or refugee", "entries": ["359.2", "359.6"], "note": "Sapphire (359.2) presents the harsh mountains as its home; Platinum (359.6) says it fled deep into the mountains after being hunted, implying it once lived lower down."}
+  ],
+  "folklore": [
+    {"text": "It is rumoured to sense disasters with its horn.", "evidence": ["359.6", "C359.11"], "note": "The rumour, not the horn, is what made it a target."},
+    {"text": "It was believed to bring disasters, and so was called a doom-bringer.", "evidence": ["359.1", "359.4"], "note": "359.4 calls the belief a mistake."}
+  ]
+}

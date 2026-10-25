@@ -1,0 +1,109 @@
+{
+  "species": "Zubat",
+  "id": 41,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "An eyeless bat that finds its way by sound. Zubat flies through the dark sending ultrasonic cries from its mouth and reading their echoes to find obstacles and targets. It shuns sunlight, which burns it, and spends the day hanging upside down in colonies in caves, old buildings and deep forest. No Zubat entry says what it eats; its evolved form, Golbat, drinks blood. In Ilex Forest it is met mostly at night, and around Blackthorn it lives in the Ice Path and Dark Cave.",
+  "sections": {
+    "anatomy": [
+      {"text": "A bat (0.8 m, 7.5 kg) with wings and no eyes.", "class": "canon", "confidence": "high", "evidence": ["41.9", "41.11", "C41.14", "game:size", "game:shape"]},
+      {"text": "Its eyes gradually grew shut while its kind lived in pitch-black caverns.", "class": "canon", "confidence": "medium", "evidence": ["41.8", "C41.12"], "analogy": "No real bat is eyeless; every bat species has working eyes. Eye loss in cave-dwelling lineages is real in fishes such as the cave form of the Mexican tetra (Astyanax mexicanus)."},
+      {"text": "It emits its ultrasonic waves from its mouth.", "class": "canon", "confidence": "high", "evidence": ["41.3", "41.11", "41.13", "C41.5", "C41.17", "C41.19"], "analogy": "Most echolocating bats call through the open mouth; horseshoe bats call through the nose."}
+    ],
+    "diet": [
+      {"text": "No Zubat entry says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its evolved form drinks blood: Golbat punctures even tough hides with sharp fangs and gorges on the blood of people and Pokémon.", "class": "canon", "confidence": "high", "evidence": ["42.2", "42.3", "42.8", "42.11"]},
+      {"text": "Its first move is Leech Life (Lv 1), which drains the target, followed by Bite (13) and Poison Fang (33). With Golbat's entries, that makes blood or body fluids the likeliest food.", "class": "inferred", "confidence": "medium", "evidence": ["move:Leech Life", "move:Bite", "move:Poison Fang", "42.3"], "analogy": "Blood-feeding is real in three bat species, the vampire bats of the Americas (Desmodontinae), which bite sleeping animals and lap the blood."},
+      {"text": "It may also catch flying insects: it uses ultrasound 'to identify and approach targets', which is how insect-eating bats hunt.", "class": "hypothesis", "confidence": "low", "evidence": ["41.1", "41.10"], "note": "The targets are never named.", "analogy": "Most real bats are insect-eaters that find prey by echolocation."}
+    ],
+    "habitat": [
+      {"text": "Dark places: caves, the ceilings of old buildings, the eaves of old houses, and deep forest.", "class": "canon", "confidence": "high", "evidence": ["41.1", "41.5", "41.7", "41.12", "C41.7", "C41.11", "C41.18"]},
+      {"text": "In HeartGold and SoulSilver it is in Ilex Forest's grass (a 5% slot at every hour and a further 20% at night) and in most of Johto's caves: Union Cave, Slowpoke Well, Burned Tower, Whirl Islands, the Ice Path and Dark Cave among them.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "Ilex Forest is a forest roost and feeding ground for it rather than a cave; the Diamond-Pearl entry places it 'deep in forests' as well as caves.", "class": "inferred", "confidence": "low", "evidence": ["41.12", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Nocturnal: it stays unmoving in a dark spot through the bright daylight hours and sleeps until sundown.", "class": "canon", "confidence": "high", "evidence": ["41.6", "41.7", "41.12", "C41.8", "C41.11", "C41.18"]},
+      {"text": "It avoids sunlight because long exposure burns it slightly and makes it unhealthy.", "class": "canon", "confidence": "high", "evidence": ["41.6", "41.7", "C41.9", "C41.10"]},
+      {"text": "It sleeps hanging upside down.", "class": "canon", "confidence": "high", "evidence": ["41.7"]},
+      {"text": "Ilex Forest's tables agree, with a larger slot at night; its small slot at every hour is unexplained, perhaps Zubat disturbed from roosts in the shaded forest.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Colonial: it forms colonies in perpetually dark places and gathers with others by day.", "class": "canon", "confidence": "high", "evidence": ["41.1", "41.5", "41.10", "C41.1", "C41.16"], "analogy": "Many real bats roost in colonies, from a few dozen animals to millions in one cave."}
+    ],
+    "reproduction": [
+      {"text": "Flying egg group, 15 egg cycles, an even sex ratio. Nothing in the Pokédex describes breeding, young, or whether colonies are nurseries.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "No entry describes a defence. Its colonies, its dark roosts and flight are the obvious protections.", "class": "inferred", "confidence": "low", "evidence": ["41.1", "41.5"]},
+      {"text": "Supersonic (5), Confuse Ray (21), Mean Look (29) and Haze (37) disrupt rather than wound; its ability, Inner Focus, means it can't be made to flinch.", "class": "mechanic", "confidence": "high", "evidence": ["move:Supersonic", "move:Confuse Ray", "move:Mean Look", "move:Haze", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Echolocation: it emits ultrasonic cries constantly as it flies and uses their reflections to check its surroundings, detect obstacles and fix its position.", "class": "canon", "confidence": "high", "evidence": ["41.2", "41.3", "41.4", "41.8", "41.13", "C41.3", "C41.4", "C41.6", "C41.13", "C41.15", "C41.19"], "analogy": "Echolocation as in real bats: high-pitched calls whose echoes give the distance, direction and texture of objects."},
+      {"text": "It also uses ultrasound to identify and approach targets, so the same sense finds food or victims.", "class": "canon", "confidence": "high", "evidence": ["41.1", "41.10", "C41.2", "C41.16"]},
+      {"text": "It senses sunlight well enough to avoid it, though it has no eyes; how is not stated.", "class": "inferred", "confidence": "low", "evidence": ["41.6", "41.9"]}
+    ],
+    "life_cycle": [
+      {"text": "Zubat becomes Golbat at level 22, and Golbat becomes Crobat through high friendship.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Golbat is a blood-feeder active on the darkest nights; Crobat grows a second pair of wings on its hind legs for silent flight and rests hanging from tree branches.", "class": "canon", "confidence": "high", "evidence": ["42.6", "42.7", "169.3", "169.5"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Feeding: Leech Life (1), Bite (13), Poison Fang (33): drain, bite, envenomed bite.", "class": "mechanic", "confidence": "high", "evidence": ["move:Leech Life", "move:Bite", "move:Poison Fang"]},
+      {"text": "Supersonic (5) is its ultrasound turned on an opponent to confuse it, and Astonish (9) a surprise attack out of the dark.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Supersonic", "move:Astonish", "41.2"]},
+      {"text": "Wing Attack (17), Air Cutter (25) and Air Slash (41) are flight.", "class": "mechanic", "confidence": "high", "evidence": ["move:Wing Attack", "move:Air Cutter", "move:Air Slash"]}
+    ],
+    "ecology": [
+      {"text": "A night-time consumer of animal blood or of animals (trophic level about 3), ranging out from cave, building or forest roosts.", "class": "inferred", "confidence": "low", "evidence": ["42.3", "move:Leech Life", "41.12"]},
+      {"text": "Its roosts concentrate droppings in caves and old buildings; no entry describes this or anything that lives on it.", "class": "hypothesis", "confidence": "low", "evidence": ["41.1", "41.5"], "note": "A likely route for nutrients into caves, and a gap: the community has no described detritivore.", "analogy": "Bat guano supports whole cave food webs of invertebrates, and has long been dug as fertiliser."},
+      {"text": "In Ilex Forest it shares the night grass with Oddish and Paras; the three make up the whole night table.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Oddish", "species:Paras"]}
+    ],
+    "humans": [
+      {"text": "It roosts under the eaves of old houses and in old buildings, so it lives alongside people.", "class": "canon", "confidence": "high", "evidence": ["41.5", "41.7"]},
+      {"text": "Golbat flies at night to attack people and Pokémon and drink their blood; whether Zubat does isn't stated.", "class": "canon", "confidence": "medium", "evidence": ["42.7", "42.8", "42.11"]},
+      {"text": "The capability records list Zubat under light from the Ruby entry. That is a misreading: Zubat avoids light, it doesn't make it.", "class": "inferred", "confidence": "high", "evidence": ["41.6", "game:capability"]}
+    ],
+    "homestead": [
+      {"text": "Native to Blackthorn's doorstep: in HeartGold and SoulSilver it lives in the Ice Path (20%) and at the Blackthorn entrance of Dark Cave (30%), one of the few Ilex Forest species that also lives around Blackthorn.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "It flies safely in the dark by echolocation, which makes it a natural night and cave scout.", "class": "inferred", "confidence": "medium", "evidence": ["41.4", "41.13"], "capability": "night_travel"},
+      {"text": "It needs a dark roost (a loft, cellar or eaves) out of the sun. Feeding is the problem: if it takes blood as Golbat does, livestock and people are its food.", "class": "hypothesis", "confidence": "medium", "evidence": ["41.7", "42.8", "move:Leech Life"], "note": "Zubat's own diet is undescribed.", "capability": "town_fit"},
+      {"text": "Night-time insect control, if it does eat insects.", "class": "hypothesis", "confidence": "low", "evidence": ["41.1"], "note": "Untested; rests on the targets of 41.1 being insects."}
+    ]
+  },
+  "niche": {"guild": "parasite", "trophic_level": 3, "microhabitat": ["cave and building roosts", "deep forest", "night air under the canopy"], "activity": "nocturnal",
+            "foraging": "flies at night locating targets by echolocation; the line feeds on blood (Golbat), and Zubat's first move drains its target", "evidence": ["C41.2", "C41.18", "42.3", "move:Leech Life"], "class": "inferred", "confidence": "low",
+            "note": "The guild rests on Golbat's entries and Leech Life: a blood-feeder on larger hosts is a parasite in food-web terms. If Zubat eats insects instead, it is an insectivore at the same level."},
+  "relationships": [
+    {"with": "blood of larger animals (people and Pokémon)", "kind": "feeds_on", "class": "inferred", "confidence": "low", "evidence": ["42.3", "42.8", "move:Leech Life"], "note": "Canon for Golbat; for Zubat inferred from the line and its first move."},
+    {"with": "flying insects (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["41.1", "41.10"], "note": "It uses ultrasound to approach targets; insects are not named."},
+    {"with": "caves, old buildings and eaves", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["41.5", "41.7"], "note": "Day roosts."},
+    {"with": "Golbat", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Noctowl", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["164.4", "game:encounters", "species:Noctowl"], "note": "Both active at night in Ilex Forest, and Noctowl (1.6 m) catches prey in darkness. Zubat's colonies and flight count against it.", "analogy": "Real owls take bats occasionally, though bats are a small part of their diet."},
+    {"with": "Psyduck", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters", "species:Psyduck"], "note": "If Zubat takes blood as Golbat does, the larger residents (Psyduck, Golduck, the owls) are the candidate hosts. No entry links them."},
+    {"with": "Oddish", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Oddish"]},
+    {"with": "Paras", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Paras"], "note": "Ilex Forest's night grass and Mt. Moon's caves."}
+  ],
+  "ecotypes": [
+    {"name": "Sleep-feeder", "moves": ["Hypnosis", "Feint Attack"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of stealthy blood-feeders that put a host to sleep and approach unseen. Fits places with large animals that sleep in the open or in roosts: pastures, bird roosts, people's houses.",
+     "behavior": "Feeds on sleeping hosts and leaves before they wake.", "evidence": ["42.8", "move:Hypnosis", "move:Feint Attack"],
+     "analogy": "Common vampire bats (Desmodus rotundus) feed mostly on sleeping livestock at night."},
+    {"name": "Air hawk", "moves": ["Quick Attack", "Pursuit", "Brave Bird"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of fast aerial pursuers catching flying prey on the wing. Fits open forest edges, rivers and lakeshores with swarms of insects at dusk.",
+     "behavior": "Hunts in open air rather than in the forest interior.", "evidence": ["41.1", "move:Quick Attack", "move:Pursuit", "move:Brave Bird"]},
+    {"name": "Roost guard", "moves": ["Gust", "Whirlwind"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that clears intruders from crowded roosts with wing-driven wind. Fits large colonies in caves or buildings where roost space is contested.",
+     "behavior": "Drives off intruders and rivals from its roost.", "evidence": ["41.1", "41.5", "move:Gust", "move:Whirlwind"]}
+  ],
+  "open_questions": [
+    "What does Zubat eat? Only Golbat's diet is described.",
+    "Does it have eyes grown shut (41.8) or none at all (41.9, 41.11)?",
+    "How does an eyeless animal sense sunlight in order to avoid it?",
+    "Where are its young raised, and are colonies nurseries?",
+    "Does anything live on the droppings under its roosts?",
+    "Why is it in Ilex Forest's grass by day at all, if sunlight burns it?"
+  ],
+  "contradictions": [
+    {"entries": ["41.8", "41.9", "41.11"], "text": "Eyes grown shut, or none? Emerald says its eyes gradually grew shut over time in pitch-black caverns (41.8); FireRed and Diamond say it has no eyes (41.9, 41.11)."}
+  ],
+  "folklore": []
+}

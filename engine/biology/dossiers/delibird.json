@@ -1,0 +1,107 @@
+{
+  "species": "Delibird",
+  "id": 225,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A cliff-nesting bird of cold mountains that carries its food bundled in its tail wherever it goes, ferries it to its chicks all day, and throws it at anything that attacks. Several entries add that it shares that food with people lost in the mountains, and tell of an explorer who reached the top of Mt. Everest thanks to one; the tales are kept under folklore here. No entry says what the food actually is. In HeartGold and SoulSilver it lives only in SoulSilver's Ice Path.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged body, 0.9 m and 16.0 kg, typed Ice and Flying.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "It carries its food bundled up, or rolled up, in its tail.", "class": "canon", "confidence": "high", "evidence": ["225.4", "225.5", "225.6", "C225.7", "C225.9", "C225.11"], "analogy": "Clark's nutcracker (Nucifraga columbiana), a bird of western North American mountains, carries pine seeds in a pouch under its tongue to its caches."},
+      {"text": "Whether the tail is a pouch or a wrap is not said; 'bundled' and 'rolled' suggest the tail folds around the load.", "class": "inferred", "confidence": "low", "evidence": ["225.5", "225.6"]}
+    ],
+    "diet": [
+      {"text": "No entry says what its food is.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "It carries food all day long and always has it with it, wherever it goes.", "class": "canon", "confidence": "high", "evidence": ["225.1", "225.3", "225.7", "C225.1", "C225.5"]},
+      {"text": "Its only level-up move is Present (Lv 1), the games' version of handing over, or throwing, a parcel.", "class": "mechanic", "confidence": "high", "evidence": ["move:Present", "game:learnset"]},
+      {"text": "The Water 1 egg group and the egg move Splash hint at a tie to water, perhaps fishing, but nothing says it eats fish.", "class": "hypothesis", "confidence": "low", "evidence": ["game:egg_groups", "move:Splash"], "note": "Egg groups are a breeding mechanic, not a diet record."}
+    ],
+    "habitat": [
+      {"text": "It nests at the edge of sharp cliffs, in the mountains.", "class": "canon", "confidence": "high", "evidence": ["225.2", "225.6", "C225.3", "C225.12"]},
+      {"text": "In HeartGold and SoulSilver it is a SoulSilver exclusive: 20% on all four Ice Path floors (1F, B1F, B2F, B3F) at any time of day, Lv 22-23. In HeartGold the same 20% slot holds Zubat instead.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat"]},
+      {"text": "Silver also had it at all times; Crystal only at night (40%); Gold not at all. Elsewhere: Icefall Cave in FireRed only (5%), and swarms on Route 216 (Diamond, Pearl) and Route 217 (Platinum). The Gen 3 Pokédex habitat is mountain.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "It is met inside the Ice Path but nests on cliffs, so the cave is probably where it travels or shelters rather than where it breeds.", "class": "inferred", "confidence": "low", "evidence": ["225.2", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It spends all day carrying food to its waiting chicks.", "class": "canon", "confidence": "high", "evidence": ["225.2", "C225.4"]},
+      {"text": "It has a habit of sharing food with people lost in the mountains.", "class": "canon", "confidence": "medium", "evidence": ["225.6", "C225.12"], "note": "Stated as a habit in Diamond, Pearl and Platinum; the older entries tell it as tales."},
+      {"text": "Vital Spirit (it can't fall asleep) suits an animal said to work all day.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "225.2"]},
+      {"text": "All-day food carrying points to a day-active bird, but Crystal's tables have it only at night and the HGSS tables don't split it.", "class": "unknown", "confidence": "medium", "evidence": ["225.2", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "Parents provision their chicks at the nest.", "class": "canon", "confidence": "high", "evidence": ["225.2", "C225.4"]},
+      {"text": "Whether it nests alone or in cliff colonies is not said.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Sharing food with lost people is an unusual habit: it gives a resource to another species at a cost to itself.", "class": "inferred", "confidence": "low", "evidence": ["225.6"]}
+    ],
+    "reproduction": [
+      {"text": "It raises chicks in a nest at a cliff edge and feeds them all day.", "class": "canon", "confidence": "high", "evidence": ["225.2", "C225.3", "C225.4"]},
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "If attacked, it throws its food at the opponent.", "class": "canon", "confidence": "high", "evidence": ["225.3", "C225.6"]},
+      {"text": "Present is the game form of that throw.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Present"]},
+      {"text": "Throwing the food spends the provisions it carries for its chicks, so it is presumably a last resort.", "class": "inferred", "confidence": "low", "evidence": ["225.2", "225.3"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Finding lost people implies it notices them, but how is not described.", "class": "unknown", "confidence": "high", "evidence": ["225.6"]}
+    ],
+    "life_cycle": [
+      {"text": "A single-stage species: no evolution in Generations I-IV.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Chicks are fed at the nest; nothing describes how long they stay or when they fledge.", "class": "unknown", "confidence": "high", "evidence": ["225.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Present is its only level-up move, the narrowest wild repertoire in the highlands community. Everything else is an egg move, a tutor move or a machine (Fly among them), so its wild behaviour has to be read from the entries, not the moves.", "class": "mechanic", "confidence": "high", "evidence": ["move:Present", "move:Fly", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A carrier: it moves food from wherever it forages to cliff nests, so it shifts nutrients across the landscape, with spillage and droppings collecting below the nests.", "class": "hypothesis", "confidence": "low", "evidence": ["225.1", "225.2"], "note": "Follows from the carrying habit; scale unknown.", "analogy": "Seabird colonies fertilise the cliffs and slopes below them with droppings, producing nutrient-rich soils."},
+      {"text": "No predator of Delibird is named. In SoulSilver it shares the Ice Path with Golbat, which drinks the blood of Pokémon.", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters", "species:Golbat"], "note": "Co-occurrence plus Golbat's stated diet only."},
+      {"text": "Its trophic level can't be set until its food is known.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Its reputation is as a saviour of people lost in the mountains: it shares its food with them.", "class": "canon", "confidence": "medium", "evidence": ["225.1", "225.6", "225.7", "C225.12"]},
+      {"text": "A famous explorer is said to have reached the peak of Mt. Everest thanks to a Delibird sharing its food.", "class": "canon", "confidence": "medium", "evidence": ["225.4", "225.5", "C225.8", "C225.10"], "note": "A single anecdote; filed under folklore as well."}
+    ],
+    "homestead": [
+      {"text": "It carries a bundle of food all day; it could carry small loads, such as a parcel between the homestead and Blackthorn, if it can be trained to carry something other than its own food.", "class": "hypothesis", "confidence": "low", "evidence": ["225.1", "225.4"], "capability": "hauling", "note": "Load size and willingness to carry objects are unknown."},
+      {"text": "A companion for Ice Path crossings: its habit of sharing food with lost people makes it the community's closest thing to a mountain rescuer.", "class": "hypothesis", "confidence": "low", "evidence": ["225.6"], "capability": "rescue", "note": "The habit is described for wild birds and lost strangers; untested in a trained one."},
+      {"text": "Ice-typed, so it would be at home in the highland winter.", "class": "mechanic", "confidence": "high", "evidence": ["game:types"], "capability": "cold_tolerance"},
+      {"text": "It would need a high ledge or cliff shelf to nest on, and something to carry.", "class": "inferred", "confidence": "medium", "evidence": ["225.2", "225.3"]},
+      {"text": "The homestead's Delibird as the post: a bird that turns up at the door with a tail-bundle from town.", "class": "creative", "evidence": ["225.1"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["cliff-edge nests", "ice-cave passages (SoulSilver)"], "activity": "unknown",
+            "foraging": "unknown food, carried in the tail all day and delivered to chicks", "evidence": ["225.1", "225.2", "225.4"], "class": "unknown", "confidence": "high"},
+  "relationships": [
+    {"with": "cliff edges", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["225.2"], "note": "Nest sites."},
+    {"with": "Graveler", "kind": "commensalism", "class": "hypothesis", "confidence": "low", "evidence": ["75.10", "225.2"], "note": "Graveler gouge horizontal holes in sheer cliff faces; a cliff-nesting bird could use them. Neither entry mentions the other."},
+    {"with": "Golbat", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters"], "note": "Shares the Ice Path in SoulSilver; Golbat drinks Pokémon blood. Untested."},
+    {"with": "Swinub", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Swinub"]},
+    {"with": "Jynx", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Jynx"]},
+    {"with": "Golbat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golbat"]}
+  ],
+  "ecotypes": [
+    {"name": "Nest guard", "moves": ["Fake Out", "Quick Attack", "Ice Shard"], "class": "hypothesis", "confidence": "low",
+     "reading": "Three moves that strike first. A lineage that defends nest and food by hitting before it is hit, instead of throwing its food away. Fits crowded cliff ledges where thieves come close.",
+     "behavior": "Keeps its bundle; drives intruders off fast.", "evidence": ["225.3", "move:Fake Out", "move:Quick Attack", "move:Ice Shard"]},
+    {"name": "Snow roller", "moves": ["Ice Ball", "Rapid Spin"], "class": "hypothesis", "confidence": "low",
+     "reading": "Two rolling moves: a lineage that travels downslope by rolling, bundle and all. Fits long, open snowfields above the Ice Path, where rolling is cheaper than flying.",
+     "behavior": "Comes down the mountain tumbling; walks or flies back up.", "evidence": ["move:Ice Ball", "move:Rapid Spin"]},
+    {"name": "Far-seer", "moves": ["Future Sight", "Aurora Beam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A foresight move is odd for a bird. A lineage reading ahead could be the one behind the tales of Delibird appearing for lost travellers; Aurora Beam is a light display that would carry in the dark of the Ice Path. The most speculative of the three.",
+     "behavior": "Turns up where it is needed before it is called.", "evidence": ["225.1", "225.6", "move:Future Sight", "move:Aurora Beam"]}
+  ],
+  "open_questions": [
+    "What food does it carry, and where does it get it?",
+    "Is it day-active (all-day carrying, 225.2) or night-active (Crystal's night-only tables)?",
+    "Does it nest in the Ice Path, or only on cliffs outside it?",
+    "How does it find lost people (225.6), and why share food meant for its chicks?",
+    "Should the reconstruction treat Delibird as present in the Ice Path (SoulSilver, where it takes a 20% slot) or absent (HeartGold, where Zubat takes that slot)?",
+    "Its egg groups (Water 1, Field) and the egg move Splash hint at water. Does it swim or fish?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "There are tales about lost people who were saved by the food it carried.", "kind": "tales", "evidence": ["225.1", "225.7", "C225.2", "C225.13"]},
+    {"text": "A famous explorer reached the peak of Mt. Everest thanks to a Delibird sharing its food.", "kind": "anecdote", "evidence": ["225.4", "225.5", "C225.8", "C225.10"]}
+  ]
+}

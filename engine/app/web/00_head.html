@@ -317,6 +317,32 @@ table.board td, table.board th { padding: 6px 8px; }
   .hero .say { padding: 26px 22px; } .hero .say h1 { font-size: 36px; }
   .party { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
+/* ---- 94_arena.html (v1) ---- */
+.arbar { position: relative; height: 8px; background: var(--charcoal-4); border-radius: 99px; overflow: visible; margin: 4px 0; }
+.arbar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold-3), var(--gold-2)); }
+.arbar.ice > i { background: linear-gradient(90deg, var(--ice-3), var(--ice)); }
+.arbar > b { position: absolute; top: -3px; height: 14px; border: 1px solid var(--ivory); border-radius: 4px; opacity: .45; }
+.arstrip img { image-rendering: pixelated; vertical-align: middle; }
+.arturn { border-top: 1px solid var(--gold-line); padding: 8px 0; }
+.arth { display: flex; gap: 10px; align-items: baseline; font-size: 12.5px; }
+.ardec { font-size: 12px; margin: 4px 0 2px; padding: 4px 8px; border-radius: 6px; background: var(--charcoal-3); }
+.ardec.a { border-left: 3px solid var(--gold); } .ardec.b { border-left: 3px solid var(--ice); }
+.arev { font-size: 12px; color: var(--text-2); padding-left: 8px; }
+
+/* ---- 95_biology.html (v1) ---- */
+.biogrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.biotile { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px; border: 1px solid var(--gold-line); border-radius: 10px; background: var(--charcoal-2); text-align: center; color: var(--ivory); }
+.biotile:hover { border-color: var(--gold); }
+.biohero { display: flex; gap: 18px; align-items: center; } .biohero > img { flex: none; }
+.biost { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05); } .biost:last-child { border: 0; }
+.bioev { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius: 5px; background: var(--charcoal-3); color: var(--text-2); cursor: help; }
+.bioan { margin-top: 4px; padding: 4px 8px; border-left: 2px solid var(--ice); color: var(--text-2); font-style: italic; }
+.biorv { white-space: nowrap; } .biorv button { -webkit-appearance: none; appearance: none; background: var(--charcoal-3) !important; border: 1px solid var(--gold-line); color: var(--text-2) !important; border-radius: 6px; font: 600 11px/16px var(--sans, inherit); min-width: 20px; height: 18px; padding: 0 5px; margin-left: 2px; cursor: pointer; }
+.biorv button.on { color: #14161A !important; background: var(--forest-3) !important; border-color: var(--forest-3); } .biorv button.on.no { background: var(--ember) !important; border-color: var(--ember); }
+.biomap { width: 100%; height: auto; } .biomap line.e-cave { stroke-dasharray: 4 3; } .biomap line { stroke: rgba(201,169,106,.35); stroke-width: 1.6; } .biomap line.e-sea { stroke: rgba(127,182,214,.55); stroke-dasharray: 2 4; }
+.biomap text { font-size: 10px; fill: var(--text-2); text-anchor: middle; } .biomap text.sm { font-size: 9px; fill: var(--text-3); } .biomap image { image-rendering: pixelated; }
+.biochart { width: 100%; height: auto; } .biochart text.sm { font-size: 10px; fill: var(--text-3); } .biochart line.grid { stroke: rgba(255,255,255,.07); }
+@media (max-width: 820px) { .biohero { flex-direction: column; align-items: flex-start; } }
 </style>
 </head>
 <body>

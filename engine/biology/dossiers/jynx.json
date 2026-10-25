@@ -1,0 +1,107 @@
+{
+  "species": "Jynx",
+  "id": 124,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A humanoid Ice and Psychic Pokémon, every one of them female, that moves as if dancing and appears to use the dance to communicate. Its cries sound like human speech and come in several patterns that seem to carry different meanings, but nobody has worked out what it says. The dancing is contagious: people who watch it find themselves swaying along without meaning to. Nothing in the Pokédex says what it eats or how a species without males reproduces. In HeartGold and SoulSilver it is an uncommon find on every floor of the Ice Path, met more often by day.",
+  "sections": {
+    "anatomy": [
+      {"text": "A humanoid body, 1.4 m and 40.6 kg, typed Ice and Psychic; the games give it no males (0% male).", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:gender"]},
+      {"text": "It rocks its body rhythmically and wiggles its hips as it walks.", "class": "canon", "confidence": "high", "evidence": ["124.1", "124.2", "124.3", "C124.1", "C124.4", "C124.5"]},
+      {"text": "In the young form, Smoochum, the lips are the most sensitive part of the body and the first thing used to examine anything; the Jynx entries don't say whether this persists.", "class": "canon", "confidence": "high", "evidence": ["238.1", "238.3", "238.7", "C238.1", "C238.11"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Jynx eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its wild moves are close-contact ones: Pound, Lick (Lv 5), Double Slap (Lv 15), Ice Punch (Lv 18), Body Slam (Lv 39), Wring Out (Lv 44), with Lovely Kiss (Lv 8), which puts a target to sleep, and Mean Look (Lv 21), which stops it escaping. If it takes animal food, the kit fits capture at arm's length.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Lick", "move:Ice Punch", "move:Lovely Kiss", "move:Mean Look", "move:Wring Out"], "note": "Moves explain biology but don't define a diet; nothing says Jynx hunts."},
+      {"text": "Smoochum tests everything by touching it with its lips, which remember what it likes and dislikes: a taste-led animal that learns its foods.", "class": "canon", "confidence": "medium", "evidence": ["238.6", "C238.10"]}
+    ],
+    "habitat": [
+      {"text": "In HeartGold and SoulSilver it is on all four Ice Path floors (1F, B1F, B2F, B3F): 5% at any time plus another 5% by day, Lv 22-23. It is also on Seafoam Islands B4F (12%, Lv 38-40).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Gold and Silver had the same pattern (10% by day, 5% morning and night); Crystal has it only on B1F-B3F, by day and morning. Platinum puts it in Snowpoint Temple. In Red, Blue, FireRed and LeafGreen it is only an in-game trade in Cerulean City (for a Poliwhirl).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Wherever it is wild, it is inside a cold cave or ice-bound building: the Ice Path, Seafoam Islands' lowest floor, Snowpoint Temple.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"]},
+      {"text": "Its Gen 3 Pokédex habitat is 'urban', which fits none of its wild locations; it may reflect its humanlike form or the Cerulean trade rather than where it lives.", "class": "inferred", "confidence": "low", "evidence": ["game:habitat", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It moves to a rhythm of its own, sashaying as if it were dancing.", "class": "canon", "confidence": "high", "evidence": ["124.2", "124.6", "124.7", "C124.3", "C124.10", "C124.12"]},
+      {"text": "It appears to alter the rhythm depending on how it is feeling.", "class": "canon", "confidence": "medium", "evidence": ["124.3", "C124.6"]},
+      {"text": "The Ice Path tables lean to daytime in every Johto game, which hints at a day-active animal.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters"], "note": "Time-of-day slots are a weak guide inside a cave."}
+    ],
+    "social": [
+      {"text": "It seems to use dancing to communicate.", "class": "canon", "confidence": "medium", "evidence": ["124.4", "C124.8"], "analogy": "Honeybees (Apis mellifera) communicate the direction and distance of food with the waggle dance."},
+      {"text": "It has several different cry patterns, each of which seems to have its own meaning.", "class": "canon", "confidence": "medium", "evidence": ["124.5", "C124.9"], "analogy": "Vervet monkeys give acoustically distinct alarm calls for leopards, eagles and snakes, and listeners respond to each differently."},
+      {"text": "Its cries sound like human speech; it is said to speak a language similar to that of humans, but it is impossible to tell what it is trying to say.", "class": "canon", "confidence": "medium", "evidence": ["124.4", "124.8", "124.9", "C124.7", "C124.14", "C124.16", "C124.17"]},
+      {"text": "Group size is not described.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Human-Like egg group, 25 egg cycles, and no males. Smoochum, its young form, is a baby Pokémon in the Undiscovered egg group.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Smoochum"]},
+      {"text": "How an all-female population reproduces in the wild is not described anywhere.", "class": "unknown", "confidence": "high", "evidence": ["game:gender"], "analogy": "Some real vertebrates are all-female and reproduce by parthenogenesis, such as several whiptail lizards (Aspidoscelis)."}
+    ],
+    "defense": [
+      {"text": "Forewarn lets it determine what moves a foe has: an early warning of what it is facing. It also has Oblivious.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Its dancing compels people to dance in unison with it; if that works on would-be attackers too, it is a defence by distraction, as Lovely Kiss is in game terms.", "class": "hypothesis", "confidence": "low", "evidence": ["124.1", "124.6", "move:Lovely Kiss"], "note": "The entries describe the effect on people only."},
+      {"text": "Fake Tears (Lv 25) and Perish Song (Lv 49) round out a defence built on display and sound more than strength.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Fake Tears", "move:Perish Song"]}
+    ],
+    "senses": [
+      {"text": "Forewarn reads as a sense: it perceives what an opponent can do before the opponent acts.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]},
+      {"text": "Smoochum's lips remember what it likes and dislikes; touch and taste are its first senses as a juvenile.", "class": "canon", "confidence": "medium", "evidence": ["238.6", "238.3", "C238.5"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Smoochum at Lv 30, growing from 0.4 m and 6.0 kg to 1.4 m and 40.6 kg, keeping Ice and Psychic.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Smoochum"]},
+      {"text": "Smoochum runs about actively but falls often, and checks its reflection on a lake's surface to see its face isn't dirty: the juvenile lives near still water.", "class": "canon", "confidence": "medium", "evidence": ["238.4", "238.5", "C238.6", "C238.9"]},
+      {"text": "Smoochum has no wild encounters in HeartGold and SoulSilver, so the highlands have no recorded juveniles.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Smoochum"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Lovely Kiss (Lv 8) puts others to sleep by contact, and Smoochum examines everything with its lips: the kiss is the line's way of meeting the world, in moves as in entries.", "class": "inferred", "confidence": "low", "evidence": ["move:Lovely Kiss", "238.1"]},
+      {"text": "Powder Snow (Lv 11), Avalanche (Lv 33) and Blizzard (Lv 55) are its cold-weather moves; Perish Song (Lv 49) is a song, fitting a vocal animal.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Powder Snow", "move:Avalanche", "move:Blizzard", "move:Perish Song"]}
+    ],
+    "ecology": [
+      {"text": "At 40.6 kg it is one of the larger animals in the Ice Path, and nothing records what it eats; it is one of the community's biggest unexplained energy demands.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "game:encounters"]},
+      {"text": "No predator of Jynx is named. Golbat, which drinks the blood of people and Pokémon, shares every Ice Path floor.", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters", "species:Golbat"], "note": "Co-occurrence and Golbat's stated diet only."}
+    ],
+    "humans": [
+      {"text": "Its motions are so alluring that people who see it are compelled to shake their hips without noticing, and it can cause people to dance in unison with it.", "class": "canon", "confidence": "high", "evidence": ["124.1", "124.6", "124.7", "C124.2", "C124.11", "C124.13"]},
+      {"text": "Research is under way to work out what its humanlike language says.", "class": "canon", "confidence": "medium", "evidence": ["124.8", "C124.15"]},
+      {"text": "People trade for it: in the Kanto games it is obtained from a trader in Cerulean City.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "A humanoid body with hands; in principle it could handle tools.", "class": "hypothesis", "confidence": "low", "evidence": ["game:shape"], "capability": "manipulation", "note": "Nothing describes Jynx using objects."},
+      {"text": "Ice-typed, with Powder Snow and Icy Wind: possibly a way to keep a cold store cold in summer.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types", "move:Powder Snow", "move:Icy Wind"], "capability": "cold_source", "note": "Untested whether its cold is controllable or lasting."},
+      {"text": "A hazard to plan for: people near it may be compelled to dance, which matters around tools, ledges and livestock.", "class": "inferred", "confidence": "medium", "evidence": ["124.6", "124.7"]},
+      {"text": "Its distinct cries could become shared signals with the household, if their meanings can be learned.", "class": "hypothesis", "confidence": "low", "evidence": ["124.5"], "note": "Researchers haven't decoded them (124.8)."},
+      {"text": "At the homestead a Jynx keeps the rhythm for long work days, and nobody can say quite why the hay gets in faster.", "class": "creative", "evidence": ["124.1"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["ice-cave passages"], "activity": "diurnal",
+            "foraging": "unknown; the level-up moves are close-contact, with a sleep-inducing kiss", "evidence": ["game:encounters", "move:Lovely Kiss"], "class": "hypothesis", "confidence": "low"},
+  "relationships": [
+    {"with": "humans", "kind": "mimics", "class": "canon", "confidence": "medium", "evidence": ["124.4", "124.9"], "note": "Its cries resemble human speech. Resemblance only; nothing says it imitates people deliberately."},
+    {"with": "Golbat", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters"], "note": "Shares every Ice Path floor; Golbat drinks the blood of people and Pokémon. Untested."},
+    {"with": "Swinub", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Swinub"]},
+    {"with": "Golbat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golbat"]},
+    {"with": "Delibird", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Delibird"], "note": "SoulSilver only."}
+  ],
+  "ecotypes": [
+    {"name": "Mirror troupe", "moves": ["Psych Up", "Wish"], "class": "hypothesis", "confidence": "low",
+     "reading": "Psych Up copies another's state and Wish sends help to whoever is there a moment later: a social lineage that synchronises with and supports others, the move-level echo of making others dance in unison. Fits the larger chambers of the Ice Path, where several could gather.",
+     "behavior": "Dances in groups; tends the hurt.", "evidence": ["124.1", "move:Psych Up", "move:Wish"]},
+    {"name": "Clear-eyed", "moves": ["Miracle Eye", "Meditate"], "class": "hypothesis", "confidence": "low",
+     "reading": "Miracle Eye sees through evasion and Meditate is focus. A perceptive lineage that finds what hides, on top of Forewarn; fits the dark lower floors of the Ice Path.",
+     "behavior": "Watches more than it dances; the first to notice an intruder.", "evidence": ["game:abilities", "move:Miracle Eye", "move:Meditate"]},
+    {"name": "Cold fist", "moves": ["Ice Punch", "Fake Out"], "class": "hypothesis", "confidence": "low",
+     "reading": "A contact lineage that strikes first and hits with cold fists. Fits passages it shares with Golbat, where it has to defend itself rather than charm.",
+     "behavior": "Less dance, more fist.", "evidence": ["move:Ice Punch", "move:Fake Out", "species:Golbat"]}
+  ],
+  "open_questions": [
+    "What does Jynx eat?",
+    "How does an all-female species reproduce in the wild?",
+    "What do the dances and the distinct cries mean? Is the 'language similar to that of humans' (124.4) a language at all?",
+    "How does its dancing compel people to move (124.6): a psychic effect, or contagious behaviour?",
+    "Where are the young? No wild Smoochum appear in HeartGold or SoulSilver.",
+    "Why does the Gen 3 Pokédex give its habitat as urban?"
+  ],
+  "contradictions": [
+    {"entries": ["124.4", "124.8", "124.9"], "text": "Silver/SoulSilver says it speaks a language similar to humans' but seems to use dancing to communicate; FireRed says it speaks a language that sounds human and research is under way; Diamond/Pearl/Platinum says only that its cries sound like speech and that it is impossible to tell what it means.", "reading": "The entries differ on whether this is a language or just speech-like sound, and on whether speech or dance is how it communicates. Not resolved here."}
+  ],
+  "folklore": []
+}

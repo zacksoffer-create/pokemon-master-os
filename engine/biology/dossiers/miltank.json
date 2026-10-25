@@ -1,0 +1,102 @@
+{
+  "species": "Miltank",
+  "id": 241,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Miltank is an all-female grassland Pokémon, and almost everything the Pokédex says about it concerns its milk. It gives over five gallons a day, sweet enough for children and nourishing enough to be called the ultimate drink for the sick or weary, and the milk grows richer after it has a calf or when babies are near. Nothing in canon says what it eats, how it lives with its own kind, or how a species with no males breeds. In Johto it grazes the same routes as Tauros, an all-male species of the same egg group, though no entry links the two.",
+  "sections": {
+    "anatomy": [
+      {"text": "A compact, upright body with a tail: 1.2 m and 75.5 kg, Normal type, with udders.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "241.3"]},
+      {"text": "Thick Fat makes it more resistant to Fire and Ice attacks, which points to a heavy layer of insulating fat.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]},
+      {"text": "Milk output of over five gallons a day (about 19 litres) from a 75.5 kg animal is a quarter of its body weight every day, so its mammary tissue and its food intake must both be enormous for its size.", "class": "inferred", "confidence": "medium", "evidence": ["241.4", "241.5", "C241.4", "game:size"], "analogy": "A high-yielding dairy cow gives roughly 25–35 litres a day from a body of 600 kg or more, a far smaller share of its weight."}
+    ],
+    "diet": [
+      {"text": "No entry says what Miltank eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its grassland habitat and cow-like build suggest a grazer, and its milk output implies it eats a great deal; neither is stated.", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat", "241.4"], "note": "The machine reading's 'herbivore' came from its Normal type alone, which says nothing about diet."},
+      {"text": "Milk Drink (level-up, Lv 11) has it drink its own milk to recover, so the milk is food for Miltank too, not only for its young.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Milk Drink"]}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat: grassland.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In Johto it is on Routes 38 and 39 in every game (5%, walking), and in HeartGold and SoulSilver also on Route 47 (20%), a route whose surf and fishing tables put it beside the sea.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Elsewhere it is hard to find: in Emerald only in the Safari Zone's northern expansion, and in Diamond, Pearl and Platinum only with the Poké Radar on Routes 209 and 210. Pearl has it far more often on the Radar (20%) than Diamond (2%).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "It is absent from the Kanto games (FireRed, LeafGreen) and from Ruby and Sapphire.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Activity pattern is unclear. Gold and Silver list it on Routes 38 and 39 in the morning, day and night alike; Crystal lists it only in the morning and day; HeartGold and SoulSilver don't split by time.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Gold and Silver's Route 38 table also carries a swarm-condition slot for it at the same 5%, which looks like a quirk of the data rather than a real outbreak.", "class": "mechanic", "confidence": "low", "evidence": ["game:encounters"]},
+      {"text": "No entry describes its daily life beyond milk production.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Nothing is said about herds, pairs or hierarchy.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its milk becomes richer when it is around babies, not only its own, which suggests it responds to any young nearby and could nurse young that aren't its own.", "class": "inferred", "confidence": "low", "evidence": ["241.7", "C241.9"]}
+    ],
+    "reproduction": [
+      {"text": "All Miltank are female (0% male); Field egg group, 20 egg cycles.", "class": "mechanic", "confidence": "high", "evidence": ["game:gender", "game:egg_groups", "game:egg_cycles"]},
+      {"text": "In the games it breeds with a male of any Field-group species, or with Ditto, and the egg always hatches as Miltank.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:gender"]},
+      {"text": "A biological reading: Miltank needs a male of another species to start an egg but passes on only its own inheritance. Tauros, all male, Field group, and found on the same routes, is the obvious partner.", "class": "hypothesis", "confidence": "low", "evidence": ["game:gender", "species:Tauros", "game:encounters"], "note": "No entry pairs Miltank with Tauros or describes how it breeds.", "analogy": "The Amazon molly (Poecilia formosa) is an all-female fish whose eggs must be triggered by sperm from males of related species, yet the young inherit no genes from the father."},
+      {"text": "After it has given birth, its milk carries much more nutrition than usual.", "class": "canon", "confidence": "high", "evidence": ["241.2", "C241.2"], "analogy": "Colostrum, the first milk a cow gives after calving, is much richer in protein and antibodies than later milk."}
+    ],
+    "defense": [
+      {"text": "No entry mentions predators or how it defends itself.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its level-up repertoire is heavy-bodied: Defense Curl (Lv 5) then Rollout (Lv 19), Stomp (Lv 8), Body Slam (Lv 24) and Gyro Ball (Lv 41). Read together, it curls and rolls into attackers or tramples them.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Defense Curl", "move:Rollout", "move:Stomp", "move:Body Slam", "move:Gyro Ball"]},
+      {"text": "Scrappy lets its attacks hit Ghost types, and Thick Fat blunts fire and ice; both are game abilities without a Pokédex explanation.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Detecting babies nearby, which changes its milk (241.7), implies it can sense young by sight, sound or smell, but the cue isn't named.", "class": "inferred", "confidence": "low", "evidence": ["241.7"]}
+    ],
+    "life_cycle": [
+      {"text": "Miltank doesn't evolve and has no pre-evolution; its growth rate is slow.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:growth"]},
+      {"text": "What its calves look like, how long they nurse and when they mature is not described.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Healing: Milk Drink (Lv 11) restores its own health, and Heal Bell (Lv 48) is a soothing chime that clears status conditions from it and its allies. Both are level-up moves, so a wild Miltank carries them.", "class": "mechanic", "confidence": "high", "evidence": ["move:Milk Drink", "move:Heal Bell"]},
+      {"text": "Heal Bell working on allies fits a herd animal that tends others, but no entry describes it doing so.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Heal Bell"], "note": "A reading of a move's effect, not a behaviour anyone has described."},
+      {"text": "Growl (Lv 3), Captivate (Lv 35) and Wake-Up Slap (Lv 55) round out the set; Zen Headbutt (Lv 29) is a head strike.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Growl", "move:Captivate", "move:Wake-Up Slap", "move:Zen Headbutt"]}
+    ],
+    "ecology": [
+      {"text": "Most likely a large grazer of grassland (trophic level about 2), and so a consumer of grass and forbs on the routes it lives on; its diet is not stated.", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat"], "note": "Follows from habitat and build, not from any entry."},
+      {"text": "If it nurses young other than its own, its milk would be a resource for the whole grassland nursery, not just its calf.", "class": "hypothesis", "confidence": "low", "evidence": ["241.7"], "note": "An extension of 241.7."}
+    ],
+    "humans": [
+      {"text": "Its milk is highly nutritious, the ultimate drink for the sick or weary.", "class": "canon", "confidence": "high", "evidence": ["241.1", "C241.1"]},
+      {"text": "It gives over five gallons a day of sweet milk that children and adults both enjoy; people who can't drink milk make it into yogurt.", "class": "canon", "confidence": "high", "evidence": ["241.4", "241.5", "C241.5", "C241.6", "C241.7"]},
+      {"text": "Milking it takes skill: a knack for pulling rhythmically on the udders.", "class": "canon", "confidence": "high", "evidence": ["241.3", "C241.3"]},
+      {"text": "Every one of its entries is about its milk and how people use it, which implies a long history of being kept and milked; no entry describes a wild Miltank's life.", "class": "inferred", "confidence": "medium", "evidence": ["241.1", "241.3", "241.4"]}
+    ],
+    "homestead": [
+      {"text": "A dairy animal: over five gallons of milk a day, which can be drunk or made into yogurt, so one Miltank could supply a household and more.", "class": "canon", "confidence": "high", "evidence": ["241.4", "241.5"], "capability": "food_source"},
+      {"text": "The homestead's infirmary drink: its milk is the ultimate beverage for the sick or weary, and Milk Drink and Heal Bell are its own healing moves.", "class": "canon", "confidence": "high", "evidence": ["241.1", "move:Heal Bell"], "capability": "field_healing"},
+      {"text": "Thick Fat suggests it can stand Blackthorn's highland winters better than most grassland animals.", "class": "inferred", "confidence": "low", "evidence": ["game:abilities"], "capability": "cold_tolerance"},
+      {"text": "It needs a person with the knack for milking, every day: an animal giving this much milk must be milked regularly, and what happens if it isn't is not recorded.", "class": "inferred", "confidence": "medium", "evidence": ["241.3", "241.4"]},
+      {"text": "It needs pasture or fodder in quantity, but since its diet is unknown, what to feed it is the first thing to find out.", "class": "unknown", "confidence": "high", "evidence": ["241.4"]},
+      {"text": "Strength and Rock Smash are taught moves it can learn, so it could pull or clear stone on demand, though nothing in canon presents it as a draught animal.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Strength", "move:Rock Smash"], "capability": "hauling"}
+    ]
+  },
+  "niche": {"guild": "herbivore", "trophic_level": 2, "microhabitat": ["open grassland", "pasture routes, including coastal grassland (Route 47)"], "activity": "unknown", "foraging": "not described; presumably grazing", "evidence": ["game:habitat", "game:encounters"], "class": "hypothesis", "confidence": "low", "note": "Diet is never stated; guild and trophic level follow from habitat and build."},
+  "relationships": [
+    {"with": "Tauros", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Tauros"], "note": "Same walking tables on Routes 38 and 39 in Gold, Silver, Crystal, HeartGold and SoulSilver (both day and morning only in Crystal). Tauros is all male, Miltank all female, both Field egg group; no entry connects them."},
+    {"with": "Ditto", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ditto"], "note": "Route 47 in HeartGold and SoulSilver, where Ditto is common (41%). Ditto is the other partner Miltank can breed with in the games."},
+    {"with": "grassland pasture", "kind": "uses_resource", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat"], "note": "Its diet is not stated."}
+  ],
+  "ecotypes": [
+    {"name": "Crèche keeper", "moves": ["Helping Hand", "Present", "Psych Up"], "class": "hypothesis", "confidence": "low", "reading": "Helping Hand boosts an ally, Present hands something over, and Psych Up takes on another's state. Together they suggest a lineage built around care in groups: provisioning and supporting young and herd-mates, the milk's response to any nearby baby carried further. Fits settled herds on rich lowland pasture.", "behavior": "Nurses and guards whatever young are near, its own or not.", "evidence": ["241.7", "move:Helping Hand", "move:Present", "move:Psych Up"]},
+    {"name": "Pasture brawler", "moves": ["Hammer Arm", "Seismic Toss", "Reversal"], "class": "hypothesis", "confidence": "low", "reading": "Hammer Arm and Seismic Toss are grappling, throwing attacks, and Reversal hits harder the more hurt the user is. A lineage that turns and fights rather than rolling away, heaving an attacker off the ground and fighting hardest when wounded. Fits open country with predators and no cover to flee to.", "behavior": "Stands over its calf and throws whatever comes close.", "evidence": ["move:Hammer Arm", "move:Seismic Toss", "move:Reversal"]},
+    {"name": "Snowfield sleeper", "moves": ["Curse", "Endure", "Sleep Talk"], "class": "hypothesis", "confidence": "low", "reading": "Curse (for a non-Ghost) slows the user while making it tougher, Endure survives a blow that should fell it, and Sleep Talk acts while asleep. With Thick Fat, the combination suggests a lineage that rides out hard seasons by slowing down and resting a great deal. Fits high, cold pasture with long winters, such as the Blackthorn highlands.", "behavior": "Slow and heavy in winter, dozing through storms but never quite off guard.", "evidence": ["game:abilities", "move:Curse", "move:Endure", "move:Sleep Talk"]}
+  ],
+  "open_questions": [
+    "What does Miltank eat, and how much? Over five gallons of milk a day needs a large intake.",
+    "How does an all-female species breed in the wild? Is Tauros the partner, as shared routes and egg group suggest?",
+    "Does its milk change when its own calf is born (241.2), or when any baby is near (241.7), or both?",
+    "Does it nurse young that aren't its own?",
+    "Is it active at night? Gold and Silver say yes, Crystal says no.",
+    "What happens to a Miltank that isn't milked, or whose calf is weaned?",
+    "Does it live in herds?"
+  ],
+  "contradictions": [
+    {"topic": "What makes its milk richer", "entries": ["241.2", "241.7"], "note": "Silver and FireRed (241.2) say the milk is richer when it has just had a baby; SoulSilver (241.7), rewriting the same entry, says when it is around babies. One is a physiological change after birth, the other a response to young nearby. Both may be true."}
+  ],
+  "folklore": [
+    {"text": "Children who drink Miltank's milk are said to grow up into hearty, healthy adults.", "evidence": ["241.6", "C241.8"], "note": "Reported belief; its nutritional value is canon (241.1), the long-term effect is not."}
+  ]
+}

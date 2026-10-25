@@ -1,0 +1,546 @@
+{
+  "species": "Meganium",
+  "id": 154,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A large, sun-loving Grass Pokémon whose main tool is chemistry. The ring of petals around Meganium's neck gives off a scent that calms aggression, and in a fight it releases more of it to take the fight out of its opponent. Silver, SoulSilver and the Sinnoh Pokédex add that its breath can bring dead plants back to health. No entry says what it eats, and no game puts it in the wild: every Meganium starts as a Chikorita handed to a new trainer.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A heavy quadruped (1.8 m, 100.5 kg) with a ring of flower petals around its neck; the flower is the source of its scent.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "154.1",
+          "154.4",
+          "154.5",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Its breath carries something that restores dead or dying plants, so the active substance is exhaled as well as given off by the flower.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "154.2",
+          "154.6",
+          "C154.2",
+          "C154.9"
+        ]
+      },
+      {
+        "text": "Two separate chemical outputs are described: a calming aroma from the petals and a plant-restoring breath. Whether they are the same substance is not said.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "154.1",
+          "154.2"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "No Pokédex entry for any stage says what this line eats.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "154.1",
+          "152.1",
+          "153.1"
+        ]
+      },
+      {
+        "text": "The line probably gains some energy from sunlight: Chikorita loves to bask and sunbathe, and Synthesis, which restores health in sunlight, is a level-up move from Lv 12.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "152.1",
+          "152.3",
+          "152.6",
+          "move:Synthesis"
+        ]
+      },
+      {
+        "text": "A 100 kg animal that walks about is unlikely to run on sunlight alone, so it probably also eats; grazing on plants is the obvious guess for a grassland Grass type, but nothing says so.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:size",
+          "game:habitat"
+        ],
+        "note": "An energy-budget argument, not evidence. The diet is genuinely missing.",
+        "analogy": "Real animals that photosynthesise are almost unknown. The nearest case is kleptoplasty in sacoglossan sea slugs such as Elysia chlorotica, which keep chloroplasts from the algae they eat; even there, how much energy photosynthesis supplies is debated."
+      }
+    ],
+    "habitat": [
+      {
+        "text": "The Gen 3 Pokédex lists it under grassland.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "It is not found in the wild in any Gen I-IV game. Chikorita is a starter gift in New Bark Town in Gold, Silver, Crystal, HeartGold and SoulSilver, and a gift in Littleroot Town in Emerald.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Chikorita"
+        ]
+      },
+      {
+        "text": "The 'sunny forest' in the Crystal entry is a simile for how standing next to it feels, not a statement about where it lives.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "154.3",
+          "C154.4"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "The line is docile and loves to soak up the sun; Chikorita uses the leaf on its head to find warm places to bask.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "152.1",
+          "152.3",
+          "152.6",
+          "152.7"
+        ]
+      },
+      {
+        "text": "Sunbathing suggests a day-active animal, at least in the young; no entry for Meganium itself gives an activity pattern.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "C152.2",
+          "C152.4",
+          "C152.11"
+        ]
+      },
+      {
+        "text": "Its response to a threat is to calm it: in battle it gives off more of its scent to blunt the opponent's fighting spirit.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "154.4",
+          "154.5",
+          "C154.6",
+          "C154.8"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Nothing is said about groups, pairs or how it treats its own kind.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "154.1"
+        ]
+      },
+      {
+        "text": "Its scent works on other animals, so it communicates, or at least acts, chemically at close range: anyone standing beside it is refreshed.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "154.1",
+          "154.3",
+          "C154.4"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Monster and Grass egg groups, 20 egg cycles, and 87.5% male (the ratio the games give most starter lines). Nothing in the Pokédex describes breeding, eggs or care of young.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:egg_cycles",
+          "game:gender"
+        ]
+      },
+      {
+        "text": "Bayleef carries a small tree shoot inside each curled leaf around its neck. Whether these shoots have any reproductive role, like buds or cuttings, is not said.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "153.4",
+          "153.5",
+          "C153.7"
+        ],
+        "note": "Raised only because a shoot is the part of a plant that can grow on its own; no entry links the shoots to breeding."
+      }
+    ],
+    "defense": [
+      {
+        "text": "Chemical pacification rather than flight or armour: the flower's scent soothes, and it releases more in a fight. Chikorita does the same, waving its leaf to keep a foe back while the leaf's sweet scent calms everyone nearby.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "154.4",
+          "154.5",
+          "152.4",
+          "152.5",
+          "C152.6",
+          "C152.8"
+        ]
+      },
+      {
+        "text": "Its level-up moves fit a defensive animal: Poison Powder (a chemical deterrent), Reflect, Light Screen and Safeguard (protective screens), and Sweet Scent, which in the games lowers the opponent's evasion and draws wild Pokémon in.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Poison Powder",
+          "move:Reflect",
+          "move:Light Screen",
+          "move:Safeguard",
+          "move:Sweet Scent"
+        ]
+      },
+      {
+        "text": "Overgrow, its only ability, strengthens its Grass moves when it is badly hurt.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Chikorita's head leaf senses temperature and humidity, and it uses it to seek out warm places.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "152.2",
+          "152.3",
+          "152.6",
+          "152.8",
+          "C152.10"
+        ]
+      },
+      {
+        "text": "Whether Meganium keeps this sense once the head leaf is no longer prominent is not said.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "152.6",
+          "154.1"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Chikorita (0.9 m, 6.4 kg) becomes Bayleef at level 16 (1.2 m, 15.8 kg) and Meganium at level 32 (1.8 m, 100.5 kg). Most of the growth is in the last stage: about six times the mass for half again the height.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Chikorita",
+          "species:Bayleef"
+        ]
+      },
+      {
+        "text": "The scent organ moves and develops: a single leaf on Chikorita's head, then a ring of curled, tubular leaves around Bayleef's neck, each holding a small tree shoot, described in Diamond and Pearl as buds; then Meganium's ring of petals.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "152.1",
+          "153.4",
+          "153.5",
+          "153.7",
+          "154.1"
+        ]
+      },
+      {
+        "text": "The simplest reading is that Bayleef's ring of buds opens into Meganium's flower.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "153.7",
+          "154.1",
+          "154.4"
+        ]
+      },
+      {
+        "text": "The scent's effect changes with stage: Chikorita's is sweet and calming, Bayleef's is spicy and stimulating (it makes people peppy, restores health, and one entry says sniffing it makes you want to fight), and Meganium's calms again.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "152.4",
+          "153.1",
+          "153.2",
+          "153.3",
+          "153.6",
+          "154.1"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "No wild Meganium exists in the games, so the level-up list is the species' own repertoire rather than anything observed. It is weighted to plant chemistry and self-care: Razor Leaf and Magical Leaf for attack, Poison Powder and Sweet Scent for scent and powder, Synthesis for sunlight, and Petal Dance, learned on evolving at Lv 32, using the new petals.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Razor Leaf",
+          "move:Magical Leaf",
+          "move:Poison Powder",
+          "move:Sweet Scent",
+          "move:Synthesis",
+          "move:Petal Dance",
+          "game:learnset"
+        ]
+      },
+      {
+        "text": "Aromatherapy (level-up, Lv 60) cures the status problems of the whole party, which matches the canon of a scent that refreshes everyone nearby.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Aromatherapy",
+          "154.3"
+        ]
+      },
+      {
+        "text": "Body Slam (Lv 46) is the only heavy physical move it learns by itself, and it fits the adult's mass.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Body Slam",
+          "game:size"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "If its breath restores plants in the wild, a Meganium would speed regrowth of damaged vegetation around it, acting as a facilitator for the plant community.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "154.2",
+          "154.6"
+        ]
+      },
+      {
+        "text": "Its calming scent could lower aggression among animals sharing its patch, changing how the community behaves rather than its numbers.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "154.1",
+          "C154.1"
+        ],
+        "note": "The entries describe the effect on people and on opponents in battle, not on a wild community."
+      },
+      {
+        "text": "Its trophic position is unknown because its diet is.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "154.1"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Its line reaches people as a starter: Chikorita is given out in New Bark Town to new trainers in every Johto game.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Chikorita"
+        ]
+      },
+      {
+        "text": "People benefit from the scents directly: standing beside Meganium is refreshing, and Bayleef's aroma perks people up.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "154.3",
+          "153.4",
+          "153.7",
+          "C153.8",
+          "C153.12"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "Plant care in the Glasshouse and the orchard: its breath restores dead or failing plants. How large an area it can treat, and how often, is untested.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "154.2",
+          "154.6",
+          "C154.3"
+        ],
+        "capability": "plant_care"
+      },
+      {
+        "text": "A calming presence for the nursery, the clinic or a tense pen: its petal aroma calms aggressive feelings.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "154.1",
+          "154.4",
+          "C154.5"
+        ],
+        "capability": "calming_presence"
+      },
+      {
+        "text": "Field healing: Aromatherapy, which it learns on its own, cures status problems across the party.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Aromatherapy"
+        ],
+        "capability": "field_healing"
+      },
+      {
+        "text": "What it needs: sunlight and somewhere warm. Chikorita actively seeks warm places, so a Blackthorn winter probably means indoor time in the Glasshouse.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "152.3",
+          "152.6",
+          "move:Synthesis"
+        ],
+        "capability": "plant_care"
+      },
+      {
+        "text": "Keep Bayleef apart from animals that are already agitated: one entry says its spicy scent makes you want to fight.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "153.1",
+          "C153.2"
+        ],
+        "capability": "calming_presence"
+      },
+      {
+        "text": "Its size puts it in the carrying-a-rider range, but no entry says it carries people; Strength and Rock Smash would be taught moves, not its own.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "game:size",
+          "game:capability",
+          "move:Strength"
+        ],
+        "capability": "carrying_rider"
+      }
+    ]
+  },
+  "niche": {
+    "guild": "mixotroph",
+    "trophic_level": null,
+    "microhabitat": [
+      "open grassland",
+      "sunny ground for basking"
+    ],
+    "activity": "diurnal",
+    "foraging": "unknown; probably part sunlight (basking, Synthesis) and part feeding, but no entry says what it eats",
+    "evidence": [
+      "152.1",
+      "152.3",
+      "move:Synthesis",
+      "game:habitat"
+    ],
+    "class": "hypothesis",
+    "confidence": "low",
+    "note": "The machine reading's 'phototroph' comes from the Grass type alone. Trophic level is left null because the diet is unknown."
+  },
+  "relationships": [
+    {
+      "with": "sunlight",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "152.1",
+        "152.3",
+        "152.6"
+      ]
+    },
+    {
+      "with": "dead and dying plants",
+      "kind": "engineers",
+      "class": "inferred",
+      "confidence": "low",
+      "evidence": [
+        "154.2",
+        "154.6"
+      ],
+      "note": "Restoring plants changes the habitat others use; the scale in the wild is unknown."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Rooted meadow",
+      "moves": [
+        "Ingrain",
+        "Leech Seed"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that settles: Ingrain anchors it and draws health from the ground, and Leech Seed drains whatever stays near it. Together they make a sit-and-drain animal that holds one patch instead of roaming. Fits damp lowland meadow with deep soil.",
+      "behavior": "Picks a spot, roots, and lets rivals weaken; rarely moves once settled.",
+      "evidence": [
+        "move:Ingrain",
+        "move:Leech Seed"
+      ],
+      "analogy": "Mistletoes (Viscum) are hemiparasites: they photosynthesise but take water and minerals from a host, which is roughly what Leech Seed on top of Synthesis would look like."
+    },
+    {
+      "name": "Lullaby grazer",
+      "moves": [
+        "Grass Whistle",
+        "Aromatherapy"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "The calming-scent canon pushed further: Grass Whistle puts an opponent to sleep with a tune, and Aromatherapy keeps its own group free of status problems. A lineage that ends fights before they start. Fits open grassland crowded with other grazers.",
+      "behavior": "Answers a threat with song and scent rather than a charge; tolerant of close neighbours.",
+      "evidence": [
+        "154.4",
+        "move:Grass Whistle",
+        "move:Aromatherapy"
+      ]
+    },
+    {
+      "name": "Vine wrestler",
+      "moves": [
+        "Vine Whip",
+        "Wring Out",
+        "Counter",
+        "Body Slam"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A physical lineage: vines to lash and grip, Wring Out to squeeze (strongest against a healthy opponent), Counter to return a blow, and Body Slam for the adult's weight. Fits brushy edges and thickets where predators come close before they are seen.",
+      "behavior": "Grapples rather than calms; a Meganium that holds its ground.",
+      "evidence": [
+        "move:Vine Whip",
+        "move:Wring Out",
+        "move:Counter",
+        "move:Body Slam"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does it eat? No entry for any stage says, and a 100 kg animal is unlikely to live on sunlight alone.",
+    "Is the plant-restoring substance in its breath the same as the calming aroma from its petals?",
+    "Why does Bayleef's scent stimulate (153.1-153.6) when Chikorita's and Meganium's calm?",
+    "What are the tree shoots inside Bayleef's neck leaves for, and what becomes of them in Meganium?",
+    "Does Meganium keep Chikorita's sense of temperature and humidity?",
+    "Is there a wild population anywhere? The games only ever give it out as a starter."
+  ],
+  "contradictions": [],
+  "folklore": []
+}

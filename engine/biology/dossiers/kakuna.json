@@ -1,0 +1,89 @@
+{
+  "species": "Kakuna",
+  "id": 14,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The pupa of the Beedrill line. Kakuna clings to or leans against stout trees, or hides under leaves and in the angles of branches, almost unable to move while its body is remade inside a hardening shell. It is not defenceless: it can move a little and push out a poison barb if attacked. The shell grows hot to the touch from the work going on inside. In SoulSilver it is met in Ilex Forest's grass in the morning and by day and in the common Headbutt trees.",
+  "sections": {
+    "anatomy": [
+      {"text": "A yellow shell (0.6 m, 10.0 kg) that hardens on the outside while the body within grows softer.", "class": "canon", "confidence": "high", "evidence": ["14.4", "C14.7", "game:size", "game:color"]},
+      {"text": "A poison barb or stinger that it can extend from the shell.", "class": "canon", "confidence": "high", "evidence": ["14.2", "14.3", "C14.3", "C14.5"]},
+      {"text": "The shell becomes hot to the touch.", "class": "canon", "confidence": "high", "evidence": ["14.6", "14.7", "C14.11", "C14.14"]},
+      {"text": "FireRed calls it 'a temporary stage while making its body'.", "class": "canon", "confidence": "high", "evidence": ["14.8", "C14.15"]}
+    ],
+    "diet": [
+      {"text": "It doesn't feed. No entry mentions food, and every entry describes it waiting, nearly immobile, for evolution.", "class": "inferred", "confidence": "high", "evidence": ["14.5", "14.6", "14.8"], "analogy": "Real insect pupae do not feed; they live on reserves laid down by the larva."}
+    ],
+    "habitat": [
+      {"text": "On trees: it clings to a tree or leans against stout trees.", "class": "canon", "confidence": "high", "evidence": ["14.5", "14.6", "14.7", "C14.8", "C14.9", "C14.12"]},
+      {"text": "Under leaves and in nooks of branches, where it hides from predators.", "class": "canon", "confidence": "high", "evidence": ["14.10", "C14.18"]},
+      {"text": "In SoulSilver it is in Ilex Forest's grass (30% in the morning and by day, none at night) and common Headbutt trees (10%), on Routes 30 and 31, in National Park, in Route 47's secret Headbutt trees, and in Kanto on Route 2 (including a night record, 11%) and in Viridian Forest. In HeartGold it appears only in the Bug-Catching Contest.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]}
+    ],
+    "behavior": [
+      {"text": "Virtually immobile: almost completely unable to move on its own, though it can move a little.", "class": "canon", "confidence": "high", "evidence": ["14.1", "14.2", "14.3", "14.6", "14.8", "14.9", "C14.2", "C14.4", "C14.16"]},
+      {"text": "Still on the outside, extremely busy on the inside as it prepares for evolution.", "class": "canon", "confidence": "high", "evidence": ["14.6", "14.7", "C14.10", "C14.13"]},
+      {"text": "The time-of-day pattern in its tables reflects where and when pupae are found, not activity.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "14.8"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about other Kakuna. The machine reading's 'solitary' isn't backed by any entry.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "In the games Kakuna is in the Bug egg group (15 egg cycles) and can breed; a pupa isn't a reproductive stage, so this is a game convention.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles"]}
+    ],
+    "defense": [
+      {"text": "Hardening its shell is its main protection from predators.", "class": "canon", "confidence": "high", "evidence": ["14.1", "14.9", "C14.1", "C14.17"]},
+      {"text": "When attacked or endangered it may stick out its stinger and poison the attacker.", "class": "canon", "confidence": "high", "evidence": ["14.2", "14.3", "C14.3", "C14.5"], "analogy": "Real pupae aren't always helpless: many wriggle when touched, and some beetle pupae pinch attackers with 'gin traps' between their abdominal segments."},
+      {"text": "Concealment: it hides under leaves and in nooks of branches.", "class": "canon", "confidence": "high", "evidence": ["14.10"]},
+      {"text": "Its only level-up move is Harden, so the barb is described but not given as a move; its ability, Shed Skin, may heal its own status problems.", "class": "mechanic", "confidence": "high", "evidence": ["move:Harden", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses, though extending its barb 'if it is attacked' and hardening 'when it is in danger' imply it can tell when it is threatened. The capability records turn this into danger sense.", "class": "inferred", "confidence": "low", "evidence": ["14.3", "14.9", "game:capability"]}
+    ],
+    "life_cycle": [
+      {"text": "From this form it will grow into an adult: Weedle becomes Kakuna at level 7, and Kakuna becomes Beedrill at level 10.", "class": "canon", "confidence": "high", "evidence": ["14.4", "C14.6", "game:evolution"]},
+      {"text": "As its body softens the shell hardens: the outside sets while the inside is reorganised.", "class": "canon", "confidence": "high", "evidence": ["14.4", "C14.7"], "analogy": "Complete metamorphosis: inside a real pupa much of the larval body is broken down and the adult is built from small clusters of cells (imaginal discs) carried over from the larva."},
+      {"text": "If the heat of the shell is metabolic, the pupal stage is expensive and runs on reserves built by Weedle's leaf-eating.", "class": "hypothesis", "confidence": "medium", "evidence": ["14.6", "14.7", "13.10"], "note": "The entries give the heat as evidence of activity inside but don't say where it comes from."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Harden is all a wild Kakuna does. Its tutor moves (String Shot, Iron Defense, Bug Bite) are taught by people.", "class": "mechanic", "confidence": "high", "evidence": ["move:Harden", "move:String Shot", "move:Iron Defense", "move:Bug Bite", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A non-feeding stage that takes nothing from the forest: a store of energy defended by shell, barb and hiding.", "class": "inferred", "confidence": "medium", "evidence": ["14.1", "14.3", "14.10"]},
+      {"text": "It uses trees as anchors and cover: stout trunks to lean on, branch nooks and leaves to hide in.", "class": "inferred", "confidence": "high", "evidence": ["14.5", "14.10"]},
+      {"text": "It has predators: two entries say its defences are against them, though none names one.", "class": "canon", "confidence": "high", "evidence": ["14.1", "14.10"]}
+    ],
+    "humans": [
+      {"text": "Anyone handling one will find the shell hot, and it can push out its barb if it feels attacked.", "class": "canon", "confidence": "high", "evidence": ["14.3", "14.6"]}
+    ],
+    "homestead": [
+      {"text": "It needs a stout tree or post to lean on, leaf cover, and to be left alone until it emerges.", "class": "inferred", "confidence": "high", "evidence": ["14.5", "14.10"]},
+      {"text": "Not a heater. The capability records list it as a heat source because the shell gets hot, but that heat is a by-product of a few levels' development, not a supply anyone could plan around.", "class": "inferred", "confidence": "medium", "evidence": ["14.6", "game:capability"], "capability": "heat_source"},
+      {"text": "Keep it away from curious hands: it can extend a poison barb when it feels attacked.", "class": "canon", "confidence": "high", "evidence": ["14.2", "14.3"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": 2, "microhabitat": ["stout tree trunks", "branch nooks", "under leaves"], "activity": "unknown",
+            "foraging": "none: a non-feeding pupa living on reserves from the larva", "evidence": ["14.5", "14.8", "14.10"], "class": "inferred", "confidence": "high",
+            "note": "No feeding guild applies. Trophic level 2 is its position as food: its body is built from Weedle's leaf-eating."},
+  "relationships": [
+    {"with": "Beedrill", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "stout trees (non-Pokémon)", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["14.5", "14.6", "14.10"], "note": "Trunks to lean on and cling to; branch nooks and leaves for cover."},
+    {"with": "predators (unnamed)", "kind": "preyed_on_by", "class": "canon", "confidence": "medium", "evidence": ["14.1", "14.10"], "note": "It hides and hardens against predators; none is named."},
+    {"with": "Hoothoot", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Hoothoot"], "note": "Both in Ilex Forest's common Headbutt trees in SoulSilver; Hoothoot pecks (Peck, Lv 9). Shell and barb make it a poor target."},
+    {"with": "Weedle", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Weedle"]},
+    {"with": "Metapod", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Metapod"], "note": "Version counterparts in Ilex Forest; together only in National Park's Bug-Catching Contest."}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What makes the shell hot, and how hot does it get?",
+    "Is the pupa wrapped in silk, as Caterpie's is (10.8)? No Weedle-line entry mentions silk.",
+    "Which predators does it hide from (14.1, 14.10)?",
+    "How long is the pupal stage in real time?",
+    "Can it extend the barb repeatedly, and is its poison Weedle's or Beedrill's?",
+    "The line has no HeartGold-SoulSilver egg moves, so no ecotypes can be read from breeding."
+  ],
+  "contradictions": [
+    {"entries": ["14.1", "14.9", "14.2", "14.3"], "text": "Red/Blue and LeafGreen say it can only harden its shell to protect itself (14.1, 14.9); Yellow and Gold say it can stick out its stinger and poison an enemy (14.2, 14.3).", "note": "The movement claims agree (almost immobile, or able to move a little); the disagreement is over whether hardening is its only defence."}
+  ],
+  "folklore": []
+}

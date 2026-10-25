@@ -1,0 +1,645 @@
+{
+  "species": "Pikachu",
+  "id": 25,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A small forest mouse that stores electricity in pouches on its cheeks and uses it for almost everything. It lives in groups, monitors its surroundings with its tail raised, and when several gather their combined charge can build into a lightning storm. The Gold and HeartGold Pokédex call it intelligent enough to roast hard Berries with electricity until they are tender, and Ruby notes the blackened Berries left when it overdoes it. One Platinum entry has it recharging a weakened companion with a shock, and the young, Pichu, play at touching tails to set off sparks.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A small quadruped (0.4 m, 6.0 kg) with electricity-storing pouches or sacs on both cheeks.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.7",
+          "25.8",
+          "25.9",
+          "25.11",
+          "C25.10",
+          "C25.15",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "The stored charge can be released in a single burst equal to a lightning bolt.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "25.8",
+          "C25.14"
+        ],
+        "analogy": "The strongest real electric animal, the electric eel (Electrophorus), produces up to several hundred volts from stacks of modified muscle cells; a lightning bolt is many orders of magnitude beyond that."
+      },
+      {
+        "text": "The tail is held up as a monitoring organ, and is sometimes struck by lightning in that pose.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.2",
+          "25.4",
+          "C25.2",
+          "C25.6"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "It eats Berries, and roasts hard ones with electricity to make them tender enough to eat.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.3",
+          "C25.4"
+        ],
+        "analogy": "No wild animal cooks. The nearest real behaviour is food processing, such as bearded capuchins (Sapajus libidinosus) cracking hard nuts open with stone hammers."
+      },
+      {
+        "text": "It sometimes misjudges: a blackened Berry is evidence of a Pikachu that overdid its charge.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.6",
+          "C25.9"
+        ]
+      },
+      {
+        "text": "Whether it also feeds on electricity, as Magnemite does, is not said; its charge is described as generated or gathered, not eaten.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "25.7",
+          "26.5"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "A forest animal that lives with others of its kind; its Gen 3 Pokédex habitat is forest.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.11",
+          "C25.18",
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "In HeartGold and SoulSilver its only wild home is Kanto's Viridian Forest, uncommon at any hour (5%) with an extra rare daytime slot (1%); Johto has none. Gold and Silver put it on Kanto's Route 2.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "In Red, Blue, FireRed and LeafGreen it is common in Kanto's Power Plant (25%), alongside Magnemite, Magneton, Voltorb and Electabuzz: an electrical habitat as well as a forest one.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Magnemite",
+          "species:Magneton"
+        ]
+      },
+      {
+        "text": "Pichu is found wild only in Sinnoh's Trophy Garden, where Diamond and Pearl add a morning slot; in Crystal it comes as an egg on Route 34.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Pichu"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Vigilant: it keeps its tail raised to check its surroundings.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.2",
+          "25.4",
+          "C25.5"
+        ]
+      },
+      {
+        "text": "It tests new things with electricity: whenever it comes across something new it blasts it with a jolt.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.6",
+          "C25.8"
+        ]
+      },
+      {
+        "text": "Its cheek pouches seem to charge at night while it sleeps, and it may discharge when drowsy after waking, so it sleeps at night.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.7",
+          "C25.11",
+          "C25.12"
+        ]
+      },
+      {
+        "text": "Sleeping at night implies a day-active animal.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "25.7"
+        ]
+      },
+      {
+        "text": "Intelligent, by the Gold and HeartGold entries.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.3"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "It lives in groups in the forest, and several together can build up enough electricity to cause lightning storms.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.1",
+          "25.10",
+          "25.11",
+          "C25.1",
+          "C25.17"
+        ]
+      },
+      {
+        "text": "It helps its own kind: it occasionally recharges a weakened fellow Pikachu with an electric shock.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.13",
+          "C25.21"
+        ]
+      },
+      {
+        "text": "Crackling from the cheek pouches signals wariness, a warning others can hear.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.12",
+          "C25.20"
+        ],
+        "analogy": "A warning display before attack, comparable in function to a rattlesnake's rattle."
+      },
+      {
+        "text": "Pichu play together by touching tails to set off sparks, which seems to be a test of courage; shorting out with another Pichu makes it cry.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "172.5",
+          "172.8",
+          "C172.9",
+          "C172.16",
+          "C172.17"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Field and Fairy egg groups, an even sex ratio, 10 egg cycles (short), medium growth. Pichu is a baby Pokémon in the Undiscovered group and can't breed.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:egg_cycles",
+          "species:Pichu"
+        ]
+      },
+      {
+        "text": "Short incubation and a small, common animal suggest a fast-breeding species, but nothing in the Pokédex describes breeding.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "game:egg_cycles",
+          "game:catch_rate"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Electric defence: threatened, it looses charges from its cheek sacs; angered, it discharges its stored energy at once.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.5",
+          "25.9",
+          "C25.7",
+          "C25.16"
+        ]
+      },
+      {
+        "text": "It bites if its tail is yanked.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.2",
+          "C25.3"
+        ]
+      },
+      {
+        "text": "Static, its ability, may paralyse anything that touches it.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ]
+      },
+      {
+        "text": "Its own level-up list adds Double Team (Lv 18) and Agility (Lv 34), evasion and speed: a small animal that dodges first.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Double Team",
+          "move:Agility",
+          "move:Quick Attack"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "The raised tail monitors its surroundings; what it detects is not said.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "25.2",
+          "25.4"
+        ]
+      },
+      {
+        "text": "Raichu's ears stand straight up when its pouches are fully charged, so the line's ears respond to charge state.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "26.4"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Pichu (0.3 m, 2.0 kg) becomes Pikachu when it levels up with high friendship; Pikachu becomes Raichu (0.8 m, 30.0 kg, upright) on exposure to a Thunder Stone.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Pichu",
+          "species:Raichu"
+        ]
+      },
+      {
+        "text": "Storage is learned with age: Pichu's cheek pouches are small, it can't hold much electricity, discharges when startled or amused, and shocks itself; it gets better at holding power as it grows older.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "172.1",
+          "172.3",
+          "172.6",
+          "172.7",
+          "172.9",
+          "C172.13"
+        ]
+      },
+      {
+        "text": "Raichu manages a larger charge: it grows aggressive as charge builds and calms itself by discharging through its tail into the ground, leaving scorched patches near its nest.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "26.3",
+          "26.6",
+          "26.8",
+          "26.10",
+          "26.12",
+          "26.13"
+        ]
+      },
+      {
+        "text": "Read as development, the line goes from leaking charge, to storing and using it deliberately, to having to vent it to stay calm.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "172.6",
+          "25.8",
+          "26.8"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Its level-up repertoire is electrical and evasive: Thunder Shock (Lv 1), Thunder Wave (Lv 10), Quick Attack, Double Team, Thunderbolt (Lv 26), Agility, Discharge (Lv 37), Light Screen and Thunder (Lv 45).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Thunder Shock",
+          "move:Thunder Wave",
+          "move:Thunderbolt",
+          "move:Discharge",
+          "move:Thunder",
+          "move:Light Screen"
+        ]
+      },
+      {
+        "text": "Discharge, which hits everything around it, is the closest move to the uncontrolled release of a startled or angry animal.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Discharge",
+          "25.5"
+        ]
+      },
+      {
+        "text": "Tail Whip (Lv 5) and Slam (Lv 21) both use the tail it otherwise holds up as a monitor.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "move:Tail Whip",
+          "move:Slam",
+          "25.2"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "A forest frugivore (trophic level about 2), and possibly a minor disperser of Berry seeds, though roasting would probably kill them.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "25.3",
+          "25.11"
+        ]
+      },
+      {
+        "text": "Groups can trigger lightning storms, and a raised tail draws lightning: a fire and disturbance risk to the forest it lives in.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "25.1",
+          "25.4"
+        ]
+      },
+      {
+        "text": "Raichu leaves scorched patches near its nest, small disturbances in the ground cover.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "26.6",
+          "C26.8"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Pichu can zap even adult humans, and surprises itself when it does.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "172.2",
+          "C172.3",
+          "C172.4"
+        ]
+      },
+      {
+        "text": "In HeartGold and SoulSilver a Pikachu is offered in trade in Saffron City; in Crystal a Pikachu is a Game Corner prize in Celadon City; in Yellow it is the starter.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "Cooking help in the kitchen: it softens hard Berries with electricity. Expect some to come out blackened.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.3",
+          "25.6"
+        ],
+        "capability": "cooking"
+      },
+      {
+        "text": "Small-scale electricity: it stores charge in its cheeks and can recharge another Pikachu; whether it can be persuaded to charge a battery is untested.",
+        "class": "hypothesis",
+        "confidence": "medium",
+        "evidence": [
+          "25.13",
+          "game:capability"
+        ],
+        "note": "Recharging a companion is canon; charging equipment is the capability record's guess.",
+        "capability": "electricity"
+      },
+      {
+        "text": "Lightning risk on the highland: a group can build a lightning storm, and a raised tail can be struck. Don't house many together near the Glasshouse or timber buildings.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "25.1",
+          "25.4",
+          "25.10"
+        ],
+        "capability": "weather_handling"
+      },
+      {
+        "text": "Introduce new tools and equipment carefully: it jolts anything new it comes across.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "25.6"
+        ],
+        "capability": "town_fit"
+      },
+      {
+        "text": "Pichu in the nursery will shock carers, and itself, when startled; Blackthorn's dry winter air makes that worse, since Pichu charge more easily when the air is very dry.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "172.2",
+          "172.4",
+          "172.6"
+        ]
+      },
+      {
+        "text": "A small, alert lookout: its raised tail monitors its surroundings and its crackling warns of trouble.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "25.2",
+          "25.12"
+        ],
+        "capability": "danger_sense"
+      },
+      {
+        "text": "Needs: company of its own kind, Berries, and somewhere to sleep undisturbed at night while its pouches recharge.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "25.11",
+          "25.3",
+          "25.7"
+        ]
+      }
+    ]
+  },
+  "niche": {
+    "guild": "frugivore",
+    "trophic_level": 2,
+    "microhabitat": [
+      "forest floor and edges",
+      "electrical installations (Kanto Power Plant)"
+    ],
+    "activity": "diurnal",
+    "foraging": "gathers Berries and softens hard ones with electricity before eating",
+    "evidence": [
+      "25.3",
+      "25.11",
+      "25.7",
+      "game:encounters"
+    ],
+    "class": "inferred",
+    "confidence": "medium",
+    "note": "Activity is read from its sleeping at night (25.7); encounter tables give it at all hours."
+  },
+  "relationships": [
+    {
+      "with": "Berries",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "25.3",
+        "25.6"
+      ]
+    },
+    {
+      "with": "lightning and atmospheric electricity",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "medium",
+      "evidence": [
+        "25.4",
+        "26.5",
+        "172.4"
+      ],
+      "note": "Its tail is struck by lightning (25.4); Raichu gathers electricity from the air (26.5); Pichu charge more easily under thunderclouds (172.4)."
+    },
+    {
+      "with": "Magnemite",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Magnemite"
+      ],
+      "note": "Kanto Power Plant in Red, Blue, FireRed and LeafGreen; an electrical community."
+    },
+    {
+      "with": "Raichu",
+      "kind": "evolves_into",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:evolution"
+      ],
+      "note": "By Thunder Stone, an object people supply."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Storm capacitor",
+      "moves": [
+        "Charge",
+        "Bide",
+        "Reversal"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "A store-and-release lineage: Charge builds up power for the next electric move, Bide absorbs punishment and returns it doubled, and Reversal hits hardest when it is nearly beaten. It is the cheek-pouch canon (pent-up energy released in one burst) made into a fighting style. Fits exposed ridges and hilltops with frequent thunderstorms, where charge comes easily.",
+      "behavior": "Holds back, soaks up, then releases everything at once.",
+      "evidence": [
+        "25.8",
+        "172.4",
+        "move:Charge",
+        "move:Bide",
+        "move:Reversal"
+      ]
+    },
+    {
+      "name": "Kin keeper",
+      "moves": [
+        "Wish",
+        "Present",
+        "Encore"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A caring lineage built on the Platinum canon of recharging a weakened companion: Wish heals whoever is in its place next turn, Present can heal or harm, and Encore holds an attacker to one move while others act. Fits dense forest groups where weak members are kept going rather than left.",
+      "behavior": "Stays close to injured groupmates; tends rather than flees.",
+      "evidence": [
+        "25.13",
+        "move:Wish",
+        "move:Present",
+        "move:Encore"
+      ]
+    },
+    {
+      "name": "Spark-sparrer",
+      "moves": [
+        "Fake Out",
+        "Double Slap",
+        "Tickle"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "Play-fighting kept into adulthood: Fake Out startles, Double Slap is a contact contest of quick light blows, and Tickle weakens without injuring. Low-harm moves that settle disputes, like Pichu's tail-touching tests of courage. Fits large, crowded groups where real fights would be costly.",
+      "behavior": "Settles rank with sparring rather than shocks.",
+      "evidence": [
+        "172.8",
+        "move:Fake Out",
+        "move:Double Slap",
+        "move:Tickle"
+      ]
+    }
+  ],
+  "open_questions": [
+    "Where does its electricity come from? Generated in sleep (25.7), gathered from storms (172.4) or from the air (26.5), or all three?",
+    "Does it eat anything besides Berries?",
+    "How does recharging a weakened Pikachu (25.13) work, and is it common or rare?",
+    "What does the raised tail actually sense?",
+    "Is there a wild population anywhere in Johto? The HeartGold tables have none.",
+    "Is it ever killed by the lightning its tail attracts (25.4)?"
+  ],
+  "contradictions": [
+    {
+      "text": "Group lightning storms: Red and Blue say several Pikachu together 'could' cause lightning storms; LeafGreen, with the same sentence, says they 'can'.",
+      "entries": [
+        "25.1",
+        "25.10"
+      ],
+      "note": "Minor: possibility versus fact."
+    },
+    {
+      "text": "What Raichu's grounded tail does: Ruby, Diamond and Platinum say it discharges excess electricity into the ground; Sapphire says Raichu plants its tail in the ground to search for electricity.",
+      "entries": [
+        "26.6",
+        "26.10",
+        "26.12",
+        "26.7"
+      ],
+      "note": "Venting versus gathering through the same posture."
+    }
+  ],
+  "folklore": []
+}

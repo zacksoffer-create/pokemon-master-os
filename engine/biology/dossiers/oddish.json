@@ -1,0 +1,115 @@
+{
+  "species": "Oddish",
+  "id": 43,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A walking weed. By day Oddish plants itself in fertile ground, face buried and only its leaves showing, and takes up nutrients from the soil through its whole body; at night moonlight wakes it, and it walks off on its root-feet, scattering seeds as it goes. It is Ilex Forest's night shift: in HeartGold and SoulSilver it is the animal most often met in the forest's grass after dark, and it is never met there by day. Pull one up and it shrieks.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small, plant-like animal (0.5 m, 5.4 kg): a body topped with leaves, walking on two root-like feet.", "class": "canon", "confidence": "high", "evidence": ["43.9", "43.10", "43.8", "C43.18", "game:size", "game:shape"]},
+      {"text": "While it is planted by day, its feet are thought to change shape and become like the roots of trees.", "class": "canon", "confidence": "medium", "evidence": ["43.7", "C43.14"]},
+      {"text": "The more fertile the soil, the glossier its leaves become.", "class": "canon", "confidence": "high", "evidence": ["43.6", "C43.12"]}
+    ],
+    "diet": [
+      {"text": "By day it buries itself in soil and absorbs nutrients from the ground through its entire body.", "class": "canon", "confidence": "high", "evidence": ["43.6", "C43.11"]},
+      {"text": "It looks for fertile, nutrient-rich soil before planting itself.", "class": "canon", "confidence": "high", "evidence": ["43.7", "C43.13"]},
+      {"text": "It grows by absorbing moonlight, or 'bathing' in it.", "class": "canon", "confidence": "high", "evidence": ["43.5", "43.8", "C43.10", "C43.15"]},
+      {"text": "If it runs on light at all, the leaves it keeps above ground by day (43.8) may catch sunlight too, which would fit its Grass type and its ability, Chlorophyll (faster in sunshine).", "class": "hypothesis", "confidence": "low", "evidence": ["43.8", "43.5", "game:types", "game:abilities"], "note": "Crystal says it stays underground to avoid the sun (43.5), which cuts against this.", "analogy": "Full moonlight is several hundred thousand times dimmer than direct sunlight, far too little to drive photosynthesis in real plants."},
+      {"text": "Absorb (Lv 1) and Mega Drain (21) take energy from another organism and are part of its wild repertoire, but no entry says Oddish feeds that way.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Absorb", "move:Mega Drain"]}
+    ],
+    "habitat": [
+      {"text": "Grassland by Gen 3 habitat. In HeartGold and SoulSilver it is in Ilex Forest's grass at night (60%), on Routes 5, 6, 24 and 25 at night, and in the Johto Safari Zone at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "game:encounters"]},
+      {"text": "By day it stays quietly underground, in the cold ground, out of the sun.", "class": "canon", "confidence": "high", "evidence": ["43.3", "43.5", "43.11", "C43.6", "C43.9"]},
+      {"text": "Its microhabitat is the fertile soil of the forest floor and its clearings: soil it chooses by day, the grass above it at night.", "class": "inferred", "confidence": "medium", "evidence": ["43.7", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Nocturnal: moonlight wakes it, and it roams actively at night; by day it keeps its face buried and stays quietly underground. HeartGold and SoulSilver meet it in grass only at night.", "class": "canon", "confidence": "high", "evidence": ["43.1", "43.3", "43.4", "43.11", "C43.1", "C43.5", "C43.7", "C43.19", "game:encounters"]},
+      {"text": "It roams far and wide at night.", "class": "canon", "confidence": "high", "evidence": ["43.4", "C43.8"]},
+      {"text": "It alternates between a rooted, plant-like day and a mobile night.", "class": "inferred", "confidence": "high", "evidence": ["43.10", "43.7"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about other Oddish. Its evolved form Bellossom gathers in groups to dance (182.1), but that is the adult, and a different branch of the line.", "class": "unknown", "confidence": "high", "evidence": ["182.1"]}
+    ],
+    "reproduction": [
+      {"text": "It sows seeds as it walks about at night.", "class": "canon", "confidence": "high", "evidence": ["43.1", "43.4", "43.10", "C43.2", "C43.18"]},
+      {"text": "In the games it breeds from eggs (Grass egg group, 20 egg cycles). How the seeds relate to the eggs isn't explained: whether a seed grows into an Oddish, an ordinary plant or something else is unknown.", "class": "unknown", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "43.4"]}
+    ],
+    "defense": [
+      {"text": "By day it buries itself with only its leaves showing, to avoid detection by its enemies, and it can be mistaken for a clump of weeds.", "class": "canon", "confidence": "high", "evidence": ["43.8", "43.2", "C43.16", "C43.3"]},
+      {"text": "If anyone tries to pull it out of the ground, it shrieks horribly.", "class": "canon", "confidence": "high", "evidence": ["43.2", "C43.4"], "analogy": "A parallel in folklore rather than biology: the European legend of the mandrake (Mandragora), whose root was said to scream when pulled from the ground."},
+      {"text": "Acid (9), Poison Powder (13), Stun Spore (15) and Sleep Powder (17): a small animal well armed with chemicals.", "class": "mechanic", "confidence": "high", "evidence": ["move:Acid", "move:Poison Powder", "move:Stun Spore", "move:Sleep Powder"]}
+    ],
+    "senses": [
+      {"text": "It responds to moonlight: exposure to it starts it moving.", "class": "canon", "confidence": "high", "evidence": ["43.4", "C43.7"]},
+      {"text": "It seeks out fertile soil, so it can sense soil quality somehow; how is not described.", "class": "inferred", "confidence": "medium", "evidence": ["43.7"]}
+    ],
+    "life_cycle": [
+      {"text": "Oddish becomes Gloom at level 21; Gloom becomes Vileplume with a Leaf Stone or Bellossom with a Sun Stone.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "The line turns carnivorous as it develops: Gloom's sweet, sticky nectar is used to attract prey, and Vileplume lures prey with its huge petals, doses them with toxic spores and eats them. Oddish itself is never described eating animals.", "class": "canon", "confidence": "high", "evidence": ["44.1", "44.3", "45.7"]},
+      {"text": "The Sun Stone branch reverses the night habit: Bellossom closes its petals and sleeps at night and dances in sunshine.", "class": "canon", "confidence": "high", "evidence": ["182.5", "182.7"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Sweet Scent (Lv 5) is a lure. In Gloom the lure is for prey (44.1); in Oddish it might draw animals that carry its seeds, but that is a reading.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Sweet Scent", "44.1"], "note": "No Oddish entry mentions scent."},
+      {"text": "Moonlight (Lv 33) heals by moonlight, matching the entries, but Oddish evolves at 21, so a wild Oddish almost never has it.", "class": "mechanic", "confidence": "high", "evidence": ["move:Moonlight", "game:evolution", "43.8"]},
+      {"text": "Its wild repertoire before evolving is drain (Absorb), acid (Acid) and powders (Poison Powder, Stun Spore, Sleep Powder).", "class": "mechanic", "confidence": "high", "evidence": ["move:Absorb", "move:Acid", "move:Poison Powder", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A producer, or as near as any regular member of the community comes to one: it draws nutrients from soil and energy from moonlight, which puts it at trophic level 1.", "class": "inferred", "confidence": "medium", "evidence": ["43.6", "43.8"]},
+      {"text": "It disperses its own seeds by walking, far and wide each night, spreading its kind across the forest floor.", "class": "inferred", "confidence": "high", "evidence": ["43.4", "43.10"]},
+      {"text": "Digging in by day may loosen and mix the soil, and it selects fertile patches, but nothing says whether it depletes or enriches them.", "class": "hypothesis", "confidence": "low", "evidence": ["43.6", "43.7"], "note": "Untested."},
+      {"text": "It shares Ilex Forest's grass with the caterpillars in shifts: the larvae in the morning and by day, Oddish at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Caterpie", "species:Weedle"]}
+    ],
+    "humans": [
+      {"text": "People can take it for a clump of weeds and try to pull it up, which sets off its shriek.", "class": "canon", "confidence": "high", "evidence": ["43.2"]},
+      {"text": "FireRed gives it a scientific name, 'Oddium Wanderus', in the same entry as the hearsay about how far it walks (see Folklore).", "class": "canon", "confidence": "high", "evidence": ["43.9"]},
+      {"text": "The capability records list it under light from Gold's 'moon light'. That is a misreading: moonlight wakes it, it doesn't make light.", "class": "inferred", "confidence": "high", "evidence": ["43.3", "game:capability"]}
+    ],
+    "homestead": [
+      {"text": "A night gardener of sorts: it seeks fertile soil, plants itself, and sows seeds wherever it walks. An Oddish loose in the Glasshouse at night would seed its own kind among the Berry rows.", "class": "hypothesis", "confidence": "medium", "evidence": ["43.4", "43.7"], "note": "What its seeds grow into is unknown.", "capability": "plant_care"},
+      {"text": "A soil test on legs: its leaves grow glossier the more fertile the soil, so a planted Oddish would show where the ground is good.", "class": "hypothesis", "confidence": "low", "evidence": ["43.6"], "note": "One entry; untested.", "capability": "plant_care"},
+      {"text": "It needs soft, fertile soil to bury itself in by day, darkness and moonlight at night, and cool ground out of the sun.", "class": "inferred", "confidence": "high", "evidence": ["43.5", "43.7", "43.4"]},
+      {"text": "It chooses the cold underground (43.5), so Blackthorn's cool soils may suit it, though no record puts it in the highlands.", "class": "hypothesis", "confidence": "low", "evidence": ["43.5", "game:encounters"], "note": "The capability records already file this under cold tolerance; that rests on one entry.", "capability": "cold_tolerance"}
+    ]
+  },
+  "niche": {"guild": "lunar phototroph", "trophic_level": 1, "microhabitat": ["forest-floor soil (by day)", "forest-floor grass and clearings (at night)"], "activity": "nocturnal",
+            "foraging": "plants itself in fertile soil by day and absorbs nutrients through its body; absorbs moonlight at night while walking and sowing seeds", "evidence": ["C43.11", "C43.13", "C43.15", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "It takes up soil nutrients as a plant does; the guild names its energy source."},
+  "relationships": [
+    {"with": "soil nutrients (non-Pokémon)", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["43.6", "43.7"]},
+    {"with": "moonlight (non-Pokémon)", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["43.5", "43.8"]},
+    {"with": "its own seeds", "kind": "disperses", "class": "canon", "confidence": "high", "evidence": ["43.4", "43.10"]},
+    {"with": "Gloom", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Noctowl", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["164.4", "43.8", "game:encounters", "species:Noctowl"], "note": "Noctowl catches prey in darkness, and Oddish is the night animal most often met in Ilex Forest's grass (0.5 m against Noctowl's 1.6 m). Against it: Oddish is poisonous and armed with powders, and the enemies it hides from (43.8) are daytime ones."},
+    {"with": "Hoothoot", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Hoothoot"], "note": "Hoothoot's grass records are at night, as Oddish's are. Its diet is not stated."},
+    {"with": "Paras", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["43.6", "46.1", "species:Paras"], "note": "Both draw on what's below ground: Oddish takes soil nutrients, Paras sucks tree roots. Whether they compete for the same nutrients is untested."},
+    {"with": "Paras", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Paras"]},
+    {"with": "Zubat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat"], "note": "Oddish, Zubat and Paras make up the whole of Ilex Forest's night grass table."},
+    {"with": "Caterpie", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Caterpie"], "note": "Same grass, opposite shifts (HeartGold; Weedle in SoulSilver)."}
+  ],
+  "ecotypes": [
+    {"name": "Rooted settler", "moves": ["Ingrain", "Synthesis"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that leans further into the plant side of its life: it roots in harder and longer (Ingrain) and draws energy from light (Synthesis) instead of wandering. Fits stable, fertile clearings where staying put pays better than seeding new ground.",
+     "behavior": "Wanders less and stays planted for days, leaves held up to the light.", "evidence": ["43.7", "43.10", "move:Ingrain", "move:Synthesis"]},
+    {"name": "Blade-leaf", "moves": ["Razor Leaf", "Swords Dance"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that arms its leaves: sharp-edged leaves thrown or slashed at attackers. Fits grassland and forest edges with more grazers or predators, where the leaves a buried Oddish leaves showing (43.8) are what gets bitten.",
+     "behavior": "Fights back with its leaves instead of shrieking and staying put.", "evidence": ["43.8", "move:Razor Leaf", "move:Swords Dance"]},
+    {"name": "Distraction dancer", "moves": ["Teeter Dance", "Charm", "Tickle"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that defuses attackers with behaviour rather than chemistry: a confusing dance, a disarming display, tickling. Fits places with many casual predators, and it foreshadows the line's later dancing (Bellossom).",
+     "behavior": "Dances and fusses when cornered.", "evidence": ["182.1", "move:Teeter Dance", "move:Charm", "move:Tickle"]}
+  ],
+  "open_questions": [
+    "What do its seeds grow into, and how do seeds relate to eggs?",
+    "Does it photosynthesise with its exposed leaves by day, or only absorb moonlight?",
+    "Does it ever take energy from other organisms (Absorb, Mega Drain), or only from soil and light?",
+    "Who are the enemies it hides from by day (43.8)?",
+    "Does its planting enrich or deplete the soil?",
+    "When does the line start eating animals: at Gloom, or earlier?"
+  ],
+  "contradictions": [
+    {"entries": ["43.5", "43.8", "43.1"], "text": "How much of it is above ground by day? Crystal says it stays in the cold underground to avoid the sun (43.5) and Red/Blue that it keeps its face buried (43.1); Emerald says it leaves its leaves exposed (43.8).", "note": "Compatible if only the leaves show, but a plant with leaves in the open isn't fully avoiding the sun."}
+  ],
+  "folklore": [
+    {"text": "It is said to walk nearly 1,000 feet (about 300 m) a night on its two roots.", "evidence": ["43.9", "C43.17"], "note": "Hearsay in the entry itself ('it is said'). The same entry gives its scientific name, cited under People."}
+  ]
+}

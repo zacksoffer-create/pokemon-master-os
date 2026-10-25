@@ -1,0 +1,99 @@
+{
+  "species": "Poliwag",
+  "id": 60,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A tadpole that has just grown legs and can't use them yet. Poliwag's skin is thin, damp and so transparent that its coiled insides show through as the swirl on its belly, clearer after it has eaten; yet the skin is so flexible that sharp fangs bounce off it. It lives in water and swims rather than walks. In Ilex Forest it is caught only by fishing, and it lives in Blackthorn City's water too. The direction of the belly spiral is said to differ from region to region.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tadpole (0.6 m, 12.4 kg) with newly grown legs.", "class": "canon", "confidence": "high", "evidence": ["60.1", "60.3", "60.9", "60.10", "C60.1", "C60.18", "C60.21", "game:size", "game:shape", "game:genus"], "analogy": "Real tadpoles grow their hind legs first and their forelegs later, then absorb the tail at metamorphosis; a two-legged tadpole like Poliwag is at the hind-leg stage."},
+      {"text": "Very thin, slick, damp black skin through which its internal organs can be seen.", "class": "canon", "confidence": "high", "evidence": ["60.6", "60.8", "60.10", "C60.10", "C60.16", "C60.20"]},
+      {"text": "The swirl on its belly is its insides showing through the skin: part of its internal organs, seen as a spiral.", "class": "canon", "confidence": "high", "evidence": ["60.5", "60.6", "60.7", "60.8", "C60.8", "C60.11", "C60.14", "C60.17"], "analogy": "Many real tadpoles have a long, coiled gut that shows through the belly skin; it is long because they digest plant food."}
+    ],
+    "diet": [
+      {"text": "It eats, and its belly swirl looks clearer afterwards.", "class": "canon", "confidence": "high", "evidence": ["60.5", "C60.9"]},
+      {"text": "What it eats isn't stated. A long, coiled gut points to plant food or detritus rather than prey.", "class": "hypothesis", "confidence": "low", "evidence": ["60.5", "60.8"], "note": "An inference from gut shape that leans on real tadpoles; the entries don't say the spiral is the gut, only 'insides' and 'internal organs'.", "analogy": "Most real tadpoles graze algae and detritus, and carnivorous tadpoles, such as the meat-eating form of spadefoot toad tadpoles, have shorter guts."}
+    ],
+    "habitat": [
+      {"text": "Water: because it is inept at walking on its new legs, it always swims around in water.", "class": "canon", "confidence": "high", "evidence": ["60.3", "C60.5", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is fished from Ilex Forest's pond (15% on the Old Rod, 60% Good Rod, 80% Super Rod) and never surfed there; it is fished from ponds and rivers across Johto, including Blackthorn City and Routes 43 to 45, and surfed on Routes 30, 31 and 44 and in Violet and Ecruteak Cities.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Being caught by rod rather than met surfing in Ilex Forest suggests it stays below the surface.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It prefers swimming to standing or walking, and is more adept at it.", "class": "canon", "confidence": "high", "evidence": ["60.1", "60.2", "60.9", "C60.2", "C60.4", "C60.19"]},
+      {"text": "Its activity pattern is unknown: Ilex Forest's fishing tables have no time of day.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Poliwag gather from far and wide when they hear Politoed's echoing cry, and Politoed's cries make them obey: the line's adult leads groups of young.", "class": "canon", "confidence": "high", "evidence": ["186.1", "186.3", "186.6"]},
+      {"text": "So Poliwag live within earshot of, and respond to, adults of their own line; whether they form groups without one isn't stated.", "class": "inferred", "confidence": "medium", "evidence": ["186.1", "186.6"]}
+    ],
+    "reproduction": [
+      {"text": "Water 1 egg group, 20 egg cycles, an even sex ratio, medium-slow growth. As a tadpole it is the line's juvenile; nothing says where eggs are laid.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its skin, though thin, is so flexible that even sharp fangs bounce off it.", "class": "canon", "confidence": "high", "evidence": ["60.6", "60.7", "C60.12", "C60.13", "C60.15"]},
+      {"text": "Hypnosis (Lv 8) is the belly spiral in game form: in its evolved form the spiral puts a foe to sleep so it can escape, and staring at it causes drowsiness.", "class": "canon", "confidence": "medium", "evidence": ["61.2", "61.3", "61.10", "move:Hypnosis"]},
+      {"text": "Its abilities are Water Absorb (water attacks heal it) and Damp.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Poliwag becomes Poliwhirl at level 25; Poliwhirl becomes Poliwrath with a Water Stone, or Politoed if traded holding a King's Rock.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Read as tadpole to frog: the new legs become Poliwhirl's well-developed legs, and Poliwhirl can live in or out of water, though it prefers water.", "class": "canon", "confidence": "high", "evidence": ["61.1", "61.5", "61.8"], "analogy": "Amphibian metamorphosis: an aquatic, tailed larva becomes a semi-aquatic or land-living adult."},
+      {"text": "The two adult forms divide: Poliwrath is a powerful swimmer that nonetheless lives on dry land, and Politoed is a leader whose cry gathers Poliwag.", "class": "canon", "confidence": "high", "evidence": ["62.4", "186.1"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Water Sport (Lv 1), Bubble (5), Water Gun (11), Bubble Beam (25), Hydro Pump (38): water. Mud Shot (28) and Mud Bomb (41): mud.", "class": "mechanic", "confidence": "high", "evidence": ["move:Water Sport", "move:Bubble", "move:Water Gun", "move:Bubble Beam", "move:Hydro Pump", "move:Mud Shot", "move:Mud Bomb"]},
+      {"text": "Hypnosis (8) is the spiral; Rain Dance (18) calls rain. A wild Poliwag evolves at 25, so its working repertoire stops at Body Slam (21).", "class": "mechanic", "confidence": "high", "evidence": ["move:Hypnosis", "move:Rain Dance", "move:Body Slam", "game:evolution"]}
+    ],
+    "ecology": [
+      {"text": "If it grazes, it is a primary consumer of the pond (trophic level 2), and food for larger pond animals.", "class": "hypothesis", "confidence": "low", "evidence": ["60.5"], "note": "Its diet is undescribed."},
+      {"text": "Its fang-proof skin is a defence against biting predators, which implies they exist.", "class": "inferred", "confidence": "medium", "evidence": ["60.6", "60.7"]},
+      {"text": "In Ilex Forest it shares the fishing tables with Magikarp, and the share shifts by rod: mostly Magikarp on the Old Rod, mostly Poliwag on the Super Rod.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"]}
+    ],
+    "humans": [
+      {"text": "Easy to catch (catch rate 255) and fished all over Johto.", "class": "mechanic", "confidence": "high", "evidence": ["game:catch_rate", "game:encounters"]},
+      {"text": "People have noticed that the spiral's direction varies by area and have a theory about why (see Folklore).", "class": "canon", "confidence": "high", "evidence": ["60.2", "60.4"]}
+    ],
+    "homestead": [
+      {"text": "Local: it lives in Blackthorn City's water and on Routes 43 to 45, so it is at home in the highland ponds.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "If it grazes algae, a Poliwag in a cistern or garden pond might help keep the water clear.", "class": "hypothesis", "confidence": "low", "evidence": ["60.5"], "note": "Untested; rests on the grazing hypothesis.", "capability": "water_supply"},
+      {"text": "Water Gun (Lv 11) is in its wild repertoire, so it can spray water on plants.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Water Gun"], "note": "A move, read as a practical ability.", "capability": "plant_care"},
+      {"text": "It needs clean water to live in: its thin, damp skin means it can't stay out of water for long.", "class": "inferred", "confidence": "medium", "evidence": ["60.3", "60.8"]}
+    ]
+  },
+  "niche": {"guild": "aquatic grazer or filter feeder", "trophic_level": 2, "microhabitat": ["pond and slow water, below the surface"], "activity": "unknown",
+            "foraging": "unknown; probably grazing, judging by its coiled gut", "evidence": ["C60.8", "C60.9", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "No entry gives its diet."},
+  "relationships": [
+    {"with": "algae and detritus (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["60.5", "60.8"], "note": "From gut shape; no entry gives its diet."},
+    {"with": "Poliwhirl", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Golduck", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "game:size", "60.6", "species:Golduck"], "note": "Same water; Golduck is the pond's fastest and largest animal. Poliwag's fang-proof skin argues against."},
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"]},
+    {"with": "Psyduck", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Psyduck"]}
+  ],
+  "ecotypes": [
+    {"name": "Cold-water", "moves": ["Mist", "Haze", "Ice Ball"], "class": "hypothesis", "confidence": "medium",
+     "reading": "Three Ice-type egg moves: a lineage at home in cold, high water. Fits highland ponds and streams like Blackthorn City's and Route 44's, where Poliwag is in fact found.",
+     "behavior": "Stays active in cold water and under thin ice.", "evidence": ["game:encounters", "move:Mist", "move:Haze", "move:Ice Ball"]},
+    {"name": "Mud-bottom", "moves": ["Mud Shot", "Water Sport", "Refresh"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of silty, shallow ponds: mud as weapon and cover, and resistance to the infections and fouling of stagnant water (Refresh cures status problems).",
+     "behavior": "Lives on and in the muddy bottom.", "evidence": ["move:Mud Shot", "move:Water Sport", "move:Refresh"]},
+    {"name": "Splash-escape", "moves": ["Splash", "Endeavor"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that leaps clear of the water to escape, and fights hardest when badly hurt. Fits ponds with many fast predators, where a last-ditch escape matters.",
+     "behavior": "Jumps when chased; turns on an attacker when cornered.", "evidence": ["move:Splash", "move:Endeavor"]}
+  ],
+  "open_questions": [
+    "What does it eat?",
+    "Does the belly spiral really differ by area, and if it does, why?",
+    "Where are its eggs laid, and how long is the tadpole stage?",
+    "Does it hatch with legs, or grow them later?",
+    "Does it ever come onto land?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "The direction of its belly spiral differs by area, and the equator is thought to have an effect on this.", "evidence": ["60.2", "60.4", "C60.3", "C60.6", "C60.7"], "note": "The regional difference is stated as fact; the equator explanation is given as a belief ('is thought to').", "analogy": "The popular idea that water drains swirl opposite ways in the two hemispheres is a myth at the scale of a basin. And in real tadpoles the gut coils the same way in nearly every individual, as part of the body's fixed left-right asymmetry."}
+  ]
+}

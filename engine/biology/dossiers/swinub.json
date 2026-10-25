@@ -1,0 +1,111 @@
+{
+  "species": "Swinub",
+  "id": 220,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A small pig of the Ice Path that finds food by smell and digs it up with a nose tough enough for frozen ground. Its favourite food is a mushroom that grows under dead grass, and it also eats berries, which makes it the highlands' clearest link to the fungi that break down dead plants. While rooting it sometimes uncovers hot springs, even under ice. It has the highest encounter rate on every floor of the Ice Path in HeartGold and SoulSilver, which says it is easy to meet, not how many there are.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small quadruped, 0.4 m and 6.5 kg, typed Ice and Ground.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "The tip of its nose is its digging tool, so tough that even frozen ground poses no problem.", "class": "canon", "confidence": "high", "evidence": ["220.3", "C220.4", "C220.5"]},
+      {"text": "Its nose is also very sensitive.", "class": "canon", "confidence": "high", "evidence": ["220.8", "C220.15"]},
+      {"text": "No Swinub entry mentions a coat. The thick, long hair for enduring cold is described for Piloswine.", "class": "inferred", "confidence": "medium", "evidence": ["221.4", "221.5"]}
+    ],
+    "diet": [
+      {"text": "Its favourite food is a mushroom that grows under the cover of dead or dried grass.", "class": "canon", "confidence": "high", "evidence": ["220.4", "220.5", "220.7", "C220.7", "C220.10", "C220.13"], "analogy": "Wild boar and domestic pigs (Sus scrofa) root for underground fungi, and pigs have long been used to find truffles (Tuber) by smell."},
+      {"text": "It also finds berries, and can locate mushrooms and berries buried under ice.", "class": "canon", "confidence": "high", "evidence": ["220.8", "C220.16"]},
+      {"text": "It forages by rubbing its snout along the ground to find food and dig it up.", "class": "canon", "confidence": "high", "evidence": ["220.1", "220.4", "220.5", "C220.1", "C220.6", "C220.9"]},
+      {"text": "Its foods are surface foods: mushrooms under dead grass and berries do not grow in an ice cave. Ice Path Swinub must forage outside on the slopes and meadows, or live on what reaches the cave from outside.", "class": "inferred", "confidence": "medium", "evidence": ["C220.7", "C220.16", "game:encounters"]},
+      {"text": "Odor Sleuth at Lv 1 is a scent-tracking move: the wild animal starts life following its nose.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Odor Sleuth"]}
+    ],
+    "habitat": [
+      {"text": "In HeartGold and SoulSilver it is on all four floors of the Ice Path (1F, B1F, B2F, B3F) at 40%, the highest rate there, at any time of day; levels 21-23 on the upper floors and 22-24 on B2F and B3F. Gold and Silver have the same 40% at every time of day; Crystal has it only by day and morning.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "The radio's Hoenn and Sinnoh sounds add Makuhita, Absol, Chingling and Bronzor to the same Ice Path tables. Those are radio-only and are not treated as Ice Path residents here.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Everywhere else it is also in cold places: Icefall Cave (FireRed, LeafGreen), Route 217 (a swarm in Diamond and Pearl, resident in Platinum) and Acuity Lakefront. The Gen 3 Pokédex habitat is cave.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "Its entries put it on frozen ground and ice, with dead grass nearby: the ground at the edges of snow rather than deep inside rock.", "class": "inferred", "confidence": "medium", "evidence": ["220.3", "220.4", "220.8"]}
+    ],
+    "behavior": [
+      {"text": "If it smells something enticing, it dashes off headlong to find the source.", "class": "canon", "confidence": "high", "evidence": ["220.2", "220.6", "C220.3", "C220.12"]},
+      {"text": "It sometimes discovers or roots out hot springs while foraging.", "class": "canon", "confidence": "high", "evidence": ["220.1", "220.4", "220.5", "220.7", "C220.2", "C220.8", "C220.11", "C220.14"]},
+      {"text": "Crystal's tables have it only by day and morning, which hints at a day-active animal; HeartGold and SoulSilver don't split it by time.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters"], "note": "Encounter-table time slots are a weak guide to activity, especially inside a cave."}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups, pairs or herds. High encounter rates on every floor are not evidence of group size.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio; nothing in the Pokédex describes breeding or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Snow Cloak raises its evasion in a hailstorm: in the games it is harder to hit in blowing snow.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Its wild defences are modest: Mud Sport and Mud-Slap, Endure (Lv 16), Mist (Lv 40) and a Take Down charge (Lv 32).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Mud Sport", "move:Mud-Slap", "move:Endure", "move:Mist", "move:Take Down"]},
+      {"text": "An animal that dashes headlong after smells is not a vigilant one; Piloswine, whose hair covers its eyes, carries this further and simply keeps charging.", "class": "inferred", "confidence": "low", "evidence": ["220.2", "221.1"]}
+    ],
+    "senses": [
+      {"text": "Smell is its main sense: a very sensitive nose that leads it to food, and to hot springs, even under ice.", "class": "canon", "confidence": "high", "evidence": ["220.2", "220.8", "C220.15", "C220.16"]},
+      {"text": "Smell stays primary through the line: Piloswine cannot see through its coat and checks its surroundings with its nose, and it is very sensitive to sound.", "class": "canon", "confidence": "high", "evidence": ["221.2", "221.6", "C221.3", "C221.9", "C221.10"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Piloswine at Lv 33; Piloswine becomes Mamoswine on levelling up while it knows Ancient Power, which Swinub can carry as an egg move or be taught by a tutor, and which Piloswine has at Lv 1.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "move:Ancient Power", "species:Piloswine", "species:Mamoswine"]},
+      {"text": "The digging habit carries through, with the tool changing: Swinub roots with its nose, Piloswine digs up food buried under ice with its tusks, and Mamoswine's tusks are made of ice.", "class": "canon", "confidence": "high", "evidence": ["220.3", "221.4", "221.5", "473.1", "C221.6"]},
+      {"text": "Mamoswine flourished during the ice age and declined as the ice dwindled; a frozen one was dug from 10,000-year-old ice.", "class": "canon", "confidence": "high", "evidence": ["473.1", "473.2", "473.3", "473.4"], "analogy": "Woolly mammoths (Mammuthus primigenius) declined as the last ice age ended, and frozen carcasses have been recovered from Siberian permafrost."},
+      {"text": "Size through the line: 0.4 m and 6.5 kg, 1.1 m and 55.8 kg, 2.5 m and 291 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "species:Piloswine", "species:Mamoswine"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "The ground moves are its rooting kit: Odor Sleuth (Lv 1), Mud Sport (Lv 4), Mud-Slap (Lv 13), Mud Bomb (Lv 20) and later Earthquake (Lv 37). The ice moves fit its climate: Powder Snow (Lv 8), Icy Wind (Lv 25), Ice Shard (Lv 28), Blizzard (Lv 44).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Odor Sleuth", "move:Mud Sport", "move:Mud-Slap", "move:Mud Bomb", "move:Earthquake", "move:Powder Snow", "move:Icy Wind", "move:Ice Shard", "move:Blizzard"]},
+      {"text": "Dig is a machine move, taught by people; the wild animal digs with its nose, not with the field move.", "class": "mechanic", "confidence": "high", "evidence": ["move:Dig", "220.3"]}
+    ],
+    "ecology": [
+      {"text": "A fungivore that also eats fruit. Its favourite food is the fruiting body of a fungus living on dead grass, so much of the energy reaching Swinub comes through decomposition rather than straight from living plants.", "class": "inferred", "confidence": "medium", "evidence": ["C220.7", "C220.16"], "analogy": "In real grasslands much of the plant growth is never eaten alive and passes to decomposers; animals that eat fungi tap that detrital food chain."},
+      {"text": "Rooting turns over soil and litter, which would mix the ground and open bare patches.", "class": "hypothesis", "confidence": "medium", "evidence": ["C220.1", "C220.6"], "note": "Follows from the foraging method; the scale is unknown.", "analogy": "Rooting by wild boar turns over large areas of soil and changes which plants grow there."},
+      {"text": "Animals that eat mushrooms often spread the spores in their droppings; Swinub may disperse the fungus it feeds on.", "class": "hypothesis", "confidence": "low", "evidence": ["C220.7"], "note": "Nothing in the pack says so.", "analogy": "Small mammals that eat truffles disperse truffle spores in their droppings."},
+      {"text": "Exposing hot springs would open warm, snow-free ground and unfrozen water for other animals.", "class": "hypothesis", "confidence": "low", "evidence": ["C220.8", "C220.16"], "note": "How often it finds springs, and whether others use them, is not recorded."},
+      {"text": "No predator of Swinub is named. Golbat, which drinks the blood of Pokémon and shares every Ice Path floor with it, is the likeliest.", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters", "species:Golbat"], "note": "Co-occurrence plus Golbat's stated diet; no entry links them."}
+    ],
+    "humans": [
+      {"text": "No Swinub entry mentions people. An animal that finds hot springs is plainly useful to a mountain community.", "class": "inferred", "confidence": "medium", "evidence": ["220.1", "220.7"]},
+      {"text": "It is easy to catch (catch rate 225) and common in the Ice Path, so it is likely one of the first highland species a trainer handles.", "class": "mechanic", "confidence": "high", "evidence": ["game:catch_rate", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "A forager for the cold months: it can find mushrooms and berries buried under ice by smell.", "class": "inferred", "confidence": "medium", "evidence": ["220.8", "C220.16"], "capability": "foraging"},
+      {"text": "Its knack for rooting out hot springs is the most valuable thing it could do for a highland homestead: a found spring means heat and unfrozen water. Whether there is a spring near the homestead to find is unknown.", "class": "inferred", "confidence": "low", "evidence": ["220.1", "220.4", "C220.2", "C220.8"], "capability": "heat_source"},
+      {"text": "It can dig frozen ground with its nose.", "class": "canon", "confidence": "high", "evidence": ["220.3", "C220.5"], "capability": "digging"},
+      {"text": "It needs cold and ground to root in. Keep food stores sealed: it dashes headlong toward any enticing smell.", "class": "inferred", "confidence": "high", "evidence": ["220.2", "game:types"], "capability": "cold_tolerance"},
+      {"text": "A Swinub on the vegetable beds in late winter, nosing out what the frost has left.", "class": "creative", "evidence": ["220.8"]}
+    ]
+  },
+  "niche": {"guild": "fungivore", "trophic_level": 2.5, "microhabitat": ["ice-cave floor", "frozen ground and dead-grass meadows near the cave"], "activity": "unknown",
+            "foraging": "roots by smell, digging up mushrooms (its favourite food) and berries, including from under ice", "evidence": ["C220.1", "C220.7", "C220.16"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "mushroom that grows under dead grass (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["220.4", "220.5", "220.7"]},
+    {"with": "berries (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["220.8"]},
+    {"with": "mushroom that grows under dead grass (non-Pokémon)", "kind": "disperses", "class": "hypothesis", "confidence": "low", "evidence": ["220.4"], "note": "Spore dispersal by fungus-eaters is common; not recorded for Swinub."},
+    {"with": "hot springs", "kind": "engineers", "class": "inferred", "confidence": "low", "evidence": ["220.4", "C220.8"], "note": "It roots them out, exposing warm water; whether that changes the habitat for others is untested."},
+    {"with": "Golbat", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters"], "note": "Golbat drinks the blood of Pokémon and shares every Ice Path floor; no entry names Swinub as its prey."},
+    {"with": "Golbat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golbat"]},
+    {"with": "Jynx", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Jynx"]},
+    {"with": "Delibird", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Delibird"], "note": "SoulSilver only."},
+    {"with": "Piloswine", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Deep rooter", "moves": ["Fissure", "Mud Shot"], "class": "hypothesis", "confidence": "low",
+     "reading": "A move that splits the ground open and one that throws mud: a digging lineage for deep-frozen ground where food is buried deeper, such as the high meadows above the Ice Path.",
+     "behavior": "Digs deeper pits and leaves broken ground behind it.", "evidence": ["C220.5", "move:Fissure", "move:Mud Shot"]},
+    {"name": "Ice-tusk line", "moves": ["Ancient Power", "Icicle Spear"], "class": "hypothesis", "confidence": "low",
+     "reading": "Ancient Power is what a Piloswine needs to become Mamoswine, and Icicle Spear matches the adult's ice tusks. A lineage on its way to the ice-age giant; fits the coldest, iciest ground.",
+     "behavior": "More of them reach Mamoswine; armed with ice early.", "evidence": ["473.1", "game:evolution", "move:Ancient Power", "move:Icicle Spear"]},
+    {"name": "Charging herd", "moves": ["Body Slam", "Take Down", "Double-Edge"], "class": "hypothesis", "confidence": "low",
+     "reading": "Three full-body charges, the habit Piloswine is known for (it keeps charging, hackles up). A lineage that meets threats head-on; fits open snowfields with nowhere to hide.",
+     "behavior": "Charges first and roots afterwards.", "evidence": ["221.1", "221.2", "move:Body Slam", "move:Take Down", "move:Double-Edge"]}
+  ],
+  "open_questions": [
+    "What is the mushroom, and what decomposes the dead grass it grows on? These are the decomposers at the base of Swinub's food chain, and nothing names them.",
+    "Where do Ice Path Swinub feed? There is no dead grass in an ice cave.",
+    "How does it find hot springs: smell, warmth, the sound of water? 220.8 credits its nose.",
+    "Is it day-active? Crystal suggests so; HeartGold and SoulSilver don't split it by time.",
+    "Does it eat animal food? Bite is an egg move, but the entries name only mushrooms and berries.",
+    "What eats Swinub? No predator is named."
+  ],
+  "contradictions": [],
+  "folklore": []
+}

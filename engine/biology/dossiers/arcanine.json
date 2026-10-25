@@ -1,0 +1,102 @@
+{
+  "species": "Arcanine",
+  "id": 59,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Arcanine is a big, fast, fire-powered quadruped (1.9 m, 155 kg) of open grassland, admired since ancient times for its beauty, its grand mane and the way it runs, 'agilely as if on wings'. The fire blazing inside its body is its source of power, and its bark carries such majesty that anyone who hears it grovels. Much of what is written about it is legend: Chinese stories, and a claim that it can run over 6,200 miles in a day and night. It develops from Growlithe, a brave, loyal and fiercely territorial animal with a nose that never forgets a scent and can read the emotions of others. Arcanine forms only when a Growlithe is exposed to a Fire Stone, and none is wild in Gen I–IV.",
+  "sections": {
+    "anatomy": [
+      {"text": "A large quadruped of 1.9 m and 155 kg, Fire type, with a grand mane.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "59.3", "59.11"]},
+      {"text": "The fire that blazes wildly within its body is its source of power.", "class": "canon", "confidence": "high", "evidence": ["59.6", "59.7", "C59.12", "C59.14"]},
+      {"text": "It runs with great agility, as if on wings, and is known for its high speed.", "class": "canon", "confidence": "high", "evidence": ["59.1", "59.9", "59.6", "C59.2", "C59.10"]},
+      {"text": "Its category is 'Legendary Pokémon', though in game data it is an ordinary breeding species (Field group, catch rate 75), not a legendary.", "class": "mechanic", "confidence": "high", "evidence": ["game:genus", "game:egg_groups", "game:catch_rate"]}
+    ],
+    "diet": [
+      {"text": "No entry for either stage says what the line eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its wild moves are mostly bites (Bite, Fire Fang, Thunder Fang, and Crunch for Growlithe), which suggests a meat-eater, but that is a reading of moves.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Bite", "move:Fire Fang", "move:Thunder Fang", "move:Crunch"], "note": "The machine reading's 'thermotroph' came from its Fire type alone."}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat: grassland. An ancient picture scroll shows it running through prairies.", "class": "canon", "confidence": "high", "evidence": ["game:habitat", "59.5", "C59.9"]},
+      {"text": "Arcanine is not found in the wild in any Gen I–IV game; it forms only when a Growlithe is given a Fire Stone.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution"]},
+      {"text": "Growlithe is a version exclusive: wild in Red, Yellow, Gold, Crystal, FireRed and HeartGold, but not Blue, Silver, LeafGreen or SoulSilver. In HeartGold it lives on Routes 36, 37 and 48 in Johto and 7 and 8 in Kanto; in the Kanto games also in the Pokémon Mansion.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Growlithe"]},
+      {"text": "In Sinnoh, Growlithe appears on Routes 201 and 202 only when FireRed is in the second slot.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Growlithe"]}
+    ],
+    "behavior": [
+      {"text": "A runner: speed is the thing it is most known for.", "class": "canon", "confidence": "high", "evidence": ["59.6", "59.1"]},
+      {"text": "Its bark conveys majesty; anyone who hears it can't help but grovel.", "class": "canon", "confidence": "high", "evidence": ["59.4", "C59.7", "C59.8"]},
+      {"text": "Growlithe controls a big territory and defends it: it barks and bites to repel intruders, and roars loudly to drive out anything with an unknown smell.", "class": "canon", "confidence": "high", "evidence": ["58.1", "58.2", "58.5", "58.9", "C58.1", "C58.2", "C58.4", "C58.8", "C58.9", "C58.17"]},
+      {"text": "Activity pattern is mixed in the data: Crystal lists Growlithe only in the morning and day, Gold at all times (more by day), and HeartGold's Route 48 at 20% by night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Growlithe"]}
+    ],
+    "social": [
+      {"text": "No entry describes how Arcanine live with their own kind.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Growlithe is friendly, brave and trustworthy, and stands up fearlessly to bigger, stronger foes.", "class": "canon", "confidence": "high", "evidence": ["58.2", "58.3", "C58.3", "C58.5", "C58.6"]},
+      {"text": "It is extremely loyal to its trainer: it barks at any opponent to protect them, and stays motionless until given an order.", "class": "canon", "confidence": "high", "evidence": ["58.4", "58.8", "58.10", "C58.7", "C58.15", "C58.18", "C58.19"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, 75% male; slow growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Nothing in the Pokédex describes breeding, dens or care of young.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "Intimidation first: Intimidate lowers an opponent's attack, Roar (Lv 1) drives it off, and the canon bark makes listeners grovel.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Roar", "59.4"]},
+      {"text": "Flash Fire turns fire aimed at it into extra power for its own fire attacks.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Growlithe defends with bark and bite.", "class": "canon", "confidence": "high", "evidence": ["58.1", "58.8", "C58.16"]}
+    ],
+    "senses": [
+      {"text": "Growlithe has a superb sense of smell and never forgets a scent.", "class": "canon", "confidence": "high", "evidence": ["58.6", "58.7", "C58.10", "C58.11", "C58.13"], "analogy": "Domestic dogs can be trained to follow one person's scent trail, a measure of how finely a carnivore's nose can separate individual odours."},
+      {"text": "It uses its sense of smell to detect the emotions of other living things.", "class": "canon", "confidence": "high", "evidence": ["58.6", "58.7", "C58.12", "C58.14"]},
+      {"text": "Odor Sleuth is a level-up move of both stages (Growlithe Lv 14, Arcanine Lv 1), so the adult keeps the nose.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Odor Sleuth", "species:Growlithe"]}
+    ],
+    "life_cycle": [
+      {"text": "Growlithe (0.7 m, 19 kg) becomes Arcanine (1.9 m, 155 kg) when exposed to a Fire Stone, about eight times heavier.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Growlithe"]},
+      {"text": "Stone evolution almost stops new natural moves: Arcanine's only level-up move after Lv 1 is Extreme Speed (Lv 39), while Growlithe keeps learning until Lv 48. Read biologically, the stone fixes the adult form at whatever stage it is applied.", "class": "inferred", "confidence": "medium", "evidence": ["game:learnset", "move:Extreme Speed", "species:Growlithe"]},
+      {"text": "Extreme Speed is the move form of the speed its entries are known for.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Extreme Speed", "59.6"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Arcanine's natural set is short: Bite, Fire Fang, Thunder Fang, Roar and Odor Sleuth at Lv 1, and Extreme Speed at Lv 39.", "class": "mechanic", "confidence": "high", "evidence": ["move:Bite", "move:Fire Fang", "move:Thunder Fang", "move:Roar", "move:Odor Sleuth", "move:Extreme Speed"]},
+      {"text": "Growlithe's set is fuller: Ember, Flame Wheel, Fire Fang, Flamethrower, Heat Wave and Flare Blitz, with Helping Hand (Lv 17), a cooperative move, and Reversal (Lv 25), which hits hardest when the user is hurt, fitting an animal that stands up to bigger foes.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Helping Hand", "move:Reversal", "move:Flamethrower", "58.3", "species:Growlithe"]},
+      {"text": "Strength, Dig and Rock Climb are machine moves taught by people.", "class": "mechanic", "confidence": "high", "evidence": ["move:Strength", "move:Dig", "move:Rock Climb"]}
+    ],
+    "ecology": [
+      {"text": "Its role in a grassland community is unrecorded: no diet, prey or predators are named.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A large, territorial, fast-running animal of open country, it is likely to be near the top of whatever food web it lives in, if it hunts.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "58.5", "59.6"], "note": "Hunting is not described for either stage."}
+    ],
+    "humans": [
+      {"text": "Admired for its beauty since ancient times: people are charmed by its grace when it runs, enchanted by its mane, and its proud, regal look has captured hearts for a long time.", "class": "canon", "confidence": "high", "evidence": ["59.1", "59.2", "59.3", "59.9", "59.10", "C59.1", "C59.4", "C59.6", "C59.17", "C59.18"]},
+      {"text": "An ancient picture scroll records people watching it run across prairies.", "class": "canon", "confidence": "high", "evidence": ["59.5"]},
+      {"text": "Growlithe is very friendly and faithful to people.", "class": "canon", "confidence": "high", "evidence": ["58.8"]}
+    ],
+    "homestead": [
+      {"text": "Guard and watch: the line holds territory, barks down intruders and roars at unknown smells, and the adult's bark makes listeners grovel.", "class": "canon", "confidence": "high", "evidence": ["58.5", "59.4", "game:abilities"], "capability": "deterrence"},
+      {"text": "Tracking: a nose that never forgets a scent could find lost people, animals or Pokémon on the mountain.", "class": "inferred", "confidence": "medium", "evidence": ["58.6", "58.7"], "capability": "tracking"},
+      {"text": "Reading visitors: it smells the emotions of others, which could give early warning of a frightened or hostile animal or person.", "class": "hypothesis", "confidence": "low", "evidence": ["58.6"], "note": "Canon says it can; whether it signals what it smells is untested.", "capability": "danger_sense"},
+      {"text": "A mount: 155 kg, fast, four-legged and obedient; carrying a rider is plausible, but no entry describes it.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "59.6", "58.10"], "note": "The capability records list this from size and gear only.", "capability": "carrying_rider"},
+      {"text": "Warmth: a body powered by an internal fire would be a living heater on cold nights; how hot its coat runs is not stated.", "class": "inferred", "confidence": "low", "evidence": ["59.6"], "capability": "heat_source"},
+      {"text": "Needs: room to run, a territory it can patrol, and a fire-safe kennel away from hay and timber. Pair it with Blastoise as the fire crew.", "class": "inferred", "confidence": "medium", "evidence": ["59.5", "58.5", "species:Blastoise"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["open grassland and prairie", "routes and wasteland (Growlithe)"], "activity": "unknown", "foraging": "not described", "evidence": ["game:habitat", "59.5", "game:encounters"], "class": "inferred", "confidence": "low", "note": "Diet is never stated. Activity data conflict between Crystal (day only) and HeartGold (night on Route 48)."},
+  "relationships": [
+    {"with": "prairie grassland", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["59.5", "game:habitat"]},
+    {"with": "Fire Stone", "kind": "uses_resource", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"], "note": "Needed for Growlithe to become Arcanine."},
+    {"with": "people", "kind": "mutualism", "class": "canon", "confidence": "medium", "evidence": ["58.4", "58.8", "59.10"], "note": "Growlithe guards its trainer loyally; people have admired and kept the line since ancient times. What the animal gains is not stated."}
+  ],
+  "ecotypes": [
+    {"name": "Dawn howler", "moves": ["Howl", "Morning Sun"], "class": "hypothesis", "confidence": "low", "reading": "Howl is a rallying cry that raises the user's strength, and Morning Sun restores it in sunlight. A lineage of open country that howls across a large territory at first light and recovers by basking. Fits wide, sunny prairies like the one on the ancient scroll.", "behavior": "Howls from a rise at dawn, then lies out in the early sun.", "evidence": ["59.5", "58.5", "move:Howl", "move:Morning Sun"]},
+    {"name": "Grassfire driver", "moves": ["Fire Spin", "Heat Wave", "Flare Blitz"], "class": "hypothesis", "confidence": "low", "reading": "Fire Spin traps a target in a ring of flame, Heat Wave sweeps a wide area, and Flare Blitz is a burning charge. A lineage that uses fire to herd and corner rather than just to strike. Fits dry grassland, and is the most dangerous to keep near people and crops.", "behavior": "Rings its quarry with fire, then charges.", "evidence": ["59.6", "move:Fire Spin", "move:Heat Wave", "move:Flare Blitz"]},
+    {"name": "Flock guardian", "moves": ["Safeguard", "Crunch", "Body Slam"], "class": "hypothesis", "confidence": "low", "reading": "Safeguard shields companions from status harm, Crunch is a crushing bite, and Body Slam pins with weight. A lineage that guards a group, holding intruders off with bite and bulk. Fits upland pasture with herds or flocks to protect, close to Growlithe's loyalty to its trainer.", "behavior": "Lies among the animals it guards and gets up only for intruders.", "evidence": ["58.4", "move:Safeguard", "move:Crunch", "move:Body Slam"]}
+  ],
+  "open_questions": [
+    "What does the line eat?",
+    "Is it diurnal? Crystal says day only, HeartGold's Route 48 has it at night.",
+    "How fast can it really run, and for how long? '6,200 miles in a day and night' is folklore.",
+    "How hot is its body, and could it warm a room safely?",
+    "Does it signal the emotions it smells?",
+    "Why does a common, breeding species carry the category 'Legendary Pokémon'?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "A legendary Pokémon in China, described in Chinese legends and considered magnificent.", "evidence": ["59.2", "59.3", "59.8", "59.11", "C59.3", "C59.5", "C59.15", "C59.19"]},
+    {"text": "It is said to be able to run over 6,200 miles (about 10,000 km) in a single day and night, and to race at unbelievable speed.", "evidence": ["59.6", "59.7", "59.8", "C59.11", "C59.13", "C59.16"], "note": "That would mean averaging over 400 km/h for 24 hours. Its high speed is canon (59.6); the figure is legend."}
+  ]
+}

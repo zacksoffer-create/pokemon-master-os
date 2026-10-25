@@ -1,0 +1,106 @@
+{
+  "species": "Altaria",
+  "id": 334,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Altaria is a light, cloud-winged dragon (1.1 m, 20.6 kg) that rides updrafts high into the sky and looks like a fluffy cloud in flight. It sings or hums in a clear soprano that leaves listeners feeling as if they are dreaming, and a beautiful melody heard deep in the mountains, far from people, is Altaria humming. It can also launch intensely hot fireballs, and an Altaria that bonds with a person wraps them in its soft wings and hums. It grows from Swablu, a tame, fastidiously clean little bird that sits on people's heads and whose flocks move closer to towns each spring after a hungry winter. In HeartGold and SoulSilver, Swablu appears only as a swarm on Route 45, the road below Blackthorn.",
+  "sections": {
+    "anatomy": [
+      {"text": "A light, winged body of 1.1 m and 20.6 kg, Dragon and Flying type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its wings are like cotton clouds: soft and buoyant enough to catch updrafts and soar.", "class": "canon", "confidence": "high", "evidence": ["334.2", "334.5", "334.6", "C334.4", "C334.5", "C334.10"]},
+      {"text": "It launches intensely hot fireballs from its mouth.", "class": "canon", "confidence": "high", "evidence": ["334.3", "C334.8"]},
+      {"text": "A clear soprano voice.", "class": "canon", "confidence": "high", "evidence": ["334.1", "334.2", "334.3", "334.5", "C334.3", "C334.6", "C334.11"]},
+      {"text": "Swablu's wings are light, fluffy tufts like cotton clouds.", "class": "canon", "confidence": "high", "evidence": ["333.1", "333.3", "333.5", "333.7", "C333.1", "C333.7", "C333.11", "C333.15"]}
+    ],
+    "diet": [
+      {"text": "No entry says what either stage eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Food is seasonal for the line: little is available to Swablu in winter, and its flocks move closer to towns in spring.", "class": "canon", "confidence": "high", "evidence": ["333.3", "C333.8"]},
+      {"text": "Its level-up moves include Peck and Pluck (both at Lv 1), and Pluck eats a target's Berry; Natural Gift (Lv 32) also needs a held Berry. Together they hint that fruit is part of its diet.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Pluck", "move:Peck", "move:Natural Gift"], "note": "Moves, not entries. The machine reading's 'predator' came from its Dragon type alone."}
+    ],
+    "habitat": [
+      {"text": "The sky: it flies, dances and wheels among white, billowing clouds.", "class": "canon", "confidence": "high", "evidence": ["334.1", "334.3", "334.7", "C334.1", "C334.7", "C334.13"]},
+      {"text": "It lives deep in mountains far from people.", "class": "canon", "confidence": "high", "evidence": ["334.4", "C334.9"]},
+      {"text": "The Gen 3 Pokédex files the line under forest, which no Altaria entry mentions; Swablu's town visits and stream baths fit forest edges better.", "class": "mechanic", "confidence": "medium", "evidence": ["game:habitat", "333.2", "333.3"]},
+      {"text": "Wild Altaria occur only on the fifth floor of Sky Pillar in Ruby, Sapphire and Emerald, at 6%.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Swablu lives on Hoenn's Routes 114 and 115, by Poké Radar on Sinnoh's Route 211 (Diamond, Pearl) or on Route 210 (Platinum), and in HeartGold and SoulSilver only as a swarm on Route 45, the mountain road south of Blackthorn.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Swablu"], "note": "Route 45's position is from the game map."}
+    ],
+    "behavior": [
+      {"text": "It sings and hums, and its melodies make listeners feel as if they are in a dream.", "class": "canon", "confidence": "high", "evidence": ["334.1", "334.7", "C334.2", "C334.14"]},
+      {"text": "Its flight is a display: it dances and wheels through the sky among clouds.", "class": "canon", "confidence": "high", "evidence": ["334.1", "C334.1"]},
+      {"text": "Swablu is fastidious: it constantly grooms its wings, wipes and polishes dirty things with them, can't relax if it or its surroundings are dirty, and showers in a stream or springwater when soiled.", "class": "canon", "confidence": "high", "evidence": ["333.2", "333.4", "333.6", "333.7", "C333.4", "C333.5", "C333.6", "C333.9", "C333.10", "C333.13", "C333.14", "C333.16"]},
+      {"text": "Its activity pattern is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Swablu lives in flocks that move closer to towns in spring.", "class": "canon", "confidence": "high", "evidence": ["333.3"]},
+      {"text": "Swablu is not frightened of people and loves to sit on their heads like a cotton hat.", "class": "canon", "confidence": "high", "evidence": ["333.1", "333.5", "333.7", "C333.2", "C333.3", "C333.12"]},
+      {"text": "An Altaria that bonds with a person gently wraps them in its soft wings, then hums.", "class": "canon", "confidence": "high", "evidence": ["334.6", "C334.12"]},
+      {"text": "The humming heard far from people suggests adults spend at least some time alone in the mountains.", "class": "inferred", "confidence": "low", "evidence": ["334.4"]}
+    ],
+    "reproduction": [
+      {"text": "Flying and Dragon egg groups, 20 egg cycles, an even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Nothing describes courtship, nests or care of young. Its dancing flight and song are the obvious candidates for courtship displays, but no entry says so.", "class": "hypothesis", "confidence": "low", "evidence": ["334.1"], "note": "Song and display flight serve courtship in many birds; that is a general expectation, not canon."}
+    ],
+    "defense": [
+      {"text": "Fire: it launches intensely hot fireballs.", "class": "canon", "confidence": "high", "evidence": ["334.3"]},
+      {"text": "Song as defence: Sing (Lv 9) puts the target to sleep, which is the 'dreamy wonderment' of its entries in move form; Perish Song (Lv 62) makes everything that hears it faint after three turns.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sing", "move:Perish Song", "334.7"]},
+      {"text": "Safeguard (Lv 18), Mist (Lv 23) and Refresh (Lv 46) protect it from status harm and stat loss; Natural Cure clears its status problems when it withdraws. With Swablu's grooming, the line looks built to stay clean of ailments.", "class": "inferred", "confidence": "low", "evidence": ["move:Safeguard", "move:Mist", "move:Refresh", "game:abilities", "333.6"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Swablu (0.4 m, 1.2 kg, Normal and Flying) becomes Altaria at level 35 (1.1 m, 20.6 kg, Dragon and Flying), about seventeen times heavier.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "game:types", "species:Swablu"]},
+      {"text": "Development moves it from a tame, flocking bird of forest edges and towns to a mostly solitary singer of the high mountains and sky, though adults still bond with people.", "class": "inferred", "confidence": "medium", "evidence": ["333.1", "333.3", "334.4", "334.6"]},
+      {"text": "Its growth rate is erratic: slow at first, then very fast.", "class": "mechanic", "confidence": "high", "evidence": ["game:growth"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Dragon Dance (Lv 39) is the move form of its dancing, wheeling flight, and Dragon Breath, learned at Lv 35 as it evolves, its fiery breath.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Dragon Dance", "move:Dragon Breath", "334.1", "334.3"]},
+      {"text": "Bill: Peck, Pluck and Fury Attack (Lv 13).", "class": "mechanic", "confidence": "high", "evidence": ["move:Peck", "move:Pluck", "move:Fury Attack"]},
+      {"text": "Flight attacks: Sky Attack (Lv 70) by level-up; Fly is a machine move taught by people.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sky Attack", "move:Fly"]}
+    ],
+    "ecology": [
+      {"text": "Swablu flocks move seasonally, towards towns in spring after a hungry winter, so they bring a pulse of birds into settled land each year.", "class": "canon", "confidence": "high", "evidence": ["333.3"]},
+      {"text": "If the line eats fruit, as Pluck and Natural Gift hint, Swablu flocks could disperse seeds between forest and towns.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Pluck", "333.3"], "note": "Diet is never stated."},
+      {"text": "Its trophic position is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Swablu is tame with people and perches on their heads; Altaria bonds with people and envelops them in its wings.", "class": "canon", "confidence": "high", "evidence": ["333.1", "334.6"]},
+      {"text": "Its humming is something people recognise and seek out in the mountains.", "class": "canon", "confidence": "medium", "evidence": ["334.4"]}
+    ],
+    "homestead": [
+      {"text": "A calming presence: its humming makes people feel as if they're dreaming, and a bonded Altaria wraps its person in its wings.", "class": "canon", "confidence": "high", "evidence": ["334.7", "334.6"], "capability": "calming_presence"},
+      {"text": "Air errands: Fly is a taught move, but at 20.6 kg it is light for carrying an adult rider, so scouting and carrying small items suit it better.", "class": "inferred", "confidence": "low", "evidence": ["move:Fly", "game:size"], "capability": "air_travel"},
+      {"text": "A heat source in a pinch: it launches intensely hot fireballs. Whether it can give steady, gentle heat is not known.", "class": "hypothesis", "confidence": "low", "evidence": ["334.3"], "note": "The capability records list heat from this entry; nothing says it can be controlled.", "capability": "heat_source"},
+      {"text": "Swablu would clean: it wipes and polishes dirty things with its wings of its own accord. Whether it would do so where it is asked is untested.", "class": "hypothesis", "confidence": "low", "evidence": ["333.2", "333.6"], "note": "A canon habit; turning it into a job is an assumption."},
+      {"text": "Needs: clean running or spring water to bathe in, and extra food in late winter, when Swablu go hungry.", "class": "inferred", "confidence": "medium", "evidence": ["333.2", "333.7", "333.3"]},
+      {"text": "A spring arrival: in Johto, wild Swablu turn up only as a Route 45 swarm, so a flock near Blackthorn is an event, not a fixture.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["open sky among clouds", "remote mountains (Altaria)", "forest edges and towns (Swablu)"], "activity": "unknown", "foraging": "not described", "evidence": ["334.1", "334.4", "333.3", "game:habitat"], "class": "inferred", "confidence": "low", "note": "Diet is never stated; Pluck and Natural Gift hint at fruit."},
+  "relationships": [
+    {"with": "updrafts", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["334.2"]},
+    {"with": "clean streams and springs", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["333.2", "333.7"], "note": "Swablu bathes in them."},
+    {"with": "towns", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["333.3"], "note": "Swablu flocks move closer to towns in spring after a winter of scarce food; what they take there is not said."},
+    {"with": "Phanpy", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Phanpy"], "note": "Route 45 in HeartGold, where Swablu appears as a swarm."},
+    {"with": "Gligar", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gligar"], "note": "Route 45 in HeartGold and SoulSilver."}
+  ],
+  "ecotypes": [
+    {"name": "Cloud dancer", "moves": ["Feather Dance", "Agility"], "class": "hypothesis", "confidence": "low", "reading": "Feather Dance buries an attacker in down, blunting its attack, and Agility is a burst of speed. A lineage that turns its dancing flight (334.1) into defence, shedding down and outflying trouble. Fits open mountain skies with strong updrafts.", "behavior": "Answers a threat with a dazzling, feather-shedding display and then is gone.", "evidence": ["334.1", "move:Feather Dance", "move:Agility"]},
+    {"name": "Mobbing flock", "moves": ["Pursuit", "Rage", "Dragon Rush"], "class": "hypothesis", "confidence": "low", "reading": "Pursuit strikes a fleeing target, Rage builds with every hit taken, and Dragon Rush is a full-body charge. A lineage whose flocks chase and harry intruders together rather than hiding. Fits forest edges near towns, where Swablu flocks gather in spring and predators follow them.", "behavior": "The whole flock turns on a hawk and drives it off.", "evidence": ["333.3", "move:Pursuit", "move:Rage", "move:Dragon Rush"], "analogy": "Many small songbirds mob predators in groups, harassing them until they leave."},
+    {"name": "Fog-bank flock", "moves": ["Haze", "Power Swap"], "class": "hypothesis", "confidence": "low", "reading": "Haze clears every stat change on the field, and Power Swap trades the user's attacking changes with a foe's. A lineage that neutralises an attacker's advantage rather than fighting it, at home in cloud and mist. Fits cloud-wrapped peaks where visibility is poor and fights are short and confused.", "behavior": "Disappears into cloud; whatever followed it comes out no stronger than it went in.", "evidence": ["334.1", "move:Haze", "move:Power Swap"]}
+  ],
+  "open_questions": [
+    "What does the line eat? Pluck and Natural Gift hint at fruit.",
+    "Is it a forest animal (Gen 3 habitat) or a mountain and sky animal (334.4)?",
+    "Where do Swablu flocks spend winter, and why is food scarce for them then?",
+    "Do its song and dance serve courtship?",
+    "Can a 20.6 kg animal really carry a person?",
+    "Is its fire usable as gentle heat, or only as attack?",
+    "Does Perish Song, a level-up move, reflect anything real about its singing?"
+  ],
+  "contradictions": [
+    {"topic": "Near people or far from them", "entries": ["334.4", "333.1", "333.3", "334.6"], "note": "FireRed and LeafGreen (334.4) place Altaria deep in mountains far from people; Ruby and Emerald (333.1, 333.3) have Swablu unafraid of people and moving towards towns, and Platinum (334.6) has Altaria bonding with a person. Different stages and situations, but the line's relationship with people is never squared."}
+  ],
+  "folklore": []
+}

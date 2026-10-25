@@ -1,0 +1,92 @@
+{
+  "species": "Beedrill",
+  "id": 15,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The adult of the Weedle line: a large, fast, venomous insect with three poison stingers, one on each foreleg and the strongest on its tail. Beedrill is a hunter. It stings prey into submission and carries it back to its nest, defends that nest fiercely, and may attack in swarms; its favourite attack is a fast pass, striking with its needles and flying off. In SoulSilver it lives in Ilex Forest's rarer Headbutt trees, in the slot Butterfree fills in HeartGold, which swaps the forest's flower-visitor for a predator.",
+  "sections": {
+    "anatomy": [
+      {"text": "A large flying insect (1.0 m, 29.5 kg) with three poisonous stingers: one on each foreleg and one on the tail.", "class": "canon", "confidence": "high", "evidence": ["15.1", "15.2", "15.4", "15.9", "C15.2", "C15.6", "game:size", "game:shape"], "analogy": "Real bees and wasps have a single sting at the tail, a modified egg-laying organ, which is why only females sting. Stingers on the forelegs have no real counterpart."},
+      {"text": "The tail barb secretes the most powerful poison of the three.", "class": "canon", "confidence": "high", "evidence": ["15.4", "C15.7"]}
+    ],
+    "diet": [
+      {"text": "It hunts: it defeats prey with sharp, poisonous stings, then takes the victim back to its nest for food.", "class": "canon", "confidence": "high", "evidence": ["15.5", "C15.8"], "analogy": "Social wasps such as yellowjackets and hornets (Vespidae) kill or subdue insects and carry them back to the nest, where the prey is fed to the larvae."},
+      {"text": "What it hunts isn't stated. 'It can take down any opponent' (15.3) is about fighting, not diet.", "class": "unknown", "confidence": "high", "evidence": ["15.3", "15.5"]},
+      {"text": "Its category is Poison Bee Pokémon, but nothing in its entries is bee-like in diet: no honey, nectar or flowers. Every feeding entry describes a hunter.", "class": "inferred", "confidence": "high", "evidence": ["game:genus", "15.5"]}
+    ],
+    "habitat": [
+      {"text": "A forest animal with a nest it defends.", "class": "canon", "confidence": "high", "evidence": ["15.5", "15.6", "15.7", "game:habitat"]},
+      {"text": "In SoulSilver it is in Ilex Forest's rare Headbutt trees (10%), Route 47's secret Headbutt trees, National Park's Bug-Catching Contest, and in Kanto on Route 2 (morning, plus a 4% night record) and in Viridian Forest. In HeartGold it appears only in the Contest.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Where the nest is, in a tree, on the ground or in a cavity, and what it is made of, isn't stated.", "class": "unknown", "confidence": "high", "evidence": ["15.6"]}
+    ],
+    "behavior": [
+      {"text": "Extremely territorial around its nest: no one should ever approach it, for their own safety.", "class": "canon", "confidence": "high", "evidence": ["15.6", "15.7", "C15.9", "C15.10", "C15.12", "C15.13"]},
+      {"text": "It flies at high, even violent, speed while stabbing; its best attack is to fly in, strike with its needles and fly off.", "class": "canon", "confidence": "high", "evidence": ["15.1", "15.8", "15.9", "15.10", "C15.1", "C15.16", "C15.17", "C15.18"]},
+      {"text": "Mostly a morning and day animal by its SoulSilver grass records (Route 2, Viridian Forest), with one small night record on Route 2. Headbutt records have no time of day.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "It sometimes attacks in swarms; angered, Beedrill attack in a furious swarm, and it may appear in one.", "class": "canon", "confidence": "high", "evidence": ["15.3", "15.6", "15.7", "15.8", "C15.5", "C15.11", "C15.14", "C15.15"]},
+      {"text": "Swarming and a defended nest point to colonial life, but no entry describes a colony's size, a queen or any division of labour.", "class": "inferred", "confidence": "medium", "evidence": ["15.3", "15.6"], "analogy": "In real social wasps and bees, mass stinging in defence of the nest goes with colonies that have a reproductive queen and sterile workers."}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 15 egg cycles, an even sex ratio. Nothing in the Pokédex describes mating or eggs.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "If the nest is a brood nest, the prey Beedrill carries home would feed young; but Weedle eat leaves under the leaves themselves, so the nest's part in breeding is unclear.", "class": "hypothesis", "confidence": "low", "evidence": ["15.5", "13.4", "13.10"], "note": "No entry links the nest to eggs or young."}
+    ],
+    "defense": [
+      {"text": "Its stings are weapon and defence alike: it jabs an enemy repeatedly with its three stingers, and can take down any opponent with them.", "class": "canon", "confidence": "high", "evidence": ["15.2", "15.3", "C15.3", "C15.4"]},
+      {"text": "Group defence: angered, they swarm.", "class": "canon", "confidence": "high", "evidence": ["15.6", "15.7"]},
+      {"text": "Twineedle (Lv 16), Pin Missile (28) and Poison Jab (37) are the stingers in game form, Fury Attack (Lv 1) the repeated jabbing and Agility (31) its speed. Its ability, Swarm, powers up Bug moves in a pinch.", "class": "mechanic", "confidence": "high", "evidence": ["move:Twineedle", "move:Pin Missile", "move:Poison Jab", "move:Fury Attack", "move:Agility", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. A fast aerial hunter that defends a territory must find prey and spot intruders, but how is not described.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "The adult of a larva-pupa-adult sequence: Weedle becomes Kakuna at level 7 and Kakuna becomes Beedrill at level 10.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "The switch at metamorphosis is total: a leaf-eating larva becomes a hunting adult.", "class": "inferred", "confidence": "high", "evidence": ["13.10", "15.5"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Pursuit (Lv 22), which hits a fleeing target harder, suits a hunter that gives chase; Focus Energy (13) and Assurance (34) concentrate its strikes.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Pursuit", "move:Focus Energy", "move:Assurance"]},
+      {"text": "Toxic Spikes (Lv 25) scatters poison barbs on the ground; in the wild it could be a way of making the approach to its nest dangerous.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Toxic Spikes", "15.6"], "note": "A reading of the move; no entry describes barbs left around the nest."},
+      {"text": "Rage (19) and Endeavor (40) fit an animal that grows more dangerous when hurt or angered, as the swarm entries describe.", "class": "inferred", "confidence": "medium", "evidence": ["move:Rage", "move:Endeavor", "15.6"]}
+    ],
+    "ecology": [
+      {"text": "A predator at about trophic level 3, if, as seems likely, its prey are plant-eaters such as other insects.", "class": "inferred", "confidence": "low", "evidence": ["15.5"]},
+      {"text": "In SoulSilver's Ilex Forest it holds Butterfree's Headbutt slot, so that version of the forest has a hunter where the other has a flower-visitor, and no described flower-visitor at all.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Butterfree"]},
+      {"text": "A territorial, swarming nest makes a patch of forest dangerous for other animals and people: an area it effectively controls.", "class": "inferred", "confidence": "medium", "evidence": ["15.6", "15.7"]},
+      {"text": "At 1.0 m it is too big for Pineco to catch, though both live in the same rare Headbutt trees.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "species:Pineco", "game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Dangerous near its nest: the entries tell people to stay away, for their own safety.", "class": "canon", "confidence": "high", "evidence": ["15.6", "15.7"]},
+      {"text": "No entry describes people keeping Beedrill or taking anything from it.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "Its territoriality would defend a site, but it attacks anyone who comes near its nest, people included; the risk outweighs the guard.", "class": "inferred", "confidence": "medium", "evidence": ["15.6", "15.7"], "capability": "deterrence"},
+      {"text": "Pest control: a hunter that carries prey home might take orchard and Glasshouse pests.", "class": "hypothesis", "confidence": "low", "evidence": ["15.5"], "note": "Untested: its prey is never named, and it might take more useful animals than pests.", "capability": "plant_care"},
+      {"text": "No honey: unlike Butterfree, nothing in the record says Beedrill makes or stores any.", "class": "inferred", "confidence": "high", "evidence": ["15.5", "game:genus"], "capability": "food_source"},
+      {"text": "It needs a nest site it can defend and distance from people; keep it away from paths, the Glasshouse and the hatchery.", "class": "inferred", "confidence": "medium", "evidence": ["15.6", "15.7"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["forest canopy", "forest airspace", "nest site (unknown)"], "activity": "diurnal",
+            "foraging": "fast aerial hunter: stings prey with forelegs and tail and carries it back to its nest", "evidence": ["C15.8", "C15.18", "game:encounters"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "prey animals (unnamed)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["15.5"]},
+    {"with": "Caterpie", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["15.5", "game:encounters", "species:Caterpie"], "note": "A slow, leaf-bound larva is the kind of prey a stinging hunter takes; they meet only in National Park's Bug-Catching Contest, since each is version-exclusive in Ilex Forest. Prey is never named."},
+    {"with": "Pineco", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Pineco"], "note": "Same rare Headbutt trees in SoulSilver's Ilex Forest."},
+    {"with": "Hoothoot", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Hoothoot"]},
+    {"with": "Noctowl", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["15.5", "164.4", "game:encounters", "species:Noctowl"], "note": "Both hunt in Ilex Forest and share its rare Headbutt trees; Beedrill's records lean to day and Noctowl's to night, so any overlap in prey would be split by time."},
+    {"with": "Butterfree", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Butterfree"], "note": "Version counterparts in Ilex Forest; together only in National Park's Bug-Catching Contest."}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What does it hunt?",
+    "What is the nest: where, of what, and how many Beedrill share it?",
+    "Who eats the prey it carries home, if Weedle eat leaves?",
+    "Is there a queen, or any division of labour within a swarm?",
+    "Does it take sugary food such as sap or nectar as well as prey?",
+    "Do both sexes sting?",
+    "The line has no HeartGold-SoulSilver egg moves, so no ecotypes can be read from breeding."
+  ],
+  "contradictions": [],
+  "folklore": []
+}

@@ -1,0 +1,615 @@
+{
+  "species": "Garchomp",
+  "id": 445,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A cave-born dragon that leaves the cave to become one of the fastest fliers in the Pokédex. Its young, Gible, are ambushers with huge mouths that nest in small horizontal holes in cave walls, kept warm by geothermal heat because the line, Pearl says, once lived in the tropics. Gabite digs out its nest and hoards the gems it finds. The adult folds its body, spreads its wings and flies like a jet, its drag cut by fine scales, and it never lets prey escape.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A large upright dragon (1.9 m, 95.0 kg) that folds its body and extends its wings to fly; in that posture it looks like a jet plane.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "445.1",
+          "C445.1",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Its body is covered in fine scales that reduce drag in flight.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "445.4",
+          "C445.6"
+        ],
+        "analogy": "Shark skin is covered in tooth-like dermal denticles, and experiments suggest they can reduce drag in water; the line's category, Land Shark, invites the comparison."
+      },
+      {
+        "text": "Gible attacks with a huge mouth.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "443.3",
+          "C443.5"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "A predator at every stage: Gible pounces on prey that strays too close to its nest; Garchomp never lets its prey escape.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "443.1",
+          "445.2",
+          "C443.2",
+          "C445.4"
+        ]
+      },
+      {
+        "text": "The prey is never named.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "445.2",
+          "443.1"
+        ]
+      },
+      {
+        "text": "The line changes hunting style: an ambusher at the nest when young, a pursuit predator in the air as an adult.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "443.1",
+          "445.2"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Gible lives in caves warmed by geothermal heat to escape the cold, nesting in horizontal holes in the cave walls.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "443.1",
+          "443.2",
+          "443.4",
+          "C443.1",
+          "C443.4",
+          "C443.7"
+        ]
+      },
+      {
+        "text": "Pearl says the line once lived in the tropics; geothermal caves are where a warm-climate animal survives in a cold land.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "443.2",
+          "C443.3"
+        ]
+      },
+      {
+        "text": "Gabite hunts for treasure in caves and keeps a nest it expands by digging.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "444.3",
+          "444.4",
+          "C444.5",
+          "C444.6"
+        ]
+      },
+      {
+        "text": "Garchomp is not found in the wild in any Gen I-IV game. Gible lives in the basement floor (B1F) of Wayward Cave in Sinnoh (15-20%); Gabite is rare in Platinum's Victory Road (5%). In HeartGold and SoulSilver, Gible is wild only in the Johto Safari Zone, rarely, and only with at least 49 peak and 49 plains blocks.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Gible",
+          "species:Gabite"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Garchomp flies at sonic speed, or at least at the speed of a jet fighter.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "445.1",
+          "445.2",
+          "C445.2",
+          "C445.3"
+        ],
+        "analogy": "No real animal comes near the speed of sound; the fastest, the peregrine falcon (Falco peregrinus), reaches roughly 300 km/h in a hunting dive."
+      },
+      {
+        "text": "Gabite digs habitually, expanding its nest, and keeps the gems it turns up; it loves sparkly things and seeks them out in caves.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "444.2",
+          "444.3",
+          "444.4",
+          "C444.2",
+          "C444.4"
+        ]
+      },
+      {
+        "text": "Gible is clumsy: its attacks are powerful but it hurts itself too.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "443.3",
+          "C443.6"
+        ]
+      },
+      {
+        "text": "No entry gives an activity pattern.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "445.1"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Nothing is said about groups or pairs. Individual nests and hoards suggest solitary animals with a fixed home site, at least when young.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "443.1",
+          "444.2"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Monster and Dragon egg groups, an even sex ratio, slow growth, and 40 egg cycles, twice the usual: a long time in the egg.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:growth",
+          "game:egg_cycles"
+        ]
+      },
+      {
+        "text": "If the geothermally warmed nest holes also hold eggs, the heat would do the incubating.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "443.4",
+          "game:egg_cycles"
+        ],
+        "note": "The entries call them nests but never mention eggs in them.",
+        "analogy": "The maleo (Macrocephalon maleo), a megapode bird of Sulawesi, buries its eggs in soil heated by geothermal activity or the sun and leaves them to incubate."
+      }
+    ],
+    "defense": [
+      {
+        "text": "Gible defends its nest by pouncing on and biting anything that gets too close; HeartGold and SoulSilver describe as defence the same pounce that Diamond describes as feeding.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "443.4",
+          "443.1",
+          "C443.8"
+        ]
+      },
+      {
+        "text": "Sand Veil, its only ability, makes it harder to hit in a sandstorm, and the line learns Sandstorm on its own (Gible Lv 13; Garchomp at Lv 1): it can make its own cover.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities",
+          "move:Sandstorm"
+        ]
+      },
+      {
+        "text": "Adults rely on speed and size; nothing describes predators of Garchomp.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "445.1",
+          "game:size"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Nothing is said about its senses. A predator that never lets fast-flying prey escape must track it closely, probably by sight, but the entries don't say.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "445.2"
+        ]
+      },
+      {
+        "text": "Gabite's love of sparkly things implies it notices and seeks out shine, so vision matters to it in caves.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "444.3"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Gible (0.7 m, 20.5 kg) becomes Gabite at level 24 (1.4 m, 56.0 kg) and Garchomp at level 48 (1.9 m, 95.0 kg). Growth is slow, the last evolution comes late.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "game:growth",
+          "species:Gible",
+          "species:Gabite"
+        ]
+      },
+      {
+        "text": "Development runs from a nest-bound ambusher, to a digger and hoarder that roams caves for treasure, to an open-air flier.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "443.1",
+          "444.3",
+          "445.1"
+        ]
+      },
+      {
+        "text": "Only Garchomp's entries mention wings; whether Gible and Gabite fly is not said.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "445.1",
+          "443.1",
+          "444.2"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Ground moves serve the cave life: Sand Attack, Sand Tomb (Lv 19, trapping prey in sand) and Dig (Gible Lv 31, Gabite and Garchomp Lv 40), the last matching Gabite's nest digging.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Sand Attack",
+          "move:Sand Tomb",
+          "move:Dig",
+          "444.4"
+        ]
+      },
+      {
+        "text": "Crunch is learned on evolving into Garchomp (Lv 48), the adult form of Gible's huge-mouthed bite; Slash and Dragon Claw add claws.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Crunch",
+          "move:Slash",
+          "move:Dragon Claw",
+          "443.3"
+        ]
+      },
+      {
+        "text": "Take Down (Lv 15) and Dragon Rush (Lv 37-55) are reckless charges, which sits with Gible's habit of hurting itself.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "move:Take Down",
+          "move:Dragon Rush",
+          "443.3"
+        ]
+      },
+      {
+        "text": "Outrage, Iron Head and Twister reach the line both as tutor and as egg moves, so a trained Garchomp with them was more likely taught than bred.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Outrage",
+          "move:Iron Head",
+          "move:Twister",
+          "game:learnset"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "An apex aerial predator as an adult (trophic level about 4) and a cave ambusher as a juvenile.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "445.2",
+          "443.1"
+        ]
+      },
+      {
+        "text": "Gabite's digging moves material and enlarges cave systems, and its hoarding concentrates gems in nests; both make it a small-scale engineer of cave interiors.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "444.2",
+          "444.4"
+        ]
+      },
+      {
+        "text": "In Wayward Cave, Gible shares the basement with Zubat (35%), Bronzor and Geodude; Gabite shares Victory Road with Golbat, Graveler, Onix and Rhyhorn.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Zubat",
+          "species:Golbat"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "People want what it hoards: its gem nest is constantly targeted by thieves.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "444.2",
+          "C444.3"
+        ]
+      },
+      {
+        "text": "A long-held belief that medicine made from Gabite's scales cures even incurable illness puts the line at risk from collectors; the belief itself is folklore.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "444.1",
+          "C444.1"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "It needs heat. A line that once lived in the tropics and hides from cold in geothermal caves will not winter outdoors at Blackthorn; it needs a warmed den, or the Glasshouse's Magcargo hearth for the young.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "443.2",
+          "443.4"
+        ]
+      },
+      {
+        "text": "A prospector: Gabite digs habitually and turns up gems as it goes. That makes it useful for excavation and dangerous to anything sparkly left lying about.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "444.3",
+          "444.4",
+          "move:Dig"
+        ],
+        "capability": "digging"
+      },
+      {
+        "text": "Fast long-distance flight between Blackthorn and the outlying sites; no entry says it carries riders, and its speed would be dangerous for one.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "445.1",
+          "445.4",
+          "game:capability"
+        ],
+        "capability": "air_travel"
+      },
+      {
+        "text": "Sandstorm is its own move and Sand Veil its own ability; it can make and use sand cover, which is a hazard to crops and people in the open.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Sandstorm",
+          "game:abilities"
+        ],
+        "capability": "weather_handling"
+      },
+      {
+        "text": "Keep Gible away from walkways: it pounces on and bites anything that comes close to its nest hole, and is clumsy enough to hurt itself doing it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "443.4",
+          "443.3"
+        ],
+        "capability": "deterrence"
+      },
+      {
+        "text": "Blackthorn should state plainly that it does not trade in shed scales, given the folk belief in scale medicine and the thieves its hoards draw.",
+        "class": "creative",
+        "evidence": [
+          "444.1",
+          "444.2"
+        ]
+      }
+    ]
+  },
+  "niche": {
+    "guild": "predator",
+    "trophic_level": 4,
+    "microhabitat": [
+      "geothermally warmed caves and nest holes (young)",
+      "open sky (adult)"
+    ],
+    "activity": "unknown",
+    "foraging": "ambush from the nest hole when young; high-speed aerial pursuit as an adult",
+    "evidence": [
+      "443.1",
+      "443.4",
+      "445.2"
+    ],
+    "class": "inferred",
+    "confidence": "medium"
+  },
+  "relationships": [
+    {
+      "with": "unnamed prey",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "443.1",
+        "445.2"
+      ]
+    },
+    {
+      "with": "geothermal heat in caves",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "443.2",
+        "443.4"
+      ]
+    },
+    {
+      "with": "gems",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "444.2",
+        "444.3",
+        "444.4"
+      ],
+      "note": "Hoarded, not eaten, as far as the entries say."
+    },
+    {
+      "with": "thieves (unnamed)",
+      "kind": "competes_with",
+      "class": "canon",
+      "confidence": "medium",
+      "evidence": [
+        "444.2"
+      ],
+      "note": "Its gem hoard is constantly targeted. Whether the thieves are people or Pokémon is not said."
+    },
+    {
+      "with": "Zubat",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Zubat"
+      ],
+      "note": "Wayward Cave basement, Sinnoh."
+    },
+    {
+      "with": "Golbat",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Golbat"
+      ],
+      "note": "Platinum's Victory Road, with Gabite."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Sand-trap lurker",
+      "moves": [
+        "Sand Tomb",
+        "Mud Shot",
+        "Scary Face"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "Three moves that all stop prey getting away: Sand Tomb traps it in sand, Mud Shot and Scary Face slow it. Gible's pounce-from-the-nest canon turned into a whole strategy. Fits sandy or silty cave floors where prey passes the nest mouth.",
+      "behavior": "Stays at its nest hole longer than most Gible; holds what it catches rather than chasing.",
+      "evidence": [
+        "443.1",
+        "move:Sand Tomb",
+        "move:Mud Shot",
+        "move:Scary Face"
+      ]
+    },
+    {
+      "name": "Wind-cutter",
+      "moves": [
+        "Twister",
+        "Dragon Breath"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that attacks at range from the air: Twister whips up wind and Dragon Breath can paralyse. It is the move version of the Platinum folklore that its wings cut blades of wind. Fits open high country where prey is spotted and hit from a distance.",
+      "behavior": "Strikes from the air without closing in; leaves flattened brush where it hunts.",
+      "evidence": [
+        "445.3",
+        "move:Twister",
+        "move:Dragon Breath"
+      ],
+      "note": "Built partly on a folklore entry (445.3)."
+    },
+    {
+      "name": "Clumsy rampager",
+      "moves": [
+        "Thrash",
+        "Outrage",
+        "Double-Edge"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "Gible's clumsiness made into a temperament: Thrash and Outrage are multi-turn rampages that leave it confused, and Double-Edge hurts the user. A lineage that wins by overwhelming force and pays for it. Fits crowded nesting caves where fights between neighbours are short and violent.",
+      "behavior": "Fights in frenzies; often injured, rarely beaten.",
+      "evidence": [
+        "443.3",
+        "move:Thrash",
+        "move:Outrage",
+        "move:Double-Edge"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does it eat? The prey is never named at any stage.",
+    "Do Gible and Gabite fly, or are wings only an adult trait?",
+    "Do the geothermal nest holes hold eggs as well as young?",
+    "Why hoard gems? Display, nest lining, or something else? And who are the thieves?",
+    "What does 'once lived in the tropics' (443.2) mean: an evolutionary history, a range contraction, or a migration?",
+    "Is there any truth in the scale-medicine belief (444.1)? It matters for how the line is protected."
+  ],
+  "contradictions": [
+    {
+      "text": "Gible's pounce: Diamond calls it a way to catch prey that strays too close; HeartGold and SoulSilver describe it as an attack on foes who get too close.",
+      "entries": [
+        "443.1",
+        "443.4"
+      ],
+      "note": "Feeding versus defence. Both may be true; a sit-and-wait animal at its nest would do both."
+    },
+    {
+      "text": "Garchomp's top speed: 'sonic speed' in Diamond, 'equal to a jet fighter plane' in Pearl.",
+      "entries": [
+        "445.1",
+        "445.2"
+      ],
+      "note": "Close but not the same claim; neither is physically plausible for an animal."
+    }
+  ],
+  "folklore": [
+    {
+      "text": "It is said that when a Garchomp runs at high speed its wings create blades of wind that can fell nearby trees.",
+      "evidence": [
+        "445.3",
+        "C445.5"
+      ]
+    },
+    {
+      "text": "There is a long-held belief that medicine made from Gabite's scales will heal even incurable illnesses.",
+      "evidence": [
+        "444.1",
+        "C444.1"
+      ],
+      "note": "A belief, not a demonstrated effect."
+    }
+  ]
+}

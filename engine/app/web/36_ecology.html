@@ -1,0 +1,154 @@
+<script>
+/* ===== Field Biology in the browser (v1, D-077; docs/BIOLOGY.md, docs/ECOLOGY.md) ================================
+   Reads app/data/biology.json, dossiers.json, ecology.json, ecotypes.json and ranges.json (app/biology_pack.py), each
+   on demand. Eco.analyse and Eco.cascade are the browser's copies of biology/ecology.py's (app/test_biology.mjs checks
+   they agree on every web). Eco.dynamics is Level 3, the browser's alone: an allometric trophic network (the
+   Yodzis–Innes consumer–resource model as Brose, Williams and Martinez scaled it by body mass), every parameter stated
+   and adjustable, because a model of a world no one has measured is only as good as what it lets you vary.
+   Your review of any claim, statement or link is a Journal row (kind review), never an edit of the record. */
+var Eco = (function () {
+  var D = {}, P = {};
+  function data(name) { return D[name] ? Promise.resolve(D[name]) : (P[name] || (P[name] = API.data(name).then(function (x) { D[name] = x; return x; }).catch(function (e) { P[name] = null; throw e; }))); }
+  function ready(names) { return Promise.all((names || ['biology', 'ecology']).map(data)).then(function () { return Eco; }); }
+  function species(key) {   // by name or Pokédex number
+    var B = D.biology; if (!B) return null;
+    if (!B._by) { B._by = {}; B.species.forEach(function (s) { B._by[s.name] = s; B._by[s.n] = s; B._by[s.name.toLowerCase()] = s; }); }
+    return B._by[key] || B._by[String(key).toLowerCase()] || null;
+  }
+  function dossier(name) { return D.dossiers ? D.dossiers.dossiers[name] || null : null; }
+
+  /* ---- Level 2: the same analysis as biology/ecology.py ---- */
+  function cascade(nodes, links, removed) {
+    var gone = {}, eats = {}; (removed || []).forEach(function (k) { gone[k] = 1; });
+    links.forEach(function (l) { (eats[l.from] = eats[l.from] || []).push(l.to); });
+    var grow = true;
+    while (grow) {
+      grow = false;
+      nodes.forEach(function (n) { var k = n.id;
+        if (gone[k] || n.group === 'abiotic' || !eats[k]) return;
+        if (eats[k].every(function (f) { return gone[f]; })) { gone[k] = 1; grow = true; } });
+    }
+    return Object.keys(gone).sort(cmp);
+  }
+  function cmp(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+  function r2(x) { return Math.round(x * 100) / 100; }
+  function analyse(nodes, links) {
+    var by = {}, food = {}, tl = {};
+    nodes.forEach(function (n) { by[n.id] = n; food[n.id] = []; tl[n.id] = n.group === 'abiotic' ? 0 : 1; });
+    links.forEach(function (l) { if (food[l.from]) food[l.from].push(l.to); });
+    for (var it = 0; it < 200; it++) nodes.forEach(function (n) {
+      if (n.group === 'abiotic') return; var fs = food[n.id];
+      tl[n.id] = fs.length ? 1 + fs.reduce(function (t, f) { return t + tl[f]; }, 0) / fs.length : 1; });
+    var pk = nodes.filter(function (n) { return n.kind === 'pokemon'; }).map(function (n) { return n.id; }), eaten = {};
+    links.forEach(function (l) { eaten[l.to] = 1; });
+    var keystones = [];
+    nodes.forEach(function (n) {
+      if (n.group === 'abiotic') return;
+      var lost = cascade(nodes, links, [n.id]).filter(function (x) { return by[x].kind === 'pokemon' && x !== n.id; });
+      if (lost.length) keystones.push({id: n.id, lost: lost});
+    });
+    keystones.sort(function (a, b) { return b.lost.length - a.lost.length || cmp(a.id, b.id); });
+    var grp = function (f) { return by[f].group; };
+    var roles = {
+      producers: nodes.filter(function (n) { return n.group === 'producer'; }).map(function (n) { return n.id; }),
+      herbivores: pk.filter(function (k) { return food[k].length && food[k].every(function (f) { return grp(f) === 'producer' || grp(f) === 'abiotic'; }) && food[k].some(function (f) { return grp(f) === 'producer'; }); }),
+      pollinators: pk.filter(function (k) { return food[k].indexOf('flowers') >= 0; }),
+      decomposers: pk.filter(function (k) { return food[k].some(function (f) { return grp(f) === 'detritus'; }); }),
+      predators: pk.filter(function (k) { return food[k].some(function (f) { return by[f].kind === 'pokemon'; }); }),
+      energy_eaters: pk.filter(function (k) { return food[k].length && food[k].every(function (f) { return grp(f) === 'abiotic'; }); })
+    };
+    var S = nodes.length, tlo = {};
+    Object.keys(tl).forEach(function (k) { tlo[k] = r2(tl[k]); });
+    return {tl: tlo, unfed: pk.filter(function (k) { return !food[k].length; }).sort(cmp), top: pk.filter(function (k) { return !eaten[k] && food[k].length; }).sort(cmp),
+      keystones: keystones.slice(0, 12), roles: roles, missing: ['herbivores', 'pollinators', 'decomposers', 'predators'].filter(function (r) { return !roles[r].length; }),
+      links: links.length, species: pk.length, connectance: S ? Math.round(1000 * links.length / (S * S)) / 1000 : 0};
+  }
+
+  /* ---- Level 3: an allometric trophic network ----
+     dB_i/dt = r_i B_i (1 - B_i/K)                                   for a producer (and detritus, fed from outside)
+             - x_i B_i + Σ_j x_i y_i B_i F_ij - Σ_k x_k y_k B_k F_ki / e_ki   for a consumer
+     F_ij = w_ij B_j^q / (B0^q + Σ_l w_il B_l^q)   (a Holling type II–III response, w equal across what it eats)
+     x_i = a_x (M_i / M_ref)^-0.25                 (Kleiber: metabolism per unit mass falls with body mass)
+     a_x 0.314 for invertebrates, 0.88 for ectothermic vertebrates, 2.3 for endotherms; y 8 for invertebrates, 4 for
+     vertebrates; e 0.45 on plants and detritus, 0.85 on animals (Brose et al. 2006; Yodzis & Innes 1992). Masses are
+     the Pokédex weights; non-Pokémon groups have a stated nominal mass. Starting biomass is only a starting point: an
+     encounter rate is not an abundance. */
+  var DEFAULTS = {q: 1.2, B0: 0.5, ax: 1, y: 1, e: 1, K: 1, r: 1, detritus: 0.5, T: 600, dt: 0.05, M_ref: 0.001, threshold: 1e-6};
+  var NOMINAL_MASS = {'flying-insects': 1e-4, 'soil-invertebrates': 5e-4, 'cave-invertebrates': 5e-4, 'aquatic-invertebrates': 5e-4, zooplankton: 1e-6, 'small-fish': 0.05, fungi: 1e-3};
+  function physiology(n) {
+    if (n.kind !== 'pokemon') return {cls: 'invertebrate', ax: 0.314, y: 8, mass: NOMINAL_MASS[n.id] || 1e-3};
+    var t = n.types || [], sp = species(n.id), shape = sp ? sp.shape : '';
+    if (t.indexOf('Bug') >= 0) return {cls: 'invertebrate', ax: 0.314, y: 8, mass: n.mass};
+    if (shape === 'fish' || (t.indexOf('Water') >= 0 && shape === 'squiggle')) return {cls: 'ectotherm', ax: 0.88, y: 4, mass: n.mass};
+    return {cls: 'endotherm', ax: 2.3, y: 4, mass: n.mass};
+  }
+  function dynamics(web, opt) {
+    opt = Object.assign({}, DEFAULTS, opt || {});
+    var removed = {}; (opt.remove || []).forEach(function (k) { removed[k] = 1; });
+    var nodes = web.nodes.filter(function (n) { return n.group !== 'abiotic'; }), idx = {};
+    nodes.forEach(function (n, i) { idx[n.id] = i; });
+    var N = nodes.length, prey = nodes.map(function () { return []; });
+    web.links.forEach(function (l) { var i = idx[l.from], j = idx[l.to]; if (i != null && j != null) prey[i].push(j); });
+    var basal = nodes.map(function (n, i) { return n.group === 'producer' || n.group === 'detritus' || !prey[i].length; });
+    var ph = nodes.map(physiology);
+    var x = nodes.map(function (n, i) { return basal[i] ? 0 : opt.ax * ph[i].ax * Math.pow(Math.max(ph[i].mass, 1e-9) / opt.M_ref, -0.25); });
+    var y = ph.map(function (p) { return opt.y * p.y; });
+    var eff = nodes.map(function (n, i) { return prey[i].map(function (j) { var g = nodes[j].group; return Math.min(1, opt.e * (g === 'producer' || g === 'detritus' ? 0.45 : 0.85)); }); });
+    var r = nodes.map(function (n, i) { return !basal[i] ? 0 : n.group === 'detritus' ? opt.detritus : n.kind === 'pokemon' ? 0.5 * opt.r : opt.r * (opt.producerScale && opt.producerScale[n.id] != null ? opt.producerScale[n.id] : 1); });
+    var K = nodes.map(function (n) { return opt.K * (opt.Kscale && opt.Kscale[n.id] != null ? opt.Kscale[n.id] : 1); });
+    var B = nodes.map(function (n) { return removed[n.id] ? 0 : n.kind === 'pokemon' ? 0.05 + 0.25 * Math.min(100, n.rate || 10) / 100 : basal[nodes.indexOf(n)] ? 0.5 : 0.2; });
+    function deriv(B) {
+      var d = new Array(N), F = new Array(N);
+      for (var i = 0; i < N; i++) {
+        d[i] = 0; F[i] = null;
+        if (removed[nodes[i].id]) continue;
+        if (basal[i]) d[i] += r[i] * B[i] * (1 - B[i] / K[i]);
+        else {
+          var den = Math.pow(opt.B0, opt.q), w = 1 / prey[i].length, ps = prey[i];
+          for (var k = 0; k < ps.length; k++) den += w * Math.pow(Math.max(B[ps[k]], 0), opt.q);
+          F[i] = ps.map(function (j) { return w * Math.pow(Math.max(B[j], 0), opt.q) / den; });
+          d[i] -= x[i] * B[i];
+          for (var k2 = 0; k2 < ps.length; k2++) d[i] += x[i] * y[i] * B[i] * F[i][k2];
+        }
+      }
+      for (var c = 0; c < N; c++) {
+        if (!F[c]) continue;
+        prey[c].forEach(function (j, k) { d[j] -= x[c] * y[c] * B[c] * F[c][k] / eff[c][k]; });
+      }
+      return d;
+    }
+    var steps = Math.round(opt.T / opt.dt), every = Math.max(1, Math.round(steps / 150)), series = [], gone = {};
+    for (var s = 0; s <= steps; s++) {
+      if (s % every === 0) series.push({t: r2(s * opt.dt), B: B.slice()});
+      if (s === steps) break;
+      var k1 = deriv(B), b2 = B.map(function (b, i) { return b + 0.5 * opt.dt * k1[i]; }), k2 = deriv(b2), b3 = B.map(function (b, i) { return b + 0.5 * opt.dt * k2[i]; }),
+        k3 = deriv(b3), b4 = B.map(function (b, i) { return b + opt.dt * k3[i]; }), k4 = deriv(b4);
+      for (var i = 0; i < N; i++) {
+        B[i] += opt.dt / 6 * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
+        if (!(B[i] > opt.threshold)) { if (B[i] !== 0 && !gone[nodes[i].id] && !removed[nodes[i].id]) gone[nodes[i].id] = r2(s * opt.dt); B[i] = 0; }
+      }
+    }
+    var pk = nodes.filter(function (n) { return n.kind === 'pokemon' && !removed[n.id]; });
+    return {nodes: nodes, series: series, final: B, lost: gone, persistence: pk.length ? pk.filter(function (n) { return B[idx[n.id]] > 0; }).length / pk.length : 0,
+      params: opt, physiology: nodes.map(function (n, i) { return {id: n.id, cls: ph[i].cls, mass: ph[i].mass, x: x[i], basal: basal[i]}; })};
+  }
+
+  /* ---- your review: a Journal row per verdict ---- */
+  var REVIEWS = null;
+  function reviews(fresh) {
+    if (REVIEWS && !fresh) return Promise.resolve(REVIEWS);
+    return API.tab('Journal', fresh).then(function (rows) {
+      REVIEWS = {}; (rows || []).filter(function (r) { return r.kind === 'review'; }).forEach(function (r) { REVIEWS[r.ref] = r; });
+      return REVIEWS;
+    }).catch(function () { REVIEWS = {}; return REVIEWS; });
+  }
+  function review(ref, verdict, note, species) {
+    var row = {id: 'RV-' + Date.now().toString(36), at: new Date().toISOString(), kind: 'review', ref: ref, species: species || '', verdict: verdict, note: note || '',
+      _timeline: 'Field Biology: you ' + (verdict === 'agree' ? 'agreed with' : verdict === 'disagree' ? 'disagreed with' : 'noted') + ' ' + ref + (species ? ' (' + species + ')' : '')};
+    return API.append('Journal', row).then(function () { (REVIEWS = REVIEWS || {})[ref] = row; return row; });
+  }
+
+  return {ready: ready, data: data, species: species, dossier: dossier, analyse: analyse, cascade: cascade, dynamics: dynamics, physiology: physiology, DEFAULTS: DEFAULTS, NOMINAL_MASS: NOMINAL_MASS,
+    reviews: reviews, review: review, D: function () { return D; }};
+})();
+</script>

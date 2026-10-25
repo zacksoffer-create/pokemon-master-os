@@ -1,0 +1,105 @@
+{
+  "species": "Empoleon",
+  "id": 395,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A large, proud diving bird of cold northern seas, with wing edges sharp enough to cut drifting ice. Empoleon swims as fast as a jet boat and carries three horns on its beak; the leader of a group has the biggest. Its line is defined by pride at every stage: Piplup won't take food from people and won't listen to its trainer, and Prinplup are so convinced of their own importance that they never form groups. The adult avoids needless fights but will destroy anything that threatens its pride.",
+  "sections": {
+    "anatomy": [
+      {"text": "A large, upright bird (1.7 m, 84.5 kg) with three horns extending from its beak; their size shows its power.", "class": "canon", "confidence": "high", "evidence": ["395.1", "C395.1", "game:size", "game:shape"]},
+      {"text": "The edges of its wings are sharp enough to slice apart drifting ice and cleave an ice floe.", "class": "canon", "confidence": "high", "evidence": ["395.2", "395.3", "C395.4", "C395.5"]},
+      {"text": "Piplup is insulated by thick down against the cold.", "class": "canon", "confidence": "high", "evidence": ["393.1", "C393.2"]},
+      {"text": "Its Steel typing, gained only at the last stage, fits blade-edged wings and a hardened body; nothing in the Pokédex explains it.", "class": "inferred", "confidence": "low", "evidence": ["game:types", "395.2"]}
+    ],
+    "diet": [
+      {"text": "A diving predator: Piplup dives for more than ten minutes to hunt, and Prinplup searches for prey in icy seas.", "class": "canon", "confidence": "high", "evidence": ["393.2", "394.2", "C393.4", "C394.4"], "analogy": "Emperor penguins (Aptenodytes forsteri) are the deepest-diving birds, with dives recorded at over 20 minutes."},
+      {"text": "The prey is never named; fish or other marine animals are the natural guess for a diving seabird.", "class": "hypothesis", "confidence": "low", "evidence": ["394.2"], "note": "Nothing in the entries names a prey type."},
+      {"text": "It feeds itself: Piplup hates accepting food from people.", "class": "canon", "confidence": "high", "evidence": ["393.1", "C393.1"]}
+    ],
+    "habitat": [
+      {"text": "Shores in northern countries, hunting in icy seas.", "class": "canon", "confidence": "high", "evidence": ["393.2", "394.2", "C393.3"]},
+      {"text": "It is not found in the wild in any Gen I-IV game. Piplup is a starter gift at Lake Verity in Diamond and Pearl and on Route 201 in Platinum; no Johto game offers the line.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Piplup"]}
+    ],
+    "behavior": [
+      {"text": "A very fast swimmer: Empoleon swims as fast as a jet boat.", "class": "canon", "confidence": "high", "evidence": ["395.2", "C395.3"]},
+      {"text": "A poor walker on land: Piplup often falls down, but puffs up its chest regardless.", "class": "canon", "confidence": "high", "evidence": ["393.3", "C393.5", "C393.6"], "analogy": "Penguins are likewise clumsy on land and agile in water, a trade-off of a body built for swimming."},
+      {"text": "Proud at every stage, and it governs how the animal behaves: it slashes anyone who hurts its pride, though it avoids unnecessary disputes.", "class": "canon", "confidence": "high", "evidence": ["395.3", "395.4", "393.1", "C395.6"]},
+      {"text": "No activity pattern is given.", "class": "unknown", "confidence": "high", "evidence": ["395.1"]}
+    ],
+    "social": [
+      {"text": "Prinplup are solitary: each believes it is the most important, so they never form groups.", "class": "canon", "confidence": "high", "evidence": ["394.1", "394.3", "394.4", "C394.2", "C394.5", "C394.6"]},
+      {"text": "Empoleon live in groups with a leader, and the leader has the biggest horns, so horn size signals rank.", "class": "canon", "confidence": "high", "evidence": ["395.1", "C395.2"]},
+      {"text": "Its restraint (avoiding unnecessary disputes) is what a group of proud, dangerous animals would need to live together.", "class": "inferred", "confidence": "medium", "evidence": ["395.4", "395.1"]}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, 87.5% male (the usual starter ratio). Nothing is said about nesting, eggs or care of chicks.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Sharp-edged wings, used against anyone who wounds its pride; Prinplup's wing blows snap even the thickest trees.", "class": "canon", "confidence": "high", "evidence": ["395.3", "394.2", "394.4", "C394.3", "C394.7"]},
+      {"text": "Torrent, its ability, strengthens its Water moves when it is badly hurt.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Mist (Lv 46), which blocks stat-lowering, and Swords Dance (Lv 11) are among its own moves.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Mist", "move:Swords Dance"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. A predator diving for ten minutes in icy water must find prey in dim light, but how is not described.", "class": "unknown", "confidence": "high", "evidence": ["393.2"]}
+    ],
+    "life_cycle": [
+      {"text": "Piplup (0.4 m, 5.2 kg) becomes Prinplup at level 16 (0.8 m, 23.0 kg) and Empoleon at level 36 (1.7 m, 84.5 kg), adding Steel to Water at the last stage.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "game:types", "species:Piplup", "species:Prinplup"]},
+      {"text": "The social life reverses with age: solitary Prinplup become Empoleon that live under a leader.", "class": "inferred", "confidence": "medium", "evidence": ["394.3", "395.1"]},
+      {"text": "The wings change role: Piplup is a clumsy walker, Prinplup's wings are clubs that snap trees, Empoleon's are blades that cut ice.", "class": "canon", "confidence": "high", "evidence": ["393.3", "394.2", "395.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Water and beak moves make up its level-up list: Bubble, Peck (Lv 15), Bubble Beam, Fury Attack, Brine, Whirlpool, Drill Peck (Lv 52) and Hydro Pump (Lv 59).", "class": "mechanic", "confidence": "high", "evidence": ["move:Bubble", "move:Peck", "move:Fury Attack", "move:Brine", "move:Whirlpool", "move:Drill Peck", "move:Hydro Pump"]},
+      {"text": "Aqua Jet, learned on evolving (Lv 36), is a fast first strike from the water, the move form of 'as fast as a jet boat'.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Aqua Jet", "395.2"]},
+      {"text": "Swagger (Lv 24) is pride in move form: it enrages and confuses the opponent.", "class": "mechanic", "confidence": "low", "evidence": ["move:Swagger", "395.4"]},
+      {"text": "Surf, Waterfall and Steel Wing are machine moves, taught rather than its own.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A cold-water diving predator, probably near the top of a coastal food web (trophic level about 3.5-4).", "class": "inferred", "confidence": "low", "evidence": ["393.2", "394.2"]},
+      {"text": "Its behaviour toward other species, beyond defending its pride, is not described.", "class": "unknown", "confidence": "high", "evidence": ["395.4"]}
+    ],
+    "humans": [
+      {"text": "Difficult to keep: Piplup doesn't like to be taken care of, won't listen to its trainer, and hates taking food from people.", "class": "canon", "confidence": "high", "evidence": ["393.1", "393.4", "C393.7", "C393.8"]},
+      {"text": "Its line reaches people as a Sinnoh starter.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Piplup"]}
+    ],
+    "homestead": [
+      {"text": "Winter ice-breaking: its wings cut drifting ice and ice floes, which could keep a water intake or pond open through a Blackthorn winter.", "class": "inferred", "confidence": "medium", "evidence": ["395.2", "395.3"], "capability": "clearing"},
+      {"text": "Cold work suits it: thick down and a life hunting in icy seas.", "class": "canon", "confidence": "high", "evidence": ["393.1", "394.2", "game:capability"], "capability": "cold_tolerance"},
+      {"text": "Fast water transport on lakes; Surf is a taught move, but the swimming speed is its own.", "class": "inferred", "confidence": "medium", "evidence": ["395.2", "move:Surf"], "capability": "water_travel"},
+      {"text": "Let it feed itself: it needs cold water deep enough to dive in for ten minutes at a time, and Piplup will refuse hand-feeding.", "class": "inferred", "confidence": "high", "evidence": ["393.1", "393.2"], "capability": "water_supply"},
+      {"text": "Housing: Prinplup must be kept singly, Empoleon can live in a group with one leader. Never put two Prinplup together.", "class": "inferred", "confidence": "medium", "evidence": ["394.3", "395.1"], "capability": "town_fit"},
+      {"text": "Handle with respect: it avoids disputes but will badly injure anything that threatens its pride, and its trainer must earn its attention.", "class": "canon", "confidence": "high", "evidence": ["395.4", "393.4"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["cold northern shores", "icy coastal seas"], "activity": "unknown",
+            "foraging": "pursuit-diving predator; dives over ten minutes to hunt",
+            "evidence": ["393.2", "394.2", "395.2"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named; trophic level assumes it eats fish or other predators' prey."},
+  "relationships": [
+    {"with": "unnamed marine prey", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["393.2", "394.2"]},
+    {"with": "drifting ice and ice floes", "kind": "uses_resource", "class": "canon", "confidence": "low", "evidence": ["395.2", "395.3"], "note": "Something it cuts through; whether it uses ice as a platform or obstacle is not said."}
+  ],
+  "ecotypes": [
+    {"name": "Long-dive hunter", "moves": ["Aqua Ring", "Agility", "Hydro Pump"], "class": "hypothesis", "confidence": "medium",
+     "reading": "A lineage built for longer and faster dives: Aqua Ring wraps it in a veil of water that heals it a little each turn, Agility sharpens its speed, and Hydro Pump is a heavy strike at range. Together they extend the ten-minute dives of the canon. Fits deep, cold open water where prey is far down and scattered.",
+     "behavior": "Dives longer and further offshore than others; rarely seen on land.", "evidence": ["393.2", "move:Aqua Ring", "move:Agility", "move:Hydro Pump"]},
+    {"name": "Shore peacemaker", "moves": ["Feather Dance", "Yawn", "Supersonic"], "class": "hypothesis", "confidence": "low",
+     "reading": "The adult's restraint made heritable: Feather Dance is a display that sharply lowers an opponent's attack, Yawn makes it drowsy, Supersonic confuses it. Ways to end a dispute without blood. Fits crowded shore colonies where proud animals must live close together.",
+     "behavior": "Displays and lulls before it ever strikes; more tolerant of neighbours.", "evidence": ["395.4", "move:Feather Dance", "move:Yawn", "move:Supersonic"]},
+    {"name": "Tideflat prober", "moves": ["Mud-Slap", "Mud Sport", "Double Hit"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of mud rather than ice: Mud-Slap and Mud Sport both use mud (one to blind, one to blunt electric attacks), and Double Hit strikes twice in quick succession, like rapid probing. Fits muddy estuaries and tidal flats, a warmer, shallower shore than the canon's icy seas.",
+     "behavior": "Forages in the shallows at low tide; dives less.", "evidence": ["move:Mud-Slap", "move:Mud Sport", "move:Double Hit"]}
+  ],
+  "open_questions": [
+    "What does it eat? Prey is never named.",
+    "How does a solitary Prinplup become a group-living Empoleon? Do adults join a leader, or do groups form only at evolution?",
+    "How is the leader chosen: by horn size alone (395.1), or by fighting?",
+    "Where and how does it breed, given that Prinplup will not group?",
+    "Could it live on a highland lake, or does it need the sea?",
+    "Does a Piplup raised from an egg at Blackthorn still refuse food from people?"
+  ],
+  "contradictions": [
+    {"text": "Group life across the line: Prinplup can never form a group because each thinks it is the most important, but Empoleon have a leader, which implies groups.", "entries": ["394.3", "395.1"], "note": "Different stages, so likely development rather than a true contradiction; worth confirming."}
+  ],
+  "folklore": []
+}

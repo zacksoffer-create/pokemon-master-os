@@ -1,0 +1,107 @@
+{
+  "species": "Geodude",
+  "id": 74,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A rock with arms. Geodude lives on mountain trails and in caves, looks so much like a boulder that hikers step on it, and swings its fists at them when they do. It hauls itself up steep paths with its arms, sleeps half-buried in the ground, and in the morning rolls downhill to look for food; its next stage, Graveler, is said to eat rock, preferring rock covered in moss. On Route 45 and at the Blackthorn end of Dark Cave it is one of the most frequent encounters, and one entry says there are many more around than people notice.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small, dense body: 0.4 m and 20.0 kg, a head-and-arms body plan, typed Rock and Ground.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its arms are strong enough to climb steep mountain paths using only their power.", "class": "canon", "confidence": "high", "evidence": ["74.4", "74.8", "C74.6", "C74.14"]},
+      {"text": "The longer a Geodude lives, the more its edges are chipped and worn away, so old ones are rounder; its heart stays hard and craggy.", "class": "canon", "confidence": "high", "evidence": ["74.6", "C74.9", "C74.10"], "analogy": "Rock fragments round off by abrasion as they are tumbled downslope or along a stream bed, a standard geological process."},
+      {"text": "Its round form is easy to pick up.", "class": "canon", "confidence": "high", "evidence": ["74.9", "C74.16"]}
+    ],
+    "diet": [
+      {"text": "In the morning it rolls downhill in search of food.", "class": "canon", "confidence": "high", "evidence": ["74.7", "C74.13"]},
+      {"text": "No Geodude entry says what the food is. Graveler, its next stage, grows by feeding on rocks and prefers rocks covered in moss.", "class": "inferred", "confidence": "medium", "evidence": ["75.6", "75.7", "C75.10", "C75.11"]},
+      {"text": "If it eats as Graveler does, the moss, lichen and microbial film on the rock could be the energy, and the rock the mineral supply.", "class": "hypothesis", "confidence": "low", "evidence": ["75.6", "C75.11"], "note": "Graveler's moss preference is the only clue to where the energy comes from.", "analogy": "Chitons and limpets rasp algal films off rock and swallow rock fragments with them; chiton teeth are capped with magnetite."},
+      {"text": "Whether rock itself can supply energy is unknown.", "class": "unknown", "confidence": "high", "evidence": ["75.6"], "analogy": "Chemolithotrophic bacteria get energy by oxidising iron and sulphur compounds in rock; no animal is known to do this."}
+    ],
+    "habitat": [
+      {"text": "Found in fields and mountains, and commonly near mountain trails.", "class": "canon", "confidence": "high", "evidence": ["74.1", "74.2", "74.10", "C74.1", "C74.3", "C74.18"]},
+      {"text": "In the highlands in HeartGold and SoulSilver: Route 45 (walk 30%, Lv 23) and the Blackthorn end of Dark Cave (walk 30%, Lv 23), with no time-of-day split; at the Violet City end of Dark Cave, walking 60% (Lv 2-4) and Rock Smash 10% (Lv 8-14); Route 46 walking 40% (Lv 2-3), plus 5% at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Across Johto and Kanto it is in most caves (Union Cave, Mt. Mortar, the Route 47 cave, Mt. Moon, Rock Tunnel, Victory Road, Cerulean Cave), in the Johto Safari Zone, and under every breakable rock outside the Ruins of Alph (Rock Smash 100%). The Gen 3 Pokédex habitat is mountain.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "It is met as often in the open (Route 45) as inside caves (Dark Cave); unlike most of the cave community, it is not a cave specialist.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When it sleeps deeply it buries itself halfway into the ground, and does not wake even if hikers step on it.", "class": "canon", "confidence": "high", "evidence": ["74.7", "C74.11", "C74.12"]},
+      {"text": "Many live on mountain trails, half buried, keeping an eye on climbers.", "class": "canon", "confidence": "high", "evidence": ["74.10", "C74.18"]},
+      {"text": "Stepped on by accident, it gets angry and swings its fists.", "class": "canon", "confidence": "high", "evidence": ["74.2", "74.4", "74.12", "C74.4", "C74.7", "C74.22"]},
+      {"text": "Morning foraging (74.7) suggests a day-active animal that sleeps buried at night.", "class": "hypothesis", "confidence": "low", "evidence": ["74.7"], "note": "One entry only; the highland tables don't split it by time."}
+    ],
+    "social": [
+      {"text": "Proud of their sturdy bodies, they bash against each other in contests to prove whose is harder.", "class": "canon", "confidence": "high", "evidence": ["74.5", "74.11", "C74.8", "C74.20"], "analogy": "Ritualised clashes such as the horn contests of bighorn rams (Ovis canadensis), which settle rank by head-on collision."},
+      {"text": "Most people may not notice, but there are many Geodude around: one of the few entries anywhere in this community that speaks to numbers, not just presence.", "class": "canon", "confidence": "medium", "evidence": ["74.3", "C74.5"]}
+    ],
+    "reproduction": [
+      {"text": "Mineral egg group, 15 egg cycles, even sex ratio, and the highest possible catch rate (255). Nothing in the Pokédex describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:catch_rate"]}
+    ],
+    "defense": [
+      {"text": "It looks just like a rock at rest and is said to be impossible to tell from one; people mistake it for a boulder.", "class": "canon", "confidence": "high", "evidence": ["74.1", "74.8", "74.11", "74.12", "C74.2", "C74.15", "C74.19", "C74.21"], "analogy": "Living stones (Lithops), succulent plants that pass for pebbles, are the familiar real case of looking like a stone."},
+      {"text": "Sturdy (it can't be knocked out in one hit) and Rock Head; Defense Curl at Lv 1, and Self-Destruct (Lv 18) and Explosion (Lv 32) as last resorts.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Defense Curl", "move:Self-Destruct", "move:Explosion"]}
+    ],
+    "senses": [
+      {"text": "It keeps an eye on climbers from where it lies half buried, so it watches its surroundings; nothing more is said about its senses.", "class": "canon", "confidence": "medium", "evidence": ["74.10"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Graveler at Lv 25, and Graveler becomes Golem only when traded.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Graveler", "species:Golem"]},
+      {"text": "Trade is a game device; how wild Graveler become Golem is not explained.", "class": "unknown", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Through the line the body is worn and renewed: Geodude rounds off with age, Graveler sheds pieces as it rolls, and Golem sheds its hide once a year, the old shell crumbling back into the soil.", "class": "canon", "confidence": "high", "evidence": ["74.6", "75.3", "76.3", "76.8"]},
+      {"text": "Size through the line: 0.4 m and 20 kg, 1.0 m and 105 kg, 1.4 m and 300 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "species:Graveler", "species:Golem"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Rolling and throwing: Rollout (Lv 22) matches its downhill roll for food, and Rock Throw (Lv 11) and Rock Blast (Lv 25) are the arm-and-rock moves. Magnitude (Lv 15) and Earthquake (Lv 29) are ground-shaking.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Rollout", "move:Rock Throw", "move:Rock Blast", "move:Magnitude", "move:Earthquake", "74.7"]},
+      {"text": "Rock Polish (Lv 8) is the game's version of smoothing its body to move faster, which echoes the rounding with age.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Rock Polish", "74.6"], "note": "A reading of the move's name; no entry links them."},
+      {"text": "Strength, Rock Smash, Rock Climb and Dig are machine moves, taught by people.", "class": "mechanic", "confidence": "high", "evidence": ["move:Strength", "move:Rock Smash", "move:Rock Climb", "move:Dig"]}
+    ],
+    "ecology": [
+      {"text": "A rock processor: if the line eats rock and wears away as it rolls, it turns bedrock into gravel and grit, and Golem's shed hide returns to the soil. That is a slow role in making highland soil.", "class": "hypothesis", "confidence": "low", "evidence": ["74.6", "75.6", "76.8", "C76.16"], "note": "Built from three stages' entries; the rate is unknown.", "analogy": "Lichens and burrowing animals speed the weathering of rock into soil."},
+      {"text": "A grazer of moss and lichen on rock, if Graveler's preference holds for Geodude.", "class": "hypothesis", "confidence": "low", "evidence": ["75.6"], "note": "Only Graveler's entry names moss."},
+      {"text": "No predator of Geodude is named.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Mistaking them for boulders, people often step or trip on them.", "class": "canon", "confidence": "high", "evidence": ["74.1", "74.8", "C74.2", "C74.15"]},
+      {"text": "Some people have picked them up and thrown them at each other in snowball fights.", "class": "canon", "confidence": "high", "evidence": ["74.9", "C74.17"]}
+    ],
+    "homestead": [
+      {"text": "Strong arms that pull a 20 kg body up steep paths; taught Rock Smash and Strength it could help clear stones from fields and tracks.", "class": "inferred", "confidence": "medium", "evidence": ["74.8", "move:Rock Smash", "move:Strength"], "capability": "clearing"},
+      {"text": "A hand in dry-stone walling: an animal the size and weight of a building stone, with arms, that likes sitting still among rocks.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "74.10"], "capability": "construction", "note": "Whether it would place stones rather than eat them is the open question."},
+      {"text": "It needs loose ground to bury itself in at night and rock to roll on; its food is uncertain.", "class": "inferred", "confidence": "medium", "evidence": ["74.7", "75.6"], "capability": "digging"},
+      {"text": "Mark the paths it sleeps on, and don't let children throw them: being stepped on or picked up angers them.", "class": "inferred", "confidence": "high", "evidence": ["74.2", "74.9", "74.12"]}
+    ]
+  },
+  "niche": {"guild": "lithovore", "trophic_level": 2, "microhabitat": ["mountain trails", "cave floor", "half-buried in soil"], "activity": "diurnal",
+            "foraging": "rolls downhill in the morning to find food; by its line, rock, preferably mossy. Trophic level 2 assumes the moss and microbial film supply the energy", "evidence": ["74.7", "75.6", "C74.13"], "class": "hypothesis", "confidence": "low"},
+  "relationships": [
+    {"with": "rock (non-living)", "kind": "feeds_on", "class": "inferred", "confidence": "medium", "evidence": ["75.6", "75.7"], "note": "Stated for Graveler, not Geodude."},
+    {"with": "moss on rock (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["75.6"], "note": "Graveler's preference; untested for Geodude."},
+    {"with": "soil", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["74.7"], "note": "It sleeps half buried."},
+    {"with": "Graveler", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Graveler", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Graveler"], "note": "Route 45 and the Blackthorn end of Dark Cave."},
+    {"with": "Golbat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golbat"], "note": "Blackthorn end of Dark Cave."},
+    {"with": "Wobbuffet", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Wobbuffet"], "note": "Blackthorn end of Dark Cave."},
+    {"with": "Dunsparce", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Dunsparce"], "note": "Violet City end of Dark Cave; both are found by Rock Smash there."},
+    {"with": "Gligar", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gligar"], "note": "Route 45 (HeartGold)."}
+  ],
+  "ecotypes": [
+    {"name": "Quarry fist", "moves": ["Mega Punch", "Hammer Arm"], "class": "hypothesis", "confidence": "low",
+     "reading": "Two heavy arm strikes: a lineage that breaks rock into pieces it can eat or move. Fits bare bedrock and cliff walls with little loose stone, such as the walls of Dark Cave.",
+     "behavior": "Breaks rock where others graze its surface.", "evidence": ["74.4", "move:Mega Punch", "move:Hammer Arm"]},
+    {"name": "Trail sitter", "moves": ["Block", "Curse"], "class": "hypothesis", "confidence": "low",
+     "reading": "Block stops passage, and Curse (for a non-Ghost) trades speed for strength and toughness. A sedentary lineage that sits half buried on a path and holds its ground; fits busy mountain roads such as Route 45.",
+     "behavior": "Rarely rolls; stays put and lets the path come to it.", "evidence": ["74.10", "move:Block", "move:Curse"]},
+    {"name": "Scree runner", "moves": ["Rock Slide", "Flail"], "class": "hypothesis", "confidence": "low",
+     "reading": "Brings rock down and fights hardest when worn down. A lineage of steep, loose slopes and talus below cliffs, where rockfall is the everyday weather.",
+     "behavior": "Sets off small rockfalls; desperate when cornered.", "evidence": ["move:Rock Slide", "move:Flail"]}
+  ],
+  "open_questions": [
+    "Does Geodude eat rock, as Graveler does, and what does it get from it? If the answer is moss and lichen, the energy base of the highland rock community is the film on the rocks.",
+    "What does it do at night: sleep buried, as 74.7 implies?",
+    "How do wild Graveler become Golem without trade?",
+    "Do Geodude have blood? It matters for whether Golbat, which punctures 'however hard' a hide (42.3), can feed on them.",
+    "How many are there? 74.3 says there are many more than people notice; the encounter tables can't say."
+  ],
+  "contradictions": [],
+  "folklore": []
+}

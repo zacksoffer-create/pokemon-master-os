@@ -35,3 +35,12 @@ export function editTeam(team, slot, changes, { label } = {}) {
   const members = team.members.map((x, i) => (i === slot ? next : x));
   return { ...team, id: `${team.id}~edit`, name: label || `${team.name} · edited`, members, edited: true };
 }
+
+/** A move as Gen 4 has it (category, type, power, what it boosts), for reading decisions by kind. */
+export function moveInfo(name) {
+  const m = dex.moves.get(name);
+  if (!m.exists) return null;
+  const selfBoost = !!(m.boosts && m.target === 'self' && Object.values(m.boosts).some((v) => v > 0)) || ['curse', 'bellydrum'].includes(m.id);
+  return { name: m.name, category: m.category, type: m.type, power: m.basePower, setup: m.category === 'Status' && selfBoost,
+           heal: !!(m.heal || m.flags?.heal) || ['rest', 'wish', 'roost', 'softboiled', 'milkdrink', 'synthesis', 'moonlight', 'morningsun', 'recover', 'slackoff'].includes(m.id) };
+}

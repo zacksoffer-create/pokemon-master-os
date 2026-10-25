@@ -1,0 +1,120 @@
+{
+  "species": "Paras",
+  "id": 46,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A small bug that carries its own parasite. Paras burrows to suck and gnaw tree roots and draws juice from trunks, and the mushrooms on its back, called tochukaso, grow by taking nutrients from it; one entry says they take most of its food, another that they order the bug to feed. The spores reach it at birth, the mushrooms grow as it grows, and in Parasect the mushroom has taken over. In HeartGold and SoulSilver it is met in Ilex Forest's grass at every hour, least often by day.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small bug (0.3 m, 5.4 kg) with mushrooms growing on its back.", "class": "canon", "confidence": "high", "evidence": ["46.3", "46.4", "46.10", "46.11", "game:size"]},
+      {"text": "The mushrooms are called tochukaso and are described as parasitic: they grow large by drawing nutrients from the bug host.", "class": "canon", "confidence": "high", "evidence": ["46.1", "46.6", "46.7", "46.8", "C46.2", "C46.9", "C46.10", "C46.13", "C46.14"], "analogy": "Tochukaso is the Japanese reading of 冬虫夏草 ('winter worm, summer grass'), the name for Ophiocordyceps sinensis and related insect-parasitic fungi; O. sinensis infects ghost-moth caterpillars in the soil of the Tibetan Plateau and fruits from the dead larva."},
+      {"text": "The mushrooms grow with the host, sprouting and enlarging as the bug's body grows.", "class": "canon", "confidence": "high", "evidence": ["46.3", "46.4", "46.9", "46.10", "46.11", "C46.6", "C46.7", "C46.16", "C46.17", "C46.18", "C46.19", "C46.20"]},
+      {"text": "Its two types read as its two partners: Bug for the host, Grass for the mushroom (the games have no fungus type).", "class": "inferred", "confidence": "medium", "evidence": ["game:types", "46.6"]}
+    ],
+    "diet": [
+      {"text": "It burrows to suck tree roots, or burrows under the ground to gnaw on them.", "class": "canon", "confidence": "high", "evidence": ["46.1", "46.2", "C46.1", "C46.3"], "analogy": "Cicada nymphs spend years underground feeding on the sap of tree roots."},
+      {"text": "The mushroom orders it to extract juice from tree trunks.", "class": "canon", "confidence": "high", "evidence": ["46.5", "C46.8"]},
+      {"text": "The mushrooms absorb most of the nutrition: the bug does the feeding and the fungus takes most of the food.", "class": "canon", "confidence": "high", "evidence": ["46.2", "C46.4"]}
+    ],
+    "habitat": [
+      {"text": "Forest, and underground among tree roots.", "class": "canon", "confidence": "high", "evidence": ["46.1", "46.2", "game:habitat"]},
+      {"text": "Its evolved form stays in dark, damp places, a preference not of the bug but of the mushroom.", "class": "canon", "confidence": "high", "evidence": ["47.1", "47.3", "47.11"]},
+      {"text": "In HeartGold and SoulSilver it is in Ilex Forest's grass (a 5% slot at every hour, plus 10% more in the morning and at night), National Park's Bug-Catching Contest, Mt. Moon's caves and the Johto Safari Zone.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its ability Dry Skin (it loses HP in heat; water restores it) fits a damp-loving animal.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "47.1"]}
+    ],
+    "behavior": [
+      {"text": "It burrows.", "class": "canon", "confidence": "high", "evidence": ["46.1", "46.2"]},
+      {"text": "It is present in Ilex Forest's grass in the morning, by day and at night, least often by day (5% against 15%). That rests on the time-of-day split in the tables and fits the line's liking for dark, damp places; a table rate isn't abundance.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters", "47.3"]},
+      {"text": "The fungus directs at least some of what it does: it orders the bug to extract juice from tree trunks.", "class": "canon", "confidence": "high", "evidence": ["46.5"], "analogy": "Fungal control of host behaviour is real: Ophiocordyceps unilateralis makes infected carpenter ants climb vegetation and clamp their jaws onto a leaf before the fungus fruits from the ant's body."}
+    ],
+    "social": [
+      {"text": "Nothing is said for Paras. As Parasect they infest large trees in numbers and move to another tree all at once, so the adults at least gather.", "class": "canon", "confidence": "medium", "evidence": ["47.6", "47.7"]}
+    ],
+    "reproduction": [
+      {"text": "It is doused with mushroom spores when it is born.", "class": "canon", "confidence": "high", "evidence": ["46.3", "C46.5"]},
+      {"text": "When nothing is left to extract from the bug, the mushrooms on Parasect's back leave spores on the bug's egg: the fungus passes from parent to offspring at the egg.", "class": "canon", "confidence": "high", "evidence": ["47.5"], "analogy": "Passing a symbiont or parasite from parent to offspring is vertical transmission; it is common in insects, as with the Buchnera bacteria that aphids pass to their young."},
+      {"text": "Bug and Grass egg groups, 20 egg cycles, an even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "No Paras entry describes a defence; what follows comes from its ability and moves.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Effect Spore: contact with it may paralyse, poison or put an attacker to sleep. Read biologically, the mushroom's spores defend the pair.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]},
+      {"text": "Stun Spore and Poison Powder (Lv 6) and Spore (Lv 17) make spores its main weapons; Slash (22) and X-Scissor (43) are its claws.", "class": "mechanic", "confidence": "high", "evidence": ["move:Stun Spore", "move:Poison Powder", "move:Spore", "move:Slash", "move:X-Scissor"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Paras becomes Parasect at level 24. In Parasect the mushroom has grown larger than the host's body and controls it.", "class": "canon", "confidence": "high", "evidence": ["47.1", "47.9", "47.10", "game:evolution"]},
+      {"text": "In Parasect the bug host is drained of energy and the mushrooms appear to do all the thinking.", "class": "canon", "confidence": "high", "evidence": ["47.2"]},
+      {"text": "Read in order, the entries trace an infection: spores at birth (46.3), mushrooms growing with the young bug (46.9, 46.10) and taking most of its food (46.2), a mushroom in control of the adult (47.1, 47.9), and spores passed to the next egg once the bug is spent (47.5).", "class": "canon", "confidence": "high", "evidence": ["46.3", "46.9", "46.10", "46.2", "47.1", "47.9", "47.5"]},
+      {"text": "Parasitism or symbiosis? The entries call the mushroom parasitic (46.6 to 46.8) and the adult a host-parasite pair (47.1), and none describes any benefit to the bug. Recorded here as parasitism.", "class": "canon", "confidence": "high", "evidence": ["46.6", "46.7", "46.8", "47.1", "47.2"]},
+      {"text": "The spores may protect the bug, which would make the young relationship partly mutualistic: Effect Spore and the spore moves are its only described defences.", "class": "hypothesis", "confidence": "low", "evidence": ["game:abilities", "move:Spore"], "note": "Rests on game mechanics only; no entry says the bug benefits."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Feeding: Scratch (Lv 1), Leech Life (11) and Giga Drain (33). Two draining moves suit a root- and sap-sucker.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Scratch", "move:Leech Life", "move:Giga Drain"]},
+      {"text": "Growth (27) and Aromatherapy (38) read as the mushroom's moves, growing and scent. Aromatherapy cures the whole party's status problems, an odd move for a parasite that drains its host.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Growth", "move:Aromatherapy"], "note": "Assigning moves to host or fungus is a reading, not something the games do."}
+    ],
+    "ecology": [
+      {"text": "A root and sap feeder (trophic level 2) carrying a fungus that feeds on it (the fungus is a parasite at level 3).", "class": "inferred", "confidence": "medium", "evidence": ["46.1", "46.2", "46.6"]},
+      {"text": "Hard on trees in numbers: as Parasect they infest large trees en masse, drain the lower trunk and roots, and when the tree dies move on to another all at once. Paras is the first stage of that.", "class": "canon", "confidence": "high", "evidence": ["47.6", "47.7"]},
+      {"text": "By killing trees, the line would create deadwood and gaps in the canopy, but no member of the community is described eating deadwood.", "class": "hypothesis", "confidence": "medium", "evidence": ["47.6", "47.7"], "note": "A gap in the reconstructed web: no decomposer is described."},
+      {"text": "The tochukaso is the community's only described fungus, and it is a parasite of a living host, not a decomposer.", "class": "inferred", "confidence": "medium", "evidence": ["46.6", "46.8"]},
+      {"text": "Spoink, which is in Ilex Forest only through the Hoenn Sound on the radio, loves eating mushrooms that grow underground, which makes it the community's one described fungus-eater. Whether it eats tochukaso is unknown.", "class": "hypothesis", "confidence": "low", "evidence": ["325.3", "species:Spoink"], "note": "No entry links the two."}
+    ],
+    "humans": [
+      {"text": "Tochukaso are highly valued as a medicine for extending life (see Folklore for the claim itself).", "class": "canon", "confidence": "high", "evidence": ["46.6", "46.7", "46.8", "C46.11", "C46.15"], "analogy": "Ophiocordyceps sinensis is among the most expensive traditional medicines in China and the Himalaya, sold as a tonic."},
+      {"text": "Parasect's spores are used as herbal medicine in China.", "class": "canon", "confidence": "high", "evidence": ["47.8"]},
+      {"text": "If tochukaso are valued, people would collect Paras; no entry describes this.", "class": "hypothesis", "confidence": "low", "evidence": ["46.6"], "note": "Untested."}
+    ],
+    "homestead": [
+      {"text": "A medicinal crop, if the medicine claims hold: tochukaso grow on Paras's back and are valued for long life. Harvesting would need to leave the host alive and the mushroom able to regrow; nobody has described whether it does.", "class": "hypothesis", "confidence": "low", "evidence": ["46.6", "46.8", "46.10"], "note": "Its medicinal value is claimed, not shown.", "capability": "field_healing"},
+      {"text": "Keep it out of the orchard and the Glasshouse: it feeds on tree roots, and its evolved form kills trees in groups.", "class": "inferred", "confidence": "high", "evidence": ["46.1", "47.6"], "capability": "plant_care"},
+      {"text": "It needs dark, damp, cool places and water (Dry Skin), so a cellar or cave would suit it better than a sunny yard; it already lives in Mt. Moon's caves as well as forest.", "class": "inferred", "confidence": "medium", "evidence": ["game:abilities", "game:encounters", "47.3"]}
+    ]
+  },
+  "niche": {"guild": "sap and nectar feeder", "trophic_level": 2, "microhabitat": ["soil around tree roots", "lower tree trunks", "damp, dark forest floor", "caves"], "activity": "cathemeral",
+            "foraging": "burrows to suck and gnaw tree roots and extracts juice from trunks; the fungus on its back takes most of the nutrition", "evidence": ["C46.1", "C46.3", "C46.4", "C46.8", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Activity is read from presence in all three time-of-day tables."},
+  "relationships": [
+    {"with": "tree roots (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["46.1", "46.2"]},
+    {"with": "tree trunk juice (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["46.5"]},
+    {"with": "tochukaso mushroom (non-Pokémon fungus)", "kind": "host_of", "class": "canon", "confidence": "high", "evidence": ["46.3", "46.6", "46.7", "46.8"], "note": "Parasitism: the mushroom draws nutrients from the bug, takes most of its food, and as Parasect controls it."},
+    {"with": "large trees (non-Pokémon)", "kind": "parasitism", "class": "canon", "confidence": "medium", "evidence": ["47.6", "47.7"], "note": "Described for Parasect, which drains trees until they die; Paras's root-feeding is the start of it."},
+    {"with": "Parasect", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Spoink", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["325.3", "species:Spoink"], "note": "Spoink loves mushrooms that grow underground; if it eats tochukaso, it eats part of the pair. Spoink is radio-only (Hoenn Sound)."},
+    {"with": "Oddish", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["46.1", "43.6", "species:Oddish"], "note": "Both draw on what's below ground: roots for Paras, soil nutrients for Oddish."},
+    {"with": "Zubat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat"], "note": "Ilex Forest's night grass and Mt. Moon's caves."},
+    {"with": "Oddish", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Oddish"]},
+    {"with": "Caterpie", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Caterpie"]},
+    {"with": "Weedle", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Weedle"]}
+  ],
+  "ecotypes": [
+    {"name": "Lure-and-bite", "moves": ["Sweet Scent", "Pursuit", "Bug Bite"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that adds animal food to root sap: a scent lure to bring small animals close, a bite, and a strike at whatever turns to flee. Fits poor soils where roots yield little.",
+     "behavior": "Sits scented at a burrow mouth and snaps at visitors.", "evidence": ["46.2", "move:Sweet Scent", "move:Pursuit", "move:Bug Bite"]},
+    {"name": "Stone-claw digger", "moves": ["Metal Claw", "Counter"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage built for hard ground: hardened claws for burrowing through stony or root-bound soil, and Counter for whatever digs it up. Fits rocky ground and caves such as Mt. Moon, where Paras also lives.",
+     "behavior": "Digs deeper and hits back when unearthed.", "evidence": ["46.1", "game:encounters", "move:Metal Claw", "move:Counter"]},
+    {"name": "Bug-led", "moves": ["Agility", "Cross Poison"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage in which the bug keeps the upper hand for longer: fast, with venomous claws, able to forage beyond the dark, damp places the mushroom prefers (47.3). Fits drier, more open woodland.",
+     "behavior": "Moves about more by day and burrows less.", "evidence": ["47.3", "move:Agility", "move:Cross Poison"]},
+    {"name": "Mind-mushroom", "moves": ["Psybeam", "Screech"], "class": "hypothesis", "confidence": "low",
+     "reading": "The tochukaso already gives the host orders (46.5) and seems to do the thinking in Parasect (47.2); a psychic attack in the lineage reads as that control turned outward, against attackers. Fits crowded infestations where many Paras share one tree.",
+     "behavior": "Unsettles attackers instead of fleeing them.", "evidence": ["46.5", "47.2", "move:Psybeam", "move:Screech"]}
+  ],
+  "open_questions": [
+    "Does the bug get anything from the mushroom, such as protection by its spores, or is it pure parasitism?",
+    "Is every Paras infected at birth (46.3), or can an uninfected Paras exist?",
+    "Does the fungus eventually kill the host (47.5 'nothing's left to extract from the bug')?",
+    "Which trees does it feed on, and how much harm does a single Paras do?",
+    "Do the medicinal claims hold, and could tochukaso be harvested without harming the host?",
+    "Does Spoink eat tochukaso?"
+  ],
+  "contradictions": [
+    {"entries": ["46.1", "46.2"], "text": "Sucks or gnaws? Red/Blue says it burrows to suck tree roots (46.1); Yellow says it gnaws on them (46.2).", "note": "It may do both; recorded because the feeding mode matters for whether it takes sap or tissue."}
+  ],
+  "folklore": [
+    {"text": "Tochukaso are 'highly valued as a medicine for extending life' and 'valued as a medicine for long life'.", "evidence": ["46.6", "46.7", "46.8"], "note": "A belief the entries record about the mushroom's value; they don't say the medicine works."}
+  ]
+}

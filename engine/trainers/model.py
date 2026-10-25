@@ -27,6 +27,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ENGINE = os.path.dirname(HERE)
 CANON = os.path.join(ENGINE, "canon")
 DB = os.path.join(ENGINE, "data", "pokeref.sqlite")
+# v1 (D-077): the wider trainer ecosystem (more versions of Ash, Gary, Paul, rivals and the anime's champions), kept
+# outside canon/ as proposals: every version and build in it is status "proposed" until you approve it.
+ECOSYSTEM = os.path.join(HERE, "ecosystem.json")
 SLIDERS = ("offense", "rigidity", "bond", "risk")
 
 
@@ -115,7 +118,7 @@ class Trainer:
 class Store:
     """Loads builds and trainers, resolves teams, computes stats and checks builds against the game's data."""
 
-    def __init__(self, db_path=DB, canon=CANON):
+    def __init__(self, db_path=DB, canon=CANON, ecosystem=ECOSYSTEM):
         self.era = Era(db_path)
         self.config = load_config()
         self.canon = canon
@@ -125,15 +128,43 @@ class Store:
             raw = json.load(fh)["trainers"]
         self.trainers = {}
         for tid, t in raw.items():
-            versions = {vid: Version(id=vid, trainer=tid, title=v["title"], game=v["game"], team_ref=v["team"],
-                                     sliders=v.get("sliders", {}), roles=v.get("roles", []), source=v.get("source", ""),
-                                     status=v.get("status", "proposed"), overrides=v.get("overrides", {}),
-                                     notes=v.get("notes", []), signature_moves=v.get("signature_moves", []),
-                                     kind_=v.get("kind"), parent=v.get("parent"))
-                        for vid, v in t["versions"].items()}
-            self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=versions, notes=t.get("notes", []),
-                                         career=t.get("career", []))
+            self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=self._versions(tid, t["versions"]),
+                                         notes=t.get("notes", []), career=t.get("career", []))
+        self.proposed = set()          # "trainer/version" ids that come from the ecosystem file, not canon
+        if ecosystem and os.path.exists(ecosystem):
+            self._ecosystem(ecosystem)
         self._scout = None
+
+    @staticmethod
+    def _versions(tid, raw):
+        return {vid: Version(id=vid, trainer=tid, title=v["title"], game=v["game"], team_ref=v["team"],
+                             sliders=v.get("sliders", {}), roles=v.get("roles", []), source=v.get("source", ""),
+                             status=v.get("status", "proposed"), overrides=v.get("overrides", {}),
+                             notes=v.get("notes", []), signature_moves=v.get("signature_moves", []),
+                             kind_=v.get("kind"), parent=v.get("parent"))
+                for vid, v in raw.items()}
+
+    def _ecosystem(self, path):
+        """Adds the ecosystem's builds and versions beside canon's. Canon wins any clash: an id already in canon is
+        left as canon has it, so the file can only add."""
+        with open(path, encoding="utf-8") as fh:
+            eco = json.load(fh)
+        for i, b in eco.get("builds", {}).items():
+            if i not in self.library:
+                self.library[i] = Build(id=i, **{**b, "status": "proposed"})
+        for tid, t in eco.get("trainers", {}).items():
+            raw = {vid: {**v, "status": "proposed"} for vid, v in t.get("versions", {}).items()}
+            if tid in self.trainers:
+                tr = self.trainers[tid]
+                for vid, v in self._versions(tid, raw).items():
+                    if vid not in tr.versions:
+                        tr.versions[vid] = v
+                        self.proposed.add(f"{tid}/{vid}")
+                tr.career = tr.career + [{**r, "status": "proposed"} for r in t.get("career", [])]
+            else:
+                self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=self._versions(tid, raw),
+                                             notes=t.get("notes", []), career=[{**r, "status": "proposed"} for r in t.get("career", [])])
+                self.proposed |= {f"{tid}/{vid}" for vid in raw}
 
     # --- teams ----------------------------------------------------------------------------------------
     def version(self, trainer_id, version_id=None):

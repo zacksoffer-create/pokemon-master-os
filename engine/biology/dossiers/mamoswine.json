@@ -1,0 +1,685 @@
+{
+  "species": "Mamoswine",
+  "id": 473,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A huge, shaggy, ice-tusked survivor of an ice age. Mamoswine flourished worldwide while the ice lasted and declined as it melted; a frozen one dug out of 10,000-year-old ground is said to have woken up. Its young are Swinub, small rooting pigs with noses sensitive enough to find mushrooms, berries and even hot springs under ice, and they are common in the Ice Path, right beside Blackthorn. In between comes Piloswine, so shaggy it can't see, which finds its way by smell and sound and just keeps charging.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A massive quadruped (2.5 m, 291.0 kg) with impressive tusks made of ice.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "473.1",
+          "C473.1",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Piloswine's coat of long hair lets it endure freezing cold; its short legs end in rugged hooves that grip icy ground, and its ice tusks thicken when it snows.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "221.3",
+          "221.4",
+          "221.5",
+          "221.7",
+          "C221.4",
+          "C221.5",
+          "C221.12"
+        ]
+      },
+      {
+        "text": "Swinub's nose is tough enough to dig into frozen ground.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.3",
+          "C220.5"
+        ]
+      },
+      {
+        "text": "Tusks that grow with snowfall suggest they are built from or added to by ice from outside, rather than grown like tooth.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "221.7",
+          "473.1"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "Swinub roots for food by rubbing its snout on the ground; its favourite food is a mushroom that grows under dead or dried grass.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.1",
+          "220.4",
+          "220.5",
+          "220.7",
+          "C220.7",
+          "C220.13"
+        ],
+        "analogy": "Pigs are used to find truffles (Tuber) by smell, which is the same rooting-by-nose foraging."
+      },
+      {
+        "text": "It also finds berries, and mushrooms buried under ice.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.8",
+          "C220.16"
+        ]
+      },
+      {
+        "text": "Piloswine digs up food buried under ice with its tusks.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "221.4",
+          "221.5",
+          "C221.6",
+          "C221.8"
+        ]
+      },
+      {
+        "text": "No entry says what Mamoswine eats; the line's foraging suggests it still digs for plant and fungal food under snow.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "221.4",
+          "220.8"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "An ice-age animal: it flourished worldwide during the ice age and thinned out when the climate warmed and the ice dwindled.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "473.1",
+          "473.4",
+          "C473.2",
+          "C473.7"
+        ],
+        "analogy": "The woolly mammoth (Mammuthus primigenius) followed a similar course: widespread in the cold, it retreated as the climate warmed after the last glacial period, with a last population on Wrangel Island until about 4,000 years ago."
+      },
+      {
+        "text": "Mamoswine is not found in the wild in any Gen I-IV game, and Piloswine only by Poké Radar on Route 217 in Platinum.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Piloswine"
+        ]
+      },
+      {
+        "text": "Swinub lives in the Ice Path between Mahogany Town and Blackthorn City, on every floor and common (40%): at any hour in HeartGold and SoulSilver, by day and morning only in Crystal. Its Gen 3 Pokédex habitat is cave.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Swinub"
+        ]
+      },
+      {
+        "text": "Elsewhere Swinub keeps to ice: Icefall Cave in FireRed and LeafGreen, and the snowy north of Sinnoh (Route 217, Acuity Lakefront).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Swinub"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Swinub follows its nose: if it smells something enticing it dashes off headlong after it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.2",
+          "220.6",
+          "C220.3",
+          "C220.12"
+        ]
+      },
+      {
+        "text": "Piloswine, unable to see past its hair, just keeps charging repeatedly; the hairs on its back stand up when it charges.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "221.1",
+          "221.2",
+          "C221.1",
+          "C221.2"
+        ],
+        "analogy": "Raising the hair along the back (piloerection) is a common mammal threat display, as in a dog's raised hackles."
+      },
+      {
+        "text": "Swinub regularly turns up hot springs while foraging.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.1",
+          "220.4",
+          "220.5",
+          "220.7",
+          "C220.2",
+          "C220.8",
+          "C220.11",
+          "C220.14"
+        ]
+      },
+      {
+        "text": "Activity is uncertain: Crystal puts Swinub in the Ice Path by day and morning only, with Delibird in its slot at night; HeartGold, SoulSilver, Gold and Silver have it at all hours.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:encounters",
+          "species:Delibird"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "No entry describes herds, pairs or interaction with its own kind.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "473.1",
+          "221.1",
+          "220.1"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Field egg group, even sex ratio, 20 egg cycles, slow growth. Nothing is said about breeding or young.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:egg_cycles",
+          "game:growth"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Size, ice tusks and a charging habit: Piloswine charges repeatedly at whatever is in front of it, hackles up.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "221.1",
+          "221.2",
+          "473.1"
+        ]
+      },
+      {
+        "text": "Thick, shaggy hair protects against cold, at the cost of sight.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "221.4",
+          "221.6",
+          "221.7",
+          "C221.11"
+        ]
+      },
+      {
+        "text": "Snow Cloak (harder to hit in hail) or Oblivious (can't be infatuated) are its abilities; Mist and Endure are among its own moves.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities",
+          "move:Mist",
+          "move:Endure"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Smell is the line's main sense: Swinub's nose is very sensitive and finds food and hot springs under ice; Piloswine, which can't see, checks its surroundings with its nose.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.8",
+          "221.6",
+          "C220.15",
+          "C221.9",
+          "C221.10"
+        ]
+      },
+      {
+        "text": "Piloswine is also very sensitive to sound.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "221.2",
+          "C221.3"
+        ]
+      },
+      {
+        "text": "Odor Sleuth is a Lv 1 move at every stage, the games' version of the nose.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Odor Sleuth"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Swinub (0.4 m, 6.5 kg) becomes Piloswine at level 33 (1.1 m, 55.8 kg), and Piloswine becomes Mamoswine (2.5 m, 291.0 kg) when it levels up knowing Ancient Power.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Swinub",
+          "species:Piloswine"
+        ]
+      },
+      {
+        "text": "Piloswine has Ancient Power at Lv 1 in HeartGold, and Swinub can carry it as an egg move or learn it from a tutor, so the trigger is available several ways.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Ancient Power",
+          "game:learnset"
+        ]
+      },
+      {
+        "text": "Development adds hair, tusks and size: a small rooting pig, a blind shaggy charger with ice tusks, then a giant with impressive ice tusks.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "220.1",
+          "221.4",
+          "221.6",
+          "473.1"
+        ]
+      },
+      {
+        "text": "An 'ancient' move as the trigger for an ice-age form reads like a lineage recovering an ancestral body plan.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:evolution",
+          "473.4"
+        ],
+        "note": "A reading of a game mechanic; no entry describes the evolution."
+      },
+      {
+        "text": "A frozen Mamoswine was dug up from 10,000-year-old ground and woke up, to much amazement.",
+        "class": "canon",
+        "confidence": "low",
+        "evidence": [
+          "473.2",
+          "473.3",
+          "C473.3",
+          "C473.4",
+          "C473.5"
+        ],
+        "analogy": "Frozen mammoth carcasses are recovered from Siberian permafrost, but no animal that size could revive. Microscopic bdelloid rotifers have been revived from Siberian permafrost about 24,000 years old."
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Ground and mud moves suit a rooter: Mud Sport, Mud-Slap, Mud Bomb and, later, Earthquake (Lv 40).",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Mud Sport",
+          "move:Mud-Slap",
+          "move:Mud Bomb",
+          "move:Earthquake"
+        ]
+      },
+      {
+        "text": "Ice moves come from the line itself: Powder Snow, Hail (Lv 25, Mamoswine), Ice Fang, Mist and Blizzard.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Powder Snow",
+          "move:Hail",
+          "move:Ice Fang",
+          "move:Mist",
+          "move:Blizzard"
+        ]
+      },
+      {
+        "text": "Take Down (Lv 32) is Piloswine's repeated charge in move form; Double Hit (Lv 33, Mamoswine only) fits two tusks.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Take Down",
+          "move:Double Hit",
+          "221.1"
+        ]
+      },
+      {
+        "text": "Strength and Rock Smash, behind its hauling and clearing records, are machine moves.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:learnset",
+          "game:capability"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "A rooting fungivore and frugivore when young (trophic level about 2): it turns over soil and dead grass for mushrooms and berries.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "220.4",
+          "220.8"
+        ]
+      },
+      {
+        "text": "Rooting disturbs ground cover and soil, and Swinub's habit of uncovering hot springs could open new warm, wet patches for other species.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "220.1",
+          "220.7"
+        ],
+        "note": "Plausible engineering effect; the entries describe finding hot springs, not their effect on the community."
+      },
+      {
+        "text": "A relict: a species past its peak, surviving where the cold persists.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "473.1",
+          "473.4"
+        ]
+      },
+      {
+        "text": "In HeartGold's Ice Path, Swinub shares every floor with Golbat, Zubat and Jynx; in Crystal, Delibird takes Swinub's slot at night.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Golbat",
+          "species:Jynx",
+          "species:Delibird"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "People have dug frozen Mamoswine out of ancient ice and soil.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "473.2",
+          "473.3"
+        ]
+      },
+      {
+        "text": "Swinub's nose finds things people want: mushrooms, berries and hot springs.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.4",
+          "220.8"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "A local animal: Swinub is common in the Ice Path next door, and the line is built for exactly Blackthorn's cold.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "221.4",
+          "game:types"
+        ],
+        "capability": "cold_tolerance"
+      },
+      {
+        "text": "Finding hot springs: Swinub turns them up while foraging, even under ice, which could locate geothermal water and heat for the estate.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "220.1",
+          "220.7",
+          "220.8"
+        ],
+        "capability": "water_supply"
+      },
+      {
+        "text": "A winter forager: its nose finds mushrooms and berries under ice and dead grass, useful for the kitchen and for surveying the woods.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.4",
+          "220.8"
+        ],
+        "capability": "foraging"
+      },
+      {
+        "text": "Heavy winter hauling: a 291 kg, four-legged animal that grips icy ground with rugged hooves (in Piloswine). The capability record lists harness and saddle.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "game:size",
+          "221.3",
+          "game:capability"
+        ],
+        "capability": "hauling"
+      },
+      {
+        "text": "Work Piloswine quietly and give it room: it can't see, is very sensitive to sound, and charges repeatedly at what it can't identify.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "221.1",
+          "221.2",
+          "221.6"
+        ],
+        "capability": "town_fit"
+      },
+      {
+        "text": "Keep it cool: the line declined when the climate warmed. A sheltered, cold summer range matters more than a warm winter barn.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "473.1",
+          "473.4"
+        ],
+        "capability": "cold_source"
+      },
+      {
+        "text": "Swinub will dash off after any good smell; fence the kitchen garden and the berry beds.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "220.2",
+          "220.6"
+        ],
+        "capability": "plant_care"
+      }
+    ]
+  },
+  "niche": {
+    "guild": "fungivore",
+    "trophic_level": 2,
+    "microhabitat": [
+      "ice caves (Ice Path, Icefall Cave)",
+      "snowfields and frozen ground",
+      "dead-grass litter where mushrooms grow"
+    ],
+    "activity": "cathemeral",
+    "foraging": "roots with snout and tusks for mushrooms, berries and food buried under ice, guided by smell",
+    "evidence": [
+      "220.4",
+      "220.8",
+      "221.4",
+      "game:encounters"
+    ],
+    "class": "inferred",
+    "confidence": "medium",
+    "note": "Swinub's diet; Mamoswine's own diet is never stated. Activity: all hours in HeartGold, day and morning only in Crystal."
+  },
+  "relationships": [
+    {
+      "with": "mushrooms that grow under dead grass",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "220.4",
+        "220.5",
+        "220.7"
+      ]
+    },
+    {
+      "with": "berries",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "medium",
+      "evidence": [
+        "220.8"
+      ]
+    },
+    {
+      "with": "hot springs",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "low",
+      "evidence": [
+        "220.1",
+        "220.8"
+      ],
+      "note": "It finds them; whether it uses them is not said."
+    },
+    {
+      "with": "ice and snow",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "221.7",
+        "473.4"
+      ],
+      "note": "Its tusks thicken with snow; its population depends on ice."
+    },
+    {
+      "with": "Delibird",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Delibird"
+      ],
+      "note": "Crystal's Ice Path: Swinub by day and morning, Delibird in the same slot at night."
+    },
+    {
+      "with": "Golbat",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Golbat"
+      ],
+      "note": "Ice Path, every floor, in Crystal and HeartGold/SoulSilver."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Glacier relict",
+      "moves": [
+        "Ancient Power",
+        "Icicle Spear"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "The most Mamoswine-like Swinub: Icicle Spear fires icicles in a volley, the tusks-of-ice canon in move form, and Ancient Power is the very move a Piloswine needs to evolve. A lineage that carries its own evolution trigger from the egg. Fits permanent ice, the habitat its ancestors thrived in.",
+      "behavior": "Grows into a Mamoswine without help; keeps to the coldest ground.",
+      "evidence": [
+        "473.1",
+        "473.4",
+        "move:Ancient Power",
+        "move:Icicle Spear"
+      ]
+    },
+    {
+      "name": "Moraine rammer",
+      "moves": [
+        "Rock Slide",
+        "Double-Edge",
+        "Body Slam"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "Piloswine's charging made heavier: Double-Edge and Body Slam are full-weight hits, and Rock Slide brings down stones. A lineage of rocky glacial debris where a charge sends rock tumbling. Fits moraine slopes and scree below ice fields.",
+      "behavior": "Charges harder and more often; loose rock comes down behind it.",
+      "evidence": [
+        "221.1",
+        "move:Rock Slide",
+        "move:Double-Edge",
+        "move:Body Slam"
+      ]
+    },
+    {
+      "name": "Frost-ground breaker",
+      "moves": [
+        "Fissure",
+        "Mud Shot",
+        "Curse"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A digger for the hardest ground: Fissure splits the earth, Mud Shot throws wet soil, and Curse makes it slower but stronger and tougher. A lineage that breaks frozen soil to reach buried food, building on Swinub's frozen-ground nose. Fits permafrost tundra where food lies under a hard crust.",
+      "behavior": "Slow, methodical, leaves cracked and turned ground behind it.",
+      "evidence": [
+        "220.3",
+        "221.4",
+        "move:Fissure",
+        "move:Mud Shot",
+        "move:Curse"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does Mamoswine eat?",
+    "Are the tusks grown, or built up from ice (221.7 says they thicken when it snows)?",
+    "Do they live in herds? No entry says.",
+    "How large is the Ice Path Swinub population, and does it ever reach Piloswine or Mamoswine there?",
+    "Was the frozen Mamoswine found in soil (473.2) or ice (473.3)? And how did it survive?",
+    "Does Swinub use the hot springs it finds, or only find them?",
+    "Is Swinub diurnal (Crystal) or active at all hours (HeartGold)?"
+  ],
+  "contradictions": [
+    {
+      "text": "Where the frozen Mamoswine was found: soil dating back 10,000 years (Platinum) or ice dating back 10,000 years (HeartGold).",
+      "entries": [
+        "473.2",
+        "473.3"
+      ]
+    },
+    {
+      "text": "Piloswine's sight: its hair 'obscures' its sight in Gold and HeartGold; it is 'unable to see' in Diamond and Pearl.",
+      "entries": [
+        "221.1",
+        "221.6"
+      ],
+      "note": "Degree, not kind."
+    }
+  ],
+  "folklore": []
+}

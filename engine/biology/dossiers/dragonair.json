@@ -1,0 +1,108 @@
+{
+  "species": "Dragonair",
+  "id": 148,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The middle stage of the Dratini line: a 4-metre serpent with crystal orbs on its neck and tail, said to change the weather around it by releasing stored energy through them. Much of what the Pokédex says about it is hedged with 'they say' and 'it is said', and the one first-hand account is a witness describing a strange aura, so it is the most folkloric animal in the highlands community. In HeartGold and SoulSilver the only wild ones are hooked by Super Rod in Dragon's Den and the Johto Safari Zone. As with Dratini, nothing says what it eats.",
+  "sections": {
+    "anatomy": [
+      {"text": "A serpentine body 4.0 m long weighing 16.5 kg: still very slender for its length.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape"]},
+      {"text": "It has crystals on its neck and tail, called crystalline orbs in the Silver entry.", "class": "canon", "confidence": "high", "evidence": ["148.4", "148.6", "148.7", "C148.5", "C148.9", "C148.11"]},
+      {"text": "It stores an enormous amount of energy inside its body.", "class": "canon", "confidence": "high", "evidence": ["148.6", "148.7", "C148.8", "C148.10"]},
+      {"text": "It has no wings but has been seen flying occasionally.", "class": "canon", "confidence": "medium", "evidence": ["148.8", "C148.13"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Dragonair eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its level-up moves are Dratini's at later levels: Wrap, Thunder Wave, Slam, Aqua Tail (Lv 33), Dragon Rush (Lv 39). The same holding-and-stunning kit, on a much larger body.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Wrap", "move:Thunder Wave", "move:Aqua Tail", "move:Dragon Rush", "game:learnset"]},
+      {"text": "At 4 m it would need larger prey or more of it than Dratini; Magikarp is the only other species recorded in the den's water.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "game:encounters", "species:Magikarp"], "note": "Co-occurrence only."}
+    ],
+    "habitat": [
+      {"text": "It is said to live in seas and lakes.", "class": "canon", "confidence": "medium", "evidence": ["148.8", "148.10", "C148.12"], "note": "Hedged in both entries ('It is said'); the games put it in cave water."},
+      {"text": "In HeartGold and SoulSilver: Dragon's Den by Super Rod only, 10% (Lv 40), and the Johto Safari Zone by Super Rod once at least 15 water blocks are placed (Lv 42; Lv 45 with 20). Gold, Silver and Crystal also had it on Route 45 by Super Rod (10%).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Elsewhere it is a rare Super Rod catch in remote water: the Kanto Safari Zone (10% in Yellow, 1% in FireRed and LeafGreen) and Mt. Coronet 4F (5%). The Gen 3 Pokédex habitat is waters-edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]}
+    ],
+    "behavior": [
+      {"text": "It exudes a gentle aura.", "class": "canon", "confidence": "medium", "evidence": ["148.1", "148.9", "C148.1"]},
+      {"text": "When its whole body brightens slightly or takes on an aura, the weather changes, instantly in some entries.", "class": "canon", "confidence": "medium", "evidence": ["148.3", "148.5", "148.10", "C148.4", "C148.7", "C148.15"], "note": "Stated flatly in Crystal and Diamond/Pearl/Platinum; hedged as 'they say' in Gold and HeartGold."},
+      {"text": "The aura, the brightening and the strange aura a witness saw read as one visible event described in different words; whatever the weather link is, the glow is the part people observe.", "class": "inferred", "confidence": "medium", "evidence": ["148.2", "148.3", "148.5", "148.10"]},
+      {"text": "Activity pattern isn't stated, and the Super Rod tables don't split it by time.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about whether Dragonair live alone or in groups; Dratini were found as a small colony.", "class": "unknown", "confidence": "high", "evidence": ["147.1"]}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Dragon egg groups, even sex ratio, 40 egg cycles; the line's egg moves sit on Dratini.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:gender", "game:egg_cycles"]},
+      {"text": "Nothing in the Pokédex describes breeding, eggs or care of young.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "Shed Skin (it may heal its own status problems), the same as Dratini, and Safeguard at Lv 47.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Safeguard"]},
+      {"text": "No defensive behaviour is described. The entries call its aura gentle, not threatening.", "class": "unknown", "confidence": "high", "evidence": ["148.1"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses; the aura entries describe how it is seen, not how it perceives.", "class": "unknown", "confidence": "high", "evidence": ["148.1", "148.2"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Dratini at Lv 30 and into Dragonite at Lv 55, which flies and gains the Flying type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Dratini", "species:Dragonite"]},
+      {"text": "The middle stage is the longest of the line (Dratini 1.8 m, Dragonair 4.0 m, Dragonite 2.2 m); the adult is shorter and about 13 times heavier (210 kg against 16.5 kg).", "class": "inferred", "confidence": "high", "evidence": ["game:size", "species:Dratini", "species:Dragonite"]},
+      {"text": "Its occasional wingless flight foreshadows Dragonite, whose bulky build flies over raging seas.", "class": "inferred", "confidence": "medium", "evidence": ["148.8", "149.4", "149.8"]},
+      {"text": "Read as development, Dragonair is where the line gains a way to hold and release energy (the crystals), where Dratini could only shed it with its skin.", "class": "hypothesis", "confidence": "low", "evidence": ["147.6", "148.6"], "note": "No entry connects the two."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "None of its level-up moves sets the weather. Twister (Lv 1 and 11) is the nearest; Rain Dance, Sunny Day and Hail are machine moves taught by people, so the games give the wild animal no weather move to match its lore.", "class": "mechanic", "confidence": "high", "evidence": ["move:Twister", "move:Rain Dance", "move:Sunny Day", "move:Hail", "game:learnset"]},
+      {"text": "Dragon Dance (Lv 53) and Agility (Lv 25) are display and speed moves; with Safeguard they make a repertoire that leans to avoiding harm rather than inflicting it.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Dragon Dance", "move:Agility", "move:Safeguard"]}
+    ],
+    "ecology": [
+      {"text": "If it eats fish, it shares the top of Dragon's Den's food chain with Dratini.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Dratini", "species:Magikarp"], "note": "No diet is recorded."},
+      {"text": "If the weather claims are literal, Dragonair changes the physical conditions for everything around it, snow, ice and water levels included. No real animal does anything comparable.", "class": "hypothesis", "confidence": "low", "evidence": ["148.6", "148.10", "C148.9"], "note": "Entirely dependent on the weather entries being read literally; most are hedged."}
+    ],
+    "humans": [
+      {"text": "Called the divine Pokémon and described as mystical; the Yellow entry rests on a witness who saw it surrounded by a strange aura.", "class": "canon", "confidence": "high", "evidence": ["148.1", "148.2", "148.5", "C148.3", "C148.6"]},
+      {"text": "People in Blackthorn want Dragonair: in HeartGold and SoulSilver a trader in Blackthorn City offers a Dodrio for one.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Dodrio"]}
+    ],
+    "homestead": [
+      {"text": "It would need a large body of water, a lake or a deep pond with current, for a 4 m animal.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "148.8", "game:habitat"]},
+      {"text": "Weather work at the homestead would come from moves people teach it (Rain Dance, Sunny Day, Hail), not from the hedged weather lore.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Rain Dance", "move:Sunny Day", "move:Hail"], "capability": "weather_handling"},
+      {"text": "Its 'gentle aura' might make it a calming presence around people and stock.", "class": "hypothesis", "confidence": "low", "evidence": ["148.1", "148.9"], "capability": "calming_presence", "note": "Untested: no entry says what the aura does to others."},
+      {"text": "At Blackthorn a Dragonair would be treated as the 'divine Pokémon' name implies: kept at a pool by arrangement with the people of the Dragon's Den, not caught and penned.", "class": "creative", "evidence": ["148.5"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["dragon's den pool", "lakes and seas (said)"], "activity": "unknown",
+            "foraging": "unknown; the same constricting kit as Dratini on a 4 m body", "evidence": ["move:Wrap", "move:Thunder Wave", "148.8"], "class": "hypothesis", "confidence": "low"},
+  "relationships": [
+    {"with": "Dratini", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Dratini"], "note": "Same Dragon's Den Super Rod table."},
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"]},
+    {"with": "Magikarp", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "129.4"], "note": "Only other species in the den's water; untested."},
+    {"with": "Dragonite", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Weather-veil", "moves": ["Mist", "Haze", "Light Screen"], "class": "hypothesis", "confidence": "low",
+     "reading": "The egg moves closest to the weather lore: a lineage whose 'aura' is mist and screening. Fits still lakes and the den's misty cave water, where concealment matters more than speed.",
+     "behavior": "Stays hidden in mist; the glow seen through fog is what people report.", "evidence": ["148.2", "148.10", "move:Mist", "move:Haze", "move:Light Screen"]},
+    {"name": "Sky-leaper", "moves": ["Extreme Speed", "Dragon Rush", "Dragon Dance"], "class": "hypothesis", "confidence": "low",
+     "reading": "Speed, a full-body ram and a build-up dance: the lineage most likely to produce the occasional wingless flights (148.8). Fits open lakes and coasts, where it is said to live.",
+     "behavior": "Launches from the water in bursts; seen in the air more than others.", "evidence": ["148.8", "move:Extreme Speed", "move:Dragon Rush", "move:Dragon Dance"]},
+    {"name": "Breath-caster", "moves": ["Dragon Breath", "Supersonic"], "class": "hypothesis", "confidence": "low",
+     "reading": "A sound attack to confuse and a breath attack to strike: a hunting lineage for dark or turbid water such as Dragon's Den.",
+     "behavior": "Hunts close and in the dark.", "evidence": ["move:Dragon Breath", "move:Supersonic", "game:encounters"]}
+  ],
+  "open_questions": [
+    "Does it really change the weather, and if so over what area and for how long?",
+    "What are the crystals made of, and do they grow with the animal?",
+    "What does it eat?",
+    "How does a wingless 4 m animal fly (148.8)?",
+    "Does it live in seas and lakes, as said (148.8, 148.10), or only in fresh cave water as in the games?",
+    "Who are the people of the Dragon's Den, and how do they relate to the wild population? (The pack says nothing; the creative note on the homestead assumes them.)"
+  ],
+  "contradictions": [
+    {"entries": ["148.1", "148.3", "148.6", "148.9"], "text": "Red and Blue state flatly that it 'has the ability to change climate conditions'; Gold ('They say'), Ruby and Sapphire ('It is said') and LeafGreen ('It is said') hedge the same claim.", "reading": "The entries disagree on how certain the weather power is, and Red/Blue says climate where the others say local weather. Neither is resolved here; the weather lore is filed under folklore."}
+  ],
+  "folklore": [
+    {"text": "If it emits an aura from its whole body, the weather will begin to change instantly.", "kind": "they say", "evidence": ["148.3", "C148.4"]},
+    {"text": "It alters the weather around it by discharging energy from the crystals on its neck and tail.", "kind": "it is said", "evidence": ["148.6", "148.7", "C148.9", "C148.11"]},
+    {"text": "It has the ability to change the weather.", "kind": "it is said", "evidence": ["148.9", "C148.14"]},
+    {"text": "It lives in seas and lakes.", "kind": "it is said", "evidence": ["148.8", "148.10", "C148.12"]},
+    {"text": "A witness saw its body surrounded by a strange aura that gave it a mystical look.", "kind": "witness account", "evidence": ["148.2", "C148.3"]},
+    {"text": "It is called the divine Pokémon.", "kind": "reputation", "evidence": ["148.5", "C148.6"]}
+  ]
+}

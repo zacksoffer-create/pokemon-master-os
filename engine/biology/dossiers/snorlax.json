@@ -1,0 +1,597 @@
+{
+  "species": "Snorlax",
+  "id": 143,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A 460 kg animal whose whole life is eating and sleeping. Snorlax is not satisfied until it has eaten roughly 400 kg of food a day, eats anything, moldy or rotten, off the ground if need be, and has a stomach that dissolves any poison; when it has eaten its fill it goes straight to sleep. It is so docile that children play on its belly, and Platinum notes that a full Snorlax is too lethargic to lift a finger. Its young, Munchlax, swallow their own weight in food every day and hide food under their long fur, then forget it is there.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A huge, upright, round-bellied animal (2.1 m, 460.0 kg); its bulk builds as it eats.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.1",
+          "143.6",
+          "143.7",
+          "C143.3",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Its stomach is the remarkable organ: its digestive juices dissolve any kind of poison, and moldy or rotten food doesn't upset it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.2",
+          "143.4",
+          "143.5",
+          "143.9",
+          "C143.5",
+          "C143.7",
+          "C143.9",
+          "C143.15"
+        ]
+      },
+      {
+        "text": "Its abilities match: Immunity (it can't be poisoned) and Thick Fat (resistant to fire and ice).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities",
+          "143.4"
+        ]
+      },
+      {
+        "text": "Munchlax (0.6 m, 105.0 kg) has long body hair under which it hides food.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "446.2",
+          "446.4",
+          "C446.2",
+          "C446.5",
+          "species:Munchlax"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "A generalist that eats anything, including moldy and rotten food and things off the ground.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.2",
+          "143.4",
+          "143.5",
+          "143.9",
+          "C143.4",
+          "C143.8"
+        ]
+      },
+      {
+        "text": "It needs over 880 pounds (about 400 kg) a day, nearly its own body weight, and doesn't feel full until it has eaten nearly 900 pounds.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.8",
+          "143.10",
+          "C143.13",
+          "C143.17"
+        ],
+        "analogy": "Real large mammals eat a few percent of their body weight a day; an African elephant eats on the order of 150 kg for a body of several tonnes."
+      },
+      {
+        "text": "Munchlax swallows its own weight in food once a day, whole and almost unchewed.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "446.1",
+          "446.4",
+          "C446.1",
+          "C446.6"
+        ]
+      },
+      {
+        "text": "Snorlax stops eating only to sleep.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.10",
+          "C143.16"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Its Gen 3 Pokédex habitat is mountain; no entry describes where it lives.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "In every Gen I-IV game the wild Snorlax are single, sleeping animals blocking a route, woken with the Poké Flute: Route 11 in HeartGold and SoulSilver (with a second on Route 12 under a later story condition), Vermilion City in Gold, Silver and Crystal, and Routes 12 and 16 in Kanto's games.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Munchlax is found only on Honey-slathered trees in Sinnoh, and only in one of the honey-tree encounter groups.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Munchlax"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Its typical day is eating and sleeping and nothing else; when it has finished eating it goes promptly to sleep.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.1",
+          "143.6",
+          "143.7",
+          "143.8",
+          "C143.1",
+          "C143.2",
+          "C143.10",
+          "C143.14"
+        ]
+      },
+      {
+        "text": "It gets steadily lazier as it gets fatter.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.1",
+          "C143.3"
+        ]
+      },
+      {
+        "text": "What sounds like its cry may be its snoring or its hungry belly rumbling.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.3",
+          "C143.6"
+        ]
+      },
+      {
+        "text": "Munchlax gulps food so desperately that it forgets the food it has hidden in its fur.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "446.2",
+          "446.3",
+          "C446.3",
+          "C446.4"
+        ]
+      },
+      {
+        "text": "No activity pattern is given; the encounter data show it asleep whenever it is found.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Docile toward people: children use its belly as a place to play.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.6",
+          "143.7",
+          "C143.11",
+          "C143.12"
+        ]
+      },
+      {
+        "text": "Nothing is said about how it treats its own kind; every wild Snorlax in the games is alone.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Monster egg group, 40 egg cycles (twice the usual), slow growth, and 87.5% male, a ratio most species outside the starters don't have. Munchlax is a baby Pokémon in the Undiscovered group and can't breed.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:egg_cycles",
+          "game:growth",
+          "game:gender",
+          "species:Munchlax"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Bulk and indifference: little is described as threatening it, and it is too lethargic to react when full.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "143.11",
+          "143.1",
+          "game:size"
+        ]
+      },
+      {
+        "text": "Poison doesn't work on it: its stomach dissolves any kind, and Immunity stops poisoning in battle.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.4",
+          "game:abilities"
+        ]
+      },
+      {
+        "text": "Its own moves suit an animal that sits tight: Defense Curl, Amnesia, Rest, and Block (Lv 36), which stops an opponent leaving.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Defense Curl",
+          "move:Amnesia",
+          "move:Rest",
+          "move:Block"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Satiety is its one described sense: it doesn't feel full until it has eaten nearly 900 pounds.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "143.10",
+          "C143.17"
+        ]
+      },
+      {
+        "text": "Munchlax has Odor Sleuth at Lv 1, which fits an animal that finds food by smell, though no entry says so.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "move:Odor Sleuth"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Munchlax (0.6 m, 105.0 kg) becomes Snorlax (2.1 m, 460.0 kg) when it levels up with high friendship. The archive lists the line as Snorlax, Munchlax, but Munchlax is the first stage.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Munchlax"
+        ]
+      },
+      {
+        "text": "The young eat their weight daily and store food in their fur; the adult eats almost its weight daily and stores it as bulk. Hoarding gives way to sleeping it off.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "446.1",
+          "446.2",
+          "143.8",
+          "143.1"
+        ]
+      },
+      {
+        "text": "Munchlax's own moves include Stockpile and Swallow (Lv 25 and 28), storing and then swallowing, which matches the hidden food stash; Recycle (Lv 17) re-uses an item already used.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Stockpile",
+          "move:Swallow",
+          "move:Recycle",
+          "446.4"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Its level-up list is the canon in move form: Rest (Lv 25), then Snore and Sleep Talk (Lv 28), both used while asleep; Yawn (Lv 20) makes others drowsy.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Rest",
+          "move:Snore",
+          "move:Sleep Talk",
+          "move:Yawn",
+          "143.1"
+        ]
+      },
+      {
+        "text": "Belly Drum (Lv 17) sacrifices half its health to raise its attack to the maximum, and Body Slam (Lv 33) and Giga Impact (Lv 49) use its mass.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Belly Drum",
+          "move:Body Slam",
+          "move:Giga Impact"
+        ]
+      },
+      {
+        "text": "Lick (Lv 12) is its own, and an egg move too.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Lick"
+        ]
+      },
+      {
+        "text": "Strength and Rock Smash, behind its hauling and clearing records, are machine moves.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Strength",
+          "move:Rock Smash",
+          "game:capability"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "An enormous consumer: at roughly 400 kg a day, one Snorlax would strip a local food supply quickly, which may be why each is found alone.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "143.8",
+          "143.10",
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Because it eats moldy and rotten food, it also acts as a scavenger of spoiled material others won't touch.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "143.5",
+          "143.9"
+        ]
+      },
+      {
+        "text": "Munchlax's forgotten food stashes could scatter seeds if food falls out of its fur unchewed.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "446.2",
+          "446.3"
+        ],
+        "note": "Nothing says the food falls out or contains seeds.",
+        "analogy": "Scatter-hoarders such as Eurasian jays (Garrulus glandarius) plant oaks by failing to recover the acorns they bury."
+      },
+      {
+        "text": "Trophic level about 2.5: whatever is available, plant or animal, fresh or spoiled.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "143.2"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Safe with children: docile enough to be played on, and safe to bounce on when full.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.6",
+          "143.7",
+          "143.11",
+          "C143.18"
+        ]
+      },
+      {
+        "text": "An obstacle: in every Gen I-IV game a sleeping Snorlax blocks a road until someone plays the Poké Flute.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "The cost: roughly 400 kg of food a day. No homestead can feed a Snorlax casually; plan the supply before it arrives.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "143.8",
+          "143.10"
+        ],
+        "capability": "food_source"
+      },
+      {
+        "text": "Part of that can be waste: it eats moldy and rotten food without harm, so spoiled stores, kitchen scraps and windfall fruit can go to it.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "143.5",
+          "143.9",
+          "143.4"
+        ],
+        "capability": "food_source"
+      },
+      {
+        "text": "Hauling: 460 kg of animal with hands; the capability record lists a harness. Strength is taught, and its laziness is the real limit.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "game:size",
+          "game:capability",
+          "143.1"
+        ],
+        "capability": "hauling"
+      },
+      {
+        "text": "A calm, safe animal around children, provided it is fed: the safety note in the Pokédex is about a full belly.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "143.6",
+          "143.11"
+        ],
+        "capability": "calming_presence"
+      },
+      {
+        "text": "Munchlax will raid stores and carry food off in its fur; lock the kitchen and the berry store. Its Pickup ability also turns up items.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "446.2",
+          "446.4",
+          "game:abilities"
+        ],
+        "capability": "foraging"
+      },
+      {
+        "text": "Where it sleeps, it stays: don't let it settle across a path or a gate. The games' Snorlax all block roads.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:encounters",
+          "143.8"
+        ],
+        "capability": "town_fit"
+      }
+    ]
+  },
+  "niche": {
+    "guild": "generalist",
+    "trophic_level": 2.5,
+    "microhabitat": [
+      "mountains (listed habitat)",
+      "open routes and paths where it sleeps"
+    ],
+    "activity": "unknown",
+    "foraging": "eats anything available in huge quantity, fresh or spoiled, then sleeps; the young hoard food in their fur",
+    "evidence": [
+      "143.2",
+      "143.8",
+      "446.2",
+      "game:habitat"
+    ],
+    "class": "inferred",
+    "confidence": "medium"
+  },
+  "relationships": [
+    {
+      "with": "any available food, including spoiled food",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "143.2",
+        "143.5",
+        "143.9"
+      ]
+    },
+    {
+      "with": "children",
+      "kind": "commensalism",
+      "class": "canon",
+      "confidence": "medium",
+      "evidence": [
+        "143.6",
+        "143.7"
+      ],
+      "note": "Children play on its belly; Snorlax is unaffected."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Pass sleeper",
+      "moves": [
+        "Curse",
+        "Counter"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "A lineage that cannot be moved: Curse makes it slower, stronger and tougher, and Counter returns physical blows double. The sleeping-roadblock habit as a whole strategy. Fits narrow mountain passes, its listed habitat, where lying across the way keeps a feeding area to itself.",
+      "behavior": "Settles in one spot and won't shift; strikes back only when struck.",
+      "evidence": [
+        "game:habitat",
+        "game:encounters",
+        "move:Curse",
+        "move:Counter"
+      ]
+    },
+    {
+      "name": "Charming beggar",
+      "moves": [
+        "Charm",
+        "Lick"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that gets fed: Charm sharply lowers an opponent's attack by being endearing, Lick can paralyse at close range. Together they suit an animal that lives off what others provide rather than foraging. Fits village and farm edges, where children already play on Snorlax.",
+      "behavior": "Approaches people and waits to be fed; hard to stay angry at.",
+      "evidence": [
+        "143.6",
+        "move:Charm",
+        "move:Lick"
+      ]
+    },
+    {
+      "name": "Larder guard",
+      "moves": [
+        "Whirlwind",
+        "Pursuit"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that defends its food: Whirlwind blows rivals away from a feeding patch, and Pursuit hits harder at anything that runs off. For an animal that needs 400 kg a day, keeping competitors off is worth the effort. Fits contested feeding grounds such as berry thickets in a lean season.",
+      "behavior": "Clears a food patch before eating; chases thieves.",
+      "evidence": [
+        "143.8",
+        "move:Whirlwind",
+        "move:Pursuit"
+      ]
+    }
+  ],
+  "open_questions": [
+    "How can any animal eat nearly its own weight daily? Where does the mass go?",
+    "What do wild Snorlax mostly eat in practice?",
+    "Do they ever live together, or does food demand keep them solitary?",
+    "Why is Snorlax 87.5% male, like a starter line?",
+    "Does Munchlax ever eat its forgotten stash (446.4 says it does; 446.2 and 446.3 say it forgets)?",
+    "Is a hungry Snorlax still safe around children, or only a full one (143.11)?"
+  ],
+  "contradictions": [
+    {
+      "text": "Munchlax's hidden food: Pearl and Platinum say it forgets the food it hides under its fur; HeartGold and SoulSilver say it carts the stash around and swallows it.",
+      "entries": [
+        "446.2",
+        "446.3",
+        "446.4"
+      ]
+    },
+    {
+      "text": "Daily intake: FireRed says over 880 pounds; Pearl says nearly 900. Consistent in scale, but 'over' and 'nearly' bracket the figure from opposite sides.",
+      "entries": [
+        "143.8",
+        "143.10"
+      ],
+      "note": "Minor."
+    }
+  ],
+  "folklore": []
+}

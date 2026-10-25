@@ -1,0 +1,106 @@
+{
+  "species": "Venusaur",
+  "id": 3,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Venusaur is a 2 m, 100 kg grassland quadruped carrying a large flower on its back, and it runs partly on sunlight: the spread petals catch the sun's rays and fill its body with power, so it is strongest in summer and keeps moving to find sun. Its flower gives off a fragrance that soothes people and calms animals in the middle of a fight, strongest after rain, and the scent draws other Pokémon to it. The line begins as Bulbasaur, which hatches with a seed on its back and lives off the seed's stored nutrients while it is young. No Gen I–IV game has the line in the wild; every Venusaur is raised from a starter Bulbasaur.",
+  "sections": {
+    "anatomy": [
+      {"text": "A heavy quadruped of 2.0 m and 100 kg, Grass and Poison type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "A large flower grows on its back; its broad petals spread to catch the sun's rays.", "class": "canon", "confidence": "high", "evidence": ["3.2", "3.3", "3.6", "C3.3", "C3.5", "C3.9"]},
+      {"text": "In Ivysaur, the legs and trunk grow thick and strong to bear the weight of the bulb; once the bulb is large it seems unable to stand on its hind legs.", "class": "canon", "confidence": "high", "evidence": ["2.1", "2.6", "2.7", "C2.1", "C2.10", "C2.12"]},
+      {"text": "Bulbasaur's seed is filled with nutrients, and its bulb stores energy.", "class": "canon", "confidence": "high", "evidence": ["1.2", "1.3", "C1.4", "C1.5"]}
+    ],
+    "diet": [
+      {"text": "It converts sunlight into energy through the flower on its back.", "class": "canon", "confidence": "high", "evidence": ["3.1", "3.2", "3.3", "3.4", "3.9", "C3.1", "C3.4", "C3.6", "C3.15"]},
+      {"text": "It also eats: Bulbasaur 'can go for days without eating a single morsel', which only makes sense for an animal that normally eats. What it eats is never said.", "class": "canon", "confidence": "medium", "evidence": ["1.2", "C1.3"]},
+      {"text": "So the line is a mixotroph, combining sunlight with food. How much of its energy comes from each is unknown.", "class": "inferred", "confidence": "medium", "evidence": ["3.4", "1.2", "2.5"], "analogy": "The sea slug Elysia chlorotica keeps chloroplasts from the algae it eats and can live partly on the sugars they make in sunlight."},
+      {"text": "The young live first on the seed: while it is young, Bulbasaur grows on the nutrients stored in the seed on its back.", "class": "canon", "confidence": "high", "evidence": ["1.5", "1.8", "C1.9", "C1.15"], "analogy": "As a germinating seed's stored reserves feed the seedling until it can photosynthesise, except that here the seed feeds the animal."},
+      {"text": "Ivysaur's bulb grows as it absorbs nutrients and draws energy, so the plant on its back is fed by the animal as well as by the sun.", "class": "canon", "confidence": "high", "evidence": ["2.2", "2.5", "C2.2", "C2.7"]}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat for the whole line: grassland.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "It needs sun: it stays on the move to seek sunlight, so open, unshaded country suits it best.", "class": "canon", "confidence": "high", "evidence": ["3.1", "3.9", "C3.2"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Bulbasaur is a starter gift in Pallet Town (Red, Blue, FireRed, LeafGreen, and HeartGold and SoulSilver after beating Red) and in Cerulean City in Yellow.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Bulbasaur"]}
+    ],
+    "behavior": [
+      {"text": "Diurnal and sun-following: it moves about to stay in sunlight and is more powerful in summer.", "class": "canon", "confidence": "high", "evidence": ["3.1", "3.4", "C3.7"]},
+      {"text": "Its petals release a pleasant fragrance as it warms itself in the sun.", "class": "canon", "confidence": "high", "evidence": ["3.5", "C3.8"]},
+      {"text": "The juveniles bask: Bulbasaur naps in bright sunlight, and Ivysaur spends more and more time lying in the sun as its bud nears blooming.", "class": "canon", "confidence": "high", "evidence": ["1.6", "2.6", "2.7", "C1.10", "C2.11", "C2.13"]}
+    ],
+    "social": [
+      {"text": "No entry describes groups or pairs.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its scent, stronger after rain, attracts other Pokémon; which ones, and why, is not said.", "class": "canon", "confidence": "high", "evidence": ["3.10", "C3.16", "C3.17"]}
+    ],
+    "reproduction": [
+      {"text": "Monster and Grass egg groups, 20 egg cycles, 87.5% male; the sex ratio is shared with the other starter lines and is probably a game convention.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Charmander", "species:Squirtle"]},
+      {"text": "Every Bulbasaur has a seed on its back from the day it is born.", "class": "canon", "confidence": "high", "evidence": ["1.4", "1.7", "C1.7", "C1.13"]},
+      {"text": "Whether Venusaur's flower sets seed, and whether that seed is the one each Bulbasaur carries, is the obvious question and nowhere answered.", "class": "unknown", "confidence": "high", "evidence": ["1.1", "3.6"]}
+    ],
+    "defense": [
+      {"text": "Its fragrance calms those engaged in battle.", "class": "canon", "confidence": "high", "evidence": ["3.8", "C3.13", "C3.14"]},
+      {"text": "Poison Powder and Sleep Powder (both Lv 13 by level-up) are powders, presumably from the plant, that poison or put attackers to sleep; it is Grass and Poison typed.", "class": "mechanic", "confidence": "high", "evidence": ["move:Poison Powder", "move:Sleep Powder", "game:types"]},
+      {"text": "Its size and weight alone discourage most attackers; no predator is named.", "class": "inferred", "confidence": "low", "evidence": ["game:size"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Following the sun implies it can sense light and warmth on its body or flower.", "class": "inferred", "confidence": "low", "evidence": ["3.1", "3.5"]}
+    ],
+    "life_cycle": [
+      {"text": "Bulbasaur (0.7 m, 6.9 kg) becomes Ivysaur at level 16 (1.0 m, 13 kg) and Venusaur at level 32 (2.0 m, 100 kg), a near eightfold jump in mass at the last step.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Bulbasaur", "species:Ivysaur"]},
+      {"text": "The plant grows with the animal: the seed grows steadily larger as the body grows, sprouting into a bulb.", "class": "canon", "confidence": "high", "evidence": ["1.1", "1.3", "1.4", "1.6", "1.7", "C1.2", "C1.6", "C1.8", "C1.12", "C1.14"]},
+      {"text": "Sunlight adds to Ivysaur's strength and makes its bud grow; when the bud swells and smells sweet, the large flower is about to bloom.", "class": "canon", "confidence": "high", "evidence": ["2.3", "2.4", "2.9", "2.10", "C2.4", "C2.5", "C2.6", "C2.16", "C2.17"]},
+      {"text": "The bud gives off an aroma when it is ready to bloom and a pleasant one once it has bloomed.", "class": "canon", "confidence": "high", "evidence": ["2.2", "2.5", "C2.3", "C2.8"]},
+      {"text": "Read as development: seed (stored food) in Bulbasaur, bud in Ivysaur, flower in Venusaur, with the animal moving from living on its seed to living partly on sunlight; the bloom and the evolution to Venusaur seem to be the same event.", "class": "inferred", "confidence": "medium", "evidence": ["1.5", "2.6", "3.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Sunlight: Growth (Lv 28), Synthesis (Lv 45) and Solar Beam (Lv 53) all draw on light, matching the solar-energy entries.", "class": "mechanic", "confidence": "high", "evidence": ["move:Growth", "move:Synthesis", "move:Solar Beam", "3.4"]},
+      {"text": "Scent: Sweet Scent (Lv 23) is the attracting aroma of 3.10 in move form, and in the field it draws wild Pokémon out.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sweet Scent", "3.10"]},
+      {"text": "Petal Dance is learned at Lv 32, the level at which it evolves and the flower blooms.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Petal Dance", "game:evolution"]},
+      {"text": "Plant weapons: Leech Seed (Lv 7), Vine Whip (Lv 9), Razor Leaf (Lv 20) and Worry Seed (Lv 39). Leech Seed, which plants a seed that drains the target, hints that the line can sow seeds on other animals.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Leech Seed", "move:Vine Whip", "move:Razor Leaf", "move:Worry Seed"]}
+    ],
+    "ecology": [
+      {"text": "Partly a primary producer: it makes energy from sunlight, so it sits low in the food web (trophic level about 1.5) even though it also eats.", "class": "inferred", "confidence": "medium", "evidence": ["3.4", "1.2"]},
+      {"text": "Its scent draws other Pokémon. If those include pollinators, the flower could be pollinated by them; if they include grazers or predators, it would be a hazard. Neither is described.", "class": "hypothesis", "confidence": "low", "evidence": ["3.10", "move:Sweet Scent"], "note": "3.10 says only that the scent attracts other Pokémon."}
+    ],
+    "humans": [
+      {"text": "The flower's aroma soothes people's emotions.", "class": "canon", "confidence": "high", "evidence": ["3.6", "3.7", "C3.11"]},
+      {"text": "In the games the line reaches people only as a starter.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Bulbasaur"]}
+    ],
+    "homestead": [
+      {"text": "A calming presence: its aroma soothes people and calms animals that are fighting, which makes it a candidate for the Hearth hall or a busy yard.", "class": "canon", "confidence": "high", "evidence": ["3.6", "3.8"], "capability": "calming_presence"},
+      {"text": "A lure: Sweet Scent, its own level-up move, draws wild Pokémon out, useful for census work or catching.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sweet Scent", "3.10"], "capability": "foraging"},
+      {"text": "Its weakest season is winter: it is strongest in summer sun, so on Blackthorn's short, cold days it would need the Glasshouse.", "class": "inferred", "confidence": "medium", "evidence": ["3.4", "3.1"]},
+      {"text": "Heavy work: at 2 m and 100 kg, with Strength from a machine, it can pull or push loads.", "class": "mechanic", "confidence": "medium", "evidence": ["game:size", "move:Strength"], "capability": "hauling"},
+      {"text": "Keep its poison and sleep powders in mind around grazing animals and their fodder.", "class": "inferred", "confidence": "low", "evidence": ["move:Poison Powder", "move:Sleep Powder"]},
+      {"text": "Bulbasaur raised here would need sunny ground to bask on; a young one that rarely sees sun may grow slowly.", "class": "inferred", "confidence": "low", "evidence": ["1.6", "2.3"]}
+    ]
+  },
+  "niche": {"guild": "mixotroph", "trophic_level": 1.5, "microhabitat": ["sunny open grassland"], "activity": "diurnal", "foraging": "basks and moves to follow the sun; juveniles draw on stored seed nutrients; some ordinary eating is implied but not described", "evidence": ["3.1", "3.4", "1.2", "1.5", "game:habitat"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "sunlight", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["3.2", "3.4"]},
+    {"with": "rain", "kind": "uses_resource", "class": "canon", "confidence": "low", "evidence": ["3.10"], "note": "After rain its scent is stronger; whether rain matters to it otherwise is not said."},
+    {"with": "Pokémon attracted by its scent", "kind": "mutualism", "class": "hypothesis", "confidence": "low", "evidence": ["3.10"], "note": "Only the attraction is canon. If the visitors pollinate the flower, this is a mutualism; if not, it may be nothing of the kind."}
+  ],
+  "ecotypes": [
+    {"name": "Rooted meadow-sitter", "moves": ["Ingrain", "Curse", "Amnesia"], "class": "hypothesis", "confidence": "low", "reading": "Ingrain puts down roots that feed the user but stop it fleeing, Curse trades speed for toughness, and Amnesia steadies its resistance. Together they describe a lineage that stops following the sun and roots instead, the reverse of 3.1's 'stays on the move'. Fits rich, reliably sunny meadows where staying put pays.", "behavior": "Settles into one sunny patch for weeks and won't be moved.", "evidence": ["3.1", "move:Ingrain", "move:Curse", "move:Amnesia"]},
+    {"name": "Lullaby bloom", "moves": ["Grass Whistle", "Charm", "Safeguard"], "class": "hypothesis", "confidence": "low", "reading": "Grass Whistle is a soothing melody that puts the listener to sleep, Charm softens an attacker, and Safeguard protects against status harm. A lineage that pacifies rather than fights, extending the calming aroma of 3.8 to sound. Fits meadows shared with many large grazers, or a homestead.", "behavior": "Hums and wafts scent until the quarrel around it stops.", "evidence": ["3.8", "move:Grass Whistle", "move:Charm", "move:Safeguard"]},
+    {"name": "Shade bramble", "moves": ["Sludge", "Power Whip"], "class": "hypothesis", "confidence": "low", "reading": "Sludge is a poisonous splash and Power Whip a heavy lash of vines. A lineage that spends less on basking and more on defence, poisoning and whipping what comes close. Fits damp, part-shaded woodland edges where sunlight is short and the plant on its back can't carry it alone.", "behavior": "Sits low in the undergrowth and lashes out with vines.", "evidence": ["game:types", "move:Sludge", "move:Power Whip"]}
+  ],
+  "open_questions": [
+    "What does the line eat, and how much of its energy comes from sunlight?",
+    "Does Venusaur's flower set seed, and is that where Bulbasaur's seed comes from?",
+    "Is the seed 'planted' at birth (1.1) or simply present from birth (1.4, 1.7)?",
+    "Which Pokémon does its scent attract, and do they pollinate it?",
+    "How does it cope with highland winters, short days and snow cover?",
+    "Are the animal and the plant one organism, or two in partnership?"
+  ],
+  "contradictions": [
+    {"topic": "Where Bulbasaur's seed comes from", "entries": ["1.1", "1.4", "1.7"], "note": "Red, Blue and LeafGreen (1.1) say a strange seed was planted on its back at birth, implying something does the planting; Silver, SoulSilver and FireRed (1.4, 1.7) say it carries the seed from the day it is born, implying it is born with it."}
+  ],
+  "folklore": [
+    {"text": "Venusaur's flower is said to take on vivid colours if it gets plenty of nutrition and sunlight.", "evidence": ["3.6", "3.7", "C3.10", "C3.12"], "note": "Reported belief; plausible for a plant, but not stated as fact."},
+    {"text": "Ivysaur's bulb is said to blossom into a large flower when it absorbs nutrients.", "evidence": ["2.8", "C2.15"], "note": "Line folklore. Other entries state the blooming as fact (2.6, 2.9)."}
+  ]
+}

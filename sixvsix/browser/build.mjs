@@ -13,7 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as esbuild from 'esbuild';
+import { slimPlugin, bundle as bundleWith } from './slim.mjs';
 import { runJobSync, fingerprint, validateTeam, ENGINE, runExperiment } from '../src/index.js';
 import { nodeRunner } from '../src/runner-node.js';
 import { PRESETS } from '../cli/presets.mjs';
@@ -26,28 +26,7 @@ fs.mkdirSync(path.join(DIST, 'appscript'), { recursive: true });
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 const BUILD = `${pkg.version}+${new Date().toISOString().slice(0, 10)}`;
 
-/** Data the battle-only build leaves out. Battles never read it; test-browser.mjs proves the battles are identical. */
-const slimPlugin = {
-  name: 'battle-only',
-  setup(build) {
-    build.onResolve({ filter: /(learnsets|legality)\.mjs$/ }, (a) => ({ path: a.path, namespace: 'stub' }));
-    build.onResolve({ filter: /data\/text\/(abilities|items|moves)\.mjs$/ }, (a) => ({ path: a.path, namespace: 'stub' }));
-    build.onLoad({ filter: /.*/, namespace: 'stub' }, (a) => {
-      const name = a.path.includes('legality') ? 'Legality' : a.path.includes('learnsets') ? 'Learnsets'
-        : a.path.includes('abilities') ? 'AbilitiesText' : a.path.includes('items') ? 'ItemsText' : 'MovesText';
-      return { contents: `export const ${name} = {};`, loader: 'js' };
-    });
-  },
-};
-
-async function bundle(outfile, plugins = []) {
-  const r = await esbuild.build({
-    entryPoints: [path.join(HERE, 'entry.js')], bundle: true, minify: true, format: 'iife', platform: 'browser',
-    target: ['es2020', 'safari15'], outfile, plugins, metafile: true, legalComments: 'none',
-    define: { __SIXVSIX_BUILD__: JSON.stringify(BUILD) }, logLevel: 'warning',
-  });
-  return fs.statSync(outfile).size;
-}
+async function bundle(outfile, plugins = []) { return bundleWith(outfile, { plugins, build: BUILD }); }
 
 const fullSize = await bundle(path.join(DIST, 'sixvsix.full.js'));
 const slimSize = await bundle(path.join(DIST, 'sixvsix.battle.js'), [slimPlugin]);

@@ -1,0 +1,736 @@
+{
+  "_note": "The trainer ecosystem's proposals (v1, D-077): more versions of the anime's trainers, kept outside canon/. Every version and build here is status 'proposed' until approved; canon wins any id clash. Check with: python3 -I engine/trainers/ecosystem.py --check",
+  "trainers": {
+    "ash": {
+      "name": "Ash",
+      "versions": {
+        "orange-league": {
+          "title": "Ash at the Orange League (Winner's Cup)",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Orange Islands (the Winner's Cup against Drake)",
+          "era": "Orange Islands",
+          "team": {"builds": ["eco:ash-orange/tauros", "eco:ash-orange/lapras", "eco:ash-orange/squirtle", "eco:ash-orange/bulbasaur", "eco:ash-orange/charizard", "eco:ash-orange/pikachu"]},
+          "sliders": {
+            "offense": {"value": 75, "why": "still leads with his strongest attack"},
+            "rigidity": {"value": 35, "why": "starting to improvise (Charizard's Seismic Toss on Dragonite)"},
+            "bond": {"value": 90, "why": "Charizard finally listens to him in this final"},
+            "risk": {"value": 75, "why": "a six-on-six he won by refusing to switch out"}
+          },
+          "roles": ["Champion"],
+          "notes": ["The lead order is the Winner's Cup order as the show plays it."],
+          "signature_moves": [{"pokemon": "Charizard", "move": "Seismic Toss", "why": "the throw that beat Drake's Dragonite", "status": "confirmed"}]
+        },
+        "silver-conference": {
+          "title": "Ash at the Silver Conference (Johto League)",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Johto: Silver Conference (the full battles with Gary and Harrison)",
+          "era": "Johto (Master Quest)",
+          "team": {"builds": ["eco:ash-silver-conference/pikachu", "eco:ash-silver-conference/charizard", "eco:ash-silver-conference/snorlax", "eco:ash-silver-conference/heracross", "eco:ash-silver-conference/totodile", "eco:ash-silver-conference/kingler"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "Charizard and Snorlax trade raw power with Gary's six"},
+            "rigidity": {"value": 35, "why": "changes plans mid-battle: Charizard grapples Blastoise instead of out-blasting it"},
+            "bond": {"value": 95, "why": "Charizard comes back from the Charicific Valley to fight for him"},
+            "risk": {"value": 70, "why": "slugs it out with Gary's Blastoise until one of them falls"}
+          },
+          "roles": [],
+          "notes": ["The show doesn't field one six for the whole Conference: Ash swapped Pokémon between the Gary and Harrison full battles (Bayleef, Cyndaquil, Noctowl and Muk also fought there). These six are my reading of who carried the two full battles; confirm the lineups against the episodes.", "Lost the quarterfinal to Harrison when Blaziken beat Charizard (lore)."],
+          "signature_moves": [{"pokemon": "Charizard", "move": "Seismic Toss", "why": "the throw that finally beat Gary's Blastoise", "status": "confirmed"}]
+        },
+        "johto-best": {
+          "title": "Ash's Johto best (his Johto catches)",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Johto to Diamond & Pearl: the six Pokémon Ash caught or hatched in Johto",
+          "era": "Johto (best-of)",
+          "team": {"builds": ["eco:ash-johto-best/bayleef", "eco:ash-johto-best/quilava", "eco:ash-johto-best/totodile", "eco:ash-johto-best/heracross", "eco:ash-johto-best/noctowl", "eco:ash-johto-best/donphan"]},
+          "sliders": {
+            "offense": {"value": 60, "why": "starters and a bug who hit hard, with Hypnosis and Defense Curl to set up"},
+            "rigidity": {"value": 30, "why": "Noctowl's Foresight and Totodile's dancing: tricks over brute force"},
+            "bond": {"value": 95, "why": "Bayleef's loving tackles; every one of them came to him as a baby or a wild friend"},
+            "risk": {"value": 60, "why": "a curated six, played Ash's way: attack first and believe"}
+          },
+          "roles": [],
+          "notes": ["A best-of: the six Pokémon Ash caught or hatched in Johto, with their strongest Gen I–IV-era form and moves (Quilava evolved in Diamond & Pearl; Donphan after Johto). Larvitar is left out (he hatched it and took it home to its mother), and Pikachu isn't a Johto catch.", "A best-of carries Ash's whole Gen I–IV career (through Lily of the Valley)."]
+        },
+        "ever-grande": {
+          "title": "Ash at the Ever Grande Conference (Hoenn League)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Advanced Generation: Ever Grande Conference (the quarterfinal full battle with Tyson)",
+          "era": "Hoenn (Advanced Generation)",
+          "team": {"builds": ["eco:ash-ever-grande/pikachu", "eco:ash-ever-grande/grovyle", "eco:ash-ever-grande/swellow", "eco:ash-ever-grande/corphish", "eco:ash-ever-grande/torkoal", "eco:ash-ever-grande/glalie"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "plans combos now, but still opens with his strongest attack"},
+            "rigidity": {"value": 35, "why": "Glalie's spinning Ice Beam and Torkoal's Iron Defense: using what each one has"},
+            "bond": {"value": 90, "why": "his Hoenn six from the first Gym to the last"},
+            "risk": {"value": 70, "why": "saves Pikachu for last against Tyson's Meowth and loses the coin flip"}
+          },
+          "roles": [],
+          "notes": ["These are the six he carried through Hoenn; as far as I can place it, he called no one back from Professor Oak's for the Conference (confirm).", "Lost the quarterfinal to Tyson, whose Meowth beat Pikachu (lore)."],
+          "signature_moves": [{"pokemon": "Corphish", "move": "Crabhammer", "why": "the claw it learned to rely on", "status": "confirmed"}, {"pokemon": "Torkoal", "move": "Overheat", "why": "its all-in fire blast", "status": "confirmed"}]
+        },
+        "battle-frontier": {
+          "title": "Ash at the Battle Frontier (Brandon's Battle Pyramid)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Advanced Generation (Battle Frontier): the Battle Pyramid battles with Brandon",
+          "era": "Battle Frontier (Advanced Generation)",
+          "team": {"builds": ["eco:ash-battle-frontier/charizard", "eco:ash-battle-frontier/bulbasaur", "eco:ash-battle-frontier/squirtle", "eco:ash-battle-frontier/pikachu", "eco:ash-battle-frontier/sceptile", "eco:ash-battle-frontier/torkoal"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "still leads with power, but sets up the finisher"},
+            "rigidity": {"value": 25, "why": "Pikachu's Iron Tail as a springboard into Volt Tackle; he builds on the field"},
+            "bond": {"value": 95, "why": "calls his Kanto partners home from Professor Oak's for the Frontier"},
+            "risk": {"value": 75, "why": "goes back to the Pyramid after losing and wins the four-on-four rematch"}
+          },
+          "roles": [],
+          "notes": ["Charizard, Bulbasaur, Squirtle and Pikachu are the four from the four-on-four rematch that won the Brave Symbol, in that order. Sceptile and Torkoal fought Brandon's Regirock and Registeel in the first Pyramid battle. The show never fields all six at once."],
+          "signature_moves": [{"pokemon": "Pikachu", "move": "Volt Tackle", "why": "learned in this era; the finisher on Brandon's Regice", "status": "confirmed"}, {"pokemon": "Bulbasaur", "move": "Solar Beam", "why": "beat Brandon's Dusclops", "status": "confirmed"}, {"pokemon": "Squirtle", "move": "Skull Bash", "why": "beat Brandon's Ninjask", "status": "confirmed"}]
+        },
+        "lily-semifinal": {
+          "title": "Ash at Lily of the Valley (semifinal against Tobias)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl (Sinnoh League Victors): Lily of the Valley semifinal with Tobias",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:ash-lily-semifinal/heracross", "eco:ash-lily-semifinal/infernape", "eco:ash-lily-semifinal/torterra", "eco:ash-lily-semifinal/sceptile", "eco:ash-lily-semifinal/swellow", "eco:ash-lily-semifinal/pikachu"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "takes the fight to Darkrai and Latios from the first turn"},
+            "rigidity": {"value": 20, "why": "brings back Sceptile and Swellow from Professor Oak's for an opponent nobody had beaten"},
+            "bond": {"value": 95, "why": "partners from three regions answer his call"},
+            "risk": {"value": 75, "why": "keeps sending them at Darkrai and Latios after Darkrai sweeps his first three"}
+          },
+          "roles": [],
+          "notes": ["Distinct from canon's Sinnoh version (his Diamond & Pearl core): for Tobias he brought back Sceptile, Swellow and Heracross. Tobias used only Darkrai and Latios; Ash used all six. My reading is that Sceptile was the one to bring Darkrai down and Latios finished the battle against Pikachu; the order and who beat whom need confirming against the episodes."],
+          "signature_moves": [{"pokemon": "Sceptile", "move": "Leaf Storm", "why": "the attack it brought back for Tobias", "status": "proposed"}, {"pokemon": "Pikachu", "move": "Volt Tackle", "why": "the finisher, by Sinnoh", "status": "confirmed"}]
+        },
+        "kanto-best": {
+          "title": "Ash's Kanto best (his Kanto catches)",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Indigo League to Battle Frontier: the best six of the Pokémon Ash caught in Kanto",
+          "era": "Kanto (best-of)",
+          "team": {"builds": ["eco:ash-kanto-best/pikachu", "eco:ash-kanto-best/charizard", "eco:ash-kanto-best/bulbasaur", "eco:ash-kanto-best/squirtle", "eco:ash-kanto-best/kingler", "eco:ash-kanto-best/tauros"]},
+          "sliders": {
+            "offense": {"value": 75, "why": "his oldest partners at full power: Volt Tackle, Seismic Toss, Hyper Beam"},
+            "rigidity": {"value": 30, "why": "every trick from Kanto to the Frontier"},
+            "bond": {"value": 98, "why": "the partners he started with, who came home for the Frontier"},
+            "risk": {"value": 75, "why": "will gamble for the win"}
+          },
+          "roles": [],
+          "notes": ["A best-of: the best six of the Pokémon Ash caught in Kanto, with their Gen I–IV-era peak moves (Pikachu's Volt Tackle, Charizard after the Charicific Valley). On the bench: Pidgeot (released in Kanto), Muk, Butterfree (released), Primeape (left to train). Snorlax and Lapras are Orange Islands catches.", "Distinct from canon's Kanto version (the Indigo League team): Tauros for Pidgeotto, and later-era moves.", "A best-of carries Ash's whole Gen I–IV career (through Lily of the Valley)."]
+        },
+        "sinnoh-best": {
+          "title": "Ash's Sinnoh best (his Sinnoh catches)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl: the six Pokémon Ash caught in Sinnoh",
+          "era": "Sinnoh (best-of)",
+          "team": {"builds": ["eco:ash-sinnoh-best/staraptor", "eco:ash-sinnoh-best/torterra", "eco:ash-sinnoh-best/buizel", "eco:ash-sinnoh-best/gliscor", "eco:ash-sinnoh-best/gible", "eco:ash-sinnoh-best/infernape"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "strikes first with planned combos"},
+            "rigidity": {"value": 25, "why": "Counter Shield and using the field"},
+            "bond": {"value": 95, "why": "took in Paul's Chimchar and made it his ace"},
+            "risk": {"value": 70, "why": "takes chances, but measured ones"}
+          },
+          "roles": [],
+          "notes": ["A best-of: the six Pokémon Ash caught in Sinnoh (Aipom, traded to Dawn for Buizel, is left out; Pikachu isn't a Sinnoh catch). Distinct from canon's Sinnoh version: Gible in for Pikachu.", "A best-of carries Ash's whole Gen I–IV career (through Lily of the Valley)."],
+          "signature_moves": [{"pokemon": "Infernape", "move": "Flare Blitz", "why": "the Blaze-powered finisher against Paul", "status": "proposed"}, {"pokemon": "Gible", "move": "Draco Meteor", "why": "the move it couldn't aim", "status": "confirmed"}]
+        }
+      },
+      "career": [
+        {"region": "Kanto", "event": "Kanto Gyms", "kind": "gym", "result": "earned the eight badges that entered him in the Indigo League", "versions": ["orange-league", "silver-conference", "johto-best", "ever-grande", "battle-frontier", "lily-semifinal", "kanto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Orange Archipelago", "event": "Orange League", "kind": "league", "result": "won: four Orange Crew badges, then beat Drake in the Winner's Cup", "title": "Orange League Champion", "champion": true, "versions": ["orange-league", "silver-conference", "johto-best", "ever-grande", "battle-frontier", "lily-semifinal", "kanto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Johto", "event": "Johto Gyms", "kind": "gym", "result": "earned the eight Johto badges", "versions": ["silver-conference", "ever-grande", "battle-frontier", "lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Johto", "event": "Silver Conference", "kind": "league", "result": "Top 8 (beat Gary in a full battle, lost to Harrison)", "versions": ["silver-conference", "ever-grande", "battle-frontier", "lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Johto", "event": "Silver Conference", "kind": "rivalry", "result": "beat Gary six-on-six in the Victory Tournament", "versions": ["silver-conference", "ever-grande", "battle-frontier", "lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Hoenn", "event": "Hoenn Gyms", "kind": "gym", "result": "earned the eight Hoenn badges", "versions": ["ever-grande", "battle-frontier", "lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Hoenn", "event": "Ever Grande Conference", "kind": "league", "result": "Top 8 (lost to Tyson)", "versions": ["ever-grande", "battle-frontier", "lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Kanto", "event": "Battle Frontier", "kind": "frontier", "result": "beat all seven Frontier Brains (seven Frontier Symbols); offered a Frontier Brain post and declined", "versions": ["battle-frontier", "lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Sinnoh", "event": "Sinnoh Gyms", "kind": "gym", "result": "earned the eight Sinnoh badges", "versions": ["lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Sinnoh", "event": "Lily of the Valley Conference", "kind": "league", "result": "Top 4 (beat Paul in the quarterfinal full battle, lost to Tobias)", "versions": ["lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"},
+        {"region": "Sinnoh", "event": "Lily of the Valley Conference", "kind": "rivalry", "result": "beat Paul six-on-six, after losing the Lake Acuity full battle to him", "versions": ["lily-semifinal", "kanto-best", "johto-best", "sinnoh-best"], "source": "anime"}
+      ]
+    },
+    "gary": {
+      "name": "Gary",
+      "versions": {
+        "indigo": {
+          "title": "Gary at the Indigo League (Kanto)",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Indigo League: the Viridian Gym battle and the Indigo Plateau Conference",
+          "era": "Kanto (Indigo League)",
+          "team": {"builds": ["eco:gary-indigo/nidoking", "eco:gary-indigo/kingler", "eco:gary-indigo/golem", "eco:gary-indigo/arcanine", "eco:gary-indigo/eevee", "eco:gary-indigo/blastoise"]},
+          "sliders": {
+            "offense": {"value": 65, "why": "wins on numbers: more badges and more Pokémon than anyone at Pallet"},
+            "rigidity": {"value": 50, "why": "a set lineup he trusts more than any plan"},
+            "bond": {"value": 45, "why": "a show-off with cheerleaders and a convertible; his Pokémon are his record"},
+            "risk": {"value": 55, "why": "walks into the Viridian Gym alone and loses everything to Giovanni's Mewtwo"}
+          },
+          "roles": [],
+          "notes": ["The show never fields these six at once in Kanto. They are the Pokémon he is shown with in the Indigo League era (the Viridian Gym battle with Giovanni's Mewtwo and the Indigo Plateau Conference); confirm the lineup against the episodes.", "Smell ya later (lore)."]
+        },
+        "sinnoh-researcher": {
+          "title": "Gary the researcher (Sinnoh)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl: Gary as a Pokémon researcher",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:gary-sinnoh-researcher/umbreon", "eco:gary-sinnoh-researcher/scizor", "eco:gary-sinnoh-researcher/nidoqueen", "eco:gary-sinnoh-researcher/arcanine", "eco:gary-sinnoh-researcher/blastoise", "eco:gary-sinnoh-researcher/electivire"]},
+          "sliders": {
+            "offense": {"value": 55, "why": "studies the matchup first, then strikes"},
+            "rigidity": {"value": 30, "why": "a researcher reads the opponent before he chooses"},
+            "bond": {"value": 80, "why": "grew from a show-off into a partner"},
+            "risk": {"value": 35, "why": "calculated, never reckless"}
+          },
+          "roles": [],
+          "notes": ["The show fields Electivire and Umbreon in Sinnoh; the other four are his long-time team from the Silver Conference, with their moves as of then. The show never fields all six here."]
+        }
+      },
+      "career": [
+        {"region": "Kanto", "event": "Pallet Town", "kind": "rivalry", "result": "Ash's rival from the first episode", "versions": ["indigo", "sinnoh-researcher"], "source": "anime"},
+        {"region": "Kanto", "event": "Indigo Plateau Conference", "kind": "league", "result": "Top 32 (EP077, The Fourth Round Rumble)", "versions": ["indigo", "sinnoh-researcher"], "source": "anime"},
+        {"region": "Johto", "event": "Silver Conference", "kind": "league", "result": "Top 16 (lost to Ash)", "versions": ["sinnoh-researcher"], "source": "anime"},
+        {"region": "Johto", "event": "after the Silver Conference", "kind": "milestone", "result": "gave up League battling to become a Pokémon researcher", "versions": ["sinnoh-researcher"], "source": "anime"},
+        {"region": "Sinnoh", "event": "Sinnoh research", "kind": "milestone", "result": "works in Sinnoh as a Pokémon researcher", "versions": ["sinnoh-researcher"], "source": "anime"}
+      ]
+    },
+    "paul": {
+      "name": "Paul",
+      "versions": {
+        "early-sinnoh": {
+          "title": "Paul early in Sinnoh (before releasing Chimchar)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl: Paul's first battles with Ash, up to the Hearthome Tag Battle",
+          "era": "Sinnoh (early Diamond & Pearl)",
+          "team": {"builds": ["eco:paul-early-sinnoh/staravia", "eco:paul-early-sinnoh/elekid", "eco:paul-early-sinnoh/grotle", "eco:paul-early-sinnoh/murkrow", "eco:paul-early-sinnoh/azumarill", "eco:paul-early-sinnoh/chimchar"]},
+          "sliders": {
+            "offense": {"value": 80, "why": "overwhelming power from the start"},
+            "rigidity": {"value": 80, "why": "already a system: catch, test, cut what doesn't perform"},
+            "bond": {"value": 35, "why": "Pokémon are judged by results; Chimchar is pushed until it breaks"},
+            "risk": {"value": 35, "why": "calculated, never reckless"}
+          },
+          "roles": [],
+          "notes": ["The show doesn't field these six at once: Paul's early battles with Ash were two- and three-on-three. Chimchar, Elekid and Staravia are the ones the show confirms for this stretch; Grotle, Murkrow and Azumarill are my reading of his roster then and need confirming.", "Released Chimchar after the Hearthome Tag Battle; Ash took it in (lore)."],
+          "signature_moves": [{"pokemon": "Chimchar", "move": "Flamethrower", "why": "the attack he trained it to fire on command", "status": "proposed"}]
+        },
+        "lake-acuity": {
+          "title": "Paul at Lake Acuity (full battle with Ash)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl (Galactic Battles): the Lake Acuity full battle with Ash",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:paul-lake-acuity/ninjask", "eco:paul-lake-acuity/weavile", "eco:paul-lake-acuity/gastrodon", "eco:paul-lake-acuity/ursaring", "eco:paul-lake-acuity/electabuzz", "eco:paul-lake-acuity/torterra"]},
+          "sliders": {
+            "offense": {"value": 85, "why": "overwhelming power to win fast"},
+            "rigidity": {"value": 85, "why": "every Pokémon trained for one job"},
+            "bond": {"value": 55, "why": "demanding: praise is never part of the plan"},
+            "risk": {"value": 30, "why": "calculated, never reckless"}
+          },
+          "roles": [],
+          "notes": ["Paul won this full battle. The lineup is my reconstruction from the Pokémon he used in this arc; the show's exact six (and order) need confirming against the episode."],
+          "signature_moves": [{"pokemon": "Torterra", "move": "Leaf Storm", "why": "his heaviest hit", "status": "proposed"}],
+          "overrides": {"ace": "Torterra"}
+        },
+        "battle-pyramid": {
+          "title": "Paul at the Battle Pyramid (full battle with Brandon)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl (Galactic Battles): Paul's full battle with Brandon at the Battle Pyramid",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:paul-battle-pyramid/hariyama", "eco:paul-battle-pyramid/electabuzz", "eco:paul-battle-pyramid/ursaring", "eco:paul-battle-pyramid/magmar", "eco:paul-battle-pyramid/nidoking", "eco:paul-battle-pyramid/lairon"]},
+          "sliders": {
+            "offense": {"value": 85, "why": "throws power at the Regis until something breaks"},
+            "rigidity": {"value": 85, "why": "the same plan into a wall, six times"},
+            "bond": {"value": 50, "why": "demanding: the loss is theirs, not his"},
+            "risk": {"value": 45, "why": "challenges the Frontier's strongest Brain to a full battle"}
+          },
+          "roles": [],
+          "notes": ["The six are the show's (Bulbapedia, Brandon (anime)): Regirock beat Hariyama, Electabuzz, Ursaring and Magmar; Registeel beat Nidoking; Regice beat Lairon. Brandon needed only his three Regis. The order here isn't the battle's.", "The Battle Pyramid was in Sinnoh for this battle (it travels)."]
+        }
+      },
+      "career": [
+        {"region": "Sinnoh", "event": "Hearthome City", "kind": "milestone", "result": "released Chimchar after the Tag Battle; Ash took it in", "versions": ["lake-acuity", "battle-pyramid"], "source": "anime"},
+        {"region": "Sinnoh", "event": "Lake Acuity full battle", "kind": "rivalry", "result": "beat Ash six-on-six", "versions": ["lake-acuity"], "source": "anime"}
+      ]
+    },
+    "harrison": {
+      "name": "Harrison",
+      "notes": ["From Littleroot Town in Hoenn; he told Ash about Hoenn after the Silver Conference (lore)."],
+      "versions": {
+        "silver-conference": {
+          "title": "Harrison at the Silver Conference",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Johto (Master Quest): Silver Conference quarterfinal with Ash",
+          "era": "Johto (Master Quest)",
+          "team": {"builds": ["eco:harrison-silver-conference/hypno", "eco:harrison-silver-conference/kecleon", "eco:harrison-silver-conference/steelix", "eco:harrison-silver-conference/houndoom", "eco:harrison-silver-conference/sneasel", "eco:harrison-silver-conference/blaziken"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "Blaziken's kicks end the battle"},
+            "rigidity": {"value": 45, "why": "a plan for each matchup: Kecleon's invisibility against an opponent who can't see it"},
+            "bond": {"value": 70, "why": "fights as a team: each one has a job he trusts it with"},
+            "risk": {"value": 40, "why": "patient: keeps his ace for the last round"}
+          },
+          "roles": [],
+          "notes": ["The six are his Silver Conference full battle with Ash, as I read it; the order is my guess (Blaziken last, as in the show).", "The semifinal loss is as I recall the show, which doesn't dwell on who beat him. Confirm."],
+          "signature_moves": [{"pokemon": "Blaziken", "move": "Sky Uppercut", "why": "the uppercut that beat Ash's Charizard", "status": "proposed"}]
+        }
+      },
+      "career": [
+        {"region": "Johto", "event": "Johto Gyms", "kind": "gym", "result": "earned the eight Johto badges", "source": "anime"},
+        {"region": "Johto", "event": "Silver Conference", "kind": "league", "result": "Top 4 (beat Ash in the quarterfinal full battle; lost in the semifinal)", "source": "anime"}
+      ]
+    },
+    "tyson": {
+      "name": "Tyson",
+      "versions": {
+        "ever-grande": {
+          "title": "Tyson at the Ever Grande Conference (winner)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Advanced Generation: Ever Grande Conference (beat Ash in the quarterfinal, then won)",
+          "era": "Hoenn (Advanced Generation)",
+          "team": {"builds": ["eco:tyson-ever-grande/shiftry", "eco:tyson-ever-grande/donphan", "eco:tyson-ever-grande/hariyama", "eco:tyson-ever-grande/metagross", "eco:tyson-ever-grande/sceptile", "eco:tyson-ever-grande/meowth"]},
+          "sliders": {
+            "offense": {"value": 65, "why": "a balanced six that hits hard on every type"},
+            "rigidity": {"value": 40, "why": "answers Ash's combos with his own"},
+            "bond": {"value": 85, "why": "Meowth, in boots and a hat, is his ace and partner"},
+            "risk": {"value": 40, "why": "saves Meowth for last, then trusts it"}
+          },
+          "roles": [],
+          "notes": ["The show doesn't confirm the order he fielded them in; Meowth last follows the quarterfinal's ending."],
+          "signature_moves": [{"pokemon": "Meowth", "move": "Iron Tail", "why": "the clash with Pikachu that won the quarterfinal", "status": "proposed"}],
+          "overrides": {"ace": "Meowth"}
+        }
+      },
+      "career": [
+        {"region": "Hoenn", "event": "Hoenn Gyms", "kind": "gym", "result": "earned the eight Hoenn badges", "source": "anime"},
+        {"region": "Hoenn", "event": "Ever Grande Conference", "kind": "league", "result": "won (beat Ash in the quarterfinal full battle)", "title": "Ever Grande Conference Winner", "champion": true, "source": "anime"}
+      ]
+    },
+    "brandon": {
+      "name": "Brandon",
+      "notes": ["The Battle Frontier's chief Frontier Brain, the Pyramid King; an explorer of ruins (lore)."],
+      "versions": {
+        "pyramid-king": {
+          "title": "Brandon, Pyramid King (the Battle Pyramid)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Advanced Generation (Battle Frontier): the Battle Pyramid battles with Ash",
+          "era": "Battle Frontier (Advanced Generation)",
+          "team": {"builds": ["eco:brandon-pyramid-king/dusclops", "eco:brandon-pyramid-king/ninjask", "eco:brandon-pyramid-king/solrock", "eco:brandon-pyramid-king/regice", "eco:brandon-pyramid-king/regirock", "eco:brandon-pyramid-king/registeel"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "the Regis' raw power"},
+            "rigidity": {"value": 55, "why": "a set gauntlet: Dusclops to wear challengers down, the Regis to finish"},
+            "bond": {"value": 70, "why": "an explorer who protects the Pokémon of the ruins"},
+            "risk": {"value": 30, "why": "measured: tests a challenger before unleashing the Legendaries"}
+          },
+          "roles": [],
+          "notes": ["Dusclops, Ninjask, Solrock and Regice are his four in the four-on-four rematch with Ash, in that order, with the show's moves for the first three (Bulbapedia, Brandon (anime)). Regirock and Registeel are from the first Pyramid battle and his full battle with Paul. The show never fields all six at once."]
+        }
+      },
+      "career": [
+        {"region": "Kanto", "event": "Battle Pyramid", "kind": "title", "result": "the Battle Pyramid's Frontier Brain; awards the Brave Symbol", "title": "Pyramid King", "source": "anime"},
+        {"region": "Kanto", "event": "Battle Pyramid", "kind": "frontier", "result": "beat Ash in their first battle; lost the four-on-four rematch (Ash's Brave Symbol)", "source": "anime"},
+        {"region": "Sinnoh", "event": "Battle Pyramid", "kind": "frontier", "result": "beat Paul in a full battle using only Regirock, Registeel and Regice", "source": "anime"}
+      ]
+    },
+    "barry": {
+      "name": "Barry",
+      "notes": ["Ash's Sinnoh rival; son of the Tower Tycoon (lore). Fines people for getting in his way."],
+      "versions": {
+        "lily-of-the-valley": {
+          "title": "Barry at Lily of the Valley",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl (Sinnoh League Victors): Lily of the Valley Conference",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:barry-lily-of-the-valley/staraptor", "eco:barry-lily-of-the-valley/heracross", "eco:barry-lily-of-the-valley/roserade", "eco:barry-lily-of-the-valley/skarmory", "eco:barry-lily-of-the-valley/snorlax", "eco:barry-lily-of-the-valley/empoleon"]},
+          "sliders": {
+            "offense": {"value": 80, "why": "charges in with his strongest attack"},
+            "rigidity": {"value": 40, "why": "copies the trainers he admires, then improvises"},
+            "bond": {"value": 80, "why": "loud about his Pokémon, and loud for them"},
+            "risk": {"value": 75, "why": "impatient: rushes for the big move"}
+          },
+          "roles": [],
+          "notes": ["The six are my reading of his roster at the Conference; Skarmory and Snorlax need confirming. The show doesn't field them six-on-six in the episodes I can place."]
+        }
+      },
+      "career": [
+        {"region": "Sinnoh", "event": "Sinnoh Gyms", "kind": "gym", "result": "earned the eight Sinnoh badges", "source": "anime"},
+        {"region": "Sinnoh", "event": "Lily of the Valley Conference", "kind": "league", "result": "Top 16 (lost to Paul)", "source": "anime"},
+        {"region": "Sinnoh", "event": "Sinnoh journey", "kind": "rivalry", "result": "Ash's rival through Sinnoh", "source": "anime"}
+      ]
+    },
+    "nando": {
+      "name": "Nando",
+      "notes": ["A wandering bard who entered both Gyms and Contests (lore)."],
+      "versions": {
+        "lily-of-the-valley": {
+          "title": "Nando at Lily of the Valley",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl: Nando as trainer and coordinator, to the Lily of the Valley Conference",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:nando-lily-of-the-valley/sunflora", "eco:nando-lily-of-the-valley/roserade", "eco:nando-lily-of-the-valley/armaldo", "eco:nando-lily-of-the-valley/altaria", "eco:nando-lily-of-the-valley/lopunny", "eco:nando-lily-of-the-valley/kricketune"]},
+          "sliders": {
+            "offense": {"value": 45, "why": "a performer: Sing and Petal Dance set the tempo before the strike"},
+            "rigidity": {"value": 35, "why": "moves between battles and appeals without changing who he is"},
+            "bond": {"value": 90, "why": "plays his harp to them; they're his ensemble"},
+            "risk": {"value": 40, "why": "patient, never pressing"}
+          },
+          "roles": [],
+          "notes": ["The show doesn't field these six at once. They're the Pokémon he is shown with across Diamond & Pearl; Lopunny needs confirming. Chosen over Conway because his roster is the better documented of the two."],
+          "signature_moves": [{"pokemon": "Kricketune", "move": "Sing", "why": "his bard's signature", "status": "proposed"}]
+        }
+      },
+      "career": [
+        {"region": "Sinnoh", "event": "Sinnoh Gyms and Contests", "kind": "milestone", "result": "earned eight Sinnoh badges and five contest ribbons in the same journey", "source": "anime"},
+        {"region": "Sinnoh", "event": "Lily of the Valley Conference", "kind": "league", "result": "lost to Ash in the Victory Tournament (round: draft, confirm)", "source": "anime"},
+        {"region": "Sinnoh", "event": "Sinnoh Grand Festival", "kind": "contest", "result": "competed (draft: confirm the result)", "source": "anime"}
+      ]
+    },
+    "zoey": {
+      "name": "Zoey",
+      "notes": ["Coordinator; Dawn's rival and friend (lore)."],
+      "versions": {
+        "grand-festival": {
+          "title": "Zoey (Sinnoh Grand Festival winner)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl (Sinnoh League Victors): the Sinnoh Grand Festival",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:zoey-grand-festival/glameow", "eco:zoey-grand-festival/mismagius", "eco:zoey-grand-festival/gastrodon", "eco:zoey-grand-festival/lumineon", "eco:zoey-grand-festival/leafeon", "eco:zoey-grand-festival/gallade"]},
+          "sliders": {
+            "offense": {"value": 55, "why": "the cool appeal first, then a clean strike"},
+            "rigidity": {"value": 30, "why": "contest combos: precise, and changed for each round"},
+            "bond": {"value": 85, "why": "close with every one of them"},
+            "risk": {"value": 40, "why": "keeps it cool under pressure"}
+          },
+          "roles": [],
+          "notes": ["A coordinator: the show never fields these six in one battle. They're the Pokémon she is shown with in Diamond & Pearl."]
+        }
+      },
+      "career": [
+        {"region": "Sinnoh", "event": "Sinnoh Grand Festival", "kind": "contest", "result": "won (beat Dawn in the final)", "title": "Sinnoh Top Coordinator", "champion": true, "source": "anime"},
+        {"region": "Sinnoh", "event": "Sinnoh contests", "kind": "rivalry", "result": "Dawn's rival through Sinnoh", "source": "anime"}
+      ]
+    },
+    "drake": {
+      "name": "Drake",
+      "notes": ["Head of the Orange Crew, the Orange League's Supreme Gym Leader (lore)."],
+      "versions": {
+        "winners-cup": {
+          "title": "Drake at the Orange League (Winner's Cup)",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Orange Islands: the Winner's Cup full battle with Ash",
+          "era": "Orange Islands",
+          "team": {"builds": ["eco:drake-winners-cup/ditto", "eco:drake-winners-cup/onix", "eco:drake-winners-cup/gengar", "eco:drake-winners-cup/venusaur", "eco:drake-winners-cup/electabuzz", "eco:drake-winners-cup/dragonite"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "a full six built around Dragonite's power"},
+            "rigidity": {"value": 50, "why": "a veteran's plan: Ditto to copy, Gengar to put them to sleep"},
+            "bond": {"value": 70, "why": "proud of his team and gracious when Ash beat him"},
+            "risk": {"value": 35, "why": "plays the veteran's percentages"}
+          },
+          "roles": ["Gym Leader"],
+          "notes": ["His six are the show's, all fielded in the Winner's Cup; the order is my reading."],
+          "overrides": {"ace": "Dragonite"}
+        }
+      },
+      "career": [
+        {"region": "Orange Archipelago", "event": "Orange League", "kind": "title", "result": "Head of the Orange Crew; lost the Winner's Cup full battle to Ash", "title": "Orange Crew Head", "source": "anime"}
+      ]
+    },
+    "cynthia": {
+      "name": "Cynthia",
+      "versions": {
+        "anime-sinnoh": {
+          "title": "Cynthia, Sinnoh Champion (as the anime shows her)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl and later series: Cynthia's Pokémon as the show uses them",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:cynthia-anime-sinnoh/spiritomb", "eco:cynthia-anime-sinnoh/gastrodon", "eco:cynthia-anime-sinnoh/lucario", "eco:cynthia-anime-sinnoh/milotic", "eco:cynthia-anime-sinnoh/togekiss", "eco:cynthia-anime-sinnoh/garchomp"]},
+          "sliders": {
+            "offense": {"value": 70, "why": "Garchomp ends battles fast"},
+            "rigidity": {"value": 25, "why": "calm, and reads each battle on its own terms"},
+            "bond": {"value": 90, "why": "treats every Pokémon, hers or not, with care"},
+            "risk": {"value": 30, "why": "never needs to gamble"}
+          },
+          "roles": ["Champion", "Region Champion"],
+          "notes": ["Garchomp is the one she battles with in Diamond & Pearl. The other five are Pokémon the anime shows her with across Diamond & Pearl and later series; Gastrodon takes Roserade's place from her game team. The show never fields all six at once; which series shows each one: draft, confirm."],
+          "signature_moves": [{"pokemon": "Garchomp", "move": "Dragon Rush", "why": "the charge that flattened Paul's team", "status": "proposed"}],
+          "overrides": {"ace": "Garchomp"}
+        }
+      },
+      "career": [
+        {"region": "Sinnoh", "event": "exhibition with Paul", "kind": "milestone", "result": "beat Paul's team with Garchomp: a defining loss for him", "versions": ["anime-sinnoh"], "source": "anime"}
+      ]
+    },
+    "lance": {
+      "name": "Lance",
+      "versions": {
+        "anime-johto": {
+          "title": "Lance, Dragon Master (as the anime shows him)",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Johto (the Lake of Rage) and later series: Lance's Pokémon as the show and his games give them",
+          "era": "Johto (Johto Journeys)",
+          "team": {"builds": ["eco:lance-anime-johto/gyarados", "eco:lance-anime-johto/aerodactyl", "eco:lance-anime-johto/charizard", "eco:lance-anime-johto/dragonair", "eco:lance-anime-johto/dragonite-2", "eco:lance-anime-johto/dragonite"]},
+          "sliders": {
+            "offense": {"value": 80, "why": "Hyper Beam first"},
+            "rigidity": {"value": 55, "why": "dragons, and a code of protecting Pokémon"},
+            "bond": {"value": 85, "why": "protects Pokémon from Team Rocket's experiments at the Lake of Rage"},
+            "risk": {"value": 50, "why": "will fire the big move"}
+          },
+          "roles": ["Champion", "Region Champion"],
+          "notes": ["The show gives Lance only Dragonite and the red Gyarados in Johto. The others are from his game teams, and each says so: Aerodactyl, Charizard and a second Dragonite from HeartGold (which has three), Dragonair from Red/Blue. No Kingdra: that's Clair's. The Johto episodes call him a Dragon master and a G-Man; the anime names him the Champion later, so the Champion tags are proposed for this version."],
+          "signature_moves": [{"pokemon": "Dragonite", "move": "Hyper Beam", "why": "a dragon master's signature", "status": "proposed"}],
+          "overrides": {"ace": "Dragonite"}
+        }
+      },
+      "career": [
+        {"region": "Johto", "event": "Lake of Rage", "kind": "milestone", "result": "caught the red Gyarados and broke up Team Rocket's operation there, with Ash", "versions": ["anime-johto"], "source": "anime"}
+      ]
+    },
+    "wallace": {
+      "name": "Wallace",
+      "notes": ["The Hoenn Champion and a Top Coordinator (lore); host of the Wallace Cup."],
+      "versions": {
+        "wallace-cup": {
+          "title": "Wallace, Hoenn Champion (as the anime shows him)",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Diamond & Pearl: the Wallace Cup; Wallace's Pokémon as the show and his games give them",
+          "era": "Sinnoh (Diamond & Pearl)",
+          "team": {"builds": ["eco:wallace-wallace-cup/wailord", "eco:wallace-wallace-cup/tentacruel", "eco:wallace-wallace-cup/ludicolo", "eco:wallace-wallace-cup/whiscash", "eco:wallace-wallace-cup/gyarados", "eco:wallace-wallace-cup/milotic"]},
+          "sliders": {
+            "offense": {"value": 50, "why": "a Top Coordinator: beauty first, then power"},
+            "rigidity": {"value": 40, "why": "a water specialist who shows each move's best side"},
+            "bond": {"value": 90, "why": "Milotic is his partner on the stage"},
+            "risk": {"value": 35, "why": "elegant and unhurried"}
+          },
+          "roles": ["Champion", "Region Champion"],
+          "notes": ["The anime shows only Milotic; the other five are his Emerald Champion team, in its order, with its moves. The show doesn't give him a full battle."],
+          "overrides": {"ace": "Milotic"}
+        }
+      },
+      "career": [
+        {"region": "Hoenn", "event": "Hoenn League", "kind": "league", "result": "Champion", "title": "Hoenn Champion", "champion": true, "source": "anime"},
+        {"region": "Sinnoh", "event": "Wallace Cup", "kind": "contest", "result": "host and judge; Dawn won its Aqua Ribbon", "source": "anime"}
+      ]
+    },
+    "brock": {
+      "name": "Brock",
+      "versions": {
+        "anime-best": {
+          "title": "Brock's anime best",
+          "game": "platinum",
+          "kind": "anime",
+          "source": "anime, Indigo League to Diamond & Pearl: Brock's best six",
+          "era": "Kanto to Sinnoh (best-of)",
+          "team": {"builds": ["eco:brock-anime-best/forretress", "eco:brock-anime-best/crobat", "eco:brock-anime-best/ludicolo", "eco:brock-anime-best/marshtomp", "eco:brock-anime-best/croagunk", "eco:brock-anime-best/steelix"]},
+          "sliders": {
+            "offense": {"value": 30, "why": "rock walls and status: waits for the opening"},
+            "rigidity": {"value": 50, "why": "a Gym Leader's discipline"},
+            "bond": {"value": 95, "why": "a breeder and future Pokémon Doctor who knows what each Pokémon needs"},
+            "risk": {"value": 25, "why": "careful; Forretress's Self-Destruct is his one gamble"}
+          },
+          "roles": ["Gym Leader"],
+          "notes": ["A best-of from every series he traveled; the show never fields these six at once. On the bench: Sudowoodo, Geodude, Happiny, and Vulpix (given to Suzie)."],
+          "signature_moves": [{"pokemon": "Croagunk", "move": "Poison Jab", "why": "the jab that drags Brock away from every crush", "status": "confirmed"}],
+          "overrides": {"ace": "Steelix"}
+        }
+      },
+      "career": [
+        {"region": "Johto", "event": "Johto journey", "kind": "milestone", "result": "traveled Johto with Ash", "versions": ["anime-best"], "source": "anime"},
+        {"region": "Hoenn", "event": "Hoenn journey", "kind": "milestone", "result": "traveled Hoenn and the Battle Frontier with Ash", "versions": ["anime-best"], "source": "anime"},
+        {"region": "Sinnoh", "event": "Sinnoh journey", "kind": "milestone", "result": "traveled Sinnoh with Ash, then chose to become a Pokémon Doctor", "versions": ["anime-best"], "source": "anime"}
+      ]
+    },
+    "misty": {
+      "name": "Misty",
+      "versions": {
+        "anime-best": {
+          "title": "Misty's anime best",
+          "game": "heartgold",
+          "kind": "anime",
+          "source": "anime, Indigo League to Johto: Misty's best six",
+          "era": "Kanto to Johto (best-of)",
+          "team": {"builds": ["eco:misty-anime-best/staryu", "eco:misty-anime-best/psyduck", "eco:misty-anime-best/corsola", "eco:misty-anime-best/politoed", "eco:misty-anime-best/gyarados", "eco:misty-anime-best/starmie"]},
+          "sliders": {
+            "offense": {"value": 60, "why": "fast water attacks and a fiery temper"},
+            "rigidity": {"value": 50, "why": "a water specialist, by choice and by pride"},
+            "bond": {"value": 90, "why": "even Psyduck, who never comes out when called"},
+            "risk": {"value": 55, "why": "trusts her gut"}
+          },
+          "roles": ["Gym Leader"],
+          "notes": ["A best-of from her Kanto and Johto travels; the show never fields these six at once. On the bench: Togepi (left in Mirage Kingdom), Goldeen, Horsea, Azurill and Luvdisc."],
+          "signature_moves": [{"pokemon": "Psyduck", "move": "Confusion", "why": "only when its headache gets bad enough", "status": "confirmed"}],
+          "overrides": {"ace": "Starmie"}
+        }
+      },
+      "career": [
+        {"region": "Orange Archipelago", "event": "Orange Islands journey", "kind": "milestone", "result": "traveled the Orange Islands with Ash", "versions": ["anime-best"], "source": "anime"},
+        {"region": "Johto", "event": "Johto journey", "kind": "milestone", "result": "traveled Johto with Ash", "versions": ["anime-best"], "source": "anime"},
+        {"region": "Kanto", "event": "Cerulean Gym", "kind": "milestone", "result": "went home after Johto to run the Cerulean Gym", "versions": ["anime-best"], "source": "anime"}
+      ]
+    }
+  },
+  "builds": {
+    "eco:ash-orange/tauros": {"species": "Tauros", "moves": ["Take Down", "Horn Attack", "Tackle", "Stomp"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Stomp fills the fourth slot (a level-up move; the show uses three)."]},
+    "eco:ash-orange/lapras": {"species": "Lapras", "moves": ["Ice Beam", "Water Gun", "Body Slam", "Confuse Ray"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-orange/squirtle": {"species": "Squirtle", "moves": ["Water Gun", "Skull Bash", "Bubble", "Tackle"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-orange/bulbasaur": {"species": "Bulbasaur", "moves": ["Vine Whip", "Razor Leaf", "Solar Beam", "Tackle"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-orange/charizard": {"species": "Charizard", "moves": ["Flamethrower", "Seismic Toss", "Fire Spin", "Wing Attack"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-orange/pikachu": {"species": "Pikachu", "moves": ["Thunderbolt", "Thunder", "Quick Attack", "Agility"], "friendship": 255, "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "ability": "Static"},
+    "eco:ash-silver-conference/pikachu": {"species": "Pikachu", "moves": ["Thunderbolt", "Thunder", "Quick Attack", "Iron Tail"], "ability": "Static", "friendship": 255, "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-silver-conference/charizard": {"species": "Charizard", "moves": ["Flamethrower", "Seismic Toss", "Wing Attack", "Dragon Breath"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Back from the Charicific Valley for the Conference (lore).", "Dragon Breath: medium confidence for this era; the throw and Flamethrower are the show's."]},
+    "eco:ash-silver-conference/snorlax": {"species": "Snorlax", "moves": ["Body Slam", "Hyper Beam", "Ice Punch", "Rest"], "ability": "Thick Fat", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Rest fills the fourth slot (a level-up move; the show uses three).", "Thick Fat: the show doesn't name abilities; it suits Ice Punch against Gary's Fire types."]},
+    "eco:ash-silver-conference/heracross": {"species": "Heracross", "moves": ["Megahorn", "Horn Attack", "Tackle", "Brick Break"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Brick Break fills the fourth slot (a level-up move; the show uses three)."]},
+    "eco:ash-silver-conference/totodile": {"species": "Totodile", "moves": ["Water Gun", "Bite", "Scary Face", "Hydro Pump"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Hydro Pump: medium confidence for the Johto era."]},
+    "eco:ash-silver-conference/kingler": {"species": "Kingler", "moves": ["Crabhammer", "Hyper Beam", "Bubble", "Stomp"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Same set as his Indigo League Kingler."]},
+    "eco:ash-johto-best/bayleef": {"species": "Bayleef", "moves": ["Razor Leaf", "Vine Whip", "Body Slam", "Headbutt"], "ability": "Overgrow", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Body Slam is her famous 'loving tackle' (lore)."]},
+    "eco:ash-johto-best/quilava": {"species": "Quilava", "moves": ["Flamethrower", "Swift", "Quick Attack", "Smokescreen"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Cyndaquil evolved into Quilava in Diamond & Pearl; all four moves are from its Johto run."]},
+    "eco:ash-johto-best/totodile": {"species": "Totodile", "moves": ["Water Gun", "Bite", "Scary Face", "Hydro Pump"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Hydro Pump: medium confidence."]},
+    "eco:ash-johto-best/heracross": {"species": "Heracross", "moves": ["Megahorn", "Horn Attack", "Focus Punch", "Night Slash"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Focus Punch and Night Slash are from its later battles (Diamond & Pearl): medium confidence."]},
+    "eco:ash-johto-best/noctowl": {"species": "Noctowl", "moves": ["Hypnosis", "Confusion", "Peck", "Foresight"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Ash's Noctowl is shiny (lore). Foresight is how it found Harrison's invisible Kecleon."]},
+    "eco:ash-johto-best/donphan": {"species": "Donphan", "moves": ["Rollout", "Defense Curl", "Take Down", "Hyper Beam"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Hatched in Johto as a Phanpy; evolved later. Take Down and Hyper Beam: medium confidence."]},
+    "eco:ash-ever-grande/pikachu": {"species": "Pikachu", "moves": ["Thunderbolt", "Thunder", "Quick Attack", "Iron Tail"], "ability": "Static", "friendship": 255, "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["No Volt Tackle yet: Pikachu learns it in the Battle Frontier."]},
+    "eco:ash-ever-grande/grovyle": {"species": "Grovyle", "moves": ["Leaf Blade", "Bullet Seed", "Quick Attack", "Pound"], "ability": "Overgrow", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-ever-grande/swellow": {"species": "Swellow", "moves": ["Aerial Ace", "Wing Attack", "Quick Attack", "Double Team"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-ever-grande/corphish": {"species": "Corphish", "moves": ["Crabhammer", "Bubble Beam", "Harden", "Leer"], "ability": "Hyper Cutter", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-ever-grande/torkoal": {"species": "Torkoal", "moves": ["Overheat", "Flamethrower", "Iron Defense", "Body Slam"], "ability": "White Smoke", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-ever-grande/glalie": {"species": "Glalie", "moves": ["Ice Beam", "Headbutt", "Crunch", "Powder Snow"], "ability": "Inner Focus", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Snorunt, evolved in Hoenn (lore)."]},
+    "eco:ash-battle-frontier/charizard": {"species": "Charizard", "moves": ["Flamethrower", "Seismic Toss", "Wing Attack", "Dragon Breath"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-battle-frontier/bulbasaur": {"species": "Bulbasaur", "moves": ["Solar Beam", "Vine Whip", "Razor Leaf", "Tackle"], "ability": "Overgrow", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Solar Beam beat Brandon's Dusclops, then Bulbasaur and Solrock knocked each other out (lore)."]},
+    "eco:ash-battle-frontier/squirtle": {"species": "Squirtle", "moves": ["Skull Bash", "Hydro Pump", "Water Gun", "Withdraw"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Skull Bash beat Brandon's Ninjask (lore). Hydro Pump: medium confidence."]},
+    "eco:ash-battle-frontier/pikachu": {"species": "Pikachu", "moves": ["Volt Tackle", "Iron Tail", "Thunderbolt", "Quick Attack"], "ability": "Static", "friendship": 255, "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Iron Tail and Volt Tackle beat Brandon's Regice for the Brave Symbol (lore)."]},
+    "eco:ash-battle-frontier/sceptile": {"species": "Sceptile", "moves": ["Leaf Blade", "Bullet Seed", "Quick Attack", "Solar Beam"], "ability": "Overgrow", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Grovyle evolved into Sceptile in the Battle Frontier. Solar Beam: medium confidence."]},
+    "eco:ash-battle-frontier/torkoal": {"species": "Torkoal", "moves": ["Overheat", "Flamethrower", "Iron Defense", "Body Slam"], "ability": "White Smoke", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-lily-semifinal/heracross": {"species": "Heracross", "moves": ["Megahorn", "Focus Punch", "Horn Attack", "Brick Break"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Brick Break fills the fourth slot (a level-up move; the show uses three)."]},
+    "eco:ash-lily-semifinal/infernape": {"species": "Infernape", "moves": ["Flamethrower", "Mach Punch", "Flare Blitz", "Dig"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-lily-semifinal/torterra": {"species": "Torterra", "moves": ["Leaf Storm", "Rock Climb", "Energy Ball", "Synthesis"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Torterra in this slot is my reading; the show may have Gible here. Confirm."]},
+    "eco:ash-lily-semifinal/sceptile": {"species": "Sceptile", "moves": ["Leaf Blade", "Leaf Storm", "Bullet Seed", "Quick Attack"], "ability": "Overgrow", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Recalled from Professor Oak's for Tobias. Leaf Storm: medium confidence."]},
+    "eco:ash-lily-semifinal/swellow": {"species": "Swellow", "moves": ["Brave Bird", "Aerial Ace", "Quick Attack", "Wing Attack"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Recalled from Professor Oak's for Tobias. Brave Bird: medium confidence."]},
+    "eco:ash-lily-semifinal/pikachu": {"species": "Pikachu", "moves": ["Thunderbolt", "Iron Tail", "Volt Tackle", "Quick Attack"], "ability": "Static", "friendship": 255, "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-kanto-best/pikachu": {"species": "Pikachu", "moves": ["Thunderbolt", "Volt Tackle", "Iron Tail", "Quick Attack"], "ability": "Static", "friendship": 255, "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-kanto-best/charizard": {"species": "Charizard", "moves": ["Flamethrower", "Seismic Toss", "Dragon Breath", "Wing Attack"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-kanto-best/bulbasaur": {"species": "Bulbasaur", "moves": ["Solar Beam", "Razor Leaf", "Vine Whip", "Leech Seed"], "ability": "Overgrow", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-kanto-best/squirtle": {"species": "Squirtle", "moves": ["Skull Bash", "Hydro Pump", "Water Gun", "Withdraw"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-kanto-best/kingler": {"species": "Kingler", "moves": ["Crabhammer", "Hyper Beam", "Bubble", "Stomp"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-kanto-best/tauros": {"species": "Tauros", "moves": ["Take Down", "Horn Attack", "Tackle", "Stomp"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["One of the thirty from the Safari Zone; same set as the Orange League Tauros."]},
+    "eco:ash-sinnoh-best/staraptor": {"species": "Staraptor", "moves": ["Close Combat", "Brave Bird", "Aerial Ace", "Quick Attack"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-sinnoh-best/torterra": {"species": "Torterra", "moves": ["Leaf Storm", "Rock Climb", "Energy Ball", "Synthesis"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-sinnoh-best/buizel": {"species": "Buizel", "moves": ["Aqua Jet", "Water Gun", "Ice Punch", "Water Pulse"], "ability": "Swift Swim", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:ash-sinnoh-best/gliscor": {"species": "Gliscor", "moves": ["Steel Wing", "Fire Fang", "X-Scissor", "Giga Impact"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: medium confidence."]},
+    "eco:ash-sinnoh-best/gible": {"species": "Gible", "moves": ["Draco Meteor", "Dragon Pulse", "Rock Smash", "Dig"], "ability": "Sand Veil", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Draco Meteor rarely went where Gible aimed it (lore)."]},
+    "eco:ash-sinnoh-best/infernape": {"species": "Infernape", "moves": ["Flamethrower", "Mach Punch", "Flare Blitz", "Dig"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Came to Ash as Paul's released Chimchar (lore)."]},
+    "eco:gary-indigo/nidoking": {"species": "Nidoking", "moves": ["Horn Attack", "Double Kick", "Thrash", "Poison Sting"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence (Horn Attack in place of the show's unconfirmed set)."]},
+    "eco:gary-indigo/kingler": {"species": "Kingler", "moves": ["Crabhammer", "Bubble Beam", "Stomp", "Harden"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: level-up, low confidence."]},
+    "eco:gary-indigo/golem": {"species": "Golem", "moves": ["Rollout", "Magnitude", "Rock Throw", "Defense Curl"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Rollout and Magnitude as at the Silver Conference; Rock Throw and Defense Curl fill (level-up)."]},
+    "eco:gary-indigo/arcanine": {"species": "Arcanine", "moves": ["Fire Blast", "Take Down", "Flamethrower", "Bite"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:gary-indigo/eevee": {"species": "Eevee", "moves": ["Tackle", "Quick Attack", "Sand Attack", "Bite"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["The Eevee that becomes his Umbreon; the show doesn't confirm it in a Kanto battle. Moves: level-up, low confidence."]},
+    "eco:gary-indigo/blastoise": {"species": "Blastoise", "moves": ["Hydro Pump", "Skull Bash", "Bite", "Withdraw"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Squirtle; Blastoise in this era is medium confidence (it may still be a Wartortle)."]},
+    "eco:gary-sinnoh-researcher/umbreon": {"species": "Umbreon", "moves": ["Faint Attack", "Confuse Ray", "Mean Look", "Dark Pulse"], "ability": "Synchronize", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:gary-sinnoh-researcher/scizor": {"species": "Scizor", "moves": ["Steel Wing", "Metal Claw", "Quick Attack", "Swift"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves as at the Silver Conference."]},
+    "eco:gary-sinnoh-researcher/nidoqueen": {"species": "Nidoqueen", "moves": ["Double Kick", "Hyper Beam", "Mega Punch", "Strength"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves as at the Silver Conference."]},
+    "eco:gary-sinnoh-researcher/arcanine": {"species": "Arcanine", "moves": ["Fire Blast", "Take Down", "Fire Spin", "Flame Wheel"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves as at the Silver Conference."]},
+    "eco:gary-sinnoh-researcher/blastoise": {"species": "Blastoise", "moves": ["Hydro Pump", "Skull Bash", "Bite", "Withdraw"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves as at the Silver Conference."]},
+    "eco:gary-sinnoh-researcher/electivire": {"species": "Electivire", "moves": ["Thunder Punch", "Thunder", "Protect", "Brick Break"], "ability": "Motor Drive", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:paul-early-sinnoh/staravia": {"species": "Staravia", "moves": ["Aerial Ace", "Wing Attack", "Quick Attack", "Double Team"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Becomes his Staraptor. Moves: medium confidence."]},
+    "eco:paul-early-sinnoh/elekid": {"species": "Elekid", "moves": ["Thunder Punch", "Brick Break", "Protect", "Thunder"], "ability": "Static", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Becomes his Electivire. Moves: medium confidence."]},
+    "eco:paul-early-sinnoh/grotle": {"species": "Grotle", "moves": ["Razor Leaf", "Bite", "Leech Seed", "Withdraw"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Turtwig line, before Torterra. In this era it's my reading; confirm. Moves: low confidence."]},
+    "eco:paul-early-sinnoh/murkrow": {"species": "Murkrow", "moves": ["Night Shade", "Wing Attack", "Astonish", "Haze"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Becomes his Honchkrow; in this era it's my reading; confirm. Moves: low confidence."]},
+    "eco:paul-early-sinnoh/azumarill": {"species": "Azumarill", "moves": ["Ice Beam", "Bubble Beam", "Rollout", "Defense Curl"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Medium confidence that he had it in this stretch. Moves: low confidence."]},
+    "eco:paul-early-sinnoh/chimchar": {"species": "Chimchar", "moves": ["Flamethrower", "Dig", "Scratch", "Flame Wheel"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Caught for its Blaze; released when it wouldn't summon it on command (lore). Moves: medium confidence."]},
+    "eco:paul-lake-acuity/ninjask": {"species": "Ninjask", "moves": ["Fury Cutter", "Agility", "Double Team", "Giga Drain"], "ability": "Speed Boost", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:paul-lake-acuity/weavile": {"species": "Weavile", "moves": ["Ice Shard", "Night Slash", "Metal Claw", "Ice Beam"], "ability": "Pressure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:paul-lake-acuity/gastrodon": {"species": "Gastrodon", "moves": ["Water Pulse", "Muddy Water", "Body Slam", "Ice Beam"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Same set as at Lily of the Valley."]},
+    "eco:paul-lake-acuity/ursaring": {"species": "Ursaring", "moves": ["Hammer Arm", "Focus Blast", "Hyper Beam", "Slash"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Guts: medium confidence. Moves: low confidence."]},
+    "eco:paul-lake-acuity/electabuzz": {"species": "Electabuzz", "moves": ["Thunder Punch", "Brick Break", "Protect", "Thunder"], "ability": "Static", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: medium confidence (as his Elekid's)."]},
+    "eco:paul-lake-acuity/torterra": {"species": "Torterra", "moves": ["Leaf Storm", "Hyper Beam", "Stone Edge", "Frenzy Plant"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Same set as at Lily of the Valley."]},
+    "eco:paul-battle-pyramid/hariyama": {"species": "Hariyama", "moves": ["Arm Thrust", "Force Palm", "Vital Throw", "Close Combat"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: level-up, low confidence."]},
+    "eco:paul-battle-pyramid/electabuzz": {"species": "Electabuzz", "moves": ["Thunder Punch", "Brick Break", "Protect", "Thunder"], "ability": "Static", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: medium confidence (as his Elekid's)."]},
+    "eco:paul-battle-pyramid/ursaring": {"species": "Ursaring", "moves": ["Hammer Arm", "Focus Blast", "Hyper Beam", "Slash"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:paul-battle-pyramid/magmar": {"species": "Magmar", "moves": ["Flamethrower", "Fire Punch", "Smokescreen", "Fire Blast"], "ability": "Flame Body", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Its Fire attacks didn't faze Registeel (lore). Moves: low confidence."]},
+    "eco:paul-battle-pyramid/nidoking": {"species": "Nidoking", "moves": ["Earth Power", "Double Kick", "Megahorn", "Poison Jab"], "ability": "Poison Point", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Hit Registeel with Ground and Fighting attacks (lore): Earth Power and Double Kick stand in for them."]},
+    "eco:paul-battle-pyramid/lairon": {"species": "Lairon", "moves": ["Iron Head", "Metal Claw", "Iron Defense", "Headbutt"], "ability": "Sturdy", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: level-up, low confidence."]},
+    "eco:harrison-silver-conference/hypno": {"species": "Hypno", "moves": ["Psychic", "Hypnosis", "Headbutt", "Disable"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:harrison-silver-conference/kecleon": {"species": "Kecleon", "moves": ["Psybeam", "Fury Swipes", "Lick", "Faint Attack"], "ability": "Color Change", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Turns invisible to attack (lore); Noctowl's Foresight found it. Moves: low confidence."]},
+    "eco:harrison-silver-conference/steelix": {"species": "Steelix", "moves": ["Iron Tail", "Crunch", "Dig", "Bind"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:harrison-silver-conference/houndoom": {"species": "Houndoom", "moves": ["Flamethrower", "Crunch", "Smog", "Faint Attack"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:harrison-silver-conference/sneasel": {"species": "Sneasel", "moves": ["Icy Wind", "Quick Attack", "Faint Attack", "Metal Claw"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: level-up, low confidence."]},
+    "eco:harrison-silver-conference/blaziken": {"species": "Blaziken", "moves": ["Blaze Kick", "Sky Uppercut", "Flamethrower", "Fire Spin"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Beat Ash's Charizard to end the quarterfinal (lore). Blaze Kick and Sky Uppercut: medium confidence."]},
+    "eco:tyson-ever-grande/shiftry": {"species": "Shiftry", "moves": ["Extrasensory", "Faint Attack", "Razor Leaf", "Fake Out"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:tyson-ever-grande/donphan": {"species": "Donphan", "moves": ["Rollout", "Earthquake", "Hyper Beam", "Defense Curl"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:tyson-ever-grande/hariyama": {"species": "Hariyama", "moves": ["Arm Thrust", "Vital Throw", "Knock Off", "Focus Punch"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:tyson-ever-grande/metagross": {"species": "Metagross", "moves": ["Meteor Mash", "Psychic", "Metal Claw", "Hyper Beam"], "ability": "Clear Body", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Meteor Mash and Psychic: medium confidence."]},
+    "eco:tyson-ever-grande/sceptile": {"species": "Sceptile", "moves": ["Leaf Blade", "Solar Beam", "Quick Attack", "Bullet Seed"], "ability": "Overgrow", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:tyson-ever-grande/meowth": {"species": "Meowth", "moves": ["Iron Tail", "Thunderbolt", "Fury Swipes", "Double Team"], "ability": "Technician", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Wears boots and a hat (lore). Beat Ash's Pikachu to end the quarterfinal. Moves: Iron Tail medium confidence, the rest low."]},
+    "eco:brandon-pyramid-king/dusclops": {"species": "Dusclops", "moves": ["Will-O-Wisp", "Shadow Punch", "Mean Look", "Confuse Ray"], "ability": "Pressure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Beat Ash's Charizard in the rematch (lore)."]},
+    "eco:brandon-pyramid-king/ninjask": {"species": "Ninjask", "moves": ["Aerial Ace", "Sandstorm", "Double Team", "Sand Attack"], "ability": "Speed Boost", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:brandon-pyramid-king/solrock": {"species": "Solrock", "moves": ["Psywave", "Confusion", "Shadow Ball", "Solar Beam"], "ability": "Levitate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4},
+    "eco:brandon-pyramid-king/regice": {"species": "Regice", "moves": ["Ice Beam", "Hyper Beam", "Focus Punch", "Zap Cannon"], "ability": "Clear Body", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Newly caught for the rematch (lore). Moves: low confidence."]},
+    "eco:brandon-pyramid-king/regirock": {"species": "Regirock", "moves": ["Hyper Beam", "Focus Punch", "Ancient Power", "Stone Edge"], "ability": "Clear Body", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:brandon-pyramid-king/registeel": {"species": "Registeel", "moves": ["Flash Cannon", "Hyper Beam", "Focus Punch", "Iron Defense"], "ability": "Clear Body", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:barry-lily-of-the-valley/staraptor": {"species": "Staraptor", "moves": ["Brave Bird", "Close Combat", "Aerial Ace", "Quick Attack"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:barry-lily-of-the-valley/heracross": {"species": "Heracross", "moves": ["Megahorn", "Close Combat", "Horn Attack", "Night Slash"], "ability": "Guts", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:barry-lily-of-the-valley/roserade": {"species": "Roserade", "moves": ["Petal Dance", "Poison Jab", "Magical Leaf", "Leaf Storm"], "ability": "Natural Cure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:barry-lily-of-the-valley/skarmory": {"species": "Skarmory", "moves": ["Steel Wing", "Air Cutter", "Swift", "Drill Peck"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Medium confidence it's his; moves: low confidence."]},
+    "eco:barry-lily-of-the-valley/snorlax": {"species": "Snorlax", "moves": ["Body Slam", "Hyper Beam", "Ice Punch", "Rest"], "ability": "Thick Fat", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Medium confidence it's his (his game team has one); moves: low confidence."]},
+    "eco:barry-lily-of-the-valley/empoleon": {"species": "Empoleon", "moves": ["Hydro Pump", "Drill Peck", "Metal Claw", "Bubble Beam"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Piplup; lost to Paul's Electivire (lore). Moves: low confidence."]},
+    "eco:nando-lily-of-the-valley/sunflora": {"species": "Sunflora", "moves": ["Solar Beam", "Bullet Seed", "Petal Dance", "Sunny Day"], "ability": "Chlorophyll", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:nando-lily-of-the-valley/roserade": {"species": "Roserade", "moves": ["Petal Dance", "Magical Leaf", "Sludge Bomb", "Weather Ball"], "ability": "Natural Cure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Budew, evolved through Roselia. Moves: low confidence."]},
+    "eco:nando-lily-of-the-valley/armaldo": {"species": "Armaldo", "moves": ["Ancient Power", "Metal Claw", "X-Scissor", "Rock Blast"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:nando-lily-of-the-valley/altaria": {"species": "Altaria", "moves": ["Dragon Pulse", "Sing", "Aerial Ace", "Dragon Breath"], "ability": "Natural Cure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:nando-lily-of-the-valley/lopunny": {"species": "Lopunny", "moves": ["Bounce", "Dizzy Punch", "Ice Beam", "Jump Kick"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Medium confidence it's his. Moves: low confidence."]},
+    "eco:nando-lily-of-the-valley/kricketune": {"species": "Kricketune", "moves": ["X-Scissor", "Fury Cutter", "Sing", "Bug Buzz"], "ability": "Swarm", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His first partner, a Kricketot when they met (lore). Moves: low confidence."]},
+    "eco:zoey-grand-festival/glameow": {"species": "Glameow", "moves": ["Shadow Claw", "Iron Tail", "Fake Out", "Fury Swipes"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:zoey-grand-festival/mismagius": {"species": "Mismagius", "moves": ["Shadow Ball", "Psybeam", "Magical Leaf", "Confuse Ray"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:zoey-grand-festival/gastrodon": {"species": "Gastrodon", "moves": ["Water Pulse", "Mud Bomb", "Body Slam", "Muddy Water"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:zoey-grand-festival/lumineon": {"species": "Lumineon", "moves": ["Silver Wind", "Gust", "Water Pulse", "Attract"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:zoey-grand-festival/leafeon": {"species": "Leafeon", "moves": ["Leaf Blade", "Magical Leaf", "Quick Attack", "Shadow Ball"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:zoey-grand-festival/gallade": {"species": "Gallade", "moves": ["Psycho Cut", "Leaf Blade", "Close Combat", "Night Slash"], "ability": "Steadfast", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Her Kirlia. Moves: medium confidence."]},
+    "eco:drake-winners-cup/ditto": {"species": "Ditto", "moves": ["Transform"], "ability": "Limber", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Transform is all it learns."]},
+    "eco:drake-winners-cup/onix": {"species": "Onix", "moves": ["Rock Throw", "Dig", "Bind", "Tackle"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:drake-winners-cup/gengar": {"species": "Gengar", "moves": ["Hypnosis", "Night Shade", "Lick", "Shadow Ball"], "ability": "Levitate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:drake-winners-cup/venusaur": {"species": "Venusaur", "moves": ["Solar Beam", "Razor Leaf", "Vine Whip", "Sleep Powder"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:drake-winners-cup/electabuzz": {"species": "Electabuzz", "moves": ["Thunder Punch", "Thunderbolt", "Quick Attack", "Light Screen"], "ability": "Static", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:drake-winners-cup/dragonite": {"species": "Dragonite", "moves": ["Hyper Beam", "Thunder", "Agility", "Slam"], "ability": "Inner Focus", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Lost to Charizard's Seismic Toss (lore). Hyper Beam: medium confidence; the rest low."]},
+    "eco:cynthia-anime-sinnoh/spiritomb": {"species": "Spiritomb", "moves": ["Dark Pulse", "Shadow Ball", "Psychic", "Silver Wind"], "ability": "Pressure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves from her Platinum team: low confidence for the show."]},
+    "eco:cynthia-anime-sinnoh/gastrodon": {"species": "Gastrodon", "moves": ["Muddy Water", "Mud Bomb", "Water Pulse", "Earthquake"], "ability": "Storm Drain", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Takes Roserade's place from her game team. Moves: low confidence."]},
+    "eco:cynthia-anime-sinnoh/lucario": {"species": "Lucario", "moves": ["Aura Sphere", "Force Palm", "Bone Rush", "Extreme Speed"], "ability": "Steadfast", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:cynthia-anime-sinnoh/milotic": {"species": "Milotic", "moves": ["Hydro Pump", "Ice Beam", "Aqua Tail", "Mirror Coat"], "ability": "Marvel Scale", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:cynthia-anime-sinnoh/togekiss": {"species": "Togekiss", "moves": ["Air Slash", "Aura Sphere", "Extrasensory", "Sky Attack"], "ability": "Serene Grace", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: low confidence."]},
+    "eco:cynthia-anime-sinnoh/garchomp": {"species": "Garchomp", "moves": ["Dragon Rush", "Giga Impact", "Brick Break", "Dragon Claw"], "ability": "Sand Veil", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Swept Paul's team (lore).", "Dragon Claw fills the fourth slot (a level-up move; the show uses three)."]},
+    "eco:lance-anime-johto/gyarados": {"species": "Gyarados", "moves": ["Hyper Beam", "Dragon Rage", "Waterfall", "Ice Fang"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["The red Gyarados he caught at the Lake of Rage (lore). Moves: low confidence for the show."]},
+    "eco:lance-anime-johto/aerodactyl": {"species": "Aerodactyl", "moves": ["Aerial Ace", "Crunch", "Rock Slide", "Thunder Fang"], "ability": "Pressure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his HeartGold team, with its moves."]},
+    "eco:lance-anime-johto/charizard": {"species": "Charizard", "moves": ["Shadow Claw", "Air Slash", "Dragon Claw", "Fire Fang"], "ability": "Blaze", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his HeartGold team, with its moves."]},
+    "eco:lance-anime-johto/dragonair": {"species": "Dragonair", "moves": ["Dragon Rage", "Slam", "Agility", "Hyper Beam"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his Red/Blue team (it has two). Moves: level-up and Hyper Beam, low confidence."]},
+    "eco:lance-anime-johto/dragonite-2": {"species": "Dragonite", "moves": ["Thunder Wave", "Dragon Rush", "Thunder", "Hyper Beam"], "ability": "Inner Focus", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["A second Dragonite, as his HeartGold team has three; this is its Lv 49 set from that team."]},
+    "eco:lance-anime-johto/dragonite": {"species": "Dragonite", "moves": ["Hyper Beam", "Dragon Claw", "Thunder Punch", "Outrage"], "ability": "Inner Focus", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His partner in the show. Hyper Beam: medium confidence; the rest low."]},
+    "eco:wallace-wallace-cup/wailord": {"species": "Wailord", "moves": ["Water Spout", "Rain Dance", "Double-Edge", "Blizzard"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his Emerald team, with its moves."]},
+    "eco:wallace-wallace-cup/tentacruel": {"species": "Tentacruel", "moves": ["Hydro Pump", "Sludge Bomb", "Ice Beam", "Toxic"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his Emerald team, with its moves."]},
+    "eco:wallace-wallace-cup/ludicolo": {"species": "Ludicolo", "moves": ["Giga Drain", "Surf", "Leech Seed", "Double Team"], "ability": "Swift Swim", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his Emerald team, with its moves."]},
+    "eco:wallace-wallace-cup/whiscash": {"species": "Whiscash", "moves": ["Earthquake", "Surf", "Amnesia", "Hyper Beam"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his Emerald team, with its moves."]},
+    "eco:wallace-wallace-cup/gyarados": {"species": "Gyarados", "moves": ["Dragon Dance", "Earthquake", "Hyper Beam", "Surf"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["From his Emerald team, with its moves."]},
+    "eco:wallace-wallace-cup/milotic": {"species": "Milotic", "moves": ["Hydro Pump", "Ice Beam", "Recover", "Water Pulse"], "ability": "Marvel Scale", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His partner in the show (the Wallace Cup exhibition). Moves: medium confidence."]},
+    "eco:brock-anime-best/forretress": {"species": "Forretress", "moves": ["Self-Destruct", "Spikes", "Rapid Spin", "Tackle"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Pineco; Self-Destruct is its story (lore). Spikes and Rapid Spin: low confidence."]},
+    "eco:brock-anime-best/crobat": {"species": "Crobat", "moves": ["Wing Attack", "Supersonic", "Leech Life", "Confuse Ray"], "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Zubat. Confuse Ray fills the fourth slot (level-up)."]},
+    "eco:brock-anime-best/ludicolo": {"species": "Ludicolo", "moves": ["Bullet Seed", "Water Gun", "Absorb", "Leech Seed"], "ability": "Swift Swim", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Lotad; it dances (lore). Moves: low confidence."]},
+    "eco:brock-anime-best/marshtomp": {"species": "Marshtomp", "moves": ["Mud Shot", "Water Gun", "Mud-Slap", "Tackle"], "ability": "Torrent", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His Mudkip. Moves: medium confidence."]},
+    "eco:brock-anime-best/croagunk": {"species": "Croagunk", "moves": ["Poison Jab", "Brick Break", "Poison Sting", "Revenge"], "ability": "Dry Skin", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: Poison Jab confirmed, the rest medium confidence."]},
+    "eco:brock-anime-best/steelix": {"species": "Steelix", "moves": ["Iron Tail", "Rock Tomb", "Dig", "Screech"], "ability": "Sturdy", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["His first Onix, evolved in the Battle Frontier (lore)."]},
+    "eco:misty-anime-best/staryu": {"species": "Staryu", "moves": ["Water Gun", "Tackle", "Swift", "Harden"], "ability": "Natural Cure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Harden fills the fourth slot (level-up)."]},
+    "eco:misty-anime-best/psyduck": {"species": "Psyduck", "moves": ["Confusion", "Disable", "Water Gun", "Scratch"], "ability": "Damp", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Comes out of its ball on its own, rarely when called (lore)."]},
+    "eco:misty-anime-best/corsola": {"species": "Corsola", "moves": ["Spike Cannon", "Bubble Beam", "Tackle", "Recover"], "ability": "Natural Cure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: medium confidence."]},
+    "eco:misty-anime-best/politoed": {"species": "Politoed", "moves": ["Water Gun", "Hypnosis", "Body Slam", "Double Slap"], "ability": "Water Absorb", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Her Poliwag, evolved through Poliwhirl. Moves: medium confidence."]},
+    "eco:misty-anime-best/gyarados": {"species": "Gyarados", "moves": ["Hydro Pump", "Hyper Beam", "Dragon Rage", "Twister"], "ability": "Intimidate", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Once her fear (lore). Moves: medium confidence."]},
+    "eco:misty-anime-best/starmie": {"species": "Starmie", "moves": ["Water Gun", "Swift", "Rapid Spin", "Hydro Pump"], "ability": "Natural Cure", "source": "anime (Blackthorn v1 reconstruction)", "generation": 4, "notes": ["Moves: medium confidence."]}
+  }
+}

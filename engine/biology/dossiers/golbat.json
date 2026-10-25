@@ -1,0 +1,110 @@
+{
+  "species": "Golbat",
+  "id": 42,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The blood-drinking bat of the highland caves. Golbat's four fangs puncture even thick hide, it takes in more than ten ounces of blood at a time, and some entries say it will not stop feeding even when it is too heavy to fly. It hunts people and Pokémon at night, approaching unseen and striking from behind. In HeartGold and SoulSilver it is common on every floor of the Ice Path and rare at the Blackthorn end of Dark Cave, which makes it the most likely predator of the warm-bodied animals in the Ice Path, though no entry names its prey.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged body, 1.6 m and 55.0 kg, typed Poison and Flying.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "It bites with four fangs.", "class": "canon", "confidence": "high", "evidence": ["42.7", "C42.11"]},
+      {"text": "The fangs puncture even the toughest hides and have small holes for sucking blood.", "class": "canon", "confidence": "high", "evidence": ["42.3", "42.8", "42.13", "C42.4", "C42.13", "C42.22"], "analogy": "Hollow fangs are known from vipers, where they inject venom rather than draw fluid; vampire bats instead cut a small wound with sharp incisors and lap the blood."}
+    ],
+    "diet": [
+      {"text": "It drinks the blood of living things, people and Pokémon both.", "class": "canon", "confidence": "high", "evidence": ["42.2", "42.6", "42.8", "42.11", "C42.3", "C42.8", "C42.14", "C42.18"]},
+      {"text": "It draws and gulps down more than ten ounces of blood at once.", "class": "canon", "confidence": "high", "evidence": ["42.4", "42.5", "42.9", "C42.5", "C42.7", "C42.16"]},
+      {"text": "Once it starts, it does not stop until it is full; in other entries it will not stop draining energy from the victim even when too heavy to fly.", "class": "canon", "confidence": "high", "evidence": ["42.1", "42.10", "42.12", "C42.1", "C42.17", "C42.20"]},
+      {"text": "Ten ounces is about 0.3 litres, roughly half a percent of a 55 kg Golbat, too little to ground an animal that size. Either it drinks repeatedly, or the 'too heavy to fly' entries exaggerate.", "class": "inferred", "confidence": "medium", "evidence": ["42.4", "42.1", "game:size"], "analogy": "Common vampire bats (Desmodus rotundus) take a blood meal that is large for their small bodies and begin excreting its water within minutes so they can fly."},
+      {"text": "Its level-up moves include Leech Life (Lv 1), Bite (Lv 13) and Poison Fang (Lv 39): the feeding bite in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Leech Life", "move:Bite", "move:Poison Fang"]}
+    ],
+    "habitat": [
+      {"text": "In HeartGold and SoulSilver it is on all four Ice Path floors (1F, B1F, B2F, B3F) at 30% at any time of day, Lv 22-23, and at the Blackthorn end of Dark Cave at 5% (Lv 23). Gold and Silver had the same 30% in the Ice Path; Crystal had more, 55-60% on 1F to B2F.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Elsewhere it is in most caves of Johto and Kanto (Union Cave, Slowpoke Well, Whirl Islands, Mt. Mortar, Seafoam Islands, Mt. Silver, Victory Road, Tohjo Falls, Cerulean Cave), and in the Johto Safari Zone only at night. The Gen 3 Pokédex habitat is cave.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "It hunts in the open: it flits around in the night skies seeking fresh blood.", "class": "canon", "confidence": "high", "evidence": ["42.6", "C42.10"]},
+      {"text": "Its young form roosts by day, hanging from the ceilings of caves and old buildings and avoiding sunlight.", "class": "canon", "confidence": "high", "evidence": ["41.5", "41.6", "41.7", "C41.7", "C41.11"]},
+      {"text": "The Ice Path is probably its roost rather than its only feeding ground: it rests in the cave and hunts outside at night, as the young do and as most bats do.", "class": "inferred", "confidence": "medium", "evidence": ["42.6", "41.5", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Nocturnal: particularly active in the pitch black of night, and on inky, moonless nights.", "class": "canon", "confidence": "high", "evidence": ["42.6", "42.7", "42.11", "42.12", "C42.9", "C42.12", "C42.21"]},
+      {"text": "It attacks stealthily and without warning, flitting about in darkness and striking from behind, in search of neck veins.", "class": "canon", "confidence": "high", "evidence": ["42.2", "42.8", "42.11", "C42.2", "C42.15", "C42.19"]},
+      {"text": "If it drinks too much, it gets heavy and flies clumsily.", "class": "canon", "confidence": "high", "evidence": ["42.4", "C42.6"]}
+    ],
+    "social": [
+      {"text": "Zubat form colonies in perpetually dark places and gather to hang from ceilings by day.", "class": "canon", "confidence": "high", "evidence": ["41.1", "41.5", "41.10", "C41.1", "C41.16"]},
+      {"text": "Whether adult Golbat keep to colonies is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Flying egg group, 15 egg cycles, even sex ratio; nothing in the Pokédex describes breeding or roosts with young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Inner Focus (it can't be made to flinch), the Poison type, and a set of moves that disorient rather than wound: Supersonic, Confuse Ray (Lv 21), Mean Look (Lv 33), Haze (Lv 45).", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "game:types", "move:Supersonic", "move:Confuse Ray", "move:Mean Look", "move:Haze"]},
+      {"text": "No predator is named; flight and darkness are its evident protection.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "senses": [
+      {"text": "Zubat have no eyes and find their way by echolocation, emitting ultrasonic cries from the mouth.", "class": "canon", "confidence": "high", "evidence": ["41.1", "41.2", "41.3", "41.8", "41.9", "41.13", "C41.12", "C41.14", "C41.15", "C41.19"], "analogy": "Most small bats find obstacles and prey by echolocation, calling through the mouth (some families through the nose)."},
+      {"text": "Golbat's own entries say nothing about its senses; Supersonic and Screech at Lv 1 suggest it keeps the ultrasonic calls of Zubat.", "class": "inferred", "confidence": "medium", "evidence": ["move:Supersonic", "move:Screech", "41.9"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Zubat at Lv 22 and into Crobat through high friendship, a bond with people that no wild animal has a clear analogue for.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Zubat", "species:Crobat"]},
+      {"text": "Size through the line: 0.8 m and 7.5 kg, 1.6 m and 55 kg, 1.8 m and 75 kg. The jump from Zubat to Golbat is more than sevenfold in mass.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "species:Zubat", "species:Crobat"]},
+      {"text": "Crobat grows a second pair of wings on its hind legs for faster, quieter flight, and sneaks up on prey with wings that barely make a sound.", "class": "canon", "confidence": "high", "evidence": ["169.1", "169.3", "169.5", "C169.3", "C169.6"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up kit reads as a hunting sequence: sound and confusion to approach and disorient (Supersonic, Screech, Astonish, Confuse Ray), Mean Look to stop the victim leaving, and fangs to feed (Leech Life, Bite, Poison Fang). Wing Attack, Air Cutter and Air Slash are its flying strikes.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Supersonic", "move:Screech", "move:Astonish", "move:Confuse Ray", "move:Mean Look", "move:Leech Life", "move:Bite", "move:Poison Fang", "move:Wing Attack", "move:Air Cutter", "move:Air Slash"]}
+    ],
+    "ecology": [
+      {"text": "The Ice Path's main predator, as a blood-feeder: the likely hosts are the warm-bodied animals that share its floors, Swinub, Jynx and (in SoulSilver) Delibird.", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters", "species:Swinub", "species:Jynx", "species:Delibird"], "note": "Its diet is canon; the hosts are inferred from co-occurrence only."},
+      {"text": "If Golbat and Zubat roost in the caves and feed outside, their droppings would carry energy from outside into the Ice Path and Dark Cave, possibly the main energy input for whatever lives on the cave floor.", "class": "hypothesis", "confidence": "low", "evidence": ["42.6", "41.5", "game:encounters"], "note": "No entry mentions droppings. This is the strongest candidate for an energy base in the caves, and it is untested.", "analogy": "In many real caves, bat guano is the main food input, supporting specialised invertebrates and fungi."},
+      {"text": "A blood-feeder takes a meal without necessarily killing; whether its victims survive is not stated, so it may act more like a parasite than a predator.", "class": "unknown", "confidence": "high", "evidence": ["42.12"]}
+    ],
+    "humans": [
+      {"text": "It attacks people: it flies around on dark nights attacking people and Pokémon, and loves the blood of humans.", "class": "canon", "confidence": "high", "evidence": ["42.7", "42.8", "42.11", "C42.12", "C42.14", "C42.18"]},
+      {"text": "Travellers crossing the Ice Path or camping near it at night are at risk.", "class": "inferred", "confidence": "medium", "evidence": ["42.7", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "A risk to livestock and sleeping people at night; stock near cave mouths needs closed housing after dark.", "class": "inferred", "confidence": "high", "evidence": ["42.7", "42.11"]},
+      {"text": "A tame one is a feeding problem: nothing says it will take anything but blood.", "class": "unknown", "confidence": "high", "evidence": ["42.8"]},
+      {"text": "An echolocating night flier could scout the slopes after dark, if it can be trusted around stock.", "class": "hypothesis", "confidence": "low", "evidence": ["42.6", "41.13"], "capability": "night_travel", "note": "Untested; its own entries are about hunting, not ranging."},
+      {"text": "It needs a dark roost out of sunlight, judging by the young form's habits.", "class": "inferred", "confidence": "medium", "evidence": ["41.6", "41.7"]},
+      {"text": "Fly is a machine move; taught, it gives a trainer air travel in the games.", "class": "mechanic", "confidence": "high", "evidence": ["move:Fly"], "capability": "air_travel"}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["ice-cave ceilings (roost, by analogy with Zubat)", "night sky over the highlands"], "activity": "nocturnal",
+            "foraging": "night-flying blood-feeder: approaches unseen, bites from behind, drinks until full", "evidence": ["C42.8", "C42.9", "C42.15", "C42.21"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "people", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["42.8", "42.11"]},
+    {"with": "Pokémon (unspecified)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["42.8"]},
+    {"with": "Swinub", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters"], "note": "Shares every Ice Path floor; no entry names it as prey."},
+    {"with": "Jynx", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters"], "note": "Shares every Ice Path floor; untested."},
+    {"with": "Delibird", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters"], "note": "SoulSilver only; untested."},
+    {"with": "dark cave roosts", "kind": "uses_resource", "class": "inferred", "confidence": "medium", "evidence": ["41.5", "41.7"], "note": "Described for Zubat."},
+    {"with": "Zubat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat"]},
+    {"with": "Geodude", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude"], "note": "Blackthorn end of Dark Cave."},
+    {"with": "Wobbuffet", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Wobbuffet"], "note": "Blackthorn end of Dark Cave."},
+    {"with": "Crobat", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Sleep-feeder", "moves": ["Hypnosis", "Feint Attack"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that puts its victim to sleep and approaches unseen, a refinement of striking from behind. Fits caves full of resting animals, like the Ice Path with its Swinub and Jynx.",
+     "behavior": "Feeds on sleepers; rarely has to fight.", "evidence": ["42.8", "move:Hypnosis", "move:Feint Attack"], "analogy": "Common vampire bats feed mostly on sleeping animals at night."},
+    {"name": "Open-air pursuer", "moves": ["Pursuit", "Quick Attack", "Brave Bird"], "class": "hypothesis", "confidence": "low",
+     "reading": "Moves that hit a fleeing target, strike first and dive hard: a chasing lineage for the open night sky over Route 45 and the cave mouths rather than tight passages.",
+     "behavior": "Hunts outside; returns to roost before dawn.", "evidence": ["42.6", "move:Pursuit", "move:Quick Attack", "move:Brave Bird"]},
+    {"name": "Roost holder", "moves": ["Gust", "Whirlwind"], "class": "hypothesis", "confidence": "low",
+     "reading": "Wind moves that blow rivals away: a lineage that defends roost space in crowded colonies. Fits the high-ceilinged chambers of the Ice Path, where Zubat and Golbat roost together.",
+     "behavior": "Drives others off the best ceiling spots.", "evidence": ["41.1", "move:Gust", "move:Whirlwind"]}
+  ],
+  "open_questions": [
+    "What does Golbat actually feed on in the highlands? No entry names a prey species.",
+    "Do its victims survive? If so, it is closer to a parasite than a predator.",
+    "Does it roost in the Ice Path and hunt outside, and do its droppings feed the cave floor?",
+    "Do Geodude and Graveler have blood? 42.3 says it punctures 'however hard' a hide.",
+    "Does Golbat have eyes? Zubat does not (41.9); Golbat's entries don't say.",
+    "In HeartGold, Zubat takes the 20% Ice Path slot that Delibird holds in SoulSilver. Is the Zubat-Golbat colony larger in the HeartGold reading of the community?"
+  ],
+  "contradictions": [
+    {"entries": ["42.1", "42.4", "42.12"], "text": "Red/Blue (and LeafGreen) say it will not stop draining its victim even if it gets too heavy to fly; Silver/SoulSilver says that if it has too much it gets heavy and flies clumsily; Pearl says it stops when full.", "reading": "The entries disagree on whether it stops when full, and on whether overfeeding grounds it or just slows it. The stated volume (over ten ounces, 42.4) is small for a 55 kg animal, which favours 'clumsy' over 'grounded'."}
+  ],
+  "folklore": []
+}

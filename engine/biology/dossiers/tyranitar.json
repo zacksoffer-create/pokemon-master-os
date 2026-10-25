@@ -1,0 +1,646 @@
+{
+  "species": "Tyranitar",
+  "id": 248,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "An armoured mountain giant with a life cycle like an insect's: larva, pupa, adult. Larvitar is born deep underground and eats soil until it has eaten its way to the surface and, as two Hoenn entries put it, can finally see its parents' faces; once it has eaten 'a large mountain' it sleeps and becomes Pupitar, a rock-hard pupa that still moves and can launch itself by venting gas. The adult brings down mountainsides to make its nest and roams the peaks looking for a fight; in a rampage it buries rivers, and maps must be redrawn. In Johto the young live on Mt. Silver.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A huge upright animal (2.0 m, 202.0 kg) whose body, by its own entries, can't be harmed by any sort of attack.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "248.1",
+          "C248.1",
+          "game:size",
+          "game:shape"
+        ],
+        "note": "An overstatement in game terms: as a Rock/Dark type it has several weaknesses."
+      },
+      {
+        "text": "Its hands are its main tool: one is enough to make the ground shake and mountains crumble.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.3",
+          "C248.4"
+        ]
+      },
+      {
+        "text": "Larvitar is extraordinarily dense: 72.0 kg at 0.6 m tall, which fits an animal that eats soil and rock.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:size",
+          "species:Larvitar",
+          "246.1"
+        ]
+      },
+      {
+        "text": "Pupitar's shell is as hard as sheet rock or bedrock and survives collision with solid steel; arms and legs are already formed beneath it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "247.1",
+          "247.3",
+          "247.4",
+          "247.5",
+          "247.7",
+          "C247.6",
+          "C247.12"
+        ]
+      },
+      {
+        "text": "Pupitar makes gas inside its body, compresses it and vents it to propel itself like a jet or rocket.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "247.4",
+          "247.5",
+          "247.7",
+          "C247.7",
+          "C247.9",
+          "C247.13"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "Larvitar eats soil, and keeps eating until it has eaten 'a large mountain'.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "246.1",
+          "246.6",
+          "246.7",
+          "C246.1",
+          "C246.11"
+        ],
+        "analogy": "Earthworms also eat soil and digest the organic matter in it; Larvitar does the same at an impossible scale."
+      },
+      {
+        "text": "No entry says what Pupitar or Tyranitar eat. A pupa probably doesn't feed; the adult's diet is simply missing.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "247.1",
+          "248.1"
+        ]
+      },
+      {
+        "text": "Whether Larvitar digests the minerals or the organic matter in soil is not said.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "246.1"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Mountains: the adult wanders and nests in them; its Gen 3 Pokédex habitat is mountain.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.4",
+          "248.5",
+          "C248.6",
+          "C248.8",
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "Larvitar starts life deep underground and has to eat its way up to the surface.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "246.2",
+          "246.3",
+          "246.4",
+          "246.5",
+          "C246.3",
+          "C246.7"
+        ]
+      },
+      {
+        "text": "Tyranitar is not found in the wild in any Gen I-IV game. In HeartGold and SoulSilver, Larvitar is uncommon (5%) on every level of Mt. Silver and a little commoner at the top (10%); Pupitar is on Mt. Silver 3F (5%). Larvitar also appears in the Johto Safari Zone.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Larvitar",
+          "species:Pupitar"
+        ]
+      },
+      {
+        "text": "Elsewhere it is a special find: a Poké Radar encounter on Sinnoh's Route 207 in Diamond, a swarm on Route 206 in Platinum, rare in Sevault Canyon in FireRed and LeafGreen, and a Game Corner prize in Crystal.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Larvitar"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "It seeks fights: it roams the mountains looking for new opponents, and, unable to be harmed, is eager to challenge them.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.1",
+          "248.4",
+          "248.5"
+        ]
+      },
+      {
+        "text": "Insolent: it doesn't care about others.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.2",
+          "C248.3"
+        ]
+      },
+      {
+        "text": "Larvitar alternates feeding and sleep: once it has eaten enough, it falls asleep so it can grow.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "246.1",
+          "246.6",
+          "246.7",
+          "C246.2",
+          "C246.12",
+          "C246.13"
+        ]
+      },
+      {
+        "text": "Pupitar will not stay still, even as a pupa.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "247.3",
+          "C247.5"
+        ]
+      },
+      {
+        "text": "Crystal has Larvitar and Pupitar only by day and morning; Gold, Silver, HeartGold and SoulSilver have Larvitar at all hours.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Larvitar cannot see its parents until it reaches the surface, so at least one parent is somewhere above it while it digs.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "246.4",
+          "246.5",
+          "C246.8",
+          "C246.10"
+        ]
+      },
+      {
+        "text": "The adult is indifferent to others and roams alone looking for opponents.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "248.2",
+          "248.4"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Monster egg group, an even sex ratio, slow growth, and 40 egg cycles, twice the usual.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:growth",
+          "game:egg_cycles"
+        ]
+      },
+      {
+        "text": "Read together, the entries suggest a nesting system: the adult brings down a mountainside to make its nest, the young are born deep underground, and they eat their way up to reach their parents.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "248.4",
+          "248.5",
+          "246.4",
+          "246.5"
+        ],
+        "note": "No single entry connects the nest to the buried young; this is a reading of four entries together."
+      },
+      {
+        "text": "If so, the parents bury their offspring under rubble and the young dig out alone, which is unusual parental care: protection by burial, not by tending.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "248.4",
+          "246.4"
+        ],
+        "note": "Built on the inference above."
+      }
+    ],
+    "defense": [
+      {
+        "text": "Armour at every stage: a near-invulnerable adult body, a pupal shell that withstands steel, and a dense, rock-skinned larva.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.1",
+          "247.4",
+          "247.5",
+          "247.1"
+        ]
+      },
+      {
+        "text": "Pupitar does not rely on armour alone: it is hard and fast, with outstanding destructive power, and its thrashing can topple a mountain.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "247.1",
+          "247.2",
+          "247.6",
+          "C247.2",
+          "C247.4",
+          "C247.11"
+        ]
+      },
+      {
+        "text": "Sand Stream, Tyranitar's ability, summons a sandstorm as it enters a fight. Larvitar has Guts (stronger when afflicted), Pupitar Shed Skin (may cure itself).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities",
+          "species:Larvitar",
+          "species:Pupitar"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Nothing is said about its senses. Larvitar's entries treat seeing its parents as the reward for reaching the surface, implying it develops in darkness and uses sight once out.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "246.4",
+          "246.5"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Larvitar (0.6 m, 72.0 kg) becomes Pupitar at level 30 (1.2 m, 152.0 kg) and Tyranitar at level 55 (2.0 m, 202.0 kg). Growth is slow and the last stage late.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "game:growth",
+          "species:Larvitar",
+          "species:Pupitar"
+        ]
+      },
+      {
+        "text": "A three-stage cycle named and described like an insect's: a feeding larva underground, a pupa (Crystal uses the word) sealed in a shell, then the adult.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "246.3",
+          "C246.5",
+          "247.3"
+        ],
+        "analogy": "Holometabolous insects have the same larva-pupa-adult sequence. Most pupae are immobile, but mosquito pupae ('tumblers') swim actively; Pupitar is the mobile kind."
+      },
+      {
+        "text": "The trigger for pupation is food: Larvitar becomes a pupa after eating enough dirt to make a mountain, then sleeps to grow.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "246.3",
+          "246.1"
+        ]
+      },
+      {
+        "text": "The pupa already has its adult limbs under the shell, so development continues inside it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "247.3"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Its own level-up list is all force: Bite, Screech, Rock Slide (Lv 14), Scary Face, Thrash (Lv 23), Crunch, Earthquake (Lv 47), Stone Edge (Lv 54). Thrash matches Pupitar's mountain-toppling thrashing; Earthquake matches the adult that shakes the ground.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Bite",
+          "move:Rock Slide",
+          "move:Thrash",
+          "move:Crunch",
+          "move:Earthquake",
+          "move:Stone Edge",
+          "247.1",
+          "248.3"
+        ]
+      },
+      {
+        "text": "Sandstorm (Lv 5) is a natural move from the start, and Sand Stream makes it automatic in the adult.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Sandstorm",
+          "game:abilities"
+        ]
+      },
+      {
+        "text": "Tyranitar starts with Fire, Ice and Thunder Fang at Lv 1: a biting animal.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Fire Fang",
+          "move:Ice Fang",
+          "move:Thunder Fang"
+        ]
+      },
+      {
+        "text": "Dig, Rock Smash and Strength are taught, not its own; Larvitar's digging is canon but it learns no digging move by level.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:learnset",
+          "246.4"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "A geomorphic force: the adult knocks down mountains and buries rivers, enough that maps must be redrawn. If real, it reshapes drainage and habitat for everything around it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.2",
+          "248.6",
+          "C248.2",
+          "C248.9",
+          "C248.10"
+        ]
+      },
+      {
+        "text": "Larvitar turns over and consumes soil in bulk, which in a real ecosystem would be bioturbation on a huge scale.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "246.1",
+          "246.2"
+        ]
+      },
+      {
+        "text": "On Mt. Silver, Larvitar shares the caves with Sneasel, Donphan, Golbat and Misdreavus.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Sneasel",
+          "species:Donphan",
+          "species:Golbat"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Its rampages change the land people live on: maps must be redrawn afterward.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.6"
+        ]
+      },
+      {
+        "text": "Base friendship is low (35) across the line, and the adult doesn't care about others: not an easy companion.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:friendship",
+          "248.2"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "Excavation: a Larvitar eats its way through soil, which in principle could cut tunnels or clear spoil, for instance in extending the Ice Path cold vault. Whether it eats where it is directed is untested.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "246.4",
+          "246.2"
+        ],
+        "note": "Soil-eating is canon; directed tunnelling is a guess.",
+        "capability": "digging"
+      },
+      {
+        "text": "Heavy hauling and earthmoving are within its strength; Strength is a taught move, and the capability record lists a harness.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "248.2",
+          "248.3",
+          "game:capability"
+        ],
+        "capability": "hauling"
+      },
+      {
+        "text": "A serious hazard to the estate itself: a rampaging adult knocks down mountains and buries rivers. Never keep an adult Tyranitar near the Glasshouse, the vault or the water supply.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "248.6"
+        ]
+      },
+      {
+        "text": "Sand Stream means a sandstorm whenever it squares up; bad for glass, crops and lungs.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ],
+        "capability": "weather_handling"
+      },
+      {
+        "text": "A pupating Pupitar needs space it can't damage: it moves constantly inside its shell and can launch itself like a rocket.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "247.3",
+          "247.7"
+        ]
+      },
+      {
+        "text": "Mt. Silver is the Johto source, a long way from Blackthorn; a Blackthorn-raised Larvitar would be the first local population.",
+        "class": "creative",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ]
+  },
+  "niche": {
+    "guild": "lithovore",
+    "trophic_level": null,
+    "microhabitat": [
+      "deep soil and rock (Larvitar)",
+      "mountain caves and slopes",
+      "self-made rubble nests (adult)"
+    ],
+    "activity": "cathemeral",
+    "foraging": "Larvitar eats its way through soil underground; adult diet unknown",
+    "evidence": [
+      "246.1",
+      "246.4",
+      "248.4",
+      "game:encounters"
+    ],
+    "class": "inferred",
+    "confidence": "medium",
+    "note": "The guild is Larvitar's; the adult's diet is never stated. Trophic level left null: soil-eating mixes mineral and organic intake. Activity from encounter tables (all hours in most Johto games, day and morning in Crystal)."
+  },
+  "relationships": [
+    {
+      "with": "soil and rock",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "246.1",
+        "246.6"
+      ],
+      "note": "Larvitar's food."
+    },
+    {
+      "with": "mountains and rivers",
+      "kind": "engineers",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "248.4",
+        "248.6"
+      ],
+      "note": "It brings down mountainsides for its nest and buries rivers in rampages."
+    },
+    {
+      "with": "Sneasel",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Sneasel"
+      ],
+      "note": "Mt. Silver, HeartGold and SoulSilver (Larvitar)."
+    },
+    {
+      "with": "Donphan",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Donphan"
+      ],
+      "note": "Mt. Silver."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Bedrock sleeper",
+      "moves": [
+        "Curse",
+        "Iron Defense"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "A slow, armoured lineage: Curse (in a non-Ghost) raises attack and defence at the cost of speed, and Iron Defense hardens it further. It is the eat-then-sleep-to-grow canon as a temperament: long rests, slow movement, an animal that is very hard to shift. Fits deep, stable rock where nothing hurries it.",
+      "behavior": "Moves little, sleeps long, and cannot be pushed out of its spot.",
+      "evidence": [
+        "246.1",
+        "move:Curse",
+        "move:Iron Defense"
+      ]
+    },
+    {
+      "name": "Ridge rampager",
+      "moves": [
+        "Dragon Dance",
+        "Outrage",
+        "Stomp"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "The rampaging adult as a lineage: Dragon Dance raises attack and speed together, Outrage is a sustained rampage, and Stomp crushes underfoot. A mobile, high-energy version of an already destructive animal. Fits high open ridges where it ranges widely.",
+      "behavior": "Covers more ground than most and rampages often; the one that redraws maps.",
+      "evidence": [
+        "248.6",
+        "move:Dragon Dance",
+        "move:Outrage",
+        "move:Stomp"
+      ]
+    },
+    {
+      "name": "Challenger",
+      "moves": [
+        "Pursuit",
+        "Assurance",
+        "Focus Energy"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "The fight-seeking canon in move form: Pursuit hits a rival that tries to leave, Assurance hits harder at one already hurt, and Focus Energy sets up a decisive blow. A lineage that doesn't let contests end early. Fits crowded mountain ranges where rivals are many and close.",
+      "behavior": "Follows rivals that withdraw; finishes fights others would abandon.",
+      "evidence": [
+        "248.4",
+        "move:Pursuit",
+        "move:Assurance",
+        "move:Focus Energy"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does an adult Tyranitar eat?",
+    "Do Larvitar digest rock, soil minerals, or the organic matter in soil?",
+    "Are the buried young and the rubble nest the same thing? Do parents bury their eggs?",
+    "Does a Larvitar have one parent or two (246.4 says 'parent', 246.5 'parents')?",
+    "How does Pupitar make and store the gas it vents (247.4)?",
+    "How large is a wild Tyranitar's range, and how often does it rampage?"
+  ],
+  "contradictions": [
+    {
+      "text": "One parent or two: Ruby and Sapphire say Larvitar can't see its parent's face until it surfaces; Emerald says its parents' faces.",
+      "entries": [
+        "246.4",
+        "246.5"
+      ],
+      "note": "Possibly just wording, but it is the only evidence about whether one or both parents are involved."
+    },
+    {
+      "text": "How much soil Larvitar eats before emerging: Silver says it must consume all the soil around it; Ruby and Sapphire say it eats its way through the soil above, which sounds like a tunnel.",
+      "entries": [
+        "246.2",
+        "246.4"
+      ]
+    }
+  ],
+  "folklore": []
+}

@@ -93,8 +93,10 @@ LORE_PATTERNS = {
 # A sentence that matches one of these is not evidence for the capability ("steals heat", "wings not used for flying",
 # "sense of smell" is tracking, not danger sense).
 LORE_EXCLUDE = {
-    "heat_source": r"(?:steal|absorb)\w* .{0,25}heat|\bcool",
-    "air_travel": r"not used for flying|\b(?:can't|cannot|can not|unable to|doesn't|does not) fly|flightless",
+    "heat_source": r"(?:steal|absorb)\w* .{0,25}heat|\bcool|\bhot (?:the |its )?shell|shell becomes",
+    "light": r"bright[- ]colou?red|bright daylight|moon ?light|sunlight|faint light|minimal light|amount of light|avoids? (?:the )?light|\bsee in",
+    "air_travel": r"not used for flying|\b(?:can't|cannot|can not|unable to|doesn't|does not) fly|flightless|flying (?:insect|bug|prey|pokémon)|knock\w* .{0,40}flying|sent flying|\bthrown\b",
+    "calming_presence": r"\bkinds? of\b|\b(?:this|that|its) kind\b|one of a kind",
     "danger_sense": r"sense of smell",
 }
 GAME_VERSIONS = {"crystal": [6, 4, 5], "firered": [10, 11, 9], "emerald": [9, 7, 8], "platinum": [14, 12, 13],

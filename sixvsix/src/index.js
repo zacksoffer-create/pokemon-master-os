@@ -38,5 +38,6 @@ export { renderReport, renderExperiment } from './render.js';
 export { replayTurns, replayText } from './replay.js';
 export { INTERPRETATIONS, interpret, poolFromVersions, poolsFromCollections, variationTeams } from './adapters/collections.js';
 export { prepare as duelPrepare, evaluate as duelEvaluate } from './optimize/evs.js';
-export { learnableMoves, abilitiesOf, natureList, itemList, editTeam } from './editor.js';
+export { learnableMoves, abilitiesOf, natureList, itemList, editTeam, moveInfo } from './editor.js';
 export { confirmSpreads, duelWins } from './optimize/confirm.js';
+export { asGen4, withGen4, gen4Id } from './adapters/convert.js';

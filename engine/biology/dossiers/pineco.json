@@ -1,0 +1,100 @@
+{
+  "species": "Pineco",
+  "id": 204,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A sit-and-wait predator of the forest canopy that builds its own armour. Pineco hangs from a branch inside a case of tree bark it glues on with a fluid that sets in air, waits for flying insects to come close, and barely moves otherwise. It passes for a pinecone, which keeps birds from treating it as food; if its tree is shaken while it feeds it drops and explodes. In Johto it lives in the trees themselves: every wild Pineco in the Johto games is found by shaking a tree.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small, rounded body (0.6 m, 7.2 kg) wrapped in a case it builds and thickens itself from layers of tree bark.", "class": "canon", "confidence": "high", "evidence": ["204.1", "204.6", "game:size", "game:shape"]},
+      {"text": "It secretes a fluid that it spits out to glue bark to its body; the fluid hardens on contact with air.", "class": "canon", "confidence": "high", "evidence": ["204.3", "C204.5", "C204.6"], "analogy": "Bagworm moth caterpillars (Psychidae), whose name this Pokémon's category borrows, bind plant fragments into a portable case with silk that likewise sets once it is spun."},
+      {"text": "The case is heavy relative to the animal, and the weight doesn't hinder it; the armour costs it mobility rather than effort, which fits an animal that hardly moves.", "class": "inferred", "confidence": "medium", "evidence": ["C204.2", "C204.4"]}
+    ],
+    "diet": [
+      {"text": "It eats flying insects, which it waits for rather than chases.", "class": "canon", "confidence": "high", "evidence": ["204.2", "C204.3"]},
+      {"text": "It feeds from a hanging position on a branch and is exposed to disturbance while eating.", "class": "canon", "confidence": "high", "evidence": ["204.4", "204.5", "C204.8", "C204.10"]},
+      {"text": "Its prey are most likely small, non-Pokémon insects: the flying Bug Pokémon it shares trees with in Ilex Forest (Butterfree 1.1 m, Beedrill 1.0 m) are larger than Pineco itself.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "game:size", "species:Butterfree", "species:Beedrill"]},
+      {"text": "Bug Bite, which it learns early (Lv 9), is a biting attack and the most plausible reading of how it takes prey.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bug Bite", "game:learnset"]}
+    ],
+    "habitat": [
+      {"text": "A forest animal that lives in trees, hanging from branches.", "class": "canon", "confidence": "high", "evidence": ["204.4", "204.5", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is found only by Headbutting trees, and the tree tables put it almost everywhere in Johto with trees, from New Bark Town to Ecruteak City; in Ilex Forest it is on the rarer tree table.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "In Sinnoh (Diamond, Pearl, Platinum) it appears in Eterna Forest and on Routes 203, 204, 210 and 229 only when Pokémon Emerald is in the second slot, so it is not a native Sinnoh animal in the games' own terms.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its microhabitat is the canopy and branches rather than the trunk or ground; it reaches the ground only when it falls.", "class": "inferred", "confidence": "medium", "evidence": ["C204.7", "C204.8"]}
+    ],
+    "behavior": [
+      {"text": "Sedentary: it doesn't move about much on its own.", "class": "canon", "confidence": "high", "evidence": ["204.2", "C204.4"]},
+      {"text": "An ambush (sit-and-wait) forager: it hangs patiently and lets prey come to it.", "class": "canon", "confidence": "high", "evidence": ["204.4", "204.5", "C204.7", "C204.9"], "analogy": "The same strategy as orb-weavers and ambush bugs: low energy spent, low encounter rate, long waits."},
+      {"text": "Activity pattern isn't stated anywhere; HeartGold's tree tables don't split it by time of day.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or interaction with its own kind; the sedentary ambush life suggests it lives alone on its branch.", "class": "inferred", "confidence": "low", "evidence": ["C204.4"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 20 egg cycles, an even sex ratio; nothing in the Pokédex describes how it breeds or where it lays.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Masquerade: it looks just like a pinecone, and its shell protects it from bird Pokémon that peck it by mistake.", "class": "canon", "confidence": "high", "evidence": ["204.7", "C204.12", "C204.13"], "analogy": "Masquerade (resembling an inedible object) rather than camouflage (blending into the background), as in caterpillars that pass for twigs or bird droppings."},
+      {"text": "Last-resort defence: if its tree is shaken while it eats, it drops to the ground and explodes without warning.", "class": "canon", "confidence": "high", "evidence": ["204.4", "204.5", "C204.8", "C204.10"], "analogy": "Comparable to autothysis in exploding ants (Colobopsis), where a worker ruptures its own body to defend the colony; Pineco's explosion is not described as fatal to it."},
+      {"text": "Its moves line up with the canon: Protect at Lv 1 and Iron Defense later (withdrawing into armour), Self-Destruct from Lv 6 and Explosion at Lv 34 (the drop-and-explode defence), and Sturdy (it can't be knocked out in one blow).", "class": "mechanic", "confidence": "high", "evidence": ["move:Protect", "move:Iron Defense", "move:Self-Destruct", "move:Explosion", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. An ambush predator of flying insects must detect prey approaching through the air, so vision or vibration sense is implied but not described; as Forretress its eyes are the only part visible through the shell.", "class": "inferred", "confidence": "low", "evidence": ["C204.3", "205.6"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Forretress at level 31, and the bark case becomes a steel-hard shell: the type changes from Bug to Bug/Steel.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:types", "205.1"]},
+      {"text": "The adult is even more sedentary, immovably rooted to its tree, usually on a fat trunk; it opens the shell only to catch prey, too fast for the inside to be seen.", "class": "canon", "confidence": "high", "evidence": ["205.2", "205.3", "205.4", "205.5"]},
+      {"text": "Read as development, the move from layered bark to a steel shell suggests the case is mineralised or replaced as the animal matures, and the adult trades the juvenile's branch-hanging life for trunk-clinging.", "class": "hypothesis", "confidence": "low", "evidence": ["204.1", "205.1", "205.3"], "note": "No entry describes the change itself."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Feeding: Bug Bite. Defence: Protect, Iron Defense, Self-Destruct, Explosion. Rapid Spin (Lv 17) and Gyro Ball (Lv 42) fit a round body that falls and rolls; Spikes (Lv 28) matches the adult scattering pieces of its shell to drive enemies away.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bug Bite", "move:Rapid Spin", "move:Gyro Ball", "move:Spikes", "205.2", "205.3"]},
+      {"text": "Natural Gift (Lv 23) needs a held Berry, which hints that it handles fruit, but nothing in the Pokédex says it eats or stores Berries.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Natural Gift"], "note": "A level-up move, so it's the wild form's own repertoire; treat as a lead, not a diet item."}
+    ],
+    "ecology": [
+      {"text": "A canopy insectivore (trophic level about 3: it eats insects, which mostly eat plants), probably a minor control on flying insects in the trees it occupies.", "class": "inferred", "confidence": "medium", "evidence": ["C204.3", "game:habitat"]},
+      {"text": "It strips or collects tree bark for its case, so it uses the trees as a building material as well as a perch; whether it takes living bark (harming the tree) or shed bark is unknown.", "class": "inferred", "confidence": "low", "evidence": ["C204.1"]},
+      {"text": "Its explosion when a tree is shaken makes it a hazard to anything that shakes trees for food, such as foragers using Headbutt.", "class": "inferred", "confidence": "medium", "evidence": ["C204.8", "move:Headbutt"]}
+    ],
+    "humans": [
+      {"text": "People meet it by shaking trees, which is exactly the disturbance that the Ruby, Sapphire and Emerald entries say makes it explode. The Johto games' only way of finding it is the way most likely to set it off.", "class": "inferred", "confidence": "high", "evidence": ["204.4", "204.5", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "A natural perimeter deterrent: as Forretress it scatters shell fragments to drive enemies away, and Spikes is the game form of that.", "class": "inferred", "confidence": "medium", "evidence": ["205.2", "move:Spikes"], "capability": "deterrence"},
+      {"text": "Free insect control in an orchard or around the Glasshouse, if it will settle in the trees there; it needs trees to hang from and flying insects to eat.", "class": "hypothesis", "confidence": "medium", "evidence": ["C204.3", "game:habitat"], "note": "Untested: whether it targets pest insects or just whatever flies past."},
+      {"text": "Don't put it in trees people shake for fruit or Apricorns, and keep it away from Headbutt foraging: a shaken tree is the trigger for its explosion.", "class": "inferred", "confidence": "high", "evidence": ["C204.8", "C204.10"], "capability": "foraging"},
+      {"text": "Its bark-glue fluid, which sets in air, is an interesting material for repairs if it can be collected without stressing the animal.", "class": "creative", "evidence": ["C204.5", "C204.6"]}
+    ]
+  },
+  "niche": {"guild": "insectivore", "trophic_level": 3, "microhabitat": ["canopy branches", "deciduous and mixed forest"], "activity": "unknown",
+            "foraging": "sit-and-wait ambush of flying insects from a hanging position", "evidence": ["C204.3", "C204.7", "game:habitat"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "flying insects (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["204.2"]},
+    {"with": "bird Pokémon", "kind": "preyed_on_by", "class": "canon", "confidence": "medium", "evidence": ["204.7"], "note": "Birds peck it by mistake, taking it for food or for a cone; the shell protects it. Attempted predation, not a successful one."},
+    {"with": "tree bark", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["204.1", "204.3"]},
+    {"with": "Hoothoot", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Hoothoot"], "note": "Same Ilex Forest headbutt trees in HeartGold and SoulSilver; Hoothoot and Noctowl are the forest's bird Pokémon and the likely mistaken peckers."},
+    {"with": "Noctowl", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Noctowl"]},
+    {"with": "Forretress", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Barbed bark", "moves": ["Pin Missile", "Toxic Spikes"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage whose defence is chemical and projectile rather than explosive: barbs in the bark case and a toxic litter of shed fragments beneath its tree. Fits dense woods where predators approach from below.",
+     "behavior": "Explodes less, sheds more; leaves a poisoned ring of debris under its roost.", "evidence": ["205.2", "move:Pin Missile", "move:Toxic Spikes"]},
+    {"name": "Ground-fall brawler", "moves": ["Counter", "Revenge", "Sand Tomb"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that turns the drop from the branch into a fight: retaliation moves (Counter, Revenge) for the animal that shook its tree, and Sand Tomb for burying in sand or leaf litter once down. Fits dry, sandy woodland edges where falling is common and climbing back is slow.",
+     "behavior": "Falls, digs in and hits back rather than exploding.", "evidence": ["C204.8", "move:Counter", "move:Revenge", "move:Sand Tomb"]},
+    {"name": "Mirror shell", "moves": ["Reflect", "Power Trick"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that leans into the armour: a defensive screen, and Power Trick, which swaps attack and defence, as the habit of turning that heavy case into the weapon (rolling and ramming).",
+     "behavior": "Rolls into attackers with its case; the most Forretress-like juvenile.", "evidence": ["204.1", "move:Reflect", "move:Power Trick"]}
+  ],
+  "open_questions": [
+    "What is inside the shell? The Forretress entries call it a total mystery (205.1, 205.7).",
+    "Does it take bark from living trees, harming them, or gather shed bark?",
+    "What, if anything, does it eat besides flying insects? Natural Gift hints at Berries.",
+    "Does it survive its own explosion, and how often can it do it?",
+    "How does it breed, and where are eggs laid: in the canopy, in the case?",
+    "Is it diurnal or nocturnal? Ilex Forest's tree tables don't say."
+  ],
+  "contradictions": [],
+  "folklore": []
+}

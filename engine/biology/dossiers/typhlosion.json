@@ -1,0 +1,527 @@
+{
+  "species": "Typhlosion",
+  "id": 157,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A large grassland animal with blazing fur that hides behind its own heat. Typhlosion makes the air around it shimmer with intense flame and conceals itself in the haze; when the shimmer rises it is ready to fight, and at the peak of its rage anything that touches it bursts into flame. Its young, Cyndaquil, are timid animals that curl into a ball and flare the fire on their backs only when startled, and whose flames sputter with incomplete combustion when they are tired. The Pokédex never says what the line eats, and no game has it in the wild.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A heavy quadruped (1.7 m, 79.5 kg) with blazing fur.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "157.2",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Quilava's fur is non-flammable, and it can withstand any fire attack, so the line is insulated against its own fire.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "156.2",
+          "C156.3",
+          "C156.4"
+        ]
+      },
+      {
+        "text": "Cyndaquil's fire comes from its back; Quilava attacks with the fire on its back.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "155.2",
+          "155.3",
+          "156.1",
+          "C155.4",
+          "C156.2"
+        ]
+      },
+      {
+        "text": "What it burns is never said. Incomplete combustion in a tired Cyndaquil implies a fuel and an oxygen supply that can fall out of balance, as in any real flame.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "155.4",
+          "155.5",
+          "C155.9"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "No entry for any stage says what the line eats.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "157.1",
+          "155.1",
+          "156.1"
+        ]
+      },
+      {
+        "text": "An animal that keeps a fire burning must eat a lot for its size, and a tired Cyndaquil's fire fails first, so food and flame are probably linked.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "155.4",
+          "155.5"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "The Gen 3 Pokédex lists the line under grassland; no entry describes where it lives.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "It is not found in the wild in any Gen I-IV game. Cyndaquil is a starter gift in New Bark Town in every Johto game, and a gift in Littleroot Town in Emerald.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Cyndaquil"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "It hides behind a shimmering heat haze made with its own intense flames.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "157.4",
+          "157.5",
+          "157.6",
+          "C157.5",
+          "C157.7",
+          "C157.10"
+        ],
+        "analogy": "Heat shimmer is real: light bends as it passes through air layers of different temperature, the same effect as a mirage over a hot road."
+      },
+      {
+        "text": "The shimmer is also a signal: when heat from its body makes the air shimmer, it is ready to battle.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "157.3",
+          "C157.4"
+        ]
+      },
+      {
+        "text": "Cyndaquil is timid: it curls into a ball or stays hunched over, and its back flames burn more strongly when startled or angry.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "155.1",
+          "155.2",
+          "155.6",
+          "155.7",
+          "C155.1",
+          "C155.3",
+          "C155.14",
+          "C155.15"
+        ]
+      },
+      {
+        "text": "No activity pattern is given.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "157.1"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Nothing is said about groups or how it treats its own kind.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "157.1"
+        ]
+      },
+      {
+        "text": "Its fire is readable by others: Cyndaquil's flames show anger and tiredness, Quilava's show readiness to fight, and Typhlosion's heat shimmer announces it. A line that signals its state with flame.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "155.4",
+          "156.6",
+          "157.3"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Field egg group, 20 egg cycles, 87.5% male (the usual starter ratio). Nothing in the Pokédex describes breeding or young.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:egg_cycles",
+          "game:gender"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "At the peak of its rage it gets so hot that anything touching it instantly bursts into flames.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "157.1",
+          "C157.1"
+        ]
+      },
+      {
+        "text": "Its 'secret, devastating move' is rubbing its blazing fur together to cause huge explosions; its blasts burn everything to cinders.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "157.2",
+          "157.4",
+          "157.5",
+          "157.6",
+          "C157.3",
+          "C157.6",
+          "C157.8",
+          "C157.9"
+        ]
+      },
+      {
+        "text": "Quilava keeps foes back with flame and gusts of superheated air, dodging nimbly while it burns them, and turns its back before a fight to show how fiercely its fire blazes.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "156.3",
+          "156.4",
+          "156.5",
+          "156.6",
+          "C156.5",
+          "C156.6",
+          "C156.9"
+        ]
+      },
+      {
+        "text": "Cyndaquil flares its back flames for protection; the flare itself intimidates.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "155.1",
+          "155.3",
+          "155.4",
+          "155.5",
+          "C155.6",
+          "C155.7"
+        ]
+      },
+      {
+        "text": "Smokescreen (Lv 6) and Defense Curl (Lv 24) are its own: smoke to blind, and curling up, which matches the young's habit.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Smokescreen",
+          "move:Defense Curl",
+          "155.1"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Nothing is said about its senses.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "157.1"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Cyndaquil (0.5 m, 7.9 kg) becomes Quilava at level 14 (0.9 m, 19.0 kg; the archive also lists 17) and Typhlosion at level 36 (1.7 m, 79.5 kg).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Cyndaquil",
+          "species:Quilava"
+        ]
+      },
+      {
+        "text": "Temperament changes with stage: a timid young animal that curls up, a nimble intimidator that shows off its fire, then an adult that hides in heat haze and explodes when pushed.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "155.1",
+          "156.3",
+          "157.1",
+          "157.4"
+        ]
+      },
+      {
+        "text": "Its fire moves from a defensive flare on the back to the whole coat: Typhlosion's fur itself blazes.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "155.2",
+          "157.2"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Level-up moves are its own (it is never wild in the games): Ember, Flame Wheel (Lv 20), Lava Plume (Lv 35), Flamethrower (Lv 42) and Eruption (Lv 57), which is strongest at full health, for the explosive blasts of the canon.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Ember",
+          "move:Flame Wheel",
+          "move:Lava Plume",
+          "move:Flamethrower",
+          "move:Eruption",
+          "157.4"
+        ]
+      },
+      {
+        "text": "Lava Plume hits everything around it and can burn, the closest move to 'anything that touches it goes up in flames'.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "move:Lava Plume",
+          "157.1"
+        ]
+      },
+      {
+        "text": "Defense Curl followed by Rollout (Lv 46) is a curl-and-roll pairing that suits a line whose young curl into a ball.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Defense Curl",
+          "move:Rollout",
+          "155.1"
+        ]
+      },
+      {
+        "text": "Blast Burn, Fire Punch and Thunder Punch are tutor moves: taught, not wild.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:learnset"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "Its role in a food web is unknown because its diet is.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "157.1"
+        ]
+      },
+      {
+        "text": "An animal that bursts into flame when enraged and blasts things to cinders is a fire risk in dry grassland, its listed habitat.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "157.1",
+          "157.4",
+          "game:habitat"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Its line reaches people as a Johto starter, given in New Bark Town.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Cyndaquil"
+        ]
+      },
+      {
+        "text": "No entry describes it working with people; the record is about its fire and its temper.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "157.1",
+          "157.2"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "A heat source for a cold highland: a Fire type that can make the air shimmer around it. It needs a calm life; heat rises with its anger.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "157.3",
+          "157.1",
+          "game:types"
+        ],
+        "capability": "heat_source"
+      },
+      {
+        "text": "Not for wooden buildings or hay: anything that touches an enraged Typhlosion ignites, and its fur-rubbing explosions are its signature attack.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "157.1",
+          "157.2"
+        ],
+        "capability": "heat_source"
+      },
+      {
+        "text": "Indoors, watch a tired Cyndaquil: its flames sputter with incomplete combustion, and incomplete combustion produces smoke and carbon monoxide. Good ventilation wherever the young sleep.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "155.4",
+          "155.5",
+          "move:Smokescreen"
+        ],
+        "capability": "town_fit"
+      },
+      {
+        "text": "A flame that tells you how it is doing: sputtering means tired, vigorous means angry or startled.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "155.4",
+          "155.7"
+        ]
+      },
+      {
+        "text": "Fire-safe handling gear could borrow from Quilava's non-flammable fur, if shed fur can be collected.",
+        "class": "creative",
+        "evidence": [
+          "156.2"
+        ]
+      },
+      {
+        "text": "Could it gently warm the hatchery's egg racks? Possibly, but the Glasshouse already has a Magcargo hearth, and a startled Cyndaquil flares.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "155.7",
+          "game:types"
+        ],
+        "note": "No entry says it warms anything gently; its heat is tied to fear and anger.",
+        "capability": "egg_care"
+      },
+      {
+        "text": "Needs: quiet. Cyndaquil is timid, and every stage's fire rises with fear or anger.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "155.7",
+          "155.1",
+          "156.6"
+        ],
+        "capability": "calming_presence"
+      }
+    ]
+  },
+  "niche": {
+    "guild": null,
+    "trophic_level": null,
+    "microhabitat": [
+      "open grassland (listed habitat)"
+    ],
+    "activity": "unknown",
+    "foraging": "unknown; no entry says what any stage eats",
+    "evidence": [
+      "game:habitat",
+      "155.1"
+    ],
+    "class": "unknown",
+    "confidence": "high",
+    "note": "Guild left empty: the machine reading's thermotroph comes from the Fire type alone."
+  },
+  "relationships": [],
+  "ecotypes": [
+    {
+      "name": "Wildfire charger",
+      "moves": [
+        "Howl",
+        "Flare Blitz",
+        "Thrash"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "The rage canon made into a lineage: Howl raises its attack, Flare Blitz is a burning full-body charge that hurts the user too, and Thrash is an uncontrolled rampage. An animal that answers threats with all-out attack, matching the Typhlosion that ignites anything touching it at the peak of its rage. Fits dry, open grassland where there is nowhere to hide.",
+      "behavior": "Builds to a howl, then charges in flames; dangerous to everything nearby, including grass.",
+      "evidence": [
+        "157.1",
+        "move:Howl",
+        "move:Flare Blitz",
+        "move:Thrash"
+      ]
+    },
+    {
+      "name": "Grass-root forager",
+      "moves": [
+        "Fury Swipes",
+        "Crush Claw",
+        "Foresight"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A clawed, searching lineage: Foresight finds hidden or evasive targets, and Fury Swipes and Crush Claw rake and tear. A digger and seeker of things hidden in turf and soil rather than a fire-fighter. Fits short grassland and field edges with soft soil.",
+      "behavior": "Noses through the turf and claws out what it finds; uses fire less.",
+      "evidence": [
+        "game:habitat",
+        "move:Fury Swipes",
+        "move:Crush Claw",
+        "move:Foresight"
+      ]
+    },
+    {
+      "name": "Ember pilferer",
+      "moves": [
+        "Covet",
+        "Quick Attack",
+        "Extrasensory"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A timid opportunist: Covet snatches what the target is holding, Quick Attack gets in and out first, and Extrasensory is an odd psychic sense that would help it judge when to move. The shy Cyndaquil temperament carried into adulthood, taking food rather than fighting for it. Fits farm edges and settlements where food is lying about.",
+      "behavior": "Steals and runs; flares only when cornered.",
+      "evidence": [
+        "155.1",
+        "move:Covet",
+        "move:Quick Attack",
+        "move:Extrasensory"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does it eat, and what fuels its fire?",
+    "Where does a wild population live? The games give it only as a starter; 'grassland' is the only habitat on record.",
+    "How does rubbing its fur cause explosions (157.2)?",
+    "Does Typhlosion keep Quilava's non-flammable fur?",
+    "Does it live alone or in groups, and who reads its flame signals?",
+    "No relationships are recorded: no entry names prey, predators or other species, and it has no wild range to share."
+  ],
+  "contradictions": [
+    {
+      "text": "Cyndaquil's posture: Gold and HeartGold say it always curls itself up in a ball; Silver and SoulSilver say it usually stays hunched over.",
+      "entries": [
+        "155.1",
+        "155.6",
+        "155.2"
+      ],
+      "note": "Minor: a ball versus a hunch."
+    }
+  ],
+  "folklore": []
+}

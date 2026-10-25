@@ -1,0 +1,103 @@
+{
+  "species": "Hoothoot",
+  "id": 163,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A small owl with a perfect sense of time. Hoothoot stands on one foot, switching feet too fast to see, and begins to hoot at precisely the same time every day, thanks to an internal organ that tracks the Earth's rotation; some trainers use it as a clock. No entry says what it eats or when it is active, but HeartGold and SoulSilver meet it in grass only at night, and in Ilex Forest it is the animal most often shaken out of the Headbutt trees.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small owl (0.7 m, 21.2 kg) that always stands on one foot.", "class": "canon", "confidence": "high", "evidence": ["163.1", "163.6", "C163.1", "game:size", "game:shape"]},
+      {"text": "It switches its standing foot so quickly that the movement can rarely be seen.", "class": "canon", "confidence": "high", "evidence": ["163.1", "163.7", "C163.2", "C163.12"], "analogy": "Many real birds rest on one leg, which is thought to cut heat loss from the bare legs."},
+      {"text": "It has an internal organ that senses and tracks the Earth's rotation.", "class": "canon", "confidence": "high", "evidence": ["163.4", "163.5", "C163.7", "C163.9"]}
+    ],
+    "diet": [
+      {"text": "Not stated in any entry.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its evolved form catches prey in darkness, and Hoothoot's own moves include Peck (Lv 9) and Foresight (Lv 1), so it is most likely a small predator.", "class": "inferred", "confidence": "low", "evidence": ["164.4", "move:Peck", "move:Foresight"]},
+      {"text": "In Ilex Forest the larvae and pupae of its common Headbutt trees are the obvious candidates (see Relationships).", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Caterpie", "species:Weedle"], "note": "Rests on sharing the same trees and on size; no entry links them."}
+    ],
+    "habitat": [
+      {"text": "A forest animal. In HeartGold and SoulSilver it is in Ilex Forest's common (60%) and rare (50%) Headbutt trees, in Headbutt trees across Johto from New Bark Town to Ecruteak City, and in grass at night on Routes 29 to 31 and 35 to 37 and in National Park.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "game:encounters"]},
+      {"text": "Its nearest records to Blackthorn are the Headbutt trees of Route 43 and the Lake of Rage.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "It lives in the trees, in both kinds of Headbutt tree, which puts it alongside every other tree-dweller in the forest.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It begins to hoot at precisely the same time every day.", "class": "canon", "confidence": "high", "evidence": ["163.3", "163.4", "163.5", "163.7", "C163.5", "C163.8", "C163.10", "C163.13"]},
+      {"text": "Whatever happens, it keeps rhythm by tilting its head precisely in time.", "class": "canon", "confidence": "high", "evidence": ["163.2", "C163.4"]},
+      {"text": "Nocturnal by the encounter tables: every grass record of Hoothoot in HeartGold and SoulSilver is at night. Headbutt records have no time of day, and no entry states its activity.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or pairs. Its daily hoot at a fixed time might be a signal to others, but no entry says who hears it.", "class": "hypothesis", "confidence": "low", "evidence": ["163.3", "163.7"], "note": "A reading of the hooting; untested."}
+    ],
+    "reproduction": [
+      {"text": "Flying egg group, 15 egg cycles, an even sex ratio. Nothing in the Pokédex describes nesting or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Even when attacked it doesn't brace itself on both feet.", "class": "canon", "confidence": "high", "evidence": ["163.6", "C163.11"]},
+      {"text": "Its abilities are Insomnia (it can't be put to sleep) and Keen Eye (its accuracy can't be lowered); Hypnosis (Lv 5) and Reflect (17) are its defensive moves.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Hypnosis", "move:Reflect"]}
+    ],
+    "senses": [
+      {"text": "A perfect sense of time, from an organ that senses the Earth's rotation.", "class": "canon", "confidence": "high", "evidence": ["163.2", "163.4", "163.5", "C163.3"], "analogy": "Real animals keep time with internal circadian clocks that run on their own and are reset each day by light, not by sensing the Earth's rotation; in birds the pineal gland is part of that clock."},
+      {"text": "Keen Eye and Foresight suggest sharp sight, and its evolved form sees in near darkness.", "class": "inferred", "confidence": "medium", "evidence": ["game:abilities", "move:Foresight", "164.1"]}
+    ],
+    "life_cycle": [
+      {"text": "Hoothoot becomes Noctowl at level 20; the adult is larger (1.6 m, 40.8 kg), sees in near darkness and flies silently onto prey.", "class": "canon", "confidence": "high", "evidence": ["164.1", "164.3", "game:evolution", "game:size"]},
+      {"text": "The timekeeping entries all belong to Hoothoot and Noctowl's are all about vision, silent flight and thought: read as development, the young owl is described by its clock and the adult by its hunting.", "class": "inferred", "confidence": "medium", "evidence": ["163.3", "164.4"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Peck (9) and Take Down (25) for attack; Uproar (13) is a loud, sustained call; Confusion (21), Zen Headbutt (33) and Extrasensory (37) are psychic.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Peck", "move:Take Down", "move:Uproar", "move:Confusion", "move:Zen Headbutt", "move:Extrasensory"]},
+      {"text": "Foresight (Lv 1) lets it hit targets that evade, which reads as a knack for finding hidden prey.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Foresight"], "note": "A reading of the move."},
+      {"text": "Dream Eater (49) works only on a sleeping target and follows Hypnosis, but Hoothoot evolves at 20, so a wild one almost never has it.", "class": "mechanic", "confidence": "high", "evidence": ["move:Dream Eater", "move:Hypnosis", "game:evolution"]}
+    ],
+    "ecology": [
+      {"text": "Probably a small nocturnal predator of the canopy (trophic level about 3), though its diet is undescribed.", "class": "inferred", "confidence": "low", "evidence": ["164.4", "game:encounters"]},
+      {"text": "Being in both Headbutt tables, it overlaps every other tree-dweller: the larvae and pupae of the common trees, and Pineco, Butterfree or Beedrill, and Noctowl in the rare ones.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Bird Pokémon peck Pineco by mistake; Hoothoot and Noctowl are Ilex Forest's only birds, so they are the likely culprits.", "class": "inferred", "confidence": "medium", "evidence": ["204.7", "species:Pineco"]}
+    ],
+    "humans": [
+      {"text": "Some trainers use them in place of clocks.", "class": "canon", "confidence": "high", "evidence": ["163.3", "C163.6"]},
+      {"text": "Platinum says it marks time precisely, and that some countries regard it as a wise friend (see Folklore).", "class": "canon", "confidence": "high", "evidence": ["163.8", "C163.14"]}
+    ],
+    "homestead": [
+      {"text": "A living clock: it hoots at precisely the same time every day, which would mark a daily routine with no equipment.", "class": "canon", "confidence": "high", "evidence": ["163.3", "163.4"]},
+      {"text": "Night watch: a night-active bird with keen eyes in the trees around the homestead would notice movement after dark; a Noctowl would do it better.", "class": "hypothesis", "confidence": "medium", "evidence": ["game:abilities", "game:encounters", "164.1"], "note": "Its night activity rests on encounter tables only.", "capability": "danger_sense"},
+      {"text": "Local: it lives in the Headbutt trees of Route 43 and the Lake of Rage, the nearest records to Blackthorn. It needs trees to perch in and a quiet day roost.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "game:habitat"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["canopy and branches", "grass at night (outside Ilex Forest)"], "activity": "nocturnal",
+            "foraging": "unknown; probably a perch-based hunter of small animals, as its evolved form hunts in darkness", "evidence": ["164.4", "move:Peck", "game:encounters"], "class": "inferred", "confidence": "low"},
+  "relationships": [
+    {"with": "Noctowl", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Caterpie", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "game:size", "species:Caterpie"], "note": "HeartGold: both in the common Headbutt trees, and a 0.3 m larva is within reach of a 0.7 m owl. Caterpie is day-active and Hoothoot night-active, so it would be a larva resting in foliage, and Caterpie's stench (10.3) is aimed at exactly such enemies."},
+    {"with": "Weedle", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "13.3", "species:Weedle"], "note": "SoulSilver: same trees and sizes as for Caterpie; Weedle's warning colours and barb make it a risky meal."},
+    {"with": "Metapod", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "move:Peck", "species:Metapod"], "note": "An immobile pupa in the same trees; whether a peck gets through an iron-hard shell is doubtful."},
+    {"with": "Kakuna", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "move:Peck", "species:Kakuna"], "note": "As for Metapod, plus a poison barb."},
+    {"with": "Pineco", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["204.7", "game:encounters", "species:Pineco"], "note": "Attempted only: birds peck Pineco by mistake and its shell protects it."},
+    {"with": "Noctowl", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "164.4", "species:Noctowl"], "note": "Same rare Headbutt trees, same nights; Noctowl is more than twice the size, so they may take different prey."},
+    {"with": "Butterfree", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Butterfree"], "note": "Rare Headbutt trees, HeartGold."},
+    {"with": "Beedrill", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Beedrill"], "note": "Rare Headbutt trees, SoulSilver."}
+  ],
+  "ecotypes": [
+    {"name": "Sound hunter", "moves": ["Supersonic", "Night Shade"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that hunts by sound in deeper darkness: an ultrasonic call and an attack out of the dark. Fits dense, dark forest like Ilex, where sight alone fails.",
+     "behavior": "Calls more and hunts later into the night.", "evidence": ["move:Supersonic", "move:Night Shade", "game:encounters"]},
+    {"name": "Canopy ambusher", "moves": ["Feint Attack", "Wing Attack", "Sky Attack"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that drops onto prey from a perch without warning. Fits closed-canopy forest with plenty of perches and prey on the branches.",
+     "behavior": "Waits motionless on one foot, then strikes from above.", "evidence": ["163.1", "move:Feint Attack", "move:Wing Attack", "move:Sky Attack"]},
+    {"name": "Display mimic", "moves": ["Mirror Move", "Feather Dance"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage given to social display: copying others' actions and showy feather displays. Fits dense owl populations where neighbours have to be told apart and territories advertised.",
+     "behavior": "Mirrors rivals and fluffs its feathers at them.", "evidence": ["move:Mirror Move", "move:Feather Dance"],
+     "analogy": "In real birds, ritualised feather displays are mostly for courtship and territory."}
+  ],
+  "open_questions": [
+    "What does it eat?",
+    "Is it nocturnal? Only the encounter tables say so.",
+    "What is the time-sensing organ, and what is the daily hoot for: territory, contact, courtship?",
+    "At what time does it hoot, and does the time shift with the seasons?",
+    "Why does it stand on one foot, even under attack?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "Some countries consider it a wise friend, versed in the world's ways.", "evidence": ["163.8", "C163.15"], "note": "A belief people hold about it, not a description of the animal."}
+  ]
+}

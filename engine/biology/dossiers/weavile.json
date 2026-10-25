@@ -1,0 +1,675 @@
+{
+  "species": "Weavile",
+  "id": 461,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A clawed, cold-country hunter that works in small packs and leaves messages for its own kind. Weavile live in snowy regions in groups of four or five, hunt with close coordination, and carve patterns into frosted trees, ice and boulders as signals. Its pre-evolution Sneasel is a notorious egg thief that climbs trees by punching its claws into the bark, and a pair may work together, one luring the parents away. No game puts Weavile itself in the wild; in Crystal, Sneasel comes out at night in the Ice Path, a short walk from Blackthorn.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A lean, upright animal (1.1 m, 34.0 kg) whose main tools are its claws; it carves trees, ice and boulders with them.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "461.2",
+          "461.3",
+          "461.4",
+          "C461.6",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "In Sneasel the claws are hooked and normally hidden in the paws; it extends them suddenly to startle an attacker, and uses them to rip vulnerable spots on prey.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.1",
+          "215.6",
+          "C215.1",
+          "C215.2",
+          "C215.10"
+        ],
+        "analogy": "Cats (Felidae) keep their claws sheathed and extend them only when needed, which keeps them sharp."
+      },
+      {
+        "text": "Sneasel's claws are strong enough to climb with: it scales trees by punching them into the bark.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.4",
+          "215.5",
+          "C215.5"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "Weavile hunts prey in coordinated groups; the prey is not named.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "461.1",
+          "C461.1"
+        ]
+      },
+      {
+        "text": "Sneasel is an egg specialist: it finds unguarded nests and steals the eggs while the parents are away, or drives Pidgey from their nests and eats the eggs left behind.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.2",
+          "215.4",
+          "215.5",
+          "215.6",
+          "C215.6",
+          "C215.9"
+        ],
+        "analogy": "Stoats (Mustela erminea) are serious predators of birds' eggs and nestlings, which is why they are a conservation problem where they have been introduced."
+      },
+      {
+        "text": "It also ambushes prey from darkness and, in SoulSilver, scavenges leftovers from the nests it raids.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.3",
+          "215.9",
+          "C215.4",
+          "C215.14"
+        ]
+      },
+      {
+        "text": "Read together, the line is an opportunistic predator: eggs when nests are available, live prey when hunting as a group, and scraps when nothing better turns up.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "215.4",
+          "215.9",
+          "461.1"
+        ]
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Cold, snowy regions, including frost-covered woodland.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "461.1",
+          "461.2",
+          "461.4",
+          "C461.5"
+        ]
+      },
+      {
+        "text": "Weavile is not found in the wild in any Gen I-IV game; it appears only by evolving a Sneasel.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Sneasel's Johto range is high and cold: outside on Mt. Silver and on Route 28 at night only, and inside Mt. Silver at any hour in HeartGold and SoulSilver. In Crystal it lives in the Ice Path, at night only and rarely (1-10% depending on the floor). HeartGold and SoulSilver drop it from the Ice Path.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Sneasel"
+        ]
+      },
+      {
+        "text": "In Sinnoh, Sneasel is common in the snowy north (Routes 216 and 217, Lake Acuity, Snowpoint Temple); Platinum adds daytime and morning slots there. Its Gen 3 Pokédex habitat is forest.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "game:habitat",
+          "species:Sneasel"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Cunning and devious: Sneasel hides under cover of darkness to wait for prey, and evolution made Weavile even more devious.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.3",
+          "215.8",
+          "461.3",
+          "C461.3",
+          "C215.12"
+        ]
+      },
+      {
+        "text": "Persistent once committed: Sneasel will not stop attacking until its foe can no longer move.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.7",
+          "C215.11"
+        ]
+      },
+      {
+        "text": "Probably mostly nocturnal: Sneasel's outdoor Johto encounters are night-only, the Crystal entry has it hunting in darkness, and Sneasel evolves into Weavile only at night. Sinnoh's daytime slots argue against a strict rule.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "215.3",
+          "game:encounters",
+          "game:evolution"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Weavile lives and hunts in groups of four or five, with impressive coordination.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "461.1",
+          "C461.1"
+        ],
+        "analogy": "Harris's hawks (Parabuteo unicinctus) are a real case of small groups hunting with coordinated roles."
+      },
+      {
+        "text": "It communicates by carving signs: odd patterns in frost-covered trees and ice, claw marks in boulders, patterns in trees as a signal to others.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "461.2",
+          "461.3",
+          "461.4",
+          "C461.2",
+          "C461.4"
+        ],
+        "analogy": "Bears and big cats claw-mark trees, leaving marks that others of their kind can see and smell."
+      },
+      {
+        "text": "Sneasel cooperates in pairs: one lures the nest's parents away while the other takes the eggs.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.8",
+          "C215.13"
+        ]
+      },
+      {
+        "text": "Carved signs last, so the groups can leave messages for absent members or neighbouring groups; whether they mark territory, trails or kills is not said.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "461.2",
+          "461.3"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Field egg group, 20 egg cycles, an even sex ratio. Nothing is said about breeding, dens or young.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:egg_cycles",
+          "game:gender"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Sneasel startles attackers by suddenly extending its hidden claws.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.1",
+          "C215.2"
+        ]
+      },
+      {
+        "text": "Pressure, Weavile's ability, makes an opponent use up its moves faster; Sneasel instead has Inner Focus (it can't be made to flinch) or Keen Eye (its accuracy can't be lowered).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ]
+      },
+      {
+        "text": "A group of four or five coordinated hunters is its own protection; few animals in its range would take on the group.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "461.1"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Nothing is said directly. Reading carved signs needs good vision; hunting from darkness suggests good night vision or another sense the entries don't name.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "461.2",
+          "215.3"
+        ]
+      },
+      {
+        "text": "Sneasel's Keen Eye ability, which stops its accuracy being lowered, is the games' only nod to its eyesight.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:abilities"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Sneasel (0.9 m, 28.0 kg) evolves into Weavile (1.1 m, 34.0 kg) when it levels up at night while holding a Razor Claw.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "species:Sneasel"
+        ]
+      },
+      {
+        "text": "The social unit grows with the animal: pairs in Sneasel, groups of four or five in Weavile.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "215.8",
+          "461.1"
+        ]
+      },
+      {
+        "text": "The diet seems to shift with it, from egg theft to hunting prey as a group, though no entry says Weavile stops taking eggs.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "215.6",
+          "461.1"
+        ]
+      },
+      {
+        "text": "That evolution needs a held object and darkness has no obvious biological reading; it may stand for a developmental trigger tied to night activity.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:evolution"
+        ],
+        "note": "A game mechanic being read as biology; flag rather than fact."
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Level-up moves are Weavile's own repertoire (it is never wild in the games). Speed and deceit come first: Quick Attack, Feint Attack (which never misses), Taunt and Screech; Fury Swipes, Night Slash and Metal Claw use the claws.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Quick Attack",
+          "move:Feint Attack",
+          "move:Taunt",
+          "move:Screech",
+          "move:Fury Swipes",
+          "move:Night Slash",
+          "move:Metal Claw"
+        ]
+      },
+      {
+        "text": "Icy Wind (Lv 28), which slows its target, suits a pack that runs prey down in snow.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Icy Wind",
+          "461.1"
+        ]
+      },
+      {
+        "text": "Sneasel learns Beat Up (Lv 38), in which every member of the party joins the attack: the closest move to the canon of coordinated group hunting.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Beat Up",
+          "461.1"
+        ]
+      },
+      {
+        "text": "Fling (Lv 38), throwing a held item, sits with an animal whose evolution needs a held object; nothing in the Pokédex says it handles objects in the wild.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "move:Fling",
+          "game:evolution"
+        ],
+        "note": "A level-up move, so its own; the link to the Razor Claw is speculation."
+      }
+    ],
+    "ecology": [
+      {
+        "text": "A mid-to-upper predator of cold forest and mountain (trophic level about 3.5): a nest predator on birds such as Pidgey, a pack hunter, and a scavenger.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "215.2",
+          "215.9",
+          "461.1"
+        ]
+      },
+      {
+        "text": "Egg predation by Sneasel is a direct cost to tree-nesting birds' breeding success wherever the two overlap.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "215.2",
+          "215.4"
+        ]
+      },
+      {
+        "text": "In Crystal's Ice Path the same rare slots hold Jynx by day and morning and Sneasel at night, and Delibird is common at night beside it; Swinub fills a common day slot. The cave is shared by time of day.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Jynx",
+          "species:Delibird",
+          "species:Swinub"
+        ]
+      },
+      {
+        "text": "Inside Mt. Silver, Sneasel shares the cave with Larvitar, Golbat and Misdreavus.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Larvitar",
+          "species:Golbat",
+          "species:Misdreavus"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "People get Weavile only by evolving a Sneasel, which means finding a Razor Claw and waiting for night.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Sneasel has a reputation for viciousness and theft; its base friendship is low (35), so it does not warm to people easily.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "215.2",
+          "215.7",
+          "game:friendship"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "A real threat to the Glasshouse egg racks and the nursery: Sneasel's whole foraging strategy is finding unguarded eggs, and a pair will draw the guards away. Keep it out of both, and away from nesting birds.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "215.4",
+          "215.6",
+          "215.8"
+        ],
+        "capability": "egg_care"
+      },
+      {
+        "text": "Expect claw marks on trees, ice and rock: carving is how it talks. Keep it out of the orchard and away from Apricorn trees.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "461.2",
+          "461.3",
+          "461.4"
+        ],
+        "capability": "plant_care"
+      },
+      {
+        "text": "At home in Blackthorn's cold: it lives in snowy regions, and the Ice Path, next door, is its Crystal habitat.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "461.4",
+          "game:encounters",
+          "game:types"
+        ],
+        "capability": "cold_tolerance"
+      },
+      {
+        "text": "A night watch for the Ice Path cold vault: a nocturnal, cold-adapted animal that misses little. Whether it can be trusted near a berry store is untested.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "215.3",
+          "461.4",
+          "game:capability"
+        ],
+        "note": "Its scavenging and theft (215.9, 215.4) cut against this.",
+        "capability": "night_travel"
+      },
+      {
+        "text": "Its carved signs could be learned by people as a way to read what the local group is doing.",
+        "class": "creative",
+        "evidence": [
+          "461.2",
+          "461.3"
+        ]
+      },
+      {
+        "text": "Needs: cold, room to climb, and a group. A lone Weavile is outside its social norm of four or five.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "461.1",
+          "215.4"
+        ],
+        "capability": "town_fit"
+      }
+    ]
+  },
+  "niche": {
+    "guild": "predator",
+    "trophic_level": 3.5,
+    "microhabitat": [
+      "snowy forest and frosted trees",
+      "cold mountain slopes and caves",
+      "tree canopy for nest raids (Sneasel)"
+    ],
+    "activity": "nocturnal",
+    "foraging": "cooperative pack hunting (Weavile); nest raiding by stealth or in pairs, ambush from darkness, and scavenging (Sneasel)",
+    "evidence": [
+      "461.1",
+      "215.3",
+      "215.8",
+      "215.9",
+      "game:encounters"
+    ],
+    "class": "inferred",
+    "confidence": "medium",
+    "note": "Activity is read from Sneasel's night-only Johto encounters and night evolution; Platinum also has Sneasel by day."
+  },
+  "relationships": [
+    {
+      "with": "Pidgey",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "215.2",
+        "215.9"
+      ],
+      "note": "Sneasel drives Pidgey off their nests and eats the eggs (215.2) or scavenges leftovers (215.9)."
+    },
+    {
+      "with": "nesting birds (unspecified)",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "215.4",
+        "215.5",
+        "215.6",
+        "215.8"
+      ],
+      "note": "Eggs taken from unguarded nests."
+    },
+    {
+      "with": "frost-covered trees, ice and boulders",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "461.2",
+        "461.3",
+        "461.4"
+      ],
+      "note": "Carving surfaces for signals."
+    },
+    {
+      "with": "Jynx",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Jynx"
+      ],
+      "note": "Crystal Ice Path: Jynx holds the slot by day and morning, Sneasel by night."
+    },
+    {
+      "with": "Delibird",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Delibird"
+      ],
+      "note": "Crystal Ice Path, both at night."
+    },
+    {
+      "with": "Swinub",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Swinub"
+      ],
+      "note": "Crystal Ice Path; Swinub by day, Sneasel by night."
+    },
+    {
+      "with": "Larvitar",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Larvitar"
+      ],
+      "note": "Inside Mt. Silver in HeartGold and SoulSilver."
+    },
+    {
+      "with": "Golbat",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Golbat"
+      ],
+      "note": "Crystal Ice Path and inside Mt. Silver."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Nest-raiding pair",
+      "moves": [
+        "Fake Out",
+        "Spite",
+        "Assist"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "The Platinum pair tactic carried in the blood: Fake Out makes a guarding parent flinch, Spite wears down its defences, and Assist lets either partner use the other's moves, so the decoy and the thief can swap roles. Fits snowline forest where tree-nesting birds breed.",
+      "behavior": "Works in twos; one draws the parents off while the other takes the eggs.",
+      "evidence": [
+        "215.8",
+        "move:Fake Out",
+        "move:Spite",
+        "move:Assist"
+      ]
+    },
+    {
+      "name": "Rime sprinter",
+      "moves": [
+        "Ice Shard",
+        "Crush Claw",
+        "Double Hit"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A first-strike lineage: Ice Shard always goes first, Crush Claw tears and weakens the target's defence, and Double Hit strikes twice. A hunt decided in one rush. Fits open snowfields and ice where prey sees you coming and only speed works.",
+      "behavior": "Short, explosive chases across open snow; gives up fast if the first rush fails.",
+      "evidence": [
+        "move:Ice Shard",
+        "move:Crush Claw",
+        "move:Double Hit"
+      ]
+    },
+    {
+      "name": "Cave-mouth tracker",
+      "moves": [
+        "Foresight",
+        "Pursuit",
+        "Bite"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that hunts what hides or runs: Foresight finds evasive or hidden targets, Pursuit hits harder at prey that tries to flee, and Bite holds what it catches. Fits broken rock and cave entrances like Mt. Silver's, where prey either hides in cracks or bolts.",
+      "behavior": "Checks every crevice; never lets a fleeing animal go.",
+      "evidence": [
+        "move:Foresight",
+        "move:Pursuit",
+        "move:Bite"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does Weavile's group hunt? The prey is never named.",
+    "What do the carved signs mean: territory, trails, kills, group identity?",
+    "Does Weavile still raid nests, or does group hunting replace egg theft?",
+    "Why does evolution need a Razor Claw and darkness, and does a wild Weavile population exist anywhere?",
+    "Is the line strictly nocturnal? Johto says night, Platinum's Sinnoh tables say otherwise.",
+    "Why did HeartGold and SoulSilver remove Sneasel from the Ice Path, where Crystal had it?"
+  ],
+  "contradictions": [
+    {
+      "text": "What Sneasel takes from Pidgey nests: Silver and FireRed say it feasts on the eggs left behind; SoulSilver, with otherwise the same sentence, says it scavenges any leftovers it can find.",
+      "entries": [
+        "215.2",
+        "215.9"
+      ],
+      "note": "Eggs specifically versus any leftovers. Not exclusive, but SoulSilver drops the egg detail the older entry rests on."
+    },
+    {
+      "text": "How Sneasel gets eggs: Ruby, Sapphire and Emerald say it waits for unguarded nests while the parents are away; Silver and SoulSilver say it drives Pidgey from their nests.",
+      "entries": [
+        "215.4",
+        "215.2"
+      ],
+      "note": "Stealth versus eviction; both may be true of an opportunist."
+    }
+  ],
+  "folklore": []
+}

@@ -1,0 +1,102 @@
+{
+  "species": "Magikarp",
+  "id": 129,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A fish that does almost nothing but flop and splash, and the Pokédex's favourite example of weakness. Its swimming muscles are weak, so currents push it along and wash it into pools in numbers, and it jumps for no reason, which makes it easy for predators like Pidgeotto to catch. Yet it is hardy enough to survive in any body of water, however polluted, and it lives in seas, lakes, rivers and puddles alike. In Ilex Forest it is the commonest catch on an Old Rod, and it is in Blackthorn City's water too.",
+  "sections": {
+    "anatomy": [
+      {"text": "A red fish (0.9 m, 10.0 kg).", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:color", "game:shape", "game:genus"]},
+      {"text": "Its swimming muscles are weak.", "class": "canon", "confidence": "high", "evidence": ["129.8", "C129.13"]},
+      {"text": "It may jump high on rare occasions, but never (or usually not) more than seven feet.", "class": "canon", "confidence": "high", "evidence": ["129.3", "129.13", "C129.5", "C129.23"]}
+    ],
+    "diet": [
+      {"text": "Not stated in any entry, and none of its moves concerns feeding.", "class": "unknown", "confidence": "high", "evidence": ["game:learnset"]},
+      {"text": "A fish that can't swim against even slow currents probably eats whatever it can reach without chasing: drifting food, plants or small animals.", "class": "hypothesis", "confidence": "low", "evidence": ["129.11", "129.8"], "note": "Untested.", "analogy": "Real carp (Cyprinus carpio) are omnivorous bottom-feeders, taking plants, seeds and invertebrates."}
+    ],
+    "habitat": [
+      {"text": "Seas, lakes, rivers and shallow puddles: any body of water, however polluted.", "class": "canon", "confidence": "high", "evidence": ["129.2", "129.7", "C129.3", "C129.12", "game:habitat"]},
+      {"text": "Currents carry it: strong currents push it along rivers, and many Magikarp are deposited wherever water pools.", "class": "canon", "confidence": "high", "evidence": ["129.5", "129.8", "C129.7", "C129.14"]},
+      {"text": "In HeartGold and SoulSilver it is fished from Ilex Forest's pond (85% on the Old Rod, 40% Good Rod, 20% Super Rod) and from almost every water in Johto, including Blackthorn City (where it is also 100% of surfing encounters), Dragon's Den and the Lake of Rage.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It flops and splashes about, for no reason anyone can see.", "class": "canon", "confidence": "high", "evidence": ["129.4", "129.6", "129.11", "C129.8", "C129.20"]},
+      {"text": "It can't swim against even slow-moving currents.", "class": "canon", "confidence": "high", "evidence": ["129.11", "C129.19"]},
+      {"text": "Its activity pattern is unknown: Ilex Forest's fishing tables have no time of day.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Many gather where currents deposit them, but that is passive aggregation, not described social life.", "class": "inferred", "confidence": "medium", "evidence": ["129.8"]}
+    ],
+    "reproduction": [
+      {"text": "Water 2 and Dragon egg groups, 5 egg cycles (the shortest there is), slow growth, an even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:growth", "game:gender"]},
+      {"text": "Quick-hatching eggs and its presence in nearly every body of water fit a fish that survives by numbers rather than strength, a possible answer to Diamond's 'no one knows why it has managed to survive'.", "class": "hypothesis", "confidence": "medium", "evidence": ["game:egg_cycles", "game:encounters", "129.10"], "note": "Egg cycles are a game mechanic; how many eggs a Magikarp lays is never stated.", "analogy": "Many real fishes withstand heavy predation by producing very large numbers of young."}
+    ],
+    "defense": [
+      {"text": "Practically none: it is virtually worthless in both power and speed, and its jumping makes it easy for predators like Pidgeotto to catch mid-jump.", "class": "canon", "confidence": "high", "evidence": ["129.4", "129.9", "C129.6", "C129.15"]},
+      {"text": "Hardiness instead: it is a very hardy Pokémon that can survive in any body of water, however polluted.", "class": "canon", "confidence": "high", "evidence": ["129.7", "C129.12"]},
+      {"text": "Its ability is Swift Swim (faster in rain); Splash does nothing, Tackle (15) and Flail (30) are its only attacks.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Splash", "move:Tackle", "move:Flail"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Magikarp becomes Gyarados at level 20: from the weakest Pokémon to a huge, vicious one that can destroy cities in a rage.", "class": "canon", "confidence": "high", "evidence": ["130.1", "130.2", "game:evolution"]},
+      {"text": "When it evolves, its brain cells undergo a structural transformation, which is said to cause Gyarados's violent nature.", "class": "canon", "confidence": "medium", "evidence": ["130.6"]},
+      {"text": "In the distant past it was somewhat stronger than its horribly weak descendants today.", "class": "canon", "confidence": "medium", "evidence": ["129.1", "C129.1"]},
+      {"text": "A Magikarp living for many years can leap a mountain with Splash; the move stays useless (see Folklore and Contradictions).", "class": "canon", "confidence": "low", "evidence": ["129.12", "C129.21", "C129.22"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Splash (Lv 1), Tackle (15) and Flail (30) are its whole level-up list; Bounce is a tutor move taught by people. A wild Magikarp splashes, bumps and thrashes.", "class": "mechanic", "confidence": "high", "evidence": ["move:Splash", "move:Tackle", "move:Flail", "move:Bounce", "game:learnset"]},
+      {"text": "It evolves at 20, so a wild Magikarp has Splash and perhaps Tackle; Flail at 30 belongs to one kept from evolving.", "class": "mechanic", "confidence": "high", "evidence": ["move:Flail", "game:evolution"]},
+      {"text": "The line has no egg moves in HeartGold and SoulSilver.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "Prey: its entries name one predator, Pidgeotto, and describe it as easy to catch.", "class": "canon", "confidence": "high", "evidence": ["129.4"]},
+      {"text": "A fish this weak and this widespread is probably food for many larger animals; in Ilex Forest, Golduck and Noctowl are the candidates.", "class": "hypothesis", "confidence": "low", "evidence": ["129.4", "129.9", "game:encounters", "species:Golduck", "species:Noctowl"], "note": "Pidgeotto isn't in Ilex Forest's tables."},
+      {"text": "Its diet is unknown, so its trophic level is a guess: 2 if it grazes, nearer 3 if it takes small animals.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Carried by currents and tolerant of pollution, it would be among the first fish to reach new or degraded water.", "class": "hypothesis", "confidence": "medium", "evidence": ["129.7", "129.8"], "note": "An inference from two entries; no entry describes colonisation."},
+      {"text": "In Ilex Forest it dominates the Old Rod catch (85%) and Poliwag the Super Rod (80%).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Poliwag"]}
+    ],
+    "humans": [
+      {"text": "Its constant flopping and splashing prompted scientists to research it.", "class": "canon", "confidence": "high", "evidence": ["129.6", "C129.9"]},
+      {"text": "It is famous for being very unreliable, and called an underpowered, pathetic Pokémon, the weakest and most pathetic in the world.", "class": "canon", "confidence": "high", "evidence": ["129.2", "129.3", "129.9", "129.13", "C129.2", "C129.4", "C129.16"]},
+      {"text": "The capability records list scouting (from 129.1) and water travel (from 129.8); neither is supported by what the entries say it can do.", "class": "inferred", "confidence": "medium", "evidence": ["game:capability", "129.1", "129.8"]}
+    ],
+    "homestead": [
+      {"text": "Local: it lives in Blackthorn City's water, Dragon's Den and the Lake of Rage.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "No use as a water-quality indicator: it survives in any water, however polluted, so its presence says little, though its absence would be alarming.", "class": "inferred", "confidence": "medium", "evidence": ["129.7"], "capability": "water_supply"},
+      {"text": "A Gyarados in waiting: raising a Magikarp past level 20 produces Gyarados, whose entries describe rampages and burned villages. Don't raise one near the homestead without a plan.", "class": "inferred", "confidence": "high", "evidence": ["game:evolution", "130.4", "130.11"]},
+      {"text": "It needs only water, and even polluted water will do.", "class": "canon", "confidence": "high", "evidence": ["129.7"]}
+    ]
+  },
+  "niche": {"guild": "omnivore", "trophic_level": 2.5, "microhabitat": ["any still or slow water", "pools where currents deposit it"], "activity": "unknown",
+            "foraging": "unknown; a weak swimmer that cannot chase, so probably takes drifting or bottom food", "evidence": ["C129.13", "C129.19", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "No entry gives its diet; the guild is a placeholder for a carp-like fish."},
+  "relationships": [
+    {"with": "Pidgeotto", "kind": "preyed_on_by", "class": "canon", "confidence": "high", "evidence": ["129.4", "species:Pidgeotto"], "note": "Named as a predator that catches it mid-jump. Pidgeotto isn't in Ilex Forest's tables."},
+    {"with": "Gyarados", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Golduck", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["129.4", "game:encounters", "species:Golduck"], "note": "The pond's fastest swimmer and its weakest fish share the water. Golduck's diet is undescribed."},
+    {"with": "Noctowl", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["129.4", "164.4", "species:Noctowl"], "note": "A splashing fish at the surface is the kind of target 129.4 says birds take; Noctowl hunts the forest at night."},
+    {"with": "flowing water (non-Pokémon)", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["129.5", "129.8"], "note": "Its dispersal: currents carry it and deposit it where water pools."},
+    {"with": "Poliwag", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Poliwag"]},
+    {"with": "Psyduck", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Psyduck"]}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What does it eat?",
+    "Why does it splash 'for no reason'? No purpose is recorded.",
+    "How has it survived (129.10)? Numbers, hardiness, or something else?",
+    "How high can it jump: never more than seven feet (129.3), usually not more (129.13), or over a mountain (129.12)?",
+    "What does 'stronger in the distant past' (129.1) rest on?",
+    "The line has no HeartGold-SoulSilver egg moves, so no ecotypes can be read from breeding; is there variation between populations anyway?"
+  ],
+  "contradictions": [
+    {"entries": ["129.3", "129.13", "129.12"], "text": "How high does it jump? Gold says never more than seven feet (129.3); HeartGold, rewording the same entry, says usually not more than seven feet (129.13); Platinum says a long-lived Magikarp can leap a mountain (129.12)."},
+    {"entries": ["129.7", "129.9", "129.10"], "text": "Weak or hardy? Sapphire says it is considered weak but is actually very hardy (129.7); FireRed calls it the weakest, most pathetic Pokémon in the world (129.9), and Diamond says no one knows how it has survived (129.10).", "note": "Compatible if 'weak' means in battle and 'hardy' means in tolerance; recorded because the entries frame it differently."}
+  ],
+  "folklore": [
+    {"text": "It is said to be the world's weakest Pokémon, and is considered weak because it can only splash.", "evidence": ["129.10", "129.7", "C129.11", "C129.17"], "note": "Given as reputation ('is said to be', 'is considered'); Sapphire immediately qualifies it."},
+    {"text": "A Magikarp that lives for many years can leap a mountain using Splash.", "evidence": ["129.12", "C129.21"], "note": "Stated as fact in Platinum, but it contradicts the seven-foot limit (129.3, 129.13); best read as legend.", "analogy": "It echoes the Chinese legend of the carp that leaps the Dragon Gate and becomes a dragon, which the Magikarp-to-Gyarados line plainly draws on."}
+  ]
+}

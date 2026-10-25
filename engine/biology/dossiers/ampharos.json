@@ -1,0 +1,107 @@
+{
+  "species": "Ampharos",
+  "id": 181,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Ampharos is the light-bearer of the Wool line: the tip of its tail shines brightly enough to be seen far away, over open sea at night, and people have treasured it as a beacon since ancient times, using it to send signals and to guide the lost. Its electricity begins in the young: Mareep's fleece builds static as the wool rubs together, and the more charge it holds, the brighter its tail glows. Flaaffy grows a rubbery, insulated hide and loses patches of wool to the charge it stores. Ampharos itself is never found wild in Gen I–IV, so everything about its wild life is read through Mareep and Flaaffy on Johto's grassy routes.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright, tailed body of 1.4 m and 61.5 kg, Electric type, with a light at the tip of its tail.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "181.6"]},
+      {"text": "The tail's tip shines brightly enough to be seen from far away.", "class": "canon", "confidence": "high", "evidence": ["181.1", "181.2", "181.6", "C181.1", "C181.3", "C181.10"]},
+      {"text": "In Mareep the wool is a generator: the fluffy coat rubs together and builds a static charge, and the fleece doubles in volume as charge builds.", "class": "canon", "confidence": "high", "evidence": ["179.1", "179.4", "179.5", "179.6", "C179.1", "C179.6", "C179.10"], "analogy": "Rubbing wool really does build static charge (the triboelectric effect), and charged fibres repel one another and stand apart, which is why charged fleece would fluff up."},
+      {"text": "Flaaffy's skin is rubbery and resists electricity, and its bare, slick patches are shielded against it; that insulation is what lets it store a lot of charge in its fur.", "class": "canon", "confidence": "high", "evidence": ["180.2", "180.3", "180.4", "180.5", "C180.3", "C180.4", "C180.6"]},
+      {"text": "No Ampharos entry mentions wool. Flaaffy already has bare patches from storing too much electricity, and its wool changes so that a little produces more static; the line's trend is towards less fleece and more stored charge.", "class": "inferred", "confidence": "medium", "evidence": ["180.1", "180.4", "C180.1", "C180.5"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A woolly grassland quadruped as a juvenile, it plausibly grazes; its electricity is described as made by friction in its wool, not taken in from outside, so it isn't fed by electricity.", "class": "hypothesis", "confidence": "low", "evidence": ["179.4", "game:habitat"], "note": "The machine reading's 'electrotroph' came from its Electric type alone; the entries describe self-generated static."}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat for every stage: grassland.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "Its light can be seen far across the ocean's surface after dark, which puts at least some Ampharos on coasts.", "class": "canon", "confidence": "medium", "evidence": ["181.3", "C181.5"]},
+      {"text": "Ampharos isn't found in the wild in any Gen I–IV game. Mareep lives on Johto's Routes 32, 42 and 43 in Gold, Silver, HeartGold and SoulSilver, and Flaaffy on Routes 42 and 43.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Mareep", "species:Flaaffy"]},
+      {"text": "The encounter data has no Crystal records for any stage of the line, which is either a real gap in Crystal or a gap in the data.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]},
+      {"text": "Elsewhere it is marginal: Mareep only in Emerald's Safari Zone, in a variant table (B) of Altering Cave in FireRed and LeafGreen, and by Poké Radar at Sinnoh's Valley Windworks; Flaaffy by Poké Radar on Route 222. HeartGold and SoulSilver also give a Mareep egg in Violet City for a password, and have it in the Johto Safari Zone's forest blocks.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Mareep", "species:Flaaffy"]}
+    ],
+    "behavior": [
+      {"text": "Mareep is on the Route 32 and 43 tables morning, day and night, at a lower rate at night; Ampharos's light is noticed 'when it gets dark'. It seems to be about by day and night alike.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters", "181.3"]},
+      {"text": "Its glow tracks its charge: the more static it has built, the brighter the tail.", "class": "canon", "confidence": "high", "evidence": ["179.4", "179.5", "180.6", "C179.7", "C179.9", "C180.9"]},
+      {"text": "No entry describes the adult's day-to-day behaviour.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "No entry describes flocks, pairs or hierarchy for any stage.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A light visible from far off, carried by a grassland animal, could serve to keep a scattered group in contact at night; nothing in canon says Ampharos signal to each other.", "class": "hypothesis", "confidence": "low", "evidence": ["181.1", "181.3"], "note": "People used its light for signalling (181.4); whether Ampharos do is unknown."}
+    ],
+    "reproduction": [
+      {"text": "Monster and Field egg groups, 20 egg cycles, an even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Nothing in the Pokédex describes breeding or care of young.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "defense": [
+      {"text": "Static: touching any stage risks a shock, and in the games contact may paralyse.", "class": "canon", "confidence": "high", "evidence": ["179.1", "179.6", "C179.2", "C179.11", "game:abilities"]},
+      {"text": "Flaaffy fires hair that zaps on impact, a projectile defence built from its wool.", "class": "canon", "confidence": "high", "evidence": ["180.6", "C180.10"]},
+      {"text": "Cotton Spore, a level-up move of every stage (Lv 19–20), fits that wool-shedding defence: it slows an attacker with cotton-like fibres.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Cotton Spore", "180.6"]},
+      {"text": "Thunder Wave (Lv 14) paralyses rather than injures, and Light Screen (Lv 51) is a protective barrier; both suit an animal that defends more than it hunts.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Thunder Wave", "move:Light Screen"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Mareep's lineage can carry Odor Sleuth as an egg move, a hint that smell matters to some lines, but it is not a natural move of Ampharos.", "class": "mechanic", "confidence": "low", "evidence": ["move:Odor Sleuth"]}
+    ],
+    "life_cycle": [
+      {"text": "Mareep (0.6 m, 7.8 kg, four-legged) becomes Flaaffy at level 15 (0.8 m, 13.3 kg, upright) and Ampharos at level 30 (1.4 m, 61.5 kg, upright). The line stands up on two legs at the first evolution.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "game:shape", "species:Mareep", "species:Flaaffy"]},
+      {"text": "Mareep's fleece grows continually; it is shed completely in summer and grows back within a week.", "class": "canon", "confidence": "high", "evidence": ["179.2", "C179.3", "C179.4"]},
+      {"text": "The fleece is also insulation: it holds a lot of air, keeping Mareep cool in summer and warm in winter.", "class": "canon", "confidence": "high", "evidence": ["179.3", "C179.5"]},
+      {"text": "Read as development, the line moves from wool that makes charge (Mareep), to insulated skin that stores it at the cost of wool (Flaaffy), to a body whose output is mostly light (Ampharos).", "class": "inferred", "confidence": "medium", "evidence": ["179.4", "180.1", "180.3", "181.1"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Electric repertoire, all level-up: Thunder Shock (Lv 10), Thunder Wave (Lv 14), Charge (Lv 25), Discharge (Lv 34) and Thunder (Lv 68). Charge, which stores power for the next Electric move, is the build-up of static the entries describe.", "class": "mechanic", "confidence": "high", "evidence": ["move:Thunder Shock", "move:Thunder Wave", "move:Charge", "move:Discharge", "move:Thunder", "179.4"]},
+      {"text": "Light: Signal Beam (Lv 42) and Power Gem (Lv 59) are both attacks of light, matching the beacon tail.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Signal Beam", "move:Power Gem", "181.1"]},
+      {"text": "Only Ampharos learns Thunder Punch by level-up (Lv 30, on evolving), and it has Fire Punch at Lv 1; punches fit upright arms freed for striking. Flaaffy can only be taught them by a tutor.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Thunder Punch", "move:Fire Punch", "game:shape"]},
+      {"text": "Flash, the move that lights dark places in the field, is a machine move taught by people, not part of its wild repertoire.", "class": "mechanic", "confidence": "high", "evidence": ["move:Flash"]}
+    ],
+    "ecology": [
+      {"text": "If it grazes, it is a primary consumer of grassland (trophic level about 2); its diet is not recorded.", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat"], "note": "Follows from habitat and the juvenile's sheep-like build."},
+      {"text": "A bright light at night on open ground or a coast would attract night-flying insects and could make it conspicuous to predators; no entry mentions either.", "class": "hypothesis", "confidence": "low", "evidence": ["181.3"], "note": "A general consequence of carrying a light, not a described behaviour."},
+      {"text": "Mareep shares Johto's Route 43 with Girafarig and Pidgeotto, and Route 32 with Hoppip, Bellsprout and Wooper: open grassland and field-edge species.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Mareep", "species:Girafarig", "species:Hoppip"]}
+    ],
+    "humans": [
+      {"text": "Its tail light acts as a beacon for lost people.", "class": "canon", "confidence": "high", "evidence": ["181.1", "C181.2"]},
+      {"text": "It has been treasured as a beacon since ancient times, and people in the old days used its light to send signals to others far away.", "class": "canon", "confidence": "high", "evidence": ["181.2", "181.4", "181.5", "181.6", "C181.4", "C181.7", "C181.9", "C181.11"]},
+      {"text": "Signalling over long distance means people have kept and worked with Ampharos for a long time, more like a lighthouse keeper's animal than a pet.", "class": "inferred", "confidence": "medium", "evidence": ["181.2", "181.4"]}
+    ],
+    "homestead": [
+      {"text": "Winter light: a bright, steady light source for the Glasshouse and the yard on long highland nights.", "class": "canon", "confidence": "high", "evidence": ["181.1", "181.3"], "capability": "light"},
+      {"text": "A beacon for anyone lost on the mountain or in the Ice Path approaches, which is the use people have always put it to.", "class": "canon", "confidence": "high", "evidence": ["181.1", "181.2"], "capability": "rescue"},
+      {"text": "Signalling between the homestead and outlying sites by light, as people did in the old days.", "class": "canon", "confidence": "medium", "evidence": ["181.4", "181.6"]},
+      {"text": "An electricity source: the line builds and stores charge, and Charge and Discharge are its own moves. Whether it can feed a battery or lamp steadily, and at what cost to the animal, is untested.", "class": "hypothesis", "confidence": "low", "evidence": ["180.3", "move:Charge", "game:types"], "note": "The capability records list this as gear (dynamo, lamps), not as anything an entry describes.", "capability": "electricity"},
+      {"text": "Mareep would give a wool crop: the fleece is shed fully every summer and regrows in a week. Shearing or gathering it means dealing with static, so handlers need insulated gloves.", "class": "inferred", "confidence": "medium", "evidence": ["179.2", "179.1", "179.6"]},
+      {"text": "Mareep's air-filled fleece is good insulation, so a flock could winter outdoors at Blackthorn better than most grassland species.", "class": "inferred", "confidence": "low", "evidence": ["179.3"], "capability": "cold_tolerance"}
+    ]
+  },
+  "niche": {"guild": "herbivore", "trophic_level": 2, "microhabitat": ["open grassland", "coasts (adults, by 181.3)"], "activity": "cathemeral", "foraging": "not described; presumably grazing", "evidence": ["game:habitat", "game:encounters", "181.3"], "class": "hypothesis", "confidence": "low", "note": "Diet is never stated. Mareep is on the tables by day and night; Ampharos's light is noted after dark."},
+  "relationships": [
+    {"with": "grassland", "kind": "uses_resource", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+    {"with": "people", "kind": "mutualism", "class": "hypothesis", "confidence": "low", "evidence": ["181.2", "181.4"], "note": "People have treasured it as a beacon since ancient times; what the animal gains (shelter, food, protection) is not stated."},
+    {"with": "Girafarig", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Girafarig"], "note": "Route 43 with Mareep and Flaaffy, in Gold, Silver, HeartGold and SoulSilver."},
+    {"with": "Hoppip", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Hoppip"], "note": "Route 32 with Mareep, by day."}
+  ],
+  "ecotypes": [
+    {"name": "Stormfield flock", "moves": ["Charge", "Reflect", "Safeguard"], "class": "hypothesis", "confidence": "low", "reading": "Charge stores power for the next discharge, while Reflect and Safeguard shield the user and its companions from harm and from status effects. Together they suggest a lineage that holds a large charge and spends it protecting the group rather than attacking. Fits exposed upland pasture where a flock has no cover.", "behavior": "Bunches tightly when threatened, wool bristling with charge.", "evidence": ["179.4", "move:Charge", "move:Reflect", "move:Safeguard"]},
+    {"name": "Dust-kicker", "moves": ["Sand Attack", "Take Down", "Body Slam"], "class": "hypothesis", "confidence": "low", "reading": "Sand Attack throws grit into an attacker's eyes, and Take Down and Body Slam are full-weight rams. A lineage that defends on the ground, blinding and then barging. Fits dry, dusty steppe where static builds easily and soil is loose.", "behavior": "Kicks up dust, then charges with its head down.", "evidence": ["move:Sand Attack", "move:Take Down", "move:Body Slam"]},
+    {"name": "Bleating sentinel", "moves": ["Screech", "Odor Sleuth"], "class": "hypothesis", "confidence": "low", "reading": "Odor Sleuth is a sniffing-out move and Screech a piercing cry. A lineage that smells danger first and raises the alarm loudly. Fits grassland bordered by scrub or woods, where predators approach from cover.", "behavior": "Sniffs the wind often and screams at anything it can't see.", "evidence": ["move:Screech", "move:Odor Sleuth"]}
+  ],
+  "open_questions": [
+    "What does any stage of the line eat?",
+    "Where do wild Ampharos live? None is wild in Gen I–IV, though 181.3 places some by the sea.",
+    "Is the line really absent from Crystal's wild, or is that a gap in the encounter data?",
+    "Does Ampharos keep any wool?",
+    "Do Ampharos use their lights to signal to each other, or only people use them that way?",
+    "How much electricity could one supply without harm, and how fast does it recharge?",
+    "Does Mareep shed its whole fleece in summer (179.2), or rely on it to keep cool (179.3)?"
+  ],
+  "contradictions": [
+    {"topic": "Mareep's fleece in summer", "entries": ["179.2", "179.3"], "note": "Silver, FireRed and SoulSilver (179.2) say the fleece is fully shed in summer and regrows in a week; Crystal (179.3) says the air in the fleece keeps it cool in summer. If it is shed, it can't also be cooling the animal, unless the regrown week-old coat is what does the cooling."},
+    {"topic": "How far the light carries", "entries": ["181.4", "181.5", "181.1", "181.3"], "note": "Ruby, Sapphire and Emerald say it can be seen even from space; the Johto entries say from far away, or across the ocean at night. 'From space' reads as exaggeration, but it is stated as fact, not as a saying."}
+  ],
+  "folklore": []
+}

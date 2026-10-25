@@ -1,0 +1,96 @@
+{
+  "species": "Butterfree",
+  "id": 12,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The adult of the Caterpie line, and the only member of the Ilex Forest community whose entries describe it visiting flowers. Butterfree flies from flower to flower collecting honey, which it rubs onto the hairs of its legs and carries back to a nest; it can find flowers in bloom a long way off, by some entries more than six miles. A powder on its wings sheds rain, so it forages even in the heaviest downpours, and in a fight the same dust is toxic. In HeartGold it lives in Ilex Forest's rarer Headbutt trees.",
+  "sections": {
+    "anatomy": [
+      {"text": "A large flying insect (1.1 m, 32.0 kg) whose wings are covered in powder or dust.", "class": "canon", "confidence": "high", "evidence": ["12.2", "12.8", "game:size", "game:shape"]},
+      {"text": "The wing powder does two jobs: it repels water and it is poisonous.", "class": "canon", "confidence": "high", "evidence": ["12.2", "12.4", "12.8", "C12.2", "C12.6", "C12.13"], "analogy": "The 'dust' on real butterfly and moth wings is overlapping scales (Lepidoptera means 'scale-winged'), and the scales make the wings strongly water-repellent. Real wing scales are not poisonous."},
+      {"text": "Its legs carry hairs onto which it rubs honey to carry it.", "class": "canon", "confidence": "high", "evidence": ["12.3", "C12.5"], "analogy": "Bees carry pollen packed onto the hind legs (in honeybees and bumblebees, a 'pollen basket') and carry nectar inside the body in the crop; honey on leg hairs is closer to how bees carry pollen than to how any insect carries nectar."},
+      {"text": "Its ability is Compound Eyes (its accuracy is boosted); no entry describes the eyes themselves.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "diet": [
+      {"text": "It feeds on honey from flowers. It loves it, collects it every day, and flits from flower to flower gathering it.", "class": "canon", "confidence": "high", "evidence": ["12.3", "12.5", "12.10", "C12.4", "C12.7", "C12.16"]},
+      {"text": "The entries say honey, not nectar. Flowers yield nectar; honey in the ordinary sense is nectar concentrated and stored. Butterfree may be making honey in its nest from the nectar it collects.", "class": "hypothesis", "confidence": "low", "evidence": ["12.3", "12.6"], "note": "A reading of the word; no entry describes what happens in the nest.", "analogy": "Honeybees make honey in the hive by evaporating nectar and adding enzymes to it."},
+      {"text": "A central-place forager: it carries what it collects back to a nest rather than eating everything where it finds it.", "class": "canon", "confidence": "high", "evidence": ["12.3", "12.6", "C12.5", "C12.10"]},
+      {"text": "It ranges widely: it can find, extract and carry home honey from flowers blooming over six miles (about 10 km) from its nest.", "class": "canon", "confidence": "high", "evidence": ["12.6", "12.7", "C12.10", "C12.12"], "analogy": "Honeybees usually forage within a few kilometres of the hive, though flights of nearly 10 km have been recorded; six miles is at the far end of what real bees do."}
+    ],
+    "habitat": [
+      {"text": "A forest animal by Gen 3 habitat. In HeartGold it is in Ilex Forest's rare Headbutt trees (10%), Route 47's secret Headbutt trees, National Park's Bug-Catching Contest, and in Kanto on Route 2 and in Viridian Forest. In SoulSilver it appears only in the Contest, and Beedrill holds its Ilex Forest slot.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "game:encounters"]},
+      {"text": "It forages wherever flowers bloom, but its records are in trees and woodland, so its nest is probably in or among trees.", "class": "inferred", "confidence": "low", "evidence": ["12.3", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It collects honey every day and in all weather: its water-repellent wings let it fly and forage even in the heaviest rain.", "class": "canon", "confidence": "high", "evidence": ["12.2", "12.3", "12.4", "12.8", "C12.3", "C12.4", "C12.6", "C12.14"]},
+      {"text": "Day-active: its HeartGold grass records (Route 2, Viridian Forest) are in the morning and by day only. Its Headbutt records have no time of day, and no entry states its activity.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "It has a nest, but no entry says whether the nest is shared or how many Butterfree use it.", "class": "unknown", "confidence": "high", "evidence": ["12.3", "12.6"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 15 egg cycles, an even sex ratio. As the line's adult it is the breeding stage, but nothing is said about mating, eggs, or whether the nest has anything to do with young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Captivate (Lv 36), a move that works only on the opposite sex, is the one hint of courtship display in its repertoire.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Captivate"], "note": "A reading of a level-up move; no entry describes courtship."}
+    ],
+    "defense": [
+      {"text": "In a fight it beats its wings at high speed to release highly toxic dust into the air.", "class": "canon", "confidence": "high", "evidence": ["12.1", "12.9", "12.2", "C12.1", "C12.15"]},
+      {"text": "Poison Powder, Stun Spore and Sleep Powder (all Lv 12) are that dust in game form, with three different effects.", "class": "mechanic", "confidence": "high", "evidence": ["move:Poison Powder", "move:Stun Spore", "move:Sleep Powder"]},
+      {"text": "Flight is its other defence, with wing-driven moves for driving attackers off: Gust (16), Whirlwind (22), Silver Wind (28).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Gust", "move:Whirlwind", "move:Silver Wind"]}
+    ],
+    "senses": [
+      {"text": "It can identify flowers in bloom at a distance, has a superior ability to search out honey, and can locate flower patches with only tiny amounts of pollen.", "class": "canon", "confidence": "high", "evidence": ["12.5", "12.6", "12.10", "C12.8", "C12.9", "C12.11", "C12.16"]},
+      {"text": "Which sense does this isn't stated. Compound Eyes suggests sight; detecting tiny amounts of pollen suggests smell.", "class": "inferred", "confidence": "low", "evidence": ["game:abilities", "12.10"], "analogy": "Real butterflies find flowers by sight, including colours in the ultraviolet that people can't see, and by scent picked up on the antennae."}
+    ],
+    "life_cycle": [
+      {"text": "The adult of a larva-pupa-adult sequence: Caterpie becomes Metapod at level 7 and Metapod becomes Butterfree at level 10.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Metamorphosis changes its diet and its range: Caterpie chews leaves in the foliage, while Butterfree drinks from flowers across miles of country and carries food to a nest.", "class": "inferred", "confidence": "high", "evidence": ["10.6", "12.3", "12.6"], "analogy": "Separate larval and adult niches are the usual pattern in insects with complete metamorphosis, and are thought to spare young and adults from competing for the same food."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "No move is about feeding. Its level-up moves are defence (the three powders), flight (Gust, Whirlwind, Silver Wind, Tailwind, Bug Buzz) and psychic attack (Confusion from evolution, Psybeam at 24).", "class": "mechanic", "confidence": "high", "evidence": ["move:Poison Powder", "move:Tailwind", "move:Bug Buzz", "move:Confusion", "move:Psybeam", "game:learnset"]},
+      {"text": "Supersonic (Lv 18) is a sound attack and Safeguard (Lv 34) protects against status conditions; nothing in the entries corresponds to either.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Supersonic", "move:Safeguard"]},
+      {"text": "The line has no HeartGold-SoulSilver egg moves.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "Probably the forest's main pollinator: it goes from flower to flower and seeks out pollen, which would carry pollen between flowers. No entry actually says it pollinates.", "class": "inferred", "confidence": "medium", "evidence": ["12.5", "12.10"], "analogy": "Flower-visiting insects pollinate incidentally: pollen sticks to their bodies as they feed and rubs off at the next flower."},
+      {"text": "A primary consumer (trophic level 2) that takes a reward plants offer, nectar, rather than plant tissue.", "class": "inferred", "confidence": "high", "evidence": ["12.5"]},
+      {"text": "By carrying food from flowers up to six miles away back to a nest in the forest, it brings energy into the forest from well outside it.", "class": "inferred", "confidence": "low", "evidence": ["12.6", "12.7"]},
+      {"text": "In SoulSilver's Ilex Forest its Headbutt slot goes to Beedrill, a hunter, so that version of the forest has no described flower-visitor at all.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Beedrill"]},
+      {"text": "At 1.1 m it is too big for Pineco to catch; its likely predators are larger birds, and its toxic dust is its answer to them.", "class": "hypothesis", "confidence": "low", "evidence": ["12.1", "species:Pineco", "species:Noctowl"], "note": "No predator of Butterfree is named."}
+    ],
+    "humans": [
+      {"text": "The capability records already link it to food, hauling, scouting, plant care and air travel from these same entries; no entry says people take its honey.", "class": "mechanic", "confidence": "high", "evidence": ["game:capability", "12.3"]},
+      {"text": "Its dust is toxic, so people should keep clear of a Butterfree that is fighting.", "class": "canon", "confidence": "high", "evidence": ["12.1", "12.9"]}
+    ],
+    "homestead": [
+      {"text": "Honey: a Butterfree brings honey back to its nest every day, so a Butterfree nesting at the homestead might yield a harvest, if no more is taken than it needs.", "class": "hypothesis", "confidence": "medium", "evidence": ["12.3", "12.6"], "note": "Nobody has described taking honey from a Butterfree nest, or how much one stores.", "capability": "food_source"},
+      {"text": "Pollination for the orchard and the Glasshouse Berry rows, if Berry plants need pollinators at all, which no source says.", "class": "hypothesis", "confidence": "low", "evidence": ["12.5", "12.10"], "note": "Rests on the inferred pollinator role.", "capability": "plant_care"},
+      {"text": "A flower scout: it finds flowering patches miles away, which would tell a forager where things are in bloom.", "class": "hypothesis", "confidence": "low", "evidence": ["12.5", "12.6"], "note": "Untested: no one has followed a Butterfree to its flowers.", "capability": "scouting"},
+      {"text": "Rain doesn't stop it, which suits a wet highland; cold is another matter, since all its HeartGold records are lowland.", "class": "inferred", "confidence": "medium", "evidence": ["12.4", "game:encounters"]},
+      {"text": "It needs flowers within reach, a sheltered nest site in trees, and handlers who stay out of its wing dust.", "class": "inferred", "confidence": "high", "evidence": ["12.1", "12.3"]}
+    ]
+  },
+  "niche": {"guild": "sap and nectar feeder", "trophic_level": 2, "microhabitat": ["flower patches up to about 10 km out", "trees (nest)"], "activity": "diurnal",
+            "foraging": "central-place forager: flies flower to flower collecting honey and carries it home to a nest on its leg hairs", "evidence": ["C12.5", "C12.7", "C12.10", "game:encounters"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "flowering plants (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["12.3", "12.5", "12.10"], "note": "Honey from flowers; the entries' word is honey."},
+    {"with": "flowering plants (non-Pokémon)", "kind": "pollinates", "class": "inferred", "confidence": "medium", "evidence": ["12.5", "12.10"], "note": "Visits flower after flower and seeks out pollen; no entry says it carries pollen."},
+    {"with": "Budew", "kind": "pollinates", "class": "hypothesis", "confidence": "low", "evidence": ["406.4", "12.10", "species:Budew"], "note": "Budew opens its bud in the sun to release pollen; Butterfree seeks out patches with tiny amounts of pollen. Budew is in Ilex Forest only when the Sinnoh Sound plays on the radio, and no entry links them."},
+    {"with": "Pineco", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Pineco"], "note": "Same rare Headbutt table in Ilex Forest."},
+    {"with": "Hoothoot", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Hoothoot"]},
+    {"with": "Noctowl", "kind": "preyed_on_by", "class": "hypothesis", "confidence": "low", "evidence": ["164.4", "game:encounters", "species:Noctowl"], "note": "Same rare Headbutt trees; Noctowl hunts at night, when a day-active Butterfree would be resting. Its toxic dust argues against it being easy prey."},
+    {"with": "Beedrill", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Beedrill"], "note": "Version counterparts in Ilex Forest; together only in National Park's Bug-Catching Contest."}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What is the nest: where, of what, shared or solitary, and is it where eggs are laid?",
+    "What is the honey for? It is gathered daily and carried home, but Caterpie eat leaves, so it isn't food for the young unless the young are fed something else.",
+    "Does it pollinate? It visits flower after flower, but no entry says it carries pollen.",
+    "Does it eat pollen as well as honey?",
+    "Which sense finds flowers six miles away?",
+    "Can it survive highland winters, or would Blackthorn be a summer-only range?",
+    "The line has no HeartGold-SoulSilver egg moves, so no ecotypes can be read from breeding."
+  ],
+  "contradictions": [],
+  "folklore": []
+}

@@ -1,0 +1,562 @@
+{
+  "species": "Scizor",
+  "id": 212,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A steel-hard, red insect that has traded its parent's camouflage and flight for armour and a bluff. Scizor's pincers carry eye-like markings that it raises to make itself look three-headed, and they contain steel enough to crush any hard object. Its wings no longer fly; it flaps them fast to regulate its body temperature. It develops from Scyther, a green, grass-hiding ambusher with scythes that cut logs, and in the games only a Scyther traded while holding a Metal Coat becomes one.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A heavy, winged insect (1.8 m, 118.0 kg) with a body as hard as steel.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "212.4",
+          "212.5",
+          "212.6",
+          "C212.6",
+          "C212.11",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Two pincers that contain steel and can crush any hard object they grip; they carry eye-like markings.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "212.3",
+          "212.6",
+          "212.7",
+          "C212.5"
+        ]
+      },
+      {
+        "text": "Its wings are not used for flying; they are flapped at high speed to adjust body temperature.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "212.2",
+          "212.4",
+          "212.5",
+          "C212.3",
+          "C212.4",
+          "C212.8"
+        ],
+        "analogy": "Bumblebees and many moths warm up by shivering their flight muscles before they can fly; whether Scizor's flapping warms it or cools it is not said."
+      },
+      {
+        "text": "If its steel-hard body conducts heat the way metal does, it would warm and cool quickly, which may be why it needs the wing-flapping.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "212.4",
+          "212.2"
+        ],
+        "note": "A physical guess linking two canon facts; no entry connects them."
+      }
+    ],
+    "diet": [
+      {
+        "text": "No entry says what Scizor eats.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "212.1"
+        ]
+      },
+      {
+        "text": "Scyther is a predator: it leaps out of tall grass to slice prey, and tears and shreds it with its scythes.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "123.2",
+          "123.8",
+          "C123.2",
+          "C123.14"
+        ],
+        "analogy": "Praying mantises (Mantodea), which Scyther's category names, are sit-and-wait predators that seize prey with raptorial forelegs."
+      },
+      {
+        "text": "Crushing pincers suit hard-shelled prey, which Scyther's slicing scythes would not; Scizor may take different food from its parent.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "212.3",
+          "123.2"
+        ],
+        "note": "Built on anatomy alone."
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Its Gen 3 Pokédex habitat is grassland; Scyther hides in tall grass.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "123.4",
+          "123.12",
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "Scizor is not found in the wild in any Gen I-IV game.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "In HeartGold and SoulSilver, Scyther appears only during the National Park Bug-Catching Contest (5%), and after the National Pokédex only on Tuesday, Thursday and Saturday contests. In Platinum it is on Routes 210 and 215, commoner in the morning; in Kanto, in the Safari Zone or as a Game Corner prize.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Scyther"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Threat display: it raises its eye-patterned pincers to intimidate, which makes it look three-headed, and it can swing them down dangerously.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "212.1",
+          "212.6",
+          "212.7",
+          "C212.1",
+          "C212.2",
+          "C212.12",
+          "C212.13",
+          "C212.14"
+        ]
+      },
+      {
+        "text": "Scyther relies on speed: too fast for the eye, leaving only a blur, so fast its opponent doesn't know what hit it, and very proud of it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "123.3",
+          "123.4",
+          "123.5",
+          "123.6",
+          "C123.5",
+          "C123.8"
+        ]
+      },
+      {
+        "text": "Scyther rarely flies; Scizor doesn't fly at all.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "123.8",
+          "212.2",
+          "C123.15"
+        ]
+      },
+      {
+        "text": "Platinum's Scyther are commoner in the morning; no activity pattern is stated for Scizor.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "game:encounters"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "No entry describes groups. Scyther's speed can create the illusion of more than one, which is a solitary animal looking like many, not a group.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "123.1",
+          "123.9",
+          "C123.1",
+          "C123.16"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Bug egg group, even sex ratio, 25 egg cycles (a little longer than most). Nothing is said about breeding or young.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:egg_cycles"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "A deimatic bluff: the eyespots on its raised pincers make it look like a three-headed animal.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "212.1",
+          "C212.2"
+        ],
+        "analogy": "The peacock butterfly (Aglais io) flashes large eyespots on its wings when disturbed, which experiments show deters small birds."
+      },
+      {
+        "text": "Armour: its steel-hard body is not easily fazed by ordinary attacks.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "212.4",
+          "212.5",
+          "C212.7"
+        ]
+      },
+      {
+        "text": "Scyther's defence was concealment instead: its protective colouring makes it invisible in grass.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "123.4",
+          "123.12",
+          "C123.6",
+          "C123.20"
+        ]
+      },
+      {
+        "text": "Iron Defense (Lv 37) is in Scizor's own level-up list; Swarm or Technician are its abilities.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Iron Defense",
+          "game:abilities"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Nothing is said about Scizor's senses. An eyespot display only works on predators that see well, so its enemies are probably visual hunters.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "212.1",
+          "212.6"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Scyther (1.5 m, 56.0 kg, Bug/Flying, green) becomes Scizor (1.8 m, 118.0 kg, Bug/Steel, red) when traded holding a Metal Coat.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "game:types",
+          "game:color",
+          "species:Scyther"
+        ]
+      },
+      {
+        "text": "The change swaps strategies: from camouflage, speed and slicing scythes to bright colour, a bluff display, crushing pincers and armour; from rare flight to wings used only for heat.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "123.4",
+          "123.6",
+          "123.8",
+          "212.1",
+          "212.2",
+          "212.3",
+          "212.4"
+        ]
+      },
+      {
+        "text": "The weight doubles while the height grows only 0.3 m, which fits a body that becomes metal-hard.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "game:size",
+          "212.4"
+        ]
+      },
+      {
+        "text": "Scyther's scythes grow sharper by cutting hard objects; whether that habit feeds into Scizor's steel is not said.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "123.11",
+          "C123.19"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Scizor's level-up list mixes speed and steel: Quick Attack and Bullet Punch (Lv 1), Agility, Metal Claw (Lv 21), Iron Defense (Lv 37), Iron Head (Lv 53).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Quick Attack",
+          "move:Bullet Punch",
+          "move:Agility",
+          "move:Metal Claw",
+          "move:Iron Defense",
+          "move:Iron Head"
+        ]
+      },
+      {
+        "text": "The cutting moves (Fury Cutter, Slash, X-Scissor, Night Slash) are shared with Scyther and match the scythe canon; in Scizor they come from pincers.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Fury Cutter",
+          "move:Slash",
+          "move:X-Scissor",
+          "move:Night Slash",
+          "123.6"
+        ]
+      },
+      {
+        "text": "Pursuit (Lv 9) and False Swipe (Lv 13) suit a predator that chases down and holds prey rather than killing at once.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "move:Pursuit",
+          "move:False Swipe"
+        ]
+      },
+      {
+        "text": "Steel Wing and Roost are machine moves: taught, and of little use to an animal that doesn't fly.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:learnset",
+          "212.2"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "A large insect predator of grassland (trophic level about 3-3.5), if Scizor hunts as Scyther does.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "123.2",
+          "123.8",
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "In HeartGold's Bug-Catching Contest, Scyther shares the National Park grass with Butterfree, Beedrill, Caterpie and other contest bugs, only on contest days.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Butterfree",
+          "species:Beedrill"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "People make Scizor: it evolves only by trade, holding a Metal Coat.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution"
+        ]
+      },
+      {
+        "text": "Scyther's attacks are nearly impossible to parry, and its scythes cut thick logs in one stroke: dangerous at close quarters.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "123.6",
+          "123.7",
+          "123.10",
+          "C123.11",
+          "C123.17"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "Breaking hard material: its pincers crush any hard object, useful for stone, nuts or scrap metal at the Works.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "212.3",
+          "game:capability"
+        ],
+        "capability": "manipulation"
+      },
+      {
+        "text": "Timber and brush clearing is Scyther's job rather than Scizor's: Scyther's scythes slice thick logs in one stroke and cut through grass.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "123.3",
+          "123.6",
+          "123.7"
+        ],
+        "capability": "clearing"
+      },
+      {
+        "text": "A deterrent at the gate: its three-headed pincer display is built to frighten.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "212.1",
+          "212.6"
+        ],
+        "capability": "deterrence"
+      },
+      {
+        "text": "Watch it in Blackthorn's cold: it manages its body temperature by flapping its wings, and how well that works in a highland winter is unknown.",
+        "class": "unknown",
+        "confidence": "medium",
+        "evidence": [
+          "212.2",
+          "212.4"
+        ],
+        "capability": "cold_tolerance"
+      },
+      {
+        "text": "Its size is in the rider range, but it cannot fly and no entry says it carries anyone.",
+        "class": "mechanic",
+        "confidence": "low",
+        "evidence": [
+          "game:size",
+          "212.2",
+          "game:capability"
+        ],
+        "capability": "carrying_rider"
+      },
+      {
+        "text": "Keep people clear when it swings its pincers down; the display can turn into a strike.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "212.7",
+          "C212.14"
+        ]
+      }
+    ]
+  },
+  "niche": {
+    "guild": "predator",
+    "trophic_level": 3,
+    "microhabitat": [
+      "tall grassland (Scyther)",
+      "open ground (Scizor, inferred)"
+    ],
+    "activity": "unknown",
+    "foraging": "Scyther: ambush from tall grass and high-speed slashing; Scizor: unknown, perhaps crushing hard prey",
+    "evidence": [
+      "123.2",
+      "123.4",
+      "212.3",
+      "game:habitat"
+    ],
+    "class": "inferred",
+    "confidence": "low",
+    "note": "Scizor's own diet is never stated; the machine reading's herbivore comes from the Bug type alone."
+  },
+  "relationships": [
+    {
+      "with": "unnamed prey",
+      "kind": "feeds_on",
+      "class": "canon",
+      "confidence": "medium",
+      "evidence": [
+        "123.2",
+        "123.8"
+      ],
+      "note": "Stated for Scyther."
+    },
+    {
+      "with": "tall grass",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "123.2",
+        "123.4"
+      ],
+      "note": "Cover for Scyther's ambush."
+    },
+    {
+      "with": "Beedrill",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Beedrill"
+      ],
+      "note": "National Park Bug-Catching Contest, HeartGold and SoulSilver (Scyther)."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Tall-grass reaper",
+      "moves": [
+        "Razor Wind",
+        "Night Slash"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "A patient ambusher: Razor Wind takes a turn to charge before it cuts, and Night Slash is a high-critical strike from cover. A lineage that waits in grass and lands one decisive blow, the Yellow canon of leaping out of tall grass in heritable form. Fits dense tall-grass meadow.",
+      "behavior": "Waits motionless in long grass; one strike, rarely two.",
+      "evidence": [
+        "123.2",
+        "move:Razor Wind",
+        "move:Night Slash"
+      ]
+    },
+    {
+      "name": "Last-stand fencer",
+      "moves": [
+        "Endure",
+        "Reversal",
+        "Counter"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that fights through injury: Endure survives a blow that would knock it out, Reversal hits hardest when it is nearly beaten, and Counter returns physical attacks double. It suits Scizor's armour-and-bluff life, where it holds its ground instead of fleeing. Fits contested open ground where it can't hide.",
+      "behavior": "Never runs; most dangerous when hurt.",
+      "evidence": [
+        "212.4",
+        "move:Endure",
+        "move:Reversal",
+        "move:Counter"
+      ]
+    },
+    {
+      "name": "Wing-singer",
+      "moves": [
+        "Bug Buzz",
+        "Silver Wind"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "Wings used for sound and wind rather than flight: Bug Buzz is a damaging vibration, Silver Wind a gust of wing scales that can boost all its stats. A lineage that turns Scizor's non-flying, fast-flapping wings into a weapon and display. Fits open meadow where sound carries.",
+      "behavior": "Buzzes loudly when threatened, before any display of the pincers.",
+      "evidence": [
+        "212.2",
+        "move:Bug Buzz",
+        "move:Silver Wind"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does Scizor eat, and does it still hunt as Scyther does?",
+    "Does wing-flapping warm it, cool it, or both (212.2, 212.4)?",
+    "How does a Scyther become steel? The games require a held Metal Coat and a trade, neither of which has a wild equivalent.",
+    "Is there a wild Scizor population anywhere?",
+    "Are the pincer eyespots a bluff against particular predators, and which?",
+    "How does it cope with Blackthorn's cold, as a steel-bodied insect that relies on its wings for temperature control?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

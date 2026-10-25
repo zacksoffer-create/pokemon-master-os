@@ -1,0 +1,95 @@
+{
+  "species": "Espeon",
+  "id": 196,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Espeon is the day form of Eevee, a 0.9 m, 26.5 kg Psychic type whose coat works as a sense organ. Its fine, velvety fur feels minute shifts in the air, and by reading air currents it predicts the weather and an opponent's next move; the tip of its forked tail quivers as it does. It is extremely loyal to any trainer it judges worthy, and it is said its foresight developed to protect that person. No Espeon is wild in Gen I–IV: the games make it only from an Eevee that is devoted to its trainer and levels up by day.",
+  "sections": {
+    "anatomy": [
+      {"text": "A slender quadruped of 0.9 m and 26.5 kg, Psychic type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Fine hair covers its body; the fur has the look and feel of velvet and is extremely sensitive.", "class": "canon", "confidence": "high", "evidence": ["196.1", "196.6", "196.7", "C196.1", "C196.8", "C196.10"]},
+      {"text": "A forked tail, whose tip quivers when it is predicting an opponent's next move.", "class": "canon", "confidence": "high", "evidence": ["196.3", "C196.3"]},
+      {"text": "An orb on its forehead that glows when it uses psychic power.", "class": "canon", "confidence": "high", "evidence": ["196.6", "C196.9"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Espeon eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its category is the Sun Pokémon and it learns Morning Sun (Lv 71), which restores health in sunlight; sunlight may matter to its energy budget, but nothing says it lives on light.", "class": "hypothesis", "confidence": "low", "evidence": ["game:genus", "move:Morning Sun"], "note": "The machine reading's 'psychotroph' came from its Psychic type alone."}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat: urban, the same as every Eevee form, which probably reflects where people get Eevee rather than a wild habitat.", "class": "inferred", "confidence": "medium", "evidence": ["game:habitat", "game:encounters", "species:Eevee"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Eevee is a gift in Celadon City, at Bill's house in Goldenrod City, a Game Corner prize in the Johto games, and a gift in Hearthome City; it is wild only in Sinnoh's Trophy Garden after the National Pokédex.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Eevee"]},
+      {"text": "An animal that reads air currents would do best in open air, out of still rooms; whether it prefers open country is not recorded.", "class": "hypothesis", "confidence": "low", "evidence": ["196.2"], "note": "Follows from its senses, not from any habitat statement."}
+    ],
+    "behavior": [
+      {"text": "By reading air currents it predicts its foe's next move, and the weather.", "class": "canon", "confidence": "high", "evidence": ["196.1", "196.2", "196.7", "C196.2"]},
+      {"text": "Probably diurnal: it forms only by day in the games, its category is the Sun Pokémon, and Morning Sun is its own healing move.", "class": "inferred", "confidence": "medium", "evidence": ["game:evolution", "game:genus", "move:Morning Sun"]},
+      {"text": "No entry describes its daily routine.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "It is extremely loyal to any trainer it considers worthy, which means it judges people and doesn't bond with just anyone.", "class": "canon", "confidence": "high", "evidence": ["196.4", "196.5", "C196.4", "C196.6"]},
+      {"text": "Nothing is said about how Espeon live with their own kind.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 35 egg cycles, 87.5% male.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]},
+      {"text": "Its eggs hatch as Eevee, so Espeon doesn't breed true; each young takes its adult form from its own circumstances.", "class": "inferred", "confidence": "high", "evidence": ["game:evolution", "133.4", "C133.7"]}
+    ],
+    "defense": [
+      {"text": "Early warning: its fur senses air currents so it can anticipate an enemy's actions.", "class": "canon", "confidence": "high", "evidence": ["196.1", "C196.1"], "analogy": "Crickets carry long, fine hairs on their cerci that respond to the faint air movement made by an approaching predator, triggering escape."},
+      {"text": "Its level-up attacks are psychic: Confusion (Lv 15), Psybeam (Lv 36) and Psychic (Lv 64); Future Sight (Lv 43), an attack that lands two turns later, is the move form of foresight.", "class": "mechanic", "confidence": "high", "evidence": ["move:Confusion", "move:Psybeam", "move:Psychic", "move:Future Sight"]},
+      {"text": "Synchronize passes poison, burns or paralysis back to an attacker.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Its main sense is touch through the fur: it feels minute shifts in the air.", "class": "canon", "confidence": "high", "evidence": ["196.7", "196.1", "C196.10"]},
+      {"text": "Predicting the weather from 'minute shifts in the air' implies sensitivity to small changes in air movement, and perhaps pressure or humidity, ahead of a change in weather; which of these it feels is not stated.", "class": "inferred", "confidence": "low", "evidence": ["196.2", "196.7"]},
+      {"text": "The tail-tip quiver while it predicts suggests the tail takes part in the sensing, or shows the effort of it.", "class": "hypothesis", "confidence": "low", "evidence": ["196.3"], "note": "196.3 describes the quiver, not its purpose."}
+    ],
+    "life_cycle": [
+      {"text": "Eevee (0.3 m, 6.5 kg) becomes Espeon on levelling up by day with high friendship; Espeon is about four times Eevee's mass.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Eevee"]},
+      {"text": "Unlike Umbreon's entries, which credit moonlight, no Espeon entry explains how it forms. Eevee's entries say its form follows its surroundings.", "class": "canon", "confidence": "high", "evidence": ["133.4", "133.5", "197.7"]},
+      {"text": "The one origin story, that it developed foresight to protect its trainer, is reported as hearsay, but it matches the games' requirement that Eevee be devoted to a person before it becomes Espeon.", "class": "inferred", "confidence": "medium", "evidence": ["196.4", "C196.5", "game:evolution"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up set is built around psychic attack and anticipation: Confusion, Swift (Lv 29), Psybeam, Future Sight and Psychic, with Psych Up (Lv 57) and Power Swap (Lv 78) reading or exchanging an opponent's state.", "class": "mechanic", "confidence": "high", "evidence": ["move:Confusion", "move:Swift", "move:Future Sight", "move:Psych Up", "move:Power Swap"]},
+      {"text": "Morning Sun (Lv 71) restores health in sunlight, the counterpart of Umbreon's Moonlight.", "class": "mechanic", "confidence": "high", "evidence": ["move:Morning Sun", "species:Umbreon"]},
+      {"text": "These describe what an Espeon could do on its own; no game has wild ones to observe.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset", "game:encounters"]}
+    ],
+    "ecology": [
+      {"text": "Its role in a wild community is unknown: no diet, no wild population, no predators or prey named.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Extremely loyal to a trainer it judges worthy.", "class": "canon", "confidence": "high", "evidence": ["196.4", "196.5"]},
+      {"text": "In the games it exists only through people: it forms in an Eevee close to its trainer, and almost every Eevee comes from a person.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:encounters", "species:Eevee"]}
+    ],
+    "homestead": [
+      {"text": "A weather forecaster for a mountain homestead: it predicts the weather from minute shifts in the air, which would give warning of storms or snow.", "class": "canon", "confidence": "medium", "evidence": ["196.2", "196.7"], "capability": "danger_sense"},
+      {"text": "A bodyguard that sees trouble coming: it predicts an enemy's actions, and it is loyal to the person it has chosen.", "class": "canon", "confidence": "medium", "evidence": ["196.1", "196.4"], "capability": "danger_sense"},
+      {"text": "Flash, a taught move, makes it a light source; its forehead orb also glows when it uses its powers.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Flash", "196.6"], "capability": "light"},
+      {"text": "It needs a person it considers worthy; an Espeon that hasn't chosen anyone may not stay or cooperate.", "class": "inferred", "confidence": "low", "evidence": ["196.4"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["open air near people (Gen 3 habitat: urban)"], "activity": "diurnal", "foraging": "not described", "evidence": ["game:habitat", "game:evolution", "game:genus"], "class": "inferred", "confidence": "low", "note": "Diet is never stated, so no guild or trophic level is given."},
+  "relationships": [
+    {"with": "air currents", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["196.1", "196.2"], "note": "As information: it reads them to predict foes and weather."},
+    {"with": "sunlight", "kind": "uses_resource", "class": "inferred", "confidence": "low", "evidence": ["game:genus", "move:Morning Sun", "game:evolution"]},
+    {"with": "a chosen trainer", "kind": "mutualism", "class": "canon", "confidence": "medium", "evidence": ["196.4", "196.5"], "note": "It is loyal to a trainer it judges worthy and, it is said, protects them. What the bond gives Espeon is not stated."}
+  ],
+  "ecotypes": [
+    {"name": "Foresight line", "moves": ["Detect", "Wish", "Endure"], "class": "hypothesis", "confidence": "low", "reading": "Detect avoids an attack seen coming, Wish lays down healing that arrives a turn later, and Endure holds on through a blow. With Future Sight, the set describes a lineage that acts ahead of events, stepping out of the way and preparing recovery before it's needed. Fits exposed high meadows where weather and predators arrive fast and cover is scarce.", "behavior": "Moves out of the way before anything has happened.", "evidence": ["196.1", "move:Future Sight", "move:Detect", "move:Wish", "move:Endure"]},
+    {"name": "Hearth companion", "moves": ["Charm", "Yawn", "Tickle"], "class": "hypothesis", "confidence": "low", "reading": "Charm softens an attacker, Yawn makes it drowsy, and Tickle lowers its guard. A lineage that defuses trouble rather than fighting it, suited to living closely with people. Fits towns and homesteads, the urban habitat the Gen 3 Pokédex gives every Eevee form.", "behavior": "Ends a quarrel by making everyone too sleepy, or too charmed, to keep it up.", "evidence": ["196.4", "game:habitat", "move:Charm", "move:Yawn", "move:Tickle"]}
+  ],
+  "open_questions": [
+    "What does Espeon eat?",
+    "Is its foresight sensory (air currents) or psychic precognition? (see contradictions)",
+    "What does it sense to predict the weather: air movement, pressure, humidity?",
+    "Could an Espeon form in the wild, without a bond to a person?",
+    "How does it decide a trainer is worthy?",
+    "Does sunlight feed it, or only trigger its development?"
+  ],
+  "contradictions": [
+    {"topic": "What its foresight is", "entries": ["196.1", "196.2", "196.7", "196.4", "196.5"], "note": "Gold, Silver and Platinum (196.1, 196.2, 196.7) explain its predictions physically, by fur that reads air currents. Ruby, Sapphire and Emerald (196.4, 196.5) speak of precognitive powers, though only as something 'it is said'. Both can be true, but they are different mechanisms."}
+  ],
+  "folklore": [
+    {"text": "It is said that Espeon developed its precognitive powers to protect its trainer from harm.", "evidence": ["196.4", "196.5", "C196.5", "C196.7"], "note": "Reported belief. Its loyalty in the same entries is stated as fact."}
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "species": "Goldeen",
+  "id": 118,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A river fish with a single sharp horn, admired for fins that billow like a ballgown. Goldeen are strong swimmers that hold a steady five knots up fast streams, and at spawning time they swim up rivers and waterfalls in schools. The elegance is deceptive: it rams hard enough with its horn to shatter aquarium glass. In the highlands it is the common fish of Dark Cave's water, caught there with every rod, and nothing records what it eats.",
+  "sections": {
+    "anatomy": [
+      {"text": "A fish, 0.6 m and 15.0 kg, typed Water.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its tail, dorsal and pectoral fins billow and wave in the water; the dorsal and pectoral fins are strongly developed, like muscles.", "class": "canon", "confidence": "high", "evidence": ["118.1", "118.3", "118.6", "118.9", "118.10", "C118.1", "C118.3", "C118.7", "C118.13", "C118.15"]},
+      {"text": "It has a single sharp horn that it can ram or jab with, powerfully.", "class": "canon", "confidence": "high", "evidence": ["118.6", "118.8", "118.11", "118.12", "C118.8", "C118.12", "C118.18", "C118.19"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Goldeen eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its first level-up move is Peck (Lv 1), and later Fury Attack (Lv 31): pecking strikes that might double as the way it picks at food, though nothing says so.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Peck", "move:Fury Attack"], "note": "A reading of moves only."}
+    ],
+    "habitat": [
+      {"text": "Rivers and ponds, and fast streams it can swim up nonstop.", "class": "canon", "confidence": "high", "evidence": ["118.4", "118.7", "118.13", "C118.5", "C118.9", "C118.20"]},
+      {"text": "In the highlands in HeartGold and SoulSilver it is only in Dark Cave's water, at both ends: Old Rod 15% (Lv 10), Good Rod 60% (Lv 20), Super Rod 70% (Lv 40). Surfing there gives Magikarp, not Goldeen. The waters of Blackthorn City, Dragon's Den and Routes 44 and 45 hold Poliwag, Magikarp, Remoraid and the Dratini line, but no Goldeen.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Elsewhere it is one of the commonest fish in Johto and Kanto: Union Cave, Slowpoke Well, Route 42, Mt. Mortar, Mt. Silver, Tohjo Falls, the Kanto routes around Cerulean, Cerulean Cave and the Johto Safari Zone. The Gen 3 Pokédex habitat is waters-edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "Its entries describe running water; in the highlands the games put it in cave water. Whether Dark Cave's water connects to streams outside is not recorded.", "class": "inferred", "confidence": "medium", "evidence": ["118.4", "118.7", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "A strong swimmer that holds a steady five knots (about 9 km/h), even up fast streams.", "class": "canon", "confidence": "high", "evidence": ["118.4", "118.9", "118.11", "118.13", "C118.5", "C118.14", "C118.17", "C118.20"], "note": "118.13 says 'five knots per hour', a slip: a knot is already a speed."},
+      {"text": "It loves swimming wild and free; put in an aquarium, it will shatter even thick glass with one ram of its horn and escape.", "class": "canon", "confidence": "high", "evidence": ["118.7", "C118.9", "C118.10"]},
+      {"text": "If it senses danger, it strikes back with its horn.", "class": "canon", "confidence": "high", "evidence": ["118.11", "C118.18"]},
+      {"text": "Activity pattern isn't stated; the fishing tables don't split it by time.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "It schools: in spring, schools of Goldeen swim up falls and rivers, and at egg-laying time they travel upstream in large groups.", "class": "canon", "confidence": "high", "evidence": ["118.2", "118.8", "C118.2", "C118.11"]},
+      {"text": "During spawning season they search for their 'perfect mate', which implies mate choice.", "class": "canon", "confidence": "medium", "evidence": ["118.5", "C118.6"]}
+    ],
+    "reproduction": [
+      {"text": "It migrates upstream to spawn, swimming up rivers and waterfalls in large groups.", "class": "canon", "confidence": "high", "evidence": ["118.2", "118.8"], "analogy": "Salmon (Salmo, Oncorhynchus) migrate upriver to spawn, leaping falls on the way."},
+      {"text": "Its evolution, Seaking, bores nests in riverbed boulders and guards the eggs for over a month. Goldeen's own entries describe spawning but not nests, so both stages may breed.", "class": "inferred", "confidence": "low", "evidence": ["118.2", "119.4", "119.7"]},
+      {"text": "Water 2 egg group, 20 egg cycles, even sex ratio.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "The horn: it rams and jabs when threatened.", "class": "canon", "confidence": "high", "evidence": ["118.6", "118.11", "118.12"]},
+      {"text": "Swift Swim (faster in rain) and Water Veil (it can't be burned); Agility (Lv 47) and Aqua Ring (Lv 27) for escape and recovery.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Agility", "move:Aqua Ring"]}
+    ],
+    "senses": [
+      {"text": "It 'senses danger', but how is not described.", "class": "unknown", "confidence": "high", "evidence": ["118.11"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves into Seaking at Lv 33, from 0.6 m and 15 kg to 1.3 m and 39 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Seaking"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Waterfall is a natural level-up move for it (Lv 37), matching its runs up falls; Horn Attack (Lv 11), Horn Drill (Lv 41) and Megahorn (Lv 51) are the horn. Supersonic (Lv 7) and Water Pulse (Lv 17) are its ranged moves.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Waterfall", "move:Horn Attack", "move:Horn Drill", "move:Megahorn", "move:Supersonic", "move:Water Pulse", "118.2"]}
+    ],
+    "ecology": [
+      {"text": "Its diet, and so its trophic level, is unknown.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "If schools crowd into small streams to spawn, eggs and spawning fish would be a seasonal food pulse for anything that eats fish.", "class": "hypothesis", "confidence": "low", "evidence": ["118.2", "118.8"], "note": "No predator of Goldeen is recorded in the highlands.", "analogy": "Salmon runs feed bears and eagles, and nutrients from salmon carcasses reach streamside forests."},
+      {"text": "Dark Cave's water holds Goldeen, Seaking and Magikarp. What the base of that food chain is, and what eats Goldeen there, are both unrecorded.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Nicknamed the Water Queen and the water dancer for its fins; it has the look of a queen.", "class": "canon", "confidence": "high", "evidence": ["118.1", "118.3", "118.10", "C118.1", "C118.4", "C118.16"]},
+      {"text": "People keep it, and are warned: don't let your guard down, it could ram you powerfully with its horn.", "class": "canon", "confidence": "high", "evidence": ["118.6", "118.7", "C118.8"]}
+    ],
+    "homestead": [
+      {"text": "It needs a stream, or a pond fed by one, with a riffle or fall; a glass tank won't hold it.", "class": "inferred", "confidence": "medium", "evidence": ["118.4", "118.7"]},
+      {"text": "It senses danger and reacts; a Goldeen in the water intake pool might warn of something in the water, if its reactions can be read.", "class": "hypothesis", "confidence": "low", "evidence": ["118.11"], "capability": "danger_sense", "note": "Untested."},
+      {"text": "Handle with care: the horn.", "class": "inferred", "confidence": "high", "evidence": ["118.6", "118.12"]},
+      {"text": "The homestead's stream pool, where the spring run of Goldeen is the first sign the thaw has reached the high ground.", "class": "creative", "evidence": ["118.8"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["cave-lake water (Dark Cave)", "fast streams and falls (spawning)"], "activity": "unknown",
+            "foraging": "unknown; nothing records what it eats", "evidence": ["118.4", "game:encounters"], "class": "unknown", "confidence": "high"},
+  "relationships": [
+    {"with": "fast streams and waterfalls", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["118.2", "118.4", "118.8"], "note": "Spawning runs."},
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"], "note": "Dark Cave water, both ends."},
+    {"with": "Seaking", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seaking"]},
+    {"with": "Seaking", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Silt-bottom", "moves": ["Mud-Slap", "Mud Sport"], "class": "hypothesis", "confidence": "low",
+     "reading": "Two mud moves: a lineage of still, muddy water that stirs up silt to hide in or to forage through. Fits cave pools like Dark Cave's, where there is no current to run.",
+     "behavior": "Stays low; clouds the water when disturbed.", "evidence": ["game:encounters", "move:Mud-Slap", "move:Mud Sport"]},
+    {"name": "Torrent runner", "moves": ["Hydro Pump", "Aqua Tail"], "class": "hypothesis", "confidence": "low",
+     "reading": "Two powerful water attacks in a lineage built for the fastest water, the strong swimmers that run up falls to spawn. Fits steep highland streams.",
+     "behavior": "First up the falls in spring.", "evidence": ["118.2", "118.4", "move:Hydro Pump", "move:Aqua Tail"]},
+    {"name": "Murk-caster", "moves": ["Psybeam", "Haze"], "class": "hypothesis", "confidence": "low",
+     "reading": "A psychic beam to disorient and Haze to clear the field: a lineage for murky or lightless water, where disorientation matters more than sight. Fits cave water.",
+     "behavior": "Defends itself without seeing its attacker.", "evidence": ["game:encounters", "move:Psybeam", "move:Haze"]}
+  ],
+  "open_questions": [
+    "What does Goldeen eat? Nothing is recorded.",
+    "When does it spawn: spring (118.8) or autumn (Seaking's entries)?",
+    "Do Dark Cave's Goldeen run out to streams to spawn, and where?",
+    "What eats Goldeen in the highlands? No predator is recorded in Dark Cave's water.",
+    "What is the energy base of Dark Cave's water: plant matter washed in, droppings from the bats above, something else?"
+  ],
+  "contradictions": [
+    {"entries": ["118.8", "119.1", "119.5", "119.6", "119.10", "119.13"], "text": "Emerald puts Goldeen's spawning runs in the springtime; the Seaking entries (Red/Blue, Crystal, Ruby, LeafGreen, Platinum) put the line's spawning in autumn.", "reading": "Either the two stages spawn in different seasons, populations differ, or the entries disagree. Not resolved here."}
+  ],
+  "folklore": []
+}

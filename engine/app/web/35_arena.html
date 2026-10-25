@@ -1,0 +1,299 @@
+<script>
+/* ===== The Arena: the 6v6 engine in the app (v1, D-077; docs/ARENA.md) ===========================================
+   sixvsix/ (Showdown's Gen IV engine behind Blackthorn's contract, D-071–D-075) built battle-only into
+   app/data/sixvsix.json and loaded on demand; app/data/arena.json carries what that build can't work out in the page
+   (sixvsix/cli/arena-pack.mjs): the legality of every team it can field, your journey teams as the 6v6 Lab fights
+   them (D-072's optimized spreads), and the Legends round robin. Opponents and trainer profiles are made here from
+   the Trainer Library with the engine's own adapter, so a team here is exactly the team the pack checked.
+   Battles run in Web Workers when the page allows them and in this page when it doesn't (Apps Script's frame can
+   refuse workers); either way the numbers are identical, because a battle depends only on its job and its index.
+   A side is a reference:
+     pack:<key>        one of your journey teams (or a lineup variation) as the Lab fights it
+     lib:<version id>  any Gen IV version of the Trainer Library; gen4:<id> is a Gen II–III version under Gen IV rules
+     mine:<team id>    a team you saved in My Teams (checked here by the app's builder, which the result says) */
+var Arena = (function () {
+  var X = null, P = null, LIB = null, CODE = null, readyP = null, RUN = null, WORKERS = 'unknown', SAVED = {};
+  var STYLE_KEYS = ['aggression', 'risk', 'patience', 'heal_line', 'switching', 'preservation', 'harassment', 'setup_first', 'competence'];
+
+  function ready() {
+    if (!readyP) readyP = Promise.all([API.data('sixvsix'), API.data('arena'), libReady()]).then(function (r) {
+      CODE = r[0].code;
+      if (!window.SixVSix) { var s = document.createElement('script'); s.textContent = CODE; document.head.appendChild(s); }
+      X = window.SixVSix; P = r[1];
+      if (!X) throw new Error('the 6v6 engine didn\'t load');
+      LIB = X.withGen4(Library.pack());
+      Library.setTeamEngine(teamEngine);
+      return Arena;
+    }).catch(function (e) { readyP = null; throw e; });
+    return readyP;
+  }
+
+  /* ---- runners: Web Workers where the page allows them, this page where it doesn't ---- */
+  function syncRun() { return X.syncRunner({yieldEvery: 2}); }
+  function runner() {
+    if (RUN) return RUN;
+    var size = Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) - 1));
+    try {
+      if (typeof Worker === 'undefined' || typeof Blob === 'undefined' || size < 2) throw new Error('no workers');
+      var url = URL.createObjectURL(new Blob([CODE], {type: 'text/javascript'}));
+      RUN = X.poolRunner({size: size, chunk: 2, kind: 'Web Workers', spawn: function () {
+        var w = new Worker(url);
+        return {post: function (m) { w.postMessage(m); }, onMessage: function (fn) { w.onmessage = function (e) { fn(e.data); }; },
+          onError: function (fn) { w.onerror = function (e) { e.preventDefault && e.preventDefault(); fn(new Error('worker: ' + (e.message || 'failed to start'))); }; },
+          terminate: function () { w.terminate(); }};
+      }});
+      WORKERS = size + ' Web Workers';
+    } catch (e) { RUN = syncRun(); WORKERS = 'this page (no workers here)'; }
+    return RUN;
+  }
+  function run(tasks, opt) {   // a worker that can't start (the frame's rules) falls back to this page once, same numbers
+    opt = opt || {};
+    var r = runner();
+    return r.run(tasks, opt).catch(function (e) {
+      if (!/^worker:/.test(String(e && e.message)) || r.kind === 'this thread') throw e;
+      try { r.close(); } catch (x) {}
+      RUN = syncRun(); WORKERS = 'this page (the workers were refused)';
+      return RUN.run(tasks, opt);
+    });
+  }
+
+  /* ---- sides ---- */
+  function entry(key) { return (P.team_list || []).filter(function (t) { return t.key === key; })[0] || null; }
+  function myTeam(id) { return ((S.store || {}).teams || {})[id] || null; }
+  function versionOfMine(id) {   // a My Teams row as a library version (yours unless it names a trainer)
+    var t = myTeam(id); if (!t) throw new Error('no saved team ' + id);
+    var v = Library.asVersion(Object.assign({}, t, {trainer: t.trainer || 'me', kind: t.kind || 'custom'}));
+    if (!v) throw new Error('team ' + id + ' couldn\'t be read');
+    v = Object.assign({}, v, {id: 'mine:' + id, name: t.title || v.name});
+    if (v.generation < 4) v = X.asGen4(v, v.id) || v;
+    v.party = v.party.map(function (p) { return Object.assign({}, p, {moves: (p.moves || []).filter(Boolean)}); });
+    LIB.versions[v.id] = v;
+    return v;
+  }
+  function libVersion(id) { return LIB.versions[id] || null; }
+  function profiles(vid) {   // the trainer's two profiles: Blackthorn's reading and, for a cartridge trainer with flags, the game's AI
+    var v = libVersion(vid); if (!v) return null;
+    var flags = Array.isArray(v.ai_flags) ? v.ai_flags : (v.ai_flag_names || []);
+    return {trainer: X.profileFromLibrary(LIB, vid), game: v.kind === 'cartridge' && flags.length ? X.profileFromLibrary(LIB, vid, {agent: 'game'}) : null};
+  }
+  function coached(base) {   // your trainer's coach settings (#/trainer) on your own teams
+    var c = store('trainer') || {}, params = {};
+    STYLE_KEYS.forEach(function (k) { if (c.params && c.params[k] != null) params[k] = +c.params[k]; });
+    if (!Object.keys(params).length) return base;
+    return Object.assign({}, base, {id: base.id + ':coached', params: Object.assign({}, base.params, params),
+      interpretation: {kind: 'coached', label: 'Your coach settings', note: 'your trainer as you set them (#/trainer)', from: base.id}});
+  }
+  function side(ref, opt) {
+    if (ref && typeof ref === 'object') return ref;   // already a side (a drafted team)
+    opt = opt || {};
+    var lens = opt.lens || 'standardized', k = ref.indexOf(':'), kind = ref.slice(0, k), id = ref.slice(k + 1), team, prof, label, game, yours = false, note = [];
+    if (kind === 'pack') {
+      var e = entry(id); team = P.teams[id]; if (!team) throw new Error('no team ' + id + ' in the arena pack');
+      prof = profiles(e && e.base || id) || profiles('me/heartgold'); yours = true; label = team.name; game = team.game;
+      if (lens === 'authentic') note.push('your teams play at Lv 100 (their spreads are optimized for it)');
+    } else if (kind === 'lib') {
+      var v = libVersion(id); if (!v) throw new Error('the Trainer Library has no version ' + id);
+      team = X.teamFromLibrary(LIB, id, {lens: lens}); prof = profiles(id); label = team.name; game = v.game;
+      yours = v.kind === 'journey' || /^gen4:me\//.test(id) || id.indexOf('me/') === 0;
+      if (v.converted_from) note.push('a Gen ' + (v.converted_from.generation === 2 ? 'II' : 'III') + ' team under Gen IV rules');
+    } else if (kind === 'mine') {
+      var mv = versionOfMine(id); team = X.teamFromLibrary(LIB, mv.id, {lens: lens}); yours = !myTeam(id).trainer;
+      prof = profiles(mv.id); prof = {trainer: Object.assign({}, prof.trainer, {name: mv.name}), game: null}; label = mv.name; game = mv.game;
+      note.push('checked by the app\'s builder, not Showdown\'s validator');
+    } else throw new Error('unknown side ' + ref);
+    return {ref: ref, team: team, profiles: prof, label: label, game: game, yours: yours, note: note,
+      trainer: team.trainer || (prof && prof.trainer && prof.trainer.identity) || ''};
+  }
+  function profileFor(sd, style) {   // how a side plays: an interpretation of its trainer (yours: your coach settings)
+    var p = sd.profiles;
+    if (sd.profile) return sd.profile;               // a side made with its own profile (a draft GM)
+    if (style === 'game') return p.game || p.trainer;
+    if (style === 'plain') return p.trainer;         // yours without your coach settings (the A/B on #/trainer)
+    var base = style && style !== 'blackthorn' ? X.interpret(p, style) : p.trainer;
+    return sd.yours && (!style || style === 'blackthorn' || style === 'coached') ? coached(base) : base;
+  }
+
+  /* ---- legality: the pack's reports, or the app's own check for a team the pack never saw ---- */
+  function appCheck(team) {
+    var out = [];
+    if (!team.members.length || team.members.length > 6) out.push(team.members.length + ' Pokémon');
+    team.members.forEach(function (m) {
+      var d = dexOf(m.species);
+      if (!d || d.n > 493) out.push(m.species + ' isn\'t one of the first 493');
+      if (!m.moves.length || m.moves.length > 4) out.push(m.species + ': ' + m.moves.length + ' moves');
+      if (m.level < 1 || m.level > 100) out.push(m.species + ': level ' + m.level);
+      var tot = 0; STATS.forEach(function (s) { var ev = m.evs[s] || 0, iv = m.ivs[s]; tot += ev; if (ev < 0 || ev > 255) out.push(m.species + ': ' + ev + ' EVs in ' + s); if (iv < 0 || iv > 31) out.push(m.species + ': IV ' + iv + ' in ' + s); });
+      if (tot > 510) out.push(m.species + ': ' + tot + ' EVs in all');
+    });
+    return out;
+  }
+  function verdictOf(team) { return P.legal[team.id + '|' + team.version] || null; }
+  function rulesetFor(a, b) { var x = verdictOf(a.team), y = verdictOf(b.team); return x && y && x[1] && y[1] ? 'gen4-blackthorn' : 'gen4-historical'; }
+  function report(team, ruleset) {
+    var v = verdictOf(team), req = ruleset === 'gen4-blackthorn' ? ['structural', 'obtainable'] : ['structural'];
+    if (v) {
+      var verd = {structural: {ok: !!v[0], problems: v[0] ? [] : v[2]}, obtainable: {ok: !!v[1], problems: v[1] ? [] : v[2]}};
+      var failed = req.filter(function (k) { return !verd[k].ok; });
+      return {team: team.id, team_version: team.version, ruleset: ruleset, ok: !failed.length, required: req, failed: failed, verdicts: verd, checked_by: P.checked_by,
+        not_checked: ['encounter legality: whether this Pokémon could be had at this point in this game']};
+    }
+    var probs = appCheck(team);
+    return {team: team.id, team_version: team.version, ruleset: ruleset, ok: !probs.length, required: ['structural'], failed: probs.length ? ['structural'] : [],
+      verdicts: {structural: {ok: !probs.length, problems: probs}}, app_checked: true,
+      checked_by: 'Blackthorn\'s builder in the page (species, moves, levels, EVs and IVs), standing in for Showdown TeamValidator (' + P.engine.name + ' ' + P.engine.version + ')',
+      not_checked: ['learnsets: the battle-only engine carries none, and the builder checked this team when you made it']};
+  }
+
+  /* ---- jobs ---- */
+  function job(a, b, opt) {
+    opt = opt || {};
+    var ruleset = opt.ruleset || rulesetFor(a, b), n = opt.n || 20;
+    var seed = opt.seed || ('arena|v1|' + a.ref + '|' + b.ref + '|' + (opt.ours || 'blackthorn') + '|' + (opt.theirs || 'blackthorn') + '|' + (opt.lens || 'standardized'));
+    var j = X.makeJob({id: 'arena:' + a.ref + ':vs:' + b.ref + ':' + X.shortHash(seed), label: a.label + ' vs ' + b.label, ruleset: ruleset, n: n, seed: seed,
+      pairing: opt.pairing || 'mirrored', lens: opt.lens || 'standardized',
+      a: {team: a.team, profile: profileFor(a, opt.ours)}, b: {team: b.team, profile: profileFor(b, opt.theirs)},
+      record: opt.record || {logs: 'none', decisions: 'none', input_logs: 'none', analysis: true}});
+    return {job: j, legality: {a: report(a.team, ruleset), b: report(b.team, ruleset)}};
+  }
+  function check(t) {   // the reason a side can't play, before any battle
+    ['a', 'b'].forEach(function (w) { var r = t.legality[w]; if (!r.ok) throw new Error(t.job[w].team.name + ' can\'t play: ' + r.failed.map(function (k) { return r.verdicts[k].problems.join('; '); }).join('; ')); });
+    return t;
+  }
+  function finish(t, out) { var r = X.finishJob(out.prepared, out.rows, {total_ms: 0, per_battle_ms: {}, platform: WORKERS}); r.timing.platform = WORKERS; return r; }
+
+  /** One side against another, n battles (mirrored pairs). Resolves with the Simulation Result. */
+  function match(aRef, bRef, opt) {
+    opt = opt || {};
+    return ready().then(function () {
+      var a = side(aRef, opt), b = side(bRef, opt), t = check(job(a, b, opt)), t0 = Date.now();
+      return run([t], {onProgress: opt.onProgress}).then(function (out) {
+        var r = finish(t, out[0]); r.timing.total_ms = Date.now() - t0;
+        return {a: a, b: b, task: t, result: r, opt: opt};
+      });
+    });
+  }
+  /** Battle i of a match again, with its full log and every decision's reasons (identical to the one in the batch). */
+  function replay(m, i) {
+    var o = Object.assign({}, m.opt, {record: {logs: 'all', decisions: 'all', input_logs: 'none', analysis: true}});
+    var t = job(m.a, m.b, o), prepared = X.prepareJob(t.job, {legality: t.legality});
+    var row = X.runTrial(prepared, i);
+    return {row: row, turns: X.replayTurns(row)};
+  }
+  /** A best-of series, played in order in this page so it stops when one side has won it. */
+  function series(aRef, bRef, opt) {
+    opt = opt || {};
+    var best = opt.best || 7, need = Math.ceil(best / 2);
+    return ready().then(function () {
+      var a = side(aRef, opt), b = side(bRef, opt);
+      var t = check(job(a, b, Object.assign({}, opt, {n: best, pairing: 'alternate', seed: opt.seed || ('series|v1|' + aRef + '|' + bRef)})));
+      var wins = {a: 0, b: 0}, games = [];
+      return X.syncRunner({yieldEvery: 1}).run([t], {
+        shouldStop: function () { return wins.a >= need || wins.b >= need; },
+        onProgress: function () {}
+      }).then(function (out) {
+        out[0].rows.forEach(function (row) { if (wins.a >= need || wins.b >= need) return; if (row.winner === 'a') wins.a++; else if (row.winner === 'b') wins.b++; games.push(row); });
+        return {a: a, b: b, task: t, games: games, wins: wins, winner: wins.a >= need ? 'a' : wins.b >= need ? 'b' : null, best: best, opt: opt};
+      });
+    });
+  }
+  /** Every side against every other: standings, the pairings, and each Pokémon's numbers. */
+  function roundRobin(refs, opt) {
+    opt = opt || {};
+    return ready().then(function () {
+      var sides = refs.map(function (r) { return side(r, opt); }), tasks = [], pairs = [];
+      for (var i = 0; i < sides.length; i++) for (var j = i + 1; j < sides.length; j++) {
+        tasks.push(check(job(sides[i], sides[j], Object.assign({}, opt, {seed: (opt.seed || 'league|v1') + '|' + sides[i].ref + '|' + sides[j].ref})))); pairs.push([i, j]);
+      }
+      var t0 = Date.now();
+      return run(tasks, {onProgress: opt.onProgress}).then(function (out) { return tally(sides, pairs, out.map(function (o, k) { return finish(tasks[k], o); }), Date.now() - t0); });
+    });
+  }
+  function tally(sides, pairs, results, ms) {
+    var tab = sides.map(function (s) { return {side: s, w: 0, l: 0, d: 0, n: 0, sw: 0, sl: 0, left: 0}; }), matrix = {}, players = {};
+    results.forEach(function (r, k) {
+      var i = pairs[k][0], j = pairs[k][1];
+      tab[i].w += r.won; tab[i].l += r.lost; tab[i].d += r.drew; tab[i].n += r.n; tab[j].w += r.lost; tab[j].l += r.won; tab[j].d += r.drew; tab[j].n += r.n;
+      if (r.won > r.lost) { tab[i].sw++; tab[j].sl++; } else if (r.lost > r.won) { tab[j].sw++; tab[i].sl++; }
+      matrix[i + '-' + j] = [r.won, r.lost, r.drew];
+      [['a', i], ['b', j]].forEach(function (x) {
+        (r.summary.members[x[0]] || []).forEach(function (m) {
+          var key = x[1] + '|' + m.name, p = players[key] || (players[key] = {team: x[1], name: m.name, battles: 0, kos: 0, dealt: 0, fainted: 0, appeared: 0});
+          p.battles += r.n; p.kos += m.kos_per_battle * r.n; p.dealt += m.damage_dealt_per_battle * r.n; p.fainted += m.fainted_rate * r.n; p.appeared += m.appeared * r.n;
+        });
+      });
+    });
+    var pl = Object.keys(players).map(function (k) { var p = players[k]; return {team: p.team, name: p.name, kos_per_battle: p.kos / p.battles, damage_per_battle: p.dealt / p.battles, fainted_rate: p.fainted / p.battles, appeared: p.appeared / p.battles}; });
+    tab.forEach(function (t) { t.rate = t.n ? t.w / t.n : 0; t.ci = X.wilson(t.w, t.n); });
+    var order = tab.map(function (t, i) { return i; }).sort(function (x, y) { return tab[y].sw - tab[x].sw || tab[y].rate - tab[x].rate; });
+    return {sides: sides, table: tab, order: order, matrix: matrix, players: pl, results: results, ms: ms, platform: WORKERS};
+  }
+
+  /** Trainer criterion 6: how a trainer's tendencies showed in battle. Plays them against a reference team with every
+   *  decision logged and reads the choices by kind (attack, status, setup, healing, switching) and how often they took
+   *  the option they rated best. */
+  function tendencies(ref, opt) {
+    opt = opt || {};
+    return ready().then(function () {
+      var a = side(ref, opt), b = side(opt.against || 'pack:me/heartgold', opt);
+      var t = check(job(a, b, Object.assign({}, opt, {n: opt.n || 6, seed: 'tendencies|v1|' + ref, record: {logs: 'none', decisions: 'all', input_logs: 'none', analysis: true}})));
+      return run([t], {onProgress: opt.onProgress}).then(function (out) {
+        var c = {decisions: 0, attack: 0, status: 0, setup: 0, heal: 0, switch: 0, forced: 0, top: 0, close: 0, margin: 0}, rows = out[0].rows;
+        rows.forEach(function (row) {
+          (row.decision_log || []).forEach(function (d) {
+            if (d.side !== 'a') return;
+            if (d.forced) { c.forced++; return; }
+            c.decisions++;
+            var best = Math.max.apply(null, d.scores), mine = d.scores[d.options.indexOf(d.choice)], second = d.scores.slice().sort(function (x, y) { return y - x; })[1];
+            if (mine === best) c.top++;
+            if (second != null && best - second < 5) c.close++;
+            if (/^switch/.test(d.choice)) { c['switch']++; return; }
+            var mv = X.moveInfo(d.label);
+            if (!mv) c.attack++; else if (mv.setup) c.setup++; else if (mv.heal) c.heal++; else if (mv.category === 'Status') c.status++; else c.attack++;
+          });
+        });
+        var r = finish(t, out[0]);
+        return {side: a, against: b, counts: c, battles: rows.length, won: r.won, lost: r.lost, profile: t.job.a.profile};
+      });
+    });
+  }
+
+  /* ---- the 6v6 seam: Library.setTeamEngine (docs/design/SIXVSIX_SEAM.md) ---- */
+  function teamEngine(a, b, opt) {   // a, b: version ids (yours: pack keys or team ids); resolves with the seam's result shape
+    var ref = function (x) { return /^(pack|lib|mine):/.test(x) ? x : P.teams[x] ? 'pack:' + x : x.indexOf('team:') === 0 || myTeam(x) ? 'mine:' + x : 'lib:' + x; };
+    return match(ref(a), ref(b), opt).then(function (m) { return m.result; });
+  }
+
+  /* ---- what the page offers ---- */
+  function choices() {   // every side the Arena can field, grouped
+    var g = {yours: [], saved: [], legends: [], anime: [], champions: [], cartridge: [], converted: []};
+    (P.team_list || []).forEach(function (t) { g.yours.push({ref: 'pack:' + t.key, label: t.name + (t.variation ? '' : ' (optimized)')}); });
+    ['crystal', 'firered', 'emerald'].forEach(function (gm) { if (LIB.versions['gen4:me/' + gm]) g.yours.push({ref: 'lib:gen4:me/' + gm, label: 'Zack · ' + GAME_NAME[gm] + ' (Gen IV rules)'}); });
+    Object.keys((S.store || {}).teams || {}).forEach(function (k) {   // battle teams only: plans and staffing rows aren't teams
+      var t = S.store.teams[k]; if (!Array.isArray(t.slots) || !t.slots.filter(Boolean).length || t.status === 'retired' || ['expedition', 'staffing'].indexOf(t.kind) >= 0) return;
+      g.saved.push({ref: 'mine:' + k, label: (t.title || k) + (t.game ? ' · ' + GAME_NAME[t.game] : '')}); });
+    Object.keys(LIB.versions).forEach(function (id) {
+      var v = LIB.versions[id]; if (v.generation !== 4 || v.mine || id.indexOf('mine:') === 0) return;
+      var label = (v.authored_title || [v.name, v.title, v.encounter].filter(Boolean).join(' · ')) + (v.converted_from ? ' (Gen IV rules)' : '');
+      var o = {ref: 'lib:' + id, label: label, game: v.game};
+      if (v.kind === 'journey') return;
+      if (v.kind === 'anime' || v.kind === 'all-time') g.anime.push(o);
+      else if (v.category === 'champion' || id === 'heartgold/red') g.champions.push(o);
+      else if (v.converted_from) g.converted.push(o);
+      else g.cartridge.push(o);
+    });
+    Object.keys(g).forEach(function (k) { g[k].sort(function (x, y) { return x.label < y.label ? -1 : x.label > y.label ? 1 : 0; }); });
+    return g;
+  }
+  function options(sel, groups) {
+    var g = choices(), names = {yours: 'Your journey teams', saved: 'Your saved teams (My Teams)', champions: 'Champions and Red', anime: 'Anime and all-time', cartridge: 'Every Gen IV trainer', converted: 'Gen II–III trainers under Gen IV rules'};
+    return (groups || ['yours', 'saved', 'champions', 'anime', 'cartridge', 'converted']).filter(function (k) { return g[k].length; }).map(function (k) {
+      return '<optgroup label="' + esc(names[k]) + '">' + g[k].map(function (o) { return '<option value="' + esc(o.ref) + '"' + (o.ref === sel ? ' selected' : '') + '>' + esc(o.label) + '</option>'; }).join('') + '</optgroup>';
+    }).join('');
+  }
+
+  return {ready: ready, match: match, replay: replay, series: series, roundRobin: roundRobin, tendencies: tendencies, side: side, choices: choices, options: options,
+    profileFor: profileFor, rulesetFor: rulesetFor, STYLE_KEYS: STYLE_KEYS,
+    pack: function () { return P; }, lib: function () { return LIB; }, X: function () { return X; }, workers: function () { return WORKERS; },
+    save: function (k, v) { if (v === undefined) return SAVED[k]; SAVED[k] = v; }};
+})();
+</script>

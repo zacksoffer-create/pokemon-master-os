@@ -1,0 +1,583 @@
+{
+  "species": "Lucario",
+  "id": 448,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A lean, upright fighter defined by a sense no other animal in this set has: it perceives the 'aura' given off by living things, and through it reads their feelings, thoughts and movements. A well-trained Lucario can pick out the feelings of creatures more than half a mile away, and it understands human speech. Its young, Riolu, use aura to talk to one another and to raise the alarm when afraid, and can run all night across mountains and canyons. Nothing says what it eats, and the only wild Riolu in these games are in the Johto Safari Zone.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "An upright, tailed animal (1.2 m, 54.0 kg); its types, Fighting and Steel, are all the games say about its build.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:size",
+          "game:shape",
+          "game:types"
+        ]
+      },
+      {
+        "text": "Riolu's body is lithe yet powerful, built to cover ground.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "447.2",
+          "C447.2"
+        ]
+      },
+      {
+        "text": "Aura emanates from the body itself: Riolu's grows stronger when it is afraid or sad.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "447.1",
+          "C447.1"
+        ]
+      },
+      {
+        "text": "No organ for sending or receiving aura is described.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "448.1",
+          "447.1"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "No entry for Riolu or Lucario says what it eats.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "448.1",
+          "447.1"
+        ]
+      },
+      {
+        "text": "A sense that reads other animals' movements, plus all-night running across mountains, are traits of a hunter; if it hunts, aura would let it track prey it cannot see.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "448.2",
+          "448.4",
+          "447.2",
+          "447.4"
+        ],
+        "note": "The traits fit predation but the entries never connect them to food."
+      }
+    ],
+    "habitat": [
+      {
+        "text": "No entry describes its habitat. Riolu crests mountains and crosses canyons, which implies rugged country.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "447.2",
+          "C447.3"
+        ]
+      },
+      {
+        "text": "Lucario is not found in the wild in any Gen I-IV game.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Riolu is a one-off egg given on Iron Island in Diamond, Pearl and Platinum. In HeartGold and SoulSilver it is wild only in the Johto Safari Zone, rarely, at any time of day, and only once the zone holds at least 28 forest and 42 mountain-peak blocks.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Riolu"
+        ]
+      },
+      {
+        "text": "The Safari Zone requirement, forest plus a lot of peak, is the closest the games come to describing its habitat: wooded high mountains.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "game:encounters",
+          "447.2"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "Riolu are tireless travellers: they can run through the whole night, cresting three mountains and crossing two canyons.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "447.2",
+          "447.4",
+          "C447.6"
+        ]
+      },
+      {
+        "text": "Activity pattern is mixed: Riolu runs at night, evolves by day, and the Safari Zone has it morning, day and night.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "447.4",
+          "game:evolution",
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Lucario understands human speech.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "448.1",
+          "C448.2"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Riolu communicate with one another using their auras.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "447.4",
+          "C447.5"
+        ]
+      },
+      {
+        "text": "A frightened or sad Riolu's aura intensifies to alert others: an alarm signal.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "447.1",
+          "C447.1"
+        ]
+      },
+      {
+        "text": "An alarm signal only pays if others are near, so Riolu probably live in groups or stay close to adults; the plural 'they' in HeartGold points the same way.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "447.1",
+          "447.4"
+        ]
+      },
+      {
+        "text": "Nothing is said about whether adults live alone or together.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "448.1"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Field and Human-Like egg groups for Lucario, 25 egg cycles (longer than most of this set), 87.5% male. Riolu is a baby Pokémon in the Undiscovered group and can't breed.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:egg_cycles",
+          "game:gender",
+          "species:Riolu"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Hard to surprise: it reads others' movements through their aura and can detect foes it could not otherwise see.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "448.2",
+          "448.4",
+          "C448.3",
+          "C448.6"
+        ]
+      },
+      {
+        "text": "Its abilities are both about not being thrown off: Inner Focus (it can't be made to flinch) or Steadfast (flinching makes it faster).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities"
+        ]
+      },
+      {
+        "text": "Detect (Lv 1), which dodges an attack, and Counter (Lv 6), which returns one, are what reading an opponent's movement looks like in the games.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Detect",
+          "move:Counter",
+          "448.2"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "It senses the aura of all things, and from others' auras reads their thoughts and movements.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "448.1",
+          "448.2",
+          "C448.1",
+          "C448.3"
+        ]
+      },
+      {
+        "text": "Range depends on training: a well-trained Lucario can identify creatures and take in their feelings over half a mile (about 800 m) away.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "448.3",
+          "C448.4"
+        ]
+      },
+      {
+        "text": "Riolu perceives emotions such as joy and rage as waves, which suggests aura is read as something like a signal with intensity and pattern.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "447.3",
+          "C447.4"
+        ]
+      },
+      {
+        "text": "Aura sensing works on foes it can't see, so it does not depend on light or line of sight.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "448.4",
+          "C448.6"
+        ],
+        "note": "The HeartGold entry frames the full claim, that no foe can stay invisible to it, as hearsay; see folklore."
+      },
+      {
+        "text": "What aura physically is, and whether it has a real-world counterpart, is unknown.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "448.1"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Riolu (0.7 m, 20.2 kg, Fighting) evolves into Lucario (1.2 m, 54.0 kg, Fighting/Steel) when it levels up by day with high friendship.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "game:types",
+          "species:Riolu"
+        ]
+      },
+      {
+        "text": "The aura sense matures: the young sees emotions as waves and broadcasts its own fear; the adult reads thoughts and movements and, with training, works at half a mile.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "447.1",
+          "447.3",
+          "448.2",
+          "448.3"
+        ]
+      },
+      {
+        "text": "That evolution needs a close bond suggests a slow-maturing, social animal whose development depends on its relationships.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:evolution",
+          "game:egg_cycles",
+          "447.4"
+        ],
+        "note": "A friendship trigger is a game mechanic; reading it as social dependence is speculative."
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Sensing moves come first in its level-up list: Foresight and Detect at Lv 1, then Me First (Lv 29), which uses the opponent's chosen move before it can, the closest thing in the games to reading thoughts.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Foresight",
+          "move:Detect",
+          "move:Me First",
+          "448.2"
+        ]
+      },
+      {
+        "text": "Aura Sphere (Lv 37) is its signature attack and never misses, which matches the canon that no foe can hide from it.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Aura Sphere",
+          "448.4"
+        ]
+      },
+      {
+        "text": "Speed moves bracket the list: Quick Attack at Lv 1 and Extreme Speed at Lv 51, fitting the young's all-night running.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Quick Attack",
+          "move:Extreme Speed",
+          "447.4"
+        ]
+      },
+      {
+        "text": "Bone Rush (Lv 19) is odd: it implies striking with a bone or bone-like object, which nothing in the Pokédex mentions.",
+        "class": "unknown",
+        "confidence": "medium",
+        "evidence": [
+          "move:Bone Rush"
+        ]
+      },
+      {
+        "text": "Riolu's own list adds Endure, Reversal and Copycat (Lv 29): survive, hit back hardest when nearly beaten, and imitate what it sees.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Endure",
+          "move:Reversal",
+          "move:Copycat"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "Its place in a food web is unknown, because its diet is.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "448.1"
+        ]
+      },
+      {
+        "text": "A wide-ranging animal: one night's run covers three mountains and two canyons, so a Riolu's home range, if it has one, is probably large.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "447.2"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "It understands human speech, and training extends its senses, so people and Lucario have a working relationship in canon.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "448.1",
+          "448.3"
+        ]
+      },
+      {
+        "text": "In Sinnoh, Riolu reaches people as an egg given on Iron Island; it evolves only with a strong bond.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "game:evolution"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "Search and rescue on the mountain: a well-trained Lucario can find creatures and read their state over half a mile away, which suits finding lost walkers on the Ice Path or the crags around Blackthorn.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "448.3",
+          "C448.4"
+        ],
+        "capability": "rescue"
+      },
+      {
+        "text": "An early warning: it detects foes it cannot see and reads their movements.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "448.2",
+          "448.4"
+        ],
+        "capability": "danger_sense"
+      },
+      {
+        "text": "A Riolu in the nursery would announce its own fear or distress: its aura intensifies to alert others.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "447.1"
+        ],
+        "capability": "danger_sense"
+      },
+      {
+        "text": "A fast night courier between Blackthorn and the outlying sites: Riolu run all night across mountains and canyons.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "447.2",
+          "447.4",
+          "game:capability"
+        ],
+        "capability": "night_travel"
+      },
+      {
+        "text": "Easy to work with: it understands spoken instructions.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "448.1"
+        ],
+        "capability": "manipulation"
+      },
+      {
+        "text": "It may pick up the moods of everyone around it, people included; a tense household could be hard on it.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "448.3",
+          "447.3"
+        ],
+        "note": "An extrapolation from emotion sensing; nothing describes stress in Lucario.",
+        "capability": "calming_presence"
+      },
+      {
+        "text": "Needs: a strong bond (its evolution depends on one), room to run, and training to develop its range.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "game:evolution",
+          "447.4",
+          "448.3"
+        ]
+      }
+    ]
+  },
+  "niche": {
+    "guild": "predator",
+    "trophic_level": null,
+    "microhabitat": [
+      "wooded high mountains",
+      "canyons and ridgelines"
+    ],
+    "activity": "cathemeral",
+    "foraging": "unknown; a long-range sense for other animals' movements and long-distance running would suit a pursuit or tracking hunter",
+    "evidence": [
+      "448.2",
+      "448.3",
+      "447.2",
+      "game:encounters"
+    ],
+    "class": "hypothesis",
+    "confidence": "low",
+    "note": "No entry gives its diet; the machine reading's predator comes from the Fighting type alone. Habitat is read from Riolu's travel and the Safari Zone block requirement."
+  },
+  "relationships": [
+    {
+      "with": "aura of other living things",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "448.1",
+        "448.2"
+      ],
+      "note": "Not a material resource, but the information it lives by."
+    },
+    {
+      "with": "mountains and canyons",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "medium",
+      "evidence": [
+        "447.2"
+      ],
+      "note": "Riolu's travel country."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Canyon runner",
+      "moves": [
+        "Agility",
+        "High Jump Kick",
+        "Low Kick"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "Riolu's three-mountains-in-a-night canon made into a lineage: Agility for speed, High Jump Kick for clearing gaps and ledges, Low Kick for taking down heavy animals at the legs. Fits broken canyon country where ground is crossed at a run and in leaps.",
+      "behavior": "Covers enormous ground every night; strikes from a jump.",
+      "evidence": [
+        "447.2",
+        "move:Agility",
+        "move:High Jump Kick",
+        "move:Low Kick"
+      ]
+    },
+    {
+      "name": "Reading jaw",
+      "moves": [
+        "Mind Reader",
+        "Bite",
+        "Crunch"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage that hunts with its jaws: Mind Reader makes the next move certain to land, and Bite and Crunch put the jaws, otherwise absent from the line's own list, behind it. Aura reading plus a sure bite is the shape of an ambush hunter. Fits forest edge where prey moves under cover.",
+      "behavior": "Waits until it has read the animal's next movement, then bites once.",
+      "evidence": [
+        "448.2",
+        "move:Mind Reader",
+        "move:Bite",
+        "move:Crunch"
+      ]
+    },
+    {
+      "name": "Pack shield",
+      "moves": [
+        "Follow Me",
+        "Detect",
+        "Iron Defense"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A guardian lineage: Follow Me draws attacks onto itself, Detect dodges them, and Iron Defense hardens it to take what gets through. It pairs with Riolu's aura alarm: one animal hears the fear and stands in front. Fits open mountainside where a group with young must cross exposed ground.",
+      "behavior": "Moves toward a frightened groupmate and takes the threat on itself.",
+      "evidence": [
+        "447.1",
+        "move:Follow Me",
+        "move:Detect",
+        "move:Iron Defense"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does it eat? Neither Riolu nor Lucario has a diet entry.",
+    "What is aura physically, and does Lucario sense it with an organ or the whole body?",
+    "Do adults live in groups, as Riolu's aura communication implies for the young?",
+    "Why does Bone Rush appear in its own level-up moves, when no entry mentions bones?",
+    "Where do wild Lucario live? The games give only Iron Island's egg and the Johto Safari Zone.",
+    "How much of the half-mile range is training and how much is innate (448.3)?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {
+      "text": "It is said that no foe can remain invisible to Lucario, since it can detect auras, even of foes it could not otherwise see.",
+      "evidence": [
+        "448.4",
+        "C448.5",
+        "C448.6"
+      ],
+      "note": "The ability to sense unseen foes is consistent with the other entries; the absolute 'no foe' is the hearsay part."
+    }
+  ]
+}

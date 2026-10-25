@@ -1,0 +1,104 @@
+{
+  "species": "Noctowl",
+  "id": 164,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The adult of Hoothoot and Ilex Forest's night hunter. Noctowl's eyes concentrate faint light so it can see in near darkness, and its soft feathers make no sound in flight, so it reaches prey unheard; the entries say it never fails to catch prey in the dark. When it thinks hard it turns its head 180 degrees, or upside down. In HeartGold and SoulSilver it lives in Ilex Forest's rarer Headbutt trees, and it is the community's best candidate for a top predator.",
+  "sections": {
+    "anatomy": [
+      {"text": "A large owl (1.6 m, 40.8 kg).", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:genus"]},
+      {"text": "Specially adapted eyes that concentrate even faint light.", "class": "canon", "confidence": "high", "evidence": ["164.1", "164.6", "164.8", "C164.1", "C164.10", "C164.13"], "analogy": "Owls' large, tube-shaped eyes are packed with rod cells, and many owls hunt in very dim light."},
+      {"text": "Extremely soft, supple feathers that make no sound in flight.", "class": "canon", "confidence": "high", "evidence": ["164.3", "164.4", "164.5", "C164.4"], "analogy": "Real owl flight feathers have comb-like serrations on the leading edge and a soft, velvety surface, both of which reduce flight noise."},
+      {"text": "It can rotate its head 180 degrees, and flip it upside down.", "class": "canon", "confidence": "high", "evidence": ["164.2", "164.7"], "analogy": "Real owls can turn their heads about 270 degrees, which they need because their eyes barely move in their sockets."}
+    ],
+    "diet": [
+      {"text": "A predator: it sneaks silently up on prey and never fails to catch prey in darkness.", "class": "canon", "confidence": "high", "evidence": ["164.3", "164.4", "164.5", "C164.5", "C164.6", "C164.8"]},
+      {"text": "Its prey is never named.", "class": "unknown", "confidence": "high", "evidence": ["164.4"]},
+      {"text": "In Ilex Forest the night animals within reach are Oddish, Zubat and Paras in the grass, larvae and pupae resting in the trees, and Magikarp splashing at the pond surface.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "game:size", "129.4"], "note": "Rests on shared habitat, activity and size; none of these is named as its prey."}
+    ],
+    "habitat": [
+      {"text": "A forest animal. In HeartGold and SoulSilver it is in Ilex Forest's rare Headbutt trees (10%) and Viridian Forest's, and in grass at night on Routes 2, 8, 13 to 15, 43 and 47.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "game:encounters"]},
+      {"text": "Its nearest record to Blackthorn is Route 43, at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "A night hunter: its entries are about catching prey in darkness, and every grass record of it in HeartGold and SoulSilver is at night.", "class": "canon", "confidence": "high", "evidence": ["164.4", "164.5", "game:encounters"]},
+      {"text": "When it needs to think it rotates its head 180 degrees to sharpen its intellect; flipping its head upside down is a sign of very complex thinking.", "class": "canon", "confidence": "medium", "evidence": ["164.2", "164.7", "C164.3", "C164.12"]},
+      {"text": "It stalks: it sneaks up on prey without being detected.", "class": "canon", "confidence": "high", "evidence": ["164.3"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about pairs, groups or territories.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Flying egg group, 15 egg cycles, an even sex ratio. Nothing in the Pokédex describes nesting or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "No entry describes a defence. Its size probably suffices in Ilex Forest, where only Golduck is larger.", "class": "inferred", "confidence": "low", "evidence": ["game:size", "species:Golduck"]},
+      {"text": "Its abilities are Insomnia (it can't be put to sleep) and Keen Eye (its accuracy can't be lowered); Hypnosis and Reflect are among its moves.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Hypnosis", "move:Reflect"]}
+    ],
+    "senses": [
+      {"text": "Superior night vision: it can pick out objects with the tiniest amount of light and see clearly in murky darkness.", "class": "canon", "confidence": "high", "evidence": ["164.1", "164.4", "164.5", "164.6", "164.8", "C164.2", "C164.7", "C164.9", "C164.11", "C164.13"]},
+      {"text": "The entries credit its hunting to vision and silent wings; hearing is never mentioned.", "class": "unknown", "confidence": "medium", "evidence": ["164.4", "164.5"], "analogy": "Many owls find prey by sound as well as sight; barn owls can catch prey in total darkness by hearing alone."}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Hoothoot at level 20. Hoothoot's entries are about timekeeping and Noctowl's about hunting; the time-sensing organ isn't mentioned again.", "class": "inferred", "confidence": "medium", "evidence": ["game:evolution", "163.4", "164.4"]},
+      {"text": "Its egg moves sit with Hoothoot, the line's first stage; the ecotypes below use them.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Sky Attack (Lv 1), a powerful strike after a charge-up, fits a hunter that drops onto prey from a perch; Peck, Take Down and Air Slash are its other attacks.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Sky Attack", "move:Peck", "move:Take Down", "move:Air Slash"]},
+      {"text": "Hypnosis followed by Dream Eater (57) is a game combination: put the target to sleep, then drain it. Hunting by putting prey to sleep is a reading, not canon.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Hypnosis", "move:Dream Eater"], "note": "No entry describes Noctowl using sleep on prey."},
+      {"text": "Its psychic moves (Confusion 22, Zen Headbutt 37, Extrasensory 42) go with the entries about its intellect.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Confusion", "move:Zen Headbutt", "move:Extrasensory", "164.2"]}
+    ],
+    "ecology": [
+      {"text": "Probably Ilex Forest's top predator at night (trophic level about 3.2): a large hunter that never misses in the dark, in a forest whose night animals are small (Oddish 0.5 m, Paras 0.3 m, Zubat 0.8 m).", "class": "hypothesis", "confidence": "medium", "evidence": ["164.4", "game:size", "game:encounters"], "note": "Its prey is unnamed; the trophic level assumes a mix of plant-eaters and smaller predators."},
+      {"text": "It is on the rare Headbutt table at 10%, as a top predator might be, though a table rate isn't abundance.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]},
+      {"text": "Bird Pokémon peck Pineco by mistake; Noctowl is one of two birds in Ilex Forest that could.", "class": "inferred", "confidence": "low", "evidence": ["204.7", "species:Pineco"]}
+    ],
+    "humans": [
+      {"text": "No entry describes its dealings with people.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The capability records list it under light and night travel from 164.1. Night travel fits; light is a misreading, since it concentrates light rather than making it.", "class": "inferred", "confidence": "high", "evidence": ["164.1", "game:capability"]}
+    ],
+    "homestead": [
+      {"text": "Night watch: it sees in near darkness and moves silently, so a resident Noctowl would see intruders, predators and strays after dark.", "class": "hypothesis", "confidence": "medium", "evidence": ["164.1", "164.3"], "note": "Untested; depends on it staying near the homestead.", "capability": "danger_sense"},
+      {"text": "It might keep small crop-raiding animals away at night, but it may take small Pokémon as readily.", "class": "hypothesis", "confidence": "low", "evidence": ["164.4"], "note": "Its prey is unnamed.", "capability": "deterrence"},
+      {"text": "Protect small or sleeping residents, and eggs, at night if a Noctowl hunts nearby.", "class": "inferred", "confidence": "medium", "evidence": ["164.4", "164.5"]},
+      {"text": "Route 43 is its nearest wild home; it needs tall trees or high perches and a dark day roost.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "game:habitat"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.2, "microhabitat": ["canopy perches", "forest clearings and grass at night", "pond edge"], "activity": "nocturnal",
+            "foraging": "silent, vision-guided stalking and capture of prey in darkness", "evidence": ["C164.5", "C164.7", "game:encounters"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "prey animals (unnamed)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["164.3", "164.4"]},
+    {"with": "Oddish", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "game:size", "species:Oddish"], "note": "Oddish is the night animal most often met in Ilex Forest's grass and is a third of Noctowl's height. Against it: Oddish is poisonous and armed with powders."},
+    {"with": "Zubat", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Zubat"], "note": "Both active at night in Ilex Forest; Zubat flies in colonies and is fast.", "analogy": "Real owls take bats occasionally, though bats are a small part of their diet."},
+    {"with": "Paras", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "game:abilities", "species:Paras"], "note": "In the night grass; its spores (Effect Spore) would make it a costly catch."},
+    {"with": "Caterpie", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Caterpie"], "note": "A day-active larva resting in foliage at night; HeartGold only."},
+    {"with": "Weedle", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "13.3", "species:Weedle"], "note": "As for Caterpie, SoulSilver only; its warning colours and barb argue against."},
+    {"with": "Magikarp", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["129.4", "game:encounters", "species:Magikarp"], "note": "Magikarp's pointless jumping makes it easy for predators like Pidgeotto to catch mid-jump; an owl hunting the pond edge could do the same.", "analogy": "Fish-eating owls are real: Blakiston's fish owl (Bubo blakistoni) takes fish from rivers in the Russian Far East and Hokkaido."},
+    {"with": "Pineco", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["204.7", "game:encounters", "species:Pineco"], "note": "Attempted only: birds peck Pineco by mistake and its shell protects it."},
+    {"with": "Hoothoot", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Hoothoot"], "note": "Same rare Headbutt trees, same nights; the size difference may split their prey."},
+    {"with": "Butterfree", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Butterfree"]},
+    {"with": "Beedrill", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Beedrill"]}
+  ],
+  "ecotypes": [
+    {"name": "Dive hunter", "moves": ["Sky Attack", "Wing Attack", "Agility"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage built for fast, powerful strikes from height. Fits open country and forest edges where prey is spotted from tall perches and the approach is long.",
+     "behavior": "Hunts from high perches over clearings rather than inside the forest.", "evidence": ["164.4", "move:Sky Attack", "move:Wing Attack", "move:Agility"]},
+    {"name": "Shadow stalker", "moves": ["Night Shade", "Feint Attack"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that pushes further into darkness and strikes where the prey can't see it coming. Fits dense, old forest like Ilex.",
+     "behavior": "Hunts the darkest hours under the thickest canopy.", "evidence": ["164.3", "move:Night Shade", "move:Feint Attack"]},
+    {"name": "Flusher", "moves": ["Whirlwind", "Supersonic"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that drives prey out of cover with wind and sound before striking. Fits grassland and reedbeds where prey hides low.",
+     "behavior": "Beats and calls over cover, then pounces on whatever bolts.", "evidence": ["164.4", "move:Whirlwind", "move:Supersonic"]}
+  ],
+  "open_questions": [
+    "What does it eat?",
+    "Does it hunt by hearing as well as sight?",
+    "Does it keep Hoothoot's clock?",
+    "What is the head-turning for: is it really about thinking (164.2, 164.7), or about seeing?",
+    "Does it try to eat Pineco, and does the explosion deter it?",
+    "Does it fish?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

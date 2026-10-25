@@ -1,0 +1,101 @@
+{
+  "species": "Seaking",
+  "id": 119,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "The adult of the Goldeen line, a horned river fish whose life centres on its nest. In autumn Seaking gather from all over to spawn, turning the rivers red; the male bores a hole in a riverbed boulder with his drill-like horn, and the pair take turns guarding the eggs for over a month. It defends its eggs with its life. In the highlands it is a rare Super Rod catch in Dark Cave's water, where there are no riverbed boulders to nest in.",
+  "sections": {
+    "anatomy": [
+      {"text": "A fish, 1.3 m and 39.0 kg, typed Water.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "The horn on its head is sharp like a drill.", "class": "canon", "confidence": "high", "evidence": ["119.9", "119.12", "C119.13", "C119.18"]},
+      {"text": "In autumn its body becomes fattier and its colours are at their most beautiful, before it courts a mate.", "class": "canon", "confidence": "high", "evidence": ["119.6", "119.13", "C119.7", "C119.20", "C119.21"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Seaking eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "It fattens before the autumn courtship, so it must feed heavily in the months before spawning.", "class": "inferred", "confidence": "medium", "evidence": ["119.13", "C119.20"]},
+      {"text": "Its level-up moves start with Poison Jab and Peck (Lv 1); like Goldeen's, they are strikes that might double as feeding, but nothing says so.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Poison Jab", "move:Peck"], "note": "A reading of moves only."}
+    ],
+    "habitat": [
+      {"text": "Rivers, creeks and stream beds; it lives in hollowed rocks in streams.", "class": "canon", "confidence": "high", "evidence": ["119.1", "119.10", "119.12", "C119.1", "C119.15", "C119.19"]},
+      {"text": "In the highlands in HeartGold and SoulSilver it is only in Dark Cave's water, both ends, by Super Rod 10% (Lv 40). It is widespread elsewhere: Union Cave, Slowpoke Well, Route 42, Mt. Mortar (also surfing 10%), Tohjo Falls, the Kanto routes and the Johto Safari Zone, and it is the main surfing encounter on Mt. Silver (about 90%). The Gen 3 Pokédex habitat is waters-edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:habitat"]},
+      {"text": "A boulder-nesting river fish recorded in a cave pool: Dark Cave Seaking presumably feed there and spawn somewhere with current and boulders.", "class": "hypothesis", "confidence": "low", "evidence": ["119.4", "game:encounters"], "note": "Nothing records where Dark Cave's fish breed."}
+    ],
+    "behavior": [
+      {"text": "In the autumn spawning season they swim powerfully up rivers and creeks.", "class": "canon", "confidence": "high", "evidence": ["119.1", "119.10", "C119.1", "C119.15"]},
+      {"text": "Males perform courtship dances in riverbeds to woo females.", "class": "canon", "confidence": "high", "evidence": ["119.6", "C119.6"]},
+      {"text": "Males patrol the area around their nests in autumn to protect their offspring.", "class": "canon", "confidence": "high", "evidence": ["119.5", "C119.5"]}
+    ],
+    "social": [
+      {"text": "During spawning season Seaking gather from all over, colouring the rivers a brilliant red.", "class": "canon", "confidence": "high", "evidence": ["119.3", "119.14", "C119.3", "C119.22"], "analogy": "Sockeye salmon (Oncorhynchus nerka) turn bright red at spawning, and their mass runs colour whole rivers."},
+      {"text": "The male and female take turns patrolling around their nest and eggs.", "class": "canon", "confidence": "high", "evidence": ["119.7", "C119.9"]}
+    ],
+    "reproduction": [
+      {"text": "The male makes the nest by carving out a boulder in the stream with his horn.", "class": "canon", "confidence": "high", "evidence": ["119.2", "119.9", "119.11", "C119.2", "C119.14", "C119.16"], "analogy": "Male three-spined sticklebacks (Gasterosteus aculeatus) build the nest, take on red breeding colours and guard the eggs and young."},
+      {"text": "The hole stops the eggs from washing away in the current or being attacked.", "class": "canon", "confidence": "high", "evidence": ["119.4", "119.8", "C119.4", "C119.11", "C119.12"]},
+      {"text": "It is very protective: the guarding of eggs goes on for over a month, and it defends them with its life.", "class": "canon", "confidence": "high", "evidence": ["119.7", "119.11", "C119.8", "C119.10", "C119.17"]},
+      {"text": "Water 2 egg group, 20 egg cycles, even sex ratio; the line's egg moves sit on Goldeen.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "To protect its family it will fight with its drill-sharp horn.", "class": "canon", "confidence": "high", "evidence": ["119.12", "C119.18"]},
+      {"text": "Swift Swim and Water Veil, as Goldeen; Agility (Lv 56) and Aqua Ring (Lv 27).", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Agility", "move:Aqua Ring"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Goldeen at Lv 33.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Goldeen"]},
+      {"text": "Both stages are described spawning, Goldeen in schools running upstream and Seaking at nests, so the line may breed before it reaches full size.", "class": "inferred", "confidence": "low", "evidence": ["118.2", "119.4"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Horn Drill (Lv 47) is the nest-borer in game form; Horn Attack, Fury Attack and Megahorn (Lv 63) are the horn as a weapon. Waterfall (Lv 40) is a natural move, matching the runs upstream.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Horn Drill", "move:Horn Attack", "move:Fury Attack", "move:Megahorn", "move:Waterfall", "119.4", "119.1"]}
+    ],
+    "ecology": [
+      {"text": "An engineer: it bores holes in riverbed boulders, and empty nest holes would shelter other small stream animals.", "class": "hypothesis", "confidence": "medium", "evidence": ["119.4", "119.8"], "note": "The boring is canon; later use of the holes by others is not recorded."},
+      {"text": "A mass autumn gathering of large fish is a seasonal food pulse for predators; none is recorded in the highlands.", "class": "hypothesis", "confidence": "low", "evidence": ["119.3"], "note": "Untested."},
+      {"text": "Its diet, and so its trophic level, is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Its autumn spawning is a spectacle: rivers turn a brilliant red.", "class": "canon", "confidence": "high", "evidence": ["119.3", "119.14"]},
+      {"text": "Anyone working a stream in autumn should leave nest boulders alone: the guarding parent will fight.", "class": "inferred", "confidence": "high", "evidence": ["119.11", "119.12"]}
+    ],
+    "homestead": [
+      {"text": "To breed it needs a real stream with boulders; a pond will not do.", "class": "inferred", "confidence": "medium", "evidence": ["119.4", "119.12"]},
+      {"text": "Expect it to be aggressive near its nest for over a month each autumn; keep people and stock out of that stretch of stream.", "class": "inferred", "confidence": "medium", "evidence": ["119.5", "119.7", "119.11"]},
+      {"text": "Its horn bores holes in stone; whether it would do so anywhere but at a nest is unknown.", "class": "hypothesis", "confidence": "low", "evidence": ["119.4", "move:Horn Drill"], "capability": "digging", "note": "Untested."},
+      {"text": "A pair of Seaking in the homestead's stream, with the autumn red run as the household's marker of the year turning.", "class": "creative", "evidence": ["119.3"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["cave-lake water (Dark Cave)", "boulder-bed streams (nesting)"], "activity": "unknown",
+            "foraging": "unknown; nothing records what it eats", "evidence": ["119.12", "game:encounters"], "class": "unknown", "confidence": "high"},
+  "relationships": [
+    {"with": "riverbed boulders", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["119.4", "119.8", "119.11"], "note": "Nest sites, bored with the horn."},
+    {"with": "small stream animals (non-Pokémon)", "kind": "engineers", "class": "hypothesis", "confidence": "low", "evidence": ["119.4"], "note": "Empty nest holes as shelter; not recorded."},
+    {"with": "Goldeen", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Goldeen"], "note": "Dark Cave water."},
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"]}
+  ],
+  "ecotypes": [
+    {"name": "Torrent spawner", "moves": ["Hydro Pump", "Aqua Tail"], "class": "hypothesis", "confidence": "low",
+     "reading": "Two powerful water attacks in a lineage built for the autumn run up steep, fast streams. Fits highland streams with falls, where the strongest swimmers reach the best nest boulders.",
+     "behavior": "Nests highest up the stream.", "evidence": ["119.1", "move:Hydro Pump", "move:Aqua Tail"]},
+    {"name": "Silt nester", "moves": ["Mud Sport", "Mud-Slap"], "class": "hypothesis", "confidence": "low",
+     "reading": "Mud moves in a lineage that nests where boulders are scarce, digging into silt and gravel instead of boring rock. Fits slow, muddy reaches and cave pools such as Dark Cave's.",
+     "behavior": "Digs a hollow rather than drilling one.", "evidence": ["119.4", "game:encounters", "move:Mud Sport", "move:Mud-Slap"]},
+    {"name": "Heavy guardian", "moves": ["Body Slam", "Aqua Tail"], "class": "hypothesis", "confidence": "low",
+     "reading": "Weight and a tail strike in a nest-guarding lineage that drives intruders off by force. Fits crowded spawning reaches where many pairs nest close together, as when Seaking gather from all over.",
+     "behavior": "Guards longer and fights harder at the nest.", "evidence": ["119.3", "119.11", "move:Body Slam", "move:Aqua Tail"]}
+  ],
+  "open_questions": [
+    "What does Seaking eat, especially to fatten in autumn (119.13)?",
+    "Where do Dark Cave's Seaking spawn? A cave pool has no riverbed boulders.",
+    "Which season: spring for Goldeen (118.8), autumn for Seaking?",
+    "Who guards: the males (119.5) or both parents in turn (119.7)?",
+    "What uses the bored nest holes after the young leave?",
+    "What eats Seaking or its eggs? Nothing is recorded."
+  ],
+  "contradictions": [
+    {"entries": ["119.5", "119.7"], "text": "Crystal says the males patrol the nests in autumn; Sapphire says the male and female take turns patrolling.", "reading": "Male-only versus shared guarding. Possibly both happen; not resolved here."},
+    {"entries": ["118.8", "119.1", "119.6", "119.10", "119.13"], "text": "Emerald puts Goldeen's spawning runs in spring; the Seaking entries put spawning in autumn.", "reading": "The two stages may spawn in different seasons, or the entries disagree."}
+  ],
+  "folklore": []
+}

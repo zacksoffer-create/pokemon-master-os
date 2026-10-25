@@ -1,0 +1,104 @@
+{
+  "species": "Blastoise",
+  "id": 9,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "Blastoise is a heavy, shelled water's-edge Pokémon (1.6 m, 85.5 kg) that carries pressurised water jets on its shell. It plants its feet before firing, and makes itself heavy on purpose to take the recoil; the jets hit harder than a fire hose, can punch through thick steel, and are accurate enough to knock a can over from 160 feet. In a pinch it withdraws into its shell or crushes an attacker under its weight. The line hunts from the water: Squirtle shoots water at prey and Wartortle hides in water to stalk it, and old Wartortle are known by the algae on their shells. No game in Gen I–IV has the line in the wild; every one is raised from a starter Squirtle.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright, shelled body of 1.6 m and 85.5 kg, Water type.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Water spouts, described as rocket cannons, protrude from its shell and fire pressurised jets.", "class": "canon", "confidence": "high", "evidence": ["9.1", "9.4", "9.6", "9.10", "C9.1", "C9.5", "C9.7", "C9.15"]},
+      {"text": "The jets are powerful enough to punch through thick steel and more forceful than a fire hose.", "class": "canon", "confidence": "high", "evidence": ["9.2", "9.4", "9.10", "C9.3"]},
+      {"text": "They are also precise: its water bullets can strike empty cans from over 160 feet (about 49 m).", "class": "canon", "confidence": "high", "evidence": ["9.6", "9.7", "C9.8", "C9.9", "C9.10", "C9.11"]},
+      {"text": "In the juvenile the shell's rounded shape and surface grooves cut drag in water, so the shell is a swimming aid as well as armour.", "class": "canon", "confidence": "high", "evidence": ["7.6", "7.7", "C7.11", "C7.13"]},
+      {"text": "Where the adult's water comes from (drawn in, stored, or made in the body) is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "diet": [
+      {"text": "A predator in its early stages: Squirtle shoots water at prey while in the water, and Wartortle hides in water to stalk unwary prey.", "class": "canon", "confidence": "high", "evidence": ["7.2", "8.1", "8.9", "C7.3", "C8.1", "C8.15"], "analogy": "Archerfish (Toxotes) knock insects off overhanging leaves with aimed jets of water spat from below the surface."},
+      {"text": "No Blastoise entry mentions food; that the adult keeps hunting from the water is an inference from its line.", "class": "inferred", "confidence": "medium", "evidence": ["7.2", "8.1"]},
+      {"text": "No prey is named for any stage.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "habitat": [
+      {"text": "Gen 3 Pokédex habitat for the whole line: the water's edge.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "It fires its jets with its feet planted on the ground, so it uses solid footing at the shore as well as the water.", "class": "canon", "confidence": "high", "evidence": ["9.5", "C9.6"]},
+      {"text": "Not found in the wild in any Gen I–IV game. Squirtle is a starter gift in Pallet Town (Red, Blue, FireRed, LeafGreen, and HeartGold and SoulSilver after beating Red) and in Vermilion City in Yellow.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Squirtle"]}
+    ],
+    "behavior": [
+      {"text": "Before shooting it plants its feet firmly, and it deliberately makes itself heavy so it can withstand the recoil of its jets.", "class": "canon", "confidence": "high", "evidence": ["9.3", "9.5", "9.11", "C9.4", "C9.16"]},
+      {"text": "How it makes itself heavy (taking on water, or some other means) isn't explained.", "class": "unknown", "confidence": "high", "evidence": ["9.3"]},
+      {"text": "Older entries say the jets are used for high-speed tackles, which reads as jet propulsion.", "class": "canon", "confidence": "high", "evidence": ["9.1", "9.9", "C9.2", "C9.14"]},
+      {"text": "Its activity pattern is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "No entry describes groups, pairs or territory for any stage.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The scratches on Wartortle's shell are evidence of its toughness as a fighter, which implies frequent fights, with rivals or predators.", "class": "canon", "confidence": "medium", "evidence": ["8.6", "8.7", "C8.10", "C8.12"]}
+    ],
+    "reproduction": [
+      {"text": "Monster and Water 1 egg groups, 20 egg cycles, 87.5% male; the sex ratio is shared with the other starter lines and is probably a game convention.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Charmander", "species:Bulbasaur"]},
+      {"text": "Squirtle's shell is soft at birth; the back swells and hardens soon after into a resilient shell that prodding fingers bounce off.", "class": "canon", "confidence": "high", "evidence": ["7.1", "7.3", "7.4", "C7.1", "C7.5", "C7.6", "C7.7"], "analogy": "Hatchling turtles likewise start with a pliable shell that hardens as the bone beneath it ossifies."}
+    ],
+    "defense": [
+      {"text": "In a pinch it withdraws inside its shell; otherwise it crushes its foe under its heavy body.", "class": "canon", "confidence": "high", "evidence": ["9.8", "C9.12", "C9.13"]},
+      {"text": "The juvenile shelters in its shell and strikes back with water at every opportunity, drawing in its legs and spraying from its mouth.", "class": "canon", "confidence": "high", "evidence": ["7.2", "7.5", "7.8", "7.10", "C7.4", "C7.9", "C7.14", "C7.16"]},
+      {"text": "Its wild repertoire backs this: Withdraw (Lv 10), Protect (Lv 24) and Iron Defense (Lv 46) for the shell, Rapid Spin (Lv 20) and Skull Bash (Lv 39) for the shell-first attack.", "class": "mechanic", "confidence": "high", "evidence": ["move:Withdraw", "move:Protect", "move:Iron Defense", "move:Rapid Spin", "move:Skull Bash"]},
+      {"text": "Torrent strengthens its Water moves when it is close to defeat.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Hitting a can at 160 feet implies good eyesight and fine aim.", "class": "inferred", "confidence": "medium", "evidence": ["9.6", "9.7"]}
+    ],
+    "life_cycle": [
+      {"text": "Squirtle (0.5 m, 9 kg) becomes Wartortle at level 16 (1.0 m, 22.5 kg) and Blastoise at level 36 (1.6 m, 85.5 kg).", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Squirtle", "species:Wartortle"]},
+      {"text": "Wartortle balances while swimming fast by controlling its furry ears and tail.", "class": "canon", "confidence": "high", "evidence": ["8.1", "8.4", "8.9", "C8.2", "C8.6", "C8.16"]},
+      {"text": "Wartortle's age shows on its body: its thick tail fur deepens in colour with age, and algae on the shell mark a very old individual.", "class": "canon", "confidence": "high", "evidence": ["8.3", "8.6", "8.7", "8.11", "C8.5", "C8.9", "C8.11"], "analogy": "Algae commonly grow on the shells of freshwater turtles that bask little, such as snapping turtles."},
+      {"text": "Read as development, the water weapon moves from the mouth (Squirtle sprays water and foam) to the shell (Blastoise's cannons), and the animal shifts from a fast, drag-reducing swimmer to a heavy, planted gunner.", "class": "inferred", "confidence": "medium", "evidence": ["7.1", "7.6", "9.4", "9.5"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Water attacks by level-up: Bubble (Lv 7), Water Gun (Lv 13), Water Pulse (Lv 28), Aqua Tail (Lv 32) and Hydro Pump (Lv 60), the last matching the cannon entries.", "class": "mechanic", "confidence": "high", "evidence": ["move:Bubble", "move:Water Gun", "move:Water Pulse", "move:Aqua Tail", "move:Hydro Pump", "9.4"]},
+      {"text": "Bite (Lv 16) is its only jaw attack, fitting a hunter that takes prey it has stunned with water.", "class": "mechanic", "confidence": "low", "evidence": ["move:Bite", "7.2"]},
+      {"text": "Rain Dance (Lv 53) is a level-up move: a wild Blastoise could bring rain, which no entry mentions.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Rain Dance"]},
+      {"text": "Surf, Waterfall, Strength and Rock Climb are machine moves, taught by people.", "class": "mechanic", "confidence": "high", "evidence": ["move:Surf", "move:Waterfall", "move:Strength", "move:Rock Climb"]}
+    ],
+    "ecology": [
+      {"text": "A predator of the water's edge, probably trophic level about 3 to 4, though its prey is never named.", "class": "inferred", "confidence": "low", "evidence": ["7.2", "8.1", "game:size"]},
+      {"text": "Old individuals carry algae on their shells, so the line hosts at least one passenger community.", "class": "canon", "confidence": "medium", "evidence": ["8.3", "8.11"]}
+    ],
+    "humans": [
+      {"text": "Wartortle is very popular as a pet and is a recognised symbol of longevity, especially among older people.", "class": "canon", "confidence": "high", "evidence": ["8.3", "8.5", "8.8", "8.10", "8.11", "C8.4", "C8.7", "C8.13", "C8.14", "C8.18", "C8.19"]},
+      {"text": "When tapped, Wartortle pulls its head in but its tail still sticks out a little, a detail only someone handling one closely would note.", "class": "canon", "confidence": "high", "evidence": ["8.2", "C8.3"]},
+      {"text": "Blastoise is called brutal, and its jets can punch holes in steel, so it is dangerous at close range.", "class": "canon", "confidence": "high", "evidence": ["9.1", "9.4"]}
+    ],
+    "homestead": [
+      {"text": "Fire crew: its jets hit harder than a fire hose and are accurate at 160 feet, which makes it the obvious partner for the homestead's fire-breathers.", "class": "inferred", "confidence": "medium", "evidence": ["9.2", "9.6", "species:Charizard", "species:Arcanine"]},
+      {"text": "Moving water for the Glasshouse or for washing down pens is plausible, but whether it can pump water from a tank or only from what it holds is not known.", "class": "hypothesis", "confidence": "low", "evidence": ["9.2"], "note": "The source of its water isn't stated.", "capability": "water_supply"},
+      {"text": "Water crossings: Surf and Waterfall are taught moves, and at 1.6 m and 85.5 kg it can carry a rider on its shell.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Surf", "move:Waterfall", "game:size"], "capability": "water_travel"},
+      {"text": "Heavy work: it is heavy by design and learns Strength from a machine, so it can push or pull loads.", "class": "inferred", "confidence": "low", "evidence": ["9.3", "move:Strength"], "capability": "hauling"},
+      {"text": "Needs a pond or river to swim and hunt in, and handlers who never stand in front of the cannons.", "class": "inferred", "confidence": "high", "evidence": ["game:habitat", "9.4"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["water's edge", "open fresh water"], "activity": "unknown", "foraging": "juveniles shoot water at prey and stalk it from hiding in water; the adult's aimed jets suggest the same method at longer range", "evidence": ["7.2", "8.1", "9.6", "game:habitat"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "prey animals (not named in any entry)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["7.2", "8.1"]},
+    {"with": "algae", "kind": "host_of", "class": "canon", "confidence": "medium", "evidence": ["8.3", "8.11"], "note": "Algae grow on the shells of very old Wartortle."},
+    {"with": "open water", "kind": "uses_resource", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "7.6"]}
+  ],
+  "ecotypes": [
+    {"name": "Silt-pond stalker", "moves": ["Mud Sport", "Muddy Water", "Foresight"], "class": "hypothesis", "confidence": "low", "reading": "Mud Sport and Muddy Water both cloud things with mud, and Foresight picks out what is hidden. A lineage of murky, still water that hides in its own silt and still finds its prey, the Wartortle habit of stalking from hiding taken further. Fits shallow, muddy ponds and marsh pools.", "behavior": "Stirs up the bottom, waits in the cloud, and strikes at what it can see but its prey can't.", "evidence": ["8.1", "move:Mud Sport", "move:Muddy Water", "move:Foresight"]},
+    {"name": "Mist-lake elder", "moves": ["Mist", "Aqua Ring", "Refresh"], "class": "hypothesis", "confidence": "low", "reading": "Mist shrouds the user in fog, Aqua Ring wraps it in a veil of water that slowly heals, and Refresh clears poison, burns and paralysis. A lineage built for slow recovery and long life rather than fighting, which suits a line famous for longevity. Fits cold, misty highland lakes where individuals live long enough to grow algae on their shells.", "behavior": "Slow, rarely seen, and very old; heals rather than fights.", "evidence": ["8.3", "move:Mist", "move:Aqua Ring", "move:Refresh"]},
+    {"name": "Jet charger", "moves": ["Aqua Jet", "Water Spout", "Fake Out"], "class": "hypothesis", "confidence": "low", "reading": "Aqua Jet is a lunge so fast it is almost invisible, Water Spout is strongest when the user is unhurt, and Fake Out is a surprise opening blow. A lineage that opens every encounter with an overwhelming burst, the 'jets used for high-speed tackles' of 9.1 made central. Fits open, fast rivers where a fight is won in the first moment.", "behavior": "Hits first and hardest, then withdraws into its shell.", "evidence": ["9.1", "move:Aqua Jet", "move:Water Spout", "move:Fake Out"]}
+  ],
+  "open_questions": [
+    "Where does the water for its cannons come from: drawn in, stored, or produced?",
+    "How does it 'make itself heavy' to take the recoil?",
+    "Are the jets for propulsion, for shooting, or both? (see contradictions)",
+    "What does the line eat?",
+    "How long does the line really live? Old Wartortle grow algae; 'ten thousand years' is folklore.",
+    "Where do wild Squirtle, Wartortle and Blastoise live? None is wild in Gen I–IV."
+  ],
+  "contradictions": [
+    {"topic": "What the jets are for", "entries": ["9.1", "9.9", "9.5", "9.6"], "note": "Red, Blue and LeafGreen (9.1, 9.9) say the jets are used for high-speed tackles, which suggests propulsion; Crystal (9.5) has it planting its feet to fire them, and Ruby, Sapphire and Emerald (9.6, 9.7) describe them as precise ranged weapons. Both uses are possible, but the entries describe different animals in action."}
+  ],
+  "folklore": [
+    {"text": "Wartortle is said to live 10,000 years.", "evidence": ["8.10", "C8.17"], "note": "Line folklore. Its reputation for longevity is canon (8.3); the figure is not."}
+  ]
+}

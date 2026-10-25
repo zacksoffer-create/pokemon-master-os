@@ -1,0 +1,738 @@
+{
+  "species": "Dragonite",
+  "id": 149,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-25",
+  "summary": "A bulky, winged sea dragon that most people never see. The Pokédex describes Dragonite flying over raging seas, circling the globe in sixteen hours, and leading lost ships to shore in storms; much of the rest of its record is rumour, including an island where only Dragonite live and an intelligence said to match ours. Its young are long, slender, skin-shedding Dratini, once thought mythical, which in Johto live in the Dragon's Den behind Blackthorn City. Nothing in any entry says what the line eats.",
+  "sections": {
+    "anatomy": [
+      {
+        "text": "A large, upright, winged animal (2.2 m, 210.0 kg) that flies in spite of its big, bulky build.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "149.8",
+          "C149.12",
+          "game:size",
+          "game:shape"
+        ]
+      },
+      {
+        "text": "Its build is described as what lets it fly freely over raging seas.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "149.4",
+          "C149.6"
+        ]
+      },
+      {
+        "text": "Dragonair, the stage before, has crystals or crystalline orbs on its neck and tail and stores an enormous amount of energy in its body; whether Dragonite keeps either is not said.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "148.4",
+          "148.6",
+          "148.7",
+          "C148.8",
+          "C148.10"
+        ]
+      }
+    ],
+    "diet": [
+      {
+        "text": "No entry for any stage of the line says what it eats.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "149.1",
+          "147.1",
+          "148.1"
+        ]
+      },
+      {
+        "text": "In the Dragon's Den, the only other Pokémon in the water is Magikarp, which makes it the obvious candidate prey for Dratini and Dragonair there.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "game:encounters",
+          "species:Magikarp"
+        ],
+        "note": "Co-occurrence only; nothing says the line eats fish."
+      }
+    ],
+    "habitat": [
+      {
+        "text": "Called a marine Pokémon, extremely rarely seen; its Gen 3 Pokédex habitat is waters-edge.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "149.1",
+          "149.4",
+          "C149.1",
+          "game:habitat"
+        ]
+      },
+      {
+        "text": "Where it actually lives is reported, not observed: 'somewhere in the sea', perhaps an island where only Dragonite gather. See folklore.",
+        "class": "canon",
+        "confidence": "low",
+        "evidence": [
+          "149.2",
+          "149.5",
+          "149.10",
+          "C149.15"
+        ]
+      },
+      {
+        "text": "Dragonite is not found in the wild in any Gen I-IV game.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Its young live in inland water, not the open sea: in Johto, the Dragon's Den behind Blackthorn (by Surf, Good Rod and Super Rod) and, in Gold, Silver and Crystal, Route 45 by rod; in Sinnoh, water inside Mt. Coronet (4F, Super Rod); in Kanto, the Safari Zone's water. Dragonair is in the same places, rarer.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Dratini",
+          "species:Dragonair"
+        ]
+      },
+      {
+        "text": "HeartGold and SoulSilver drop Route 45 from the line's range, leaving the Dragon's Den and the Johto Safari Zone.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Dratini"
+        ]
+      }
+    ],
+    "behavior": [
+      {
+        "text": "A powerful long-distance flier: it can circle the globe in sixteen hours.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "149.6",
+          "149.7",
+          "149.8",
+          "C149.9",
+          "C149.11",
+          "C149.13"
+        ],
+        "note": "That is about 2,500 km/h at the equator, roughly twice the speed of sound."
+      },
+      {
+        "text": "Kindhearted toward people at sea: it leads lost and foundering ships to land in storms, and guides crews of shipwrecks to shore.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "149.6",
+          "149.7",
+          "149.10",
+          "C149.10",
+          "C149.16"
+        ]
+      },
+      {
+        "text": "Rarely seen: only a very few people ever see one.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "149.9",
+          "C149.14"
+        ]
+      },
+      {
+        "text": "No entry gives an activity pattern.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "149.1"
+        ]
+      }
+    ],
+    "social": [
+      {
+        "text": "Dratini were found as a small colony living underwater, so the young live in groups.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "147.1"
+        ]
+      },
+      {
+        "text": "Whether adults live together is only rumoured: an island somewhere in the ocean where only Dragonite gather.",
+        "class": "canon",
+        "confidence": "low",
+        "evidence": [
+          "149.5",
+          "C149.7",
+          "C149.8"
+        ]
+      }
+    ],
+    "reproduction": [
+      {
+        "text": "Water 1 and Dragon egg groups, an even sex ratio, slow growth, and 40 egg cycles (twice the usual).",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:egg_groups",
+          "game:gender",
+          "game:growth",
+          "game:egg_cycles"
+        ]
+      },
+      {
+        "text": "Dratini is born large to start with.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "147.3",
+          "C147.3"
+        ]
+      },
+      {
+        "text": "A long incubation and a large hatchling fit a species that puts a lot into each young and produces few.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "147.3",
+          "game:egg_cycles"
+        ]
+      }
+    ],
+    "defense": [
+      {
+        "text": "Nothing describes predators of Dragonite or how it defends itself; size, flight and rarity are its obvious protection.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "149.8",
+          "149.9"
+        ]
+      },
+      {
+        "text": "Dratini molt in the shelter of a rapid waterfall, which protects them while they are vulnerable.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "147.5",
+          "C147.8"
+        ]
+      },
+      {
+        "text": "Its ability, Inner Focus, stops it flinching. Safeguard (Lv 47), which it learns on its own, protects against status problems; Dratini and Dragonair have Shed Skin, which can cure them.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:abilities",
+          "move:Safeguard"
+        ]
+      }
+    ],
+    "senses": [
+      {
+        "text": "Nothing is said about its senses. Finding lost ships in storms implies a good sense of direction and the ability to locate people in poor visibility.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "149.6",
+          "149.10"
+        ]
+      }
+    ],
+    "life_cycle": [
+      {
+        "text": "Dratini (1.8 m, 3.3 kg) becomes Dragonair at level 30 (4.0 m, 16.5 kg) and Dragonite at level 55 (2.2 m, 210.0 kg). The serpentine young shorten and gain more than twelve times their mass in the last change, and grow wings.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:evolution",
+          "game:size",
+          "game:shape",
+          "species:Dratini",
+          "species:Dragonair"
+        ]
+      },
+      {
+        "text": "Dratini grows by repeatedly shedding its skin, many layers of it, because the life energy in its body builds up to uncontrollable levels.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "147.3",
+          "147.4",
+          "147.5",
+          "147.6",
+          "147.7",
+          "147.8",
+          "C147.10"
+        ],
+        "analogy": "Snakes also shed their whole skin (ecdysis), most often when young and growing fast."
+      },
+      {
+        "text": "Its shed skins are found where living Dratini are not, which is how the species is known: it is called the Mirage Pokémon because so few have seen it.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "147.9",
+          "C147.14",
+          "C147.15"
+        ]
+      },
+      {
+        "text": "Dragonair flies occasionally without wings; Dragonite flies with them. Flight appears before wings do.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "148.8",
+          "C148.13",
+          "149.8"
+        ],
+        "note": "The Dragonair entry hedges where it lives but states the flying as seen."
+      },
+      {
+        "text": "Dragonite learns Wing Attack at level 55, the moment it evolves, which matches wings appearing with the final form.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Wing Attack",
+          "game:evolution"
+        ]
+      }
+    ],
+    "moves_in_the_wild": [
+      {
+        "text": "Thunder Wave (Lv 5) and Twister (Lv 11) are among the line's first moves; with Dragonair's energy-discharging crystals and weather lore, they read as electrical and atmospheric powers the line is born with.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "move:Thunder Wave",
+          "move:Twister",
+          "148.6"
+        ]
+      },
+      {
+        "text": "Wrap and Slam (Lv 1 and 21) use the serpentine body; Aqua Tail (Lv 31-33) is a water attack from the tail.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "move:Wrap",
+          "move:Slam",
+          "move:Aqua Tail"
+        ]
+      },
+      {
+        "text": "Dragonite starts with Roost, Fire Punch and Thunder Punch at Lv 1; the punches are also tutor moves, so a trained Dragonite with them may have been taught.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "move:Roost",
+          "move:Fire Punch",
+          "move:Thunder Punch",
+          "game:learnset"
+        ]
+      },
+      {
+        "text": "Fly, Surf, Waterfall and Rain Dance are machine moves: taught by people, not part of the wild repertoire.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:learnset",
+          "game:capability"
+        ]
+      }
+    ],
+    "ecology": [
+      {
+        "text": "Its role in a food web is unknown because its diet is.",
+        "class": "unknown",
+        "confidence": "high",
+        "evidence": [
+          "149.1"
+        ]
+      },
+      {
+        "text": "If Dragonair can change the weather around it, the line would affect its surroundings on a scale few animals do; the entries are split between stating and hedging this.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "148.1",
+          "148.5",
+          "148.10",
+          "148.3",
+          "148.6"
+        ],
+        "note": "See folklore and contradictions."
+      },
+      {
+        "text": "The Dragon's Den holds a very simple community: Dratini, Dragonair and Magikarp, nothing else.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Magikarp",
+          "species:Dragonair"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "text": "Dratini was thought mythical until a small underwater colony was found, and its existence was confirmed by a fisherman who caught one.",
+        "class": "canon",
+        "confidence": "high",
+        "evidence": [
+          "147.1",
+          "147.2"
+        ]
+      },
+      {
+        "text": "Its relationship with people is protective: it guides shipwrecked crews to shore.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "149.10",
+          "149.6"
+        ]
+      },
+      {
+        "text": "In HeartGold and SoulSilver a Dratini is given in the Dragon's Den once Clair has handed over her TM; it is also a Game Corner prize in Goldenrod.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Dratini"
+        ]
+      },
+      {
+        "text": "Base friendship is low (35) across the line: it does not warm to people quickly.",
+        "class": "mechanic",
+        "confidence": "medium",
+        "evidence": [
+          "game:friendship"
+        ]
+      }
+    ],
+    "homestead": [
+      {
+        "text": "The line is local: Dratini and Dragonair live in the Dragon's Den behind Blackthorn, the one place in Johto (with the Safari Zone) where they are wild in HeartGold and SoulSilver.",
+        "class": "mechanic",
+        "confidence": "high",
+        "evidence": [
+          "game:encounters",
+          "species:Dratini"
+        ],
+        "capability": "town_fit"
+      },
+      {
+        "text": "Work with the Den's Dratini goes through the dragon clan, whose shrine the Den is; the Dragon's Den research site should study them in place rather than remove them.",
+        "class": "creative",
+        "evidence": [
+          "game:encounters"
+        ]
+      },
+      {
+        "text": "Rescue on water: guiding people in trouble to shore is canon, which suits the lakes and rivers around Blackthorn.",
+        "class": "canon",
+        "confidence": "medium",
+        "evidence": [
+          "149.10",
+          "149.6"
+        ],
+        "capability": "rescue"
+      },
+      {
+        "text": "Long-distance air travel: a strong flier with a build made for storms. No entry says it carries riders; Fly is a taught move.",
+        "class": "inferred",
+        "confidence": "medium",
+        "evidence": [
+          "149.4",
+          "149.8",
+          "game:capability",
+          "move:Fly"
+        ],
+        "capability": "air_travel"
+      },
+      {
+        "text": "Its size suits a saddle, but its low base friendship means a long bond before anyone rides it.",
+        "class": "inferred",
+        "confidence": "low",
+        "evidence": [
+          "game:size",
+          "game:friendship",
+          "game:capability"
+        ],
+        "capability": "carrying_rider"
+      },
+      {
+        "text": "Dratini need fast, clean water to molt safely: a pool below a rapid waterfall is the habitat feature to build or protect.",
+        "class": "inferred",
+        "confidence": "high",
+        "evidence": [
+          "147.5"
+        ],
+        "capability": "water_supply"
+      },
+      {
+        "text": "Collected shed skins could be studied at the Research Institute without disturbing the animals; finding sheds is how the species is usually known.",
+        "class": "creative",
+        "evidence": [
+          "147.9"
+        ]
+      },
+      {
+        "text": "Weather work is unproven: Dragonair's weather-changing is half stated and half hearsay, and Rain Dance is a machine move.",
+        "class": "hypothesis",
+        "confidence": "low",
+        "evidence": [
+          "148.1",
+          "148.6",
+          "move:Rain Dance"
+        ],
+        "note": "Don't plan around it until someone has seen it.",
+        "capability": "weather_handling"
+      }
+    ]
+  },
+  "niche": {
+    "guild": null,
+    "trophic_level": null,
+    "microhabitat": [
+      "open sea and storm-coasts (adult, reported)",
+      "freshwater cave pools and lakes, near waterfalls (young)"
+    ],
+    "activity": "unknown",
+    "foraging": "unknown; no entry says what any stage eats",
+    "evidence": [
+      "149.4",
+      "147.1",
+      "147.5",
+      "game:encounters"
+    ],
+    "class": "unknown",
+    "confidence": "high",
+    "note": "Guild left empty: the machine reading's predator comes from the Dragon type alone, and there is no diet evidence to replace it."
+  },
+  "relationships": [
+    {
+      "with": "rapid waterfalls",
+      "kind": "uses_resource",
+      "class": "canon",
+      "confidence": "high",
+      "evidence": [
+        "147.5"
+      ],
+      "note": "Shelter for molting Dratini."
+    },
+    {
+      "with": "people at sea",
+      "kind": "commensalism",
+      "class": "canon",
+      "confidence": "low",
+      "evidence": [
+        "149.6",
+        "149.10"
+      ],
+      "note": "People benefit; nothing says what Dragonite gets from it, so it is recorded as one-sided."
+    },
+    {
+      "with": "Magikarp",
+      "kind": "shares_habitat",
+      "class": "mechanic",
+      "confidence": "high",
+      "evidence": [
+        "game:encounters",
+        "species:Magikarp"
+      ],
+      "note": "The only other Pokémon in the Dragon's Den water (Dratini and Dragonair)."
+    }
+  ],
+  "ecotypes": [
+    {
+      "name": "Fog-bank dragon",
+      "moves": [
+        "Mist",
+        "Haze",
+        "Light Screen"
+      ],
+      "class": "hypothesis",
+      "confidence": "medium",
+      "reading": "Dragonair's weather lore in heritable form: Mist shrouds it and blocks stat-lowering, Haze wipes out every stat change on the field, and Light Screen softens special attacks. A defensive lineage that hides in weather rather than making it. Fits fog-bound lakes and sea cliffs where the air is usually thick.",
+      "behavior": "Stays in mist and low cloud; seldom seen in clear weather.",
+      "evidence": [
+        "148.1",
+        "148.5",
+        "move:Mist",
+        "move:Haze",
+        "move:Light Screen"
+      ]
+    },
+    {
+      "name": "Long-haul flier",
+      "moves": [
+        "Extreme Speed",
+        "Dragon Dance",
+        "Dragon Rush"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A speed lineage: Extreme Speed always strikes first, Dragon Dance builds speed and power together, Dragon Rush is a full-body charge. It is the circle-the-globe canon as an inheritance. Fits open ocean, where distances are huge and storms must be outrun.",
+      "behavior": "Ranges further than most; arrives fast and leaves fast.",
+      "evidence": [
+        "149.6",
+        "move:Extreme Speed",
+        "move:Dragon Dance",
+        "move:Dragon Rush"
+      ]
+    },
+    {
+      "name": "Den-pool caller",
+      "moves": [
+        "Supersonic",
+        "Dragon Breath"
+      ],
+      "class": "hypothesis",
+      "confidence": "low",
+      "reading": "A lineage built for murky, enclosed water: Supersonic disorients with sound, which carries where light doesn't, and Dragon Breath can paralyse at close range. Fits cave pools like the Dragon's Den, where a confused animal is easy to take.",
+      "behavior": "Calls in the dark; the young of the cave pools.",
+      "evidence": [
+        "game:encounters",
+        "move:Supersonic",
+        "move:Dragon Breath"
+      ]
+    }
+  ],
+  "open_questions": [
+    "What does any stage eat? Magikarp is the only other animal in the Dragon's Den, but nothing connects them.",
+    "Do Dragonite really live at sea, when every wild Dratini and Dragonair in the games lives in fresh water?",
+    "Is there an island where Dragonite gather (149.5)? Where do adults breed?",
+    "Can Dragonair change the weather, and if so how far around it?",
+    "How does Dragonair fly without wings (148.8), and do wings change how Dragonite flies?",
+    "Is Dragonite's intelligence really comparable to a human's (149.1, 149.9)?",
+    "What happens to the 'uncontrollable' life energy that drives Dratini's molting once it stops growing?"
+  ],
+  "contradictions": [
+    {
+      "text": "Whether it flies: Yellow says the idea that it lives in the sea and flies is only a rumour; Silver, Ruby, Sapphire, Emerald and FireRed state its flight as fact.",
+      "entries": [
+        "149.2",
+        "149.4",
+        "149.6",
+        "149.8"
+      ]
+    },
+    {
+      "text": "Rescuing people: Gold and HeartGold report that it rescues drowning people as hearsay; Ruby, Sapphire, Emerald, Diamond, Pearl and Platinum state that it leads ships and guides shipwrecked crews to shore.",
+      "entries": [
+        "149.3",
+        "149.6",
+        "149.7",
+        "149.10"
+      ]
+    },
+    {
+      "text": "Dratini's length: FireRed says even the young can exceed 6.5 feet (about 2 m), but the game data gives Dratini as 1.8 m.",
+      "entries": [
+        "147.8"
+      ],
+      "note": "Entry versus game data. A large young Dratini could exceed the listed average."
+    },
+    {
+      "text": "Dragonair's weather powers: stated as fact in Red, Blue, Crystal and Diamond-Platinum ('the weather changes instantly'), but hedged in Gold, HeartGold, Ruby, Sapphire, Emerald and LeafGreen ('they say', 'it is said').",
+      "entries": [
+        "148.1",
+        "148.5",
+        "148.10",
+        "148.3",
+        "148.6",
+        "148.7",
+        "148.9"
+      ]
+    },
+    {
+      "text": "Habitat: the adults are called marine, but the only wild young in the games live in inland water: cave pools, a mountain route and Safari Zone ponds.",
+      "entries": [
+        "149.1",
+        "149.4",
+        "147.1"
+      ],
+      "note": "Entries versus encounter data."
+    }
+  ],
+  "folklore": [
+    {
+      "text": "Its intelligence is said to match that of humans.",
+      "evidence": [
+        "149.1",
+        "149.9",
+        "C149.2"
+      ]
+    },
+    {
+      "text": "It is said to live somewhere in the sea and to fly, though Yellow calls this only a rumour.",
+      "evidence": [
+        "149.2",
+        "C149.3",
+        "C149.4"
+      ]
+    },
+    {
+      "text": "It is said to fly constantly over the immense seas and rescue drowning people.",
+      "evidence": [
+        "149.3",
+        "C149.5"
+      ]
+    },
+    {
+      "text": "It is said that somewhere in the ocean lies an island where Dragonite gather, and only they live there.",
+      "evidence": [
+        "149.5",
+        "C149.7",
+        "C149.8"
+      ]
+    },
+    {
+      "text": "It is said to make its home somewhere in the sea.",
+      "evidence": [
+        "149.10",
+        "C149.15"
+      ]
+    },
+    {
+      "text": "Dratini was long considered mythical, until a small colony was found living underwater.",
+      "evidence": [
+        "147.1",
+        "C147.1"
+      ],
+      "note": "The discovery is stated as fact; the myth is the history."
+    },
+    {
+      "text": "Dragonair is called the divine Pokémon, and is said to change the weather by releasing energy from the crystals on its neck and tail; a witness reported a strange aura around its body.",
+      "evidence": [
+        "148.2",
+        "148.3",
+        "148.5",
+        "148.6",
+        "148.7",
+        "148.9",
+        "C148.3",
+        "C148.9"
+      ]
+    },
+    {
+      "text": "Dragonair is said to live in seas and lakes.",
+      "evidence": [
+        "148.8",
+        "148.10",
+        "C148.12"
+      ]
+    }
+  ]
+}
