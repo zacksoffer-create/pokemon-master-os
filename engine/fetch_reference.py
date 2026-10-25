@@ -60,6 +60,12 @@ EXTRA = {  # independent cross-check sources, and in-game trainer teams straight
     "trainers/emerald_trainers.h": PRET + "pokeemerald/master/src/data/trainers.h",
     "trainers/firered_trainers.h": PRET + "pokefirered/master/src/data/trainers.h",
     "trainers/crystal_attributes.asm": PRET + "pokecrystal/master/data/trainers/attributes.asm",
+    # what Platinum seeds a trainer Pokémon's RNG with when its difficulty value makes the game roll the IVs (trainer
+    # ids, trainer classes and their genders, species ids; battle/benchmarks.py platinum_rolled_ivs), at a pinned commit
+    **{f"trainers/platinum_{name}": PRET + "pokeplatinum/be36a9db3d2390a5009adc087c7aef550ce335e7/" + path
+       for name, path in {"trainer_ids.txt": "generated/trainers.txt", "trainer_classes.txt": "generated/trainer_classes.txt",
+                          "trainer_class_genders.h": "include/data/trainer_class_genders.h",
+                          "species_ids.txt": "generated/species.txt"}.items()},
 } | {f"trainers/platinum_{t}.json": PRET + f"pokeplatinum/main/res/trainers/data/{t}.json" for t in PLATINUM_TRAINERS} | {
     # Poké Ball mechanics, each from the game's own catch code, at a pinned commit (equipment/balls.py checks them)
     f"equipment/{name}": PRET + path for name, path in {

@@ -2304,6 +2304,24 @@ class TrainerLibrary(unittest.TestCase):
                 a, la = t.get("ai_flags"), r.get("ai_flags")
                 self.assertEqual(sorted(a) if isinstance(a, list) else a, sorted(la) if isinstance(la, list) else la)
 
+    def test_ivs_follow_the_games_rule_even_out_of_range(self):
+        """IV = value * 31 / 255, kept in a byte; 32 or more makes the game roll them. Platinum's Volkner's Electivire
+        has 2500 (a typo for 250): every path gets the game's roll, the spread found on the cartridge, not 303 or 31."""
+        from battle.benchmarks import trainer_ivs
+        from trainers.model import Store
+        self.assertEqual(trainer_ivs(250)["atk"], 30)
+        self.assertEqual(trainer_ivs(255)["spe"], 31)
+        with self.assertRaises(ValueError):                    # no roll to give (Gen 3 rolls from the running RNG)
+            trainer_ivs(2500)
+        rolled = {"hp": 4, "atk": 3, "def": 29, "spa": 18, "spd": 15, "spe": 19}
+        volkner = next(r for r in self.lib if r["id"] == "platinum/volkner")["party"]
+        self.assertEqual([(p["species"], p["ivs"]["atk"]) for p in volkner[:3]], [("Jolteon", 30), ("Raichu", 30), ("Luxray", 30)])
+        self.assertEqual((volkner[3]["species"], volkner[3]["ivs"]), ("Electivire", rolled))
+        self.assertEqual(Store()._cartridge("platinum", file="leader_volkner")[3].ivs, rolled)
+        for r in self.lib:
+            for p in r["party"]:
+                self.assertTrue(all(0 <= v <= 31 for v in p["ivs"].values()), f"{r['id']} {p['species']} {p['ivs']}")
+
     def test_a_rematch_is_its_own_record(self):
         ids = {r["id"]: r for r in self.lib}
         first, again = ids["platinum/cynthia"], ids["platinum/cynthia-rematch"]

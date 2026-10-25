@@ -2,14 +2,16 @@
 the games' own code (pret disassemblies), and a 1v1 matchup grid against them.
 
 Opponent stats follow the source: Crystal trainer DVs by trainer class (data/trainers/dvs.asm);
-Gen 3-4 IVs from each Pokémon's difficulty value (IV = value * 31 / 255). Assumed (not in the data
-read here): neutral natures and 0 EVs / stat exp, first ability. Moves the data leaves out are the
-last four level-up moves at that level, which is how the games fill them in.
+Gen 3-4 IVs from each Pokémon's difficulty value (IV = value * 31 / 255, and the games' roll when
+that overflows: trainer_ivs). Assumed (not in the data read here): neutral natures and 0 EVs /
+stat exp, first ability. Moves the data leaves out are the last four level-up moves at that level,
+which is how the games fill them in.
 
 The 1v1 model is deliberately simple: best damaging move each way, hits-to-KO, Speed and priority
 decide who wins. It ignores status, recovery, switching and items beyond damage. It's a map of
 where a team stands, not a battle simulator.
 """
+import functools
 import json
 import math
 import os
@@ -61,6 +63,65 @@ def clean_line(text):
 def mon_id(raw):
     s = rules.to_id(re.sub(r"^(SPECIES|MOVE|ITEM)_", "", raw))
     return NAME_FIXES.get(s, s)
+
+
+def trainer_ivs(value, rolled=None):
+    """A Gen 3-4 trainer Pokémon's IVs from its difficulty value, by the game's rule: value * 31 / 255 in every stat.
+
+    The games keep that result in a byte (pokeemerald CreateNPCTrainerParty's u8 fixedIV, pokeplatinum
+    TrainerData_BuildParty's u8 ivs), and 32 or more in it tells the Pokémon's creation to roll its IVs instead
+    (USE_RANDOM_IVS, INIT_IVS_RANDOM). HeartGold's value is one byte, so it never gets there; Gen 3's and Platinum's
+    are two. Platinum's Volkner's Electivire has 2500 where the rest of his team has 250 (a typo in the game): 303
+    wraps to 47 and the game rolls, so it doesn't get 31s or 30s. `rolled` gives the game's own roll; without one
+    (Gen 3 rolls from the running RNG, which nothing in the data fixes) such a value is an error, never a guess."""
+    iv = (value * 31 // 255) & 0xFF
+    if iv < 32:
+        return {s: iv for s in ("hp", "atk", "def", "spa", "spd", "spe")}
+    if rolled is None:
+        raise ValueError(f"difficulty {value} makes the game roll this Pokémon's IVs at random; the data doesn't fix them")
+    return rolled()
+
+
+def platinum_ivs(file, trainer, mon):
+    """IVs of one Pokémon of pokeplatinum res/trainers/data/<file>.json (`trainer` is that file), by the game's rule."""
+    return trainer_ivs(mon.get("iv_scale", 0), lambda: platinum_rolled_ivs(file, trainer, mon))
+
+
+@functools.lru_cache(maxsize=1)
+def _platinum_ids():
+    """pokeplatinum's generated enums (line n is value n), and the trainer classes whose gender is female."""
+    def enum(name):
+        with open(os.path.join(RAW, f"platinum_{name}"), encoding="utf-8") as fh:
+            return {line.strip(): i for i, line in enumerate(fh)}
+    with open(os.path.join(RAW, "platinum_trainer_class_genders.h"), encoding="utf-8") as fh:
+        female = set(re.findall(r"\[(\w+)\]\s*=\s*GENDER_FEMALE", fh.read()))
+    return enum("trainer_ids.txt"), enum("trainer_classes.txt"), enum("species_ids.txt"), female
+
+
+def platinum_rolled_ivs(file, trainer, mon):
+    """The IVs Platinum rolls for a trainer's Pokémon, the same in every battle (pokeplatinum src/trainer_data.c
+    TrainerData_BuildParty, src/pokemon.c sub_02073E18): the RNG is seeded with ivScale + level + species + trainer id
+    and stepped once per trainer class; its last value, a byte up plus 120 (a female class) or 136, is the
+    personality; two draws at a time make an OT id until it isn't shiny; the next two draws are the IVs, five bits each
+    (HP, Attack, Defense, then Speed, Sp. Atk, Sp. Def). Volkner's Electivire gets HP 4, Atk 3, Def 29, SpA 18, SpD 15,
+    Spe 19, the spread players have found on the cartridge (Smogon's Platinum trainer data thread)."""
+    trainers, classes, species, female = _platinum_ids()
+    state = (mon.get("iv_scale", 0) + mon["level"] + species[mon["species"]] + trainers["TRAINER_" + file.upper()]) & 0xFFFFFFFF
+
+    def draw():                                              # LCRNG_Next (src/math_util.c)
+        nonlocal state
+        state = (state * 1103515245 + 24691) & 0xFFFFFFFF
+        return state >> 16
+    rnd = state
+    for _ in range(classes[trainer["class"]]):
+        rnd = draw()
+    personality = ((rnd << 8) + (120 if trainer["class"] in female else 136)) & 0xFFFFFFFF
+    while True:
+        ot = draw() | draw() << 16
+        if (ot >> 16 ^ ot & 0xFFFF ^ personality >> 16 ^ personality & 0xFFFF) >= 8:
+            break
+    a, b = draw(), draw()
+    return {"hp": a & 31, "atk": a >> 5 & 31, "def": a >> 10 & 31, "spa": b >> 5 & 31, "spd": b >> 10 & 31, "spe": b & 31}
 
 
 class Benchmarks:
@@ -173,9 +234,7 @@ class Benchmarks:
         elif game in ("firered", "emerald"):
             parties = self._gen3(game)
             for name, sym in BENCHMARK_SETS[game]:
-                party = [self._mon(game, sp, lvl, mv, item, {s: iv * 31 // 255 for s in
-                                                             ("hp", "atk", "def", "spa", "spd", "spe")})
-                         for iv, lvl, sp, item, mv in parties[sym]]
+                party = [self._mon(game, sp, lvl, mv, item, trainer_ivs(iv)) for iv, lvl, sp, item, mv in parties[sym]]
                 out.append({"name": name, "game": game, "party": party,
                             "source": f"pret/poke{game} src/data/trainer_parties.h {sym}",
                             "_symbol": "TRAINER_" + re.sub(r"(?<!^)(?=[A-Z])|(?<=[a-z])(?=[0-9])", "_", sym.replace("sParty_", "")).upper()})
@@ -183,7 +242,7 @@ class Benchmarks:
             for name, fname in BENCHMARK_SETS["platinum"]:
                 d = json.load(open(os.path.join(RAW, f"platinum_{fname}.json"), encoding="utf-8"))
                 party = [self._mon(game, p["species"], p["level"], p.get("moves", []), p.get("item"),
-                                   {s: p.get("iv_scale", 0) * 31 // 255 for s in ("hp", "atk", "def", "spa", "spd", "spe")})
+                                   platinum_ivs(fname, d, p))
                          for p in d["party"]]
                 out.append({"name": name, "game": game, "party": party,
                             "source": f"pret/pokeplatinum res/trainers/data/{fname}.json",
@@ -194,7 +253,7 @@ class Benchmarks:
             trainers = json.load(open(os.path.join(RAW, "hgss_trainers.json"), encoding="utf-8"))["trainers"]
             for name, idx in HGSS.items():
                 party = [self._mon(game, p["species"], p["level"], p.get("moves", []), p.get("item"),
-                                   {s: p.get("difficulty", 0) * 31 // 255 for s in ("hp", "atk", "def", "spa", "spd", "spe")})
+                                   trainer_ivs(p.get("difficulty", 0)))
                          for p in trainers[idx]["party"]]
                 tr = trainers[idx]
                 for mon, p in zip(party, tr["party"]):   # the cartridge's ability slot (pret's abilityOverride)

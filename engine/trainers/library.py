@@ -23,7 +23,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ENGINE = os.path.dirname(HERE)
 RAW = os.path.join(ENGINE, "data", "raw", "trainers")
 OUT = os.path.join(ENGINE, "data_manifest", "trainer_library.json")
-STATS = ("hp", "atk", "def", "spa", "spd", "spe")
 GEN = {"crystal": 2, "firered": 3, "emerald": 3, "platinum": 4, "heartgold": 4}
 REGION = {"crystal": "Johto", "heartgold": "Johto", "firered": "Kanto", "emerald": "Hoenn", "platinum": "Sinnoh"}
 KANTO = {"brock", "misty", "lt-surge", "erika", "janine", "sabrina", "blaine", "gary", "red", "koga-leader"}
@@ -59,12 +58,13 @@ def humanize(token):
 class Library:
     def __init__(self):
         sys.path.insert(0, ENGINE)
-        from battle.benchmarks import Benchmarks, clean_line
+        from battle.benchmarks import Benchmarks, clean_line, platinum_ivs, trainer_ivs
         from trainers.model import DB
         import rules
         self.rules = rules
         self.bench = Benchmarks(DB, None)
         self.clean = clean_line
+        self.ivs, self.platinum_ivs = trainer_ivs, platinum_ivs   # IVs by the game's rule, out-of-range values too
         self.ai = json.load(open(os.path.join(ENGINE, "battle", "trainer_ai.json"), encoding="utf-8"))
         self.records = []
 
@@ -220,8 +220,7 @@ class Library:
             ai = re.search(r"\.aiFlags\s*=\s*([^,\n]+)", body)
             ai = [x.strip() for x in ai.group(1).split("|")] if ai and ai.group(1).strip() not in ("0",) else []
             double = "doubleBattle = TRUE" in body
-            party = [self.mon(game, sp, lvl, mv, item, {s: iv * 31 // 255 for s in STATS})
-                     for iv, lvl, sp, item, mv in parties[party_sym.group(1)]]
+            party = [self.mon(game, sp, lvl, mv, item, self.ivs(iv)) for iv, lvl, sp, item, mv in parties[party_sym.group(1)]]
             self.add(game, ident, name, title, cat, enc, party,
                      f"pret/poke{game} src/data/trainers.h {sym} ({party_sym.group(1)})",
                      ai_flags=ai, items=items, double=double or None)
@@ -311,7 +310,7 @@ class Library:
             else:
                 enc = humanize(rest)
             party = [self.mon("platinum", p["species"], p["level"], p.get("moves") or [], p.get("item"),
-                              {s: p.get("iv_scale", 0) * 31 // 255 for s in STATS}) for p in d["party"]]
+                              self.platinum_ivs(f, d, p)) for p in d["party"]]
             msgs = [{"type": m["type"], "text": self.clean(" ".join(m.get("en_US", [])))} for m in d.get("messages", [])]
             self.add("platinum", ident, name, title, cat, enc, party, f"pret/pokeplatinum res/trainers/data/{f}.json",
                      ai_flags=d.get("ai_flags", []), items=[self.rules.to_id(x) for x in d.get("items", []) if "NONE" not in x],
@@ -352,7 +351,7 @@ class Library:
             for p in tr["party"]:
                 slot = 1 if "SECOND" in str(p.get("abilityOverride", "")) else 0
                 party.append(self.mon("heartgold", p["species"], p["level"], p.get("moves") or [], p.get("item"),
-                                      {s: p.get("difficulty", 0) * 31 // 255 for s in STATS}, slot))
+                                      self.ivs(p.get("difficulty", 0)), slot))
             flags = tr.get("ai_flags", 0)
             msgs = [{"type": m["type"], "text": self.clean(m.get("message", ""))} for m in tr.get("messages", [])]
             self.add("heartgold", ident, name, title, cat, enc, party,

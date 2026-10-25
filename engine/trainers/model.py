@@ -185,7 +185,7 @@ class Store:
 
     def _cartridge(self, game, trainer=None, index=None, file=None):
         """A game's own trainer, exactly as the pret data has it."""
-        from battle.benchmarks import RAW, Benchmarks
+        from battle.benchmarks import RAW, Benchmarks, platinum_ivs, trainer_ivs
         bench = Benchmarks(DB, None)
         gen = GAME_GEN[game]
         if game in ("heartgold", "soulsilver"):
@@ -200,8 +200,7 @@ class Store:
             raise ValueError(f"cartridge teams for {game} aren't wired yet")
         out = []
         for i, p in enumerate(tr["party"]):
-            scale = p.get("difficulty", p.get("iv_scale", 0))
-            ivs = {s: scale * 31 // 255 for s in STATS}
+            ivs = platinum_ivs(file, tr, p) if game == "platinum" else trainer_ivs(p.get("difficulty", 0))
             mon = bench._mon(game, p["species"], p["level"], p.get("moves", []), p.get("item"), ivs)
             override = str(p.get("abilityOverride", ""))
             options = self.era.abilities(mon["species"], gen)

@@ -1,13 +1,62 @@
 {
- "started": "2026-10-24T15:38:39Z",
+ "started": "2026-10-25T20:11:29Z",
  "steps": [
+  {
+   "step": "trainer-library",
+   "command": "-I trainers/library.py",
+   "ok": true,
+   "seconds": 0.4,
+   "error": null
+  },
+  {
+   "step": "app-data",
+   "command": "-I app/export.py",
+   "ok": true,
+   "seconds": 211.1,
+   "error": null
+  },
   {
    "step": "app",
    "command": "-I app/build.py",
    "ok": true,
-   "seconds": 1.2,
+   "seconds": 1.3,
    "error": null
   }
  ],
- "changed": []
+ "changed": [
+  {
+   "file": "engine/app/data/engines.json",
+   "status": "changed",
+   "before": [
+    ", desktop and phone, inside a sandboxed frame built the way Apps Script serves the app\",\"size\":\"100+ pages\"}],\"tests\":190,\"sanity\":{\"date\":\"2026-10-20\",\"rows\":[[\"Stats against Smogon's calc\",\"9,240\",\"none\"],[\"Known facts (sanity.json)\",\"37\""
+   ],
+   "after": [
+    ", desktop and phone, inside a sandboxed frame built the way Apps Script serves the app\",\"size\":\"100+ pages\"}],\"tests\":192,\"sanity\":{\"date\":\"2026-10-20\",\"rows\":[[\"Stats against Smogon's calc\",\"9,240\",\"none\"],[\"Known facts (sanity.json)\",\"37\""
+   ]
+  },
+  {
+   "file": "engine/app/data/library.json",
+   "status": "changed",
+   "before": [
+    "tivire\",\"level\":50,\"moves\":[\"Thunder Punch\",\"Fire Punch\",\"Quick Attack\",\"Giga Impact\"],\"item\":\"sitrusberry\",\"ivs\":{\"hp\":303,\"atk\":303,\"def\":303,\"spa\":303,\"spd\":303,\"spe\":303},\"moves_from\":\"game\",\"ability\":\"Motor Drive\"}],\"source\":\"pret/poke"
+   ],
+   "after": [
+    "tivire\",\"level\":50,\"moves\":[\"Thunder Punch\",\"Fire Punch\",\"Quick Attack\",\"Giga Impact\"],\"item\":\"sitrusberry\",\"ivs\":{\"hp\":4,\"atk\":3,\"def\":29,\"spa\":18,\"spd\":15,\"spe\":19},\"moves_from\":\"game\",\"ability\":\"Motor Drive\"}],\"source\":\"pret/pokeplatinum"
+   ]
+  },
+  {
+   "file": "engine/data_manifest/trainer_library.json",
+   "status": "changed",
+   "before": [
+    "\"hp\": 303,",
+    "\"atk\": 303,",
+    "\"def\": 303,"
+   ],
+   "after": [
+    "\"hp\": 4,",
+    "\"atk\": 3,",
+    "\"def\": 29,"
+   ]
+  }
+ ]
 }
