@@ -83,7 +83,12 @@ EXTRA = {  # independent cross-check sources, and in-game trainer teams straight
     }.items()} | {   # how each wild Pokémon is met (rod, surf, the Safari Zone...), for which balls it could be caught in
     f"equipment/{t}.csv": POKEAPI + f"{t}.csv" for t in ("encounter_slots", "encounter_methods")} | {
     # the Gen 4 Pokédex's body shapes, for what a body can do (capability/records.py)
-    f"capability/{t}.csv": POKEAPI + f"{t}.csv" for t in ("pokemon_shapes", "pokemon_shape_prose")}
+    f"capability/{t}.csv": POKEAPI + f"{t}.csv" for t in ("pokemon_shapes", "pokemon_shape_prose")} | {
+    # Field Biology (biology/): when and how each encounter happens, colours, regions, growth rates, evolution
+    f"biology/{t}.csv": POKEAPI + f"{t}.csv" for t in (
+        "encounter_conditions", "encounter_condition_values", "encounter_condition_value_map", "encounter_condition_value_prose",
+        "pokemon_colors", "pokemon_color_names", "regions", "growth_rates", "pokemon_habitat_names", "evolution_chains",
+        "location_area_prose", "encounter_method_prose", "pokemon_species_prose")}
 
 
 def fetch(url, dest):
@@ -138,9 +143,12 @@ def main():
         return fetch_new_trainers("equipment/")
     if "--capability" in sys.argv:
         return fetch_new_trainers("capability/")
+    if "--biology" in sys.argv:
+        return fetch_new_trainers("biology/")
     os.makedirs(os.path.join(RAW, "trainers"), exist_ok=True)
     os.makedirs(os.path.join(RAW, "equipment"), exist_ok=True)
     os.makedirs(os.path.join(RAW, "capability"), exist_ok=True)
+    os.makedirs(os.path.join(RAW, "biology"), exist_ok=True)
     os.makedirs(MANIFEST, exist_ok=True)
     targets = {f"{t}.csv": POKEAPI + f"{t}.csv" for t in CSV_TABLES} | EXTRA
     for name, url in targets.items():

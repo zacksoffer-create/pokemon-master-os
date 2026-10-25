@@ -14,6 +14,7 @@ analysis before implementation, and none of them is to be implemented alone.
 | [SURVIVAL_HOMESTEAD_WORLD_CAPABILITY.md](SURVIVAL_HOMESTEAD_WORLD_CAPABILITY.md) | Survival, Homestead & World Capability Systems | capability framework, expeditions, field readiness, the compound |
 | [TRAINER_ECOSYSTEM.md](TRAINER_ECOSYSTEM.md) | Trainer Ecosystem & Benchmark Database | trainer identities, versions, tendencies, playbooks, benchmark collections |
 | [INDIVIDUAL_POKEMON_EXPERIENCE.md](INDIVIDUAL_POKEMON_EXPERIENCE.md) | Individual Pokémon Experience & Visual Identity | individuals, builds and versions, profiles, artwork, image packets, Chronicle |
+| [INSPIRATION_2K_BIOLOGY_ECOLOGY.md](INSPIRATION_2K_BIOLOGY_ECOLOGY.md) | NBA 2K as inspiration (game modes, coaches, badges, eras), biology dossiers, ecosystems and food webs; and the v1 brief (2026-10-25) | v1 (`docs/design/V1_PLAN.md`): Careers, Leagues, Legends, Draft, Your trainer, Field Biology, Ecosystems |
 
 Specifications these documents refer to that have not been supplied yet: **Team Construction**, **Battle
 Simulation** (including the 6v6 engine and normalization policy), **Pokémon Biology**, **Reference Database**,
