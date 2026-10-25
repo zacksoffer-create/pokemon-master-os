@@ -144,14 +144,15 @@ Each folder has the whole result (`result.json`), a summary, the first battle as
 | Where | Build | 100 battles, max-power (ms per battle) | 100 battles, random (ms per battle) |
 |---|---|---|---|
 | Node 22 (this container) | — | 1.4–1.8 s (14–18) | 5.0 s (50) |
-| Chromium desktop, Web Worker | full / battle-only | 1.2–1.6 s (11–12) | 3.6–4.1 s (35–37) |
-| Chromium desktop, main thread | full / battle-only | 1.3–1.4 s (11–12) | 3.5 s (33) |
-| Phone-like, CPU 4× slower, main thread | battle-only | 5.2 s (48) | 15.9 s (155) |
-| Phone-like, CPU 6× slower, main thread | battle-only | 8.6 s (81) | 23.8 s (232) |
-| Apps-Script-style frame, worker and main thread | both | 1.3–1.4 s (11–12) | — |
+| Chromium desktop, Web Worker | full / battle-only | 1.2–1.4 s (10–12) | 3.4 s (31–33) |
+| Chromium desktop, main thread | full / battle-only | 1.0–1.5 s (8–12) | 3.1 s (29) |
+| Phone-like, CPU 4× slower, main thread | battle-only | 6.1 s (58) | 14.9 s (145) |
+| Phone-like, CPU 6× slower, main thread | battle-only | 8.7 s (82) | 21.8 s (213) |
+| Apps-Script-style frame, worker and main thread | both | 1.2–1.5 s (10–13) | — |
 
-- **Page start:** 0.42 s for the full build and 0.16 s for the battle-only build on desktop; 0.57–0.78 s throttled.
-- **Sizes:** full build 6.31 MB, battle-only 2.03 MB, bench page 2.10 MB.
+- **Page start:** 0.42 s for the full build and 0.17 s for the battle-only build on desktop; 0.55–0.82 s throttled.
+- **Run to run:** timings move by 10–20% between runs on the same machine; `results/browser/perf.json` has this run's numbers.
+- **Sizes:** full build 6.31 MB, battle-only 2.03 MB, bench page 2.11 MB.
 - **What the phone-like rows are.** Chromium's CPU throttle slows the page's own thread; a Web Worker runs
   unthrottled. So the phone-like *worker* times in `perf.json` say nothing about a phone, and the main-thread rows are
   the proxy. A recent iPhone's single core is at least as fast as this container's, so these rows are probably
@@ -159,11 +160,16 @@ Each folder has the whole result (`result.json`), a summary, the first battle as
 
 ## Not yet verified
 
-1. **A real iPhone and Safari.** The bench page is built for it. `appscript/INSTALL.txt` sets up a throwaway Apps
-   Script project to try it on your phone and work laptop; "Copy results" gives the numbers back.
+1. **A real iPhone and Safari.** The bench page is built for it, in two forms:
+   - **On claude.ai (no setup):** the bench is published privately at
+     <https://claude.ai/artifact/P99Ya1tigXw3YnRedKvQNM>. Open it on the phone and the work laptop and run 100
+     battles. Each run is saved to the page's own store (collection `runs`), so the devices sit side by side and a
+     later session can read them with `ArtifactData`.
+   - **In Apps Script:** `appscript/INSTALL.txt` sets up a throwaway Apps Script project. "Copy results" gives the
+     numbers back.
 2. **A real Apps Script deployment.** The frame test copies Apps Script's structure (sandboxed, cross-origin, the page
    written into an inner frame), but not Google's actual limits. Unknowns: the largest page `createHtmlOutput` accepts
-   (the bench page is 2.1 MB), and whether the real sandbox allows Blob Web Workers. The page falls back to the main
+   (the bench page is 2.11 MB), and whether the real sandbox allows Blob Web Workers. The page falls back to the main
    thread on its own if it doesn't.
 3. **Cartridge fidelity beyond Showdown.** The mechanics tests pin Showdown's Gen 4 behaviour against Gen 4 facts. The
    damage tests compare it with an independent implementation. Neither is a fresh audit against the games'

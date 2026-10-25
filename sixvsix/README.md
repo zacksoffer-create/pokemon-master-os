@@ -26,6 +26,10 @@ node cli/make-fixtures.mjs                 # rebuild fixtures/ from the Trainer 
 
 A job can also be a JSON file in the contract's shape: `node cli/run.mjs my-job.json`.
 
+**On a phone, with no setup:** the bench page is published privately at
+<https://claude.ai/artifact/P99Ya1tigXw3YnRedKvQNM>. Every run is saved there, from any device, and checked against
+Node's battles.
+
 ## What's where
 
 | Path | What it is |
@@ -41,7 +45,7 @@ A job can also be a JSON file in the contract's shape: `node cli/run.mjs my-job.
 | `src/analyze.js` | Per-Pokémon contribution and knockout credit |
 | `src/batch.js`, `src/stats.js` | Jobs → results: seeds, mirrored pairs, the Wilson interval, failures, timing |
 | `cli/` | `run.mjs`, `battle.mjs`, `make-fixtures.mjs`, the presets and a readable log printer |
-| `browser/` | The bundle entry, the bench page, the build and the Playwright test |
+| `browser/` | The bundle entry, the bench page (standalone, Apps Script and claude.ai variants come out of one template), the build and the Playwright test |
 | `appscript/` | A throwaway Apps Script project that serves the bench page (`INSTALL.txt`), separate from the Canon DB script |
 | `fixtures/` | Zack's HeartGold six and Platinum Cynthia (from the library, both lenses), a Gen 4 OU sample team, profiles |
 | `results/` | Four recorded 100-battle jobs and the browser performance run |

@@ -70,6 +70,12 @@ const page = (engineFile) => template
   .replace('/*__BENCH__*/null', () => JSON.stringify(bench).replace(/<\/script/gi, '<\\/script'));
 fs.writeFileSync(path.join(DIST, 'bench.html'), page('sixvsix.full.js'));
 fs.writeFileSync(path.join(DIST, 'bench-slim.html'), page('sixvsix.battle.js'));
+// The claude.ai page: the same bench without its own document skeleton (the host adds one), slim build.
+const slim = page('sixvsix.battle.js');
+const head = slim.slice(slim.indexOf('<title>'), slim.indexOf('</head>'));
+const body = slim.slice(slim.indexOf('<body>') + 6, slim.lastIndexOf('</body>'));
+fs.writeFileSync(path.join(DIST, 'bench-artifact.html'),
+  head.replace('</title>', '</title>\n<meta name="claude:viewport-fit-sides" content="cover">') + body);
 fs.writeFileSync(path.join(DIST, 'bench.json'), JSON.stringify({ build: BUILD, fingerprints: Object.fromEntries(
   Object.entries(presets).map(([k, v]) => [k, v.fingerprints])) }, null, 1));
 

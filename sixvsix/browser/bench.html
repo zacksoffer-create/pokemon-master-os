@@ -5,34 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>6v6 Browser Bench</title>
 <style>
+/* Layout: one narrow column of cards; numbers in tabular figures. Palette: Blackthorn's dark rock and dragon blue. */
 :root {
-  --bg: #f6f4ef; --card: #ffffff; --ink: #1d1f24; --muted: #646872; --line: #e3dfd6; --accent: #7a3e1d;
-  --good: #2f6b3a; --bad: #a3312b; --bar: #e9e4da;
+  --bg: #f2f4f7; --card: #ffffff; --ink: #142030; --muted: #586677; --line: #dce2ea; --accent: #2b4d84;
+  --on-accent: #ffffff; --good: #22663a; --bad: #a3312b; --bar: #e3e8ef;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #15161a; --card: #1e2026; --ink: #ecebe7; --muted: #a2a5ad; --line: #30333b; --accent: #e0a070;
-    --good: #7fc28b; --bad: #ef8a83; --bar: #2a2d34; color-scheme: dark;
+    --bg: #0e131a; --card: #171f29; --ink: #e6ebf2; --muted: #9aa6b4; --line: #283341; --accent: #8db1ec;
+    --on-accent: #0c1522; --good: #7cc394; --bad: #ef8a83; --bar: #232d3a; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #15161a; --card: #1e2026; --ink: #ecebe7; --muted: #a2a5ad; --line: #30333b; --accent: #e0a070;
-  --good: #7fc28b; --bad: #ef8a83; --bar: #2a2d34; color-scheme: dark;
+  --bg: #0e131a; --card: #171f29; --ink: #e6ebf2; --muted: #9aa6b4; --line: #283341; --accent: #8db1ec;
+  --on-accent: #0c1522; --good: #7cc394; --bad: #ef8a83; --bar: #232d3a; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
-main { max-width: 760px; margin: 0 auto; padding: 20px 16px 48px; }
-h1 { font-size: 21px; margin: 4px 0 2px; letter-spacing: .01em; }
+main { max-width: 760px; margin: 0 auto; padding-block: 20px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1 { font-size: 21px; margin: 4px 0 2px; letter-spacing: .01em; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0 0 8px; }
 .sub { color: var(--muted); margin: 0 0 18px; }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 12px 0; }
 label { display: block; font-size: 13px; color: var(--muted); margin: 0 0 4px; }
 select, button { font: inherit; color: inherit; }
 select { width: 100%; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-button.run { margin-top: 14px; width: 100%; padding: 12px; border: 0; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 600; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) button.run { color: #1b120c; } }
-:root[data-theme="dark"] button.run { color: #1b120c; }
+button.run { margin-top: 14px; width: 100%; padding: 12px; border: 0; border-radius: 10px; background: var(--accent); color: var(--on-accent); font-weight: 600; cursor: pointer; }
+button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 button.run:disabled { opacity: .55; }
 .bar { height: 8px; border-radius: 4px; background: var(--bar); overflow: hidden; margin-top: 12px; }
 .bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .15s; }
@@ -90,6 +92,15 @@ button.copy { margin-top: 10px; padding: 8px 12px; border-radius: 8px; border: 1
     <button class="copy" id="copy">Copy results</button>
     <div class="small" id="build" style="margin-top:8px"></div>
   </div>
+
+  <div class="card" id="saved" hidden>
+    <h2>Every device's runs</h2>
+    <p class="small" style="margin:0 0 8px">Each run on any of your devices is saved here, so the phone and the laptop can be compared side by side.</p>
+    <div class="wrap"><table>
+      <thead><tr><th>Device</th><th>Matchup</th><th>N</th><th>Mode</th><th>Each</th><th>Same as Node</th></tr></thead>
+      <tbody id="savedRows"><tr><td colspan="6" class="small">No saved runs yet. Run one above and it appears here.</td></tr></tbody>
+    </table></div>
+  </div>
 </main>
 
 <script id="sixvsix-engine">/*__ENGINE__*/</script>
@@ -142,6 +153,7 @@ var BENCH = /*__BENCH__*/null;
       runs.push(row);
       show(result, row);
       $('status').textContent = 'Done.';
+      save(row);
       return row;
     };
     if (mode === 'worker') {
@@ -185,6 +197,39 @@ var BENCH = /*__BENCH__*/null;
      row.node_fingerprint ? (row.same_as_node ? '✓' : '✗') : '—'].forEach(function (v) { var td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
     tb.appendChild(tr);
   }
+
+  // Where the page runs inside claude.ai, each run is also saved to the page's own store (the db capability), so
+  // runs from every device show together and Claude can read them back. Anywhere else this does nothing.
+  var dbReady = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('db').catch(function () { return null; }) : Promise.resolve(null);
+  function shortDevice(ua) {
+    var m = /iPhone|iPad|Android|Macintosh|Windows|Linux|CrOS/.exec(ua || '');
+    var b = /CriOS|Chrome|Firefox|FxiOS|Edg|Version\/[\d.]+ (Mobile\/\S+ )?Safari/.exec(ua || '');
+    return (m ? m[0] : 'device') + (b ? ' · ' + (b[0].indexOf('Safari') >= 0 ? 'Safari' : b[0].replace('CriOS', 'Chrome').replace('FxiOS', 'Firefox')) : '');
+  }
+  function save(row) {
+    dbReady.then(function (db) {
+      if (!db) return;
+      var doc = { at: new Date().toISOString(), build: SixVSix.BUILD, engine: SixVSix.ENGINE.version, device: row.device,
+                  device_short: shortDevice(row.device), cores: nav.hardwareConcurrency || null, memory_gb: nav.deviceMemory || null };
+      Object.keys(row).forEach(function (k) { if (k !== 'device') doc[k] = row[k]; });
+      return db.collection('runs').add(doc).then(function () { $('status').textContent = 'Done. Saved to this page.'; });
+    }).catch(function () { $('status').textContent = 'Done. (Not saved: this view can\'t write to the page.)'; });
+  }
+  dbReady.then(function (db) {
+    if (!db) return;
+    $('saved').hidden = false;
+    db.collection('runs').orderBy('at', 'desc').limit(60).onSnapshot(function (snap) {
+      var tb = $('savedRows');
+      tb.innerHTML = '';
+      if (snap.empty) { tb.innerHTML = '<tr><td colspan="6" class="small">No saved runs yet. Run one above and it appears here.</td></tr>'; return; }
+      snap.docs.forEach(function (d) {
+        var r = d.data(), tr = document.createElement('tr');
+        [r.device_short || 'device', (BENCH.presets[r.preset] || {}).short || r.preset, r.n, r.mode, r.per_battle_ms + ' ms',
+         r.same_as_node ? '✓' : '✗'].forEach(function (v) { var td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
+        tb.appendChild(tr);
+      });
+    }, function () {});
+  });
 
   $('run').addEventListener('click', function () { run().catch(function () {}); });
   $('copy').addEventListener('click', function () {
