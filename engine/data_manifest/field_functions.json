@@ -1,0 +1,689 @@
+{
+ "_note": "Built by engine/capability/field_functions.py from the pret decompilations at the commits below. One row per move the game's party menu offers outside battle, in the game's own table order. badge/badge_const: what the party-menu path tests before the move runs (\"none\"/null when nothing is tested); machine: TM/HM number, else how the move is learned; requires/does: short summaries of the cited code; source: file:line and label for each fact. SoulSilver shares HeartGold's code.",
+ "commits": {
+  "pokecrystal": "5c877ef55197039c9676e8e3eec6d254b1c40fe8",
+  "pokeemerald": "731ad5bfd6e6f265508d0efcca0ba42f9dcf5881",
+  "pokefirered": "ce6406d8c2eaf46d543c8a2606de0c3cb1951982",
+  "pokeplatinum": "be36a9db3d2390a5009adc087c7aef550ce335e7",
+  "pokeheartgold": "6988158691eb6178cff697cda0428045ddcba5fb"
+ },
+ "games": {
+  "crystal": [
+   {
+    "move": "Cut",
+    "machine": "HM01",
+    "badge": "Hive Badge",
+    "badge_const": "ENGINE_HIVEBADGE",
+    "requires": "facing a tree or grass tile the tileset lets you cut",
+    "does": "cuts a small tree or tall grass",
+    "source": "pokecrystal/data/mon_menu.asm:28 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_CUT, CUT; pokecrystal/engine/pokemon/mon_menu.asm:130 PokemonActionSubmenu.Actions: MONMENUITEM_CUT -> MonMenu_Cut (farcall CutFunction); pokecrystal/engine/events/overworld.asm:133 CutFunction: ld de, ENGINE_HIVEBADGE / call CheckBadge; pokecrystal/maps/AzaleaGym.asm:32 setflag ENGINE_HIVEBADGE; pokecrystal/maps/AzaleaGym.asm:182 badge named in text: HIVEBADGE.; pokecrystal/maps/AzaleaGym.asm:197 badge text mentions Cut; pokecrystal/constants/item_constants.asm:286 add_hm CUT (HM01)"
+   },
+   {
+    "move": "Fly",
+    "machine": "HM02",
+    "badge": "Storm Badge",
+    "badge_const": "ENGINE_STORMBADGE",
+    "requires": "outdoors (map environment ROUTE or TOWN)",
+    "does": "flies to a town you have visited",
+    "source": "pokecrystal/data/mon_menu.asm:29 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_FLY, FLY; pokecrystal/engine/pokemon/mon_menu.asm:131 PokemonActionSubmenu.Actions: MONMENUITEM_FLY -> MonMenu_Fly (farcall FlyFunction); pokecrystal/engine/events/overworld.asm:560 FlyFunction: ld de, ENGINE_STORMBADGE / call CheckBadge; pokecrystal/maps/CianwoodGym.asm:49 setflag ENGINE_STORMBADGE; pokecrystal/maps/CianwoodGym.asm:193 badge named in text: STORMBADGE!; pokecrystal/maps/CianwoodGym.asm:209 badge text mentions Fly; pokecrystal/constants/item_constants.asm:287 add_hm FLY (HM02)"
+   },
+   {
+    "move": "Surf",
+    "machine": "HM03",
+    "badge": "Fog Badge",
+    "badge_const": "ENGINE_FOGBADGE",
+    "requires": "facing surfable water; not already surfing; not on a must-bike road",
+    "does": "carries you across water",
+    "source": "pokecrystal/data/mon_menu.asm:30 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_SURF, SURF; pokecrystal/engine/pokemon/mon_menu.asm:132 PokemonActionSubmenu.Actions: MONMENUITEM_SURF -> MonMenu_Surf (farcall SurfFunction); pokecrystal/engine/events/overworld.asm:347 SurfFunction: ld de, ENGINE_FOGBADGE / call CheckBadge; pokecrystal/maps/EcruteakGym.asm:41 setflag ENGINE_FOGBADGE; pokecrystal/maps/EcruteakGym.asm:231 badge named in text: FOGBADGE.; pokecrystal/maps/EcruteakGym.asm:242 badge text mentions Surf; pokecrystal/constants/item_constants.asm:288 add_hm SURF (HM03)"
+   },
+   {
+    "move": "Strength",
+    "machine": "HM04",
+    "badge": "Plain Badge",
+    "badge_const": "ENGINE_PLAINBADGE",
+    "requires": null,
+    "does": "lets you push boulders on this map",
+    "source": "pokecrystal/data/mon_menu.asm:31 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_STRENGTH, STRENGTH; pokecrystal/engine/pokemon/mon_menu.asm:133 PokemonActionSubmenu.Actions: MONMENUITEM_STRENGTH -> MonMenu_Strength (farcall StrengthFunction); pokecrystal/engine/events/overworld.asm:964 StrengthFunction: ld de, ENGINE_PLAINBADGE / call CheckBadge; pokecrystal/maps/GoldenrodGym.asm:61 setflag ENGINE_PLAINBADGE; pokecrystal/maps/GoldenrodGym.asm:228 badge named in text: PLAINBADGE.; pokecrystal/maps/GoldenrodGym.asm:240 badge text mentions Strength; pokecrystal/constants/item_constants.asm:289 add_hm STRENGTH (HM04)"
+   },
+   {
+    "move": "Flash",
+    "machine": "HM05",
+    "badge": "Zephyr Badge",
+    "badge_const": "ENGINE_ZEPHYRBADGE",
+    "requires": "in a dark cave (DARKNESS_PALSET) or the Ruins of Alph Aerodactyl chamber",
+    "does": "lights up a dark cave",
+    "source": "pokecrystal/data/mon_menu.asm:32 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_FLASH, FLASH; pokecrystal/engine/pokemon/mon_menu.asm:134 PokemonActionSubmenu.Actions: MONMENUITEM_FLASH -> MonMenu_Flash (farcall FlashFunction); pokecrystal/engine/events/overworld.asm:281 FlashFunction: ld de, ENGINE_ZEPHYRBADGE / call CheckBadge; pokecrystal/maps/VioletGym.asm:29 setflag ENGINE_ZEPHYRBADGE; pokecrystal/maps/VioletGym.asm:146 badge named in text: ZEPHYRBADGE.; pokecrystal/maps/VioletGym.asm:162 badge text mentions Flash; pokecrystal/constants/item_constants.asm:290 add_hm FLASH (HM05)"
+   },
+   {
+    "move": "Waterfall",
+    "machine": "HM07",
+    "badge": "Rising Badge",
+    "badge_const": "ENGINE_RISINGBADGE",
+    "requires": "facing up at a waterfall",
+    "does": "climbs up a waterfall",
+    "source": "pokecrystal/data/mon_menu.asm:33 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_WATERFALL, WATERFALL; pokecrystal/engine/pokemon/mon_menu.asm:141 PokemonActionSubmenu.Actions: MONMENUITEM_WATERFALL -> MonMenu_Waterfall (farcall WaterfallFunction); pokecrystal/engine/events/overworld.asm:639 WaterfallFunction: ld de, ENGINE_RISINGBADGE / call CheckBadge; pokecrystal/maps/DragonShrine.asm:161 setflag ENGINE_RISINGBADGE; pokecrystal/maps/DragonShrine.asm:626 badge named in text: RISINGBADGE…; pokecrystal/constants/item_constants.asm:292 add_hm WATERFALL (HM07)"
+   },
+   {
+    "move": "Whirlpool",
+    "machine": "HM06",
+    "badge": "Glacier Badge",
+    "badge_const": "ENGINE_GLACIERBADGE",
+    "requires": "facing a whirlpool",
+    "does": "clears a whirlpool out of the way",
+    "source": "pokecrystal/data/mon_menu.asm:34 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_WHIRLPOOL, WHIRLPOOL; pokecrystal/engine/pokemon/mon_menu.asm:135 PokemonActionSubmenu.Actions: MONMENUITEM_WHIRLPOOL -> MonMenu_Whirlpool (farcall WhirlpoolFunction); pokecrystal/engine/events/overworld.asm:1100 WhirlpoolFunction: ld de, ENGINE_GLACIERBADGE / call CheckBadge; pokecrystal/maps/MahoganyGym.asm:32 setflag ENGINE_GLACIERBADGE; pokecrystal/maps/MahoganyGym.asm:197 badge named in text: GLACIERBADGE.; pokecrystal/constants/item_constants.asm:291 add_hm WHIRLPOOL (HM06)"
+   },
+   {
+    "move": "Dig",
+    "machine": "TM28",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "in a CAVE or DUNGEON map with an escape (dig) warp set",
+    "does": "escapes from a cave to its entrance, like an Escape Rope",
+    "source": "pokecrystal/data/mon_menu.asm:35 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_DIG, DIG; pokecrystal/engine/pokemon/mon_menu.asm:136 PokemonActionSubmenu.Actions: MONMENUITEM_DIG -> MonMenu_Dig (farcall DigFunction); pokecrystal/engine/events/overworld.asm:751 DigFunction (no CheckBadge in its body or the routines it calls); pokecrystal/constants/item_constants.asm:248 add_tm DIG (TM28)"
+   },
+   {
+    "move": "Teleport",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "outdoors (ROUTE or TOWN) with a valid last spawn point",
+    "does": "warps you back to the last Pokémon Center you used",
+    "source": "pokecrystal/data/mon_menu.asm:36 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_TELEPORT, TELEPORT; pokecrystal/engine/pokemon/mon_menu.asm:137 PokemonActionSubmenu.Actions: MONMENUITEM_TELEPORT -> MonMenu_Teleport (farcall TeleportFunction); pokecrystal/engine/events/overworld.asm:874 TeleportFunction (no CheckBadge in its body or the routines it calls); pokecrystal/data/pokemon/evos_attacks.asm:833 AbraEvosAttacks: TELEPORT (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Soft-Boiled",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokecrystal/data/mon_menu.asm:37 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_SOFTBOILED, SOFTBOILED; pokecrystal/engine/pokemon/mon_menu.asm:138 PokemonActionSubmenu.Actions: MONMENUITEM_SOFTBOILED -> MonMenu_Softboiled_MilkDrink (farcall Softboiled_MilkDrinkFunction); pokecrystal/engine/items/item_effects.asm:1986 Softboiled_MilkDrinkFunction (no CheckBadge in its body or the routines it calls); pokecrystal/engine/pokemon/mon_menu.asm:744 MonMenu_Softboiled_MilkDrink.CheckMonHasEnoughHP (HP vs max HP / 5); pokecrystal/data/pokemon/evos_attacks.asm:1538 ChanseyEvosAttacks: SOFTBOILED (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Headbutt",
+    "machine": "TM02",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "facing a headbutt tree",
+    "does": "shakes a tree so a wild Pokémon may fall out",
+    "source": "pokecrystal/data/mon_menu.asm:38 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_HEADBUTT, HEADBUTT; pokecrystal/engine/pokemon/mon_menu.asm:140 PokemonActionSubmenu.Actions: MONMENUITEM_HEADBUTT -> MonMenu_Headbutt (farcall HeadbuttFunction); pokecrystal/engine/events/overworld.asm:1231 HeadbuttFunction (no CheckBadge in its body or the routines it calls); pokecrystal/constants/item_constants.asm:221 add_tm HEADBUTT (TM02)"
+   },
+   {
+    "move": "Rock Smash",
+    "machine": "TM08",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "facing a smashable rock",
+    "does": "smashes a breakable rock",
+    "source": "pokecrystal/data/mon_menu.asm:39 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_ROCKSMASH, ROCK_SMASH; pokecrystal/engine/pokemon/mon_menu.asm:142 PokemonActionSubmenu.Actions: MONMENUITEM_ROCKSMASH -> MonMenu_RockSmash (farcall RockSmashFunction); pokecrystal/engine/events/overworld.asm:1312 RockSmashFunction (no CheckBadge in its body or the routines it calls); pokecrystal/constants/item_constants.asm:228 add_tm ROCK_SMASH (TM08)"
+   },
+   {
+    "move": "Milk Drink",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokecrystal/data/mon_menu.asm:40 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_MILKDRINK, MILK_DRINK; pokecrystal/engine/pokemon/mon_menu.asm:139 PokemonActionSubmenu.Actions: MONMENUITEM_MILKDRINK -> MonMenu_Softboiled_MilkDrink (farcall Softboiled_MilkDrinkFunction); pokecrystal/engine/items/item_effects.asm:1986 Softboiled_MilkDrinkFunction (no CheckBadge in its body or the routines it calls); pokecrystal/engine/pokemon/mon_menu.asm:744 MonMenu_Softboiled_MilkDrink.CheckMonHasEnoughHP (HP vs max HP / 5); pokecrystal/data/pokemon/evos_attacks.asm:3209 MiltankEvosAttacks: MILK_DRINK (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Sweet Scent",
+    "machine": "TM12",
+    "badge": "none",
+    "badge_const": null,
+    "requires": null,
+    "does": "lures a wild Pokémon into battle if the map has wild encounters",
+    "source": "pokecrystal/data/mon_menu.asm:41 MonMenuOptions: MONMENU_FIELD_MOVE, MONMENUITEM_SWEETSCENT, SWEET_SCENT; pokecrystal/engine/pokemon/mon_menu.asm:143 PokemonActionSubmenu.Actions: MONMENUITEM_SWEETSCENT -> MonMenu_SweetScent (farcall SweetScentFromMenu); pokecrystal/engine/events/sweet_scent.asm:1 SweetScentFromMenu (no CheckBadge in its body or the routines it calls); pokecrystal/constants/item_constants.asm:232 add_tm SWEET_SCENT (TM12)"
+   }
+  ],
+  "firered": [
+   {
+    "move": "Flash",
+    "machine": "HM05",
+    "badge": "Boulder Badge",
+    "badge_const": "FLAG_BADGE01_GET",
+    "requires": "the map is a cave and Flash isn't already lit",
+    "does": "Light up darkness.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_FLASH = MOVE_FLASH; pokefirered/src/data/party_menu.h:1170 sFieldMoveCursorCallbacks: FIELD_MOVE_FLASH -> SetUpFieldMove_Flash; pokefirered/src/fldeff_flash.c:164 SetUpFieldMove_Flash; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_FLASH (0) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 0) = FLAG_BADGE01_GET; pokefirered/include/constants/flags.h:1364 #define FLAG_BADGE01_GET; pokefirered/data/maps/PewterCity_Gym/scripts.inc:15 setflag FLAG_BADGE01_GET; pokefirered/data/maps/PewterCity_Gym/text.inc:26 badge named in text: {FONT_NORMAL}{PLAYER} received the BOULDERBADGE; pokefirered/data/maps/PewterCity_Gym/text.inc:31 badge text mentions Flash; pokefirered/src/data/party_menu.h:1253 sTMHMMoves[54] MOVE_FLASH (HM05, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:650 sFieldMoveDescriptionTable: FIELD_MOVE_FLASH = gText_LightUpDarkness; pokefirered/src/strings.c:351 gText_LightUpDarkness \"Light up darkness.\""
+   },
+   {
+    "move": "Cut",
+    "machine": "HM01",
+    "badge": "Cascade Badge",
+    "badge_const": "FLAG_BADGE02_GET",
+    "requires": "facing a cuttable tree, tall grass next to you, or the Ruin Valley spot",
+    "does": "Cut a tree or grass.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_CUT = MOVE_CUT; pokefirered/src/data/party_menu.h:1171 sFieldMoveCursorCallbacks: FIELD_MOVE_CUT -> SetUpFieldMove_Cut; pokefirered/src/fldeff_cut.c:118 SetUpFieldMove_Cut; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_CUT (1) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 1) = FLAG_BADGE02_GET; pokefirered/include/constants/flags.h:1365 #define FLAG_BADGE02_GET; pokefirered/data/maps/CeruleanCity_Gym/scripts.inc:15 setflag FLAG_BADGE02_GET; pokefirered/data/maps/CeruleanCity_Gym/text.inc:15 badge named in text: The CASCADEBADGE makes all; pokefirered/data/maps/CeruleanCity_Gym/text.inc:19 badge text mentions Cut; pokefirered/src/data/party_menu.h:1249 sTMHMMoves[50] MOVE_CUT (HM01, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:651 sFieldMoveDescriptionTable: FIELD_MOVE_CUT = gText_CutATreeOrGrass; pokefirered/src/strings.c:347 gText_CutATreeOrGrass \"Cut a tree or grass.\""
+   },
+   {
+    "move": "Fly",
+    "machine": "HM02",
+    "badge": "Thunder Badge",
+    "badge_const": "FLAG_BADGE03_GET",
+    "requires": "outdoors (map type route, town, city or ocean route)",
+    "does": "Fly to a known town.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_FLY = MOVE_FLY; pokefirered/src/data/party_menu.h:1172 sFieldMoveCursorCallbacks: FIELD_MOVE_FLY -> SetUpFieldMove_Fly; pokefirered/src/party_menu.c:4099 SetUpFieldMove_Fly; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_FLY (2) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 2) = FLAG_BADGE03_GET; pokefirered/include/constants/flags.h:1366 #define FLAG_BADGE03_GET; pokefirered/data/maps/VermilionCity_Gym/scripts.inc:219 setflag FLAG_BADGE03_GET; pokefirered/data/maps/VermilionCity_Gym/text.inc:19 badge named in text: The THUNDERBADGE cranks up your; pokefirered/data/maps/VermilionCity_Gym/text.inc:21 badge text mentions Fly; pokefirered/src/data/party_menu.h:1250 sTMHMMoves[51] MOVE_FLY (HM02, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:652 sFieldMoveDescriptionTable: FIELD_MOVE_FLY = gText_FlyToAKnownTown; pokefirered/src/strings.c:348 gText_FlyToAKnownTown \"Fly to a known town.\""
+   },
+   {
+    "move": "Strength",
+    "machine": "HM04",
+    "badge": "Rainbow Badge",
+    "badge_const": "FLAG_BADGE04_GET",
+    "requires": "facing a boulder; not surfing",
+    "does": "Move heavy boulders.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_STRENGTH = MOVE_STRENGTH; pokefirered/src/data/party_menu.h:1173 sFieldMoveCursorCallbacks: FIELD_MOVE_STRENGTH -> SetUpFieldMove_Strength; pokefirered/src/fldeff_strength.c:14 SetUpFieldMove_Strength; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_STRENGTH (3) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 3) = FLAG_BADGE04_GET; pokefirered/include/constants/flags.h:1367 #define FLAG_BADGE04_GET; pokefirered/data/maps/CeladonCity_Gym/scripts.inc:17 setflag FLAG_BADGE04_GET; pokefirered/data/maps/CeladonCity_Gym/text.inc:22 badge named in text: RAINBOWBADGE.; pokefirered/data/maps/CeladonCity_Gym/text.inc:34 badge text mentions Strength; pokefirered/src/data/party_menu.h:1252 sTMHMMoves[53] MOVE_STRENGTH (HM04, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:653 sFieldMoveDescriptionTable: FIELD_MOVE_STRENGTH = gText_MoveHeavyBoulders; pokefirered/src/strings.c:350 gText_MoveHeavyBoulders \"Move heavy boulders.\""
+   },
+   {
+    "move": "Surf",
+    "machine": "HM03",
+    "badge": "Soul Badge",
+    "badge_const": "FLAG_BADGE05_GET",
+    "requires": "facing surfable water that isn't a fast current",
+    "does": "Travel on water.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_SURF = MOVE_SURF; pokefirered/src/data/party_menu.h:1174 sFieldMoveCursorCallbacks: FIELD_MOVE_SURF -> SetUpFieldMove_Surf; pokefirered/src/party_menu.c:4061 SetUpFieldMove_Surf; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_SURF (4) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 4) = FLAG_BADGE05_GET; pokefirered/include/constants/flags.h:1368 #define FLAG_BADGE05_GET; pokefirered/data/maps/FuchsiaCity_Gym/scripts.inc:16 setflag FLAG_BADGE05_GET; pokefirered/data/maps/FuchsiaCity_Gym/text.inc:18 badge named in text: Take the SOULBADGE!; pokefirered/data/maps/FuchsiaCity_Gym/text.inc:30 badge text mentions Surf; pokefirered/src/data/party_menu.h:1251 sTMHMMoves[52] MOVE_SURF (HM03, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:654 sFieldMoveDescriptionTable: FIELD_MOVE_SURF = gText_TravelOnWater; pokefirered/src/strings.c:349 gText_TravelOnWater \"Travel on water.\""
+   },
+   {
+    "move": "Rock Smash",
+    "machine": "HM06",
+    "badge": "Marsh Badge",
+    "badge_const": "FLAG_BADGE06_GET",
+    "requires": "facing a breakable rock",
+    "does": "Shatter a cracked rock.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_ROCK_SMASH = MOVE_ROCK_SMASH; pokefirered/src/data/party_menu.h:1175 sFieldMoveCursorCallbacks: FIELD_MOVE_ROCK_SMASH -> SetUpFieldMove_RockSmash; pokefirered/src/fldeff_rocksmash.c:106 SetUpFieldMove_RockSmash; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_ROCK_SMASH (5) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 5) = FLAG_BADGE06_GET; pokefirered/include/constants/flags.h:1369 #define FLAG_BADGE06_GET; pokefirered/data/maps/SaffronCity_Gym/scripts.inc:17 setflag FLAG_BADGE06_GET; pokefirered/data/maps/SaffronCity_Gym/text.inc:16 badge named in text: MARSHBADGE.; pokefirered/src/data/party_menu.h:1254 sTMHMMoves[55] MOVE_ROCK_SMASH (HM06, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:655 sFieldMoveDescriptionTable: FIELD_MOVE_ROCK_SMASH = gText_ShatterACrackedRock; pokefirered/src/strings.c:352 gText_ShatterACrackedRock \"Shatter a cracked rock.\""
+   },
+   {
+    "move": "Waterfall",
+    "machine": "HM07",
+    "badge": "Volcano Badge",
+    "badge_const": "FLAG_BADGE07_GET",
+    "requires": "surfing north into a waterfall",
+    "does": "Climb a waterfall.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_WATERFALL = MOVE_WATERFALL; pokefirered/src/data/party_menu.h:1176 sFieldMoveCursorCallbacks: FIELD_MOVE_WATERFALL -> SetUpFieldMove_Waterfall; pokefirered/src/party_menu.c:4118 SetUpFieldMove_Waterfall; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_WATERFALL (6) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 6) = FLAG_BADGE07_GET; pokefirered/include/constants/flags.h:1370 #define FLAG_BADGE07_GET; pokefirered/data/maps/CinnabarIsland_Gym/scripts.inc:59 setflag FLAG_BADGE07_GET; pokefirered/data/maps/CinnabarIsland_Gym/text.inc:14 badge named in text: You have earned the VOLCANOBADGE.; pokefirered/src/data/party_menu.h:1255 sTMHMMoves[56] MOVE_WATERFALL (HM07, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:656 sFieldMoveDescriptionTable: FIELD_MOVE_WATERFALL = gText_ClimbAWaterfall; pokefirered/src/strings.c:353 gText_ClimbAWaterfall \"Climb a waterfall.\""
+   },
+   {
+    "move": "Teleport",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "outdoors (map type route, town, city or ocean route)",
+    "does": "Return to a healing spot.",
+    "source": "pokefirered/src/data/party_menu.h:1160 sFieldMoves: FIELD_MOVE_TELEPORT = MOVE_TELEPORT; pokefirered/src/data/party_menu.h:1177 sFieldMoveCursorCallbacks: FIELD_MOVE_TELEPORT -> SetUpFieldMove_Teleport; pokefirered/src/fldeff_teleport.c:11 SetUpFieldMove_Teleport; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_TELEPORT (7) > FIELD_MOVE_WATERFALL, so no badge test; pokefirered/src/data/pokemon/level_up_learnsets.h:843 sAbraLevelUpLearnset: MOVE_TELEPORT (level-up) (and in no egg-move list); pokefirered/src/data/party_menu.h:657 sFieldMoveDescriptionTable: FIELD_MOVE_TELEPORT = gText_ReturnToAHealingSpot; pokefirered/src/strings.c:358 gText_ReturnToAHealingSpot \"Return to a healing spot.\""
+   },
+   {
+    "move": "Dig",
+    "machine": "TM28",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "the map allows escaping (as for an Escape Rope)",
+    "does": "Escape from here.",
+    "source": "pokefirered/src/data/party_menu.h:1161 sFieldMoves: FIELD_MOVE_DIG = MOVE_DIG; pokefirered/src/data/party_menu.h:1178 sFieldMoveCursorCallbacks: FIELD_MOVE_DIG -> SetUpFieldMove_Dig; pokefirered/src/fldeff_dig.c:12 SetUpFieldMove_Dig; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_DIG (8) > FIELD_MOVE_WATERFALL, so no badge test; pokefirered/src/data/party_menu.h:1226 sTMHMMoves[27] MOVE_DIG (TM28, NUM_TECHNICAL_MACHINES 50); pokefirered/src/data/party_menu.h:658 sFieldMoveDescriptionTable: FIELD_MOVE_DIG = gText_EscapeFromHere; pokefirered/src/strings.c:355 gText_EscapeFromHere \"Escape from here.\""
+   },
+   {
+    "move": "Milk Drink",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "Share HP.",
+    "source": "pokefirered/src/data/party_menu.h:1161 sFieldMoves: FIELD_MOVE_MILK_DRINK = MOVE_MILK_DRINK; pokefirered/src/data/party_menu.h:1179 sFieldMoveCursorCallbacks: FIELD_MOVE_MILK_DRINK -> SetUpFieldMove_SoftBoiled; pokefirered/src/fldeff_softboiled.c:16 SetUpFieldMove_SoftBoiled; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_MILK_DRINK (9) > FIELD_MOVE_WATERFALL, so no badge test; pokefirered/src/data/pokemon/level_up_learnsets.h:3355 sMiltankLevelUpLearnset: MOVE_MILK_DRINK (level-up) (and in no egg-move list); pokefirered/src/data/party_menu.h:659 sFieldMoveDescriptionTable: FIELD_MOVE_MILK_DRINK = gText_ShareHp; pokefirered/src/strings.c:357 gText_ShareHp \"Share HP.\""
+   },
+   {
+    "move": "Soft-Boiled",
+    "machine": "move tutor",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "Share HP.",
+    "source": "pokefirered/src/data/party_menu.h:1161 sFieldMoves: FIELD_MOVE_SOFT_BOILED = MOVE_SOFT_BOILED; pokefirered/src/data/party_menu.h:1180 sFieldMoveCursorCallbacks: FIELD_MOVE_SOFT_BOILED -> SetUpFieldMove_SoftBoiled; pokefirered/src/fldeff_softboiled.c:16 SetUpFieldMove_SoftBoiled; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_SOFT_BOILED (10) > FIELD_MOVE_WATERFALL, so no badge test; pokefirered/src/data/pokemon/tutor_learnsets.h:12 tutor move table: TUTOR_MOVE_SOFT_BOILED = MOVE_SOFT_BOILED; pokefirered/src/data/party_menu.h:660 sFieldMoveDescriptionTable: FIELD_MOVE_SOFT_BOILED = gText_ShareHp; pokefirered/src/strings.c:357 gText_ShareHp \"Share HP.\""
+   },
+   {
+    "move": "Sweet Scent",
+    "machine": "level-up or egg move",
+    "badge": "none",
+    "badge_const": null,
+    "requires": null,
+    "does": "Lure wild POKéMON.",
+    "source": "pokefirered/src/data/party_menu.h:1161 sFieldMoves: FIELD_MOVE_SWEET_SCENT = MOVE_SWEET_SCENT; pokefirered/src/data/party_menu.h:1181 sFieldMoveCursorCallbacks: FIELD_MOVE_SWEET_SCENT -> SetUpFieldMove_SweetScent; pokefirered/src/fldeff_sweetscent.c:26 SetUpFieldMove_SweetScent; pokefirered/src/party_menu.c:3926 CursorCb_FieldMove: FIELD_MOVE_SWEET_SCENT (11) > FIELD_MOVE_WATERFALL, so no badge test; pokefirered/src/data/pokemon/level_up_learnsets.h:12 sBulbasaurLevelUpLearnset: MOVE_SWEET_SCENT (level-up); pokefirered/src/data/pokemon/egg_moves.h:129 egg_moves(PARAS): MOVE_SWEET_SCENT; pokefirered/src/data/party_menu.h:661 sFieldMoveDescriptionTable: FIELD_MOVE_SWEET_SCENT = gText_LureWildPokemon; pokefirered/src/strings.c:356 gText_LureWildPokemon \"Lure wild POK\\u00e9MON.\""
+   }
+  ],
+  "emerald": [
+   {
+    "move": "Cut",
+    "machine": "HM01",
+    "badge": "Stone Badge",
+    "badge_const": "FLAG_BADGE01_GET",
+    "requires": "facing a cuttable tree, or cuttable grass around you (a wider square with Hyper Cutter)",
+    "does": "cuts a small tree or tall grass",
+    "source": "pokeemerald/src/data/party_menu.h:747 sFieldMoves: FIELD_MOVE_CUT = MOVE_CUT; pokeemerald/src/data/party_menu.h:772 sFieldMoveCursorCallbacks: FIELD_MOVE_CUT -> SetUpFieldMove_Cut; pokeemerald/src/fldeff_cut.c:138 SetUpFieldMove_Cut; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_CUT (0) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 0) = FLAG_BADGE01_GET; pokeemerald/include/constants/flags.h:1359 #define FLAG_BADGE01_GET; pokeemerald/data/maps/RustboroCity_Gym/scripts.inc:19 setflag FLAG_BADGE01_GET; pokeemerald/data/maps/RustboroCity_Gym/scripts.inc:200 badge named in text: {PLAYER} received the STONE BADGE; pokeemerald/data/maps/RustboroCity_Gym/scripts.inc:207 badge text mentions Cut; pokeemerald/include/constants/tms_hms.h:57 FOREACH_HM: F(CUT) (HM01)"
+   },
+   {
+    "move": "Flash",
+    "machine": "HM05",
+    "badge": "Knuckle Badge",
+    "badge_const": "FLAG_BADGE02_GET",
+    "requires": "in a cave with Flash not yet lit, or at the Registeel braille spot",
+    "does": "lights up a dark cave",
+    "source": "pokeemerald/src/data/party_menu.h:748 sFieldMoves: FIELD_MOVE_FLASH = MOVE_FLASH; pokeemerald/src/data/party_menu.h:773 sFieldMoveCursorCallbacks: FIELD_MOVE_FLASH -> SetUpFieldMove_Flash; pokeemerald/src/fldeff_flash.c:72 SetUpFieldMove_Flash; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_FLASH (1) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 1) = FLAG_BADGE02_GET; pokeemerald/include/constants/flags.h:1360 #define FLAG_BADGE02_GET; pokeemerald/data/maps/DewfordTown_Gym/scripts.inc:151 setflag FLAG_BADGE02_GET; pokeemerald/data/maps/DewfordTown_Gym/scripts.inc:399 badge named in text: {PLAYER} received the KNUCKLE BADGE; pokeemerald/data/maps/DewfordTown_Gym/scripts.inc:407 badge text mentions Flash; pokeemerald/include/constants/tms_hms.h:61 FOREACH_HM: F(FLASH) (HM05)"
+   },
+   {
+    "move": "Rock Smash",
+    "machine": "HM06",
+    "badge": "Dynamo Badge",
+    "badge_const": "FLAG_BADGE03_GET",
+    "requires": "facing a breakable rock, or at the Regirock braille spot",
+    "does": "smashes a breakable rock",
+    "source": "pokeemerald/src/data/party_menu.h:749 sFieldMoves: FIELD_MOVE_ROCK_SMASH = MOVE_ROCK_SMASH; pokeemerald/src/data/party_menu.h:774 sFieldMoveCursorCallbacks: FIELD_MOVE_ROCK_SMASH -> SetUpFieldMove_RockSmash; pokeemerald/src/fldeff_rocksmash.c:121 SetUpFieldMove_RockSmash; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_ROCK_SMASH (2) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 2) = FLAG_BADGE03_GET; pokeemerald/include/constants/flags.h:1361 #define FLAG_BADGE03_GET; pokeemerald/data/maps/MauvilleCity_Gym/scripts.inc:94 setflag FLAG_BADGE03_GET; pokeemerald/data/maps/MauvilleCity_Gym/scripts.inc:355 badge named in text: {PLAYER} received the DYNAMO BADGE; pokeemerald/data/maps/MauvilleCity_Gym/scripts.inc:360 badge text mentions Rock Smash; pokeemerald/include/constants/tms_hms.h:62 FOREACH_HM: F(ROCK_SMASH) (HM06)"
+   },
+   {
+    "move": "Strength",
+    "machine": "HM04",
+    "badge": "Heat Badge",
+    "badge_const": "FLAG_BADGE04_GET",
+    "requires": "facing a boulder",
+    "does": "pushes a boulder",
+    "source": "pokeemerald/src/data/party_menu.h:750 sFieldMoves: FIELD_MOVE_STRENGTH = MOVE_STRENGTH; pokeemerald/src/data/party_menu.h:775 sFieldMoveCursorCallbacks: FIELD_MOVE_STRENGTH -> SetUpFieldMove_Strength; pokeemerald/src/fldeff_strength.c:18 SetUpFieldMove_Strength; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_STRENGTH (3) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 3) = FLAG_BADGE04_GET; pokeemerald/include/constants/flags.h:1362 #define FLAG_BADGE04_GET; pokeemerald/data/maps/LavaridgeTown_Gym_1F/scripts.inc:62 setflag FLAG_BADGE04_GET; pokeemerald/data/maps/LavaridgeTown_Gym_1F/scripts.inc:329 badge named in text: {PLAYER} received the HEAT BADGE; pokeemerald/data/maps/LavaridgeTown_Gym_1F/scripts.inc:338 badge text mentions Strength; pokeemerald/include/constants/tms_hms.h:60 FOREACH_HM: F(STRENGTH) (HM04)"
+   },
+   {
+    "move": "Surf",
+    "machine": "HM03",
+    "badge": "Balance Badge",
+    "badge_const": "FLAG_BADGE05_GET",
+    "requires": "facing surfable water",
+    "does": "carries you across water",
+    "source": "pokeemerald/src/data/party_menu.h:751 sFieldMoves: FIELD_MOVE_SURF = MOVE_SURF; pokeemerald/src/data/party_menu.h:776 sFieldMoveCursorCallbacks: FIELD_MOVE_SURF -> SetUpFieldMove_Surf; pokeemerald/src/party_menu.c:3858 SetUpFieldMove_Surf; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_SURF (4) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 4) = FLAG_BADGE05_GET; pokeemerald/include/constants/flags.h:1363 #define FLAG_BADGE05_GET; pokeemerald/data/maps/PetalburgCity_Gym/scripts.inc:369 setflag FLAG_BADGE05_GET; pokeemerald/data/maps/PetalburgCity_Gym/scripts.inc:1258 badge named in text: {PLAYER} received the BALANCE BADGE; pokeemerald/data/maps/PetalburgCity_Gym/scripts.inc:1264 badge text mentions Surf; pokeemerald/include/constants/tms_hms.h:59 FOREACH_HM: F(SURF) (HM03)"
+   },
+   {
+    "move": "Fly",
+    "machine": "HM02",
+    "badge": "Feather Badge",
+    "badge_const": "FLAG_BADGE06_GET",
+    "requires": "outdoors (map type route, town, city or ocean route)",
+    "does": "flies to a town you have visited",
+    "source": "pokeemerald/src/data/party_menu.h:752 sFieldMoves: FIELD_MOVE_FLY = MOVE_FLY; pokeemerald/src/data/party_menu.h:777 sFieldMoveCursorCallbacks: FIELD_MOVE_FLY -> SetUpFieldMove_Fly; pokeemerald/src/party_menu.c:3877 SetUpFieldMove_Fly; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_FLY (5) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 5) = FLAG_BADGE06_GET; pokeemerald/include/constants/flags.h:1364 #define FLAG_BADGE06_GET; pokeemerald/data/maps/FortreeCity_Gym/scripts.inc:34 setflag FLAG_BADGE06_GET; pokeemerald/data/maps/FortreeCity_Gym/scripts.inc:252 badge named in text: {PLAYER} received the FEATHER BADGE; pokeemerald/data/maps/FortreeCity_Gym/scripts.inc:260 badge text mentions Fly; pokeemerald/include/constants/tms_hms.h:58 FOREACH_HM: F(FLY) (HM02)"
+   },
+   {
+    "move": "Dive",
+    "machine": "HM08",
+    "badge": "Mind Badge",
+    "badge_const": "FLAG_BADGE07_GET",
+    "requires": "on a dive spot (deep water, or underwater to resurface)",
+    "does": "dives to the seafloor at a dive spot, or resurfaces",
+    "source": "pokeemerald/src/data/party_menu.h:753 sFieldMoves: FIELD_MOVE_DIVE = MOVE_DIVE; pokeemerald/src/data/party_menu.h:778 sFieldMoveCursorCallbacks: FIELD_MOVE_DIVE -> SetUpFieldMove_Dive; pokeemerald/src/party_menu.c:3916 SetUpFieldMove_Dive; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_DIVE (6) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 6) = FLAG_BADGE07_GET; pokeemerald/include/constants/flags.h:1365 #define FLAG_BADGE07_GET; pokeemerald/data/maps/MossdeepCity_Gym/scripts.inc:66 setflag FLAG_BADGE07_GET; pokeemerald/data/maps/MossdeepCity_Gym/scripts.inc:551 badge named in text: {PLAYER} received the MIND BADGE; pokeemerald/data/maps/MossdeepCity_Gym/scripts.inc:558 badge text mentions Dive; pokeemerald/include/constants/tms_hms.h:64 FOREACH_HM: F(DIVE) (HM08)"
+   },
+   {
+    "move": "Waterfall",
+    "machine": "HM07",
+    "badge": "Rain Badge",
+    "badge_const": "FLAG_BADGE08_GET",
+    "requires": "surfing north into a waterfall",
+    "does": "climbs up a waterfall",
+    "source": "pokeemerald/src/data/party_menu.h:754 sFieldMoves: FIELD_MOVE_WATERFALL = MOVE_WATERFALL; pokeemerald/src/data/party_menu.h:779 sFieldMoveCursorCallbacks: FIELD_MOVE_WATERFALL -> SetUpFieldMove_Waterfall; pokeemerald/src/party_menu.c:3896 SetUpFieldMove_Waterfall; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_WATERFALL (7) <= FIELD_MOVE_WATERFALL -> FlagGet(FLAG_BADGE01_GET + 7) = FLAG_BADGE08_GET; pokeemerald/include/constants/flags.h:1366 #define FLAG_BADGE08_GET; pokeemerald/data/maps/SootopolisCity_Gym_1F/scripts.inc:97 setflag FLAG_BADGE08_GET; pokeemerald/data/maps/SootopolisCity_Gym_1F/scripts.inc:235 badge named in text: {PLAYER} received the RAIN BADGE; pokeemerald/data/maps/SootopolisCity_Gym_1F/scripts.inc:243 badge text mentions Waterfall; pokeemerald/include/constants/tms_hms.h:63 FOREACH_HM: F(WATERFALL) (HM07)"
+   },
+   {
+    "move": "Teleport",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "outdoors (map type route, town, city or ocean route)",
+    "does": "warps you back to the last healing spot",
+    "source": "pokeemerald/src/data/party_menu.h:755 sFieldMoves: FIELD_MOVE_TELEPORT = MOVE_TELEPORT; pokeemerald/src/data/party_menu.h:780 sFieldMoveCursorCallbacks: FIELD_MOVE_TELEPORT -> SetUpFieldMove_Teleport; pokeemerald/src/fldeff_teleport.c:13 SetUpFieldMove_Teleport; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_TELEPORT (8) > FIELD_MOVE_WATERFALL, so no badge test; pokeemerald/src/data/pokemon/level_up_learnsets.h:828 sAbraLevelUpLearnset: MOVE_TELEPORT (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Dig",
+    "machine": "TM28",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "the map allows escaping (as for an Escape Rope)",
+    "does": "escapes to the entrance you came in by, like an Escape Rope",
+    "source": "pokeemerald/src/data/party_menu.h:756 sFieldMoves: FIELD_MOVE_DIG = MOVE_DIG; pokeemerald/src/data/party_menu.h:781 sFieldMoveCursorCallbacks: FIELD_MOVE_DIG -> SetUpFieldMove_Dig; pokeemerald/src/fldeff_dig.c:17 SetUpFieldMove_Dig; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_DIG (9) > FIELD_MOVE_WATERFALL, so no badge test; pokeemerald/include/constants/tms_hms.h:32 FOREACH_TM: F(DIG) (TM28)"
+   },
+   {
+    "move": "Secret Power",
+    "machine": "TM43",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "facing north at a secret-base cave, tree or shrub, and you don't already have a base",
+    "does": "opens a Secret Base entrance",
+    "source": "pokeemerald/src/data/party_menu.h:757 sFieldMoves: FIELD_MOVE_SECRET_POWER = MOVE_SECRET_POWER; pokeemerald/src/data/party_menu.h:782 sFieldMoveCursorCallbacks: FIELD_MOVE_SECRET_POWER -> SetUpFieldMove_SecretPower; pokeemerald/src/fldeff_misc.c:547 SetUpFieldMove_SecretPower; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_SECRET_POWER (10) > FIELD_MOVE_WATERFALL, so no badge test; pokeemerald/include/constants/tms_hms.h:47 FOREACH_TM: F(SECRET_POWER) (TM43)"
+   },
+   {
+    "move": "Milk Drink",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokeemerald/src/data/party_menu.h:758 sFieldMoves: FIELD_MOVE_MILK_DRINK = MOVE_MILK_DRINK; pokeemerald/src/data/party_menu.h:783 sFieldMoveCursorCallbacks: FIELD_MOVE_MILK_DRINK -> SetUpFieldMove_SoftBoiled; pokeemerald/src/fldeff_softboiled.c:18 SetUpFieldMove_SoftBoiled; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_MILK_DRINK (11) > FIELD_MOVE_WATERFALL, so no badge test; pokeemerald/src/data/pokemon/level_up_learnsets.h:3294 sMiltankLevelUpLearnset: MOVE_MILK_DRINK (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Soft-Boiled",
+    "machine": "move tutor",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokeemerald/src/data/party_menu.h:759 sFieldMoves: FIELD_MOVE_SOFT_BOILED = MOVE_SOFT_BOILED; pokeemerald/src/data/party_menu.h:784 sFieldMoveCursorCallbacks: FIELD_MOVE_SOFT_BOILED -> SetUpFieldMove_SoftBoiled; pokeemerald/src/fldeff_softboiled.c:18 SetUpFieldMove_SoftBoiled; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_SOFT_BOILED (12) > FIELD_MOVE_WATERFALL, so no badge test; pokeemerald/src/data/pokemon/tutor_learnsets.h:12 tutor move table: TUTOR_MOVE_SOFT_BOILED = MOVE_SOFT_BOILED"
+   },
+   {
+    "move": "Sweet Scent",
+    "machine": "level-up or egg move",
+    "badge": "none",
+    "badge_const": null,
+    "requires": null,
+    "does": "lures a wild Pokémon into battle",
+    "source": "pokeemerald/src/data/party_menu.h:760 sFieldMoves: FIELD_MOVE_SWEET_SCENT = MOVE_SWEET_SCENT; pokeemerald/src/data/party_menu.h:785 sFieldMoveCursorCallbacks: FIELD_MOVE_SWEET_SCENT -> SetUpFieldMove_SweetScent; pokeemerald/src/fldeff_sweetscent.c:26 SetUpFieldMove_SweetScent; pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove: FIELD_MOVE_SWEET_SCENT (13) > FIELD_MOVE_WATERFALL, so no badge test; pokeemerald/src/data/pokemon/level_up_learnsets.h:11 sBulbasaurLevelUpLearnset: MOVE_SWEET_SCENT (level-up); pokeemerald/src/data/pokemon/egg_moves.h:129 egg_moves(PARAS): MOVE_SWEET_SCENT"
+   }
+  ],
+  "platinum": [
+   {
+    "move": "Cut",
+    "machine": "HM01",
+    "badge": "Forest Badge",
+    "badge_const": "BADGE_ID_FOREST",
+    "requires": "facing a cuttable tree",
+    "does": "cuts down a small tree",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:248 sFieldMoves: FIELD_MOVE_CUT = MOVE_CUT; pokeplatinum/src/field_move_tasks.c:117 fieldMoveTaskOrError[0] (FIELD_MOVE_CUT): FieldMoves_SetCutTask, FieldMoves_CheckCut; pokeplatinum/src/field_move_tasks.c:332 FieldMoves_CheckCut: PlayerHasRequiredBadge(BADGE_ID_FOREST); pokeplatinum/src/field_move_tasks.c:343 FieldMoves_SetCutTask; pokeplatinum/generated/badges.txt:2 BADGE_ID_FOREST (enum Badge 1); pokeplatinum/res/field/scripts/scripts_eterna_city_gym.s:76 GiveBadge BADGE_ID_FOREST; pokeplatinum/res/text/eterna_city_gym.json:35 badge named in text: Forest Badge from Gardenia!; pokeplatinum/res/text/eterna_city_gym.json:42 badge text mentions Cut; pokeplatinum/res/items/data/hm01.json:30 teachesMove MOVE_CUT (HM01)"
+   },
+   {
+    "move": "Fly",
+    "machine": "HM02",
+    "badge": "Cobble Badge",
+    "badge_const": "BADGE_ID_COBBLE",
+    "requires": "the map allows Fly; no partner; not in the Safari Zone or Pal Park",
+    "does": "flies to a town you have visited",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:249 sFieldMoves: FIELD_MOVE_FLY = MOVE_FLY; pokeplatinum/src/field_move_tasks.c:118 fieldMoveTaskOrError[1] (FIELD_MOVE_FLY): FieldMoves_SetSelectFlyDestinationTask, FieldMoves_CheckFly; pokeplatinum/src/field_move_tasks.c:373 FieldMoves_CheckFly: PlayerHasRequiredBadge(BADGE_ID_COBBLE); pokeplatinum/src/field_move_tasks.c:392 FieldMoves_SetSelectFlyDestinationTask; pokeplatinum/generated/badges.txt:3 BADGE_ID_COBBLE (enum Badge 2); pokeplatinum/res/field/scripts/scripts_veilstone_city_gym.s:34 GiveBadge BADGE_ID_COBBLE; pokeplatinum/res/text/veilstone_city_gym.json:34 badge named in text: the Cobble Badge from Maylene.; pokeplatinum/res/text/veilstone_city_gym.json:42 badge text mentions Fly; pokeplatinum/res/items/data/hm02.json:30 teachesMove MOVE_FLY (HM02)"
+   },
+   {
+    "move": "Surf",
+    "machine": "HM03",
+    "badge": "Fen Badge",
+    "badge_const": "BADGE_ID_FEN",
+    "requires": "facing surfable water; not already surfing; no partner",
+    "does": "carries you across water",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:250 sFieldMoves: FIELD_MOVE_SURF = MOVE_SURF; pokeplatinum/src/field_move_tasks.c:119 fieldMoveTaskOrError[2] (FIELD_MOVE_SURF): FieldMoves_SetSurfTask, FieldMoves_CheckSurf; pokeplatinum/src/field_move_tasks.c:414 FieldMoves_CheckSurf: PlayerHasRequiredBadge(BADGE_ID_FEN); pokeplatinum/src/field_move_tasks.c:433 FieldMoves_SetSurfTask; pokeplatinum/generated/badges.txt:4 BADGE_ID_FEN (enum Badge 3); pokeplatinum/res/field/scripts/scripts_pastoria_city_gym.s:58 GiveBadge BADGE_ID_FEN; pokeplatinum/res/text/pastoria_city_gym.json:34 badge named in text: the Fen Badge from Wake!; pokeplatinum/res/text/pastoria_city_gym.json:41 badge text mentions Surf; pokeplatinum/res/items/data/hm03.json:30 teachesMove MOVE_SURF (HM03)"
+   },
+   {
+    "move": "Strength",
+    "machine": "HM04",
+    "badge": "Mine Badge",
+    "badge_const": "BADGE_ID_MINE",
+    "requires": "facing a Strength boulder",
+    "does": "pushes a boulder",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:251 sFieldMoves: FIELD_MOVE_STRENGTH = MOVE_STRENGTH; pokeplatinum/src/field_move_tasks.c:120 fieldMoveTaskOrError[3] (FIELD_MOVE_STRENGTH): FieldMoves_SetStrengthTask, FieldMoves_CheckStrength; pokeplatinum/src/field_move_tasks.c:463 FieldMoves_CheckStrength: PlayerHasRequiredBadge(BADGE_ID_MINE); pokeplatinum/src/field_move_tasks.c:474 FieldMoves_SetStrengthTask; pokeplatinum/generated/badges.txt:6 BADGE_ID_MINE (enum Badge 5); pokeplatinum/res/field/scripts/scripts_canalave_city_gym.s:31 GiveBadge BADGE_ID_MINE; pokeplatinum/res/text/canalave_city_gym.json:23 badge named in text: I give you this: the Mine Badge!; pokeplatinum/res/text/canalave_city_gym.json:37 badge text mentions Strength; pokeplatinum/res/items/data/hm04.json:30 teachesMove MOVE_STRENGTH (HM04)"
+   },
+   {
+    "move": "Defog",
+    "machine": "HM05",
+    "badge": "Relic Badge",
+    "badge_const": "BADGE_ID_RELIC",
+    "requires": "the weather is fog",
+    "does": "clears the fog",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:252 sFieldMoves: FIELD_MOVE_DEFOG = MOVE_DEFOG; pokeplatinum/src/field_move_tasks.c:121 fieldMoveTaskOrError[4] (FIELD_MOVE_DEFOG): FieldMoves_SetDefogTask, FieldMoves_CheckDefog; pokeplatinum/src/field_move_tasks.c:504 FieldMoves_CheckDefog: PlayerHasRequiredBadge(BADGE_ID_RELIC); pokeplatinum/src/field_move_tasks.c:515 FieldMoves_SetDefogTask; pokeplatinum/generated/badges.txt:5 BADGE_ID_RELIC (enum Badge 4); pokeplatinum/res/field/scripts/scripts_hearthome_city_gym_leader_room.s:71 GiveBadge BADGE_ID_RELIC; pokeplatinum/res/text/hearthome_city_gym_leader_room.json:37 badge named in text: the Relic Badge from Fantina!; pokeplatinum/res/text/hearthome_city_gym_leader_room.json:44 badge text mentions Defog; pokeplatinum/res/items/data/hm05.json:30 teachesMove MOVE_DEFOG (HM05)"
+   },
+   {
+    "move": "Rock Smash",
+    "machine": "HM06",
+    "badge": "Coal Badge",
+    "badge_const": "BADGE_ID_COAL",
+    "requires": "facing a breakable rock; not surfing",
+    "does": "smashes a breakable rock",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:253 sFieldMoves: FIELD_MOVE_ROCK_SMASH = MOVE_ROCK_SMASH; pokeplatinum/src/field_move_tasks.c:122 fieldMoveTaskOrError[5] (FIELD_MOVE_ROCK_SMASH): FieldMoves_SetRockSmashTask, FieldMoves_CheckRockSmash; pokeplatinum/src/field_move_tasks.c:545 FieldMoves_CheckRockSmash: PlayerHasRequiredBadge(BADGE_ID_COAL); pokeplatinum/src/field_move_tasks.c:560 FieldMoves_SetRockSmashTask; pokeplatinum/generated/badges.txt:1 BADGE_ID_COAL (enum Badge 0); pokeplatinum/res/field/scripts/scripts_oreburgh_city_gym.s:28 GiveBadge BADGE_ID_COAL; pokeplatinum/res/text/oreburgh_city_gym.json:30 badge named in text: Coal Badge.; pokeplatinum/res/text/oreburgh_city_gym.json:45 badge text mentions Rock Smash; pokeplatinum/res/items/data/hm06.json:30 teachesMove MOVE_ROCK_SMASH (HM06)"
+   },
+   {
+    "move": "Waterfall",
+    "machine": "HM07",
+    "badge": "Beacon Badge",
+    "badge_const": "BADGE_ID_BEACON",
+    "requires": "facing a waterfall",
+    "does": "climbs up a waterfall",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:254 sFieldMoves: FIELD_MOVE_WATERFALL = MOVE_WATERFALL; pokeplatinum/src/field_move_tasks.c:123 fieldMoveTaskOrError[6] (FIELD_MOVE_WATERFALL): FieldMoves_SetWaterfallTask, FieldMoves_CheckWaterfall; pokeplatinum/src/field_move_tasks.c:590 FieldMoves_CheckWaterfall: PlayerHasRequiredBadge(BADGE_ID_BEACON); pokeplatinum/src/field_move_tasks.c:601 FieldMoves_SetWaterfallTask; pokeplatinum/generated/badges.txt:8 BADGE_ID_BEACON (enum Badge 7); pokeplatinum/res/field/scripts/scripts_sunyshore_city_gym_room_3.s:41 GiveBadge BADGE_ID_BEACON; pokeplatinum/res/text/sunyshore_city_gym_room_3.json:40 badge named in text: the Beacon Badge from Volkner.; pokeplatinum/res/text/sunyshore_city_gym_room_3.json:47 badge text mentions Waterfall; pokeplatinum/res/items/data/hm07.json:30 teachesMove MOVE_WATERFALL (HM07)"
+   },
+   {
+    "move": "Rock Climb",
+    "machine": "HM08",
+    "badge": "Icicle Badge",
+    "badge_const": "BADGE_ID_ICICLE",
+    "requires": "facing a Rock Climb wall; no partner",
+    "does": "climbs a rocky wall",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:255 sFieldMoves: FIELD_MOVE_ROCK_CLIMB = MOVE_ROCK_CLIMB; pokeplatinum/src/field_move_tasks.c:124 fieldMoveTaskOrError[7] (FIELD_MOVE_ROCK_CLIMB): FieldMoves_SetRockClimbTask, FieldMoves_CheckRockClimb; pokeplatinum/src/field_move_tasks.c:631 FieldMoves_CheckRockClimb: PlayerHasRequiredBadge(BADGE_ID_ICICLE); pokeplatinum/src/field_move_tasks.c:646 FieldMoves_SetRockClimbTask; pokeplatinum/generated/badges.txt:7 BADGE_ID_ICICLE (enum Badge 6); pokeplatinum/res/field/scripts/scripts_snowpoint_city_gym.s:35 GiveBadge BADGE_ID_ICICLE; pokeplatinum/res/text/snowpoint_city_gym.json:33 badge named in text: the Icicle Badge from Candice.; pokeplatinum/res/text/snowpoint_city_gym.json:41 badge text mentions Rock Climb; pokeplatinum/res/items/data/hm08.json:30 teachesMove MOVE_ROCK_CLIMB (HM08)"
+   },
+   {
+    "move": "Flash",
+    "machine": "TM70",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "the weather is the dark-cave (Flash) weather",
+    "does": "lights up a dark cave",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:256 sFieldMoves: FIELD_MOVE_FLASH = MOVE_FLASH; pokeplatinum/src/field_move_tasks.c:125 fieldMoveTaskOrError[8] (FIELD_MOVE_FLASH): FieldMoves_SetFlashTask, FieldMoves_CheckFlash; pokeplatinum/src/field_move_tasks.c:670 FieldMoves_CheckFlash (no badge test); pokeplatinum/src/field_move_tasks.c:683 FieldMoves_SetFlashTask; pokeplatinum/res/items/data/tm70.json:30 teachesMove MOVE_FLASH (TM70)"
+   },
+   {
+    "move": "Teleport",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "the map allows Teleport; no partner; not in the Safari Zone or Pal Park",
+    "does": "warps you back to the last Pokémon Center you used",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:257 sFieldMoves: FIELD_MOVE_TELEPORT = MOVE_TELEPORT; pokeplatinum/src/field_move_tasks.c:126 fieldMoveTaskOrError[9] (FIELD_MOVE_TELEPORT): FieldMoves_SetTeleportTask, FieldMoves_CheckTeleport; pokeplatinum/src/field_move_tasks.c:707 FieldMoves_CheckTeleport (no badge test); pokeplatinum/src/field_move_tasks.c:728 FieldMoves_SetTeleportTask; pokeplatinum/res/pokemon/abra/data.json:37 abra learnset.by_level: MOVE_TELEPORT (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Dig",
+    "machine": "TM28",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "a cave map that allows an Escape Rope; no partner",
+    "does": "escapes from a cave to its entrance, like an Escape Rope",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:258 sFieldMoves: FIELD_MOVE_DIG = MOVE_DIG; pokeplatinum/src/field_move_tasks.c:127 fieldMoveTaskOrError[10] (FIELD_MOVE_DIG): FieldMoves_SetDigTask, FieldMoves_CheckDig; pokeplatinum/src/field_move_tasks.c:754 FieldMoves_CheckDig (no badge test); pokeplatinum/src/field_move_tasks.c:771 FieldMoves_SetDigTask; pokeplatinum/res/items/data/tm28.json:30 teachesMove MOVE_DIG (TM28)"
+   },
+   {
+    "move": "Sweet Scent",
+    "machine": "level-up or egg move",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "not in Pal Park",
+    "does": "lures a wild Pokémon into battle",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:259 sFieldMoves: FIELD_MOVE_SWEET_SCENT = MOVE_SWEET_SCENT; pokeplatinum/src/field_move_tasks.c:128 fieldMoveTaskOrError[11] (FIELD_MOVE_SWEET_SCENT): FieldMoves_SetSweetScentTask, FieldMoves_CheckSweetScent; pokeplatinum/src/field_move_tasks.c:800 FieldMoves_CheckSweetScent (no badge test); pokeplatinum/src/field_move_tasks.c:813 FieldMoves_SetSweetScentTask; pokeplatinum/res/pokemon/bayleef/data.json:47 bayleef learnset.by_level: MOVE_SWEET_SCENT (level-up); pokeplatinum/res/pokemon/cherubi/data.json:84 cherubi learnset.egg_moves: MOVE_SWEET_SCENT"
+   },
+   {
+    "move": "Chatter",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "not in the Distortion World",
+    "does": "records a new cry for Chatot's Chatter (the record-Chatot-cry script)",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:260 sFieldMoves: FIELD_MOVE_CHATTER = MOVE_CHATTER; pokeplatinum/src/field_move_tasks.c:129 fieldMoveTaskOrError[12] (FIELD_MOVE_CHATTER): FieldMoves_SetChatterTask, FieldMoves_CheckChatter; pokeplatinum/src/field_move_tasks.c:831 FieldMoves_CheckChatter (no badge test); pokeplatinum/src/field_move_tasks.c:840 FieldMoves_SetChatterTask; pokeplatinum/res/pokemon/chatot/data.json:42 chatot learnset.by_level: MOVE_CHATTER (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Milk Drink",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:261 sFieldMoves: FIELD_MOVE_MILK_DRINK = MOVE_MILK_DRINK; pokeplatinum/src/applications/party_menu/context_menu.c:994 PartyMenu_SelectMilkDrink (no badge test, past the end of fieldMoveTaskOrError); pokeplatinum/src/applications/party_menu/context_menu.c:1017 PartyMenu_StartFieldMoveHPTransfer: curHP <= maxHP / 5 -> not enough HP; pokeplatinum/res/pokemon/miltank/data.json:41 miltank learnset.by_level: MOVE_MILK_DRINK (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Soft-Boiled",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokeplatinum/src/applications/party_menu/main.c:262 sFieldMoves: FIELD_MOVE_SOFTBOILED = MOVE_SOFTBOILED; pokeplatinum/src/applications/party_menu/context_menu.c:1003 PartyMenu_SelectSoftboiled (no badge test, past the end of fieldMoveTaskOrError); pokeplatinum/src/applications/party_menu/context_menu.c:1017 PartyMenu_StartFieldMoveHPTransfer: curHP <= maxHP / 5 -> not enough HP; pokeplatinum/res/pokemon/blissey/data.json:41 blissey learnset.by_level: MOVE_SOFTBOILED (level-up) (and in no egg-move list)"
+   }
+  ],
+  "heartgold": [
+   {
+    "move": "Cut",
+    "machine": "HM01",
+    "badge": "Hive Badge",
+    "badge_const": "BADGE_HIVE",
+    "requires": "facing a cuttable tree",
+    "does": "cuts down a small tree",
+    "source": "pokeheartgold/src/party_menu.c:203 sFieldMoves[0] MOVE_CUT -> PARTY_MON_CONTEXT_MENU_CUT; pokeheartgold/src/party_menu_list_items.c:39 PartyMonContextMenuAction_Cut; pokeheartgold/src/field_move.c:73 sFieldMoveFuncTable[0] (PARTY_MENU_ACTION_RETURN_CUT - CUT): FieldMove_UseCut, FieldMove_CheckCut; pokeheartgold/src/field_move.c:189 FieldMove_CheckCut: PlayerProfile_TestBadgeFlag(BADGE_HIVE); pokeheartgold/src/field_move.c:199 FieldMove_UseCut; pokeheartgold/include/constants/badge.h:5 #define BADGE_HIVE; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0869_T23GYM0102.s:82 GiveBadge BADGE_HIVE; pokeheartgold/files/msgdata/msg/msg_0567_T23GYM0102.json:29 badge named in text: the Hive Badge from Bugsy!; pokeheartgold/files/msgdata/msg/msg_0567_T23GYM0102.json:39 badge text mentions Cut; pokeheartgold/src/item.c:124 sTMHMMoves: MOVE_CUT // HM01"
+   },
+   {
+    "move": "Fly",
+    "machine": "HM02",
+    "badge": "Storm Badge",
+    "badge_const": "BADGE_STORM",
+    "requires": "the map allows Fly; no follower; not in the Rocket disguise; not in the Safari Zone or Pal Park",
+    "does": "flies to a town you have visited",
+    "source": "pokeheartgold/src/party_menu.c:204 sFieldMoves[1] MOVE_FLY -> PARTY_MON_CONTEXT_MENU_FLY; pokeheartgold/src/party_menu_list_items.c:44 PartyMonContextMenuAction_Fly; pokeheartgold/src/field_move.c:74 sFieldMoveFuncTable[1] (PARTY_MENU_ACTION_RETURN_FLY - CUT): FieldMove_UseFly, FieldMove_CheckFly; pokeheartgold/src/field_move.c:221 FieldMove_CheckFly: PlayerProfile_TestBadgeFlag(BADGE_STORM); pokeheartgold/src/field_move.c:240 FieldMove_UseFly; pokeheartgold/include/constants/badge.h:8 #define BADGE_STORM; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0877_T24GYM0101.s:40 GiveBadge BADGE_STORM; pokeheartgold/files/msgdata/msg/msg_0574_T24GYM0101.json:50 badge named in text: the Storm Badge!; pokeheartgold/files/msgdata/msg/msg_0574_T24GYM0101.json:64 badge text mentions Fly; pokeheartgold/src/item.c:125 sTMHMMoves: MOVE_FLY // HM02"
+   },
+   {
+    "move": "Surf",
+    "machine": "HM03",
+    "badge": "Fog Badge",
+    "badge_const": "BADGE_FOG",
+    "requires": "facing surfable water; not already surfing; no follower; not in the Rocket disguise",
+    "does": "carries you across water",
+    "source": "pokeheartgold/src/party_menu.c:205 sFieldMoves[2] MOVE_SURF -> PARTY_MON_CONTEXT_MENU_SURF; pokeheartgold/src/party_menu_list_items.c:42 PartyMonContextMenuAction_Surf; pokeheartgold/src/field_move.c:75 sFieldMoveFuncTable[2] (PARTY_MENU_ACTION_RETURN_SURF - CUT): FieldMove_UseSurf, FieldMove_CheckSurf; pokeheartgold/src/field_move.c:254 FieldMove_CheckSurf: PlayerProfile_TestBadgeFlag(BADGE_FOG); pokeheartgold/src/field_move.c:273 FieldMove_UseSurf; pokeheartgold/include/constants/badge.h:7 #define BADGE_FOG; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0922_T27GYM0101.s:115 GiveBadge BADGE_FOG; pokeheartgold/files/msgdata/msg/msg_0614_T27GYM0101.json:37 badge named in text: the Fog Badge from Morty!; pokeheartgold/files/msgdata/msg/msg_0614_T27GYM0101.json:46 badge text mentions Surf; pokeheartgold/src/item.c:126 sTMHMMoves: MOVE_SURF // HM03"
+   },
+   {
+    "move": "Strength",
+    "machine": "HM04",
+    "badge": "Plain Badge",
+    "badge_const": "BADGE_PLAIN",
+    "requires": "facing a boulder; not on Ice Path B2F",
+    "does": "pushes a boulder",
+    "source": "pokeheartgold/src/party_menu.c:206 sFieldMoves[3] MOVE_STRENGTH -> PARTY_MON_CONTEXT_MENU_STRENGTH; pokeheartgold/src/party_menu_list_items.c:41 PartyMonContextMenuAction_Strength; pokeheartgold/src/field_move.c:76 sFieldMoveFuncTable[3] (PARTY_MENU_ACTION_RETURN_STRENGTH - CUT): FieldMove_UseStrength, FieldMove_CheckStrength; pokeheartgold/src/field_move.c:295 FieldMove_CheckStrength: PlayerProfile_TestBadgeFlag(BADGE_PLAIN); pokeheartgold/src/field_move.c:308 FieldMove_UseStrength; pokeheartgold/include/constants/badge.h:6 #define BADGE_PLAIN; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0886_T25GYM0101.s:125 GiveBadge BADGE_PLAIN; pokeheartgold/files/msgdata/msg/msg_0582_T25GYM0101.json:42 badge named in text: Here’s the Plain Badge.; pokeheartgold/files/msgdata/msg/msg_0582_T25GYM0101.json:56 badge text mentions Strength; pokeheartgold/src/item.c:127 sTMHMMoves: MOVE_STRENGTH // HM04"
+   },
+   {
+    "move": "Rock Smash",
+    "machine": "HM06",
+    "badge": "Zephyr Badge",
+    "badge_const": "BADGE_ZEPHYR",
+    "requires": "facing a breakable rock",
+    "does": "smashes a breakable rock",
+    "source": "pokeheartgold/src/party_menu.c:207 sFieldMoves[4] MOVE_ROCK_SMASH -> PARTY_MON_CONTEXT_MENU_ROCK_SMASH; pokeheartgold/src/party_menu_list_items.c:40 PartyMonContextMenuAction_RockSmash; pokeheartgold/src/field_move.c:77 sFieldMoveFuncTable[4] (PARTY_MENU_ACTION_RETURN_ROCK_SMASH - CUT): FieldMove_UseRockSmash, FieldMove_CheckRockSmash; pokeheartgold/src/field_move.c:330 FieldMove_CheckRockSmash: PlayerProfile_TestBadgeFlag(BADGE_ZEPHYR); pokeheartgold/src/field_move.c:340 FieldMove_UseRockSmash; pokeheartgold/include/constants/badge.h:4 #define BADGE_ZEPHYR; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0859_T22GYM0101.s:75 GiveBadge BADGE_ZEPHYR; pokeheartgold/files/msgdata/msg/msg_0558_T22GYM0101.json:27 badge named in text: This one is the Zephyr Badge.; pokeheartgold/files/msgdata/msg/msg_0558_T22GYM0101.json:44 badge text mentions Rock Smash; pokeheartgold/src/item.c:129 sTMHMMoves: MOVE_ROCK_SMASH // HM06"
+   },
+   {
+    "move": "Waterfall",
+    "machine": "HM07",
+    "badge": "Rising Badge",
+    "badge_const": "BADGE_RISING",
+    "requires": "surfing and facing a waterfall",
+    "does": "climbs up a waterfall",
+    "source": "pokeheartgold/src/party_menu.c:208 sFieldMoves[5] MOVE_WATERFALL -> PARTY_MON_CONTEXT_MENU_WATERFALL; pokeheartgold/src/party_menu_list_items.c:45 PartyMonContextMenuAction_Waterfall; pokeheartgold/src/field_move.c:78 sFieldMoveFuncTable[5] (PARTY_MENU_ACTION_RETURN_WATERFALL - CUT): FieldMove_UseWaterfall, FieldMove_CheckWaterfall; pokeheartgold/src/field_move.c:365 FieldMove_CheckWaterfall: PlayerProfile_TestBadgeFlag(BADGE_RISING); pokeheartgold/src/field_move.c:375 FieldMove_UseWaterfall; pokeheartgold/include/constants/badge.h:11 #define BADGE_RISING; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0112_D44R0103.s:152 GiveBadge BADGE_RISING; pokeheartgold/files/msgdata/msg/msg_0130_D44R0103.json:98 badge named in text: Rising Badge!; pokeheartgold/files/msgdata/msg/msg_0130_D44R0103.json:165 badge text mentions Waterfall; pokeheartgold/src/item.c:130 sTMHMMoves: MOVE_WATERFALL // HM07"
+   },
+   {
+    "move": "Rock Climb",
+    "machine": "HM08",
+    "badge": "Earth Badge",
+    "badge_const": "BADGE_EARTH",
+    "requires": "facing a Rock Climb wall; no follower; not in the Rocket disguise",
+    "does": "climbs a rocky wall",
+    "source": "pokeheartgold/src/party_menu.c:209 sFieldMoves[6] MOVE_ROCK_CLIMB -> PARTY_MON_CONTEXT_MENU_ROCK_CLIMB; pokeheartgold/src/party_menu_list_items.c:43 PartyMonContextMenuAction_RockClimb; pokeheartgold/src/field_move.c:79 sFieldMoveFuncTable[6] (PARTY_MENU_ACTION_RETURN_ROCK_CLIMB - CUT): FieldMove_UseRockClimb, FieldMove_CheckRockClimb; pokeheartgold/src/field_move.c:397 FieldMove_CheckRockClimb: PlayerProfile_TestBadgeFlag(BADGE_EARTH); pokeheartgold/src/field_move.c:413 FieldMove_UseRockClimb; pokeheartgold/include/constants/badge.h:20 #define BADGE_EARTH; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0743_T02GYM0101.s:54 GiveBadge BADGE_EARTH; pokeheartgold/files/msgdata/msg/msg_0454_T02GYM0101.json:28 badge named in text: It’s the Earth Badge.; pokeheartgold/files/msgdata/msg/msg_0454_T02GYM0101.json:42 badge text mentions Rock Climb; pokeheartgold/src/item.c:131 sTMHMMoves: MOVE_ROCK_CLIMB // HM08"
+   },
+   {
+    "move": "Whirlpool",
+    "machine": "HM05",
+    "badge": "Glacier Badge",
+    "badge_const": "BADGE_GLACIER",
+    "requires": "surfing and facing a whirlpool",
+    "does": "clears a whirlpool out of the way",
+    "source": "pokeheartgold/src/party_menu.c:210 sFieldMoves[7] MOVE_WHIRLPOOL -> PARTY_MON_CONTEXT_MENU_WHIRLPOOL; pokeheartgold/src/party_menu_list_items.c:46 PartyMonContextMenuAction_Whirlpool; pokeheartgold/src/field_move.c:85 sFieldMoveFuncTable[12] (PARTY_MENU_ACTION_RETURN_WHIRLPOOL - CUT): FieldMove_UseWhirlpool, FieldMove_CheckWhirlpool; pokeheartgold/src/field_move.c:608 FieldMove_CheckWhirlpool: PlayerProfile_TestBadgeFlag(BADGE_GLACIER); pokeheartgold/src/field_move.c:618 FieldMove_UseWhirlpool; pokeheartgold/include/constants/badge.h:10 #define BADGE_GLACIER; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0932_T28GYM0101.s:87 GiveBadge BADGE_GLACIER; pokeheartgold/files/msgdata/msg/msg_0622_T28GYM0101.json:33 badge named in text: the Glacier Badge from Pryce!; pokeheartgold/files/msgdata/msg/msg_0622_T28GYM0101.json:42 badge text mentions Whirlpool; pokeheartgold/src/item.c:128 sTMHMMoves: MOVE_WHIRLPOOL // HM05"
+   },
+   {
+    "move": "Flash",
+    "machine": "TM70",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "the weather is the dark (Flash) weather, or at the Ruins of Alph chamber spot",
+    "does": "lights up a dark cave",
+    "source": "pokeheartgold/src/party_menu.c:211 sFieldMoves[8] MOVE_FLASH -> PARTY_MON_CONTEXT_MENU_FLASH; pokeheartgold/src/party_menu_list_items.c:47 PartyMonContextMenuAction_Flash; pokeheartgold/src/field_move.c:80 sFieldMoveFuncTable[7] (PARTY_MENU_ACTION_RETURN_FLASH - CUT): FieldMove_UseFlash, FieldMove_CheckFlash; pokeheartgold/src/field_move.c:431 FieldMove_CheckFlash (no badge test); pokeheartgold/src/field_move.c:445 FieldMove_UseFlash; pokeheartgold/src/item.c:101 sTMHMMoves: MOVE_FLASH // TM70"
+   },
+   {
+    "move": "Teleport",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "the map allows Teleport; no follower; not in the Rocket disguise; not in the Safari Zone or Pal Park",
+    "does": "warps you back to the last Pokémon Center you used",
+    "source": "pokeheartgold/src/party_menu.c:212 sFieldMoves[9] MOVE_TELEPORT -> PARTY_MON_CONTEXT_MENU_TELEPORT; pokeheartgold/src/party_menu_list_items.c:48 PartyMonContextMenuAction_Teleport; pokeheartgold/src/field_move.c:81 sFieldMoveFuncTable[8] (PARTY_MENU_ACTION_RETURN_TELEPORT - CUT): FieldMove_UseTeleport, FieldMove_CheckTeleport; pokeheartgold/src/field_move.c:467 FieldMove_CheckTeleport (no badge test); pokeheartgold/src/field_move.c:487 FieldMove_UseTeleport; pokeheartgold/files/poketool/personal/wotbl.narc member 63 (SPECIES_ABRA): MOVE_TELEPORT at level 1 (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Dig",
+    "machine": "TM28",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "a cave map that allows an Escape Rope; no follower; not in the Rocket disguise",
+    "does": "escapes from a cave to its entrance, like an Escape Rope",
+    "source": "pokeheartgold/src/party_menu.c:213 sFieldMoves[10] MOVE_DIG -> PARTY_MON_CONTEXT_MENU_DIG; pokeheartgold/src/party_menu_list_items.c:49 PartyMonContextMenuAction_Dig; pokeheartgold/src/field_move.c:82 sFieldMoveFuncTable[9] (PARTY_MENU_ACTION_RETURN_DIG - CUT): FieldMove_UseDig, FieldMove_CheckDig; pokeheartgold/src/field_move.c:510 FieldMove_CheckDig (no badge test); pokeheartgold/src/field_move.c:527 FieldMove_UseDig; pokeheartgold/src/item.c:59 sTMHMMoves: MOVE_DIG // TM28"
+   },
+   {
+    "move": "Sweet Scent",
+    "machine": "level-up or egg move",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "not in Pal Park",
+    "does": "lures a wild Pokémon into battle",
+    "source": "pokeheartgold/src/party_menu.c:214 sFieldMoves[11] MOVE_SWEET_SCENT -> PARTY_MON_CONTEXT_MENU_SWEET_SCENT; pokeheartgold/src/party_menu_list_items.c:50 PartyMonContextMenuAction_SweetScent; pokeheartgold/src/field_move.c:83 sFieldMoveFuncTable[10] (PARTY_MENU_ACTION_RETURN_SWEET_SCENT - CUT): FieldMove_UseSweetScent, FieldMove_CheckSweetScent; pokeheartgold/src/field_move.c:550 FieldMove_CheckSweetScent (no badge test); pokeheartgold/src/field_move.c:561 FieldMove_UseSweetScent; pokeheartgold/files/poketool/personal/wotbl.narc member 1 (SPECIES_BULBASAUR): MOVE_SWEET_SCENT at level 21 (level-up); pokeheartgold/files/fielddata/sodateya/kowaza_list.narc SPECIES_PARAS: MOVE_SWEET_SCENT (egg move)"
+   },
+   {
+    "move": "Chatter",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": null,
+    "does": "records a new cry for Chatot's Chatter (the record-Chatot-cry script)",
+    "source": "pokeheartgold/src/party_menu.c:215 sFieldMoves[12] MOVE_CHATTER -> PARTY_MON_CONTEXT_MENU_CHATTER; pokeheartgold/src/party_menu_list_items.c:51 PartyMonContextMenuAction_Chatter; pokeheartgold/src/field_move.c:84 sFieldMoveFuncTable[11] (PARTY_MENU_ACTION_RETURN_CHATTER - CUT): FieldMove_UseChatter, FieldMove_CheckChatter; pokeheartgold/src/field_move.c:574 FieldMove_CheckChatter (no badge test); pokeheartgold/src/field_move.c:582 FieldMove_UseChatter; pokeheartgold/files/poketool/personal/wotbl.narc member 441 (SPECIES_CHATOT): MOVE_CHATTER at level 21 (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Headbutt",
+    "machine": "move tutor",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "facing a headbutt tree",
+    "does": "shakes a tree so a wild Pokémon may fall out",
+    "source": "pokeheartgold/src/party_menu.c:216 sFieldMoves[13] MOVE_HEADBUTT -> PARTY_MON_CONTEXT_MENU_HEADBUTT; pokeheartgold/src/party_menu_list_items.c:54 PartyMonContextMenuAction_Headbutt; pokeheartgold/src/field_move.c:86 sFieldMoveFuncTable[13] (PARTY_MENU_ACTION_RETURN_HEADBUTT - CUT): FieldMove_UseHeadbutt, FieldMove_CheckHeadbutt; pokeheartgold/src/field_move.c:636 FieldMove_CheckHeadbutt (no badge test); pokeheartgold/src/field_move.c:647 FieldMove_UseHeadbutt; pokeheartgold/src/field/scrcmd_move_tutor.c:90 sTutorMoves: MOVE_HEADBUTT, MOVE_TUTOR_NPC_HEADBUTT"
+   },
+   {
+    "move": "Milk Drink",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokeheartgold/src/party_menu.c:217 sFieldMoves[14] MOVE_MILK_DRINK -> PARTY_MON_CONTEXT_MENU_MILK_DRINK; pokeheartgold/src/party_menu_list_items.c:52 PartyMonContextMenuAction_MilkDrink; pokeheartgold/src/party_menu_list_items.c:807 PartyMonContextMenuAction_TransferHP: hp <= maxHp / 5 -> not enough HP (no badge test, past the end of sFieldMoveFuncTable); pokeheartgold/files/poketool/personal/wotbl.narc member 241 (SPECIES_MILTANK): MOVE_MILK_DRINK at level 11 (level-up) (and in no egg-move list)"
+   },
+   {
+    "move": "Soft-Boiled",
+    "machine": "level-up only",
+    "badge": "none",
+    "badge_const": null,
+    "requires": "only if the user has more than 1/5 of its max HP; then pick the party Pokémon to heal",
+    "does": "gives 1/5 of its max HP to another party Pokémon",
+    "source": "pokeheartgold/src/party_menu.c:218 sFieldMoves[15] MOVE_SOFTBOILED -> PARTY_MON_CONTEXT_MENU_SOFTBOILED; pokeheartgold/src/party_menu_list_items.c:53 PartyMonContextMenuAction_Softboiled; pokeheartgold/src/party_menu_list_items.c:807 PartyMonContextMenuAction_TransferHP: hp <= maxHp / 5 -> not enough HP (no badge test, past the end of sFieldMoveFuncTable); pokeheartgold/files/poketool/personal/wotbl.narc member 113 (SPECIES_CHANSEY): MOVE_SOFTBOILED at level 12 (level-up) (and in no egg-move list)"
+   }
+  ]
+ },
+ "notes": [
+  "crystal: field moves are only added to a Pokémon's menu when not in link mode and not an Egg (pokecrystal/engine/pokemon/mon_submenu.asm:122 GetMonSubmenuItems: ld a, [wLinkMode]).",
+  "crystal: overworld prompts: TrySurfOW ENGINE_FOGBADGE (same as the menu, pokecrystal/engine/events/overworld.asm:484); TryWaterfallOW ENGINE_RISINGBADGE (same as the menu, pokecrystal/engine/events/overworld.asm:705); TryStrengthOW ENGINE_PLAINBADGE (same as the menu, pokecrystal/engine/events/overworld.asm:1056); TryWhirlpoolOW ENGINE_GLACIERBADGE (same as the menu, pokecrystal/engine/events/overworld.asm:1190); TryHeadbuttOW no badge test (same as the menu, pokecrystal/engine/events/overworld.asm:1285); TryCutOW ENGINE_HIVEBADGE (same as the menu, pokecrystal/engine/events/overworld.asm:1761).",
+  "firered: the party menu tests badges by position: a field move whose FIELD_MOVE_* index is at most FIELD_MOVE_WATERFALL needs FLAG_BADGE(01 + index)_GET (pokefirered/src/party_menu.c:3926 CursorCb_FieldMove); every later one has no badge test. In a link or the Union Room every field move only says it can't be used (pokefirered/src/party_menu.c:3915 MenuHelpers_IsLinkActive || InUnionRoom).",
+  "firered: overworld prompts: Cut FLAG_BADGE02_GET (same as the menu, pokefirered/data/scripts/field_moves.inc:5); Rock Smash FLAG_BADGE06_GET (same as the menu, pokefirered/data/scripts/field_moves.inc:63); Strength FLAG_BADGE04_GET (same as the menu, pokefirered/data/scripts/field_moves.inc:124); Surf FLAG_BADGE05_GET (same as the menu, pokefirered/src/field_control_avatar.c:605); Waterfall FLAG_BADGE07_GET (same as the menu, pokefirered/src/field_control_avatar.c:610).",
+  "emerald: the party menu tests badges by position: a field move whose FIELD_MOVE_* index is at most FIELD_MOVE_WATERFALL needs FLAG_BADGE(01 + index)_GET (pokeemerald/src/party_menu.c:3725 CursorCb_FieldMove); every later one has no badge test. In a link or the Union Room every field move only says it can't be used (pokeemerald/src/party_menu.c:3713 MenuHelpers_IsLinkActive || InUnionRoom).",
+  "emerald: overworld prompts: Cut FLAG_BADGE01_GET (same as the menu, pokeemerald/data/scripts/field_move_scripts.inc:5); Rock Smash FLAG_BADGE03_GET (same as the menu, pokeemerald/data/scripts/field_move_scripts.inc:63); Strength FLAG_BADGE04_GET (same as the menu, pokeemerald/data/scripts/field_move_scripts.inc:126); Surf FLAG_BADGE05_GET (same as the menu, pokeemerald/src/field_control_avatar.c:450); Waterfall FLAG_BADGE08_GET (same as the menu, pokeemerald/src/field_control_avatar.c:455); Dive FLAG_BADGE07_GET (same as the menu, pokeemerald/src/field_control_avatar.c:465); Dive FLAG_BADGE07_GET (same as the menu, pokeemerald/src/field_control_avatar.c:475).",
+  "platinum: every field-move check except Milk Drink/Softboiled first refuses in the Union Room and Colosseum (pokeplatinum/src/field_move_tasks.c:172 PlayerOutsideLinkRoom: mapLoadType == MAP_LOAD_TYPE_COLOSSEUM); Milk Drink and Softboiled have no entry in fieldMoveTaskOrError and are handled by the party menu's HP transfer.",
+  "platinum: overworld prompts: Cut BADGE_ID_FOREST (same as the menu, pokeplatinum/res/field/scripts/scripts_field_moves.s:27); Rock Smash BADGE_ID_COAL (same as the menu, pokeplatinum/res/field/scripts/scripts_field_moves.s:131); Strength BADGE_ID_MINE (same as the menu, pokeplatinum/res/field/scripts/scripts_field_moves.s:189); Rock Climb BADGE_ID_ICICLE (same as the menu, pokeplatinum/res/field/scripts/scripts_field_moves.s:249); Waterfall BADGE_ID_BEACON (same as the menu, pokeplatinum/res/field/scripts/scripts_field_moves.s:420).",
+  "heartgold: every field-move check first refuses in the Union Room and Colosseum (pokeheartgold/src/field_move.c:186 FieldMove_CheckCut: mapLoadType == MAP_LOAD_TYPE_UNION, as in every FieldMove_Check*); Waterfall and Whirlpool test that you are surfing before the badge, so without surfing they say \"can't use here\", not \"need a badge\".",
+  "heartgold: no GetGameVersion/GAME_VERSION test in the field-move, party-menu, TM, tutor or badge code read, so these checks are the same in SoulSilver (it is built from the same files).",
+  "heartgold: overworld prompts: Cut BADGE_HIVE (same as the menu, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0146.s:32); Rock Smash BADGE_ZEPHYR (same as the menu, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0146.s:181); Strength BADGE_PLAIN (same as the menu, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0146.s:348); Rock Climb BADGE_EARTH (same as the menu, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0146.s:506); Waterfall BADGE_RISING (same as the menu, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0146.s:677); Whirlpool BADGE_GLACIER (same as the menu, pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0146.s:725).",
+  "crystal vs heartgold: Flash badge Zephyr Badge -> none; Flash machine HM05 -> TM70; Whirlpool machine HM06 -> HM05; Headbutt machine TM02 -> move tutor; Rock Smash badge none -> Zephyr Badge; Rock Smash machine TM08 -> HM06; Sweet Scent machine TM12 -> level-up or egg move; only in heartgold: Chatter, Rock Climb.",
+  "firered vs emerald: Flash badge Boulder Badge -> Knuckle Badge; Cut badge Cascade Badge -> Stone Badge; Fly badge Thunder Badge -> Feather Badge; Strength badge Rainbow Badge -> Heat Badge; Surf badge Soul Badge -> Balance Badge; Rock Smash badge Marsh Badge -> Dynamo Badge; Waterfall badge Volcano Badge -> Rain Badge; only in emerald: Dive, Secret Power.",
+  "platinum vs heartgold: Cut badge Forest Badge -> Hive Badge; Fly badge Cobble Badge -> Storm Badge; Surf badge Fen Badge -> Fog Badge; Strength badge Mine Badge -> Plain Badge; Rock Smash badge Coal Badge -> Zephyr Badge; Waterfall badge Beacon Badge -> Rising Badge; Rock Climb badge Icicle Badge -> Earth Badge; only in platinum: Defog; only in heartgold: Headbutt, Whirlpool.",
+  "memory vs code: I expected HeartGold to keep Crystal's pairing of the Zephyr Badge with Flash; its code tests no badge for Flash (now TM70) and tests the Zephyr Badge for Rock Smash (now HM06), and Falkner's badge text says the same (see the Rock Smash row). The code wins; nothing else extracted here contradicted what I recalled."
+ ],
+ "gaps": [
+  "crystal: the overworld prompt's own badge test (walking up to the obstacle) wasn't found or compared for: Fly, Flash (some have no prompt at all, e.g. Fly); the party-menu test in the row is unaffected.",
+  "firered: the overworld prompt's own badge test (walking up to the obstacle) wasn't found or compared for: Flash, Fly (some have no prompt at all, e.g. Fly); the party-menu test in the row is unaffected.",
+  "emerald: the overworld prompt's own badge test (walking up to the obstacle) wasn't found or compared for: Flash, Fly (some have no prompt at all, e.g. Fly); the party-menu test in the row is unaffected.",
+  "platinum: the overworld prompt's own badge test (walking up to the obstacle) wasn't found or compared for: Fly, Surf, Defog (some have no prompt at all, e.g. Fly); the party-menu test in the row is unaffected.",
+  "heartgold: the overworld prompt's own badge test (walking up to the obstacle) wasn't found or compared for: Fly, Surf (some have no prompt at all, e.g. Fly); the party-menu test in the row is unaffected.",
+  "all: \"does\" and \"requires\" are short summaries of the cited check/use code, written by hand (only FireRed has its own field-move descriptions, used verbatim); the citations, badges, machines and the field-move lists are parsed from the code.",
+  "all: \"level-up only\" / \"level-up or egg move\" / \"move tutor\" weigh only the TM/HM table, the game's move-tutor table and the level-up and egg-move learnsets; event, trade-back, Sketch and Pokéwalker sources aren't considered.",
+  "heartgold: the scripted tutors outside sTutorMoves (Blast Burn, Hydro Cannon, Frenzy Plant, Draco Meteor in scr_seq_0948_T30R0601.s) weren't read; none is a field move.",
+  "heartgold: the level-up and egg learnsets come from the binary wotbl.narc and kowaza_list.narc at the pinned commit (decoded as include/pokemon.h and src/get_egg.c describe); their citations name the archive member, not a line."
+ ]
+}

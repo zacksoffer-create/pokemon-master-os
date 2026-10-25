@@ -2162,6 +2162,93 @@ class Equipment(unittest.TestCase):
         self.assertTrue(all(v["says"] for x in g.values() for v in x["games"].values()))
 
 
+
+class Capability(unittest.TestCase):
+    """The capability framework (capability/; MASTER_PLAN Phase 7): one model read by the Survival Lab, the Homestead
+    and the profiles; records on three separate axes; cartridge readiness that never borrows from the world."""
+    @classmethod
+    def setUpClass(cls):
+        from capability import assess
+        cls.A = assess
+        cls.P = assess.load_pack(os.path.join(ENGINE, "app", "data", "capability.json"))
+
+    def test_the_pokedex_is_no_longer_misread(self):
+        from wilderness.engine import WildernessEngine
+        w = WildernessEngine(DB)
+        lore = lambda sp, g: {e.capability for e in w.evidence(sp, g) if e.tier == "lore"}
+        self.assertNotIn("air_travel", lore("Scizor", "heartgold"))       # "Its wings are not used for flying"
+        self.assertNotIn("danger_sense", lore("Scizor", "heartgold"))     # "swings them down dangerously"
+        self.assertNotIn("scouting", lore("Ampharos", "heartgold"))       # "can be seen from far away"
+        self.assertNotIn("water_travel", lore("Ampharos", "heartgold"))   # a mention of the ocean isn't carrying anyone
+        self.assertIn("water_travel", lore("Lapras", "heartgold"))        # "ferries people"
+        self.assertIn("danger_sense", lore("Absol", "emerald"))           # "senses disasters"
+
+    def test_records_keep_their_axes(self):
+        from capability.records import KINDS, CapabilityRecords
+        cr = CapabilityRecords(DB)
+        scz = cr.records("Scizor", "heartgold")
+        manip = [r for r in scz if r["cap"] == "manipulation"]
+        self.assertTrue(manip and manip[0]["kind"] == "lore" and "pincers" in manip[0]["detail"].lower())
+        self.assertEqual(KINDS["lore"], ("B", "inferred"))
+        self.assertIn("C-TOOLS", [r.get("rule") for r in scz])                     # manipulation qualifies it for tools
+        self.assertNotIn("C-HARNESS", [r.get("rule") for r in scz])                 # medium-sized: no harness
+        mam = cr.records("Mamoswine", "heartgold")
+        self.assertIn("C-HARNESS", [r.get("rule") for r in mam])
+        self.assertIn(("hauling", "shape"), [(r["cap"], r["kind"]) for r in mam])   # large and four-legged
+
+    def test_cartridge_readiness_never_borrows_from_the_world(self):
+        """Survival Test A: Scizor's pincers are evidence for the world, never for an HM."""
+        scz = {"species": "Scizor", "moves": ["Bullet Punch", "X-Scissor", "Swords Dance", "Roost"], "label": "Scizor"}
+        c = self.A.cartridge_report(self.P, "heartgold", [scz], ["Cut"])
+        self.assertEqual(c["moves"][0]["standing"], "teachable")
+        w = self.A.world_report(self.P, "heartgold", "dense-forest", [scz])
+        n = {x["cap"]: x for x in w["needs"]}
+        self.assertEqual(n["manipulation"]["standing"], "plausible")
+        self.assertEqual(n["clearing"]["holders"][0]["standing"], "teachable")     # Cut, if taught; X-Scissor a hypothesis
+        self.assertIn("X-Scissor", [h.get("move") for h in w["needs"][0]["holders"]] + [r["move"] for st, r in self.A.evidence(self.P, "heartgold", scz) if r["kind"] == "move_use"])
+
+    def test_world_records_follow_the_individual(self):
+        meg = {"species": "Meganium", "ind": "me:emerald/Meganium"}
+        b = self.A.best(self.P, "heartgold", meg)
+        self.assertEqual(b["plant_care"][0], "plausible")                            # its Pokédex; W-016 is only proposed
+        b = self.A.best(self.P, "heartgold", meg, preview=["W-016"])
+        self.assertEqual((b["plant_care"][0], b["plant_care"][1]["id"]), ("covered", "W-016"))
+        self.assertNotIn("plant_care", {c for c, v in self.A.best(self.P, "heartgold", {"species": "Meganium"}).items() if v[0] == "covered"})
+
+    def test_an_ability_counts_only_when_it_is_certain(self):
+        self.assertEqual(self.A.best(self.P, "heartgold", {"species": "Magcargo"})["egg_care"][0], "covered")   # both its abilities do it
+        st, r = self.A.best(self.P, "heartgold", {"species": "Growlithe"})["deterrence"]
+        self.assertEqual(st, "plausible")
+        self.assertIn("Flash Fire", r["note"])
+        self.assertEqual(self.A.best(self.P, "heartgold", {"species": "Growlithe", "ability": "Intimidate"})["deterrence"][0], "covered")
+
+    def test_staffing_follows_d039(self):
+        r = self.A.facility_report(self.P, "glasshouse", [], [{"species": "Meganium", "ind": "me:emerald/Meganium", "label": "Meganium"}])
+        q = {x["id"]: x for x in r["requirements"]}
+        self.assertEqual(q["plants"]["can_staff"], [])                              # a Pokédex reading is a candidate, not staff
+        self.assertEqual(q["plants"]["candidates"][0]["standing"], "plausible")
+        self.assertIn("Magcargo", [h["species"] for h in q["eggs"]["hires"]])
+        self.assertEqual(r["groups"], ["Climate management", "Horticulture", "Nursery support"])
+
+    def test_machines_and_badges_come_from_the_games(self):
+        f = self.P["field"]
+        self.assertEqual((f["heartgold"]["Rock Smash"]["machine"], f["heartgold"]["Rock Smash"]["badge"]), ("HM06", "Zephyr Badge"))
+        self.assertEqual((f["heartgold"]["Flash"]["machine"], f["heartgold"]["Flash"]["badge"]), ("TM70", None))   # HGSS moved the Zephyr Badge
+        self.assertEqual((f["crystal"]["Flash"]["machine"], f["crystal"]["Flash"]["badge"]), ("HM05", "Zephyr Badge"))
+        self.assertEqual(f["platinum"]["Defog"]["badge"], "Relic Badge")
+        self.assertEqual(f["soulsilver"], f["heartgold"])
+
+    def test_no_overall_score(self):
+        w = self.A.world_report(self.P, "heartgold", "winter-mountain", [{"species": "Lapras"}])
+        self.assertFalse({"score", "overall", "rating"} & set(w))
+
+    def test_the_browser_assessments_match_python(self):
+        import subprocess
+        out = os.path.join(tempfile.mkdtemp(), "cap.json")
+        subprocess.run([sys.executable, "-I", os.path.join(ENGINE, "app", "capability_pack.py"), "--parity", out], check=True, capture_output=True)
+        r = subprocess.run(["node", os.path.join(ENGINE, "app", "test_capability_parity.mjs"), out], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-1000:])
+
 class TrainerLibrary(unittest.TestCase):
     """The Trainer Library (trainers/library.py, trainers/catalog.py): every notable in-game encounter of the five games,
     read exactly from the pret data, joined with the authored trainers into identities, versions and collections."""
@@ -2465,6 +2552,16 @@ class WebApp(unittest.TestCase):
         against how its species is met, the ball and a personal interior on its profile, the ball listing it, the catch
         planner's order, My Gear, and every page at phone width."""
         out = self.sp.run(["node", os.path.join(self.app, "test_gear.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_the_survival_lab_and_homestead_meet_the_spec_in_the_browser(self):
+        """The Survival Lab, the Homestead and the capabilities in the preview (app/test_survival.mjs, in Chromium),
+        against the spec's acceptance tests A-H: Scizor's manipulation read by both and never granting Cut, one build
+        in every lab, the HeartGold six against the winter mountain, the Glasshouse's candidates, canon kept apart, two
+        set-ups and two staff plans compared without a winner, one record read everywhere, and a phone."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_survival.mjs")], capture_output=True, text=True, timeout=1500)
         if "SKIP" in out.stdout:
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])

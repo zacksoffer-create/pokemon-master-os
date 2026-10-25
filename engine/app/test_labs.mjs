@@ -82,9 +82,9 @@ await page.evaluate(() => tlSaveTeam());
 await page.fill('#askt', 'Winter six');
 await page.click('#askf button');
 await page.waitForFunction(() => Object.keys(S.store.teams).some((k) => S.store.teams[k].title === 'Winter six'), null, { timeout: 20000 }).catch(() => fails.push('team lab: the saved team never appeared in S.store.teams'));
-await go('#/field', '#frteam');
-const fopts = await page.evaluate(() => [...document.querySelectorAll('#frteam option')].map((o) => o.textContent));
-if (!fopts.some((o) => /Saved · Winter six/.test(o))) fails.push('field: the saved team isn\'t offered (' + fopts.slice(0, 4).join(' | ') + ')');
+await go('#/field', '#svteam');
+const fopts = await page.evaluate(() => [...document.querySelectorAll('#svteam option')].map((o) => o.textContent));
+if (!fopts.some((o) => /Saved · Winter six/.test(o))) fails.push('survival: the saved team isn\'t offered (' + fopts.slice(0, 4).join(' | ') + ')');
 await go('#/pokemon', '#plnew');
 for (const nick of ['Pebble', 'Gravel']) {
   await page.evaluate((n) => plNew('Larvitar', 'heartgold', n), nick);

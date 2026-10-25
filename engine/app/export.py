@@ -26,6 +26,8 @@ live.
     breeding.json  the breeding-stock engine's data for the browser's copy (app/breeding_pack.py, web/23_stock.html)
     library.json   the Trainer Library: every trainer and version, evidence, lenses, collections (app/library_pack.py)
     equipment.json the Poké Ball collection and the equipment library, each generation's catch numbers (app/equipment_pack.py)
+    capability.json   the capability records, kit, scenarios and facilities for the Survival Lab and the Homestead
+                   (app/capability_pack.py)
 
     python3 -I app/export.py               # writes engine/app/data/*.json and prints their sizes
 """
@@ -363,6 +365,8 @@ def main(breeder=False):
     library_pack.main()
     import equipment_pack
     equipment_pack.main()
+    import capability_pack
+    capability_pack.main()
     import field_pack
     import room_pack
     import scout_pack

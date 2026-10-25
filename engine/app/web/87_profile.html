@@ -104,7 +104,7 @@ function minePage() {
 /* ---- one Pokémon ---- */
 function monPage(id, mode) {
   var show = mode === 'showcase';
-  return Promise.all([labsReady(), fieldReady().catch(function () { return null; }), gearReady().catch(function () { return null; })]).then(function () {
+  return Promise.all([labsReady(), fieldReady().catch(function () { return null; }), gearReady().catch(function () { return null; }), capReady().catch(function () { return null; })]).then(function () {
     var ind = (S.store.individuals || {})[id];
     if (!ind) return '<div class="notice">No Pokémon of yours called ' + esc(id) + '. <a href="#/mine">Your Pokémon</a></div>';
     var b = indBuild(ind), read = freshPackRead(id) || liveRead(b, ind.game), rec = Recognize.read(b, read), gen = Battle.GAME_GEN[ind.game];
@@ -138,7 +138,7 @@ function monPage(id, mode) {
       (teams.length ? '<div class="small" style="margin-top:8px">On: ' + teams.map(function (t) { return esc(t.title || t.id); }).join(' · ') + '</div>' : '') +
       (caps.length ? '<div class="small" style="margin-top:8px">In the field: ' + caps.slice(0, 8).map(function (e) { return '<span title="' + esc(e.tier + ': ' + e.source) + '" style="color:' + (e.tier === 'cartridge' || e.tier === 'authored' ? 'var(--forest-3)' : 'var(--text-2)') + '">' + esc(e.capability.replace(/_/g, ' ')) + '</span>'; }).join(', ') + ' <span class="tiny muted">(green: the game or an approved record; grey: its Pokédex or biology suggests it)</span></div>' : ''),
       {eyebrow: 'Stats · tags · teams · the field', tools: false});
-    var tools = show ? '' : card('Tools', [['#/pokemon/' + encodeURIComponent(id), 'The Studio', 'change the build, see every number move, save a version'], ['#/team/' + ind.game, 'Team lab', 'how it fits the six'], ['#/field', 'Field readiness', 'what it can do away from battle'], ['#/bench?ind=' + encodeURIComponent(id), 'Benchmarks', 'one-on-one against any trainer or collection in the Trainer Library'],
+    var tools = show ? '' : card('Tools', [['#/pokemon/' + encodeURIComponent(id), 'The Studio', 'change the build, see every number move, save a version'], ['#/team/' + ind.game, 'Team lab', 'how it fits the six'], ['#/survival?team=' + encodeURIComponent('mine/' + ind.game), 'Survival Lab', 'what it can do away from battle, on an expedition'], ['#/homestead', 'The Homestead', 'the jobs it could hold at Blackthorn'], ['#/bench?ind=' + encodeURIComponent(id), 'Benchmarks', 'one-on-one against any trainer or collection in the Trainer Library'],
       ['#/atlas/' + d.n, 'Its species', 'Pokédex, biology, egg groups'], ['#/pkhex/' + encodeURIComponent(id), 'PKHeX export', 'the Showdown set and the batch script'], ['#/standards', 'The standards', 'what every badge means']].map(function (x) {
         return '<a class="tool" href="' + x[0] + '"><b>' + esc(x[1]) + '</b><span class="tiny muted">' + esc(x[2]) + '</span></a>'; }).join(''), {eyebrow: 'Open it anywhere', tools: false, style: 'margin-top:16px'});
     var mineArt = Pics.mine(id), vars = Pics.variants(ind);
@@ -162,7 +162,7 @@ function monPage(id, mode) {
       {eyebrow: 'Its breeding: what it hatched with and who its parents are', tools: false, style: 'margin-top:16px'}) : '';
     var bio = card('Its species', (d.dex ? '<p class="small" style="margin:0 0 8px">“' + esc(d.dex) + '”</p>' : '') + '<div class="tiny muted">' + esc([d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.hab ? 'lives in ' + d.hab : null, d.eg ? 'egg groups ' + d.eg.join(', ') : null].filter(Boolean).join(' · ')) + '</div>',
       {eyebrow: 'The same for every ' + ind.species, tools: false, style: 'margin-top:16px'});
-    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + origin + tools + bio + '</div><div class="c6">' + ballPanel(ind, show) + gallery + history + '</div></div>';
+    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + (show ? '' : capPanel(ind)) + origin + tools + bio + '</div><div class="c6">' + ballPanel(ind, show) + gallery + history + '</div></div>';
   });
 }
 /* its Poké Ball (Phase 6): the ball's exterior and name, whether the games allow it, and the Pokémon at home inside it:

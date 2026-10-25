@@ -85,6 +85,7 @@ function glasshouse(tab) {
     var tabs = [['overview', 'The building'], ['eggs', 'Eggs & walking'], ['berries', 'Berry cultivation'], ['environment', 'Environment'], ['nutrition', 'Nutrition']];
     var body = {overview: ghOverview, eggs: ghEggs, berries: ghBerries, environment: ghEnv, nutrition: ghNutrition}[tab](g);
     return '<div class="eyebrow">Featured living facility · ' + esc(g.status) + '</div><h1 style="margin:6px 0">The Glasshouse</h1><p class="lede">' + esc(g.idea) + '</p>' +
+      '<div style="margin-top:8px"><a class="btn sm gold" href="#/facility/glasshouse">Its jobs and who could hold them →</a> <a class="btn sm" href="#/facility/cold-vault">The cold vault</a></div>' +
       '<div class="tabs" style="margin-top:16px">' + tabs.map(function (t) { return '<a href="#/glasshouse/' + t[0] + '" class="' + (t[0] === tab ? 'on' : '') + '">' + t[1] + '</a>'; }).join('') + '</div>' + body;
   });
 }

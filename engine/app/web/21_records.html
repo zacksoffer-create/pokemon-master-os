@@ -55,7 +55,7 @@ var Records = (function () {
     IND_FIELDS.forEach(function (k) { var v = i[k]; row[k] = k === 'shiny' && v != null ? (v ? 'yes' : 'no') : (v == null ? '' : v); });
     row.hatch_moves = encMoves(i.hatch_moves); row.at = i.at || ''; return row;
   }
-  var TEAM_EXTRA = ['kind', 'trainer', 'parent'];
+  var TEAM_EXTRA = ['kind', 'trainer', 'parent', 'scenario', 'kit', 'facility'];   // a trainer's version (the Trainer Library), an expedition or a staff plan (Phase 7)
   function decTeam(row) {
     var slots = row.slots; if (typeof slots === 'string') slots = slots.trim() ? JSON.parse(slots) : [];
     var t = {id: String(row.id), game: row.game, title: row.title || null, slots: slots || [], status: row.status || 'saved', origin: 'the app (My Teams)'};

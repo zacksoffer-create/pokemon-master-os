@@ -313,3 +313,117 @@ Read from each game's own scripts, marts, item balls, hidden items, phone gifts,
 - **Why:** The spec asks for acquisition that's accurate per game; the code is exact, and saying what wasn't read keeps a gap from looking like a fact.
 - **See it:** `#/ball/luxury?g=emerald` (The Luxury Ball in Emerald)
 - **Could instead:** fill the gaps from Bulbapedia, labelled as such; read the gear's gifts the same way
+
+## Phase 7 · Capability, survival and homestead
+
+### A-39 · Capabilities (D-071)
+
+One model of 35 capabilities in seven areas: the spec's six (mobility, food and water, shelter and environment, safety, tools and construction, ecological awareness) plus life at home. The 27 the wilderness engine had keep their ids and evidence; eight are new: water supply, cold source, heat tolerance, manipulation, construction, electricity, tracking and navigation.
+
+- **Why:** The spec asks for a capability modelled once and reused everywhere, and names these gaps.
+- **See it:** `#/capabilities` (Capabilities)
+- **Could instead:** fewer, broader capabilities; split heat source into warmth and cooking fire
+
+### A-40 · How evidence reads (D-071)
+
+Every piece of evidence keeps three separate labels: its layer (A game mechanic, B biology, C equipment), its class (mechanic, inferred, hypothesis, Blackthorn) and whether you approved it. A need then reads Covered, With equipment, If taught, Plausible, Needs your approval or Gap. There's no overall score. A species' overworld ability counts as covered only when every ability it can have does the job (Magcargo's two both warm eggs); otherwise it's plausible until the build names the ability.
+
+- **Why:** The spec forbids an opaque score and asks for canon kept apart from interpretation (Test E).
+- **See it:** `#/survival` (World readiness)
+- **Could instead:** a weighted readiness percentage; count teachable field moves as covered
+
+### A-41 · Bodies (D-071)
+
+The Gen 4 Pokédex's body shape is read as anatomy: arms, two legs with free forelimbs, or tentacles suggest manipulation; a large or huge four-legged body suggests hauling. Wings are never read as flight (Scizor's own Pokédex says its wings aren't for flying).
+
+- **Why:** It's the games' own body data, so it's better evidence than a guess from type.
+- **See it:** `#/capability/manipulation` (Manipulation)
+- **Could instead:** hand-authored anatomy per species; no anatomy, Pokédex text only
+
+### A-42 · Pokédex misreadings fixed (D-071)
+
+Four of the wilderness engine's Pokédex patterns read too much: 'not used for flying' counted as flight, 'dangerously' as danger sense, 'can be seen from far away' as scouting, and any mention of the sea as carrying people over water. They're narrower now, and this changes what the profile and breeding pages show too.
+
+- **Why:** A misreading presented as evidence is what the spec warns against.
+- **See it:** `#/capability/air_travel` (Air travel)
+- **Could instead:** keep the broad patterns and hand-reject false hits
+
+### A-43 · Moves put to use (D-071)
+
+A move a build actually knows can be put to use outside battle, as a hypothesis: Flamethrower for heat, Ice Beam for cold, Thunderbolt for electricity, Water Gun for water, X-Scissor for cutting, Heal Bell for healing, Rain Dance for weather, Roar for keeping wild Pokémon off, Odor Sleuth for tracking. Field moves stay game mechanics.
+
+- **Why:** The spec asks that learned and inherited moves shape an individual's specialisation without being treated as canon.
+- **See it:** `#/survival` (A member's holders)
+- **Could instead:** no move uses; only egg moves count
+
+### A-44 · Equipment and training (D-071)
+
+Seven equipment rules, proposed: a harness or a saddle for large Pokémon that haul or carry, hand tools and garden tools for a Pokémon with a grip, a rescue kit for one that tracks or scouts, and a dynamo (and lamps) for an Electric type. A Pokémon qualifies on its own evidence; the rule counts only when the kit is packed.
+
+- **Why:** Layer C is the spec's equipment-assisted capability; the anatomy decides who can use what.
+- **See it:** `#/capability/construction` (Construction)
+- **Could instead:** no layer C until you author each one; a longer equipment list
+
+### A-45 · The kit (D-071)
+
+Game items do what the game says (Potions heal, an Escape Rope gets you out of a cave, Repel keeps weaker Pokémon away, rods, finders, maps, Go-Goggles). Camp gear is Blackthorn's (tent, stove, lanterns, water filter, rations, cold- and hot-weather clothing, climbing kit) and says so.
+
+- **Why:** Equipment is half of survival; game items are canon, camp gear isn't.
+- **See it:** `#/survival` (Kit)
+- **Could instead:** no camp gear: game items only
+
+### A-46 · Scenarios (D-071)
+
+Eleven scenarios: the spec's eight (winter mountain, dense forest, coastal or marine, cave, extended camp, wetland, long overland journey, hazardous research) and Field readiness's emergency, night travel and living in town. Each has conditions, hazards, food and water, a recommended kit, the field moves its ground calls for, and needs marked critical, important or useful. They're illustrative Blackthorn scenarios; edit capability/scenarios.json.
+
+- **Why:** The spec's list, made concrete so a team can be assessed against them.
+- **See it:** `#/survival` (Scenario)
+- **Could instead:** fewer, simpler scenarios; scenarios tied to real game locations
+
+### A-47 · Provisions (D-071)
+
+What to carry if nobody forages: rations a day by body size (small 1, medium 2, large 4, huge 8), 2 for the trainer, and as much water. A Blackthorn standard, labelled as one, not canon.
+
+- **Why:** The spec asks to estimate consumption without inventing precision; this is a stated method you can change.
+- **See it:** `#/survival` (Provisions)
+- **Could instead:** by weight instead of size class; no estimate at all
+
+### A-48 · Slot cost (D-071)
+
+A field move earns its place in a battle moveset if it does at least 70 damage that generation (Surf, Fly, Waterfall, Strength, Rock Climb, Dive, Dig, Headbutt, Secret Power) or is Soft-Boiled or Milk Drink; any other field move costs a slot. Two slot-costing field moves on one Pokémon is an HM slave (D-018).
+
+- **Why:** The spec asks for battle moveset opportunity costs; the threshold is stated and changeable.
+- **See it:** `#/survival` (Cartridge readiness)
+- **Could instead:** a different power line; judge each move by hand
+
+### A-49 · World records follow your Pokémon (D-071)
+
+W-001 to W-017 are about one of your Pokémon, so they follow it wherever it's assessed: your Emerald Meganium's W-016 counts at the Glasshouse even though the Homestead reads everyone in HeartGold. A species on someone else's team doesn't get them.
+
+- **Why:** MASTER_PLAN's 'species-level records across games', resolved by the individual the record describes.
+- **See it:** `#/facility/glasshouse` (Tending the berry beds)
+- **Could instead:** apply a W-record to every Pokémon of that species
+
+### A-50 · Facilities (D-071)
+
+Fourteen facilities as capability networks: the Glasshouse and its cold vault (approved), the nine ranch facilities, and four of the spec's concepts as proposals: Research Institute, Workshop and equipment depot, Habitats and conservation grounds, and Dragon's Den research. Each job is met by any of its capabilities or by infrastructure (named, Blackthorn). Under D-039 one of yours can staff a job only on a game mechanic or a record you approved; other evidence makes it a candidate. Species you don't have that a mechanic qualifies are shown as hires.
+
+- **Why:** The spec's facility model, kept inside D-039.
+- **See it:** `#/homestead` (The Homestead)
+- **Could instead:** leave the four new facilities out until you ask; let biology staff a job
+
+### A-51 · Plans, not facts (Q13) (D-071)
+
+Staff and expedition plans are plans: saving one changes nobody's team or home (D-037, D-042). They're saved as My Teams rows (kind staffing or expedition, with the facility or the scenario and kit), so there's no new tab and no Apps Script change.
+
+- **Why:** Q13's proposal, taken as the default.
+- **See it:** `#/facility/glasshouse` (Save this staff plan)
+- **Could instead:** assignments as facts that move a Pokémon; a separate My Plans tab
+
+### A-52 · Menu (D-071)
+
+The Survival Lab replaces Field readiness under Labs (the old #/field address opens it); the Homestead sits in My World after the Estate; Capabilities joins Pokédex & Reference. Each Pokémon's profile gains 'Away from battle'.
+
+- **Why:** MASTER_PLAN §3.1 maps Field readiness to the Survival Lab.
+- **See it:** `#/survival` (The menu)
+- **Could instead:** keep Field readiness as well; a separate Survival space

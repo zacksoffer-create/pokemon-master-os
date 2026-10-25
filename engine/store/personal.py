@@ -128,7 +128,7 @@ def enc_individual(i):
     return {k: ("" if v is None else v) for k, v in row.items()}
 
 
-TEAM_EXTRA = ("kind", "trainer", "parent")   # a trainer's version of your own (the Trainer Library): kind, the trainer, the version it came from
+TEAM_EXTRA = ("kind", "trainer", "parent", "scenario", "kit", "facility")   # a trainer's version (the Trainer Library); an expedition plan (scenario, kit) or a staff plan (facility), Phase 7
 
 
 def dec_team(row):

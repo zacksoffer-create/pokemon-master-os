@@ -41,7 +41,8 @@ def field_table():
         data = json.load(fh)
     out = {}
     for game, rows in data.get("games", {}).items():
-        out[game] = {r["move"]: {k: r.get(k) for k in ("machine", "badge", "requires", "does", "source")} for r in rows}
+        out[game] = {r["move"]: {k: (None if k == "badge" and str(r.get(k) or "").lower() in ("", "none", "-", "–") else r.get(k))
+                                 for k in ("machine", "badge", "requires", "does", "source")} for r in rows}
     if "heartgold" in out:
         out.setdefault("soulsilver", out["heartgold"])
     return out, data.get("gaps", [])

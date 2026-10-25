@@ -1,0 +1,365 @@
+<script>
+/* ===== The Survival Lab, the capabilities and the Homestead (Phase 7) =========================================
+   Every page here reads one set of capability records (Cap, web/34_capability.html over capability.json) and the
+   same Pokémon and builds as every other lab (S.store): a member is one of your individuals with its active build,
+   or a species when no build is known. Plans are saved as My Teams rows (kind expedition or staffing): plans, never
+   facts (Q13, assumed), so nobody leaves a team because of one. */
+function capReady() { return S.cap ? Promise.resolve(Cap) : (S.capP || (S.capP = API.data('capability').then(function (p) { Cap.init(p); S.cap = true; return Cap; }))); }
+var STAND_CHIP = {covered: 'forest', equipped: 'ice', teachable: 'gold', plausible: '', proposed: 'violet', gap: 'ember'};
+function standChip(st) { return chip(Cap.pack().model.standing.names[st], STAND_CHIP[st]); }
+function classChip(h) {   // the three axes, kept apart on screen: layer, evidence class, status
+  if (h.kind === 'kit') return h['class'] === 'mechanic' ? chip('game item', 'forest') : chip('camp gear · Blackthorn', 'violet');
+  var L = {A: 'A · game mechanic', B: 'B · biology', C: 'C · equipment'}[h.layer], c = h['class'];
+  var cls = c === 'mechanic' ? chip(L, 'forest') : c === 'inferred' ? chip(L + ' · inferred', 'gold') : c === 'hypothesis' ? chip(L + ' · hypothesis', '') :
+    chip((h.kind === 'world' ? 'Blackthorn' : L + ' · Blackthorn') + (h.status === 'approved' ? ' · approved' : ' · proposed'), 'violet');
+  return cls;
+}
+function holderLine(h, opt) {
+  opt = opt || {};
+  var why = h.note ? h.note : h.detail || '';
+  return '<div class="tiny" style="margin:3px 0">' + (opt.noStand ? '' : standChip(h.standing) + ' ') + '<b>' + esc(h.who) + '</b> ' + classChip(h) + ' <span style="color:var(--text-2)">' + esc(h.source) + '</span>' +
+    (why ? ' <span class="muted" title="' + esc(why) + '">' + esc(why.length > 110 ? why.slice(0, 107) + '…' : why) + '</span>' : '') + (h.limitations ? ' <span class="muted">· limits: ' + esc(h.limitations) + '</span>' : '') + '</div>';
+}
+function capLink(cap) { return '<a href="#/capability/' + cap + '">' + esc(Cap.capName(cap)) + '</a>'; }
+function capMember(ind) {   // one of your individuals as the assessments take it: its active build's moves and ability
+  var b = indBuild(ind);
+  return {species: ind.species, ind: ind.id, moves: (b.moves || []).length ? b.moves.slice() : null, ability: b.ability || null, label: ind.nickname || ind.species, build: ind.build || null};
+}
+function myInds(game) { return Object.keys((S.store || {}).individuals || {}).map(function (k) { return S.store.individuals[k]; })
+  .filter(function (i) { return (!game || i.game === game) && i.status !== 'retired'; }); }
+function memberOf(ref) {
+  if (!ref) return null;
+  if (ref.indexOf('ind:') === 0) { var ind = S.store.individuals[ref.slice(4)]; return ind ? capMember(ind) : null; }
+  if (ref.indexOf('b:') === 0) { var b = storeBuild(ref.slice(2)); return b ? {species: b.species, moves: (b.moves || []).length ? b.moves.slice() : null, ability: b.ability || null, label: b.species, build: ref.slice(2)} : null; }
+  if (ref.indexOf('sp:') === 0) return {species: ref.slice(3), label: ref.slice(3)};
+  return null;
+}
+function refOfSlot(s) {   // a team slot (My Teams, the team lab) as a member reference
+  if (!s) return null;
+  var from = s.from || s.id || '';
+  if (from && S.store.individuals[from]) return 'ind:' + from;
+  if (s.build && storeBuild(s.build)) return 'b:' + s.build;
+  return s.species ? 'sp:' + s.species : null;
+}
+
+/* ---- the Survival Lab ---- */
+var SV = null;
+function svTeams() {
+  var out = [];
+  ALL_GAMES.forEach(function (g) { var inds = myInds(g); if (inds.length) out.push({key: 'mine/' + g, label: 'Your Pokémon · ' + GAME_NAME[g], game: g, refs: inds.slice(0, 6).map(function (i) { return 'ind:' + i.id; })}); });
+  Object.keys(S.store.teams || {}).forEach(function (k) { var t = S.store.teams[k]; if (!Array.isArray(t.slots) || t.status === 'retired' || t.kind === 'staffing') return;
+    out.push({key: 'saved/' + k, label: (t.kind === 'expedition' ? 'Plan · ' : 'Saved · ') + (t.title || k), game: t.game, refs: t.slots.map(refOfSlot).filter(Boolean), scenario: t.scenario || null, kit: t.kit ? String(t.kit).split(',').filter(Boolean) : null}); });
+  ALL_GAMES.forEach(function (g) { var s = store('team-' + g); if (Array.isArray(s) && s.some(Boolean)) out.push({key: 'teamlab/' + g, label: 'Your team lab · ' + GAME_NAME[g], game: g,
+    refs: s.filter(Boolean).map(function (b) { return S.store.individuals[b.id] ? 'ind:' + b.id : b.id && storeBuild(b.id) ? 'b:' + b.id : 'sp:' + b.species; })}); });
+  return out;
+}
+function survivalPage(query) {
+  var q = qparse(query);
+  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
+    var teams = svTeams(), st = store('survival') || {};
+    SV = Object.assign({key: 'mine/heartgold', scenario: 'winter-mountain', kit: [], preview: [], locks: [], allMoves: false}, st);
+    if (q.team) SV.key = q.team;
+    if (q.s) SV.scenario = q.s;
+    var t = teams.filter(function (x) { return x.key === SV.key; })[0] || teams[0];
+    if (!SV.refs || st.key !== SV.key || q.team) { SV.key = t.key; SV.game = t.game; SV.refs = t.refs.slice(0, 6); SV.base = SV.refs.slice(); SV.locks = []; if (t.scenario) SV.scenario = t.scenario; if (t.kit) SV.kit = t.kit; }
+    after(function (p) { svBind(p); svRender(); });
+    return '<div class="eyebrow">Survival · away from Blackthorn</div><h1 style="margin:6px 0">The Survival Lab</h1>' +
+      '<p class="lede">Plan an expedition: pick a team and a scenario, pack the kit, and see two separate reads. <b>Cartridge readiness</b> is the game\'s own rules: which field moves your team knows, which it could learn, the machine, the badge, and what each costs a battle moveset. <b>World readiness</b> is the Blackthorn world: every need the scenario has, who covers it and on what evidence (a game mechanic, its biology, equipment, or a record you approved). Nothing is rolled into one score; you decide.</p>' +
+      '<div class="slgrid" style="margin-top:16px"><div id="svin"></div><div id="svout"></div></div>';
+  });
+}
+function svOptions(game, sel) {
+  var inds = myInds(game), sp = Object.keys(Cap.pack().games[game].records).sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
+  return '<option value="">— empty —</option><optgroup label="Your Pokémon in ' + esc(GAME_NAME[game]) + '">' + inds.map(function (i) { var v = 'ind:' + i.id; return '<option value="' + esc(v) + '"' + (v === sel ? ' selected' : '') + '>' + esc((i.nickname ? i.nickname + ' (' + i.species + ')' : i.species)) + '</option>'; }).join('') + '</optgroup>' +
+    (sel && sel.indexOf('b:') === 0 ? '<option value="' + esc(sel) + '" selected>' + esc((memberOf(sel) || {}).species || sel) + ' (a saved build)</option>' : '') +
+    '<optgroup label="Any species (no build: what it could learn)">' + sp.map(function (n) { var v = 'sp:' + n; return '<option value="' + esc(v) + '"' + (v === sel ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</optgroup>';
+}
+function svInputs() {
+  var P = Cap.pack(), teams = svTeams(), sc = P.scenarios.filter(function (s) { return s.id === SV.scenario; })[0] || P.scenarios[0];
+  var props = P.world.filter(function (w) { return w.status === 'proposed'; });
+  var kitGroup = function (kind, title) { return '<div class="tiny muted" style="margin:8px 0 4px">' + title + '</div>' + P.kit.filter(function (x) { return x.kind === kind; }).map(function (x) {
+    return '<label class="small" style="display:inline-block;margin:2px 10px 2px 0" title="' + esc(x.what + (x.limitations ? '; ' + x.limitations : '')) + '"><input type="checkbox" data-kit="' + x.id + '"' + (SV.kit.indexOf(x.id) >= 0 ? ' checked' : '') + '> ' + esc(x.name) + (sc.kit.indexOf(x.id) >= 0 ? ' <span class="gold">★</span>' : '') + '</label>'; }).join(''); };
+  return card('The expedition', '<label class="l">Start from</label><select class="f" id="svteam">' + teams.map(function (t) { return '<option value="' + esc(t.key) + '"' + (t.key === SV.key ? ' selected' : '') + '>' + esc(t.label) + '</option>'; }).join('') + '</select>' +
+    '<label class="l">Game (its field moves, abilities and Pokédex)</label><select class="f" id="svgame">' + ALL_GAMES.map(function (g) { return '<option value="' + g + '"' + (g === SV.game ? ' selected' : '') + '>' + GAME_NAME[g] + '</option>'; }).join('') + '</select>' +
+    '<label class="l">Scenario</label><select class="f" id="svsc">' + P.scenarios.map(function (s) { return '<option value="' + s.id + '"' + (s.id === sc.id ? ' selected' : '') + '>' + esc(s.name) + '</option>'; }).join('') + '</select>' +
+    '<div class="tiny muted" style="margin:6px 0 10px">' + esc(sc.terrain) + ' · ' + esc(sc.climate) + ' · ' + plural(sc.days, 'day') + '. Hazards: ' + esc(sc.hazards.join(', ')) + '. ' + esc(sc.food_water) + '.</div>' +
+    '<label class="l">The team <span class="tiny muted">(lock what stays; the optimiser fills the rest)</span></label>' +
+    [0, 1, 2, 3, 4, 5].map(function (i) { var ref = SV.refs[i] || '', m = memberOf(ref);
+      return '<div style="display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:center;margin-bottom:6px">' + (m ? '<img src="' + sprite(numOf(m.species), SV.game) + '" style="width:40px;height:40px;image-rendering:pixelated" onerror="this.style.opacity=0">' : '<span></span>') +
+        '<select class="f" data-sv="' + i + '"' + (SV.base && SV.base[i] !== ref ? ' style="border-color:var(--ember)"' : '') + '>' + svOptions(SV.game, ref) + '</select>' +
+        '<label class="tiny" title="Lock: keep this one when optimising"><input type="checkbox" data-lock="' + i + '"' + (SV.locks[i] ? ' checked' : '') + (m ? '' : ' disabled') + '> lock</label></div>'; }).join('') +
+    '<label class="l" style="margin-top:12px">Kit <span class="tiny muted">(★ recommended for this scenario)</span></label>' + kitGroup('game', 'Game items: they do what the game says') + kitGroup('world', 'Camp gear: Blackthorn\'s, not the games\'') +
+    '<div style="margin-top:6px"><button class="btn sm" id="svpackrec">Pack the recommended kit</button> <button class="btn sm" id="svpackno">Unpack</button></div>' +
+    (props.length ? '<label class="l" style="margin-top:12px">Preview records waiting for you (as if approved; nothing is saved)</label>' + props.map(function (w) { return '<label class="small" style="display:block;margin:3px 0"><input type="checkbox" data-prev="' + w.id + '"' + (SV.preview.indexOf(w.id) >= 0 ? ' checked' : '') + '> <b>' + esc(w.id) + '</b> your ' + esc(GAME_NAME[w.game]) + ' ' + esc(w.species) + ': ' + esc(Cap.capName(w.cap).toLowerCase()) + '</label>'; }).join('') : ''),
+    {eyebrow: 'Team, scenario and kit', tools: false});
+}
+function svMembers() { return SV.refs.map(memberOf).filter(Boolean); }
+function svBind(p) {
+  var box = p.querySelector('#svin'); box.innerHTML = svInputs();
+  box.addEventListener('change', function (e) {
+    var t = e.target, k;
+    if (t.id === 'svteam') { var x = svTeams().filter(function (y) { return y.key === t.value; })[0]; SV.key = x.key; SV.game = x.game; SV.refs = x.refs.slice(0, 6); SV.base = SV.refs.slice(); SV.locks = []; if (x.scenario) SV.scenario = x.scenario; if (x.kit) SV.kit = x.kit; }
+    else if (t.id === 'svgame') { SV.game = t.value; SV.refs = SV.refs.map(function (r) { return r && r.indexOf('ind:') === 0 && (S.store.individuals[r.slice(4)] || {}).game !== t.value ? 'sp:' + memberOf(r).species : r; }); }   // yours from another game come along as their species
+    else if (t.id === 'svsc') SV.scenario = t.value;
+    else if ((k = t.getAttribute('data-sv')) != null) { SV.refs[+k] = t.value || null; if (!t.value) SV.locks[+k] = false; }
+    else if ((k = t.getAttribute('data-lock')) != null) SV.locks[+k] = t.checked;
+    else if ((k = t.getAttribute('data-kit'))) SV.kit = SV.kit.filter(function (x) { return x !== k; }).concat(t.checked ? [k] : []);
+    else if ((k = t.getAttribute('data-prev'))) SV.preview = SV.preview.filter(function (x) { return x !== k; }).concat(t.checked ? [k] : []);
+    svSave(); box.innerHTML = svInputs(); svRender();
+  });
+  box.addEventListener('click', function (e) {
+    var t = e.target, sc = Cap.pack().scenarios.filter(function (s) { return s.id === SV.scenario; })[0];
+    if (t.id === 'svpackrec') { SV.kit = SV.kit.concat(sc.kit.filter(function (x) { return SV.kit.indexOf(x) < 0; })); }
+    else if (t.id === 'svpackno') SV.kit = [];
+    else return;
+    svSave(); box.innerHTML = svInputs(); svRender();
+  });
+}
+function svSave() { SV.refs = SV.refs.slice(0, 6); store('survival', SV); }
+function svNeeds(r) {
+  var P = Cap.pack();
+  return ['critical', 'important', 'useful'].map(function (pr) { var ns = r.needs.filter(function (n) { return n.priority === pr; }); if (!ns.length) return '';
+    return '<div class="eyebrow" style="margin:14px 0 6px">' + cap(pr) + ' · ' + r.counts[pr].ready + ' of ' + r.counts[pr].total + ' ready</div>' + ns.map(function (n) {
+      return '<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)" data-need="' + n.cap + '"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>' + capLink(n.cap) + '</b> ' + standChip(n.standing) +
+        (n.single_point ? chip('hangs on one', 'ember') : '') + (n.covered_n >= 2 ? chip(n.covered_n + ' hold it', 'forest') : '') + ' <span class="tiny muted">' + esc(n.why) + '</span></div>' +
+        (n.holders.length ? n.holders.slice(0, 5).map(function (h) { return holderLine(h); }).join('') + (n.holders.length > 5 ? '<div class="tiny muted">and ' + (n.holders.length - 5) + ' more</div>' : '') : '<div class="tiny" style="color:var(--ember-2)">nobody and nothing</div>') + '</div>'; }).join(''); }).join('');
+}
+function svCart(c, members) {
+  var P = Cap.pack(), who = function (i) { return esc(members[i].label || members[i].species); };
+  var rows = c.moves.map(function (r) { return '<tr><td class="small"><b>' + esc(r.move) + '</b><div class="tiny muted">' + esc(r.does || '') + '</div></td><td>' + standChip(r.standing) + '</td>' +
+    '<td class="tiny">' + (r.knows.length ? '<b>knows:</b> ' + r.knows.map(who).join(', ') : '') + (r.could.length ? (r.knows.length ? '<br>' : '') + '<b>could learn:</b> ' + r.could.map(function (x) { return who(x.i) + (x.route !== 'native' ? ' (' + esc(x.route) + ')' : ''); }).join(', ') : '') +
+      (r.candidates.length ? '<span class="muted">outside the team: ' + esc(r.candidates.join(', ')) + '</span>' : '') + '</td>' +
+    '<td class="tiny">' + esc([r.machine, r.badge].filter(Boolean).join(' · ') || '') + (r.requires ? '<div class="muted">' + esc(r.requires) + '</div>' : '') + '</td><td class="tiny">' + (r.battle_worthy ? chip('earns its slot', 'forest') : chip('costs a slot', 'gold')) + '</td></tr>'; }).join('');
+  var slots = c.slots.filter(function (s) { return s.known && s.known.length; }).map(function (s) { return '<div class="tiny" style="margin:3px 0"><b>' + who(s.i) + '</b>: ' + esc(s.known.join(', ')) + (s.costs.length ? ' · <span style="color:var(--gold-2)">' + plural(s.costs.length, 'battle slot') + ' spent on ' + esc(s.costs.join(', ')) + '</span>' : ' · no battle slot lost') + (s.hm_slave ? ' ' + chip('HM slave', 'ember') : '') + '</div>'; }).join('');
+  var gaps = (P.field_gaps || []).filter(function (g) { return g.indexOf(c.game + ':') === 0 || (c.game === 'soulsilver' && g.indexOf('heartgold:') === 0); });
+  return '<p class="tiny muted" style="margin:0 0 8px">Only game mechanics count here: a Pokémon\'s biology or a record you approved never stands in for an HM (spec Test A). Machines and badges are read from the games\' code' + (Object.keys(P.field[c.game] || {}).length ? '' : ' (not read yet for this game)') + '.</p>' +
+    '<div class="scroll"><table class="t"><thead><tr><th>Field move</th><th></th><th>Who</th><th>Machine · badge</th><th>In battle</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '<div class="eyebrow" style="margin:12px 0 4px">What it costs the movesets</div>' + (slots || '<div class="tiny muted">No member\'s build knows a field move' + (c.slots.some(function (s) { return s.known === null; }) ? ' (members without a build show what they could learn)' : '') + '.</div>') +
+    '<div class="eyebrow" style="margin:12px 0 4px">The field-function policy (D-018)</div>' + c.policy.map(function (p) { return '<div class="tiny">' + standChip(p.standing) + ' <b>' + esc(p.move) + '</b>' + (p.exception ? ' <span class="muted">' + esc(p.exception) + '</span>' : '') + '</div>'; }).join('') +
+    (gaps.length ? '<div class="tiny muted" style="margin-top:8px">Not read from the code: ' + esc(gaps.join(' · ')) + '</div>' : '');
+}
+function svRender() {
+  var out = document.getElementById('svout'); if (!out) return;
+  var P = Cap.pack(), members = svMembers(), sc = P.scenarios.filter(function (s) { return s.id === SV.scenario; })[0] || P.scenarios[0];
+  var r = Cap.worldReport(SV.game, sc.id, members, SV.kit, SV.preview), c = Cap.cartridgeReport(SV.game, members, SV.allMoves ? null : sc.field_moves);
+  var base = SV.base ? Cap.worldReport(SV.game, sc.id, SV.base.map(memberOf).filter(Boolean), SV.kit, SV.preview) : null, changes = [];
+  if (base) r.needs.forEach(function (n, k) { var b = base.needs[k]; if (b.standing !== n.standing) changes.push(n.name + ': ' + b.standing + ' → ' + n.standing); });
+  var cnt = function (pr) { var x = r.counts[pr]; return '<div class="goal"><div class="small">' + cap(pr) + '</div><b class="num" style="color:' + (x.ready === x.total ? 'var(--forest-3)' : pr === 'critical' ? 'var(--ember-2)' : 'var(--gold-2)') + '">' + x.ready + '/' + x.total + '</b></div>'; };
+  out.innerHTML =
+    (changes.length ? card('What your changes did', changes.map(function (x) { return '<div class="line small ember">' + esc(x) + '</div>'; }).join(''), {eyebrow: 'Against the team you started from', tools: false, style: 'margin-bottom:16px'}) : '') +
+    '<div class="grid"><div class="c4">' + card('Ready', cnt('critical') + cnt('important') + cnt('useful') + '<div class="tiny muted" style="margin-top:6px">Needs covered by a member or the kit, by priority. Counts, not a score.</div>', {eyebrow: sc.name, tools: false}) + '</div>' +
+    '<div class="c8">' + card('Where it could fail', (r.failure_points.length ? r.failure_points.map(function (f) { return '<div class="line ember small">' + esc(f.why) + '</div>'; }).join('') : '<div class="line forest small">Every critical need is covered, and none hangs on one Pokémon alone.</div>') +
+      (r.strengths.length ? '<div class="eyebrow" style="margin:10px 0 4px">Strengths</div>' + r.strengths.map(function (s) { return '<div class="tiny">' + esc(s.why) + '</div>'; }).join('') : ''), {eyebrow: 'Failure points and strengths', tools: false}) + '</div></div>' +
+    '<div class="grid" style="margin-top:16px"><div class="c7">' + card('World readiness', svNeeds(r), {eyebrow: 'Every need of the scenario · who covers it, on what evidence', tools: false}) + '</div>' +
+    '<div class="c5">' + card('Before you go', (r.preparations.length ? r.preparations.map(function (x) { return '<div class="line small' + (x.priority === 'critical' ? ' ember' : '') + '">' + esc(x.text) + '</div>'; }).join('') : '<div class="tiny muted">Nothing to teach, pack or approve for what\'s open.</div>') +
+      '<div class="eyebrow" style="margin:12px 0 4px">Kit not packed</div>' + (r.missing_equipment.length ? r.missing_equipment.map(function (m) { return '<div class="tiny" style="margin:3px 0"><b>' + esc(m.name) + '</b>' + (m.closes.length ? ' · would cover ' + m.closes.map(function (x) { return esc(Cap.capName(x).toLowerCase()); }).join(', ') : '') + ' <span class="muted">' + esc(m.why) + '</span></div>'; }).join('') : '<div class="tiny muted">Everything recommended is packed.</div>') +
+      '<div class="eyebrow" style="margin:12px 0 4px">Provisions</div><div class="small">' + r.provisions.per_day + ' rations a day for the team and you; ' + r.provisions.rations + ' for ' + plural(r.provisions.days, 'day') + ', and as much water.</div>' +
+      '<div class="tiny muted">' + (r.foragers.length ? 'Could feed or water the party on the way: ' + esc(r.foragers.join(', ')) + '. ' : 'Nobody on the team forages or finds water. ') + 'A Blackthorn standard by body size (capability/model.json), not canon.</div>',
+      {eyebrow: 'Teach, pack, approve', tools: false}) +
+      '<div style="margin-top:16px">' + card('Lock and optimise', '<p class="tiny muted" style="margin:0 0 8px">Locked members stay. For the next open place, every one of your Pokémon in ' + esc(GAME_NAME[SV.game]) + ' and every species in the game is tried against this scenario with this kit.</p><button class="btn gold sm" id="svopt">Find the best for an open place</button><div id="svrec" style="margin-top:10px"></div>', {eyebrow: 'Recommended · Potential fits · Everything else', tools: false}) + '</div></div></div>' +
+    '<div style="margin-top:16px">' + card('Cartridge readiness', '<label class="tiny" style="display:block;margin-bottom:8px"><input type="checkbox" id="svall"' + (SV.allMoves ? ' checked' : '') + '> every field move in ' + esc(GAME_NAME[SV.game]) + ' (not only what this ground calls for)</label>' + svCart(c, members), {eyebrow: 'The game\'s own rules · ' + GAME_NAME[SV.game], tools: false}) + '</div>' +
+    '<div class="grid" style="margin-top:16px"><div class="c6">' + card('Compare two set-ups', '<p class="tiny muted" style="margin:0 0 8px">Keep this set-up as A or B, change the team, builds or kit, and compare them on this scenario. The tradeoffs are named; no winner is picked.</p><button class="btn sm" id="svkeepa">Keep as A</button> <button class="btn sm" id="svkeepb">Keep as B</button><div id="svcmp" style="margin-top:10px"></div>', {eyebrow: 'Test F', tools: false}) + '</div>' +
+    '<div class="c6">' + card('The same builds everywhere', members.map(function (m, i) { return '<div class="tiny" style="margin:4px 0"><b>' + esc(m.label || m.species) + '</b>' + (m.moves ? ' <span class="muted">' + esc(m.moves.join(' / ')) + '</span>' : ' <span class="muted">no build: the species</span>') + '<br>' +
+        (m.ind ? '<a href="#/pokemon/' + encodeURIComponent(m.ind) + '" data-open="studio">Studio</a> · <a href="#/mon/' + encodeURIComponent(m.ind) + '">Profile</a> · <a href="#/bench?ind=' + encodeURIComponent(m.ind) + '" data-open="bench">Benchmarks</a>' : '<span class="muted">add it as one of yours in the Studio to keep a build</span>') + '</div>'; }).join('') +
+      '<div style="margin-top:10px"><button class="btn sm" id="svteamlab">Open this six in the team lab</button></div>' +
+      '<label class="l" style="margin-top:12px">Save this expedition plan</label><div class="row"><input class="f" id="svtitle" placeholder="Title, e.g. Winter crossing, HeartGold six" value="' + esc(sc.name + ' · ' + GAME_NAME[SV.game]) + '"><button class="btn gold sm" id="svsaveplan">Save to My Teams</button></div><div class="tiny muted">A plan: it records the team, scenario and kit. Nobody leaves a team because of it.</div>',
+      {eyebrow: 'One Pokémon, one build, every lab (Test B)', tools: false}) + '</div></div>';
+  svBindOut(out, members, sc);
+  if (SV.cmp && SV.cfgA && SV.cfgB) svCompare();
+}
+function svCfg(label) { return {label: label, refs: SV.refs.slice(), kit: SV.kit.slice(), preview: SV.preview.slice(), game: SV.game}; }
+function svCompare() {
+  var a = SV.cfgA, b = SV.cfgB, box = document.getElementById('svcmp'); if (!box || !a || !b) return;
+  if (a.game !== b.game) { box.innerHTML = '<div class="tiny muted">A and B are in different games; keep both in the same game to compare.</div>'; return; }
+  var r = Cap.compare(a.game, SV.scenario, {members: a.refs.map(memberOf).filter(Boolean), kit: a.kit, preview: a.preview, label: 'A'}, {members: b.refs.map(memberOf).filter(Boolean), kit: b.kit, preview: b.preview, label: 'B'});
+  box.innerHTML = r.says.map(function (s) { return '<div class="line small">' + esc(s) + '</div>'; }).join('') +
+    '<div class="scroll"><table class="t" style="margin-top:8px"><thead><tr><th>Need</th><th>A</th><th>B</th></tr></thead><tbody>' + r.rows.map(function (x) { return '<tr><td class="tiny">' + esc(x.name) + ' <span class="muted">' + esc(x.priority) + '</span></td><td>' + standChip(x.a) + (x.better === 'a' ? ' ◀' : '') + '</td><td>' + standChip(x.b) + (x.better === 'b' ? ' ◀' : '') + '</td></tr>'; }).join('') + '</tbody></table></div>';
+}
+function svPool(members) {
+  var pool = [], have = {};
+  members.forEach(function (m) { have[m.species + '|' + (m.ind || '')] = 1; });
+  myInds(SV.game).forEach(function (i) { var m = capMember(i); if (!have[m.species + '|' + m.ind]) pool.push(m); });
+  Object.keys(Cap.pack().games[SV.game].records).forEach(function (sp) { pool.push({species: sp, label: sp}); });
+  return pool;
+}
+function svBindOut(out, members, sc) {
+  var q = function (id) { return out.querySelector('#' + id); };
+  q('svall').onchange = function () { SV.allMoves = this.checked; svSave(); svRender(); };
+  q('svopt').onclick = function () {
+    var locked = [], open = -1;
+    SV.refs.forEach(function (r, i) { if (r && SV.locks[i]) locked.push(memberOf(r)); });
+    for (var i = 0; i < 6; i++) { if (!SV.refs[i] || !SV.locks[i]) { open = i; break; } }
+    var keep = SV.refs.map(function (r, i) { return r && SV.locks[i] ? r : null; }), team = keep.map(memberOf).filter(Boolean);
+    var res = Cap.recommend(SV.game, sc.id, team, SV.kit, SV.preview, svPool(team)), box = q('svrec');
+    var item = function (x) { var ref = x.ind ? 'ind:' + x.ind : 'sp:' + x.species;
+      return '<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><div style="display:flex;gap:8px;align-items:center"><img src="' + sprite(numOf(x.species), SV.game) + '" style="width:32px;height:32px;image-rendering:pixelated" onerror="this.style.opacity=0"><b class="small">' + esc(x.label) + (x.ind ? ' ' + chip('yours', 'gold') : '') + '</b>' +
+        '<span class="sp"></span><button class="btn sm" data-put="' + esc(ref) + '">Put in slot ' + (open + 1) + '</button></div>' + x.why.slice(0, 4).map(function (w) { return '<div class="tiny muted">' + esc(w) + '</div>'; }).join('') +
+        (x.rations ? '<div class="tiny" style="color:var(--gold-2)">+' + x.rations + ' rations a day</div>' : '') + '</div>'; };
+    box.innerHTML = (open < 0 ? '<div class="notice">Every place is locked. Unlock one to fill it.</div>' :
+      '<div class="tiny muted">Keeping ' + (team.length ? esc(team.map(function (m) { return m.label || m.species; }).join(', ')) : 'nobody') + '; filling place ' + (open + 1) + '.</div>' +
+      '<div class="eyebrow" style="margin:10px 0 4px">Recommended · ' + res.recommended.length + '</div>' + (res.recommended.slice(0, 6).map(item).join('') || '<div class="tiny muted">None makes a critical need ready on its own.</div>') +
+      '<div class="eyebrow" style="margin:10px 0 4px">Potential fits · ' + res.potential.length + '</div>' + res.potential.slice(0, 6).map(item).join('') +
+      '<details style="margin-top:8px"><summary class="tiny muted">Everything else · ' + res.rest.length + '</summary><div class="tiny muted" style="margin-top:6px">' + esc(res.rest.map(function (x) { return x.label; }).join(', ')) + '</div></details>');
+    box.onclick = function (e) { var b = e.target.closest('[data-put]'); if (!b) return; SV.refs[open] = b.getAttribute('data-put'); svSave(); document.getElementById('svin').innerHTML = svInputs(); svRender(); };
+  };
+  q('svkeepa').onclick = function () { SV.cfgA = svCfg('A'); SV.cmp = true; svSave(); toast('Kept as A.'); svCompare(); };
+  q('svkeepb').onclick = function () { SV.cfgB = svCfg('B'); SV.cmp = true; svSave(); toast('Kept as B.'); svCompare(); };
+  q('svteamlab').onclick = function () {   // the team lab takes builds: your individuals keep their id, so nothing is duplicated
+    var six = members.map(function (m) { return m.ind ? indBuild(S.store.individuals[m.ind]) : m.build ? buildOf(storeBuild(m.build), m.build) : {species: m.species, moves: []}; });
+    store('team-' + SV.game, six); nav('#/team/' + SV.game);
+  };
+  q('svsaveplan').onclick = function () {
+    var btn = this, slots = members.map(function (m) { return {species: m.species, from: m.ind || '', prov: m.ind ? 'yours' : 'stock', build: m.ind ? (S.store.individuals[m.ind].build || '') : (m.build || '')}; });
+    if (!slots.length) { toast('Add at least one Pokémon first.'); return; }
+    btn.disabled = true; btn.textContent = 'Saving…';
+    Records.saveTeam({game: SV.game, title: q('svtitle').value.trim() || sc.name, slots: slots, kind: 'expedition', scenario: sc.id, kit: SV.kit.join(','), note: 'Survival Lab plan'})
+      .then(function (rec) { toast('Saved the plan: ' + esc(rec.title || rec.id)); btn.disabled = false; btn.textContent = 'Save to My Teams'; SV.key = 'saved/' + rec.id; SV.base = SV.refs.slice(); svSave(); document.getElementById('svin').innerHTML = svInputs(); })
+      .catch(function (err) { btn.disabled = false; btn.textContent = 'Save to My Teams'; toast('Not saved: ' + esc(err && err.message || err)); });
+  };
+}
+
+/* ---- the capabilities ---- */
+function capabilitiesPage() {
+  return capReady().then(function () {
+    var P = Cap.pack(), g = P.present_game, recs = P.games[g].records, count = {};
+    Object.keys(recs).forEach(function (sp) { var seen = {}; recs[sp].forEach(function (j) { var x = P.rows[j]; if (P.kinds[x[1]][0] === 'A' && !seen[x[0]]) { seen[x[0]] = 1; count[x[0]] = (count[x[0]] || 0) + 1; } }); });
+    var used = capUses();
+    return '<div class="eyebrow">Pokédex & Reference · one model for every module</div><h1 style="margin:6px 0">Capabilities</h1>' +
+      '<p class="lede">What a Pokémon can do away from battle, defined once and read everywhere: the Survival Lab, the Homestead, the profiles, every scenario and facility. Each piece of evidence sits on three separate axes: its <b>layer</b> (A the game\'s mechanics, B the species\' biology, C equipment or training), its <b>class</b> (game mechanic, inferred, hypothesis, Blackthorn) and its <b>status</b> (a record you approved, or one proposed).</p>' +
+      '<div class="grid" style="margin-top:16px">' + P.model.areas.map(function (a) { return '<div class="c6">' + card(a.name, a.caps.map(function (c) { var d = P.model.capabilities[c];
+        return '<div class="goal"><div><a href="#/capability/' + c + '"><b>' + esc(d.name) + '</b></a>' + (d['new'] ? ' ' + chip('new', 'gold') : '') + '<div class="tiny muted">' + esc(d.what) + '</div></div><div class="tiny muted" style="text-align:right">' + (count[c] || 0) + ' species by game mechanics<br>' + (used[c] || []).length + ' scenarios and facilities</div></div>'; }).join(''), {eyebrow: 'Spec §' + a.spec, tools: false}) + '</div>'; }).join('') + '</div>' +
+      '<div style="margin-top:16px">' + card('How evidence reads', Object.keys(P.model.standing.means).map(function (k) { return '<div class="tiny" style="margin:4px 0">' + standChip(k) + ' ' + esc(P.model.standing.means[k]) + '</div>'; }).join('') +
+        '<div class="eyebrow" style="margin:12px 0 4px">Layers</div>' + Object.keys(P.model.layers).map(function (k) { return '<div class="tiny">' + chip(k, k === 'A' ? 'forest' : k === 'B' ? 'gold' : 'violet') + ' ' + esc(P.model.layers[k]) + '</div>'; }).join(''), {eyebrow: 'Standing, class and layer', tools: false}) + '</div>';
+  });
+}
+function capUses() {   // which scenarios and facilities read each capability (spec Test G: change a record once, every one of them reads it)
+  var P = Cap.pack(), out = {};
+  P.scenarios.forEach(function (s) { s.needs.forEach(function (n) { (out[n.cap] = out[n.cap] || []).push({kind: 'scenario', id: s.id, name: s.name, priority: n.priority}); }); });
+  P.facilities.forEach(function (f) { f.requirements.forEach(function (r) { r.any.forEach(function (c) { (out[c] = out[c] || []).push({kind: 'facility', id: f.id, name: f.name + ': ' + r.name, priority: r.priority}); }); }); });
+  return out;
+}
+function capabilityPage(id, query) {
+  var q = qparse(query);
+  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
+    var P = Cap.pack(), d = P.model.capabilities[id]; if (!d) return '<div class="notice">No capability ' + esc(id) + '.</div>';
+    var game = q.g && P.games[q.g] ? q.g : P.present_game, recs = P.games[game].records, by = {A: [], B: [], C: []};
+    Object.keys(recs).forEach(function (sp) { Cap.records(game, sp).forEach(function (r) { if (r.cap !== id) return; var L = P.kinds[r.kind][0]; by[L].push({sp: sp, r: r}); }); });
+    var area = P.model.areas.filter(function (a) { return a.caps.indexOf(id) >= 0; })[0], used = capUses()[id] || [];
+    var mine = myInds(null).map(function (i) { var m = capMember(i), b = Cap.best(i.game, m)[id]; return b ? {ind: i, st: b[0], r: b[1]} : null; }).filter(Boolean)
+      .sort(function (a, b) { return Cap.RANK[a.st] - Cap.RANK[b.st]; });
+    var group = function (rows, kind) { var names = {}; rows.forEach(function (x) { var k = x.r.kind === 'move' ? x.r.move + ' (field move)' : x.r.kind === 'ability' ? x.r.ability + ' (overworld ability)' : x.r.kind === 'gear' ? x.r.source : x.r.kind === 'lore' ? 'Pokédex text' : x.r.kind === 'shape' ? x.r.source : x.r.kind === 'type' ? x.r.source : x.r.kind === 'size' ? 'size' : x.r.source; (names[k] = names[k] || []).push(x.sp); });
+      return Object.keys(names).map(function (k) { return '<div class="small" style="margin:6px 0"><b>' + esc(k) + '</b> <span class="tiny muted">' + plural(names[k].length, 'species', 'species') + '</span><div class="tiny" style="color:var(--text-2)">' + esc(names[k].slice(0, 60).join(', ')) + (names[k].length > 60 ? '…' : '') + '</div></div>'; }).join('') || '<div class="tiny muted">none</div>'; };
+    var gear = P.model.layer_c.rules.filter(function (r) { return r.capability === id; });
+    return '<div class="eyebrow"><a href="#/capabilities">Capabilities</a> · ' + esc(area ? area.name : '') + '</div><h1 style="margin:6px 0">' + esc(d.name) + '</h1><p class="lede">' + esc(cap(d.what)) + '.</p>' +
+      '<label class="tiny">In <select class="f" style="width:auto;display:inline-block" onchange="nav(\'#/capability/' + id + '?g=\' + this.value)">' + ALL_GAMES.map(function (g) { return '<option value="' + g + '"' + (g === game ? ' selected' : '') + '>' + GAME_NAME[g] + '</option>'; }).join('') + '</select></label>' +
+      '<div class="grid" style="margin-top:14px"><div class="c6">' + card('Layer A · the game\'s mechanics', group(by.A) + '<div class="tiny muted" style="margin-top:6px">Field moves count only for a build that knows them; an overworld ability for a Pokémon that has it.</div>', {eyebrow: 'Game mechanic', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Layer B · biology', group(by.B) + '<div class="tiny muted" style="margin-top:6px">Inferred from each species\' own Pokédex text, its body (the Gen 4 Pokédex shape), type, size or habitat. Plausible, never a game mechanic.</div>', {eyebrow: 'Inferred', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Layer C · equipment and training', (gear.length ? gear.map(function (r) { return '<div class="small" style="margin:6px 0"><b>' + esc(r.id) + '</b> ' + esc(r.name) + '<div class="tiny muted">needs ' + esc(r.requires.any.map(function (c) { return Cap.capName(c).toLowerCase(); }).join(' or ')) + (r.min_size ? ', ' + esc(r.min_size) + ' or bigger' : '') + '; ' + esc(r.training) + '; kit: ' + esc(r.equipment) + '. Limits: ' + esc(r.limitations) + '</div></div>'; }).join('') : '<div class="tiny muted">No equipment rule gives this one.</div>') +
+        '<div class="tiny muted" style="margin-top:6px">' + by.C.length + ' species qualify in ' + esc(GAME_NAME[game]) + '. Blackthorn rules, proposed until you approve one.</div>', {eyebrow: 'Blackthorn', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Your Pokémon', mine.length ? mine.slice(0, 24).map(function (x) { return '<div class="tiny" style="margin:3px 0">' + standChip(x.st) + ' <a href="#/mon/' + encodeURIComponent(x.ind.id) + '"><b>' + esc(x.ind.nickname || x.ind.species) + '</b></a> <span class="muted">' + esc(GAME_NAME[x.ind.game]) + ' · ' + esc(x.r.source) + '</span></div>'; }).join('') : '<div class="tiny muted">None of yours, on any evidence.</div>', {eyebrow: 'In their own games', tools: false}) + '</div>' +
+      '<div class="c12">' + card('Who reads it', used.length ? used.map(function (u) { return '<div class="tiny" style="margin:3px 0">' + chip(u.kind, u.kind === 'scenario' ? 'ice' : 'gold') + ' <a href="' + (u.kind === 'scenario' ? '#/survival?s=' + u.id : '#/facility/' + u.id) + '">' + esc(u.name) + '</a> <span class="muted">' + esc(u.priority) + '</span></div>'; }).join('') : '<div class="tiny muted">No scenario or facility needs it yet.</div>', {eyebrow: 'One record, every assessment (Test G)', tools: false}) + '</div></div>';
+  });
+}
+
+/* ---- the Homestead ---- */
+var HS = {};
+function staffPlans(fid) { return Object.keys((S.store || {}).teams || {}).map(function (k) { return S.store.teams[k]; }).filter(function (t) { return t.kind === 'staffing' && t.facility === fid && t.status !== 'retired'; })
+  .sort(function (a, b) { return String(b.at || '') < String(a.at || '') ? -1 : 1; }); }
+function planStaff(plan) { return (plan.slots || []).map(function (s) { var ref = refOfSlot(s), m = memberOf(ref); return m ? Object.assign(m, {need: s.need || null, ref: ref}) : null; }).filter(Boolean); }
+function hsPool() { return myInds(null).map(capMember); }
+var FAC_STATUS = {approved: ['approved', 'forest'], plan: ['in the ranch plan', 'ice'], proposed: ['proposed concept', 'violet']};
+function homesteadPage() {
+  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
+    var P = Cap.pack(), pool = hsPool();
+    var cards = P.facilities.map(function (f) { var plan = staffPlans(f.id)[0], r = Cap.facilityReport(f.id, plan ? planStaff(plan) : [], pool), st = FAC_STATUS[f.status] || [f.status, ''];
+      var canAll = r.requirements.filter(function (x) { return x.can_staff.length; }).length;
+      return '<div class="c4"><div class="card" style="height:100%"><div class="bd"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><a href="#/facility/' + f.id + '" class="serif" style="font-size:19px;color:var(--ivory)">' + esc(f.name) + '</a>' + chip(st[0] + (f.decision ? ' · ' + f.decision : ''), st[1]) + '</div>' +
+        '<div class="tiny muted" style="margin:6px 0">' + esc(f.function) + '</div>' +
+        '<div class="small">' + (plan ? '<b>' + r.staffed.length + ' of ' + r.requirements.length + '</b> jobs staffed in "' + esc(plan.title || 'your plan') + '"' : 'No staff plan yet') + '</div>' +
+        '<div class="tiny" style="color:var(--text-2)">' + canAll + ' of ' + r.requirements.length + ' jobs one of yours can staff (a game mechanic or a record you approved)' + (r.nobody.length ? '; nobody of yours for ' + esc(r.nobody.map(function (id) { return r.requirements.filter(function (x) { return x.id === id; })[0].name.toLowerCase(); }).join(', ')) : '') + '</div>' +
+        '</div></div></div>'; });
+    return '<div class="eyebrow">My World · the compound</div><h1 style="margin:6px 0">The Homestead</h1>' +
+      '<p class="lede">Blackthorn as a working place: every facility is a set of jobs, each met by a Pokémon\'s capabilities or by infrastructure. A Pokémon staffs a job on a game mechanic it has or a record you approved (D-039); everything else shows as a candidate. Staff plans are plans, never facts: nobody leaves a team, and nothing happens on its own. <a href="#/estate">The estate map</a> · <a href="#/glasshouse">The Glasshouse</a></p>' +
+      '<div class="grid" style="margin-top:16px">' + cards.join('') + '</div>';
+  });
+}
+function facilityPage(id) {
+  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
+    var P = Cap.pack(), f = P.facilities.filter(function (x) { return x.id === id; })[0]; if (!f) return '<div class="notice">No facility ' + esc(id) + '.</div>';
+    var plans = staffPlans(id);
+    if (!HS[id]) { var p0 = plans[0]; HS[id] = {staff: p0 ? planStaff(p0).map(function (m) { return {ref: m.ref, need: m.need}; }) : [], preview: [], title: p0 ? p0.title : '', planB: null}; }
+    after(function (p) { fcBind(p, f); fcRender(f); });
+    var st = FAC_STATUS[f.status] || [f.status, ''];
+    return '<div class="eyebrow"><a href="#/homestead">The Homestead</a> · ' + chip(st[0] + (f.decision ? ' · ' + f.decision : ''), st[1]) + (f.part_of ? ' · part of <a href="#/facility/' + f.part_of + '">' + esc((P.facilities.filter(function (x) { return x.id === f.part_of; })[0] || {}).name || f.part_of) + '</a>' : '') + '</div>' +
+      '<h1 style="margin:6px 0">' + esc(f.name) + '</h1><p class="lede">' + esc(f.function) + '</p>' +
+      '<div class="tiny muted">' + (f.people && f.people.length ? 'People: ' + esc(f.people.join(', ')) + '. ' : '') + (f.outputs && f.outputs.length ? 'Gives: ' + esc(f.outputs.join(', ')) + '. ' : '') + (f.dependencies && f.dependencies.length ? 'Depends on: ' + esc(f.dependencies.join(', ')) + '. ' : '') + (f.limitations && f.limitations.length ? 'Limits: ' + esc(f.limitations.join('; ')) + '.' : '') + '</div>' +
+      '<div id="fcout" style="margin-top:16px"></div>';
+  });
+}
+function fcStaff(id) { return (HS[id].staff || []).map(function (s) { var m = memberOf(s.ref); return m ? Object.assign(m, {need: s.need || null}) : null; }).filter(Boolean); }
+function fcRender(f) {
+  var out = document.getElementById('fcout'); if (!out) return;
+  var P = Cap.pack(), H = HS[f.id], pool = hsPool(), r = Cap.facilityReport(f.id, fcStaff(f.id), pool, H.preview), props = P.world.filter(function (w) { return w.status === 'proposed'; });
+  var inds = myInds(null), opt = function (rid) { return '<select class="f" style="font-size:12px;padding:4px 6px" data-assign="' + rid + '"><option value="">+ assign one of yours…</option>' + inds.map(function (i) { return '<option value="ind:' + esc(i.id) + '">' + esc((i.nickname || i.species) + ' · ' + GAME_NAME[i.game]) + '</option>'; }).join('') + '</select>'; };
+  out.innerHTML = '<div class="grid"><div class="c4">' + card('At a glance', '<div class="goal"><div class="small">Jobs staffed in this plan</div><b class="num">' + r.staffed.length + '/' + r.requirements.length + '</b></div>' +
+      '<div class="goal"><div class="small">Critical jobs open</div><b class="num" style="color:' + (r.open_critical.length ? 'var(--ember-2)' : 'var(--forest-3)') + '">' + r.open_critical.length + '</b></div>' +
+      '<div class="goal"><div class="small">Jobs held by one only</div><b class="num">' + r.single_points.length + '</b></div>' +
+      '<div class="goal"><div class="small">Jobs none of yours can staff</div><b class="num">' + r.nobody.length + '</b></div>' +
+      (props.length ? '<label class="l" style="margin-top:10px">Preview records waiting for you</label>' + props.map(function (w) { return '<label class="small" style="display:block;margin:3px 0"><input type="checkbox" data-fprev="' + w.id + '"' + (H.preview.indexOf(w.id) >= 0 ? ' checked' : '') + '> <b>' + esc(w.id) + '</b> your ' + esc(GAME_NAME[w.game]) + ' ' + esc(w.species) + ': ' + esc(Cap.capName(w.cap).toLowerCase()) + '</label>'; }).join('') : '') +
+      '<label class="l" style="margin-top:10px">Save this staff plan</label><input class="f" id="fctitle" placeholder="Plan title" value="' + esc(H.title || f.name + ' staff') + '"><div style="margin-top:6px"><button class="btn gold sm" id="fcsave">Save to My Teams</button> <button class="btn sm" id="fckeepb">Keep as plan B</button></div>' +
+      '<div class="tiny muted" style="margin-top:6px">A plan, never a fact (Q13): nobody leaves a team because of it.</div>', {eyebrow: 'This staff plan', tools: false}) +
+      '<div style="margin-top:16px">' + card('Compare staff plans', '<div id="fccmp">' + (H.planB ? '' : '<div class="tiny muted">Keep this plan as B, change the staff, and compare them here.</div>') + '</div>', {eyebrow: 'Test F', tools: false}) + '</div></div>' +
+    '<div class="c8">' + r.groups.map(function (g) { return card(g, r.requirements.filter(function (x) { return x.group === g; }).map(function (x) {
+      return '<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)" data-req="' + x.id + '"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>' + esc(x.name) + '</b> ' + standChip(x.standing) + chip(x.priority, x.priority === 'critical' ? 'ember' : '') + (x.single_point ? chip('one only', 'gold') : '') + ' <span class="tiny muted">needs ' + x.any.map(capLink).join(' or ') + ' · ' + esc(x.why) + '</span></div>' +
+        (x.staff.length ? x.staff.map(function (h) { return '<div style="display:flex;gap:6px;align-items:center">' + holderLine(h) + '<button class="btn sm" style="padding:1px 6px" data-unassign="' + h.i + '" title="Take off this job">✕</button></div>'; }).join('') : '<div class="tiny muted">Nobody assigned.</div>') +
+        '<div style="margin:6px 0">' + opt(x.id) + '</div>' +
+        '<div class="tiny"><b>Can staff it</b> (a game mechanic or a record you approved): ' + (x.can_staff.length ? esc(x.can_staff.join(', ')) : '<span style="color:var(--ember-2)">none of yours</span>') + '</div>' +
+        (x.candidates.filter(function (c) { return !c.can_staff; }).length ? '<details style="margin-top:4px"><summary class="tiny muted">Candidates on other evidence · ' + x.candidates.filter(function (c) { return !c.can_staff; }).length + '</summary>' + x.candidates.filter(function (c) { return !c.can_staff; }).slice(0, 60).map(function (h) { return holderLine(h); }).join('') + '</details>' : '') +
+        (x.hires.length ? '<div class="tiny" style="margin-top:4px"><b>Could be hired</b> (a game mechanic every one of them has): ' + esc(x.hires.map(function (h) { return h.species; }).join(', ')) + ' <span class="muted">' + esc(x.hires[0].source) + '</span></div>' : '') +
+        (x.infrastructure.length ? '<div class="tiny muted" style="margin-top:4px">Or infrastructure (Blackthorn): ' + esc(x.infrastructure.map(function (i) { return i.name + (i.note ? ' (' + i.note + ')' : ''); }).join('; ')) + '</div>' : '') + '</div>'; }).join(''), {eyebrow: f.name, tools: false, style: 'margin-bottom:16px'}); }).join('') + '</div></div>';
+  if (H.planB) fcCompare(f);
+}
+function fcCompare(f) {
+  var H = HS[f.id], box = document.getElementById('fccmp'); if (!box || !H.planB) return;
+  var stB = H.planB.map(function (s) { var m = memberOf(s.ref); return m ? Object.assign(m, {need: s.need || null}) : null; }).filter(Boolean);
+  var r = Cap.compareStaff(f.id, {staff: fcStaff(f.id), label: 'This plan'}, {staff: stB, label: 'Plan B'}, H.preview);
+  box.innerHTML = r.says.map(function (s) { return '<div class="line small">' + esc(s) + '</div>'; }).join('') +
+    '<table class="t" style="margin-top:6px"><tbody>' + r.rows.map(function (x) { return '<tr><td class="tiny">' + esc(x.name) + '</td><td>' + standChip(x.a) + '</td><td>' + standChip(x.b) + '</td></tr>'; }).join('') + '</tbody></table>';
+}
+function fcBind(p, f) {
+  var H = HS[f.id], rerender = function () { fcRender(f); };
+  p.addEventListener('change', function (e) { var t = e.target, k;
+    if ((k = t.getAttribute('data-assign')) && t.value) { H.staff.push({ref: t.value, need: k}); rerender(); }
+    else if ((k = t.getAttribute('data-fprev'))) { H.preview = H.preview.filter(function (x) { return x !== k; }).concat(t.checked ? [k] : []); rerender(); }
+    else if (t.id === 'fctitle') H.title = t.value; });
+  p.addEventListener('click', function (e) { var t = e.target, k;
+    if ((k = t.getAttribute('data-unassign')) != null) { H.staff.splice(+k, 1); rerender(); }
+    else if (t.id === 'fckeepb') { H.planB = H.staff.map(function (s) { return {ref: s.ref, need: s.need}; }); toast('Kept as plan B.'); rerender(); }
+    else if (t.id === 'fcsave') {
+      var staff = fcStaff(f.id); if (!staff.length) { toast('Assign at least one Pokémon first.'); return; }
+      t.disabled = true; t.textContent = 'Saving…';
+      var slots = H.staff.map(function (s) { var m = memberOf(s.ref); return {species: m.species, from: m.ind || '', prov: m.ind ? 'yours' : 'stock', build: m.ind ? (S.store.individuals[m.ind].build || '') : '', need: s.need}; });
+      Records.saveTeam({game: Cap.pack().present_game, title: (document.getElementById('fctitle').value || '').trim() || f.name + ' staff', slots: slots, kind: 'staffing', facility: f.id, note: 'Homestead staff plan'})
+        .then(function (rec) { toast('Saved the staff plan: ' + esc(rec.title || rec.id)); t.disabled = false; t.textContent = 'Save to My Teams'; })
+        .catch(function (err) { t.disabled = false; t.textContent = 'Save to My Teams'; toast('Not saved: ' + esc(err && err.message || err)); });
+    } });
+}
+
+/* ---- a Pokémon's capabilities, for its profile ---- */
+function capPanel(ind) {   // what one of yours can do away from battle, by area, with its evidence (read in its own game)
+  if (!S.cap) return '';
+  var P = Cap.pack(), m = capMember(ind), b = Cap.best(ind.game, m), rows = P.model.areas.map(function (a) { var hs = a.caps.filter(function (c) { return b[c]; });
+    if (!hs.length) return '';
+    return '<div style="margin:8px 0"><div class="eyebrow">' + esc(a.name) + '</div>' + hs.map(function (c) { var x = b[c], lc = P.kinds[x[1].kind] || ['B', 'creative'];
+      return '<div class="tiny" style="margin:3px 0">' + standChip(x[0]) + ' ' + capLink(c) + ' ' + classChip({kind: x[1].kind, layer: lc[0], 'class': lc[1], status: x[1].status}) + ' <span class="muted">' + esc(x[1].source) + '</span></div>'; }).join('') + '</div>'; }).join('');
+  return card('Away from battle', (rows || '<div class="tiny muted">No evidence for any capability.</div>') + '<div style="margin-top:8px" class="tiny"><a href="#/survival?team=' + encodeURIComponent('mine/' + ind.game) + '">Plan an expedition</a> · <a href="#/homestead">The Homestead</a> · <a href="#/capabilities">All capabilities</a></div>',
+    {eyebrow: 'Capabilities · ' + GAME_NAME[ind.game] + (m.moves ? ' · its build' : ' · the species'), tools: false, style: 'margin-top:16px'});
+}
+
+route(/^\/survival\/?(\?.*)?$/, survivalPage, 'Survival Lab', '#/survival');
+route(/^\/field\/?(\?.*)?$/, survivalPage, 'Survival Lab', '#/survival');
+route(/^\/capabilities\/?$/, capabilitiesPage, 'Capabilities', '#/capabilities');
+route(/^\/capability\/([a-z_]+)\/?(\?.*)?$/, capabilityPage, function (i) { return 'Capabilities · ' + i.replace(/_/g, ' '); }, '#/capabilities');
+route(/^\/homestead\/?$/, homesteadPage, 'The Homestead', '#/homestead');
+route(/^\/facility\/([a-z-]+)\/?$/, facilityPage, function (i) { return 'The Homestead · ' + i.replace(/-/g, ' '); }, '#/homestead');
+</script>
