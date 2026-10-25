@@ -17,10 +17,10 @@
     "test:browser": "node browser/test-browser.mjs"
   },
   "dependencies": {
-    "@pkmn/sim": "0.10.11"
+    "@pkmn/sim": "0.10.11",
+    "@smogon/calc": "0.12.0"
   },
   "devDependencies": {
-    "@smogon/calc": "0.12.0",
     "esbuild": "0.28.1"
   }
 }

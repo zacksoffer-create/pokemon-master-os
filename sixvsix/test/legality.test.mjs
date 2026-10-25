@@ -8,7 +8,7 @@ import { loadTeam } from './helpers.mjs';
 const verdicts = (team, rs) => Object.fromEntries(Object.entries(validateTeam(team, rs).verdicts).map(([k, v]) => [k, v.ok]));
 
 test("Zack's HeartGold six: game-legal; Smogon's Gen 4 OU refuses only Mamoswine's Snow Cloak", () => {
-  const team = loadTeam('me-heartgold.standardized');
+  const team = loadTeam('me-heartgold.optimized');
   assert.deepEqual(verdicts(team, 'gen4-blackthorn'), { structural: true, obtainable: true });
   const ou = validateTeam(team, 'gen4-ou');
   assert.equal(ou.ok, false);
@@ -59,7 +59,7 @@ test('each verdict fails for its own reason', () => {
 test('a job will not run a team that fails a verdict its ruleset requires', () => {
   const job = makeJob({
     ruleset: 'gen4-ou', seed: 'x', n: 2,
-    a: { team: loadTeam('me-heartgold.standardized'), profile: baselineProfile('random') },
+    a: { team: loadTeam('me-heartgold.optimized'), profile: baselineProfile('random') },
     b: { team: loadTeam('gen4ou-sample.standardized'), profile: baselineProfile('random') },
   });
   assert.throws(() => prepareJob(job), /Snow Cloak is banned/);

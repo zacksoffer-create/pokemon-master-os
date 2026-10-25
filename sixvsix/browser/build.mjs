@@ -52,7 +52,7 @@ const slimSize = await bundle(path.join(DIST, 'sixvsix.battle.js'), [slimPlugin]
 // The presets, as Node runs them: the job, its legality reports and the fingerprints for 10 and 100 battles.
 const presets = {};
 const SHORT = { 'heartgold-vs-cynthia': 'HG vs Cynthia', 'heartgold-vs-cynthia-authentic': 'HG vs Cynthia (Lv 62)',
-                'heartgold-vs-cynthia-random': 'HG vs Cynthia (random)', 'ou-sample-maxpower-vs-random': 'OU mirror' };
+                'heartgold-vs-cynthia-maxpower': 'HG vs Cynthia (max-power)', 'ou-sample-trainer-vs-maxpower': 'OU mirror' };
 for (const [name, make] of Object.entries(PRESETS)) {
   const job = make();
   const fingerprints = {};

@@ -17,7 +17,7 @@ Zack's six-chapter Pokémon journey: canon, companions, breeding, and the app th
 | `docs/FIELD_FUNCTIONS.md` | every game's HM/field coverage, gaps and decisions F1–F4 |
 | `docs/SPECIMEN_LAB.md` | the individual-Pokémon lab at PKHeX parity: fields per gen, derived mechanics, exports |
 | `docs/QUESTIONS_AND_EXPERIMENTS.md` | open decisions, research queue, SoulSilver pair/trio audit |
-| `sixvsix/README.md` | the 6v6 simulator (D-069, D-071), built separately: Showdown's Gen 4 engine, the simulation contract, the batch runner, the browser build and its test report |
+| `sixvsix/README.md` | the 6v6 simulator (D-069, D-071 to D-073), built separately: Showdown's Gen 4 engine, the simulation contract, the trainer agent, the EV optimizer (D-072), league runs and paired comparisons, the browser build and its test report |
 
 `engine/`: the engines (see `docs/ARCHITECTURE.md`).
 - `fetch_reference.py` + `refdb.py`: pinned reference data → SQLite

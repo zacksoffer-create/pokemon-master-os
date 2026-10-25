@@ -1,14 +1,14 @@
 {
  "kind": "SimulationResult",
  "engine": "showdown-sim@0.10.11",
- "format": "gen4 singles, 6v6, levels 58-62 (Gen IV singles, as the cartridge plays it)",
+ "format": "gen4 singles, 6v6, levels 58-62 (Gen IV singles, Blackthorn's standardized terms)",
  "a": "library:me/heartgold",
  "b": "library:platinum/cynthia",
  "lens": "authentic",
  "held_constant": [
-  "A: library:me/heartgold v1 (every field of all 6 builds), played by maxpower",
-  "B: library:platinum/cynthia v1 (every field of all 6 builds), played by maxpower",
-  "ruleset gen4-historical v1",
+  "A: library:me/heartgold v1 (every field of all 6 builds), played by trainer",
+  "B: library:platinum/cynthia v1 (every field of all 6 builds), played by trainer",
+  "ruleset gen4-blackthorn v1",
   "lens authentic",
   "engine @pkmn/sim 0.10.11",
   "lead order (each team leads with its first member)"
@@ -20,33 +20,33 @@
   "each pair of battles shares one battle seed with the sides swapped",
   "genders not on record (12 Pokémon): Showdown draws them from the battle seed"
  ],
- "seed": "phase1-heartgold-vs-cynthia-authentic",
+ "seed": "phase3-heartgold-vs-cynthia-authentic",
  "n": 100,
- "won": 100,
- "lost": 0,
+ "won": 99,
+ "lost": 1,
  "drew": 0,
- "made_at": "2026-10-25T15:38:38.325Z",
+ "made_at": "2026-10-25T17:49:36.845Z",
  "evidence_class": "simulated",
  "job": {
-  "id": "job:heartgold-vs-cynthia:authentic:maxpower",
-  "label": "Zack's HeartGold six at Lv 62 vs Platinum Cynthia as encountered",
+  "id": "job:heartgold-vs-cynthia:authentic:trainer",
+  "label": "Zack's HeartGold six at Lv 62 vs Platinum Cynthia at her own levels",
   "contract": "0.1.0",
-  "ruleset": "gen4-historical v1",
+  "ruleset": "gen4-blackthorn v1",
   "a": {
    "team": "library:me/heartgold",
    "team_version": 1,
-   "profile": "profile:me/heartgold:maxpower",
-   "agent": "maxpower"
+   "profile": "profile:me/heartgold:trainer",
+   "agent": "trainer"
   },
   "b": {
    "team": "library:platinum/cynthia",
    "team_version": 1,
-   "profile": "profile:platinum/cynthia:maxpower",
-   "agent": "maxpower"
+   "profile": "profile:platinum/cynthia:trainer",
+   "agent": "trainer"
   },
   "trials": {
    "n": 100,
-   "seed": "phase1-heartgold-vs-cynthia-authentic",
+   "seed": "phase3-heartgold-vs-cynthia-authentic",
    "pairing": "mirrored",
    "turn_limit": 1000
   },
@@ -54,10 +54,11 @@
    "a": {
     "team": "library:me/heartgold",
     "team_version": 1,
-    "ruleset": "gen4-historical",
+    "ruleset": "gen4-blackthorn",
     "ok": true,
     "required": [
-     "structural"
+     "structural",
+     "obtainable"
     ],
     "failed": [],
     "verdicts": {
@@ -80,10 +81,11 @@
    "b": {
     "team": "library:platinum/cynthia",
     "team_version": 1,
-    "ruleset": "gen4-historical",
+    "ruleset": "gen4-blackthorn",
     "ok": true,
     "required": [
-     "structural"
+     "structural",
+     "obtainable"
     ],
     "failed": [],
     "verdicts": {
@@ -107,16 +109,16 @@
  },
  "summary": {
   "n": 100,
-  "won": 100,
-  "lost": 0,
+  "won": 99,
+  "lost": 1,
   "drew": 0,
-  "win_rate": 1,
-  "score": 1,
+  "win_rate": 0.99,
+  "score": 0.99,
   "win_rate_95": [
-   0.963,
-   1
+   0.946,
+   0.998
   ],
-  "margin_95": 0.018,
+  "margin_95": 0.026,
   "by_side": {
    "a_as_p1": {
     "n": 50,
@@ -124,23 +126,23 @@
    },
    "a_as_p2": {
     "n": 50,
-    "won": 50
+    "won": 49
    }
   },
   "pairs": {
    "n": 50,
-   "a_won_both": 50,
+   "a_won_both": 49,
    "b_won_both": 0,
-   "split": 0
+   "split": 1
   },
   "turns": {
-   "mean": 12.3,
-   "median": 11,
-   "min": 10,
-   "max": 19
+   "mean": 23.9,
+   "median": 23,
+   "min": 14,
+   "max": 36
   },
-  "left_a_when_won": 3.42,
-  "left_b_when_won": 0,
+  "left_a_when_won": 4.96,
+  "left_b_when_won": 1,
   "ends": {
    "win": 100
   },
@@ -150,67 +152,67 @@
      "name": "Typhlosion",
      "slot": 0,
      "appeared": 1,
-     "kos_per_battle": 1,
-     "fainted_rate": 1,
-     "damage_dealt_per_battle": 124.1,
-     "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.9
+     "kos_per_battle": 0.3,
+     "fainted_rate": 0.04,
+     "damage_dealt_per_battle": 44.3,
+     "damage_taken_per_battle": 7.8,
+     "switch_ins_per_battle": 1.35,
+     "turns_active_per_battle": 2.8
     },
     {
      "name": "Tyranitar",
      "slot": 1,
-     "appeared": 0,
-     "kos_per_battle": 0,
-     "fainted_rate": 0,
-     "damage_dealt_per_battle": 0,
-     "damage_taken_per_battle": 0,
-     "switch_ins_per_battle": 0,
-     "turns_active_per_battle": 0
+     "appeared": 0.77,
+     "kos_per_battle": 2.07,
+     "fainted_rate": 0.46,
+     "damage_dealt_per_battle": 198.9,
+     "damage_taken_per_battle": 62.3,
+     "switch_ins_per_battle": 0.78,
+     "turns_active_per_battle": 3.9
     },
     {
      "name": "Mamoswine",
      "slot": 2,
-     "appeared": 1,
-     "kos_per_battle": 3.18,
-     "fainted_rate": 0.5,
-     "damage_dealt_per_battle": 310.9,
-     "damage_taken_per_battle": 81.8,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 4.7
+     "appeared": 0.54,
+     "kos_per_battle": 1.83,
+     "fainted_rate": 0.13,
+     "damage_dealt_per_battle": 141.9,
+     "damage_taken_per_battle": 26.1,
+     "switch_ins_per_battle": 0.57,
+     "turns_active_per_battle": 2.9
     },
     {
      "name": "Crobat",
      "slot": 3,
-     "appeared": 0.16,
-     "kos_per_battle": 0.28,
-     "fainted_rate": 0.04,
-     "damage_dealt_per_battle": 28.2,
-     "damage_taken_per_battle": 11.3,
-     "switch_ins_per_battle": 0.16,
-     "turns_active_per_battle": 1.2
+     "appeared": 0.96,
+     "kos_per_battle": 0.83,
+     "fainted_rate": 0.23,
+     "damage_dealt_per_battle": 96.1,
+     "damage_taken_per_battle": 122.4,
+     "switch_ins_per_battle": 1.25,
+     "turns_active_per_battle": 6.7
     },
     {
      "name": "Lapras",
      "slot": 4,
-     "appeared": 1,
-     "kos_per_battle": 1.04,
-     "fainted_rate": 1,
-     "damage_dealt_per_battle": 122.4,
-     "damage_taken_per_battle": 111,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.8
+     "appeared": 0.97,
+     "kos_per_battle": 0.6,
+     "fainted_rate": 0.17,
+     "damage_dealt_per_battle": 106.5,
+     "damage_taken_per_battle": 80.6,
+     "switch_ins_per_battle": 1.32,
+     "turns_active_per_battle": 5.7
     },
     {
      "name": "Snorlax",
      "slot": 5,
-     "appeared": 0.42,
-     "kos_per_battle": 0.5,
-     "fainted_rate": 0.04,
-     "damage_dealt_per_battle": 14.4,
-     "damage_taken_per_battle": 17.4,
-     "switch_ins_per_battle": 0.42,
-     "turns_active_per_battle": 0.7
+     "appeared": 0.47,
+     "kos_per_battle": 0.36,
+     "fainted_rate": 0.06,
+     "damage_dealt_per_battle": 25.9,
+     "damage_taken_per_battle": 24,
+     "switch_ins_per_battle": 0.66,
+     "turns_active_per_battle": 1.9
     }
    ],
    "b": [
@@ -218,81 +220,81 @@
      "name": "Spiritomb",
      "slot": 0,
      "appeared": 1,
-     "kos_per_battle": 0,
+     "kos_per_battle": 0.09,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 24.4,
+     "damage_dealt_per_battle": 22.9,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 1.9
+     "switch_ins_per_battle": 2.64,
+     "turns_active_per_battle": 3.8
     },
     {
      "name": "Roserade",
      "slot": 1,
      "appeared": 1,
-     "kos_per_battle": 0.16,
+     "kos_per_battle": 0.08,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 5.9,
+     "damage_dealt_per_battle": 15.4,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 1.4
+     "switch_ins_per_battle": 1.28,
+     "turns_active_per_battle": 1.7
     },
     {
      "name": "Togekiss",
      "slot": 2,
      "appeared": 1,
-     "kos_per_battle": 0.4,
+     "kos_per_battle": 0.27,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 32.5,
+     "damage_dealt_per_battle": 64.2,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.1
+     "switch_ins_per_battle": 1.84,
+     "turns_active_per_battle": 3.5
     },
     {
      "name": "Lucario",
      "slot": 3,
      "appeared": 1,
-     "kos_per_battle": 0.96,
+     "kos_per_battle": 0.14,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 68.4,
+     "damage_dealt_per_battle": 53.1,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.7
+     "switch_ins_per_battle": 1.23,
+     "turns_active_per_battle": 4
     },
     {
      "name": "Milotic",
      "slot": 4,
      "appeared": 1,
-     "kos_per_battle": 0.06,
+     "kos_per_battle": 0.09,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 73.1,
+     "damage_dealt_per_battle": 47,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.2
+     "switch_ins_per_battle": 2.16,
+     "turns_active_per_battle": 5.7
     },
     {
      "name": "Garchomp",
      "slot": 5,
      "appeared": 1,
-     "kos_per_battle": 1,
-     "fainted_rate": 1,
-     "damage_dealt_per_battle": 117.2,
-     "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2
+     "kos_per_battle": 0.34,
+     "fainted_rate": 0.99,
+     "damage_dealt_per_battle": 99,
+     "damage_taken_per_battle": 113.6,
+     "switch_ins_per_battle": 1.85,
+     "turns_active_per_battle": 5.3
     }
    ]
   },
-  "reading": "100 of 100 won (100%); the 95% interval is 96–100%. "
+  "reading": "99 of 100 won (99%); the 95% interval is 95–100%. "
  },
  "failures": [],
  "timing": {
-  "total_ms": 1439,
+  "total_ms": 10080,
   "per_battle_ms": {
-   "mean": 14.3,
-   "median": 13.9,
-   "max": 21.7
+   "mean": 100.6,
+   "median": 101.4,
+   "max": 161.1
   },
   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
  },
- "fingerprint": "b5a325258180dd34"
+ "fingerprint": "4c53572348b0081a"
 }

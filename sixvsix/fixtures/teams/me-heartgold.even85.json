@@ -1,0 +1,469 @@
+{
+ "kind": "TeamVersion",
+ "id": "library:me/heartgold#even85",
+ "version": 1,
+ "name": "Zack · HeartGold (main)",
+ "trainer": "me",
+ "game": "heartgold",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#1",
+   "version": 1,
+   "species": "Typhlosion",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Blaze",
+   "item": null,
+   "moves": [
+    "Flamethrower",
+    "Extrasensory",
+    "Thunder Punch",
+    "Earthquake"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Blaze (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#2",
+   "version": 1,
+   "species": "Tyranitar",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Sand Stream",
+   "item": "Lum Berry",
+   "moves": [
+    "Dragon Dance",
+    "Crunch",
+    "Earthquake",
+    "Outrage"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Sand Stream (the species' first ability)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#3",
+   "version": 1,
+   "species": "Mamoswine",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Adamant",
+   "ability": "Snow Cloak",
+   "item": "Never-Melt Ice",
+   "moves": [
+    "Earthquake",
+    "Ancient Power",
+    "Ice Fang",
+    "Ice Shard"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#4",
+   "version": 1,
+   "species": "Crobat",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Jolly",
+   "ability": "Inner Focus",
+   "item": "Black Sludge",
+   "moves": [
+    "Fly",
+    "Roost",
+    "U-turn",
+    "Toxic"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#5",
+   "version": 1,
+   "species": "Lapras",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Calm",
+   "ability": "Water Absorb",
+   "item": "Leftovers",
+   "moves": [
+    "Surf",
+    "Ice Beam",
+    "Rest",
+    "Heal Bell"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#6",
+   "version": 1,
+   "species": "Snorlax",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Careful",
+   "ability": "Thick Fat",
+   "item": "Leftovers",
+   "moves": [
+    "Body Slam",
+    "Rest",
+    "Thunder Punch",
+    "Zen Headbutt"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  }
+ ],
+ "lead": "first",
+ "lens": "standardized",
+ "source": {
+  "kind": "blackthorn-trainer-library",
+  "version_id": "me/heartgold",
+  "library_kind": "journey",
+  "record": "canon register (rosters.json + builds.json)",
+  "read_only": true
+ }
+}

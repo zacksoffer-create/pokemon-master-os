@@ -9,10 +9,10 @@ import { Battle, Teams, extractChannelMessages } from '@pkmn/sim';
 import { fill } from './helpers.mjs';
 
 const MATCHUPS = [
-  ['gen4anythinggoes', 'me-heartgold.standardized', 'platinum-cynthia.standardized'],
+  ['gen4anythinggoes', 'me-heartgold.optimized', 'platinum-cynthia.standardized'],
   ['gen4anythinggoes', 'me-heartgold.authentic', 'platinum-cynthia.authentic'],
   ['gen4ou', 'gen4ou-sample.standardized', 'gen4ou-sample.standardized'],
-  ['gen4anythinggoes', 'gen4ou-sample.standardized', 'me-heartgold.standardized'],
+  ['gen4anythinggoes', 'gen4ou-sample.standardized', 'me-heartgold.optimized'],
 ];
 const PAIRINGS = [['random', 'random'], ['maxpower', 'random'], ['maxpower', 'maxpower']];
 
@@ -105,7 +105,7 @@ test('a side sees only its own channel: no team preview, the foe\'s HP as a perc
 });
 
 test('the turn limit ends a battle as a draw, and the replay ends the same way', async () => {
-  const r = play('gen4anythinggoes', 'me-heartgold.standardized', 'platinum-cynthia.standardized', 'random', 'random', 0, { turnLimit: 3 });
+  const r = play('gen4anythinggoes', 'me-heartgold.optimized', 'platinum-cynthia.standardized', 'random', 'random', 0, { turnLimit: 3 });
   assert.equal(r.end, 'turn-limit');
   assert.equal(r.winner, null);
   const { replayBattle } = await import('../src/index.js');

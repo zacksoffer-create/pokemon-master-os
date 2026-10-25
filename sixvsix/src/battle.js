@@ -89,7 +89,7 @@ export function runBattle({ formatid, seed, sides, turnLimit = 1000, record = {}
               out.decisions.push({
                 turn: snapshot.turn, side: id,
                 forced: !!request.forceSwitch, choice: d.choice, label: d.label,
-                options: d.options, scores: d.scores, knew: snapshot,
+                options: d.options, scores: d.scores, why: d.why, knew: snapshot,
               });
             }
             acted = true;

@@ -1,0 +1,198 @@
+{
+ "game": "heartgold",
+ "made_at": "2026-10-25T17:42:35.899Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "seconds": 194,
+ "rows": [
+  {
+   "species": "Typhlosion",
+   "kept": "duel",
+   "duel": {
+    "nature": "Mild",
+    "spread": "236 HP / 8 Atk / 16 Def / 156 SpA / 8 SpD / 84 Spe",
+    "win_rate": 0.955
+   },
+   "conventional": {
+    "nature": "Quiet",
+    "spread": "4 HP / 252 SpA / 252 Spe",
+    "win_rate": 0.932
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 205,
+    "only_x": 5,
+    "only_y": 0,
+    "neither": 10
+   },
+   "mcnemar_p": 0.0625,
+   "margin": {
+    "y_minus_x": -0.017,
+    "ci95": [
+     -0.039,
+     0.004
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (95% and 93%, McNemar p = 0.06). A real difference smaller than about 4 points would need more battles to show."
+  },
+  {
+   "species": "Tyranitar",
+   "kept": "duel",
+   "duel": {
+    "nature": "Jolly",
+    "spread": "48 HP / 172 Atk / 48 Def / 4 SpD / 236 Spe",
+    "win_rate": 0.95
+   },
+   "conventional": {
+    "nature": "Jolly",
+    "spread": "4 HP / 252 Atk / 252 Spe",
+    "win_rate": 0.95
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 208,
+    "only_x": 1,
+    "only_y": 1,
+    "neither": 10
+   },
+   "mcnemar_p": 1,
+   "margin": {
+    "y_minus_x": 0.004,
+    "ci95": [
+     -0.011,
+     0.019
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (95% and 95%, McNemar p = 1.00). A real difference smaller than about 1 points would need more battles to show."
+  },
+  {
+   "species": "Mamoswine",
+   "kept": "duel",
+   "duel": {
+    "nature": "Adamant",
+    "spread": "248 HP / 4 Def / 12 SpD / 244 Spe",
+    "win_rate": 0.941
+   },
+   "conventional": {
+    "nature": "Adamant",
+    "spread": "4 HP / 252 Atk / 252 Spe",
+    "win_rate": 0.955
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 204,
+    "only_x": 3,
+    "only_y": 6,
+    "neither": 7
+   },
+   "mcnemar_p": 0.507813,
+   "margin": {
+    "y_minus_x": 0.008,
+    "ci95": [
+     -0.014,
+     0.029
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (94% and 95%, McNemar p = 0.51). A real difference smaller than about 4 points would need more battles to show."
+  },
+  {
+   "species": "Crobat",
+   "kept": "duel",
+   "duel": {
+    "nature": "Jolly",
+    "spread": "168 HP / 240 Atk / 84 Def / 16 SpD",
+    "win_rate": 0.945
+   },
+   "conventional": {
+    "nature": "Jolly",
+    "spread": "4 HP / 252 Atk / 252 Spe",
+    "win_rate": 0.941
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 206,
+    "only_x": 2,
+    "only_y": 1,
+    "neither": 11
+   },
+   "mcnemar_p": 1,
+   "margin": {
+    "y_minus_x": -0.015,
+    "ci95": [
+     -0.031,
+     0
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (95% and 94%, McNemar p = 1.00). A real difference smaller than about 2 points would need more battles to show."
+  },
+  {
+   "species": "Lapras",
+   "kept": "duel",
+   "duel": {
+    "nature": "Calm",
+    "spread": "172 HP / 160 Def / 132 SpA / 44 Spe",
+    "win_rate": 0.923
+   },
+   "conventional": {
+    "nature": "Calm",
+    "spread": "4 HP / 252 SpA / 252 Spe",
+    "win_rate": 0.905
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 196,
+    "only_x": 7,
+    "only_y": 3,
+    "neither": 14
+   },
+   "mcnemar_p": 0.34375,
+   "margin": {
+    "y_minus_x": -0.04,
+    "ci95": [
+     -0.072,
+     -0.007
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (92% and 90%, McNemar p = 0.34). A real difference smaller than about 5 points would need more battles to show."
+  },
+  {
+   "species": "Snorlax",
+   "kept": "duel",
+   "duel": {
+    "nature": "Careful",
+    "spread": "112 HP / 236 Atk / 144 Def / 16 SpD",
+    "win_rate": 0.936
+   },
+   "conventional": {
+    "nature": "Careful",
+    "spread": "4 HP / 252 Atk / 252 Spe",
+    "win_rate": 0.941
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 205,
+    "only_x": 1,
+    "only_y": 2,
+    "neither": 12
+   },
+   "mcnemar_p": 1,
+   "margin": {
+    "y_minus_x": -0.012,
+    "ci95": [
+     -0.029,
+     0.005
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (94% and 94%, McNemar p = 1.00). A real difference smaller than about 2 points would need more battles to show."
+  }
+ ],
+ "n_per_opponent": 20,
+ "seed": "confirm-heartgold",
+ "pool": "pool:heartgold-league",
+ "ruleset": "gen4-blackthorn"
+}

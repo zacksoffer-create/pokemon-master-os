@@ -1,4 +1,4 @@
-// The Shared Simulation Contract (docs/DATA_CONTRACT.md): the six objects every simulation is made of, whichever
+// The Shared Simulation Contract (docs/DATA_CONTRACT.md): the objects every simulation is made of, whichever
 // device runs it. Each object carries `kind`, a stable `id` and a `version`; nothing is identified by a sheet row.
 // check(kind, obj) returns a list of problems (empty when the object is well formed). The checker is deliberately
 // small and dependency-free so the browser bundle and the Node runner apply exactly the same rules.
@@ -75,8 +75,19 @@ export const SCHEMAS = {
     competence: { type: 'object' },
     playbook: { type: 'string', nullable: true },
     ai_flags: { type: 'array', of: { type: 'string' } },
+    ai_flags_raw: { type: 'integer', min: 0 },
     reading: { type: 'object' },
     note: { type: 'string' },
+  },
+  OpponentPool: {
+    kind: { type: 'const', value: 'OpponentPool' },
+    id: { type: 'string', required: true },
+    version: { type: 'integer', min: 1, required: true },
+    name: { type: 'string', required: true },
+    lens: { type: 'enum', values: LENSES, required: true },
+    ev_policy: { type: 'string' },
+    members: { type: 'array', of: { type: 'object', schema: 'TeamVersion' }, minItems: 1, required: true },
+    source: { type: 'object' },
   },
   BattleRuleset: {
     kind: { type: 'const', value: 'BattleRuleset' },

@@ -5,8 +5,11 @@
 //   nature   a neutral nature (Hardy) when none is on record (cartridge natures are unknown, fought neutral)
 //   ability  the species' first ability when the version doesn't fix it
 //   item     none when the record leaves it open
-//   IVs      31 in every stat when none are on record
-//   EVs      none for a game trainer (the games give trainers none); 85 in every stat for a blank build (D-061)
+//   IVs      31 in every stat when none are on record; with Hidden Power, the IVs closest to that which give its
+//            type at full power (trainers/solver.py hp_ivs, ported)
+//   EVs      85 in every stat when none are on record, game trainers included (D-072: "the opposing teams have 85
+//            ev points"); `evs: 'cartridge'` keeps a game trainer's real zero EVs for a strictly authentic run.
+//            Your own teams start here and get optimized spreads from src/optimize/evs.js (D-072).
 //   level    100 under the standardized lens; the record's own level under the authentic lens
 // Moves are never invented: a member with no moves on record is an error here (the one-on-one engine's
 // strongest-set fill is not ported, and the result would otherwise claim a set nobody chose).
@@ -14,10 +17,38 @@
 import { Dex } from '@pkmn/sim';
 import { assertValid } from '../contract.js';
 import { canonicalAbility, canonicalItem, canonicalMove, canonicalSpecies } from '../teams.js';
+import { paramsFromLibrary } from '../agents/trainer.js';
 import { STATS } from '../util.js';
 
 const NEUTRAL_NATURE = 'Hardy';
 const BLANK_EVS = 85;
+
+const HP_TYPES = ['Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel',
+  'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'];
+const IV_ORDER = ['hp', 'atk', 'def', 'spe', 'spa', 'spd'];   // the games' Hidden Power bit order
+
+/** Gen III-IV Hidden Power type and power from IVs (trainers/solver.py hidden_power). */
+export function hiddenPower(ivs) {
+  const t = Math.floor((IV_ORDER.reduce((a, s, i) => a + ((ivs[s] & 1) << i), 0) * 15) / 63);
+  const p = Math.floor((IV_ORDER.reduce((a, s, i) => a + (((ivs[s] >> 1) & 1) << i), 0) * 40) / 63) + 30;
+  return [HP_TYPES[t], p];
+}
+
+/** The IVs closest to `base` giving Hidden Power `type` at 70 power: each IV moves down by at most one
+ * (trainers/solver.py hp_ivs, ported; the same tie-break). */
+export function hpIvs(type, base) {
+  let best = null;
+  for (let mask = 0; mask < 64; mask++) {
+    const ivs = {};
+    IV_ORDER.forEach((s, i) => { const hi = base[s] >= 2 ? base[s] : 3; ivs[s] = (mask >> i) & 1 ? hi : hi - 1; });
+    const [t, p] = hiddenPower(ivs);
+    if (t !== type || p < 70) continue;
+    const key = [STATS.reduce((a, s) => a + Math.abs(ivs[s] - base[s]), 0), ...STATS.map((s) => ivs[s])];
+    const d = best ? key.findIndex((k, i) => k !== best.key[i]) : -1;
+    if (!best || (d >= 0 && key[d] < best.key[d])) best = { key, ivs };   // Python's min() over the same tuples
+  }
+  return best ? best.ivs : null;
+}
 
 function evidenceOf(library, v) {
   if (v.evidence) return v.evidence;
@@ -33,7 +64,8 @@ function evidenceOf(library, v) {
  * A Team Version for library version `versionId` under a lens ('standardized' or 'authentic').
  * `level` sets the level under the authentic lens for members without one (e.g. yours at their top level).
  */
-export function teamFromLibrary(library, versionId, { lens = 'standardized', level } = {}) {
+export function teamFromLibrary(library, versionId, { lens = 'standardized', level, evs: evPolicy = 'fill85' } = {}) {
+  if (!['fill85', 'cartridge'].includes(evPolicy)) throw new Error(`unknown EV policy ${evPolicy}`);
   const v = library.versions?.[versionId];
   if (!v) throw new Error(`the Trainer Library has no version ${versionId}`);
   if (v.generation !== 4) throw new Error(`${versionId} is Gen ${v.generation}; this engine plays Gen 4 only`);
@@ -68,15 +100,21 @@ export function teamFromLibrary(library, versionId, { lens = 'standardized', lev
     const item = canonicalItem(p.item);
     if (!p.item && !cartridge) filled.push('item: none (left open on the record)');
 
-    const ivs = Object.fromEntries(STATS.map((s) => [s, p.ivs?.[s] ?? 31]));
-    if (!p.ivs) filled.push('IVs: 31 in every stat (none on record)');
+    let ivs = Object.fromEntries(STATS.map((s) => [s, p.ivs?.[s] ?? 31]));
+    const hpMove = p.moves.map(canonicalMove).find((m) => m.startsWith('Hidden Power '));
+    if (!p.ivs && hpMove) {
+      const type = hpMove.replace('Hidden Power ', '');
+      ivs = hpIvs(type, ivs) || ivs;
+      filled.push(`IVs: ${STATS.filter((s) => ivs[s] !== 31).map((s) => `${ivs[s]} ${s}`).join(', ')}, 31 otherwise (${hpMove} at full power; trainers/solver.py's rule)`);
+    } else if (!p.ivs) filled.push('IVs: 31 in every stat (none on record)');
 
     let evs;
     if (p.evs) evs = Object.fromEntries(STATS.map((s) => [s, p.evs[s] ?? 0]));
-    else if (cartridge) evs = Object.fromEntries(STATS.map((s) => [s, 0]));
+    else if (cartridge && evPolicy === 'cartridge') evs = Object.fromEntries(STATS.map((s) => [s, 0]));
     else {
       evs = Object.fromEntries(STATS.map((s) => [s, BLANK_EVS]));
-      filled.push(`EVs: ${BLANK_EVS} in every stat (D-061, none on record)`);
+      filled.push(`EVs: ${BLANK_EVS} in every stat (${cartridge ? 'D-072: opposing teams carry 85' : 'none on record'})`);
+      ev.evs = ['standardized', `${BLANK_EVS} in every stat (D-072)`];
     }
 
     const build = {
@@ -120,13 +158,14 @@ export function teamFromLibrary(library, versionId, { lens = 'standardized', lev
 }
 
 /**
- * A Trainer Profile for a library version. Phase 1 plays every trainer with a baseline agent, so the profile carries
- * the library's AI reading (cartridge flags read as tendencies and competence, authored sliders, coach settings) for
- * the record and for Phase 3; the agent named here is what actually decides.
+ * A Trainer Profile for a library version. The trainer agent's parameters are read from the library (authored
+ * sliders, coach settings, the cartridge AI flags read as competence and tendencies), each with where it came from;
+ * anything the library doesn't set stays at the agent's default. A baseline agent can be named instead.
  */
-export function profileFromLibrary(library, versionId, { agent = 'maxpower', params = {} } = {}) {
+export function profileFromLibrary(library, versionId, { agent = 'trainer', params } = {}) {
   const v = library.versions?.[versionId];
   if (!v) throw new Error(`the Trainer Library has no version ${versionId}`);
+  const read = paramsFromLibrary(v);
   return assertValid('TrainerProfile', {
     kind: 'TrainerProfile',
     id: `profile:${versionId}:${agent}`,
@@ -135,13 +174,16 @@ export function profileFromLibrary(library, versionId, { agent = 'maxpower', par
     identity: v.identity,
     source_version: versionId,
     agent,
-    params,
+    params: agent === 'trainer' ? { ...read.params, ...(params || {}) } : (params || {}),
     information: 'partial',
-    tendencies: { sliders: v.sliders || {}, coach: v.coach || {} },
+    tendencies: { sliders: v.sliders || {}, coach: v.coach || {}, read_as: read.source },
     competence: { reading: v.reading || {} },
     playbook: null,
-    ai_flags: v.ai_flags || [],
+    ai_flags: Array.isArray(v.ai_flags) ? v.ai_flags : (v.ai_flag_names || []),   // HGSS stores a bitmask + names
+    ...(typeof v.ai_flags === 'number' ? { ai_flags_raw: v.ai_flags } : {}),
     reading: v.reading || {},
-    note: `Phase 1: decisions come from the ${agent} baseline agent; the library's AI reading is recorded, not yet played.`,
+    note: agent === 'trainer'
+      ? 'Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from.'
+      : `A ${agent} baseline agent; the library's AI reading is carried for the record.`,
   });
 }

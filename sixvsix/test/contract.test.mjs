@@ -24,8 +24,19 @@ test('every committed fixture is a well-formed Team Version, and every member a 
   }
 });
 
+test('the opponent pools are well-formed: every team six Pokémon on 85 EVs at Lv 100', () => {
+  for (const f of fs.readdirSync(path.join(ROOT, 'fixtures/pools'))) {
+    const pool = JSON.parse(fs.readFileSync(path.join(ROOT, 'fixtures/pools', f), 'utf8'));
+    assert.deepEqual(check('OpponentPool', pool), [], f);
+    for (const t of pool.members) for (const m of t.members) {
+      assert.deepEqual(Object.values(m.evs), [85, 85, 85, 85, 85, 85], `${t.id} ${m.species}`);
+      assert.equal(m.level, 100);
+    }
+  }
+});
+
 test('the checker catches what it should', () => {
-  const team = loadTeam('me-heartgold.standardized');
+  const team = loadTeam('me-heartgold.optimized');
   const bad = structuredClone(team);
   delete bad.members[0].nature;
   bad.members[1].evs.atk = 300;
@@ -60,7 +71,7 @@ test('each ruleset lists exactly the battle-time rules of its Showdown format, w
 test('a job writes its defaults out and carries the contract and engine versions', () => {
   const job = makeJob({
     ruleset: 'gen4-blackthorn', seed: 'x', n: 4,
-    a: { team: loadTeam('me-heartgold.standardized'), profile: baselineProfile('random') },
+    a: { team: loadTeam('me-heartgold.optimized'), profile: baselineProfile('random') },
     b: { team: loadTeam('platinum-cynthia.standardized'), profile: baselineProfile('random') },
   });
   assert.equal(job.contract, CONTRACT_VERSION);
@@ -74,8 +85,10 @@ test('the committed fixtures are what the Trainer Library produces today (read-o
   if (!fs.existsSync(LIBRARY)) { t.skip('engine/app/data/library.json is not here'); return; }
   const library = JSON.parse(fs.readFileSync(LIBRARY, 'utf8'));
   const fx = makeFixtures(library);
-  for (const [name, team] of Object.entries(fx)) {
-    if (name === 'profiles') continue;
-    assert.deepEqual(loadTeam(name), JSON.parse(JSON.stringify(team)), `${name}: rerun node cli/make-fixtures.mjs`);
-  }
+  const read = (...p) => JSON.parse(fs.readFileSync(path.join(ROOT, 'fixtures', ...p), 'utf8'));
+  const again = (x) => JSON.parse(JSON.stringify(x));
+  for (const [name, team] of Object.entries(fx.teams)) assert.deepEqual(read('teams', `${name}.json`), again(team), `${name}: rerun node cli/make-fixtures.mjs`);
+  for (const [name, pool] of Object.entries(fx.pools)) assert.deepEqual(read('pools', `${name}.json`), again(pool), `pool ${name}`);
+  for (const [name, rep] of Object.entries(fx.optimizer)) assert.deepEqual(read('optimizer', `${name}.json`), again(rep), `optimizer ${name}`);
+  assert.deepEqual(read('profiles.json'), again(fx.profiles), 'profiles');
 });

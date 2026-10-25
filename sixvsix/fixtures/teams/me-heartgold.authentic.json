@@ -15,7 +15,7 @@
    "game": "heartgold",
    "generation": 4,
    "level": 62,
-   "nature": "Hardy",
+   "nature": "Mild",
    "ability": "Blaze",
    "item": null,
    "moves": [
@@ -33,12 +33,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 85,
-    "atk": 85,
-    "def": 85,
-    "spa": 85,
-    "spd": 85,
-    "spe": 85
+    "hp": 236,
+    "atk": 8,
+    "def": 16,
+    "spa": 156,
+    "spd": 8,
+    "spe": 84
    },
    "evidence": {
     "species": [
@@ -50,8 +50,8 @@
      "your canon register"
     ],
     "nature": [
-     "standardized",
-     "a neutral nature"
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
     ],
     "ability": [
      "standardized",
@@ -67,16 +67,20 @@
     ],
     "evs": [
      "standardized",
-     "EVs 85 in every stat (stat experience maxed in Gen 2)"
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
     ]
    },
    "filled": [
-    "level: 62 (authentic lens; the opponent's top level)",
-    "nature: Hardy (neutral; none on record)",
     "ability: Blaze (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 85 in every stat (D-061, none on record)"
+    "EVs: 236 HP / 8 Atk / 16 Def / 156 SpA / 8 SpD / 84 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "nature: Mild (chosen by the EV optimizer; none on record)",
+    "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -88,7 +92,7 @@
    "game": "heartgold",
    "generation": 4,
    "level": 62,
-   "nature": "Hardy",
+   "nature": "Jolly",
    "ability": "Sand Stream",
    "item": "Lum Berry",
    "moves": [
@@ -106,12 +110,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 85,
-    "atk": 85,
-    "def": 85,
-    "spa": 85,
-    "spd": 85,
-    "spe": 85
+    "hp": 48,
+    "atk": 172,
+    "def": 48,
+    "spa": 0,
+    "spd": 4,
+    "spe": 236
    },
    "evidence": {
     "species": [
@@ -123,8 +127,8 @@
      "your canon register"
     ],
     "nature": [
-     "standardized",
-     "a neutral nature"
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
     ],
     "ability": [
      "standardized",
@@ -140,15 +144,19 @@
     ],
     "evs": [
      "standardized",
-     "EVs 85 in every stat (stat experience maxed in Gen 2)"
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
     ]
    },
    "filled": [
-    "level: 62 (authentic lens; the opponent's top level)",
-    "nature: Hardy (neutral; none on record)",
     "ability: Sand Stream (the species' first ability)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 85 in every stat (D-061, none on record)"
+    "EVs: 48 HP / 172 Atk / 48 Def / 4 SpD / 236 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "nature: Jolly (chosen by the EV optimizer; none on record)",
+    "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -178,12 +186,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 85,
-    "atk": 85,
-    "def": 85,
-    "spa": 85,
-    "spd": 85,
-    "spe": 85
+    "hp": 248,
+    "atk": 0,
+    "def": 4,
+    "spa": 0,
+    "spd": 12,
+    "spe": 244
    },
    "evidence": {
     "species": [
@@ -212,13 +220,17 @@
     ],
     "evs": [
      "standardized",
-     "EVs 85 in every stat (stat experience maxed in Gen 2)"
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
     ]
    },
    "filled": [
-    "level: 62 (authentic lens; the opponent's top level)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 85 in every stat (D-061, none on record)"
+    "EVs: 248 HP / 4 Def / 12 SpD / 244 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -248,12 +260,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 85,
-    "atk": 85,
-    "def": 85,
-    "spa": 85,
-    "spd": 85,
-    "spe": 85
+    "hp": 168,
+    "atk": 240,
+    "def": 84,
+    "spa": 0,
+    "spd": 16,
+    "spe": 0
    },
    "evidence": {
     "species": [
@@ -282,13 +294,17 @@
     ],
     "evs": [
      "standardized",
-     "EVs 85 in every stat (stat experience maxed in Gen 2)"
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
     ]
    },
    "filled": [
-    "level: 62 (authentic lens; the opponent's top level)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 85 in every stat (D-061, none on record)"
+    "EVs: 168 HP / 240 Atk / 84 Def / 16 SpD (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -318,12 +334,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 85,
-    "atk": 85,
-    "def": 85,
-    "spa": 85,
-    "spd": 85,
-    "spe": 85
+    "hp": 172,
+    "atk": 0,
+    "def": 160,
+    "spa": 132,
+    "spd": 0,
+    "spe": 44
    },
    "evidence": {
     "species": [
@@ -352,13 +368,17 @@
     ],
     "evs": [
      "standardized",
-     "EVs 85 in every stat (stat experience maxed in Gen 2)"
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
     ]
    },
    "filled": [
-    "level: 62 (authentic lens; the opponent's top level)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 85 in every stat (D-061, none on record)"
+    "EVs: 172 HP / 160 Def / 132 SpA / 44 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -388,12 +408,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 85,
-    "atk": 85,
-    "def": 85,
-    "spa": 85,
-    "spd": 85,
-    "spe": 85
+    "hp": 112,
+    "atk": 236,
+    "def": 144,
+    "spa": 0,
+    "spd": 16,
+    "spe": 0
    },
    "evidence": {
     "species": [
@@ -422,13 +442,17 @@
     ],
     "evs": [
      "standardized",
-     "EVs 85 in every stat (stat experience maxed in Gen 2)"
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
     ]
    },
    "filled": [
-    "level: 62 (authentic lens; the opponent's top level)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 85 in every stat (D-061, none on record)"
+    "EVs: 112 HP / 236 Atk / 144 Def / 16 SpD (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
   }

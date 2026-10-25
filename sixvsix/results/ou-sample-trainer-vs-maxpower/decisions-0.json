@@ -1,0 +1,1327 @@
+[
+ {
+  "turn": 1,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Stealth Rock",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   42.5,
+   -0.7,
+   7.5,
+   -37.5,
+   11.2,
+   -41.8,
+   -16.8,
+   -127.8,
+   11.2
+  ],
+  "why": [
+   "Stealth Rock: 42.5 (Stealth Rock: 5 of theirs still to come in)",
+   "Skarmory: 11.2 (matchup 0.5 → 2.5 for Skarmory, takes ~0% coming in)",
+   "Gyarados: 11.2 (matchup 0.5 → 2.5 for Gyarados, takes ~0% coming in)"
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 1,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   150,
+   0
+  ],
+  "knew": {
+   "turn": 1,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 6",
+  "label": "Gyarados",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   -25,
+   -0.7,
+   7.5,
+   -32.5,
+   11.2,
+   -41.8,
+   -16.8,
+   -127.8,
+   11.2
+  ],
+  "why": [
+   "Skarmory: 11.2 (matchup 0.5 → 2.5 for Skarmory, takes ~0% coming in)",
+   "Gyarados: 11.2 (matchup 0.5 → 2.5 for Gyarados, takes ~0% coming in)",
+   "Earthquake: 7.5 (~35% to Swampert, moves second)"
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 2,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   142.5,
+   150,
+   0
+  ],
+  "knew": {
+   "turn": 2,
+   "foe": {
+    "species": "Swampert",
+    "pct": 84,
+    "known_moves": [
+     "Stealth Rock"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 3,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Dance",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   75.6,
+   21.7,
+   14.8,
+   -9.8,
+   -34.6,
+   -61.2,
+   -90.3,
+   -101.6,
+   -70.5
+  ],
+  "why": [
+   "Dragon Dance: 75.6 (Dragon Dance: race 5.5 → 6.5, +59 for the 5 still to come)",
+   "Waterfall: 21.7 (~42% to Swampert)",
+   "Earthquake: 14.8 (~35% to Swampert)"
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 3,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   71.3,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 3,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 100
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 4,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   30.2,
+   38.4,
+   28.1,
+   -6.8,
+   -105.5,
+   -75.3,
+   -97.3,
+   -104,
+   -82.4
+  ],
+  "why": [
+   "Waterfall: 38.4 (~62% to Swampert)",
+   "Dragon Dance: 30.2 (Dragon Dance: race 3.5 → 3.5, +54 for the 5 still to come)",
+   "Earthquake: 28.1 (~52% to Swampert)"
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Swampert",
+    "pct": 100,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 4,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   71.3,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 4,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 78,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 5,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   52.2,
+   68.6,
+   28.1,
+   -6.8,
+   -77.5,
+   -61.3,
+   -83.3,
+   -90,
+   -68.4
+  ],
+  "why": [
+   "Waterfall: 68.6 (~62% to Swampert, KO 44%)",
+   "Dragon Dance: 52.2 (Dragon Dance: race 3.5 → 4.5, +54 for the 5 still to come)",
+   "Earthquake: 28.1 (~52% to Swampert)"
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Swampert",
+    "pct": 63,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 5,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   71.3,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 5,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 69,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 6,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   5.5,
+   71,
+   71,
+   13.6,
+   -83.2,
+   -79.9,
+   -91.5,
+   -101.5,
+   -69.5
+  ],
+  "why": [
+   "Waterfall: 71 (~26% to Swampert, KO 100%)",
+   "Earthquake: 71 (~26% to Swampert, KO 100%)",
+   "Stone Edge: 13.6 (~21% to Swampert, KO 40%)"
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Swampert",
+    "pct": 26,
+    "boosts": {
+     "atk": -1
+    },
+    "known_moves": [
+     "Earthquake",
+     "Surf"
+    ]
+   },
+   "foe_seen": 1,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 6,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   71.3,
+   0,
+   0
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 55,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 6,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Gengar",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   180,
+   60,
+   380,
+   90,
+   160
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 61,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 7,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   -84,
+   133,
+   -40,
+   57.3,
+   -16.8,
+   4.2,
+   -41,
+   4.2,
+   -69.7
+  ],
+  "why": [
+   "Waterfall: 133 (~88% to Gengar, KO 100%)",
+   "Stone Edge: 57.3 (~70% to Gengar, KO 50%)",
+   "Scizor: 4.2 (matchup 1.5 → 3.5 for Scizor, takes ~0% coming in)"
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Gengar",
+    "pct": 88
+   },
+   "foe_seen": 2,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 7,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Thunderbolt",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   120,
+   42,
+   380,
+   250
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 61,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 7,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 2",
+  "label": "Skarmory",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   180,
+   60,
+   90,
+   160
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 67,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 8,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   -30.4,
+   7,
+   -40,
+   -14.8,
+   -0.3,
+   -46.5,
+   -64.4,
+   -3.4,
+   -41.2
+  ],
+  "why": [
+   "Waterfall: 7 (~55% to Skarmory)",
+   "Skarmory: -0.3 (matchup 1.5 → 5.5 for Skarmory, takes ~7% coming in)",
+   "Heatran: -3.4 (matchup 1.5 → 6.5 for Heatran, takes ~13% coming in)"
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 88
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 8,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Brave Bird",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   0,
+   0,
+   180
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 67,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 9,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Waterfall",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   -85.7,
+   81,
+   -40,
+   53.1,
+   11.5,
+   -40.3,
+   -67,
+   6.8,
+   -18.2
+  ],
+  "why": [
+   "Waterfall: 81 (~36% to Skarmory, KO 100%)",
+   "Stone Edge: 53.1 (~29% to Skarmory, KO 80%)",
+   "Skarmory: 11.5 (matchup 0.5 → 4.5 for Skarmory, takes ~11% coming in)"
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 36,
+    "known_moves": [
+     "Brave Bird"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 9,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Brave Bird",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   0,
+   0,
+   180
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 28,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 9,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 6",
+  "label": "Gyarados",
+  "options": [
+   "switch 3",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   60,
+   90,
+   160
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 34,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 10,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Stone Edge",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   -94.7,
+   -26.1,
+   -40,
+   68.3,
+   -9.1,
+   -67,
+   -64.2,
+   -41.6,
+   -80.4
+  ],
+  "why": [
+   "Stone Edge: 68.3 (~60% to Gyarados, KO 65%)",
+   "Skarmory: -9.1 (matchup 0.5 → 1.5 for Skarmory, takes ~11% coming in)",
+   "Waterfall: -26.1 (~24% to Gyarados)"
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 75
+   },
+   "foe_seen": 4,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 10,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Stone Edge",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   0,
+   60,
+   0,
+   160
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 34,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 10,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Heatran",
+  "options": [
+   "switch 3",
+   "switch 5"
+  ],
+  "scores": [
+   60,
+   90
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 40,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall",
+     "Stone Edge"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   -78.8,
+   44.1,
+   133,
+   -11.5,
+   -151.7,
+   -175.8,
+   -74.6,
+   4.2,
+   -14.3
+  ],
+  "why": [
+   "Earthquake: 133 (~88% to Heatran, KO 100%)",
+   "Waterfall: 44.1 (~78% to Heatran)",
+   "Heatran: 4.2 (matchup 1.5 → 10.5 for Heatran, takes ~0% coming in)"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 11,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   76.5,
+   0,
+   90,
+   0
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Gyarados",
+    "pct": 40,
+    "boosts": {
+     "atk": 0,
+     "spe": 1
+    },
+    "known_moves": [
+     "Dragon Dance",
+     "Waterfall",
+     "Stone Edge"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Heatran",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "scores": [
+   -32,
+   3,
+   31,
+   52,
+   43.3
+  ],
+  "why": [
+   "Heatran: 52 (race +7.5 (needs 1, they need 8, moves first))",
+   "Swampert: 43.3 (race +2.5 (needs 1, they need 4))",
+   "Gengar: 31 (race +1.5 (needs 1, they need 2, moves first))"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Dragon Pulse",
+  "options": [
+   "move 3"
+  ],
+  "scores": [
+   45
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Heatran",
+    "pct": 100
+   },
+   "foe_seen": 3,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 12,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Earth Power",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 6"
+  ],
+  "scores": [
+   -40,
+   133,
+   -0.4,
+   -8.6,
+   -122.2,
+   -86.1,
+   -89.3,
+   -62.4
+  ],
+  "why": [
+   "Earth Power: 133 (~88% to Heatran, KO 100%)",
+   "Dragon Pulse: -0.4 (~14% to Heatran)",
+   "Hidden Power Grass 70: -8.6 (~5% to Heatran)"
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Heatran",
+    "pct": 88,
+    "known_moves": [
+     "Dragon Pulse"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 3",
+  "label": "Scizor",
+  "options": [
+   "switch 3"
+  ],
+  "scores": [
+   240
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Heatran",
+    "pct": 100,
+    "known_moves": [
+     "Earth Power"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Earth Power",
+  "options": [
+   "move 2",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 6"
+  ],
+  "scores": [
+   29.2,
+   -20.1,
+   -35.3,
+   -77.9,
+   -80.8
+  ],
+  "why": [
+   "Earth Power: 29.2 (~38% to Scizor)",
+   "Skarmory: -20.1 (matchup 10.5 → 5.5 for Skarmory, takes ~5% coming in)",
+   "Scizor: -35.3 (matchup 10.5 → 2.5 for Scizor, takes ~19% coming in)"
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Scizor",
+    "pct": 88
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 13,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Superpower",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "scores": [
+   15,
+   26.3,
+   240,
+   20
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Heatran",
+    "pct": 100,
+    "known_moves": [
+     "Earth Power"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 5
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 2",
+  "label": "Skarmory",
+  "options": [
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 6"
+  ],
+  "scores": [
+   52,
+   45,
+   31,
+   50.3
+  ],
+  "why": [
+   "Skarmory: 52 (race +5.5 (needs 1, they need 7))",
+   "Swampert: 50.3 (race +3.5 (needs 1, they need 5))",
+   "Scizor: 45 (race +2.5 (needs 1, they need 4))"
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Scizor",
+    "pct": 50,
+    "boosts": {
+     "atk": -1,
+     "def": -1
+    },
+    "known_moves": [
+     "Superpower"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 14,
+  "side": "b",
+  "forced": false,
+  "choice": "move 3",
+  "label": "Superpower",
+  "options": [
+   "move 3"
+  ],
+  "scores": [
+   120
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Skarmory",
+    "pct": 100
+   },
+   "foe_seen": 4,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 14,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Brave Bird",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 3",
+   "switch 4",
+   "switch 6"
+  ],
+  "scores": [
+   -25,
+   -15,
+   -19.7,
+   58,
+   -63.1,
+   -47.8,
+   -43.8
+  ],
+  "why": [
+   "Brave Bird: 58 (~50% to Scizor, KO 88%, moves second)",
+   "Roost: -15 (barely hurt)",
+   "Whirlwind: -19.7 (Whirlwind against +0)"
+  ],
+  "knew": {
+   "turn": 14,
+   "foe": {
+    "species": "Scizor",
+    "pct": 50,
+    "boosts": {
+     "atk": -1,
+     "def": -1
+    },
+    "known_moves": [
+     "Superpower"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ }
+]

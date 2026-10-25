@@ -167,7 +167,7 @@ test('immunities that act inside a real move: Flash Fire, Volt Absorb, Water Abs
 });
 
 test('stats parity: every fixture build has the calculator\'s stats', () => {
-  for (const name of ['me-heartgold.standardized', 'me-heartgold.authentic', 'platinum-cynthia.standardized',
+  for (const name of ['me-heartgold.optimized', 'me-heartgold.authentic', 'platinum-cynthia.standardized',
                       'platinum-cynthia.authentic', 'gen4ou-sample.standardized']) {
     const team = loadTeam(name);
     for (const m of team.members) {

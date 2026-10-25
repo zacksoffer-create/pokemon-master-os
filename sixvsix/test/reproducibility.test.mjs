@@ -10,7 +10,7 @@ import { loadTeam, loadProfiles } from './helpers.mjs';
 const profiles = loadProfiles();
 const job = (over = {}) => makeJob({
   id: 'job:repro', ruleset: 'gen4-historical', seed: 'repro-1', n: 24, lens: 'standardized',
-  a: { team: loadTeam('me-heartgold.standardized'), profile: { ...profiles['me/heartgold'], agent: 'random' } },
+  a: { team: loadTeam('me-heartgold.optimized'), profile: { ...profiles['me/heartgold'], agent: 'random' } },
   b: { team: loadTeam('platinum-cynthia.standardized'), profile: profiles['platinum/cynthia'] },
   record: { logs: 'all', decisions: 'all' },
   ...over,
@@ -65,7 +65,7 @@ test('the battle seed and the policy seeds are separate: same battle seed, diffe
   const play = (policy) => runBattle({
     formatid: 'gen4anythinggoes', seed: battleSeed('sep', 1),
     sides: {
-      p1: { name: 'P1', team: loadTeam('me-heartgold.standardized'), agent: makeAgent({ agent: 'random' }), rng: new PolicyRNG(policy) },
+      p1: { name: 'P1', team: loadTeam('me-heartgold.optimized'), agent: makeAgent({ agent: 'random' }), rng: new PolicyRNG(policy) },
       p2: { name: 'P2', team: loadTeam('platinum-cynthia.standardized'), agent: makeAgent({ agent: 'random' }), rng: new PolicyRNG('fixed') },
     },
   });

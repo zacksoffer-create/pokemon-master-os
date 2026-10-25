@@ -10,6 +10,7 @@
 
 import { Dex } from '@pkmn/sim';
 import { legalOptions } from './legal.js';
+import { TrainerAgent } from './trainer.js';
 
 const dex = Dex.forGen(4);
 
@@ -75,10 +76,11 @@ export class MaxPowerAgent {
   }
 }
 
-export const AGENTS = { random: RandomAgent, maxpower: MaxPowerAgent };
+export const AGENTS = { random: RandomAgent, maxpower: MaxPowerAgent, trainer: TrainerAgent };
 
-export function makeAgent(policy) {
+/** An agent for a profile. `context.team` is the agent's own Team Version (the trainer agent needs it). */
+export function makeAgent(policy, context = {}) {
   const Agent = AGENTS[policy.agent];
   if (!Agent) throw new Error(`unknown agent ${policy.agent} (known: ${Object.keys(AGENTS).join(', ')})`);
-  return new Agent(policy.params || {});
+  return new Agent(policy.params || {}, context);
 }

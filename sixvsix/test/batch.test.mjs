@@ -9,7 +9,7 @@ import { loadTeam, loadProfiles } from './helpers.mjs';
 const profiles = loadProfiles();
 const job = (over = {}) => makeJob({
   id: 'job:batch', ruleset: 'gen4-historical', seed: 'batch-1', n: 100, lens: 'standardized',
-  a: { team: loadTeam('me-heartgold.standardized'), profile: profiles['me/heartgold'] },
+  a: { team: loadTeam('me-heartgold.optimized'), profile: profiles['me/heartgold'] },
   b: { team: loadTeam('platinum-cynthia.standardized'), profile: { ...profiles['platinum/cynthia'], agent: 'random' } },
   ...over,
 });
@@ -55,7 +55,7 @@ test('a battle that breaks is reported with its input log, and the batch carries
   }
   AGENTS.flaky = Flaky;
   try {
-    const r = runJobSync(job({ n: 20, a: { team: loadTeam('me-heartgold.standardized'), profile: baselineProfile('flaky') } }));
+    const r = runJobSync(job({ n: 20, a: { team: loadTeam('me-heartgold.optimized'), profile: baselineProfile('flaky') } }));
     assert.ok(r.failures.length > 0 && r.failures.length < 20, `${r.failures.length} failures`);
     for (const f of r.failures) {
       assert.equal(f.end, 'error');

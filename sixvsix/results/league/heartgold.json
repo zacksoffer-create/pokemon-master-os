@@ -1,0 +1,378 @@
+{
+ "game": "heartgold",
+ "made_at": "2026-10-25T17:44:57.421Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux",
+ "team": "library:me/heartgold",
+ "pool": "pool:heartgold-league",
+ "agent": "trainer (both sides)",
+ "league": {
+  "kind": "PoolResult",
+  "team": "library:me/heartgold",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "league-heartgold",
+  "allocation": "11 opponents × 40 battles each",
+  "n": 440,
+  "won": 414,
+  "lost": 26,
+  "drew": 0,
+  "win_rate": 0.941,
+  "win_rate_95": [
+   0.915,
+   0.959
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "name": "Bruno · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 18.7,
+    "left_when_won": 4.475,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "name": "Karen · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 10.7,
+    "left_when_won": 5.775,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "name": "Koga · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 15.1,
+    "left_when_won": 5.6,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "name": "Will · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 13,
+    "left_when_won": 5.95,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "name": "Champion Lance (HeartGold)",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 19.3,
+    "left_when_won": 4.675,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "name": "Bruno · Elite Four · rematch",
+    "n": 40,
+    "won": 14,
+    "lost": 26,
+    "drew": 0,
+    "win_rate": 0.35,
+    "win_rate_95": [
+     0.221,
+     0.505
+    ],
+    "turns": 19.2,
+    "left_when_won": 3.143,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "name": "Karen · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 18.2,
+    "left_when_won": 4.8,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "name": "Koga · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 12.9,
+    "left_when_won": 5.3,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "name": "Will · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 17.1,
+    "left_when_won": 5.55,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "name": "Lance · Champion · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 19.4,
+    "left_when_won": 4.625,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "name": "Red on Mt. Silver (HeartGold)",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 23.1,
+    "left_when_won": 4.025,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Typhlosion",
+    "appeared": 1,
+    "kos_per_battle": 0.839,
+    "fainted_rate": 0.241,
+    "damage_dealt_per_battle": 106.5
+   },
+   {
+    "name": "Tyranitar",
+    "appeared": 0.843,
+    "kos_per_battle": 2.475,
+    "fainted_rate": 0.316,
+    "damage_dealt_per_battle": 255.6
+   },
+   {
+    "name": "Mamoswine",
+    "appeared": 0.395,
+    "kos_per_battle": 0.602,
+    "fainted_rate": 0.148,
+    "damage_dealt_per_battle": 50.3
+   },
+   {
+    "name": "Crobat",
+    "appeared": 0.389,
+    "kos_per_battle": 0.355,
+    "fainted_rate": 0.184,
+    "damage_dealt_per_battle": 32.8
+   },
+   {
+    "name": "Lapras",
+    "appeared": 0.614,
+    "kos_per_battle": 0.741,
+    "fainted_rate": 0.257,
+    "damage_dealt_per_battle": 75.7
+   },
+   {
+    "name": "Snorlax",
+    "appeared": 0.4,
+    "kos_per_battle": 0.468,
+    "fainted_rate": 0.139,
+    "damage_dealt_per_battle": 40.9
+   }
+  ],
+  "weakest": [
+   "library:heartgold/bruno-rematch",
+   "library:heartgold/bruno",
+   "library:heartgold/karen"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 34067,
+   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
+  },
+  "fingerprint": "d7f58a7d664a88ef"
+ },
+ "d072": {
+  "kind": "Comparison",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "d072-heartgold",
+  "n_per_opponent": 20,
+  "x": {
+   "label": "85 in every stat",
+   "team": "library:me/heartgold#even85",
+   "agent": "trainer",
+   "won": 197,
+   "win_rate": 0.895
+  },
+  "y": {
+   "label": "optimized spreads",
+   "team": "library:me/heartgold",
+   "agent": "trainer",
+   "won": 210,
+   "win_rate": 0.955
+  },
+  "pairs": {
+   "n": 220,
+   "both_won": 197,
+   "only_x": 0,
+   "only_y": 13,
+   "neither": 10
+  },
+  "difference": {
+   "y_minus_x": 0.059,
+   "ci95": [
+    0.028,
+    0.09
+   ]
+  },
+  "margin": {
+   "y_minus_x": 0.108,
+   "ci95": [
+    0.076,
+    0.141
+   ],
+   "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+  },
+  "mcnemar_p": 0.000244,
+  "significant": true,
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "n": 20,
+    "x_won": 19,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "n": 20,
+    "x_won": 1,
+    "y_won": 10
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "n": 20,
+    "x_won": 19,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "n": 20,
+    "x_won": 18,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   }
+  ],
+  "reading": "optimized spreads won more: 95% against 90% over 220 paired battles (McNemar p = 0.0002).",
+  "timing": {
+   "total_ms": 31902,
+   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
+  }
+ }
+}

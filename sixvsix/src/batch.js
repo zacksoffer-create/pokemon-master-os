@@ -99,7 +99,7 @@ export function runTrial(prepared, i) {
     sides[s] = {
       name: `${w.toUpperCase()} · ${job[w].team.name}`.slice(0, 40),
       team: job[w].team,
-      agent: makeAgent(job[w].profile),
+      agent: makeAgent(job[w].profile, { team: job[w].team }),
       rng: new PolicyRNG(seeds[w]),
     };
   }

@@ -25,13 +25,15 @@ export class SideView {
     this.mons = { p1: new Map(), p2: new Map() };
     this.teamSize = { p1: 0, p2: 0 };
     this.ended = false;
+    this.order = [];       // this turn's moves, in the order they happened: [{side, name, move}]
+    this.lastOrder = [];   // the previous turn's (what an agent reads to learn the foe's real Speed)
   }
 
   mon(side, name) {
     let m = this.mons[side].get(name);
     if (!m) {
-      m = { name, species: name, pct: 100, status: '', fainted: false, boosts: {}, moves: new Set(), item: undefined,
-            ability: undefined, seen: false };
+      m = { name, species: name, level: 100, pct: 100, status: '', fainted: false, boosts: {}, moves: new Set(),
+            item: undefined, ability: undefined, seen: false };
       this.mons[side].set(name, m);
     }
     return m;
@@ -45,12 +47,14 @@ export class SideView {
       const cmd = parts[0];
       const tags = parts.filter((p) => p.startsWith('['));
       switch (cmd) {
-        case 'turn': this.turn = Number(parts[1]); break;
+        case 'turn': this.turn = Number(parts[1]); this.lastOrder = this.order; this.order = []; break;
         case 'teamsize': this.teamSize[parts[1]] = Number(parts[2]); break;
         case 'switch': case 'drag': case 'replace': {
           const side = sideOf(parts[1]);
           const m = this.mon(side, nameOf(parts[1]));
           m.species = parts[2].split(',')[0];
+          const lv = /, L(\d+)/.exec(parts[2]);
+          m.level = lv ? Number(lv[1]) : 100;
           Object.assign(m, parseCondition(parts[3]), { boosts: {}, seen: true });
           this.active[side] = m.name;
           break;
@@ -82,7 +86,10 @@ export class SideView {
         case '-clearallboost': for (const s of ['p1', 'p2']) for (const m of this.mons[s].values()) m.boosts = {}; break;
         case 'move': {
           const m = this.mon(sideOf(parts[1]), nameOf(parts[1]));
-          if (!tags.some((t) => t.startsWith('[from]'))) m.moves.add(parts[2]);
+          if (!tags.some((t) => t.startsWith('[from]'))) {
+            m.moves.add(parts[2]);
+            this.order.push({ side: sideOf(parts[1]), name: m.name, move: parts[2] });
+          }
           break;
         }
         case '-item': this.mon(sideOf(parts[1]), nameOf(parts[1])).item = parts[2]; break;

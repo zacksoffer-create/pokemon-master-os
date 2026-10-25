@@ -19,7 +19,7 @@ is docs only (the decision ledger row, the README row and a status line on the s
 | Team preview in Gen 4? | **None**, which is cartridge-accurate | Showdown's Gen 4 `Standard AG` drops `Team Preview`; test asserts it for every ruleset |
 | Seeds | Showdown's own PRNG, `sodium,<32 hex>` (ChaCha20). Battles are reproducible from seed + choices | Every battle replayed from its input log in the tests is identical (`test/reproducibility.test.mjs`, `cli/battle.mjs`) |
 | Does the battle engine validate teams? | **No**, as the plan warned. Validation is a separate step (`src/validate.js`), run before every job | `prepareJob` refuses illegal teams; tested |
-| Browser bundling | Works. Full build 6.31 MB (1.05 MB gzipped); battle-only build 2.03 MB | `browser/build.mjs` |
+| Browser bundling | Works. Full build 6.31 MB (1.05 MB gzipped); battle-only build 2.03 MB. Phases 2–3 add the damage calculator the trainer agent uses: 6.83 MB and 2.56 MB | `browser/build.mjs` |
 | Inside Apps Script's frame | Works in a frame built the way Apps Script serves a web app (sandboxed, cross-origin, document-written), Web Worker included | `browser/test-browser.mjs`; **not yet on a real Apps Script deployment** |
 
 ### What a Showdown log contains that matters to us
@@ -69,6 +69,6 @@ Each is a default I needed to build the foundation. None decides anything about 
 | S-3 | Gender not on record is left to Showdown, drawn from the battle seed | No record exists; inventing one is worse. Results list it under `varied` | Fix each species' most common gender |
 | S-4 | Historical mode requires only *structural* legality and reports *obtainable* | A game trainer's team is legal because the game made it | Require obtainable too (would reject cartridge oddities) |
 | S-5 | Battles run in **mirrored pairs**: same battle seed, sides swapped | Cancels any side advantage, and the record shows it (`by_side`) | Independent seeds, side alternating (`pairing: 'alternate'`) |
-| S-6 | Every trainer plays the **max-power baseline** in Phase 1, with the library's AI reading carried as data | The plan says to build competent agents only after the measuring tools exist | — |
+| S-6 | Every trainer plays the **max-power baseline** in Phase 1, with the library's AI reading carried as data. **Superseded in Phase 3:** every trainer now plays the trainer agent, its identity read from the library (D-073 (d), [TRAINER_AI.md](TRAINER_AI.md)) | The plan says to build competent agents only after the measuring tools exist | — |
 | S-7 | Results keep every battle's input log and the first battle's full log and decision trace | Any battle can be replayed and inspected; about 0.5 MB per 100 battles | Keep logs for all (5×), or none |
 | S-8 | The browser page ships the **battle-only build** (2 MB) and accepts legality reports made by Node or the full build, if they match the team version, ruleset and engine | 3× smaller, half the start-up time, identical battles | Ship the full 6.3 MB build and validate in the browser |

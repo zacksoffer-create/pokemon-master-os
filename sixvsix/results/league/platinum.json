@@ -1,0 +1,356 @@
+{
+ "game": "platinum",
+ "made_at": "2026-10-25T17:44:42.375Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux",
+ "team": "library:me/platinum",
+ "pool": "pool:platinum-league",
+ "agent": "trainer (both sides)",
+ "league": {
+  "kind": "PoolResult",
+  "team": "library:me/platinum",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:platinum-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "league-platinum",
+  "allocation": "10 opponents × 40 battles each",
+  "n": 400,
+  "won": 391,
+  "lost": 9,
+  "drew": 0,
+  "win_rate": 0.978,
+  "win_rate_95": [
+   0.958,
+   0.988
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:platinum/aaron",
+    "name": "Aaron · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 11.3,
+    "left_when_won": 4.925,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/bertha",
+    "name": "Bertha · Elite Four · first battle",
+    "n": 40,
+    "won": 38,
+    "lost": 2,
+    "drew": 0,
+    "win_rate": 0.95,
+    "win_rate_95": [
+     0.835,
+     0.986
+    ],
+    "turns": 14.9,
+    "left_when_won": 3.184,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/flint",
+    "name": "Flint · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 7.6,
+    "left_when_won": 5.275,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/lucian",
+    "name": "Lucian · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 14.5,
+    "left_when_won": 5.025,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/cynthia",
+    "name": "Champion Cynthia (Platinum)",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 18.2,
+    "left_when_won": 4.2,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/aaron-rematch",
+    "name": "Aaron · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 12.7,
+    "left_when_won": 4.8,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/bertha-rematch",
+    "name": "Bertha · Elite Four · rematch",
+    "n": 40,
+    "won": 37,
+    "lost": 3,
+    "drew": 0,
+    "win_rate": 0.925,
+    "win_rate_95": [
+     0.801,
+     0.974
+    ],
+    "turns": 14.6,
+    "left_when_won": 3.216,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/flint-rematch",
+    "name": "Flint · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 7.5,
+    "left_when_won": 5.125,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/lucian-rematch",
+    "name": "Lucian · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 14.4,
+    "left_when_won": 5.3,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/cynthia-rematch",
+    "name": "Cynthia · Champion · rematch",
+    "n": 40,
+    "won": 36,
+    "lost": 4,
+    "drew": 0,
+    "win_rate": 0.9,
+    "win_rate_95": [
+     0.769,
+     0.96
+    ],
+    "turns": 18.8,
+    "left_when_won": 4.139,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Infernape",
+    "appeared": 1,
+    "kos_per_battle": 0.668,
+    "fainted_rate": 0.425,
+    "damage_dealt_per_battle": 96.6
+   },
+   {
+    "name": "Weavile",
+    "appeared": 0.588,
+    "kos_per_battle": 1.078,
+    "fainted_rate": 0.198,
+    "damage_dealt_per_battle": 97
+   },
+   {
+    "name": "Roserade",
+    "appeared": 0.455,
+    "kos_per_battle": 0.505,
+    "fainted_rate": 0.235,
+    "damage_dealt_per_battle": 49.7
+   },
+   {
+    "name": "Lucario",
+    "appeared": 0.335,
+    "kos_per_battle": 0.455,
+    "fainted_rate": 0.14,
+    "damage_dealt_per_battle": 41.1
+   },
+   {
+    "name": "Garchomp",
+    "appeared": 0.9,
+    "kos_per_battle": 1.728,
+    "fainted_rate": 0.483,
+    "damage_dealt_per_battle": 199.8
+   },
+   {
+    "name": "Magnezone",
+    "appeared": 0.52,
+    "kos_per_battle": 0.723,
+    "fainted_rate": 0.083,
+    "damage_dealt_per_battle": 57.8
+   }
+  ],
+  "weakest": [
+   "library:platinum/cynthia-rematch",
+   "library:platinum/bertha-rematch",
+   "library:platinum/bertha"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 26543,
+   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
+  },
+  "fingerprint": "808a40da5cfe1bb3"
+ },
+ "d072": {
+  "kind": "Comparison",
+  "pool": "pool:platinum-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "d072-platinum",
+  "n_per_opponent": 20,
+  "x": {
+   "label": "85 in every stat",
+   "team": "library:me/platinum#even85",
+   "agent": "trainer",
+   "won": 177,
+   "win_rate": 0.885
+  },
+  "y": {
+   "label": "optimized spreads",
+   "team": "library:me/platinum",
+   "agent": "trainer",
+   "won": 197,
+   "win_rate": 0.985
+  },
+  "pairs": {
+   "n": 200,
+   "both_won": 175,
+   "only_x": 2,
+   "only_y": 22,
+   "neither": 1
+  },
+  "difference": {
+   "y_minus_x": 0.1,
+   "ci95": [
+    0.054,
+    0.146
+   ]
+  },
+  "margin": {
+   "y_minus_x": 0.112,
+   "ci95": [
+    0.069,
+    0.155
+   ],
+   "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+  },
+  "mcnemar_p": 0.000036,
+  "significant": true,
+  "per_opponent": [
+   {
+    "opponent": "library:platinum/aaron",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:platinum/bertha",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 19
+   },
+   {
+    "opponent": "library:platinum/flint",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:platinum/lucian",
+    "n": 20,
+    "x_won": 17,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:platinum/cynthia",
+    "n": 20,
+    "x_won": 10,
+    "y_won": 19
+   },
+   {
+    "opponent": "library:platinum/aaron-rematch",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:platinum/bertha-rematch",
+    "n": 20,
+    "x_won": 18,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:platinum/flint-rematch",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:platinum/lucian-rematch",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 19
+   },
+   {
+    "opponent": "library:platinum/cynthia-rematch",
+    "n": 20,
+    "x_won": 12,
+    "y_won": 20
+   }
+  ],
+  "reading": "optimized spreads won more: 99% against 89% over 200 paired battles (McNemar p < 0.0001).",
+  "timing": {
+   "total_ms": 24383,
+   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
+  }
+ }
+}
