@@ -1,0 +1,5039 @@
+{
+ "kind": "Experiment",
+ "type": "league",
+ "spec": {
+  "kind": "league",
+  "team": "me/heartgold",
+  "pool": "journey",
+  "n": 20,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:57:27.713Z",
+ "seed": "lab|league|75646c58ca15b313",
+ "result": {
+  "kind": "PoolResult",
+  "team": "library:me/heartgold",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:journey",
+  "ruleset": "gen4-blackthorn",
+  "seed": "lab|league|75646c58ca15b313",
+  "allocation": "3 opponents × 20 battles each",
+  "n": 60,
+  "won": 14,
+  "lost": 46,
+  "drew": 0,
+  "win_rate": 0.233,
+  "win_rate_95": [
+   0.144,
+   0.354
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:me/heartgold",
+    "name": "Zack · HeartGold (main)",
+    "n": 20,
+    "won": 10,
+    "lost": 10,
+    "drew": 0,
+    "win_rate": 0.5,
+    "win_rate_95": [
+     0.299,
+     0.701
+    ],
+    "turns": 34.9,
+    "left_when_won": 4.1,
+    "failures": 0
+   },
+   {
+    "opponent": "library:me/soulsilver",
+    "name": "Zack · SoulSilver",
+    "n": 20,
+    "won": 4,
+    "lost": 16,
+    "drew": 0,
+    "win_rate": 0.2,
+    "win_rate_95": [
+     0.081,
+     0.416
+    ],
+    "turns": 28.3,
+    "left_when_won": 2,
+    "failures": 0
+   },
+   {
+    "opponent": "library:me/platinum",
+    "name": "Zack · Platinum",
+    "n": 20,
+    "won": 0,
+    "lost": 20,
+    "drew": 0,
+    "win_rate": 0,
+    "win_rate_95": [
+     0,
+     0.161
+    ],
+    "turns": 20,
+    "left_when_won": 0,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Typhlosion",
+    "appeared": 1,
+    "kos_per_battle": 0.517,
+    "fainted_rate": 0.9,
+    "damage_dealt_per_battle": 79.5
+   },
+   {
+    "name": "Tyranitar",
+    "appeared": 1,
+    "kos_per_battle": 0.6,
+    "fainted_rate": 0.933,
+    "damage_dealt_per_battle": 96
+   },
+   {
+    "name": "Mamoswine",
+    "appeared": 0.983,
+    "kos_per_battle": 1.017,
+    "fainted_rate": 0.917,
+    "damage_dealt_per_battle": 104.1
+   },
+   {
+    "name": "Crobat",
+    "appeared": 0.867,
+    "kos_per_battle": 0.517,
+    "fainted_rate": 0.783,
+    "damage_dealt_per_battle": 59.6
+   },
+   {
+    "name": "Lapras",
+    "appeared": 0.983,
+    "kos_per_battle": 0.15,
+    "fainted_rate": 0.867,
+    "damage_dealt_per_battle": 85.7
+   },
+   {
+    "name": "Snorlax",
+    "appeared": 0.9,
+    "kos_per_battle": 0.3,
+    "fainted_rate": 0.783,
+    "damage_dealt_per_battle": 73.5
+   }
+  ],
+  "weakest": [
+   "library:me/platinum",
+   "library:me/soulsilver",
+   "library:me/heartgold"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 1459,
+   "platform": "worker threads"
+  },
+  "fingerprint": "c557b2265d09229e"
+ },
+ "report": {
+  "kind": "StrategyReport",
+  "team": "library:me/heartgold",
+  "team_name": "Zack · HeartGold (main)",
+  "n": 60,
+  "pool": {
+   "id": "pool:journey",
+   "name": "Your journey teams (as they fight: optimized spreads)"
+  },
+  "interpretation_of_opponents": "blackthorn",
+  "our_style": "blackthorn",
+  "headline": [
+   "Zack · HeartGold (main) won 14 of 60 (23%; 95% 14%–35%).",
+   "Hardest: Zack · Platinum (0/20), Zack · SoulSilver (4/20).",
+   "Mamoswine makes 33% of your knockouts.",
+   "Infernape is in 78% of your losses and takes 1.5 of yours each time; it's hardest on Typhlosion, Lapras, Snorlax."
+  ],
+  "outcomes": {
+   "n": 60,
+   "won": 14,
+   "rate": 0.233,
+   "ci95": [
+    0.144,
+    0.354
+   ],
+   "drew": 0,
+   "by_opponent": [
+    {
+     "opponent": "me/platinum",
+     "name": "Zack · Platinum",
+     "n": 20,
+     "won": 0,
+     "rate": 0,
+     "ci95": [
+      0,
+      0.161
+     ],
+     "turns": 20,
+     "left_when_won": null
+    },
+    {
+     "opponent": "me/soulsilver",
+     "name": "Zack · SoulSilver",
+     "n": 20,
+     "won": 4,
+     "rate": 0.2,
+     "ci95": [
+      0.081,
+      0.416
+     ],
+     "turns": 28.3,
+     "left_when_won": 2
+    },
+    {
+     "opponent": "me/heartgold",
+     "name": "Zack · HeartGold (main)",
+     "n": 20,
+     "won": 10,
+     "rate": 0.5,
+     "ci95": [
+      0.299,
+      0.701
+     ],
+     "turns": 34.9,
+     "left_when_won": 4.1
+    }
+   ],
+   "turns": 27.7,
+   "left_when_won": 3.5,
+   "close_wins": 0.143
+  },
+  "members": [
+   {
+    "name": "Typhlosion",
+    "species": "Typhlosion",
+    "appeared": 1,
+    "kos": 0.517,
+    "ko_share": 0.167,
+    "ko_share_in_wins": 0.05,
+    "damage_dealt": 79.5,
+    "damage_taken": 96.1,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.533,
+    "fainted": 0.9,
+    "falls_first": 0.533,
+    "opens": 0.383,
+    "closes": 0,
+    "reading": "falls first in 53% of battles"
+   },
+   {
+    "name": "Tyranitar",
+    "species": "Tyranitar",
+    "appeared": 1,
+    "kos": 0.6,
+    "ko_share": 0.194,
+    "ko_share_in_wins": 0.3,
+    "damage_dealt": 96,
+    "damage_taken": 97.1,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0.183,
+    "support_used": 0,
+    "switched_in_by_choice": 0.583,
+    "fainted": 0.933,
+    "falls_first": 0.317,
+    "opens": 0.267,
+    "closes": 0.143,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Mamoswine",
+    "species": "Mamoswine",
+    "appeared": 0.983,
+    "kos": 1.017,
+    "ko_share": 0.328,
+    "ko_share_in_wins": 0.338,
+    "damage_dealt": 104.2,
+    "damage_taken": 95.5,
+    "healed": 0,
+    "status_inflicted": 0.033,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.733,
+    "fainted": 0.917,
+    "falls_first": 0.083,
+    "opens": 0.2,
+    "closes": 0.286,
+    "reading": "your main finisher (33% of your knockouts); closes 29% of your wins"
+   },
+   {
+    "name": "Crobat",
+    "species": "Crobat",
+    "appeared": 0.867,
+    "kos": 0.517,
+    "ko_share": 0.167,
+    "ko_share_in_wins": 0.163,
+    "damage_dealt": 59.6,
+    "damage_taken": 204.7,
+    "healed": 122.2,
+    "status_inflicted": 0.017,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 1.033,
+    "fainted": 0.783,
+    "falls_first": 0.05,
+    "opens": 0.05,
+    "closes": 0.071,
+    "reading": "takes the most hits (205% of its HP a battle); heals 122% a battle"
+   },
+   {
+    "name": "Lapras",
+    "species": "Lapras",
+    "appeared": 0.983,
+    "kos": 0.15,
+    "ko_share": 0.048,
+    "ko_share_in_wins": 0.05,
+    "damage_dealt": 85.7,
+    "damage_taken": 138.8,
+    "healed": 50,
+    "status_inflicted": 0.033,
+    "setup_used": 0,
+    "support_used": 0.183,
+    "switched_in_by_choice": 0.8,
+    "fainted": 0.867,
+    "falls_first": 0,
+    "opens": 0.033,
+    "closes": 0.143,
+    "reading": "heals 50% a battle"
+   },
+   {
+    "name": "Snorlax",
+    "species": "Snorlax",
+    "appeared": 0.9,
+    "kos": 0.3,
+    "ko_share": 0.097,
+    "ko_share_in_wins": 0.1,
+    "damage_dealt": 73.5,
+    "damage_taken": 143.2,
+    "healed": 61.4,
+    "status_inflicted": 0.35,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.983,
+    "fainted": 0.783,
+    "falls_first": 0,
+    "opens": 0.033,
+    "closes": 0.143,
+    "reading": "heals 61% a battle"
+   }
+  ],
+  "team_level": {
+   "threats": [
+    {
+     "species": "Lucario",
+     "from": [
+      "Zack · Platinum"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 2.85,
+     "survives": 1,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 18
+      },
+      {
+       "name": "Lapras",
+       "kos": 17
+      },
+      {
+       "name": "Snorlax",
+       "kos": 11
+      }
+     ],
+     "in_losses": 20,
+     "share_of_losses": 0.435,
+     "kos_in_losses": 2.85,
+     "sweeps": 19
+    },
+    {
+     "species": "Infernape",
+     "from": [
+      "Zack · SoulSilver",
+      "Zack · Platinum"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 1.525,
+     "survives": 0.375,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 17
+      },
+      {
+       "name": "Lapras",
+       "kos": 16
+      },
+      {
+       "name": "Snorlax",
+       "kos": 11
+      }
+     ],
+     "in_losses": 36,
+     "share_of_losses": 0.783,
+     "kos_in_losses": 1.528,
+     "sweeps": 15
+    },
+    {
+     "species": "Garchomp",
+     "from": [
+      "Zack · Platinum"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 2.05,
+     "survives": 0.75,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 20
+      },
+      {
+       "name": "Crobat",
+       "kos": 9
+      },
+      {
+       "name": "Snorlax",
+       "kos": 9
+      }
+     ],
+     "in_losses": 20,
+     "share_of_losses": 0.435,
+     "kos_in_losses": 2.05,
+     "sweeps": 11
+    },
+    {
+     "species": "Mamoswine",
+     "from": [
+      "Zack · HeartGold (main)"
+     ],
+     "appeared": 19,
+     "kos_per_appearance": 1.263,
+     "survives": 0.158,
+     "most_against": [
+      {
+       "name": "Lapras",
+       "kos": 8
+      },
+      {
+       "name": "Snorlax",
+       "kos": 5
+      },
+      {
+       "name": "Tyranitar",
+       "kos": 4
+      }
+     ],
+     "in_losses": 9,
+     "share_of_losses": 0.196,
+     "kos_in_losses": 2.111,
+     "sweeps": 7
+    },
+    {
+     "species": "Tyranitar",
+     "from": [
+      "Zack · HeartGold (main)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.95,
+     "survives": 0.05,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 8
+      },
+      {
+       "name": "Crobat",
+       "kos": 4
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 3
+      }
+     ],
+     "in_losses": 10,
+     "share_of_losses": 0.217,
+     "kos_in_losses": 1.7,
+     "sweeps": 4
+    },
+    {
+     "species": "Scizor",
+     "from": [
+      "Zack · SoulSilver"
+     ],
+     "appeared": 19,
+     "kos_per_appearance": 0.789,
+     "survives": 0.737,
+     "most_against": [
+      {
+       "name": "Crobat",
+       "kos": 5
+      },
+      {
+       "name": "Tyranitar",
+       "kos": 5
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 3
+      }
+     ],
+     "in_losses": 15,
+     "share_of_losses": 0.326,
+     "kos_in_losses": 0.867,
+     "sweeps": 4
+    },
+    {
+     "species": "Roserade",
+     "from": [
+      "Zack · Platinum"
+     ],
+     "appeared": 10,
+     "kos_per_appearance": 1,
+     "survives": 0.9,
+     "most_against": [
+      {
+       "name": "Mamoswine",
+       "kos": 9
+      },
+      {
+       "name": "Lapras",
+       "kos": 1
+      }
+     ],
+     "in_losses": 10,
+     "share_of_losses": 0.217,
+     "kos_in_losses": 1,
+     "sweeps": 0
+    },
+    {
+     "species": "Snorlax",
+     "from": [
+      "Zack · HeartGold (main)"
+     ],
+     "appeared": 18,
+     "kos_per_appearance": 0.722,
+     "survives": 0.444,
+     "most_against": [
+      {
+       "name": "Crobat",
+       "kos": 3
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 3
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 2
+      }
+     ],
+     "in_losses": 8,
+     "share_of_losses": 0.174,
+     "kos_in_losses": 1,
+     "sweeps": 2
+    }
+   ],
+   "dependencies": [
+    {
+     "name": "Typhlosion",
+     "falls_early": 0.65,
+     "win_if_falls_early": 0.128,
+     "win_otherwise": 0.429,
+     "gap": 0.3,
+     "n_early": 39,
+     "n_otherwise": 21,
+     "win_if_survives": 1,
+     "n_survives": 6
+    },
+    {
+     "name": "Mamoswine",
+     "falls_early": 0.583,
+     "win_if_falls_early": 0.114,
+     "win_otherwise": 0.4,
+     "gap": 0.286,
+     "n_early": 35,
+     "n_otherwise": 25,
+     "win_if_survives": 1,
+     "n_survives": 5
+    },
+    {
+     "name": "Crobat",
+     "falls_early": 0.05,
+     "win_if_falls_early": 0,
+     "win_otherwise": 0.246,
+     "gap": 0.246,
+     "n_early": 3,
+     "n_otherwise": 57,
+     "win_if_survives": 1,
+     "n_survives": 13
+    },
+    {
+     "name": "Lapras",
+     "falls_early": 0.167,
+     "win_if_falls_early": 0.3,
+     "win_otherwise": 0.22,
+     "gap": -0.08,
+     "n_early": 10,
+     "n_otherwise": 50,
+     "win_if_survives": 1,
+     "n_survives": 8
+    },
+    {
+     "name": "Tyranitar",
+     "falls_early": 0.433,
+     "win_if_falls_early": 0.346,
+     "win_otherwise": 0.147,
+     "gap": -0.199,
+     "n_early": 26,
+     "n_otherwise": 34,
+     "win_if_survives": 1,
+     "n_survives": 4
+    },
+    {
+     "name": "Snorlax",
+     "falls_early": 0,
+     "win_if_falls_early": null,
+     "win_otherwise": 0.233,
+     "gap": null,
+     "n_early": 0,
+     "n_otherwise": 60,
+     "win_if_survives": 1,
+     "n_survives": 13
+    }
+   ],
+   "damage_by_type": [
+    {
+     "type": "Fighting",
+     "per_battle": 203.3,
+     "share": 0.292,
+     "weak": [
+      "Tyranitar",
+      "Mamoswine",
+      "Lapras",
+      "Snorlax"
+     ]
+    },
+    {
+     "type": "Ground",
+     "per_battle": 127.9,
+     "share": 0.183,
+     "weak": [
+      "Typhlosion",
+      "Tyranitar"
+     ]
+    },
+    {
+     "type": "Dragon",
+     "per_battle": 113.6,
+     "share": 0.163,
+     "weak": []
+    },
+    {
+     "type": "Water",
+     "per_battle": 43,
+     "share": 0.062,
+     "weak": [
+      "Typhlosion",
+      "Tyranitar",
+      "Mamoswine"
+     ]
+    },
+    {
+     "type": "Ice",
+     "per_battle": 40.9,
+     "share": 0.059,
+     "weak": [
+      "Crobat"
+     ]
+    },
+    {
+     "type": "Electric",
+     "per_battle": 27.9,
+     "share": 0.04,
+     "weak": [
+      "Crobat",
+      "Lapras"
+     ]
+    },
+    {
+     "type": "Bug",
+     "per_battle": 27.5,
+     "share": 0.039,
+     "weak": [
+      "Tyranitar"
+     ]
+    },
+    {
+     "type": "Normal",
+     "per_battle": 26,
+     "share": 0.037,
+     "weak": []
+    }
+   ],
+   "sequencing": {
+    "first_knockout": [
+     {
+      "name": "Typhlosion",
+      "battles": 23
+     },
+     {
+      "name": "Tyranitar",
+      "battles": 16
+     },
+     {
+      "name": "Mamoswine",
+      "battles": 12
+     },
+     {
+      "name": "Crobat",
+      "battles": 3
+     },
+     {
+      "name": "Snorlax",
+      "battles": 2
+     },
+     {
+      "name": "Lapras",
+      "battles": 2
+     }
+    ],
+    "last_knockout_in_wins": [
+     {
+      "name": "Mamoswine",
+      "battles": 4
+     },
+     {
+      "name": "Snorlax",
+      "battles": 3
+     },
+     {
+      "name": "Tyranitar",
+      "battles": 3
+     },
+     {
+      "name": "Lapras",
+      "battles": 2
+     },
+     {
+      "name": "Crobat",
+      "battles": 2
+     }
+    ],
+    "leads": [
+     {
+      "name": "Typhlosion",
+      "n": 60,
+      "won": 14,
+      "rate": 0.233
+     }
+    ]
+   }
+  },
+  "interpretation": {
+   "robust": [
+    "Your knockouts come mostly from Mamoswine (33%)."
+   ],
+   "opponent_dependent": [],
+   "needs_more_battles": [
+    "The overall result is still loose: 23% (95% 14%–35%). More battles would narrow it.",
+    "Zack · HeartGold (main) is too close to call at 10 of 20: run more battles against them."
+   ]
+  },
+  "patterns": [
+   {
+    "id": "threat:Infernape",
+    "kind": "threat",
+    "strength": "strong",
+    "title": "Infernape runs through the team",
+    "finding": "Infernape is in 78% of your losses and takes 1.5 of yours each time; it's hardest on Typhlosion, Lapras, Snorlax.",
+    "evidence": {
+     "species": "Infernape",
+     "from": [
+      "Zack · SoulSilver",
+      "Zack · Platinum"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 1.525,
+     "survives": 0.375,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 17
+      },
+      {
+       "name": "Lapras",
+       "kos": 16
+      },
+      {
+       "name": "Snorlax",
+       "kos": 11
+      }
+     ],
+     "in_losses": 36,
+     "share_of_losses": 0.783,
+     "kos_in_losses": 1.528,
+     "sweeps": 15
+    },
+    "suggestion": {
+     "label": "Watch a loss where Infernape sweeps, then test an answer",
+     "experiment": {
+      "kind": "battles",
+      "team": "me/heartgold",
+      "pool": "journey",
+      "interpretation": "blackthorn",
+      "filter": {
+       "lost": true,
+       "threat": "Infernape"
+      }
+     }
+    }
+   },
+   {
+    "id": "depends:Typhlosion",
+    "kind": "dependency",
+    "strength": "strong",
+    "title": "The team leans on Typhlosion",
+    "finding": "When Typhlosion is one of the first two of yours to fall, you win 13% (39 battles); otherwise 43% (21). That goes together with losing; it isn't proof it causes it.",
+    "evidence": {
+     "name": "Typhlosion",
+     "falls_early": 0.65,
+     "win_if_falls_early": 0.128,
+     "win_otherwise": 0.429,
+     "gap": 0.3,
+     "n_early": 39,
+     "n_otherwise": 21,
+     "win_if_survives": 1,
+     "n_survives": 6
+    },
+    "suggestion": {
+     "label": "Play your trainer more cautiously (protects Typhlosion more) and compare",
+     "experiment": {
+      "kind": "styles",
+      "team": "me/heartgold",
+      "pool": "journey",
+      "interpretation": "blackthorn",
+      "ours": [
+       "blackthorn",
+       "cautious"
+      ]
+     }
+    }
+   },
+   {
+    "id": "threat:Lucario",
+    "kind": "threat",
+    "strength": "suggestive",
+    "title": "Lucario runs through the team",
+    "finding": "Lucario is in 44% of your losses and takes 2.9 of yours each time; it's hardest on Tyranitar, Lapras, Snorlax.",
+    "evidence": {
+     "species": "Lucario",
+     "from": [
+      "Zack · Platinum"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 2.85,
+     "survives": 1,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 18
+      },
+      {
+       "name": "Lapras",
+       "kos": 17
+      },
+      {
+       "name": "Snorlax",
+       "kos": 11
+      }
+     ],
+     "in_losses": 20,
+     "share_of_losses": 0.435,
+     "kos_in_losses": 2.85,
+     "sweeps": 19
+    },
+    "suggestion": {
+     "label": "Watch a loss where Lucario sweeps, then test an answer",
+     "experiment": {
+      "kind": "battles",
+      "team": "me/heartgold",
+      "pool": "journey",
+      "interpretation": "blackthorn",
+      "filter": {
+       "lost": true,
+       "threat": "Lucario"
+      }
+     }
+    }
+   },
+   {
+    "id": "threat:Garchomp",
+    "kind": "threat",
+    "strength": "suggestive",
+    "title": "Garchomp runs through the team",
+    "finding": "Garchomp is in 44% of your losses and takes 2.1 of yours each time; it's hardest on Typhlosion, Crobat, Snorlax.",
+    "evidence": {
+     "species": "Garchomp",
+     "from": [
+      "Zack · Platinum"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 2.05,
+     "survives": 0.75,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 20
+      },
+      {
+       "name": "Crobat",
+       "kos": 9
+      },
+      {
+       "name": "Snorlax",
+       "kos": 9
+      }
+     ],
+     "in_losses": 20,
+     "share_of_losses": 0.435,
+     "kos_in_losses": 2.05,
+     "sweeps": 11
+    },
+    "suggestion": {
+     "label": "Watch a loss where Garchomp sweeps, then test an answer",
+     "experiment": {
+      "kind": "battles",
+      "team": "me/heartgold",
+      "pool": "journey",
+      "interpretation": "blackthorn",
+      "filter": {
+       "lost": true,
+       "threat": "Garchomp"
+      }
+     }
+    }
+   },
+   {
+    "id": "depends:Mamoswine",
+    "kind": "dependency",
+    "strength": "suggestive",
+    "title": "The team leans on Mamoswine",
+    "finding": "When Mamoswine is one of the first two of yours to fall, you win 11% (35 battles); otherwise 40% (25). That goes together with losing; it isn't proof it causes it.",
+    "evidence": {
+     "name": "Mamoswine",
+     "falls_early": 0.583,
+     "win_if_falls_early": 0.114,
+     "win_otherwise": 0.4,
+     "gap": 0.286,
+     "n_early": 35,
+     "n_otherwise": 25,
+     "win_if_survives": 1,
+     "n_survives": 5
+    },
+    "suggestion": {
+     "label": "Play your trainer more cautiously (protects Mamoswine more) and compare",
+     "experiment": {
+      "kind": "styles",
+      "team": "me/heartgold",
+      "pool": "journey",
+      "interpretation": "blackthorn",
+      "ours": [
+       "blackthorn",
+       "cautious"
+      ]
+     }
+    }
+   },
+   {
+    "id": "close",
+    "kind": "uncertain",
+    "strength": "suggestive",
+    "title": "Some matchups are too close to call",
+    "finding": "Zack · HeartGold (main) (10/20): their intervals still cross 50%.",
+    "evidence": [
+     {
+      "opponent": "me/heartgold",
+      "name": "Zack · HeartGold (main)",
+      "n": 20,
+      "won": 10,
+      "rate": 0.5,
+      "ci95": [
+       0.299,
+       0.701
+      ],
+      "turns": 34.9,
+      "left_when_won": 4.1
+     }
+    ],
+    "suggestion": {
+     "label": "Run more battles against just these",
+     "experiment": {
+      "kind": "league",
+      "team": "me/heartgold",
+      "pool": "journey",
+      "interpretation": "blackthorn",
+      "only": [
+       "me/heartgold"
+      ],
+      "n": 60
+     }
+    }
+   }
+  ],
+  "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+ },
+ "battles": [
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 0,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     20
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Mamoswine",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 1,
+   "winner": "b",
+   "turns": 23,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Crobat",
+     "Tyranitar",
+     7
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Tyranitar",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     11
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lapras",
+     12
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     21
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Mamoswine",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 2,
+   "winner": "b",
+   "turns": 38,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Snorlax",
+     14
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Lapras",
+     28
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     33
+    ],
+    [
+     "a",
+     "Crobat",
+     "Mamoswine",
+     36
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Mamoswine",
+     38
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 3,
+   "winner": "a",
+   "turns": 26,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Crobat",
+     "Mamoswine",
+     24
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Mamoswine",
+     26
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 4,
+   "winner": "b",
+   "turns": 32,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     15
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lapras",
+     16
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Mamoswine",
+     20
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     25
+    ],
+    [
+     "a",
+     "Crobat",
+     "Mamoswine",
+     31
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Mamoswine",
+     32
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 5,
+   "winner": "b",
+   "turns": 44,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     28
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Tyranitar",
+     29
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Crobat",
+     30
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     37
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Mamoswine",
+     38
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Snorlax",
+     39
+    ],
+    [
+     "a",
+     "Crobat",
+     "Snorlax",
+     42
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Snorlax",
+     44
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 6,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Typhlosion",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     4
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Mamoswine",
+     18
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Crobat",
+     "Mamoswine",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 7,
+   "winner": "a",
+   "turns": 30,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Crobat",
+     9
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Snorlax",
+     24
+    ],
+    [
+     "b",
+     "Lapras",
+     "Snorlax",
+     29
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Snorlax",
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 8,
+   "winner": "b",
+   "turns": 51,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Mamoswine",
+     24
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Crobat",
+     28
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Mamoswine",
+     31
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Crobat",
+     34
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Snorlax",
+     42
+    ],
+    [
+     "a",
+     "Lapras",
+     null,
+     44
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lapras",
+     51
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 9,
+   "winner": "b",
+   "turns": 30,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Crobat",
+     "Tyranitar",
+     7
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     9
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Mamoswine",
+     24
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Mamoswine",
+     25
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     27
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Snorlax",
+     29
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Crobat",
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 10,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Tyranitar",
+     6
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Mamoswine",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Crobat",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     20
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Snorlax",
+     21
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     22
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 11,
+   "winner": "b",
+   "turns": 39,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Crobat",
+     15
+    ],
+    [
+     "a",
+     "Crobat",
+     "Typhlosion",
+     32
+    ],
+    [
+     "a",
+     "Lapras",
+     "Typhlosion",
+     33
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Typhlosion",
+     34
+    ],
+    [
+     "b",
+     "Lapras",
+     "Typhlosion",
+     35
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Crobat",
+     37
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Crobat",
+     39
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 12,
+   "winner": "a",
+   "turns": 37,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Typhlosion",
+     "Mamoswine",
+     22
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     23
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     24
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Crobat",
+     29
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     34
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     36
+    ],
+    [
+     "b",
+     "Snorlax",
+     null,
+     37
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 13,
+   "winner": "a",
+   "turns": 27,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Tyranitar",
+     "Crobat",
+     7
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Snorlax",
+     8
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Crobat",
+     13
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Snorlax",
+     15
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Snorlax",
+     16
+    ],
+    [
+     "b",
+     "Crobat",
+     "Lapras",
+     27
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 14,
+   "winner": "b",
+   "turns": 46,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     13
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Lapras",
+     15
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Typhlosion",
+     29
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Snorlax",
+     31
+    ],
+    [
+     "a",
+     "Crobat",
+     "Snorlax",
+     42
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Snorlax",
+     44
+    ],
+    [
+     "a",
+     "Lapras",
+     "Snorlax",
+     46
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 15,
+   "winner": "a",
+   "turns": 106,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Typhlosion",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     31
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     32
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lapras",
+     33
+    ],
+    [
+     "a",
+     "Lapras",
+     "Tyranitar",
+     59
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Typhlosion",
+     60
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Snorlax",
+     73
+    ],
+    [
+     "a",
+     "Crobat",
+     "Snorlax",
+     93
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Snorlax",
+     102
+    ],
+    [
+     "b",
+     "Crobat",
+     null,
+     105
+    ],
+    [
+     "b",
+     "Lapras",
+     null,
+     106
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 16,
+   "winner": "b",
+   "turns": 29,
+   "left": {
+    "a": 0,
+    "b": 6
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Tyranitar",
+     6
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Tyranitar",
+     7
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Tyranitar",
+     22
+    ],
+    [
+     "a",
+     "Crobat",
+     "Tyranitar",
+     27
+    ],
+    [
+     "a",
+     "Lapras",
+     "Tyranitar",
+     29
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 17,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Snorlax",
+     13
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Snorlax",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 18,
+   "winner": "a",
+   "turns": 30,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "b",
+     "Tyranitar",
+     "Tyranitar",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Crobat",
+     7
+    ],
+    [
+     "b",
+     "Typhlosion",
+     "Mamoswine",
+     18
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Crobat",
+     22
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     25
+    ],
+    [
+     "b",
+     "Crobat",
+     "Mamoswine",
+     28
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Mamoswine",
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/heartgold",
+   "k": 0,
+   "i": 19,
+   "winner": "b",
+   "turns": 28,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Typhlosion"
+   },
+   "kos": [
+    [
+     "a",
+     "Crobat",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Tyranitar",
+     "Mamoswine",
+     13
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lapras",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Snorlax",
+     16
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Mamoswine",
+     20
+    ],
+    [
+     "a",
+     "Lapras",
+     "Mamoswine",
+     26
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Typhlosion",
+     27
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Lapras",
+     28
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 0,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     9
+    ],
+    [
+     "a",
+     "Crobat",
+     null,
+     12
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Tyranitar",
+     13
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     14
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     15
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Infernape",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 1,
+   "winner": "b",
+   "turns": 22,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Snorlax",
+     6
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     15
+    ],
+    [
+     "a",
+     "Crobat",
+     "Scizor",
+     16
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Scizor",
+     20
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 2,
+   "winner": "b",
+   "turns": 18,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     9
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Crobat",
+     "Empoleon",
+     14
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Tyranitar",
+     15
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     16
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Infernape",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 3,
+   "winner": "b",
+   "turns": 40,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Mamoswine",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Typhlosion",
+     28
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     31
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     32
+    ],
+    [
+     "a",
+     "Crobat",
+     "Dragonite",
+     36
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     38
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Infernape",
+     39
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     40
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 4,
+   "winner": "b",
+   "turns": 28,
+   "left": {
+    "a": 0,
+    "b": 1
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     3
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Gengar",
+     "Typhlosion",
+     11
+    ],
+    [
+     "a",
+     "Typhlosion",
+     null,
+     11
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Scizor",
+     13
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     14
+    ],
+    [
+     "a",
+     "Lapras",
+     "Scizor",
+     15
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Crobat",
+     16
+    ],
+    [
+     "a",
+     "Crobat",
+     null,
+     22
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Scizor",
+     28
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 5,
+   "winner": "b",
+   "turns": 21,
+   "left": {
+    "a": 0,
+    "b": 6
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     11
+    ],
+    [
+     "a",
+     "Crobat",
+     null,
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 6,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     9
+    ],
+    [
+     "a",
+     "Crobat",
+     "Empoleon",
+     12
+    ],
+    [
+     "a",
+     "Lapras",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Tyranitar",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Infernape",
+     15
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 7,
+   "winner": "a",
+   "turns": 29,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     11
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Pikachu",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Pikachu",
+     15
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Gengar",
+     "Mamoswine",
+     17
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Scizor",
+     18
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lapras",
+     28
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Lapras",
+     29
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 8,
+   "winner": "b",
+   "turns": 24,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     3
+    ],
+    [
+     "b",
+     "Gengar",
+     "Typhlosion",
+     10
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Typhlosion",
+     11
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     12
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     13
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     14
+    ],
+    [
+     "a",
+     "Crobat",
+     "Pikachu",
+     20
+    ],
+    [
+     "b",
+     "Pikachu",
+     null,
+     20
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Infernape",
+     23
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 9,
+   "winner": "b",
+   "turns": 19,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Empoleon",
+     "Snorlax",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Scizor",
+     11
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     12
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     13
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     14
+    ],
+    [
+     "b",
+     "Gengar",
+     "Crobat",
+     18
+    ],
+    [
+     "a",
+     "Crobat",
+     "Scizor",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 10,
+   "winner": "b",
+   "turns": 20,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     3
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Mamoswine",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Crobat",
+     "Scizor",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Scizor",
+     15
+    ],
+    [
+     "b",
+     "Scizor",
+     "Snorlax",
+     18
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     19
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 11,
+   "winner": "b",
+   "turns": 25,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     19
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Infernape",
+     20
+    ],
+    [
+     "a",
+     "Crobat",
+     "Empoleon",
+     23
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Snorlax",
+     24
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Gengar",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 12,
+   "winner": "b",
+   "turns": 20,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     9
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     15
+    ],
+    [
+     "b",
+     "Gengar",
+     "Crobat",
+     19
+    ],
+    [
+     "a",
+     "Crobat",
+     "Scizor",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 13,
+   "winner": "a",
+   "turns": 36,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     3
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Crobat",
+     14
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gengar",
+     18
+    ],
+    [
+     "b",
+     "Gengar",
+     "Crobat",
+     24
+    ],
+    [
+     "b",
+     "Scizor",
+     "Crobat",
+     31
+    ],
+    [
+     "b",
+     "Infernape",
+     "Crobat",
+     35
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     36
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 14,
+   "winner": "b",
+   "turns": 23,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Mamoswine",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gengar",
+     13
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     14
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     15
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     16
+    ],
+    [
+     "a",
+     "Crobat",
+     "Empoleon",
+     19
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Infernape",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 15,
+   "winner": "b",
+   "turns": 24,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Empoleon",
+     "Lapras",
+     10
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     13
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     14
+    ],
+    [
+     "a",
+     "Crobat",
+     "Dragonite",
+     18
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     20
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Scizor",
+     21
+    ],
+    [
+     "b",
+     "Gengar",
+     "Snorlax",
+     24
+    ],
+    [
+     "a",
+     "Snorlax",
+     null,
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 16,
+   "winner": "a",
+   "turns": 79,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Empoleon",
+     "Tyranitar",
+     13
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Scizor",
+     14
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     19
+    ],
+    [
+     "a",
+     "Typhlosion",
+     null,
+     21
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     23
+    ],
+    [
+     "a",
+     "Lapras",
+     null,
+     27
+    ],
+    [
+     "b",
+     "Gengar",
+     "Snorlax",
+     32
+    ],
+    [
+     "b",
+     "Scizor",
+     "Crobat",
+     74
+    ],
+    [
+     "b",
+     "Infernape",
+     "Crobat",
+     78
+    ],
+    [
+     "b",
+     "Pikachu",
+     null,
+     79
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 17,
+   "winner": "b",
+   "turns": 35,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     10
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     13
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     14
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Crobat",
+     17
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Pikachu",
+     29
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Crobat",
+     30
+    ],
+    [
+     "b",
+     "Gengar",
+     "Crobat",
+     32
+    ],
+    [
+     "a",
+     "Crobat",
+     "Scizor",
+     35
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 18,
+   "winner": "a",
+   "turns": 43,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     3
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Gengar",
+     "Lapras",
+     25
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     26
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     27
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     28
+    ],
+    [
+     "b",
+     "Empoleon",
+     "Crobat",
+     31
+    ],
+    [
+     "b",
+     "Infernape",
+     "Crobat",
+     37
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Pikachu",
+     40
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Crobat",
+     41
+    ],
+    [
+     "b",
+     "Scizor",
+     "Crobat",
+     43
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/soulsilver",
+   "k": 1,
+   "i": 19,
+   "winner": "b",
+   "turns": 28,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Mamoswine",
+     "Dragonite",
+     3
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Scizor",
+     13
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     15
+    ],
+    [
+     "a",
+     "Lapras",
+     "Infernape",
+     16
+    ],
+    [
+     "a",
+     "Crobat",
+     "Empoleon",
+     20
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Pikachu",
+     28
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 0,
+   "winner": "b",
+   "turns": 17,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     13
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 1,
+   "winner": "b",
+   "turns": 30,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     4
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     28
+    ],
+    [
+     "a",
+     "Crobat",
+     "Magnezone",
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 2,
+   "winner": "b",
+   "turns": 30,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     6
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Crobat",
+     null,
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 3,
+   "winner": "b",
+   "turns": 12,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Crobat",
+     null,
+     11
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 4,
+   "winner": "b",
+   "turns": 21,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Weavile",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Mamoswine",
+     7
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     13
+    ],
+    [
+     "a",
+     "Crobat",
+     null,
+     20
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 5,
+   "winner": "b",
+   "turns": 14,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     12
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 6,
+   "winner": "b",
+   "turns": 17,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Weavile",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     15
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 7,
+   "winner": "b",
+   "turns": 24,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Weavile",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Crobat",
+     14
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     18
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     23
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 8,
+   "winner": "b",
+   "turns": 18,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Crobat",
+     14
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     17
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 9,
+   "winner": "b",
+   "turns": 14,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Weavile",
+     6
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     7
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     12
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 10,
+   "winner": "b",
+   "turns": 20,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     18
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 11,
+   "winner": "b",
+   "turns": 23,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     4
+    ],
+    [
+     "b",
+     "Weavile",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     18
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     21
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 12,
+   "winner": "b",
+   "turns": 20,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     6
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Crobat",
+     15
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     17
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     18
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     19
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 13,
+   "winner": "b",
+   "turns": 11,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     6
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Crobat",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 14,
+   "winner": "b",
+   "turns": 21,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     6
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     15
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     18
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Snorlax",
+     20
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 15,
+   "winner": "b",
+   "turns": 30,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     6
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Crobat",
+     null,
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 16,
+   "winner": "b",
+   "turns": 19,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Lapras",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Roserade",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Weavile",
+     "Mamoswine",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     12
+    ],
+    [
+     "a",
+     "Crobat",
+     "Magnezone",
+     15
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 17,
+   "winner": "b",
+   "turns": 25,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     23
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 18,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     6
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     11
+    ],
+    [
+     "a",
+     "Crobat",
+     "Garchomp",
+     14
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Garchomp",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "mine:me/platinum",
+   "k": 2,
+   "i": 19,
+   "winner": "b",
+   "turns": 18,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Infernape"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Magnezone",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Roserade",
+     6
+    ],
+    [
+     "a",
+     "Lapras",
+     "Weavile",
+     13
+    ],
+    [
+     "a",
+     "Crobat",
+     "Weavile",
+     14
+    ],
+    [
+     "b",
+     "Weavile",
+     "Snorlax",
+     16
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     18
+    ]
+   ]
+  }
+ ],
+ "fell_back": [],
+ "labels": {
+  "team": "Zack · HeartGold (main)",
+  "pool": "Your journey teams (as they fight: optimized spreads)",
+  "opponents": "Blackthorn's reading",
+  "ours": "Blackthorn's reading"
+ }
+}

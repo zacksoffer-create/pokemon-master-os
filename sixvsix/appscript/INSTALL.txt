@@ -1,0 +1,17 @@
+BLACKTHORN 6v6 BENCH · a throwaway Apps Script project to test the simulator inside Apps Script's frame
+
+This is a NEW, SEPARATE project. It does not touch the Blackthorn Canon DB Sheet or its script.
+It only reads one file from your Drive: sixvsix-bench.html.
+
+1. Upload sixvsix-bench.html (in this folder) to your Google Drive, anywhere. (About 2.1 MB.)
+2. Go to script.google.com → New project. Name it "Blackthorn 6v6 bench".
+3. Code.gs: delete what's there and paste Code.gs from this folder.
+4. Project Settings (gear) → tick "Show appsscript.json manifest file in editor". Open appsscript.json,
+   replace everything with the one from this folder. Save.
+5. Deploy → New deployment → gear → Web app. Execute as: Me · Who has access: Only myself → Deploy.
+   Approve it (it asks to see your Drive files: that's how it reads sixvsix-bench.html; it only reads).
+6. Open the web app URL on your phone and on your work laptop. Pick a matchup, 100 battles, Run.
+   "✓ The same 100 battles as the home laptop" means that device played exactly what Node played.
+   Tap "Copy results" and paste them back to Claude.
+
+To remove it later: delete the project at script.google.com and the file from Drive.

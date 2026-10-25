@@ -1,0 +1,13797 @@
+{
+ "kind": "Experiment",
+ "type": "league",
+ "spec": {
+  "kind": "league",
+  "team": "me/heartgold",
+  "pool": "heartgold-league",
+  "n": 20,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:54:06.208Z",
+ "seed": "lab|league|b99099ef77318279",
+ "result": {
+  "kind": "PoolResult",
+  "team": "library:me/heartgold",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "lab|league|b99099ef77318279",
+  "allocation": "11 opponents × 20 battles each",
+  "n": 220,
+  "won": 211,
+  "lost": 9,
+  "drew": 0,
+  "win_rate": 0.959,
+  "win_rate_95": [
+   0.924,
+   0.978
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "name": "Bruno · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 16.7,
+    "left_when_won": 4.55,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "name": "Karen · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 10.2,
+    "left_when_won": 6,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "name": "Koga · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 13.9,
+    "left_when_won": 5.3,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "name": "Will · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 13.5,
+    "left_when_won": 5.95,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "name": "Champion Lance (HeartGold)",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 18,
+    "left_when_won": 4.55,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "name": "Bruno · Elite Four · rematch",
+    "n": 20,
+    "won": 11,
+    "lost": 9,
+    "drew": 0,
+    "win_rate": 0.55,
+    "win_rate_95": [
+     0.342,
+     0.742
+    ],
+    "turns": 14.5,
+    "left_when_won": 2.909,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "name": "Karen · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 17.5,
+    "left_when_won": 4.95,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "name": "Koga · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 12.4,
+    "left_when_won": 5.05,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "name": "Will · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 17.2,
+    "left_when_won": 5.4,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "name": "Lance · Champion · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 22,
+    "left_when_won": 3.8,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "name": "Red on Mt. Silver (HeartGold)",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 16,
+    "left_when_won": 5,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Typhlosion",
+    "appeared": 1,
+    "kos_per_battle": 0.705,
+    "fainted_rate": 0.323,
+    "damage_dealt_per_battle": 97.8
+   },
+   {
+    "name": "Tyranitar",
+    "appeared": 0.877,
+    "kos_per_battle": 2.95,
+    "fainted_rate": 0.327,
+    "damage_dealt_per_battle": 297.7
+   },
+   {
+    "name": "Mamoswine",
+    "appeared": 0.477,
+    "kos_per_battle": 0.768,
+    "fainted_rate": 0.205,
+    "damage_dealt_per_battle": 67.9
+   },
+   {
+    "name": "Crobat",
+    "appeared": 0.314,
+    "kos_per_battle": 0.232,
+    "fainted_rate": 0.1,
+    "damage_dealt_per_battle": 20.2
+   },
+   {
+    "name": "Lapras",
+    "appeared": 0.527,
+    "kos_per_battle": 0.595,
+    "fainted_rate": 0.232,
+    "damage_dealt_per_battle": 57.2
+   },
+   {
+    "name": "Snorlax",
+    "appeared": 0.332,
+    "kos_per_battle": 0.268,
+    "fainted_rate": 0.073,
+    "damage_dealt_per_battle": 23.9
+   }
+  ],
+  "weakest": [
+   "library:heartgold/bruno-rematch",
+   "library:heartgold/bruno",
+   "library:heartgold/karen"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 6379,
+   "platform": "worker threads"
+  },
+  "fingerprint": "25ac8022e1d6d970"
+ },
+ "report": {
+  "kind": "StrategyReport",
+  "team": "library:me/heartgold",
+  "team_name": "Zack · HeartGold (main)",
+  "n": 220,
+  "pool": {
+   "id": "pool:heartgold-league",
+   "name": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red"
+  },
+  "interpretation_of_opponents": "blackthorn",
+  "our_style": "blackthorn",
+  "headline": [
+   "Zack · HeartGold (main) won 211 of 220 (96%; 95% 92%–98%).",
+   "Hardest: Bruno · Elite Four · rematch (11/20).",
+   "Tyranitar makes 54% of your knockouts.",
+   "Hitmonchan is in 78% of your losses and takes 1.6 of yours each time; it's hardest on Lapras, Mamoswine, Tyranitar."
+  ],
+  "outcomes": {
+   "n": 220,
+   "won": 211,
+   "rate": 0.959,
+   "ci95": [
+    0.924,
+    0.978
+   ],
+   "drew": 0,
+   "by_opponent": [
+    {
+     "opponent": "heartgold/bruno-rematch",
+     "name": "Bruno · Elite Four · rematch",
+     "n": 20,
+     "won": 11,
+     "rate": 0.55,
+     "ci95": [
+      0.342,
+      0.742
+     ],
+     "turns": 14.5,
+     "left_when_won": 2.9
+    },
+    {
+     "opponent": "heartgold/bruno",
+     "name": "Bruno · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 16.7,
+     "left_when_won": 4.6
+    },
+    {
+     "opponent": "heartgold/karen",
+     "name": "Karen · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 10.2,
+     "left_when_won": 6
+    },
+    {
+     "opponent": "heartgold/koga",
+     "name": "Koga · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 13.9,
+     "left_when_won": 5.3
+    },
+    {
+     "opponent": "heartgold/will",
+     "name": "Will · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 13.5,
+     "left_when_won": 6
+    },
+    {
+     "opponent": "heartgold/lance",
+     "name": "Champion Lance (HeartGold)",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 18,
+     "left_when_won": 4.6
+    },
+    {
+     "opponent": "heartgold/karen-rematch",
+     "name": "Karen · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 17.5,
+     "left_when_won": 5
+    },
+    {
+     "opponent": "heartgold/koga-rematch",
+     "name": "Koga · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 12.4,
+     "left_when_won": 5.1
+    },
+    {
+     "opponent": "heartgold/will-rematch",
+     "name": "Will · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 17.2,
+     "left_when_won": 5.4
+    },
+    {
+     "opponent": "heartgold/lance-rematch",
+     "name": "Lance · Champion · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 22,
+     "left_when_won": 3.8
+    },
+    {
+     "opponent": "heartgold/red",
+     "name": "Red on Mt. Silver (HeartGold)",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 16,
+     "left_when_won": 5
+    }
+   ],
+   "turns": 15.6,
+   "left_when_won": 4.9,
+   "close_wins": 0.009
+  },
+  "members": [
+   {
+    "name": "Typhlosion",
+    "species": "Typhlosion",
+    "appeared": 1,
+    "kos": 0.705,
+    "ko_share": 0.128,
+    "ko_share_in_wins": 0.124,
+    "damage_dealt": 97.8,
+    "damage_taken": 43.7,
+    "healed": 0,
+    "status_inflicted": 0.091,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.205,
+    "fainted": 0.323,
+    "falls_first": 0.259,
+    "opens": 0.391,
+    "closes": 0.062,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Tyranitar",
+    "species": "Tyranitar",
+    "appeared": 0.877,
+    "kos": 2.95,
+    "ko_share": 0.535,
+    "ko_share_in_wins": 0.544,
+    "damage_dealt": 297.7,
+    "damage_taken": 53.2,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0.686,
+    "support_used": 0,
+    "switched_in_by_choice": 0.786,
+    "fainted": 0.327,
+    "falls_first": 0.191,
+    "opens": 0.327,
+    "closes": 0.526,
+    "reading": "your main finisher (54% of your knockouts); takes the most hits (53% of its HP a battle); closes 53% of your wins; sets up 0.7 times a battle"
+   },
+   {
+    "name": "Mamoswine",
+    "species": "Mamoswine",
+    "appeared": 0.477,
+    "kos": 0.768,
+    "ko_share": 0.139,
+    "ko_share_in_wins": 0.141,
+    "damage_dealt": 67.9,
+    "damage_taken": 28.8,
+    "healed": 0,
+    "status_inflicted": 0.005,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.309,
+    "fainted": 0.205,
+    "falls_first": 0.05,
+    "opens": 0.109,
+    "closes": 0.199,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Crobat",
+    "species": "Crobat",
+    "appeared": 0.314,
+    "kos": 0.232,
+    "ko_share": 0.042,
+    "ko_share_in_wins": 0.038,
+    "damage_dealt": 20.2,
+    "damage_taken": 28.4,
+    "healed": 12.8,
+    "status_inflicted": 0.005,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.218,
+    "fainted": 0.1,
+    "falls_first": 0.014,
+    "opens": 0.032,
+    "closes": 0.043,
+    "reading": "sees play in only 31% of battles"
+   },
+   {
+    "name": "Lapras",
+    "species": "Lapras",
+    "appeared": 0.527,
+    "kos": 0.595,
+    "ko_share": 0.108,
+    "ko_share_in_wins": 0.107,
+    "damage_dealt": 57.2,
+    "damage_taken": 47.4,
+    "healed": 12.8,
+    "status_inflicted": 0.027,
+    "setup_used": 0,
+    "support_used": 0.009,
+    "switched_in_by_choice": 0.5,
+    "fainted": 0.232,
+    "falls_first": 0.077,
+    "opens": 0.086,
+    "closes": 0.109,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Snorlax",
+    "species": "Snorlax",
+    "appeared": 0.332,
+    "kos": 0.268,
+    "ko_share": 0.049,
+    "ko_share_in_wins": 0.046,
+    "damage_dealt": 23.9,
+    "damage_taken": 28.4,
+    "healed": 16.7,
+    "status_inflicted": 0.064,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.268,
+    "fainted": 0.073,
+    "falls_first": 0.005,
+    "opens": 0.05,
+    "closes": 0.057,
+    "reading": "sees play in only 33% of battles"
+   }
+  ],
+  "team_level": {
+   "threats": [
+    {
+     "species": "Machamp",
+     "from": [
+      "Bruno · Elite Four · first battle",
+      "Bruno · Elite Four · rematch"
+     ],
+     "appeared": 39,
+     "kos_per_appearance": 0.872,
+     "survives": 0.128,
+     "most_against": [
+      {
+       "name": "Crobat",
+       "kos": 12
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 10
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 7
+      }
+     ],
+     "in_losses": 8,
+     "share_of_losses": 0.889,
+     "kos_in_losses": 1,
+     "sweeps": 1
+    },
+    {
+     "species": "Hariyama",
+     "from": [
+      "Bruno · Elite Four · rematch"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 1,
+     "survives": 0.1,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 10
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 8
+      },
+      {
+       "name": "Lapras",
+       "kos": 1
+      }
+     ],
+     "in_losses": 9,
+     "share_of_losses": 1,
+     "kos_in_losses": 1.444,
+     "sweeps": 5
+    },
+    {
+     "species": "Hitmonchan",
+     "from": [
+      "Bruno · Elite Four · first battle",
+      "Bruno · Elite Four · rematch"
+     ],
+     "appeared": 38,
+     "kos_per_appearance": 0.658,
+     "survives": 0.026,
+     "most_against": [
+      {
+       "name": "Lapras",
+       "kos": 8
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 6
+      },
+      {
+       "name": "Tyranitar",
+       "kos": 5
+      }
+     ],
+     "in_losses": 7,
+     "share_of_losses": 0.778,
+     "kos_in_losses": 1.571,
+     "sweeps": 4
+    },
+    {
+     "species": "Skuntank",
+     "from": [
+      "Koga · Elite Four · rematch"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.8,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 14
+      },
+      {
+       "name": "Lapras",
+       "kos": 1
+      },
+      {
+       "name": "Snorlax",
+       "kos": 1
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Garchomp",
+     "from": [
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.8,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Lapras",
+       "kos": 10
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 5
+      },
+      {
+       "name": "Tyranitar",
+       "kos": 1
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Lucario",
+     "from": [
+      "Bruno · Elite Four · rematch"
+     ],
+     "appeared": 18,
+     "kos_per_appearance": 0.833,
+     "survives": 0.111,
+     "most_against": [
+      {
+       "name": "Lapras",
+       "kos": 5
+      },
+      {
+       "name": "Crobat",
+       "kos": 5
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 2
+      }
+     ],
+     "in_losses": 7,
+     "share_of_losses": 0.778,
+     "kos_in_losses": 1.286,
+     "sweeps": 1
+    },
+    {
+     "species": "Dragonite",
+     "from": [
+      "Champion Lance (HeartGold)",
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.525,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 8
+      },
+      {
+       "name": "Snorlax",
+       "kos": 3
+      },
+      {
+       "name": "Lapras",
+       "kos": 3
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Gyarados",
+     "from": [
+      "Champion Lance (HeartGold)",
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.4,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 8
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 4
+      },
+      {
+       "name": "Lapras",
+       "kos": 3
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    }
+   ],
+   "dependencies": [
+    {
+     "name": "Crobat",
+     "falls_early": 0.068,
+     "win_if_falls_early": 0.667,
+     "win_otherwise": 0.98,
+     "gap": 0.314,
+     "n_early": 15,
+     "n_otherwise": 205,
+     "win_if_survives": 1,
+     "n_survives": 198
+    },
+    {
+     "name": "Mamoswine",
+     "falls_early": 0.15,
+     "win_if_falls_early": 0.848,
+     "win_otherwise": 0.979,
+     "gap": 0.13,
+     "n_early": 33,
+     "n_otherwise": 187,
+     "win_if_survives": 1,
+     "n_survives": 175
+    },
+    {
+     "name": "Typhlosion",
+     "falls_early": 0.286,
+     "win_if_falls_early": 0.873,
+     "win_otherwise": 0.994,
+     "gap": 0.121,
+     "n_early": 63,
+     "n_otherwise": 157,
+     "win_if_survives": 1,
+     "n_survives": 149
+    },
+    {
+     "name": "Snorlax",
+     "falls_early": 0.027,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.958,
+     "gap": -0.042,
+     "n_early": 6,
+     "n_otherwise": 214,
+     "win_if_survives": 1,
+     "n_survives": 204
+    },
+    {
+     "name": "Lapras",
+     "falls_early": 0.136,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.953,
+     "gap": -0.047,
+     "n_early": 30,
+     "n_otherwise": 190,
+     "win_if_survives": 1,
+     "n_survives": 169
+    },
+    {
+     "name": "Tyranitar",
+     "falls_early": 0.241,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.946,
+     "gap": -0.054,
+     "n_early": 53,
+     "n_otherwise": 167,
+     "win_if_survives": 1,
+     "n_survives": 148
+    }
+   ],
+   "damage_by_type": [
+    {
+     "type": "Fighting",
+     "per_battle": 44.5,
+     "share": 0.216,
+     "weak": [
+      "Tyranitar",
+      "Mamoswine",
+      "Lapras",
+      "Snorlax"
+     ]
+    },
+    {
+     "type": "Dragon",
+     "per_battle": 30.9,
+     "share": 0.149,
+     "weak": []
+    },
+    {
+     "type": "Rock",
+     "per_battle": 22.6,
+     "share": 0.11,
+     "weak": [
+      "Typhlosion",
+      "Crobat",
+      "Lapras"
+     ]
+    },
+    {
+     "type": "Normal",
+     "per_battle": 19.8,
+     "share": 0.096,
+     "weak": []
+    },
+    {
+     "type": "Dark",
+     "per_battle": 19.3,
+     "share": 0.093,
+     "weak": []
+    },
+    {
+     "type": "Ground",
+     "per_battle": 15,
+     "share": 0.073,
+     "weak": [
+      "Typhlosion",
+      "Tyranitar"
+     ]
+    },
+    {
+     "type": "Fire",
+     "per_battle": 10.3,
+     "share": 0.05,
+     "weak": [
+      "Mamoswine"
+     ]
+    },
+    {
+     "type": "Psychic",
+     "per_battle": 9.7,
+     "share": 0.047,
+     "weak": [
+      "Crobat"
+     ]
+    }
+   ],
+   "sequencing": {
+    "first_knockout": [
+     {
+      "name": "Typhlosion",
+      "battles": 86
+     },
+     {
+      "name": "Tyranitar",
+      "battles": 72
+     },
+     {
+      "name": "Mamoswine",
+      "battles": 24
+     },
+     {
+      "name": "Lapras",
+      "battles": 19
+     },
+     {
+      "name": "Snorlax",
+      "battles": 11
+     },
+     {
+      "name": "Crobat",
+      "battles": 8
+     }
+    ],
+    "last_knockout_in_wins": [
+     {
+      "name": "Tyranitar",
+      "battles": 112
+     },
+     {
+      "name": "Mamoswine",
+      "battles": 42
+     },
+     {
+      "name": "Lapras",
+      "battles": 23
+     },
+     {
+      "name": "Typhlosion",
+      "battles": 13
+     },
+     {
+      "name": "Snorlax",
+      "battles": 12
+     },
+     {
+      "name": "Crobat",
+      "battles": 9
+     }
+    ],
+    "leads": [
+     {
+      "name": "Typhlosion",
+      "n": 220,
+      "won": 211,
+      "rate": 0.959
+     }
+    ]
+   }
+  },
+  "interpretation": {
+   "robust": [
+    "The overall result is pinned down: 96% (95% 92%–98%) over 220 battles.",
+    "Your knockouts come mostly from Tyranitar (54%)."
+   ],
+   "opponent_dependent": [
+    "Bruno · Elite Four · rematch is a real weak spot: 11 of 20 (95% up to 74%), below the pool's interval.",
+    "Tyranitar's role depends on the opponent: 98% of your knockouts against Karen · Elite Four · first battle, 10% against Bruno · Elite Four · first battle.",
+    "Mamoswine's role depends on the opponent: 43% of your knockouts against Bruno · Elite Four · first battle, 0% against Karen · Elite Four · first battle."
+   ],
+   "needs_more_battles": []
+  },
+  "patterns": [
+   {
+    "id": "threat:Hitmonchan",
+    "kind": "threat",
+    "strength": "strong",
+    "title": "Hitmonchan runs through the team",
+    "finding": "Hitmonchan is in 78% of your losses and takes 1.6 of yours each time; it's hardest on Lapras, Mamoswine, Tyranitar.",
+    "evidence": {
+     "species": "Hitmonchan",
+     "from": [
+      "Bruno · Elite Four · first battle",
+      "Bruno · Elite Four · rematch"
+     ],
+     "appeared": 38,
+     "kos_per_appearance": 0.658,
+     "survives": 0.026,
+     "most_against": [
+      {
+       "name": "Lapras",
+       "kos": 8
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 6
+      },
+      {
+       "name": "Tyranitar",
+       "kos": 5
+      }
+     ],
+     "in_losses": 7,
+     "share_of_losses": 0.778,
+     "kos_in_losses": 1.571,
+     "sweeps": 4
+    },
+    "suggestion": {
+     "label": "Watch a loss where Hitmonchan sweeps, then test an answer",
+     "experiment": {
+      "kind": "battles",
+      "team": "me/heartgold",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "filter": {
+       "lost": true,
+       "threat": "Hitmonchan"
+      }
+     }
+    }
+   },
+   {
+    "id": "close",
+    "kind": "uncertain",
+    "strength": "suggestive",
+    "title": "Some matchups are too close to call",
+    "finding": "Bruno · Elite Four · rematch (11/20): their intervals still cross 50%.",
+    "evidence": [
+     {
+      "opponent": "heartgold/bruno-rematch",
+      "name": "Bruno · Elite Four · rematch",
+      "n": 20,
+      "won": 11,
+      "rate": 0.55,
+      "ci95": [
+       0.342,
+       0.742
+      ],
+      "turns": 14.5,
+      "left_when_won": 2.9
+     }
+    ],
+    "suggestion": {
+     "label": "Run more battles against just these",
+     "experiment": {
+      "kind": "league",
+      "team": "me/heartgold",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "only": [
+       "heartgold/bruno-rematch"
+      ],
+      "n": 60
+     }
+    }
+   }
+  ],
+  "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+ },
+ "battles": [
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 0,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonlee",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Onix",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 1,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Machamp",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Onix",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 2,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonchan",
+     6
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     13
+    ],
+    [
+     "b",
+     "Onix",
+     "Tyranitar",
+     18
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Machamp",
+     19
+    ],
+    [
+     "b",
+     "Machamp",
+     "Crobat",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 3,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Machamp",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Lapras",
+     18
+    ],
+    [
+     "b",
+     "Onix",
+     "Lapras",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 4,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Onix",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonlee",
+     5
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Crobat",
+     7
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Crobat",
+     11
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     13
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 5,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Onix",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Onix",
+     "Mamoswine",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 6,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     11
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Onix",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 7,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Onix",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 8,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     9
+    ],
+    [
+     "b",
+     "Onix",
+     "Tyranitar",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Machamp",
+     15
+    ],
+    [
+     "b",
+     "Machamp",
+     "Crobat",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 9,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     7
+    ],
+    [
+     "a",
+     "Crobat",
+     "Hitmonchan",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Typhlosion",
+     15
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Machamp",
+     16
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Onix",
+     "Lapras",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 10,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Onix",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 11,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Machamp",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonlee",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Onix",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 12,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Machamp",
+     4
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmontop",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Onix",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 13,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     9
+    ],
+    [
+     "b",
+     "Onix",
+     "Tyranitar",
+     18
+    ],
+    [
+     "b",
+     "Machamp",
+     "Tyranitar",
+     19
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Tyranitar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 14,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     9
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     10
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     16
+    ],
+    [
+     "a",
+     "Lapras",
+     "Machamp",
+     17
+    ],
+    [
+     "b",
+     "Machamp",
+     "Crobat",
+     24
+    ],
+    [
+     "b",
+     "Onix",
+     "Crobat",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 15,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonlee",
+     5
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     14
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     15
+    ],
+    [
+     "b",
+     "Onix",
+     "Tyranitar",
+     18
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Tyranitar",
+     19
+    ],
+    [
+     "b",
+     "Machamp",
+     "Tyranitar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 16,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     11
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmontop",
+     12
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Onix",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 17,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Onix",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Crobat",
+     7
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Crobat",
+     11
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     13
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 18,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Machamp",
+     4
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     9
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmonchan",
+     11
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Onix",
+     "Lapras",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 19,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Onix",
+     4
+    ],
+    [
+     "b",
+     "Onix",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Crobat",
+     "Hitmonchan",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 0,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 1,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 2,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 3,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 4,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 5,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 6,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 7,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 8,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 9,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 10,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Crobat",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 11,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 12,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 13,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Snorlax",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 14,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 15,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 16,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 17,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 18,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 19,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Gengar",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 0,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Muk",
+     10
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     13
+    ],
+    [
+     "a",
+     "Lapras",
+     "Forretress",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 1,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Muk",
+     6
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Forretress",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Typhlosion",
+     10
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Typhlosion",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Typhlosion",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 3,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Typhlosion",
+     12
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Typhlosion",
+     14
+    ],
+    [
+     "b",
+     "Ariados",
+     "Typhlosion",
+     15
+    ],
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 4,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 5,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     9
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 6,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     9
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 7,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Forretress",
+     8
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 8,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Typhlosion",
+     9
+    ],
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     11
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Typhlosion",
+     12
+    ],
+    [
+     "b",
+     "Ariados",
+     "Typhlosion",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 9,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Typhlosion",
+     9
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Typhlosion",
+     10
+    ],
+    [
+     "b",
+     "Ariados",
+     "Typhlosion",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 10,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 11,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Forretress",
+     9
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Crobat",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 12,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Mamoswine",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Forretress",
+     4
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 13,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Muk",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Snorlax",
+     5
+    ],
+    [
+     "a",
+     "Lapras",
+     "Forretress",
+     5
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 14,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Forretress",
+     8
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 15,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Lapras",
+     15
+    ],
+    [
+     "a",
+     "Lapras",
+     "Venomoth",
+     15
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 16,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Mamoswine",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Forretress",
+     4
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 17,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Typhlosion",
+     6
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Ariados",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 18,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Ariados",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Crobat",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 19,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Forretress",
+     "Lapras",
+     13
+    ],
+    [
+     "a",
+     "Lapras",
+     "Forretress",
+     13
+    ],
+    [
+     "b",
+     "Ariados",
+     "Typhlosion",
+     14
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Muk",
+     14
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Mamoswine",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 0,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 1,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 2,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 3,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 4,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 5,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Snorlax",
+     10
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Xatu",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Typhlosion",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 6,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Snorlax",
+     7
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 7,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Snorlax",
+     8
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 8,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 9,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Snorlax",
+     8
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 10,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Snorlax",
+     6
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 11,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 12,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 13,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 14,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 15,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Snorlax",
+     4
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 16,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Jynx",
+     "Typhlosion",
+     11
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Xatu 2",
+     12
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Xatu",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 17,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Snorlax",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 18,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 19,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Slowbro",
+     "Snorlax",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 0,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "a",
+     "Lapras",
+     "Gyarados",
+     4
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Dragonite 3",
+     16
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     20
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Typhlosion",
+     22
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Typhlosion",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 1,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "a",
+     "Lapras",
+     "Gyarados",
+     4
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite 3",
+     13
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 2,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Lapras",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 3,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Lapras",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 4,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Aerodactyl",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Charizard",
+     18
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 5,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     4
+    ],
+    [
+     "a",
+     "Lapras",
+     "Aerodactyl",
+     6
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 6,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Aerodactyl",
+     12
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Dragonite 3",
+     14
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Mamoswine",
+     15
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Charizard",
+     18
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 7,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Aerodactyl",
+     12
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Mamoswine",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 8,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Snorlax",
+     15
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite 2",
+     16
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Mamoswine",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 9,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Mamoswine",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 10,
+   "winner": "a",
+   "turns": 30,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     4
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Aerodactyl",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Charizard",
+     15
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Dragonite 2",
+     20
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Crobat",
+     21
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Dragonite 3",
+     22
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Crobat",
+     26
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     27
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     28
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Crobat",
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 11,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Charizard",
+     12
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Snorlax",
+     16
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 12,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     4
+    ],
+    [
+     "a",
+     "Lapras",
+     "Aerodactyl",
+     5
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     10
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Mamoswine",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Charizard",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 13,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Aerodactyl",
+     9
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Snorlax",
+     10
+    ],
+    [
+     "a",
+     "Lapras",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     22
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Mamoswine",
+     23
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 14,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 15,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     8
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Lapras",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 16,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Aerodactyl",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Mamoswine",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 17,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     15
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Aerodactyl",
+     17
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Snorlax",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 18,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Aerodactyl",
+     15
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Snorlax",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 19,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "a",
+     "Lapras",
+     "Gyarados",
+     4
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 0,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     5
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     10
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Lucario",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 1,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     4
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Crobat",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonchan",
+     15
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Crobat",
+     19
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     22
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Crobat",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 2,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Lapras",
+     4
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmonchan",
+     11
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     12
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Machamp",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 3,
+   "winner": "b",
+   "turns": 14,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     4
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lapras",
+     10
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     11
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonlee",
+     13
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Hitmonlee",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 4,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hariyama",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonlee",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Crobat",
+     5
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     8
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     10
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Lucario",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 5,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hariyama",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonchan",
+     3
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Crobat",
+     4
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Lucario",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 6,
+   "winner": "b",
+   "turns": 13,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     5
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     9
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Lucario",
+     11
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Lucario",
+     12
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Lucario",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 7,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hariyama",
+     "Typhlosion",
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonlee",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Crobat",
+     5
+    ],
+    [
+     "b",
+     "Lucario",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     9
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 8,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     9
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     13
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     15
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     16
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Tyranitar",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonchan",
+     18
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     19
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Tyranitar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 9,
+   "winner": "b",
+   "turns": 13,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     4
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     6
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonchan",
+     12
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Snorlax",
+     13
+    ],
+    [
+     "a",
+     "Snorlax",
+     null,
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 10,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     4
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     11
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmonchan",
+     12
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     13
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     15
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Tyranitar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 11,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 1
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     4
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     10
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmonchan",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Tyranitar",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Machamp",
+     15
+    ],
+    [
+     "a",
+     "Snorlax",
+     null,
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 12,
+   "winner": "b",
+   "turns": 12,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Hitmontop",
+     2
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Crobat",
+     4
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     6
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hariyama",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hariyama",
+     9
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Snorlax",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Lucario",
+     11
+    ],
+    [
+     "a",
+     "Snorlax",
+     null,
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 13,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hariyama",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Machamp",
+     3
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     5
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmonchan",
+     6
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Crobat",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 14,
+   "winner": "b",
+   "turns": 12,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     4
+    ],
+    [
+     "b",
+     "Lucario",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Machamp",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     8
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Tyranitar",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonlee",
+     10
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Lapras",
+     11
+    ],
+    [
+     "a",
+     "Lapras",
+     null,
+     11
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Hitmonchan",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 15,
+   "winner": "b",
+   "turns": 12,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     4
+    ],
+    [
+     "b",
+     "Lucario",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Machamp",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     8
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Lapras",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonchan",
+     11
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Snorlax",
+     12
+    ],
+    [
+     "a",
+     "Snorlax",
+     null,
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 16,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     4
+    ],
+    [
+     "b",
+     "Machamp",
+     "Crobat",
+     6
+    ],
+    [
+     "a",
+     "Crobat",
+     "Lucario",
+     12
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     13
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonlee",
+     14
+    ],
+    [
+     "a",
+     "Lapras",
+     null,
+     15
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Hitmonlee",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 17,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     5
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     9
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hitmonchan",
+     10
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     11
+    ],
+    [
+     "a",
+     "Lapras",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Lucario",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 18,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     8
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hitmonchan",
+     9
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Lapras",
+     10
+    ],
+    [
+     "a",
+     "Lapras",
+     "Machamp",
+     12
+    ],
+    [
+     "b",
+     "Machamp",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Lucario",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Mamoswine",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 19,
+   "winner": "b",
+   "turns": 12,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmontop",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Hariyama",
+     3
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Hariyama",
+     4
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Crobat",
+     6
+    ],
+    [
+     "a",
+     "Crobat",
+     "Machamp",
+     8
+    ],
+    [
+     "b",
+     "Machamp",
+     "Lapras",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Hitmonchan",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Hitmonchan",
+     11
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Snorlax",
+     12
+    ],
+    [
+     "a",
+     "Snorlax",
+     null,
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 0,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 1,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Absol",
+     "Typhlosion",
+     7
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     11
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 2,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Spiritomb",
+     5
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     15
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Absol",
+     17
+    ],
+    [
+     "b",
+     "Absol",
+     "Mamoswine",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 3,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Spiritomb",
+     5
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 4,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     14
+    ],
+    [
+     "a",
+     "Tyranitar",
+     null,
+     16
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Lapras",
+     18
+    ],
+    [
+     "b",
+     "Absol",
+     "Lapras",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 5,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Honchkrow",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     9
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Absol",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 6,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Honchkrow",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     9
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Mamoswine",
+     15
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Umbreon",
+     17
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Snorlax",
+     20
+    ],
+    [
+     "a",
+     "Lapras",
+     "Absol",
+     22
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Absol",
+     25
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 7,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Weavile",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     16
+    ],
+    [
+     "a",
+     "Tyranitar",
+     null,
+     18
+    ],
+    [
+     "b",
+     "Absol",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 8,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 9,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 10,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Umbreon",
+     14
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Mamoswine",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 11,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Honchkrow",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     9
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Mamoswine",
+     18
+    ],
+    [
+     "b",
+     "Absol",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 12,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Spiritomb",
+     5
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 13,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 14,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Umbreon",
+     19
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 15,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 16,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Weavile",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Honchkrow",
+     16
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Mamoswine",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 17,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Weavile",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Absol",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 18,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Honchkrow",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Weavile",
+     "Crobat",
+     9
+    ],
+    [
+     "b",
+     "Absol",
+     "Snorlax",
+     16
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 19,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Typhlosion",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Weavile",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Absol",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Mamoswine",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 0,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 1,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 3,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 4,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 5,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     3
+    ],
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Lapras",
+     "Skuntank",
+     4
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 6,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 7,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 8,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Crobat",
+     "Typhlosion",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Typhlosion",
+     8
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Swalot",
+     9
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Swalot",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Muk",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 9,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 10,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Mamoswine",
+     15
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Muk",
+     16
+    ],
+    [
+     "b",
+     "Swalot",
+     "Lapras",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 11,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     3
+    ],
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Skuntank",
+     4
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 12,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 13,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     3
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Skuntank",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 14,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 15,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     null,
+     1
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Toxicroak",
+     2
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Crobat",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Swalot",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Muk",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 16,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     1
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 17,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 18,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     3
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Skuntank",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Muk",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Swalot",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 19,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Skuntank",
+     3
+    ],
+    [
+     "b",
+     "Skuntank",
+     "Mamoswine",
+     4
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Crobat",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Muk",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Swalot",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 0,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 1,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 2,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Snorlax",
+     11
+    ],
+    [
+     "b",
+     "Jynx",
+     "Snorlax",
+     12
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Snorlax",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 3,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Gardevoir",
+     9
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Snorlax",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Typhlosion",
+     12
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Grumpig",
+     13
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Jynx",
+     "Lapras",
+     20
+    ],
+    [
+     "b",
+     "Xatu",
+     "Lapras",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 4,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 5,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 6,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Bronzong",
+     11
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Lapras",
+     13
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Jynx",
+     21
+    ],
+    [
+     "b",
+     "Jynx",
+     "Typhlosion",
+     22
+    ],
+    [
+     "b",
+     "Xatu",
+     "Typhlosion",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 7,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 8,
+   "winner": "a",
+   "turns": 29,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     7
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gardevoir",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gardevoir",
+     9
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Snorlax",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Typhlosion",
+     12
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Snorlax",
+     18
+    ],
+    [
+     "a",
+     "Lapras",
+     "Xatu",
+     27
+    ],
+    [
+     "b",
+     "Jynx",
+     "Typhlosion",
+     28
+    ],
+    [
+     "b",
+     "Xatu",
+     "Typhlosion",
+     29
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 9,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 10,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Typhlosion",
+     10
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Xatu",
+     11
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 11,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 12,
+   "winner": "a",
+   "turns": 32,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Gardevoir",
+     8
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Snorlax",
+     9
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Snorlax",
+     16
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     21
+    ],
+    [
+     "b",
+     "Jynx",
+     "Typhlosion",
+     30
+    ],
+    [
+     "b",
+     "Xatu",
+     "Typhlosion",
+     32
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 13,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 14,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 15,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 16,
+   "winner": "a",
+   "turns": 31,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Gardevoir",
+     9
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Snorlax",
+     10
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     26
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Typhlosion",
+     27
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Typhlosion",
+     28
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Xatu",
+     29
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     30
+    ],
+    [
+     "b",
+     "Xatu",
+     "Mamoswine",
+     31
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 17,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Xatu",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Mamoswine",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 18,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     3
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Typhlosion",
+     10
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 19,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Grumpig",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Gardevoir",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Jynx",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Xatu",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 0,
+   "winner": "a",
+   "turns": 30,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     6
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     14
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Garchomp",
+     15
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     17
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Altaria",
+     18
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Dragonite",
+     21
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     23
+    ],
+    [
+     "b",
+     "Altaria",
+     "Crobat",
+     28
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 1,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     7
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Altaria",
+     8
+    ],
+    [
+     "b",
+     "Altaria",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 2,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     17
+    ],
+    [
+     "b",
+     "Altaria",
+     "Tyranitar",
+     20
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Tyranitar",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 3,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     8
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     18
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Altaria",
+     "Mamoswine",
+     21
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 4,
+   "winner": "a",
+   "turns": 41,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     3
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     11
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gyarados",
+     12
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gyarados",
+     13
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     20
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Crobat",
+     26
+    ],
+    [
+     "b",
+     "Altaria",
+     "Tyranitar",
+     29
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     32
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Crobat",
+     36
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     41
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 5,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gyarados",
+     4
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     8
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Altaria",
+     "Snorlax",
+     19
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Snorlax",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 6,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     12
+    ],
+    [
+     "b",
+     "Altaria",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 7,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Altaria",
+     "Lapras",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 8,
+   "winner": "a",
+   "turns": 34,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Garchomp",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Garchomp",
+     12
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Crobat",
+     22
+    ],
+    [
+     "b",
+     "Altaria",
+     "Snorlax",
+     28
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Crobat",
+     34
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 9,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Altaria",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 10,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Altaria",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 11,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Altaria",
+     13
+    ],
+    [
+     "b",
+     "Altaria",
+     "Crobat",
+     14
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 12,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     9
+    ],
+    [
+     "b",
+     "Altaria",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 13,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Garchomp",
+     9
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Altaria",
+     "Snorlax",
+     18
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Snorlax",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 14,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Altaria",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 15,
+   "winner": "a",
+   "turns": 26,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Typhlosion",
+     8
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Altaria",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     21
+    ],
+    [
+     "a",
+     "Crobat",
+     "Dragonite",
+     23
+    ],
+    [
+     "b",
+     "Altaria",
+     "Tyranitar",
+     25
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Typhlosion",
+     26
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 16,
+   "winner": "a",
+   "turns": 31,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gyarados",
+     3
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Snorlax",
+     4
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Charizard",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     25
+    ],
+    [
+     "b",
+     "Altaria",
+     "Snorlax",
+     30
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Snorlax",
+     31
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 17,
+   "winner": "a",
+   "turns": 28,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     3
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gyarados",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Typhlosion",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Altaria",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     20
+    ],
+    [
+     "a",
+     "Crobat",
+     "Dragonite",
+     26
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Typhlosion",
+     28
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 18,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     15
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Altaria",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Mamoswine",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 19,
+   "winner": "a",
+   "turns": 38,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Salamence",
+     "Mamoswine",
+     2
+    ],
+    [
+     "a",
+     "Lapras",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Crobat",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Gyarados",
+     11
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Snorlax",
+     12
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Crobat",
+     34
+    ],
+    [
+     "a",
+     "Crobat",
+     "Charizard",
+     34
+    ],
+    [
+     "b",
+     "Altaria",
+     "Snorlax",
+     37
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Snorlax",
+     38
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 0,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Blastoise",
+     12
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     13
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     14
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 1,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Blastoise",
+     10
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 2,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 3,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Venusaur",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     19
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Pikachu",
+     20
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     21
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Mamoswine",
+     23
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     24
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Mamoswine",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 4,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 5,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Blastoise",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 6,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 7,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 8,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Venusaur",
+     6
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Crobat",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     9
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     13
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     14
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Blastoise",
+     15
+    ],
+    [
+     "b",
+     "Lapras",
+     "Crobat",
+     19
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 9,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     13
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     20
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Blastoise",
+     24
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Mamoswine",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 10,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 11,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Charizard",
+     12
+    ],
+    [
+     "b",
+     "Charizard",
+     null,
+     12
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Snorlax",
+     14
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Lapras",
+     15
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     16
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 12,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     18
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     19
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 13,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Snorlax",
+     12
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 14,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     5
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Venusaur",
+     6
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Crobat",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     20
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Pikachu",
+     21
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     22
+    ],
+    [
+     "b",
+     "Lapras",
+     "Mamoswine",
+     24
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Mamoswine",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 15,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     null,
+     13
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 16,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Blastoise",
+     11
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 17,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     null,
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 18,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Blastoise",
+     12
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Snorlax",
+     14
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Snorlax",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 19,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Lapras",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     14
+    ]
+   ]
+  }
+ ],
+ "fell_back": [],
+ "labels": {
+  "team": "Zack · HeartGold (main)",
+  "pool": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red",
+  "opponents": "Blackthorn's reading",
+  "ours": "Blackthorn's reading"
+ }
+}

@@ -1,0 +1,482 @@
+{
+ "kind": "TeamVersion",
+ "id": "library:me/soulsilver#even85",
+ "version": 1,
+ "name": "Zack · SoulSilver",
+ "trainer": "me",
+ "game": "soulsilver",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#1",
+   "version": 1,
+   "species": "Pikachu",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Static",
+   "item": null,
+   "moves": [
+    "Volt Tackle",
+    "Quick Attack",
+    "Thunderbolt",
+    "Iron Tail"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Static (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#2",
+   "version": 1,
+   "species": "Dragonite",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Inner Focus",
+   "item": null,
+   "moves": [
+    "Fly",
+    "Roost",
+    "Extreme Speed",
+    "Dragon Claw"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Inner Focus (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#3",
+   "version": 1,
+   "species": "Infernape",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Blaze",
+   "item": null,
+   "moves": [
+    "Overheat",
+    "Earthquake",
+    "Close Combat",
+    "Swords Dance"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "standardized",
+     "engine-filled: the strongest set it can learn"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Blaze (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "engine-filled (no build on record: the engine filled in its strongest set)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#4",
+   "version": 1,
+   "species": "Empoleon",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Torrent",
+   "item": null,
+   "moves": [
+    "Surf",
+    "Flash Cannon",
+    "Aqua Jet",
+    "Aqua Ring"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Torrent (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#5",
+   "version": 1,
+   "species": "Gengar",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Levitate",
+   "item": null,
+   "moves": [
+    "Shadow Ball",
+    "Disable",
+    "Dark Pulse",
+    "Psychic"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Levitate (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#6",
+   "version": 1,
+   "species": "Scizor",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Swarm",
+   "item": null,
+   "moves": [
+    "Bullet Punch",
+    "U-turn",
+    "Counter",
+    "Roost"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Swarm (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  }
+ ],
+ "lead": "first",
+ "lens": "standardized",
+ "source": {
+  "kind": "blackthorn-trainer-library",
+  "version_id": "me/soulsilver",
+  "library_kind": "journey",
+  "record": "canon register (rosters.json + builds.json)",
+  "read_only": true
+ }
+}

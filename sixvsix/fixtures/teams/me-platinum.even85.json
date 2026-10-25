@@ -1,0 +1,478 @@
+{
+ "kind": "TeamVersion",
+ "id": "library:me/platinum#even85",
+ "version": 1,
+ "name": "Zack · Platinum",
+ "trainer": "me",
+ "game": "platinum",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/platinum#1",
+   "version": 1,
+   "species": "Infernape",
+   "game": "platinum",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Blaze",
+   "item": null,
+   "moves": [
+    "Close Combat",
+    "Flamethrower",
+    "Mach Punch",
+    "Thunder Punch"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Blaze (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/platinum#2",
+   "version": 1,
+   "species": "Weavile",
+   "game": "platinum",
+   "generation": 4,
+   "level": 100,
+   "nature": "Jolly",
+   "ability": "Pressure",
+   "item": null,
+   "moves": [
+    "Ice Punch",
+    "Night Slash",
+    "Low Kick",
+    "Ice Shard"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Pressure (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/platinum#3",
+   "version": 1,
+   "species": "Roserade",
+   "game": "platinum",
+   "generation": 4,
+   "level": 100,
+   "nature": "Timid",
+   "ability": "Natural Cure",
+   "item": "Focus Sash",
+   "moves": [
+    "Leaf Storm",
+    "Sludge Bomb",
+    "Sleep Powder",
+    "Toxic Spikes"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Natural Cure (the species' first ability)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/platinum#4",
+   "version": 1,
+   "species": "Lucario",
+   "game": "platinum",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Steadfast",
+   "item": null,
+   "moves": [
+    "Close Combat",
+    "Ice Punch",
+    "Earthquake",
+    "Swords Dance"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "standardized",
+     "engine-filled: the strongest set it can learn"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Steadfast (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "engine-filled (no build on record: the engine filled in its strongest set)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/platinum#5",
+   "version": 1,
+   "species": "Garchomp",
+   "game": "platinum",
+   "generation": 4,
+   "level": 100,
+   "nature": "Hardy",
+   "ability": "Sand Veil",
+   "item": null,
+   "moves": [
+    "Earthquake",
+    "Dragon Claw",
+    "Fire Fang",
+    "Poison Jab"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "standardized",
+     "a neutral nature"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "nature: Hardy (neutral; none on record)",
+    "ability: Sand Veil (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/platinum#6",
+   "version": 1,
+   "species": "Magnezone",
+   "game": "platinum",
+   "generation": 4,
+   "level": 100,
+   "nature": "Modest",
+   "ability": "Magnet Pull",
+   "item": null,
+   "moves": [
+    "Thunderbolt",
+    "Hidden Power Fire",
+    "Flash Cannon",
+    "Substitute"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 30,
+    "def": 31,
+    "spe": 30,
+    "spa": 30,
+    "spd": 31
+   },
+   "evs": {
+    "hp": 85,
+    "atk": 85,
+    "def": 85,
+    "spa": 85,
+    "spd": 85,
+    "spe": 85
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "85 in every stat (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Magnet Pull (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 30 atk, 30 spa, 30 spe, 31 otherwise (Hidden Power Fire at full power; trainers/solver.py's rule)",
+    "EVs: 85 in every stat (none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  }
+ ],
+ "lead": "first",
+ "lens": "standardized",
+ "source": {
+  "kind": "blackthorn-trainer-library",
+  "version_id": "me/platinum",
+  "library_kind": "journey",
+  "record": "canon register (rosters.json + builds.json)",
+  "read_only": true
+ }
+}

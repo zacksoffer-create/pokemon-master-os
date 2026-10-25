@@ -1,0 +1,492 @@
+{
+ "team": "library:me/heartgold",
+ "pool": "pool:heartgold-league",
+ "members": [
+  {
+   "species": "Typhlosion",
+   "nature": "Mild",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 236,
+    "atk": 8,
+    "def": 16,
+    "spa": 156,
+    "spd": 8,
+    "spe": 84
+   },
+   "label": "236 HP / 8 Atk / 16 Def / 156 SpA / 8 SpD / 84 Spe",
+   "stats": {
+    "hp": 356,
+    "atk": 206,
+    "def": 176,
+    "spa": 322,
+    "spd": 208,
+    "spe": 257
+   },
+   "score": {
+    "points": 234.04,
+    "wins_worst": 39,
+    "wins_typical": 43,
+    "wins_switching_in": 27,
+    "wins_free_hit": 54,
+    "of": 62
+   },
+   "best_template": {
+    "id": "bulky_special",
+    "nature": "Hasty",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 4,
+     "spa": 252,
+     "spd": 0,
+     "spe": 0
+    },
+    "points": 225.8,
+    "wins_worst": 35,
+    "wins_typical": 43,
+    "wins_switching_in": 27,
+    "wins_free_hit": 54,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_special",
+    "evs": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Mild",
+    "points": 208.41,
+    "wins_worst": 35,
+    "wins_typical": 40,
+    "wins_switching_in": 22,
+    "wins_free_hit": 50,
+    "of": 62,
+    "label": "4 HP / 252 SpA / 252 Spe"
+   },
+   "flat_85": {
+    "points": 207.29,
+    "wins_worst": 32,
+    "wins_typical": 36,
+    "wins_switching_in": 23,
+    "wins_free_hit": 52,
+    "of": 62
+   },
+   "speed": {
+    "stat": 257,
+    "outspeeds": 56,
+    "of": 62,
+    "next_benchmark": 260
+   }
+  },
+  {
+   "species": "Tyranitar",
+   "nature": "Jolly",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 48,
+    "atk": 172,
+    "def": 48,
+    "spa": 0,
+    "spd": 4,
+    "spe": 236
+   },
+   "label": "48 HP / 172 Atk / 48 Def / 4 SpD / 236 Spe",
+   "stats": {
+    "hp": 353,
+    "atk": 347,
+    "def": 268,
+    "spa": 203,
+    "spd": 237,
+    "spe": 238
+   },
+   "score": {
+    "points": 285.69,
+    "wins_worst": 44,
+    "wins_typical": 46,
+    "wins_switching_in": 43,
+    "wins_free_hit": 56,
+    "of": 62
+   },
+   "best_template": {
+    "id": "fast_support",
+    "nature": "Jolly",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 4,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "points": 281.57,
+    "wins_worst": 45,
+    "wins_typical": 45,
+    "wins_switching_in": 43,
+    "wins_free_hit": 54,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Jolly",
+    "points": 281.53,
+    "wins_worst": 44,
+    "wins_typical": 46,
+    "wins_switching_in": 40,
+    "wins_free_hit": 55,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 250.92,
+    "wins_worst": 43,
+    "wins_typical": 45,
+    "wins_switching_in": 36,
+    "wins_free_hit": 46,
+    "of": 62
+   },
+   "speed": {
+    "stat": 238,
+    "outspeeds": 44,
+    "of": 62,
+    "next_benchmark": 238
+   }
+  },
+  {
+   "species": "Mamoswine",
+   "nature": "Adamant",
+   "nature_chosen": false,
+   "evs": {
+    "hp": 248,
+    "atk": 0,
+    "def": 4,
+    "spa": 0,
+    "spd": 12,
+    "spe": 244
+   },
+   "label": "248 HP / 4 Def / 12 SpD / 244 Spe",
+   "stats": {
+    "hp": 423,
+    "atk": 325,
+    "def": 197,
+    "spa": 158,
+    "spd": 159,
+    "spe": 257
+   },
+   "score": {
+    "points": 278.54,
+    "wins_worst": 45,
+    "wins_typical": 49,
+    "wins_switching_in": 37,
+    "wins_free_hit": 57,
+    "of": 62
+   },
+   "best_template": {
+    "id": "fast_support",
+    "nature": "Adamant",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 4,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "points": 275.45,
+    "wins_worst": 45,
+    "wins_typical": 49,
+    "wins_switching_in": 37,
+    "wins_free_hit": 57,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Adamant",
+    "points": 268.2,
+    "wins_worst": 41,
+    "wins_typical": 48,
+    "wins_switching_in": 34,
+    "wins_free_hit": 58,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 257.93,
+    "wins_worst": 44,
+    "wins_typical": 45,
+    "wins_switching_in": 30,
+    "wins_free_hit": 55,
+    "of": 62
+   },
+   "speed": {
+    "stat": 257,
+    "outspeeds": 56,
+    "of": 62,
+    "next_benchmark": 260
+   }
+  },
+  {
+   "species": "Crobat",
+   "nature": "Jolly",
+   "nature_chosen": false,
+   "evs": {
+    "hp": 168,
+    "atk": 240,
+    "def": 84,
+    "spa": 0,
+    "spd": 16,
+    "spe": 0
+   },
+   "label": "168 HP / 240 Atk / 84 Def / 16 SpD",
+   "stats": {
+    "hp": 353,
+    "atk": 276,
+    "def": 217,
+    "spa": 158,
+    "spd": 200,
+    "spe": 325
+   },
+   "score": {
+    "points": 221.36,
+    "wins_worst": 35,
+    "wins_typical": 42,
+    "wins_switching_in": 25,
+    "wins_free_hit": 52,
+    "of": 62
+   },
+   "best_template": {
+    "id": "bulky_physical",
+    "nature": "Jolly",
+    "evs": {
+     "hp": 252,
+     "atk": 252,
+     "def": 4,
+     "spa": 0,
+     "spd": 0,
+     "spe": 0
+    },
+    "points": 219.29,
+    "wins_worst": 35,
+    "wins_typical": 42,
+    "wins_switching_in": 24,
+    "wins_free_hit": 52,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Jolly",
+    "points": 189.41,
+    "wins_worst": 27,
+    "wins_typical": 34,
+    "wins_switching_in": 18,
+    "wins_free_hit": 50,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 184.43,
+    "wins_worst": 28,
+    "wins_typical": 34,
+    "wins_switching_in": 21,
+    "wins_free_hit": 44,
+    "of": 62
+   },
+   "speed": {
+    "stat": 325,
+    "outspeeds": 62,
+    "of": 62,
+    "next_benchmark": null
+   }
+  },
+  {
+   "species": "Lapras",
+   "nature": "Calm",
+   "nature_chosen": false,
+   "evs": {
+    "hp": 172,
+    "atk": 0,
+    "def": 160,
+    "spa": 132,
+    "spd": 0,
+    "spe": 44
+   },
+   "label": "172 HP / 160 Def / 132 SpA / 44 Spe",
+   "stats": {
+    "hp": 444,
+    "atk": 185,
+    "def": 236,
+    "spa": 239,
+    "spd": 248,
+    "spe": 167
+   },
+   "score": {
+    "points": 234.65,
+    "wins_worst": 38,
+    "wins_typical": 39,
+    "wins_switching_in": 33,
+    "wins_free_hit": 49,
+    "of": 62
+   },
+   "best_template": {
+    "id": "bulky_special",
+    "nature": "Calm",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 4,
+     "spa": 252,
+     "spd": 0,
+     "spe": 0
+    },
+    "points": 224.43,
+    "wins_worst": 36,
+    "wins_typical": 38,
+    "wins_switching_in": 33,
+    "wins_free_hit": 47,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_special",
+    "evs": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Calm",
+    "points": 223.26,
+    "wins_worst": 36,
+    "wins_typical": 39,
+    "wins_switching_in": 30,
+    "wins_free_hit": 51,
+    "of": 62,
+    "label": "4 HP / 252 SpA / 252 Spe"
+   },
+   "flat_85": {
+    "points": 208.91,
+    "wins_worst": 32,
+    "wins_typical": 38,
+    "wins_switching_in": 31,
+    "wins_free_hit": 42,
+    "of": 62
+   },
+   "speed": {
+    "stat": 167,
+    "outspeeds": 15,
+    "of": 62,
+    "next_benchmark": 176
+   }
+  },
+  {
+   "species": "Snorlax",
+   "nature": "Careful",
+   "nature_chosen": false,
+   "evs": {
+    "hp": 112,
+    "atk": 236,
+    "def": 144,
+    "spa": 0,
+    "spd": 16,
+    "spe": 0
+   },
+   "label": "112 HP / 236 Atk / 144 Def / 16 SpD",
+   "stats": {
+    "hp": 489,
+    "atk": 315,
+    "def": 202,
+    "spa": 149,
+    "spd": 286,
+    "spe": 96
+   },
+   "score": {
+    "points": 274.8,
+    "wins_worst": 43,
+    "wins_typical": 45,
+    "wins_switching_in": 38,
+    "wins_free_hit": 59,
+    "of": 62
+   },
+   "best_template": {
+    "id": "bulky_physical",
+    "nature": "Careful",
+    "evs": {
+     "hp": 252,
+     "atk": 252,
+     "def": 4,
+     "spa": 0,
+     "spd": 0,
+     "spe": 0
+    },
+    "points": 260.36,
+    "wins_worst": 42,
+    "wins_typical": 44,
+    "wins_switching_in": 37,
+    "wins_free_hit": 55,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Careful",
+    "points": 242.74,
+    "wins_worst": 41,
+    "wins_typical": 43,
+    "wins_switching_in": 30,
+    "wins_free_hit": 54,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 231.6,
+    "wins_worst": 37,
+    "wins_typical": 43,
+    "wins_switching_in": 33,
+    "wins_free_hit": 48,
+    "of": 62
+   },
+   "speed": {
+    "stat": 96,
+    "outspeeds": 0,
+    "of": 62,
+    "next_benchmark": 116
+   }
+  }
+ ]
+}

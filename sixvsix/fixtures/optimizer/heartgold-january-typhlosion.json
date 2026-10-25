@@ -1,0 +1,93 @@
+{
+ "team": "library:me/heartgold~heartgold-january-typhlosion",
+ "pool": "pool:heartgold-league",
+ "variation": "heartgold-january-typhlosion",
+ "members": [
+  {
+   "species": "Typhlosion",
+   "nature": "Timid",
+   "nature_chosen": false,
+   "evs": {
+    "hp": 196,
+    "atk": 0,
+    "def": 208,
+    "spa": 104,
+    "spd": 0,
+    "spe": 0
+   },
+   "label": "196 HP / 208 Def / 104 SpA",
+   "stats": {
+    "hp": 345,
+    "atk": 183,
+    "def": 244,
+    "spa": 279,
+    "spd": 206,
+    "spe": 259
+   },
+   "score": {
+    "points": 271.35,
+    "wins_worst": 43,
+    "wins_typical": 48,
+    "wins_switching_in": 36,
+    "wins_free_hit": 55,
+    "of": 62
+   },
+   "best_template": {
+    "id": "bulky_special",
+    "nature": "Timid",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 4,
+     "spa": 252,
+     "spd": 0,
+     "spe": 0
+    },
+    "points": 263.04,
+    "wins_worst": 47,
+    "wins_typical": 50,
+    "wins_switching_in": 33,
+    "wins_free_hit": 53,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_special",
+    "evs": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Timid",
+    "points": 247.49,
+    "wins_worst": 42,
+    "wins_typical": 46,
+    "wins_switching_in": 28,
+    "wins_free_hit": 53,
+    "of": 62,
+    "label": "4 HP / 252 SpA / 252 Spe"
+   },
+   "flat_85": {
+    "points": 248.63,
+    "wins_worst": 40,
+    "wins_typical": 48,
+    "wins_switching_in": 27,
+    "wins_free_hit": 53,
+    "of": 62
+   },
+   "speed": {
+    "stat": 259,
+    "outspeeds": 56,
+    "of": 62,
+    "next_benchmark": 260
+   }
+  },
+  null,
+  null,
+  null,
+  null,
+  null
+ ]
+}

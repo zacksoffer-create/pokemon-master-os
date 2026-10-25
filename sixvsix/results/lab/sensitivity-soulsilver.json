@@ -1,0 +1,324 @@
+{
+ "kind": "Experiment",
+ "type": "sensitivity",
+ "spec": {
+  "kind": "sensitivity",
+  "team": "me/soulsilver",
+  "pool": "heartgold-league",
+  "n": 12,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:57:17.663Z",
+ "seed": "lab|sensitivity|05945a7d067065aa",
+ "base": {
+  "label": "as it stands",
+  "change": "nothing",
+  "won": 113,
+  "n": 132,
+  "rate": 0.856,
+  "ci95": [
+   0.786,
+   0.906
+  ]
+ },
+ "effects": [
+  {
+   "label": "opponents on the cartridge's 0 EVs",
+   "change": "opponent EVs: 0 instead of 85",
+   "won": 124,
+   "n": 132,
+   "rate": 0.939,
+   "ci95": [
+    0.885,
+    0.969
+   ],
+   "difference": {
+    "y_minus_x": 0.083,
+    "ci95": [
+     0.032,
+     0.135
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.168,
+    "ci95": [
+     0.111,
+     0.225
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.003418,
+   "significant": true,
+   "reading": "opponents on the cartridge's 0 EVs won more: 94% against 86% over 132 paired battles (McNemar p = 0.0034)."
+  },
+  {
+   "label": "variation: The former six (Gyarados)",
+   "change": "lineup variation soulsilver-former-six",
+   "won": 123,
+   "n": 132,
+   "rate": 0.932,
+   "ci95": [
+    0.875,
+    0.964
+   ],
+   "difference": {
+    "y_minus_x": 0.076,
+    "ci95": [
+     0.026,
+     0.126
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.08,
+    "ci95": [
+     0.037,
+     0.122
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.006348,
+   "significant": true,
+   "reading": "variation: The former six (Gyarados) won more: 93% against 86% over 132 paired battles (McNemar p = 0.0063)."
+  },
+  {
+   "label": "opponents at their sharpest",
+   "change": "opponents: competence 100",
+   "won": 104,
+   "n": 132,
+   "rate": 0.788,
+   "ci95": [
+    0.711,
+    0.849
+   ],
+   "difference": {
+    "y_minus_x": -0.068,
+    "ci95": [
+     -0.132,
+     -0.004
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.048,
+    "ci95": [
+     -0.097,
+     0.001
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.063568,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (86% and 79%, McNemar p = 0.06). A real difference smaller than about 13 points would need more battles to show."
+  },
+  {
+   "label": "your six on 85 in every stat",
+   "change": "your EVs: 85 each instead of optimized",
+   "won": 104,
+   "n": 132,
+   "rate": 0.788,
+   "ci95": [
+    0.711,
+    0.849
+   ],
+   "difference": {
+    "y_minus_x": -0.068,
+    "ci95": [
+     -0.121,
+     -0.016
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.074,
+    "ci95": [
+     -0.128,
+     -0.021
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.022461,
+   "significant": true,
+   "reading": "as it stands won more: 86% against 79% over 132 paired battles (McNemar p = 0.0225)."
+  },
+  {
+   "label": "variation: Pikachu with its Light Ball",
+   "change": "lineup variation soulsilver-light-ball",
+   "won": 120,
+   "n": 132,
+   "rate": 0.909,
+   "ci95": [
+    0.848,
+    0.947
+   ],
+   "difference": {
+    "y_minus_x": 0.053,
+    "ci95": [
+     0.009,
+     0.097
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.039,
+    "ci95": [
+     0.003,
+     0.075
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.039062,
+   "significant": true,
+   "reading": "variation: Pikachu with its Light Ball won more: 91% against 86% over 132 paired battles (McNemar p = 0.0391)."
+  },
+  {
+   "label": "opponents as the game plays them",
+   "change": "opponents: cartridge AI",
+   "won": 119,
+   "n": 132,
+   "rate": 0.902,
+   "ci95": [
+    0.839,
+    0.942
+   ],
+   "difference": {
+    "y_minus_x": 0.045,
+    "ci95": [
+     -0.014,
+     0.105
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.092,
+    "ci95": [
+     0.037,
+     0.146
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.210114,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (86% and 90%, McNemar p = 0.21). A real difference smaller than about 10 points would need more battles to show."
+  },
+  {
+   "label": "opponents aggressive",
+   "change": "opponents: aggressive",
+   "won": 116,
+   "n": 132,
+   "rate": 0.879,
+   "ci95": [
+    0.812,
+    0.924
+   ],
+   "difference": {
+    "y_minus_x": 0.023,
+    "ci95": [
+     -0.01,
+     0.056
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.004,
+    "ci95": [
+     -0.036,
+     0.045
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.375,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (86% and 88%, McNemar p = 0.38). A real difference smaller than about 6 points would need more battles to show."
+  },
+  {
+   "label": "opponents cautious",
+   "change": "opponents: cautious",
+   "won": 116,
+   "n": 132,
+   "rate": 0.879,
+   "ci95": [
+    0.812,
+    0.924
+   ],
+   "difference": {
+    "y_minus_x": 0.023,
+    "ci95": [
+     -0.017,
+     0.062
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.071,
+    "ci95": [
+     0.03,
+     0.111
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.453125,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (86% and 88%, McNemar p = 0.45). A real difference smaller than about 6 points would need more battles to show."
+  },
+  {
+   "label": "your trainer aggressive",
+   "change": "your style: aggressive",
+   "won": 116,
+   "n": 132,
+   "rate": 0.879,
+   "ci95": [
+    0.812,
+    0.924
+   ],
+   "difference": {
+    "y_minus_x": 0.023,
+    "ci95": [
+     -0.01,
+     0.056
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.012,
+    "ci95": [
+     -0.014,
+     0.037
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.375,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (86% and 88%, McNemar p = 0.38). A real difference smaller than about 6 points would need more battles to show."
+  },
+  {
+   "label": "your trainer cautious",
+   "change": "your style: cautious",
+   "won": 115,
+   "n": 132,
+   "rate": 0.871,
+   "ci95": [
+    0.803,
+    0.918
+   ],
+   "difference": {
+    "y_minus_x": 0.015,
+    "ci95": [
+     -0.021,
+     0.052
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.023,
+    "ci95": [
+     -0.013,
+     0.058
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.6875,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (86% and 87%, McNemar p = 0.69). A real difference smaller than about 5 points would need more battles to show."
+  }
+ ],
+ "ranked_by": "win rate",
+ "reading": [
+  "As it stands: 113 of 132 (86%).",
+  "What moves the needle most: opponents on the cartridge's 0 EVs (+8 points); variation: The former six (Gyarados) (+8 points); opponents at their sharpest (-7 points, not yet clear); your six on 85 in every stat (-7 points)."
+ ]
+}

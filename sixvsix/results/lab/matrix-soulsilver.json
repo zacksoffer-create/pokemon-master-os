@@ -1,0 +1,219 @@
+{
+ "kind": "Experiment",
+ "type": "matrix",
+ "spec": {
+  "kind": "matrix",
+  "teams": [
+   "me/soulsilver",
+   "soulsilver-light-ball",
+   "soulsilver-former-six"
+  ],
+  "pool": "heartgold-league",
+  "n": 12,
+  "interpretations": [
+   "game",
+   "blackthorn",
+   "aggressive",
+   "cautious"
+  ],
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:55:56.878Z",
+ "seed": "lab|matrix|8539849185f1c706",
+ "rows": [
+  "Zack · SoulSilver",
+  "Pikachu with its Light Ball",
+  "The former six (Gyarados)"
+ ],
+ "columns": [
+  "As the game plays them",
+  "Blackthorn's reading",
+  "An aggressive version",
+  "A cautious version"
+ ],
+ "interpretations": [
+  "game",
+  "blackthorn",
+  "aggressive",
+  "cautious"
+ ],
+ "cells": [
+  [
+   {
+    "won": 121,
+    "n": 132,
+    "rate": 0.917,
+    "ci95": [
+     0.857,
+     0.953
+    ]
+   },
+   {
+    "won": 115,
+    "n": 132,
+    "rate": 0.871,
+    "ci95": [
+     0.803,
+     0.918
+    ]
+   },
+   {
+    "won": 113,
+    "n": 132,
+    "rate": 0.856,
+    "ci95": [
+     0.786,
+     0.906
+    ]
+   },
+   {
+    "won": 109,
+    "n": 132,
+    "rate": 0.826,
+    "ci95": [
+     0.752,
+     0.881
+    ]
+   }
+  ],
+  [
+   {
+    "won": 126,
+    "n": 132,
+    "rate": 0.955,
+    "ci95": [
+     0.904,
+     0.979
+    ]
+   },
+   {
+    "won": 120,
+    "n": 132,
+    "rate": 0.909,
+    "ci95": [
+     0.848,
+     0.947
+    ]
+   },
+   {
+    "won": 120,
+    "n": 132,
+    "rate": 0.909,
+    "ci95": [
+     0.848,
+     0.947
+    ]
+   },
+   {
+    "won": 121,
+    "n": 132,
+    "rate": 0.917,
+    "ci95": [
+     0.857,
+     0.953
+    ]
+   }
+  ],
+  [
+   {
+    "won": 125,
+    "n": 132,
+    "rate": 0.947,
+    "ci95": [
+     0.895,
+     0.974
+    ]
+   },
+   {
+    "won": 126,
+    "n": 132,
+    "rate": 0.955,
+    "ci95": [
+     0.904,
+     0.979
+    ]
+   },
+   {
+    "won": 126,
+    "n": 132,
+    "rate": 0.955,
+    "ci95": [
+     0.904,
+     0.979
+    ]
+   },
+   {
+    "won": 128,
+    "n": 132,
+    "rate": 0.97,
+    "ci95": [
+     0.925,
+     0.988
+    ]
+   }
+  ]
+ ],
+ "by_column": [
+  {
+   "interpretation": "game",
+   "label": "As the game plays them",
+   "best": "Pikachu with its Light Ball",
+   "tied": null,
+   "ahead_of": "The former six (Gyarados)",
+   "by": 0.008,
+   "p": 1,
+   "clear": false
+  },
+  {
+   "interpretation": "blackthorn",
+   "label": "Blackthorn's reading",
+   "best": "The former six (Gyarados)",
+   "tied": null,
+   "ahead_of": "Pikachu with its Light Ball",
+   "by": 0.046,
+   "p": 0.18,
+   "clear": false
+  },
+  {
+   "interpretation": "aggressive",
+   "label": "An aggressive version",
+   "best": "The former six (Gyarados)",
+   "tied": null,
+   "ahead_of": "Pikachu with its Light Ball",
+   "by": 0.046,
+   "p": 0.07,
+   "clear": false
+  },
+  {
+   "interpretation": "cautious",
+   "label": "A cautious version",
+   "best": "The former six (Gyarados)",
+   "tied": null,
+   "ahead_of": "Pikachu with its Light Ball",
+   "by": 0.053,
+   "p": 0.039,
+   "clear": true
+  }
+ ],
+ "sensitivity": [
+  {
+   "name": "Zack · SoulSilver",
+   "range": 0.091
+  },
+  {
+   "name": "Pikachu with its Light Ball",
+   "range": 0.046
+  },
+  {
+   "name": "The former six (Gyarados)",
+   "range": 0.023
+  }
+ ],
+ "reading": [
+  "No clear flip yet. Leaders by column: Pikachu with its Light Ball against \"As the game plays them\"; The former six (Gyarados) against \"Blackthorn's reading\"; The former six (Gyarados) against \"An aggressive version\"; The former six (Gyarados) against \"A cautious version\"; none of the gaps that would make a flip is significant. More battles per cell would settle it.",
+  "Zack · SoulSilver is the most sensitive to how the opponent plays (its win rate moves 9% across styles)."
+ ]
+}

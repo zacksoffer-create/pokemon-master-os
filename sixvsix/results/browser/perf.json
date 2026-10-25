@@ -1,0 +1,312 @@
+{
+ "build": "0.1.0+2026-10-25",
+ "chromium": "153.0.8010.12",
+ "host": "Intel(R) Xeon(R) Processor @ 2.10GHz · 4 cores",
+ "ran_at": "2026-10-25T20:00:44.176Z",
+ "rows": [
+  {
+   "where": "desktop",
+   "build": "full",
+   "load_ms": 496,
+   "note": "page ready (parse + engine start)"
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4584,
+   "per_battle_ms": 41.7,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 4471,
+   "per_battle_ms": 42.6,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia-authentic",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4810,
+   "per_battle_ms": 44.1,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia-authentic",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 4240,
+   "per_battle_ms": 40.3,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia-maxpower",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 1443,
+   "per_battle_ms": 10.7,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia-maxpower",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 1377,
+   "per_battle_ms": 11.7,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "ou-sample-trainer-vs-maxpower",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4045,
+   "per_battle_ms": 36,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "full",
+   "preset": "ou-sample-trainer-vs-maxpower",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 3612,
+   "per_battle_ms": 34.1,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "slim",
+   "load_ms": 254,
+   "note": "page ready (parse + engine start)"
+  },
+  {
+   "where": "desktop",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4416,
+   "per_battle_ms": 41.6,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 4310,
+   "per_battle_ms": 40.9,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia-authentic",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4430,
+   "per_battle_ms": 42,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia-maxpower",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 1264,
+   "per_battle_ms": 10.3,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "desktop",
+   "build": "slim",
+   "preset": "ou-sample-trainer-vs-maxpower",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 3388,
+   "per_battle_ms": 31.7,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "phone-like 4× CPU",
+   "build": "slim",
+   "load_ms": 782,
+   "note": "reload until ready, throttled"
+  },
+  {
+   "where": "phone-like 4× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 20644,
+   "per_battle_ms": 202.3,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "phone-like 4× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4746,
+   "per_battle_ms": 44.1,
+   "same_as_node": true,
+   "failures": 0,
+   "note": "Chromium throttles the page thread; a worker may run unthrottled"
+  },
+  {
+   "where": "phone-like 4× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia-maxpower",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 4763,
+   "per_battle_ms": 44.3,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "phone-like 4× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia-maxpower",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 1320,
+   "per_battle_ms": 10.8,
+   "same_as_node": true,
+   "failures": 0,
+   "note": "Chromium throttles the page thread; a worker may run unthrottled"
+  },
+  {
+   "where": "phone-like 6× CPU",
+   "build": "slim",
+   "load_ms": 1087,
+   "note": "reload until ready, throttled"
+  },
+  {
+   "where": "phone-like 6× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 30925,
+   "per_battle_ms": 303.1,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "phone-like 6× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4586,
+   "per_battle_ms": 42.2,
+   "same_as_node": true,
+   "failures": 0,
+   "note": "Chromium throttles the page thread; a worker may run unthrottled"
+  },
+  {
+   "where": "phone-like 6× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia-maxpower",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 8355,
+   "per_battle_ms": 78.2,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "phone-like 6× CPU",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia-maxpower",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 1410,
+   "per_battle_ms": 11.3,
+   "same_as_node": true,
+   "failures": 0,
+   "note": "Chromium throttles the page thread; a worker may run unthrottled"
+  },
+  {
+   "where": "apps-script-style frame",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4602,
+   "per_battle_ms": 43.7,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "apps-script-style frame",
+   "build": "slim",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 4452,
+   "per_battle_ms": 42.3,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "apps-script-style frame",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "worker",
+   "wall_ms": 4643,
+   "per_battle_ms": 42.1,
+   "same_as_node": true,
+   "failures": 0
+  },
+  {
+   "where": "apps-script-style frame",
+   "build": "full",
+   "preset": "heartgold-vs-cynthia",
+   "n": 100,
+   "mode": "main",
+   "wall_ms": 4657,
+   "per_battle_ms": 44.3,
+   "same_as_node": true,
+   "failures": 0
+  }
+ ],
+ "failures": []
+}

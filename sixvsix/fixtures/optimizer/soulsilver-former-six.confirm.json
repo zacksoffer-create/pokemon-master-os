@@ -1,0 +1,49 @@
+{
+ "key": "soulsilver-former-six",
+ "made_at": "2026-10-25T19:42:40.428Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · 3 worker threads",
+ "seconds": 9,
+ "rows": [
+  null,
+  null,
+  {
+   "species": "Gyarados",
+   "kept": "conventional",
+   "duel": {
+    "nature": "Adamant",
+    "spread": "252 HP / 48 Atk / 32 Def / 52 SpD / 124 Spe",
+    "win_rate": 0.95
+   },
+   "conventional": {
+    "nature": "Adamant",
+    "spread": "4 HP / 252 Atk / 252 Spe",
+    "win_rate": 0.959
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 203,
+    "only_x": 6,
+    "only_y": 8,
+    "neither": 3
+   },
+   "mcnemar_p": 0.790527,
+   "margin": {
+    "y_minus_x": -0.002,
+    "ci95": [
+     -0.036,
+     0.031
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (95% and 96%, McNemar p = 0.79). A real difference smaller than about 4 points would need more battles to show."
+  },
+  null,
+  null,
+  null
+ ],
+ "n_per_opponent": 20,
+ "seed": "confirm-soulsilver-former-six",
+ "pool": "pool:heartgold-league",
+ "ruleset": "gen4-blackthorn",
+ "rule": "D-074: the conventional spread unless the duel spread is measurably better"
+}

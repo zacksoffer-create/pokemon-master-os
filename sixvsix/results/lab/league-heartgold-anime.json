@@ -1,0 +1,8883 @@
+{
+ "kind": "Experiment",
+ "type": "league",
+ "spec": {
+  "kind": "league",
+  "team": "me/heartgold",
+  "pool": "anime-gen4",
+  "n": 20,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:57:20.057Z",
+ "seed": "lab|league|5c60650ace1afa93",
+ "result": {
+  "kind": "PoolResult",
+  "team": "library:me/heartgold",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:anime-gen4",
+  "ruleset": "gen4-historical",
+  "seed": "lab|league|5c60650ace1afa93",
+  "allocation": "7 opponents × 20 battles each",
+  "n": 140,
+  "won": 139,
+  "lost": 1,
+  "drew": 0,
+  "win_rate": 0.993,
+  "win_rate_95": [
+   0.961,
+   0.999
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:ash/kanto",
+    "name": "Ash · Kanto Ash (Indigo League)",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 15.6,
+    "left_when_won": 5.45,
+    "failures": 0
+   },
+   {
+    "opponent": "library:ash/sinnoh",
+    "name": "Ash · Sinnoh Ash (Lily of the Valley)",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 13.5,
+    "left_when_won": 4.85,
+    "failures": 0
+   },
+   {
+    "opponent": "library:ash/all-time",
+    "name": "Ash · All-time Ash (Gen IV species)",
+    "n": 20,
+    "won": 19,
+    "lost": 1,
+    "drew": 0,
+    "win_rate": 0.95,
+    "win_rate_95": [
+     0.764,
+     0.991
+    ],
+    "turns": 20.6,
+    "left_when_won": 4.211,
+    "failures": 0
+   },
+   {
+    "opponent": "library:gary/johto",
+    "name": "Gary · Gary at the Silver Conference",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 21.4,
+    "left_when_won": 5.35,
+    "failures": 0
+   },
+   {
+    "opponent": "library:paul/sinnoh",
+    "name": "Paul · Paul at Lily of the Valley",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 19.6,
+    "left_when_won": 5.65,
+    "failures": 0
+   },
+   {
+    "opponent": "library:may/grand-festival",
+    "name": "May · May (Kanto Grand Festival era)",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 15.9,
+    "left_when_won": 5.85,
+    "failures": 0
+   },
+   {
+    "opponent": "library:dawn/grand-festival",
+    "name": "Dawn · Dawn (Sinnoh Grand Festival era)",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 13.1,
+    "left_when_won": 5.9,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Typhlosion",
+    "appeared": 1,
+    "kos_per_battle": 0.907,
+    "fainted_rate": 0.221,
+    "damage_dealt_per_battle": 108.9
+   },
+   {
+    "name": "Tyranitar",
+    "appeared": 0.521,
+    "kos_per_battle": 1.057,
+    "fainted_rate": 0.2,
+    "damage_dealt_per_battle": 109.4
+   },
+   {
+    "name": "Mamoswine",
+    "appeared": 0.671,
+    "kos_per_battle": 1.75,
+    "fainted_rate": 0.129,
+    "damage_dealt_per_battle": 164.4
+   },
+   {
+    "name": "Crobat",
+    "appeared": 0.264,
+    "kos_per_battle": 0.179,
+    "fainted_rate": 0.036,
+    "damage_dealt_per_battle": 16.5
+   },
+   {
+    "name": "Lapras",
+    "appeared": 0.771,
+    "kos_per_battle": 1.75,
+    "fainted_rate": 0.086,
+    "damage_dealt_per_battle": 174.7
+   },
+   {
+    "name": "Snorlax",
+    "appeared": 0.286,
+    "kos_per_battle": 0.264,
+    "fainted_rate": 0.036,
+    "damage_dealt_per_battle": 21.7
+   }
+  ],
+  "weakest": [
+   "library:ash/all-time",
+   "library:ash/kanto",
+   "library:ash/sinnoh"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 2386,
+   "platform": "worker threads"
+  },
+  "fingerprint": "8e866aec3b61123c"
+ },
+ "report": {
+  "kind": "StrategyReport",
+  "team": "library:me/heartgold",
+  "team_name": "Zack · HeartGold (main)",
+  "n": 140,
+  "pool": {
+   "id": "pool:anime-gen4",
+   "name": "Anime trainers (reconstructed, Gen 4)"
+  },
+  "interpretation_of_opponents": "blackthorn",
+  "our_style": "blackthorn",
+  "headline": [
+   "Zack · HeartGold (main) won 139 of 140 (99%; 95% 96%–100%).",
+   "No opponent held you under 75%.",
+   "Mamoswine makes 30% of your knockouts.",
+   "Their most dangerous Pokémon: Heracross (0.6 knockouts each time it comes in)."
+  ],
+  "outcomes": {
+   "n": 140,
+   "won": 139,
+   "rate": 0.993,
+   "ci95": [
+    0.961,
+    0.999
+   ],
+   "drew": 0,
+   "by_opponent": [
+    {
+     "opponent": "ash/all-time",
+     "name": "Ash · All-time Ash (Gen IV species)",
+     "n": 20,
+     "won": 19,
+     "rate": 0.95,
+     "ci95": [
+      0.764,
+      0.991
+     ],
+     "turns": 20.6,
+     "left_when_won": 4.2
+    },
+    {
+     "opponent": "ash/kanto",
+     "name": "Ash · Kanto Ash (Indigo League)",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 15.6,
+     "left_when_won": 5.5
+    },
+    {
+     "opponent": "ash/sinnoh",
+     "name": "Ash · Sinnoh Ash (Lily of the Valley)",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 13.5,
+     "left_when_won": 4.9
+    },
+    {
+     "opponent": "gary/johto",
+     "name": "Gary · Gary at the Silver Conference",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 21.4,
+     "left_when_won": 5.4
+    },
+    {
+     "opponent": "paul/sinnoh",
+     "name": "Paul · Paul at Lily of the Valley",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 19.6,
+     "left_when_won": 5.7
+    },
+    {
+     "opponent": "may/grand-festival",
+     "name": "May · May (Kanto Grand Festival era)",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 15.9,
+     "left_when_won": 5.9
+    },
+    {
+     "opponent": "dawn/grand-festival",
+     "name": "Dawn · Dawn (Sinnoh Grand Festival era)",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 13.1,
+     "left_when_won": 5.9
+    }
+   ],
+   "turns": 17.1,
+   "left_when_won": 5.3,
+   "close_wins": 0.014
+  },
+  "members": [
+   {
+    "name": "Typhlosion",
+    "species": "Typhlosion",
+    "appeared": 1,
+    "kos": 0.907,
+    "ko_share": 0.154,
+    "ko_share_in_wins": 0.153,
+    "damage_dealt": 108.9,
+    "damage_taken": 42.1,
+    "healed": 0,
+    "status_inflicted": 0.071,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.343,
+    "fainted": 0.221,
+    "falls_first": 0.164,
+    "opens": 0.243,
+    "closes": 0.165,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Tyranitar",
+    "species": "Tyranitar",
+    "appeared": 0.521,
+    "kos": 1.057,
+    "ko_share": 0.179,
+    "ko_share_in_wins": 0.18,
+    "damage_dealt": 109.4,
+    "damage_taken": 31.1,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0.336,
+    "support_used": 0,
+    "switched_in_by_choice": 0.621,
+    "fainted": 0.2,
+    "falls_first": 0.143,
+    "opens": 0.086,
+    "closes": 0.187,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Mamoswine",
+    "species": "Mamoswine",
+    "appeared": 0.671,
+    "kos": 1.75,
+    "ko_share": 0.296,
+    "ko_share_in_wins": 0.297,
+    "damage_dealt": 164.4,
+    "damage_taken": 29.4,
+    "healed": 0,
+    "status_inflicted": 0.043,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.614,
+    "fainted": 0.129,
+    "falls_first": 0.071,
+    "opens": 0.15,
+    "closes": 0.324,
+    "reading": "your main finisher (30% of your knockouts); closes 32% of your wins"
+   },
+   {
+    "name": "Crobat",
+    "species": "Crobat",
+    "appeared": 0.264,
+    "kos": 0.179,
+    "ko_share": 0.03,
+    "ko_share_in_wins": 0.03,
+    "damage_dealt": 16.5,
+    "damage_taken": 20.9,
+    "healed": 7.9,
+    "status_inflicted": 0,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.236,
+    "fainted": 0.036,
+    "falls_first": 0.029,
+    "opens": 0.036,
+    "closes": 0.029,
+    "reading": "sees play in only 26% of battles"
+   },
+   {
+    "name": "Lapras",
+    "species": "Lapras",
+    "appeared": 0.771,
+    "kos": 1.75,
+    "ko_share": 0.296,
+    "ko_share_in_wins": 0.296,
+    "damage_dealt": 174.7,
+    "damage_taken": 57.6,
+    "healed": 28.6,
+    "status_inflicted": 0.064,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.85,
+    "fainted": 0.086,
+    "falls_first": 0.043,
+    "opens": 0.429,
+    "closes": 0.266,
+    "reading": "your main finisher (30% of your knockouts); takes the most hits (58% of its HP a battle); heals 29% a battle"
+   },
+   {
+    "name": "Snorlax",
+    "species": "Snorlax",
+    "appeared": 0.286,
+    "kos": 0.264,
+    "ko_share": 0.045,
+    "ko_share_in_wins": 0.044,
+    "damage_dealt": 21.7,
+    "damage_taken": 20.1,
+    "healed": 12.1,
+    "status_inflicted": 0.057,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.229,
+    "fainted": 0.036,
+    "falls_first": 0.007,
+    "opens": 0.05,
+    "closes": 0.022,
+    "reading": "sees play in only 29% of battles"
+   }
+  ],
+  "team_level": {
+   "threats": [
+    {
+     "species": "Heracross",
+     "from": [
+      "Ash · All-time Ash (Gen IV species)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.55,
+     "survives": 0.05,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 7
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 2
+      },
+      {
+       "name": "Snorlax",
+       "kos": 2
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 1,
+     "kos_in_losses": 1,
+     "sweeps": 0
+    },
+    {
+     "species": "Sceptile",
+     "from": [
+      "Ash · All-time Ash (Gen IV species)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.5,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 5
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 4
+      },
+      {
+       "name": "Snorlax",
+       "kos": 1
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 1,
+     "kos_in_losses": 2,
+     "sweeps": 1
+    },
+    {
+     "species": "Staraptor",
+     "from": [
+      "Ash · Sinnoh Ash (Lily of the Valley)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.45,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 4
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 3
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 2
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Pikachu",
+     "from": [
+      "Ash · Kanto Ash (Indigo League)",
+      "Ash · Sinnoh Ash (Lily of the Valley)",
+      "Ash · All-time Ash (Gen IV species)"
+     ],
+     "appeared": 60,
+     "kos_per_appearance": 0.217,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Lapras",
+       "kos": 4
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 3
+      },
+      {
+       "name": "Crobat",
+       "kos": 3
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 1,
+     "kos_in_losses": 1,
+     "sweeps": 0
+    },
+    {
+     "species": "Gliscor",
+     "from": [
+      "Ash · Sinnoh Ash (Lily of the Valley)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.35,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 7
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Kingler",
+     "from": [
+      "Ash · Kanto Ash (Indigo League)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.25,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Tyranitar",
+       "kos": 3
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 2
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Golem",
+     "from": [
+      "Gary · Gary at the Silver Conference"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.25,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Lapras",
+       "kos": 4
+      },
+      {
+       "name": "Typhlosion",
+       "kos": 1
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Scizor",
+     "from": [
+      "Gary · Gary at the Silver Conference"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.25,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Typhlosion",
+       "kos": 2
+      },
+      {
+       "name": "Mamoswine",
+       "kos": 2
+      },
+      {
+       "name": "Tyranitar",
+       "kos": 1
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    }
+   ],
+   "dependencies": [
+    {
+     "name": "Crobat",
+     "falls_early": 0.029,
+     "win_if_falls_early": 0.75,
+     "win_otherwise": 1,
+     "gap": 0.25,
+     "n_early": 4,
+     "n_otherwise": 136,
+     "win_if_survives": 1,
+     "n_survives": 135
+    },
+    {
+     "name": "Typhlosion",
+     "falls_early": 0.214,
+     "win_if_falls_early": 0.967,
+     "win_otherwise": 1,
+     "gap": 0.033,
+     "n_early": 30,
+     "n_otherwise": 110,
+     "win_if_survives": 1,
+     "n_survives": 109
+    },
+    {
+     "name": "Snorlax",
+     "falls_early": 0.014,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.993,
+     "gap": -0.007,
+     "n_early": 2,
+     "n_otherwise": 138,
+     "win_if_survives": 1,
+     "n_survives": 135
+    },
+    {
+     "name": "Mamoswine",
+     "falls_early": 0.114,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.992,
+     "gap": -0.008,
+     "n_early": 16,
+     "n_otherwise": 124,
+     "win_if_survives": 1,
+     "n_survives": 122
+    },
+    {
+     "name": "Lapras",
+     "falls_early": 0.057,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.992,
+     "gap": -0.008,
+     "n_early": 8,
+     "n_otherwise": 132,
+     "win_if_survives": 1,
+     "n_survives": 128
+    },
+    {
+     "name": "Tyranitar",
+     "falls_early": 0.179,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.991,
+     "gap": -0.009,
+     "n_early": 25,
+     "n_otherwise": 115,
+     "win_if_survives": 1,
+     "n_survives": 112
+    }
+   ],
+   "damage_by_type": [
+    {
+     "type": "Fighting",
+     "per_battle": 31.7,
+     "share": 0.174,
+     "weak": [
+      "Tyranitar",
+      "Mamoswine",
+      "Lapras",
+      "Snorlax"
+     ]
+    },
+    {
+     "type": "Normal",
+     "per_battle": 27.8,
+     "share": 0.153,
+     "weak": []
+    },
+    {
+     "type": "Fire",
+     "per_battle": 21.1,
+     "share": 0.116,
+     "weak": [
+      "Mamoswine"
+     ]
+    },
+    {
+     "type": "Grass",
+     "per_battle": 20,
+     "share": 0.11,
+     "weak": [
+      "Tyranitar",
+      "Mamoswine",
+      "Lapras"
+     ]
+    },
+    {
+     "type": "Ice",
+     "per_battle": 16.6,
+     "share": 0.091,
+     "weak": [
+      "Crobat"
+     ]
+    },
+    {
+     "type": "Electric",
+     "per_battle": 12.5,
+     "share": 0.069,
+     "weak": [
+      "Crobat",
+      "Lapras"
+     ]
+    },
+    {
+     "type": "Rock",
+     "per_battle": 12.4,
+     "share": 0.068,
+     "weak": [
+      "Typhlosion",
+      "Crobat",
+      "Lapras"
+     ]
+    },
+    {
+     "type": "Steel",
+     "per_battle": 10.2,
+     "share": 0.056,
+     "weak": [
+      "Tyranitar",
+      "Mamoswine"
+     ]
+    }
+   ],
+   "sequencing": {
+    "first_knockout": [
+     {
+      "name": "Lapras",
+      "battles": 60
+     },
+     {
+      "name": "Typhlosion",
+      "battles": 35
+     },
+     {
+      "name": "Mamoswine",
+      "battles": 21
+     },
+     {
+      "name": "Tyranitar",
+      "battles": 12
+     },
+     {
+      "name": "Snorlax",
+      "battles": 7
+     },
+     {
+      "name": "Crobat",
+      "battles": 5
+     }
+    ],
+    "last_knockout_in_wins": [
+     {
+      "name": "Mamoswine",
+      "battles": 46
+     },
+     {
+      "name": "Lapras",
+      "battles": 37
+     },
+     {
+      "name": "Tyranitar",
+      "battles": 26
+     },
+     {
+      "name": "Typhlosion",
+      "battles": 23
+     },
+     {
+      "name": "Crobat",
+      "battles": 4
+     },
+     {
+      "name": "Snorlax",
+      "battles": 3
+     }
+    ],
+    "leads": [
+     {
+      "name": "Typhlosion",
+      "n": 140,
+      "won": 139,
+      "rate": 0.993
+     }
+    ]
+   }
+  },
+  "interpretation": {
+   "robust": [
+    "The overall result is pinned down: 99% (95% 96%–100%) over 140 battles.",
+    "Your knockouts come mostly from Mamoswine (30%) and Lapras (30%)."
+   ],
+   "opponent_dependent": [
+    "Mamoswine's role depends on the opponent: 62% of your knockouts against Dawn · Dawn (Sinnoh Grand Festival era), 3% against May · May (Kanto Grand Festival era).",
+    "Lapras's role depends on the opponent: 53% of your knockouts against May · May (Kanto Grand Festival era), 3% against Ash · All-time Ash (Gen IV species)."
+   ],
+   "needs_more_battles": []
+  },
+  "patterns": [],
+  "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+ },
+ "battles": [
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 0,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Kingler",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Tyranitar",
+     15
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Pikachu",
+     16
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 1,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     4
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Kingler",
+     5
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 2,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Kingler",
+     "Tyranitar",
+     17
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Tyranitar",
+     18
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Tyranitar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 3,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Typhlosion",
+     6
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Pikachu",
+     7
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 4,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     7
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Typhlosion",
+     9
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Pikachu",
+     10
+    ],
+    [
+     "b",
+     "Kingler",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Mamoswine",
+     21
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Mamoswine",
+     24
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 5,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     4
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Typhlosion",
+     6
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Typhlosion",
+     7
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Kingler",
+     8
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 6,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Charizard",
+     4
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 7,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Kingler",
+     5
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Snorlax",
+     7
+    ],
+    [
+     "b",
+     "Kingler",
+     "Snorlax",
+     8
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Snorlax",
+     9
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Snorlax",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Snorlax",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 8,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Kingler",
+     9
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 9,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     7
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Kingler",
+     8
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 10,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 11,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Kingler",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 12,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Typhlosion",
+     7
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Pikachu",
+     8
+    ],
+    [
+     "b",
+     "Kingler",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 13,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     4
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 14,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     8
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Typhlosion",
+     9
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Pidgeotto",
+     10
+    ],
+    [
+     "b",
+     "Kingler",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Mamoswine",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 15,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     4
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 16,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Kingler",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 17,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     4
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 18,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     4
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Kingler",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Lapras",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/kanto",
+   "k": 0,
+   "i": 19,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Kingler",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Pidgeotto",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Squirtle",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Bulbasaur",
+     "Tyranitar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 0,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Staraptor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 1,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Torterra",
+     7
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     null,
+     11
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Lapras",
+     14
+    ],
+    [
+     "a",
+     "Lapras",
+     null,
+     14
+    ],
+    [
+     "b",
+     "Buizel",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 2,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Staraptor",
+     4
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Staraptor",
+     5
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Infernape",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 3,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     6
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gliscor",
+     7
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Crobat",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Staraptor",
+     9
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 4,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Lapras",
+     4
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Staraptor",
+     6
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 5,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Staraptor",
+     4
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Staraptor",
+     5
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 6,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Staraptor",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Infernape",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 7,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 8,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Staraptor",
+     null,
+     3
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Typhlosion",
+     5
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     6
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Buizel",
+     7
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Buizel",
+     "Lapras",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 9,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     4
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Staraptor",
+     5
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Typhlosion",
+     6
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Typhlosion",
+     8
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Buizel",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     null,
+     11
+    ],
+    [
+     "b",
+     "Buizel",
+     "Lapras",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 10,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Staraptor",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     8
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Typhlosion",
+     9
+    ],
+    [
+     "b",
+     "Torterra",
+     "Typhlosion",
+     10
+    ],
+    [
+     "b",
+     "Pikachu",
+     null,
+     13
+    ],
+    [
+     "b",
+     "Buizel",
+     "Lapras",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 11,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Staraptor",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Infernape",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 12,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 13,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 14,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Staraptor",
+     null,
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Lapras",
+     5
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     6
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 15,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     4
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Staraptor",
+     7
+    ],
+    [
+     "b",
+     "Staraptor",
+     "Crobat",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Torterra",
+     12
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Crobat",
+     13
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Buizel",
+     "Lapras",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 16,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Staraptor",
+     null,
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Typhlosion",
+     6
+    ],
+    [
+     "b",
+     "Torterra",
+     "Typhlosion",
+     7
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Buizel",
+     8
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Crobat",
+     11
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 17,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Staraptor",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 18,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Staraptor",
+     null,
+     3
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/sinnoh",
+   "k": 1,
+   "i": 19,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Staraptor",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     7
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Gliscor",
+     8
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Buizel",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 0,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Heracross",
+     "Tyranitar",
+     9
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     13
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     15
+    ],
+    [
+     "b",
+     "Infernape",
+     null,
+     16
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Mamoswine",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 1,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Crobat",
+     8
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Infernape",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Charizard",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     14
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Heracross",
+     16
+    ],
+    [
+     "b",
+     "Heracross",
+     "Mamoswine",
+     18
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Pikachu",
+     19
+    ],
+    [
+     "a",
+     "Crobat",
+     "Pikachu",
+     21
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     22
+    ],
+    [
+     "b",
+     "Pikachu",
+     null,
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 2,
+   "winner": "b",
+   "turns": 28,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Crobat",
+     "Pikachu",
+     7
+    ],
+    [
+     "b",
+     "Pikachu",
+     null,
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     12
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Heracross",
+     15
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Sceptile",
+     18
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Sceptile",
+     21
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Lapras",
+     22
+    ],
+    [
+     "a",
+     "Lapras",
+     "Snorlax",
+     26
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Snorlax",
+     28
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 3,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Heracross",
+     10
+    ],
+    [
+     "b",
+     "Heracross",
+     "Tyranitar",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Sceptile",
+     11
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Typhlosion",
+     15
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Typhlosion",
+     16
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 4,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     13
+    ],
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     16
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Typhlosion",
+     17
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 5,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Charizard",
+     "Crobat",
+     8
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Snorlax",
+     10
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Heracross",
+     15
+    ],
+    [
+     "b",
+     "Heracross",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     16
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Pikachu",
+     17
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Snorlax",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 6,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Heracross",
+     12
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Crobat",
+     13
+    ],
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     15
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     16
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Typhlosion",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 7,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Tyranitar",
+     "Heracross",
+     12
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Mamoswine",
+     15
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     17
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     20
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Typhlosion",
+     21
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 8,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     3
+    ],
+    [
+     "b",
+     "Heracross",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 9,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Crobat",
+     "Pikachu",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Tyranitar",
+     8
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Sceptile",
+     11
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Typhlosion",
+     12
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     15
+    ],
+    [
+     "a",
+     "Typhlosion",
+     null,
+     15
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Snorlax",
+     17
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Heracross",
+     18
+    ],
+    [
+     "b",
+     "Heracross",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 10,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Heracross",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     16
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Typhlosion",
+     21
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Typhlosion",
+     22
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 11,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Snorlax",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     12
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Sceptile",
+     13
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Crobat",
+     15
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Heracross",
+     "Mamoswine",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 12,
+   "winner": "a",
+   "turns": 31,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Crobat",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Sceptile",
+     13
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Snorlax",
+     15
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Infernape",
+     "Lapras",
+     19
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     20
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     21
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Heracross",
+     22
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Heracross",
+     23
+    ],
+    [
+     "b",
+     "Charizard",
+     "Crobat",
+     28
+    ],
+    [
+     "b",
+     "Heracross",
+     "Crobat",
+     31
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 13,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Tyranitar",
+     11
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Sceptile",
+     12
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Crobat",
+     13
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Typhlosion",
+     14
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     15
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     16
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 14,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Crobat",
+     8
+    ],
+    [
+     "b",
+     "Infernape",
+     "Tyranitar",
+     13
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Sceptile",
+     14
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Crobat",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 15,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Crobat",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Infernape",
+     null,
+     8
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Typhlosion",
+     15
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Charizard",
+     16
+    ],
+    [
+     "b",
+     "Charizard",
+     "Lapras",
+     17
+    ],
+    [
+     "a",
+     "Lapras",
+     "Pikachu",
+     18
+    ],
+    [
+     "b",
+     "Heracross",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Mamoswine",
+     21
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Mamoswine",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 16,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Snorlax",
+     13
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Heracross",
+     14
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Typhlosion",
+     15
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Typhlosion",
+     17
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 17,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Snorlax",
+     9
+    ],
+    [
+     "b",
+     "Heracross",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     19
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 18,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Snorlax",
+     "Crobat",
+     7
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Sceptile",
+     8
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Snorlax",
+     10
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Tyranitar",
+     15
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Heracross",
+     16
+    ],
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Charizard",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "ash/all-time",
+   "k": 2,
+   "i": 19,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Infernape",
+     "Typhlosion",
+     1
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Sceptile",
+     4
+    ],
+    [
+     "b",
+     "Sceptile",
+     "Tyranitar",
+     4
+    ],
+    [
+     "a",
+     "Snorlax",
+     "Snorlax",
+     9
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Typhlosion",
+     14
+    ],
+    [
+     "b",
+     "Heracross",
+     "Typhlosion",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 0,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 1,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Scizor",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Magmar",
+     "Mamoswine",
+     21
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 2,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "a",
+     "Lapras",
+     "Arcanine",
+     9
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Typhlosion",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     13
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Scizor",
+     14
+    ],
+    [
+     "b",
+     "Magmar",
+     "Typhlosion",
+     16
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     21
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 3,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lapras",
+     18
+    ],
+    [
+     "b",
+     "Golem",
+     "Lapras",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 4,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Golem",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Scizor",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Tyranitar",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 5,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 6,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Magmar",
+     "Tyranitar",
+     8
+    ],
+    [
+     "a",
+     "Lapras",
+     "Golem",
+     11
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Typhlosion",
+     15
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Nidoqueen",
+     16
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Crobat",
+     18
+    ],
+    [
+     "b",
+     "Scizor",
+     "Crobat",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 7,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     16
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Golem",
+     20
+    ],
+    [
+     "b",
+     "Golem",
+     "Snorlax",
+     21
+    ],
+    [
+     "b",
+     "Scizor",
+     "Mamoswine",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 8,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Magmar",
+     "Typhlosion",
+     13
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     19
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Scizor",
+     21
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Typhlosion",
+     24
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 9,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Lapras",
+     "Golem",
+     15
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 10,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Magmar",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Golem",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 11,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Lapras",
+     "Golem",
+     15
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Magmar",
+     "Typhlosion",
+     18
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 12,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 13,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lapras",
+     22
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Lapras",
+     24
+    ],
+    [
+     "b",
+     "Golem",
+     "Lapras",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 14,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     13
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Typhlosion",
+     17
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 15,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Magmar",
+     "Typhlosion",
+     15
+    ],
+    [
+     "a",
+     "Lapras",
+     "Golem",
+     16
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     18
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Typhlosion",
+     21
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 16,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Magmar",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Typhlosion",
+     18
+    ],
+    [
+     "a",
+     "Typhlosion",
+     "Scizor",
+     19
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Scizor",
+     21
+    ],
+    [
+     "b",
+     "Scizor",
+     "Tyranitar",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 17,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Typhlosion",
+     13
+    ],
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     16
+    ],
+    [
+     "b",
+     "Magmar",
+     "Mamoswine",
+     17
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Typhlosion",
+     20
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 18,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Arcanine",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Magmar",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Golem",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Scizor",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "gary/johto",
+   "k": 3,
+   "i": 19,
+   "winner": "a",
+   "turns": 26,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blastoise"
+   },
+   "kos": [
+    [
+     "b",
+     "Golem",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Magmar",
+     "Mamoswine",
+     12
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Arcanine",
+     13
+    ],
+    [
+     "b",
+     "Arcanine",
+     "Snorlax",
+     14
+    ],
+    [
+     "b",
+     "Nidoqueen",
+     "Lapras",
+     18
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Lapras",
+     25
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lapras",
+     26
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 0,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     3
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Froslass",
+     5
+    ],
+    [
+     "b",
+     "Froslass",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 1,
+   "winner": "a",
+   "turns": 28,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Electivire",
+     2
+    ],
+    [
+     "b",
+     "Electivire",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Torterra",
+     "Crobat",
+     22
+    ],
+    [
+     "b",
+     "Froslass",
+     "Tyranitar",
+     24
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Tyranitar",
+     26
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Tyranitar",
+     28
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 2,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Froslass",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 3,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     3
+    ],
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Drapion",
+     "Mamoswine",
+     7
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gastrodon",
+     8
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 4,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     3
+    ],
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 5,
+   "winner": "a",
+   "turns": 26,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Froslass",
+     "Snorlax",
+     18
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     25
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     26
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 6,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     18
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Drapion",
+     "Mamoswine",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 7,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 8,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     18
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 9,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Drapion",
+     "Mamoswine",
+     10
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gastrodon",
+     11
+    ],
+    [
+     "b",
+     "Torterra",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 10,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 11,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     3
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Froslass",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 12,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Torterra",
+     "Mamoswine",
+     15
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Mamoswine",
+     18
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Mamoswine",
+     22
+    ],
+    [
+     "b",
+     "Drapion",
+     "Mamoswine",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 13,
+   "winner": "a",
+   "turns": 29,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Froslass",
+     "Snorlax",
+     23
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Snorlax",
+     25
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Crobat",
+     29
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 14,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Torterra",
+     "Crobat",
+     17
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Crobat",
+     19
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Crobat",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 15,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     17
+    ],
+    [
+     "a",
+     "Lapras",
+     "Ninjask",
+     18
+    ],
+    [
+     "b",
+     "Torterra",
+     "Typhlosion",
+     19
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Typhlosion",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 16,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Froslass",
+     "Lapras",
+     20
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     21
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     23
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 17,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Torterra",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Froslass",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Lapras",
+     16
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Lapras",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 18,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     8
+    ],
+    [
+     "a",
+     "Crobat",
+     "Torterra",
+     17
+    ],
+    [
+     "b",
+     "Torterra",
+     "Tyranitar",
+     18
+    ],
+    [
+     "b",
+     "Drapion",
+     "Tyranitar",
+     20
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Tyranitar",
+     21
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Tyranitar",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "paul/sinnoh",
+   "k": 4,
+   "i": 19,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Electivire"
+   },
+   "kos": [
+    [
+     "b",
+     "Froslass",
+     "Mamoswine",
+     4
+    ],
+    [
+     "b",
+     "Electivire",
+     "Mamoswine",
+     8
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Gastrodon",
+     9
+    ],
+    [
+     "b",
+     "Drapion",
+     "Snorlax",
+     12
+    ],
+    [
+     "b",
+     "Torterra",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Gastrodon",
+     "Tyranitar",
+     16
+    ],
+    [
+     "b",
+     "Ninjask",
+     "Tyranitar",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 0,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 1,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     7
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Munchlax",
+     11
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Mamoswine",
+     14
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Mamoswine",
+     19
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Mamoswine",
+     20
+    ],
+    [
+     "b",
+     "Skitty",
+     "Mamoswine",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Blaziken",
+     "Tyranitar",
+     5
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 3,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 4,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "a",
+     "Typhlosion",
+     "Wartortle",
+     4
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Snorlax",
+     5
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Snorlax",
+     8
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Snorlax",
+     9
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Snorlax",
+     11
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Crobat",
+     15
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 5,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 6,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 7,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Blaziken",
+     "Typhlosion",
+     2
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 8,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 9,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 10,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 11,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 12,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Tyranitar",
+     8
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     10
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 13,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Munchlax",
+     7
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Crobat",
+     9
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Crobat",
+     12
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Snorlax",
+     14
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Snorlax",
+     16
+    ],
+    [
+     "b",
+     "Skitty",
+     "Snorlax",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 14,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     7
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 15,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 16,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 17,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     12
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     15
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 18,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     5
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Lapras",
+     13
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Lapras",
+     14
+    ],
+    [
+     "b",
+     "Skitty",
+     "Lapras",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "may/grand-festival",
+   "k": 5,
+   "i": 19,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Blaziken"
+   },
+   "kos": [
+    [
+     "b",
+     "Venusaur",
+     "Lapras",
+     6
+    ],
+    [
+     "b",
+     "Blaziken",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Munchlax",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Beautifly",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Wartortle",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Skitty",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 0,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Tyranitar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 1,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 3,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 4,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 5,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 6,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Buneary",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Piplup",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Tyranitar",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 7,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     2
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     5
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 8,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 9,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     12
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 10,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 11,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "a",
+     "Mamoswine",
+     "Piplup",
+     7
+    ],
+    [
+     "b",
+     "Piplup",
+     "Snorlax",
+     8
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Buneary",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 12,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 13,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 14,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Tyranitar",
+     13
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Tyranitar",
+     14
+    ],
+    [
+     "b",
+     "Buneary",
+     "Tyranitar",
+     15
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 15,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     4
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     11
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 16,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     8
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Tyranitar",
+     12
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Tyranitar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 17,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     12
+    ],
+    [
+     "a",
+     "Tyranitar",
+     "Piplup",
+     13
+    ],
+    [
+     "b",
+     "Piplup",
+     "Snorlax",
+     14
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Snorlax",
+     15
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 18,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Mamoswine",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Mamoswine",
+     7
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Mamoswine",
+     9
+    ],
+    [
+     "b",
+     "Buneary",
+     "Mamoswine",
+     10
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Mamoswine",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "dawn/grand-festival",
+   "k": 6,
+   "i": 19,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Typhlosion",
+    "b": "Piplup"
+   },
+   "kos": [
+    [
+     "b",
+     "Togekiss",
+     "Lapras",
+     3
+    ],
+    [
+     "b",
+     "Mamoswine",
+     "Tyranitar",
+     6
+    ],
+    [
+     "b",
+     "Piplup",
+     "Tyranitar",
+     7
+    ],
+    [
+     "b",
+     "Buneary",
+     "Tyranitar",
+     9
+    ],
+    [
+     "b",
+     "Pachirisu",
+     "Tyranitar",
+     11
+    ],
+    [
+     "b",
+     "Ambipom",
+     "Tyranitar",
+     12
+    ]
+   ]
+  }
+ ],
+ "fell_back": [],
+ "labels": {
+  "team": "Zack · HeartGold (main)",
+  "pool": "Anime trainers (reconstructed, Gen 4)",
+  "opponents": "Blackthorn's reading",
+  "ours": "Blackthorn's reading"
+ }
+}

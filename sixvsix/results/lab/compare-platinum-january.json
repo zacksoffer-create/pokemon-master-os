@@ -1,0 +1,2174 @@
+{
+ "kind": "Experiment",
+ "type": "compare",
+ "spec": {
+  "kind": "compare",
+  "team": "me/platinum",
+  "y": "platinum-january",
+  "pool": "platinum-league",
+  "n": 20,
+  "adaptive": {
+   "start": 10,
+   "max": 40
+  },
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:55:30.792Z",
+ "seed": "lab|compare|114dea96792e6725",
+ "comparison": {
+  "kind": "Comparison",
+  "pool": "pool:platinum-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "lab|compare|114dea96792e6725",
+  "n_per_opponent": 40,
+  "x": {
+   "label": "Zack · Platinum",
+   "team": "library:me/platinum",
+   "agent": "trainer",
+   "won": 393,
+   "win_rate": 0.983
+  },
+  "y": {
+   "label": "January sheet (Empoleon)",
+   "team": "library:me/platinum~platinum-january",
+   "agent": "trainer",
+   "won": 382,
+   "win_rate": 0.955
+  },
+  "pairs": {
+   "n": 400,
+   "both_won": 378,
+   "only_x": 15,
+   "only_y": 4,
+   "neither": 3
+  },
+  "difference": {
+   "y_minus_x": -0.027,
+   "ci95": [
+    -0.049,
+    -0.006
+   ]
+  },
+  "margin": {
+   "y_minus_x": -0.006,
+   "ci95": [
+    -0.028,
+    0.016
+   ],
+   "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+  },
+  "mcnemar_p": 0.019211,
+  "significant": true,
+  "per_opponent": [
+   {
+    "opponent": "library:platinum/aaron",
+    "name": "Aaron · Elite Four · first battle",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/bertha",
+    "name": "Bertha · Elite Four · first battle",
+    "n": 40,
+    "x_won": 39,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/flint",
+    "name": "Flint · Elite Four · first battle",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/lucian",
+    "name": "Lucian · Elite Four · first battle",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/cynthia",
+    "name": "Champion Cynthia (Platinum)",
+    "n": 40,
+    "x_won": 36,
+    "y_won": 27
+   },
+   {
+    "opponent": "library:platinum/aaron-rematch",
+    "name": "Aaron · Elite Four · rematch",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/bertha-rematch",
+    "name": "Bertha · Elite Four · rematch",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/flint-rematch",
+    "name": "Flint · Elite Four · rematch",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/lucian-rematch",
+    "name": "Lucian · Elite Four · rematch",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:platinum/cynthia-rematch",
+    "name": "Cynthia · Champion · rematch",
+    "n": 40,
+    "x_won": 38,
+    "y_won": 35
+   }
+  ],
+  "reading": "Zack · Platinum won more: 98% against 96% over 400 paired battles (McNemar p = 0.0192).",
+  "timing": {
+   "total_ms": 10654,
+   "platform": "worker threads · 3 worker threads"
+  },
+  "adaptive": {
+   "start": 10,
+   "max": 40,
+   "played_per_opponent": 40,
+   "stopped": "reached the maximum"
+  }
+ },
+ "diff": [
+  {
+   "slot": 3,
+   "from": "Lucario",
+   "to": "Empoleon",
+   "changes": [
+    {
+     "field": "Pokémon",
+     "from": "Lucario",
+     "to": "Empoleon"
+    },
+    {
+     "field": "nature",
+     "from": "Careful",
+     "to": "Quiet"
+    },
+    {
+     "field": "ability",
+     "from": "Steadfast",
+     "to": "Torrent"
+    },
+    {
+     "field": "moves",
+     "from": "Close Combat, Ice Punch, Earthquake",
+     "to": "Hydro Pump, Brick Break, Ice Beam"
+    },
+    {
+     "field": "EVs",
+     "from": "4 HP / 252 Atk / 252 Spe",
+     "to": "4 HP / 252 SpA / 252 Spe"
+    }
+   ]
+  }
+ ],
+ "duel": [
+  {
+   "slot": 3,
+   "from": "Lucario",
+   "to": "Empoleon",
+   "one_on_one": {
+    "from": "26 of 52",
+    "to": "38 of 52",
+    "switching_in": "12 → 20"
+   },
+   "stats": {
+    "from": {
+     "hp": 282,
+     "atk": 319,
+     "def": 176,
+     "spa": 239,
+     "spd": 193,
+     "spe": 279
+    },
+    "to": {
+     "hp": 310,
+     "atk": 208,
+     "def": 212,
+     "spa": 353,
+     "spd": 238,
+     "spe": 197
+    }
+   },
+   "flips": [
+    {
+     "opponent": "Gliscor",
+     "now": "wins",
+     "from": [
+      "platinum/bertha",
+      "platinum/bertha-rematch"
+     ]
+    },
+    {
+     "opponent": "Hippowdon",
+     "now": "wins",
+     "from": [
+      "platinum/bertha",
+      "platinum/bertha-rematch"
+     ]
+    },
+    {
+     "opponent": "Golem",
+     "now": "wins",
+     "from": [
+      "platinum/bertha",
+      "platinum/bertha-rematch"
+     ]
+    },
+    {
+     "opponent": "Rhyperior",
+     "now": "wins",
+     "from": [
+      "platinum/bertha",
+      "platinum/bertha-rematch"
+     ]
+    },
+    {
+     "opponent": "Flareon",
+     "now": "wins",
+     "from": [
+      "platinum/flint",
+      "platinum/flint-rematch"
+     ]
+    },
+    {
+     "opponent": "Rapidash",
+     "now": "wins",
+     "from": [
+      "platinum/flint",
+      "platinum/flint-rematch"
+     ]
+    },
+    {
+     "opponent": "Infernape",
+     "now": "wins",
+     "from": [
+      "platinum/flint",
+      "platinum/flint-rematch"
+     ]
+    },
+    {
+     "opponent": "Magmortar",
+     "now": "wins",
+     "from": [
+      "platinum/flint",
+      "platinum/flint-rematch"
+     ]
+    },
+    {
+     "opponent": "Mr. Mime",
+     "now": "loses",
+     "from": [
+      "platinum/lucian",
+      "platinum/lucian-rematch"
+     ]
+    },
+    {
+     "opponent": "Espeon",
+     "now": "wins",
+     "from": [
+      "platinum/lucian",
+      "platinum/lucian-rematch"
+     ]
+    },
+    {
+     "opponent": "Togekiss",
+     "now": "loses",
+     "from": [
+      "platinum/cynthia-rematch"
+     ]
+    },
+    {
+     "opponent": "Lucario",
+     "now": "loses",
+     "from": [
+      "platinum/cynthia-rematch"
+     ]
+    }
+   ],
+   "thresholds": [
+    {
+     "opponent": "Yanmega",
+     "what": "hits to knock it out 3 → 2"
+    },
+    {
+     "opponent": "Yanmega",
+     "what": "its hits to knock you out 3 → 5"
+    },
+    {
+     "opponent": "Yanmega",
+     "what": "now slower than it (197 vs 246)"
+    },
+    {
+     "opponent": "Scizor",
+     "what": "its hits to knock you out 4 → 5"
+    },
+    {
+     "opponent": "Vespiquen",
+     "what": "hits to knock it out 3 → 2"
+    },
+    {
+     "opponent": "Vespiquen",
+     "what": "its hits to knock you out 9 → 6"
+    },
+    {
+     "opponent": "Heracross",
+     "what": "hits to knock it out 3 → 2"
+    },
+    {
+     "opponent": "Heracross",
+     "what": "now slower than it (197 vs 226)"
+    },
+    {
+     "opponent": "Drapion",
+     "what": "its hits to knock you out 5 → 9"
+    },
+    {
+     "opponent": "Drapion",
+     "what": "now slower than it (197 vs 246)"
+    },
+    {
+     "opponent": "Gliscor",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Gliscor",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Gliscor",
+     "what": "now slower than it (197 vs 246)"
+    },
+    {
+     "opponent": "Hippowdon",
+     "what": "hits to knock it out 3 → 1"
+    },
+    {
+     "opponent": "Hippowdon",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Golem",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Golem",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Rhyperior",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Houndoom",
+     "what": "its hits to knock you out 1 → 3"
+    },
+    {
+     "opponent": "Houndoom",
+     "what": "now slower than it (197 vs 246)"
+    },
+    {
+     "opponent": "Flareon",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Flareon",
+     "what": "its hits to knock you out 1 → 3"
+    },
+    {
+     "opponent": "Rapidash",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Rapidash",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Rapidash",
+     "what": "now slower than it (197 vs 266)"
+    },
+    {
+     "opponent": "Infernape",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Infernape",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Infernape",
+     "what": "now slower than it (197 vs 272)"
+    },
+    {
+     "opponent": "Magmortar",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Magmortar",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Magmortar",
+     "what": "now slower than it (197 vs 222)"
+    },
+    {
+     "opponent": "Mr. Mime",
+     "what": "its hits to knock you out 3 → 2"
+    },
+    {
+     "opponent": "Mr. Mime",
+     "what": "now slower than it (197 vs 236)"
+    },
+    {
+     "opponent": "Espeon",
+     "what": "hits to knock it out 3 → 2"
+    },
+    {
+     "opponent": "Espeon",
+     "what": "its hits to knock you out 2 → 5"
+    },
+    {
+     "opponent": "Espeon",
+     "what": "now slower than it (197 vs 276)"
+    },
+    {
+     "opponent": "Alakazam",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Gallade",
+     "what": "hits to knock it out 3 → 2"
+    },
+    {
+     "opponent": "Gallade",
+     "what": "now slower than it (197 vs 216)"
+    },
+    {
+     "opponent": "Spiritomb",
+     "what": "hits to knock it out 3 → 2"
+    }
+   ]
+  }
+ ],
+ "per_opponent": [
+  {
+   "opponent": "library:platinum/cynthia",
+   "name": "Champion Cynthia (Platinum)",
+   "n": 40,
+   "x_won": 36,
+   "y_won": 27,
+   "change": -0.225
+  },
+  {
+   "opponent": "library:platinum/cynthia-rematch",
+   "name": "Cynthia · Champion · rematch",
+   "n": 40,
+   "x_won": 38,
+   "y_won": 35,
+   "change": -0.075
+  },
+  {
+   "opponent": "library:platinum/bertha",
+   "name": "Bertha · Elite Four · first battle",
+   "n": 40,
+   "x_won": 39,
+   "y_won": 40,
+   "change": 0.025
+  }
+ ],
+ "roles": [
+  {
+   "name": "Lucario",
+   "to": "Empoleon",
+   "ko_share": [
+    0.112,
+    0.173
+   ],
+   "falls_first": [
+    0.01,
+    0.085
+   ]
+  },
+  {
+   "name": "Garchomp",
+   "to": "Garchomp",
+   "ko_share": [
+    0.355,
+    0.411
+   ],
+   "falls_first": [
+    0.285,
+    0.273
+   ]
+  },
+  {
+   "name": "Magnezone",
+   "to": "Magnezone",
+   "ko_share": [
+    0.176,
+    0.106
+   ],
+   "falls_first": [
+    0.118,
+    0.058
+   ]
+  }
+ ],
+ "reports": {
+  "x": {
+   "kind": "StrategyReport",
+   "team": "library:me/platinum",
+   "team_name": "Zack · Platinum",
+   "n": 400,
+   "pool": {
+    "id": "pool:platinum-league",
+    "name": "Platinum Elite Four, Champion and rematches"
+   },
+   "interpretation_of_opponents": "blackthorn",
+   "our_style": "blackthorn",
+   "headline": [
+    "Zack · Platinum won 393 of 400 (98%; 95% 96%–99%).",
+    "No opponent held you under 75%.",
+    "Garchomp makes 36% of your knockouts.",
+    "Garchomp is in 86% of your losses and takes 2.7 of yours each time; it's hardest on Garchomp, Lucario, Roserade."
+   ],
+   "outcomes": {
+    "n": 400,
+    "won": 393,
+    "rate": 0.983,
+    "ci95": [
+     0.964,
+     0.991
+    ],
+    "drew": 0,
+    "by_opponent": [
+     {
+      "opponent": "platinum/cynthia",
+      "name": "Champion Cynthia (Platinum)",
+      "n": 40,
+      "won": 36,
+      "rate": 0.9,
+      "ci95": [
+       0.769,
+       0.96
+      ],
+      "turns": 19.6,
+      "left_when_won": 3.9
+     },
+     {
+      "opponent": "platinum/cynthia-rematch",
+      "name": "Cynthia · Champion · rematch",
+      "n": 40,
+      "won": 38,
+      "rate": 0.95,
+      "ci95": [
+       0.835,
+       0.986
+      ],
+      "turns": 20.1,
+      "left_when_won": 3.9
+     },
+     {
+      "opponent": "platinum/bertha",
+      "name": "Bertha · Elite Four · first battle",
+      "n": 40,
+      "won": 39,
+      "rate": 0.975,
+      "ci95": [
+       0.871,
+       0.996
+      ],
+      "turns": 13.8,
+      "left_when_won": 3.1
+     },
+     {
+      "opponent": "platinum/aaron",
+      "name": "Aaron · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 13,
+      "left_when_won": 4.4
+     },
+     {
+      "opponent": "platinum/flint",
+      "name": "Flint · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 7.6,
+      "left_when_won": 5.3
+     },
+     {
+      "opponent": "platinum/lucian",
+      "name": "Lucian · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 11.9,
+      "left_when_won": 5
+     },
+     {
+      "opponent": "platinum/aaron-rematch",
+      "name": "Aaron · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 12.8,
+      "left_when_won": 4.6
+     },
+     {
+      "opponent": "platinum/bertha-rematch",
+      "name": "Bertha · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 14.3,
+      "left_when_won": 3
+     },
+     {
+      "opponent": "platinum/flint-rematch",
+      "name": "Flint · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 7.4,
+      "left_when_won": 5.1
+     },
+     {
+      "opponent": "platinum/lucian-rematch",
+      "name": "Lucian · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 11.8,
+      "left_when_won": 5.2
+     }
+    ],
+    "turns": 13.2,
+    "left_when_won": 4.4,
+    "close_wins": 0.018
+   },
+   "members": [
+    {
+     "name": "Infernape",
+     "species": "Infernape",
+     "appeared": 1,
+     "kos": 0.605,
+     "ko_share": 0.117,
+     "ko_share_in_wins": 0.118,
+     "damage_dealt": 88.7,
+     "damage_taken": 52,
+     "healed": 0,
+     "status_inflicted": 0.02,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.055,
+     "fainted": 0.463,
+     "falls_first": 0.36,
+     "opens": 0.273,
+     "closes": 0.081,
+     "reading": "falls first in 36% of battles"
+    },
+    {
+     "name": "Weavile",
+     "species": "Weavile",
+     "appeared": 0.578,
+     "kos": 0.638,
+     "ko_share": 0.124,
+     "ko_share_in_wins": 0.124,
+     "damage_dealt": 68.2,
+     "damage_taken": 27.9,
+     "healed": 0,
+     "status_inflicted": 0.03,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.445,
+     "fainted": 0.23,
+     "falls_first": 0.068,
+     "opens": 0.143,
+     "closes": 0.135,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Roserade",
+     "species": "Roserade",
+     "appeared": 0.42,
+     "kos": 0.595,
+     "ko_share": 0.115,
+     "ko_share_in_wins": 0.114,
+     "damage_dealt": 51.9,
+     "damage_taken": 30,
+     "healed": 0,
+     "status_inflicted": 0.138,
+     "setup_used": 0,
+     "support_used": 0.053,
+     "switched_in_by_choice": 0.258,
+     "fainted": 0.235,
+     "falls_first": 0.008,
+     "opens": 0.095,
+     "closes": 0.051,
+     "reading": "sees play in only 42% of battles"
+    },
+    {
+     "name": "Lucario",
+     "species": "Lucario",
+     "appeared": 0.385,
+     "kos": 0.578,
+     "ko_share": 0.112,
+     "ko_share_in_wins": 0.111,
+     "damage_dealt": 50,
+     "damage_taken": 21.1,
+     "healed": 0,
+     "status_inflicted": 0.005,
+     "setup_used": 0.045,
+     "support_used": 0,
+     "switched_in_by_choice": 0.205,
+     "fainted": 0.143,
+     "falls_first": 0.01,
+     "opens": 0.048,
+     "closes": 0.122,
+     "reading": "sees play in only 39% of battles"
+    },
+    {
+     "name": "Garchomp",
+     "species": "Garchomp",
+     "appeared": 0.893,
+     "kos": 1.83,
+     "ko_share": 0.355,
+     "ko_share_in_wins": 0.357,
+     "damage_dealt": 208.5,
+     "damage_taken": 61.7,
+     "healed": 0,
+     "status_inflicted": 0.03,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.55,
+     "fainted": 0.475,
+     "falls_first": 0.285,
+     "opens": 0.203,
+     "closes": 0.392,
+     "reading": "your main finisher (36% of your knockouts); takes the most hits (62% of its HP a battle); closes 39% of your wins"
+    },
+    {
+     "name": "Magnezone",
+     "species": "Magnezone",
+     "appeared": 0.628,
+     "kos": 0.908,
+     "ko_share": 0.176,
+     "ko_share_in_wins": 0.175,
+     "damage_dealt": 76.7,
+     "damage_taken": 30.6,
+     "healed": 0,
+     "status_inflicted": 0.03,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.725,
+     "fainted": 0.163,
+     "falls_first": 0.118,
+     "opens": 0.24,
+     "closes": 0.219,
+     "reading": "a steady contributor"
+    }
+   ],
+   "team_level": {
+    "threats": [
+     {
+      "species": "Garchomp",
+      "from": [
+       "Champion Cynthia (Platinum)",
+       "Cynthia · Champion · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.775,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 21
+       },
+       {
+        "name": "Lucario",
+        "kos": 13
+       },
+       {
+        "name": "Roserade",
+        "kos": 13
+       }
+      ],
+      "in_losses": 6,
+      "share_of_losses": 0.857,
+      "kos_in_losses": 2.667,
+      "sweeps": 4
+     },
+     {
+      "species": "Gliscor",
+      "from": [
+       "Bertha · Elite Four · first battle",
+       "Bertha · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.713,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 54
+       },
+       {
+        "name": "Lucario",
+        "kos": 2
+       },
+       {
+        "name": "Infernape",
+        "kos": 1
+       }
+      ],
+      "in_losses": 1,
+      "share_of_losses": 0.143,
+      "kos_in_losses": 1,
+      "sweeps": 0
+     },
+     {
+      "species": "Yanmega",
+      "from": [
+       "Aaron · Elite Four · first battle",
+       "Aaron · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.675,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Infernape",
+        "kos": 54
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Hippowdon",
+      "from": [
+       "Bertha · Elite Four · first battle",
+       "Bertha · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.663,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Roserade",
+        "kos": 20
+       },
+       {
+        "name": "Weavile",
+        "kos": 18
+       },
+       {
+        "name": "Garchomp",
+        "kos": 12
+       }
+      ],
+      "in_losses": 1,
+      "share_of_losses": 0.143,
+      "kos_in_losses": 2,
+      "sweeps": 1
+     },
+     {
+      "species": "Heracross",
+      "from": [
+       "Aaron · Elite Four · first battle",
+       "Aaron · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.65,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 43
+       },
+       {
+        "name": "Infernape",
+        "kos": 5
+       },
+       {
+        "name": "Roserade",
+        "kos": 2
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Golem",
+      "from": [
+       "Bertha · Elite Four · first battle",
+       "Bertha · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.625,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Roserade",
+        "kos": 23
+       },
+       {
+        "name": "Infernape",
+        "kos": 11
+       },
+       {
+        "name": "Lucario",
+        "kos": 8
+       }
+      ],
+      "in_losses": 1,
+      "share_of_losses": 0.143,
+      "kos_in_losses": 1,
+      "sweeps": 0
+     },
+     {
+      "species": "Lucario",
+      "from": [
+       "Champion Cynthia (Platinum)",
+       "Cynthia · Champion · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.588,
+      "survives": 0.037,
+      "most_against": [
+       {
+        "name": "Weavile",
+        "kos": 25
+       },
+       {
+        "name": "Roserade",
+        "kos": 12
+       },
+       {
+        "name": "Infernape",
+        "kos": 4
+       }
+      ],
+      "in_losses": 6,
+      "share_of_losses": 0.857,
+      "kos_in_losses": 1.833,
+      "sweeps": 3
+     },
+     {
+      "species": "Rhyperior",
+      "from": [
+       "Bertha · Elite Four · first battle",
+       "Bertha · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.513,
+      "survives": 0.012,
+      "most_against": [
+       {
+        "name": "Roserade",
+        "kos": 15
+       },
+       {
+        "name": "Lucario",
+        "kos": 11
+       },
+       {
+        "name": "Weavile",
+        "kos": 9
+       }
+      ],
+      "in_losses": 1,
+      "share_of_losses": 0.143,
+      "kos_in_losses": 1,
+      "sweeps": 0
+     }
+    ],
+    "dependencies": [
+     {
+      "name": "Weavile",
+      "falls_early": 0.158,
+      "win_if_falls_early": 0.905,
+      "win_otherwise": 0.997,
+      "gap": 0.092,
+      "n_early": 63,
+      "n_otherwise": 337,
+      "win_if_survives": 1,
+      "n_survives": 308
+     },
+     {
+      "name": "Garchomp",
+      "falls_early": 0.468,
+      "win_if_falls_early": 0.968,
+      "win_otherwise": 0.995,
+      "gap": 0.027,
+      "n_early": 187,
+      "n_otherwise": 213,
+      "win_if_survives": 1,
+      "n_survives": 210
+     },
+     {
+      "name": "Roserade",
+      "falls_early": 0.133,
+      "win_if_falls_early": 0.981,
+      "win_otherwise": 0.983,
+      "gap": 0.002,
+      "n_early": 53,
+      "n_otherwise": 347,
+      "win_if_survives": 1,
+      "n_survives": 306
+     },
+     {
+      "name": "Infernape",
+      "falls_early": 0.37,
+      "win_if_falls_early": 0.993,
+      "win_otherwise": 0.976,
+      "gap": -0.017,
+      "n_early": 148,
+      "n_otherwise": 252,
+      "win_if_survives": 1,
+      "n_survives": 215
+     },
+     {
+      "name": "Lucario",
+      "falls_early": 0.058,
+      "win_if_falls_early": 1,
+      "win_otherwise": 0.981,
+      "gap": -0.019,
+      "n_early": 23,
+      "n_otherwise": 377,
+      "win_if_survives": 1,
+      "n_survives": 343
+     },
+     {
+      "name": "Magnezone",
+      "falls_early": 0.128,
+      "win_if_falls_early": 1,
+      "win_otherwise": 0.98,
+      "gap": -0.02,
+      "n_early": 51,
+      "n_otherwise": 349,
+      "win_if_survives": 1,
+      "n_survives": 335
+     }
+    ],
+    "damage_by_type": [
+     {
+      "type": "Ground",
+      "per_battle": 69.8,
+      "share": 0.32,
+      "weak": [
+       "Infernape",
+       "Lucario",
+       "Magnezone"
+      ]
+     },
+     {
+      "type": "Fighting",
+      "per_battle": 37.4,
+      "share": 0.172,
+      "weak": [
+       "Weavile",
+       "Lucario",
+       "Magnezone"
+      ]
+     },
+     {
+      "type": "Psychic",
+      "per_battle": 24.3,
+      "share": 0.112,
+      "weak": [
+       "Infernape",
+       "Roserade"
+      ]
+     },
+     {
+      "type": "Flying",
+      "per_battle": 20.6,
+      "share": 0.094,
+      "weak": [
+       "Infernape",
+       "Roserade"
+      ]
+     },
+     {
+      "type": "Ice",
+      "per_battle": 13.8,
+      "share": 0.063,
+      "weak": [
+       "Roserade",
+       "Garchomp"
+      ]
+     },
+     {
+      "type": "Normal",
+      "per_battle": 12.1,
+      "share": 0.055,
+      "weak": []
+     },
+     {
+      "type": "Bug",
+      "per_battle": 10.9,
+      "share": 0.05,
+      "weak": [
+       "Weavile"
+      ]
+     },
+     {
+      "type": "Fire",
+      "per_battle": 7.8,
+      "share": 0.036,
+      "weak": [
+       "Weavile",
+       "Roserade",
+       "Lucario",
+       "Magnezone"
+      ]
+     }
+    ],
+    "sequencing": {
+     "first_knockout": [
+      {
+       "name": "Infernape",
+       "battles": 109
+      },
+      {
+       "name": "Magnezone",
+       "battles": 96
+      },
+      {
+       "name": "Garchomp",
+       "battles": 81
+      },
+      {
+       "name": "Weavile",
+       "battles": 57
+      },
+      {
+       "name": "Roserade",
+       "battles": 38
+      },
+      {
+       "name": "Lucario",
+       "battles": 19
+      }
+     ],
+     "last_knockout_in_wins": [
+      {
+       "name": "Garchomp",
+       "battles": 154
+      },
+      {
+       "name": "Magnezone",
+       "battles": 86
+      },
+      {
+       "name": "Weavile",
+       "battles": 53
+      },
+      {
+       "name": "Lucario",
+       "battles": 48
+      },
+      {
+       "name": "Infernape",
+       "battles": 32
+      },
+      {
+       "name": "Roserade",
+       "battles": 20
+      }
+     ],
+     "leads": [
+      {
+       "name": "Infernape",
+       "n": 400,
+       "won": 393,
+       "rate": 0.983
+      }
+     ]
+    }
+   },
+   "interpretation": {
+    "robust": [
+     "The overall result is pinned down: 98% (95% 96%–99%) over 400 battles.",
+     "Your knockouts come mostly from Garchomp (36%)."
+    ],
+    "opponent_dependent": [
+     "Champion Cynthia (Platinum) is a real weak spot: 36 of 40 (95% up to 96%), below the pool's interval.",
+     "Garchomp's role depends on the opponent: 78% of your knockouts against Lucian · Elite Four · first battle, 5% against Bertha · Elite Four · first battle.",
+     "Magnezone's role depends on the opponent: 65% of your knockouts against Aaron · Elite Four · first battle, 0% against Flint · Elite Four · first battle."
+    ],
+    "needs_more_battles": []
+   },
+   "patterns": [
+    {
+     "id": "threat:Garchomp",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Garchomp runs through the team",
+     "finding": "Garchomp is in 86% of your losses and takes 2.7 of yours each time; it's hardest on Garchomp, Lucario, Roserade.",
+     "evidence": {
+      "species": "Garchomp",
+      "from": [
+       "Champion Cynthia (Platinum)",
+       "Cynthia · Champion · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.775,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 21
+       },
+       {
+        "name": "Lucario",
+        "kos": 13
+       },
+       {
+        "name": "Roserade",
+        "kos": 13
+       }
+      ],
+      "in_losses": 6,
+      "share_of_losses": 0.857,
+      "kos_in_losses": 2.667,
+      "sweeps": 4
+     },
+     "suggestion": {
+      "label": "Watch a loss where Garchomp sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/platinum",
+       "pool": "platinum-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Garchomp"
+       }
+      }
+     }
+    },
+    {
+     "id": "type:Ground",
+     "kind": "weakness",
+     "strength": "suggestive",
+     "title": "Ground hits are your biggest cost",
+     "finding": "32% of the damage you take is Ground (70% of a Pokémon's HP a battle), and 3 of your six are weak to it: Infernape, Lucario, Magnezone.",
+     "evidence": {
+      "type": "Ground",
+      "per_battle": 69.8,
+      "share": 0.32,
+      "weak": [
+       "Infernape",
+       "Lucario",
+       "Magnezone"
+      ]
+     },
+     "suggestion": {
+      "label": "A note for team building: a variation with a resist would test it",
+      "experiment": null
+     }
+    },
+    {
+     "id": "items",
+     "kind": "item",
+     "strength": "suggestive",
+     "title": "5 of your six hold nothing",
+     "finding": "No item on record for Infernape, Weavile, Lucario, Garchomp, Magnezone. Items are build decisions; the engine doesn't invent them.",
+     "evidence": {
+      "species": [
+       "Infernape",
+       "Weavile",
+       "Lucario",
+       "Garchomp",
+       "Magnezone"
+      ]
+     },
+     "suggestion": {
+      "label": "Try an item in the build editor and compare",
+      "experiment": null
+     }
+    }
+   ],
+   "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+  },
+  "y": {
+   "kind": "StrategyReport",
+   "team": "library:me/platinum~platinum-january",
+   "team_name": "Zack · Platinum · January sheet (Empoleon)",
+   "n": 400,
+   "pool": {
+    "id": "pool:platinum-league",
+    "name": "Platinum Elite Four, Champion and rematches"
+   },
+   "interpretation_of_opponents": "blackthorn",
+   "our_style": "blackthorn",
+   "headline": [
+    "Zack · Platinum · January sheet (Empoleon) won 382 of 400 (96%; 95% 93%–97%).",
+    "Hardest: Champion Cynthia (Platinum) (27/40).",
+    "Garchomp makes 41% of your knockouts.",
+    "Garchomp is in 100% of your losses and takes 3.2 of yours each time; it's hardest on Garchomp, Empoleon, Infernape."
+   ],
+   "outcomes": {
+    "n": 400,
+    "won": 382,
+    "rate": 0.955,
+    "ci95": [
+     0.93,
+     0.971
+    ],
+    "drew": 0,
+    "by_opponent": [
+     {
+      "opponent": "platinum/cynthia",
+      "name": "Champion Cynthia (Platinum)",
+      "n": 40,
+      "won": 27,
+      "rate": 0.675,
+      "ci95": [
+       0.52,
+       0.799
+      ],
+      "turns": 20.4,
+      "left_when_won": 4.2
+     },
+     {
+      "opponent": "platinum/cynthia-rematch",
+      "name": "Cynthia · Champion · rematch",
+      "n": 40,
+      "won": 35,
+      "rate": 0.875,
+      "ci95": [
+       0.739,
+       0.945
+      ],
+      "turns": 19.7,
+      "left_when_won": 4
+     },
+     {
+      "opponent": "platinum/aaron",
+      "name": "Aaron · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 13.4,
+      "left_when_won": 4.5
+     },
+     {
+      "opponent": "platinum/bertha",
+      "name": "Bertha · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 13.2,
+      "left_when_won": 3.7
+     },
+     {
+      "opponent": "platinum/flint",
+      "name": "Flint · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 7.9,
+      "left_when_won": 5.2
+     },
+     {
+      "opponent": "platinum/lucian",
+      "name": "Lucian · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 12.2,
+      "left_when_won": 5.2
+     },
+     {
+      "opponent": "platinum/aaron-rematch",
+      "name": "Aaron · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 12.8,
+      "left_when_won": 4.8
+     },
+     {
+      "opponent": "platinum/bertha-rematch",
+      "name": "Bertha · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 13,
+      "left_when_won": 3.8
+     },
+     {
+      "opponent": "platinum/flint-rematch",
+      "name": "Flint · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 7.8,
+      "left_when_won": 5.1
+     },
+     {
+      "opponent": "platinum/lucian-rematch",
+      "name": "Lucian · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 13,
+      "left_when_won": 5
+     }
+    ],
+    "turns": 13.3,
+    "left_when_won": 4.6,
+    "close_wins": 0.005
+   },
+   "members": [
+    {
+     "name": "Infernape",
+     "species": "Infernape",
+     "appeared": 1,
+     "kos": 0.55,
+     "ko_share": 0.109,
+     "ko_share_in_wins": 0.11,
+     "damage_dealt": 86,
+     "damage_taken": 49.8,
+     "healed": 0,
+     "status_inflicted": 0.03,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.103,
+     "fainted": 0.45,
+     "falls_first": 0.375,
+     "opens": 0.28,
+     "closes": 0.063,
+     "reading": "falls first in 38% of battles"
+    },
+    {
+     "name": "Weavile",
+     "species": "Weavile",
+     "appeared": 0.538,
+     "kos": 0.495,
+     "ko_share": 0.098,
+     "ko_share_in_wins": 0.096,
+     "damage_dealt": 55.1,
+     "damage_taken": 23.2,
+     "healed": 0,
+     "status_inflicted": 0.02,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.355,
+     "fainted": 0.195,
+     "falls_first": 0.055,
+     "opens": 0.138,
+     "closes": 0.102,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Roserade",
+     "species": "Roserade",
+     "appeared": 0.408,
+     "kos": 0.518,
+     "ko_share": 0.103,
+     "ko_share_in_wins": 0.099,
+     "damage_dealt": 42.7,
+     "damage_taken": 26.8,
+     "healed": 0,
+     "status_inflicted": 0.105,
+     "setup_used": 0,
+     "support_used": 0.025,
+     "switched_in_by_choice": 0.268,
+     "fainted": 0.208,
+     "falls_first": 0.01,
+     "opens": 0.078,
+     "closes": 0.047,
+     "reading": "sees play in only 41% of battles"
+    },
+    {
+     "name": "Empoleon",
+     "species": "Empoleon",
+     "appeared": 0.66,
+     "kos": 0.875,
+     "ko_share": 0.173,
+     "ko_share_in_wins": 0.175,
+     "damage_dealt": 83,
+     "damage_taken": 39.1,
+     "healed": 0,
+     "status_inflicted": 0.015,
+     "setup_used": 0.235,
+     "support_used": 0,
+     "switched_in_by_choice": 0.45,
+     "fainted": 0.24,
+     "falls_first": 0.085,
+     "opens": 0.138,
+     "closes": 0.212,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Garchomp",
+     "species": "Garchomp",
+     "appeared": 0.915,
+     "kos": 2.075,
+     "ko_share": 0.411,
+     "ko_share_in_wins": 0.416,
+     "damage_dealt": 222.9,
+     "damage_taken": 62.2,
+     "healed": 0,
+     "status_inflicted": 0.018,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.605,
+     "fainted": 0.433,
+     "falls_first": 0.273,
+     "opens": 0.28,
+     "closes": 0.442,
+     "reading": "your main finisher (41% of your knockouts); takes the most hits (62% of its HP a battle); closes 44% of your wins"
+    },
+    {
+     "name": "Magnezone",
+     "species": "Magnezone",
+     "appeared": 0.398,
+     "kos": 0.533,
+     "ko_share": 0.106,
+     "ko_share_in_wins": 0.105,
+     "damage_dealt": 47,
+     "damage_taken": 20.1,
+     "healed": 0,
+     "status_inflicted": 0.03,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.468,
+     "fainted": 0.118,
+     "falls_first": 0.058,
+     "opens": 0.088,
+     "closes": 0.134,
+     "reading": "sees play in only 40% of battles"
+    }
+   ],
+   "team_level": {
+    "threats": [
+     {
+      "species": "Garchomp",
+      "from": [
+       "Champion Cynthia (Platinum)",
+       "Cynthia · Champion · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 1.35,
+      "survives": 0.175,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 28
+       },
+       {
+        "name": "Empoleon",
+        "kos": 24
+       },
+       {
+        "name": "Infernape",
+        "kos": 22
+       }
+      ],
+      "in_losses": 18,
+      "share_of_losses": 1,
+      "kos_in_losses": 3.167,
+      "sweeps": 14
+     },
+     {
+      "species": "Gliscor",
+      "from": [
+       "Bertha · Elite Four · first battle",
+       "Bertha · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.738,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 54
+       },
+       {
+        "name": "Empoleon",
+        "kos": 4
+       },
+       {
+        "name": "Infernape",
+        "kos": 1
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Yanmega",
+      "from": [
+       "Aaron · Elite Four · first battle",
+       "Aaron · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.675,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Infernape",
+        "kos": 54
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Lucario",
+      "from": [
+       "Champion Cynthia (Platinum)",
+       "Cynthia · Champion · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.613,
+      "survives": 0.075,
+      "most_against": [
+       {
+        "name": "Weavile",
+        "kos": 20
+       },
+       {
+        "name": "Roserade",
+        "kos": 15
+       },
+       {
+        "name": "Infernape",
+        "kos": 6
+       }
+      ],
+      "in_losses": 18,
+      "share_of_losses": 1,
+      "kos_in_losses": 1.444,
+      "sweeps": 5
+     },
+     {
+      "species": "Hippowdon",
+      "from": [
+       "Bertha · Elite Four · first battle",
+       "Bertha · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.6,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Roserade",
+        "kos": 16
+       },
+       {
+        "name": "Weavile",
+        "kos": 15
+       },
+       {
+        "name": "Garchomp",
+        "kos": 12
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Heracross",
+      "from": [
+       "Aaron · Elite Four · first battle",
+       "Aaron · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.538,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 25
+       },
+       {
+        "name": "Empoleon",
+        "kos": 8
+       },
+       {
+        "name": "Infernape",
+        "kos": 5
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Flareon",
+      "from": [
+       "Flint · Elite Four · first battle",
+       "Flint · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.425,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Infernape",
+        "kos": 34
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Bronzong",
+      "from": [
+       "Lucian · Elite Four · first battle",
+       "Lucian · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.425,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Magnezone",
+        "kos": 18
+       },
+       {
+        "name": "Empoleon",
+        "kos": 12
+       },
+       {
+        "name": "Weavile",
+        "kos": 3
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     }
+    ],
+    "dependencies": [
+     {
+      "name": "Weavile",
+      "falls_early": 0.135,
+      "win_if_falls_early": 0.852,
+      "win_otherwise": 0.971,
+      "gap": 0.119,
+      "n_early": 54,
+      "n_otherwise": 346,
+      "win_if_survives": 1,
+      "n_survives": 322
+     },
+     {
+      "name": "Garchomp",
+      "falls_early": 0.423,
+      "win_if_falls_early": 0.899,
+      "win_otherwise": 0.996,
+      "gap": 0.096,
+      "n_early": 169,
+      "n_otherwise": 231,
+      "win_if_survives": 1,
+      "n_survives": 227
+     },
+     {
+      "name": "Roserade",
+      "falls_early": 0.095,
+      "win_if_falls_early": 0.921,
+      "win_otherwise": 0.959,
+      "gap": 0.038,
+      "n_early": 38,
+      "n_otherwise": 362,
+      "win_if_survives": 1,
+      "n_survives": 317
+     },
+     {
+      "name": "Empoleon",
+      "falls_early": 0.183,
+      "win_if_falls_early": 0.945,
+      "win_otherwise": 0.957,
+      "gap": 0.012,
+      "n_early": 73,
+      "n_otherwise": 327,
+      "win_if_survives": 1,
+      "n_survives": 304
+     },
+     {
+      "name": "Infernape",
+      "falls_early": 0.388,
+      "win_if_falls_early": 0.974,
+      "win_otherwise": 0.943,
+      "gap": -0.031,
+      "n_early": 155,
+      "n_otherwise": 245,
+      "win_if_survives": 1,
+      "n_survives": 220
+     },
+     {
+      "name": "Magnezone",
+      "falls_early": 0.06,
+      "win_if_falls_early": 1,
+      "win_otherwise": 0.952,
+      "gap": -0.048,
+      "n_early": 24,
+      "n_otherwise": 376,
+      "win_if_survives": 1,
+      "n_survives": 353
+     }
+    ],
+    "damage_by_type": [
+     {
+      "type": "Ground",
+      "per_battle": 62.1,
+      "share": 0.285,
+      "weak": [
+       "Infernape",
+       "Empoleon",
+       "Magnezone"
+      ]
+     },
+     {
+      "type": "Fighting",
+      "per_battle": 45.2,
+      "share": 0.208,
+      "weak": [
+       "Weavile",
+       "Empoleon",
+       "Magnezone"
+      ]
+     },
+     {
+      "type": "Flying",
+      "per_battle": 19.4,
+      "share": 0.089,
+      "weak": [
+       "Infernape",
+       "Roserade"
+      ]
+     },
+     {
+      "type": "Psychic",
+      "per_battle": 18.3,
+      "share": 0.084,
+      "weak": [
+       "Infernape",
+       "Roserade"
+      ]
+     },
+     {
+      "type": "Ice",
+      "per_battle": 14.7,
+      "share": 0.067,
+      "weak": [
+       "Roserade",
+       "Garchomp"
+      ]
+     },
+     {
+      "type": "Bug",
+      "per_battle": 12.3,
+      "share": 0.056,
+      "weak": [
+       "Weavile"
+      ]
+     },
+     {
+      "type": "Normal",
+      "per_battle": 12.2,
+      "share": 0.056,
+      "weak": []
+     },
+     {
+      "type": "Fire",
+      "per_battle": 7.2,
+      "share": 0.033,
+      "weak": [
+       "Weavile",
+       "Roserade",
+       "Magnezone"
+      ]
+     }
+    ],
+    "sequencing": {
+     "first_knockout": [
+      {
+       "name": "Garchomp",
+       "battles": 112
+      },
+      {
+       "name": "Infernape",
+       "battles": 112
+      },
+      {
+       "name": "Empoleon",
+       "battles": 55
+      },
+      {
+       "name": "Weavile",
+       "battles": 55
+      },
+      {
+       "name": "Magnezone",
+       "battles": 35
+      },
+      {
+       "name": "Roserade",
+       "battles": 31
+      }
+     ],
+     "last_knockout_in_wins": [
+      {
+       "name": "Garchomp",
+       "battles": 169
+      },
+      {
+       "name": "Empoleon",
+       "battles": 81
+      },
+      {
+       "name": "Magnezone",
+       "battles": 51
+      },
+      {
+       "name": "Weavile",
+       "battles": 39
+      },
+      {
+       "name": "Infernape",
+       "battles": 24
+      },
+      {
+       "name": "Roserade",
+       "battles": 18
+      }
+     ],
+     "leads": [
+      {
+       "name": "Infernape",
+       "n": 400,
+       "won": 382,
+       "rate": 0.955
+      }
+     ]
+    }
+   },
+   "interpretation": {
+    "robust": [
+     "The overall result is pinned down: 96% (95% 93%–97%) over 400 battles.",
+     "Your knockouts come mostly from Garchomp (41%)."
+    ],
+    "opponent_dependent": [
+     "Champion Cynthia (Platinum) is a real weak spot: 27 of 40 (95% up to 80%), below the pool's interval.",
+     "Garchomp's role depends on the opponent: 78% of your knockouts against Lucian · Elite Four · first battle, 5% against Bertha · Elite Four · first battle.",
+     "Magnezone's role depends on the opponent: 42% of your knockouts against Aaron · Elite Four · first battle, 0% against Flint · Elite Four · first battle."
+    ],
+    "needs_more_battles": []
+   },
+   "patterns": [
+    {
+     "id": "threat:Garchomp",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Garchomp runs through the team",
+     "finding": "Garchomp is in 100% of your losses and takes 3.2 of yours each time; it's hardest on Garchomp, Empoleon, Infernape.",
+     "evidence": {
+      "species": "Garchomp",
+      "from": [
+       "Champion Cynthia (Platinum)",
+       "Cynthia · Champion · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 1.35,
+      "survives": 0.175,
+      "most_against": [
+       {
+        "name": "Garchomp",
+        "kos": 28
+       },
+       {
+        "name": "Empoleon",
+        "kos": 24
+       },
+       {
+        "name": "Infernape",
+        "kos": 22
+       }
+      ],
+      "in_losses": 18,
+      "share_of_losses": 1,
+      "kos_in_losses": 3.167,
+      "sweeps": 14
+     },
+     "suggestion": {
+      "label": "Watch a loss where Garchomp sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/platinum",
+       "pool": "platinum-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Garchomp"
+       }
+      }
+     }
+    },
+    {
+     "id": "items",
+     "kind": "item",
+     "strength": "suggestive",
+     "title": "5 of your six hold nothing",
+     "finding": "No item on record for Infernape, Weavile, Empoleon, Garchomp, Magnezone. Items are build decisions; the engine doesn't invent them.",
+     "evidence": {
+      "species": [
+       "Infernape",
+       "Weavile",
+       "Empoleon",
+       "Garchomp",
+       "Magnezone"
+      ]
+     },
+     "suggestion": {
+      "label": "Try an item in the build editor and compare",
+      "experiment": null
+     }
+    },
+    {
+     "id": "close",
+     "kind": "uncertain",
+     "strength": "suggestive",
+     "title": "Some matchups are too close to call",
+     "finding": "Champion Cynthia (Platinum) (27/40): their intervals still cross 50%.",
+     "evidence": [
+      {
+       "opponent": "platinum/cynthia",
+       "name": "Champion Cynthia (Platinum)",
+       "n": 40,
+       "won": 27,
+       "rate": 0.675,
+       "ci95": [
+        0.52,
+        0.799
+       ],
+       "turns": 20.4,
+       "left_when_won": 4.2
+      }
+     ],
+     "suggestion": {
+      "label": "Run more battles against just these",
+      "experiment": {
+       "kind": "league",
+       "team": "me/platinum",
+       "pool": "platinum-league",
+       "interpretation": "blackthorn",
+       "only": [
+        "platinum/cynthia"
+       ],
+       "n": 60
+      }
+     }
+    }
+   ],
+   "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+  }
+ },
+ "reading": [
+  "Zack · Platinum won more: 98% against 96% over 400 paired battles (McNemar p = 0.0192).",
+  "Lucario → Empoleon, one-on-one: beats 26 of 52 → 38 of 52 of the pool's Pokémon (now beats Gliscor, beats Hippowdon, beats Golem, beats Rhyperior…).",
+  "Biggest swings: Champion Cynthia (Platinum) 36→27 of 40, Cynthia · Champion · rematch 38→35 of 40, Bertha · Elite Four · first battle 39→40 of 40."
+ ],
+ "fell_back": []
+}

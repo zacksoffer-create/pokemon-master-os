@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6v6 Browser Bench</title>
+<style>
+/* Layout: one narrow column of cards; numbers in tabular figures. Palette: Blackthorn's dark rock and dragon blue. */
+:root {
+  --bg: #f2f4f7; --card: #ffffff; --ink: #142030; --muted: #586677; --line: #dce2ea; --accent: #2b4d84;
+  --on-accent: #ffffff; --good: #22663a; --bad: #a3312b; --bar: #e3e8ef;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e131a; --card: #171f29; --ink: #e6ebf2; --muted: #9aa6b4; --line: #283341; --accent: #8db1ec;
+    --on-accent: #0c1522; --good: #7cc394; --bad: #ef8a83; --bar: #232d3a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e131a; --card: #171f29; --ink: #e6ebf2; --muted: #9aa6b4; --line: #283341; --accent: #8db1ec;
+  --on-accent: #0c1522; --good: #7cc394; --bad: #ef8a83; --bar: #232d3a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding-block: 20px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1 { font-size: 21px; margin: 4px 0 2px; letter-spacing: .01em; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0 0 8px; }
+.sub { color: var(--muted); margin: 0 0 18px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 12px 0; }
+label { display: block; font-size: 13px; color: var(--muted); margin: 0 0 4px; }
+select, button { font: inherit; color: inherit; }
+select { width: 100%; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+button.run { margin-top: 14px; width: 100%; padding: 12px; border: 0; border-radius: 10px; background: var(--accent); color: var(--on-accent); font-weight: 600; cursor: pointer; }
+button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.run:disabled { opacity: .55; }
+.bar { height: 8px; border-radius: 4px; background: var(--bar); overflow: hidden; margin-top: 12px; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .15s; }
+.status { margin-top: 6px; font-size: 13px; color: var(--muted); min-height: 1.4em; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12px; color: var(--muted); }
+.match { margin-top: 12px; font-weight: 600; }
+.match.ok { color: var(--good); } .match.no { color: var(--bad); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+td + td { white-space: nowrap; }
+th { color: var(--muted); font-weight: 500; }
+.wrap { overflow-x: auto; }
+.small { font-size: 12px; color: var(--muted); word-break: break-word; }
+button.copy { margin-top: 10px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); }
+@media (max-width: 420px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Blackthorn 6v6 · browser bench</h1>
+  <p class="sub">Showdown's Gen IV engine running in this browser. Your teams on optimized spreads, opponents on 85 EVs, trainer AI on both sides (one preset is the max-power control).</p>
+
+  <div class="card">
+    <div class="small" id="device"></div>
+    <label for="preset" style="margin-top:12px">Matchup</label>
+    <select id="preset"></select>
+    <div class="row">
+      <div><label for="n">Battles</label>
+        <select id="n"><option value="10">10</option><option value="100" selected>100</option></select></div>
+      <div><label for="mode">Where it runs</label>
+        <select id="mode"><option value="worker" selected>Background (Web Worker)</option><option value="main">This page (main thread)</option></select></div>
+    </div>
+    <button class="run" id="run">Run</button>
+    <div class="bar"><i id="fill"></i></div>
+    <div class="status" id="status">Ready.</div>
+  </div>
+
+  <div class="card" id="out" hidden>
+    <div class="stats">
+      <div class="stat"><b id="o-win"></b><span>A won (95% interval)</span></div>
+      <div class="stat"><b id="o-total"></b><span>total time</span></div>
+      <div class="stat"><b id="o-each"></b><span>per battle</span></div>
+    </div>
+    <div class="match" id="o-match"></div>
+    <div class="small" id="o-detail"></div>
+  </div>
+
+  <div class="card">
+    <div class="wrap"><table>
+      <thead><tr><th>Matchup</th><th>N</th><th>Mode</th><th>Total</th><th>Each</th><th>Same as Node</th></tr></thead>
+      <tbody id="log"><tr><td colspan="6" class="small">No runs yet on this device.</td></tr></tbody>
+    </table></div>
+    <button class="copy" id="copy">Copy results</button>
+    <div class="small" id="build" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card" id="saved" hidden>
+    <h2>Every device's runs</h2>
+    <p class="small" style="margin:0 0 8px">Each run on any of your devices is saved here, so the phone and the laptop can be compared side by side.</p>
+    <div class="wrap"><table>
+      <thead><tr><th>Device</th><th>Matchup</th><th>N</th><th>Mode</th><th>Each</th><th>Same as Node</th></tr></thead>
+      <tbody id="savedRows"><tr><td colspan="6" class="small">No saved runs yet. Run one above and it appears here.</td></tr></tbody>
+    </table></div>
+  </div>
+</main>
+
+<script id="sixvsix-engine">/*__ENGINE__*/</script>
+<script>
+var BENCH = /*__BENCH__*/null;
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var runs = [];
+  var nav = navigator;
+  var device = (nav.userAgent || '') + ' · ' + (nav.hardwareConcurrency || '?') + ' cores' + (nav.deviceMemory ? ' · ' + nav.deviceMemory + ' GB' : '');
+  $('device').textContent = device;
+  $('build').textContent = 'engine ' + SixVSix.ENGINE.name + ' ' + SixVSix.ENGINE.version + ' · build ' + SixVSix.BUILD + ' · contract ' + SixVSix.CONTRACT_VERSION;
+  Object.keys(BENCH.presets).forEach(function (k) {
+    var o = document.createElement('option'); o.value = k; o.textContent = BENCH.presets[k].label; $('preset').appendChild(o);
+  });
+
+  function jobFor(name, n) {
+    var job = JSON.parse(JSON.stringify(BENCH.presets[name].job));
+    job.trials.n = n;
+    return job;
+  }
+
+  var workerUrl = null;
+  function worker() {
+    if (!workerUrl) {
+      var src = $('sixvsix-engine').textContent;
+      workerUrl = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
+    }
+    return new Worker(workerUrl);
+  }
+
+  function run(opts) {
+    opts = opts || {};
+    var name = opts.preset || $('preset').value, n = Number(opts.n || $('n').value), mode = opts.mode || $('mode').value;
+    var job = jobFor(name, n);
+    var options = { legality: BENCH.presets[name].legality, platform: 'browser · ' + mode + ' · ' + device };
+    var t0 = performance.now();
+    var progress = function (done, total) {
+      $('fill').style.width = (100 * done / total) + '%';
+      $('status').textContent = done + ' of ' + total + ' battles…';
+    };
+    $('run').disabled = true; $('fill').style.width = '0';
+    var finished = function (result) {
+      var wall = Math.round(performance.now() - t0);
+      $('run').disabled = false;
+      var fp = SixVSix.fingerprint(result), want = BENCH.presets[name].fingerprints[n];
+      var row = { preset: name, n: n, mode: mode, wall_ms: wall, per_battle_ms: result.timing.per_battle_ms.mean,
+                  won: result.won, lost: result.lost, drew: result.drew, failures: result.failures.length,
+                  fingerprint: fp, node_fingerprint: want, same_as_node: fp === want, device: device };
+      runs.push(row);
+      show(result, row);
+      $('status').textContent = 'Done.';
+      save(row);
+      return row;
+    };
+    if (mode === 'worker') {
+      return new Promise(function (resolve, reject) {
+        var w;
+        try { w = worker(); } catch (e) {   // some host frames refuse Blob workers: run on this page instead
+          $('status').textContent = 'No background worker allowed here; running on this page.';
+          opts.mode = 'main';
+          $('run').disabled = false;
+          resolve(run(opts));
+          return;
+        }
+        w.onmessage = function (e) {
+          if (e.data.progress) progress(e.data.progress[0], e.data.progress[1]);
+          else if (e.data.result) { w.terminate(); resolve(finished(e.data.result)); }
+          else if (e.data.error) { w.terminate(); $('run').disabled = false; $('status').textContent = e.data.error; reject(new Error(e.data.error)); }
+        };
+        w.onerror = function (e) { w.terminate(); $('run').disabled = false; $('status').textContent = 'Worker error: ' + e.message; reject(e); };
+        w.postMessage({ job: job, platform: options.platform, legality: options.legality });
+      });
+    }
+    return SixVSix.runJob(job, { onProgress: progress, platform: options.platform, legality: options.legality, yieldEvery: 2 }).then(finished);
+  }
+
+  function show(result, row) {
+    $('out').hidden = false;
+    var s = result.summary;
+    $('o-win').textContent = Math.round(100 * s.win_rate) + '% (' + Math.round(100 * s.win_rate_95[0]) + '–' + Math.round(100 * s.win_rate_95[1]) + ')';
+    $('o-total').textContent = (row.wall_ms / 1000).toFixed(1) + ' s';
+    $('o-each').textContent = row.per_battle_ms + ' ms';
+    var m = $('o-match');
+    if (row.node_fingerprint) {
+      m.className = 'match ' + (row.same_as_node ? 'ok' : 'no');
+      m.textContent = row.same_as_node ? '✓ The same ' + row.n + ' battles as the home laptop (Node), move for move.' : '✗ These battles differ from the Node run.';
+    } else { m.className = 'match'; m.textContent = ''; }
+    $('o-detail').textContent = result.won + ' won · ' + result.lost + ' lost · ' + result.drew + ' drawn · ' + row.failures + ' failures · fingerprint ' + row.fingerprint;
+    var tb = $('log');
+    if (runs.length === 1) tb.innerHTML = '';
+    var tr = document.createElement('tr');
+    [BENCH.presets[row.preset].short, row.n, row.mode, (row.wall_ms / 1000).toFixed(1) + ' s', row.per_battle_ms + ' ms',
+     row.node_fingerprint ? (row.same_as_node ? '✓' : '✗') : '—'].forEach(function (v) { var td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
+    tb.appendChild(tr);
+  }
+
+  // Where the page runs inside claude.ai, each run is also saved to the page's own store (the db capability), so
+  // runs from every device show together and Claude can read them back. Anywhere else this does nothing.
+  var dbReady = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('db').catch(function () { return null; }) : Promise.resolve(null);
+  function shortDevice(ua) {
+    var m = /iPhone|iPad|Android|Macintosh|Windows|Linux|CrOS/.exec(ua || '');
+    var b = /CriOS|Chrome|Firefox|FxiOS|Edg|Version\/[\d.]+ (Mobile\/\S+ )?Safari/.exec(ua || '');
+    return (m ? m[0] : 'device') + (b ? ' · ' + (b[0].indexOf('Safari') >= 0 ? 'Safari' : b[0].replace('CriOS', 'Chrome').replace('FxiOS', 'Firefox')) : '');
+  }
+  function save(row) {
+    dbReady.then(function (db) {
+      if (!db) return;
+      var doc = { at: new Date().toISOString(), build: SixVSix.BUILD, engine: SixVSix.ENGINE.version, device: row.device,
+                  device_short: shortDevice(row.device), cores: nav.hardwareConcurrency || null, memory_gb: nav.deviceMemory || null };
+      Object.keys(row).forEach(function (k) { if (k !== 'device') doc[k] = row[k]; });
+      return db.collection('runs').add(doc).then(function () { $('status').textContent = 'Done. Saved to this page.'; });
+    }).catch(function () { $('status').textContent = 'Done. (Not saved: this view can\'t write to the page.)'; });
+  }
+  dbReady.then(function (db) {
+    if (!db) return;
+    $('saved').hidden = false;
+    db.collection('runs').orderBy('at', 'desc').limit(60).onSnapshot(function (snap) {
+      var tb = $('savedRows');
+      tb.innerHTML = '';
+      if (snap.empty) { tb.innerHTML = '<tr><td colspan="6" class="small">No saved runs yet. Run one above and it appears here.</td></tr>'; return; }
+      snap.docs.forEach(function (d) {
+        var r = d.data(), tr = document.createElement('tr');
+        [r.device_short || 'device', (BENCH.presets[r.preset] || {}).short || r.preset, r.n, r.mode, r.per_battle_ms + ' ms',
+         r.same_as_node ? '✓' : '✗'].forEach(function (v) { var td = document.createElement('td'); td.textContent = v; tr.appendChild(td); });
+        tb.appendChild(tr);
+      });
+    }, function () {});
+  });
+
+  $('run').addEventListener('click', function () { run().catch(function () {}); });
+  $('copy').addEventListener('click', function () {
+    var text = JSON.stringify({ device: device, build: SixVSix.BUILD, runs: runs }, null, 1);
+    var shown = function () {   // no dialogs: Apps Script's frame may block them
+      var t = $('copied') || document.createElement('textarea');
+      t.id = 'copied'; t.readOnly = true; t.value = text; t.style.cssText = 'width:100%;height:160px;margin-top:10px;font:12px monospace';
+      $('copy').after(t); t.select(); $('status').textContent = 'Select the text below and copy it.';
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { $('status').textContent = 'Results copied.'; }, shown);
+    } else shown();
+  });
+  window.SixVSixBench = { run: run, runs: runs, device: device };
+})();
+</script>
+</body>
+</html>

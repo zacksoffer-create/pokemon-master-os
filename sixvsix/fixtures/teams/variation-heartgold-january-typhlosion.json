@@ -1,0 +1,452 @@
+{
+ "kind": "TeamVersion",
+ "id": "library:me/heartgold~heartgold-january-typhlosion",
+ "version": 1,
+ "name": "Zack · HeartGold (main) · Typhlosion's January build",
+ "trainer": "me",
+ "game": "heartgold",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#1~heartgold-january-typhlosion",
+   "version": 1,
+   "species": "Typhlosion",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Timid",
+   "ability": "Blaze",
+   "item": null,
+   "moves": [
+    "Flamethrower",
+    "Extrasensory",
+    "Eruption",
+    "Hidden Power Grass"
+   ],
+   "ivs": {
+    "hp": 30,
+    "atk": 31,
+    "def": 31,
+    "spe": 31,
+    "spa": 30,
+    "spd": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 0,
+    "def": 0,
+    "spa": 252,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "moves": [
+     "hypothetical",
+     "a lineup variation (heartgold-january-typhlosion): January 2026 sheet (historical)"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ]
+   },
+   "filled": [
+    "IVs: for Hidden Power Grass at full power",
+    "the Typhlosion's January build variation (engine/canon/lineups.json)",
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "variation heartgold-january-typhlosion"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#2",
+   "version": 1,
+   "species": "Tyranitar",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Jolly",
+   "ability": "Sand Stream",
+   "item": "Lum Berry",
+   "moves": [
+    "Dragon Dance",
+    "Crunch",
+    "Earthquake",
+    "Outrage"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Sand Stream (the species' first ability)",
+    "IVs: 31 in every stat (none on record)",
+    "nature: Jolly (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#3",
+   "version": 1,
+   "species": "Mamoswine",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Adamant",
+   "ability": "Snow Cloak",
+   "item": "Never-Melt Ice",
+   "moves": [
+    "Earthquake",
+    "Ancient Power",
+    "Ice Fang",
+    "Ice Shard"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#4",
+   "version": 1,
+   "species": "Crobat",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Jolly",
+   "ability": "Inner Focus",
+   "item": "Black Sludge",
+   "moves": [
+    "Fly",
+    "Roost",
+    "U-turn",
+    "Toxic"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 168,
+    "atk": 240,
+    "def": 84,
+    "spa": 0,
+    "spd": 16,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 168 HP / 240 Atk / 84 Def / 16 SpD (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#5",
+   "version": 1,
+   "species": "Lapras",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Calm",
+   "ability": "Water Absorb",
+   "item": "Leftovers",
+   "moves": [
+    "Surf",
+    "Ice Beam",
+    "Rest",
+    "Heal Bell"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 0,
+    "def": 0,
+    "spa": 252,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#6",
+   "version": 1,
+   "species": "Snorlax",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Careful",
+   "ability": "Thick Fat",
+   "item": "Leftovers",
+   "moves": [
+    "Body Slam",
+    "Rest",
+    "Thunder Punch",
+    "Zen Headbutt"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  }
+ ],
+ "lead": "first",
+ "lens": "standardized",
+ "source": {
+  "kind": "blackthorn-trainer-library",
+  "version_id": "me/heartgold",
+  "library_kind": "journey",
+  "record": "canon register (rosters.json + builds.json)",
+  "read_only": true
+ },
+ "variation": {
+  "id": "heartgold-january-typhlosion",
+  "base": "library:me/heartgold",
+  "title": "Typhlosion's January build",
+  "why": "The January sheet's special Typhlosion (Eruption, Hidden Power Grass, Timid) in place of the July set",
+  "changed": [
+   "Typhlosion"
+  ],
+  "source": "engine/canon/lineups.json"
+ }
+}

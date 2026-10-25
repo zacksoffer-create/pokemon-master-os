@@ -1,0 +1,179 @@
+{
+ "kind": "Experiment",
+ "type": "leads",
+ "spec": {
+  "kind": "leads",
+  "team": "me/heartgold",
+  "pool": "heartgold-league",
+  "n": 12,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:56:09.174Z",
+ "seed": "lab|leads|055205d06b0b592e",
+ "rows": [
+  {
+   "label": "Typhlosion leads",
+   "change": "as written",
+   "won": 126,
+   "n": 132,
+   "rate": 0.955,
+   "ci95": [
+    0.904,
+    0.979
+   ]
+  },
+  {
+   "label": "Tyranitar leads",
+   "change": "lead: Tyranitar",
+   "won": 131,
+   "n": 132,
+   "rate": 0.992,
+   "ci95": [
+    0.958,
+    0.999
+   ],
+   "difference": {
+    "y_minus_x": 0.038,
+    "ci95": [
+     -0.001,
+     0.077
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.019,
+    "ci95": [
+     -0.064,
+     0.025
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.125,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (95% and 99%, McNemar p = 0.13). A real difference smaller than about 8 points would need more battles to show."
+  },
+  {
+   "label": "Mamoswine leads",
+   "change": "lead: Mamoswine",
+   "won": 125,
+   "n": 132,
+   "rate": 0.947,
+   "ci95": [
+    0.895,
+    0.974
+   ],
+   "difference": {
+    "y_minus_x": -0.008,
+    "ci95": [
+     -0.057,
+     0.042
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.027,
+    "ci95": [
+     -0.075,
+     0.021
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (95% and 95%, McNemar p = 1.00). A real difference smaller than about 6 points would need more battles to show."
+  },
+  {
+   "label": "Crobat leads",
+   "change": "lead: Crobat",
+   "won": 126,
+   "n": 132,
+   "rate": 0.955,
+   "ci95": [
+    0.904,
+    0.979
+   ],
+   "difference": {
+    "y_minus_x": 0,
+    "ci95": [
+     -0.042,
+     0.042
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.046,
+    "ci95": [
+     -0.087,
+     -0.005
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (95% and 95%, McNemar p = 1.00). A real difference smaller than about 4 points would need more battles to show."
+  },
+  {
+   "label": "Lapras leads",
+   "change": "lead: Lapras",
+   "won": 126,
+   "n": 132,
+   "rate": 0.955,
+   "ci95": [
+    0.904,
+    0.979
+   ],
+   "difference": {
+    "y_minus_x": 0,
+    "ci95": [
+     -0.047,
+     0.047
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.052,
+    "ci95": [
+     -0.101,
+     -0.002
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (95% and 95%, McNemar p = 1.00). A real difference smaller than about 5 points would need more battles to show."
+  },
+  {
+   "label": "Snorlax leads",
+   "change": "lead: Snorlax",
+   "won": 128,
+   "n": 132,
+   "rate": 0.97,
+   "ci95": [
+    0.925,
+    0.988
+   ],
+   "difference": {
+    "y_minus_x": 0.015,
+    "ci95": [
+     -0.027,
+     0.057
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.032,
+    "ci95": [
+     -0.078,
+     0.014
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.726563,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (95% and 97%, McNemar p = 0.73). A real difference smaller than about 6 points would need more battles to show."
+  }
+ ],
+ "best": "Tyranitar leads",
+ "reading": [
+  "Tyranitar leads: 131 of 132 against 126 with the current lead (not a significant difference yet).",
+  "With 132 battles each, a lead change worth less than about 5 points can't be told apart yet."
+ ]
+}

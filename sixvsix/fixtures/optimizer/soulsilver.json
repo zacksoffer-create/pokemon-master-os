@@ -1,0 +1,492 @@
+{
+ "team": "library:me/soulsilver",
+ "pool": "pool:heartgold-league",
+ "members": [
+  {
+   "species": "Pikachu",
+   "nature": "Naughty",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 48,
+    "atk": 252,
+    "def": 84,
+    "spa": 0,
+    "spd": 0,
+    "spe": 124
+   },
+   "label": "48 HP / 252 Atk / 84 Def / 124 Spe",
+   "stats": {
+    "hp": 223,
+    "atk": 229,
+    "def": 117,
+    "spa": 136,
+    "spd": 104,
+    "spe": 247
+   },
+   "score": {
+    "points": 100.02,
+    "wins_worst": 12,
+    "wins_typical": 14,
+    "wins_switching_in": 1,
+    "wins_free_hit": 41,
+    "of": 62
+   },
+   "best_template": {
+    "id": "fast_physical",
+    "nature": "Naughty",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "points": 90.76,
+    "wins_worst": 10,
+    "wins_typical": 10,
+    "wins_switching_in": 1,
+    "wins_free_hit": 39,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Naughty",
+    "points": 90.76,
+    "wins_worst": 10,
+    "wins_typical": 10,
+    "wins_switching_in": 1,
+    "wins_free_hit": 39,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 49.45,
+    "wins_worst": 2,
+    "wins_typical": 2,
+    "wins_switching_in": 1,
+    "wins_free_hit": 25,
+    "of": 62
+   },
+   "speed": {
+    "stat": 247,
+    "outspeeds": 52,
+    "of": 62,
+    "next_benchmark": 256
+   }
+  },
+  {
+   "species": "Dragonite",
+   "nature": "Adamant",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 188,
+    "atk": 68,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "label": "188 HP / 68 Atk / 252 Spe",
+   "stats": {
+    "hp": 370,
+    "atk": 353,
+    "def": 226,
+    "spa": 212,
+    "spd": 236,
+    "spe": 259
+   },
+   "score": {
+    "points": 290.16,
+    "wins_worst": 47,
+    "wins_typical": 49,
+    "wins_switching_in": 43,
+    "wins_free_hit": 58,
+    "of": 62
+   },
+   "best_template": {
+    "id": "fast_physical",
+    "nature": "Adamant",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "points": 282.71,
+    "wins_worst": 47,
+    "wins_typical": 47,
+    "wins_switching_in": 37,
+    "wins_free_hit": 58,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Adamant",
+    "points": 282.71,
+    "wins_worst": 47,
+    "wins_typical": 47,
+    "wins_switching_in": 37,
+    "wins_free_hit": 58,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 259.08,
+    "wins_worst": 40,
+    "wins_typical": 47,
+    "wins_switching_in": 35,
+    "wins_free_hit": 55,
+    "of": 62
+   },
+   "speed": {
+    "stat": 259,
+    "outspeeds": 56,
+    "of": 62,
+    "next_benchmark": 260
+   }
+  },
+  {
+   "species": "Infernape",
+   "nature": "Lonely",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 76,
+    "atk": 228,
+    "def": 0,
+    "spa": 32,
+    "spd": 148,
+    "spe": 24
+   },
+   "label": "76 HP / 228 Atk / 32 SpA / 148 SpD / 24 Spe",
+   "stats": {
+    "hp": 312,
+    "atk": 331,
+    "def": 160,
+    "spa": 252,
+    "spd": 215,
+    "spe": 258
+   },
+   "score": {
+    "points": 221.9,
+    "wins_worst": 38,
+    "wins_typical": 40,
+    "wins_switching_in": 26,
+    "wins_free_hit": 51,
+    "of": 62
+   },
+   "best_template": {
+    "id": "physical_wall",
+    "nature": "Naughty",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 252,
+     "spa": 0,
+     "spd": 4,
+     "spe": 0
+    },
+    "points": 216.69,
+    "wins_worst": 37,
+    "wins_typical": 40,
+    "wins_switching_in": 29,
+    "wins_free_hit": 46,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Lonely",
+    "points": 206.38,
+    "wins_worst": 35,
+    "wins_typical": 40,
+    "wins_switching_in": 21,
+    "wins_free_hit": 50,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 201.39,
+    "wins_worst": 36,
+    "wins_typical": 40,
+    "wins_switching_in": 20,
+    "wins_free_hit": 45,
+    "of": 62
+   },
+   "speed": {
+    "stat": 258,
+    "outspeeds": 56,
+    "of": 62,
+    "next_benchmark": 260
+   }
+  },
+  {
+   "species": "Empoleon",
+   "nature": "Quiet",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 164,
+    "atk": 0,
+    "def": 92,
+    "spa": 252,
+    "spd": 0,
+    "spe": 0
+   },
+   "label": "164 HP / 92 Def / 252 SpA",
+   "stats": {
+    "hp": 350,
+    "atk": 208,
+    "def": 235,
+    "spa": 353,
+    "spd": 238,
+    "spe": 140
+   },
+   "score": {
+    "points": 262.96,
+    "wins_worst": 44,
+    "wins_typical": 45,
+    "wins_switching_in": 34,
+    "wins_free_hit": 54,
+    "of": 62
+   },
+   "best_template": {
+    "id": "fast_special",
+    "nature": "Rash",
+    "evs": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "points": 260.63,
+    "wins_worst": 42,
+    "wins_typical": 43,
+    "wins_switching_in": 34,
+    "wins_free_hit": 57,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_special",
+    "evs": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Quiet",
+    "points": 245.41,
+    "wins_worst": 38,
+    "wins_typical": 39,
+    "wins_switching_in": 33,
+    "wins_free_hit": 53,
+    "of": 62,
+    "label": "4 HP / 252 SpA / 252 Spe"
+   },
+   "flat_85": {
+    "points": 218.74,
+    "wins_worst": 33,
+    "wins_typical": 37,
+    "wins_switching_in": 30,
+    "wins_free_hit": 49,
+    "of": 62
+   },
+   "speed": {
+    "stat": 140,
+    "outspeeds": 7,
+    "of": 62,
+    "next_benchmark": 156
+   }
+  },
+  {
+   "species": "Gengar",
+   "nature": "Modest",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 244,
+    "atk": 0,
+    "def": 60,
+    "spa": 68,
+    "spd": 116,
+    "spe": 20
+   },
+   "label": "244 HP / 60 Def / 68 SpA / 116 SpD / 20 Spe",
+   "stats": {
+    "hp": 322,
+    "atk": 149,
+    "def": 171,
+    "spa": 344,
+    "spd": 215,
+    "spe": 261
+   },
+   "score": {
+    "points": 222.02,
+    "wins_worst": 35,
+    "wins_typical": 38,
+    "wins_switching_in": 26,
+    "wins_free_hit": 50,
+    "of": 62
+   },
+   "best_template": {
+    "id": "bulky_special",
+    "nature": "Modest",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 4,
+     "spa": 252,
+     "spd": 0,
+     "spe": 0
+    },
+    "points": 207.81,
+    "wins_worst": 31,
+    "wins_typical": 35,
+    "wins_switching_in": 24,
+    "wins_free_hit": 50,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_special",
+    "evs": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Modest",
+    "points": 191.25,
+    "wins_worst": 29,
+    "wins_typical": 34,
+    "wins_switching_in": 19,
+    "wins_free_hit": 49,
+    "of": 62,
+    "label": "4 HP / 252 SpA / 252 Spe"
+   },
+   "flat_85": {
+    "points": 185.18,
+    "wins_worst": 26,
+    "wins_typical": 32,
+    "wins_switching_in": 22,
+    "wins_free_hit": 49,
+    "of": 62
+   },
+   "speed": {
+    "stat": 261,
+    "outspeeds": 57,
+    "of": 62,
+    "next_benchmark": 276
+   }
+  },
+  {
+   "species": "Scizor",
+   "nature": "Adamant",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 224,
+    "atk": 248,
+    "def": 32,
+    "spa": 0,
+    "spd": 0,
+    "spe": 4
+   },
+   "label": "224 HP / 248 Atk / 32 Def / 4 Spe",
+   "stats": {
+    "hp": 337,
+    "atk": 393,
+    "def": 244,
+    "spa": 131,
+    "spd": 196,
+    "spe": 167
+   },
+   "score": {
+    "points": 218.46,
+    "wins_worst": 35,
+    "wins_typical": 37,
+    "wins_switching_in": 31,
+    "wins_free_hit": 45,
+    "of": 62
+   },
+   "best_template": {
+    "id": "bulky_physical",
+    "nature": "Adamant",
+    "evs": {
+     "hp": 252,
+     "atk": 252,
+     "def": 4,
+     "spa": 0,
+     "spd": 0,
+     "spe": 0
+    },
+    "points": 215.38,
+    "wins_worst": 34,
+    "wins_typical": 37,
+    "wins_switching_in": 31,
+    "wins_free_hit": 45,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Adamant",
+    "points": 202.63,
+    "wins_worst": 31,
+    "wins_typical": 34,
+    "wins_switching_in": 31,
+    "wins_free_hit": 40,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 189.26,
+    "wins_worst": 30,
+    "wins_typical": 32,
+    "wins_switching_in": 28,
+    "wins_free_hit": 38,
+    "of": 62
+   },
+   "speed": {
+    "stat": 167,
+    "outspeeds": 15,
+    "of": 62,
+    "next_benchmark": 176
+   }
+  }
+ ]
+}

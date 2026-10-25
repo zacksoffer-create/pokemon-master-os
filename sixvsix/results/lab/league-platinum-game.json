@@ -1,0 +1,12864 @@
+{
+ "kind": "Experiment",
+ "type": "league",
+ "spec": {
+  "kind": "league",
+  "team": "me/platinum",
+  "pool": "platinum-league",
+  "n": 20,
+  "interpretation": "game",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:54:23.418Z",
+ "seed": "lab|league|5d5ccfdc6d5beaf9",
+ "result": {
+  "kind": "PoolResult",
+  "team": "library:me/platinum",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:platinum-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "lab|league|5d5ccfdc6d5beaf9",
+  "allocation": "10 opponents × 20 battles each",
+  "n": 200,
+  "won": 198,
+  "lost": 2,
+  "drew": 0,
+  "win_rate": 0.99,
+  "win_rate_95": [
+   0.964,
+   0.997
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:platinum/aaron",
+    "name": "Aaron · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 10.9,
+    "left_when_won": 4.45,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/bertha",
+    "name": "Bertha · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 11.5,
+    "left_when_won": 3.1,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/flint",
+    "name": "Flint · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 7.1,
+    "left_when_won": 5.75,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/lucian",
+    "name": "Lucian · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 11.2,
+    "left_when_won": 4.35,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/cynthia",
+    "name": "Champion Cynthia (Platinum)",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 14.6,
+    "left_when_won": 3.3,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/aaron-rematch",
+    "name": "Aaron · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 10.7,
+    "left_when_won": 4.2,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/bertha-rematch",
+    "name": "Bertha · Elite Four · rematch",
+    "n": 20,
+    "won": 19,
+    "lost": 1,
+    "drew": 0,
+    "win_rate": 0.95,
+    "win_rate_95": [
+     0.764,
+     0.991
+    ],
+    "turns": 11.5,
+    "left_when_won": 3.316,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/flint-rematch",
+    "name": "Flint · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 7.1,
+    "left_when_won": 5.5,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/lucian-rematch",
+    "name": "Lucian · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 11,
+    "left_when_won": 4.45,
+    "failures": 0
+   },
+   {
+    "opponent": "library:platinum/cynthia-rematch",
+    "name": "Cynthia · Champion · rematch",
+    "n": 20,
+    "won": 19,
+    "lost": 1,
+    "drew": 0,
+    "win_rate": 0.95,
+    "win_rate_95": [
+     0.764,
+     0.991
+    ],
+    "turns": 14.6,
+    "left_when_won": 3.263,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Infernape",
+    "appeared": 1,
+    "kos_per_battle": 0.69,
+    "fainted_rate": 0.345,
+    "damage_dealt_per_battle": 86.5
+   },
+   {
+    "name": "Weavile",
+    "appeared": 0.59,
+    "kos_per_battle": 1.005,
+    "fainted_rate": 0.27,
+    "damage_dealt_per_battle": 84.2
+   },
+   {
+    "name": "Roserade",
+    "appeared": 0.435,
+    "kos_per_battle": 0.64,
+    "fainted_rate": 0.18,
+    "damage_dealt_per_battle": 47.7
+   },
+   {
+    "name": "Lucario",
+    "appeared": 0.415,
+    "kos_per_battle": 0.61,
+    "fainted_rate": 0.215,
+    "damage_dealt_per_battle": 57
+   },
+   {
+    "name": "Garchomp",
+    "appeared": 0.985,
+    "kos_per_battle": 1.5,
+    "fainted_rate": 0.68,
+    "damage_dealt_per_battle": 192.1
+   },
+   {
+    "name": "Magnezone",
+    "appeared": 0.6,
+    "kos_per_battle": 0.74,
+    "fainted_rate": 0.175,
+    "damage_dealt_per_battle": 67
+   }
+  ],
+  "weakest": [
+   "library:platinum/bertha-rematch",
+   "library:platinum/cynthia-rematch",
+   "library:platinum/aaron"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 2398,
+   "platform": "worker threads"
+  },
+  "fingerprint": "784036d1dda40d6c"
+ },
+ "report": {
+  "kind": "StrategyReport",
+  "team": "library:me/platinum",
+  "team_name": "Zack · Platinum",
+  "n": 200,
+  "pool": {
+   "id": "pool:platinum-league",
+   "name": "Platinum Elite Four, Champion and rematches"
+  },
+  "interpretation_of_opponents": "game",
+  "our_style": "blackthorn",
+  "headline": [
+   "Zack · Platinum won 198 of 200 (99%; 95% 96%–100%).",
+   "No opponent held you under 75%.",
+   "Garchomp makes 29% of your knockouts.",
+   "Their most dangerous Pokémon: Hippowdon (1 knockouts each time it comes in)."
+  ],
+  "outcomes": {
+   "n": 200,
+   "won": 198,
+   "rate": 0.99,
+   "ci95": [
+    0.964,
+    0.997
+   ],
+   "drew": 0,
+   "by_opponent": [
+    {
+     "opponent": "platinum/bertha-rematch",
+     "name": "Bertha · Elite Four · rematch",
+     "n": 20,
+     "won": 19,
+     "rate": 0.95,
+     "ci95": [
+      0.764,
+      0.991
+     ],
+     "turns": 11.5,
+     "left_when_won": 3.3
+    },
+    {
+     "opponent": "platinum/cynthia-rematch",
+     "name": "Cynthia · Champion · rematch",
+     "n": 20,
+     "won": 19,
+     "rate": 0.95,
+     "ci95": [
+      0.764,
+      0.991
+     ],
+     "turns": 14.6,
+     "left_when_won": 3.3
+    },
+    {
+     "opponent": "platinum/aaron",
+     "name": "Aaron · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 10.9,
+     "left_when_won": 4.5
+    },
+    {
+     "opponent": "platinum/bertha",
+     "name": "Bertha · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 11.5,
+     "left_when_won": 3.1
+    },
+    {
+     "opponent": "platinum/flint",
+     "name": "Flint · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 7.1,
+     "left_when_won": 5.8
+    },
+    {
+     "opponent": "platinum/lucian",
+     "name": "Lucian · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 11.2,
+     "left_when_won": 4.4
+    },
+    {
+     "opponent": "platinum/cynthia",
+     "name": "Champion Cynthia (Platinum)",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 14.6,
+     "left_when_won": 3.3
+    },
+    {
+     "opponent": "platinum/aaron-rematch",
+     "name": "Aaron · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 10.7,
+     "left_when_won": 4.2
+    },
+    {
+     "opponent": "platinum/flint-rematch",
+     "name": "Flint · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 7.1,
+     "left_when_won": 5.5
+    },
+    {
+     "opponent": "platinum/lucian-rematch",
+     "name": "Lucian · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 11,
+     "left_when_won": 4.5
+    }
+   ],
+   "turns": 11,
+   "left_when_won": 4.2,
+   "close_wins": 0
+  },
+  "members": [
+   {
+    "name": "Infernape",
+    "species": "Infernape",
+    "appeared": 1,
+    "kos": 0.69,
+    "ko_share": 0.133,
+    "ko_share_in_wins": 0.134,
+    "damage_dealt": 86.4,
+    "damage_taken": 38.2,
+    "healed": 0,
+    "status_inflicted": 0.01,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.035,
+    "fainted": 0.345,
+    "falls_first": 0.285,
+    "opens": 0.29,
+    "closes": 0.152,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Weavile",
+    "species": "Weavile",
+    "appeared": 0.59,
+    "kos": 1.005,
+    "ko_share": 0.194,
+    "ko_share_in_wins": 0.193,
+    "damage_dealt": 84.2,
+    "damage_taken": 28.4,
+    "healed": 0,
+    "status_inflicted": 0.02,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.28,
+    "fainted": 0.27,
+    "falls_first": 0.035,
+    "opens": 0.305,
+    "closes": 0.066,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Roserade",
+    "species": "Roserade",
+    "appeared": 0.435,
+    "kos": 0.64,
+    "ko_share": 0.123,
+    "ko_share_in_wins": 0.123,
+    "damage_dealt": 47.7,
+    "damage_taken": 21.8,
+    "healed": 0,
+    "status_inflicted": 0.05,
+    "setup_used": 0,
+    "support_used": 0.005,
+    "switched_in_by_choice": 0.105,
+    "fainted": 0.18,
+    "falls_first": 0.02,
+    "opens": 0.01,
+    "closes": 0.126,
+    "reading": "sees play in only 44% of battles"
+   },
+   {
+    "name": "Lucario",
+    "species": "Lucario",
+    "appeared": 0.415,
+    "kos": 0.61,
+    "ko_share": 0.118,
+    "ko_share_in_wins": 0.118,
+    "damage_dealt": 57,
+    "damage_taken": 26.1,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0.035,
+    "support_used": 0,
+    "switched_in_by_choice": 0.165,
+    "fainted": 0.215,
+    "falls_first": 0.025,
+    "opens": 0.015,
+    "closes": 0.131,
+    "reading": "sees play in only 42% of battles"
+   },
+   {
+    "name": "Garchomp",
+    "species": "Garchomp",
+    "appeared": 0.985,
+    "kos": 1.5,
+    "ko_share": 0.289,
+    "ko_share_in_wins": 0.291,
+    "damage_dealt": 192.1,
+    "damage_taken": 78.5,
+    "healed": 0,
+    "status_inflicted": 0.005,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.8,
+    "fainted": 0.68,
+    "falls_first": 0.455,
+    "opens": 0.22,
+    "closes": 0.227,
+    "reading": "your main finisher (29% of your knockouts); takes the most hits (79% of its HP a battle); falls first in 46% of battles"
+   },
+   {
+    "name": "Magnezone",
+    "species": "Magnezone",
+    "appeared": 0.6,
+    "kos": 0.74,
+    "ko_share": 0.143,
+    "ko_share_in_wins": 0.142,
+    "damage_dealt": 67,
+    "damage_taken": 33.6,
+    "healed": 0,
+    "status_inflicted": 0.035,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.53,
+    "fainted": 0.175,
+    "falls_first": 0.035,
+    "opens": 0.16,
+    "closes": 0.298,
+    "reading": "closes 30% of your wins"
+   }
+  ],
+  "team_level": {
+   "threats": [
+    {
+     "species": "Hippowdon",
+     "from": [
+      "Bertha · Elite Four · first battle",
+      "Bertha · Elite Four · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.975,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Weavile",
+       "kos": 26
+      },
+      {
+       "name": "Roserade",
+       "kos": 12
+      },
+      {
+       "name": "Infernape",
+       "kos": 1
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 0.5,
+     "kos_in_losses": 2,
+     "sweeps": 1
+    },
+    {
+     "species": "Togekiss",
+     "from": [
+      "Champion Cynthia (Platinum)",
+      "Cynthia · Champion · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.875,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Weavile",
+       "kos": 21
+      },
+      {
+       "name": "Magnezone",
+       "kos": 4
+      },
+      {
+       "name": "Infernape",
+       "kos": 4
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 0.5,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Milotic",
+     "from": [
+      "Champion Cynthia (Platinum)",
+      "Cynthia · Champion · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.825,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Garchomp",
+       "kos": 29
+      },
+      {
+       "name": "Lucario",
+       "kos": 1
+      },
+      {
+       "name": "Weavile",
+       "kos": 1
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 0.5,
+     "kos_in_losses": 1,
+     "sweeps": 0
+    },
+    {
+     "species": "Heracross",
+     "from": [
+      "Aaron · Elite Four · first battle",
+      "Aaron · Elite Four · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.8,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Garchomp",
+       "kos": 25
+      },
+      {
+       "name": "Roserade",
+       "kos": 3
+      },
+      {
+       "name": "Infernape",
+       "kos": 3
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Bronzong",
+     "from": [
+      "Lucian · Elite Four · first battle",
+      "Lucian · Elite Four · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.8,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Magnezone",
+       "kos": 29
+      },
+      {
+       "name": "Garchomp",
+       "kos": 2
+      },
+      {
+       "name": "Lucario",
+       "kos": 1
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    },
+    {
+     "species": "Gliscor",
+     "from": [
+      "Bertha · Elite Four · first battle",
+      "Bertha · Elite Four · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.775,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Garchomp",
+       "kos": 31
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 0.5,
+     "kos_in_losses": 1,
+     "sweeps": 0
+    },
+    {
+     "species": "Rhyperior",
+     "from": [
+      "Bertha · Elite Four · first battle",
+      "Bertha · Elite Four · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.725,
+     "survives": 0.025,
+     "most_against": [
+      {
+       "name": "Garchomp",
+       "kos": 9
+      },
+      {
+       "name": "Infernape",
+       "kos": 7
+      },
+      {
+       "name": "Roserade",
+       "kos": 6
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 0.5,
+     "kos_in_losses": 2,
+     "sweeps": 1
+    },
+    {
+     "species": "Espeon",
+     "from": [
+      "Lucian · Elite Four · first battle",
+      "Lucian · Elite Four · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.7,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Garchomp",
+       "kos": 28
+      }
+     ],
+     "in_losses": 0,
+     "share_of_losses": 0,
+     "kos_in_losses": 0,
+     "sweeps": 0
+    }
+   ],
+   "dependencies": [
+    {
+     "name": "Weavile",
+     "falls_early": 0.23,
+     "win_if_falls_early": 0.978,
+     "win_otherwise": 0.994,
+     "gap": 0.015,
+     "n_early": 46,
+     "n_otherwise": 154,
+     "win_if_survives": 1,
+     "n_survives": 146
+    },
+    {
+     "name": "Garchomp",
+     "falls_early": 0.66,
+     "win_if_falls_early": 0.985,
+     "win_otherwise": 1,
+     "gap": 0.015,
+     "n_early": 132,
+     "n_otherwise": 68,
+     "win_if_survives": 1,
+     "n_survives": 64
+    },
+    {
+     "name": "Infernape",
+     "falls_early": 0.285,
+     "win_if_falls_early": 0.982,
+     "win_otherwise": 0.993,
+     "gap": 0.011,
+     "n_early": 57,
+     "n_otherwise": 143,
+     "win_if_survives": 1,
+     "n_survives": 131
+    },
+    {
+     "name": "Roserade",
+     "falls_early": 0.045,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.99,
+     "gap": -0.01,
+     "n_early": 9,
+     "n_otherwise": 191,
+     "win_if_survives": 1,
+     "n_survives": 164
+    },
+    {
+     "name": "Lucario",
+     "falls_early": 0.075,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.989,
+     "gap": -0.011,
+     "n_early": 15,
+     "n_otherwise": 185,
+     "win_if_survives": 1,
+     "n_survives": 157
+    },
+    {
+     "name": "Magnezone",
+     "falls_early": 0.155,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.988,
+     "gap": -0.012,
+     "n_early": 31,
+     "n_otherwise": 169,
+     "win_if_survives": 1,
+     "n_survives": 165
+    }
+   ],
+   "damage_by_type": [
+    {
+     "type": "Ground",
+     "per_battle": 51.2,
+     "share": 0.23,
+     "weak": [
+      "Infernape",
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    {
+     "type": "Psychic",
+     "per_battle": 34,
+     "share": 0.152,
+     "weak": [
+      "Infernape",
+      "Roserade"
+     ]
+    },
+    {
+     "type": "Fighting",
+     "per_battle": 32,
+     "share": 0.143,
+     "weak": [
+      "Weavile",
+      "Lucario",
+      "Magnezone"
+     ]
+    },
+    {
+     "type": "Flying",
+     "per_battle": 26.2,
+     "share": 0.118,
+     "weak": [
+      "Infernape",
+      "Roserade"
+     ]
+    },
+    {
+     "type": "Ice",
+     "per_battle": 22.8,
+     "share": 0.102,
+     "weak": [
+      "Roserade",
+      "Garchomp"
+     ]
+    },
+    {
+     "type": "Rock",
+     "per_battle": 16.6,
+     "share": 0.075,
+     "weak": [
+      "Weavile"
+     ]
+    },
+    {
+     "type": "Bug",
+     "per_battle": 14.9,
+     "share": 0.067,
+     "weak": [
+      "Weavile"
+     ]
+    },
+    {
+     "type": "Fire",
+     "per_battle": 9.4,
+     "share": 0.042,
+     "weak": [
+      "Weavile",
+      "Roserade",
+      "Lucario",
+      "Magnezone"
+     ]
+    }
+   ],
+   "sequencing": {
+    "first_knockout": [
+     {
+      "name": "Weavile",
+      "battles": 61
+     },
+     {
+      "name": "Infernape",
+      "battles": 58
+     },
+     {
+      "name": "Garchomp",
+      "battles": 44
+     },
+     {
+      "name": "Magnezone",
+      "battles": 32
+     },
+     {
+      "name": "Lucario",
+      "battles": 3
+     },
+     {
+      "name": "Roserade",
+      "battles": 2
+     }
+    ],
+    "last_knockout_in_wins": [
+     {
+      "name": "Magnezone",
+      "battles": 59
+     },
+     {
+      "name": "Garchomp",
+      "battles": 45
+     },
+     {
+      "name": "Infernape",
+      "battles": 30
+     },
+     {
+      "name": "Lucario",
+      "battles": 26
+     },
+     {
+      "name": "Roserade",
+      "battles": 25
+     },
+     {
+      "name": "Weavile",
+      "battles": 13
+     }
+    ],
+    "leads": [
+     {
+      "name": "Infernape",
+      "n": 200,
+      "won": 198,
+      "rate": 0.99
+     }
+    ]
+   }
+  },
+  "interpretation": {
+   "robust": [
+    "The overall result is pinned down: 99% (95% 96%–100%) over 200 battles.",
+    "Your knockouts come mostly from Garchomp (29%)."
+   ],
+   "opponent_dependent": [
+    "Weavile's role depends on the opponent: 53% of your knockouts against Lucian · Elite Four · rematch, 0% against Flint · Elite Four · first battle.",
+    "Garchomp's role depends on the opponent: 65% of your knockouts against Flint · Elite Four · rematch, 14% against Bertha · Elite Four · first battle."
+   ],
+   "needs_more_battles": []
+  },
+  "patterns": [
+   {
+    "id": "items",
+    "kind": "item",
+    "strength": "suggestive",
+    "title": "5 of your six hold nothing",
+    "finding": "No item on record for Infernape, Weavile, Lucario, Garchomp, Magnezone. Items are build decisions; the engine doesn't invent them.",
+    "evidence": {
+     "species": [
+      "Infernape",
+      "Weavile",
+      "Lucario",
+      "Garchomp",
+      "Magnezone"
+     ]
+    },
+    "suggestion": {
+     "label": "Try an item in the build editor and compare",
+     "experiment": null
+    }
+   }
+  ],
+  "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+ },
+ "battles": [
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 0,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 1,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     2
+    ],
+    [
+     "a",
+     "Infernape",
+     "Drapion",
+     3
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 3,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     2
+    ],
+    [
+     "a",
+     "Infernape",
+     "Drapion",
+     3
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 4,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Garchomp",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 5,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 6,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     3
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     7
+    ],
+    [
+     "a",
+     "Roserade",
+     "Heracross",
+     8
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 7,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     5
+    ],
+    [
+     "a",
+     "Lucario",
+     "Scizor",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     8
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     9
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 8,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     11
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 9,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 10,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Garchomp",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 11,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 12,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 13,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Infernape",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Infernape",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 14,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     7
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     11
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 15,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     5
+    ],
+    [
+     "a",
+     "Infernape",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 16,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     2
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     3
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 17,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     2
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     3
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 18,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     3
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Scizor",
+     11
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     12
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron",
+   "k": 0,
+   "i": 19,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     3
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     10
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 0,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Whiscash",
+     1
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     9
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Lucario",
+     "Golem",
+     11
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 1,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Weavile",
+     9
+    ],
+    [
+     "a",
+     "Weavile",
+     "Rhyperior",
+     10
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     10
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     10
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Lucario",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 3,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     6
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     10
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Weavile",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 4,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     3
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     4
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     6
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     7
+    ],
+    [
+     "a",
+     "Roserade",
+     "Rhyperior",
+     8
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 5,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     3
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     4
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     6
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     7
+    ],
+    [
+     "a",
+     "Roserade",
+     "Rhyperior",
+     8
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 6,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     7
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 7,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Lucario",
+     5
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Lucario",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     8
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     10
+    ],
+    [
+     "a",
+     "Roserade",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 8,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Golem",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Infernape",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rhyperior",
+     12
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Lucario",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 9,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     8
+    ],
+    [
+     "a",
+     "Infernape",
+     "Golem",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 10,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Golem",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Lucario",
+     11
+    ],
+    [
+     "a",
+     "Lucario",
+     "Rhyperior",
+     12
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 11,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     9
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 12,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Lucario",
+     "Golem",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 13,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     10
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 14,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Lucario",
+     "Golem",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     10
+    ],
+    [
+     "a",
+     "Roserade",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 15,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Lucario",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 16,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Golem",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 17,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     10
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     10
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Lucario",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 18,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Lucario",
+     "Golem",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha",
+   "k": 1,
+   "i": 19,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     6
+    ],
+    [
+     "b",
+     "Golem",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Weavile",
+     "Rhyperior",
+     9
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 0,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 1,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 2,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     4
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 3,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     4
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 4,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 5,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 6,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 7,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 8,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 9,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 10,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 11,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Flareon",
+     "Infernape",
+     5
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 12,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 13,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 14,
+   "winner": "a",
+   "turns": 6,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     2
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 15,
+   "winner": "a",
+   "turns": 6,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     2
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 16,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 17,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 18,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Infernape",
+     4
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint",
+   "k": 2,
+   "i": 19,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 0,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 1,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 2,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "a",
+     "Roserade",
+     "Gallade",
+     5
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Bronzong",
+     12
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 3,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 4,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     8
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     9
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 5,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     8
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     9
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     11
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 6,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 7,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 8,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     8
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     9
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     12
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 9,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 10,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 11,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     8
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     9
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 12,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Garchomp",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 13,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 14,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 15,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 16,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 17,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 18,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     11
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian",
+   "k": 3,
+   "i": 19,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "a",
+     "Roserade",
+     "Gallade",
+     5
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Bronzong",
+     13
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Weavile",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 0,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     3
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Milotic",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Lucario",
+     7
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Togekiss",
+     10
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 1,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     8
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     12
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     3
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     7
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     9
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     10
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     11
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 3,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Lucario",
+     3
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     4
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     5
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Lucario",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     7
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 4,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Spiritomb",
+     2
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     4
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     5
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Togekiss",
+     7
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Weavile",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 5,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Lucario",
+     "Spiritomb",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Garchomp",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     5
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     8
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Roserade",
+     14
+    ],
+    [
+     "b",
+     "Roserade",
+     "Roserade",
+     16
+    ],
+    [
+     "a",
+     "Roserade",
+     "Garchomp",
+     21
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Infernape",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 6,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Milotic",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Roserade",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Togekiss",
+     10
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Roserade",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 7,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     8
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     12
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Lucario",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 8,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Spiritomb",
+     2
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     3
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     7
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     9
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 9,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Lucario",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     5
+    ],
+    [
+     "a",
+     "Lucario",
+     "Lucario",
+     6
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     8
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     9
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Weavile",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 10,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Roserade",
+     "Weavile",
+     3
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     7
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     11
+    ],
+    [
+     "a",
+     "Roserade",
+     "Garchomp",
+     13
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Lucario",
+     14
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     15
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Lucario",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 11,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Lucario",
+     "Spiritomb",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     7
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     9
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     13
+    ],
+    [
+     "b",
+     "Lucario",
+     "Infernape",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 12,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Weavile",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     13
+    ],
+    [
+     "a",
+     "Lucario",
+     "Spiritomb",
+     14
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 13,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     7
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     14
+    ],
+    [
+     "a",
+     "Lucario",
+     "Spiritomb",
+     15
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 14,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     7
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     14
+    ],
+    [
+     "a",
+     "Lucario",
+     "Spiritomb",
+     15
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 15,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     6
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     15
+    ],
+    [
+     "a",
+     "Lucario",
+     "Milotic",
+     16
+    ],
+    [
+     "a",
+     "Weavile",
+     "Milotic",
+     17
+    ],
+    [
+     "b",
+     "Milotic",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Roserade",
+     "Infernape",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 16,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     9
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     10
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Lucario",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 17,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Togekiss",
+     9
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     13
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     14
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     15
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 18,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     6
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     8
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     12
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia",
+   "k": 4,
+   "i": 19,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     2
+    ],
+    [
+     "b",
+     "Roserade",
+     "Infernape",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Togekiss",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Magnezone",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Milotic",
+     10
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 0,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Garchomp",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 1,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 2,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     8
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 3,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 4,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Lucario",
+     "Drapion",
+     9
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     10
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 5,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Lucario",
+     "Drapion",
+     9
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     10
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 6,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Infernape",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Garchomp",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 7,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Infernape",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 8,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Lucario",
+     "Drapion",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     10
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 9,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Heracross",
+     10
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 10,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     8
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 11,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     3
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Heracross",
+     9
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     10
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 12,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 13,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     8
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 14,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     3
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Scizor",
+     6
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     7
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 15,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Lucario",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Lucario",
+     6
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 16,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     4
+    ],
+    [
+     "b",
+     "Heracross",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Scizor",
+     10
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     11
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 17,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Yanmega",
+     1
+    ],
+    [
+     "b",
+     "Yanmega",
+     "Magnezone",
+     2
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Drapion",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 18,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Magnezone",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Magnezone",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/aaron-rematch",
+   "k": 5,
+   "i": 19,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Yanmega"
+   },
+   "kos": [
+    [
+     "b",
+     "Yanmega",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Drapion",
+     "Lucario",
+     5
+    ],
+    [
+     "a",
+     "Lucario",
+     "Heracross",
+     6
+    ],
+    [
+     "b",
+     "Heracross",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Scizor",
+     "Garchomp",
+     9
+    ],
+    [
+     "b",
+     "Vespiquen",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 0,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 1,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 2,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     7
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     12
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 3,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     6
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     10
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     11
+    ],
+    [
+     "b",
+     "Golem",
+     "Weavile",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 4,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     7
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Golem",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Weavile",
+     12
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     13
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Magnezone",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 5,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Whiscash",
+     1
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     4
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     5
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     6
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     7
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     9
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 6,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 7,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 8,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Golem",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 9,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Golem",
+     11
+    ],
+    [
+     "b",
+     "Golem",
+     "Infernape",
+     12
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rhyperior",
+     13
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Magnezone",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 10,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     10
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     10
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Lucario",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 11,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 12,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Rhyperior",
+     10
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 13,
+   "winner": "b",
+   "turns": 13,
+   "left": {
+    "a": 0,
+    "b": 1
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     8
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Golem",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Magnezone",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rhyperior",
+     12
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Rhyperior",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 14,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     5
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     7
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     9
+    ],
+    [
+     "a",
+     "Roserade",
+     "Rhyperior",
+     10
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 15,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     6
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Whiscash",
+     "Roserade",
+     8
+    ],
+    [
+     "a",
+     "Roserade",
+     "Hippowdon",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Lucario",
+     "Rhyperior",
+     11
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 16,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Lucario",
+     "Golem",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 17,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     3
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     7
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Golem",
+     "Roserade",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 18,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Gliscor",
+     4
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Weavile",
+     7
+    ],
+    [
+     "b",
+     "Golem",
+     "Weavile",
+     9
+    ],
+    [
+     "a",
+     "Weavile",
+     "Rhyperior",
+     10
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/bertha-rematch",
+   "k": 6,
+   "i": 19,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Whiscash"
+   },
+   "kos": [
+    [
+     "b",
+     "Whiscash",
+     "Garchomp",
+     2
+    ],
+    [
+     "b",
+     "Gliscor",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Rhyperior",
+     6
+    ],
+    [
+     "b",
+     "Rhyperior",
+     "Roserade",
+     7
+    ],
+    [
+     "a",
+     "Roserade",
+     "Golem",
+     9
+    ],
+    [
+     "b",
+     "Golem",
+     "Weavile",
+     11
+    ],
+    [
+     "a",
+     "Weavile",
+     "Hippowdon",
+     12
+    ],
+    [
+     "a",
+     "Infernape",
+     "Hippowdon",
+     13
+    ],
+    [
+     "b",
+     "Hippowdon",
+     "Magnezone",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 0,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 1,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 2,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 3,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 4,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Weavile",
+     4
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 5,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 6,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 7,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 8,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 9,
+   "winner": "a",
+   "turns": 8,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     4
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     8
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 10,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 11,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 12,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 13,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 14,
+   "winner": "a",
+   "turns": 6,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     2
+    ],
+    [
+     "a",
+     "Infernape",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 15,
+   "winner": "a",
+   "turns": 6,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     2
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 16,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     null,
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Infernape",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Infernape",
+     7
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Infernape",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 17,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 18,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/flint-rematch",
+   "k": 7,
+   "i": 19,
+   "winner": "a",
+   "turns": 7,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Houndoom"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     1
+    ],
+    [
+     "a",
+     "Infernape",
+     "Rapidash",
+     3
+    ],
+    [
+     "b",
+     "Rapidash",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Magmortar",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Flareon",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Infernape",
+     "Garchomp",
+     7
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 0,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 1,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     11
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 3,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 4,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 5,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     8
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     9
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 6,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     8
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     9
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 7,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 8,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 9,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Magnezone",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 10,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "a",
+     "Roserade",
+     "Gallade",
+     5
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Garchomp",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 11,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     8
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     9
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "a",
+     "Lucario",
+     "Bronzong",
+     11
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 12,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 13,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 14,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Weavile",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 15,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 16,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Magnezone",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 17,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "a",
+     "Roserade",
+     "Gallade",
+     5
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Espeon",
+     "Garchomp",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 18,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Bronzong",
+     10
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Lucario",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/lucian-rematch",
+   "k": 8,
+   "i": 19,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Mr. Mime"
+   },
+   "kos": [
+    [
+     "b",
+     "Mr. Mime",
+     "Weavile",
+     2
+    ],
+    [
+     "b",
+     "Alakazam",
+     "Weavile",
+     3
+    ],
+    [
+     "b",
+     "Gallade",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Espeon",
+     7
+    ],
+    [
+     "b",
+     "Espeon",
+     "Weavile",
+     8
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Magnezone",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 0,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     4
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     5
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Garchomp",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     9
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     10
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 1,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     8
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 2,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Milotic",
+     3
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     4
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     8
+    ],
+    [
+     "a",
+     "Lucario",
+     "Togekiss",
+     9
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     11
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Garchomp",
+     12
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     13
+    ],
+    [
+     "b",
+     "Roserade",
+     "Roserade",
+     14
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 3,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     3
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     8
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     9
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Roserade",
+     10
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Lucario",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 4,
+   "winner": "b",
+   "turns": 15,
+   "left": {
+    "a": 0,
+    "b": 1
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Infernape",
+     "Spiritomb",
+     2
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Garchomp",
+     3
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     4
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     5
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Lucario",
+     7
+    ],
+    [
+     "b",
+     "Lucario",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     11
+    ],
+    [
+     "a",
+     "Roserade",
+     "Garchomp",
+     13
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     14
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Garchomp",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 5,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     6
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     7
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     14
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Lucario",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 6,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     2
+    ],
+    [
+     "b",
+     "Roserade",
+     "Infernape",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Togekiss",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Magnezone",
+     5
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     8
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 7,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Magnezone",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     8
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Togekiss",
+     10
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Roserade",
+     15
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Roserade",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 8,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Lucario",
+     "Togekiss",
+     8
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Roserade",
+     14
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     16
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 9,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     4
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     5
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     7
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Lucario",
+     12
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     13
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     14
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 10,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     4
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     5
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     7
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     8
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 11,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     4
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     5
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     7
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Roserade",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     12
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     13
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 12,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Roserade",
+     5
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     8
+    ],
+    [
+     "a",
+     "Infernape",
+     "Lucario",
+     9
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     10
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     11
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     12
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     13
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     14
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     15
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 13,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "a",
+     "Lucario",
+     "Spiritomb",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     4
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     7
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     8
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     11
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     13
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     14
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Roserade",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 14,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     7
+    ],
+    [
+     "a",
+     "Magnezone",
+     "Togekiss",
+     8
+    ],
+    [
+     "a",
+     "Lucario",
+     "Togekiss",
+     9
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Infernape",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Roserade",
+     12
+    ],
+    [
+     "b",
+     "Lucario",
+     "Roserade",
+     14
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 15,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     2
+    ],
+    [
+     "b",
+     "Roserade",
+     "Infernape",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Togekiss",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Magnezone",
+     5
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     8
+    ],
+    [
+     "b",
+     "Milotic",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 16,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     5
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     7
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     8
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     9
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     12
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     13
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Magnezone",
+     18
+    ],
+    [
+     "a",
+     "Roserade",
+     "Garchomp",
+     19
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Weavile",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 17,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     2
+    ],
+    [
+     "b",
+     "Roserade",
+     "Infernape",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Togekiss",
+     4
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Roserade",
+     7
+    ],
+    [
+     "b",
+     "Lucario",
+     "Lucario",
+     10
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     11
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 18,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Garchomp",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Milotic",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     7
+    ],
+    [
+     "b",
+     "Roserade",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Togekiss",
+     10
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     11
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Weavile",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "platinum/cynthia-rematch",
+   "k": 9,
+   "i": 19,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Infernape",
+    "b": "Spiritomb"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Magnezone",
+     3
+    ],
+    [
+     "b",
+     "Lucario",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Garchomp",
+     "Milotic",
+     6
+    ],
+    [
+     "b",
+     "Milotic",
+     "Weavile",
+     7
+    ],
+    [
+     "a",
+     "Weavile",
+     "Togekiss",
+     8
+    ],
+    [
+     "b",
+     "Togekiss",
+     "Lucario",
+     9
+    ],
+    [
+     "a",
+     "Lucario",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Roserade",
+     11
+    ],
+    [
+     "b",
+     "Roserade",
+     "Magnezone",
+     13
+    ]
+   ]
+  }
+ ],
+ "fell_back": [],
+ "labels": {
+  "team": "Zack · Platinum",
+  "pool": "Platinum Elite Four, Champion and rematches",
+  "opponents": "As the game plays them",
+  "ours": "Blackthorn's reading"
+ }
+}

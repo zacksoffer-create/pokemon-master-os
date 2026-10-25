@@ -1,0 +1,469 @@
+{
+ "kind": "TeamVersion",
+ "id": "library:me/heartgold#duel",
+ "version": 1,
+ "name": "Zack · HeartGold (main)",
+ "trainer": "me",
+ "game": "heartgold",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#1",
+   "version": 1,
+   "species": "Typhlosion",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Mild",
+   "ability": "Blaze",
+   "item": null,
+   "moves": [
+    "Flamethrower",
+    "Extrasensory",
+    "Thunder Punch",
+    "Earthquake"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 236,
+    "atk": 8,
+    "def": 16,
+    "spa": 156,
+    "spd": 8,
+    "spe": 84
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Blaze (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 236 HP / 8 Atk / 16 Def / 156 SpA / 8 SpD / 84 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "nature: Mild (chosen by the EV optimizer; none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#2",
+   "version": 1,
+   "species": "Tyranitar",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Jolly",
+   "ability": "Sand Stream",
+   "item": "Lum Berry",
+   "moves": [
+    "Dragon Dance",
+    "Crunch",
+    "Earthquake",
+    "Outrage"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 48,
+    "atk": 172,
+    "def": 48,
+    "spa": 0,
+    "spd": 4,
+    "spe": 236
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Sand Stream (the species' first ability)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 48 HP / 172 Atk / 48 Def / 4 SpD / 236 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "nature: Jolly (chosen by the EV optimizer; none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#3",
+   "version": 1,
+   "species": "Mamoswine",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Adamant",
+   "ability": "Snow Cloak",
+   "item": "Never-Melt Ice",
+   "moves": [
+    "Earthquake",
+    "Ancient Power",
+    "Ice Fang",
+    "Ice Shard"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 248,
+    "atk": 0,
+    "def": 4,
+    "spa": 0,
+    "spd": 12,
+    "spe": 244
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 248 HP / 4 Def / 12 SpD / 244 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#4",
+   "version": 1,
+   "species": "Crobat",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Jolly",
+   "ability": "Inner Focus",
+   "item": "Black Sludge",
+   "moves": [
+    "Fly",
+    "Roost",
+    "U-turn",
+    "Toxic"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 168,
+    "atk": 240,
+    "def": 84,
+    "spa": 0,
+    "spd": 16,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 168 HP / 240 Atk / 84 Def / 16 SpD (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#5",
+   "version": 1,
+   "species": "Lapras",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Calm",
+   "ability": "Water Absorb",
+   "item": "Leftovers",
+   "moves": [
+    "Surf",
+    "Ice Beam",
+    "Rest",
+    "Heal Bell"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 172,
+    "atk": 0,
+    "def": 160,
+    "spa": 132,
+    "spd": 0,
+    "spe": 44
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 172 HP / 160 Def / 132 SpA / 44 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/heartgold#6",
+   "version": 1,
+   "species": "Snorlax",
+   "game": "heartgold",
+   "generation": 4,
+   "level": 100,
+   "nature": "Careful",
+   "ability": "Thick Fat",
+   "item": "Leftovers",
+   "moves": [
+    "Body Slam",
+    "Rest",
+    "Thunder Punch",
+    "Zen Headbutt"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 112,
+    "atk": 236,
+    "def": 144,
+    "spa": 0,
+    "spd": 16,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ability": [
+     "confirmed",
+     "your canon register"
+    ],
+    "item": [
+     "confirmed",
+     "your canon register"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 112 HP / 236 Atk / 144 Def / 16 SpD (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  }
+ ],
+ "lead": "first",
+ "lens": "standardized",
+ "source": {
+  "kind": "blackthorn-trainer-library",
+  "version_id": "me/heartgold",
+  "library_kind": "journey",
+  "record": "canon register (rosters.json + builds.json)",
+  "read_only": true
+ }
+}

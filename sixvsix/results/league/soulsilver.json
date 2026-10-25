@@ -1,0 +1,389 @@
+{
+ "game": "soulsilver",
+ "made_at": "2026-10-25T19:48:45.328Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux",
+ "team": "library:me/soulsilver",
+ "pool": "pool:heartgold-league",
+ "agent": "trainer (both sides)",
+ "league": {
+  "kind": "PoolResult",
+  "team": "library:me/soulsilver",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "league-soulsilver",
+  "allocation": "11 opponents × 40 battles each",
+  "n": 440,
+  "won": 385,
+  "lost": 54,
+  "drew": 1,
+  "win_rate": 0.875,
+  "win_rate_95": [
+   0.841,
+   0.903
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "name": "Bruno · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 12.5,
+    "left_when_won": 5.425,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "name": "Karen · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 16.3,
+    "left_when_won": 5.175,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "name": "Koga · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 19.6,
+    "left_when_won": 5.85,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "name": "Will · Elite Four · first battle",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 14.5,
+    "left_when_won": 5.7,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "name": "Champion Lance (HeartGold)",
+    "n": 40,
+    "won": 25,
+    "lost": 15,
+    "drew": 0,
+    "win_rate": 0.625,
+    "win_rate_95": [
+     0.47,
+     0.758
+    ],
+    "turns": 18.2,
+    "left_when_won": 2.88,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "name": "Bruno · Elite Four · rematch",
+    "n": 40,
+    "won": 37,
+    "lost": 3,
+    "drew": 0,
+    "win_rate": 0.925,
+    "win_rate_95": [
+     0.801,
+     0.974
+    ],
+    "turns": 20.6,
+    "left_when_won": 4.243,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "name": "Karen · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 18.2,
+    "left_when_won": 4.975,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "name": "Koga · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 19.7,
+    "left_when_won": 5.675,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "name": "Will · Elite Four · rematch",
+    "n": 40,
+    "won": 40,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.912,
+     1
+    ],
+    "turns": 20.2,
+    "left_when_won": 4.7,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "name": "Lance · Champion · rematch",
+    "n": 40,
+    "won": 8,
+    "lost": 31,
+    "drew": 1,
+    "win_rate": 0.2,
+    "win_rate_95": [
+     0.105,
+     0.348
+    ],
+    "turns": 23.9,
+    "left_when_won": 2.25,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "name": "Red on Mt. Silver (HeartGold)",
+    "n": 40,
+    "won": 35,
+    "lost": 5,
+    "drew": 0,
+    "win_rate": 0.875,
+    "win_rate_95": [
+     0.739,
+     0.945
+    ],
+    "turns": 22.4,
+    "left_when_won": 3.114,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Pikachu",
+    "appeared": 1,
+    "kos_per_battle": 0.28,
+    "fainted_rate": 0.241,
+    "damage_dealt_per_battle": 29.6
+   },
+   {
+    "name": "Dragonite",
+    "appeared": 0.766,
+    "kos_per_battle": 1.573,
+    "fainted_rate": 0.375,
+    "damage_dealt_per_battle": 152.2
+   },
+   {
+    "name": "Infernape",
+    "appeared": 0.527,
+    "kos_per_battle": 0.607,
+    "fainted_rate": 0.252,
+    "damage_dealt_per_battle": 57.4
+   },
+   {
+    "name": "Empoleon",
+    "appeared": 0.832,
+    "kos_per_battle": 1.134,
+    "fainted_rate": 0.418,
+    "damage_dealt_per_battle": 139
+   },
+   {
+    "name": "Gengar",
+    "appeared": 0.67,
+    "kos_per_battle": 1.111,
+    "fainted_rate": 0.348,
+    "damage_dealt_per_battle": 130.3
+   },
+   {
+    "name": "Scizor",
+    "appeared": 0.682,
+    "kos_per_battle": 0.527,
+    "fainted_rate": 0.148,
+    "damage_dealt_per_battle": 51.2
+   }
+  ],
+  "weakest": [
+   "library:heartgold/lance-rematch",
+   "library:heartgold/lance",
+   "library:heartgold/red"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 7769,
+   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux · 3 worker threads"
+  },
+  "fingerprint": "174c7644c7ccd656"
+ },
+ "d072": {
+  "kind": "Comparison",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "d072-soulsilver",
+  "n_per_opponent": 20,
+  "x": {
+   "label": "85 in every stat",
+   "team": "library:me/soulsilver#even85",
+   "agent": "trainer",
+   "won": 163,
+   "win_rate": 0.741
+  },
+  "y": {
+   "label": "optimized spreads",
+   "team": "library:me/soulsilver",
+   "agent": "trainer",
+   "won": 193,
+   "win_rate": 0.877
+  },
+  "pairs": {
+   "n": 220,
+   "both_won": 160,
+   "only_x": 3,
+   "only_y": 33,
+   "neither": 24
+  },
+  "difference": {
+   "y_minus_x": 0.136,
+   "ci95": [
+    0.086,
+    0.187
+   ]
+  },
+  "margin": {
+   "y_minus_x": 0.161,
+   "ci95": [
+    0.113,
+    0.208
+   ],
+   "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+  },
+  "mcnemar_p": 0,
+  "significant": true,
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "name": "Bruno · Elite Four · first battle",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "name": "Karen · Elite Four · first battle",
+    "n": 20,
+    "x_won": 16,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "name": "Koga · Elite Four · first battle",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "name": "Will · Elite Four · first battle",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "name": "Champion Lance (HeartGold)",
+    "n": 20,
+    "x_won": 3,
+    "y_won": 14
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "name": "Bruno · Elite Four · rematch",
+    "n": 20,
+    "x_won": 16,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "name": "Karen · Elite Four · rematch",
+    "n": 20,
+    "x_won": 17,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "name": "Koga · Elite Four · rematch",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 19
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "name": "Will · Elite Four · rematch",
+    "n": 20,
+    "x_won": 20,
+    "y_won": 20
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "name": "Lance · Champion · rematch",
+    "n": 20,
+    "x_won": 0,
+    "y_won": 2
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "name": "Red on Mt. Silver (HeartGold)",
+    "n": 20,
+    "x_won": 11,
+    "y_won": 18
+   }
+  ],
+  "reading": "optimized spreads won more: 88% against 74% over 220 paired battles (McNemar p < 0.0001).",
+  "timing": {
+   "total_ms": 8544,
+   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux · 3 worker threads"
+  }
+ }
+}

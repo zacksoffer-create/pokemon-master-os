@@ -1,0 +1,2144 @@
+{
+ "kind": "Experiment",
+ "type": "compare",
+ "spec": {
+  "kind": "compare",
+  "team": "me/heartgold",
+  "y": "heartgold-sheet-tyranitar",
+  "pool": "heartgold-league",
+  "n": 20,
+  "adaptive": {
+   "start": 10,
+   "max": 40
+  },
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:54:53.383Z",
+ "seed": "lab|compare|4bc6866aa9bdcfcb",
+ "comparison": {
+  "kind": "Comparison",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "lab|compare|4bc6866aa9bdcfcb",
+  "n_per_opponent": 40,
+  "x": {
+   "label": "Zack · HeartGold (main)",
+   "team": "library:me/heartgold",
+   "agent": "trainer",
+   "won": 420,
+   "win_rate": 0.955
+  },
+  "y": {
+   "label": "Tyranitar's sheet build",
+   "team": "library:me/heartgold~heartgold-sheet-tyranitar",
+   "agent": "trainer",
+   "won": 411,
+   "win_rate": 0.934
+  },
+  "pairs": {
+   "n": 440,
+   "both_won": 409,
+   "only_x": 11,
+   "only_y": 2,
+   "neither": 18
+  },
+  "difference": {
+   "y_minus_x": -0.02,
+   "ci95": [
+    -0.036,
+    -0.004
+   ]
+  },
+  "margin": {
+   "y_minus_x": 0.041,
+   "ci95": [
+    0.02,
+    0.062
+   ],
+   "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+  },
+  "mcnemar_p": 0.022461,
+  "significant": true,
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "name": "Bruno · Elite Four · first battle",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "name": "Karen · Elite Four · first battle",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "name": "Koga · Elite Four · first battle",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "name": "Will · Elite Four · first battle",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "name": "Champion Lance (HeartGold)",
+    "n": 40,
+    "x_won": 39,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "name": "Bruno · Elite Four · rematch",
+    "n": 40,
+    "x_won": 23,
+    "y_won": 16
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "name": "Karen · Elite Four · rematch",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "name": "Koga · Elite Four · rematch",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "name": "Will · Elite Four · rematch",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "name": "Lance · Champion · rematch",
+    "n": 40,
+    "x_won": 38,
+    "y_won": 35
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "name": "Red on Mt. Silver (HeartGold)",
+    "n": 40,
+    "x_won": 40,
+    "y_won": 40
+   }
+  ],
+  "reading": "Zack · HeartGold (main) won more: 95% against 93% over 440 paired battles (McNemar p = 0.0225).",
+  "timing": {
+   "total_ms": 15112,
+   "platform": "worker threads · 3 worker threads"
+  },
+  "adaptive": {
+   "start": 10,
+   "max": 40,
+   "played_per_opponent": 40,
+   "stopped": "reached the maximum"
+  }
+ },
+ "diff": [
+  {
+   "slot": 1,
+   "from": "Tyranitar",
+   "to": "Tyranitar",
+   "changes": [
+    {
+     "field": "nature",
+     "from": "Jolly",
+     "to": "Adamant"
+    },
+    {
+     "field": "item",
+     "from": "Lum Berry",
+     "to": "Leftovers"
+    },
+    {
+     "field": "moves",
+     "from": "Outrage",
+     "to": "Rock Slide"
+    },
+    {
+     "field": "EVs",
+     "from": "4 HP / 252 Atk / 252 Spe",
+     "to": "104 HP / 64 Atk / 96 Def / 244 Spe"
+    }
+   ]
+  }
+ ],
+ "duel": [
+  {
+   "slot": 1,
+   "from": "Tyranitar",
+   "to": "Tyranitar",
+   "one_on_one": {
+    "from": "46 of 62",
+    "to": "47 of 62",
+    "switching_in": "40 → 41"
+   },
+   "stats": {
+    "from": {
+     "hp": 342,
+     "atk": 367,
+     "def": 256,
+     "spa": 203,
+     "spd": 236,
+     "spe": 243
+    },
+    "to": {
+     "hp": 367,
+     "atk": 352,
+     "def": 280,
+     "spa": 203,
+     "spd": 236,
+     "spe": 219
+    }
+   },
+   "flips": [
+    {
+     "opponent": "Hitmontop",
+     "now": "loses",
+     "from": [
+      "heartgold/bruno"
+     ]
+    },
+    {
+     "opponent": "Gyarados",
+     "now": "wins",
+     "from": [
+      "heartgold/lance-rematch"
+     ]
+    }
+   ],
+   "thresholds": [
+    {
+     "opponent": "Hitmontop",
+     "what": "hits to knock it out 2 → 3"
+    },
+    {
+     "opponent": "Hitmonlee",
+     "what": "now slower than it (219 vs 230)"
+    },
+    {
+     "opponent": "Hitmonchan",
+     "what": "hits to knock it out 2 → 3"
+    },
+    {
+     "opponent": "Hitmonchan",
+     "what": "its hits to knock you out 5 → 6"
+    },
+    {
+     "opponent": "Umbreon",
+     "what": "hits to knock it out 3 → 4"
+    },
+    {
+     "opponent": "Umbreon",
+     "what": "its hits to knock you out 14 → 16"
+    },
+    {
+     "opponent": "Murkrow",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Murkrow",
+     "what": "its hits to knock you out 9 → 10"
+    },
+    {
+     "opponent": "Murkrow",
+     "what": "now slower than it (219 vs 238)"
+    },
+    {
+     "opponent": "Houndoom",
+     "what": "its hits to knock you out 8 → 9"
+    },
+    {
+     "opponent": "Ariados",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Ariados",
+     "what": "its hits to knock you out 7 → 8"
+    },
+    {
+     "opponent": "Venomoth",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Venomoth",
+     "what": "its hits to knock you out 33 → 35"
+    },
+    {
+     "opponent": "Venomoth",
+     "what": "now slower than it (219 vs 236)"
+    },
+    {
+     "opponent": "Forretress",
+     "what": "its hits to knock you out 2 → 3"
+    },
+    {
+     "opponent": "Muk",
+     "what": "its hits to knock you out 5 → 6"
+    },
+    {
+     "opponent": "Crobat",
+     "what": "hits to knock it out 3 → 2"
+    },
+    {
+     "opponent": "Crobat",
+     "what": "its hits to knock you out 11 → 13"
+    },
+    {
+     "opponent": "Xatu",
+     "what": "its hits to knock you out 4 → 5"
+    },
+    {
+     "opponent": "Jynx",
+     "what": "its hits to knock you out 7 → 8"
+    },
+    {
+     "opponent": "Exeggutor",
+     "what": "its hits to knock you out 10 → 11"
+    },
+    {
+     "opponent": "Xatu",
+     "what": "its hits to knock you out 13 → 14"
+    },
+    {
+     "opponent": "Gyarados",
+     "what": "hits to knock it out 4 → 2"
+    },
+    {
+     "opponent": "Aerodactyl",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Aerodactyl",
+     "what": "its hits to knock you out 4 → 5"
+    },
+    {
+     "opponent": "Charizard",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Charizard",
+     "what": "its hits to knock you out 7 → 8"
+    },
+    {
+     "opponent": "Dragonite",
+     "what": "its hits to knock you out 2 → 3"
+    },
+    {
+     "opponent": "Lucario",
+     "what": "now slower than it (219 vs 236)"
+    },
+    {
+     "opponent": "Weavile",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Spiritomb",
+     "what": "its hits to knock you out 8 → 10"
+    },
+    {
+     "opponent": "Absol",
+     "what": "its hits to knock you out 7 → 8"
+    },
+    {
+     "opponent": "Honchkrow",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Honchkrow",
+     "what": "its hits to knock you out 7 → 8"
+    },
+    {
+     "opponent": "Umbreon",
+     "what": "its hits to knock you out 11 → 12"
+    },
+    {
+     "opponent": "Skuntank",
+     "what": "its hits to knock you out 2 → 3"
+    },
+    {
+     "opponent": "Skuntank",
+     "what": "now slower than it (219 vs 224)"
+    },
+    {
+     "opponent": "Toxicroak",
+     "what": "now slower than it (219 vs 226)"
+    },
+    {
+     "opponent": "Muk",
+     "what": "hits to knock it out 3 → 2"
+    }
+   ]
+  }
+ ],
+ "per_opponent": [
+  {
+   "opponent": "library:heartgold/bruno-rematch",
+   "name": "Bruno · Elite Four · rematch",
+   "n": 40,
+   "x_won": 23,
+   "y_won": 16,
+   "change": -0.175
+  },
+  {
+   "opponent": "library:heartgold/lance-rematch",
+   "name": "Lance · Champion · rematch",
+   "n": 40,
+   "x_won": 38,
+   "y_won": 35,
+   "change": -0.075
+  },
+  {
+   "opponent": "library:heartgold/lance",
+   "name": "Champion Lance (HeartGold)",
+   "n": 40,
+   "x_won": 39,
+   "y_won": 40,
+   "change": 0.025
+  }
+ ],
+ "roles": [
+  {
+   "name": "Tyranitar",
+   "to": "Tyranitar",
+   "ko_share": [
+    0.512,
+    0.586
+   ],
+   "falls_first": [
+    0.234,
+    0.109
+   ]
+  }
+ ],
+ "reports": {
+  "x": {
+   "kind": "StrategyReport",
+   "team": "library:me/heartgold",
+   "team_name": "Zack · HeartGold (main)",
+   "n": 440,
+   "pool": {
+    "id": "pool:heartgold-league",
+    "name": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red"
+   },
+   "interpretation_of_opponents": "blackthorn",
+   "our_style": "blackthorn",
+   "headline": [
+    "Zack · HeartGold (main) won 420 of 440 (96%; 95% 93%–97%).",
+    "Hardest: Bruno · Elite Four · rematch (23/40).",
+    "Tyranitar makes 51% of your knockouts.",
+    "Machamp is in 85% of your losses and takes 1.6 of yours each time; it's hardest on Crobat, Mamoswine, Typhlosion."
+   ],
+   "outcomes": {
+    "n": 440,
+    "won": 420,
+    "rate": 0.955,
+    "ci95": [
+     0.931,
+     0.97
+    ],
+    "drew": 0,
+    "by_opponent": [
+     {
+      "opponent": "heartgold/bruno-rematch",
+      "name": "Bruno · Elite Four · rematch",
+      "n": 40,
+      "won": 23,
+      "rate": 0.575,
+      "ci95": [
+       0.422,
+       0.715
+      ],
+      "turns": 15.1,
+      "left_when_won": 3.1
+     },
+     {
+      "opponent": "heartgold/lance-rematch",
+      "name": "Lance · Champion · rematch",
+      "n": 40,
+      "won": 38,
+      "rate": 0.95,
+      "ci95": [
+       0.835,
+       0.986
+      ],
+      "turns": 19.3,
+      "left_when_won": 3.7
+     },
+     {
+      "opponent": "heartgold/lance",
+      "name": "Champion Lance (HeartGold)",
+      "n": 40,
+      "won": 39,
+      "rate": 0.975,
+      "ci95": [
+       0.871,
+       0.996
+      ],
+      "turns": 18.2,
+      "left_when_won": 4.8
+     },
+     {
+      "opponent": "heartgold/bruno",
+      "name": "Bruno · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 15.2,
+      "left_when_won": 4.5
+     },
+     {
+      "opponent": "heartgold/karen",
+      "name": "Karen · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 10.3,
+      "left_when_won": 5.8
+     },
+     {
+      "opponent": "heartgold/koga",
+      "name": "Koga · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 15.1,
+      "left_when_won": 5.4
+     },
+     {
+      "opponent": "heartgold/will",
+      "name": "Will · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 13.8,
+      "left_when_won": 6
+     },
+     {
+      "opponent": "heartgold/karen-rematch",
+      "name": "Karen · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 17.5,
+      "left_when_won": 4.6
+     },
+     {
+      "opponent": "heartgold/koga-rematch",
+      "name": "Koga · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 12.7,
+      "left_when_won": 5.4
+     },
+     {
+      "opponent": "heartgold/will-rematch",
+      "name": "Will · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 17.2,
+      "left_when_won": 5.6
+     },
+     {
+      "opponent": "heartgold/red",
+      "name": "Red on Mt. Silver (HeartGold)",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 16.9,
+      "left_when_won": 4.9
+     }
+    ],
+    "turns": 15.6,
+    "left_when_won": 5,
+    "close_wins": 0.007
+   },
+   "members": [
+    {
+     "name": "Typhlosion",
+     "species": "Typhlosion",
+     "appeared": 1,
+     "kos": 0.748,
+     "ko_share": 0.135,
+     "ko_share_in_wins": 0.136,
+     "damage_dealt": 103.7,
+     "damage_taken": 47,
+     "healed": 0,
+     "status_inflicted": 0.093,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.23,
+     "fainted": 0.314,
+     "falls_first": 0.236,
+     "opens": 0.377,
+     "closes": 0.055,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Tyranitar",
+     "species": "Tyranitar",
+     "appeared": 0.875,
+     "kos": 2.827,
+     "ko_share": 0.512,
+     "ko_share_in_wins": 0.518,
+     "damage_dealt": 285.4,
+     "damage_taken": 55.7,
+     "healed": 0,
+     "status_inflicted": 0,
+     "setup_used": 0.759,
+     "support_used": 0,
+     "switched_in_by_choice": 0.823,
+     "fainted": 0.366,
+     "falls_first": 0.234,
+     "opens": 0.316,
+     "closes": 0.512,
+     "reading": "your main finisher (51% of your knockouts); takes the most hits (56% of its HP a battle); closes 51% of your wins; sets up 0.8 times a battle"
+    },
+    {
+     "name": "Mamoswine",
+     "species": "Mamoswine",
+     "appeared": 0.486,
+     "kos": 0.852,
+     "ko_share": 0.154,
+     "ko_share_in_wins": 0.154,
+     "damage_dealt": 74.9,
+     "damage_taken": 28.9,
+     "healed": 0,
+     "status_inflicted": 0.011,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.32,
+     "fainted": 0.189,
+     "falls_first": 0.039,
+     "opens": 0.127,
+     "closes": 0.224,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Crobat",
+     "species": "Crobat",
+     "appeared": 0.32,
+     "kos": 0.257,
+     "ko_share": 0.046,
+     "ko_share_in_wins": 0.042,
+     "damage_dealt": 21.3,
+     "damage_taken": 27,
+     "healed": 8.9,
+     "status_inflicted": 0.005,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.193,
+     "fainted": 0.127,
+     "falls_first": 0.041,
+     "opens": 0.048,
+     "closes": 0.048,
+     "reading": "sees play in only 32% of battles"
+    },
+    {
+     "name": "Lapras",
+     "species": "Lapras",
+     "appeared": 0.536,
+     "kos": 0.593,
+     "ko_share": 0.107,
+     "ko_share_in_wins": 0.106,
+     "damage_dealt": 56.2,
+     "damage_taken": 41.4,
+     "healed": 12,
+     "status_inflicted": 0.052,
+     "setup_used": 0,
+     "support_used": 0.005,
+     "switched_in_by_choice": 0.409,
+     "fainted": 0.182,
+     "falls_first": 0.052,
+     "opens": 0.1,
+     "closes": 0.117,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Snorlax",
+     "species": "Snorlax",
+     "appeared": 0.35,
+     "kos": 0.248,
+     "ko_share": 0.045,
+     "ko_share_in_wins": 0.044,
+     "damage_dealt": 25.1,
+     "damage_taken": 28.4,
+     "healed": 16.7,
+     "status_inflicted": 0.091,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.27,
+     "fainted": 0.075,
+     "falls_first": 0,
+     "opens": 0.032,
+     "closes": 0.043,
+     "reading": "sees play in only 35% of battles"
+    }
+   ],
+   "team_level": {
+    "threats": [
+     {
+      "species": "Machamp",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.938,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Crobat",
+        "kos": 29
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 22
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 15
+       }
+      ],
+      "in_losses": 17,
+      "share_of_losses": 0.85,
+      "kos_in_losses": 1.647,
+      "sweeps": 9
+     },
+     {
+      "species": "Garchomp",
+      "from": [
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 40,
+      "kos_per_appearance": 1.2,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Lapras",
+        "kos": 19
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 11
+       },
+       {
+        "name": "Tyranitar",
+        "kos": 10
+       }
+      ],
+      "in_losses": 2,
+      "share_of_losses": 0.1,
+      "kos_in_losses": 5.5,
+      "sweeps": 2
+     },
+     {
+      "species": "Lucario",
+      "from": [
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 38,
+      "kos_per_appearance": 0.842,
+      "survives": 0.079,
+      "most_against": [
+       {
+        "name": "Crobat",
+        "kos": 8
+       },
+       {
+        "name": "Lapras",
+        "kos": 7
+       },
+       {
+        "name": "Tyranitar",
+        "kos": 6
+       }
+      ],
+      "in_losses": 15,
+      "share_of_losses": 0.75,
+      "kos_in_losses": 1.133,
+      "sweeps": 4
+     },
+     {
+      "species": "Dragonite",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 78,
+      "kos_per_appearance": 0.577,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Tyranitar",
+        "kos": 25
+       },
+       {
+        "name": "Lapras",
+        "kos": 7
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 6
+       }
+      ],
+      "in_losses": 1,
+      "share_of_losses": 0.05,
+      "kos_in_losses": 1,
+      "sweeps": 0
+     },
+     {
+      "species": "Hitmonchan",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 79,
+      "kos_per_appearance": 0.57,
+      "survives": 0.089,
+      "most_against": [
+       {
+        "name": "Mamoswine",
+        "kos": 13
+       },
+       {
+        "name": "Lapras",
+        "kos": 13
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 7
+       }
+      ],
+      "in_losses": 16,
+      "share_of_losses": 0.8,
+      "kos_in_losses": 1.25,
+      "sweeps": 5
+     },
+     {
+      "species": "Hariyama",
+      "from": [
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 39,
+      "kos_per_appearance": 0.692,
+      "survives": 0.051,
+      "most_against": [
+       {
+        "name": "Typhlosion",
+        "kos": 14
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 7
+       },
+       {
+        "name": "Lapras",
+        "kos": 3
+       }
+      ],
+      "in_losses": 16,
+      "share_of_losses": 0.8,
+      "kos_in_losses": 1.063,
+      "sweeps": 6
+     },
+     {
+      "species": "Weavile",
+      "from": [
+       "Karen · Elite Four · rematch"
+      ],
+      "appeared": 40,
+      "kos_per_appearance": 0.475,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Tyranitar",
+        "kos": 18
+       },
+       {
+        "name": "Crobat",
+        "kos": 1
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Skuntank",
+      "from": [
+       "Koga · Elite Four · rematch"
+      ],
+      "appeared": 40,
+      "kos_per_appearance": 0.45,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Typhlosion",
+        "kos": 15
+       },
+       {
+        "name": "Snorlax",
+        "kos": 2
+       },
+       {
+        "name": "Lapras",
+        "kos": 1
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     }
+    ],
+    "dependencies": [
+     {
+      "name": "Crobat",
+      "falls_early": 0.098,
+      "win_if_falls_early": 0.698,
+      "win_otherwise": 0.982,
+      "gap": 0.285,
+      "n_early": 43,
+      "n_otherwise": 397,
+      "win_if_survives": 1,
+      "n_survives": 384
+     },
+     {
+      "name": "Mamoswine",
+      "falls_early": 0.132,
+      "win_if_falls_early": 0.845,
+      "win_otherwise": 0.971,
+      "gap": 0.126,
+      "n_early": 58,
+      "n_otherwise": 382,
+      "win_if_survives": 1,
+      "n_survives": 357
+     },
+     {
+      "name": "Typhlosion",
+      "falls_early": 0.264,
+      "win_if_falls_early": 0.879,
+      "win_otherwise": 0.981,
+      "gap": 0.102,
+      "n_early": 116,
+      "n_otherwise": 324,
+      "win_if_survives": 1,
+      "n_survives": 302
+     },
+     {
+      "name": "Lapras",
+      "falls_early": 0.1,
+      "win_if_falls_early": 0.932,
+      "win_otherwise": 0.957,
+      "gap": 0.025,
+      "n_early": 44,
+      "n_otherwise": 396,
+      "win_if_survives": 1,
+      "n_survives": 360
+     },
+     {
+      "name": "Snorlax",
+      "falls_early": 0.023,
+      "win_if_falls_early": 1,
+      "win_otherwise": 0.953,
+      "gap": -0.047,
+      "n_early": 10,
+      "n_otherwise": 430,
+      "win_if_survives": 1,
+      "n_survives": 407
+     },
+     {
+      "name": "Tyranitar",
+      "falls_early": 0.284,
+      "win_if_falls_early": 0.992,
+      "win_otherwise": 0.94,
+      "gap": -0.052,
+      "n_early": 125,
+      "n_otherwise": 315,
+      "win_if_survives": 1,
+      "n_survives": 279
+     }
+    ],
+    "damage_by_type": [
+     {
+      "type": "Fighting",
+      "per_battle": 44.8,
+      "share": 0.217,
+      "weak": [
+       "Tyranitar",
+       "Mamoswine",
+       "Lapras",
+       "Snorlax"
+      ]
+     },
+     {
+      "type": "Dragon",
+      "per_battle": 27.7,
+      "share": 0.135,
+      "weak": []
+     },
+     {
+      "type": "Rock",
+      "per_battle": 24.2,
+      "share": 0.118,
+      "weak": [
+       "Typhlosion",
+       "Crobat",
+       "Lapras"
+      ]
+     },
+     {
+      "type": "Dark",
+      "per_battle": 22.8,
+      "share": 0.111,
+      "weak": []
+     },
+     {
+      "type": "Normal",
+      "per_battle": 14.9,
+      "share": 0.072,
+      "weak": []
+     },
+     {
+      "type": "Ground",
+      "per_battle": 14.6,
+      "share": 0.071,
+      "weak": [
+       "Typhlosion",
+       "Tyranitar"
+      ]
+     },
+     {
+      "type": "Psychic",
+      "per_battle": 9.7,
+      "share": 0.047,
+      "weak": [
+       "Crobat"
+      ]
+     },
+     {
+      "type": "Fire",
+      "per_battle": 9.5,
+      "share": 0.046,
+      "weak": [
+       "Mamoswine"
+      ]
+     }
+    ],
+    "sequencing": {
+     "first_knockout": [
+      {
+       "name": "Typhlosion",
+       "battles": 166
+      },
+      {
+       "name": "Tyranitar",
+       "battles": 139
+      },
+      {
+       "name": "Mamoswine",
+       "battles": 56
+      },
+      {
+       "name": "Lapras",
+       "battles": 44
+      },
+      {
+       "name": "Crobat",
+       "battles": 21
+      },
+      {
+       "name": "Snorlax",
+       "battles": 14
+      }
+     ],
+     "last_knockout_in_wins": [
+      {
+       "name": "Tyranitar",
+       "battles": 215
+      },
+      {
+       "name": "Mamoswine",
+       "battles": 94
+      },
+      {
+       "name": "Lapras",
+       "battles": 49
+      },
+      {
+       "name": "Typhlosion",
+       "battles": 24
+      },
+      {
+       "name": "Crobat",
+       "battles": 20
+      },
+      {
+       "name": "Snorlax",
+       "battles": 18
+      }
+     ],
+     "leads": [
+      {
+       "name": "Typhlosion",
+       "n": 440,
+       "won": 420,
+       "rate": 0.955
+      }
+     ]
+    }
+   },
+   "interpretation": {
+    "robust": [
+     "The overall result is pinned down: 96% (95% 93%–97%) over 440 battles.",
+     "Your knockouts come mostly from Tyranitar (51%)."
+    ],
+    "opponent_dependent": [
+     "Bruno · Elite Four · rematch is a real weak spot: 23 of 40 (95% up to 72%), below the pool's interval.",
+     "Tyranitar's role depends on the opponent: 92% of your knockouts against Karen · Elite Four · first battle, 8% against Bruno · Elite Four · first battle."
+    ],
+    "needs_more_battles": []
+   },
+   "patterns": [
+    {
+     "id": "threat:Machamp",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Machamp runs through the team",
+     "finding": "Machamp is in 85% of your losses and takes 1.6 of yours each time; it's hardest on Crobat, Mamoswine, Typhlosion.",
+     "evidence": {
+      "species": "Machamp",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.938,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Crobat",
+        "kos": 29
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 22
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 15
+       }
+      ],
+      "in_losses": 17,
+      "share_of_losses": 0.85,
+      "kos_in_losses": 1.647,
+      "sweeps": 9
+     },
+     "suggestion": {
+      "label": "Watch a loss where Machamp sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/heartgold",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Machamp"
+       }
+      }
+     }
+    },
+    {
+     "id": "close",
+     "kind": "uncertain",
+     "strength": "suggestive",
+     "title": "Some matchups are too close to call",
+     "finding": "Bruno · Elite Four · rematch (23/40): their intervals still cross 50%.",
+     "evidence": [
+      {
+       "opponent": "heartgold/bruno-rematch",
+       "name": "Bruno · Elite Four · rematch",
+       "n": 40,
+       "won": 23,
+       "rate": 0.575,
+       "ci95": [
+        0.422,
+        0.715
+       ],
+       "turns": 15.1,
+       "left_when_won": 3.1
+      }
+     ],
+     "suggestion": {
+      "label": "Run more battles against just these",
+      "experiment": {
+       "kind": "league",
+       "team": "me/heartgold",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "only": [
+        "heartgold/bruno-rematch"
+       ],
+       "n": 60
+      }
+     }
+    }
+   ],
+   "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+  },
+  "y": {
+   "kind": "StrategyReport",
+   "team": "library:me/heartgold~heartgold-sheet-tyranitar",
+   "team_name": "Zack · HeartGold (main) · Tyranitar's sheet build",
+   "n": 440,
+   "pool": {
+    "id": "pool:heartgold-league",
+    "name": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red"
+   },
+   "interpretation_of_opponents": "blackthorn",
+   "our_style": "blackthorn",
+   "headline": [
+    "Zack · HeartGold (main) · Tyranitar's sheet build won 411 of 440 (93%; 95% 91%–95%).",
+    "Hardest: Bruno · Elite Four · rematch (16/40).",
+    "Tyranitar makes 59% of your knockouts.",
+    "Machamp is in 83% of your losses and takes 1.7 of yours each time; it's hardest on Crobat, Mamoswine, Typhlosion."
+   ],
+   "outcomes": {
+    "n": 440,
+    "won": 411,
+    "rate": 0.934,
+    "ci95": [
+     0.907,
+     0.954
+    ],
+    "drew": 0,
+    "by_opponent": [
+     {
+      "opponent": "heartgold/bruno-rematch",
+      "name": "Bruno · Elite Four · rematch",
+      "n": 40,
+      "won": 16,
+      "rate": 0.4,
+      "ci95": [
+       0.263,
+       0.554
+      ],
+      "turns": 15.1,
+      "left_when_won": 3.3
+     },
+     {
+      "opponent": "heartgold/lance-rematch",
+      "name": "Lance · Champion · rematch",
+      "n": 40,
+      "won": 35,
+      "rate": 0.875,
+      "ci95": [
+       0.739,
+       0.945
+      ],
+      "turns": 20.5,
+      "left_when_won": 3.7
+     },
+     {
+      "opponent": "heartgold/bruno",
+      "name": "Bruno · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 14.9,
+      "left_when_won": 4.6
+     },
+     {
+      "opponent": "heartgold/karen",
+      "name": "Karen · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 11.8,
+      "left_when_won": 6
+     },
+     {
+      "opponent": "heartgold/koga",
+      "name": "Koga · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 14,
+      "left_when_won": 5.6
+     },
+     {
+      "opponent": "heartgold/will",
+      "name": "Will · Elite Four · first battle",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 14.2,
+      "left_when_won": 5.9
+     },
+     {
+      "opponent": "heartgold/lance",
+      "name": "Champion Lance (HeartGold)",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 17.7,
+      "left_when_won": 5
+     },
+     {
+      "opponent": "heartgold/karen-rematch",
+      "name": "Karen · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 16,
+      "left_when_won": 5.5
+     },
+     {
+      "opponent": "heartgold/koga-rematch",
+      "name": "Koga · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 12.1,
+      "left_when_won": 5.4
+     },
+     {
+      "opponent": "heartgold/will-rematch",
+      "name": "Will · Elite Four · rematch",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 16.2,
+      "left_when_won": 5.7
+     },
+     {
+      "opponent": "heartgold/red",
+      "name": "Red on Mt. Silver (HeartGold)",
+      "n": 40,
+      "won": 40,
+      "rate": 1,
+      "ci95": [
+       0.912,
+       1
+      ],
+      "turns": 14.5,
+      "left_when_won": 5.9
+     }
+    ],
+    "turns": 15.2,
+    "left_when_won": 5.3,
+    "close_wins": 0.007
+   },
+   "members": [
+    {
+     "name": "Typhlosion",
+     "species": "Typhlosion",
+     "appeared": 1,
+     "kos": 0.714,
+     "ko_share": 0.131,
+     "ko_share_in_wins": 0.131,
+     "damage_dealt": 100.1,
+     "damage_taken": 44.5,
+     "healed": 0,
+     "status_inflicted": 0.075,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.159,
+     "fainted": 0.309,
+     "falls_first": 0.232,
+     "opens": 0.377,
+     "closes": 0.056,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Tyranitar",
+     "species": "Tyranitar",
+     "appeared": 0.882,
+     "kos": 3.195,
+     "ko_share": 0.586,
+     "ko_share_in_wins": 0.607,
+     "damage_dealt": 317.8,
+     "damage_taken": 58.1,
+     "healed": 22.2,
+     "status_inflicted": 0,
+     "setup_used": 0.845,
+     "support_used": 0,
+     "switched_in_by_choice": 0.834,
+     "fainted": 0.214,
+     "falls_first": 0.109,
+     "opens": 0.339,
+     "closes": 0.655,
+     "reading": "your main finisher (59% of your knockouts); takes the most hits (58% of its HP a battle); closes 66% of your wins; sets up 0.8 times a battle"
+    },
+    {
+     "name": "Mamoswine",
+     "species": "Mamoswine",
+     "appeared": 0.37,
+     "kos": 0.682,
+     "ko_share": 0.125,
+     "ko_share_in_wins": 0.119,
+     "damage_dealt": 60.9,
+     "damage_taken": 24.2,
+     "healed": 0,
+     "status_inflicted": 0.011,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.257,
+     "fainted": 0.177,
+     "falls_first": 0.036,
+     "opens": 0.109,
+     "closes": 0.136,
+     "reading": "sees play in only 37% of battles"
+    },
+    {
+     "name": "Crobat",
+     "species": "Crobat",
+     "appeared": 0.261,
+     "kos": 0.243,
+     "ko_share": 0.045,
+     "ko_share_in_wins": 0.036,
+     "damage_dealt": 20.5,
+     "damage_taken": 27.8,
+     "healed": 10.8,
+     "status_inflicted": 0.02,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.175,
+     "fainted": 0.125,
+     "falls_first": 0.036,
+     "opens": 0.05,
+     "closes": 0.051,
+     "reading": "sees play in only 26% of battles"
+    },
+    {
+     "name": "Lapras",
+     "species": "Lapras",
+     "appeared": 0.409,
+     "kos": 0.443,
+     "ko_share": 0.081,
+     "ko_share_in_wins": 0.076,
+     "damage_dealt": 42.5,
+     "damage_taken": 33.1,
+     "healed": 6.9,
+     "status_inflicted": 0.039,
+     "setup_used": 0,
+     "support_used": 0.014,
+     "switched_in_by_choice": 0.316,
+     "fainted": 0.173,
+     "falls_first": 0.061,
+     "opens": 0.089,
+     "closes": 0.085,
+     "reading": "sees play in only 41% of battles"
+    },
+    {
+     "name": "Snorlax",
+     "species": "Snorlax",
+     "appeared": 0.3,
+     "kos": 0.175,
+     "ko_share": 0.032,
+     "ko_share_in_wins": 0.031,
+     "damage_dealt": 21.5,
+     "damage_taken": 25.2,
+     "healed": 12.7,
+     "status_inflicted": 0.082,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.239,
+     "fainted": 0.086,
+     "falls_first": 0,
+     "opens": 0.036,
+     "closes": 0.017,
+     "reading": "sees play in only 30% of battles"
+    }
+   ],
+   "team_level": {
+    "threats": [
+     {
+      "species": "Machamp",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 1,
+      "survives": 0.088,
+      "most_against": [
+       {
+        "name": "Crobat",
+        "kos": 30
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 21
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 15
+       }
+      ],
+      "in_losses": 24,
+      "share_of_losses": 0.828,
+      "kos_in_losses": 1.667,
+      "sweeps": 12
+     },
+     {
+      "species": "Lucario",
+      "from": [
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 36,
+      "kos_per_appearance": 1.389,
+      "survives": 0.361,
+      "most_against": [
+       {
+        "name": "Tyranitar",
+        "kos": 14
+       },
+       {
+        "name": "Snorlax",
+        "kos": 10
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 9
+       }
+      ],
+      "in_losses": 20,
+      "share_of_losses": 0.69,
+      "kos_in_losses": 2.05,
+      "sweeps": 10
+     },
+     {
+      "species": "Garchomp",
+      "from": [
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 40,
+      "kos_per_appearance": 1.1,
+      "survives": 0.075,
+      "most_against": [
+       {
+        "name": "Lapras",
+        "kos": 21
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 10
+       },
+       {
+        "name": "Tyranitar",
+        "kos": 5
+       }
+      ],
+      "in_losses": 5,
+      "share_of_losses": 0.172,
+      "kos_in_losses": 3.4,
+      "sweeps": 4
+     },
+     {
+      "species": "Dragonite",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 77,
+      "kos_per_appearance": 0.519,
+      "survives": 0.013,
+      "most_against": [
+       {
+        "name": "Tyranitar",
+        "kos": 21
+       },
+       {
+        "name": "Lapras",
+        "kos": 6
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 5
+       }
+      ],
+      "in_losses": 2,
+      "share_of_losses": 0.069,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Hitmonchan",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 74,
+      "kos_per_appearance": 0.514,
+      "survives": 0.041,
+      "most_against": [
+       {
+        "name": "Mamoswine",
+        "kos": 15
+       },
+       {
+        "name": "Lapras",
+        "kos": 13
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 7
+       }
+      ],
+      "in_losses": 18,
+      "share_of_losses": 0.621,
+      "kos_in_losses": 0.889,
+      "sweeps": 2
+     },
+     {
+      "species": "Gyarados",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 0.463,
+      "survives": 0.025,
+      "most_against": [
+       {
+        "name": "Tyranitar",
+        "kos": 15
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 9
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 6
+       }
+      ],
+      "in_losses": 5,
+      "share_of_losses": 0.172,
+      "kos_in_losses": 2,
+      "sweeps": 2
+     },
+     {
+      "species": "Hariyama",
+      "from": [
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 39,
+      "kos_per_appearance": 0.615,
+      "survives": 0.051,
+      "most_against": [
+       {
+        "name": "Typhlosion",
+        "kos": 13
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 7
+       },
+       {
+        "name": "Lapras",
+        "kos": 3
+       }
+      ],
+      "in_losses": 23,
+      "share_of_losses": 0.793,
+      "kos_in_losses": 0.739,
+      "sweeps": 5
+     },
+     {
+      "species": "Skuntank",
+      "from": [
+       "Koga · Elite Four · rematch"
+      ],
+      "appeared": 40,
+      "kos_per_appearance": 0.45,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Typhlosion",
+        "kos": 15
+       },
+       {
+        "name": "Snorlax",
+        "kos": 2
+       },
+       {
+        "name": "Lapras",
+        "kos": 1
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     }
+    ],
+    "dependencies": [
+     {
+      "name": "Crobat",
+      "falls_early": 0.095,
+      "win_if_falls_early": 0.571,
+      "win_otherwise": 0.972,
+      "gap": 0.401,
+      "n_early": 42,
+      "n_otherwise": 398,
+      "win_if_survives": 1,
+      "n_survives": 385
+     },
+     {
+      "name": "Mamoswine",
+      "falls_early": 0.127,
+      "win_if_falls_early": 0.75,
+      "win_otherwise": 0.961,
+      "gap": 0.211,
+      "n_early": 56,
+      "n_otherwise": 384,
+      "win_if_survives": 1,
+      "n_survives": 362
+     },
+     {
+      "name": "Lapras",
+      "falls_early": 0.091,
+      "win_if_falls_early": 0.825,
+      "win_otherwise": 0.945,
+      "gap": 0.12,
+      "n_early": 40,
+      "n_otherwise": 400,
+      "win_if_survives": 1,
+      "n_survives": 364
+     },
+     {
+      "name": "Typhlosion",
+      "falls_early": 0.252,
+      "win_if_falls_early": 0.847,
+      "win_otherwise": 0.964,
+      "gap": 0.117,
+      "n_early": 111,
+      "n_otherwise": 329,
+      "win_if_survives": 1,
+      "n_survives": 304
+     },
+     {
+      "name": "Snorlax",
+      "falls_early": 0.014,
+      "win_if_falls_early": 0.833,
+      "win_otherwise": 0.935,
+      "gap": 0.102,
+      "n_early": 6,
+      "n_otherwise": 434,
+      "win_if_survives": 1,
+      "n_survives": 402
+     },
+     {
+      "name": "Tyranitar",
+      "falls_early": 0.127,
+      "win_if_falls_early": 0.982,
+      "win_otherwise": 0.927,
+      "gap": -0.055,
+      "n_early": 56,
+      "n_otherwise": 384,
+      "win_if_survives": 1,
+      "n_survives": 346
+     }
+    ],
+    "damage_by_type": [
+     {
+      "type": "Fighting",
+      "per_battle": 42.8,
+      "share": 0.22,
+      "weak": [
+       "Tyranitar",
+       "Mamoswine",
+       "Lapras",
+       "Snorlax"
+      ]
+     },
+     {
+      "type": "Dragon",
+      "per_battle": 31.4,
+      "share": 0.162,
+      "weak": []
+     },
+     {
+      "type": "Rock",
+      "per_battle": 22.1,
+      "share": 0.114,
+      "weak": [
+       "Typhlosion",
+       "Crobat",
+       "Lapras"
+      ]
+     },
+     {
+      "type": "Ground",
+      "per_battle": 17.1,
+      "share": 0.088,
+      "weak": [
+       "Typhlosion",
+       "Tyranitar"
+      ]
+     },
+     {
+      "type": "Dark",
+      "per_battle": 16.6,
+      "share": 0.086,
+      "weak": []
+     },
+     {
+      "type": "Normal",
+      "per_battle": 14,
+      "share": 0.072,
+      "weak": []
+     },
+     {
+      "type": "Psychic",
+      "per_battle": 9.9,
+      "share": 0.051,
+      "weak": [
+       "Crobat"
+      ]
+     },
+     {
+      "type": "Fire",
+      "per_battle": 8.4,
+      "share": 0.043,
+      "weak": [
+       "Mamoswine"
+      ]
+     }
+    ],
+    "sequencing": {
+     "first_knockout": [
+      {
+       "name": "Typhlosion",
+       "battles": 166
+      },
+      {
+       "name": "Tyranitar",
+       "battles": 149
+      },
+      {
+       "name": "Mamoswine",
+       "battles": 48
+      },
+      {
+       "name": "Lapras",
+       "battles": 39
+      },
+      {
+       "name": "Crobat",
+       "battles": 22
+      },
+      {
+       "name": "Snorlax",
+       "battles": 16
+      }
+     ],
+     "last_knockout_in_wins": [
+      {
+       "name": "Tyranitar",
+       "battles": 269
+      },
+      {
+       "name": "Mamoswine",
+       "battles": 56
+      },
+      {
+       "name": "Lapras",
+       "battles": 35
+      },
+      {
+       "name": "Typhlosion",
+       "battles": 23
+      },
+      {
+       "name": "Crobat",
+       "battles": 21
+      },
+      {
+       "name": "Snorlax",
+       "battles": 7
+      }
+     ],
+     "leads": [
+      {
+       "name": "Typhlosion",
+       "n": 440,
+       "won": 411,
+       "rate": 0.934
+      }
+     ]
+    }
+   },
+   "interpretation": {
+    "robust": [
+     "The overall result is pinned down: 93% (95% 91%–95%) over 440 battles.",
+     "Your knockouts come mostly from Tyranitar (59%)."
+    ],
+    "opponent_dependent": [
+     "Bruno · Elite Four · rematch is a real weak spot: 16 of 40 (95% up to 55%), below the pool's interval.",
+     "Tyranitar's role depends on the opponent: 94% of your knockouts against Karen · Elite Four · first battle, 6% against Bruno · Elite Four · rematch."
+    ],
+    "needs_more_battles": []
+   },
+   "patterns": [
+    {
+     "id": "threat:Machamp",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Machamp runs through the team",
+     "finding": "Machamp is in 83% of your losses and takes 1.7 of yours each time; it's hardest on Crobat, Mamoswine, Typhlosion.",
+     "evidence": {
+      "species": "Machamp",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 80,
+      "kos_per_appearance": 1,
+      "survives": 0.088,
+      "most_against": [
+       {
+        "name": "Crobat",
+        "kos": 30
+       },
+       {
+        "name": "Mamoswine",
+        "kos": 21
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 15
+       }
+      ],
+      "in_losses": 24,
+      "share_of_losses": 0.828,
+      "kos_in_losses": 1.667,
+      "sweeps": 12
+     },
+     "suggestion": {
+      "label": "Watch a loss where Machamp sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/heartgold",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Machamp"
+       }
+      }
+     }
+    },
+    {
+     "id": "threat:Lucario",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Lucario runs through the team",
+     "finding": "Lucario is in 69% of your losses and takes 2.1 of yours each time; it's hardest on Tyranitar, Snorlax, Typhlosion.",
+     "evidence": {
+      "species": "Lucario",
+      "from": [
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 36,
+      "kos_per_appearance": 1.389,
+      "survives": 0.361,
+      "most_against": [
+       {
+        "name": "Tyranitar",
+        "kos": 14
+       },
+       {
+        "name": "Snorlax",
+        "kos": 10
+       },
+       {
+        "name": "Typhlosion",
+        "kos": 9
+       }
+      ],
+      "in_losses": 20,
+      "share_of_losses": 0.69,
+      "kos_in_losses": 2.05,
+      "sweeps": 10
+     },
+     "suggestion": {
+      "label": "Watch a loss where Lucario sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/heartgold",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Lucario"
+       }
+      }
+     }
+    },
+    {
+     "id": "depends:Mamoswine",
+     "kind": "dependency",
+     "strength": "suggestive",
+     "title": "The team leans on Mamoswine",
+     "finding": "When Mamoswine is one of the first two of yours to fall, you win 75% (56 battles); otherwise 96% (384). That goes together with losing; it isn't proof it causes it.",
+     "evidence": {
+      "name": "Mamoswine",
+      "falls_early": 0.127,
+      "win_if_falls_early": 0.75,
+      "win_otherwise": 0.961,
+      "gap": 0.211,
+      "n_early": 56,
+      "n_otherwise": 384,
+      "win_if_survives": 1,
+      "n_survives": 362
+     },
+     "suggestion": {
+      "label": "Play your trainer more cautiously (protects Mamoswine more) and compare",
+      "experiment": {
+       "kind": "styles",
+       "team": "me/heartgold",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "ours": [
+        "blackthorn",
+        "cautious"
+       ]
+      }
+     }
+    },
+    {
+     "id": "close",
+     "kind": "uncertain",
+     "strength": "suggestive",
+     "title": "Some matchups are too close to call",
+     "finding": "Bruno · Elite Four · rematch (16/40): their intervals still cross 50%.",
+     "evidence": [
+      {
+       "opponent": "heartgold/bruno-rematch",
+       "name": "Bruno · Elite Four · rematch",
+       "n": 40,
+       "won": 16,
+       "rate": 0.4,
+       "ci95": [
+        0.263,
+        0.554
+       ],
+       "turns": 15.1,
+       "left_when_won": 3.3
+      }
+     ],
+     "suggestion": {
+      "label": "Run more battles against just these",
+      "experiment": {
+       "kind": "league",
+       "team": "me/heartgold",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "only": [
+        "heartgold/bruno-rematch"
+       ],
+       "n": 60
+      }
+     }
+    }
+   ],
+   "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+  }
+ },
+ "reading": [
+  "Zack · HeartGold (main) won more: 95% against 93% over 440 paired battles (McNemar p = 0.0225).",
+  "Tyranitar, one-on-one: beats 46 of 62 → 47 of 62 of the pool's Pokémon (now loses to Hitmontop, beats Gyarados).",
+  "Biggest swings: Bruno · Elite Four · rematch 23→16 of 40, Lance · Champion · rematch 38→35 of 40, Champion Lance (HeartGold) 39→40 of 40."
+ ],
+ "fell_back": []
+}

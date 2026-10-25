@@ -1,0 +1,14276 @@
+{
+ "kind": "Experiment",
+ "type": "league",
+ "spec": {
+  "kind": "league",
+  "team": "me/soulsilver",
+  "pool": "heartgold-league",
+  "n": 20,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:54:14.269Z",
+ "seed": "lab|league|8b512464eb5929a9",
+ "result": {
+  "kind": "PoolResult",
+  "team": "library:me/soulsilver",
+  "team_version": 1,
+  "agent": "trainer",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "lab|league|8b512464eb5929a9",
+  "allocation": "11 opponents × 20 battles each",
+  "n": 220,
+  "won": 192,
+  "lost": 28,
+  "drew": 0,
+  "win_rate": 0.873,
+  "win_rate_95": [
+   0.822,
+   0.91
+  ],
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "name": "Bruno · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 16.1,
+    "left_when_won": 5,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "name": "Karen · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 15.6,
+    "left_when_won": 5.1,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "name": "Koga · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 18.5,
+    "left_when_won": 5.95,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "name": "Will · Elite Four · first battle",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 13.3,
+    "left_when_won": 5.55,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "name": "Champion Lance (HeartGold)",
+    "n": 20,
+    "won": 16,
+    "lost": 4,
+    "drew": 0,
+    "win_rate": 0.8,
+    "win_rate_95": [
+     0.584,
+     0.919
+    ],
+    "turns": 20.4,
+    "left_when_won": 2.438,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "name": "Bruno · Elite Four · rematch",
+    "n": 20,
+    "won": 19,
+    "lost": 1,
+    "drew": 0,
+    "win_rate": 0.95,
+    "win_rate_95": [
+     0.764,
+     0.991
+    ],
+    "turns": 20.5,
+    "left_when_won": 4.421,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "name": "Karen · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 19.4,
+    "left_when_won": 4.8,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "name": "Koga · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 20.6,
+    "left_when_won": 5.6,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "name": "Will · Elite Four · rematch",
+    "n": 20,
+    "won": 20,
+    "lost": 0,
+    "drew": 0,
+    "win_rate": 1,
+    "win_rate_95": [
+     0.839,
+     1
+    ],
+    "turns": 20.1,
+    "left_when_won": 4.75,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "name": "Lance · Champion · rematch",
+    "n": 20,
+    "won": 3,
+    "lost": 17,
+    "drew": 0,
+    "win_rate": 0.15,
+    "win_rate_95": [
+     0.052,
+     0.36
+    ],
+    "turns": 18.1,
+    "left_when_won": 1.667,
+    "failures": 0
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "name": "Red on Mt. Silver (HeartGold)",
+    "n": 20,
+    "won": 14,
+    "lost": 6,
+    "drew": 0,
+    "win_rate": 0.7,
+    "win_rate_95": [
+     0.481,
+     0.855
+    ],
+    "turns": 19.8,
+    "left_when_won": 3.643,
+    "failures": 0
+   }
+  ],
+  "members": [
+   {
+    "name": "Pikachu",
+    "appeared": 1,
+    "kos_per_battle": 0.341,
+    "fainted_rate": 0.268,
+    "damage_dealt_per_battle": 35.6
+   },
+   {
+    "name": "Dragonite",
+    "appeared": 0.786,
+    "kos_per_battle": 1.518,
+    "fainted_rate": 0.368,
+    "damage_dealt_per_battle": 151.1
+   },
+   {
+    "name": "Infernape",
+    "appeared": 0.55,
+    "kos_per_battle": 0.7,
+    "fainted_rate": 0.245,
+    "damage_dealt_per_battle": 62
+   },
+   {
+    "name": "Empoleon",
+    "appeared": 0.827,
+    "kos_per_battle": 1.191,
+    "fainted_rate": 0.459,
+    "damage_dealt_per_battle": 147.3
+   },
+   {
+    "name": "Gengar",
+    "appeared": 0.645,
+    "kos_per_battle": 0.973,
+    "fainted_rate": 0.359,
+    "damage_dealt_per_battle": 113
+   },
+   {
+    "name": "Scizor",
+    "appeared": 0.691,
+    "kos_per_battle": 0.445,
+    "fainted_rate": 0.145,
+    "damage_dealt_per_battle": 43.3
+   }
+  ],
+  "weakest": [
+   "library:heartgold/lance-rematch",
+   "library:heartgold/red",
+   "library:heartgold/lance"
+  ],
+  "failures": 0,
+  "timing": {
+   "total_ms": 4044,
+   "platform": "worker threads"
+  },
+  "fingerprint": "c8877c5a7eacc358"
+ },
+ "report": {
+  "kind": "StrategyReport",
+  "team": "library:me/soulsilver",
+  "team_name": "Zack · SoulSilver",
+  "n": 220,
+  "pool": {
+   "id": "pool:heartgold-league",
+   "name": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red"
+  },
+  "interpretation_of_opponents": "blackthorn",
+  "our_style": "blackthorn",
+  "headline": [
+   "Zack · SoulSilver won 192 of 220 (87%; 95% 82%–91%).",
+   "Hardest: Lance · Champion · rematch (3/20), Red on Mt. Silver (HeartGold) (14/20).",
+   "Dragonite makes 29% of your knockouts.",
+   "Dragonite is in 50% of your losses and takes 2.6 of yours each time; it's hardest on Empoleon, Gengar, Pikachu."
+  ],
+  "outcomes": {
+   "n": 220,
+   "won": 192,
+   "rate": 0.873,
+   "ci95": [
+    0.822,
+    0.91
+   ],
+   "drew": 0,
+   "by_opponent": [
+    {
+     "opponent": "heartgold/lance-rematch",
+     "name": "Lance · Champion · rematch",
+     "n": 20,
+     "won": 3,
+     "rate": 0.15,
+     "ci95": [
+      0.052,
+      0.36
+     ],
+     "turns": 18.1,
+     "left_when_won": 1.7
+    },
+    {
+     "opponent": "heartgold/red",
+     "name": "Red on Mt. Silver (HeartGold)",
+     "n": 20,
+     "won": 14,
+     "rate": 0.7,
+     "ci95": [
+      0.481,
+      0.855
+     ],
+     "turns": 19.8,
+     "left_when_won": 3.6
+    },
+    {
+     "opponent": "heartgold/lance",
+     "name": "Champion Lance (HeartGold)",
+     "n": 20,
+     "won": 16,
+     "rate": 0.8,
+     "ci95": [
+      0.584,
+      0.919
+     ],
+     "turns": 20.4,
+     "left_when_won": 2.4
+    },
+    {
+     "opponent": "heartgold/bruno-rematch",
+     "name": "Bruno · Elite Four · rematch",
+     "n": 20,
+     "won": 19,
+     "rate": 0.95,
+     "ci95": [
+      0.764,
+      0.991
+     ],
+     "turns": 20.5,
+     "left_when_won": 4.4
+    },
+    {
+     "opponent": "heartgold/bruno",
+     "name": "Bruno · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 16.1,
+     "left_when_won": 5
+    },
+    {
+     "opponent": "heartgold/karen",
+     "name": "Karen · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 15.6,
+     "left_when_won": 5.1
+    },
+    {
+     "opponent": "heartgold/koga",
+     "name": "Koga · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 18.5,
+     "left_when_won": 6
+    },
+    {
+     "opponent": "heartgold/will",
+     "name": "Will · Elite Four · first battle",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 13.3,
+     "left_when_won": 5.6
+    },
+    {
+     "opponent": "heartgold/karen-rematch",
+     "name": "Karen · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 19.4,
+     "left_when_won": 4.8
+    },
+    {
+     "opponent": "heartgold/koga-rematch",
+     "name": "Koga · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 20.6,
+     "left_when_won": 5.6
+    },
+    {
+     "opponent": "heartgold/will-rematch",
+     "name": "Will · Elite Four · rematch",
+     "n": 20,
+     "won": 20,
+     "rate": 1,
+     "ci95": [
+      0.839,
+      1
+     ],
+     "turns": 20.1,
+     "left_when_won": 4.8
+    }
+   ],
+   "turns": 18.4,
+   "left_when_won": 4.8,
+   "close_wins": 0.031
+  },
+  "members": [
+   {
+    "name": "Pikachu",
+    "species": "Pikachu",
+    "appeared": 1,
+    "kos": 0.341,
+    "ko_share": 0.066,
+    "ko_share_in_wins": 0.061,
+    "damage_dealt": 35.6,
+    "damage_taken": 33.7,
+    "healed": 0,
+    "status_inflicted": 0.068,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.109,
+    "fainted": 0.268,
+    "falls_first": 0.091,
+    "opens": 0.195,
+    "closes": 0.052,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Dragonite",
+    "species": "Dragonite",
+    "appeared": 0.786,
+    "kos": 1.518,
+    "ko_share": 0.294,
+    "ko_share_in_wins": 0.296,
+    "damage_dealt": 151.1,
+    "damage_taken": 73.9,
+    "healed": 15.7,
+    "status_inflicted": 0,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.591,
+    "fainted": 0.368,
+    "falls_first": 0.132,
+    "opens": 0.164,
+    "closes": 0.276,
+    "reading": "your main finisher (29% of your knockouts); takes the most hits (74% of its HP a battle); closes 28% of your wins"
+   },
+   {
+    "name": "Infernape",
+    "species": "Infernape",
+    "appeared": 0.55,
+    "kos": 0.7,
+    "ko_share": 0.135,
+    "ko_share_in_wins": 0.137,
+    "damage_dealt": 62,
+    "damage_taken": 33.3,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0.023,
+    "support_used": 0,
+    "switched_in_by_choice": 0.391,
+    "fainted": 0.245,
+    "falls_first": 0.005,
+    "opens": 0.032,
+    "closes": 0.203,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Empoleon",
+    "species": "Empoleon",
+    "appeared": 0.827,
+    "kos": 1.191,
+    "ko_share": 0.23,
+    "ko_share_in_wins": 0.237,
+    "damage_dealt": 147.3,
+    "damage_taken": 65,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 1,
+    "fainted": 0.459,
+    "falls_first": 0.3,
+    "opens": 0.345,
+    "closes": 0.161,
+    "reading": "a main finisher (23% of your knockouts)"
+   },
+   {
+    "name": "Gengar",
+    "species": "Gengar",
+    "appeared": 0.645,
+    "kos": 0.973,
+    "ko_share": 0.188,
+    "ko_share_in_wins": 0.191,
+    "damage_dealt": 113,
+    "damage_taken": 44.4,
+    "healed": 0,
+    "status_inflicted": 0,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.536,
+    "fainted": 0.359,
+    "falls_first": 0.159,
+    "opens": 0.218,
+    "closes": 0.193,
+    "reading": "a steady contributor"
+   },
+   {
+    "name": "Scizor",
+    "species": "Scizor",
+    "appeared": 0.691,
+    "kos": 0.445,
+    "ko_share": 0.086,
+    "ko_share_in_wins": 0.077,
+    "damage_dealt": 43.3,
+    "damage_taken": 35.7,
+    "healed": 9.2,
+    "status_inflicted": 0,
+    "setup_used": 0,
+    "support_used": 0,
+    "switched_in_by_choice": 0.623,
+    "fainted": 0.145,
+    "falls_first": 0.005,
+    "opens": 0.036,
+    "closes": 0.115,
+    "reading": "a steady contributor"
+   }
+  ],
+  "team_level": {
+   "threats": [
+    {
+     "species": "Dragonite",
+     "from": [
+      "Champion Lance (HeartGold)",
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 33,
+     "kos_per_appearance": 2.303,
+     "survives": 0.25,
+     "most_against": [
+      {
+       "name": "Empoleon",
+       "kos": 21
+      },
+      {
+       "name": "Gengar",
+       "kos": 14
+      },
+      {
+       "name": "Pikachu",
+       "kos": 12
+      }
+     ],
+     "in_losses": 14,
+     "share_of_losses": 0.5,
+     "kos_in_losses": 2.571,
+     "sweeps": 10
+    },
+    {
+     "species": "Garchomp",
+     "from": [
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 18,
+     "kos_per_appearance": 1.556,
+     "survives": 0.111,
+     "most_against": [
+      {
+       "name": "Dragonite",
+       "kos": 11
+      },
+      {
+       "name": "Gengar",
+       "kos": 8
+      },
+      {
+       "name": "Infernape",
+       "kos": 7
+      }
+     ],
+     "in_losses": 15,
+     "share_of_losses": 0.536,
+     "kos_in_losses": 1.6,
+     "sweeps": 8
+    },
+    {
+     "species": "Gyarados",
+     "from": [
+      "Champion Lance (HeartGold)",
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 39,
+     "kos_per_appearance": 1,
+     "survives": 0.077,
+     "most_against": [
+      {
+       "name": "Empoleon",
+       "kos": 15
+      },
+      {
+       "name": "Pikachu",
+       "kos": 9
+      },
+      {
+       "name": "Dragonite",
+       "kos": 6
+      }
+     ],
+     "in_losses": 20,
+     "share_of_losses": 0.714,
+     "kos_in_losses": 1.85,
+     "sweeps": 9
+    },
+    {
+     "species": "Charizard",
+     "from": [
+      "Champion Lance (HeartGold)",
+      "Lance · Champion · rematch",
+      "Red on Mt. Silver (HeartGold)"
+     ],
+     "appeared": 54,
+     "kos_per_appearance": 0.704,
+     "survives": 0.111,
+     "most_against": [
+      {
+       "name": "Infernape",
+       "kos": 10
+      },
+      {
+       "name": "Pikachu",
+       "kos": 9
+      },
+      {
+       "name": "Scizor",
+       "kos": 7
+      }
+     ],
+     "in_losses": 21,
+     "share_of_losses": 0.75,
+     "kos_in_losses": 1.143,
+     "sweeps": 7
+    },
+    {
+     "species": "Pikachu",
+     "from": [
+      "Red on Mt. Silver (HeartGold)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.95,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Pikachu",
+       "kos": 18
+      },
+      {
+       "name": "Empoleon",
+       "kos": 1
+      }
+     ],
+     "in_losses": 6,
+     "share_of_losses": 0.214,
+     "kos_in_losses": 1,
+     "sweeps": 0
+    },
+    {
+     "species": "Salamence",
+     "from": [
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.65,
+     "survives": 0.75,
+     "most_against": [
+      {
+       "name": "Scizor",
+       "kos": 5
+      },
+      {
+       "name": "Pikachu",
+       "kos": 3
+      },
+      {
+       "name": "Dragonite",
+       "kos": 2
+      }
+     ],
+     "in_losses": 17,
+     "share_of_losses": 0.607,
+     "kos_in_losses": 0.588,
+     "sweeps": 3
+    },
+    {
+     "species": "Blastoise",
+     "from": [
+      "Red on Mt. Silver (HeartGold)"
+     ],
+     "appeared": 20,
+     "kos_per_appearance": 0.65,
+     "survives": 0.3,
+     "most_against": [
+      {
+       "name": "Dragonite",
+       "kos": 8
+      },
+      {
+       "name": "Scizor",
+       "kos": 2
+      },
+      {
+       "name": "Empoleon",
+       "kos": 2
+      }
+     ],
+     "in_losses": 6,
+     "share_of_losses": 0.214,
+     "kos_in_losses": 1.667,
+     "sweeps": 2
+    },
+    {
+     "species": "Machamp",
+     "from": [
+      "Bruno · Elite Four · first battle",
+      "Bruno · Elite Four · rematch"
+     ],
+     "appeared": 40,
+     "kos_per_appearance": 0.45,
+     "survives": 0,
+     "most_against": [
+      {
+       "name": "Gengar",
+       "kos": 12
+      },
+      {
+       "name": "Dragonite",
+       "kos": 3
+      },
+      {
+       "name": "Infernape",
+       "kos": 3
+      }
+     ],
+     "in_losses": 1,
+     "share_of_losses": 0.036,
+     "kos_in_losses": 1,
+     "sweeps": 0
+    }
+   ],
+   "dependencies": [
+    {
+     "name": "Dragonite",
+     "falls_early": 0.323,
+     "win_if_falls_early": 0.662,
+     "win_otherwise": 0.973,
+     "gap": 0.311,
+     "n_early": 71,
+     "n_otherwise": 149,
+     "win_if_survives": 1,
+     "n_survives": 139
+    },
+    {
+     "name": "Empoleon",
+     "falls_early": 0.386,
+     "win_if_falls_early": 0.776,
+     "win_otherwise": 0.933,
+     "gap": 0.157,
+     "n_early": 85,
+     "n_otherwise": 135,
+     "win_if_survives": 1,
+     "n_survives": 119
+    },
+    {
+     "name": "Pikachu",
+     "falls_early": 0.105,
+     "win_if_falls_early": 0.739,
+     "win_otherwise": 0.888,
+     "gap": 0.149,
+     "n_early": 23,
+     "n_otherwise": 197,
+     "win_if_survives": 1,
+     "n_survives": 161
+    },
+    {
+     "name": "Infernape",
+     "falls_early": 0.068,
+     "win_if_falls_early": 0.8,
+     "win_otherwise": 0.878,
+     "gap": 0.078,
+     "n_early": 15,
+     "n_otherwise": 205,
+     "win_if_survives": 1,
+     "n_survives": 166
+    },
+    {
+     "name": "Gengar",
+     "falls_early": 0.186,
+     "win_if_falls_early": 0.902,
+     "win_otherwise": 0.866,
+     "gap": -0.037,
+     "n_early": 41,
+     "n_otherwise": 179,
+     "win_if_survives": 1,
+     "n_survives": 141
+    },
+    {
+     "name": "Scizor",
+     "falls_early": 0.005,
+     "win_if_falls_early": 1,
+     "win_otherwise": 0.872,
+     "gap": -0.128,
+     "n_early": 1,
+     "n_otherwise": 219,
+     "win_if_survives": 1,
+     "n_survives": 188
+    }
+   ],
+   "damage_by_type": [
+    {
+     "type": "Dragon",
+     "per_battle": 43,
+     "share": 0.161,
+     "weak": [
+      "Dragonite"
+     ]
+    },
+    {
+     "type": "Dark",
+     "per_battle": 33.6,
+     "share": 0.126,
+     "weak": [
+      "Gengar"
+     ]
+    },
+    {
+     "type": "Psychic",
+     "per_battle": 30.5,
+     "share": 0.114,
+     "weak": [
+      "Infernape",
+      "Gengar"
+     ]
+    },
+    {
+     "type": "Fighting",
+     "per_battle": 27,
+     "share": 0.102,
+     "weak": [
+      "Empoleon"
+     ]
+    },
+    {
+     "type": "Fire",
+     "per_battle": 25.8,
+     "share": 0.097,
+     "weak": [
+      "Scizor"
+     ]
+    },
+    {
+     "type": "Flying",
+     "per_battle": 17,
+     "share": 0.064,
+     "weak": [
+      "Infernape"
+     ]
+    },
+    {
+     "type": "Water",
+     "per_battle": 16.6,
+     "share": 0.062,
+     "weak": [
+      "Infernape"
+     ]
+    },
+    {
+     "type": "Electric",
+     "per_battle": 14.9,
+     "share": 0.056,
+     "weak": [
+      "Empoleon"
+     ]
+    }
+   ],
+   "sequencing": {
+    "first_knockout": [
+     {
+      "name": "Empoleon",
+      "battles": 76
+     },
+     {
+      "name": "Gengar",
+      "battles": 48
+     },
+     {
+      "name": "Pikachu",
+      "battles": 43
+     },
+     {
+      "name": "Dragonite",
+      "battles": 36
+     },
+     {
+      "name": "Scizor",
+      "battles": 8
+     },
+     {
+      "name": "Infernape",
+      "battles": 7
+     }
+    ],
+    "last_knockout_in_wins": [
+     {
+      "name": "Dragonite",
+      "battles": 53
+     },
+     {
+      "name": "Infernape",
+      "battles": 39
+     },
+     {
+      "name": "Gengar",
+      "battles": 37
+     },
+     {
+      "name": "Empoleon",
+      "battles": 31
+     },
+     {
+      "name": "Scizor",
+      "battles": 22
+     },
+     {
+      "name": "Pikachu",
+      "battles": 10
+     }
+    ],
+    "leads": [
+     {
+      "name": "Pikachu",
+      "n": 220,
+      "won": 192,
+      "rate": 0.873
+     }
+    ]
+   }
+  },
+  "interpretation": {
+   "robust": [
+    "The overall result is pinned down: 87% (95% 82%–91%) over 220 battles.",
+    "Your knockouts come mostly from Dragonite (29%) and Empoleon (23%)."
+   ],
+   "opponent_dependent": [
+    "Lance · Champion · rematch is a real weak spot: 3 of 20 (95% up to 36%), below the pool's interval.",
+    "Empoleon's role depends on the opponent: 80% of your knockouts against Koga · Elite Four · first battle, 3% against Bruno · Elite Four · rematch.",
+    "Dragonite's role depends on the opponent: 66% of your knockouts against Bruno · Elite Four · rematch, 0% against Koga · Elite Four · first battle."
+   ],
+   "needs_more_battles": []
+  },
+  "patterns": [
+   {
+    "id": "threat:Dragonite",
+    "kind": "threat",
+    "strength": "strong",
+    "title": "Dragonite runs through the team",
+    "finding": "Dragonite is in 50% of your losses and takes 2.6 of yours each time; it's hardest on Empoleon, Gengar, Pikachu.",
+    "evidence": {
+     "species": "Dragonite",
+     "from": [
+      "Champion Lance (HeartGold)",
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 33,
+     "kos_per_appearance": 2.303,
+     "survives": 0.25,
+     "most_against": [
+      {
+       "name": "Empoleon",
+       "kos": 21
+      },
+      {
+       "name": "Gengar",
+       "kos": 14
+      },
+      {
+       "name": "Pikachu",
+       "kos": 12
+      }
+     ],
+     "in_losses": 14,
+     "share_of_losses": 0.5,
+     "kos_in_losses": 2.571,
+     "sweeps": 10
+    },
+    "suggestion": {
+     "label": "Watch a loss where Dragonite sweeps, then test an answer",
+     "experiment": {
+      "kind": "battles",
+      "team": "me/soulsilver",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "filter": {
+       "lost": true,
+       "threat": "Dragonite"
+      }
+     }
+    }
+   },
+   {
+    "id": "threat:Garchomp",
+    "kind": "threat",
+    "strength": "strong",
+    "title": "Garchomp runs through the team",
+    "finding": "Garchomp is in 54% of your losses and takes 1.6 of yours each time; it's hardest on Dragonite, Gengar, Infernape.",
+    "evidence": {
+     "species": "Garchomp",
+     "from": [
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 18,
+     "kos_per_appearance": 1.556,
+     "survives": 0.111,
+     "most_against": [
+      {
+       "name": "Dragonite",
+       "kos": 11
+      },
+      {
+       "name": "Gengar",
+       "kos": 8
+      },
+      {
+       "name": "Infernape",
+       "kos": 7
+      }
+     ],
+     "in_losses": 15,
+     "share_of_losses": 0.536,
+     "kos_in_losses": 1.6,
+     "sweeps": 8
+    },
+    "suggestion": {
+     "label": "Watch a loss where Garchomp sweeps, then test an answer",
+     "experiment": {
+      "kind": "battles",
+      "team": "me/soulsilver",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "filter": {
+       "lost": true,
+       "threat": "Garchomp"
+      }
+     }
+    }
+   },
+   {
+    "id": "threat:Gyarados",
+    "kind": "threat",
+    "strength": "strong",
+    "title": "Gyarados runs through the team",
+    "finding": "Gyarados is in 71% of your losses and takes 1.9 of yours each time; it's hardest on Empoleon, Pikachu, Dragonite.",
+    "evidence": {
+     "species": "Gyarados",
+     "from": [
+      "Champion Lance (HeartGold)",
+      "Lance · Champion · rematch"
+     ],
+     "appeared": 39,
+     "kos_per_appearance": 1,
+     "survives": 0.077,
+     "most_against": [
+      {
+       "name": "Empoleon",
+       "kos": 15
+      },
+      {
+       "name": "Pikachu",
+       "kos": 9
+      },
+      {
+       "name": "Dragonite",
+       "kos": 6
+      }
+     ],
+     "in_losses": 20,
+     "share_of_losses": 0.714,
+     "kos_in_losses": 1.85,
+     "sweeps": 9
+    },
+    "suggestion": {
+     "label": "Watch a loss where Gyarados sweeps, then test an answer",
+     "experiment": {
+      "kind": "battles",
+      "team": "me/soulsilver",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "filter": {
+       "lost": true,
+       "threat": "Gyarados"
+      }
+     }
+    }
+   },
+   {
+    "id": "depends:Dragonite",
+    "kind": "dependency",
+    "strength": "strong",
+    "title": "The team leans on Dragonite",
+    "finding": "When Dragonite is one of the first two of yours to fall, you win 66% (71 battles); otherwise 97% (149). That goes together with losing; it isn't proof it causes it.",
+    "evidence": {
+     "name": "Dragonite",
+     "falls_early": 0.323,
+     "win_if_falls_early": 0.662,
+     "win_otherwise": 0.973,
+     "gap": 0.311,
+     "n_early": 71,
+     "n_otherwise": 149,
+     "win_if_survives": 1,
+     "n_survives": 139
+    },
+    "suggestion": {
+     "label": "Play your trainer more cautiously (protects Dragonite more) and compare",
+     "experiment": {
+      "kind": "styles",
+      "team": "me/soulsilver",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "ours": [
+       "blackthorn",
+       "cautious"
+      ]
+     }
+    }
+   },
+   {
+    "id": "item:Pikachu",
+    "kind": "item",
+    "strength": "strong",
+    "title": "Pikachu without its Light Ball",
+    "finding": "Pikachu has no item on record; Light Ball is the item made for it.",
+    "evidence": {
+     "species": "Pikachu",
+     "signature_item": "Light Ball"
+    },
+    "suggestion": {
+     "label": "Compare with the variation \"Pikachu with its Light Ball\"",
+     "experiment": {
+      "kind": "compare",
+      "team": "me/soulsilver",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "y": "soulsilver-light-ball"
+     }
+    }
+   },
+   {
+    "id": "depends:Empoleon",
+    "kind": "dependency",
+    "strength": "suggestive",
+    "title": "The team leans on Empoleon",
+    "finding": "When Empoleon is one of the first two of yours to fall, you win 78% (85 battles); otherwise 93% (135). That goes together with losing; it isn't proof it causes it.",
+    "evidence": {
+     "name": "Empoleon",
+     "falls_early": 0.386,
+     "win_if_falls_early": 0.776,
+     "win_otherwise": 0.933,
+     "gap": 0.157,
+     "n_early": 85,
+     "n_otherwise": 135,
+     "win_if_survives": 1,
+     "n_survives": 119
+    },
+    "suggestion": {
+     "label": "Play your trainer more cautiously (protects Empoleon more) and compare",
+     "experiment": {
+      "kind": "styles",
+      "team": "me/soulsilver",
+      "pool": "heartgold-league",
+      "interpretation": "blackthorn",
+      "ours": [
+       "blackthorn",
+       "cautious"
+      ]
+     }
+    }
+   },
+   {
+    "id": "items",
+    "kind": "item",
+    "strength": "suggestive",
+    "title": "5 of your six hold nothing",
+    "finding": "No item on record for Dragonite, Infernape, Empoleon, Gengar, Scizor. Items are build decisions; the engine doesn't invent them.",
+    "evidence": {
+     "species": [
+      "Dragonite",
+      "Infernape",
+      "Empoleon",
+      "Gengar",
+      "Scizor"
+     ]
+    },
+    "suggestion": {
+     "label": "Try an item in the build editor and compare",
+     "experiment": null
+    }
+   }
+  ],
+  "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+ },
+ "battles": [
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 0,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 1,
+   "winner": "a",
+   "turns": 48,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonlee",
+     5
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Machamp",
+     10
+    ],
+    [
+     "a",
+     "Infernape",
+     "Machamp",
+     11
+    ],
+    [
+     "b",
+     "Machamp",
+     "Pikachu",
+     12
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Hitmontop",
+     13
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Empoleon",
+     48
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 2,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Gengar",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 3,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     5
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     6
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 4,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Machamp",
+     "Gengar",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 5,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 6,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Scizor",
+     7
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     12
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Machamp",
+     13
+    ],
+    [
+     "a",
+     "Infernape",
+     "Machamp",
+     14
+    ],
+    [
+     "b",
+     "Machamp",
+     "Empoleon",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 7,
+   "winner": "a",
+   "turns": 9,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Gengar",
+     9
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 8,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hitmontop",
+     12
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 9,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 10,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Machamp",
+     "Gengar",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 11,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Machamp",
+     "Gengar",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 12,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 13,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 14,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 15,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Onix",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 16,
+   "winner": "a",
+   "turns": 50,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Machamp",
+     12
+    ],
+    [
+     "a",
+     "Infernape",
+     "Machamp",
+     13
+    ],
+    [
+     "b",
+     "Machamp",
+     "Empoleon",
+     14
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Hitmontop",
+     15
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Hitmontop",
+     49
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Scizor",
+     50
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 17,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     7
+    ],
+    [
+     "b",
+     "Onix",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 18,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Onix",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Gengar",
+     10
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno",
+   "k": 0,
+   "i": 19,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonchan",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Onix",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Gengar",
+     10
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Gengar",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 0,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Gengar",
+     "Infernape",
+     19
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 1,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Gengar",
+     12
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Empoleon",
+     16
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Empoleon",
+     8
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     9
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 3,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 4,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Houndoom",
+     12
+    ],
+    [
+     "b",
+     "Gengar",
+     "Scizor",
+     17
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 5,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Gengar",
+     "Infernape",
+     13
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     14
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 6,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     10
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     10
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 7,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Empoleon",
+     14
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     15
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     17
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 8,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Gengar",
+     "Infernape",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 9,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     13
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 10,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     8
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 11,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Gengar",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 12,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     4
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Houndoom",
+     10
+    ],
+    [
+     "b",
+     "Gengar",
+     "Infernape",
+     13
+    ],
+    [
+     "a",
+     "Infernape",
+     "Houndoom",
+     15
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Pikachu",
+     16
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Gengar",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 13,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 14,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 15,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Gengar",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Vileplume",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 16,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Murkrow",
+     9
+    ],
+    [
+     "a",
+     "Infernape",
+     "Gengar",
+     17
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     19
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Houndoom",
+     20
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Gengar",
+     21
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Gengar",
+     22
+    ],
+    [
+     "b",
+     "Gengar",
+     "Gengar",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 17,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Gengar",
+     "Scizor",
+     13
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 18,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gengar",
+     5
+    ],
+    [
+     "b",
+     "Gengar",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen",
+   "k": 1,
+   "i": 19,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Umbreon"
+   },
+   "kos": [
+    [
+     "b",
+     "Vileplume",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Murkrow",
+     "Dragonite",
+     15
+    ],
+    [
+     "b",
+     "Gengar",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 0,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     2
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     10
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 1,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     11
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 2,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     16
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Infernape",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 3,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     17
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     20
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 4,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     8
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     15
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 5,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     17
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     19
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 6,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     8
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     14
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 7,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     7
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 8,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     10
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     24
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 9,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     11
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 10,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     10
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     14
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 11,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     10
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     15
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 12,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 13,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Forretress",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 14,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     14
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     16
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     18
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 15,
+   "winner": "a",
+   "turns": 36,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     29
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     32
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     35
+    ],
+    [
+     "b",
+     "Ariados",
+     "Gengar",
+     36
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 16,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     5
+    ],
+    [
+     "a",
+     "Gengar",
+     "Muk",
+     7
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     16
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 17,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     11
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 18,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     3
+    ],
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     17
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     19
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga",
+   "k": 2,
+   "i": 19,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Ariados"
+   },
+   "kos": [
+    [
+     "b",
+     "Forretress",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     10
+    ],
+    [
+     "b",
+     "Ariados",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Empoleon",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 0,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     8
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 1,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Jynx",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 2,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     10
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 3,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     16
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu 2",
+     17
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 4,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 5,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     7
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Exeggutor",
+     10
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 6,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 7,
+   "winner": "a",
+   "turns": 10,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Slowbro",
+     2
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     3
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     10
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 8,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     12
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Jynx",
+     13
+    ],
+    [
+     "b",
+     "Jynx",
+     "Pikachu",
+     14
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Pikachu",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 9,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 10,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 11,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 12,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 13,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     7
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     9
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 14,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Scizor",
+     3
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     8
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     9
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu 2",
+     10
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 15,
+   "winner": "a",
+   "turns": 11,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Scizor",
+     3
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 16,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     8
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 17,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Xatu 2",
+     13
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     17
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Empoleon",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 18,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Gengar",
+     "Exeggutor",
+     7
+    ],
+    [
+     "b",
+     "Jynx",
+     "Scizor",
+     12
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Empoleon",
+     14
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu 2",
+     15
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will",
+   "k": 3,
+   "i": 19,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Xatu"
+   },
+   "kos": [
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Exeggutor",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Xatu 2",
+     "Dragonite",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 0,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     5
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite 2",
+     8
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Charizard",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     15
+    ],
+    [
+     "a",
+     "Gengar",
+     "Aerodactyl",
+     16
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Scizor",
+     17
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Scizor",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 1,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     2
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     3
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Dragonite",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 2,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Empoleon",
+     7
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     8
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     11
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     13
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     16
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Gengar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 3,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 2",
+     9
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     11
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     14
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Gengar",
+     16
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 4,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Empoleon",
+     6
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     7
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 3",
+     8
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Scizor",
+     9
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     12
+    ],
+    [
+     "a",
+     "Gengar",
+     "Aerodactyl",
+     13
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Scizor",
+     14
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Scizor",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 5,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Empoleon",
+     8
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     10
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     13
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     15
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     17
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 3",
+     18
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Scizor",
+     19
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 6,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 2",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite 3",
+     13
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Infernape",
+     16
+    ],
+    [
+     "a",
+     "Infernape",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Scizor",
+     19
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Scizor",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 7,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     6
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     11
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     13
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 8,
+   "winner": "a",
+   "turns": 32,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     5
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Dragonite",
+     6
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 2",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Aerodactyl",
+     11
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Scizor",
+     12
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     30
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Pikachu",
+     31
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Pikachu",
+     32
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 9,
+   "winner": "b",
+   "turns": 23,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     5
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     7
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     8
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Scizor",
+     12
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite 2",
+     13
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Infernape",
+     17
+    ],
+    [
+     "a",
+     "Infernape",
+     "Dragonite 2",
+     18
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite 2",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 10,
+   "winner": "b",
+   "turns": 15,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     4
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     6
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     8
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Scizor",
+     9
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite 3",
+     10
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite 3",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 2",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 11,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite",
+     5
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     7
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 2",
+     11
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 2",
+     14
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Infernape",
+     22
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Infernape",
+     23
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Infernape",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 12,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     6
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Pikachu",
+     9
+    ],
+    [
+     "a",
+     "Pikachu",
+     null,
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 2",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Scizor",
+     12
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Scizor",
+     15
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Scizor",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 13,
+   "winner": "b",
+   "turns": 15,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 2",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite 3",
+     13
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite 3",
+     14
+    ],
+    [
+     "a",
+     "Infernape",
+     "Dragonite 3",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 14,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     5
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     12
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     15
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite 2",
+     17
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     19
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Gengar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 15,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite 3",
+     5
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Dragonite",
+     13
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 2",
+     14
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Scizor",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     "Pikachu",
+     17
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Scizor",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 16,
+   "winner": "a",
+   "turns": 31,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     6
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 2",
+     7
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Scizor",
+     8
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 3",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Scizor",
+     13
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Scizor",
+     31
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 17,
+   "winner": "b",
+   "turns": 19,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Dragonite",
+     5
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     7
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     9
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     11
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 2",
+     12
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     15
+    ],
+    [
+     "a",
+     "Infernape",
+     "Dragonite 3",
+     16
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite 3",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 18,
+   "winner": "a",
+   "turns": 29,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     7
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Aerodactyl",
+     8
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 2",
+     11
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Pikachu",
+     14
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite 3",
+     15
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Scizor",
+     16
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Scizor",
+     29
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance",
+   "k": 4,
+   "i": 19,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Gyarados"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Pikachu",
+     1
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Aerodactyl",
+     "Gengar",
+     7
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite 2",
+     8
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Dragonite 2",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite 3",
+     12
+    ],
+    [
+     "b",
+     "Dragonite 3",
+     "Scizor",
+     16
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Charizard",
+     17
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     18
+    ],
+    [
+     "b",
+     "Charizard",
+     "Scizor",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 0,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     3
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hariyama",
+     4
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     12
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hitmonlee",
+     13
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Infernape",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 1,
+   "winner": "a",
+   "turns": 48,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     3
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hariyama",
+     4
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hitmonlee",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Scizor",
+     10
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Infernape",
+     47
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Infernape",
+     48
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 2,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hariyama",
+     5
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hitmonlee",
+     10
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Infernape",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Hitmonchan",
+     12
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Empoleon",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 3,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hariyama",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     15
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 4,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonchan",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 5,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hariyama",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Gengar",
+     8
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     9
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Lucario",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     18
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 6,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     3
+    ],
+    [
+     "b",
+     "Lucario",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 7,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonchan",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 8,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonchan",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 9,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonchan",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 10,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonchan",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 11,
+   "winner": "b",
+   "turns": 49,
+   "left": {
+    "a": 0,
+    "b": 1
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hitmonlee",
+     8
+    ],
+    [
+     "a",
+     "Infernape",
+     "Hariyama",
+     10
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Scizor",
+     11
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Hitmontop",
+     44
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Scizor",
+     45
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Hitmonchan",
+     46
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Scizor",
+     48
+    ],
+    [
+     "a",
+     "Scizor",
+     "Hitmontop",
+     49
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 12,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hariyama",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 13,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Lucario",
+     4
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Gengar",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Machamp",
+     8
+    ],
+    [
+     "b",
+     "Machamp",
+     "Infernape",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Lucario",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     15
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 14,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonchan",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 15,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hitmonchan",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 16,
+   "winner": "a",
+   "turns": 47,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hariyama",
+     5
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hitmonlee",
+     10
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Scizor",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Infernape",
+     45
+    ],
+    [
+     "a",
+     "Infernape",
+     "Hitmonchan",
+     46
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Scizor",
+     47
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 17,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Lucario",
+     "Gengar",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Hariyama",
+     5
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Dragonite",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 18,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "a",
+     "Gengar",
+     "Lucario",
+     3
+    ],
+    [
+     "b",
+     "Lucario",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hitmonlee",
+     9
+    ],
+    [
+     "b",
+     "Hitmonlee",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Infernape",
+     "Hitmontop",
+     11
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Empoleon",
+     12
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Hitmonchan",
+     13
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Scizor",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/bruno-rematch",
+   "k": 5,
+   "i": 19,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Hitmontop"
+   },
+   "kos": [
+    [
+     "b",
+     "Hitmonlee",
+     "Dragonite",
+     3
+    ],
+    [
+     "b",
+     "Machamp",
+     "Dragonite",
+     5
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Hariyama",
+     8
+    ],
+    [
+     "b",
+     "Hariyama",
+     "Gengar",
+     11
+    ],
+    [
+     "a",
+     "Gengar",
+     "Lucario",
+     13
+    ],
+    [
+     "b",
+     "Lucario",
+     "Infernape",
+     14
+    ],
+    [
+     "a",
+     "Infernape",
+     "Hitmontop",
+     15
+    ],
+    [
+     "b",
+     "Hitmontop",
+     "Scizor",
+     16
+    ],
+    [
+     "b",
+     "Hitmonchan",
+     "Scizor",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 0,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     2
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     3
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Spiritomb",
+     4
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     6
+    ],
+    [
+     "a",
+     "Infernape",
+     "Honchkrow",
+     7
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     16
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Absol",
+     17
+    ],
+    [
+     "b",
+     "Absol",
+     "Scizor",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 1,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     2
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     3
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Spiritomb",
+     4
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     19
+    ],
+    [
+     "b",
+     "Absol",
+     "Infernape",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 2,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     2
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Scizor",
+     9
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 3,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     4
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     8
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Honchkrow",
+     10
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     20
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 4,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Empoleon",
+     7
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Honchkrow",
+     9
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Scizor",
+     10
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 5,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Empoleon",
+     8
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Absol",
+     9
+    ],
+    [
+     "b",
+     "Absol",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     14
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Houndoom",
+     15
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 6,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Honchkrow",
+     5
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 7,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Honchkrow",
+     5
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Absol",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     12
+    ],
+    [
+     "a",
+     "Infernape",
+     "Umbreon",
+     14
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Pikachu",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 8,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     4
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 9,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     4
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Infernape",
+     6
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 10,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     18
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Honchkrow",
+     19
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Scizor",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 11,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     4
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Infernape",
+     7
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     12
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Umbreon",
+     15
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     17
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     19
+    ],
+    [
+     "b",
+     "Absol",
+     "Infernape",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 12,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     2
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     3
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     8
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Scizor",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Honchkrow",
+     12
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Scizor",
+     13
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Scizor",
+     16
+    ],
+    [
+     "b",
+     "Absol",
+     "Scizor",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 13,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     2
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Houndoom",
+     3
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     8
+    ],
+    [
+     "a",
+     "Infernape",
+     "Honchkrow",
+     9
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     21
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Scizor",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 14,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Honchkrow",
+     12
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     20
+    ],
+    [
+     "b",
+     "Absol",
+     "Infernape",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 15,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     13
+    ],
+    [
+     "b",
+     "Absol",
+     "Infernape",
+     15
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 16,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     6
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Honchkrow",
+     7
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Scizor",
+     10
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Absol",
+     "Dragonite",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 17,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Scizor",
+     10
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Dragonite",
+     15
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Absol",
+     16
+    ],
+    [
+     "b",
+     "Absol",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Infernape",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 18,
+   "winner": "a",
+   "turns": 12,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     2
+    ],
+    [
+     "b",
+     "Houndoom",
+     "Empoleon",
+     3
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Spiritomb",
+     4
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Absol",
+     "Scizor",
+     11
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/karen-rematch",
+   "k": 6,
+   "i": 19,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Weavile"
+   },
+   "kos": [
+    [
+     "b",
+     "Houndoom",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Weavile",
+     "Empoleon",
+     8
+    ],
+    [
+     "b",
+     "Absol",
+     "Empoleon",
+     10
+    ],
+    [
+     "b",
+     "Honchkrow",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Spiritomb",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Umbreon",
+     "Infernape",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 0,
+   "winner": "a",
+   "turns": 36,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Dragonite",
+     14
+    ],
+    [
+     "a",
+     "Scizor",
+     null,
+     22
+    ],
+    [
+     "a",
+     "Infernape",
+     null,
+     26
+    ],
+    [
+     "a",
+     "Gengar",
+     "Venomoth",
+     29
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Empoleon",
+     32
+    ],
+    [
+     "b",
+     "Muk",
+     "Empoleon",
+     34
+    ],
+    [
+     "b",
+     "Swalot",
+     "Empoleon",
+     36
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 1,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Swalot",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     23
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     24
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 2,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Scizor",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Swalot",
+     "Dragonite",
+     15
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Swalot",
+     15
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Muk",
+     "Infernape",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 3,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Toxicroak",
+     4
+    ],
+    [
+     "a",
+     "Gengar",
+     "Skuntank",
+     6
+    ],
+    [
+     "b",
+     "Skuntank",
+     "Scizor",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Muk",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Infernape",
+     19
+    ],
+    [
+     "b",
+     "Swalot",
+     "Infernape",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 4,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     11
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     12
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     20
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     22
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 5,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     10
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     12
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 6,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     8
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     10
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     12
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 7,
+   "winner": "a",
+   "turns": 27,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Scizor",
+     8
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     12
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     22
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     23
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     25
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     27
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 8,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     16
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     18
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     19
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 9,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Dragonite",
+     5
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     11
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     13
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     16
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 10,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Scizor",
+     8
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Swalot",
+     "Dragonite",
+     13
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Crobat",
+     13
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Infernape",
+     14
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Muk",
+     "Infernape",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 11,
+   "winner": "a",
+   "turns": 15,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Infernape",
+     3
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     12
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     13
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     14
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 12,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     17
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     19
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 13,
+   "winner": "a",
+   "turns": 14,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     6
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     11
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     13
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     14
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 14,
+   "winner": "a",
+   "turns": 30,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Scizor",
+     7
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     13
+    ],
+    [
+     "b",
+     "Swalot",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     27
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     29
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     30
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 15,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Infernape",
+     4
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     10
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     11
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     13
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     16
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 16,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Dragonite",
+     4
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     10
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     11
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     14
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     16
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 17,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Dragonite",
+     4
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Crobat",
+     7
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     11
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Crobat",
+     "Gengar",
+     16
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     18
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 18,
+   "winner": "a",
+   "turns": 25,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Scizor",
+     5
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     20
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     22
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     24
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     25
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/koga-rematch",
+   "k": 7,
+   "i": 19,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Skuntank"
+   },
+   "kos": [
+    [
+     "b",
+     "Skuntank",
+     "Scizor",
+     8
+    ],
+    [
+     "b",
+     "Crobat",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Venomoth",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Muk",
+     "Gengar",
+     17
+    ],
+    [
+     "b",
+     "Swalot",
+     "Gengar",
+     19
+    ],
+    [
+     "b",
+     "Toxicroak",
+     "Gengar",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 0,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Scizor",
+     13
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Jynx",
+     14
+    ],
+    [
+     "b",
+     "Jynx",
+     "Scizor",
+     15
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Scizor",
+     16
+    ],
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 1,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     10
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu",
+     14
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Scizor",
+     17
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Jynx",
+     18
+    ],
+    [
+     "b",
+     "Jynx",
+     "Infernape",
+     19
+    ],
+    [
+     "a",
+     "Infernape",
+     "Xatu",
+     20
+    ],
+    [
+     "b",
+     "Xatu",
+     "Gengar",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 2,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     11
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Slowbro",
+     12
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     15
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Xatu",
+     "Dragonite",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 3,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Scizor",
+     16
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Xatu",
+     "Dragonite",
+     18
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Dragonite",
+     20
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 4,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Scizor",
+     6
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     15
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Slowbro",
+     16
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Gengar",
+     17
+    ],
+    [
+     "b",
+     "Jynx",
+     "Gengar",
+     18
+    ],
+    [
+     "b",
+     "Xatu",
+     "Gengar",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 5,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Scizor",
+     14
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Grumpig",
+     16
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Scizor",
+     17
+    ],
+    [
+     "b",
+     "Jynx",
+     "Pikachu",
+     18
+    ],
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 6,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "a",
+     "Infernape",
+     "Slowbro",
+     14
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Empoleon",
+     15
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Grumpig",
+     17
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Scizor",
+     18
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     19
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     20
+    ],
+    [
+     "b",
+     "Xatu",
+     "Dragonite",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 7,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     17
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     20
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu",
+     21
+    ],
+    [
+     "a",
+     "Infernape",
+     "Xatu",
+     22
+    ],
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     23
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Pikachu",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 8,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Scizor",
+     13
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     15
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Xatu",
+     17
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Scizor",
+     20
+    ],
+    [
+     "b",
+     "Xatu",
+     "Infernape",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 9,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 6,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     18
+    ],
+    [
+     "b",
+     "Xatu",
+     "Dragonite",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 10,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Bronzong",
+     13
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Gengar",
+     14
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Scizor",
+     16
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     17
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Dragonite",
+     20
+    ],
+    [
+     "b",
+     "Xatu",
+     "Dragonite",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 11,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Gengar",
+     9
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     13
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Jynx",
+     14
+    ],
+    [
+     "b",
+     "Jynx",
+     "Pikachu",
+     15
+    ],
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     16
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Pikachu",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 12,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Dragonite",
+     15
+    ],
+    [
+     "b",
+     "Jynx",
+     "Dragonite",
+     16
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Dragonite",
+     19
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Xatu",
+     21
+    ],
+    [
+     "b",
+     "Xatu",
+     "Gengar",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 13,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     15
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu",
+     16
+    ],
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     17
+    ],
+    [
+     "b",
+     "Jynx",
+     "Pikachu",
+     18
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Pikachu",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 14,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     15
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Jynx",
+     16
+    ],
+    [
+     "b",
+     "Jynx",
+     "Scizor",
+     17
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Scizor",
+     18
+    ],
+    [
+     "b",
+     "Xatu",
+     "Dragonite",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 15,
+   "winner": "a",
+   "turns": 16,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     6
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     8
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu",
+     9
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Pikachu",
+     11
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Jynx",
+     12
+    ],
+    [
+     "b",
+     "Jynx",
+     "Scizor",
+     13
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Scizor",
+     14
+    ],
+    [
+     "b",
+     "Xatu",
+     "Dragonite",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 16,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     15
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     18
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Empoleon",
+     20
+    ],
+    [
+     "b",
+     "Xatu",
+     "Empoleon",
+     21
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Jynx",
+     23
+    ],
+    [
+     "b",
+     "Jynx",
+     "Scizor",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 17,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     3
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Empoleon",
+     14
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     16
+    ],
+    [
+     "b",
+     "Xatu",
+     "Empoleon",
+     17
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Jynx",
+     18
+    ],
+    [
+     "b",
+     "Jynx",
+     "Scizor",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 18,
+   "winner": "a",
+   "turns": 18,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     4
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     13
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     14
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Empoleon",
+     15
+    ],
+    [
+     "b",
+     "Xatu",
+     "Empoleon",
+     16
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Jynx",
+     17
+    ],
+    [
+     "b",
+     "Jynx",
+     "Scizor",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/will-rematch",
+   "k": 8,
+   "i": 19,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Bronzong"
+   },
+   "kos": [
+    [
+     "b",
+     "Gardevoir",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Slowbro",
+     9
+    ],
+    [
+     "b",
+     "Slowbro",
+     "Empoleon",
+     12
+    ],
+    [
+     "b",
+     "Grumpig",
+     "Empoleon",
+     15
+    ],
+    [
+     "b",
+     "Jynx",
+     "Empoleon",
+     17
+    ],
+    [
+     "b",
+     "Bronzong",
+     "Empoleon",
+     18
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Xatu",
+     19
+    ],
+    [
+     "a",
+     "Infernape",
+     "Xatu",
+     20
+    ],
+    [
+     "b",
+     "Xatu",
+     "Pikachu",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 0,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Gyarados",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     8
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     9
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Gengar",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     13
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Scizor",
+     14
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     15
+    ],
+    [
+     "a",
+     "Infernape",
+     "Dragonite",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 1,
+   "winner": "b",
+   "turns": 19,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     4
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     5
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Pikachu",
+     6
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     12
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Scizor",
+     13
+    ],
+    [
+     "a",
+     "Gengar",
+     "Charizard",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     "Pikachu",
+     16
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite",
+     17
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 2,
+   "winner": "b",
+   "turns": 12,
+   "left": {
+    "a": 0,
+    "b": 6
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     6
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Gyarados",
+     7
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     8
+    ],
+    [
+     "a",
+     "Scizor",
+     "Gyarados",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Gyarados",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Gyarados",
+     12
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 3,
+   "winner": "b",
+   "turns": 17,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     9
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Scizor",
+     11
+    ],
+    [
+     "a",
+     "Gengar",
+     "Charizard",
+     13
+    ],
+    [
+     "b",
+     "Charizard",
+     "Pikachu",
+     14
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     16
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 4,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     9
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Gyarados",
+     10
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     11
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Infernape",
+     12
+    ],
+    [
+     "a",
+     "Scizor",
+     "Salamence",
+     14
+    ],
+    [
+     "a",
+     "Infernape",
+     "Salamence",
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 5,
+   "winner": "b",
+   "turns": 19,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     10
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Dragonite",
+     12
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Salamence",
+     13
+    ],
+    [
+     "b",
+     "Salamence",
+     "Pikachu",
+     14
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     16
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite",
+     17
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 6,
+   "winner": "b",
+   "turns": 17,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Gyarados",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     9
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     10
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Infernape",
+     11
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite",
+     13
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     16
+    ],
+    [
+     "a",
+     "Scizor",
+     "Charizard",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 7,
+   "winner": "b",
+   "turns": 18,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     9
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     10
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Gengar",
+     11
+    ],
+    [
+     "a",
+     "Gengar",
+     "Altaria",
+     14
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     17
+    ],
+    [
+     "a",
+     "Scizor",
+     "Charizard",
+     18
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 8,
+   "winner": "b",
+   "turns": 22,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     5
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     6
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Gengar",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Gengar",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     "Empoleon",
+     12
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Salamence",
+     15
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Salamence",
+     18
+    ],
+    [
+     "a",
+     "Scizor",
+     "Salamence",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 9,
+   "winner": "a",
+   "turns": 33,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     10
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     19
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Dragonite",
+     20
+    ],
+    [
+     "a",
+     "Scizor",
+     "Salamence",
+     27
+    ],
+    [
+     "b",
+     "Salamence",
+     "Pikachu",
+     28
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Altaria",
+     29
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Infernape",
+     31
+    ],
+    [
+     "b",
+     "Altaria",
+     "Infernape",
+     33
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 10,
+   "winner": "b",
+   "turns": 13,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Empoleon",
+     6
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     9
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     10
+    ],
+    [
+     "a",
+     "Scizor",
+     "Gyarados",
+     11
+    ],
+    [
+     "a",
+     "Gengar",
+     "Gyarados",
+     12
+    ],
+    [
+     "a",
+     "Infernape",
+     "Gyarados",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 11,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Empoleon",
+     5
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Empoleon",
+     8
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Salamence",
+     12
+    ],
+    [
+     "a",
+     "Scizor",
+     "Salamence",
+     13
+    ],
+    [
+     "b",
+     "Salamence",
+     "Pikachu",
+     14
+    ],
+    [
+     "a",
+     "Infernape",
+     "Altaria",
+     17
+    ],
+    [
+     "b",
+     "Altaria",
+     "Pikachu",
+     18
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Pikachu",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 12,
+   "winner": "b",
+   "turns": 17,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     9
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Scizor",
+     11
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     12
+    ],
+    [
+     "a",
+     "Gengar",
+     "Altaria",
+     15
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Salamence",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 13,
+   "winner": "b",
+   "turns": 24,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     10
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Dragonite",
+     11
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     12
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     13
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     17
+    ],
+    [
+     "a",
+     "Gengar",
+     "Altaria",
+     19
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     23
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 14,
+   "winner": "b",
+   "turns": 20,
+   "left": {
+    "a": 0,
+    "b": 3
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Empoleon",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Salamence",
+     "Gengar",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Altaria",
+     11
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     16
+    ],
+    [
+     "b",
+     "Charizard",
+     "Pikachu",
+     17
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Dragonite",
+     19
+    ],
+    [
+     "a",
+     "Scizor",
+     "Dragonite",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 15,
+   "winner": "b",
+   "turns": 13,
+   "left": {
+    "a": 0,
+    "b": 5
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Gyarados",
+     5
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     7
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     8
+    ],
+    [
+     "a",
+     "Infernape",
+     "Gyarados",
+     9
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Scizor",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     12
+    ],
+    [
+     "a",
+     "Scizor",
+     "Garchomp",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 16,
+   "winner": "b",
+   "turns": 15,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "b",
+     "Gyarados",
+     "Empoleon",
+     6
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     8
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     9
+    ],
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Pikachu",
+     11
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Salamence",
+     13
+    ],
+    [
+     "a",
+     "Scizor",
+     "Salamence",
+     14
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Salamence",
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 17,
+   "winner": "b",
+   "turns": 13,
+   "left": {
+    "a": 0,
+    "b": 6
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Garchomp",
+     6
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     9
+    ],
+    [
+     "a",
+     "Infernape",
+     "Gyarados",
+     10
+    ],
+    [
+     "a",
+     "Gengar",
+     "Gyarados",
+     11
+    ],
+    [
+     "a",
+     "Scizor",
+     "Charizard",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 18,
+   "winner": "b",
+   "turns": 17,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Gengar",
+     "Garchomp",
+     4
+    ],
+    [
+     "b",
+     "Garchomp",
+     "Infernape",
+     5
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Gyarados",
+     10
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     12
+    ],
+    [
+     "a",
+     "Pikachu",
+     "Gyarados",
+     13
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Scizor",
+     14
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     16
+    ],
+    [
+     "a",
+     "Scizor",
+     "Charizard",
+     17
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/lance-rematch",
+   "k": 9,
+   "i": 19,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Salamence"
+   },
+   "kos": [
+    [
+     "a",
+     "Empoleon",
+     "Gyarados",
+     7
+    ],
+    [
+     "b",
+     "Gyarados",
+     "Dragonite",
+     8
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Garchomp",
+     9
+    ],
+    [
+     "a",
+     "Infernape",
+     "Garchomp",
+     10
+    ],
+    [
+     "b",
+     "Garchomp",
+     null,
+     11
+    ],
+    [
+     "b",
+     "Altaria",
+     "Gengar",
+     15
+    ],
+    [
+     "b",
+     "Salamence",
+     "Gengar",
+     19
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     20
+    ],
+    [
+     "b",
+     "Dragonite",
+     "Gengar",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 0,
+   "winner": "a",
+   "turns": 19,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     9
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Venusaur",
+     13
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Scizor",
+     14
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     19
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 1,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Dragonite",
+     6
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     10
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Scizor",
+     16
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Infernape",
+     17
+    ],
+    [
+     "a",
+     "Infernape",
+     "Lapras",
+     18
+    ],
+    [
+     "b",
+     "Lapras",
+     "Scizor",
+     19
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Scizor",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 2,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Lapras",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Empoleon",
+     19
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Gengar",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 3,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     14
+    ],
+    [
+     "a",
+     "Gengar",
+     "Snorlax",
+     17
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     21
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     22
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Infernape",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 4,
+   "winner": "a",
+   "turns": 24,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     2
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     3
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Empoleon",
+     9
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Lapras",
+     10
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     14
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     23
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Infernape",
+     24
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 5,
+   "winner": "b",
+   "turns": 21,
+   "left": {
+    "a": 0,
+    "b": 1
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     2
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     3
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Empoleon",
+     8
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Lapras",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     13
+    ],
+    [
+     "a",
+     "Infernape",
+     "Snorlax",
+     16
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Scizor",
+     17
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Lapras",
+     18
+    ],
+    [
+     "a",
+     "Gengar",
+     "Lapras",
+     19
+    ],
+    [
+     "b",
+     "Lapras",
+     "Scizor",
+     20
+    ],
+    [
+     "a",
+     "Scizor",
+     "Blastoise",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 6,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 2,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Lapras",
+     8
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Empoleon",
+     11
+    ],
+    [
+     "a",
+     "Gengar",
+     "Snorlax",
+     14
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Charizard",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     18
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     19
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Infernape",
+     20
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 7,
+   "winner": "b",
+   "turns": 26,
+   "left": {
+    "a": 0,
+    "b": 2
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     7
+    ],
+    [
+     "a",
+     "Gengar",
+     "Lapras",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     13
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     14
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Scizor",
+     20
+    ],
+    [
+     "a",
+     "Scizor",
+     "Blastoise",
+     21
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Blastoise",
+     25
+    ],
+    [
+     "a",
+     "Infernape",
+     "Blastoise",
+     26
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 8,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     14
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Infernape",
+     16
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     17
+    ],
+    [
+     "a",
+     "Infernape",
+     "Venusaur",
+     17
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Pikachu",
+     18
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Scizor",
+     19
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Scizor",
+     20
+    ],
+    [
+     "b",
+     "Lapras",
+     "Gengar",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 9,
+   "winner": "a",
+   "turns": 23,
+   "left": {
+    "a": 1,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     7
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Charizard",
+     12
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     16
+    ],
+    [
+     "a",
+     "Infernape",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Gengar",
+     19
+    ],
+    [
+     "a",
+     "Gengar",
+     "Venusaur",
+     20
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Scizor",
+     21
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Scizor",
+     22
+    ],
+    [
+     "b",
+     "Lapras",
+     "Scizor",
+     23
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 10,
+   "winner": "a",
+   "turns": 21,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Gengar",
+     16
+    ],
+    [
+     "a",
+     "Gengar",
+     "Lapras",
+     17
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     19
+    ],
+    [
+     "b",
+     "Lapras",
+     "Dragonite",
+     20
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Dragonite",
+     21
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 11,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 5,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "b",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Lapras",
+     "Dragonite",
+     11
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     14
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Charizard",
+     16
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     17
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Infernape",
+     19
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Infernape",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 12,
+   "winner": "b",
+   "turns": 11,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Blastoise",
+     5
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     6
+    ],
+    [
+     "a",
+     "Gengar",
+     "Charizard",
+     9
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     10
+    ],
+    [
+     "a",
+     "Scizor",
+     "Charizard",
+     11
+    ],
+    [
+     "b",
+     "Charizard",
+     null,
+     11
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 13,
+   "winner": "a",
+   "turns": 13,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     4
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Venusaur",
+     7
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Infernape",
+     13
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 14,
+   "winner": "a",
+   "turns": 22,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     7
+    ],
+    [
+     "b",
+     "Charizard",
+     "Empoleon",
+     16
+    ],
+    [
+     "a",
+     "Gengar",
+     "Lapras",
+     18
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     19
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Infernape",
+     20
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Infernape",
+     21
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     22
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 15,
+   "winner": "b",
+   "turns": 20,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     7
+    ],
+    [
+     "a",
+     "Gengar",
+     "Charizard",
+     12
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Charizard",
+     14
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     "Scizor",
+     16
+    ],
+    [
+     "a",
+     "Scizor",
+     "Lapras",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 16,
+   "winner": "b",
+   "turns": 15,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     7
+    ],
+    [
+     "a",
+     "Gengar",
+     "Snorlax",
+     10
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Charizard",
+     12
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     14
+    ],
+    [
+     "a",
+     "Scizor",
+     "Charizard",
+     15
+    ],
+    [
+     "b",
+     "Charizard",
+     null,
+     15
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 17,
+   "winner": "b",
+   "turns": 16,
+   "left": {
+    "a": 0,
+    "b": 4
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     7
+    ],
+    [
+     "a",
+     "Gengar",
+     "Snorlax",
+     11
+    ],
+    [
+     "a",
+     "Empoleon",
+     "Charizard",
+     13
+    ],
+    [
+     "a",
+     "Infernape",
+     "Charizard",
+     15
+    ],
+    [
+     "a",
+     "Scizor",
+     "Charizard",
+     16
+    ],
+    [
+     "b",
+     "Charizard",
+     null,
+     16
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 18,
+   "winner": "a",
+   "turns": 20,
+   "left": {
+    "a": 3,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "a",
+     "Dragonite",
+     "Blastoise",
+     6
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Infernape",
+     7
+    ],
+    [
+     "a",
+     "Gengar",
+     "Charizard",
+     9
+    ],
+    [
+     "b",
+     "Charizard",
+     "Infernape",
+     10
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Infernape",
+     11
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     12
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Scizor",
+     20
+    ]
+   ]
+  },
+  {
+   "opponent": "heartgold/red",
+   "k": 10,
+   "i": 19,
+   "winner": "a",
+   "turns": 17,
+   "left": {
+    "a": 4,
+    "b": 0
+   },
+   "lead": {
+    "a": "Pikachu",
+    "b": "Pikachu"
+   },
+   "kos": [
+    [
+     "a",
+     "Pikachu",
+     "Pikachu",
+     1
+    ],
+    [
+     "b",
+     "Pikachu",
+     "Dragonite",
+     2
+    ],
+    [
+     "b",
+     "Charizard",
+     "Dragonite",
+     7
+    ],
+    [
+     "b",
+     "Lapras",
+     "Infernape",
+     9
+    ],
+    [
+     "a",
+     "Infernape",
+     "Snorlax",
+     10
+    ],
+    [
+     "b",
+     "Snorlax",
+     "Scizor",
+     11
+    ],
+    [
+     "b",
+     "Venusaur",
+     "Gengar",
+     14
+    ],
+    [
+     "b",
+     "Blastoise",
+     "Dragonite",
+     17
+    ]
+   ]
+  }
+ ],
+ "fell_back": [],
+ "labels": {
+  "team": "Zack · SoulSilver",
+  "pool": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red",
+  "opponents": "Blackthorn's reading",
+  "ours": "Blackthorn's reading"
+ }
+}

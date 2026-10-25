@@ -1,0 +1,93 @@
+{
+ "team": "library:me/platinum~platinum-january",
+ "pool": "pool:platinum-league",
+ "variation": "platinum-january",
+ "members": [
+  null,
+  null,
+  null,
+  {
+   "species": "Empoleon",
+   "nature": "Quiet",
+   "nature_chosen": true,
+   "evs": {
+    "hp": 244,
+    "atk": 0,
+    "def": 88,
+    "spa": 64,
+    "spd": 64,
+    "spe": 48
+   },
+   "label": "244 HP / 88 Def / 64 SpA / 64 SpD / 48 Spe",
+   "stats": {
+    "hp": 370,
+    "atk": 208,
+    "def": 234,
+    "spa": 301,
+    "spd": 254,
+    "spe": 151
+   },
+   "score": {
+    "points": 242.5,
+    "wins_worst": 38,
+    "wins_typical": 44,
+    "wins_switching_in": 32,
+    "wins_free_hit": 52,
+    "of": 52
+   },
+   "best_template": {
+    "id": "mixed_wall",
+    "nature": "Quiet",
+    "evs": {
+     "hp": 252,
+     "atk": 0,
+     "def": 128,
+     "spa": 0,
+     "spd": 128,
+     "spe": 0
+    },
+    "points": 230.24,
+    "wins_worst": 36,
+    "wins_typical": 40,
+    "wins_switching_in": 28,
+    "wins_free_hit": 52,
+    "of": 52
+   },
+   "conventional": {
+    "id": "fast_special",
+    "evs": {
+     "hp": 4,
+     "atk": 0,
+     "def": 0,
+     "spa": 252,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Quiet",
+    "points": 211.8,
+    "wins_worst": 36,
+    "wins_typical": 38,
+    "wins_switching_in": 20,
+    "wins_free_hit": 50,
+    "of": 52,
+    "label": "4 HP / 252 SpA / 252 Spe"
+   },
+   "flat_85": {
+    "points": 205.6,
+    "wins_worst": 32,
+    "wins_typical": 40,
+    "wins_switching_in": 22,
+    "wins_free_hit": 48,
+    "of": 52
+   },
+   "speed": {
+    "stat": 151,
+    "outspeeds": 12,
+    "of": 52,
+    "next_benchmark": 176
+   }
+  },
+  null,
+  null
+ ]
+}

@@ -1,0 +1,1538 @@
+{
+ "me/heartgold": {
+  "kind": "TrainerProfile",
+  "id": "profile:me/heartgold:trainer",
+  "version": 1,
+  "name": "Zack",
+  "identity": "me",
+  "source_version": "me/heartgold",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 90,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {}
+  },
+  "competence": {
+   "reading": {}
+  },
+  "playbook": null,
+  "ai_flags": [],
+  "reading": {},
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "me/soulsilver": {
+  "kind": "TrainerProfile",
+  "id": "profile:me/soulsilver:trainer",
+  "version": 1,
+  "name": "Zack",
+  "identity": "me",
+  "source_version": "me/soulsilver",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 90,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {}
+  },
+  "competence": {
+   "reading": {}
+  },
+  "playbook": null,
+  "ai_flags": [],
+  "reading": {},
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "me/platinum": {
+  "kind": "TrainerProfile",
+  "id": "profile:me/platinum:trainer",
+  "version": 1,
+  "name": "Zack",
+  "identity": "me",
+  "source_version": "me/platinum",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 90,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {}
+  },
+  "competence": {
+   "reading": {}
+  },
+  "playbook": null,
+  "ai_flags": [],
+  "reading": {},
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/bruno": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/bruno:trainer",
+  "version": 1,
+  "name": "Bruno",
+  "identity": "bruno",
+  "source_version": "heartgold/bruno",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/karen": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/karen:trainer",
+  "version": 1,
+  "name": "Karen",
+  "identity": "karen",
+  "source_version": "heartgold/karen",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/koga": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/koga:trainer",
+  "version": 1,
+  "name": "Koga",
+  "identity": "koga",
+  "source_version": "heartgold/koga",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/will": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/will:trainer",
+  "version": 1,
+  "name": "Will",
+  "identity": "will",
+  "source_version": "heartgold/will",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/lance": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/lance:trainer",
+  "version": 1,
+  "name": "Champion Lance (HeartGold)",
+  "identity": "lance",
+  "source_version": "heartgold/lance",
+  "agent": "trainer",
+  "params": {
+   "aggression": 80,
+   "risk": 55,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 64,
+   "preservation": 75,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {
+    "offense": {
+     "value": 80,
+     "why": "dragons that Hyper Beam"
+    },
+    "rigidity": {
+     "value": 60,
+     "why": "dragons only"
+    },
+    "bond": {
+     "value": 75,
+     "why": "a dragon tamer's respect"
+    },
+    "risk": {
+     "value": 55,
+     "why": "will fire the big move"
+    }
+   },
+   "coach": {},
+   "read_as": {
+    "aggression": "authored offense slider 80",
+    "risk": "authored risk slider 55",
+    "switching": "authored rigidity slider 60",
+    "preservation": "authored bond slider 75",
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/bruno-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/bruno-rematch:trainer",
+  "version": 1,
+  "name": "Bruno",
+  "identity": "bruno",
+  "source_version": "heartgold/bruno-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/karen-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/karen-rematch:trainer",
+  "version": 1,
+  "name": "Karen",
+  "identity": "karen",
+  "source_version": "heartgold/karen-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/koga-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/koga-rematch:trainer",
+  "version": 1,
+  "name": "Koga",
+  "identity": "koga",
+  "source_version": "heartgold/koga-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/will-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/will-rematch:trainer",
+  "version": 1,
+  "name": "Will",
+  "identity": "will",
+  "source_version": "heartgold/will-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/lance-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/lance-rematch:trainer",
+  "version": 1,
+  "name": "Lance",
+  "identity": "lance",
+  "source_version": "heartgold/lance-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "heartgold/red": {
+  "kind": "TrainerProfile",
+  "id": "profile:heartgold/red:trainer",
+  "version": 1,
+  "name": "Red on Mt. Silver (HeartGold)",
+  "identity": "red",
+  "source_version": "heartgold/red",
+  "agent": "trainer",
+  "params": {
+   "aggression": 70,
+   "risk": 30,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 67,
+   "preservation": 85,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {
+    "offense": {
+     "value": 70,
+     "why": "a hard-hitting team with no tricks"
+    },
+    "rigidity": {
+     "value": 55,
+     "why": "the same six for years"
+    },
+    "bond": {
+     "value": 85,
+     "why": "Pikachu at his side since the start"
+    },
+    "risk": {
+     "value": 30,
+     "why": "takes the strongest safe move"
+    }
+   },
+   "coach": {},
+   "read_as": {
+    "aggression": "authored offense slider 70",
+    "risk": "authored risk slider 30",
+    "switching": "authored rigidity slider 55",
+    "preservation": "authored bond slider 85",
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "ai_flags_raw": 7,
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/aaron": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/aaron:trainer",
+  "version": 1,
+  "name": "Aaron",
+  "identity": "aaron",
+  "source_version": "platinum/aaron",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/bertha": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/bertha:trainer",
+  "version": 1,
+  "name": "Bertha",
+  "identity": "bertha",
+  "source_version": "platinum/bertha",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/flint": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/flint:trainer",
+  "version": 1,
+  "name": "Flint",
+  "identity": "flint",
+  "source_version": "platinum/flint",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/lucian": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/lucian:trainer",
+  "version": 1,
+  "name": "Lucian",
+  "identity": "lucian",
+  "source_version": "platinum/lucian",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 80,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)",
+    "setup_first": "the AI flag \"sets up early\""
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [
+     "sets up early"
+    ],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT",
+     "AI_FLAG_SETUP_FIRST_TURN"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT",
+   "AI_FLAG_SETUP_FIRST_TURN"
+  ],
+  "reading": {
+   "tendency": [
+    "sets up early"
+   ],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_SETUP_FIRST_TURN"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/cynthia": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/cynthia:trainer",
+  "version": 1,
+  "name": "Champion Cynthia (Platinum)",
+  "identity": "cynthia",
+  "source_version": "platinum/cynthia",
+  "agent": "trainer",
+  "params": {
+   "aggression": 65,
+   "risk": 30,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 88,
+   "preservation": 85,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {
+    "offense": {
+     "value": 65,
+     "why": "strong attackers, no wasted turns"
+    },
+    "rigidity": {
+     "value": 20,
+     "why": "a balanced team that covers everything"
+    },
+    "bond": {
+     "value": 85,
+     "why": "calm trust in each partner"
+    },
+    "risk": {
+     "value": 30,
+     "why": "plays the percentages"
+    }
+   },
+   "coach": {},
+   "read_as": {
+    "aggression": "authored offense slider 65",
+    "risk": "authored risk slider 30",
+    "switching": "authored rigidity slider 20",
+    "preservation": "authored bond slider 85",
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/aaron-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/aaron-rematch:trainer",
+  "version": 1,
+  "name": "Aaron",
+  "identity": "aaron",
+  "source_version": "platinum/aaron-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/bertha-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/bertha-rematch:trainer",
+  "version": 1,
+  "name": "Bertha",
+  "identity": "bertha",
+  "source_version": "platinum/bertha-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/flint-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/flint-rematch:trainer",
+  "version": 1,
+  "name": "Flint",
+  "identity": "flint",
+  "source_version": "platinum/flint-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/lucian-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/lucian-rematch:trainer",
+  "version": 1,
+  "name": "Lucian",
+  "identity": "lucian",
+  "source_version": "platinum/lucian-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 80,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)",
+    "setup_first": "the AI flag \"sets up early\""
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [
+     "sets up early"
+    ],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT",
+     "AI_FLAG_SETUP_FIRST_TURN"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT",
+   "AI_FLAG_SETUP_FIRST_TURN"
+  ],
+  "reading": {
+   "tendency": [
+    "sets up early"
+   ],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT",
+    "AI_FLAG_SETUP_FIRST_TURN"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ },
+ "platinum/cynthia-rematch": {
+  "kind": "TrainerProfile",
+  "id": "profile:platinum/cynthia-rematch:trainer",
+  "version": 1,
+  "name": "Cynthia",
+  "identity": "cynthia",
+  "source_version": "platinum/cynthia-rematch",
+  "agent": "trainer",
+  "params": {
+   "aggression": 50,
+   "risk": 40,
+   "patience": 50,
+   "heal_line": 40,
+   "switching": 60,
+   "preservation": 50,
+   "harassment": 50,
+   "setup_first": 0,
+   "competence": 91,
+   "foe_evs": 85
+  },
+  "information": "partial",
+  "tendencies": {
+   "sliders": {},
+   "coach": {},
+   "read_as": {
+    "competence": "3 competence flags in the game's AI (avoids moves that would fail, weighs damage, expert judgment)"
+   }
+  },
+  "competence": {
+   "reading": {
+    "tendency": [],
+    "competence": [
+     "avoids moves that would fail",
+     "weighs damage",
+     "expert judgment"
+    ],
+    "flags": [
+     "AI_FLAG_BASIC",
+     "AI_FLAG_EVAL_ATTACK",
+     "AI_FLAG_EXPERT"
+    ]
+   }
+  },
+  "playbook": null,
+  "ai_flags": [
+   "AI_FLAG_BASIC",
+   "AI_FLAG_EVAL_ATTACK",
+   "AI_FLAG_EXPERT"
+  ],
+  "reading": {
+   "tendency": [],
+   "competence": [
+    "avoids moves that would fail",
+    "weighs damage",
+    "expert judgment"
+   ],
+   "flags": [
+    "AI_FLAG_BASIC",
+    "AI_FLAG_EVAL_ATTACK",
+    "AI_FLAG_EXPERT"
+   ]
+  },
+  "note": "Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from."
+ }
+}

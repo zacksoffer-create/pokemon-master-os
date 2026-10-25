@@ -1,0 +1,49 @@
+{
+ "key": "platinum-january",
+ "made_at": "2026-10-25T19:42:31.539Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · 3 worker threads",
+ "seconds": 6,
+ "rows": [
+  null,
+  null,
+  null,
+  {
+   "species": "Empoleon",
+   "kept": "conventional",
+   "duel": {
+    "nature": "Quiet",
+    "spread": "244 HP / 88 Def / 64 SpA / 64 SpD / 48 Spe",
+    "win_rate": 0.95
+   },
+   "conventional": {
+    "nature": "Quiet",
+    "spread": "4 HP / 252 SpA / 252 Spe",
+    "win_rate": 0.95
+   },
+   "pairs": {
+    "n": 200,
+    "both_won": 181,
+    "only_x": 9,
+    "only_y": 9,
+    "neither": 1
+   },
+   "mcnemar_p": 1,
+   "margin": {
+    "y_minus_x": 0.007,
+    "ci95": [
+     -0.031,
+     0.044
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 200 paired battles (95% and 95%, McNemar p = 1.00). A real difference smaller than about 4 points would need more battles to show."
+  },
+  null,
+  null
+ ],
+ "n_per_opponent": 20,
+ "seed": "confirm-platinum-january",
+ "pool": "pool:platinum-league",
+ "ruleset": "gen4-blackthorn",
+ "rule": "D-074: the conventional spread unless the duel spread is measurably better"
+}
