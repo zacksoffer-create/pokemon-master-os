@@ -194,11 +194,11 @@ export function evaluate(ctx, evs, nature, { detail = false } = {}) {
   const rows = detail ? [] : null;
   opponents.forEach((o, i) => {
     const mySpe = speedOf(ctx.species, build, stats, o.weather);
-    const best = { w: -NEVER, t: -NEVER, move: null };
+    const best = { w: -NEVER, t: -NEVER, move: null, ours: NEVER, theirs: NEVER, first: false };
     for (let a = 0; a < ours.length; a++) {
       const r = (ours[a].cat === 'Physical' ? offP : offS)[i][a];
       const hitsLo = hitsToKO(o.hp, r[0], ours[a].drop), hitsAvg = hitsToKO(o.hp, r[1], ours[a].drop);
-      let mw = NEVER, mt = NEVER;
+      let mw = NEVER, mt = NEVER, theirs = NEVER, firstT = false;
       if (!o.moves.length) { mw = mt = hitsLo < NEVER ? NEVER : 0; }
       for (let b = 0; b < o.moves.length; b++) {
         const t = (o.moves[b].cat === 'Physical' ? defP : defS)[i][b];
@@ -206,9 +206,12 @@ export function evaluate(ctx, evs, nature, { detail = false } = {}) {
         const first = ours[a].priority > o.moves[b].priority || (ours[a].priority === o.moves[b].priority && mySpe > o.spe);
         const edge = first ? 0.5 : -0.5;
         mw = Math.min(mw, hitsLo >= NEVER ? -NEVER : theirHi - hitsLo + edge);
-        mt = Math.min(mt, hitsAvg >= NEVER ? -NEVER : theirAvg - hitsAvg + edge);
+        const t2 = hitsAvg >= NEVER ? -NEVER : theirAvg - hitsAvg + edge;
+        if (t2 < mt) { mt = t2; theirs = theirAvg; firstT = first; }
       }
-      if (mw > best.w || (mw === best.w && mt > best.t)) { best.w = mw; best.t = mt; best.move = ours[a].name; }
+      if (mw > best.w || (mw === best.w && mt > best.t)) {
+        Object.assign(best, { w: mw, t: mt, move: ours[a].name, ours: hitsAvg, theirs: o.moves.length ? theirs : NEVER, first: firstT });
+      }
     }
     const k = o.weight;
     const entries = (m) => (m > -1 ? 1 : 0) + (m > 0 ? 1 : 0) + (m > 1 ? 1 : 0);
@@ -218,7 +221,8 @@ export function evaluate(ctx, evs, nature, { detail = false } = {}) {
     total += k;
     margin += (Math.max(-3, Math.min(3, best.w)) + Math.max(-3, Math.min(3, best.t))) * k;
     if (rows) rows.push({ opponent: o.species, from: o.from, weight: k, win_worst: best.w > 0, win_typical: best.t > 0,
-                          win_switching_in: best.t > 1, move: best.move, our_speed: mySpe, their_speed: o.spe });
+                          win_switching_in: best.t > 1, move: best.move, our_speed: mySpe, their_speed: o.spe,
+                          our_hits: best.ours, their_hits: best.theirs, first: best.first });
   });
   return { score: wins + 0.02 * margin, worst, typical, switch_in: switchIn, free_hit: freeHit, total, margin, stats, rows };
 }
@@ -309,10 +313,12 @@ export function optimizeBuild(build, pool) {
   const mySpe = detail.stats.spe;
   const nextUp = speeds.find((s) => s >= mySpe);
   const conventional = conventionalTemplate(build, ctx.ours);
+  // the conventional spread on the same nature (D-074: the natures stay; only the EVs are in question)
   const conv = perTemplate[conventional];
+  const convResult = evaluate(ctx, conv.evs, best.nature);
   return {
     evs: best.evs, nature: best.nature, nature_chosen: !build.nature_locked, start: best.start,
-    conventional: { id: conventional, evs: conv.evs, nature: conv.nature, ...summary(conv.result) },
+    conventional: { id: conventional, evs: conv.evs, nature: best.nature, ...summary(convResult) },
     stats: detail.stats,
     score: summary(best.result),
     best_template: { id: bestTemplate.id, nature: bestTemplate.nature, evs: bestTemplate.evs, ...summary(bestTemplate.result) },

@@ -16,30 +16,63 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Flamethrower",
+   "Extrasensory",
+   "Thunder Punch",
+   "Earthquake",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   14.2,
-   -40,
-   -19.2,
-   -13.6,
-   -3,
-   -33.2,
-   -48.6,
-   -29.8,
-   -65.6
+   10.1,
+   -59.5,
+   -26.8,
+   -21.5,
+   -3.6,
+   -36,
+   -76.6,
+   -48.1,
+   -71.5
   ],
   "why": [
-   "Flamethrower: 14.2 (~51% to Spiritomb)",
-   "Tyranitar: -3 (matchup 1.5 → 5.5 for Tyranitar, takes ~12% coming in)",
-   "Earthquake: -13.6 (~23% to Spiritomb)"
+   "Flamethrower: 10.1 (~54% to Spiritomb)",
+   "Tyranitar: -3.6 (matchup 1.5 → 4.5 for Tyranitar, takes ~13% coming in)",
+   "Earthquake: -21.5 (~22% to Spiritomb)"
   ],
   "knew": {
    "turn": 1,
    "foe": {
     "species": "Spiritomb",
-    "pct": 100
+    "pct": 100,
+    "ability": "Pressure"
    },
    "foe_seen": 1,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 127,
+   "stand_ins": [
+    "Shadow Claw",
+    "Crunch"
+   ],
+   "foe_ability": "Pressure",
+   "coming": "Crunch, ~44%"
+  },
+  "reasons": {
+   "Flamethrower": "~54% to Spiritomb",
+   "Extrasensory": "Extrasensory does nothing to Spiritomb",
+   "Thunder Punch": "~17% to Spiritomb",
+   "Earthquake": "~22% to Spiritomb",
+   "Tyranitar": "matchup 1.5 → 4.5 for Tyranitar, takes ~13% coming in",
+   "Mamoswine": "matchup 1.5 → 1.5 for Mamoswine, takes ~32% coming in",
+   "Crobat": "matchup 1.5 → -1.5 for Crobat, takes ~30% coming in",
+   "Lapras": "matchup 1.5 → 0.5 for Lapras, takes ~29% coming in",
+   "Snorlax": "matchup 1.5 → -0.5 for Snorlax, takes ~30% coming in"
   }
  },
  {
@@ -59,21 +92,32 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Dark Pulse",
+   "Psychic",
+   "Silver Wind",
+   "Shadow Ball",
+   "Roserade",
+   "Togekiss",
+   "Lucario",
+   "Milotic",
+   "Garchomp"
+  ],
   "scores": [
-   -7.2,
-   -15.8,
-   -32.3,
-   -7.2,
+   -6.7,
+   -15.3,
+   -31.8,
+   -6.7,
    -71.1,
    -14.9,
-   -69,
+   -67,
    44.3,
    33.5
   ],
   "why": [
    "Milotic: 44.3 (matchup -1.5 → 4.5 for Milotic, takes ~14% coming in)",
    "Garchomp: 33.5 (matchup -1.5 → 4.5 for Garchomp, takes ~18% coming in)",
-   "Dark Pulse: -7.2 (~32% to Typhlosion, moves second)"
+   "Dark Pulse: -6.7 (~32% to Typhlosion, moves second)"
   ],
   "knew": {
    "turn": 1,
@@ -83,6 +127,26 @@
    },
    "foe_seen": 1,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 257,
+   "stand_ins": [
+    "Flamethrower"
+   ],
+   "foe_ability": "Blaze",
+   "coming": "Flamethrower, ~43%"
+  },
+  "reasons": {
+   "Dark Pulse": "~32% to Typhlosion, moves second",
+   "Psychic": "~23% to Typhlosion, moves second",
+   "Silver Wind": "~8% to Typhlosion, moves second",
+   "Shadow Ball": "~32% to Typhlosion, moves second",
+   "Roserade": "matchup -1.5 → -2.5 for Roserade, takes ~82% coming in",
+   "Togekiss": "matchup -1.5 → -0.5 for Togekiss, takes ~32% coming in",
+   "Lucario": "matchup -1.5 → -1.5 for Lucario, takes ~100% coming in",
+   "Milotic": "matchup -1.5 → 4.5 for Milotic, takes ~14% coming in",
+   "Garchomp": "matchup -1.5 → 4.5 for Garchomp, takes ~18% coming in"
   }
  },
  {
@@ -102,30 +166,61 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Flamethrower",
+   "Extrasensory",
+   "Thunder Punch",
+   "Earthquake",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   -61.3,
-   -59,
-   -45.5,
-   -56.4,
-   -58,
-   -67.7,
-   -41.1,
-   11.2,
-   -7.3
+   -74.5,
+   -72.1,
+   -60.7,
+   -71.3,
+   -59.3,
+   -76.8,
+   -69.1,
+   25.2,
+   -8.6
   ],
   "why": [
-   "Lapras: 11.2 (matchup -0.5 → 1.5 for Lapras, takes ~0% coming in)",
-   "Snorlax: -7.3 (matchup -0.5 → 1.5 for Snorlax, takes ~21% coming in)",
-   "Crobat: -41.1 (matchup -0.5 → -0.5 for Crobat, takes ~41% coming in)"
+   "Lapras: 25.2 (matchup -0.5 → 2.5 for Lapras, takes ~0% coming in)",
+   "Snorlax: -8.6 (matchup -0.5 → 1.5 for Snorlax, takes ~22% coming in)",
+   "Tyranitar: -59.3 (matchup -0.5 → -0.5 for Tyranitar, takes ~71% coming in)"
   ],
   "knew": {
    "turn": 2,
    "foe": {
     "species": "Milotic",
-    "pct": 83
+    "pct": 81
    },
    "foe_seen": 2,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 219,
+   "stand_ins": [
+    "Surf"
+   ],
+   "foe_ability": "Marvel Scale",
+   "coming": "Surf, ~93%"
+  },
+  "reasons": {
+   "Flamethrower": "~18% to Milotic",
+   "Extrasensory": "~20% to Milotic",
+   "Thunder Punch": "~32% to Milotic",
+   "Earthquake": "~21% to Milotic",
+   "Tyranitar": "matchup -0.5 → -0.5 for Tyranitar, takes ~71% coming in",
+   "Mamoswine": "matchup -0.5 → -0.5 for Mamoswine, takes ~100% coming in",
+   "Crobat": "matchup -0.5 → -2.5 for Crobat, takes ~41% coming in",
+   "Lapras": "matchup -0.5 → 2.5 for Lapras, takes ~0% coming in",
+   "Snorlax": "matchup -0.5 → 1.5 for Snorlax, takes ~22% coming in"
   }
  },
  {
@@ -145,21 +240,32 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Mirror Coat",
+   "Dragon Pulse",
+   "Roserade",
+   "Togekiss",
+   "Lucario",
+   "Spiritomb",
+   "Garchomp"
+  ],
   "scores": [
-   70.2,
-   0.5,
-   -40,
-   13.3,
+   70.7,
+   1,
+   19.9,
+   13.8,
    -144.1,
    -87.9,
-   -142,
+   -140,
    -122,
    -39.5
   ],
   "why": [
-   "Surf: 70.2 (~79% to Typhlosion, moves second)",
-   "Dragon Pulse: 13.3 (~25% to Typhlosion, moves second)",
-   "Ice Beam: 0.5 (~13% to Typhlosion, moves second)"
+   "Surf: 70.7 (~79% to Typhlosion, moves second)",
+   "Mirror Coat: 19.9 (returns ~31% if Flamethrower comes)",
+   "Dragon Pulse: 13.8 (~25% to Typhlosion, moves second)"
   ],
   "knew": {
    "turn": 2,
@@ -172,6 +278,23 @@
    },
    "foe_seen": 1,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 257,
+   "foe_ability": "Blaze",
+   "coming": "Flamethrower, ~14%"
+  },
+  "reasons": {
+   "Surf": "~79% to Typhlosion, moves second",
+   "Ice Beam": "~13% to Typhlosion, moves second",
+   "Mirror Coat": "returns ~31% if Flamethrower comes",
+   "Dragon Pulse": "~25% to Typhlosion, moves second",
+   "Roserade": "matchup 3.5 → -2.5 for Roserade, takes ~82% coming in",
+   "Togekiss": "matchup 3.5 → -0.5 for Togekiss, takes ~32% coming in",
+   "Lucario": "matchup 3.5 → -1.5 for Lucario, takes ~100% coming in",
+   "Spiritomb": "matchup 3.5 → -2.5 for Spiritomb, takes ~43% coming in",
+   "Garchomp": "matchup 3.5 → 4.5 for Garchomp, takes ~18% coming in"
   }
  },
  {
@@ -191,33 +314,61 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Rest",
+   "Heal Bell",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Typhlosion",
+   "Snorlax"
+  ],
   "scores": [
-   12.4,
-   12.4,
+   14.3,
+   14.3,
    -15,
-   0,
-   -40.8,
-   -40.8,
-   -40.8,
+   -15,
    -54.8,
-   -12.8
+   -68.8,
+   -82.8,
+   -68.8,
+   -26.8
   ],
   "why": [
-   "Surf: 12.4 (~12% to Milotic, moves second)",
-   "Ice Beam: 12.4 (~12% to Milotic, moves second)",
-   "Heal Bell: 0 (0 of ours with a status)"
+   "Surf: 14.3 (~14% to Milotic, moves second)",
+   "Ice Beam: 14.3 (~14% to Milotic, moves second)",
+   "Rest: -15 (barely hurt)"
   ],
   "knew": {
    "turn": 3,
    "foe": {
     "species": "Milotic",
-    "pct": 83,
+    "pct": 81,
     "known_moves": [
      "Surf"
     ]
    },
    "foe_seen": 2,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 219,
+   "foe_ability": "Marvel Scale",
+   "coming": "nothing"
+  },
+  "reasons": {
+   "Surf": "~14% to Milotic, moves second",
+   "Ice Beam": "~14% to Milotic, moves second",
+   "Rest": "barely hurt",
+   "Heal Bell": "0 of ours with a status",
+   "Tyranitar": "matchup 2.5 → 0.5 for Tyranitar, takes ~0% coming in",
+   "Mamoswine": "matchup 2.5 → -0.5 for Mamoswine, takes ~0% coming in",
+   "Crobat": "matchup 2.5 → -1.5 for Crobat, takes ~0% coming in",
+   "Typhlosion": "matchup 2.5 → -0.5 for Typhlosion, takes ~0% coming in",
+   "Snorlax": "matchup 2.5 → 2.5 for Snorlax, takes ~0% coming in"
   }
  },
  {
@@ -237,11 +388,22 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Mirror Coat",
+   "Dragon Pulse",
+   "Roserade",
+   "Togekiss",
+   "Lucario",
+   "Spiritomb",
+   "Garchomp"
+  ],
   "scores": [
-   -40,
-   -8.6,
-   -40,
-   5.1,
+   -28.4,
+   -8.1,
+   -28.4,
+   5.6,
    -37.4,
    -39.6,
    -31,
@@ -249,9 +411,9 @@
    -63
   ],
   "why": [
-   "Dragon Pulse: 5.1 (~17% to Lapras)",
-   "Ice Beam: -8.6 (~4% to Lapras)",
-   "Lucario: -31 (matchup 0.5 → 0.5 for Lucario, takes ~36% coming in)"
+   "Dragon Pulse: 5.6 (~17% to Lapras)",
+   "Ice Beam: -8.1 (~4% to Lapras)",
+   "Surf: -28.4 (Surf does nothing to Lapras)"
   ],
   "knew": {
    "turn": 3,
@@ -261,6 +423,27 @@
    },
    "foe_seen": 2,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 177,
+   "stand_ins": [
+    "Waterfall",
+    "Ice Punch"
+   ],
+   "foe_ability": "Water Absorb",
+   "coming": "Waterfall, ~14%"
+  },
+  "reasons": {
+   "Surf": "Surf does nothing to Lapras",
+   "Ice Beam": "~4% to Lapras",
+   "Mirror Coat": "Mirror Coat fails against Waterfall",
+   "Dragon Pulse": "~17% to Lapras",
+   "Roserade": "matchup 0.5 → -0.5 for Roserade, takes ~23% coming in",
+   "Togekiss": "matchup 0.5 → -0.5 for Togekiss, takes ~27% coming in",
+   "Lucario": "matchup 0.5 → 0.5 for Lucario, takes ~36% coming in",
+   "Spiritomb": "matchup 0.5 → -2.5 for Spiritomb, takes ~30% coming in",
+   "Garchomp": "matchup 0.5 → -1.5 for Garchomp, takes ~23% coming in"
   }
  },
  {
@@ -280,27 +463,38 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Rest",
+   "Heal Bell",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Typhlosion",
+   "Snorlax"
+  ],
   "scores": [
-   -4.2,
-   -4.2,
-   -15,
-   -16.6,
-   -29.8,
-   -47,
-   -32.4,
-   -45.5,
-   -0.5
+   -4,
+   -4,
+   -24.3,
+   -33.3,
+   -16.4,
+   -36,
+   -46.4,
+   -48.6,
+   -1.5
   ],
   "why": [
-   "Snorlax: -0.5 (matchup 0.5 → 2.5 for Snorlax, takes ~13% coming in)",
-   "Surf: -4.2 (~12% to Milotic, moves second)",
-   "Ice Beam: -4.2 (~12% to Milotic, moves second)"
+   "Snorlax: -1.5 (matchup -0.5 → 1.5 for Snorlax, takes ~14% coming in)",
+   "Surf: -4 (~14% to Milotic)",
+   "Ice Beam: -4 (~14% to Milotic)"
   ],
   "knew": {
    "turn": 4,
    "foe": {
     "species": "Milotic",
-    "pct": 56,
+    "pct": 67,
     "known_moves": [
      "Surf",
      "Dragon Pulse"
@@ -308,6 +502,23 @@
    },
    "foe_seen": 2,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 218,
+   "foe_ability": "Marvel Scale",
+   "coming": "Dragon Pulse, ~18%"
+  },
+  "reasons": {
+   "Surf": "~14% to Milotic",
+   "Ice Beam": "~14% to Milotic",
+   "Rest": "Rest: heals ~32%, takes ~18%",
+   "Heal Bell": "0 of ours with a status",
+   "Tyranitar": "matchup -0.5 → 0.5 for Tyranitar, takes ~23% coming in",
+   "Mamoswine": "matchup -0.5 → -0.5 for Mamoswine, takes ~32% coming in",
+   "Crobat": "matchup -0.5 → -1.5 for Crobat, takes ~26% coming in",
+   "Typhlosion": "matchup -0.5 → -1.5 for Typhlosion, takes ~30% coming in",
+   "Snorlax": "matchup -0.5 → 1.5 for Snorlax, takes ~14% coming in"
   }
  },
  {
@@ -327,41 +538,74 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Mirror Coat",
+   "Dragon Pulse",
+   "Roserade",
+   "Togekiss",
+   "Lucario",
+   "Spiritomb",
+   "Garchomp"
+  ],
   "scores": [
-   -40,
-   -8.6,
-   -40,
-   5.1,
-   -9.4,
-   -11.6,
-   -3,
-   -48.8,
-   -35
+   -28.4,
+   -8.1,
+   -28.4,
+   5.6,
+   -37.4,
+   -39.6,
+   -31,
+   -69.8,
+   -49
   ],
   "why": [
-   "Dragon Pulse: 5.1 (~17% to Lapras)",
-   "Lucario: -3 (matchup -1.5 → 0.5 for Lucario, takes ~36% coming in)",
-   "Ice Beam: -8.6 (~4% to Lapras)"
+   "Dragon Pulse: 5.6 (~17% to Lapras, moves second)",
+   "Ice Beam: -8.1 (~4% to Lapras, moves second)",
+   "Surf: -28.4 (Surf does nothing to Lapras)"
   ],
   "knew": {
    "turn": 4,
    "foe": {
     "species": "Lapras",
-    "pct": 90,
+    "pct": 68,
     "known_moves": [
      "Surf"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 2,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 219,
+   "stand_ins": [
+    "Waterfall",
+    "Ice Punch"
+   ],
+   "foe_ability": "Water Absorb",
+   "coming": "Waterfall, ~14%"
+  },
+  "reasons": {
+   "Surf": "Surf does nothing to Lapras",
+   "Ice Beam": "~4% to Lapras, moves second",
+   "Mirror Coat": "Mirror Coat fails against Waterfall",
+   "Dragon Pulse": "~17% to Lapras, moves second",
+   "Roserade": "matchup 0.5 → -0.5 for Roserade, takes ~23% coming in",
+   "Togekiss": "matchup 0.5 → -0.5 for Togekiss, takes ~27% coming in",
+   "Lucario": "matchup 0.5 → 0.5 for Lucario, takes ~36% coming in",
+   "Spiritomb": "matchup 0.5 → -2.5 for Spiritomb, takes ~30% coming in",
+   "Garchomp": "matchup 0.5 → -0.5 for Garchomp, takes ~23% coming in"
   }
  },
  {
   "turn": 5,
   "side": "a",
   "forced": false,
-  "choice": "switch 6",
-  "label": "Snorlax",
+  "choice": "move 2",
+  "label": "Ice Beam",
   "options": [
    "move 1",
    "move 2",
@@ -373,27 +617,38 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Rest",
+   "Heal Bell",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Typhlosion",
+   "Snorlax"
+  ],
   "scores": [
-   -4.2,
-   -4.2,
-   -30.6,
-   -16.6,
-   -29.8,
-   -33,
-   -32.4,
-   -45.5,
-   6.5
+   -4,
+   -4,
+   -13.3,
+   -33.3,
+   -30.4,
+   -36,
+   -46.4,
+   -48.6,
+   -15.5
   ],
   "why": [
-   "Snorlax: 6.5 (matchup 0.5 → 3.5 for Snorlax, takes ~13% coming in)",
-   "Surf: -4.2 (~12% to Milotic, moves second)",
-   "Ice Beam: -4.2 (~12% to Milotic, moves second)"
+   "Surf: -4 (~14% to Milotic)",
+   "Ice Beam: -4 (~14% to Milotic)",
+   "Rest: -13.3 (Rest: heals ~43%, takes ~18%)"
   ],
   "knew": {
    "turn": 5,
    "foe": {
     "species": "Milotic",
-    "pct": 44,
+    "pct": 52,
     "known_moves": [
      "Surf",
      "Dragon Pulse"
@@ -401,14 +656,31 @@
    },
    "foe_seen": 2,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 218,
+   "foe_ability": "Marvel Scale",
+   "coming": "Dragon Pulse, ~18%"
+  },
+  "reasons": {
+   "Surf": "~14% to Milotic",
+   "Ice Beam": "~14% to Milotic",
+   "Rest": "Rest: heals ~43%, takes ~18%",
+   "Heal Bell": "0 of ours with a status",
+   "Tyranitar": "matchup 0.5 → 0.5 for Tyranitar, takes ~23% coming in",
+   "Mamoswine": "matchup 0.5 → 0.5 for Mamoswine, takes ~32% coming in",
+   "Crobat": "matchup 0.5 → -0.5 for Crobat, takes ~26% coming in",
+   "Typhlosion": "matchup 0.5 → -0.5 for Typhlosion, takes ~30% coming in",
+   "Snorlax": "matchup 0.5 → 1.5 for Snorlax, takes ~14% coming in"
   }
  },
  {
   "turn": 5,
   "side": "b",
   "forced": false,
-  "choice": "move 4",
-  "label": "Dragon Pulse",
+  "choice": "switch 4",
+  "label": "Lucario",
   "options": [
    "move 1",
    "move 2",
@@ -420,1238 +692,70 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Mirror Coat",
+   "Dragon Pulse",
+   "Roserade",
+   "Togekiss",
+   "Lucario",
+   "Spiritomb",
+   "Garchomp"
+  ],
   "scores": [
-   -40,
-   -8.6,
-   -40,
-   5.1,
+   -28.4,
+   -8.1,
+   -28.4,
+   5.6,
    -23.4,
-   -11.6,
-   -17,
-   -55.8,
+   -25.6,
+   -3,
+   -41.8,
    -35
   ],
   "why": [
-   "Dragon Pulse: 5.1 (~17% to Lapras)",
-   "Ice Beam: -8.6 (~4% to Lapras)",
-   "Togekiss: -11.6 (matchup -0.5 → 0.5 for Togekiss, takes ~27% coming in)"
+   "Dragon Pulse: 5.6 (~17% to Lapras, moves second)",
+   "Lucario: -3 (matchup -0.5 → 1.5 for Lucario, takes ~36% coming in)",
+   "Ice Beam: -8.1 (~4% to Lapras, moves second)"
   ],
   "knew": {
    "turn": 5,
    "foe": {
     "species": "Lapras",
-    "pct": 78,
+    "pct": 57,
     "known_moves": [
      "Surf"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 2,
    "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 219,
+   "stand_ins": [
+    "Waterfall",
+    "Ice Punch"
+   ],
+   "foe_ability": "Water Absorb",
+   "coming": "Waterfall, ~14%"
+  },
+  "reasons": {
+   "Surf": "Surf does nothing to Lapras",
+   "Ice Beam": "~4% to Lapras, moves second",
+   "Mirror Coat": "Mirror Coat fails against Waterfall",
+   "Dragon Pulse": "~17% to Lapras, moves second",
+   "Roserade": "matchup -0.5 → -0.5 for Roserade, takes ~23% coming in",
+   "Togekiss": "matchup -0.5 → -0.5 for Togekiss, takes ~27% coming in",
+   "Lucario": "matchup -0.5 → 1.5 for Lucario, takes ~36% coming in",
+   "Spiritomb": "matchup -0.5 → -1.5 for Spiritomb, takes ~30% coming in",
+   "Garchomp": "matchup -0.5 → -0.5 for Garchomp, takes ~23% coming in"
   }
  },
  {
   "turn": 6,
-  "side": "a",
-  "forced": false,
-  "choice": "move 3",
-  "label": "Thunder Punch",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   16.3,
-   -15,
-   58.2,
-   -8.9,
-   -117,
-   -112.7,
-   -86.1,
-   -122.5,
-   -61.8
-  ],
-  "why": [
-   "Thunder Punch: 58.2 (~44% to Milotic, KO 100%, moves second)",
-   "Body Slam: 16.3 (~42% to Milotic, KO 13%, moves second)",
-   "Zen Headbutt: -8.9 (~24% to Milotic, moves second)"
-  ],
-  "knew": {
-   "turn": 6,
-   "foe": {
-    "species": "Milotic",
-    "pct": 44,
-    "known_moves": [
-     "Surf",
-     "Dragon Pulse"
-    ]
-   },
-   "foe_seen": 2,
-   "foe_left": 6
-  }
- },
- {
-  "turn": 6,
-  "side": "b",
-  "forced": false,
-  "choice": "switch 5",
-  "label": "Spiritomb",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -12,
-   -19.5,
-   -40,
-   -20.3,
-   -44.1,
-   -15.9,
-   32.3,
-   66.4,
-   0.1
-  ],
-  "why": [
-   "Spiritomb: 66.4 (matchup -2.5 → 3.5 for Spiritomb, takes ~0% coming in)",
-   "Lucario: 32.3 (matchup -2.5 → 1.5 for Lucario, takes ~23% coming in)",
-   "Garchomp: 0.1 (matchup -2.5 → 0.5 for Garchomp, takes ~30% coming in)"
-  ],
-  "knew": {
-   "turn": 6,
-   "foe": {
-    "species": "Snorlax",
-    "pct": 94
-   },
-   "foe_seen": 3,
-   "foe_left": 6
-  }
- },
- {
-  "turn": 7,
-  "side": "a",
-  "forced": false,
-  "choice": "switch 2",
-  "label": "Tyranitar",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -40,
-   -15,
-   -8.7,
-   -40,
-   -3,
-   -33.2,
-   -34.6,
-   -52.6,
-   -29.8
-  ],
-  "why": [
-   "Tyranitar: -3 (matchup 1.5 → 6.5 for Tyranitar, takes ~12% coming in)",
-   "Thunder Punch: -8.7 (~26% to Spiritomb, moves second)",
-   "Rest: -15 (barely hurt)"
-  ],
-  "knew": {
-   "turn": 7,
-   "foe": {
-    "species": "Spiritomb",
-    "pct": 74
-   },
-   "foe_seen": 2,
-   "foe_left": 6
-  }
- },
- {
-  "turn": 7,
-  "side": "b",
-  "forced": false,
-  "choice": "switch 6",
-  "label": "Garchomp",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -3.7,
-   -8.4,
-   -12.8,
-   -40,
-   -44.5,
-   -43.2,
-   -8.3,
-   -66.2,
-   21.4
-  ],
-  "why": [
-   "Garchomp: 21.4 (matchup -1.5 → 1.5 for Garchomp, takes ~0% coming in)",
-   "Dark Pulse: -3.7 (~17% to Snorlax)",
-   "Lucario: -8.3 (matchup -1.5 → 0.5 for Lucario, takes ~28% coming in)"
-  ],
-  "knew": {
-   "turn": 7,
-   "foe": {
-    "species": "Snorlax",
-    "pct": 100,
-    "known_moves": [
-     "Thunder Punch"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 6
-  }
- },
- {
-  "turn": 8,
-  "side": "a",
-  "forced": false,
-  "choice": "move 4",
-  "label": "Outrage",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -98.5,
-   -43.5,
-   -49.2,
-   -8.8,
-   -74.6,
-   -39.6,
-   -26.8,
-   -133,
-   -34.1
-  ],
-  "why": [
-   "Outrage: -8.8 (~70% to Garchomp, moves second)",
-   "Crobat: -26.8 (matchup -0.5 → -0.5 for Crobat, takes ~0% coming in)",
-   "Lapras: -34.1 (matchup -0.5 → 0.5 for Lapras, takes ~35% coming in)"
-  ],
-  "knew": {
-   "turn": 8,
-   "foe": {
-    "species": "Garchomp",
-    "pct": 100
-   },
-   "foe_seen": 3,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 8,
-  "side": "b",
-  "forced": false,
-  "choice": "move 2",
-  "label": "Earthquake",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -33,
-   21.2,
-   -51.1,
-   -41.8,
-   -113.5,
-   -83.8,
-   -20.9,
-   -99.6,
-   -122
-  ],
-  "why": [
-   "Earthquake: 21.2 (~74% to Tyranitar)",
-   "Lucario: -20.9 (matchup 2.5 → 5.5 for Lucario, takes ~13% coming in)",
-   "Dragon Rush: -33 (~28% to Tyranitar)"
-  ],
-  "knew": {
-   "turn": 8,
-   "foe": {
-    "species": "Tyranitar",
-    "pct": 100
-   },
-   "foe_seen": 4,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 9,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Outrage",
-  "options": [
-   "move 1"
-  ],
-  "scores": [
-   0
-  ],
-  "why": [
-   "Outrage: 0 (the only option)"
-  ],
-  "knew": {
-   "turn": 9,
-   "foe": {
-    "species": "Garchomp",
-    "pct": 50,
-    "known_moves": [
-     "Earthquake"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 9,
-  "side": "b",
-  "forced": false,
-  "choice": "move 2",
-  "label": "Earthquake",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   22.8,
-   66.2,
-   -80.2,
-   -70.8,
-   -47.6,
-   -31.8,
-   2.8,
-   -33.6,
-   -62.9
-  ],
-  "why": [
-   "Earthquake: 66.2 (~20% to Tyranitar, KO 100%)",
-   "Dragon Rush: 22.8 (~15% to Tyranitar, KO 75%)",
-   "Lucario: 2.8 (matchup 0.5 → 2.5 for Lucario, takes ~26% coming in)"
-  ],
-  "knew": {
-   "turn": 9,
-   "foe": {
-    "species": "Tyranitar",
-    "pct": 20,
-    "known_moves": [
-     "Outrage"
-    ]
-   },
-   "foe_seen": 4,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 9,
-  "side": "a",
-  "forced": true,
-  "choice": "switch 4",
-  "label": "Crobat",
-  "options": [
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   4.5,
-   31,
-   31,
-   -25,
-   28.7
-  ],
-  "why": [
-   "Mamoswine: 31 (race +1.5 (needs 1, they need 3))",
-   "Crobat: 31 (race +1.5 (needs 2, they need 3, moves first))",
-   "Lapras: 28.7 (race +1.5 (needs 1, they need 3))"
-  ],
-  "knew": {
-   "turn": 9,
-   "foe": {
-    "species": "Garchomp",
-    "pct": 50,
-    "known_moves": [
-     "Earthquake"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 10,
-  "side": "b",
-  "forced": false,
-  "choice": "move 4",
-  "label": "Giga Impact",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -6.2,
-   -40,
-   -18.2,
-   5,
-   -92.4,
-   -40.1,
-   -46.1,
-   -55.4,
-   -56.5
-  ],
-  "why": [
-   "Giga Impact: 5 (~46% to Crobat, moves second)",
-   "Dragon Rush: -6.2 (~39% to Crobat, moves second)",
-   "Flamethrower: -18.2 (~22% to Crobat, moves second)"
-  ],
-  "knew": {
-   "turn": 10,
-   "foe": {
-    "species": "Crobat",
-    "pct": 100
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 10,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Fly",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -10.4,
-   -15,
-   -17,
-   -32.9,
-   -81.9,
-   -62.3,
-   -111.4,
-   -57.9
-  ],
-  "why": [
-   "Fly: -10.4 (~30% to Garchomp)",
-   "Roost: -15 (barely hurt)",
-   "U-turn: -17 (~16% to Garchomp, pivots)"
-  ],
-  "knew": {
-   "turn": 10,
-   "foe": {
-    "species": "Garchomp",
-    "pct": 50,
-    "known_moves": [
-     "Earthquake"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 11,
-  "side": "b",
-  "forced": false,
-  "choice": "move 4",
-  "label": "Giga Impact",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -11.2,
-   -40,
-   -23.2,
-   0,
-   -67.9,
-   -11,
-   -17.6,
-   -26.4,
-   -27.5
-  ],
-  "why": [
-   "Giga Impact: 0 (~46% to Crobat, moves second)",
-   "Togekiss: -11 (matchup -0.5 → -0.5 for Togekiss, takes ~31% coming in)",
-   "Dragon Rush: -11.2 (~39% to Crobat, moves second)"
-  ],
-  "knew": {
-   "turn": 11,
-   "foe": {
-    "species": "Crobat",
-    "pct": 100,
-    "known_moves": [
-     "Fly"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 11,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Fly",
-  "options": [
-   "move 1"
-  ],
-  "scores": [
-   0
-  ],
-  "why": [
-   "Fly: 0 (the only option)"
-  ],
-  "knew": {
-   "turn": 11,
-   "foe": {
-    "species": "Garchomp",
-    "pct": 50,
-    "known_moves": [
-     "Earthquake",
-     "Giga Impact"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 12,
-  "side": "b",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Recharge",
-  "options": [
-   "move 1"
-  ],
-  "scores": [
-   0
-  ],
-  "why": [
-   "Recharge: 0 (the only option)"
-  ],
-  "knew": {
-   "turn": 12,
-   "foe": {
-    "species": "Crobat",
-    "pct": 55,
-    "known_moves": [
-     "Fly"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 12,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Fly",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   57.5,
-   -27.7,
-   -26.4,
-   -46.2,
-   -64.7,
-   -57.5,
-   -80.3,
-   -52.1
-  ],
-  "why": [
-   "Fly: 57.5 (~18% to Garchomp, KO 95%)",
-   "U-turn: -26.4 (~16% to Garchomp, pivots)",
-   "Roost: -27.7 (Roost: heals ~46%, takes ~49%)"
-  ],
-  "knew": {
-   "turn": 12,
-   "foe": {
-    "species": "Garchomp",
-    "pct": 19,
-    "known_moves": [
-     "Earthquake",
-     "Giga Impact"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 13,
-  "side": "b",
-  "forced": false,
-  "choice": "switch 3",
-  "label": "Togekiss",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -37.5,
-   -40,
-   -32.3,
-   -34.4,
-   -53.9,
-   17,
-   10.4,
-   -12.4,
-   0.5
-  ],
-  "why": [
-   "Togekiss: 17 (matchup -1.5 → 0.5 for Togekiss, takes ~31% coming in)",
-   "Lucario: 10.4 (matchup -1.5 → 0.5 for Lucario, takes ~43% coming in)",
-   "Spiritomb: 0.5 (matchup -1.5 → -0.5 for Spiritomb, takes ~35% coming in)"
-  ],
-  "knew": {
-   "turn": 13,
-   "foe": {
-    "species": "Crobat",
-    "pct": 55,
-    "known_moves": [
-     "Fly"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 13,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Fly",
-  "options": [
-   "move 1"
-  ],
-  "scores": [
-   0
-  ],
-  "why": [
-   "Fly: 0 (the only option)"
-  ],
-  "knew": {
-   "turn": 13,
-   "foe": {
-    "species": "Garchomp",
-    "pct": 19,
-    "known_moves": [
-     "Earthquake",
-     "Giga Impact"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 14,
-  "side": "b",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Air Slash",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   6.4,
-   -21.3,
-   -8.4,
-   12.2,
-   -94.9,
-   -62.8,
-   -30.6,
-   -53.4,
-   -40.5
-  ],
-  "why": [
-   "Shock Wave: 12.2 (~39% to Crobat, moves second)",
-   "Air Slash: 6.4 (~34% to Crobat, moves second)",
-   "Water Pulse: -8.4 (~19% to Crobat, moves second)"
-  ],
-  "knew": {
-   "turn": 14,
-   "foe": {
-    "species": "Crobat",
-    "pct": 55,
-    "known_moves": [
-     "Fly"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 14,
-  "side": "a",
-  "forced": false,
-  "choice": "move 2",
-  "label": "Roost",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -11.6,
-   1.3,
-   -29.4,
-   -37.4,
-   -23.1,
-   -30.8,
-   -42.1,
-   -33.9
-  ],
-  "why": [
-   "Roost: 1.3 (Roost: heals ~46%, takes ~45%)",
-   "Fly: -11.6 (~34% to Togekiss)",
-   "Snorlax: -23.1 (matchup 0.5 → 1.5 for Snorlax, takes ~23% coming in)"
-  ],
-  "knew": {
-   "turn": 14,
-   "foe": {
-    "species": "Togekiss",
-    "pct": 56
-   },
-   "foe_seen": 4,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 15,
-  "side": "b",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Air Slash",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   40,
-   -21.3,
-   -8.4,
-   44.7,
-   -84.9,
-   -52.8,
-   -34.6,
-   -43.4,
-   -30.5
-  ],
-  "why": [
-   "Shock Wave: 44.7 (~27% to Crobat, KO 100%, moves second)",
-   "Air Slash: 40 (~26% to Crobat, KO 95%, moves second)",
-   "Water Pulse: -8.4 (~19% to Crobat, moves second)"
-  ],
-  "knew": {
-   "turn": 15,
-   "foe": {
-    "species": "Crobat",
-    "pct": 27,
-    "known_moves": [
-     "Fly",
-     "Roost"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 15,
-  "side": "a",
-  "forced": false,
-  "choice": "move 2",
-  "label": "Roost",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   6.9,
-   38.9,
-   -10.9,
-   -19.7,
-   -9.1,
-   -16.8,
-   -28.1,
-   -19.9
-  ],
-  "why": [
-   "Roost: 38.9 (Roost: heals ~50%, takes ~26%)",
-   "Fly: 6.9 (~34% to Togekiss)",
-   "Snorlax: -9.1 (matchup -0.5 → 1.5 for Snorlax, takes ~23% coming in)"
-  ],
-  "knew": {
-   "turn": 15,
-   "foe": {
-    "species": "Togekiss",
-    "pct": 50,
-    "known_moves": [
-     "Air Slash"
-    ]
-   },
-   "foe_seen": 4,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 16,
-  "side": "b",
-  "forced": false,
-  "choice": "move 4",
-  "label": "Shock Wave",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   6.4,
-   -21.3,
-   -8.4,
-   26.2,
-   -70.9,
-   -38.8,
-   -20.6,
-   -29.4,
-   -16.5
-  ],
-  "why": [
-   "Shock Wave: 26.2 (~39% to Crobat, KO 31%, moves second)",
-   "Air Slash: 6.4 (~34% to Crobat, moves second)",
-   "Water Pulse: -8.4 (~19% to Crobat, moves second)"
-  ],
-  "knew": {
-   "turn": 16,
-   "foe": {
-    "species": "Crobat",
-    "pct": 40,
-    "known_moves": [
-     "Fly",
-     "Roost"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 16,
-  "side": "a",
-  "forced": false,
-  "choice": "move 2",
-  "label": "Roost",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -7,
-   25.1,
-   -24.8,
-   -34.3,
-   4.9,
-   -16.8,
-   -28.1,
-   -19.9
-  ],
-  "why": [
-   "Roost: 25.1 (Roost: heals ~50%, takes ~40%)",
-   "Snorlax: 4.9 (matchup -0.5 → 2.5 for Snorlax, takes ~23% coming in)",
-   "Fly: -7 (~34% to Togekiss)"
-  ],
-  "knew": {
-   "turn": 16,
-   "foe": {
-    "species": "Togekiss",
-    "pct": 44,
-    "known_moves": [
-     "Air Slash"
-    ]
-   },
-   "foe_seen": 4,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 17,
-  "side": "b",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Air Slash",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   6.4,
-   -21.3,
-   -8.4,
-   12.2,
-   -84.9,
-   -52.8,
-   -34.6,
-   -43.4,
-   -30.5
-  ],
-  "why": [
-   "Shock Wave: 12.2 (~39% to Crobat, moves second)",
-   "Air Slash: 6.4 (~34% to Crobat, moves second)",
-   "Water Pulse: -8.4 (~19% to Crobat, moves second)"
-  ],
-  "knew": {
-   "turn": 17,
-   "foe": {
-    "species": "Crobat",
-    "pct": 69,
-    "known_moves": [
-     "Fly",
-     "Roost"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 17,
-  "side": "a",
-  "forced": false,
-  "choice": "switch 2",
-  "label": "Snorlax",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -1,
-   -37.8,
-   -29.4,
-   -39.7,
-   -9.1,
-   -30.8,
-   -42.1,
-   -33.9
-  ],
-  "why": [
-   "Fly: -1 (~34% to Togekiss, KO 12%)",
-   "Snorlax: -9.1 (matchup 0.5 → 2.5 for Snorlax, takes ~23% coming in)",
-   "U-turn: -29.4 (~9% to Togekiss, pivots)"
-  ],
-  "knew": {
-   "turn": 17,
-   "foe": {
-    "species": "Togekiss",
-    "pct": 38,
-    "known_moves": [
-     "Air Slash",
-     "Shock Wave"
-    ]
-   },
-   "foe_seen": 4,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 18,
-  "side": "b",
-  "forced": false,
-  "choice": "move 2",
-  "label": "Aura Sphere",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -10.8,
-   3.6,
-   -18.5,
-   -18.5,
-   -20.5,
-   -10.6,
-   1.7,
-   -49.2,
-   -23.8
-  ],
-  "why": [
-   "Aura Sphere: 3.6 (~31% to Snorlax)",
-   "Lucario: 1.7 (matchup -0.5 → 1.5 for Lucario, takes ~28% coming in)",
-   "Garchomp: -10.6 (matchup -0.5 → -0.5 for Garchomp, takes ~0% coming in)"
-  ],
-  "knew": {
-   "turn": 18,
-   "foe": {
-    "species": "Snorlax",
-    "pct": 61,
-    "known_moves": [
-     "Thunder Punch"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 18,
-  "side": "a",
-  "forced": false,
-  "choice": "move 3",
-  "label": "Thunder Punch",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   43.2,
-   -17.2,
-   43.2,
-   -13.9,
-   -67.5,
-   -54.8,
-   -52.1,
-   -57.9
-  ],
-  "why": [
-   "Body Slam: 43.2 (~32% to Togekiss, KO 100%, moves second)",
-   "Thunder Punch: 43.2 (~32% to Togekiss, KO 100%, moves second)",
-   "Zen Headbutt: -13.9 (~22% to Togekiss, moves second)"
-  ],
-  "knew": {
-   "turn": 18,
-   "foe": {
-    "species": "Togekiss",
-    "pct": 32,
-    "known_moves": [
-     "Air Slash",
-     "Shock Wave"
-    ]
-   },
-   "foe_seen": 4,
-   "foe_left": 6,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 18,
-  "side": "b",
-  "forced": true,
-  "choice": "switch 4",
-  "label": "Lucario",
-  "options": [
-   "switch 2",
-   "switch 3",
-   "switch 4",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   17,
-   -12.4,
-   52,
-   11.4,
-   42.4
-  ],
-  "why": [
-   "Lucario: 52 (race +3.5 (needs 1, they need 4, moves first))",
-   "Spiritomb: 42.4 (race +2.5 (needs 2, they need 4, moves first))",
-   "Roserade: 17 (race +0.5 (needs 2, they need 2, moves first))"
-  ],
-  "knew": {
-   "turn": 18,
-   "foe": {
-    "species": "Snorlax",
-    "pct": 32,
-    "known_moves": [
-     "Thunder Punch"
-    ]
-   },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 19,
   "side": "a",
   "forced": false,
   "choice": "switch 5",
@@ -1663,37 +767,70 @@
    "move 4",
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Rest",
+   "Heal Bell",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Typhlosion",
+   "Snorlax"
+  ],
   "scores": [
-   -47.9,
-   26,
-   -47.9,
-   -49.7,
-   21.8,
-   -11.9,
-   31.6,
-   -32.9
+   -26,
+   -43.3,
+   -35.5,
+   -76,
+   -62.8,
+   -62.8,
+   -58.2,
+   -18.5,
+   -73.1
   ],
   "why": [
-   "Typhlosion: 31.6 (matchup -3.5 → 1.5 for Typhlosion, takes ~41% coming in)",
-   "Rest: 26 (Rest: heals ~68%, takes ~32%)",
-   "Crobat: 21.8 (matchup -3.5 → -0.5 for Crobat, takes ~11% coming in)"
+   "Typhlosion: -18.5 (matchup -0.5 → 1.5 for Typhlosion, takes ~49% coming in)",
+   "Surf: -26 (~35% to Lucario, moves second, 31% chance it's KO'd first)",
+   "Rest: -35.5 (Rest: heals ~98%, takes ~61%, 31% chance it's KO'd first)"
   ],
   "knew": {
-   "turn": 19,
+   "turn": 6,
    "foe": {
     "species": "Lucario",
-    "pct": 100
+    "pct": 77
    },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_seen": 3,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 237,
+   "stand_ins": [
+    "Aura Sphere",
+    "Flash Cannon"
+   ],
+   "foe_ability": "Steadfast",
+   "coming": "Aura Sphere, ~61%"
+  },
+  "reasons": {
+   "Surf": "~35% to Lucario, moves second, 31% chance it's KO'd first",
+   "Ice Beam": "~17% to Lucario, moves second, 31% chance it's KO'd first",
+   "Rest": "Rest: heals ~98%, takes ~61%, 31% chance it's KO'd first",
+   "Heal Bell": "0 of ours with a status",
+   "Tyranitar": "matchup -0.5 → 0.5 for Tyranitar, takes ~100% coming in",
+   "Mamoswine": "matchup -0.5 → 0.5 for Mamoswine, takes ~100% coming in",
+   "Crobat": "matchup -0.5 → -9.5 for Crobat, takes ~11% coming in",
+   "Typhlosion": "matchup -0.5 → 1.5 for Typhlosion, takes ~49% coming in",
+   "Snorlax": "matchup -0.5 → -1.5 for Snorlax, takes ~47% coming in"
   }
  },
  {
-  "turn": 19,
+  "turn": 6,
   "side": "b",
   "forced": false,
   "choice": "move 1",
@@ -1705,40 +842,75 @@
    "move 4",
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Aura Sphere",
+   "Extreme Speed",
+   "Shadow Ball",
+   "Stone Edge",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Garchomp"
+  ],
   "scores": [
-   78.9,
-   -5.8,
-   -40,
-   -10.1,
-   -65.5,
-   -55.6,
-   -94.2,
-   -54.8
+   27,
+   -19.5,
+   -21.7,
+   -4.3,
+   -44.2,
+   -49.8,
+   -55.3,
+   -68.8,
+   -65.9
   ],
   "why": [
-   "Aura Sphere: 78.9 (~32% to Snorlax, KO 100%)",
-   "Extreme Speed: -5.8 (~19% to Snorlax)",
-   "Stone Edge: -10.1 (~19% to Snorlax)"
+   "Aura Sphere: 27 (~58% to Lapras, KO 6%)",
+   "Stone Edge: -4.3 (~38% to Lapras, hits 80%)",
+   "Extreme Speed: -19.5 (~19% to Lapras)"
   ],
   "knew": {
-   "turn": 19,
+   "turn": 6,
    "foe": {
-    "species": "Snorlax",
-    "pct": 32,
+    "species": "Lapras",
+    "pct": 63,
     "known_moves": [
-     "Thunder Punch"
-    ]
+     "Surf",
+     "Ice Beam"
+    ],
+    "item": "Leftovers"
    },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_seen": 2,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 219,
+   "stand_ins": [
+    "Waterfall",
+    "Ice Punch"
+   ],
+   "foe_ability": "Water Absorb",
+   "coming": "Surf, ~43%"
+  },
+  "reasons": {
+   "Aura Sphere": "~58% to Lapras, KO 6%",
+   "Extreme Speed": "~19% to Lapras",
+   "Shadow Ball": "~17% to Lapras",
+   "Stone Edge": "~38% to Lapras, hits 80%",
+   "Roserade": "matchup 0.5 → -0.5 for Roserade, takes ~17% coming in",
+   "Togekiss": "matchup 0.5 → -0.5 for Togekiss, takes ~27% coming in",
+   "Milotic": "matchup 0.5 → -1.5 for Milotic, takes ~12% coming in",
+   "Spiritomb": "matchup 0.5 → -1.5 for Spiritomb, takes ~36% coming in",
+   "Garchomp": "matchup 0.5 → -0.5 for Garchomp, takes ~30% coming in"
   }
  },
  {
-  "turn": 20,
+  "turn": 7,
   "side": "a",
   "forced": false,
   "choice": "move 1",
@@ -1750,43 +922,959 @@
    "move 4",
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Flamethrower",
+   "Extrasensory",
+   "Thunder Punch",
+   "Earthquake",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   145,
-   -7.2,
-   -20.7,
-   13.2,
-   -61.2,
-   -94.9,
-   -128.8,
-   -115.9
+   122.5,
+   -12.4,
+   -28.7,
+   4.6,
+   -100.8,
+   -100.8,
+   -96.2,
+   -105.4,
+   -111.1
   ],
   "why": [
-   "Flamethrower: 145 (~100% to Lucario, KO 100%)",
-   "Earthquake: 13.2 (~54% to Lucario)",
-   "Extrasensory: -7.2 (~34% to Lucario)"
+   "Flamethrower: 122.5 (~77% to Lucario, KO 100%)",
+   "Earthquake: 4.6 (~54% to Lucario)",
+   "Extrasensory: -12.4 (~37% to Lucario)"
   ],
   "knew": {
-   "turn": 20,
+   "turn": 7,
    "foe": {
     "species": "Lucario",
-    "pct": 100,
+    "pct": 77,
     "known_moves": [
      "Aura Sphere"
     ]
    },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_seen": 3,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 237,
+   "stand_ins": [
+    "Flash Cannon"
+   ],
+   "foe_ability": "Steadfast",
+   "coming": "Aura Sphere, ~49%"
+  },
+  "reasons": {
+   "Flamethrower": "~77% to Lucario, KO 100%",
+   "Extrasensory": "~37% to Lucario",
+   "Thunder Punch": "~20% to Lucario",
+   "Earthquake": "~54% to Lucario",
+   "Tyranitar": "matchup 1.5 → 0.5 for Tyranitar, takes ~100% coming in",
+   "Mamoswine": "matchup 1.5 → 0.5 for Mamoswine, takes ~100% coming in",
+   "Crobat": "matchup 1.5 → -9.5 for Crobat, takes ~11% coming in",
+   "Lapras": "matchup 1.5 → -1.5 for Lapras, takes ~61% coming in",
+   "Snorlax": "matchup 1.5 → -1.5 for Snorlax, takes ~47% coming in"
   }
  },
  {
-  "turn": 20,
+  "turn": 7,
   "side": "b",
   "forced": false,
-  "choice": "switch 5",
+  "choice": "switch 6",
+  "label": "Garchomp",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Aura Sphere",
+   "Extreme Speed",
+   "Shadow Ball",
+   "Stone Edge",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Garchomp"
+  ],
+  "scores": [
+   -71,
+   -43.4,
+   -71,
+   -75.3,
+   -57.1,
+   -0.9,
+   23.3,
+   -21,
+   33.5
+  ],
+  "why": [
+   "Garchomp: 33.5 (matchup -1.5 → 4.5 for Garchomp, takes ~18% coming in)",
+   "Milotic: 23.3 (matchup -1.5 → 1.5 for Milotic, takes ~14% coming in)",
+   "Togekiss: -0.9 (matchup -1.5 → 0.5 for Togekiss, takes ~32% coming in)"
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 52,
+    "known_moves": [
+     "Flamethrower"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 257,
+   "foe_ability": "Blaze",
+   "coming": "Flamethrower, ~76%"
+  },
+  "reasons": {
+   "Aura Sphere": "~0% to Typhlosion, moves second, 100% chance it's KO'd first",
+   "Extreme Speed": "~26% to Typhlosion",
+   "Shadow Ball": "~0% to Typhlosion, moves second, 100% chance it's KO'd first",
+   "Stone Edge": "~0% to Typhlosion, hits 80%, moves second, 100% chance it's KO'd first",
+   "Roserade": "matchup -1.5 → -1.5 for Roserade, takes ~82% coming in",
+   "Togekiss": "matchup -1.5 → 0.5 for Togekiss, takes ~32% coming in",
+   "Milotic": "matchup -1.5 → 1.5 for Milotic, takes ~14% coming in",
+   "Spiritomb": "matchup -1.5 → -0.5 for Spiritomb, takes ~43% coming in",
+   "Garchomp": "matchup -1.5 → 4.5 for Garchomp, takes ~18% coming in"
+  }
+ },
+ {
+  "turn": 8,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 4",
+  "label": "Crobat",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Flamethrower",
+   "Extrasensory",
+   "Thunder Punch",
+   "Earthquake",
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Lapras",
+   "Snorlax"
+  ],
+  "scores": [
+   -28.3,
+   -25.3,
+   -66.3,
+   -33.6,
+   -54.1,
+   -20.1,
+   -2.8,
+   -17,
+   -46.4
+  ],
+  "why": [
+   "Crobat: -2.8 (matchup -2.5 → -1.5 for Crobat, takes ~0% coming in)",
+   "Lapras: -17 (matchup -2.5 → -0.5 for Lapras, takes ~47% coming in)",
+   "Mamoswine: -20.1 (matchup -2.5 → -0.5 for Mamoswine, takes ~52% coming in)"
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 77
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 261,
+   "stand_ins": [
+    "Dragon Claw",
+    "Earthquake"
+   ],
+   "foe_ability": "Sand Veil",
+   "coming": "Earthquake, ~51%"
+  },
+  "reasons": {
+   "Flamethrower": "~23% to Garchomp",
+   "Extrasensory": "~26% to Garchomp",
+   "Thunder Punch": "Thunder Punch does nothing to Garchomp",
+   "Earthquake": "~17% to Garchomp",
+   "Tyranitar": "matchup -2.5 → -1.5 for Tyranitar, takes ~85% coming in",
+   "Mamoswine": "matchup -2.5 → -0.5 for Mamoswine, takes ~52% coming in",
+   "Crobat": "matchup -2.5 → -1.5 for Crobat, takes ~0% coming in",
+   "Lapras": "matchup -2.5 → -0.5 for Lapras, takes ~47% coming in",
+   "Snorlax": "matchup -2.5 → -1.5 for Snorlax, takes ~48% coming in"
+  }
+ },
+ {
+  "turn": 8,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Lucario"
+  ],
+  "scores": [
+   48,
+   100.6,
+   -19.3,
+   34.4,
+   -130.1,
+   -73.9,
+   -49.7,
+   -94,
+   -126.5
+  ],
+  "why": [
+   "Earthquake: 100.6 (~52% to Typhlosion, KO 100%)",
+   "Dragon Rush: 48 (~39% to Typhlosion, KO 56%, hits 75%)",
+   "Giga Impact: 34.4 (~47% to Typhlosion, KO 68%, hits 90%, recharges)"
+  ],
+  "knew": {
+   "turn": 8,
+   "foe": {
+    "species": "Typhlosion",
+    "pct": 52,
+    "known_moves": [
+     "Flamethrower"
+    ]
+   },
+   "foe_seen": 2,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 257,
+   "foe_ability": "Blaze",
+   "coming": "Flamethrower, ~18%"
+  },
+  "reasons": {
+   "Dragon Rush": "~39% to Typhlosion, KO 56%, hits 75%",
+   "Earthquake": "~52% to Typhlosion, KO 100%",
+   "Flamethrower": "~11% to Typhlosion",
+   "Giga Impact": "~47% to Typhlosion, KO 68%, hits 90%, recharges",
+   "Roserade": "matchup 4.5 → -1.5 for Roserade, takes ~82% coming in",
+   "Togekiss": "matchup 4.5 → 0.5 for Togekiss, takes ~32% coming in",
+   "Milotic": "matchup 4.5 → 1.5 for Milotic, takes ~14% coming in",
+   "Spiritomb": "matchup 4.5 → -0.5 for Spiritomb, takes ~43% coming in",
+   "Lucario": "matchup 4.5 → -1.5 for Lucario, takes ~76% coming in"
+  }
+ },
+ {
+  "turn": 9,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Fly",
+   "Roost",
+   "U-turn",
+   "Toxic",
+   "Tyranitar",
+   "Mamoswine",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
+  "scores": [
+   -5,
+   -54.2,
+   -16.5,
+   -19.6,
+   -47.3,
+   -23.9,
+   -57.6,
+   -35.4,
+   -61.8
+  ],
+  "why": [
+   "Fly: -5 (~30% to Garchomp, hits 95%, two turns, out of reach on the first)",
+   "U-turn: -16.5 (~16% to Garchomp, pivots)",
+   "Toxic: -19.6 (Toxic on a 77% Garchomp (hits 85%))"
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 77,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 261,
+   "stand_ins": [
+    "Dragon Claw"
+   ],
+   "foe_ability": "Sand Veil",
+   "coming": "Dragon Claw, ~39%"
+  },
+  "reasons": {
+   "Fly": "~30% to Garchomp, hits 95%, two turns, out of reach on the first",
+   "Roost": "barely hurt",
+   "U-turn": "~16% to Garchomp, pivots",
+   "Toxic": "Toxic on a 77% Garchomp (hits 85%)",
+   "Tyranitar": "matchup -1.5 → -1.5 for Tyranitar, takes ~34% coming in",
+   "Mamoswine": "matchup -1.5 → 0.5 for Mamoswine, takes ~42% coming in",
+   "Typhlosion": "matchup -1.5 → -1.5 for Typhlosion, takes ~51% coming in",
+   "Lapras": "matchup -1.5 → -0.5 for Lapras, takes ~38% coming in",
+   "Snorlax": "matchup -1.5 → -1.5 for Snorlax, takes ~39% coming in"
+  }
+ },
+ {
+  "turn": 9,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Rush",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Lucario"
+  ],
+  "scores": [
+   -5.8,
+   -56.9,
+   -17.7,
+   -36.4,
+   -92.4,
+   -40.1,
+   -55.4,
+   -42.5,
+   -60.1
+  ],
+  "why": [
+   "Dragon Rush: -5.8 (~39% to Crobat, hits 75%, moves second)",
+   "Flamethrower: -17.7 (~22% to Crobat, moves second)",
+   "Giga Impact: -36.4 (~46% to Crobat, hits 90%, moves second, recharges)"
+  ],
+  "knew": {
+   "turn": 9,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100
+   },
+   "foe_seen": 3,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 317,
+   "stand_ins": [
+    "Poison Jab",
+    "Drill Peck"
+   ],
+   "foe_ability": "Inner Focus",
+   "coming": "Drill Peck, ~24%"
+  },
+  "reasons": {
+   "Dragon Rush": "~39% to Crobat, hits 75%, moves second",
+   "Earthquake": "Earthquake does nothing to Crobat",
+   "Flamethrower": "~22% to Crobat, moves second",
+   "Giga Impact": "~46% to Crobat, hits 90%, moves second, recharges",
+   "Roserade": "matchup 0.5 → -1.5 for Roserade, takes ~95% coming in",
+   "Togekiss": "matchup 0.5 → -0.5 for Togekiss, takes ~27% coming in",
+   "Milotic": "matchup 0.5 → -1.5 for Milotic, takes ~30% coming in",
+   "Spiritomb": "matchup 0.5 → -0.5 for Spiritomb, takes ~32% coming in",
+   "Lucario": "matchup 0.5 → -1.5 for Lucario, takes ~38% coming in"
+  }
+ },
+ {
+  "turn": 10,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "labels": [
+   "Fly"
+  ],
+  "scores": [
+   0
+  ],
+  "why": [
+   "Fly: 0 (the only option)"
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 77,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Rush"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "reasons": {
+   "Fly": "the only option"
+  }
+ },
+ {
+  "turn": 10,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Rush",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Lucario"
+  ],
+  "scores": [
+   -8.5,
+   -59.6,
+   -20.3,
+   -41.8,
+   -64,
+   -10.1,
+   -25.5,
+   -26.5,
+   -44.4
+  ],
+  "why": [
+   "Dragon Rush: -8.5 (~39% to Crobat, hits 75%, moves second)",
+   "Togekiss: -10.1 (matchup -0.5 → -0.5 for Togekiss, takes ~29% coming in)",
+   "Flamethrower: -20.3 (~22% to Crobat, moves second)"
+  ],
+  "knew": {
+   "turn": 10,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 317,
+   "stand_ins": [
+    "Poison Jab",
+    "Drill Peck"
+   ],
+   "foe_ability": "Inner Focus",
+   "coming": "Fly, ~26%"
+  },
+  "reasons": {
+   "Dragon Rush": "~39% to Crobat, hits 75%, moves second",
+   "Earthquake": "Earthquake does nothing to Crobat",
+   "Flamethrower": "~22% to Crobat, moves second",
+   "Giga Impact": "~46% to Crobat, hits 90%, moves second, recharges",
+   "Roserade": "matchup -0.5 → -1.5 for Roserade, takes ~100% coming in",
+   "Togekiss": "matchup -0.5 → -0.5 for Togekiss, takes ~29% coming in",
+   "Milotic": "matchup -0.5 → -1.5 for Milotic, takes ~32% coming in",
+   "Spiritomb": "matchup -0.5 → -1.5 for Spiritomb, takes ~33% coming in",
+   "Lucario": "matchup -0.5 → -2.5 for Lucario, takes ~40% coming in"
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Roost",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Fly",
+   "Roost",
+   "U-turn",
+   "Toxic",
+   "Tyranitar",
+   "Mamoswine",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
+  "scores": [
+   -5,
+   3.8,
+   -16.5,
+   -21.1,
+   -9.3,
+   0.1,
+   -33.6,
+   -11.4,
+   -37.8
+  ],
+  "why": [
+   "Roost: 3.8 (Roost: heals ~43%, takes ~39%)",
+   "Mamoswine: 0.1 (matchup -2.5 → 0.5 for Mamoswine, takes ~42% coming in)",
+   "Fly: -5 (~30% to Garchomp, hits 95%, two turns, out of reach on the first)"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 71,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Rush"
+    ],
+    "item": "Sitrus Berry"
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 261,
+   "stand_ins": [
+    "Dragon Claw"
+   ],
+   "foe_ability": "Sand Veil",
+   "coming": "Dragon Claw, ~39%"
+  },
+  "reasons": {
+   "Fly": "~30% to Garchomp, hits 95%, two turns, out of reach on the first",
+   "Roost": "Roost: heals ~43%, takes ~39%",
+   "U-turn": "~16% to Garchomp, pivots",
+   "Toxic": "Toxic on a 71% Garchomp (hits 85%)",
+   "Tyranitar": "matchup -2.5 → -0.5 for Tyranitar, takes ~34% coming in",
+   "Mamoswine": "matchup -2.5 → 0.5 for Mamoswine, takes ~42% coming in",
+   "Typhlosion": "matchup -2.5 → -1.5 for Typhlosion, takes ~51% coming in",
+   "Lapras": "matchup -2.5 → -0.5 for Lapras, takes ~38% coming in",
+   "Snorlax": "matchup -2.5 → -1.5 for Snorlax, takes ~39% coming in"
+  }
+ },
+ {
+  "turn": 11,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Rush",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Lucario"
+  ],
+  "scores": [
+   -8.5,
+   -59.6,
+   -20.3,
+   -41.8,
+   -95,
+   -27.1,
+   -56.5,
+   -43.5,
+   -61.4
+  ],
+  "why": [
+   "Dragon Rush: -8.5 (~39% to Crobat, hits 75%, moves second)",
+   "Flamethrower: -20.3 (~22% to Crobat, moves second)",
+   "Togekiss: -27.1 (matchup 0.5 → 0.5 for Togekiss, takes ~29% coming in)"
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Crobat",
+    "pct": 57,
+    "known_moves": [
+     "Fly"
+    ],
+    "item": "Black Sludge"
+   },
+   "foe_seen": 3,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 317,
+   "stand_ins": [
+    "Poison Jab",
+    "Drill Peck"
+   ],
+   "foe_ability": "Inner Focus",
+   "coming": "Fly, ~26%"
+  },
+  "reasons": {
+   "Dragon Rush": "~39% to Crobat, hits 75%, moves second",
+   "Earthquake": "Earthquake does nothing to Crobat",
+   "Flamethrower": "~22% to Crobat, moves second",
+   "Giga Impact": "~46% to Crobat, hits 90%, moves second, recharges",
+   "Roserade": "matchup 0.5 → -1.5 for Roserade, takes ~100% coming in",
+   "Togekiss": "matchup 0.5 → 0.5 for Togekiss, takes ~29% coming in",
+   "Milotic": "matchup 0.5 → -1.5 for Milotic, takes ~32% coming in",
+   "Spiritomb": "matchup 0.5 → -0.5 for Spiritomb, takes ~33% coming in",
+   "Lucario": "matchup 0.5 → -1.5 for Lucario, takes ~40% coming in"
+  }
+ },
+ {
+  "turn": 12,
+  "side": "a",
+  "forced": false,
+  "choice": "switch 3",
+  "label": "Mamoswine",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Fly",
+   "Roost",
+   "U-turn",
+   "Toxic",
+   "Tyranitar",
+   "Mamoswine",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
+  "scores": [
+   -5,
+   2.1,
+   -16.5,
+   -21.1,
+   -9.3,
+   0.1,
+   -33.6,
+   -11.4,
+   -37.8
+  ],
+  "why": [
+   "Roost: 2.1 (Roost: heals ~41%, takes ~39%)",
+   "Mamoswine: 0.1 (matchup -2.5 → 0.5 for Mamoswine, takes ~42% coming in)",
+   "Fly: -5 (~30% to Garchomp, hits 95%, two turns, out of reach on the first)"
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 71,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Rush"
+    ],
+    "item": "Sitrus Berry"
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 261,
+   "stand_ins": [
+    "Dragon Claw"
+   ],
+   "foe_ability": "Sand Veil",
+   "coming": "Dragon Claw, ~39%"
+  },
+  "reasons": {
+   "Fly": "~30% to Garchomp, hits 95%, two turns, out of reach on the first",
+   "Roost": "Roost: heals ~41%, takes ~39%",
+   "U-turn": "~16% to Garchomp, pivots",
+   "Toxic": "Toxic on a 71% Garchomp (hits 85%)",
+   "Tyranitar": "matchup -2.5 → -0.5 for Tyranitar, takes ~34% coming in",
+   "Mamoswine": "matchup -2.5 → 0.5 for Mamoswine, takes ~42% coming in",
+   "Typhlosion": "matchup -2.5 → -1.5 for Typhlosion, takes ~51% coming in",
+   "Lapras": "matchup -2.5 → -0.5 for Lapras, takes ~38% coming in",
+   "Snorlax": "matchup -2.5 → -1.5 for Snorlax, takes ~39% coming in"
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Dragon Rush",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Lucario"
+  ],
+  "scores": [
+   -8.5,
+   -59.6,
+   -20.3,
+   -41.8,
+   -95,
+   -27.1,
+   -56.5,
+   -43.5,
+   -61.4
+  ],
+  "why": [
+   "Dragon Rush: -8.5 (~39% to Crobat, hits 75%, moves second)",
+   "Flamethrower: -20.3 (~22% to Crobat, moves second)",
+   "Togekiss: -27.1 (matchup 0.5 → 0.5 for Togekiss, takes ~29% coming in)"
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Crobat",
+    "pct": 59,
+    "known_moves": [
+     "Fly",
+     "Roost"
+    ],
+    "item": "Black Sludge"
+   },
+   "foe_seen": 3,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 317,
+   "stand_ins": [
+    "Poison Jab",
+    "Drill Peck"
+   ],
+   "foe_ability": "Inner Focus",
+   "coming": "Fly, ~26%"
+  },
+  "reasons": {
+   "Dragon Rush": "~39% to Crobat, hits 75%, moves second",
+   "Earthquake": "Earthquake does nothing to Crobat",
+   "Flamethrower": "~22% to Crobat, moves second",
+   "Giga Impact": "~46% to Crobat, hits 90%, moves second, recharges",
+   "Roserade": "matchup 0.5 → -1.5 for Roserade, takes ~100% coming in",
+   "Togekiss": "matchup 0.5 → 0.5 for Togekiss, takes ~29% coming in",
+   "Milotic": "matchup 0.5 → -1.5 for Milotic, takes ~32% coming in",
+   "Spiritomb": "matchup 0.5 → -0.5 for Spiritomb, takes ~33% coming in",
+   "Lucario": "matchup 0.5 → -1.5 for Lucario, takes ~40% coming in"
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Ice Shard",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
+  "scores": [
+   -2.4,
+   -47.3,
+   57.5,
+   116.8,
+   -92.1,
+   -68.8,
+   -85.6,
+   -69,
+   -98.4
+  ],
+  "why": [
+   "Ice Shard: 116.8 (~71% to Garchomp, KO 100%)",
+   "Ice Fang: 57.5 (~67% to Garchomp, KO 95%, hits 95%, moves second)",
+   "Earthquake: -2.4 (~49% to Garchomp, moves second)"
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 71,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Rush"
+    ],
+    "item": "Sitrus Berry"
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 261,
+   "stand_ins": [
+    "Dragon Claw"
+   ],
+   "foe_ability": "Sand Veil",
+   "coming": "Earthquake, ~52%"
+  },
+  "reasons": {
+   "Earthquake": "~49% to Garchomp, moves second",
+   "Ancient Power": "~4% to Garchomp, moves second",
+   "Ice Fang": "~67% to Garchomp, KO 95%, hits 95%, moves second",
+   "Ice Shard": "~71% to Garchomp, KO 100%",
+   "Tyranitar": "matchup 0.5 → -0.5 for Tyranitar, takes ~85% coming in",
+   "Crobat": "matchup 0.5 → -2.5 for Crobat, takes ~0% coming in",
+   "Typhlosion": "matchup 0.5 → -1.5 for Typhlosion, takes ~51% coming in",
+   "Lapras": "matchup 0.5 → -0.5 for Lapras, takes ~47% coming in",
+   "Snorlax": "matchup 0.5 → -1.5 for Snorlax, takes ~48% coming in"
+  }
+ },
+ {
+  "turn": 13,
+  "side": "b",
+  "forced": false,
+  "choice": "switch 4",
   "label": "Milotic",
   "options": [
    "move 1",
@@ -1795,44 +1883,74 @@
    "move 4",
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact",
+   "Roserade",
+   "Togekiss",
+   "Milotic",
+   "Spiritomb",
+   "Lucario"
+  ],
   "scores": [
-   -80,
-   -66.7,
-   -85.8,
-   -73.7,
-   -71.1,
-   -15.5,
-   9.3,
-   -49
+   -92.4,
+   -75.2,
+   -71.9,
+   -205.3,
+   -36,
+   -32.6,
+   9.9,
+   -16,
+   7.1
   ],
   "why": [
-   "Milotic: 9.3 (matchup -0.5 → 1.5 for Milotic, takes ~14% coming in)",
-   "Garchomp: -15.5 (matchup -0.5 → 0.5 for Garchomp, takes ~18% coming in)",
-   "Spiritomb: -49 (matchup -0.5 → -1.5 for Spiritomb, takes ~43% coming in)"
+   "Milotic: 9.9 (matchup -1.5 → -0.5 for Milotic, takes ~19% coming in)",
+   "Lucario: 7.1 (matchup -1.5 → -0.5 for Lucario, takes ~23% coming in)",
+   "Spiritomb: -16 (matchup -1.5 → -1.5 for Spiritomb, takes ~40% coming in)"
   ],
   "knew": {
-   "turn": 20,
+   "turn": 13,
    "foe": {
-    "species": "Typhlosion",
-    "pct": 50,
-    "known_moves": [
-     "Flamethrower"
-    ]
+    "species": "Mamoswine",
+    "pct": 100
    },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch",
+    "Earthquake"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Ice Punch, ~71%"
+  },
+  "reasons": {
+   "Dragon Rush": "~34% to Mamoswine, hits 75%",
+   "Earthquake": "~45% to Mamoswine",
+   "Flamethrower": "~48% to Mamoswine",
+   "Giga Impact": "~40% to Mamoswine, hits 90%, recharges",
+   "Roserade": "matchup -1.5 → -0.5 for Roserade, takes ~100% coming in",
+   "Togekiss": "matchup -1.5 → -1.5 for Togekiss, takes ~69% coming in",
+   "Milotic": "matchup -1.5 → -0.5 for Milotic, takes ~19% coming in",
+   "Spiritomb": "matchup -1.5 → -1.5 for Spiritomb, takes ~40% coming in",
+   "Lucario": "matchup -1.5 → -0.5 for Lucario, takes ~23% coming in"
   }
  },
  {
-  "turn": 21,
+  "turn": 14,
   "side": "a",
   "forced": false,
-  "choice": "move 3",
-  "label": "Thunder Punch",
+  "choice": "move 1",
+  "label": "Earthquake",
   "options": [
    "move 1",
    "move 2",
@@ -1840,41 +1958,70 @@
    "move 4",
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   -27,
-   -24.8,
-   68,
-   -11.1,
-   -41.1,
-   -67.7,
-   -49.3,
-   11.2
+   81.5,
+   -92.5,
+   -77.8,
+   -84.6,
+   -59.3,
+   -55.1,
+   -61.6,
+   -2.8,
+   -8.6
   ],
   "why": [
-   "Thunder Punch: 68 (~23% to Milotic, KO 100%)",
-   "Lapras: 11.2 (matchup 0.5 → 2.5 for Lapras, takes ~0% coming in)",
-   "Earthquake: -11.1 (~21% to Milotic, KO 13%)"
+   "Earthquake: 81.5 (~36% to Milotic, KO 100%)",
+   "Lapras: -2.8 (matchup 0.5 → 1.5 for Lapras, takes ~0% coming in)",
+   "Snorlax: -8.6 (matchup 0.5 → 2.5 for Snorlax, takes ~22% coming in)"
   ],
   "knew": {
-   "turn": 21,
+   "turn": 14,
    "foe": {
     "species": "Milotic",
-    "pct": 23,
+    "pct": 36,
     "known_moves": [
      "Surf",
      "Dragon Pulse"
     ]
    },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 218,
+   "foe_ability": "Marvel Scale",
+   "coming": "Surf, ~100%"
+  },
+  "reasons": {
+   "Earthquake": "~36% to Milotic, KO 100%",
+   "Ancient Power": "~7% to Milotic",
+   "Ice Fang": "~23% to Milotic, hits 95%",
+   "Ice Shard": "~15% to Milotic",
+   "Tyranitar": "matchup 0.5 → 0.5 for Tyranitar, takes ~71% coming in",
+   "Crobat": "matchup 0.5 → -0.5 for Crobat, takes ~41% coming in",
+   "Typhlosion": "matchup 0.5 → -0.5 for Typhlosion, takes ~51% coming in",
+   "Lapras": "matchup 0.5 → 1.5 for Lapras, takes ~0% coming in",
+   "Snorlax": "matchup 0.5 → 2.5 for Snorlax, takes ~22% coming in"
   }
  },
  {
-  "turn": 21,
+  "turn": 14,
   "side": "b",
   "forced": false,
   "choice": "move 1",
@@ -1886,40 +2033,73 @@
    "move 4",
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Mirror Coat",
+   "Dragon Pulse",
+   "Roserade",
+   "Togekiss",
+   "Garchomp",
+   "Spiritomb",
+   "Lucario"
+  ],
   "scores": [
-   78.3,
-   0.5,
-   -40,
-   13.3,
-   -81.1,
-   -39.5,
-   -93,
-   -73
+   56.8,
+   -3,
+   -48.2,
+   -4.4,
+   -65.4,
+   -20.6,
+   -76.6,
+   -78.2,
+   -63.5
   ],
   "why": [
-   "Surf: 78.3 (~44% to Typhlosion, KO 100%, moves second)",
-   "Dragon Pulse: 13.3 (~25% to Typhlosion, moves second)",
-   "Ice Beam: 0.5 (~13% to Typhlosion, moves second)"
+   "Surf: 56.8 (~84% to Mamoswine)",
+   "Ice Beam: -3 (~28% to Mamoswine)",
+   "Dragon Pulse: -4.4 (~27% to Mamoswine)"
   ],
   "knew": {
-   "turn": 21,
+   "turn": 14,
    "foe": {
-    "species": "Typhlosion",
-    "pct": 44,
+    "species": "Mamoswine",
+    "pct": 100,
     "known_moves": [
-     "Flamethrower"
+     "Ice Shard"
     ]
    },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch",
+    "Earthquake"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Earthquake, ~35%"
+  },
+  "reasons": {
+   "Surf": "~84% to Mamoswine",
+   "Ice Beam": "~28% to Mamoswine",
+   "Mirror Coat": "Mirror Coat fails against Earthquake",
+   "Dragon Pulse": "~27% to Mamoswine",
+   "Roserade": "matchup -0.5 → -0.5 for Roserade, takes ~79% coming in",
+   "Togekiss": "matchup -0.5 → -0.5 for Togekiss, takes ~0% coming in",
+   "Garchomp": "matchup -0.5 → -1.5 for Garchomp, takes ~40% coming in",
+   "Spiritomb": "matchup -0.5 → -2.5 for Spiritomb, takes ~52% coming in",
+   "Lucario": "matchup -0.5 → -0.5 for Lucario, takes ~76% coming in"
   }
  },
  {
-  "turn": 21,
+  "turn": 14,
   "side": "b",
   "forced": true,
   "choice": "switch 2",
@@ -1927,41 +2107,64 @@
   "options": [
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Roserade",
+   "Togekiss",
+   "Garchomp",
+   "Spiritomb",
+   "Lucario"
+  ],
   "scores": [
-   17,
-   1.6,
    3,
-   0.4
+   3,
+   -35.2,
+   -11,
+   0.6
   ],
   "why": [
-   "Roserade: 17 (race +0.5 (needs 1, they need 2))",
-   "Lucario: 3 (race -0.5 (needs 1, they need 1))",
-   "Garchomp: 1.6 (race +1.5 (needs 1, they need 2, moves first), the ace)"
+   "Roserade: 3 (race -0.5 (needs 2, they need 1, moves first))",
+   "Togekiss: 3 (race -0.5 (needs 2, they need 2))",
+   "Lucario: 0.6 (race -0.5 (needs 2, they need 1, moves first))"
   ],
   "knew": {
-   "turn": 21,
+   "turn": 14,
    "foe": {
-    "species": "Typhlosion",
-    "pct": 38,
+    "species": "Mamoswine",
+    "pct": 100,
     "known_moves": [
-     "Flamethrower",
-     "Thunder Punch"
+     "Ice Shard",
+     "Earthquake"
     ]
    },
-   "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious"
+  },
+  "reasons": {
+   "Roserade": "race -0.5 (needs 2, they need 1, moves first)",
+   "Togekiss": "race -0.5 (needs 2, they need 2)",
+   "Garchomp": "race -1.5 (needs 3, they need 1, moves first), the ace",
+   "Spiritomb": "race -1.5 (needs 3, they need 2)",
+   "Lucario": "race -0.5 (needs 2, they need 1, moves first)"
   }
  },
  {
-  "turn": 22,
+  "turn": 15,
   "side": "a",
   "forced": false,
-  "choice": "move 1",
-  "label": "Flamethrower",
+  "choice": "move 3",
+  "label": "Ice Fang",
   "options": [
    "move 1",
    "move 2",
@@ -1969,118 +2172,70 @@
    "move 4",
    "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   84.5,
-   16.8,
-   -24.6,
-   -3.3,
-   -2.6,
-   -17.2,
-   -51.8,
-   -48.5
+   62.2,
+   -89.5,
+   132.3,
+   32.1,
+   -73.8,
+   -36.9,
+   -30.9,
+   -79.7,
+   -22.9
   ],
   "why": [
-   "Flamethrower: 84.5 (~96% to Roserade, KO 31%)",
-   "Extrasensory: 16.8 (~54% to Roserade)",
-   "Crobat: -2.6 (matchup -0.5 → 1.5 for Crobat, takes ~23% coming in)"
+   "Ice Fang: 132.3 (~95% to Roserade, KO 95%, hits 95%)",
+   "Earthquake: 62.2 (~98% to Roserade, KO 44%)",
+   "Ice Shard: 32.1 (~95% to Roserade, KO 25%)"
   ],
   "knew": {
-   "turn": 22,
+   "turn": 15,
    "foe": {
     "species": "Roserade",
     "pct": 100
    },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 22,
-  "side": "b",
-  "forced": false,
-  "choice": "move 2",
-  "label": "Sludge Bomb",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -56.3,
-   7.9,
-   -72.5,
-   -49.1,
-   -39.5,
-   -93,
-   -73
-  ],
-  "why": [
-   "Sludge Bomb: 7.9 (~38% to Typhlosion, KO 100%, moves second)",
-   "Garchomp: -39.5 (matchup 0.5 → 0.5 for Garchomp, takes ~18% coming in)",
-   "Extrasensory: -49.1 (~27% to Typhlosion, moves second)"
-  ],
-  "knew": {
-   "turn": 22,
-   "foe": {
-    "species": "Typhlosion",
-    "pct": 38,
-    "known_moves": [
-     "Flamethrower",
-     "Thunder Punch"
-    ]
-   },
    "foe_seen": 5,
-   "foe_left": 5,
-   "weather": "Sandstorm"
+   "foe_left": 5
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 237,
+   "stand_ins": [
+    "Energy Ball",
+    "Sludge Bomb"
+   ],
+   "foe_ability": "Natural Cure",
+   "coming": "Energy Ball, ~100%"
+  },
+  "reasons": {
+   "Earthquake": "~98% to Roserade, KO 44%",
+   "Ancient Power": "~10% to Roserade",
+   "Ice Fang": "~95% to Roserade, KO 95%, hits 95%",
+   "Ice Shard": "~95% to Roserade, KO 25%",
+   "Tyranitar": "matchup 0.5 → -0.5 for Tyranitar, takes ~72% coming in",
+   "Crobat": "matchup 0.5 → -0.5 for Crobat, takes ~10% coming in",
+   "Typhlosion": "matchup 0.5 → 0.5 for Typhlosion, takes ~23% coming in",
+   "Lapras": "matchup 0.5 → -1.5 for Lapras, takes ~58% coming in",
+   "Snorlax": "matchup 0.5 → 1.5 for Snorlax, takes ~22% coming in"
   }
  },
  {
-  "turn": 22,
-  "side": "a",
-  "forced": true,
-  "choice": "switch 2",
-  "label": "Crobat",
-  "options": [
-   "switch 2",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   41.8,
-   31,
-   -2.3,
-   14.7
-  ],
-  "why": [
-   "Crobat: 41.8 (race +2.5 (needs 1, they need 3, moves first))",
-   "Mamoswine: 31 (race +1.5 (needs 1, they need 2, moves first))",
-   "Lapras: 14.7 (race +0.5 (needs 1, they need 2))"
-  ],
-  "knew": {
-   "turn": 22,
-   "foe": {
-    "species": "Roserade",
-    "pct": 4,
-    "known_moves": [
-     "Sludge Bomb"
-    ]
-   },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 23,
+  "turn": 15,
   "side": "b",
   "forced": false,
   "choice": "move 1",
@@ -2091,264 +2246,274 @@
    "move 3",
    "move 4",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Energy Ball",
+   "Sludge Bomb",
+   "Toxic",
+   "Extrasensory",
+   "Togekiss",
+   "Garchomp",
+   "Spiritomb",
+   "Lucario"
+  ],
   "scores": [
-   -3.3,
-   -3.3,
-   -40,
-   -3.3,
-   -38.8,
-   -20.6,
-   -16.5
+   -3.1,
+   -68.3,
+   -81.2,
+   -63.3,
+   -73.6,
+   -108.5,
+   -57,
+   -33.9
   ],
   "why": [
-   "Energy Ball: -3.3 (~0% to Crobat, moves second, 100% chance it's KO'd first)",
-   "Sludge Bomb: -3.3 (~0% to Crobat, moves second, 100% chance it's KO'd first)",
-   "Extrasensory: -3.3 (~0% to Crobat, moves second, 100% chance it's KO'd first)"
+   "Energy Ball: -3.1 (~85% to Mamoswine)",
+   "Lucario: -33.9 (matchup -0.5 → -0.5 for Lucario, takes ~23% coming in)",
+   "Spiritomb: -57 (matchup -0.5 → -1.5 for Spiritomb, takes ~40% coming in)"
   ],
   "knew": {
-   "turn": 23,
+   "turn": 15,
    "foe": {
-    "species": "Crobat",
-    "pct": 69,
+    "species": "Mamoswine",
+    "pct": 100,
     "known_moves": [
-     "Fly",
-     "Roost"
+     "Ice Shard",
+     "Earthquake"
     ]
    },
-   "foe_seen": 5,
-   "foe_left": 4,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Ice Punch, ~100%"
+  },
+  "reasons": {
+   "Energy Ball": "~85% to Mamoswine",
+   "Sludge Bomb": "~24% to Mamoswine",
+   "Toxic": "Toxic on a 100% Mamoswine (hits 85%)",
+   "Extrasensory": "~28% to Mamoswine",
+   "Togekiss": "matchup -0.5 → -1.5 for Togekiss, takes ~69% coming in",
+   "Garchomp": "matchup -0.5 → -1.5 for Garchomp, takes ~71% coming in",
+   "Spiritomb": "matchup -0.5 → -1.5 for Spiritomb, takes ~40% coming in",
+   "Lucario": "matchup -0.5 → -0.5 for Lucario, takes ~23% coming in"
   }
  },
  {
-  "turn": 23,
+  "turn": 15,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 3",
+  "label": "Togekiss",
+  "options": [
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Togekiss",
+   "Garchomp",
+   "Spiritomb",
+   "Lucario"
+  ],
+  "scores": [
+   3,
+   -35.2,
+   -11,
+   0.6
+  ],
+  "why": [
+   "Togekiss: 3 (race -0.5 (needs 2, they need 2))",
+   "Lucario: 0.6 (race -0.5 (needs 2, they need 1, moves first))",
+   "Spiritomb: -11 (race -1.5 (needs 3, they need 2))"
+  ],
+  "knew": {
+   "turn": 15,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 100,
+    "known_moves": [
+     "Ice Shard",
+     "Earthquake",
+     "Ice Fang"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious"
+  },
+  "reasons": {
+   "Togekiss": "race -0.5 (needs 2, they need 2)",
+   "Garchomp": "race -1.5 (needs 3, they need 1, moves first), the ace",
+   "Spiritomb": "race -1.5 (needs 3, they need 2)",
+   "Lucario": "race -0.5 (needs 2, they need 1, moves first)"
+  }
+ },
+ {
+  "turn": 16,
   "side": "a",
   "forced": false,
   "choice": "move 3",
-  "label": "U-turn",
+  "label": "Ice Fang",
   "options": [
    "move 1",
    "move 2",
    "move 3",
    "move 4",
+   "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
-  "scores": [
-   44.5,
-   8.7,
-   55,
-   -40,
-   -69.2,
-   -89.8,
-   -86.5
-  ],
-  "why": [
-   "U-turn: 55 (~4% to Roserade, KO 100%, pivots)",
-   "Fly: 44.5 (~4% to Roserade, KO 95%)",
-   "Roost: 8.7 (Roost: heals ~32%, takes ~23%)"
-  ],
-  "knew": {
-   "turn": 23,
-   "foe": {
-    "species": "Roserade",
-    "pct": 4,
-    "known_moves": [
-     "Sludge Bomb"
-    ]
-   },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 23,
-  "side": "a",
-  "forced": true,
-  "choice": "switch 3",
-  "label": "Mamoswine",
-  "options": [
-   "switch 3",
-   "switch 5",
-   "switch 6"
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
   ],
   "scores": [
-   45,
-   11.7,
-   28.7
+   -70.3,
+   -39,
+   27.9,
+   0.2,
+   -0.5,
+   -92.5,
+   -61.3,
+   -49.7,
+   -38.5
   ],
   "why": [
-   "Mamoswine: 45 (race +2.5 (needs 0, they need 2, moves first))",
-   "Lapras: 28.7 (race +1.5 (needs 0, they need 2))",
-   "Snorlax: 11.7 (race +1.5 (needs 0, they need 2), the ace)"
+   "Ice Fang: 27.9 (~84% to Togekiss, hits 95%)",
+   "Ice Shard: 0.2 (~55% to Togekiss)",
+   "Tyranitar: -0.5 (matchup 0.5 → 2.5 for Tyranitar, takes ~20% coming in)"
   ],
   "knew": {
-   "turn": 23,
+   "turn": 16,
    "foe": {
-    "species": "Roserade",
-    "pct": 0,
-    "status": "fnt",
-    "known_moves": [
-     "Sludge Bomb"
-    ]
-   },
-   "foe_seen": 6,
-   "foe_left": 3,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 23,
-  "side": "b",
-  "forced": true,
-  "choice": "switch 5",
-  "label": "Lucario",
-  "options": [
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   -40.4,
-   3,
-   -13.6
-  ],
-  "why": [
-   "Lucario: 3 (race -0.5 (needs 2, they need 1, moves first))",
-   "Spiritomb: -13.6 (race -1.5 (needs 3, they need 2))",
-   "Garchomp: -40.4 (race -1.5 (needs 3, they need 1, moves first), the ace)"
-  ],
-  "knew": {
-   "turn": 23,
-   "foe": {
-    "species": "Mamoswine",
+    "species": "Togekiss",
     "pct": 100
    },
    "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
+   "foe_left": 4
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Hyper Voice",
+    "Air Slash"
+   ],
+   "foe_ability": "Hustle",
+   "coming": "Hyper Voice, ~55%"
+  },
+  "reasons": {
+   "Earthquake": "Earthquake does nothing to Togekiss",
+   "Ancient Power": "~16% to Togekiss",
+   "Ice Fang": "~84% to Togekiss, hits 95%",
+   "Ice Shard": "~55% to Togekiss",
+   "Tyranitar": "matchup 0.5 → 2.5 for Tyranitar, takes ~20% coming in",
+   "Crobat": "matchup 0.5 → -9.5 for Crobat, takes ~45% coming in",
+   "Typhlosion": "matchup 0.5 → -0.5 for Typhlosion, takes ~51% coming in",
+   "Lapras": "matchup 0.5 → -0.5 for Lapras, takes ~32% coming in",
+   "Snorlax": "matchup 0.5 → 0.5 for Snorlax, takes ~24% coming in"
   }
  },
  {
-  "turn": 24,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Earthquake",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4",
-   "switch 3",
-   "switch 5",
-   "switch 6"
-  ],
-  "scores": [
-   145,
-   -87,
-   -67.2,
-   -74.7,
-   -61.2,
-   -128.8,
-   -115.9
-  ],
-  "why": [
-   "Earthquake: 145 (~100% to Lucario, KO 100%)",
-   "Crobat: -61.2 (matchup 1.5 → -0.5 for Crobat, takes ~11% coming in)",
-   "Ice Fang: -67.2 (~24% to Lucario)"
-  ],
-  "knew": {
-   "turn": 24,
-   "foe": {
-    "species": "Lucario",
-    "pct": 100,
-    "known_moves": [
-     "Aura Sphere"
-    ]
-   },
-   "foe_seen": 6,
-   "foe_left": 3,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 24,
+  "turn": 16,
   "side": "b",
   "forced": false,
-  "choice": "move 1",
+  "choice": "move 2",
   "label": "Aura Sphere",
   "options": [
    "move 1",
    "move 2",
    "move 3",
    "move 4",
-   "switch 3",
+   "switch 4",
+   "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Air Slash",
+   "Aura Sphere",
+   "Water Pulse",
+   "Shock Wave",
+   "Garchomp",
+   "Spiritomb",
+   "Lucario"
+  ],
   "scores": [
+   -26.6,
    1,
-   -71.8,
-   -65.9,
-   -76.1,
-   -76.6,
-   -78.2
+   -20.5,
+   -79.9,
+   -108.5,
+   -57,
+   -33.9
   ],
   "why": [
-   "Aura Sphere: 1 (~90% to Mamoswine)",
-   "Shadow Ball: -65.9 (~27% to Mamoswine)",
-   "Extreme Speed: -71.8 (~21% to Mamoswine)"
+   "Aura Sphere: 1 (~62% to Mamoswine, moves second)",
+   "Water Pulse: -20.5 (~41% to Mamoswine, moves second)",
+   "Air Slash: -26.6 (~37% to Mamoswine, hits 95%, moves second)"
   ],
   "knew": {
-   "turn": 24,
-   "foe": {
-    "species": "Mamoswine",
-    "pct": 100
-   },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
-  }
- },
- {
-  "turn": 24,
-  "side": "b",
-  "forced": true,
-  "choice": "switch 3",
-  "label": "Garchomp",
-  "options": [
-   "switch 3",
-   "switch 6"
-  ],
-  "scores": [
-   -19.1,
-   -13.6
-  ],
-  "why": [
-   "Spiritomb: -13.6 (race -1.5 (needs 3, they need 2))",
-   "Garchomp: -19.1 (race -1.5 (needs 3, they need 1, moves first), the ace)"
-  ],
-  "knew": {
-   "turn": 24,
+   "turn": 16,
    "foe": {
     "species": "Mamoswine",
     "pct": 100,
     "known_moves": [
-     "Earthquake"
+     "Ice Shard",
+     "Earthquake",
+     "Ice Fang"
     ]
    },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Ice Punch, ~69%"
+  },
+  "reasons": {
+   "Air Slash": "~37% to Mamoswine, hits 95%, moves second",
+   "Aura Sphere": "~62% to Mamoswine, moves second",
+   "Water Pulse": "~41% to Mamoswine, moves second",
+   "Shock Wave": "Shock Wave does nothing to Mamoswine",
+   "Garchomp": "matchup -0.5 → -1.5 for Garchomp, takes ~71% coming in",
+   "Spiritomb": "matchup -0.5 → -1.5 for Spiritomb, takes ~40% coming in",
+   "Lucario": "matchup -0.5 → -0.5 for Lucario, takes ~23% coming in"
   }
  },
  {
-  "turn": 25,
+  "turn": 17,
   "side": "a",
   "forced": false,
   "choice": "move 4",
@@ -2358,110 +2523,200 @@
    "move 2",
    "move 3",
    "move 4",
+   "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   19.3,
-   -40.3,
-   15.2,
-   64,
-   -16.8,
-   -78.6,
-   -52.1
+   -42.6,
+   53.5,
+   48.5,
+   53.8,
+   -76.8,
+   -7.2,
+   -37.2,
+   -42.1,
+   -31.8
   ],
   "why": [
-   "Ice Shard: 64 (~19% to Garchomp, KO 100%)",
-   "Earthquake: 19.3 (~19% to Garchomp, KO 100%, moves second)",
-   "Ice Fang: 15.2 (~18% to Garchomp, KO 95%, moves second)"
+   "Ice Shard: 53.8 (~8% to Togekiss, KO 100%)",
+   "Ancient Power: 53.5 (~8% to Togekiss, KO 100%)",
+   "Ice Fang: 48.5 (~8% to Togekiss, KO 95%, hits 95%)"
   ],
   "knew": {
-   "turn": 25,
+   "turn": 17,
    "foe": {
-    "species": "Garchomp",
-    "pct": 19,
+    "species": "Togekiss",
+    "pct": 8,
     "known_moves": [
-     "Earthquake",
-     "Giga Impact"
+     "Aura Sphere"
     ]
    },
    "foe_seen": 6,
-   "foe_left": 2,
-   "weather": "Sandstorm"
+   "foe_left": 4
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Hyper Voice",
+    "Air Slash"
+   ],
+   "foe_ability": "Hustle",
+   "coming": "Aura Sphere, ~28%"
+  },
+  "reasons": {
+   "Earthquake": "Earthquake does nothing to Togekiss",
+   "Ancient Power": "~8% to Togekiss, KO 100%",
+   "Ice Fang": "~8% to Togekiss, KO 95%, hits 95%",
+   "Ice Shard": "~8% to Togekiss, KO 100%",
+   "Tyranitar": "matchup 0.5 → 0.5 for Tyranitar, takes ~100% coming in",
+   "Crobat": "matchup 0.5 → 1.5 for Crobat, takes ~7% coming in",
+   "Typhlosion": "matchup 0.5 → 0.5 for Typhlosion, takes ~34% coming in",
+   "Lapras": "matchup 0.5 → 0.5 for Lapras, takes ~42% coming in",
+   "Snorlax": "matchup 0.5 → 1.5 for Snorlax, takes ~32% coming in"
   }
  },
  {
-  "turn": 25,
+  "turn": 17,
   "side": "b",
   "forced": false,
-  "choice": "move 3",
-  "label": "Flamethrower",
+  "choice": "move 1",
+  "label": "Air Slash",
   "options": [
    "move 1",
    "move 2",
    "move 3",
    "move 4",
+   "switch 4",
+   "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Air Slash",
+   "Aura Sphere",
+   "Water Pulse",
+   "Shock Wave",
+   "Garchomp",
+   "Spiritomb",
+   "Lucario"
+  ],
   "scores": [
-   -1.9,
-   15.2,
-   18.5,
-   8.2,
-   -40
+   -7.7,
+   -6.6,
+   -6.6,
+   -22.1,
+   -70.5,
+   -19,
+   -9.9
   ],
   "why": [
-   "Flamethrower: 18.5 (~48% to Mamoswine)",
-   "Earthquake: 15.2 (~45% to Mamoswine)",
-   "Giga Impact: 8.2 (~40% to Mamoswine)"
+   "Aura Sphere: -6.6 (~0% to Mamoswine, moves second, 100% chance it's KO'd first)",
+   "Water Pulse: -6.6 (~0% to Mamoswine, moves second, 100% chance it's KO'd first)",
+   "Air Slash: -7.7 (~0% to Mamoswine, hits 95%, moves second, 100% chance it's KO'd first)"
   ],
   "knew": {
-   "turn": 25,
+   "turn": 17,
    "foe": {
     "species": "Mamoswine",
-    "pct": 100,
+    "pct": 28,
     "known_moves": [
-     "Earthquake"
+     "Ice Shard",
+     "Earthquake",
+     "Ice Fang"
     ]
    },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Ice Punch, ~8%"
+  },
+  "reasons": {
+   "Air Slash": "~0% to Mamoswine, hits 95%, moves second, 100% chance it's KO'd first",
+   "Aura Sphere": "~0% to Mamoswine, moves second, 100% chance it's KO'd first",
+   "Water Pulse": "~0% to Mamoswine, moves second, 100% chance it's KO'd first",
+   "Shock Wave": "Shock Wave does nothing to Mamoswine",
+   "Garchomp": "matchup -0.5 → 0.5 for Garchomp, takes ~71% coming in",
+   "Spiritomb": "matchup -0.5 → 0.5 for Spiritomb, takes ~40% coming in",
+   "Lucario": "matchup -0.5 → 0.5 for Lucario, takes ~23% coming in"
   }
  },
  {
-  "turn": 25,
+  "turn": 17,
   "side": "b",
   "forced": true,
   "choice": "switch 6",
-  "label": "Spiritomb",
+  "label": "Lucario",
   "options": [
+   "switch 4",
+   "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Garchomp",
+   "Spiritomb",
+   "Lucario"
+  ],
   "scores": [
-   0
+   -7.2,
+   17,
+   14.6
   ],
   "why": [
-   "Spiritomb: 0 (the only option)"
+   "Spiritomb: 17 (race +0.5 (needs 1, they need 2))",
+   "Lucario: 14.6 (race +0.5 (needs 1, they need 1, moves first))",
+   "Garchomp: -7.2 (race +0.5 (needs 1, they need 1, moves first), the ace)"
   ],
   "knew": {
-   "turn": 25,
+   "turn": 17,
    "foe": {
     "species": "Mamoswine",
-    "pct": 100,
+    "pct": 28,
     "known_moves": [
+     "Ice Shard",
      "Earthquake",
-     "Ice Shard"
+     "Ice Fang"
     ]
    },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious"
+  },
+  "reasons": {
+   "Garchomp": "race +0.5 (needs 1, they need 1, moves first), the ace",
+   "Spiritomb": "race +0.5 (needs 1, they need 2)",
+   "Lucario": "race +0.5 (needs 1, they need 1, moves first)"
   }
  },
  {
-  "turn": 26,
+  "turn": 18,
   "side": "a",
   "forced": false,
   "choice": "move 1",
@@ -2471,75 +2726,190 @@
    "move 2",
    "move 3",
    "move 4",
+   "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   26.1,
-   -16.6,
-   11.7,
-   -1.1,
-   -62.6,
-   -107.6,
-   -43.8
+   122.5,
+   -24.1,
+   0.7,
+   -8.2,
+   -76.8,
+   -72.2,
+   -46.5,
+   -81.4,
+   -87.1
   ],
   "why": [
-   "Earthquake: 26.1 (~53% to Spiritomb)",
-   "Ice Fang: 11.7 (~40% to Spiritomb)",
-   "Ice Shard: -1.1 (~26% to Spiritomb)"
+   "Earthquake: 122.5 (~77% to Lucario, KO 100%)",
+   "Ice Fang: 0.7 (~29% to Lucario, hits 95%)",
+   "Ice Shard: -8.2 (~19% to Lucario)"
   ],
   "knew": {
-   "turn": 26,
+   "turn": 18,
    "foe": {
-    "species": "Spiritomb",
-    "pct": 74
+    "species": "Lucario",
+    "pct": 77,
+    "known_moves": [
+     "Aura Sphere"
+    ]
    },
    "foe_seen": 6,
-   "foe_left": 1,
-   "weather": "Sandstorm"
+   "foe_left": 3
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 237,
+   "stand_ins": [
+    "Flash Cannon"
+   ],
+   "foe_ability": "Steadfast",
+   "coming": "Aura Sphere, ~28%"
+  },
+  "reasons": {
+   "Earthquake": "~77% to Lucario, KO 100%",
+   "Ancient Power": "~3% to Lucario",
+   "Ice Fang": "~29% to Lucario, hits 95%",
+   "Ice Shard": "~19% to Lucario",
+   "Tyranitar": "matchup 0.5 → 0.5 for Tyranitar, takes ~100% coming in",
+   "Crobat": "matchup 0.5 → -10.5 for Crobat, takes ~11% coming in",
+   "Typhlosion": "matchup 0.5 → 0.5 for Typhlosion, takes ~49% coming in",
+   "Lapras": "matchup 0.5 → -1.5 for Lapras, takes ~61% coming in",
+   "Snorlax": "matchup 0.5 → -1.5 for Snorlax, takes ~47% coming in"
   }
  },
  {
-  "turn": 26,
+  "turn": 18,
   "side": "b",
   "forced": false,
   "choice": "move 1",
-  "label": "Dark Pulse",
+  "label": "Aura Sphere",
   "options": [
    "move 1",
    "move 2",
    "move 3",
-   "move 4"
+   "move 4",
+   "switch 4",
+   "switch 5"
+  ],
+  "labels": [
+   "Aura Sphere",
+   "Extreme Speed",
+   "Shadow Ball",
+   "Stone Edge",
+   "Garchomp",
+   "Spiritomb"
   ],
   "scores": [
-   -13.8,
-   -22.8,
-   -31.5,
-   -13.8
+   75.2,
+   -48.5,
+   -21.1,
+   -47.4,
+   -62.6,
+   -64.2
   ],
   "why": [
-   "Dark Pulse: -13.8 (~34% to Mamoswine, moves second)",
-   "Shadow Ball: -13.8 (~34% to Mamoswine, moves second)",
-   "Psychic: -22.8 (~25% to Mamoswine, moves second)"
+   "Aura Sphere: 75.2 (~28% to Mamoswine, KO 100%)",
+   "Shadow Ball: -21.1 (~27% to Mamoswine, KO 19%)",
+   "Stone Edge: -47.4 (~21% to Mamoswine, KO 5%, hits 80%)"
   ],
   "knew": {
-   "turn": 26,
+   "turn": 18,
    "foe": {
     "species": "Mamoswine",
-    "pct": 100,
+    "pct": 28,
     "known_moves": [
+     "Ice Shard",
      "Earthquake",
-     "Ice Shard"
+     "Ice Fang"
     ]
    },
-   "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Earthquake, ~76%"
+  },
+  "reasons": {
+   "Aura Sphere": "~28% to Mamoswine, KO 100%",
+   "Extreme Speed": "~21% to Mamoswine",
+   "Shadow Ball": "~27% to Mamoswine, KO 19%",
+   "Stone Edge": "~21% to Mamoswine, KO 5%, hits 80%",
+   "Garchomp": "matchup 0.5 → 0.5 for Garchomp, takes ~40% coming in",
+   "Spiritomb": "matchup 0.5 → -0.5 for Spiritomb, takes ~52% coming in"
   }
  },
  {
-  "turn": 27,
+  "turn": 18,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 5",
+  "label": "Spiritomb",
+  "options": [
+   "switch 4",
+   "switch 5"
+  ],
+  "labels": [
+   "Garchomp",
+   "Spiritomb"
+  ],
+  "scores": [
+   14.1,
+   17
+  ],
+  "why": [
+   "Spiritomb: 17 (race +0.5 (needs 1, they need 2))",
+   "Garchomp: 14.1 (race +0.5 (needs 1, they need 1, moves first), the ace)"
+  ],
+  "knew": {
+   "turn": 18,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 28,
+    "known_moves": [
+     "Ice Shard",
+     "Earthquake",
+     "Ice Fang"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious"
+  },
+  "reasons": {
+   "Garchomp": "race +0.5 (needs 1, they need 1, moves first), the ace",
+   "Spiritomb": "race +0.5 (needs 1, they need 2)"
+  }
+ },
+ {
+  "turn": 19,
   "side": "a",
   "forced": false,
   "choice": "move 1",
@@ -2549,40 +2919,73 @@
    "move 2",
    "move 3",
    "move 4",
+   "switch 2",
    "switch 3",
+   "switch 4",
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
-   55,
-   40.3,
-   49.7,
-   55,
-   -36,
-   -59.4,
-   -15.2
+   37.6,
+   -16.4,
+   20,
+   4.6,
+   24.4,
+   -69.6,
+   -43.5,
+   -34.1,
+   -43.5
   ],
   "why": [
-   "Earthquake: 55 (~10% to Spiritomb, KO 100%)",
-   "Ice Shard: 55 (~10% to Spiritomb, KO 100%)",
-   "Ice Fang: 49.7 (~10% to Spiritomb, KO 95%)"
+   "Earthquake: 37.6 (~65% to Spiritomb)",
+   "Tyranitar: 24.4 (matchup -0.5 → 4.5 for Tyranitar, takes ~13% coming in)",
+   "Ice Fang: 20 (~48% to Spiritomb, hits 95%)"
   ],
   "knew": {
-   "turn": 27,
+   "turn": 19,
    "foe": {
     "species": "Spiritomb",
-    "pct": 10,
-    "known_moves": [
-     "Dark Pulse"
-    ]
+    "pct": 100,
+    "ability": "Pressure"
    },
    "foe_seen": 6,
-   "foe_left": 1,
-   "weather": "Sandstorm"
+   "foe_left": 2
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 127,
+   "stand_ins": [
+    "Shadow Claw",
+    "Crunch"
+   ],
+   "foe_ability": "Pressure",
+   "coming": "Crunch, ~28%"
+  },
+  "reasons": {
+   "Earthquake": "~65% to Spiritomb",
+   "Ancient Power": "~11% to Spiritomb",
+   "Ice Fang": "~48% to Spiritomb, hits 95%",
+   "Ice Shard": "~31% to Spiritomb",
+   "Tyranitar": "matchup -0.5 → 4.5 for Tyranitar, takes ~13% coming in",
+   "Crobat": "matchup -0.5 → -3.5 for Crobat, takes ~30% coming in",
+   "Typhlosion": "matchup -0.5 → -0.5 for Typhlosion, takes ~44% coming in",
+   "Lapras": "matchup -0.5 → -0.5 for Lapras, takes ~29% coming in",
+   "Snorlax": "matchup -0.5 → -0.5 for Snorlax, takes ~30% coming in"
   }
  },
  {
-  "turn": 27,
+  "turn": 19,
   "side": "b",
   "forced": false,
   "choice": "move 4",
@@ -2591,32 +2994,231 @@
    "move 1",
    "move 2",
    "move 3",
-   "move 4"
+   "move 4",
+   "switch 4"
+  ],
+  "labels": [
+   "Dark Pulse",
+   "Psychic",
+   "Silver Wind",
+   "Shadow Ball",
+   "Garchomp"
   ],
   "scores": [
-   -8.6,
-   -8.6,
-   -8.6,
-   -8.6
+   25.8,
+   -22.3,
+   -31,
+   25.8,
+   -62.6
   ],
   "why": [
-   "Dark Pulse: -8.6 (~0% to Mamoswine, moves second, 100% chance it's KO'd first)",
-   "Psychic: -8.6 (~0% to Mamoswine, moves second, 100% chance it's KO'd first)",
-   "Silver Wind: -8.6 (~0% to Mamoswine, moves second, 100% chance it's KO'd first)"
+   "Dark Pulse: 25.8 (~28% to Mamoswine, KO 100%, moves second)",
+   "Shadow Ball: 25.8 (~28% to Mamoswine, KO 100%, moves second)",
+   "Psychic: -22.3 (~25% to Mamoswine, moves second)"
   ],
   "knew": {
-   "turn": 27,
+   "turn": 19,
    "foe": {
     "species": "Mamoswine",
-    "pct": 66,
+    "pct": 28,
     "known_moves": [
+     "Ice Shard",
      "Earthquake",
-     "Ice Shard"
+     "Ice Fang"
     ]
    },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Earthquake, ~52%"
+  },
+  "reasons": {
+   "Dark Pulse": "~28% to Mamoswine, KO 100%, moves second",
+   "Psychic": "~25% to Mamoswine, moves second",
+   "Silver Wind": "~17% to Mamoswine, moves second",
+   "Shadow Ball": "~28% to Mamoswine, KO 100%, moves second",
+   "Garchomp": "matchup 0.5 → 0.5 for Garchomp, takes ~40% coming in"
+  }
+ },
+ {
+  "turn": 19,
+  "side": "b",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Garchomp",
+  "options": [
+   "switch 4"
+  ],
+  "labels": [
+   "Garchomp"
+  ],
+  "scores": [
+   0
+  ],
+  "why": [
+   "Garchomp: 0 (the only option)"
+  ],
+  "knew": {
+   "turn": 19,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 28,
+    "known_moves": [
+     "Ice Shard",
+     "Earthquake",
+     "Ice Fang"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "reasons": {
+   "Garchomp": "the only option"
+  }
+ },
+ {
+  "turn": 20,
+  "side": "a",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Ice Shard",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4",
+   "switch 2",
+   "switch 3",
+   "switch 4",
+   "switch 5",
+   "switch 6"
+  ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard",
+   "Tyranitar",
+   "Crobat",
+   "Typhlosion",
+   "Lapras",
+   "Snorlax"
+  ],
+  "scores": [
+   -27.1,
+   -27.1,
+   -28,
+   116.8,
+   -68.1,
+   -44.8,
+   -61.6,
+   -45,
+   -74.4
+  ],
+  "why": [
+   "Ice Shard: 116.8 (~71% to Garchomp, KO 100%)",
+   "Earthquake: -27.1 (~0% to Garchomp, moves second, 100% chance it's KO'd first)",
+   "Ancient Power: -27.1 (~0% to Garchomp, moves second, 100% chance it's KO'd first)"
+  ],
+  "knew": {
+   "turn": 20,
+   "foe": {
+    "species": "Garchomp",
+    "pct": 71,
+    "known_moves": [
+     "Earthquake",
+     "Dragon Rush"
+    ],
+    "item": "Sitrus Berry"
+   },
    "foe_seen": 6,
-   "foe_left": 4,
-   "weather": "Sandstorm"
+   "foe_left": 1
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 261,
+   "stand_ins": [
+    "Dragon Claw"
+   ],
+   "foe_ability": "Sand Veil",
+   "coming": "Earthquake, ~28%"
+  },
+  "reasons": {
+   "Earthquake": "~0% to Garchomp, moves second, 100% chance it's KO'd first",
+   "Ancient Power": "~0% to Garchomp, moves second, 100% chance it's KO'd first",
+   "Ice Fang": "~0% to Garchomp, hits 95%, moves second, 100% chance it's KO'd first",
+   "Ice Shard": "~71% to Garchomp, KO 100%",
+   "Tyranitar": "matchup -0.5 → -0.5 for Tyranitar, takes ~85% coming in",
+   "Crobat": "matchup -0.5 → -2.5 for Crobat, takes ~0% coming in",
+   "Typhlosion": "matchup -0.5 → -1.5 for Typhlosion, takes ~51% coming in",
+   "Lapras": "matchup -0.5 → -0.5 for Lapras, takes ~47% coming in",
+   "Snorlax": "matchup -0.5 → -1.5 for Snorlax, takes ~48% coming in"
+  }
+ },
+ {
+  "turn": 20,
+  "side": "b",
+  "forced": false,
+  "choice": "move 2",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact"
+  ],
+  "scores": [
+   34.5,
+   75.2,
+   75.2,
+   35.3
+  ],
+  "why": [
+   "Earthquake: 75.2 (~28% to Mamoswine, KO 100%)",
+   "Flamethrower: 75.2 (~28% to Mamoswine, KO 100%)",
+   "Giga Impact: 35.3 (~25% to Mamoswine, KO 90%, hits 90%, recharges)"
+  ],
+  "knew": {
+   "turn": 20,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 28,
+    "known_moves": [
+     "Ice Shard",
+     "Earthquake",
+     "Ice Fang"
+    ]
+   },
+   "foe_seen": 4,
+   "foe_left": 6
+  },
+  "assumed": {
+   "foe_evs": 85,
+   "foe_speed": 217,
+   "stand_ins": [
+    "Ice Punch"
+   ],
+   "foe_ability": "Oblivious",
+   "coming": "Ice Punch, ~71%"
+  },
+  "reasons": {
+   "Dragon Rush": "~21% to Mamoswine, KO 75%, hits 75%",
+   "Earthquake": "~28% to Mamoswine, KO 100%",
+   "Flamethrower": "~28% to Mamoswine, KO 100%",
+   "Giga Impact": "~25% to Mamoswine, KO 90%, hits 90%, recharges"
   }
  }
 ]

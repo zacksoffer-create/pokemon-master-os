@@ -1,0 +1,49 @@
+{
+ "key": "soulsilver-light-ball",
+ "made_at": "2026-10-25T19:42:48.697Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · 3 worker threads",
+ "seconds": 8,
+ "rows": [
+  {
+   "species": "Pikachu",
+   "kept": "conventional",
+   "duel": {
+    "nature": "Naughty",
+    "spread": "252 Atk / 92 Def / 164 Spe",
+    "win_rate": 0.891
+   },
+   "conventional": {
+    "nature": "Naughty",
+    "spread": "4 HP / 252 Atk / 252 Spe",
+    "win_rate": 0.9
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 194,
+    "only_x": 2,
+    "only_y": 4,
+    "neither": 20
+   },
+   "mcnemar_p": 0.6875,
+   "margin": {
+    "y_minus_x": 0.029,
+    "ci95": [
+     0.008,
+     0.049
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (89% and 90%, McNemar p = 0.69). A real difference smaller than about 3 points would need more battles to show."
+  },
+  null,
+  null,
+  null,
+  null,
+  null
+ ],
+ "n_per_opponent": 20,
+ "seed": "confirm-soulsilver-light-ball",
+ "pool": "pool:heartgold-league",
+ "ruleset": "gen4-blackthorn",
+ "rule": "D-074: the conventional spread unless the duel spread is measurably better"
+}

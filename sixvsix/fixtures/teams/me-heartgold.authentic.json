@@ -33,12 +33,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 236,
-    "atk": 8,
-    "def": 16,
-    "spa": 156,
-    "spd": 8,
-    "spe": 84
+    "hp": 4,
+    "atk": 0,
+    "def": 0,
+    "spa": 252,
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -78,8 +78,8 @@
     "ability: Blaze (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 236 HP / 8 Atk / 16 Def / 156 SpA / 8 SpD / 84 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
     "nature: Mild (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)",
     "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
@@ -110,12 +110,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 48,
-    "atk": 172,
-    "def": 48,
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
     "spa": 0,
-    "spd": 4,
-    "spe": 236
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -154,8 +154,8 @@
    "filled": [
     "ability: Sand Stream (the species' first ability)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 48 HP / 172 Atk / 48 Def / 4 SpD / 236 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
     "nature: Jolly (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)",
     "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
@@ -186,12 +186,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 248,
-    "atk": 0,
-    "def": 4,
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
     "spa": 0,
-    "spd": 12,
-    "spe": 244
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -229,7 +229,7 @@
    },
    "filled": [
     "IVs: 31 in every stat (none on record)",
-    "EVs: 248 HP / 4 Def / 12 SpD / 244 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)",
     "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
@@ -334,12 +334,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 172,
+    "hp": 4,
     "atk": 0,
-    "def": 160,
-    "spa": 132,
+    "def": 0,
+    "spa": 252,
     "spd": 0,
-    "spe": 44
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -377,7 +377,7 @@
    },
    "filled": [
     "IVs: 31 in every stat (none on record)",
-    "EVs: 172 HP / 160 Def / 132 SpA / 44 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)",
     "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"
@@ -408,12 +408,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 112,
-    "atk": 236,
-    "def": 144,
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
     "spa": 0,
-    "spd": 16,
-    "spe": 0
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -451,7 +451,7 @@
    },
    "filled": [
     "IVs: 31 in every stat (none on record)",
-    "EVs: 112 HP / 236 Atk / 144 Def / 16 SpD (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)",
     "level: 62 (authentic lens: Cynthia's top level)"
    ],
    "source": "canon register (canon/builds.json)"

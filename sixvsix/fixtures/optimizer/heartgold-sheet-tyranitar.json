@@ -1,0 +1,93 @@
+{
+ "team": "library:me/heartgold~heartgold-sheet-tyranitar",
+ "pool": "pool:heartgold-league",
+ "variation": "heartgold-sheet-tyranitar",
+ "members": [
+  null,
+  {
+   "species": "Tyranitar",
+   "nature": "Adamant",
+   "nature_chosen": false,
+   "evs": {
+    "hp": 104,
+    "atk": 64,
+    "def": 96,
+    "spa": 0,
+    "spd": 0,
+    "spe": 244
+   },
+   "label": "104 HP / 64 Atk / 96 Def / 244 Spe",
+   "stats": {
+    "hp": 367,
+    "atk": 352,
+    "def": 280,
+    "spa": 203,
+    "spd": 236,
+    "spe": 219
+   },
+   "score": {
+    "points": 283.75,
+    "wins_worst": 47,
+    "wins_typical": 47,
+    "wins_switching_in": 41,
+    "wins_free_hit": 52,
+    "of": 62
+   },
+   "best_template": {
+    "id": "fast_physical",
+    "nature": "Adamant",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "points": 280.64,
+    "wins_worst": 45,
+    "wins_typical": 47,
+    "wins_switching_in": 40,
+    "wins_free_hit": 55,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Adamant",
+    "points": 280.64,
+    "wins_worst": 45,
+    "wins_typical": 47,
+    "wins_switching_in": 40,
+    "wins_free_hit": 55,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 261.28,
+    "wins_worst": 44,
+    "wins_typical": 45,
+    "wins_switching_in": 36,
+    "wins_free_hit": 49,
+    "of": 62
+   },
+   "speed": {
+    "stat": 219,
+    "outspeeds": 36,
+    "of": 62,
+    "next_benchmark": 224
+   }
+  },
+  null,
+  null,
+  null,
+  null
+ ]
+}

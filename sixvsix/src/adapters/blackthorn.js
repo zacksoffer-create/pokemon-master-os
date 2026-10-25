@@ -101,6 +101,13 @@ export function teamFromLibrary(library, versionId, { lens = 'standardized', lev
     if (!p.item && !cartridge) filled.push('item: none (left open on the record)');
 
     let ivs = Object.fromEntries(STATS.map((s) => [s, p.ivs?.[s] ?? 31]));
+    const over = STATS.filter((s) => ivs[s] > 31);
+    if (over.length) {
+      // the game can't hold an IV above 31: a conversion or data error upstream, read as 31 and written down
+      filled.push(`IVs: ${[...new Set(over.map((s) => ivs[s]))].join(', ')} on record, above the game's 31; read as 31 (a data error to fix in the Trainer Library)`);
+      for (const s2 of over) ivs[s2] = 31;
+      ev.ivs = ['unknown', 'the record is above the possible maximum'];
+    }
     const hpMove = p.moves.map(canonicalMove).find((m) => m.startsWith('Hidden Power '));
     if (!p.ivs && hpMove) {
       const type = hpMove.replace('Hidden Power ', '');
@@ -174,8 +181,10 @@ export function profileFromLibrary(library, versionId, { agent = 'trainer', para
     identity: v.identity,
     source_version: versionId,
     agent,
-    params: agent === 'trainer' ? { ...read.params, ...(params || {}) } : (params || {}),
-    information: 'partial',
+    params: agent === 'trainer' ? { ...read.params, ...(params || {}) }
+      : agent === 'game' ? { flags: Array.isArray(v.ai_flags) ? v.ai_flags : (v.ai_flag_names || []), dice: true, ...(params || {}) }
+        : (params || {}),
+    information: agent === 'game' ? 'cartridge' : 'partial',
     tendencies: { sliders: v.sliders || {}, coach: v.coach || {}, read_as: read.source },
     competence: { reading: v.reading || {} },
     playbook: null,
@@ -184,6 +193,8 @@ export function profileFromLibrary(library, versionId, { agent = 'trainer', para
     reading: v.reading || {},
     note: agent === 'trainer'
       ? 'Decisions come from the trainer agent (src/agents/trainer.js) with these parameters; tendencies.read_as says where each came from.'
-      : `A ${agent} baseline agent; the library's AI reading is carried for the record.`,
+      : agent === 'game'
+        ? "The game's own AI (src/agents/cartridge.js): this trainer's AI flags, scored as the cartridge scores them, reading the real numbers of the Pokémon in front of it."
+        : `A ${agent} baseline agent; the library's AI reading is carried for the record.`,
   });
 }

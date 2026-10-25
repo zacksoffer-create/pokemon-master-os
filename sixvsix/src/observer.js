@@ -12,6 +12,7 @@ const parseCondition = (cond) => {
 };
 
 const sideOf = (ident) => ident.slice(0, 2);                       // "p2a: Garchomp" -> "p2"
+const LOCKING = new Set(['Outrage', 'Thrash', 'Petal Dance']);
 const nameOf = (ident) => ident.slice(ident.indexOf(':') + 1).trim(); // -> "Garchomp"
 
 export class SideView {
@@ -33,7 +34,7 @@ export class SideView {
     let m = this.mons[side].get(name);
     if (!m) {
       m = { name, species: name, level: 100, pct: 100, status: '', fainted: false, boosts: {}, moves: new Set(),
-            item: undefined, ability: undefined, seen: false };
+            item: undefined, ability: undefined, seen: false, volatiles: {}, sleep: null };
       this.mons[side].set(name, m);
     }
     return m;
@@ -55,7 +56,7 @@ export class SideView {
           m.species = parts[2].split(',')[0];
           const lv = /, L(\d+)/.exec(parts[2]);
           m.level = lv ? Number(lv[1]) : 100;
-          Object.assign(m, parseCondition(parts[3]), { boosts: {}, seen: true });
+          Object.assign(m, parseCondition(parts[3]), { boosts: {}, volatiles: {}, seen: true });
           this.active[side] = m.name;
           break;
         }
@@ -74,9 +75,32 @@ export class SideView {
           if (ab) m.ability = ab.slice('[from] ability: '.length);
           break;
         }
-        case 'faint': { const m = this.mon(sideOf(parts[1]), nameOf(parts[1])); m.fainted = true; m.pct = 0; break; }
-        case '-status': this.mon(sideOf(parts[1]), nameOf(parts[1])).status = parts[2]; break;
-        case '-curestatus': this.mon(sideOf(parts[1]), nameOf(parts[1])).status = ''; break;
+        case 'faint': { const m = this.mon(sideOf(parts[1]), nameOf(parts[1])); m.fainted = true; m.pct = 0; m.volatiles = {}; break; }
+        case '-status': {
+          const m = this.mon(sideOf(parts[1]), nameOf(parts[1]));
+          m.status = parts[2];
+          // sleep is counted in move attempts: Rest is exactly two, anything else one to four (Gen 4)
+          if (parts[2] === 'slp') m.sleep = { rest: tags.includes('[from] move: Rest'), cant: 0 };
+          break;
+        }
+        case '-curestatus': { const m = this.mon(sideOf(parts[1]), nameOf(parts[1])); m.status = ''; m.sleep = null; break; }
+        case 'cant': {
+          const m = this.mon(sideOf(parts[1]), nameOf(parts[1]));
+          if (parts[2] === 'slp' && m.sleep) m.sleep.cant++;
+          if (parts[2] === 'recharge') delete m.volatiles.mustrecharge;
+          break;
+        }
+        case '-mustrecharge': this.mon(sideOf(parts[1]), nameOf(parts[1])).volatiles.mustrecharge = true; break;
+        case '-start': case '-end': {
+          const m = this.mon(sideOf(parts[1]), nameOf(parts[1]));
+          const id = parts[2].replace(/^move: /, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const perish = /^perish(\d)$/.exec(id);
+          if (id === 'confusion' && tags.includes('[fatigue]')) delete m.volatiles.lockedmove;
+          if (perish) m.volatiles.perish = Number(perish[1]);
+          else if (cmd === '-start') m.volatiles[id] = true;
+          else delete m.volatiles[id];
+          break;
+        }
         case '-boost': case '-unboost': {
           const m = this.mon(sideOf(parts[1]), nameOf(parts[1]));
           const d = Number(parts[3]) * (cmd === '-boost' ? 1 : -1);
@@ -86,6 +110,9 @@ export class SideView {
         case '-clearallboost': for (const s of ['p1', 'p2']) for (const m of this.mons[s].values()) m.boosts = {}; break;
         case 'move': {
           const m = this.mon(sideOf(parts[1]), nameOf(parts[1]));
+          if (!tags.includes('[still]')) delete m.volatiles.mustrecharge;
+          // Outrage, Thrash and Petal Dance lock the user in until it tires (confusion) or leaves
+          if (LOCKING.has(parts[2]) && !tags.some((t) => t.startsWith('[from]'))) m.volatiles.lockedmove = parts[2];
           if (!tags.some((t) => t.startsWith('[from]'))) {
             m.moves.add(parts[2]);
             this.order.push({ side: sideOf(parts[1]), name: m.name, move: parts[2] });
@@ -121,7 +148,8 @@ export class SideView {
     return {
       turn: this.turn,
       foe: f ? { species: f.species, pct: f.pct, status: f.status || undefined, boosts: Object.keys(f.boosts).length ? f.boosts : undefined,
-                 known_moves: f.moves.size ? [...f.moves] : undefined } : null,
+                 known_moves: f.moves.size ? [...f.moves] : undefined, item: f.item || undefined, ability: f.ability || undefined,
+                 volatiles: Object.keys(f.volatiles).length ? { ...f.volatiles } : undefined } : null,
       foe_seen: this.mons[this.foe].size,
       foe_left: this.teamSize[this.foe] - [...this.mons[this.foe].values()].filter((m) => m.fainted).length,
       weather: this.weather || undefined,

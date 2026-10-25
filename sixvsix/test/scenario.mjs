@@ -9,9 +9,11 @@ import { toID } from '../src/util.js';
 const dex = Dex.forGen(4);
 
 /**
- * mine: [{species, moves, item, ability, nature, evs, hp (fraction), status, boosts}] — the first is active unless
- *       `forced` (then nobody is, as after a faint);
- * foe:  {species, level, hp (fraction), moves (revealed), status, boosts, item, ability, size (team size), fainted}
+ * mine: [{species, moves, item, ability, nature, evs, hp (fraction), status, boosts, volatiles, sleep}] — the first is
+ *       active unless `forced` (then nobody is, as after a faint);
+ * foe:  {species, level, hp (fraction), moves (revealed), status, boosts, item, ability, volatiles, sleep, size (team
+ *       size), fainted}
+ * volatiles as the side view keeps them ({mustrecharge, confusion, substitute, perish: n}); sleep {rest, cant}.
  */
 export function state({ mine, foe, conditions = {}, weather = '', turn = 3, forced = false, lastOrder = [] }) {
   const builds = mine.map((m, i) => buildFromSet({
@@ -42,12 +44,14 @@ export function state({ mine, foe, conditions = {}, weather = '', turn = 3, forc
   builds.forEach((b, i) => {
     const m = view.mon('p1', names[i]);
     Object.assign(m, { species: b.species, pct: Math.round((mine[i].hp ?? 1) * 100), status: mine[i].status || '',
-                       boosts: { ...(mine[i].boosts || {}) }, fainted: (mine[i].hp ?? 1) === 0, seen: i === 0 });
+                       boosts: { ...(mine[i].boosts || {}) }, fainted: (mine[i].hp ?? 1) === 0, seen: i === 0,
+                       volatiles: { ...(mine[i].volatiles || {}) }, sleep: mine[i].sleep || null });
   });
   if (!forced) view.active.p1 = names[0];
   const f = view.mon('p2', foe.species);
   Object.assign(f, { species: foe.species, level: foe.level || 100, pct: Math.round((foe.hp ?? 1) * 100), status: foe.status || '',
-                     boosts: { ...(foe.boosts || {}) }, moves: new Set(foe.moves || []), item: foe.item, ability: foe.ability, seen: true });
+                     boosts: { ...(foe.boosts || {}) }, moves: new Set(foe.moves || []), item: foe.item, ability: foe.ability, seen: true,
+                     volatiles: { ...(foe.volatiles || {}) }, sleep: foe.sleep || null });
   for (let k = 0; k < (foe.fainted || 0); k++) Object.assign(view.mon('p2', `Fainted${k}`), { fainted: true, pct: 0 });
   view.active.p2 = foe.species;
   return { request, view, team, names };

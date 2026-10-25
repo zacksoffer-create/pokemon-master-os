@@ -1,0 +1,465 @@
+{
+ "kind": "TeamVersion",
+ "id": "library:me/soulsilver~soulsilver-light-ball",
+ "version": 1,
+ "name": "Zack · SoulSilver · Pikachu with its Light Ball",
+ "trainer": "me",
+ "game": "soulsilver",
+ "generation": 4,
+ "members": [
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#1~soulsilver-light-ball",
+   "version": 1,
+   "species": "Pikachu",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Naughty",
+   "ability": "Static",
+   "item": "Light Ball",
+   "moves": [
+    "Volt Tackle",
+    "Quick Attack",
+    "Thunderbolt",
+    "Iron Tail"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "moves": [
+     "hypothetical",
+     "a lineup variation (soulsilver-light-ball): former six moves, with the item that defines the species"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ]
+   },
+   "filled": [
+    "IVs: 31 in every stat (none on record)",
+    "the Pikachu with its Light Ball variation (engine/canon/lineups.json)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "variation soulsilver-light-ball"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#2",
+   "version": 1,
+   "species": "Dragonite",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Adamant",
+   "ability": "Inner Focus",
+   "item": null,
+   "moves": [
+    "Fly",
+    "Roost",
+    "Extreme Speed",
+    "Dragon Claw"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Inner Focus (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "nature: Adamant (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#3",
+   "version": 1,
+   "species": "Infernape",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Lonely",
+   "ability": "Blaze",
+   "item": null,
+   "moves": [
+    "Overheat",
+    "Earthquake",
+    "Close Combat",
+    "Swords Dance"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "standardized",
+     "engine-filled: the strongest set it can learn"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Blaze (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "nature: Lonely (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "engine-filled (no build on record: the engine filled in its strongest set)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#4",
+   "version": 1,
+   "species": "Empoleon",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Quiet",
+   "ability": "Torrent",
+   "item": null,
+   "moves": [
+    "Surf",
+    "Flash Cannon",
+    "Aqua Jet",
+    "Aqua Ring"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 164,
+    "atk": 0,
+    "def": 92,
+    "spa": 252,
+    "spd": 0,
+    "spe": 0
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Torrent (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "EVs: 164 HP / 92 Def / 252 SpA (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
+    "nature: Quiet (chosen by the EV optimizer; none on record)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#5",
+   "version": 1,
+   "species": "Gengar",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Modest",
+   "ability": "Levitate",
+   "item": null,
+   "moves": [
+    "Shadow Ball",
+    "Disable",
+    "Dark Pulse",
+    "Psychic"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 0,
+    "def": 0,
+    "spa": 252,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Levitate (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "nature: Modest (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  },
+  {
+   "kind": "PokemonBuild",
+   "id": "library:me/soulsilver#6",
+   "version": 1,
+   "species": "Scizor",
+   "game": "soulsilver",
+   "generation": 4,
+   "level": 100,
+   "nature": "Adamant",
+   "ability": "Swarm",
+   "item": null,
+   "moves": [
+    "Bullet Punch",
+    "U-turn",
+    "Counter",
+    "Roost"
+   ],
+   "ivs": {
+    "hp": 31,
+    "atk": 31,
+    "def": 31,
+    "spa": 31,
+    "spd": 31,
+    "spe": 31
+   },
+   "evs": {
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
+   },
+   "evidence": {
+    "species": [
+     "confirmed",
+     "your own record (canon/rosters.json)"
+    ],
+    "moves": [
+     "confirmed",
+     "your canon register"
+    ],
+    "nature": [
+     "hypothetical",
+     "the EV optimizer's choice; no nature on record"
+    ],
+    "ability": [
+     "standardized",
+     "the species' first ability"
+    ],
+    "item": [
+     "standardized",
+     "left open"
+    ],
+    "ivs": [
+     "standardized",
+     "IVs 31 in every stat"
+    ],
+    "evs": [
+     "standardized",
+     "optimized against HeartGold/SoulSilver Elite Four, Champion, rematches and Red (D-072)"
+    ],
+    "level": [
+     "standardized",
+     "Lv 100 under the standardized lens"
+    ]
+   },
+   "filled": [
+    "level: 100 (standardized lens; the record says none)",
+    "ability: Swarm (the species' first ability)",
+    "item: none (left open on the record)",
+    "IVs: 31 in every stat (none on record)",
+    "nature: Adamant (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
+   ],
+   "source": "canon register (canon/builds.json)"
+  }
+ ],
+ "lead": "first",
+ "lens": "standardized",
+ "source": {
+  "kind": "blackthorn-trainer-library",
+  "version_id": "me/soulsilver",
+  "library_kind": "journey",
+  "record": "canon register (rosters.json + builds.json)",
+  "read_only": true
+ },
+ "variation": {
+  "id": "soulsilver-light-ball",
+  "base": "library:me/soulsilver",
+  "title": "Pikachu with its Light Ball",
+  "why": "The one item that changes Pikachu's whole read",
+  "changed": [
+   "Pikachu"
+  ],
+  "source": "engine/canon/lineups.json"
+ }
+}

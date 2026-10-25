@@ -1,4 +1,4 @@
-# The EV optimizer (D-072)
+# The EV optimizer (D-072, D-074)
 
 *`src/optimize/evs.js` and `src/optimize/confirm.js`. Your Gen 4 teams carry full, optimized 510-EV spreads; every
 opponent carries 85 in every stat. This page says how the spreads were chosen, how they were checked, and what the
@@ -14,7 +14,7 @@ battles say about the policy itself.*
 | The control | Your same six on 85 in every stat | `fixtures/teams/me-<game>.even85.json` (only for the D-072 check below) |
 
 Moves, items, abilities and IVs are never changed. A nature on record is kept. Where none is on record, the optimizer
-chooses one, and the build says so (`evidence.nature: hypothetical`). The Gen 4 OU sample team keeps its authored
+chooses one, and the build says so (`evidence.nature: hypothetical`); D-074 keeps those choices. The Gen 4 OU sample team keeps its authored
 spreads. This is the 6v6 engine only: the one-on-one engine's fight settings (D-061, D-066) are untouched.
 
 ## How a spread is chosen: the duel model
@@ -43,99 +43,103 @@ hill-climbs by moving EVs between stats in steps of 252 down to 4, for every nat
 every nature that doesn't lower a stat the set attacks with. The rules every spread keeps (tested): 508 at most (510
 less the 2 that do nothing), 252 a stat, steps of 4.
 
-## How each spread was checked: the 6v6 confirmation
+## How each spread was checked: the 6v6 confirmation (D-074)
 
 The duel model ranks spreads one-on-one, but a 6v6 battle also asks a Pokémon to switch into hits, revenge-kill and
 sweep. So each member was played both ways:
 
 - **The two arms.** The whole team, once with the duel spread and once with the *conventional* spread (252 in its
-  attacking side, 252 Speed, the best nature for it).
+  attacking stat, 252 Speed, 4 HP), **on the same nature**.
 - **The battles.** Against the whole league, with the same seeds, trainer agents on both sides, and 20 battles per
   opponent per arm.
-- **The rule.** The duel spread stays unless the conventional one is measurably better: McNemar p < 0.05 on wins, or a
-  95% HP-margin interval entirely above zero.
+- **The rule (D-074, Zack):** *"Tie goes to the conventional spread, keep the natures."* The conventional spread is
+  played unless the duel spread is measurably better: McNemar p < 0.05 with more wins, or a 95% HP-margin interval
+  entirely in its favour. The natures stay whichever spread is played: the recorded ones, and the optimizer's picks
+  where none is on record.
 
-**All 18 duel spreads stayed.** In the last column of the tables, a negative HP margin means the duel spread finished
-with more of its team's HP than the conventional one did. Three were measurably better on HP margin:
+**What the battles chose for your three sixes: 16 of 18 conventional, 2 duel.**
 
-- Lapras (HeartGold);
-- Gengar (SoulSilver), which also won more battles: 87% against 83%, p = 0.041;
-- Weavile (Platinum).
+| Outcome | Members |
+|---|---|
+| Duel spread, measurably better | **Crobat** (HeartGold) and **Empoleon** (SoulSilver), both on HP margin. The sheet build of **Tyranitar** too (a variation) |
+| Conventional, measurably better | **Mamoswine** (HeartGold, 96.8% vs 93.6%, p = 0.039) and **Pikachu** (SoulSilver, 89.1% vs 85.9%, p = 0.039). Light Ball Pikachu too, on HP margin |
+| Conventional, a tie | The other fourteen, and the January Typhlosion, January Empoleon and former-six Gyarados variations |
 
-None was measurably worse.
+So the bulky duel spreads that looked odd (Mamoswine with no Attack, Platinum's Infernape with no attacking EVs) are
+gone. Mamoswine's was measurably worse in battle. In the tables, a negative HP margin means the duel spread finished
+with more of its team's HP than the conventional one did.
 
 ### HeartGold (against heartgold-league, 62 opponent Pokémon)
 
-| Pokémon | Nature | Spread | Duel score (fresh wins, worst / typical) | Best template · 85 each | 6v6 check: wins, duel vs conventional · HP margin, conventional − duel (95%) | Kept |
-|---|---|---|---|---|---|---|
-| Typhlosion | Mild (chosen) | 236 HP / 8 Atk / 16 Def / 156 SpA / 8 SpD / 84 Spe | 234.04 (39 / 43) | 225.8 (bulky_special) · 207.29 | 95.5% vs 93.2% · -0.017 [-0.039, 0.004] | duel |
-| Tyranitar | Jolly (chosen) | 48 HP / 172 Atk / 48 Def / 4 SpD / 236 Spe | 285.69 (44 / 46) | 281.57 (fast_support) · 250.92 | 95% vs 95% · +0.004 [-0.011, 0.019] | duel |
-| Mamoswine | Adamant | 248 HP / 4 Def / 12 SpD / 244 Spe | 278.54 (45 / 49) | 275.45 (fast_support) · 257.93 | 94.1% vs 95.5% · +0.008 [-0.014, 0.029] | duel |
-| Crobat | Jolly | 168 HP / 240 Atk / 84 Def / 16 SpD | 221.36 (35 / 42) | 219.29 (bulky_physical) · 184.43 | 94.5% vs 94.1% · -0.015 [-0.031, 0] | duel |
-| Lapras | Calm | 172 HP / 160 Def / 132 SpA / 44 Spe | 234.65 (38 / 39) | 224.43 (bulky_special) · 208.91 | 92.3% vs 90.5% · -0.04 [-0.072, -0.007] | duel |
-| Snorlax | Careful | 112 HP / 236 Atk / 144 Def / 16 SpD | 274.8 (43 / 45) | 260.36 (bulky_physical) · 231.6 | 93.6% vs 94.1% · -0.012 [-0.029, 0.005] | duel |
+| Pokémon | Nature | Plays | Duel-model spread | Duel model, fresh wins (worst / typical): duel · conventional | 6v6: wins, duel vs conventional | HP margin, conventional − duel (95%) | p |
+|---|---|---|---|---|---|---|---|
+| Typhlosion | Mild (chosen) | **conventional** (4 HP / 252 SpA / 252 Spe) | 236 HP / 8 Atk / 16 Def / 156 SpA / 8 SpD / 84 Spe | 39 / 43 · 35 / 40 | 95% vs 94.1% | -0.01 [-0.03, 0.01] | 0.726563 |
+| Tyranitar | Jolly (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 48 HP / 172 Atk / 48 Def / 4 SpD / 236 Spe | 44 / 46 · 44 / 46 | 92.7% vs 92.7% | -0.005 [-0.019, 0.01] | 1 |
+| Mamoswine | Adamant | **conventional** (4 HP / 252 Atk / 252 Spe) | 248 HP / 4 Def / 12 SpD / 244 Spe | 45 / 49 · 41 / 48 | 93.6% vs 96.8% | +0.023 [0.005, 0.041] | 0.039062 |
+| Crobat | Jolly | **duel** | 168 HP / 240 Atk / 84 Def / 16 SpD | 35 / 42 · 27 / 34 | 95.9% vs 93.6% | -0.02 [-0.036, -0.004] | 0.0625 |
+| Lapras | Calm | **conventional** (4 HP / 252 SpA / 252 Spe) | 172 HP / 160 Def / 132 SpA / 44 Spe | 38 / 39 · 36 / 39 | 96.4% vs 96.4% | -0.008 [-0.031, 0.015] | 1 |
+| Snorlax | Careful | **conventional** (4 HP / 252 Atk / 252 Spe) | 112 HP / 236 Atk / 144 Def / 16 SpD | 43 / 45 · 41 / 43 | 95.9% vs 96.8% | +0.01 [-0.01, 0.029] | 0.6875 |
 
 ### SoulSilver (against heartgold-league, 62 opponent Pokémon)
 
-| Pokémon | Nature | Spread | Duel score (fresh wins, worst / typical) | Best template · 85 each | 6v6 check: wins, duel vs conventional · HP margin, conventional − duel (95%) | Kept |
-|---|---|---|---|---|---|---|
-| Pikachu | Naughty (chosen) | 48 HP / 252 Atk / 84 Def / 124 Spe | 100.02 (12 / 14) | 90.76 (fast_physical) · 49.45 | 88.6% vs 90% · -0.004 [-0.015, 0.007] | duel |
-| Dragonite | Adamant (chosen) | 188 HP / 68 Atk / 252 Spe | 290.16 (47 / 49) | 282.71 (fast_physical) · 259.08 | 87.3% vs 86.8% · +0.011 [-0.014, 0.035] | duel |
-| Infernape | Lonely (chosen) | 76 HP / 228 Atk / 32 SpA / 148 SpD / 24 Spe | 221.9 (38 / 40) | 216.69 (physical_wall) · 201.39 | 87.7% vs 85.5% · -0.007 [-0.023, 0.009] | duel |
-| Empoleon | Quiet (chosen) | 164 HP / 92 Def / 252 SpA | 262.96 (44 / 45) | 260.63 (fast_special) · 218.74 | 84.5% vs 86.8% · -0.014 [-0.049, 0.021] | duel |
-| Gengar | Modest (chosen) | 244 HP / 60 Def / 68 SpA / 116 SpD / 20 Spe | 222.02 (35 / 38) | 207.81 (bulky_special) · 185.18 | 87.3% vs 82.7% · -0.047 [-0.081, -0.014] | duel |
-| Scizor | Adamant (chosen) | 224 HP / 248 Atk / 32 Def / 4 Spe | 218.46 (35 / 37) | 215.38 (bulky_physical) · 189.26 | 88.6% vs 89.1% · +0.011 [-0.006, 0.029] | duel |
+| Pokémon | Nature | Plays | Duel-model spread | Duel model, fresh wins (worst / typical): duel · conventional | 6v6: wins, duel vs conventional | HP margin, conventional − duel (95%) | p |
+|---|---|---|---|---|---|---|---|
+| Pikachu | Naughty (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 48 HP / 252 Atk / 84 Def / 124 Spe | 12 / 14 · 10 / 10 | 85.9% vs 89.1% | +0.01 [-0.004, 0.024] | 0.039062 |
+| Dragonite | Adamant (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 188 HP / 68 Atk / 252 Spe | 47 / 49 · 47 / 47 | 86.4% vs 85% | -0.019 [-0.047, 0.01] | 0.607239 |
+| Infernape | Lonely (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 76 HP / 228 Atk / 32 SpA / 148 SpD / 24 Spe | 38 / 40 · 35 / 40 | 86.8% vs 85.9% | +0.003 [-0.013, 0.018] | 0.625 |
+| Empoleon | Quiet (chosen) | **duel** | 164 HP / 92 Def / 252 SpA | 44 / 45 · 38 / 39 | 87.3% vs 83.6% | -0.043 [-0.071, -0.015] | 0.096252 |
+| Gengar | Modest (chosen) | **conventional** (4 HP / 252 SpA / 252 Spe) | 244 HP / 60 Def / 68 SpA / 116 SpD / 20 Spe | 35 / 38 · 29 / 34 | 87.7% vs 86.8% | -0.022 [-0.05, 0.006] | 0.823803 |
+| Scizor | Adamant (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 224 HP / 248 Atk / 32 Def / 4 Spe | 35 / 37 · 31 / 34 | 88.2% vs 86.4% | -0.015 [-0.04, 0.009] | 0.387695 |
 
 ### Platinum (against platinum-league, 52 opponent Pokémon)
 
-| Pokémon | Nature | Spread | Duel score (fresh wins, worst / typical) | Best template · 85 each | 6v6 check: wins, duel vs conventional · HP margin, conventional − duel (95%) | Kept |
-|---|---|---|---|---|---|---|
-| Infernape | Lax (chosen) | 252 HP / 168 Def / 84 Spe | 180.64 (30 / 30) | 178.68 (physical_wall) · 154.16 | 98.5% vs 97.5% · -0.014 [-0.036, 0.009] | duel |
-| Weavile | Jolly | 252 HP / 220 Atk / 32 Def / 4 Spe | 150.04 (26 / 30) | 145.92 (bulky_physical) · 125.38 | 99.5% vs 99% · -0.03 [-0.048, -0.012] | duel |
-| Roserade | Timid | 188 HP / 12 Def / 160 SpA / 148 Spe | 137.3 (20 / 24) | 125.12 (fast_special) · 110.6 | 99.5% vs 98% · -0.02 [-0.039, 0] | duel |
-| Lucario | Careful (chosen) | 76 Atk / 180 SpD / 252 Spe | 170.5 (20 / 26) | 162.44 (fast_physical) · 123.52 | 98% vs 98% · +0.012 [-0.002, 0.025] | duel |
-| Garchomp | Adamant (chosen) | 100 HP / 220 Atk / 80 SpD / 108 Spe | 283.46 (50 / 50) | 277.32 (bulky_physical) · 256.76 | 99% vs 100% · +0.015 [-0.004, 0.034] | duel |
-| Magnezone | Modest | 252 HP / 252 SpA / 4 SpD | 159.72 (22 / 26) | 157.68 (bulky_special) · 143.1 | 98% vs 99% · +0.001 [-0.018, 0.019] | duel |
+| Pokémon | Nature | Plays | Duel-model spread | Duel model, fresh wins (worst / typical): duel · conventional | 6v6: wins, duel vs conventional | HP margin, conventional − duel (95%) | p |
+|---|---|---|---|---|---|---|---|
+| Infernape | Lax (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 252 HP / 168 Def / 84 Spe | 30 / 30 · 22 / 26 | 96.5% vs 97% | -0.008 [-0.031, 0.015] | 1 |
+| Weavile | Jolly | **conventional** (4 HP / 252 Atk / 252 Spe) | 252 HP / 220 Atk / 32 Def / 4 Spe | 26 / 30 · 16 / 24 | 98% vs 99.5% | -0.017 [-0.039, 0.005] | 0.375 |
+| Roserade | Timid | **conventional** (4 HP / 252 SpA / 252 Spe) | 188 HP / 12 Def / 160 SpA / 148 Spe | 20 / 24 · 18 / 22 | 95.5% vs 96% | -0.004 [-0.02, 0.012] | 1 |
+| Lucario | Careful (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 76 Atk / 180 SpD / 252 Spe | 20 / 26 · 20 / 26 | 98% vs 96.5% | -0.004 [-0.017, 0.009] | 0.453125 |
+| Garchomp | Adamant (chosen) | **conventional** (4 HP / 252 Atk / 252 Spe) | 100 HP / 220 Atk / 80 SpD / 108 Spe | 50 / 50 · 48 / 48 | 98% vs 98% | +0.007 [-0.018, 0.031] | 1 |
+| Magnezone | Modest | **conventional** (4 HP / 252 SpA / 252 Spe) | 252 HP / 252 SpA / 4 SpD | 22 / 26 · 22 / 28 | 97.5% vs 96.5% | -0.006 [-0.028, 0.016] | 0.6875 |
 
-*Printed by `node cli/optimizer-table.mjs` from `fixtures/optimizer/<game>.json` and `<game>.confirm.json`.
-"Duel score" is the model's points; "85 each" is the same Pokémon on 85 in every stat, in the same model.*
+*Printed by `node cli/optimizer-table.mjs` from `fixtures/optimizer/<game>.json` and `<game>.confirm.json`. "Duel
+model" is the one-on-one model's fresh wins, worst case / typical, for each spread on the same nature.*
 
 ## What the battles say about D-072
 
-Each team against its whole league, twice, with the same seeds: once on the optimized spreads and once on 85 in
-every stat (`node cli/league.mjs`, `results/league/`):
+Each team against its whole league, twice, with the same seeds: once on the optimized spreads (as D-074 settled them)
+and once on 85 in every stat (`node cli/league.mjs`, `results/league/`):
 
 | Team | Wins on 85 each | Wins optimized | McNemar p | HP margin gained (95%) |
 |---|---|---|---|---|
-| HeartGold | 197 of 220 (90%) | 210 of 220 (95%) | 0.0002 | +0.108 [0.076, 0.141] |
-| SoulSilver | 169 of 220 (77%) | 188 of 220 (85%) | 0.0002 | +0.142 [0.104, 0.180] |
-| Platinum | 177 of 200 (89%) | 197 of 200 (99%) | < 0.0001 | +0.112 [0.069, 0.155] |
+| HeartGold | 197 of 220 (90%) | 209 of 220 (95%) | 0.004 | +0.091 [0.052, 0.130] |
+| SoulSilver | 163 of 220 (74%) | 193 of 220 (88%) | < 0.0001 | +0.161 [0.113, 0.208] |
+| Platinum | 178 of 200 (89%) | 196 of 200 (98%) | 0.0001 | +0.092 [0.045, 0.139] |
 
 The optimized spreads win more in all three games, by margins the pairing can see. Most of the gain is in the
 hardest matchups:
 
 - **HeartGold vs Bruno's rematch:** from 1 of 20 to 10 of 20.
-- **SoulSilver vs Lance:** from 1 of 20 to 9 of 20.
+- **SoulSilver vs Lance:** from 3 of 20 to 14 of 20.
 
 The HP margin is the share of your team's HP left minus the opponent's at the end of each battle. It's finer-grained
-than win or loss, and it moves by 11–14 points in every game.
+than win or loss, and it moves by 9–16 points in every game.
 
 ## What to look at before you trust a spread
 
-- **Some spreads put little or nothing in Attack.** HeartGold's Mamoswine is 248 HP / 244 Spe with no Attack EVs, and
-  Platinum's Infernape is 252 HP / 168 Def / 84 Spe, Lax, with no attacking EVs. This isn't a bug: the damage tables
-  respond to Attack (Mamoswine's Attack goes 325 → 394 with 252 in it, and the damage moves with it). Against
-  opponents on 85 EVs, Mamoswine already hits its knockout numbers on most of the league, so bulk wins more duels than
-  power. Moving its HP into Attack drops it from 45 to 41 fresh wins of 62. In the 6v6 check these spreads tie the
-  conventional ones (Mamoswine 94.1% vs 95.5%, Infernape 98.5% vs 97.5%, neither significant), so the rule keeps the duel
-  spread. **If you'd rather a tie go to the conventional spread, that's a one-line change to the rule.**
-- **Natures where none was on record are the optimizer's choice,** marked hypothetical on the build. For example:
-  Typhlosion Mild, Tyranitar Jolly, all six SoulSilver natures, and Platinum's Infernape, Lucario and Garchomp.
-- **SoulSilver's Pikachu has no item on record,** so it fights without a Light Ball, and its spread is the weakest in
-  the tables. With a Light Ball its numbers would change completely.
-- **The model is a duel model.** It doesn't see setup, status, recovery, hazards or teammates. The 6v6 check is what
-  covers those, at 20 battles per opponent per arm. That's enough to catch a spread that's clearly worse, not one
-  that's a point or two worse.
+- **Three chosen natures don't suit the spread the battles picked.** The optimizer chose them for the bulky duel
+  spreads, and D-074 keeps them:
+  - Platinum's Infernape is Lax (+Def), now on 252 Atk / 252 Spe;
+  - Lucario is Careful (+SpD), on 252 Atk / 252 Spe;
+  - the January Empoleon variation is Quiet (−Spe), on 252 SpA / 252 Spe.
+
+  If you'd rather a chosen nature follow the spread that's played, that's a small change to `withConventional`.
+  Recorded natures (Lapras Calm, Snorlax Careful) are yours and stay regardless.
+- **Natures where none was on record are the optimizer's choice,** marked hypothetical on the build: Typhlosion Mild,
+  Tyranitar Jolly, all six SoulSilver natures, and Platinum's Infernape, Lucario and Garchomp.
+- **The model is a duel model.** It doesn't see setup, status, recovery, hazards or teammates. The 6v6 check covers
+  those, at 20 battles per opponent per arm. That's enough to catch a spread that's clearly worse, not one that's a
+  point or two worse.
 - **Exact thresholds stay with the one-on-one engine.** Showdown and the calculator differ by 1–3 HP in a few
   damage cases (`TEST_REPORT.md`). The optimizer uses the calculator, as the one-on-one engine does.
 
@@ -143,7 +147,7 @@ than win or loss, and it moves by 11–14 points in every game.
 
 ```
 node cli/make-fixtures.mjs        # the optimizer, every team and pool, from the Trainer Library (about 16 s)
-node cli/confirm-spreads.mjs      # the 6v6 check, every member of the three teams (several minutes)
-node cli/league.mjs               # each team against its league, plus the D-072 check (about 3–4 minutes)
+node cli/confirm-spreads.mjs      # the 6v6 check, every member and every variation (about 3 minutes on 3 workers)
+node cli/league.mjs               # each team against its league, plus the D-072 check (about a minute on 3 workers)
 node cli/optimizer-table.mjs      # the tables on this page
 ```

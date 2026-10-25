@@ -11,6 +11,7 @@
 import { Dex } from '@pkmn/sim';
 import { legalOptions } from './legal.js';
 import { TrainerAgent } from './trainer.js';
+import { CartridgeAgent } from './cartridge.js';
 
 const dex = Dex.forGen(4);
 
@@ -40,7 +41,7 @@ export class RandomAgent {
     const options = legalOptions(request);
     if (!options.length) return null;
     const pick = rng.pick(options);
-    return { choice: pick.choice, kind: pick.kind, label: pick.label, options: options.map((o) => o.choice) };
+    return { choice: pick.choice, kind: pick.kind, label: pick.label, options: options.map((o) => o.choice), labels: options.map((o) => o.label) };
   }
 }
 
@@ -71,12 +72,13 @@ export class MaxPowerAgent {
     return {
       choice: pick.choice, kind: pick.kind, label: pick.label,
       options: scored.map((o) => o.choice),
+      labels: scored.map((o) => o.label),
       scores: scored.map((o) => Math.round(o.score * 10) / 10),
     };
   }
 }
 
-export const AGENTS = { random: RandomAgent, maxpower: MaxPowerAgent, trainer: TrainerAgent };
+export const AGENTS = { random: RandomAgent, maxpower: MaxPowerAgent, trainer: TrainerAgent, game: CartridgeAgent };
 
 /** An agent for a profile. `context.team` is the agent's own Team Version (the trainer agent needs it). */
 export function makeAgent(policy, context = {}) {

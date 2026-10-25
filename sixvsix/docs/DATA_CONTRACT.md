@@ -37,8 +37,13 @@ Library carries `source: {kind: "blackthorn-trainer-library", version_id, librar
 
 ## Trainer Profile
 
-`id`, `version`, `name`, `agent` (the policy that decides: `trainer`, or the baselines `random` and `maxpower`),
-`params`, `information` (`partial`, the default; `omniscient` is reserved for a labelled experiment and refused).
+`id`, `version`, `name`, `agent` (the policy that decides: `trainer`; `game`, the cartridge AI; or the baselines
+`random` and `maxpower`), `params`, `information`:
+
+- `partial`, the default: the foe as revealed.
+- `cartridge`: what the cartridge AI reads, the real stats, HP, ability and item of the Pokémon in front of it. Only
+  with agent `game`; the battle runner hands it that view.
+- `omniscient`: reserved for a labelled experiment, and refused.
 Also: `identity`, `source_version`, `tendencies` (authored sliders, coach settings, and `read_as`: where each trainer
 setting came from), `competence`, `playbook`, `ai_flags` (names) and `ai_flags_raw` (the game's bitmask, for HGSS),
 `reading`.
@@ -60,6 +65,15 @@ setting came from), `competence`, `playbook`, `ai_flags` (names) and `ai_flags_r
 
 A game trainer's profile fills these from the Trainer Library (`paramsFromLibrary`). Anything given in `params`
 overrides them.
+
+**`params` for the cartridge AI** (agent `game`): `flags` (the trainer's AI flag names, from the Trainer Library) and
+`dice` (true: nudges rolled at the game's odds; false: a nudge counts when it happens more often than not, the
+one-on-one engine's rule).
+
+**Interpretations** turn one trainer's profiles into the way an experiment plays them (`interpret(profiles, kind)` in
+`src/adapters/collections.js`): `game`, `blackthorn`, `aggressive`, `cautious`, `sharp`, `sloppy`. An interpretation
+that doesn't exist for a trainer (no AI flags, so no `game`) falls back to `blackthorn`, and the experiment lists who
+fell back.
 
 ## Battle Ruleset
 
@@ -117,13 +131,16 @@ the same fingerprint.
 
 ## Opponent Pool (Phase 2)
 
-`id`, `version`, `name`, `lens`, `members` (Team Versions, at least one), and optionally `ev_policy` and `source`. The
-committed pools are `fixtures/pools/heartgold-league.json` and `platinum-league.json`:
+`id`, `version`, `name`, `lens`, `members` (Team Versions, at least one), and optionally `ev_policy`, `source`,
+`ruleset` (the one its teams are checked under: `gen4-historical` for anime reconstructions), `excluded` (teams left
+out, with why) and `note`. The committed league pools are `fixtures/pools/heartgold-league.json` and
+`platinum-league.json`:
 
 - **HeartGold/SoulSilver** (11 teams): the Elite Four, Lance, their rematches, and Red.
 - **Platinum** (10 teams): the Elite Four, Cynthia, and their rematches.
 
-Every member is at Lv 100 on 85 EVs.
+The Trainer Library's collections are pools too (`poolsFromCollections`), in the lab pack. Every member is at Lv 100
+on 85 EVs, except your own teams, which keep their optimized spreads.
 
 ## Pool Result and Comparison (Phase 2)
 
@@ -169,3 +186,44 @@ seeds**, battle for battle. It returns a **Comparison**:
 | `weather` | Whoever started the sandstorm or hail, if it was the other side |
 | a named effect | The `[of]` source in the log (Rough Skin, Leech Seed, Destiny Bond) |
 | `self` | Nobody: recoil, Life Orb, Explosion, its own weather |
+
+## The lab pack (`fixtures/lab/pack.json`)
+
+Everything the Lab's experiments read, in one file, built by `node cli/make-fixtures.mjs` from the Trainer Library
+(read-only):
+
+| Field | What it holds |
+|---|---|
+| `teams`, `team_list` | Your teams by key (`me/heartgold`, `me/soulsilver`, `me/platinum`) and the lineup variations (`variation: {title, why, changed}`, `base`, `league`) |
+| `opponents` | Every opponent Team Version, keyed by library version id (yours as `mine:<id>`) |
+| `pools` | `{name, kind (league · collection · yours), ruleset, members (opponent keys), note?, excluded?}` |
+| `profiles` | For each trainer: `{trainer, game}`, the trainer agent's profile and the cartridge AI's (null without AI flags) |
+| `interpretations` | The readings an experiment can play opponents (or your trainer) as, with their shifts |
+| `signature_items` | Species → the item made for it (Light Ball, Thick Club...), for the report's item patterns |
+
+## Experiment
+
+The record every Lab question produces (`runExperiment(runner, pack, spec)` in `src/experiments.js`), kept whole so it
+can be reread or rerun under a newer engine without erasing the original:
+
+| Field | What it holds |
+|---|---|
+| `kind`, `type` | `Experiment`, and which one: `league`, `compare`, `matrix`, `leads`, `styles`, `sensitivity` |
+| `spec` | The whole question: `kind`, `team` (a pack key or a whole Team Version), `y` or `teams`, `pool`, `only`, `interpretation`, `ours`, `n`, `adaptive`, `seed` |
+| `engine`, `contract`, `made_at`, `seed` | What it ran on, and how it was seeded (derived from the spec unless given) |
+| `league` | `result` (a Pool Result), `report` (the Strategy Report), `battles` (each: opponent, number, winner, turns, Pokémon left, knockouts), `fell_back` |
+| `compare` | `comparison` (a Comparison, adaptive or not), `diff` (field by field), `duel` (one-on-one matchups and knockout thresholds that moved), `per_opponent` swings, `roles`, `reports` (both arms) |
+| `matrix` | `rows` (builds), `columns` (styles), `cells` (won, n, rate, interval), `by_column` (leader, margin, McNemar p), `sensitivity` |
+| `leads`, `styles`, `sensitivity` | `rows` or `base` + `effects`: each variant's wins, its paired difference and HP margin against the first, ranked |
+| `reading` | Plain sentences; the report's `headline` for a league |
+
+**The Strategy Report** (`kind: StrategyReport`) has `headline`, `outcomes`, `members`, `team_level` (`threats`,
+`dependencies`, `damage_by_type`, `sequencing`), `interpretation` (`robust`, `opponent_dependent`,
+`needs_more_battles`) and `patterns` (each `{kind, strength, title, finding, evidence, suggestion: {label,
+experiment}}`). `docs/HOW_IT_WORKS.md` section 7 gives every rule.
+
+**A battle again** (`battle(pack, spec, opponent, i)`) returns the row with its full log, input log and every decision,
+and `turns` (`replayTurns`): each turn's position, both trainers' options with values and reasons, and the events.
+**Coaching** (`coach(..., at, change)`) returns `{as_played, changed, pairs, mcnemar_p, reading}` for `n` replays of
+each arm on shared new seeds.
+

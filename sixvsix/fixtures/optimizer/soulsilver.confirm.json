@@ -1,101 +1,101 @@
 {
- "game": "soulsilver",
- "made_at": "2026-10-25T17:43:02.164Z",
- "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz",
- "seconds": 220,
+ "key": "soulsilver",
+ "made_at": "2026-10-25T19:41:35.817Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · 3 worker threads",
+ "seconds": 47,
  "rows": [
   {
    "species": "Pikachu",
-   "kept": "duel",
+   "kept": "conventional",
    "duel": {
     "nature": "Naughty",
     "spread": "48 HP / 252 Atk / 84 Def / 124 Spe",
-    "win_rate": 0.886
+    "win_rate": 0.859
    },
    "conventional": {
     "nature": "Naughty",
     "spread": "4 HP / 252 Atk / 252 Spe",
-    "win_rate": 0.9
+    "win_rate": 0.891
    },
    "pairs": {
     "n": 220,
-    "both_won": 193,
-    "only_x": 2,
-    "only_y": 5,
-    "neither": 20
+    "both_won": 188,
+    "only_x": 1,
+    "only_y": 8,
+    "neither": 23
    },
-   "mcnemar_p": 0.453125,
+   "mcnemar_p": 0.039062,
    "margin": {
-    "y_minus_x": -0.004,
+    "y_minus_x": 0.01,
     "ci95": [
-     -0.015,
-     0.007
+     -0.004,
+     0.024
     ],
     "note": "share of the team's HP left minus the opponent's, at the end of each battle"
    },
-   "reading": "No difference shows up over 220 paired battles (89% and 90%, McNemar p = 0.45). A real difference smaller than about 4 points would need more battles to show."
+   "reading": "conventional spread won more: 89% against 86% over 220 paired battles (McNemar p = 0.0391)."
   },
   {
    "species": "Dragonite",
-   "kept": "duel",
+   "kept": "conventional",
    "duel": {
     "nature": "Adamant",
     "spread": "188 HP / 68 Atk / 252 Spe",
-    "win_rate": 0.873
+    "win_rate": 0.864
    },
    "conventional": {
     "nature": "Adamant",
     "spread": "4 HP / 252 Atk / 252 Spe",
-    "win_rate": 0.868
+    "win_rate": 0.85
    },
    "pairs": {
     "n": 220,
-    "both_won": 186,
-    "only_x": 6,
-    "only_y": 5,
-    "neither": 23
+    "both_won": 181,
+    "only_x": 9,
+    "only_y": 6,
+    "neither": 24
    },
-   "mcnemar_p": 1,
+   "mcnemar_p": 0.607239,
    "margin": {
-    "y_minus_x": 0.011,
+    "y_minus_x": -0.019,
     "ci95": [
-     -0.014,
-     0.035
+     -0.047,
+     0.01
     ],
     "note": "share of the team's HP left minus the opponent's, at the end of each battle"
    },
-   "reading": "No difference shows up over 220 paired battles (87% and 87%, McNemar p = 1.00). A real difference smaller than about 3 points would need more battles to show."
+   "reading": "No difference shows up over 220 paired battles (86% and 85%, McNemar p = 0.61). A real difference smaller than about 5 points would need more battles to show."
   },
   {
    "species": "Infernape",
-   "kept": "duel",
+   "kept": "conventional",
    "duel": {
     "nature": "Lonely",
     "spread": "76 HP / 228 Atk / 32 SpA / 148 SpD / 24 Spe",
-    "win_rate": 0.877
+    "win_rate": 0.868
    },
    "conventional": {
-    "nature": "Brave",
+    "nature": "Lonely",
     "spread": "4 HP / 252 Atk / 252 Spe",
-    "win_rate": 0.855
+    "win_rate": 0.859
    },
    "pairs": {
     "n": 220,
-    "both_won": 186,
-    "only_x": 7,
-    "only_y": 2,
-    "neither": 25
+    "both_won": 188,
+    "only_x": 3,
+    "only_y": 1,
+    "neither": 28
    },
-   "mcnemar_p": 0.179688,
+   "mcnemar_p": 0.625,
    "margin": {
-    "y_minus_x": -0.007,
+    "y_minus_x": 0.003,
     "ci95": [
-     -0.023,
-     0.009
+     -0.013,
+     0.018
     ],
     "note": "share of the team's HP left minus the opponent's, at the end of each battle"
    },
-   "reading": "No difference shows up over 220 paired battles (88% and 85%, McNemar p = 0.18). A real difference smaller than about 5 points would need more battles to show."
+   "reading": "No difference shows up over 220 paired battles (87% and 86%, McNemar p = 0.63). A real difference smaller than about 3 points would need more battles to show."
   },
   {
    "species": "Empoleon",
@@ -103,96 +103,97 @@
    "duel": {
     "nature": "Quiet",
     "spread": "164 HP / 92 Def / 252 SpA",
-    "win_rate": 0.845
+    "win_rate": 0.873
    },
    "conventional": {
-    "nature": "Rash",
+    "nature": "Quiet",
+    "spread": "4 HP / 252 SpA / 252 Spe",
+    "win_rate": 0.836
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 179,
+    "only_x": 13,
+    "only_y": 5,
+    "neither": 23
+   },
+   "mcnemar_p": 0.096252,
+   "margin": {
+    "y_minus_x": -0.043,
+    "ci95": [
+     -0.071,
+     -0.015
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (87% and 84%, McNemar p = 0.10). A real difference smaller than about 7 points would need more battles to show."
+  },
+  {
+   "species": "Gengar",
+   "kept": "conventional",
+   "duel": {
+    "nature": "Modest",
+    "spread": "244 HP / 60 Def / 68 SpA / 116 SpD / 20 Spe",
+    "win_rate": 0.877
+   },
+   "conventional": {
+    "nature": "Modest",
     "spread": "4 HP / 252 SpA / 252 Spe",
     "win_rate": 0.868
    },
    "pairs": {
     "n": 220,
-    "both_won": 179,
-    "only_x": 7,
-    "only_y": 12,
-    "neither": 22
+    "both_won": 182,
+    "only_x": 11,
+    "only_y": 9,
+    "neither": 18
    },
-   "mcnemar_p": 0.359283,
+   "mcnemar_p": 0.823803,
    "margin": {
-    "y_minus_x": -0.014,
+    "y_minus_x": -0.022,
     "ci95": [
-     -0.049,
-     0.021
+     -0.05,
+     0.006
     ],
     "note": "share of the team's HP left minus the opponent's, at the end of each battle"
    },
-   "reading": "No difference shows up over 220 paired battles (85% and 87%, McNemar p = 0.36). A real difference smaller than about 6 points would need more battles to show."
-  },
-  {
-   "species": "Gengar",
-   "kept": "duel",
-   "duel": {
-    "nature": "Modest",
-    "spread": "244 HP / 60 Def / 68 SpA / 116 SpD / 20 Spe",
-    "win_rate": 0.873
-   },
-   "conventional": {
-    "nature": "Modest",
-    "spread": "4 HP / 252 SpA / 252 Spe",
-    "win_rate": 0.827
-   },
-   "pairs": {
-    "n": 220,
-    "both_won": 177,
-    "only_x": 15,
-    "only_y": 5,
-    "neither": 23
-   },
-   "mcnemar_p": 0.041389,
-   "margin": {
-    "y_minus_x": -0.047,
-    "ci95": [
-     -0.081,
-     -0.014
-    ],
-    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
-   },
-   "reading": "duel spread won more: 87% against 83% over 220 paired battles (McNemar p = 0.0414)."
+   "reading": "No difference shows up over 220 paired battles (88% and 87%, McNemar p = 0.82). A real difference smaller than about 5 points would need more battles to show."
   },
   {
    "species": "Scizor",
-   "kept": "duel",
+   "kept": "conventional",
    "duel": {
     "nature": "Adamant",
     "spread": "224 HP / 248 Atk / 32 Def / 4 Spe",
-    "win_rate": 0.886
+    "win_rate": 0.882
    },
    "conventional": {
     "nature": "Adamant",
     "spread": "4 HP / 252 Atk / 252 Spe",
-    "win_rate": 0.891
+    "win_rate": 0.864
    },
    "pairs": {
     "n": 220,
-    "both_won": 191,
-    "only_x": 4,
-    "only_y": 5,
-    "neither": 20
+    "both_won": 186,
+    "only_x": 8,
+    "only_y": 4,
+    "neither": 22
    },
-   "mcnemar_p": 1,
+   "mcnemar_p": 0.387695,
    "margin": {
-    "y_minus_x": 0.011,
+    "y_minus_x": -0.015,
     "ci95": [
-     -0.006,
-     0.029
+     -0.04,
+     0.009
     ],
     "note": "share of the team's HP left minus the opponent's, at the end of each battle"
    },
-   "reading": "No difference shows up over 220 paired battles (89% and 89%, McNemar p = 1.00). A real difference smaller than about 3 points would need more battles to show."
+   "reading": "No difference shows up over 220 paired battles (88% and 86%, McNemar p = 0.39). A real difference smaller than about 5 points would need more battles to show."
   }
  ],
  "n_per_opponent": 20,
  "seed": "confirm-soulsilver",
  "pool": "pool:heartgold-league",
- "ruleset": "gen4-blackthorn"
+ "ruleset": "gen4-blackthorn",
+ "rule": "D-074: the conventional spread unless the duel spread is measurably better"
 }

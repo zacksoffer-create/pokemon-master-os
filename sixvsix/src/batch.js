@@ -10,6 +10,7 @@ import { runBattle } from './battle.js';
 import { getRuleset } from './rulesets.js';
 import { summarize } from './stats.js';
 import { validateTeam } from './validate.js';
+import { withLead } from './teams.js';
 import { PolicyRNG, battleSeed, now, policySeed, shortHash, stableStringify } from './util.js';
 
 const PAIRINGS = ['mirrored', 'alternate', 'none'];
@@ -60,8 +61,11 @@ export function prepareJob(job, { legality: precomputed } = {}) {
   for (const who of ['a', 'b']) {
     assertValid('TeamVersion', job[who].team);
     assertValid('TrainerProfile', job[who].profile);
-    if (job[who].profile.information !== 'partial') {
-      throw new Error(`${who}'s profile asks for ${job[who].profile.information} information; Phase 1 plays partial only`);
+    // partial: what the side's own log shows (every trainer). cartridge: the game's AI, which reads the real numbers
+    // of the Pokémon in front of it, as the cartridge does (the 'game' agent only). omniscient stays refused.
+    const info = job[who].profile.information, agent = job[who].profile.agent;
+    if (!(info === 'partial' || (info === 'cartridge' && agent === 'game'))) {
+      throw new Error(`${who}'s profile asks for ${info} information for the ${agent} agent; only partial (any agent) and cartridge (the game agent) are played`);
     }
   }
   const legality = precomputed
@@ -86,23 +90,33 @@ export function trialPlan(job, i) {
   return { pair: null, aSide: 'p1', seed: battleSeed(seed, `one${i}`) };
 }
 
-/** Run trial i of a prepared job. */
-export function runTrial(prepared, i) {
-  const { job } = prepared;
+/**
+ * Both sides of trial i, ready to play: teams in battle order, fresh agents, policy RNGs. `profiles` and `seeds`
+ * replace a side's profile or policy seed (the coaching view plays a decision point on with a changed trainer).
+ */
+export function trialSides(job, i, { profiles = {}, seeds: seedOver = {} } = {}) {
   const plan = trialPlan(job, i);
   const who = { [plan.aSide]: 'a', [plan.aSide === 'p1' ? 'p2' : 'p1']: 'b' };
-  const keep = (what) => job.record[what] === 'all' || (job.record[what] === 'first' && i === 0);
-  const seeds = { a: policySeed(job.trials.seed, i, 'a'), b: policySeed(job.trials.seed, i, 'b') };
+  const seeds = { a: seedOver.a || policySeed(job.trials.seed, i, 'a'), b: seedOver.b || policySeed(job.trials.seed, i, 'b') };
   const sides = {};
   for (const s of ['p1', 'p2']) {
     const w = who[s];
+    const team = withLead(job[w].team);
     sides[s] = {
       name: `${w.toUpperCase()} · ${job[w].team.name}`.slice(0, 40),
-      team: job[w].team,
-      agent: makeAgent(job[w].profile, { team: job[w].team }),
+      team,
+      agent: makeAgent(profiles[w] || job[w].profile, { team }),
       rng: new PolicyRNG(seeds[w]),
     };
   }
+  return { plan, who, seeds, sides };
+}
+
+/** Run trial i of a prepared job. */
+export function runTrial(prepared, i) {
+  const { job } = prepared;
+  const keep = (what) => job.record[what] === 'all' || (job.record[what] === 'first' && i === 0);
+  const { plan, who, seeds, sides } = trialSides(job, i);
   const r = runBattle({
     formatid: job.ruleset.battle_format, seed: plan.seed, sides, turnLimit: job.trials.turn_limit,
     record: { log: keep('logs'), decisions: keep('decisions'), analysis: job.record.analysis !== false },
@@ -116,8 +130,11 @@ export function runTrial(prepared, i) {
   };
   if (r.error) row.error = r.error;
   if (r.members) {
-    row.members = { a: r.members[plan.aSide], b: r.members[plan.aSide === 'p1' ? 'p2' : 'p1'] };
+    const bSide = plan.aSide === 'p1' ? 'p2' : 'p1';
+    row.members = { a: r.members[plan.aSide], b: r.members[bSide] };
     row.kos = r.members.kos.map((k) => ({ ...k, side: who[k.side] }));
+    row.lead = { a: r.members.lead[plan.aSide], b: r.members.lead[bSide] };
+    row.taken_by_type = { a: r.members.taken_by_type[plan.aSide], b: r.members.taken_by_type[bSide] };
   }
   if (keep('input_logs') || r.error) row.input_log = r.inputLog;
   if (r.log) row.log = r.log;
@@ -125,11 +142,14 @@ export function runTrial(prepared, i) {
   return row;
 }
 
+const leadOf = (team) => (!team.lead || team.lead === 'first' ? `${team.members[0].species} (its first member)` : team.lead);
+
 function heldConstant(job) {
   const t = (w) => `${w.toUpperCase()}: ${job[w].team.id} v${job[w].team.version} (every field of all ` +
     `${job[w].team.members.length} builds), played by ${job[w].profile.agent}`;
   return [t('a'), t('b'), `ruleset ${job.ruleset.id} v${job.ruleset.version}`, `lens ${job.scenario.lens}`,
-          `engine ${ENGINE.name} ${ENGINE.version}`, 'lead order (each team leads with its first member)'];
+          `engine ${ENGINE.name} ${ENGINE.version}`,
+          `leads: A ${leadOf(job.a.team)}, B ${leadOf(job.b.team)}`];
 }
 
 function varied(job) {

@@ -1,0 +1,178 @@
+{
+ "kind": "Experiment",
+ "type": "leads",
+ "spec": {
+  "kind": "leads",
+  "team": "me/soulsilver",
+  "pool": "heartgold-league",
+  "n": 12,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:56:22.670Z",
+ "seed": "lab|leads|69704fe58b952e7c",
+ "rows": [
+  {
+   "label": "Pikachu leads",
+   "change": "as written",
+   "won": 119,
+   "n": 132,
+   "rate": 0.902,
+   "ci95": [
+    0.839,
+    0.942
+   ]
+  },
+  {
+   "label": "Dragonite leads",
+   "change": "lead: Dragonite",
+   "won": 115,
+   "n": 132,
+   "rate": 0.871,
+   "ci95": [
+    0.803,
+    0.918
+   ],
+   "difference": {
+    "y_minus_x": -0.03,
+    "ci95": [
+     -0.082,
+     0.021
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.041,
+    "ci95": [
+     -0.091,
+     0.008
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.387695,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (90% and 87%, McNemar p = 0.39). A real difference smaller than about 8 points would need more battles to show."
+  },
+  {
+   "label": "Infernape leads",
+   "change": "lead: Infernape",
+   "won": 114,
+   "n": 132,
+   "rate": 0.864,
+   "ci95": [
+    0.795,
+    0.912
+   ],
+   "difference": {
+    "y_minus_x": -0.038,
+    "ci95": [
+     -0.087,
+     0.011
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.076,
+    "ci95": [
+     -0.121,
+     -0.032
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.226563,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (90% and 86%, McNemar p = 0.23). A real difference smaller than about 9 points would need more battles to show."
+  },
+  {
+   "label": "Empoleon leads",
+   "change": "lead: Empoleon",
+   "won": 110,
+   "n": 132,
+   "rate": 0.833,
+   "ci95": [
+    0.761,
+    0.887
+   ],
+   "difference": {
+    "y_minus_x": -0.068,
+    "ci95": [
+     -0.125,
+     -0.012
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.033,
+    "ci95": [
+     -0.083,
+     0.016
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.035156,
+   "significant": true,
+   "reading": "Pikachu leads won more: 90% against 83% over 132 paired battles (McNemar p = 0.0352)."
+  },
+  {
+   "label": "Gengar leads",
+   "change": "lead: Gengar",
+   "won": 114,
+   "n": 132,
+   "rate": 0.864,
+   "ci95": [
+    0.795,
+    0.912
+   ],
+   "difference": {
+    "y_minus_x": -0.038,
+    "ci95": [
+     -0.091,
+     0.015
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.02,
+    "ci95": [
+     -0.069,
+     0.029
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.266846,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (90% and 86%, McNemar p = 0.27). A real difference smaller than about 9 points would need more battles to show."
+  },
+  {
+   "label": "Scizor leads",
+   "change": "lead: Scizor",
+   "won": 111,
+   "n": 132,
+   "rate": 0.841,
+   "ci95": [
+    0.769,
+    0.894
+   ],
+   "difference": {
+    "y_minus_x": -0.061,
+    "ci95": [
+     -0.115,
+     -0.006
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.024,
+    "ci95": [
+     -0.073,
+     0.025
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.057373,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (90% and 84%, McNemar p = 0.06). A real difference smaller than about 12 points would need more battles to show."
+  }
+ ],
+ "best": "Pikachu leads",
+ "reading": [
+  "Pikachu leads (the current lead) does best."
+ ]
+}

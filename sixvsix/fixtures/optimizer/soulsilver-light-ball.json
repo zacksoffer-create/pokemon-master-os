@@ -1,0 +1,93 @@
+{
+ "team": "library:me/soulsilver~soulsilver-light-ball",
+ "pool": "pool:heartgold-league",
+ "variation": "soulsilver-light-ball",
+ "members": [
+  {
+   "species": "Pikachu",
+   "nature": "Naughty",
+   "nature_chosen": false,
+   "evs": {
+    "hp": 0,
+    "atk": 252,
+    "def": 92,
+    "spa": 0,
+    "spd": 0,
+    "spe": 164
+   },
+   "label": "252 Atk / 92 Def / 164 Spe",
+   "stats": {
+    "hp": 211,
+    "atk": 229,
+    "def": 119,
+    "spa": 136,
+    "spd": 104,
+    "spe": 257
+   },
+   "score": {
+    "points": 203.36,
+    "wins_worst": 33,
+    "wins_typical": 39,
+    "wins_switching_in": 7,
+    "wins_free_hit": 60,
+    "of": 62
+   },
+   "best_template": {
+    "id": "fast_physical",
+    "nature": "Naughty",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "points": 190.14,
+    "wins_worst": 30,
+    "wins_typical": 36,
+    "wins_switching_in": 5,
+    "wins_free_hit": 58,
+    "of": 62
+   },
+   "conventional": {
+    "id": "fast_physical",
+    "evs": {
+     "hp": 4,
+     "atk": 252,
+     "def": 0,
+     "spa": 0,
+     "spd": 0,
+     "spe": 252
+    },
+    "nature": "Naughty",
+    "points": 190.14,
+    "wins_worst": 30,
+    "wins_typical": 36,
+    "wins_switching_in": 5,
+    "wins_free_hit": 58,
+    "of": 62,
+    "label": "4 HP / 252 Atk / 252 Spe"
+   },
+   "flat_85": {
+    "points": 169.64,
+    "wins_worst": 25,
+    "wins_typical": 30,
+    "wins_switching_in": 4,
+    "wins_free_hit": 58,
+    "of": 62
+   },
+   "speed": {
+    "stat": 257,
+    "outspeeds": 56,
+    "of": 62,
+    "next_benchmark": 260
+   }
+  },
+  null,
+  null,
+  null,
+  null,
+  null
+ ]
+}

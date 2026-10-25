@@ -1,0 +1,2408 @@
+{
+ "kind": "Experiment",
+ "type": "compare",
+ "spec": {
+  "kind": "compare",
+  "team": "me/soulsilver",
+  "y": "soulsilver-former-six",
+  "pool": "heartgold-league",
+  "n": 20,
+  "adaptive": {
+   "start": 10,
+   "max": 40
+  },
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:55:20.088Z",
+ "seed": "lab|compare|a63fd274b15d84d3",
+ "comparison": {
+  "kind": "Comparison",
+  "pool": "pool:heartgold-league",
+  "ruleset": "gen4-blackthorn",
+  "seed": "lab|compare|a63fd274b15d84d3",
+  "n_per_opponent": 30,
+  "x": {
+   "label": "Zack · SoulSilver",
+   "team": "library:me/soulsilver",
+   "agent": "trainer",
+   "won": 291,
+   "win_rate": 0.882
+  },
+  "y": {
+   "label": "The former six (Gyarados)",
+   "team": "library:me/soulsilver~soulsilver-former-six",
+   "agent": "trainer",
+   "won": 309,
+   "win_rate": 0.936
+  },
+  "pairs": {
+   "n": 330,
+   "both_won": 282,
+   "only_x": 9,
+   "only_y": 27,
+   "neither": 12
+  },
+  "difference": {
+   "y_minus_x": 0.055,
+   "ci95": [
+    0.019,
+    0.09
+   ]
+  },
+  "margin": {
+   "y_minus_x": 0.067,
+   "ci95": [
+    0.038,
+    0.097
+   ],
+   "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+  },
+  "mcnemar_p": 0.003933,
+  "significant": true,
+  "per_opponent": [
+   {
+    "opponent": "library:heartgold/bruno",
+    "name": "Bruno · Elite Four · first battle",
+    "n": 30,
+    "x_won": 30,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/karen",
+    "name": "Karen · Elite Four · first battle",
+    "n": 30,
+    "x_won": 30,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/koga",
+    "name": "Koga · Elite Four · first battle",
+    "n": 30,
+    "x_won": 30,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/will",
+    "name": "Will · Elite Four · first battle",
+    "n": 30,
+    "x_won": 30,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/lance",
+    "name": "Champion Lance (HeartGold)",
+    "n": 30,
+    "x_won": 22,
+    "y_won": 25
+   },
+   {
+    "opponent": "library:heartgold/bruno-rematch",
+    "name": "Bruno · Elite Four · rematch",
+    "n": 30,
+    "x_won": 29,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/karen-rematch",
+    "name": "Karen · Elite Four · rematch",
+    "n": 30,
+    "x_won": 29,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/koga-rematch",
+    "name": "Koga · Elite Four · rematch",
+    "n": 30,
+    "x_won": 30,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/will-rematch",
+    "name": "Will · Elite Four · rematch",
+    "n": 30,
+    "x_won": 30,
+    "y_won": 30
+   },
+   {
+    "opponent": "library:heartgold/lance-rematch",
+    "name": "Lance · Champion · rematch",
+    "n": 30,
+    "x_won": 7,
+    "y_won": 16
+   },
+   {
+    "opponent": "library:heartgold/red",
+    "name": "Red on Mt. Silver (HeartGold)",
+    "n": 30,
+    "x_won": 24,
+    "y_won": 28
+   }
+  ],
+  "reading": "The former six (Gyarados) won more: 94% against 88% over 330 paired battles (McNemar p = 0.0039).",
+  "timing": {
+   "total_ms": 11137,
+   "platform": "worker threads · 3 worker threads"
+  },
+  "adaptive": {
+   "start": 10,
+   "max": 40,
+   "played_per_opponent": 30,
+   "stopped": "a clear difference (p < 0.01) before the maximum"
+  }
+ },
+ "diff": [
+  {
+   "slot": 2,
+   "from": "Infernape",
+   "to": "Gyarados",
+   "changes": [
+    {
+     "field": "Pokémon",
+     "from": "Infernape",
+     "to": "Gyarados"
+    },
+    {
+     "field": "nature",
+     "from": "Lonely",
+     "to": "Adamant"
+    },
+    {
+     "field": "ability",
+     "from": "Blaze",
+     "to": "Intimidate"
+    },
+    {
+     "field": "moves",
+     "from": "Overheat, Close Combat, Swords Dance",
+     "to": "Waterfall, Ice Fang, Dragon Dance"
+    }
+   ]
+  }
+ ],
+ "duel": [
+  {
+   "slot": 2,
+   "from": "Infernape",
+   "to": "Gyarados",
+   "one_on_one": {
+    "from": "40 of 62",
+    "to": "55 of 62",
+    "switching_in": "21 → 46"
+   },
+   "stats": {
+    "from": {
+     "hp": 294,
+     "atk": 337,
+     "def": 160,
+     "spa": 244,
+     "spd": 178,
+     "spe": 315
+    },
+    "to": {
+     "hp": 332,
+     "atk": 383,
+     "def": 194,
+     "spa": 140,
+     "spd": 236,
+     "spe": 261
+    }
+   },
+   "flips": [
+    {
+     "opponent": "Forretress",
+     "now": "loses",
+     "from": [
+      "heartgold/koga"
+     ]
+    },
+    {
+     "opponent": "Crobat",
+     "now": "wins",
+     "from": [
+      "heartgold/koga-rematch"
+     ]
+    },
+    {
+     "opponent": "Gyarados",
+     "now": "wins",
+     "from": [
+      "heartgold/lance-rematch"
+     ]
+    },
+    {
+     "opponent": "Dragonite",
+     "now": "wins",
+     "from": [
+      "heartgold/lance-rematch"
+     ]
+    },
+    {
+     "opponent": "Aerodactyl",
+     "now": "wins",
+     "from": [
+      "heartgold/lance"
+     ]
+    },
+    {
+     "opponent": "Charizard",
+     "now": "wins",
+     "from": [
+      "heartgold/red"
+     ]
+    },
+    {
+     "opponent": "Machamp",
+     "now": "loses",
+     "from": [
+      "heartgold/bruno-rematch"
+     ]
+    },
+    {
+     "opponent": "Honchkrow",
+     "now": "wins",
+     "from": [
+      "heartgold/karen-rematch"
+     ]
+    },
+    {
+     "opponent": "Skuntank",
+     "now": "wins",
+     "from": [
+      "heartgold/koga-rematch"
+     ]
+    },
+    {
+     "opponent": "Grumpig",
+     "now": "wins",
+     "from": [
+      "heartgold/will-rematch"
+     ]
+    },
+    {
+     "opponent": "Gardevoir",
+     "now": "wins",
+     "from": [
+      "heartgold/will-rematch"
+     ]
+    },
+    {
+     "opponent": "Salamence",
+     "now": "wins",
+     "from": [
+      "heartgold/lance-rematch"
+     ]
+    },
+    {
+     "opponent": "Garchomp",
+     "now": "wins",
+     "from": [
+      "heartgold/lance-rematch"
+     ]
+    },
+    {
+     "opponent": "Altaria",
+     "now": "wins",
+     "from": [
+      "heartgold/lance-rematch"
+     ]
+    },
+    {
+     "opponent": "Lapras",
+     "now": "loses",
+     "from": [
+      "heartgold/red"
+     ]
+    },
+    {
+     "opponent": "Snorlax",
+     "now": "loses",
+     "from": [
+      "heartgold/red"
+     ]
+    },
+    {
+     "opponent": "Blastoise",
+     "now": "wins",
+     "from": [
+      "heartgold/red"
+     ]
+    }
+   ],
+   "thresholds": [
+    {
+     "opponent": "Hitmontop",
+     "what": "its hits to knock you out 2 → 9"
+    },
+    {
+     "opponent": "Hitmonlee",
+     "what": "hits to knock it out 1 → 2"
+    },
+    {
+     "opponent": "Hitmonlee",
+     "what": "its hits to knock you out 2 → 5"
+    },
+    {
+     "opponent": "Hitmonchan",
+     "what": "its hits to knock you out 3 → 2"
+    },
+    {
+     "opponent": "Onix",
+     "what": "its hits to knock you out 2 → 4"
+    },
+    {
+     "opponent": "Machamp",
+     "what": "hits to knock it out 2 → 3"
+    },
+    {
+     "opponent": "Machamp",
+     "what": "its hits to knock you out 2 → 3"
+    },
+    {
+     "opponent": "Umbreon",
+     "what": "hits to knock it out 2 → 3"
+    },
+    {
+     "opponent": "Vileplume",
+     "what": "hits to knock it out 1 → 2"
+    },
+    {
+     "opponent": "Vileplume",
+     "what": "its hits to knock you out 4 → 3"
+    },
+    {
+     "opponent": "Gengar",
+     "what": "its hits to knock you out 2 → 6"
+    },
+    {
+     "opponent": "Gengar",
+     "what": "now slower than it (261 vs 276)"
+    },
+    {
+     "opponent": "Murkrow",
+     "what": "hits to knock it out 1 → 2"
+    },
+    {
+     "opponent": "Murkrow",
+     "what": "its hits to knock you out 2 → 5"
+    },
+    {
+     "opponent": "Ariados",
+     "what": "hits to knock it out 1 → 2"
+    },
+    {
+     "opponent": "Ariados",
+     "what": "its hits to knock you out 3 → 5"
+    },
+    {
+     "opponent": "Venomoth",
+     "what": "hits to knock it out 1 → 2"
+    },
+    {
+     "opponent": "Venomoth",
+     "what": "its hits to knock you out 2 → 5"
+    },
+    {
+     "opponent": "Forretress",
+     "what": "hits to knock it out 1 → 3"
+    },
+    {
+     "opponent": "Forretress",
+     "what": "its hits to knock you out 1 → 2"
+    },
+    {
+     "opponent": "Muk",
+     "what": "its hits to knock you out 2 → 3"
+    },
+    {
+     "opponent": "Crobat",
+     "what": "hits to knock it out 3 → 2"
+    },
+    {
+     "opponent": "Crobat",
+     "what": "its hits to knock you out 2 → 6"
+    },
+    {
+     "opponent": "Xatu",
+     "what": "its hits to knock you out 2 → 4"
+    },
+    {
+     "opponent": "Jynx",
+     "what": "hits to knock it out 1 → 2"
+    },
+    {
+     "opponent": "Jynx",
+     "what": "its hits to knock you out 1 → 3"
+    },
+    {
+     "opponent": "Exeggutor",
+     "what": "hits to knock it out 1 → 3"
+    },
+    {
+     "opponent": "Exeggutor",
+     "what": "its hits to knock you out 1 → 3"
+    },
+    {
+     "opponent": "Slowbro",
+     "what": "its hits to knock you out 1 → 3"
+    },
+    {
+     "opponent": "Gyarados",
+     "what": "hits to knock it out 5 → 6"
+    },
+    {
+     "opponent": "Gyarados",
+     "what": "its hits to knock you out 1 → 7"
+    },
+    {
+     "opponent": "Dragonite",
+     "what": "hits to knock it out 4 → 2"
+    },
+    {
+     "opponent": "Dragonite",
+     "what": "its hits to knock you out 2 → 1"
+    },
+    {
+     "opponent": "Dragonite",
+     "what": "its hits to knock you out 2 → 3"
+    },
+    {
+     "opponent": "Aerodactyl",
+     "what": "hits to knock it out 2 → 1"
+    },
+    {
+     "opponent": "Charizard",
+     "what": "hits to knock it out 3 → 1"
+    },
+    {
+     "opponent": "Charizard",
+     "what": "its hits to knock you out 2 → 4"
+    },
+    {
+     "opponent": "Hitmontop",
+     "what": "its hits to knock you out 2 → 6"
+    },
+    {
+     "opponent": "Hitmonchan",
+     "what": "its hits to knock you out 3 → 6"
+    },
+    {
+     "opponent": "Hariyama",
+     "what": "hits to knock it out 2 → 3"
+    }
+   ]
+  }
+ ],
+ "per_opponent": [
+  {
+   "opponent": "library:heartgold/lance-rematch",
+   "name": "Lance · Champion · rematch",
+   "n": 30,
+   "x_won": 7,
+   "y_won": 16,
+   "change": 0.3
+  },
+  {
+   "opponent": "library:heartgold/red",
+   "name": "Red on Mt. Silver (HeartGold)",
+   "n": 30,
+   "x_won": 24,
+   "y_won": 28,
+   "change": 0.133
+  },
+  {
+   "opponent": "library:heartgold/lance",
+   "name": "Champion Lance (HeartGold)",
+   "n": 30,
+   "x_won": 22,
+   "y_won": 25,
+   "change": 0.1
+  },
+  {
+   "opponent": "library:heartgold/bruno-rematch",
+   "name": "Bruno · Elite Four · rematch",
+   "n": 30,
+   "x_won": 29,
+   "y_won": 30,
+   "change": 0.033
+  },
+  {
+   "opponent": "library:heartgold/karen-rematch",
+   "name": "Karen · Elite Four · rematch",
+   "n": 30,
+   "x_won": 29,
+   "y_won": 30,
+   "change": 0.033
+  }
+ ],
+ "roles": [
+  {
+   "name": "Dragonite",
+   "to": "Dragonite",
+   "ko_share": [
+    0.306,
+    0.242
+   ],
+   "falls_first": [
+    0.109,
+    0.124
+   ]
+  },
+  {
+   "name": "Infernape",
+   "to": "Gyarados",
+   "ko_share": [
+    0.117,
+    0.283
+   ],
+   "falls_first": [
+    0.036,
+    0.115
+   ]
+  }
+ ],
+ "reports": {
+  "x": {
+   "kind": "StrategyReport",
+   "team": "library:me/soulsilver",
+   "team_name": "Zack · SoulSilver",
+   "n": 330,
+   "pool": {
+    "id": "pool:heartgold-league",
+    "name": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red"
+   },
+   "interpretation_of_opponents": "blackthorn",
+   "our_style": "blackthorn",
+   "headline": [
+    "Zack · SoulSilver won 291 of 330 (88%; 95% 84%–91%).",
+    "Hardest: Lance · Champion · rematch (7/30), Champion Lance (HeartGold) (22/30).",
+    "Dragonite makes 31% of your knockouts.",
+    "Dragonite is in 62% of your losses and takes 3.1 of yours each time; it's hardest on Empoleon, Dragonite, Pikachu."
+   ],
+   "outcomes": {
+    "n": 330,
+    "won": 291,
+    "rate": 0.882,
+    "ci95": [
+     0.843,
+     0.912
+    ],
+    "drew": 0,
+    "by_opponent": [
+     {
+      "opponent": "heartgold/lance-rematch",
+      "name": "Lance · Champion · rematch",
+      "n": 30,
+      "won": 7,
+      "rate": 0.233,
+      "ci95": [
+       0.118,
+       0.409
+      ],
+      "turns": 24.5,
+      "left_when_won": 2.3
+     },
+     {
+      "opponent": "heartgold/lance",
+      "name": "Champion Lance (HeartGold)",
+      "n": 30,
+      "won": 22,
+      "rate": 0.733,
+      "ci95": [
+       0.556,
+       0.858
+      ],
+      "turns": 20.7,
+      "left_when_won": 2.7
+     },
+     {
+      "opponent": "heartgold/red",
+      "name": "Red on Mt. Silver (HeartGold)",
+      "n": 30,
+      "won": 24,
+      "rate": 0.8,
+      "ci95": [
+       0.627,
+       0.905
+      ],
+      "turns": 22.6,
+      "left_when_won": 3.4
+     },
+     {
+      "opponent": "heartgold/bruno-rematch",
+      "name": "Bruno · Elite Four · rematch",
+      "n": 30,
+      "won": 29,
+      "rate": 0.967,
+      "ci95": [
+       0.833,
+       0.994
+      ],
+      "turns": 20.4,
+      "left_when_won": 4.3
+     },
+     {
+      "opponent": "heartgold/karen-rematch",
+      "name": "Karen · Elite Four · rematch",
+      "n": 30,
+      "won": 29,
+      "rate": 0.967,
+      "ci95": [
+       0.833,
+       0.994
+      ],
+      "turns": 21.5,
+      "left_when_won": 4.9
+     },
+     {
+      "opponent": "heartgold/bruno",
+      "name": "Bruno · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 13.9,
+      "left_when_won": 5
+     },
+     {
+      "opponent": "heartgold/karen",
+      "name": "Karen · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 14.8,
+      "left_when_won": 5.3
+     },
+     {
+      "opponent": "heartgold/koga",
+      "name": "Koga · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 17.1,
+      "left_when_won": 6
+     },
+     {
+      "opponent": "heartgold/will",
+      "name": "Will · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 14.3,
+      "left_when_won": 5.5
+     },
+     {
+      "opponent": "heartgold/koga-rematch",
+      "name": "Koga · Elite Four · rematch",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 21.1,
+      "left_when_won": 5.5
+     },
+     {
+      "opponent": "heartgold/will-rematch",
+      "name": "Will · Elite Four · rematch",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 20.8,
+      "left_when_won": 4.8
+     }
+    ],
+    "turns": 19.2,
+    "left_when_won": 4.8,
+    "close_wins": 0.027
+   },
+   "members": [
+    {
+     "name": "Pikachu",
+     "species": "Pikachu",
+     "appeared": 1,
+     "kos": 0.282,
+     "ko_share": 0.053,
+     "ko_share_in_wins": 0.046,
+     "damage_dealt": 32.1,
+     "damage_taken": 31.7,
+     "healed": 0,
+     "status_inflicted": 0.039,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.142,
+     "fainted": 0.242,
+     "falls_first": 0.085,
+     "opens": 0.194,
+     "closes": 0.034,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Dragonite",
+     "species": "Dragonite",
+     "appeared": 0.788,
+     "kos": 1.624,
+     "ko_share": 0.306,
+     "ko_share_in_wins": 0.31,
+     "damage_dealt": 157.4,
+     "damage_taken": 83.7,
+     "healed": 22.7,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.591,
+     "fainted": 0.394,
+     "falls_first": 0.109,
+     "opens": 0.182,
+     "closes": 0.313,
+     "reading": "your main finisher (31% of your knockouts); takes the most hits (84% of its HP a battle); closes 31% of your wins"
+    },
+    {
+     "name": "Infernape",
+     "species": "Infernape",
+     "appeared": 0.524,
+     "kos": 0.621,
+     "ko_share": 0.117,
+     "ko_share_in_wins": 0.118,
+     "damage_dealt": 58.9,
+     "damage_taken": 30.1,
+     "healed": 0,
+     "status_inflicted": 0,
+     "setup_used": 0.006,
+     "support_used": 0,
+     "switched_in_by_choice": 0.397,
+     "fainted": 0.248,
+     "falls_first": 0.036,
+     "opens": 0.027,
+     "closes": 0.162,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Empoleon",
+     "species": "Empoleon",
+     "appeared": 0.839,
+     "kos": 1.218,
+     "ko_share": 0.23,
+     "ko_share_in_wins": 0.236,
+     "damage_dealt": 145.5,
+     "damage_taken": 64.2,
+     "healed": 0,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 1.055,
+     "fainted": 0.391,
+     "falls_first": 0.258,
+     "opens": 0.355,
+     "closes": 0.186,
+     "reading": "a main finisher (23% of your knockouts)"
+    },
+    {
+     "name": "Gengar",
+     "species": "Gengar",
+     "appeared": 0.652,
+     "kos": 1.024,
+     "ko_share": 0.193,
+     "ko_share_in_wins": 0.199,
+     "damage_dealt": 120.1,
+     "damage_taken": 48.9,
+     "healed": 0,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.555,
+     "fainted": 0.376,
+     "falls_first": 0.188,
+     "opens": 0.215,
+     "closes": 0.199,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Scizor",
+     "species": "Scizor",
+     "appeared": 0.685,
+     "kos": 0.53,
+     "ko_share": 0.1,
+     "ko_share_in_wins": 0.092,
+     "damage_dealt": 50,
+     "damage_taken": 44.6,
+     "healed": 16.7,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.87,
+     "fainted": 0.152,
+     "falls_first": 0.003,
+     "opens": 0.027,
+     "closes": 0.107,
+     "reading": "a steady contributor"
+    }
+   ],
+   "team_level": {
+    "threats": [
+     {
+      "species": "Dragonite",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 53,
+      "kos_per_appearance": 2.774,
+      "survives": 0.241,
+      "most_against": [
+       {
+        "name": "Empoleon",
+        "kos": 39
+       },
+       {
+        "name": "Dragonite",
+        "kos": 25
+       },
+       {
+        "name": "Pikachu",
+        "kos": 24
+       }
+      ],
+      "in_losses": 24,
+      "share_of_losses": 0.615,
+      "kos_in_losses": 3.083,
+      "sweeps": 21
+     },
+     {
+      "species": "Garchomp",
+      "from": [
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 29,
+      "kos_per_appearance": 1.172,
+      "survives": 0.172,
+      "most_against": [
+       {
+        "name": "Gengar",
+        "kos": 15
+       },
+       {
+        "name": "Dragonite",
+        "kos": 11
+       },
+       {
+        "name": "Infernape",
+        "kos": 6
+       }
+      ],
+      "in_losses": 22,
+      "share_of_losses": 0.564,
+      "kos_in_losses": 1.364,
+      "sweeps": 7
+     },
+     {
+      "species": "Charizard",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch",
+       "Red on Mt. Silver (HeartGold)"
+      ],
+      "appeared": 89,
+      "kos_per_appearance": 0.596,
+      "survives": 0.101,
+      "most_against": [
+       {
+        "name": "Gengar",
+        "kos": 14
+       },
+       {
+        "name": "Pikachu",
+        "kos": 9
+       },
+       {
+        "name": "Infernape",
+        "kos": 8
+       }
+      ],
+      "in_losses": 36,
+      "share_of_losses": 0.923,
+      "kos_in_losses": 0.972,
+      "sweeps": 11
+     },
+     {
+      "species": "Blastoise",
+      "from": [
+       "Red on Mt. Silver (HeartGold)"
+      ],
+      "appeared": 30,
+      "kos_per_appearance": 0.867,
+      "survives": 0.067,
+      "most_against": [
+       {
+        "name": "Dragonite",
+        "kos": 18
+       },
+       {
+        "name": "Infernape",
+        "kos": 4
+       },
+       {
+        "name": "Empoleon",
+        "kos": 3
+       }
+      ],
+      "in_losses": 6,
+      "share_of_losses": 0.154,
+      "kos_in_losses": 1.667,
+      "sweeps": 2
+     },
+     {
+      "species": "Pikachu",
+      "from": [
+       "Red on Mt. Silver (HeartGold)"
+      ],
+      "appeared": 30,
+      "kos_per_appearance": 0.833,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Pikachu",
+        "kos": 25
+       }
+      ],
+      "in_losses": 6,
+      "share_of_losses": 0.154,
+      "kos_in_losses": 1,
+      "sweeps": 0
+     },
+     {
+      "species": "Machamp",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 60,
+      "kos_per_appearance": 0.55,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Gengar",
+        "kos": 20
+       },
+       {
+        "name": "Dragonite",
+        "kos": 8
+       },
+       {
+        "name": "Infernape",
+        "kos": 3
+       }
+      ],
+      "in_losses": 1,
+      "share_of_losses": 0.026,
+      "kos_in_losses": 2,
+      "sweeps": 1
+     },
+     {
+      "species": "Salamence",
+      "from": [
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 30,
+      "kos_per_appearance": 0.7,
+      "survives": 0.367,
+      "most_against": [
+       {
+        "name": "Infernape",
+        "kos": 6
+       },
+       {
+        "name": "Empoleon",
+        "kos": 4
+       },
+       {
+        "name": "Dragonite",
+        "kos": 4
+       }
+      ],
+      "in_losses": 23,
+      "share_of_losses": 0.59,
+      "kos_in_losses": 0.826,
+      "sweeps": 4
+     },
+     {
+      "species": "Gyarados",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 60,
+      "kos_per_appearance": 0.45,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Empoleon",
+        "kos": 12
+       },
+       {
+        "name": "Pikachu",
+        "kos": 5
+       },
+       {
+        "name": "Dragonite",
+        "kos": 4
+       }
+      ],
+      "in_losses": 31,
+      "share_of_losses": 0.795,
+      "kos_in_losses": 0.774,
+      "sweeps": 5
+     }
+    ],
+    "dependencies": [
+     {
+      "name": "Empoleon",
+      "falls_early": 0.336,
+      "win_if_falls_early": 0.721,
+      "win_otherwise": 0.963,
+      "gap": 0.243,
+      "n_early": 111,
+      "n_otherwise": 219,
+      "win_if_survives": 1,
+      "n_survives": 201
+     },
+     {
+      "name": "Dragonite",
+      "falls_early": 0.324,
+      "win_if_falls_early": 0.72,
+      "win_otherwise": 0.96,
+      "gap": 0.24,
+      "n_early": 107,
+      "n_otherwise": 223,
+      "win_if_survives": 1,
+      "n_survives": 200
+     },
+     {
+      "name": "Scizor",
+      "falls_early": 0.012,
+      "win_if_falls_early": 0.75,
+      "win_otherwise": 0.883,
+      "gap": 0.133,
+      "n_early": 4,
+      "n_otherwise": 326,
+      "win_if_survives": 1,
+      "n_survives": 280
+     },
+     {
+      "name": "Pikachu",
+      "falls_early": 0.091,
+      "win_if_falls_early": 0.767,
+      "win_otherwise": 0.893,
+      "gap": 0.127,
+      "n_early": 30,
+      "n_otherwise": 300,
+      "win_if_survives": 1,
+      "n_survives": 250
+     },
+     {
+      "name": "Gengar",
+      "falls_early": 0.236,
+      "win_if_falls_early": 0.897,
+      "win_otherwise": 0.877,
+      "gap": -0.02,
+      "n_early": 78,
+      "n_otherwise": 252,
+      "win_if_survives": 1,
+      "n_survives": 206
+     },
+     {
+      "name": "Infernape",
+      "falls_early": 0.061,
+      "win_if_falls_early": 0.95,
+      "win_otherwise": 0.877,
+      "gap": -0.073,
+      "n_early": 20,
+      "n_otherwise": 310,
+      "win_if_survives": 1,
+      "n_survives": 248
+     }
+    ],
+    "damage_by_type": [
+     {
+      "type": "Dragon",
+      "per_battle": 57.1,
+      "share": 0.201,
+      "weak": [
+       "Dragonite"
+      ]
+     },
+     {
+      "type": "Dark",
+      "per_battle": 37.7,
+      "share": 0.133,
+      "weak": [
+       "Gengar"
+      ]
+     },
+     {
+      "type": "Psychic",
+      "per_battle": 34.5,
+      "share": 0.121,
+      "weak": [
+       "Infernape",
+       "Gengar"
+      ]
+     },
+     {
+      "type": "Fighting",
+      "per_battle": 29,
+      "share": 0.102,
+      "weak": [
+       "Empoleon"
+      ]
+     },
+     {
+      "type": "Fire",
+      "per_battle": 26,
+      "share": 0.091,
+      "weak": [
+       "Scizor"
+      ]
+     },
+     {
+      "type": "Flying",
+      "per_battle": 16.5,
+      "share": 0.058,
+      "weak": [
+       "Infernape"
+      ]
+     },
+     {
+      "type": "Rock",
+      "per_battle": 13.9,
+      "share": 0.049,
+      "weak": [
+       "Dragonite"
+      ]
+     },
+     {
+      "type": "Ice",
+      "per_battle": 13.4,
+      "share": 0.047,
+      "weak": [
+       "Dragonite"
+      ]
+     }
+    ],
+    "sequencing": {
+     "first_knockout": [
+      {
+       "name": "Empoleon",
+       "battles": 117
+      },
+      {
+       "name": "Gengar",
+       "battles": 71
+      },
+      {
+       "name": "Pikachu",
+       "battles": 64
+      },
+      {
+       "name": "Dragonite",
+       "battles": 60
+      },
+      {
+       "name": "Scizor",
+       "battles": 9
+      },
+      {
+       "name": "Infernape",
+       "battles": 9
+      }
+     ],
+     "last_knockout_in_wins": [
+      {
+       "name": "Dragonite",
+       "battles": 91
+      },
+      {
+       "name": "Gengar",
+       "battles": 58
+      },
+      {
+       "name": "Empoleon",
+       "battles": 54
+      },
+      {
+       "name": "Infernape",
+       "battles": 47
+      },
+      {
+       "name": "Scizor",
+       "battles": 31
+      },
+      {
+       "name": "Pikachu",
+       "battles": 10
+      }
+     ],
+     "leads": [
+      {
+       "name": "Pikachu",
+       "n": 330,
+       "won": 291,
+       "rate": 0.882
+      }
+     ]
+    }
+   },
+   "interpretation": {
+    "robust": [
+     "The overall result is pinned down: 88% (95% 84%–91%) over 330 battles.",
+     "Your knockouts come mostly from Dragonite (31%) and Empoleon (23%)."
+    ],
+    "opponent_dependent": [
+     "Lance · Champion · rematch is a real weak spot: 7 of 30 (95% up to 41%), below the pool's interval.",
+     "Empoleon's role depends on the opponent: 86% of your knockouts against Koga · Elite Four · first battle, 2% against Bruno · Elite Four · first battle.",
+     "Dragonite's role depends on the opponent: 63% of your knockouts against Bruno · Elite Four · rematch, 0% against Koga · Elite Four · first battle."
+    ],
+    "needs_more_battles": []
+   },
+   "patterns": [
+    {
+     "id": "threat:Dragonite",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Dragonite runs through the team",
+     "finding": "Dragonite is in 62% of your losses and takes 3.1 of yours each time; it's hardest on Empoleon, Dragonite, Pikachu.",
+     "evidence": {
+      "species": "Dragonite",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 53,
+      "kos_per_appearance": 2.774,
+      "survives": 0.241,
+      "most_against": [
+       {
+        "name": "Empoleon",
+        "kos": 39
+       },
+       {
+        "name": "Dragonite",
+        "kos": 25
+       },
+       {
+        "name": "Pikachu",
+        "kos": 24
+       }
+      ],
+      "in_losses": 24,
+      "share_of_losses": 0.615,
+      "kos_in_losses": 3.083,
+      "sweeps": 21
+     },
+     "suggestion": {
+      "label": "Watch a loss where Dragonite sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Dragonite"
+       }
+      }
+     }
+    },
+    {
+     "id": "item:Pikachu",
+     "kind": "item",
+     "strength": "strong",
+     "title": "Pikachu without its Light Ball",
+     "finding": "Pikachu has no item on record; Light Ball is the item made for it.",
+     "evidence": {
+      "species": "Pikachu",
+      "signature_item": "Light Ball"
+     },
+     "suggestion": {
+      "label": "Compare with the variation \"Pikachu with its Light Ball\"",
+      "experiment": {
+       "kind": "compare",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "y": "soulsilver-light-ball"
+      }
+     }
+    },
+    {
+     "id": "depends:Empoleon",
+     "kind": "dependency",
+     "strength": "suggestive",
+     "title": "The team leans on Empoleon",
+     "finding": "When Empoleon is one of the first two of yours to fall, you win 72% (111 battles); otherwise 96% (219). That goes together with losing; it isn't proof it causes it.",
+     "evidence": {
+      "name": "Empoleon",
+      "falls_early": 0.336,
+      "win_if_falls_early": 0.721,
+      "win_otherwise": 0.963,
+      "gap": 0.243,
+      "n_early": 111,
+      "n_otherwise": 219,
+      "win_if_survives": 1,
+      "n_survives": 201
+     },
+     "suggestion": {
+      "label": "Play your trainer more cautiously (protects Empoleon more) and compare",
+      "experiment": {
+       "kind": "styles",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "ours": [
+        "blackthorn",
+        "cautious"
+       ]
+      }
+     }
+    },
+    {
+     "id": "depends:Dragonite",
+     "kind": "dependency",
+     "strength": "suggestive",
+     "title": "The team leans on Dragonite",
+     "finding": "When Dragonite is one of the first two of yours to fall, you win 72% (107 battles); otherwise 96% (223). That goes together with losing; it isn't proof it causes it.",
+     "evidence": {
+      "name": "Dragonite",
+      "falls_early": 0.324,
+      "win_if_falls_early": 0.72,
+      "win_otherwise": 0.96,
+      "gap": 0.24,
+      "n_early": 107,
+      "n_otherwise": 223,
+      "win_if_survives": 1,
+      "n_survives": 200
+     },
+     "suggestion": {
+      "label": "Play your trainer more cautiously (protects Dragonite more) and compare",
+      "experiment": {
+       "kind": "styles",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "ours": [
+        "blackthorn",
+        "cautious"
+       ]
+      }
+     }
+    },
+    {
+     "id": "items",
+     "kind": "item",
+     "strength": "suggestive",
+     "title": "5 of your six hold nothing",
+     "finding": "No item on record for Dragonite, Infernape, Empoleon, Gengar, Scizor. Items are build decisions; the engine doesn't invent them.",
+     "evidence": {
+      "species": [
+       "Dragonite",
+       "Infernape",
+       "Empoleon",
+       "Gengar",
+       "Scizor"
+      ]
+     },
+     "suggestion": {
+      "label": "Try an item in the build editor and compare",
+      "experiment": null
+     }
+    }
+   ],
+   "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+  },
+  "y": {
+   "kind": "StrategyReport",
+   "team": "library:me/soulsilver~soulsilver-former-six",
+   "team_name": "Zack · SoulSilver · The former six (Gyarados)",
+   "n": 330,
+   "pool": {
+    "id": "pool:heartgold-league",
+    "name": "HeartGold/SoulSilver Elite Four, Champion, rematches and Red"
+   },
+   "interpretation_of_opponents": "blackthorn",
+   "our_style": "blackthorn",
+   "headline": [
+    "Zack · SoulSilver · The former six (Gyarados) won 309 of 330 (94%; 95% 91%–96%).",
+    "Hardest: Lance · Champion · rematch (16/30).",
+    "Gyarados makes 28% of your knockouts.",
+    "Dragonite is in 67% of your losses and takes 2.4 of yours each time; it's hardest on Empoleon, Gyarados, Scizor."
+   ],
+   "outcomes": {
+    "n": 330,
+    "won": 309,
+    "rate": 0.936,
+    "ci95": [
+     0.905,
+     0.958
+    ],
+    "drew": 0,
+    "by_opponent": [
+     {
+      "opponent": "heartgold/lance-rematch",
+      "name": "Lance · Champion · rematch",
+      "n": 30,
+      "won": 16,
+      "rate": 0.533,
+      "ci95": [
+       0.361,
+       0.698
+      ],
+      "turns": 24.2,
+      "left_when_won": 3.8
+     },
+     {
+      "opponent": "heartgold/lance",
+      "name": "Champion Lance (HeartGold)",
+      "n": 30,
+      "won": 25,
+      "rate": 0.833,
+      "ci95": [
+       0.664,
+       0.927
+      ],
+      "turns": 16.1,
+      "left_when_won": 4.4
+     },
+     {
+      "opponent": "heartgold/red",
+      "name": "Red on Mt. Silver (HeartGold)",
+      "n": 30,
+      "won": 28,
+      "rate": 0.933,
+      "ci95": [
+       0.787,
+       0.982
+      ],
+      "turns": 23.4,
+      "left_when_won": 4.1
+     },
+     {
+      "opponent": "heartgold/bruno",
+      "name": "Bruno · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 14,
+      "left_when_won": 5
+     },
+     {
+      "opponent": "heartgold/karen",
+      "name": "Karen · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 15.1,
+      "left_when_won": 5.2
+     },
+     {
+      "opponent": "heartgold/koga",
+      "name": "Koga · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 16.9,
+      "left_when_won": 5.9
+     },
+     {
+      "opponent": "heartgold/will",
+      "name": "Will · Elite Four · first battle",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 14,
+      "left_when_won": 5.7
+     },
+     {
+      "opponent": "heartgold/bruno-rematch",
+      "name": "Bruno · Elite Four · rematch",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 16.6,
+      "left_when_won": 4.6
+     },
+     {
+      "opponent": "heartgold/karen-rematch",
+      "name": "Karen · Elite Four · rematch",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 19.9,
+      "left_when_won": 5
+     },
+     {
+      "opponent": "heartgold/koga-rematch",
+      "name": "Koga · Elite Four · rematch",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 19.2,
+      "left_when_won": 5.6
+     },
+     {
+      "opponent": "heartgold/will-rematch",
+      "name": "Will · Elite Four · rematch",
+      "n": 30,
+      "won": 30,
+      "rate": 1,
+      "ci95": [
+       0.886,
+       1
+      ],
+      "turns": 20.2,
+      "left_when_won": 4.8
+     }
+    ],
+    "turns": 18.1,
+    "left_when_won": 5,
+    "close_wins": 0.003
+   },
+   "members": [
+    {
+     "name": "Pikachu",
+     "species": "Pikachu",
+     "appeared": 1,
+     "kos": 0.239,
+     "ko_share": 0.044,
+     "ko_share_in_wins": 0.04,
+     "damage_dealt": 27.2,
+     "damage_taken": 23.1,
+     "healed": 0,
+     "status_inflicted": 0.021,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.064,
+     "fainted": 0.139,
+     "falls_first": 0.079,
+     "opens": 0.194,
+     "closes": 0.019,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Dragonite",
+     "species": "Dragonite",
+     "appeared": 0.7,
+     "kos": 1.315,
+     "ko_share": 0.242,
+     "ko_share_in_wins": 0.246,
+     "damage_dealt": 116.2,
+     "damage_taken": 60,
+     "healed": 15.1,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.515,
+     "fainted": 0.255,
+     "falls_first": 0.124,
+     "opens": 0.155,
+     "closes": 0.307,
+     "reading": "a main finisher (24% of your knockouts); takes the most hits (60% of its HP a battle); closes 31% of your wins"
+    },
+    {
+     "name": "Gyarados",
+     "species": "Gyarados",
+     "appeared": 0.673,
+     "kos": 1.539,
+     "ko_share": 0.283,
+     "ko_share_in_wins": 0.281,
+     "damage_dealt": 150.7,
+     "damage_taken": 49.3,
+     "healed": 0,
+     "status_inflicted": 0.052,
+     "setup_used": 0.188,
+     "support_used": 0,
+     "switched_in_by_choice": 0.564,
+     "fainted": 0.3,
+     "falls_first": 0.115,
+     "opens": 0.155,
+     "closes": 0.275,
+     "reading": "your main finisher (28% of your knockouts)"
+    },
+    {
+     "name": "Empoleon",
+     "species": "Empoleon",
+     "appeared": 0.788,
+     "kos": 1.109,
+     "ko_share": 0.204,
+     "ko_share_in_wins": 0.209,
+     "damage_dealt": 136.8,
+     "damage_taken": 58.4,
+     "healed": 0,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.97,
+     "fainted": 0.315,
+     "falls_first": 0.224,
+     "opens": 0.33,
+     "closes": 0.142,
+     "reading": "a main finisher (20% of your knockouts)"
+    },
+    {
+     "name": "Gengar",
+     "species": "Gengar",
+     "appeared": 0.542,
+     "kos": 0.87,
+     "ko_share": 0.16,
+     "ko_share_in_wins": 0.161,
+     "damage_dealt": 96.3,
+     "damage_taken": 35.8,
+     "healed": 0,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.488,
+     "fainted": 0.242,
+     "falls_first": 0.1,
+     "opens": 0.139,
+     "closes": 0.175,
+     "reading": "a steady contributor"
+    },
+    {
+     "name": "Scizor",
+     "species": "Scizor",
+     "appeared": 0.576,
+     "kos": 0.37,
+     "ko_share": 0.068,
+     "ko_share_in_wins": 0.062,
+     "damage_dealt": 42.1,
+     "damage_taken": 26.4,
+     "healed": 7.7,
+     "status_inflicted": 0,
+     "setup_used": 0,
+     "support_used": 0,
+     "switched_in_by_choice": 0.739,
+     "fainted": 0.082,
+     "falls_first": 0.003,
+     "opens": 0.024,
+     "closes": 0.081,
+     "reading": "a steady contributor"
+    }
+   ],
+   "team_level": {
+    "threats": [
+     {
+      "species": "Dragonite",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 55,
+      "kos_per_appearance": 1.4,
+      "survives": 0.122,
+      "most_against": [
+       {
+        "name": "Empoleon",
+        "kos": 25
+       },
+       {
+        "name": "Gyarados",
+        "kos": 14
+       },
+       {
+        "name": "Scizor",
+        "kos": 11
+       }
+      ],
+      "in_losses": 14,
+      "share_of_losses": 0.667,
+      "kos_in_losses": 2.429,
+      "sweeps": 10
+     },
+     {
+      "species": "Gyarados",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 60,
+      "kos_per_appearance": 1.25,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Empoleon",
+        "kos": 23
+       },
+       {
+        "name": "Dragonite",
+        "kos": 19
+       },
+       {
+        "name": "Gyarados",
+        "kos": 14
+       }
+      ],
+      "in_losses": 19,
+      "share_of_losses": 0.905,
+      "kos_in_losses": 3.105,
+      "sweeps": 14
+     },
+     {
+      "species": "Machamp",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 60,
+      "kos_per_appearance": 0.617,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Gengar",
+        "kos": 20
+       },
+       {
+        "name": "Gyarados",
+        "kos": 9
+       },
+       {
+        "name": "Dragonite",
+        "kos": 7
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     },
+     {
+      "species": "Pikachu",
+      "from": [
+       "Red on Mt. Silver (HeartGold)"
+      ],
+      "appeared": 30,
+      "kos_per_appearance": 0.833,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Pikachu",
+        "kos": 25
+       }
+      ],
+      "in_losses": 2,
+      "share_of_losses": 0.095,
+      "kos_in_losses": 1,
+      "sweeps": 0
+     },
+     {
+      "species": "Charizard",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch",
+       "Red on Mt. Silver (HeartGold)"
+      ],
+      "appeared": 85,
+      "kos_per_appearance": 0.282,
+      "survives": 0.071,
+      "most_against": [
+       {
+        "name": "Scizor",
+        "kos": 7
+       },
+       {
+        "name": "Gengar",
+        "kos": 5
+       },
+       {
+        "name": "Pikachu",
+        "kos": 4
+       }
+      ],
+      "in_losses": 16,
+      "share_of_losses": 0.762,
+      "kos_in_losses": 1.063,
+      "sweeps": 5
+     },
+     {
+      "species": "Blastoise",
+      "from": [
+       "Red on Mt. Silver (HeartGold)"
+      ],
+      "appeared": 30,
+      "kos_per_appearance": 0.433,
+      "survives": 0.033,
+      "most_against": [
+       {
+        "name": "Dragonite",
+        "kos": 7
+       },
+       {
+        "name": "Empoleon",
+        "kos": 4
+       },
+       {
+        "name": "Gengar",
+        "kos": 1
+       }
+      ],
+      "in_losses": 2,
+      "share_of_losses": 0.095,
+      "kos_in_losses": 1,
+      "sweeps": 0
+     },
+     {
+      "species": "Lapras",
+      "from": [
+       "Red on Mt. Silver (HeartGold)"
+      ],
+      "appeared": 30,
+      "kos_per_appearance": 0.367,
+      "survives": 0.067,
+      "most_against": [
+       {
+        "name": "Gyarados",
+        "kos": 5
+       },
+       {
+        "name": "Gengar",
+        "kos": 4
+       },
+       {
+        "name": "Scizor",
+        "kos": 1
+       }
+      ],
+      "in_losses": 2,
+      "share_of_losses": 0.095,
+      "kos_in_losses": 1.5,
+      "sweeps": 1
+     },
+     {
+      "species": "Hitmontop",
+      "from": [
+       "Bruno · Elite Four · first battle",
+       "Bruno · Elite Four · rematch"
+      ],
+      "appeared": 60,
+      "kos_per_appearance": 0.233,
+      "survives": 0,
+      "most_against": [
+       {
+        "name": "Gyarados",
+        "kos": 12
+       },
+       {
+        "name": "Dragonite",
+        "kos": 2
+       }
+      ],
+      "in_losses": 0,
+      "share_of_losses": 0,
+      "kos_in_losses": 0,
+      "sweeps": 0
+     }
+    ],
+    "dependencies": [
+     {
+      "name": "Dragonite",
+      "falls_early": 0.23,
+      "win_if_falls_early": 0.75,
+      "win_otherwise": 0.992,
+      "gap": 0.242,
+      "n_early": 76,
+      "n_otherwise": 254,
+      "win_if_survives": 1,
+      "n_survives": 246
+     },
+     {
+      "name": "Empoleon",
+      "falls_early": 0.297,
+      "win_if_falls_early": 0.816,
+      "win_otherwise": 0.987,
+      "gap": 0.171,
+      "n_early": 98,
+      "n_otherwise": 232,
+      "win_if_survives": 1,
+      "n_survives": 226
+     },
+     {
+      "name": "Pikachu",
+      "falls_early": 0.079,
+      "win_if_falls_early": 0.923,
+      "win_otherwise": 0.938,
+      "gap": 0.014,
+      "n_early": 26,
+      "n_otherwise": 304,
+      "win_if_survives": 1,
+      "n_survives": 284
+     },
+     {
+      "name": "Gyarados",
+      "falls_early": 0.206,
+      "win_if_falls_early": 0.956,
+      "win_otherwise": 0.931,
+      "gap": -0.025,
+      "n_early": 68,
+      "n_otherwise": 262,
+      "win_if_survives": 1,
+      "n_survives": 231
+     },
+     {
+      "name": "Scizor",
+      "falls_early": 0.009,
+      "win_if_falls_early": 1,
+      "win_otherwise": 0.936,
+      "gap": -0.064,
+      "n_early": 3,
+      "n_otherwise": 327,
+      "win_if_survives": 1,
+      "n_survives": 303
+     },
+     {
+      "name": "Gengar",
+      "falls_early": 0.158,
+      "win_if_falls_early": 1,
+      "win_otherwise": 0.924,
+      "gap": -0.076,
+      "n_early": 52,
+      "n_otherwise": 278,
+      "win_if_survives": 1,
+      "n_survives": 250
+     }
+    ],
+    "damage_by_type": [
+     {
+      "type": "Dark",
+      "per_battle": 38.7,
+      "share": 0.163,
+      "weak": [
+       "Gengar"
+      ]
+     },
+     {
+      "type": "Psychic",
+      "per_battle": 32.5,
+      "share": 0.137,
+      "weak": [
+       "Gengar"
+      ]
+     },
+     {
+      "type": "Dragon",
+      "per_battle": 26.8,
+      "share": 0.113,
+      "weak": [
+       "Dragonite"
+      ]
+     },
+     {
+      "type": "Fighting",
+      "per_battle": 18.4,
+      "share": 0.078,
+      "weak": [
+       "Empoleon"
+      ]
+     },
+     {
+      "type": "Rock",
+      "per_battle": 16.7,
+      "share": 0.07,
+      "weak": [
+       "Dragonite",
+       "Gyarados"
+      ]
+     },
+     {
+      "type": "Water",
+      "per_battle": 16.7,
+      "share": 0.07,
+      "weak": []
+     },
+     {
+      "type": "Fire",
+      "per_battle": 16.3,
+      "share": 0.069,
+      "weak": [
+       "Scizor"
+      ]
+     },
+     {
+      "type": "Ice",
+      "per_battle": 15.8,
+      "share": 0.067,
+      "weak": [
+       "Dragonite"
+      ]
+     }
+    ],
+    "sequencing": {
+     "first_knockout": [
+      {
+       "name": "Empoleon",
+       "battles": 109
+      },
+      {
+       "name": "Pikachu",
+       "battles": 64
+      },
+      {
+       "name": "Dragonite",
+       "battles": 51
+      },
+      {
+       "name": "Gyarados",
+       "battles": 51
+      },
+      {
+       "name": "Gengar",
+       "battles": 46
+      },
+      {
+       "name": "Scizor",
+       "battles": 8
+      }
+     ],
+     "last_knockout_in_wins": [
+      {
+       "name": "Dragonite",
+       "battles": 95
+      },
+      {
+       "name": "Gyarados",
+       "battles": 85
+      },
+      {
+       "name": "Gengar",
+       "battles": 54
+      },
+      {
+       "name": "Empoleon",
+       "battles": 44
+      },
+      {
+       "name": "Scizor",
+       "battles": 25
+      },
+      {
+       "name": "Pikachu",
+       "battles": 6
+      }
+     ],
+     "leads": [
+      {
+       "name": "Pikachu",
+       "n": 330,
+       "won": 309,
+       "rate": 0.936
+      }
+     ]
+    }
+   },
+   "interpretation": {
+    "robust": [
+     "The overall result is pinned down: 94% (95% 91%–96%) over 330 battles.",
+     "Your knockouts come mostly from Dragonite (24%) and Gyarados (28%) and Empoleon (20%)."
+    ],
+    "opponent_dependent": [
+     "Lance · Champion · rematch is a real weak spot: 16 of 30 (95% up to 70%), below the pool's interval.",
+     "Empoleon's role depends on the opponent: 84% of your knockouts against Koga · Elite Four · first battle, 0% against Bruno · Elite Four · first battle.",
+     "Gengar's role depends on the opponent: 57% of your knockouts against Bruno · Elite Four · first battle, 0% against Karen · Elite Four · rematch."
+    ],
+    "needs_more_battles": []
+   },
+   "patterns": [
+    {
+     "id": "threat:Dragonite",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Dragonite runs through the team",
+     "finding": "Dragonite is in 67% of your losses and takes 2.4 of yours each time; it's hardest on Empoleon, Gyarados, Scizor.",
+     "evidence": {
+      "species": "Dragonite",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 55,
+      "kos_per_appearance": 1.4,
+      "survives": 0.122,
+      "most_against": [
+       {
+        "name": "Empoleon",
+        "kos": 25
+       },
+       {
+        "name": "Gyarados",
+        "kos": 14
+       },
+       {
+        "name": "Scizor",
+        "kos": 11
+       }
+      ],
+      "in_losses": 14,
+      "share_of_losses": 0.667,
+      "kos_in_losses": 2.429,
+      "sweeps": 10
+     },
+     "suggestion": {
+      "label": "Watch a loss where Dragonite sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Dragonite"
+       }
+      }
+     }
+    },
+    {
+     "id": "threat:Gyarados",
+     "kind": "threat",
+     "strength": "strong",
+     "title": "Gyarados runs through the team",
+     "finding": "Gyarados is in 91% of your losses and takes 3.1 of yours each time; it's hardest on Empoleon, Dragonite, Gyarados.",
+     "evidence": {
+      "species": "Gyarados",
+      "from": [
+       "Champion Lance (HeartGold)",
+       "Lance · Champion · rematch"
+      ],
+      "appeared": 60,
+      "kos_per_appearance": 1.25,
+      "survives": 0.05,
+      "most_against": [
+       {
+        "name": "Empoleon",
+        "kos": 23
+       },
+       {
+        "name": "Dragonite",
+        "kos": 19
+       },
+       {
+        "name": "Gyarados",
+        "kos": 14
+       }
+      ],
+      "in_losses": 19,
+      "share_of_losses": 0.905,
+      "kos_in_losses": 3.105,
+      "sweeps": 14
+     },
+     "suggestion": {
+      "label": "Watch a loss where Gyarados sweeps, then test an answer",
+      "experiment": {
+       "kind": "battles",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "filter": {
+        "lost": true,
+        "threat": "Gyarados"
+       }
+      }
+     }
+    },
+    {
+     "id": "item:Pikachu",
+     "kind": "item",
+     "strength": "strong",
+     "title": "Pikachu without its Light Ball",
+     "finding": "Pikachu has no item on record; Light Ball is the item made for it.",
+     "evidence": {
+      "species": "Pikachu",
+      "signature_item": "Light Ball"
+     },
+     "suggestion": {
+      "label": "Compare with the variation \"Pikachu with its Light Ball\"",
+      "experiment": {
+       "kind": "compare",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "y": "soulsilver-light-ball"
+      }
+     }
+    },
+    {
+     "id": "depends:Dragonite",
+     "kind": "dependency",
+     "strength": "suggestive",
+     "title": "The team leans on Dragonite",
+     "finding": "When Dragonite is one of the first two of yours to fall, you win 75% (76 battles); otherwise 99% (254). That goes together with losing; it isn't proof it causes it.",
+     "evidence": {
+      "name": "Dragonite",
+      "falls_early": 0.23,
+      "win_if_falls_early": 0.75,
+      "win_otherwise": 0.992,
+      "gap": 0.242,
+      "n_early": 76,
+      "n_otherwise": 254,
+      "win_if_survives": 1,
+      "n_survives": 246
+     },
+     "suggestion": {
+      "label": "Play your trainer more cautiously (protects Dragonite more) and compare",
+      "experiment": {
+       "kind": "styles",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "ours": [
+        "blackthorn",
+        "cautious"
+       ]
+      }
+     }
+    },
+    {
+     "id": "depends:Empoleon",
+     "kind": "dependency",
+     "strength": "suggestive",
+     "title": "The team leans on Empoleon",
+     "finding": "When Empoleon is one of the first two of yours to fall, you win 82% (98 battles); otherwise 99% (232). That goes together with losing; it isn't proof it causes it.",
+     "evidence": {
+      "name": "Empoleon",
+      "falls_early": 0.297,
+      "win_if_falls_early": 0.816,
+      "win_otherwise": 0.987,
+      "gap": 0.171,
+      "n_early": 98,
+      "n_otherwise": 232,
+      "win_if_survives": 1,
+      "n_survives": 226
+     },
+     "suggestion": {
+      "label": "Play your trainer more cautiously (protects Empoleon more) and compare",
+      "experiment": {
+       "kind": "styles",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "ours": [
+        "blackthorn",
+        "cautious"
+       ]
+      }
+     }
+    },
+    {
+     "id": "items",
+     "kind": "item",
+     "strength": "suggestive",
+     "title": "5 of your six hold nothing",
+     "finding": "No item on record for Dragonite, Gyarados, Empoleon, Gengar, Scizor. Items are build decisions; the engine doesn't invent them.",
+     "evidence": {
+      "species": [
+       "Dragonite",
+       "Gyarados",
+       "Empoleon",
+       "Gengar",
+       "Scizor"
+      ]
+     },
+     "suggestion": {
+      "label": "Try an item in the build editor and compare",
+      "experiment": null
+     }
+    },
+    {
+     "id": "close",
+     "kind": "uncertain",
+     "strength": "suggestive",
+     "title": "Some matchups are too close to call",
+     "finding": "Lance · Champion · rematch (16/30): their intervals still cross 50%.",
+     "evidence": [
+      {
+       "opponent": "heartgold/lance-rematch",
+       "name": "Lance · Champion · rematch",
+       "n": 30,
+       "won": 16,
+       "rate": 0.533,
+       "ci95": [
+        0.361,
+        0.698
+       ],
+       "turns": 24.2,
+       "left_when_won": 3.8
+      }
+     ],
+     "suggestion": {
+      "label": "Run more battles against just these",
+      "experiment": {
+       "kind": "league",
+       "team": "me/soulsilver",
+       "pool": "heartgold-league",
+       "interpretation": "blackthorn",
+       "only": [
+        "heartgold/lance-rematch"
+       ],
+       "n": 60
+      }
+     }
+    }
+   ],
+   "note": "Dependencies are associations, not causes. Patterns are hypotheses with their evidence; each suggests an experiment."
+  }
+ },
+ "reading": [
+  "The former six (Gyarados) won more: 94% against 88% over 330 paired battles (McNemar p = 0.0039).",
+  "Infernape → Gyarados, one-on-one: beats 40 of 62 → 55 of 62 of the pool's Pokémon (now loses to Forretress, beats Crobat, beats Gyarados, beats Dragonite…).",
+  "Biggest swings: Lance · Champion · rematch 7→16 of 30, Red on Mt. Silver (HeartGold) 24→28 of 30, Champion Lance (HeartGold) 22→25 of 30."
+ ],
+ "fell_back": []
+}

@@ -1,0 +1,49 @@
+{
+ "key": "heartgold-january-typhlosion",
+ "made_at": "2026-10-25T19:42:17.951Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · 3 worker threads",
+ "seconds": 7,
+ "rows": [
+  {
+   "species": "Typhlosion",
+   "kept": "conventional",
+   "duel": {
+    "nature": "Timid",
+    "spread": "196 HP / 208 Def / 104 SpA",
+    "win_rate": 0.986
+   },
+   "conventional": {
+    "nature": "Timid",
+    "spread": "4 HP / 252 SpA / 252 Spe",
+    "win_rate": 0.973
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 213,
+    "only_x": 4,
+    "only_y": 1,
+    "neither": 2
+   },
+   "mcnemar_p": 0.375,
+   "margin": {
+    "y_minus_x": 0.024,
+    "ci95": [
+     -0.004,
+     0.053
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (99% and 97%, McNemar p = 0.38). A real difference smaller than about 3 points would need more battles to show."
+  },
+  null,
+  null,
+  null,
+  null,
+  null
+ ],
+ "n_per_opponent": 20,
+ "seed": "confirm-heartgold-january-typhlosion",
+ "pool": "pool:heartgold-league",
+ "ruleset": "gen4-blackthorn",
+ "rule": "D-074: the conventional spread unless the duel spread is measurably better"
+}

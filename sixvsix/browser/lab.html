@@ -1,0 +1,849 @@
+<title>6v6 Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a battle laboratory bench — controls down the left, the findings sheet on the right; conclusions first,
+   the evidence (battles, decisions, numbers) one step below. Blackthorn HQ's own palette and faces. */
+:root {
+  --ground: #15171C; --panel: #1C1F26; --raised: #232731; --ink: #F3EDE2; --muted: #A9A296; --rule: #313641;
+  --gold: #C9A96A; --gold-soft: rgba(201, 169, 106, 0.16); --forest: #6FA27A; --ember: #E0874F; --ice: #9CCBDD;
+  --good-soft: rgba(111, 162, 122, 0.18); --bad-soft: rgba(224, 135, 79, 0.18);
+  --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --text: Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --ground: #F3EDE2; --panel: #FBF8F2; --raised: #FFFFFF; --ink: #1D1F25; --muted: #6A645A; --rule: #DDD4C3;
+  --gold: #8B6A2E; --gold-soft: rgba(139, 106, 46, 0.12); --forest: #3D6C48; --ember: #B4561F; --ice: #2D6B83;
+  --good-soft: rgba(61, 108, 72, 0.12); --bad-soft: rgba(180, 86, 31, 0.12); color-scheme: light; } }
+:root[data-theme="light"] {
+  --ground: #F3EDE2; --panel: #FBF8F2; --raised: #FFFFFF; --ink: #1D1F25; --muted: #6A645A; --rule: #DDD4C3;
+  --gold: #8B6A2E; --gold-soft: rgba(139, 106, 46, 0.12); --forest: #3D6C48; --ember: #B4561F; --ice: #2D6B83;
+  --good-soft: rgba(61, 108, 72, 0.12); --bad-soft: rgba(180, 86, 31, 0.12); color-scheme: light; }
+
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font: 14px/1.5 var(--text); }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 48px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; text-wrap: balance; margin: 0; letter-spacing: 0.005em; }
+h1 { font-size: 40px; line-height: 1.05; }
+h2 { font-size: 26px; line-height: 1.15; }
+h3 { font-size: 19px; line-height: 1.2; }
+p { margin: 0; }
+.mono, .num { font-family: var(--data); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: 12.5px; }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); font-weight: 600; }
+a { color: var(--gold); }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+header.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid var(--rule); }
+header.top .lede { max-width: 62ch; color: var(--muted); margin-top: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: 12px/1.3 var(--data); padding: 4px 8px; border: 1px solid var(--rule); border-radius: 999px; color: var(--muted); max-width: 100%; overflow-wrap: anywhere; }
+.chip.on { color: var(--gold); border-color: var(--gold); }
+
+.layout { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 28px; margin-top: 22px; align-items: start; }
+@media (max-width: 920px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+.bench { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 16px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+@media (max-width: 920px) { .bench { position: static; } }
+.field { display: grid; gap: 6px; }
+.field > .hint { font-size: 12px; color: var(--muted); }
+select, input[type="number"] { width: 100%; min-width: 0; background: var(--raised); border: 1px solid var(--rule); border-radius: 7px; padding: 8px 10px; min-height: 38px; }
+input[type="number"] { font-family: var(--data); }
+.questions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.q { text-align: left; background: var(--raised); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; cursor: pointer; display: grid; gap: 2px; }
+.q b { font-weight: 600; font-size: 13px; }
+.q span { font-size: 11.5px; color: var(--muted); line-height: 1.3; }
+.q[aria-pressed="true"] { border-color: var(--gold); background: var(--gold-soft); }
+.seg { display: flex; gap: 4px; flex-wrap: wrap; }
+.seg button { flex: 1 1 auto; background: var(--raised); border: 1px solid var(--rule); border-radius: 7px; padding: 7px 8px; cursor: pointer; font-size: 12.5px; }
+.seg button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+.checks { display: grid; gap: 4px; max-height: 190px; overflow: auto; border: 1px solid var(--rule); border-radius: 7px; padding: 6px 8px; background: var(--raised); }
+.checks label { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.run { display: grid; gap: 8px; }
+.btn { background: var(--gold); color: var(--ground); border: 0; border-radius: 8px; padding: 11px 14px; font-weight: 600; cursor: pointer; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn.ghost { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+.btn.quiet { background: transparent; color: var(--ink); border: 1px solid var(--rule); font-weight: 500; padding: 7px 10px; }
+.btn.small { padding: 6px 10px; font-size: 12.5px; }
+.progress { height: 6px; background: var(--raised); border-radius: 999px; overflow: hidden; }
+.progress > i { display: block; height: 100%; width: 0; background: var(--gold); transition: width 0.25s; }
+@media (prefers-reduced-motion: reduce) { .progress > i { transition: none; } }
+
+.sheet { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; min-width: 0; }
+.sheet > * { min-width: 0; }
+#panel-result { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.bench, .field, .run, .sheet section, .runhead, .headline, .patterns, .pattern, .bars, .forest, .battles-list, .viewer, .turn, .hp,
+.decision, .opts, .events, .editor, .verdicts, .how, .saved-list { grid-template-columns: minmax(0, 1fr); }
+.sheet section { display: grid; gap: 12px; min-width: 0; }
+.runhead { display: grid; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.runhead .meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.headline { display: grid; gap: 8px; font-size: 16px; line-height: 1.45; max-width: 72ch; }
+.headline p:first-child { font-family: var(--display); font-size: 25px; line-height: 1.2; font-weight: 600; }
+.recorded { font-size: 12.5px; color: var(--muted); border-left: 2px solid var(--gold); padding-left: 10px; }
+
+.patterns { display: grid; gap: 10px; }
+.pattern { background: var(--panel); border: 1px solid var(--rule); border-radius: 9px; padding: 12px 14px; display: grid; gap: 6px; }
+.pattern .top { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.tag { font: 10.5px/1 var(--text); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; padding: 4px 6px; border-radius: 5px; }
+.tag.strong { background: var(--gold-soft); color: var(--gold); }
+.tag.suggestive { background: var(--raised); color: var(--muted); }
+.pattern .next { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+
+.bars { display: grid; gap: 6px; }
+.bar-row { display: grid; grid-template-columns: minmax(120px, 230px) minmax(0, 1fr) 64px; gap: 10px; align-items: center; font-size: 13px; }
+.bar-row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track { position: relative; height: 16px; background: var(--raised); border-radius: 4px; }
+.track .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+.track .ci { position: absolute; top: 7px; height: 2px; background: var(--ink); opacity: 0.55; }
+.track .tick { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--muted); opacity: 0.6; }
+.fill.good { background: var(--forest); } .fill.mid { background: var(--gold); } .fill.bad { background: var(--ember); }
+@media (max-width: 560px) { .bar-row { grid-template-columns: minmax(0, 1fr) 54px; } .bar-row .track { grid-column: 1 / -1; grid-row: 2; } }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th { text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 7px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td.num, th.num { text-align: right; font-family: var(--data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.cols > * { min-width: 0; }
+.trust ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.trust li { max-width: 80ch; }
+details > summary { cursor: pointer; color: var(--gold); font-size: 13px; }
+.cell { text-align: center; font-family: var(--data); font-variant-numeric: tabular-nums; border-radius: 6px; padding: 8px 6px; }
+
+.forest { display: grid; gap: 6px; }
+.forest .f-row { display: grid; grid-template-columns: minmax(150px, 260px) minmax(0, 1fr) 96px; gap: 10px; align-items: center; font-size: 13px; }
+.forest .axis { position: relative; height: 18px; }
+.forest .zero { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--muted); }
+.forest .span { position: absolute; top: 8px; height: 2px; }
+.forest .dot { position: absolute; top: 4px; width: 10px; height: 10px; border-radius: 50%; margin-left: -5px; }
+@media (max-width: 560px) { .forest .f-row { grid-template-columns: minmax(0, 1fr) 80px; } .forest .axis { grid-column: 1 / -1; grid-row: 2; } }
+
+.battles-list { display: grid; gap: 4px; max-height: 360px; overflow: auto; }
+.b-item { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 6px 8px; border: 1px solid var(--rule); border-radius: 7px; background: var(--panel); font-size: 13px; }
+.res { font: 11px/1 var(--data); padding: 4px 6px; border-radius: 5px; text-align: center; }
+.res.w { background: var(--good-soft); color: var(--forest); } .res.l { background: var(--bad-soft); color: var(--ember); }
+
+.viewer { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 14px; }
+.turn { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.turn .pos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hp { display: grid; gap: 3px; font-size: 13px; }
+.hp .track { height: 8px; }
+.decision { display: grid; gap: 6px; background: var(--raised); border-radius: 8px; padding: 10px 12px; }
+.decision.them { background: transparent; border: 1px dashed var(--rule); }
+.opts { display: grid; gap: 3px; }
+.opt { display: grid; grid-template-columns: minmax(90px, 150px) 70px minmax(0, 1fr); gap: 8px; font-size: 12.5px; align-items: baseline; }
+.opt.picked b { color: var(--gold); }
+.opt .why { color: var(--muted); }
+.events { font-size: 12.5px; color: var(--muted); display: grid; gap: 1px; }
+.try { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.try select { width: auto; min-width: 180px; }
+.coach-out { font-size: 13px; border-left: 2px solid var(--gold); padding-left: 10px; }
+@media (max-width: 560px) { .opt { grid-template-columns: minmax(0, 1fr) 60px; } .opt .why { grid-column: 1 / -1; } .turn .pos { grid-template-columns: 1fr; } }
+
+.editor { display: grid; gap: 12px; }
+.ev-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ev-grid input { min-width: 0; }
+@media (max-width: 420px) { .ev-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ev-grid label { display: grid; gap: 3px; font-size: 12px; color: var(--muted); }
+.moves-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.verdicts { font-size: 13px; display: grid; gap: 4px; }
+.ok { color: var(--forest); } .bad { color: var(--ember); }
+.how { display: grid; gap: 14px; max-width: 78ch; }
+.how h3 { margin-top: 6px; }
+.how p, .how li { color: var(--ink); }
+.how ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.saved-list { display: grid; gap: 6px; }
+.saved { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 12px; border: 1px solid var(--rule); border-radius: 8px; background: var(--panel); }
+.saved .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 12px; cursor: pointer; color: var(--muted); font-weight: 500; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--gold); }
+.empty { color: var(--muted); font-size: 13px; padding: 10px 0; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="label">Blackthorn HQ · Battle Laboratory</div>
+      <h1>6v6 Lab</h1>
+      <p class="lede">Full six-on-six Gen IV battles on Showdown's engine, played by Blackthorn's trainers. Ask a question about a team, a build or a trainer; the battles run here, on this device, and the report says what they show and how far to trust it.</p>
+    </div>
+    <div class="chips" id="chips"></div>
+  </header>
+
+  <div class="layout">
+    <aside class="bench" aria-label="The experiment">
+      <div class="field">
+        <div class="label">The question</div>
+        <div class="questions" id="questions"></div>
+      </div>
+      <div class="field" id="f-team"><label class="label" for="team">Your team</label><select id="team"></select><div class="hint" id="team-hint"></div></div>
+      <div class="field" id="f-teamB" hidden><label class="label" for="teamB">Build B</label><select id="teamB"></select><div class="hint">A lineup variation, another of your teams, or one you edit below.</div></div>
+      <div class="field" id="f-matrixTeams" hidden><div class="label">Builds to compare</div><div class="checks" id="matrixTeams"></div></div>
+      <div class="field"><label class="label" for="pool">Opponents</label><select id="pool"></select><div class="hint" id="pool-hint"></div><button class="btn quiet small" type="button" id="pool-only" hidden>Use the whole pool again</button></div>
+      <div class="field" id="f-interp"><label class="label" for="interp">How they play</label><select id="interp"></select><div class="hint" id="interp-hint"></div></div>
+      <div class="field" id="f-matrixInterps" hidden><div class="label">Trainer styles to try</div><div class="checks" id="matrixInterps"></div></div>
+      <div class="field" id="f-ours"><label class="label" for="ours">Your trainer</label><select id="ours"></select></div>
+      <div class="field"><div class="label">Battles per opponent</div><div class="seg" id="depth"></div><div class="hint" id="estimate"></div></div>
+      <div class="run">
+        <button class="btn" id="go" type="button">Run it here</button>
+        <button class="btn quiet" id="stop" type="button" hidden>Stop</button>
+        <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+        <div class="small muted" id="status">Ready.</div>
+      </div>
+    </aside>
+
+    <main class="sheet" id="sheet">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div id="panel-result"></div>
+      <section id="panel-battle" hidden></section>
+      <section id="panel-editor" hidden></section>
+      <section id="panel-saved" hidden></section>
+      <section id="panel-how" hidden></section>
+    </main>
+  </div>
+</div>
+
+<script id="sixvsix-engine">/*__ENGINE__*/</script>
+<script id="lab-pack" type="application/json">/*__PACK__*/</script>
+<script id="lab-recorded" type="application/json">/*__RECORDED__*/</script>
+<script>
+(function () {
+  'use strict';
+  var S = window.SixVSix;
+  var PACK = JSON.parse(document.getElementById('lab-pack').textContent);
+  var RECORDED = JSON.parse(document.getElementById('lab-recorded').textContent || '{}') || {};
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var pct = function (x) { return x == null ? '—' : Math.round(100 * x) + '%'; };
+  var signed = function (x) { var v = Math.round(100 * x); return (v > 0 ? '+' : v < 0 ? '−' : '±') + Math.abs(v); };
+  var cls = function (rate) { return rate >= 0.8 ? 'good' : rate >= 0.5 ? 'mid' : 'bad'; };
+
+  // ---- device and runner -------------------------------------------------------------------------------------------
+  var cores = navigator.hardwareConcurrency || 2;
+  var mobile = /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent || '');
+  var runner = null, workersRefused = false;
+  function makeRunner() {
+    var size = Math.max(1, Math.min(mobile ? 2 : 6, cores - 1));
+    if (!workersRefused && typeof Worker !== 'undefined' && size > 1) {
+      try {
+        var url = URL.createObjectURL(new Blob([$('sixvsix-engine').textContent], { type: 'text/javascript' }));
+        return S.poolRunner({ size: size, kind: 'Web Workers', spawn: function () {
+          var w = new Worker(url);
+          return { post: function (m) { w.postMessage(m); },
+                   onMessage: function (fn) { w.addEventListener('message', function (e) { fn(e.data); }); },
+                   onError: function (fn) { w.addEventListener('error', function (e) { e.preventDefault(); fn(new Error('worker: ' + (e.message || 'refused'))); }); },
+                   terminate: function () { w.terminate(); } };
+        } });
+      } catch (e) { workersRefused = true; }
+    }
+    return S.syncRunner({ yieldEvery: 2 });
+  }
+  function getRunner() { if (!runner) runner = makeRunner(); return runner; }
+
+  // ---- what can be asked ---------------------------------------------------------------------------------------------
+  var QUESTIONS = [
+    { id: 'league', title: 'Run the gauntlet', sub: 'One team against a pool, and why it wins or loses' },
+    { id: 'compare', title: 'Build A vs Build B', sub: 'What a change does, on the same battles' },
+    { id: 'matrix', title: 'Builds × trainer styles', sub: 'Does the best build depend on how they play?' },
+    { id: 'leads', title: 'Best lead', sub: 'Each of your six out first' },
+    { id: 'styles', title: "Your trainer's style", sub: 'Cautious, aggressive, sharp: what pays' },
+    { id: 'sensitivity', title: 'What moves the needle', sub: 'One change at a time, ranked by effect' },
+  ];
+  var DEPTHS = { quick: { label: 'Quick', n: 6 }, standard: { label: 'Standard', n: 20 }, thorough: { label: 'Thorough', n: 40 } };
+  var state = { q: 'league', team: 'me/heartgold', teamB: null, pool: null, poolTouched: false, interp: 'blackthorn', ours: 'blackthorn',
+                depth: 'standard', only: null, matrixTeams: [], matrixInterps: ['game', 'blackthorn', 'aggressive', 'cautious'], tab: 'result',
+                current: null, edits: {}, editSeq: 0, msPerBattle: 85 };
+
+  function teamEntry(key) { return PACK.team_list.find(function (t) { return t.key === key; }); }
+  function teamObj(key) { return state.edits[key] ? state.edits[key].team : PACK.teams[key]; }
+  function teamName(key) { var e = teamEntry(key); return e ? (e.variation ? e.variation.title : e.name.replace(/^Zack · /, '')) : state.edits[key] ? state.edits[key].name : key; }
+  function poolGroup(key, p) {
+    if (p.kind === 'league') return 'Leagues';
+    if (p.kind === 'yours') return 'Your teams';
+    if (/anime/.test(key)) return 'Anime reconstructions';
+    if (/ace-/.test(key)) return 'The Ace test pools';
+    if (/elite-four/.test(key)) return 'Elite Four and Champions';
+    if (/gym/.test(key)) return 'Gym Leaders';
+    return 'Rivals, villains and special battles';
+  }
+
+  // ---- the bench (controls) ----------------------------------------------------------------------------------------
+  function buildControls() {
+    $('questions').innerHTML = QUESTIONS.map(function (q) {
+      return '<button class="q" type="button" data-q="' + q.id + '" aria-pressed="' + (state.q === q.id) + '"><b>' + esc(q.title) + '</b><span>' + esc(q.sub) + '</span></button>';
+    }).join('');
+    $('questions').onclick = function (e) { var b = e.target.closest('[data-q]'); if (b) { state.q = b.dataset.q; syncControls(); } };
+    fillTeams();
+    var groups = {};
+    Object.keys(PACK.pools).forEach(function (k) { var p = PACK.pools[k]; var g = poolGroup(k, p); (groups[g] = groups[g] || []).push(k); });
+    $('pool').innerHTML = ['Leagues', 'Elite Four and Champions', 'The Ace test pools', 'Gym Leaders', 'Rivals, villains and special battles', 'Anime reconstructions', 'Your teams']
+      .filter(function (g) { return groups[g]; }).map(function (g) {
+        return '<optgroup label="' + esc(g) + '">' + groups[g].map(function (k) { return '<option value="' + k + '">' + esc(PACK.pools[k].name) + ' (' + PACK.pools[k].members.length + ')</option>'; }).join('') + '</optgroup>';
+      }).join('');
+    var interps = PACK.interpretations;
+    $('interp').innerHTML = Object.keys(interps).map(function (k) { return '<option value="' + k + '">' + esc(interps[k].label) + '</option>'; }).join('');
+    $('ours').innerHTML = ['blackthorn', 'cautious', 'aggressive', 'sharp', 'sloppy'].map(function (k) {
+      return '<option value="' + k + '">' + (k === 'blackthorn' ? "Blackthorn's defaults (no coach settings yet)" : esc(interps[k].label)) + '</option>'; }).join('');
+    $('matrixInterps').innerHTML = Object.keys(interps).map(function (k) {
+      return '<label><input type="checkbox" value="' + k + '"' + (state.matrixInterps.indexOf(k) >= 0 ? ' checked' : '') + '> ' + esc(interps[k].label) + '</label>'; }).join('');
+    $('depth').innerHTML = Object.keys(DEPTHS).map(function (k) { return '<button type="button" data-d="' + k + '" aria-pressed="' + (state.depth === k) + '">' + DEPTHS[k].label + ' · ' + DEPTHS[k].n + '</button>'; }).join('');
+    $('team').onchange = function () { state.team = this.value; if (!state.poolTouched) { state.pool = null; state.only = null; } state.teamB = null; syncControls(); };
+    $('teamB').onchange = function () { state.teamB = this.value; syncControls(); };
+    $('pool').onchange = function () { state.pool = this.value; state.poolTouched = true; state.only = null; syncControls(); };
+    $('pool-only').onclick = function () { state.only = null; syncControls(); };
+    $('interp').onchange = function () { state.interp = this.value; syncControls(); };
+    $('ours').onchange = function () { state.ours = this.value; syncControls(); };
+    $('depth').onclick = function (e) { var b = e.target.closest('[data-d]'); if (b) { state.depth = b.dataset.d; syncControls(); } };
+    $('matrixTeams').onchange = function () { state.matrixTeams = [].slice.call($('matrixTeams').querySelectorAll('input:checked')).map(function (i) { return i.value; }); syncControls(); };
+    $('matrixInterps').onchange = function () { state.matrixInterps = [].slice.call($('matrixInterps').querySelectorAll('input:checked')).map(function (i) { return i.value; }); syncControls(); };
+    $('go').onclick = run;
+    $('stop').onclick = stop;
+  }
+
+  function fillTeams() {
+    var opt = function (t) { return '<option value="' + t.key + '">' + esc(t.variation ? t.name.replace(/^Zack · /, '') : t.name.replace(/^Zack · /, '')) + '</option>'; };
+    var mine = PACK.team_list.filter(function (t) { return !t.variation; }), vars = PACK.team_list.filter(function (t) { return t.variation; });
+    var edits = Object.keys(state.edits).map(function (k) { return { key: k, name: state.edits[k].name }; });
+    var html = '<optgroup label="Journey teams">' + mine.map(opt).join('') + '</optgroup><optgroup label="Lineup variations">' + vars.map(opt).join('') + '</optgroup>' +
+      (edits.length ? '<optgroup label="Your edits">' + edits.map(function (e) { return '<option value="' + e.key + '">' + esc(e.name) + '</option>'; }).join('') + '</optgroup>' : '');
+    $('team').innerHTML = html; $('teamB').innerHTML = html;
+    $('matrixTeams').innerHTML = PACK.team_list.concat(edits).map(function (t) {
+      return '<label><input type="checkbox" value="' + t.key + '"> ' + esc(teamName(t.key)) + '</label>'; }).join('');
+  }
+
+  function poolFor(teamKey) { var e = teamEntry(teamKey) || teamEntry((teamObj(teamKey) && teamObj(teamKey).source && teamObj(teamKey).source.version_id) || ''); return e ? e.league : 'heartgold-league'; }
+
+  function battlesNeeded() {
+    var p = PACK.pools[state.pool], n = nOf(), size = state.only ? state.only.length : p.members.length;
+    switch (state.q) {
+      case 'compare': return 2 * n * size;
+      case 'matrix': return Math.max(1, state.matrixTeams.length) * Math.max(1, state.matrixInterps.length) * n * size;
+      case 'leads': return 6 * n * size;
+      case 'styles': return 4 * n * size;
+      case 'sensitivity': return (9 + PACK.team_list.filter(function (t) { return t.base === state.team; }).length) * n * size;
+      default: return n * size;
+    }
+  }
+  function nOf() { var n = DEPTHS[state.depth].n; return state.q === 'matrix' || state.q === 'sensitivity' || state.q === 'leads' || state.q === 'styles' ? Math.max(4, Math.round(n / 2)) : n; }
+
+  function syncControls() {
+    [].forEach.call($('questions').children, function (b) { b.setAttribute('aria-pressed', String(b.dataset.q === state.q)); });
+    [].forEach.call($('depth').children, function (b) { b.setAttribute('aria-pressed', String(b.dataset.d === state.depth)); });
+    if (!state.pool) state.pool = poolFor(state.team);
+    $('team').value = state.team; $('pool').value = state.pool; $('interp').value = state.interp; $('ours').value = state.ours;
+    var e = teamEntry(state.team);
+    $('team-hint').textContent = e && e.variation ? e.variation.why : (state.edits[state.team] ? 'Your edit (not saved to Blackthorn).' : 'Your journey six on their optimized spreads (D-072, D-074).');
+    if (state.q === 'compare') {
+      var cands = PACK.team_list.filter(function (t) { return t.key !== state.team; });
+      if (!state.teamB || state.teamB === state.team) {
+        var v = PACK.team_list.find(function (t) { return t.base === state.team; });
+        state.teamB = v ? v.key : (Object.keys(state.edits)[0] || cands[0].key);
+      }
+      $('teamB').value = state.teamB;
+    }
+    if (state.q === 'matrix' && !state.matrixTeams.length) {
+      var base = (teamEntry(state.team) && teamEntry(state.team).base) || state.team;
+      state.matrixTeams = [base].concat(PACK.team_list.filter(function (t) { return t.base === base; }).map(function (t) { return t.key; })).slice(0, 4);
+      [].forEach.call($('matrixTeams').querySelectorAll('input'), function (i) { i.checked = state.matrixTeams.indexOf(i.value) >= 0; });
+    }
+    $('f-teamB').hidden = state.q !== 'compare';
+    $('f-matrixTeams').hidden = state.q !== 'matrix';
+    $('f-team').hidden = state.q === 'matrix';
+    $('f-matrixInterps').hidden = state.q !== 'matrix';
+    $('f-interp').hidden = state.q === 'matrix' || state.q === 'sensitivity';
+    $('f-ours').hidden = state.q === 'styles';
+    var p = PACK.pools[state.pool];
+    $('pool-hint').textContent = (p.note ? p.note + '. ' : '') + (p.kind === 'yours' ? 'Your other teams, on their optimized spreads.' : 'All at Lv 100 on 85 EVs (D-072).') +
+      (state.only ? ' Only ' + state.only.map(function (k) { return PACK.opponents[k] ? PACK.opponents[k].name : k; }).join(', ') + '.' : '');
+    $('pool-only').hidden = !state.only;
+    $('interp-hint').textContent = PACK.interpretations[state.interp].note + (state.interp === 'game' ? '. Trainers without one (anime, yours) play Blackthorn\'s reading.' : '.');
+    var need = battlesNeeded(), w = (runner && runner.size) || Math.max(1, Math.min(mobile ? 2 : 6, cores - 1));
+    var secs = Math.max(1, Math.round(need * state.msPerBattle / 1000 / w));
+    $('estimate').textContent = need.toLocaleString() + ' battles' + (state.q === 'compare' ? ', paired on the same seeds' : '') + ' · about ' + (secs < 90 ? secs + ' s' : Math.round(secs / 60) + ' min') + ' on this device';
+  }
+
+  function currentSpec() {
+    var n = nOf(), base = { pool: state.pool, interpretation: state.interp, ours: state.ours, n: n };
+    if (state.only) base.only = state.only;
+    var ref = function (k) { return state.edits[k] ? state.edits[k].team : k; };
+    switch (state.q) {
+      case 'compare': return Object.assign({ kind: 'compare', team: ref(state.team), y: ref(state.teamB) }, base);
+      case 'matrix': return Object.assign({ kind: 'matrix', teams: state.matrixTeams.map(ref), interpretations: state.matrixInterps }, base);
+      case 'styles': return Object.assign({ kind: 'styles', team: ref(state.team), styles: ['blackthorn', 'cautious', 'aggressive', 'sharp'] }, base);
+      case 'leads': case 'sensitivity': return Object.assign({ kind: state.q, team: ref(state.team) }, base);
+      default: return Object.assign({ kind: 'league', team: ref(state.team) }, base);
+    }
+  }
+
+  // ---- running -------------------------------------------------------------------------------------------------------
+  var running = null;
+  function run() {
+    if (running) return;
+    var spec = currentSpec();
+    if (spec.kind === 'matrix' && (spec.teams.length < 2 || !spec.interpretations.length)) { $('status').textContent = 'Pick at least two builds and one style.'; return; }
+    var t0 = performance.now(), last = 0;
+    $('go').disabled = true; $('stop').hidden = false; $('bar').style.width = '0%';
+    $('status').textContent = 'Starting the engine on ' + getRunner().size + ' ' + getRunner().kind + '…';
+    var stopped = new Promise(function (_, rej) { running = { stop: function () { rej(new Error('stopped')); } }; });
+    var go = function (r) {
+      return S.runExperiment(r, PACK, spec, { onProgress: function (d, t) {
+        var now = performance.now();
+        if (now - last < 150 && d < t) return;
+        last = now;
+        var rate = d / ((now - t0) / 1000);
+        if (d > 20) state.msPerBattle = Math.round(1000 * r.size / rate);
+        $('bar').style.width = (100 * d / t) + '%';
+        $('status').textContent = d.toLocaleString() + ' of ' + t.toLocaleString() + ' battles · ' + Math.round(rate) + ' a second · about ' + Math.max(0, Math.round((t - d) / rate)) + ' s left';
+      } });
+    };
+    Promise.race([go(getRunner()).catch(function (err) {
+      if (/worker/i.test(String(err && err.message)) && getRunner().kind === 'Web Workers') {
+        workersRefused = true; getRunner().close(); runner = null;
+        $('status').textContent = 'This view refused background workers; running on the page instead…';
+        return go(getRunner());
+      }
+      throw err;
+    }), stopped]).then(function (x) {
+      x.timing_s = Math.round((performance.now() - t0) / 100) / 10;
+      x.device = { workers: getRunner().size, kind: getRunner().kind, cores: cores, mobile: mobile };
+      state.current = { x: x, recorded: false, match: matchOf(x) };
+      $('status').textContent = 'Done in ' + x.timing_s + ' s on ' + getRunner().size + ' ' + getRunner().kind + '.';
+      showTab('result'); renderResult();
+      if (window.innerWidth <= 920) $('sheet').scrollIntoView({ block: 'start' });
+      save(x);
+    }).catch(function (err) {
+      $('status').textContent = String(err && err.message) === 'stopped' ? 'Stopped. Nothing was saved.' : 'That run failed: ' + String(err && err.message || err).split('\n')[0];
+    }).then(function () { running = null; $('go').disabled = false; $('stop').hidden = true; });
+  }
+  /** Whether a run is the recorded Node run again, and if so whether it played exactly the same battles. */
+  function matchOf(x) {
+    var rec = RECORDED[typeof x.spec.team === 'string' ? x.spec.team : ''];
+    if (!rec || !x.result || S.stableStringify(rec.spec) !== S.stableStringify(x.spec)) return null;
+    return rec.result.fingerprint === x.result.fingerprint
+      ? 'the same battles as the recorded Node run, battle for battle (fingerprint ' + x.result.fingerprint + ')'
+      : 'NOT the same battles as the recorded Node run (' + x.result.fingerprint + ' here, ' + rec.result.fingerprint + ' in Node): please tell Claude';
+  }
+  function stop() { if (!running) return; var r = running; if (runner) { runner.close(); runner = null; } r.stop(); }
+
+  // ---- results -------------------------------------------------------------------------------------------------------
+  function specChips(x) {
+    var s = x.spec, chips = [];
+    var tname = function (t) { return typeof t === 'string' ? teamName(t) : (t && t.name) || 'edited team'; };
+    if (s.team) chips.push(tname(s.team));
+    if (s.y) chips.push('vs ' + tname(s.y));
+    if (s.teams) chips.push(s.teams.map(tname).join(' · '));
+    chips.push(PACK.pools[s.pool] ? PACK.pools[s.pool].name : s.pool);
+    if (s.kind !== 'matrix' && s.kind !== 'sensitivity') chips.push('opponents: ' + PACK.interpretations[s.interpretation || 'blackthorn'].label.toLowerCase());
+    chips.push('your trainer: ' + (s.ours === 'blackthorn' || !s.ours ? 'defaults' : PACK.interpretations[s.ours].label.toLowerCase()));
+    chips.push((s.n || 20) + ' per opponent');
+    return chips.map(function (c) { return '<span class="chip">' + esc(c) + '</span>'; }).join('');
+  }
+
+  function renderResult() {
+    var el = $('panel-result');
+    var cur = state.current;
+    if (!cur) { el.innerHTML = '<p class="empty">Pick a question on the left and run it. Results appear here, with the battles behind them one step below.</p>'; return; }
+    var x = cur.x, title = { league: 'The gauntlet', compare: 'Build A vs Build B', matrix: 'Builds × trainer styles', leads: 'Best lead', styles: "Your trainer's style", sensitivity: 'What moves the needle' }[x.type];
+    var head = '<div class="runhead"><div class="label">' + esc(title) + '</div><div class="meta">' + specChips(x) + '</div>' +
+      (cur.recorded ? '<p class="recorded">A recorded run (Node, ' + esc(x.spec.n) + ' battles per opponent, ' + esc(x.engine) + '). Press <b>Run it here</b> to play the same battles on this device; the engine is deterministic, so it should land on exactly the same numbers.' + (cur.match ? ' ' + cur.match : '') + '</p>' : '') +
+      (x.timing_s && !cur.recorded ? '<p class="small muted">' + esc(x.timing_s) + ' s on ' + esc(x.device.workers) + ' ' + esc(x.device.kind) + ' · ' + esc(x.engine) + ' · contract ' + esc(x.contract) + (cur.savedId ? ' · saved' : '') + (cur.match ? ' · ' + cur.match : '') + '</p>' : '') +
+      '<div class="chips"><button class="btn quiet small" type="button" id="copy-md">Copy the report as text</button></div></div>';
+    var body = x.type === 'league' ? renderLeague(x) : x.type === 'compare' ? renderCompare(x) : x.type === 'matrix' ? renderMatrix(x) : renderVariants(x);
+    el.innerHTML = head + body;
+    $('copy-md').onclick = function () { copyText(S.renderExperiment(x), this); };
+    wireResult(el, x);
+  }
+
+  function headlineHTML(lines) { return '<div class="headline">' + lines.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>'; }
+
+  function patternsHTML(ps) {
+    if (!ps.length) return '';
+    return '<section><h2>What the battles suggest</h2><p class="small muted">Hypotheses with their evidence. Each names the experiment that would test it.</p><div class="patterns">' +
+      ps.map(function (p, i) {
+        var exp = p.suggestion && p.suggestion.experiment;
+        return '<div class="pattern"><div class="top"><span class="tag ' + p.strength + '">' + p.strength + '</span><h3>' + esc(p.title) + '</h3></div><p>' + esc(p.finding) + '</p>' +
+          '<div class="next">Next: ' + esc(p.suggestion.label) + (exp ? ' <button class="btn ghost small" type="button" data-suggest="' + i + '">Set it up</button>' : '') + '</div></div>';
+      }).join('') + '</div></section>';
+  }
+
+  function oppBars(rows) {
+    return '<div class="bars">' + rows.map(function (o) {
+      return '<div class="bar-row"><span class="name" title="' + esc(o.name) + '">' + esc(o.name) + '</span><span class="track" role="img" aria-label="' + esc(o.name) + ' ' + pct(o.rate) + '"><i class="tick"></i>' +
+        '<i class="fill ' + cls(o.rate) + '" style="width:' + (100 * o.rate) + '%"></i><i class="ci" style="left:' + (100 * o.ci95[0]) + '%;width:' + (100 * (o.ci95[1] - o.ci95[0])) + '%"></i></span>' +
+        '<span class="num">' + o.won + '/' + o.n + '</span></div>';
+    }).join('') + '</div><p class="small muted">Bars are the share won; the line through each is its 95% interval; the tick marks 50%.</p>';
+  }
+
+  function reportHTML(r, opts) {
+    opts = opts || {};
+    var t = r.team_level, out = [];
+    out.push(headlineHTML(r.headline));
+    out.push(patternsHTML(r.patterns));
+    out.push('<section><h2>By opponent</h2>' + oppBars(r.outcomes.by_opponent) + '</section>');
+    out.push('<section><h2>Your six</h2><div class="scroll"><table><thead><tr><th>Pokémon</th><th class="num">KOs a battle</th><th class="num">Share</th><th class="num">Damage dealt</th><th class="num">Taken</th><th class="num">Healed</th><th class="num">Falls first</th><th class="num">Closes wins</th><th>Reading</th></tr></thead><tbody>' +
+      r.members.map(function (m) { return '<tr><td>' + esc(m.name) + '</td><td class="num">' + m.kos.toFixed(2) + '</td><td class="num">' + pct(m.ko_share) + '</td><td class="num">' + Math.round(m.damage_dealt) + '%</td><td class="num">' + Math.round(m.damage_taken) + '%</td><td class="num">' + Math.round(m.healed) + '%</td><td class="num">' + pct(m.falls_first) + '</td><td class="num">' + pct(m.closes) + '</td><td class="small">' + esc(m.reading) + '</td></tr>'; }).join('') +
+      '</tbody></table></div><p class="small muted">Damage is in % of the target\'s HP, a battle. Knockouts are credited to whoever caused the faint (hazards and status to whoever set them).</p></section>');
+    var cols = [];
+    if (t.threats.length) cols.push('<div><h3>Their most dangerous Pokémon</h3><div class="scroll"><table><thead><tr><th>Pokémon</th><th class="num">KOs each time</th><th class="num">In your losses</th><th>Hardest on</th></tr></thead><tbody>' +
+      t.threats.slice(0, 6).map(function (x) { return '<tr><td>' + esc(x.species) + '</td><td class="num">' + x.kos_per_appearance.toFixed(2) + '</td><td class="num">' + pct(x.share_of_losses) + '</td><td class="small">' + esc(x.most_against.map(function (v) { return v.name + ' (' + v.kos + ')'; }).join(', ')) + '</td></tr>'; }).join('') + '</tbody></table></div></div>');
+    var deps = t.dependencies.filter(function (d) { return d.gap != null && d.n_early >= 5; });
+    if (deps.length) cols.push('<div><h3>Dependencies</h3><p class="small muted">Associations, not causes.</p><div class="scroll"><table><thead><tr><th>Falls in your first two</th><th class="num">You win</th><th class="num">Otherwise</th><th class="num">Battles</th></tr></thead><tbody>' +
+      deps.map(function (d) { return '<tr><td>' + esc(d.name) + '</td><td class="num">' + pct(d.win_if_falls_early) + '</td><td class="num">' + pct(d.win_otherwise) + '</td><td class="num">' + d.n_early + ' / ' + d.n_otherwise + '</td></tr>'; }).join('') + '</tbody></table></div></div>');
+    if (t.damage_by_type.length) cols.push('<div><h3>Damage you take, by type</h3><div class="bars">' + t.damage_by_type.slice(0, 6).map(function (x) {
+      return '<div class="bar-row"><span class="name">' + esc(x.type) + ' <span class="muted small">' + (x.weak.length ? '· weak: ' + esc(x.weak.join(', ')) : '') + '</span></span><span class="track"><i class="fill mid" style="width:' + (100 * x.share) + '%"></i></span><span class="num">' + pct(x.share) + '</span></div>'; }).join('') + '</div></div>');
+    var seq = t.sequencing;
+    if (seq.last_knockout_in_wins.length) cols.push('<div><h3>Who opens and who closes</h3><p class="small">First knockout most often: ' + esc(seq.first_knockout.slice(0, 3).map(function (x) { return x.name + ' (' + x.battles + ')'; }).join(', ')) + '.</p><p class="small">Last knockout in wins: ' + esc(seq.last_knockout_in_wins.slice(0, 3).map(function (x) { return x.name + ' (' + x.battles + ')'; }).join(', ')) + '.</p></div>');
+    out.push('<section><h2>The team</h2><div class="cols">' + cols.join('') + '</div></section>');
+    var i = r.interpretation;
+    out.push('<section class="trust"><h2>How far to trust it</h2><ul>' +
+      i.robust.map(function (s) { return '<li><b>Holds up.</b> ' + esc(s) + '</li>'; }).join('') +
+      i.opponent_dependent.map(function (s) { return '<li><b>Depends on the opponent.</b> ' + esc(s) + '</li>'; }).join('') +
+      i.needs_more_battles.map(function (s) { return '<li><b>Needs more battles.</b> ' + esc(s) + '</li>'; }).join('') + '</ul></section>');
+    return out.join('');
+  }
+
+  function battlesHTML(x) {
+    var bs = x.battles.slice().sort(function (a, b) { return (a.winner === 'a') - (b.winner === 'a'); });
+    var name = function (k) { return PACK.opponents[k] ? PACK.opponents[k].name : k; };
+    return '<section><h2>The battles</h2><p class="small muted">Losses first. Open one to read it turn by turn, with every decision\'s options and reasons, and to try a different call from any turn.</p><div class="battles-list">' +
+      bs.slice(0, 400).map(function (b) {
+        return '<div class="b-item"><span class="res ' + (b.winner === 'a' ? 'w' : 'l') + '">' + (b.winner === 'a' ? 'WON' : b.winner === 'draw' ? 'DRAW' : 'LOST') + '</span><span>' + esc(name(b.opponent)) + ' <span class="muted small">#' + b.i + ' · ' + b.turns + ' turns · ' + b.left.a + ' left vs ' + b.left.b + '</span></span>' +
+          '<button class="btn quiet small" type="button" data-battle="' + esc(b.opponent) + '|' + b.i + '">Watch</button></div>';
+      }).join('') + '</div></section>';
+  }
+
+  function renderLeague(x) {
+    var fell = x.fell_back && x.fell_back.length ? '<p class="small muted">No cartridge AI for ' + esc(x.fell_back.join(', ')) + ': they played Blackthorn\'s reading.</p>' : '';
+    return reportHTML(x.report) + fell + battlesHTML(x);
+  }
+
+  function renderCompare(x) {
+    var out = [headlineHTML(x.reading)];
+    out.push('<section><h2>What changed</h2><ul>' + x.diff.map(function (d) { return d.changes.map(function (c) { return '<li>' + esc((d.to || '') + ' ' + c.field + ': ') + '<span class="mono">' + esc(c.from) + '</span> → <span class="mono">' + esc(c.to) + '</span></li>'; }).join(''); }).join('') + '</ul></section>');
+    x.duel.forEach(function (d) {
+      out.push('<section><h3>' + esc(d.to) + ', one-on-one against the pool</h3><p>The duel model (the EV optimizer\'s): beats <b class="mono">' + esc(d.one_on_one.from) + '</b> → <b class="mono">' + esc(d.one_on_one.to) + '</b> of the pool\'s Pokémon; wins switching in on a hit ' + esc(d.one_on_one.switching_in) + '.</p>' +
+        (d.flips.length ? '<p class="small">Flips: ' + esc(d.flips.map(function (f) { return (f.now === 'wins' ? 'now beats ' : 'now loses to ') + f.opponent; }).join(', ')) + '.</p>' : '') +
+        (d.thresholds.length ? '<details><summary>Knockout thresholds that moved (' + d.thresholds.length + ')</summary><ul class="small">' + d.thresholds.map(function (t) { return '<li>' + esc(t.opponent + ': ' + t.what) + '</li>'; }).join('') + '</ul></details>' : '') + '</section>');
+    });
+    var c = x.comparison;
+    out.push('<section><h2>The battles, paired</h2><div class="cols"><div><p><b class="mono">' + c.x.won + '/' + c.pairs.n + '</b> ' + esc(c.x.label) + '</p><p><b class="mono">' + c.y.won + '/' + c.pairs.n + '</b> ' + esc(c.y.label) + '</p>' +
+      '<p class="small muted">Same opponents, same seeds, battle for battle. Only one side won in ' + (c.pairs.only_x + c.pairs.only_y) + ' pairs (' + c.pairs.only_x + ' for A, ' + c.pairs.only_y + ' for B); McNemar p = ' + c.mcnemar_p + '. Win rate change ' + signed(c.difference.y_minus_x) + ' points [' + signed(c.difference.ci95[0]) + ', ' + signed(c.difference.ci95[1]) + ']; HP margin ' + signed(c.margin.y_minus_x) + ' [' + signed(c.margin.ci95[0]) + ', ' + signed(c.margin.ci95[1]) + '].' + (c.adaptive ? ' Played ' + c.adaptive.played_per_opponent + ' per opponent: ' + esc(c.adaptive.stopped) + '.' : '') + '</p></div>' +
+      (x.per_opponent.length ? '<div><div class="scroll"><table><thead><tr><th>Opponent</th><th class="num">A</th><th class="num">B</th></tr></thead><tbody>' + x.per_opponent.slice(0, 10).map(function (o) { return '<tr><td>' + esc(o.name) + '</td><td class="num">' + o.x_won + '/' + o.n + '</td><td class="num">' + o.y_won + '/' + o.n + '</td></tr>'; }).join('') + '</tbody></table></div></div>' : '') + '</div></section>');
+    if (x.roles.length) out.push('<section><h3>Roles that shifted</h3><ul class="small">' + x.roles.map(function (r) { return '<li>' + esc(r.name) + ': ' + pct(r.ko_share[0]) + ' → ' + pct(r.ko_share[1]) + ' of the knockouts</li>'; }).join('') + '</ul></section>');
+    out.push('<details><summary>Build B\'s full report</summary>' + reportHTML(x.reports.y) + '</details>');
+    return out.join('');
+  }
+
+  function renderMatrix(x) {
+    var heat = function (rate) { return 'background: color-mix(in srgb, var(--forest) ' + Math.round(100 * Math.max(0, (rate - 0.5) * 2)) + '%, color-mix(in srgb, var(--ember) ' + Math.round(100 * Math.max(0, (0.5 - rate) * 2)) + '%, var(--raised)))'; };
+    return headlineHTML(x.reading) + '<section><div class="scroll"><table><thead><tr><th>Build</th>' + x.columns.map(function (c) { return '<th class="num">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      x.rows.map(function (name, r) { return '<tr><td>' + esc(name) + '</td>' + x.cells[r].map(function (c) { return '<td><div class="cell" style="' + heat(c.rate) + '" title="95% ' + pct(c.ci95[0]) + '–' + pct(c.ci95[1]) + '">' + pct(c.rate) + '<div class="small muted">' + c.won + '/' + c.n + '</div></div></td>'; }).join('') + '</tr>'; }).join('') +
+      '</tbody></table></div><p class="small muted">Every cell is the same pool on the same seeds; columns differ only in how the opponents play. A flip counts only when the leader\'s margin is significant (McNemar, paired).</p></section>' +
+      '<section><h3>Column by column</h3><ul class="small">' + x.by_column.map(function (c) { return '<li>' + esc(c.label) + ': ' + (c.best ? esc(c.best) + ' leads by ' + signed(c.by) + ' points (p = ' + c.p + ')' : 'a tie between ' + esc(c.tied.join(', '))) + '</li>'; }).join('') + '</ul></section>';
+  }
+
+  function renderVariants(x) {
+    var rows = x.type === 'sensitivity' ? [x.base].concat(x.effects) : x.rows;
+    var byMargin = x.ranked_by === 'HP margin';
+    var val = function (r) { return byMargin ? r.margin : r.difference; };
+    var span = Math.max(0.1, Math.max.apply(null, rows.slice(1).map(function (r) { var v = val(r); return v ? Math.max(Math.abs(v.ci95[0]), Math.abs(v.ci95[1])) : 0; })));
+    var pos = function (v) { return 50 + 50 * Math.max(-1, Math.min(1, v / span)); };
+    return headlineHTML(x.reading) + '<section><div class="forest">' + rows.map(function (r, k) {
+      var v = val(r);
+      if (!v) return '<div class="f-row"><b>' + esc(r.label) + '</b><span class="axis"><i class="zero"></i></span><span class="num">' + r.won + '/' + r.n + '</span></div>';
+      var good = v.y_minus_x >= 0, color = good ? 'var(--forest)' : 'var(--ember)';
+      return '<div class="f-row"><span>' + esc(r.label) + '</span><span class="axis" role="img" aria-label="' + esc(r.label) + ' ' + signed(v.y_minus_x) + '"><i class="zero"></i><i class="span" style="left:' + pos(v.ci95[0]) + '%;width:' + (pos(v.ci95[1]) - pos(v.ci95[0])) + '%;background:' + color + '"></i><i class="dot" style="left:' + pos(v.y_minus_x) + '%;background:' + color + '"></i></span>' +
+        '<span class="num">' + signed(v.y_minus_x) + ' · ' + r.won + '/' + r.n + '</span></div>';
+    }).join('') + '</div><p class="small muted">Each change against the first row, on the same battles: the dot is the ' + (byMargin ? 'change in HP margin (how much of your team is left at the end, minus theirs)' : 'change in win rate') + ', the line its 95% interval, the centre line no change. Scale ±' + Math.round(100 * span) + ' points.</p></section>';
+  }
+
+  function wireResult(el, x) {
+    [].forEach.call(el.querySelectorAll('[data-battle]'), function (b) {
+      b.onclick = function () { var p = b.dataset.battle.split('|'); openBattle(x.spec, p[0], Number(p[1])); };
+    });
+    [].forEach.call(el.querySelectorAll('[data-suggest]'), function (b) {
+      b.onclick = function () { applySuggestion(x.report.patterns[Number(b.dataset.suggest)].suggestion.experiment, x); };
+    });
+  }
+
+  function applySuggestion(exp, x) {
+    if (!exp) return;
+    if (exp.kind === 'battles') {
+      var threat = exp.filter && exp.filter.threat;
+      var losses = x.battles.filter(function (b) { return b.winner !== 'a'; });
+      // a loss where that Pokémon took the most of yours
+      var sweeps = function (b) { return (b.kos || []).filter(function (k) { return k[0] === 'a' && threat && String(k[2] || '').indexOf(threat) >= 0; }).length; };
+      var pick = losses.slice().sort(function (a, b) { return sweeps(b) - sweeps(a); })[0];
+      if (pick) openBattle(x.spec, pick.opponent, pick.i);
+      return;
+    }
+    state.q = exp.kind === 'league' ? 'league' : exp.kind;
+    if (exp.team && typeof exp.team === 'string') state.team = exp.team;
+    if (exp.y) state.teamB = exp.y;
+    if (exp.kind === 'league' && exp.n) state.depth = 'thorough';
+    state.only = exp.only || null;
+    if (exp.pool) { state.pool = exp.pool; state.poolTouched = true; }
+    syncControls();
+    $('status').textContent = 'Set up: ' + QUESTIONS.find(function (q) { return q.id === state.q; }).title + '. Press Run it here.';
+    $('go').focus();
+  }
+
+  // ---- one battle, and trying another call ------------------------------------------------------------------------
+  function openBattle(spec, opponent, i) {
+    showTab('battle');
+    $('tabs').scrollIntoView({ block: 'start' });
+    var el = $('panel-battle');
+    el.innerHTML = '<p class="empty">Replaying the battle…</p>';
+    setTimeout(function () {
+      var one;
+      try { one = S.battle(PACK, spec, opponent, i); } catch (e) { el.innerHTML = '<p class="empty">Could not replay it: ' + esc(e.message) + '</p>'; return; }
+      var row = one.row, opp = PACK.opponents[opponent];
+      var html = '<div class="viewer"><div><div class="label">Battle #' + i + ' · ' + esc(opp ? opp.name : opponent) + '</div><h2>' + (row.winner === 'a' ? 'Won' : row.winner === 'draw' ? 'A draw' : 'Lost') + ' in ' + row.turns + ' turns, ' + row.left.a + ' of yours left to their ' + row.left.b + '</h2>' +
+        '<p class="small muted">The same battle the experiment played (same seeds). Each decision shows what that trainer was weighing: every option\'s value in HP points and its reasons. On any of yours, try another call: the battle is played on from that point many times, as it was and with your change, on the same new seeds.</p></div>';
+      one.turns.forEach(function (t) {
+        if (!t.turn && !t.events.length) return;
+        html += '<div class="turn"><div class="label">' + (t.turn ? 'Turn ' + t.turn : 'Leads') + '</div>';
+        if (t.start) html += '<div class="pos">' + hpHTML('You', t.start.a) + hpHTML('Them', t.start.b) + '</div>';
+        t.decisions.forEach(function (d) { html += decisionHTML(d, spec, opponent, i); });
+        html += '<div class="events">' + t.events.map(eventText).filter(Boolean).map(function (s) { return '<div>' + esc(s) + '</div>'; }).join('') + '</div></div>';
+      });
+      el.innerHTML = html + '</div>';
+      [].forEach.call(el.querySelectorAll('[data-try]'), function (b) { b.onclick = function () { tryFromHere(b, spec, opponent, i); }; });
+    }, 30);
+  }
+  function hpHTML(who, s) {
+    return '<div class="hp"><span>' + esc(who) + ': <b>' + esc(s.mon || '—') + '</b> <span class="num">' + (s.pct == null ? '' : s.pct + '%') + '</span></span><span class="track"><i class="fill ' + cls((s.pct || 0) / 100) + '" style="width:' + (s.pct || 0) + '%"></i></span></div>';
+  }
+  function decisionHTML(d, spec, opponent, i) {
+    var mine = d.side === 'a';
+    var top = d.options.slice(0, mine ? 6 : 3);
+    var html = '<div class="decision ' + (mine ? 'us' : 'them') + '"><div class="small"><span class="label">' + (mine ? 'Your trainer' : 'Their trainer') + (d.forced ? ' · replacing' : '') + '</span> chose <b>' + esc(d.pick) + '</b>' + (d.assumed && d.assumed.coming ? ' <span class="muted">· expecting ' + esc(d.assumed.coming) + '</span>' : '') + '</div>';
+    if (d.options.length > 1) {
+      html += '<div class="opts">' + top.map(function (o) { return '<div class="opt' + (o.picked ? ' picked' : '') + '"><b>' + esc(o.label) + '</b><span class="num">' + (o.value == null ? '' : o.value) + '</span><span class="why">' + esc(o.why || '') + '</span></div>'; }).join('') + '</div>';
+      if (mine) {
+        html += '<div class="try"><select aria-label="Another call" id="try-' + d.at + '">' + d.options.filter(function (o) { return !o.picked; }).map(function (o) { return '<option value="c:' + esc(o.choice) + '">' + esc(o.label) + ' instead</option>'; }).join('') +
+          '<option value="s:cautious">Your trainer cautious from here</option><option value="s:aggressive">Your trainer aggressive from here</option></select><button class="btn ghost small" type="button" data-try="' + d.at + '">Try from here · 20 replays</button></div><div class="coach-out" id="coach-' + d.at + '" hidden></div>';
+      }
+    }
+    return html + '</div>';
+  }
+  function eventText(e) {
+    var who = e.side ? (e.side === 'a' ? 'Your ' : 'Their ') + (e.mon || '') : '';
+    switch (e.kind) {
+      case 'switch': return (e.side === 'a' ? 'You send out ' : 'They send out ') + e.mon + ' (' + e.pct + '%)';
+      case 'move': return who + ' used ' + e.move + (e.missed ? ' (missed)' : '');
+      case 'damage': return '   ' + who + ' → ' + e.pct + '%' + (e.from ? ' (' + e.from + ')' : '');
+      case 'heal': return '   ' + who + ' healed to ' + e.pct + '%' + (e.from ? ' (' + e.from + ')' : '');
+      case 'status': return '   ' + who + ' is ' + e.text;
+      case 'boost': return '   ' + who + ' ' + e.stat + ' ' + (e.by > 0 ? '+' : '−') + Math.abs(e.by);
+      case 'faint': return '   ' + who + ' fainted';
+      case 'field': return '   ' + e.text;
+      case 'end': return e.text;
+      default: return e.text ? '   ' + (who ? who + ': ' : '') + e.text : '';
+    }
+  }
+  function tryFromHere(btn, spec, opponent, i) {
+    var at = Number(btn.dataset.try), sel = $('try-' + at).value, out = $('coach-' + at);
+    var change = sel.slice(0, 2) === 'c:' ? { choice: sel.slice(2) } : { style: sel.slice(2) };
+    btn.disabled = true; out.hidden = false; out.textContent = 'Playing it on 40 times (20 as it was, 20 with your change)…';
+    S.coach(PACK, spec, opponent, i, at, change, { n: 20, onProgress: function (d, t) { out.textContent = 'Replay ' + d + ' of ' + t + '…'; } }).then(function (c) {
+      out.innerHTML = '<b>' + esc(c.reading) + '</b><div class="small muted">Both arms share each new seed after turn ' + c.turn + ', so the difference is the call, not the dice. ' + c.pairs.only_as_played + ' replays went your way only as played, ' + c.pairs.only_changed + ' only with the change.</div>';
+    }).catch(function (e) { out.textContent = 'Could not play it on: ' + e.message; }).then(function () { btn.disabled = false; });
+  }
+
+  // ---- the build editor ------------------------------------------------------------------------------------------------
+  var ed = { team: null, slot: 0, draft: null };
+  function renderEditor() {
+    var el = $('panel-editor');
+    var key = state.team, team = teamObj(key);
+    if (!ed.draft || ed.team !== key) { ed.team = key; ed.slot = ed.slot || 0; ed.draft = JSON.parse(JSON.stringify(team)); }
+    var m = ed.draft.members[ed.slot];
+    var keep = function (list, extra) { extra.forEach(function (v) { if (v && list.indexOf(v) < 0) list = [v].concat(list); }); return list; };
+    var moves = keep(S.learnableMoves(m.species), m.moves), items = keep(S.itemList(), [m.item]), natures = S.natureList(), abilities = keep(S.abilitiesOf(m.species), [m.ability]);
+    var sel = function (id, list, value, lab) { return '<label class="field"><span class="label">' + lab + '</span><select id="' + id + '">' + list.map(function (v) { var val = typeof v === 'string' ? v : v.value; var txt = typeof v === 'string' ? v : v.text; return '<option value="' + esc(val) + '"' + (val === value ? ' selected' : '') + '>' + esc(txt) + '</option>'; }).join('') + '</select></label>'; };
+    var nat = natures.map(function (n) { return { value: n.name, text: n.name + (n.plus ? ' (+' + n.plus + ' −' + n.minus + ')' : ' (neutral)') }; });
+    el.innerHTML = '<div class="editor"><h2>Edit a build</h2><p class="small muted">Change one of ' + esc(teamName(key)) + '\'s six, check it\'s legal, and compare it with the original on the same battles. Your edits stay on this page; nothing is written to Blackthorn.</p>' +
+      '<div class="seg" id="ed-slots">' + ed.draft.members.map(function (x, k) { return '<button type="button" data-slot="' + k + '" aria-pressed="' + (k === ed.slot) + '">' + esc(x.species) + '</button>'; }).join('') + '</div>' +
+      '<div class="moves-grid">' + [0, 1, 2, 3].map(function (k) { return sel('ed-move-' + k, ['—'].concat(moves), m.moves[k] || '—', 'Move ' + (k + 1)); }).join('') + '</div>' +
+      '<div class="moves-grid">' + sel('ed-item', [{ value: '', text: 'No item' }].concat(items.map(function (x) { return { value: x, text: x }; })), m.item || '', 'Item') + sel('ed-ability', abilities, m.ability, 'Ability') + '</div>' +
+      '<div class="moves-grid">' + sel('ed-nature', nat, m.nature, 'Nature') + sel('ed-lead', [{ value: 'first', text: (ed.draft.members[0].species) + ' (as written)' }].concat(ed.draft.members.slice(1).map(function (x) { return { value: x.species, text: x.species }; })), ed.draft.lead || 'first', 'Lead') + '</div>' +
+      '<div><div class="label" id="ed-stats"></div><div class="ev-grid">' +
+      ['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map(function (s) { return '<label>' + s.toUpperCase() + '<input type="number" min="0" max="252" step="4" id="ed-ev-' + s + '" value="' + m.evs[s] + '"></label>'; }).join('') + '</div>' +
+      '<div class="chips" style="margin-top:8px"><button class="btn quiet small" type="button" id="ed-conv">Conventional spread</button><button class="btn quiet small" type="button" id="ed-duel">Duel-model spread</button><button class="btn quiet small" type="button" id="ed-85">85 in every stat</button></div>' +
+      '<p class="small muted" id="ed-opt-note">Both keep this nature and are worked out one-on-one against ' + esc(PACK.pools[state.pool].name) + '. D-074 plays the conventional spread unless the duel-model one proves better in battle: compare them to find out.</p></div>' +
+      '<div class="chips"><button class="btn" type="button" id="ed-check">Check it and compare with the original</button></div><div class="verdicts" id="ed-verdicts"></div></div>';
+    var read = function () {
+      var mv = [0, 1, 2, 3].map(function (k) { return $('ed-move-' + k).value; }).filter(function (v) { return v && v !== '—'; });
+      var evs = {}; ['hp', 'atk', 'def', 'spa', 'spd', 'spe'].forEach(function (s) { evs[s] = Math.max(0, Math.min(252, Number($('ed-ev-' + s).value) || 0)); });
+      return { moves: mv, item: $('ed-item').value || null, ability: $('ed-ability').value, nature: $('ed-nature').value, evs: evs, lead: $('ed-lead').value };
+    };
+    var commit = function () {
+      var r = read(); Object.assign(ed.draft.members[ed.slot], { moves: r.moves, item: r.item, ability: r.ability, nature: r.nature, evs: r.evs });
+      ed.draft.lead = r.lead;
+    };
+    $('ed-slots').onclick = function (e) { var b = e.target.closest('[data-slot]'); if (!b) return; commit(); ed.slot = Number(b.dataset.slot); renderEditor(); };
+    // update the totals in place: re-rendering from a change event can pull the field out from under its own blur
+    var showStats = function () {
+      var x = ed.draft.members[ed.slot], st = S.statsOf(x.species, x), tot = Object.values(x.evs).reduce(function (a, b) { return a + b; }, 0);
+      $('ed-stats').innerHTML = 'EVs <span class="num' + (tot > 510 ? ' bad' : '') + '">' + tot + '</span> of 510 · stats <span class="num">' + ['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map(function (s) { return s.toUpperCase() + ' ' + st[s]; }).join(' · ') + '</span>';
+    };
+    showStats();
+    el.querySelectorAll('select, input').forEach(function (c) { c.onchange = function () { commit(); showStats(); }; });
+    $('ed-85').onclick = function () { commit(); ed.draft.members[ed.slot].evs = { hp: 85, atk: 85, def: 85, spa: 85, spd: 85, spe: 85 }; renderEditor(); };
+    var spread = function (which, btn) {
+      commit(); btn.disabled = true; btn.textContent = 'Working it out…';
+      setTimeout(function () {
+        var pool = S.poolOf(PACK, state.pool);
+        var mons = []; pool.members.forEach(function (t) { t.members.forEach(function (x) { mons.push(Object.assign({}, x, { from: (t.source && t.source.version_id) || t.id })); }); });
+        var r = S.optimizeBuild(Object.assign({}, ed.draft.members[ed.slot], { nature_locked: true }), mons);
+        ed.draft.members[ed.slot].evs = which === 'duel' ? r.evs : r.conventional.evs;
+        renderEditor();
+        $('ed-opt-note').textContent = (which === 'duel' ? 'Duel-model spread (' + S.spreadLabel(r.evs) + '): beats ' + r.score.wins_typical : 'Conventional spread (' + S.spreadLabel(r.conventional.evs) + ', ' + r.conventional.id.replace(/_/g, ' ') + '): beats ' + r.conventional.wins_typical) +
+          ' of ' + r.score.of + ' of the pool\'s Pokémon one-on-one (the other spread: ' + (which === 'duel' ? r.conventional.wins_typical : r.score.wins_typical) + '). D-074: conventional unless the duel-model spread proves better in battle.';
+      }, 30);
+    };
+    $('ed-conv').onclick = function () { spread('conv', this); };
+    $('ed-duel').onclick = function () { spread('duel', this); };
+    $('ed-check').onclick = function () {
+      commit();
+      var orig = teamObj(key), d = ed.draft, changes = [];
+      var edited = JSON.parse(JSON.stringify(d));
+      edited.id = (orig.id || 'team') + '~edit' + (++state.editSeq); edited.version = 1; edited.edited = true;
+      edited.members.forEach(function (x, k) { if (JSON.stringify(x) !== JSON.stringify(orig.members[k])) { x.id = (x.id || x.species) + '~edit'; x.filled = (x.filled || []).concat(['your edit in the 6v6 Lab']); changes.push(x.species); } });
+      if (!changes.length && (d.lead || 'first') === (orig.lead || 'first')) { $('ed-verdicts').innerHTML = '<span class="muted">Nothing changed yet.</span>'; return; }
+      var rep = S.validateTeam(edited, PACK.pools[state.pool].ruleset || 'gen4-blackthorn');
+      if (!rep.ok) {
+        $('ed-verdicts').innerHTML = '<div class="bad"><b>Not legal under ' + esc(rep.ruleset) + ':</b></div>' + rep.failed.map(function (k) { return rep.verdicts[k].problems.map(function (p) { return '<div class="bad small">' + esc(k + ': ' + p) + '</div>'; }).join(''); }).join('');
+        return;
+      }
+      var label = teamName(key) + ' · ' + (changes.length ? changes.join(', ') + ' edited' : 'lead ' + d.lead);
+      edited.name = label;
+      var ekey = 'edit:' + state.editSeq;
+      state.edits[ekey] = { team: edited, name: label, base: key };
+      fillTeams();
+      $('ed-verdicts').innerHTML = '<div class="ok"><b>Legal</b> (structural, obtainable). Set up as Build B against ' + esc(teamName(key)) + '.</div>';
+      state.q = 'compare'; state.team = key; state.teamB = ekey; syncControls();
+      $('status').textContent = 'Build B is your edit. Press Run it here to compare them on the same battles.';
+    };
+  }
+
+  // ---- saved experiments (the page's own store) ----------------------------------------------------------------------
+  var dbp = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('db').catch(function () { return null; }) : Promise.resolve(null);
+  var savedDocs = [];
+  function trimmed(x) {
+    var y = JSON.parse(JSON.stringify(x));
+    var size = function () { return JSON.stringify(y).length; };
+    if (size() > 200000 && y.battles) y.battles = y.battles.filter(function (b) { return b.winner !== 'a'; }).slice(0, 150);
+    if (size() > 200000 && y.reports) delete y.reports.x;
+    if (size() > 200000 && y.reports) delete y.reports.y;
+    if (size() > 200000 && y.duel) y.duel.forEach(function (d) { d.thresholds = d.thresholds.slice(0, 10); });
+    if (size() > 230000) y = { kind: y.kind, type: y.type, spec: y.spec, engine: y.engine, contract: y.contract, reading: y.reading || (y.report && y.report.headline), trimmed: 'too large to keep whole; run it again for the details' };
+    return y;
+  }
+  function save(x) {
+    dbp.then(function (db) {
+      if (!db) return;
+      var doc = { at: new Date().toISOString(), kind: x.type, engine: x.engine, contract: x.contract, build: S.BUILD,
+                  headline: (x.report ? x.report.headline : x.reading || []).slice(0, 2), device: x.device, seconds: x.timing_s, record: trimmed(x) };
+      return db.collection('experiments').add(doc).then(function (ref) { state.current.savedId = ref.id; renderResult(); });
+    }).catch(function (e) { $('status').textContent += ' (Not saved: ' + (e && e.code === 'quota_exceeded' ? 'this page\'s store is full; delete some saved runs' : (e && e.message) || e) + '.)'; });
+  }
+  function renderSaved() {
+    var el = $('panel-saved');
+    dbp.then(function (db) {
+      if (!db) { el.innerHTML = '<h2>Saved experiments</h2><p class="empty">Saving needs the page open in claude.ai while signed in. Runs still work; they just aren\'t kept.</p>'; return; }
+      if (!savedDocs.length) { el.innerHTML = '<h2>Saved experiments</h2><p class="empty">Every run you finish here is kept as a permanent record: its question, the engine version, every number and the report. Run one and it appears here.</p>'; return; }
+      el.innerHTML = '<h2>Saved experiments</h2><p class="small muted">Each keeps what it was run on (engine, contract, build), so a later engine can rerun it without erasing the original.</p><div class="saved-list">' + savedDocs.map(function (d, k) {
+        var v = d.data();
+        return '<div class="saved"><div><div class="small muted">' + esc(new Date(v.at).toLocaleString()) + ' · ' + esc(v.kind) + ' · ' + esc(v.engine) + '</div><div>' + esc((v.headline || [])[0] || '') + '</div></div><div class="actions"><button class="btn quiet small" type="button" data-open="' + k + '">Open</button><button class="btn quiet small" type="button" data-again="' + k + '">Run again</button><button class="btn quiet small" type="button" data-del="' + k + '" aria-label="Delete">Delete</button></div></div>';
+      }).join('') + '</div>';
+      el.onclick = function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        var d = savedDocs[Number(b.dataset.open || b.dataset.again || b.dataset.del)]; if (!d) return;
+        var rec = d.data().record;
+        if (b.dataset.open != null) { state.current = { x: rec, recorded: false, savedId: d.id }; showTab('result'); renderResult(); }
+        if (b.dataset.again != null) { loadSpec(rec.spec); run(); showTab('result'); }
+        if (b.dataset.del != null) {
+          if (b.dataset.confirm !== '1') { b.dataset.confirm = '1'; b.textContent = 'Delete for good?'; return; }
+          db.collection('experiments').doc(d.id).delete();
+        }
+      };
+    });
+  }
+  dbp.then(function (db) {
+    if (!db) return;
+    db.collection('experiments').orderBy('at', 'desc').limit(50).onSnapshot(function (snap) {
+      savedDocs = snap.docs; if (state.tab === 'saved') renderSaved(); renderTabs();
+    }, function () {});
+  });
+  function loadSpec(s) {
+    var key = function (t) { return typeof t === 'string' ? t : null; };
+    state.q = s.kind; if (key(s.team)) state.team = s.team; if (key(s.y)) state.teamB = s.y; state.pool = s.pool; state.poolTouched = true;
+    state.interp = s.interpretation || 'blackthorn'; state.ours = s.ours || 'blackthorn';
+    if (s.teams) state.matrixTeams = s.teams.filter(key); if (s.interpretations) state.matrixInterps = s.interpretations;
+    state.depth = s.n >= 40 ? 'thorough' : s.n >= 20 ? 'standard' : 'quick';
+    syncControls();
+  }
+
+  // ---- how it works --------------------------------------------------------------------------------------------------
+  function renderHow() {
+    $('panel-how').innerHTML = '<div class="how">' +
+      '<h2>How it works</h2><p>Everything here is the same code as the Node engine in <span class="mono">sixvsix/</span>, compiled for the browser. A run on this page plays exactly the battles the same run plays in Node (same seeds, same engine), so a number here can always be reproduced.</p>' +
+      '<h3>The battles</h3><p>Showdown\'s Gen IV simulator (<span class="mono">@pkmn/sim 0.10.11</span>, pinned) does every mechanic: damage, accuracy, critical hits, status, weather, items, hazards, switching. Every team is checked before it plays: built correctly, obtainable on a Gen 4 cartridge (anime reconstructions only structurally), and the format\'s rules. Battles run in mirrored pairs: each seed is played from both sides. All opponents are at Lv 100 on 85 EVs (D-072); your teams carry optimized spreads (D-072, with D-074\'s rule: the conventional spread unless the duel-model spread proves better in battle).</p>' +
+      '<h3>Who decides</h3><ul><li><b>Your trainer</b> is the trainer agent with Blackthorn\'s defaults until you set coach settings for a lineup.</li><li><b>Opponents, as the game plays them:</b> the cartridge\'s own AI, ported from Blackthorn\'s one-on-one engine and its reading of the pret disassemblies. Every move starts at 100; each AI flag nudges it (BASIC −10 for a move that would fail, EVAL_ATTACK +4 for a knockout and +6 with priority, EXPERT\'s heal rules, and so on); the highest score is used. The game\'s switch checks run first, in their order. Like the cartridge, it reads the real numbers of the Pokémon in front of it, and it can\'t use bag items (Showdown has no item action).</li><li><b>Opponents, as Blackthorn reads them:</b> the trainer agent with the identity the Trainer Library gives them (authored sliders, coach settings, the game\'s AI flags read as competence and tendencies). Aggressive, cautious, sharp and off-their-game versions shift that identity along one axis.</li></ul>' +
+      '<h3>How the trainer agent decides</h3><p>It prices every legal option in one currency, HP percentage points, from what it can know: its own team fully, the foe only as revealed (unseen moves are stood in for by attacks of its types; unseen EVs assumed at 85; its Speed learned from who moves first).</p><ul>' +
+      '<li><b>An attack:</b> damage dealt (Smogon\'s calculator, capped at the foe\'s HP), times its chance to hit (accuracy, evasion, Sand Veil, items), times the chance it acts first and isn\'t knocked out first, plus 45 × the knockout chance, minus the hit that\'s coming.</li>' +
+      '<li><b>The hit that\'s coming:</b> the foe\'s best expected attack × its accuracy × the chance the foe acts at all (none while it recharges; asleep by its sleep count, Rest exactly two turns; frozen 1 in 5; paralysed 3 in 4; confused 1 in 2). It\'s taken off every option that doesn\'t avoid it.</li>' +
+      '<li><b>A wasted turn</b> (a move that does nothing, Roost at full HP) costs 15 on top of the hit.</li>' +
+      '<li><b>Special cases:</b> Counter and Mirror Coat return twice the hit if it\'s the right kind and they survive it; Fly, Dig and the like count half (two turns, out of reach on the first); Hyper Beam pays for the free turn it gives away; Outrage pays for locking in; a foe locked into Outrage can only Outrage.</li>' +
+      '<li><b>Set-up</b> only if it lives to use the boost: how much the boost shortens the knockout race, plus what it\'s worth against the foes still to come.</li>' +
+      '<li><b>A switch:</b> how much the knockout race improves (14 a hit), minus the hit the incoming Pokémon takes and hazards, minus a switching cost (8 + 22 × (1 − switching/100)). Perish Song at 1 makes leaving worth the whole Pokémon.</li>' +
+      '<li><b>Identity</b> (0–100 each): aggression weighs damage dealt against taken; risk discounts inaccurate moves; patience, heal line, switching, preservation (of the ace), harassment (status) and set-up shift their parts. <b>Competence</b> sets how reliably it takes the best option: at 100 always; lower picks among close options at random.</li></ul>' +
+      '<h3>The numbers</h3><ul><li>Win rates come with 95% Wilson intervals.</li><li>Comparisons are paired: both arms play the same opponents on the same seeds, battle for battle. McNemar\'s exact test on the pairs only one arm won, and paired intervals on the win-rate change and on the HP margin (how much of your team is left at the end, minus theirs), which moves before wins do.</li><li>"Not significant" means the battles can\'t tell yet, not that there\'s no difference.</li></ul>' +
+      '<h3>The report</h3><p>Four levels, as the master plan asks: outcomes, each Pokémon\'s contribution, the team (threats, dependencies, damage by type, who opens and closes), and how far to trust it (what holds up, what depends on the opponent, what needs more battles). Patterns are hypotheses with their evidence, each naming the experiment that would test it. Dependencies are associations, not causes.</p>' +
+      '<h3>What it doesn\'t do yet</h3><ul><li>Trainer bag items (Full Restores): Showdown has no item action.</li><li>Predicting the opponent\'s switch, or planning more than a turn ahead (beyond the value of setting up).</li><li>Choosing a lead by itself: the lead is your call (try the Best lead question).</li><li>Exact knockout thresholds stay with the one-on-one engine: Showdown and the calculator differ by 1–3 HP in a few cases.</li><li>A real phone hasn\'t been measured yet: this page is how that gets measured.</li></ul></div>';
+  }
+
+  // ---- tabs, the recorded run, the clipboard -------------------------------------------------------------------------
+  var TABS = [['result', 'Report'], ['battle', 'Battle'], ['editor', 'Edit a build'], ['saved', 'Saved'], ['how', 'How it works']];
+  function renderTabs() {
+    $('tabs').innerHTML = TABS.map(function (t) { return '<button role="tab" type="button" data-tab="' + t[0] + '" aria-selected="' + (state.tab === t[0]) + '">' + t[1] + (t[0] === 'saved' && savedDocs.length ? ' · ' + savedDocs.length : '') + '</button>'; }).join('');
+  }
+  function showTab(tab) {
+    state.tab = tab;
+    $('panel-result').hidden = tab !== 'result'; $('panel-battle').hidden = tab !== 'battle'; $('panel-editor').hidden = tab !== 'editor';
+    $('panel-saved').hidden = tab !== 'saved'; $('panel-how').hidden = tab !== 'how';
+    if (tab === 'editor') renderEditor();
+    if (tab === 'saved') renderSaved();
+    if (tab === 'battle' && !$('panel-battle').innerHTML) $('panel-battle').innerHTML = '<p class="empty">Open a battle from a report (Watch) to read it here.</p>';
+    renderTabs();
+    try { localStorage.setItem('lab.tab', tab); } catch (e) { /* storage may be unavailable */ }
+  }
+  $('tabs').onclick = function (e) { var b = e.target.closest('[data-tab]'); if (b) showTab(b.dataset.tab); };
+  function copyText(text, btn) {
+    var done = function () { var t = btn.textContent; btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = t; }, 1500); };
+    var fallback = function () { var ta = document.createElement('textarea'); ta.value = text; ta.style.width = '100%'; ta.rows = 8; btn.parentNode.appendChild(ta); ta.select(); };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  }
+
+  $('chips').innerHTML = '<span class="chip on">' + esc(S.ENGINE.name + ' ' + S.ENGINE.version) + '</span><span class="chip">contract ' + esc(S.CONTRACT_VERSION) + '</span><span class="chip">build ' + esc(S.BUILD) + '</span><span class="chip">' + cores + ' cores here</span>';
+  buildControls();
+  syncControls();
+  renderTabs();
+  renderHow();
+  var rec = RECORDED[state.team];
+  state.current = rec ? { x: rec, recorded: true } : null;
+  renderResult();
+  var saved = null;
+  try { saved = localStorage.getItem('lab.tab'); } catch (e) { saved = null; }
+  showTab(saved && saved !== 'battle' ? saved : 'result');
+})();
+</script>

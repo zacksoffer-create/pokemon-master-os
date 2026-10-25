@@ -11,7 +11,7 @@
   "ruleset gen4-blackthorn v1",
   "lens authentic",
   "engine @pkmn/sim 0.10.11",
-  "lead order (each team leads with its first member)"
+  "leads: A Typhlosion (its first member), B Spiritomb (its first member)"
  ],
  "varied": [
   "battle RNG (damage rolls, accuracy, critical hits, secondary effects, speed ties)",
@@ -25,7 +25,7 @@
  "won": 99,
  "lost": 1,
  "drew": 0,
- "made_at": "2026-10-25T17:49:36.845Z",
+ "made_at": "2026-10-25T19:49:11.911Z",
  "evidence_class": "simulated",
  "job": {
   "id": "job:heartgold-vs-cynthia:authentic:trainer",
@@ -122,11 +122,11 @@
   "by_side": {
    "a_as_p1": {
     "n": 50,
-    "won": 50
+    "won": 49
    },
    "a_as_p2": {
     "n": 50,
-    "won": 49
+    "won": 50
    }
   },
   "pairs": {
@@ -136,13 +136,13 @@
    "split": 1
   },
   "turns": {
-   "mean": 23.9,
-   "median": 23,
+   "mean": 22,
+   "median": 20,
    "min": 14,
-   "max": 36
+   "max": 41
   },
-  "left_a_when_won": 4.96,
-  "left_b_when_won": 1,
+  "left_a_when_won": 5.01,
+  "left_b_when_won": 3,
   "ends": {
    "win": 100
   },
@@ -152,67 +152,67 @@
      "name": "Typhlosion",
      "slot": 0,
      "appeared": 1,
-     "kos_per_battle": 0.3,
-     "fainted_rate": 0.04,
-     "damage_dealt_per_battle": 44.3,
-     "damage_taken_per_battle": 7.8,
-     "switch_ins_per_battle": 1.35,
-     "turns_active_per_battle": 2.8
+     "kos_per_battle": 0.24,
+     "fainted_rate": 0.09,
+     "damage_dealt_per_battle": 48.7,
+     "damage_taken_per_battle": 22.3,
+     "switch_ins_per_battle": 1.62,
+     "turns_active_per_battle": 3.3
     },
     {
      "name": "Tyranitar",
      "slot": 1,
-     "appeared": 0.77,
-     "kos_per_battle": 2.07,
-     "fainted_rate": 0.46,
-     "damage_dealt_per_battle": 198.9,
-     "damage_taken_per_battle": 62.3,
-     "switch_ins_per_battle": 0.78,
-     "turns_active_per_battle": 3.9
+     "appeared": 0.87,
+     "kos_per_battle": 2.45,
+     "fainted_rate": 0.43,
+     "damage_dealt_per_battle": 202.8,
+     "damage_taken_per_battle": 62,
+     "switch_ins_per_battle": 0.9,
+     "turns_active_per_battle": 4.2
     },
     {
      "name": "Mamoswine",
      "slot": 2,
-     "appeared": 0.54,
-     "kos_per_battle": 1.83,
-     "fainted_rate": 0.13,
-     "damage_dealt_per_battle": 141.9,
-     "damage_taken_per_battle": 26.1,
-     "switch_ins_per_battle": 0.57,
+     "appeared": 0.56,
+     "kos_per_battle": 1.87,
+     "fainted_rate": 0.21,
+     "damage_dealt_per_battle": 153.7,
+     "damage_taken_per_battle": 34.8,
+     "switch_ins_per_battle": 0.56,
      "turns_active_per_battle": 2.9
     },
     {
      "name": "Crobat",
      "slot": 3,
-     "appeared": 0.96,
-     "kos_per_battle": 0.83,
-     "fainted_rate": 0.23,
-     "damage_dealt_per_battle": 96.1,
-     "damage_taken_per_battle": 122.4,
-     "switch_ins_per_battle": 1.25,
-     "turns_active_per_battle": 6.7
+     "appeared": 0.76,
+     "kos_per_battle": 0.37,
+     "fainted_rate": 0.04,
+     "damage_dealt_per_battle": 49.1,
+     "damage_taken_per_battle": 78.3,
+     "switch_ins_per_battle": 1.01,
+     "turns_active_per_battle": 4.5
     },
     {
      "name": "Lapras",
      "slot": 4,
-     "appeared": 0.97,
-     "kos_per_battle": 0.6,
-     "fainted_rate": 0.17,
-     "damage_dealt_per_battle": 106.5,
-     "damage_taken_per_battle": 80.6,
-     "switch_ins_per_battle": 1.32,
-     "turns_active_per_battle": 5.7
+     "appeared": 0.99,
+     "kos_per_battle": 0.7,
+     "fainted_rate": 0.26,
+     "damage_dealt_per_battle": 128.9,
+     "damage_taken_per_battle": 91.8,
+     "switch_ins_per_battle": 1.27,
+     "turns_active_per_battle": 5
     },
     {
      "name": "Snorlax",
      "slot": 5,
-     "appeared": 0.47,
-     "kos_per_battle": 0.36,
-     "fainted_rate": 0.06,
-     "damage_dealt_per_battle": 25.9,
-     "damage_taken_per_battle": 24,
-     "switch_ins_per_battle": 0.66,
-     "turns_active_per_battle": 1.9
+     "appeared": 0.58,
+     "kos_per_battle": 0.34,
+     "fainted_rate": 0.01,
+     "damage_dealt_per_battle": 28.6,
+     "damage_taken_per_battle": 27,
+     "switch_ins_per_battle": 0.74,
+     "turns_active_per_battle": 2.1
     }
    ],
    "b": [
@@ -220,67 +220,67 @@
      "name": "Spiritomb",
      "slot": 0,
      "appeared": 1,
-     "kos_per_battle": 0.09,
+     "kos_per_battle": 0.12,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 22.9,
+     "damage_dealt_per_battle": 17.8,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 2.64,
-     "turns_active_per_battle": 3.8
+     "switch_ins_per_battle": 2.71,
+     "turns_active_per_battle": 3.7
     },
     {
      "name": "Roserade",
      "slot": 1,
-     "appeared": 1,
-     "kos_per_battle": 0.08,
-     "fainted_rate": 1,
-     "damage_dealt_per_battle": 15.4,
-     "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1.28,
-     "turns_active_per_battle": 1.7
+     "appeared": 0.99,
+     "kos_per_battle": 0.05,
+     "fainted_rate": 0.99,
+     "damage_dealt_per_battle": 15.2,
+     "damage_taken_per_battle": 99,
+     "switch_ins_per_battle": 2.02,
+     "turns_active_per_battle": 2.5
     },
     {
      "name": "Togekiss",
      "slot": 2,
      "appeared": 1,
-     "kos_per_battle": 0.27,
+     "kos_per_battle": 0.25,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 64.2,
+     "damage_dealt_per_battle": 54.3,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1.84,
-     "turns_active_per_battle": 3.5
+     "switch_ins_per_battle": 1.9,
+     "turns_active_per_battle": 3
     },
     {
      "name": "Lucario",
      "slot": 3,
      "appeared": 1,
-     "kos_per_battle": 0.14,
+     "kos_per_battle": 0.13,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 53.1,
+     "damage_dealt_per_battle": 62.6,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1.23,
-     "turns_active_per_battle": 4
+     "switch_ins_per_battle": 1.46,
+     "turns_active_per_battle": 2.2
     },
     {
      "name": "Milotic",
      "slot": 4,
      "appeared": 1,
-     "kos_per_battle": 0.09,
-     "fainted_rate": 1,
-     "damage_dealt_per_battle": 47,
-     "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 2.16,
-     "turns_active_per_battle": 5.7
+     "kos_per_battle": 0.02,
+     "fainted_rate": 0.99,
+     "damage_dealt_per_battle": 32.6,
+     "damage_taken_per_battle": 99.6,
+     "switch_ins_per_battle": 2.38,
+     "turns_active_per_battle": 5
     },
     {
      "name": "Garchomp",
      "slot": 5,
      "appeared": 1,
-     "kos_per_battle": 0.34,
+     "kos_per_battle": 0.44,
      "fainted_rate": 0.99,
-     "damage_dealt_per_battle": 99,
-     "damage_taken_per_battle": 113.6,
-     "switch_ins_per_battle": 1.85,
-     "turns_active_per_battle": 5.3
+     "damage_dealt_per_battle": 115.9,
+     "damage_taken_per_battle": 113.2,
+     "switch_ins_per_battle": 2.05,
+     "turns_active_per_battle": 5.7
     }
    ]
   },
@@ -288,13 +288,13 @@
  },
  "failures": [],
  "timing": {
-  "total_ms": 10080,
+  "total_ms": 6873,
   "per_battle_ms": {
-   "mean": 100.6,
-   "median": 101.4,
-   "max": 161.1
+   "mean": 68.4,
+   "median": 64.9,
+   "max": 123.1
   },
   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
  },
- "fingerprint": "4c53572348b0081a"
+ "fingerprint": "b7423fa4a5d2f9da"
 }

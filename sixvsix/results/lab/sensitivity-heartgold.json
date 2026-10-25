@@ -1,0 +1,325 @@
+{
+ "kind": "Experiment",
+ "type": "sensitivity",
+ "spec": {
+  "kind": "sensitivity",
+  "team": "me/heartgold",
+  "pool": "heartgold-league",
+  "n": 12,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:56:54.611Z",
+ "seed": "lab|sensitivity|17a71b2986fb2f82",
+ "base": {
+  "label": "as it stands",
+  "change": "nothing",
+  "won": 128,
+  "n": 132,
+  "rate": 0.97,
+  "ci95": [
+   0.925,
+   0.988
+  ]
+ },
+ "effects": [
+  {
+   "label": "opponents on the cartridge's 0 EVs",
+   "change": "opponent EVs: 0 instead of 85",
+   "won": 129,
+   "n": 132,
+   "rate": 0.977,
+   "ci95": [
+    0.935,
+    0.992
+   ],
+   "difference": {
+    "y_minus_x": 0.008,
+    "ci95": [
+     -0.026,
+     0.041
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.089,
+    "ci95": [
+     0.047,
+     0.131
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 98%, McNemar p = 1.00). A real difference smaller than about 4 points would need more battles to show."
+  },
+  {
+   "label": "your six on 85 in every stat",
+   "change": "your EVs: 85 each instead of optimized",
+   "won": 123,
+   "n": 132,
+   "rate": 0.932,
+   "ci95": [
+    0.875,
+    0.964
+   ],
+   "difference": {
+    "y_minus_x": -0.038,
+    "ci95": [
+     -0.082,
+     0.006
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.055,
+    "ci95": [
+     -0.104,
+     -0.005
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.179688,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 93%, McNemar p = 0.18). A real difference smaller than about 8 points would need more battles to show."
+  },
+  {
+   "label": "opponents aggressive",
+   "change": "opponents: aggressive",
+   "won": 123,
+   "n": 132,
+   "rate": 0.932,
+   "ci95": [
+    0.875,
+    0.964
+   ],
+   "difference": {
+    "y_minus_x": -0.038,
+    "ci95": [
+     -0.071,
+     -0.005
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.043,
+    "ci95": [
+     -0.075,
+     -0.012
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.0625,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 93%, McNemar p = 0.06). A real difference smaller than about 7 points would need more battles to show."
+  },
+  {
+   "label": "variation: Tyranitar's sheet build",
+   "change": "lineup variation heartgold-sheet-tyranitar",
+   "won": 126,
+   "n": 132,
+   "rate": 0.955,
+   "ci95": [
+    0.904,
+    0.979
+   ],
+   "difference": {
+    "y_minus_x": -0.015,
+    "ci95": [
+     -0.036,
+     0.006
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.038,
+    "ci95": [
+     0.003,
+     0.073
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.5,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 95%, McNemar p = 0.50). A real difference smaller than about 4 points would need more battles to show."
+  },
+  {
+   "label": "opponents cautious",
+   "change": "opponents: cautious",
+   "won": 131,
+   "n": 132,
+   "rate": 0.992,
+   "ci95": [
+    0.958,
+    0.999
+   ],
+   "difference": {
+    "y_minus_x": 0.023,
+    "ci95": [
+     -0.003,
+     0.048
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.033,
+    "ci95": [
+     0.003,
+     0.063
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.25,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 99%, McNemar p = 0.25). A real difference smaller than about 5 points would need more battles to show."
+  },
+  {
+   "label": "variation: Typhlosion's January build",
+   "change": "lineup variation heartgold-january-typhlosion",
+   "won": 128,
+   "n": 132,
+   "rate": 0.97,
+   "ci95": [
+    0.925,
+    0.988
+   ],
+   "difference": {
+    "y_minus_x": 0,
+    "ci95": [
+     -0.03,
+     0.03
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.025,
+    "ci95": [
+     -0.069,
+     0.019
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 97%, McNemar p = 1.00). A real difference smaller than about 3 points would need more battles to show."
+  },
+  {
+   "label": "opponents at their sharpest",
+   "change": "opponents: competence 100",
+   "won": 128,
+   "n": 132,
+   "rate": 0.97,
+   "ci95": [
+    0.925,
+    0.988
+   ],
+   "difference": {
+    "y_minus_x": 0,
+    "ci95": [
+     -0.03,
+     0.03
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.018,
+    "ci95": [
+     -0.054,
+     0.019
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 97%, McNemar p = 1.00). A real difference smaller than about 3 points would need more battles to show."
+  },
+  {
+   "label": "your trainer aggressive",
+   "change": "your style: aggressive",
+   "won": 127,
+   "n": 132,
+   "rate": 0.962,
+   "ci95": [
+    0.914,
+    0.984
+   ],
+   "difference": {
+    "y_minus_x": -0.008,
+    "ci95": [
+     -0.022,
+     0.007
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.017,
+    "ci95": [
+     -0.045,
+     0.011
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 96%, McNemar p = 1.00). A real difference smaller than about 2 points would need more battles to show."
+  },
+  {
+   "label": "opponents as the game plays them",
+   "change": "opponents: cartridge AI",
+   "won": 126,
+   "n": 132,
+   "rate": 0.955,
+   "ci95": [
+    0.904,
+    0.979
+   ],
+   "difference": {
+    "y_minus_x": -0.015,
+    "ci95": [
+     -0.045,
+     0.015
+    ]
+   },
+   "margin": {
+    "y_minus_x": -0.013,
+    "ci95": [
+     -0.056,
+     0.029
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.625,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 95%, McNemar p = 0.63). A real difference smaller than about 4 points would need more battles to show."
+  },
+  {
+   "label": "your trainer cautious",
+   "change": "your style: cautious",
+   "won": 127,
+   "n": 132,
+   "rate": 0.962,
+   "ci95": [
+    0.914,
+    0.984
+   ],
+   "difference": {
+    "y_minus_x": -0.008,
+    "ci95": [
+     -0.041,
+     0.026
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0,
+    "ci95": [
+     -0.039,
+     0.038
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (97% and 96%, McNemar p = 1.00). A real difference smaller than about 4 points would need more battles to show."
+  }
+ ],
+ "ranked_by": "HP margin",
+ "reading": [
+  "As it stands: 128 of 132 (97%).",
+  "Wins are near the ceiling here, so changes are ranked by the HP margin (how much of the team is left at the end), which moves first.",
+  "What moves the needle most: opponents on the cartridge's 0 EVs (HP margin +9); your six on 85 in every stat (HP margin -5); opponents aggressive (HP margin -4); variation: Tyranitar's sheet build (HP margin +4)."
+ ]
+}

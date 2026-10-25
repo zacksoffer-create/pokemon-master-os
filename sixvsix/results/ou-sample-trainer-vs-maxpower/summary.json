@@ -11,7 +11,7 @@
   "ruleset gen4-ou v1",
   "lens standardized",
   "engine @pkmn/sim 0.10.11",
-  "lead order (each team leads with its first member)"
+  "leads: A Swampert (its first member), B Swampert (its first member)"
  ],
  "varied": [
   "battle RNG (damage rolls, accuracy, critical hits, secondary effects, speed ties)",
@@ -25,7 +25,7 @@
  "won": 100,
  "lost": 0,
  "drew": 0,
- "made_at": "2026-10-25T17:49:45.400Z",
+ "made_at": "2026-10-25T19:49:19.198Z",
  "evidence_class": "simulated",
  "job": {
   "id": "job:gen4ou-sample:trainer-vs-maxpower",
@@ -148,12 +148,12 @@
    "split": 0
   },
   "turns": {
-   "mean": 17.2,
+   "mean": 18.2,
    "median": 16,
    "min": 12,
-   "max": 34
+   "max": 50
   },
-  "left_a_when_won": 4.8,
+  "left_a_when_won": 4.82,
   "left_b_when_won": 0,
   "ends": {
    "win": 100
@@ -166,21 +166,21 @@
      "appeared": 1,
      "kos_per_battle": 0.2,
      "fainted_rate": 0.02,
-     "damage_dealt_per_battle": 89.5,
-     "damage_taken_per_battle": 38.1,
-     "switch_ins_per_battle": 1.23,
+     "damage_dealt_per_battle": 92,
+     "damage_taken_per_battle": 37.9,
+     "switch_ins_per_battle": 1.22,
      "turns_active_per_battle": 2.4
     },
     {
      "name": "Skarmory",
      "slot": 1,
-     "appeared": 0.84,
-     "kos_per_battle": 0.41,
-     "fainted_rate": 0.11,
-     "damage_dealt_per_battle": 57.1,
-     "damage_taken_per_battle": 96.1,
-     "switch_ins_per_battle": 1.08,
-     "turns_active_per_battle": 3.7
+     "appeared": 0.87,
+     "kos_per_battle": 0.48,
+     "fainted_rate": 0.12,
+     "damage_dealt_per_battle": 66.3,
+     "damage_taken_per_battle": 135.3,
+     "switch_ins_per_battle": 1.18,
+     "turns_active_per_battle": 4.8
     },
     {
      "name": "Scizor",
@@ -188,43 +188,43 @@
      "appeared": 0.2,
      "kos_per_battle": 0.18,
      "fainted_rate": 0.01,
-     "damage_dealt_per_battle": 11.1,
-     "damage_taken_per_battle": 4,
-     "switch_ins_per_battle": 0.2,
-     "turns_active_per_battle": 0.3
+     "damage_dealt_per_battle": 9.7,
+     "damage_taken_per_battle": 4.8,
+     "switch_ins_per_battle": 0.21,
+     "turns_active_per_battle": 0.2
     },
     {
      "name": "Gengar",
      "slot": 3,
-     "appeared": 0.19,
-     "kos_per_battle": 0.38,
-     "fainted_rate": 0.16,
-     "damage_dealt_per_battle": 27.9,
-     "damage_taken_per_battle": 15.7,
-     "switch_ins_per_battle": 0.19,
+     "appeared": 0.23,
+     "kos_per_battle": 0.4,
+     "fainted_rate": 0.15,
+     "damage_dealt_per_battle": 27.5,
+     "damage_taken_per_battle": 15.2,
+     "switch_ins_per_battle": 0.23,
      "turns_active_per_battle": 0.6
     },
     {
      "name": "Heatran",
      "slot": 4,
      "appeared": 0.68,
-     "kos_per_battle": 0.59,
-     "fainted_rate": 0.42,
-     "damage_dealt_per_battle": 51.2,
-     "damage_taken_per_battle": 45.9,
-     "switch_ins_per_battle": 0.82,
+     "kos_per_battle": 0.57,
+     "fainted_rate": 0.45,
+     "damage_dealt_per_battle": 49.9,
+     "damage_taken_per_battle": 47.7,
+     "switch_ins_per_battle": 0.86,
      "turns_active_per_battle": 1.1
     },
     {
      "name": "Gyarados",
      "slot": 5,
      "appeared": 1,
-     "kos_per_battle": 4.03,
-     "fainted_rate": 0.48,
-     "damage_dealt_per_battle": 380.9,
-     "damage_taken_per_battle": 134,
-     "switch_ins_per_battle": 1.14,
-     "turns_active_per_battle": 9.1
+     "kos_per_battle": 3.97,
+     "fainted_rate": 0.43,
+     "damage_dealt_per_battle": 375.5,
+     "damage_taken_per_battle": 130.8,
+     "switch_ins_per_battle": 1.07,
+     "turns_active_per_battle": 9
     }
    ],
    "b": [
@@ -234,7 +234,7 @@
      "appeared": 1,
      "kos_per_battle": 0,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 106.5,
+     "damage_dealt_per_battle": 107,
      "damage_taken_per_battle": 114,
      "switch_ins_per_battle": 1,
      "turns_active_per_battle": 7.1
@@ -245,21 +245,21 @@
      "appeared": 1,
      "kos_per_battle": 0.16,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 52.3,
-     "damage_taken_per_battle": 110.2,
-     "switch_ins_per_battle": 1.06,
-     "turns_active_per_battle": 2.8
+     "damage_dealt_per_battle": 51,
+     "damage_taken_per_battle": 109.4,
+     "switch_ins_per_battle": 1.09,
+     "turns_active_per_battle": 2.6
     },
     {
      "name": "Scizor",
      "slot": 2,
      "appeared": 1,
-     "kos_per_battle": 0.71,
+     "kos_per_battle": 0.7,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 91.5,
+     "damage_dealt_per_battle": 102.3,
      "damage_taken_per_battle": 100,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.5
+     "switch_ins_per_battle": 1.01,
+     "turns_active_per_battle": 2.6
     },
     {
      "name": "Gengar",
@@ -276,23 +276,23 @@
      "name": "Heatran",
      "slot": 4,
      "appeared": 1,
-     "kos_per_battle": 0.12,
+     "kos_per_battle": 0.13,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 19.8,
+     "damage_dealt_per_battle": 22,
      "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 1.3
+     "turns_active_per_battle": 1.4
     },
     {
      "name": "Gyarados",
      "slot": 5,
      "appeared": 1,
-     "kos_per_battle": 0.19,
+     "kos_per_battle": 0.17,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 46.8,
-     "damage_taken_per_battle": 108.7,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.5
+     "damage_dealt_per_battle": 69.6,
+     "damage_taken_per_battle": 112.5,
+     "switch_ins_per_battle": 1.06,
+     "turns_active_per_battle": 3.4
     }
    ]
   },
@@ -300,13 +300,13 @@
  },
  "failures": [],
  "timing": {
-  "total_ms": 6465,
+  "total_ms": 5515,
   "per_battle_ms": {
-   "mean": 64.2,
-   "median": 61.4,
-   "max": 130.5
+   "mean": 54.7,
+   "median": 49.2,
+   "max": 150.3
   },
   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
  },
- "fingerprint": "59895abec6a2b0e3"
+ "fingerprint": "ceb7dc423d608c02"
 }

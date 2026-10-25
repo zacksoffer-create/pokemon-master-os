@@ -70,7 +70,7 @@ export const SCHEMAS = {
     source_version: { type: 'string', nullable: true },
     agent: { type: 'string', required: true },
     params: { type: 'object' },
-    information: { type: 'enum', values: ['partial', 'omniscient'], required: true },
+    information: { type: 'enum', values: ['partial', 'cartridge', 'omniscient'], required: true },
     tendencies: { type: 'object' },
     competence: { type: 'object' },
     playbook: { type: 'string', nullable: true },
@@ -88,6 +88,9 @@ export const SCHEMAS = {
     ev_policy: { type: 'string' },
     members: { type: 'array', of: { type: 'object', schema: 'TeamVersion' }, minItems: 1, required: true },
     source: { type: 'object' },
+    ruleset: { type: 'string' },     // the ruleset its members are legal under (anime reconstructions: historical)
+    excluded: { type: 'array' },     // members left out, and why
+    note: { type: 'string' },
   },
   BattleRuleset: {
     kind: { type: 'const', value: 'BattleRuleset' },

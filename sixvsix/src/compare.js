@@ -1,4 +1,4 @@
-// Phase 2: a team against a whole opponent pool, and paired comparisons.
+// Phase 2: a team against a whole pool, and paired comparisons.
 //
 // runPool plays one team against every team of an OpponentPool (one Simulation Job per opponent, the same number of
 // battles each, the allocation written down) and adds them up. comparePool runs two versions of a team (two builds
@@ -6,12 +6,17 @@
 // uses identical battle and policy seeds in both arms. Once the teams differ the battles diverge, so the pairing
 // removes only part of the noise; the statistics treat each pair honestly (McNemar's exact test on the pairs where
 // exactly one arm won, and a paired interval on the difference).
+//
+// Each has a version that runs here and now (runPool, comparePool) and one that takes a runner (runner.js) and can
+// spread the battles over workers (runPoolWith, comparePoolWith); both give identical results.
 
-import { makeJob, prepareJob, runTrial, finishJob } from './batch.js';
+import { makeJob, finishJob } from './batch.js';
+import { syncRunner } from './runner.js';
 import { wilson } from './stats.js';
 import { now, shortHash, stableStringify } from './util.js';
 
 const r3 = (x) => Math.round(x * 1000) / 1000;
+const Z = 1.959963984540054;
 
 /** The jobs for one team against every team in a pool (same ruleset, lens, seed and n for each). */
 export function poolJobs({ team, profile, pool, ruleset, n = 20, seed = 'pool', opponentProfile, record, pairing = 'mirrored' }) {
@@ -24,27 +29,9 @@ export function poolJobs({ team, profile, pool, ruleset, n = 20, seed = 'pool', 
   }));
 }
 
-/** Run a team against a pool. Returns per-opponent results and the pooled totals. */
-export function runPool(args, { onProgress, platform = 'unknown', keepResults = false } = {}) {
-  const t0 = now();
-  const jobs = poolJobs(args);
-  const total = jobs.reduce((t, j) => t + j.trials.n, 0);
-  let done = 0;
-  const per = jobs.map((job) => {
-    const prepared = prepareJob(job);
-    const rows = [];
-    for (let i = 0; i < job.trials.n; i++) {
-      rows.push(runTrial(prepared, i));
-      done++;
-      if (onProgress) onProgress(done, total);
-    }
-    const result = finishJob(prepared, rows, { total_ms: 0, per_battle_ms: {}, platform });
-    return { job, result };
-  });
-  return poolSummary(args, per, { ms: Math.round(now() - t0), platform, keepResults });
-}
-
-function poolSummary(args, per, { ms, platform, keepResults }) {
+/** A Pool Result from each opponent's finished trials: [{prepared, rows}], in pool order. */
+export function poolResult(args, perJob, { ms = 0, platform = 'unknown', keepResults = false } = {}) {
+  const per = perJob.map(({ prepared, rows }) => ({ job: prepared.job, result: finishJob(prepared, rows, { total_ms: 0, per_battle_ms: {}, platform }) }));
   const rows = per.map(({ job, result }) => ({
     opponent: job.b.team.id, name: job.b.team.name, n: result.n, won: result.won, lost: result.lost, drew: result.drew,
     win_rate: result.summary.win_rate, win_rate_95: result.summary.win_rate_95, turns: result.summary.turns.mean,
@@ -81,6 +68,20 @@ function poolSummary(args, per, { ms, platform, keepResults }) {
   };
 }
 
+/** Run a team against a pool, here and now. Returns per-opponent results and the pooled totals. */
+export function runPool(args, { platform = 'unknown', keepResults = false } = {}) {
+  const t0 = now();
+  const per = syncRunner().runNow(poolJobs(args).map((job) => ({ job })));
+  return poolResult(args, per, { ms: Math.round(now() - t0), platform, keepResults });
+}
+
+/** The same, on a runner (possibly a pool of workers). */
+export async function runPoolWith(runner, args, { platform = 'unknown', keepResults = false, onProgress } = {}) {
+  const t0 = now();
+  const per = await runner.run(poolJobs(args).map((job) => ({ job })), { onProgress });
+  return poolResult(args, per, { ms: Math.round(now() - t0), platform: runner.size > 1 ? `${platform} · ${runner.size} ${runner.kind}` : platform, keepResults });
+}
+
 /** P(X <= k) for X ~ Binomial(n, 1/2), in log space so thousands of pairs don't overflow. */
 function binomTail(k, n) {
   let logC = 0, p = 0;
@@ -111,55 +112,104 @@ export function comparisonReading({ x, y, xr, yr, N, p, unseen, alpha = 0.05 }) 
     `A real difference smaller than about ${Math.max(1, Math.round(100 * unseen))} points would need more battles to show.`;
 }
 
+const meanCI = (xs) => {
+  const N = xs.length, mean = xs.reduce((t, d) => t + d, 0) / (N || 1);
+  const sd = Math.sqrt(xs.reduce((t, d) => t + (d - mean) ** 2, 0) / Math.max(1, N - 1));
+  return { mean, half: (Z * sd) / Math.sqrt(N || 1) };
+};
+
 /**
- * Two versions of a team against the same pool, with the same seeds. `x` and `y` are {team, profile, label}.
- * Returns each arm's pooled result, the paired table, McNemar's p, the paired difference with a 95% interval, and a
- * plain reading. Pairs are battle-for-battle (same opponent, same seeds).
+ * The comparison of two arms from their rows: rowsX[k] and rowsY[k] are the battles against opponent k, battle for
+ * battle on the same seeds.
  */
-export function comparePool({ x, y, pool, ruleset, n = 20, seed = 'compare', opponentProfile, alpha = 0.05 }, opts = {}) {
-  const run = (arm) => {
-    const jobs = poolJobs({ team: arm.team, profile: arm.profile, pool, ruleset, n, seed, opponentProfile });
-    return jobs.map((job) => { const p = prepareJob(job); return Array.from({ length: job.trials.n }, (_, i) => runTrial(p, i)); });
-  };
-  const t0 = now();
-  const rx = run(x), ry = run(y);
+export function comparisonFrom({ x, y, pool, ruleset, seed, alpha = 0.05 }, rowsX, rowsY, timing = {}) {
   let both = 0, onlyX = 0, onlyY = 0, neither = 0;
   const diffs = [], margins = [], perOpp = [];
   // margin: share of our team's HP left minus theirs at the end (-1..1); finer-grained than win or loss
   const margin = (b) => (b.hp?.a ?? 0) - (b.hp?.b ?? 0);
-  rx.forEach((rowsX, k) => {
+  rowsX.forEach((rx, k) => {
     let ox = 0, oy = 0;
-    rowsX.forEach((bx, i) => {
-      const by = ry[k][i];
+    rx.forEach((bx, i) => {
+      const by = rowsY[k][i];
       const wx = bx.winner === 'a', wy = by.winner === 'a';
       if (wx && wy) both++; else if (wx) onlyX++; else if (wy) onlyY++; else neither++;
       diffs.push((wy ? 1 : 0) - (wx ? 1 : 0));
       margins.push(margin(by) - margin(bx));
       ox += wx; oy += wy;
     });
-    perOpp.push({ opponent: pool.members[k].id, n: rowsX.length, x_won: ox, y_won: oy });
+    perOpp.push({ opponent: pool.members[k].id, name: pool.members[k].name, n: rx.length, x_won: ox, y_won: oy });
   });
-  const N = diffs.length, mean = diffs.reduce((t, d) => t + d, 0) / N;
-  const sd = Math.sqrt(diffs.reduce((t, d) => t + (d - mean) ** 2, 0) / Math.max(1, N - 1));
-  const half = 1.959963984540054 * sd / Math.sqrt(N);
+  const N = diffs.length;
+  const d = meanCI(diffs), m = meanCI(margins);
   const p = mcnemar(onlyX, onlyY);
-  const mMean = margins.reduce((t, d) => t + d, 0) / N;
-  const mSd = Math.sqrt(margins.reduce((t, d) => t + (d - mMean) ** 2, 0) / Math.max(1, N - 1));
-  const mHalf = 1.959963984540054 * mSd / Math.sqrt(N);
   const xr = (both + onlyX) / N, yr = (both + onlyY) / N;
-  const reading = comparisonReading({ x: x.label, y: y.label, xr, yr, N, p, unseen: half + Math.abs(mean), alpha });
   return {
-    kind: 'Comparison', pool: pool.id, ruleset: typeof ruleset === 'string' ? ruleset : ruleset.id, seed: String(seed), n_per_opponent: n,
+    kind: 'Comparison', pool: pool.id, ruleset: typeof ruleset === 'string' ? ruleset : ruleset.id, seed: String(seed),
+    n_per_opponent: rowsX[0]?.length ?? 0,
     x: { label: x.label, team: x.team.id, agent: x.profile.agent, won: both + onlyX, win_rate: r3(xr) },
     y: { label: y.label, team: y.team.id, agent: y.profile.agent, won: both + onlyY, win_rate: r3(yr) },
     pairs: { n: N, both_won: both, only_x: onlyX, only_y: onlyY, neither },
-    difference: { y_minus_x: r3(mean), ci95: [r3(mean - half), r3(mean + half)] },
-    margin: { y_minus_x: r3(mMean), ci95: [r3(mMean - mHalf), r3(mMean + mHalf)],
+    difference: { y_minus_x: r3(d.mean), ci95: [r3(d.mean - d.half), r3(d.mean + d.half)] },
+    margin: { y_minus_x: r3(m.mean), ci95: [r3(m.mean - m.half), r3(m.mean + m.half)],
               note: "share of the team's HP left minus the opponent's, at the end of each battle" },
     mcnemar_p: Math.round(p * 1e6) / 1e6,
     significant: p < alpha,
     per_opponent: perOpp,
-    reading,
-    timing: { total_ms: Math.round(now() - t0), platform: opts.platform || 'unknown' },
+    reading: comparisonReading({ x: x.label, y: y.label, xr, yr, N, p, unseen: d.half + Math.abs(d.mean), alpha }),
+    timing,
   };
+}
+
+const armJobs = (args, arm, n) => poolJobs({ team: arm.team, profile: arm.profile, pool: args.pool, ruleset: args.ruleset,
+                                              n, seed: args.seed ?? 'compare', opponentProfile: args.opponentProfile });
+
+/**
+ * Two versions of a team against the same pool, with the same seeds, here and now. `x` and `y` are
+ * {team, profile, label}. Returns each arm's pooled result, the paired table, McNemar's p, the paired difference
+ * with a 95% interval, and a plain reading. Pairs are battle-for-battle (same opponent, same seeds).
+ */
+export function comparePool(args, opts = {}) {
+  const t0 = now();
+  const n = args.n ?? 20, runner = syncRunner();
+  const rx = runner.runNow(armJobs(args, args.x, n).map((job) => ({ job }))).map((r) => r.rows);
+  const ry = runner.runNow(armJobs(args, args.y, n).map((job) => ({ job }))).map((r) => r.rows);
+  return comparisonFrom({ ...args, seed: args.seed ?? 'compare' }, rx, ry, { total_ms: Math.round(now() - t0), platform: opts.platform || 'unknown' });
+}
+
+/**
+ * The same on a runner, with an option to keep going until the answer is clear. With `adaptive: {start, max}`,
+ * it plays `start` battles per opponent per arm, then more in steps of `start`, up to `max`, stopping early only when
+ * the answer is already clear: a difference at p < 0.01 (stricter than the final 0.05, because it looks more than
+ * once), or a win-rate interval inside ±3 points (no difference worth finding). The record says how many it played
+ * and why it stopped.
+ */
+export async function comparePoolWith(runner, args, { platform = 'unknown', onProgress, adaptive, keepRows = false } = {}) {
+  const t0 = now();
+  const max = adaptive ? adaptive.max : (args.n ?? 20);
+  const step = adaptive ? adaptive.start : max;
+  const jobsX = armJobs(args, args.x, max), jobsY = armJobs(args, args.y, max);
+  const rx = jobsX.map(() => []), ry = jobsY.map(() => []);
+  let played = 0, stop = null, result = null;
+  const total = 2 * jobsX.length * max;
+  while (played < max) {
+    const to = Math.min(max, played + step);
+    const indices = Array.from({ length: to - played }, (_, i) => played + i);
+    const tasks = [...jobsX, ...jobsY].map((job) => ({ job, indices }));
+    const done0 = 2 * jobsX.length * played;
+    const out = await runner.run(tasks, { onProgress: onProgress && ((d) => onProgress(done0 + d, total)) });
+    out.forEach((r, t) => (t < jobsX.length ? rx[t] : ry[t - jobsX.length]).push(...r.rows));
+    played = to;
+    result = comparisonFrom({ ...args, seed: args.seed ?? 'compare' }, rx, ry, {});
+    if (!adaptive || played >= max) break;
+    if (result.mcnemar_p < 0.01) { stop = 'a clear difference (p < 0.01) before the maximum'; break; }
+    const [lo, hi] = result.difference.ci95;
+    if (lo > -0.03 && hi < 0.03) { stop = 'no difference worth finding: the interval is inside ±3 points'; break; }
+  }
+  result.timing = { total_ms: Math.round(now() - t0), platform: runner.size > 1 ? `${platform} · ${runner.size} ${runner.kind}` : platform };
+  if (adaptive) {
+    result.adaptive = { start: adaptive.start, max, played_per_opponent: played,
+                        stopped: stop || (played >= max ? 'reached the maximum' : 'done') };
+  }
+  if (keepRows) Object.defineProperty(result, 'rows', { value: { x: rx, y: ry }, enumerable: false });
+  return result;
 }

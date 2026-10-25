@@ -1,0 +1,49 @@
+{
+ "key": "heartgold-sheet-tyranitar",
+ "made_at": "2026-10-25T19:42:25.623Z",
+ "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · 3 worker threads",
+ "seconds": 8,
+ "rows": [
+  null,
+  {
+   "species": "Tyranitar",
+   "kept": "duel",
+   "duel": {
+    "nature": "Adamant",
+    "spread": "104 HP / 64 Atk / 96 Def / 244 Spe",
+    "win_rate": 0.945
+   },
+   "conventional": {
+    "nature": "Adamant",
+    "spread": "4 HP / 252 Atk / 252 Spe",
+    "win_rate": 0.945
+   },
+   "pairs": {
+    "n": 220,
+    "both_won": 207,
+    "only_x": 1,
+    "only_y": 1,
+    "neither": 11
+   },
+   "mcnemar_p": 1,
+   "margin": {
+    "y_minus_x": -0.026,
+    "ci95": [
+     -0.045,
+     -0.006
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "reading": "No difference shows up over 220 paired battles (95% and 95%, McNemar p = 1.00). A real difference smaller than about 1 points would need more battles to show."
+  },
+  null,
+  null,
+  null,
+  null
+ ],
+ "n_per_opponent": 20,
+ "seed": "confirm-heartgold-sheet-tyranitar",
+ "pool": "pool:heartgold-league",
+ "ruleset": "gen4-blackthorn",
+ "rule": "D-074: the conventional spread unless the duel spread is measurably better"
+}

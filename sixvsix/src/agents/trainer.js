@@ -1,25 +1,29 @@
 // Phase 3: the trainer agent. Explainable tactical play with a trainer's identity on top.
 //
 //   Layer A  legal options only (legal.js)
-//   Layer B  every option priced in one currency, HP percentage points swung: damage dealt and its knockout
-//            chance, damage taken, who moves first; for a switch, the hit the new Pokémon takes plus hazards
-//            against how much better its matchup is; setup only if the boost changes the knockout race and the
-//            Pokémon survives to use it; recovery only when it outpaces what comes back; status and hazards worth
+//   Layer B  every option priced in one currency, HP percentage points swung, by one turn model: what the option does
+//            this turn, if this side gets to act (asleep, frozen, paralysed, confused or knocked out first, it doesn't),
+//            minus the hit that's coming (the foe's best expected attack, times its accuracy, times the chance the foe
+//            acts at all: nothing while it recharges, by its sleep count while asleep). For a switch, the hit lands on
+//            the Pokémon coming in, against how much better its knockout race is. Setup only if the boost changes the
+//            race and it lives to use it; recovery by what it actually heals after the hit; status and hazards worth
 //            more against a healthy foe with Pokémon left to come
 //   Layer C  identity: aggression, risk, patience, heal line, switching, preservation, harassment, competence
 //            (0-100 each), read from Blackthorn's coach settings, authored sliders and the cartridge AI flags
-//   Layer D  adaptation: the foe's moves, item and ability as they're revealed; its real Speed learned from turn order
+//   Layer D  adaptation: the foe's moves, item and ability as they're revealed; its real Speed learned from turn order;
+//            sleep, recharge, confusion, Substitute and Perish Song as the log shows them
 //
 // It never reads the battle object. It knows its own team fully (it's theirs) and the foe only as revealed:
 // species, level, HP as a percentage, status, boosts, revealed moves, item and ability. Unrevealed moves are stood in
 // for by STAB attacks of the foe's types; unknown EVs by an assumption (foe_evs, Blackthorn's 85 by default).
 // Damage comes from @smogon/calc, the one-on-one engine's calculator. Each decision keeps every option's value and
-// the reasons for the top ones, so a replay shows what the trainer was weighing.
+// the reasons for the top ones, and what it assumed about the foe, so a replay shows what the trainer was weighing.
 
 import { Dex } from '@pkmn/sim';
 import { calculate, Generations, Pokemon, Move, Field } from '@smogon/calc';
 import { legalOptions } from './legal.js';
 import { toShowdownSets } from '../teams.js';
+import { statsOf } from '../optimize/evs.js';
 import { toID } from '../util.js';
 
 const gen = Generations.get(4);
@@ -42,9 +46,25 @@ const WEATHER = { SunnyDay: 'Sun', RainDance: 'Rain', Sandstorm: 'Sand', Hail: '
 const STATUS_VALUE = { slp: 55, par: 30, brn: 26, tox: 30, psn: 14 };
 const HEALS = { rest: 1, wish: 0.5 };
 const KO_BONUS = 45;
+const WASTED = 15;   // a turn that does nothing: the hit still comes, and the turn is gone
+// What a damage number depends on besides the two Pokémon's builds, boosts, status, item and ability: HP, but only
+// for these moves and for the pinch abilities (a third of max HP or less).
+const HP_ATTACKER = new Set(['eruption', 'waterspout', 'flail', 'reversal']);
+const HP_DEFENDER = new Set(['wringout', 'crushgrip', 'brine']);
+const PINCH = new Set(['Blaze', 'Torrent', 'Overgrow', 'Swarm']);
+// Moves that take two turns: the first in the air or underground (no hit lands on the user), or charging in the open
+const DODGE = new Set(['fly', 'bounce', 'dig', 'dive', 'shadowforce']);
+const CHARGE = new Set(['solarbeam', 'skullbash', 'skyattack', 'razorwind']);
+const COUNTERS = { counter: 'Physical', mirrorcoat: 'Special' };
+const THAWS = new Set(['flamewheel', 'sacredfire']);
+const IVS31 = { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 };
+const boostKey = (b) => Object.entries(b || {}).filter(([, v]) => v).map(([k, v]) => k + v).join('');
+const stateKey = (x) => `${x.side}|${x.name}|${x.species}|${x.ability}|${x.item}|${x.status}|${boostKey(x.boosts)}`;
 const stageMult = (s) => (s >= 0 ? (2 + s) / 2 : 2 / (2 - s));
+const accStage = (s) => (s >= 0 ? (3 + s) / 3 : 3 / (3 - s));   // accuracy and evasion stages, Gens 3-4
 const clip = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
 const nameOf = (ident) => ident.slice(ident.indexOf(':') + 1).trim();
+const pct = (x) => Math.round(x * 100);
 
 function rolls(damage) {
   if (typeof damage === 'number') return [damage];
@@ -61,6 +81,34 @@ function usable(move, att, def, threat) {
   return true;
 }
 
+/**
+ * The chance a Pokémon gets to act this turn: nothing while it recharges; asleep, by its count (Rest is exactly two
+ * attempts, other sleep one to four, Gen 4); frozen, a 1-in-5 thaw; paralysed, 3 in 4; confused, 1 in 2.
+ */
+export function actChance(x, moveId) {
+  if (x.volatiles?.mustrecharge) return 0;
+  let p = 1;
+  if (x.status === 'slp' && moveId !== 'sleeptalk' && moveId !== 'snore') {
+    const k = (x.sleep?.cant ?? 1) * (x.ability === 'Early Bird' ? 2 : 1);
+    p *= x.sleep?.rest ? (k >= 2 ? 1 : 0) : k <= 0 ? 0 : k >= 4 ? 1 : 1 / (5 - k);
+  }
+  if (x.status === 'frz' && !THAWS.has(moveId)) p *= 0.2;
+  if (x.status === 'par') p *= 0.75;
+  if (x.volatiles?.confusion) p *= 0.5;
+  return p;
+}
+
+/** Turns a Pokémon still loses before it can act normally (for the knockout race). */
+function lostTurns(x) {
+  if (x.status === 'slp') {
+    const k = x.sleep?.cant ?? 1;
+    if (x.sleep?.rest) return Math.max(0, 2 - k);
+    return [2.5, 1.5, 1, 0.5, 0][clip(k, 0, 4)];
+  }
+  if (x.status === 'frz') return 4;
+  return 0;
+}
+
 export class TrainerAgent {
   constructor(params = {}, { team } = {}) {
     if (!team) throw new Error('the trainer agent needs its own team');
@@ -72,6 +120,12 @@ export class TrainerAgent {
     this.ace = names[team.ace != null ? team.ace : names.length - 1];
     this.speedSeen = new Map();   // foe name -> {above, below}: Speed bounds learned from turn order
     this.lastChoice = null;
+    // One agent plays one battle, so its caches live for the battle: damage by everything damage depends on, and the
+    // calculator's Pokémon and Move objects (building those is most of the calculator's cost).
+    this.memo = new Map();
+    this.calcMons = new Map();
+    this.calcMoves = new Map();
+    this.fields = new Map();
   }
 
   // ---- what this side knows ------------------------------------------------------------------------------------
@@ -81,15 +135,16 @@ export class TrainerAgent {
     const b = this.builds.get(name);
     const [hpPart, status] = entry.condition.split(' ');
     const [hp, max] = hpPart.split('/').map(Number);
-    const boosts = active ? { ...(view.mons[view.side].get(name)?.boosts || {}) } : {};
+    const seen = view.mons[view.side].get(name);
+    const boosts = active ? { ...(seen?.boosts || {}) } : {};
     const item = entry.item ? dex.items.get(entry.item).name : '';
-    const mon = new Pokemon(gen, b.species, { level: b.level, nature: b.nature, evs: b.evs, ivs: b.ivs, ability: b.ability,
-      item: item || undefined, boosts, status: status === 'fnt' ? '' : (status || ''), curHP: hp });
     let spe = entry.stats.spe * stageMult(boosts.spe || 0);
     if (status === 'par') spe *= 0.25;
     if (item === 'Choice Scarf') spe *= 1.5;
-    return { side: 'us', name, build: b, mon, hp: max ? hp / max : 0, status: status || '', spe, boosts, item,
-             moves: b.moves, types: dex.species.get(b.species).types, isAce: name === this.ace };
+    return { side: 'us', name, build: b, species: b.species, level: b.level, nature: b.nature, evs: b.evs, ivs: b.ivs,
+             ability: b.ability, hp: max ? hp / max : 0, maxhp: max, status: status === 'fnt' ? '' : (status || ''), spe,
+             boosts, item, moves: b.moves, types: dex.species.get(b.species).types, isAce: name === this.ace,
+             volatiles: active ? { ...(seen?.volatiles || {}) } : {}, sleep: seen?.sleep || null };
   }
 
   foeMon(view) {
@@ -101,49 +156,76 @@ export class TrainerAgent {
     const ev = this.p.foe_evs;
     const evs = { hp: ev, atk: ev, def: ev, spa: ev, spd: ev, spe: ev };
     const item = f.item === null ? '' : (f.item || '');
-    const mon = new Pokemon(gen, species.name, { level: f.level, nature: 'Hardy', evs, ability, item: item || undefined,
-      boosts: { ...f.boosts }, status: f.status || '' });
-    mon.originalCurHP = Math.max(1, Math.round((mon.maxHP() * f.pct) / 100));
-    let spe = mon.rawStats.spe * stageMult(f.boosts.spe || 0);
+    const stats = statsOf(species.name, { level: f.level, ivs: IVS31, evs, nature: 'Hardy' });
+    let spe = stats.spe * stageMult(f.boosts.spe || 0);
     if (f.status === 'par') spe *= 0.25;
     if (item === 'Choice Scarf') spe *= 1.5;
     const seen = this.speedSeen.get(f.name);
     if (seen?.above != null && spe <= seen.above) spe = seen.above + 1;
     if (seen?.below != null && spe >= seen.below) spe = seen.below - 1;
     const revealed = [...f.moves].filter((m) => dex.moves.get(m).exists);
-    let moves = revealed;
-    if (revealed.length < 4) {
+    let moves = revealed, standins = [];
+    if (f.volatiles?.lockedmove) moves = [f.volatiles.lockedmove];   // locked in: it can only repeat the move
+    else if (revealed.length < 4) {
       const special = species.baseStats.spa > species.baseStats.atk;
-      const standins = species.types.map((t) => STANDINS[t]?.[special ? 1 : 0]).filter(Boolean);
+      standins = species.types.map((t) => STANDINS[t]?.[special ? 1 : 0]).filter(Boolean).filter((m) => !revealed.includes(m));
       moves = [...new Set([...revealed, ...standins])];
     }
-    return { side: 'them', name: f.name, species: species.name, mon, hp: f.pct / 100, status: f.status || '', spe, item,
-             moves, revealed, types: species.types, boosts: f.boosts, ability };
+    return { side: 'them', name: f.name, species: species.name, level: f.level, nature: 'Hardy', evs, ivs: IVS31,
+             hp: f.pct / 100, maxhp: stats.hp, status: f.status || '', spe, item, moves, revealed, standins,
+             types: species.types, boosts: f.boosts, ability, volatiles: { ...(f.volatiles || {}) }, sleep: f.sleep || null };
+  }
+
+  /** The calculator's Pokémon for one of the combatants above, built once per state. */
+  calcMon(x) {
+    const key = `${stateKey(x)}|${Math.round(x.hp * 1000)}`;
+    let mon = this.calcMons.get(key);
+    if (!mon) {
+      mon = new Pokemon(gen, x.species, { level: x.level, nature: x.nature, evs: x.evs, ivs: x.ivs, ability: x.ability,
+        item: x.item || undefined, boosts: { ...x.boosts }, status: x.status || '' });
+      mon.originalCurHP = Math.max(1, Math.round(mon.maxHP() * x.hp));
+      this.calcMons.set(key, mon);
+    }
+    return mon;
   }
 
   field(view, attackerSide) {
     const defSide = attackerSide === view.side ? view.foe : view.side;
     const cond = view.conditions[defSide] || {};
-    return new Field({ weather: WEATHER[view.weather] || undefined,
-                       defenderSide: { isReflect: !!cond.reflect, isLightScreen: !!cond.lightscreen } });
+    const weather = WEATHER[view.weather] || undefined, reflect = !!cond.reflect, screen = !!cond.lightscreen;
+    const key = `${weather}|${reflect}|${screen}`;
+    let f = this.fields.get(key);
+    if (!f) {
+      f = new Field({ weather, defenderSide: { isReflect: reflect, isLightScreen: screen } });
+      f.key = key;
+      this.fields.set(key, f);
+    }
+    return f;
   }
 
   /** Damage of one move as fractions of the defender's max HP: {lo, avg, hi, rolls}. */
   damage(att, def, moveName, field) {
     const m = dex.moves.get(moveName);
     if (!m.exists || m.category === 'Status') return null;
-    const key = `d|${att.side}|${att.name}|${att.hp}|${JSON.stringify(att.mon.boosts)}|${def.side}|${def.name}|${def.hp}|` +
-      `${JSON.stringify(def.mon.boosts)}|${m.id}|${field.weather}|${field.defenderSide.isReflect}|${field.defenderSide.isLightScreen}`;
-    if (this.memo?.has(key)) return this.memo.get(key);
-    const out = this.damageUncached(att, def, m, field);
-    this.memo?.set(key, out);
+    const hpA = HP_ATTACKER.has(m.id) ? `h${Math.round(att.hp * 1000)}` : PINCH.has(att.ability) ? `p${att.hp <= 1 / 3 ? 1 : 0}` : '';
+    const hpD = HP_DEFENDER.has(m.id) ? `h${Math.round(def.hp * 1000)}` : '';
+    const key = `${m.id}|${stateKey(att)}${hpA}|${stateKey(def)}${hpD}|${field.key}`;
+    let out = this.memo.get(key);
+    if (!out) {
+      out = this.damageUncached(att, def, m, field);
+      this.memo.set(key, out);
+    }
     return out;
   }
 
   damageUncached(att, def, m, field) {
     try {
-      const res = calculate(gen, att.mon, def.mon, new Move(gen, m.name, { ability: att.mon.ability, item: att.mon.item, species: att.mon.name }), field);
-      const max = def.mon.maxHP();
+      const A = this.calcMon(att), D = this.calcMon(def);
+      const mk = `${m.id}|${att.species}|${att.ability}|${att.item}`;
+      let move = this.calcMoves.get(mk);
+      if (!move) this.calcMoves.set(mk, (move = new Move(gen, m.name, { ability: A.ability, item: A.item, species: A.name })));
+      const res = calculate(gen, A, D, move, field);
+      const max = D.maxHP();
       const r = rolls(res.damage).map((d) => d / max);
       return { lo: Math.min(...r), avg: r.reduce((t, d) => t + d, 0) / r.length, hi: Math.max(...r), rolls: r,
                priority: m.priority, acc: m.accuracy === true ? 1 : m.accuracy / 100, move: m };
@@ -152,16 +234,34 @@ export class TrainerAgent {
     }
   }
 
-  /** The foe's strongest expected attack on `target`. */
+  /** The chance a move hits: its accuracy, accuracy and evasion stages, abilities, items and weather (Gens 3-4). */
+  hitChance(att, def, m, view) {
+    if (m.accuracy === true) return 1;
+    if (att.ability === 'No Guard' || def.ability === 'No Guard') return 1;
+    const w = view.weather;
+    if (m.id === 'thunder' && w === 'RainDance') return 1;
+    if (m.id === 'blizzard' && w === 'Hail') return 1;
+    let acc = m.accuracy / 100;
+    if (m.id === 'thunder' && w === 'SunnyDay') acc = 0.5;
+    if (m.ohko) return acc;
+    acc *= accStage(clip((att.boosts?.accuracy || 0) - (def.boosts?.evasion || 0), -6, 6));
+    if (att.ability === 'Compound Eyes') acc *= 1.3;
+    if (att.ability === 'Hustle' && m.category === 'Physical') acc *= 0.8;
+    if ((def.ability === 'Sand Veil' && w === 'Sandstorm') || (def.ability === 'Snow Cloak' && w === 'Hail')) acc *= 0.8;
+    if (def.item === 'Bright Powder' || def.item === 'Lax Incense') acc *= 0.9;
+    return Math.min(1, acc);
+  }
+
+  /** The foe's best expected attack on `target`: by damage times its chance to hit. */
   threat(foe, target, view) {
-    const key = `t|${target.name}|${target.hp}|${JSON.stringify(target.mon.boosts)}`;
-    if (this.memo?.has(key)) return this.memo.get(key);
-    let best = { avg: 0, hi: 0, lo: 0, rolls: [0], priority: 0, name: null };
-    for (const m of foe.moves) {
-      const d = this.damage(foe, target, m, this.field(view, view.foe));
-      if (d && d.avg > best.avg) best = { ...d, name: m };
+    let best = { avg: 0, hi: 0, lo: 0, rolls: [0], priority: 0, name: null, hit: 1, cat: null };
+    const field = this.field(view, view.foe);
+    for (const name of foe.moves) {
+      const d = this.damage(foe, target, name, field);
+      if (!d) continue;
+      const hit = this.hitChance(foe, target, d.move, view);
+      if (d.avg * hit > best.avg * best.hit) best = { ...d, name, hit, cat: d.move.category };
     }
-    this.memo?.set(key, best);
     return best;
   }
 
@@ -171,10 +271,20 @@ export class TrainerAgent {
     let best = null;
     for (const m of ours.moves) {
       const d = this.damage(ours, foe, m, this.field(view, view.side));
-      if (d && usable(d.move, ours, foe, t) && (!best || d.avg * d.acc > best.avg * best.acc)) best = d;
+      if (!d || !usable(d.move, ours, foe, t) || DODGE.has(d.move.id) || CHARGE.has(d.move.id)) continue;
+      const e = d.avg * this.hitChance(ours, foe, d.move, view);
+      if (!best || e > best.e) best = { ...d, e };
     }
-    const ourHits = best && best.avg > 0 ? Math.ceil(foe.hp / best.avg) : 9;
-    const theirHits = t.avg > 0 ? Math.ceil(ours.hp / t.avg) : 9;
+    // two-turn moves count at half speed in the race
+    if (!best) {
+      for (const m of ours.moves) {
+        const d = this.damage(ours, foe, m, this.field(view, view.side));
+        if (d && d.avg > 0) { const e = (d.avg * this.hitChance(ours, foe, d.move, view)) / 2; if (!best || e > best.e) best = { ...d, e }; }
+      }
+    }
+    const ourHits = (best && best.e > 0 ? Math.ceil(foe.hp / best.e) : 9) + lostTurns(ours);
+    const theirE = t.avg * t.hit;
+    const theirHits = (theirE > 0 ? Math.ceil(ours.hp / theirE) : 9) + lostTurns(foe);
     const first = (best?.priority || 0) > t.priority || ((best?.priority || 0) === t.priority && ours.spe > foe.spe);
     return { margin: theirHits - ourHits + (first ? 0.5 : -0.5), ourHits, theirHits, first, best, threat: t };
   }
@@ -197,25 +307,53 @@ export class TrainerAgent {
   decide(request, view, rng) {
     const options = legalOptions(request);
     if (!options.length) return null;
-    this.memo = new Map();
     if (options.length === 1) return this.pack(options[0], options.map((o) => ({ ...o, value: 0, why: 'the only option' })), rng);
     const side = request.side.pokemon;
-    const foe = this.foeMon(view);
     const forced = !!request.forceSwitch;
     const activeEntry = side.find((p) => p.active);
     const me = !forced && activeEntry ? this.ownMon(activeEntry, view, true) : null;
     if (me) this.learnSpeed(view, me);
-    const f2 = this.foeMon(view);   // again, with anything just learned about its Speed
-    const scored = options.map((o) => ({ ...o, ...this.value(o, { me, foe: f2 || foe, side, view, forced, request }) }));
-    return this.pack(this.choose(scored, rng), scored, rng);
+    const foe = this.foeMon(view);   // after anything just learned about its Speed
+    const ctx = { me, foe, side, view, forced, request };
+    if (me && foe) ctx.turn = this.turnModel(me, foe, view, side);
+    const scored = options.map((o) => ({ ...o, ...this.value(o, ctx) }));
+    const out = this.pack(this.choose(scored, rng), scored, rng);
+    if (foe) {
+      out.assumed = { foe_evs: this.p.foe_evs, foe_speed: Math.round(foe.spe), stand_ins: foe.standins.length ? foe.standins : undefined,
+                      foe_ability: foe.ability };
+      if (ctx.turn) out.assumed.coming = ctx.turn.threat.name ? `${ctx.turn.threat.name}, ~${pct(ctx.turn.takenAvg)}%` +
+        `${ctx.turn.foeActs < 1 ? ` (acts ${pct(ctx.turn.foeActs)}%)` : ''}` : 'nothing';
+    }
+    return out;
+  }
+
+  /** What's coming this turn if we stay in: the foe's attack, the chance it acts, and what that does to us. */
+  turnModel(me, foe, view, side) {
+    const threat = this.threat(foe, me, view);
+    const foeActs = actChance(foe, threat.name ? toID(threat.name) : '');
+    const hitP = threat.hit * foeActs;
+    const takenAvg = Math.min(threat.avg, me.hp) * hitP;
+    const pFaint = (threat.rolls.filter((d) => d >= me.hp).length / threat.rolls.length) * hitP;
+    // a foe with moves we haven't seen may have priority: a little risk to a low Pokémon that acts first without it
+    const unseen = foe.revealed.length < 4 && me.hp <= 0.25 ? 0.15 : 0;
+    const alive = side.filter((p) => !p.condition.endsWith(' fnt')).length;
+    const { off, def } = this.weights();
+    const myW = this.monWeight(me, alive);
+    return { threat, foeActs, takenAvg, pFaint, unseen, alive, off, def, myW,
+             takenCost: def * takenAvg * 100 * myW,
+             foeFirstVs: (prio) => threat.priority > prio || (threat.priority === prio && foe.spe >= me.spe) };
   }
 
   value(o, ctx) {
-    const { me, foe, view, forced } = ctx;
+    const { me, foe, forced } = ctx;
     if (o.kind === 'pass') return { value: 0, why: 'pass' };
     if (!foe) return { value: o.kind === 'move' ? 1 : 0, why: 'no foe in view' };
     if (o.kind === 'switch') return forced ? this.sendIn(o, ctx) : this.switchOut(o, ctx);
-    return this.moveValue(o, ctx);
+    if (!me) return { value: 0, why: '' };
+    const v = this.moveValue(o, ctx);
+    // Perish Song at 1: whatever it does, this Pokémon faints at the end of the turn unless it leaves
+    if (me.volatiles.perish === 1) { v.value -= me.hp * 100 * ctx.turn.myW; v.why += ', faints to Perish Song this turn'; }
+    return v;
   }
 
   weights() {
@@ -246,120 +384,161 @@ export class TrainerAgent {
     let value = clip(m.margin, -3, 3) * 14 + t.hp * 10 - hz * 100;
     if (t.isAce && alive > 2 && m.margin < 2) value -= this.p.preservation / 4;
     return { value, why: `race ${m.margin > 0 ? '+' : ''}${m.margin} (needs ${m.ourHits}, they need ${m.theirHits}${m.first ? ', moves first' : ''})` +
-      (hz ? `, hazards ${Math.round(hz * 100)}%` : '') + (t.isAce ? ', the ace' : '') };
+      (hz ? `, hazards ${pct(hz)}%` : '') + (t.isAce ? ', the ace' : '') + (t.status === 'slp' ? ', asleep' : '') };
   }
 
-  switchOut(o, { me, foe, side, view }) {
+  switchOut(o, { me, foe, side, view, turn }) {
     const entry = side[o.slot];
     const t = this.ownMon(entry, view, false);
-    const threatMe = this.threat(foe, me, view);
-    const now = this.matchup(me, foe, view, threatMe);
-    // the foe aims at the Pokémon in front of it: the incoming Pokémon takes that move
-    const aimed = threatMe.name ? this.damage(foe, t, threatMe.name, this.field(view, view.foe)) : null;
-    const incoming = (aimed?.avg || 0) + this.hazardCost(entry, view);
+    const now = this.matchup(me, foe, view, turn.threat);
+    // the foe aims at the Pokémon in front of it: the incoming Pokémon takes that move (if the foe acts)
+    const aimed = turn.threat.name ? this.damage(foe, t, turn.threat.name, this.field(view, view.foe)) : null;
+    const aimedHit = aimed ? this.hitChance(foe, t, aimed.move, view) * turn.foeActs : 0;
+    const incoming = Math.min(t.hp, (aimed?.avg || 0) * aimedHit) + this.hazardCost(entry, view);
     const after = { ...t, hp: Math.max(0.01, t.hp - incoming) };
     const then = this.matchup(after, foe, view);
-    const alive = side.filter((p) => !p.condition.endsWith(' fnt')).length;
-    const { def } = this.weights();
     const gain = (clip(then.margin, -3, 3) - clip(now.margin, -3, 3)) * 14;
     const penalty = 8 + 22 * (1 - this.p.switching / 100) + (this.lastChoice?.startsWith('switch') ? 10 : 0);
     const keepMe = me.isAce && now.margin < 0 ? this.p.preservation / 5 : 0;
-    const value = gain - incoming * 100 * def * this.monWeight(t, alive) * 0.6 - penalty + keepMe;
-    return { value, why: `matchup ${now.margin} → ${then.margin} for ${t.name}, takes ~${Math.round(incoming * 100)}% coming in` };
+    let value = gain - incoming * 100 * turn.def * this.monWeight(t, turn.alive) * 0.6 - penalty + keepMe;
+    const why = [`matchup ${now.margin} → ${then.margin} for ${t.name}, takes ~${pct(incoming)}% coming in`];
+    if (me.volatiles.perish === 1) { value += me.hp * 100 * turn.myW; why.push(`saves ${me.name} from Perish Song`); }
+    if (me.status === 'slp' && actChance(me, '') < 1) why.push(`${me.name} is asleep`);
+    return { value, why: why.join(', ') };
   }
 
-  moveValue(o, { me, foe, side, view, request }) {
-    const { off, def } = this.weights();
-    const alive = side.filter((p) => !p.condition.endsWith(' fnt')).length;
-    const myW = this.monWeight(me, alive);
+  moveValue(o, ctx) {
+    const { me, foe, view, turn } = ctx;
     const moveName = this.moveName(o, me);
     const m = dex.moves.get(moveName);
-    const threat = this.threat(foe, me, view);
-    const foeFirstVs = (prio) => threat.priority > prio || (threat.priority === prio && foe.spe >= me.spe);
-    const takenAvg = Math.min(threat.avg, me.hp);
-    const pFaint = threat.rolls.filter((d) => d >= me.hp).length / threat.rolls.length;
+    const act = actChance(me, m.id);
+    // the chance we're knocked out before this move goes off
+    const before = (prio) => (turn.foeFirstVs(prio) ? turn.pFaint : prio > 0 ? 0 : turn.unseen);
+    const lands = (prio) => act * (1 - before(prio));
+    const sleepy = act < 1 && me.status === 'slp' ? `, asleep (acts ${pct(act)}%)` : act < 1 ? `, acts ${pct(act)}%` : '';
+    if (m.category === 'Status') return this.statusValue(m, { ...ctx, act, lands: lands(m.priority), sleepy });
 
-    if (m.category !== 'Status') {
-      const d = this.damage(me, foe, moveName, this.field(view, view.side));
-      if (!d || d.hi === 0) return { value: -40, why: `${moveName} does nothing to ${foe.species}` };
-      const first = !foeFirstVs(d.priority);
-      const pKO = (d.rolls.filter((x) => x >= foe.hp).length / d.rolls.length) * d.acc;
-      let lands = first ? 1 : 1 - pFaint;
-      const works = usable(m, me, foe, threat);   // e.g. Focus Punch fails if the user is hit first
-      if (!works) lands = 0;
-      const dealt = Math.min(d.avg, foe.hp) * d.acc * lands;
-      const taken = takenAvg * (first ? 1 - pKO : 1);
-      let value = off * dealt * 100 + KO_BONUS * pKO * lands - def * taken * 100 * myW;
-      value -= (1 - d.acc) * 30 * (1 - this.p.risk / 100);
-      const reasons = [`~${Math.round(dealt * 100)}% to ${foe.species}`];
-      if (pKO > 0) reasons.push(`KO ${Math.round(pKO * 100)}%`);
-      if (!works) reasons.push(m.id === 'focuspunch' ? 'fails if hit first' : 'would fail now');
-      if (!first) reasons.push(`moves second${pFaint > 0 ? `, ${Math.round(pFaint * 100)}% chance it's KO'd first` : ''}`);
-      if (m.recoil) value -= dealt * (m.recoil[0] / m.recoil[1]) * 100 * def * myW;
-      if (m.selfdestruct === 'always') { value -= me.hp * 100 * myW * (alive > 1 ? 1 : 3); reasons.push('faints'); }
-      if (m.self?.boosts && Object.values(m.self.boosts).some((x) => x < 0)) value -= 4;
-      if (m.selfSwitch && alive > 1) { value += 6; reasons.push('pivots'); }
-      if (m.id === 'rapidspin') {
-        const cond = view.conditions[view.side] || {};
-        const layers = (cond.stealthrock ? 1 : 0) + (cond.spikes || 0) + (cond.toxicspikes || 0);
-        value += layers * 6 * (alive - 1);
-        if (layers) reasons.push('clears hazards');
-      }
-      return { value, why: reasons.join(', ') };
+    if (COUNTERS[m.id]) {
+      // moves last; returns twice the hit taken if that hit was the matching kind and it lives through it
+      const ok = turn.threat.cat === COUNTERS[m.id];
+      const back = ok ? Math.min(foe.hp, (2 * turn.takenAvg * (me.maxhp || 1)) / (foe.maxhp || 1)) * act * (1 - turn.pFaint) : 0;
+      const value = turn.off * back * 100 + (back >= foe.hp ? KO_BONUS * act * (1 - turn.pFaint) : 0) - turn.takenCost - (ok ? 0 : WASTED);
+      return { value, why: ok ? `returns ~${pct(back)}% if ${turn.threat.name} comes${sleepy}` : `${m.name} fails against ${turn.threat.name || 'that'}` };
     }
-    return this.statusValue(m, { me, foe, view, threat, takenAvg, def, myW, alive, request });
+    const d = this.damage(me, foe, moveName, this.field(view, view.side));
+    if (!d || d.hi === 0) return { value: -turn.takenCost - WASTED, why: `${moveName} does nothing to ${foe.species}` };
+    const hit = this.hitChance(me, foe, m, view);
+    const works = usable(m, me, foe, turn.threat);   // e.g. Focus Punch fails if the user is hit first
+    const first = !turn.foeFirstVs(d.priority);
+    const p = works ? lands(d.priority) * hit : 0;
+    // a Substitute takes the hit instead: breaking it is worth something, but nothing reaches the foe
+    const sub = !!foe.volatiles.substitute && !m.flags?.sound;
+    const pKO = sub ? 0 : (d.rolls.filter((x) => x >= foe.hp).length / d.rolls.length) * p;
+    const dealt = (sub ? Math.min(d.avg, 0.25) * 0.5 : Math.min(d.avg, foe.hp)) * p;
+    const taken = first ? turn.takenAvg * (1 - pKO) : turn.takenAvg;
+    let value = turn.off * dealt * 100 + KO_BONUS * pKO - turn.def * taken * 100 * turn.myW;
+    value -= (1 - hit) * 30 * (1 - this.p.risk / 100);
+    value += 0.3 * d.priority + 0.5 * hit;   // between equal options: the surer, faster one
+    const reasons = [`~${pct(dealt)}% to ${foe.species}${sub ? "'s Substitute" : ''}`];
+    if (pKO > 0) reasons.push(`KO ${pct(pKO)}%`);
+    if (hit < 1) reasons.push(`hits ${pct(hit)}%`);
+    if (!works) reasons.push(m.id === 'focuspunch' ? 'fails if hit first' : 'would fail now');
+    if (!first) reasons.push(`moves second${turn.pFaint > 0 ? `, ${pct(turn.pFaint)}% chance it's KO'd first` : ''}`);
+    else if (turn.unseen && d.priority <= 0) reasons.push('no priority against unseen moves');
+    if (m.recoil) value -= dealt * (m.recoil[0] / m.recoil[1]) * 100 * turn.def * turn.myW;
+    if (m.selfdestruct === 'always') { value -= me.hp * 100 * turn.myW * (turn.alive > 1 ? 1 : 3); reasons.push('faints'); }
+    if (m.self?.boosts && Object.values(m.self.boosts).some((x) => x < 0)) value -= 4;
+    if (m.selfSwitch && turn.alive > 1) { value += 6; reasons.push('pivots'); }
+    if (DODGE.has(m.id)) {
+      // over two turns: one hit dealt, one taken (the first turn it's out of reach)
+      value = value / 2; reasons.push('two turns, out of reach on the first');
+    } else if (CHARGE.has(m.id) && !(m.id === 'solarbeam' && view.weather === 'SunnyDay')) {
+      value = (value + turn.def * taken * 100 * turn.myW) / 2 - turn.takenCost; reasons.push('charges a turn first');
+    }
+    if (m.self?.volatileStatus === 'mustrecharge') {
+      // the next turn is the foe's for free: its hit again, or the next Pokémon's free turn
+      value -= turn.def * 100 * turn.myW * (pKO * 0.2 + (1 - pKO) * turn.takenAvg); reasons.push('recharges');
+    }
+    if (m.self?.volatileStatus === 'lockedmove') { value -= 6; reasons.push('locks in'); }
+    if (m.id === 'rapidspin') {
+      const cond = view.conditions[view.side] || {};
+      const layers = (cond.stealthrock ? 1 : 0) + (cond.spikes || 0) + (cond.toxicspikes || 0);
+      value += layers * 6 * (turn.alive - 1);
+      if (layers) reasons.push('clears hazards');
+    }
+    return { value, why: reasons.join(', ') + sleepy };
   }
 
-  statusValue(m, { me, foe, view, threat, takenAvg, def, myW, alive }) {
-    const taken = def * takenAvg * 100 * myW;
+  statusValue(m, ctx) {
+    const { turn, act, lands, sleepy } = ctx;
+    const r = this.statusEffect(m, ctx);
+    // the hit still comes; Protect stops it, a Substitute set up first takes it
+    let taken = turn.takenCost;
+    if ((m.id === 'protect' || m.id === 'detect') && r.effect > -30) taken = 0;
+    if (m.id === 'substitute' && !turn.foeFirstVs(m.priority) && turn.threat.avg < 0.25) taken = 0;
+    const effect = r.effect > 0 ? r.effect * lands : r.effect;
+    return { value: effect - taken, why: r.why + (lands < 1 && r.effect > 0 && act === 1 ? `, ${pct(1 - lands)}% chance it's KO'd first` : '') + sleepy };
+  }
+
+  /** What a status move does if it goes off, before the hit coming this turn is taken off. */
+  statusEffect(m, { me, foe, view, turn }) {
     const foeLeft = view.teamSize[view.foe] - [...view.mons[view.foe].values()].filter((x) => x.fainted).length;
-    const acc = m.accuracy === true ? 1 : m.accuracy / 100;
+    const threat = turn.threat;
+    const sub = !!foe.volatiles.substitute;
     // setup: only if the boost shortens the knockout race (or wins the Speed race) and it lives to use it
     if (m.boosts && m.target === 'self') {
       const after = { ...me, boosts: { ...me.boosts } };
       for (const [k, v] of Object.entries(m.boosts)) after.boosts[k] = clip((after.boosts[k] || 0) + v, -6, 6);
-      if (Object.keys(m.boosts).every((k) => (me.boosts[k] || 0) >= 4)) return { value: -30, why: 'already boosted' };
-      after.mon = new Pokemon(gen, me.build.species, { level: me.build.level, nature: me.build.nature, evs: me.build.evs, ivs: me.build.ivs,
-        ability: me.build.ability, item: me.item || undefined, boosts: after.boosts, status: me.status, curHP: me.mon.curHP() });
+      if (Object.keys(m.boosts).every((k) => (me.boosts[k] || 0) >= 4)) return { effect: -WASTED, why: 'already boosted' };
+      if (m.boosts.evasion) {
+        // evasion: the foe's hits land less often from here on
+        const was = accStage(-(me.boosts.evasion || 0)), will = accStage(-(after.boosts.evasion || 0));
+        return { effect: threat.avg * 100 * turn.def * (1 - will / was) * 2 * turn.foeActs, why: `${m.name}: their hits land ${pct(will)}% as often` };
+      }
       after.spe = me.spe * stageMult(after.boosts.spe || 0) / stageMult(me.boosts.spe || 0);
       const now = this.matchup(me, foe, view, threat), then = this.matchup(after, foe, view);
-      const survives = me.hp - threat.avg > threat.hi;
+      const survives = me.hp - turn.takenAvg > threat.hi * threat.hit * 0.9;
       const gain = (now.ourHits - then.ourHits) + (!now.first && then.first ? 1 : 0) + (then.theirHits - now.theirHits);
       // boosts last: what they're worth against the foes still to come, more the less this one can hurt it
       const cats = new Set(me.moves.map((n) => dex.moves.get(n).category));
       const useful = Object.entries(m.boosts).filter(([k]) => k === 'spe' || (k === 'atk' && cats.has('Physical')) ||
         (k === 'spa' && cats.has('Special'))).reduce((t, [k, v]) => t + Math.max(0, Math.min(v, 6 - (me.boosts[k] || 0))), 0);
-      const sweep = Math.max(0, foeLeft - 1) * 8 * useful * Math.max(0, 1 - 2 * threat.avg);
-      let value = survives ? (gain * 22 + sweep) * (0.5 + this.p.patience / 100) - taken : -20 - taken;
-      if ((1 - me.hp) * 100 > this.p.patience) value -= 25;
-      if (threat.hi < 0.15) value += 15;
-      if (view.turn <= 1) value += this.p.setup_first / 10;
-      return { value, why: `${m.name}: race ${now.margin} → ${then.margin}${survives ? `, +${Math.round(sweep)} for the ${Math.max(0, foeLeft - 1)} still to come` : ", but it won't survive to use it"}` };
+      const sweep = Math.max(0, foeLeft - 1) * 8 * useful * Math.max(0, 1 - 2 * threat.avg * turn.foeActs);
+      let effect = survives ? (gain * 22 + sweep) * (0.5 + this.p.patience / 100) : -20;
+      if ((1 - me.hp) * 100 > this.p.patience) effect -= 25;
+      if (threat.hi * turn.foeActs < 0.15) effect += 15;
+      if (view.turn <= 1) effect += this.p.setup_first / 10;
+      const free = turn.foeActs < 0.5 ? `, a free turn (${foe.species} ${foe.volatiles.mustrecharge ? 'recharges' : 'is unlikely to act'})` : '';
+      return { effect, why: `${m.name}: race ${now.margin} → ${then.margin}${survives ? `, +${Math.round(sweep)} for the ${Math.max(0, foeLeft - 1)} still to come` : ", but it won't survive to use it"}${free}` };
     }
-    // recovery
+    // recovery: what it heals after this turn's hit (if the foe is first), more under the heal line
     const heal = m.heal ? m.heal[0] / m.heal[1] : HEALS[m.id];
     if (heal) {
-      const healed = Math.min(heal, 1 - me.hp);
-      if (me.hp > 0.85) return { value: -15, why: 'barely hurt' };
-      let value = healed * 100 * def * myW - taken;
-      if (threat.avg >= healed) value -= 25;   // it can't outpace the damage
-      if (me.hp * 100 <= this.p.heal_line) value += 15;
-      if (m.id === 'rest') value -= 2 * threat.avg * 100 * 0.5 + (healed < 0.5 ? 20 : 0);
-      return { value, why: `${m.name}: heals ~${Math.round(healed * 100)}%, takes ~${Math.round(takenAvg * 100)}%` };
+      const hpThen = turn.foeFirstVs(m.priority) ? me.hp - turn.takenAvg : me.hp;
+      const healed = Math.max(0, Math.min(heal, 1 - hpThen));
+      if (healed < 0.1) return { effect: -WASTED, why: 'barely hurt' };
+      let effect = healed * 100 * turn.def * turn.myW;
+      if (threat.avg * threat.hit * turn.foeActs >= healed) effect -= 25;   // it can't outpace the damage
+      if (me.hp * 100 <= this.p.heal_line) effect += 15;
+      if (m.id === 'rest') effect -= 2 * threat.avg * 100 * 0.5 + (healed < 0.5 ? 20 : 0);
+      return { effect, why: `${m.name}: heals ~${pct(healed)}%, takes ~${pct(turn.takenAvg)}%` };
     }
     // a major status condition
     if (m.status) {
-      if (foe.status) return { value: -35, why: `${foe.species} already has a status` };
+      if (foe.status) return { effect: -WASTED, why: `${foe.species} already has a status` };
+      if (sub) return { effect: -WASTED, why: `${foe.species} is behind a Substitute` };
       const immune = (m.status === 'tox' || m.status === 'psn') ? foe.types.some((t) => t === 'Poison' || t === 'Steel')
         : m.status === 'brn' ? foe.types.includes('Fire')
           : m.id === 'thunderwave' ? !dex.getImmunity('Electric', foe.types) : false;
-      if (immune) return { value: -40, why: `${foe.species} can't get ${m.status}` };
+      if (immune) return { effect: -WASTED, why: `${foe.species} can't get ${m.status}` };
       const mine = this.matchup(me, foe, view, threat);
       let base = STATUS_VALUE[m.status] || 10;
-      if (m.status === 'brn' && foe.mon.species.baseStats.atk > foe.mon.species.baseStats.spa) base *= 1.5;
+      const fb = dex.species.get(foe.species).baseStats;
+      if (m.status === 'brn' && fb.atk > fb.spa) base *= 1.5;
       if (m.status === 'par' && foe.spe > me.spe) base *= 1.3;
-      const value = base * (0.5 + this.p.harassment / 100) * foe.hp * (mine.ourHits >= 3 ? 1 : 0.5) * acc - taken;
-      return { value, why: `${m.name} on a ${Math.round(foe.hp * 100)}% ${foe.species}` };
+      const hit = this.hitChance(me, foe, m, view);
+      return { effect: base * (0.5 + this.p.harassment / 100) * foe.hp * (mine.ourHits >= 3 ? 1 : 0.5) * hit,
+               why: `${m.name} on a ${pct(foe.hp)}% ${foe.species}${hit < 1 ? ` (hits ${pct(hit)}%)` : ''}` };
     }
     // entry hazards
     const cond = view.conditions[view.foe] || {};
@@ -367,30 +546,34 @@ export class TrainerAgent {
     const layers = { stealthrock: [1, [14]], spikes: [3, [9, 6, 5]], toxicspikes: [2, [7, 4]] }[m.id];
     if (layers) {
       const have = cond[m.id] || 0;
-      if (have >= layers[0] || foeLeft <= 1) return { value: -25, why: have >= layers[0] ? 'already up' : 'nothing left to hurt' };
-      const value = layers[1][have] * (foeLeft - 1) - taken;
-      return { value, why: `${m.name}: ${foeLeft - 1} of theirs still to come in` };
+      if (have >= layers[0] || foeLeft <= 1) return { effect: -WASTED, why: have >= layers[0] ? 'already up' : 'nothing left to hurt' };
+      return { effect: layers[1][have] * (foeLeft - 1), why: `${m.name}: ${foeLeft - 1} of theirs still to come in` };
     }
     if (m.id === 'reflect' || m.id === 'lightscreen') {
-      const cat = threat.name ? dex.moves.get(threat.name).category : null;
       const mineCond = view.conditions[view.side] || {};
-      const fits = (m.id === 'reflect' && cat === 'Physical') || (m.id === 'lightscreen' && cat === 'Special');
-      return { value: !mineCond[m.id] && fits ? 12 - taken * 0.5 : -15, why: m.name };
+      const fits = (m.id === 'reflect' && threat.cat === 'Physical') || (m.id === 'lightscreen' && threat.cat === 'Special');
+      return { effect: !mineCond[m.id] && fits ? 12 + threat.avg * 50 : -WASTED, why: m.name };
     }
     if (m.id === 'healbell' || m.id === 'aromatherapy') {
       const sick = [...view.mons[view.side].values()].filter((x) => x.status && !x.fainted).length;
-      return { value: sick * 15 - taken, why: `${sick} of ours with a status` };
+      return { effect: sick ? sick * 15 : -WASTED, why: `${sick} of ours with a status` };
     }
     if (m.id === 'roar' || m.id === 'whirlwind' || m.id === 'haze') {
       const up = Object.values(foe.boosts).filter((x) => x > 0).reduce((t, x) => t + x, 0);
-      const hz = (view.conditions[view.foe]?.stealthrock ? 1 : 0) + (view.conditions[view.foe]?.spikes || 0);
-      return { value: up * 12 + (m.id !== 'haze' ? hz * 5 : 0) - taken - (up ? 0 : 10), why: `${m.name} against +${up}` };
+      const hz = (cond.stealthrock ? 1 : 0) + (cond.spikes || 0);
+      const effect = up * 12 + (m.id !== 'haze' && foeLeft > 1 ? hz * 5 : 0);
+      return { effect: effect || -WASTED, why: `${m.name} against +${up}` };
     }
-    if (m.id === 'substitute') return { value: me.hp > 0.5 && threat.avg < 0.25 ? 12 : -15, why: 'Substitute' };
-    if (m.id === 'protect' || m.id === 'detect') return { value: this.lastChoice === `move:${m.id}` ? -40 : 3, why: m.name };
-    if (m.id === 'leechseed') return { value: foe.types.includes('Grass') ? -40 : 14 * foe.hp - taken, why: 'Leech Seed' };
-    if (m.volatileStatus === 'confusion') return { value: 8 * foe.hp - taken, why: m.name };
-    return { value: -12 - taken, why: `${m.name} (no plan for it)` };
+    if (m.id === 'substitute') return { effect: me.hp > 0.5 && threat.avg < 0.25 ? 12 : -WASTED, why: 'Substitute' };
+    if (m.id === 'protect' || m.id === 'detect') {
+      if (this.lastChoice === `move:${m.id}`) return { effect: -40, why: `${m.name} twice in a row usually fails` };
+      // it only buys a turn: worth it when the turn hurts them (poison, burn, weather) or runs out a lock
+      const chip = (['psn', 'tox', 'brn'].includes(foe.status) ? 8 : 0) + (foe.volatiles.lockedmove ? 6 : 0);
+      return { effect: -4 + chip, why: `${m.name}: blocks the hit, buys a turn` };
+    }
+    if (m.id === 'leechseed') return { effect: foe.types.includes('Grass') || foe.volatiles.leechseed || sub ? -WASTED : 14 * foe.hp, why: 'Leech Seed' };
+    if (m.volatileStatus === 'confusion') return { effect: foe.volatiles.confusion || sub ? -WASTED : 8 * foe.hp, why: m.name };
+    return { effect: -12, why: `${m.name} (no plan for it)` };
   }
 
   moveName(o, me) {
@@ -417,8 +600,10 @@ export class TrainerAgent {
     return {
       choice: pick.choice, kind: pick.kind, label: pick.label,
       options: scored.map((s) => s.choice),
+      labels: scored.map((s) => s.label),
       scores: scored.map((s) => Math.round((s.value ?? 0) * 10) / 10),
       why: order.slice(0, 3).map((s) => `${s.label}: ${Math.round((s.value ?? 0) * 10) / 10} (${s.why})`),
+      reasons: Object.fromEntries(scored.map((s) => [s.label, s.why])),
     };
   }
 }

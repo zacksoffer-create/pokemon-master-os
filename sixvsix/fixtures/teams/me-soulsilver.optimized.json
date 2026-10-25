@@ -33,12 +33,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 48,
+    "hp": 4,
     "atk": 252,
-    "def": 84,
+    "def": 0,
     "spa": 0,
     "spd": 0,
-    "spe": 124
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -79,8 +79,8 @@
     "ability: Static (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 48 HP / 252 Atk / 84 Def / 124 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
-    "nature: Naughty (chosen by the EV optimizer; none on record)"
+    "nature: Naughty (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -110,8 +110,8 @@
     "spe": 31
    },
    "evs": {
-    "hp": 188,
-    "atk": 68,
+    "hp": 4,
+    "atk": 252,
     "def": 0,
     "spa": 0,
     "spd": 0,
@@ -156,8 +156,8 @@
     "ability: Inner Focus (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 188 HP / 68 Atk / 252 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
-    "nature: Adamant (chosen by the EV optimizer; none on record)"
+    "nature: Adamant (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -187,12 +187,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 76,
-    "atk": 228,
+    "hp": 4,
+    "atk": 252,
     "def": 0,
-    "spa": 32,
-    "spd": 148,
-    "spe": 24
+    "spa": 0,
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -233,8 +233,8 @@
     "ability: Blaze (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 76 HP / 228 Atk / 32 SpA / 148 SpD / 24 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
-    "nature: Lonely (chosen by the EV optimizer; none on record)"
+    "nature: Lonely (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "engine-filled (no build on record: the engine filled in its strongest set)"
   },
@@ -341,12 +341,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 244,
+    "hp": 4,
     "atk": 0,
-    "def": 60,
-    "spa": 68,
-    "spd": 116,
-    "spe": 20
+    "def": 0,
+    "spa": 252,
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -387,8 +387,8 @@
     "ability: Levitate (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 244 HP / 60 Def / 68 SpA / 116 SpD / 20 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
-    "nature: Modest (chosen by the EV optimizer; none on record)"
+    "nature: Modest (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -418,12 +418,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 224,
-    "atk": 248,
-    "def": 32,
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
     "spa": 0,
     "spd": 0,
-    "spe": 4
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -464,8 +464,8 @@
     "ability: Swarm (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 224 HP / 248 Atk / 32 Def / 4 Spe (D-072: optimized one-on-one against HeartGold/SoulSilver Elite Four, Champion, rematches and Red)",
-    "nature: Adamant (chosen by the EV optimizer; none on record)"
+    "nature: Adamant (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   }

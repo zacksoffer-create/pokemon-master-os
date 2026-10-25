@@ -111,3 +111,18 @@ export function atLevel(team, level, why) {
     })),
   };
 }
+
+/**
+ * The team in battle order: its lead first. `lead` is 'first' (the order as written) or a member's species or
+ * nickname. The ace keeps its identity: `ace` (an index, default the last member as written) is moved with it.
+ */
+export function withLead(team) {
+  const lead = team.lead;
+  if (!lead || lead === 'first') return team;
+  const i = team.members.findIndex((m) => m.species === lead || m.nickname === lead);
+  if (i < 0) throw new Error(`${team.id} has no ${lead} to lead with`);
+  if (i === 0) return team;
+  const order = [i, ...team.members.map((_, k) => k).filter((k) => k !== i)];
+  const ace = team.ace != null ? team.ace : team.members.length - 1;
+  return { ...team, members: order.map((k) => team.members[k]), ace: order.indexOf(ace) };
+}

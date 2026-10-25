@@ -1,0 +1,120 @@
+{
+ "kind": "Experiment",
+ "type": "styles",
+ "spec": {
+  "kind": "styles",
+  "team": "me/soulsilver",
+  "pool": "heartgold-league",
+  "n": 12,
+  "interpretation": "blackthorn",
+  "ours": "blackthorn"
+ },
+ "engine": "showdown-sim@0.10.11",
+ "contract": "0.1.0",
+ "made_at": "2026-10-25T19:56:31.813Z",
+ "seed": "lab|styles|a59f4eef47bb20be",
+ "rows": [
+  {
+   "label": "your trainer: as it stands (defaults)",
+   "change": "blackthorn",
+   "won": 116,
+   "n": 132,
+   "rate": 0.879,
+   "ci95": [
+    0.812,
+    0.924
+   ]
+  },
+  {
+   "label": "your trainer: a cautious version",
+   "change": "cautious",
+   "won": 116,
+   "n": 132,
+   "rate": 0.879,
+   "ci95": [
+    0.812,
+    0.924
+   ],
+   "difference": {
+    "y_minus_x": 0,
+    "ci95": [
+     -0.047,
+     0.047
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.026,
+    "ci95": [
+     -0.012,
+     0.063
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (88% and 88%, McNemar p = 1.00). A real difference smaller than about 5 points would need more battles to show."
+  },
+  {
+   "label": "your trainer: an aggressive version",
+   "change": "aggressive",
+   "won": 114,
+   "n": 132,
+   "rate": 0.864,
+   "ci95": [
+    0.795,
+    0.912
+   ],
+   "difference": {
+    "y_minus_x": -0.015,
+    "ci95": [
+     -0.036,
+     0.006
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0,
+    "ci95": [
+     -0.03,
+     0.03
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 0.5,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (88% and 86%, McNemar p = 0.50). A real difference smaller than about 4 points would need more battles to show."
+  },
+  {
+   "label": "your trainer: at their sharpest",
+   "change": "sharp",
+   "won": 115,
+   "n": 132,
+   "rate": 0.871,
+   "ci95": [
+    0.803,
+    0.918
+   ],
+   "difference": {
+    "y_minus_x": -0.008,
+    "ci95": [
+     -0.041,
+     0.026
+    ]
+   },
+   "margin": {
+    "y_minus_x": 0.001,
+    "ci95": [
+     -0.031,
+     0.033
+    ],
+    "note": "share of the team's HP left minus the opponent's, at the end of each battle"
+   },
+   "mcnemar_p": 1,
+   "significant": false,
+   "reading": "No difference shows up over 132 paired battles (88% and 87%, McNemar p = 1.00). A real difference smaller than about 4 points would need more battles to show."
+  }
+ ],
+ "best": "your trainer: as it stands (defaults)",
+ "reading": [
+  "your trainer: as it stands (defaults) does best: 116 of 132."
+ ]
+}

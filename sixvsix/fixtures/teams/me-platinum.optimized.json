@@ -33,12 +33,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 252,
-    "atk": 0,
-    "def": 168,
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
     "spa": 0,
     "spd": 0,
-    "spe": 84
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -79,8 +79,8 @@
     "ability: Blaze (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 252 HP / 168 Def / 84 Spe (D-072: optimized one-on-one against Platinum Elite Four, Champion and rematches)",
-    "nature: Lax (chosen by the EV optimizer; none on record)"
+    "nature: Lax (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -110,12 +110,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 252,
-    "atk": 220,
-    "def": 32,
+    "hp": 4,
+    "atk": 252,
+    "def": 0,
     "spa": 0,
     "spd": 0,
-    "spe": 4
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -156,7 +156,7 @@
     "ability: Pressure (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 252 HP / 220 Atk / 32 Def / 4 Spe (D-072: optimized one-on-one against Platinum Elite Four, Champion and rematches)"
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -186,12 +186,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 188,
+    "hp": 4,
     "atk": 0,
-    "def": 12,
-    "spa": 160,
+    "def": 0,
+    "spa": 252,
     "spd": 0,
-    "spe": 148
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -231,7 +231,7 @@
     "level: 100 (standardized lens; the record says none)",
     "ability: Natural Cure (the species' first ability)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 188 HP / 12 Def / 160 SpA / 148 Spe (D-072: optimized one-on-one against Platinum Elite Four, Champion and rematches)"
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -261,11 +261,11 @@
     "spe": 31
    },
    "evs": {
-    "hp": 0,
-    "atk": 76,
+    "hp": 4,
+    "atk": 252,
     "def": 0,
     "spa": 0,
-    "spd": 180,
+    "spd": 0,
     "spe": 252
    },
    "evidence": {
@@ -307,8 +307,8 @@
     "ability: Steadfast (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 76 Atk / 180 SpD / 252 Spe (D-072: optimized one-on-one against Platinum Elite Four, Champion and rematches)",
-    "nature: Careful (chosen by the EV optimizer; none on record)"
+    "nature: Careful (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "engine-filled (no build on record: the engine filled in its strongest set)"
   },
@@ -338,12 +338,12 @@
     "spe": 31
    },
    "evs": {
-    "hp": 100,
-    "atk": 220,
+    "hp": 4,
+    "atk": 252,
     "def": 0,
     "spa": 0,
-    "spd": 80,
-    "spe": 108
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -384,8 +384,8 @@
     "ability: Sand Veil (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 31 in every stat (none on record)",
-    "EVs: 100 HP / 220 Atk / 80 SpD / 108 Spe (D-072: optimized one-on-one against Platinum Elite Four, Champion and rematches)",
-    "nature: Adamant (chosen by the EV optimizer; none on record)"
+    "nature: Adamant (chosen by the EV optimizer; none on record)",
+    "EVs: 4 HP / 252 Atk / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   },
@@ -415,12 +415,12 @@
     "spd": 31
    },
    "evs": {
-    "hp": 252,
+    "hp": 4,
     "atk": 0,
     "def": 0,
     "spa": 252,
-    "spd": 4,
-    "spe": 0
+    "spd": 0,
+    "spe": 252
    },
    "evidence": {
     "species": [
@@ -461,7 +461,7 @@
     "ability: Magnet Pull (the species' first ability)",
     "item: none (left open on the record)",
     "IVs: 30 atk, 30 spa, 30 spe, 31 otherwise (Hidden Power Fire at full power; trainers/solver.py's rule)",
-    "EVs: 252 HP / 252 SpA / 4 SpD (D-072: optimized one-on-one against Platinum Elite Four, Champion and rematches)"
+    "EVs: 4 HP / 252 SpA / 252 Spe (D-072, D-074: the conventional spread, kept after the 6v6 check)"
    ],
    "source": "canon register (canon/builds.json)"
   }

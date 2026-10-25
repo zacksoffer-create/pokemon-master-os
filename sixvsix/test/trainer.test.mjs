@@ -120,3 +120,77 @@ test("a trainer's identity is read from the Trainer Library, with where each set
     [80, 55, 64, 75, 91, 80]);
   assert.match(source.competence, /3 competence flags/);
 });
+
+// ---- found by reading replays (the 6v6 audit): each was a real wrong choice in a recorded battle ---------------
+
+const MAMO = { species: 'Mamoswine', ability: 'Snow Cloak', item: 'Never-Melt Ice', nature: 'Adamant', evs: { hp: 248, def: 4, spd: 12, spe: 244 },
+               moves: ['Earthquake', 'Ancient Power', 'Ice Fang', 'Ice Shard'] };
+const GYARA = { species: 'Gyarados', ability: 'Intimidate', nature: 'Adamant', evs: { atk: 252, spe: 252 }, moves: ['Dragon Dance', 'Waterfall', 'Earthquake', 'Ice Fang'] };
+const WOBB = { species: 'Wobbuffet', ability: 'Shadow Tag', nature: 'Bold', evs: { hp: 252, def: 252 }, moves: ['Counter', 'Mirror Coat', 'Encore', 'Safeguard'] };
+const SCIZOR_ROOST = { species: 'Scizor', ability: 'Technician', item: 'Leftovers', nature: 'Adamant', evs: { hp: 248, atk: 252 }, moves: ['Bullet Punch', 'U-turn', 'Roost', 'Swords Dance'] };
+const NITE = { species: 'Dragonite', ability: 'Inner Focus', nature: 'Adamant', evs: { atk: 252, spe: 252 }, moves: ['Hyper Beam', 'Dragon Claw', 'Extreme Speed', 'Fire Punch'] };
+
+test('low and in range of anything: a priority finisher over an equal non-priority one', () => {
+  // Mamoswine at 8% vs a 3% Hariyama: every attack knocks it out, but only Ice Shard goes before an unseen Bullet Punch
+  const d = decide(state({ mine: [{ ...MAMO, hp: 0.08 }], foe: { species: 'Hariyama', ability: 'Thick Fat', hp: 0.03, moves: ['Low Kick', 'Payback'] } }));
+  assert.equal(d.label, 'Ice Shard', d.why.join('\n'));
+});
+
+test('a recharging foe gives a free turn: Dragon Dance rather than an attack into nothing', () => {
+  const d = decide(state({ mine: [GYARA, LAX], foe: { species: 'Snorlax', ability: 'Thick Fat', moves: ['Giga Impact', 'Body Slam'], volatiles: { mustrecharge: true } } }));
+  assert.equal(d.label, 'Dragon Dance', d.why.join('\n'));
+  assert.match(d.why[0], /free turn/);
+});
+
+test('Counter against a physical hitter, Mirror Coat against a special one (it knows what Counter does)', () => {
+  const phys = decide(state({ mine: [WOBB], foe: { species: 'Machamp', ability: 'No Guard', moves: ['Cross Chop'] } }));
+  assert.equal(phys.label, 'Counter', phys.why.join('\n'));
+  const spec = decide(state({ mine: [WOBB], foe: { species: 'Alakazam', moves: ['Psychic'] } }));
+  assert.equal(spec.label, 'Mirror Coat', spec.why.join('\n'));
+});
+
+test('asleep from Rest: an attack this turn does nothing, and it says so', () => {
+  const d = decide(state({ mine: [{ ...LAX, status: 'slp', sleep: { rest: true, cant: 0 } }], foe: { species: 'Machamp', moves: ['Cross Chop'] } }));
+  assert.ok(d.why.some((w) => /asleep \(acts 0%\)/.test(w)), d.why.join('\n'));
+});
+
+test('a useless move never beats a real attack, however hard the hit coming', () => {
+  // Gengar is immune to Earthquake; Crunch hits it super-effectively; a big hit is coming either way
+  const s = state({ mine: [{ species: 'Tyranitar', ability: 'Sand Stream', nature: 'Adamant', evs: { atk: 252, spe: 252 }, moves: ['Earthquake', 'Crunch', 'Stone Edge', 'Dragon Dance'] }],
+                    foe: { species: 'Gengar', moves: ['Focus Blast'] } });
+  const agent = new TrainerAgent({ competence: 100 }, { team: s.team });
+  const d = agent.decide(s.request, s.view, new PolicyRNG('scenario'));
+  const v = Object.fromEntries(d.options.map((c, k) => [c, d.scores[k]]));
+  assert.ok(v['move 1'] < v['move 2'], `Earthquake ${v['move 1']} should be below Crunch ${v['move 2']}`);
+  assert.notEqual(d.label, 'Earthquake');
+});
+
+test('no recovery into a faster foe that knocks it out first', () => {
+  const d = decide(state({ mine: [{ ...LAPRAS, hp: 0.32 }, TYPH], foe: { species: 'Hitmonchan', ability: 'Iron Fist', moves: ['Drain Punch', 'Close Combat'] } }));
+  assert.notEqual(d.label, 'Rest', d.why.join('\n'));
+});
+
+test('no Roost at full HP when it could be attacking', () => {
+  const d = decide(state({ mine: [SCIZOR_ROOST], foe: { species: 'Snorlax', ability: 'Thick Fat', moves: ['Body Slam'] } }));
+  assert.notEqual(d.label, 'Roost', d.why.join('\n'));
+});
+
+test('Perish Song at 1: it switches out rather than faint', () => {
+  const d = decide(state({ mine: [{ ...LAX, volatiles: { perish: 1 } }, LAPRAS], foe: { species: 'Altaria', moves: ['Perish Song', 'Dragon Breath'] } }));
+  assert.equal(d.label, 'Lapras', d.why.join('\n'));
+});
+
+test('evasion boosts count: a 100% move against +2 evasion hits 60% of the time', () => {
+  const d = decide(state({ mine: [LAX], foe: { species: 'Altaria', moves: ['Double Team'], boosts: { evasion: 2 } } }));
+  assert.ok(d.why.some((w) => /hits 60%/.test(w)), d.why.join('\n'));
+});
+
+test('no Hyper Beam that leaves it recharging when a near-equal attack does not', () => {
+  const d = decide(state({ mine: [NITE], foe: { species: 'Gyarados', ability: 'Intimidate', moves: ['Waterfall', 'Ice Fang'] } }));
+  assert.notEqual(d.label, 'Hyper Beam', d.why.join('\n'));
+});
+
+test('a foe locked into Outrage can only Outrage: a Steel type comes in on it', () => {
+  const d = decide(state({ mine: [TYPH, SCIZOR_ROOST, LAPRAS], foe: { species: 'Garchomp', moves: ['Outrage', 'Earthquake', 'Fire Fang'], volatiles: { lockedmove: 'Outrage' } } }));
+  assert.equal(d.label, 'Scizor', d.why.join('\n'));
+});

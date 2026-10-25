@@ -11,7 +11,7 @@
   "ruleset gen4-blackthorn v1",
   "lens standardized",
   "engine @pkmn/sim 0.10.11",
-  "lead order (each team leads with its first member)"
+  "leads: A Typhlosion (its first member), B Spiritomb (its first member)"
  ],
  "varied": [
   "battle RNG (damage rolls, accuracy, critical hits, secondary effects, speed ties)",
@@ -25,7 +25,7 @@
  "won": 100,
  "lost": 0,
  "drew": 0,
- "made_at": "2026-10-25T17:49:38.928Z",
+ "made_at": "2026-10-25T19:49:13.673Z",
  "evidence_class": "simulated",
  "job": {
   "id": "job:heartgold-vs-cynthia:standardized:maxpower",
@@ -136,12 +136,12 @@
    "split": 0
   },
   "turns": {
-   "mean": 13.7,
-   "median": 12.5,
-   "min": 10,
-   "max": 23
+   "mean": 13.4,
+   "median": 14,
+   "min": 9,
+   "max": 17
   },
-  "left_a_when_won": 2.82,
+  "left_a_when_won": 2.6,
   "left_b_when_won": 0,
   "ends": {
    "win": 100
@@ -152,67 +152,67 @@
      "name": "Typhlosion",
      "slot": 0,
      "appeared": 1,
-     "kos_per_battle": 0.98,
+     "kos_per_battle": 1,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 100,
+     "damage_dealt_per_battle": 119.7,
      "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 3.1
+     "turns_active_per_battle": 2.9
     },
     {
      "name": "Tyranitar",
      "slot": 1,
-     "appeared": 0.02,
-     "kos_per_battle": 0.02,
+     "appeared": 0,
+     "kos_per_battle": 0,
      "fainted_rate": 0,
-     "damage_dealt_per_battle": 0.6,
+     "damage_dealt_per_battle": 0,
      "damage_taken_per_battle": 0,
-     "switch_ins_per_battle": 0.02,
+     "switch_ins_per_battle": 0,
      "turns_active_per_battle": 0
     },
     {
      "name": "Mamoswine",
      "slot": 2,
-     "appeared": 1,
-     "kos_per_battle": 2.44,
+     "appeared": 0.98,
+     "kos_per_battle": 1.94,
      "fainted_rate": 0.86,
-     "damage_dealt_per_battle": 262.3,
-     "damage_taken_per_battle": 95.6,
-     "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 4.2
+     "damage_dealt_per_battle": 235.7,
+     "damage_taken_per_battle": 95.7,
+     "switch_ins_per_battle": 0.98,
+     "turns_active_per_battle": 3.3
     },
     {
      "name": "Crobat",
      "slot": 3,
-     "appeared": 0.32,
-     "kos_per_battle": 0.42,
+     "appeared": 0.58,
+     "kos_per_battle": 0.82,
      "fainted_rate": 0.02,
-     "damage_dealt_per_battle": 30.3,
-     "damage_taken_per_battle": 6.1,
-     "switch_ins_per_battle": 0.32,
-     "turns_active_per_battle": 1.1
+     "damage_dealt_per_battle": 57.1,
+     "damage_taken_per_battle": 7,
+     "switch_ins_per_battle": 0.58,
+     "turns_active_per_battle": 2
     },
     {
      "name": "Lapras",
      "slot": 4,
      "appeared": 1,
-     "kos_per_battle": 1,
+     "kos_per_battle": 1.02,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 140.7,
-     "damage_taken_per_battle": 111.3,
+     "damage_dealt_per_battle": 97.7,
+     "damage_taken_per_battle": 108.2,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.9
+     "turns_active_per_battle": 2.3
     },
     {
      "name": "Snorlax",
      "slot": 5,
      "appeared": 0.84,
-     "kos_per_battle": 1.14,
-     "fainted_rate": 0.3,
-     "damage_dealt_per_battle": 66.7,
-     "damage_taken_per_battle": 61.2,
+     "kos_per_battle": 1.22,
+     "fainted_rate": 0.52,
+     "damage_dealt_per_battle": 89.8,
+     "damage_taken_per_battle": 77,
      "switch_ins_per_battle": 0.84,
-     "turns_active_per_battle": 2.4
+     "turns_active_per_battle": 2.9
     }
    ],
    "b": [
@@ -220,34 +220,34 @@
      "name": "Spiritomb",
      "slot": 0,
      "appeared": 1,
-     "kos_per_battle": 0.02,
+     "kos_per_battle": 0,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 40.4,
+     "damage_dealt_per_battle": 37.3,
      "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.2
+     "turns_active_per_battle": 1.9
     },
     {
      "name": "Roserade",
      "slot": 1,
      "appeared": 1,
-     "kos_per_battle": 0.24,
+     "kos_per_battle": 0.38,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 10,
+     "damage_dealt_per_battle": 8.3,
      "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 1.7
+     "turns_active_per_battle": 2.1
     },
     {
      "name": "Togekiss",
      "slot": 2,
      "appeared": 1,
-     "kos_per_battle": 0.6,
+     "kos_per_battle": 0.48,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 55.3,
+     "damage_dealt_per_battle": 67.7,
      "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.6
+     "turns_active_per_battle": 3.1
     },
     {
      "name": "Lucario",
@@ -255,21 +255,21 @@
      "appeared": 1,
      "kos_per_battle": 0.98,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 72.9,
+     "damage_dealt_per_battle": 57.4,
      "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.9
+     "turns_active_per_battle": 2.3
     },
     {
      "name": "Milotic",
      "slot": 4,
      "appeared": 1,
-     "kos_per_battle": 0.34,
+     "kos_per_battle": 0.56,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 95.6,
+     "damage_dealt_per_battle": 103.9,
      "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.3
+     "turns_active_per_battle": 2
     },
     {
      "name": "Garchomp",
@@ -277,10 +277,10 @@
      "appeared": 1,
      "kos_per_battle": 1,
      "fainted_rate": 1,
-     "damage_dealt_per_battle": 99.9,
-     "damage_taken_per_battle": 100.5,
+     "damage_dealt_per_battle": 113.3,
+     "damage_taken_per_battle": 100,
      "switch_ins_per_battle": 1,
-     "turns_active_per_battle": 2.1
+     "turns_active_per_battle": 2
     }
    ]
   },
@@ -288,13 +288,13 @@
  },
  "failures": [],
  "timing": {
-  "total_ms": 2068,
+  "total_ms": 1750,
   "per_battle_ms": {
-   "mean": 20.6,
-   "median": 20.4,
-   "max": 36
+   "mean": 17.4,
+   "median": 16.9,
+   "max": 36.8
   },
   "platform": "node v22.22.0 · Intel(R) Xeon(R) Processor @ 2.10GHz · linux"
  },
- "fingerprint": "0f4d3afe27e60e0a"
+ "fingerprint": "dc5dfe3cab4218cf"
 }

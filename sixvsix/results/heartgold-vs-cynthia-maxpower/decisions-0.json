@@ -11,6 +11,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Flamethrower",
+   "Extrasensory",
+   "Thunder Punch",
+   "Earthquake"
+  ],
   "scores": [
    142.5,
    0,
@@ -21,7 +27,8 @@
    "turn": 1,
    "foe": {
     "species": "Spiritomb",
-    "pct": 100
+    "pct": 100,
+    "ability": "Pressure"
    },
    "foe_seen": 1,
    "foe_left": 6
@@ -38,6 +45,12 @@
    "move 2",
    "move 3",
    "move 4"
+  ],
+  "labels": [
+   "Dark Pulse",
+   "Psychic",
+   "Silver Wind",
+   "Shadow Ball"
   ],
   "scores": [
    120,
@@ -67,6 +80,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Flamethrower",
+   "Extrasensory",
+   "Thunder Punch",
+   "Earthquake"
+  ],
   "scores": [
    142.5,
    0,
@@ -77,10 +96,11 @@
    "turn": 2,
    "foe": {
     "species": "Spiritomb",
-    "pct": 46,
+    "pct": 42,
     "known_moves": [
      "Shadow Ball"
-    ]
+    ],
+    "ability": "Pressure"
    },
    "foe_seen": 1,
    "foe_left": 6
@@ -98,6 +118,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Dark Pulse",
+   "Psychic",
+   "Silver Wind",
+   "Shadow Ball"
+  ],
   "scores": [
    120,
    90,
@@ -108,7 +134,7 @@
    "turn": 2,
    "foe": {
     "species": "Typhlosion",
-    "pct": 37,
+    "pct": 24,
     "known_moves": [
      "Flamethrower"
     ]
@@ -130,6 +156,13 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Roserade",
+   "Togekiss",
+   "Lucario",
+   "Milotic",
+   "Garchomp"
+  ],
   "scores": [
    135,
    120,
@@ -141,7 +174,7 @@
    "turn": 2,
    "foe": {
     "species": "Typhlosion",
-    "pct": 37,
+    "pct": 24,
     "known_moves": [
      "Flamethrower"
     ]
@@ -161,6 +194,12 @@
    "move 2",
    "move 3",
    "move 4"
+  ],
+  "labels": [
+   "Flamethrower",
+   "Extrasensory",
+   "Thunder Punch",
+   "Earthquake"
   ],
   "scores": [
    71.3,
@@ -190,6 +229,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact"
+  ],
   "scores": [
    112.5,
    300,
@@ -200,7 +245,7 @@
    "turn": 3,
    "foe": {
     "species": "Typhlosion",
-    "pct": 37,
+    "pct": 24,
     "known_moves": [
      "Flamethrower"
     ]
@@ -222,6 +267,13 @@
    "switch 5",
    "switch 6"
   ],
+  "labels": [
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Lapras",
+   "Snorlax"
+  ],
   "scores": [
    240,
    370.5,
@@ -233,7 +285,7 @@
    "turn": 3,
    "foe": {
     "species": "Garchomp",
-    "pct": 100,
+    "pct": 67,
     "known_moves": [
      "Earthquake"
     ]
@@ -253,6 +305,12 @@
    "move 2",
    "move 3",
    "move 4"
+  ],
+  "labels": [
+   "Dragon Rush",
+   "Earthquake",
+   "Flamethrower",
+   "Giga Impact"
   ],
   "scores": [
    112.5,
@@ -282,6 +340,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Rest",
+   "Heal Bell"
+  ],
   "scores": [
    142.5,
    570,
@@ -292,7 +356,7 @@
    "turn": 4,
    "foe": {
     "species": "Garchomp",
-    "pct": 100,
+    "pct": 67,
     "known_moves": [
      "Earthquake"
     ]
@@ -313,6 +377,12 @@
    "switch 4",
    "switch 5"
   ],
+  "labels": [
+   "Roserade",
+   "Togekiss",
+   "Lucario",
+   "Milotic"
+  ],
   "scores": [
    240,
    180,
@@ -323,10 +393,11 @@
    "turn": 4,
    "foe": {
     "species": "Lapras",
-    "pct": 73,
+    "pct": 58,
     "known_moves": [
      "Ice Beam"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 2,
    "foe_left": 5
@@ -343,6 +414,12 @@
    "move 2",
    "move 3",
    "move 4"
+  ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Rest",
+   "Heal Bell"
   ],
   "scores": [
    142.5,
@@ -372,6 +449,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Aura Sphere",
+   "Extreme Speed",
+   "Shadow Ball",
+   "Stone Edge"
+  ],
   "scores": [
    270,
    80,
@@ -382,80 +465,18 @@
    "turn": 5,
    "foe": {
     "species": "Lapras",
-    "pct": 73,
+    "pct": 58,
     "known_moves": [
      "Ice Beam"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 2,
    "foe_left": 5
   }
  },
  {
-  "turn": 6,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Surf",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4"
-  ],
-  "scores": [
-   142.5,
-   71.3,
-   0,
-   0
-  ],
-  "knew": {
-   "turn": 6,
-   "foe": {
-    "species": "Lucario",
-    "pct": 54,
-    "known_moves": [
-     "Aura Sphere"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 4
-  }
- },
- {
-  "turn": 6,
-  "side": "b",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Aura Sphere",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4"
-  ],
-  "scores": [
-   270,
-   80,
-   80,
-   160
-  ],
-  "knew": {
-   "turn": 6,
-   "foe": {
-    "species": "Lapras",
-    "pct": 27,
-    "known_moves": [
-     "Ice Beam",
-     "Surf"
-    ]
-   },
-   "foe_seen": 2,
-   "foe_left": 5
-  }
- },
- {
-  "turn": 6,
+  "turn": 5,
   "side": "a",
   "forced": true,
   "choice": "switch 3",
@@ -466,6 +487,12 @@
    "switch 4",
    "switch 6"
   ],
+  "labels": [
+   "Tyranitar",
+   "Mamoswine",
+   "Crobat",
+   "Snorlax"
+  ],
   "scores": [
    200,
    300,
@@ -473,10 +500,10 @@
    75
   ],
   "knew": {
-   "turn": 6,
+   "turn": 5,
    "foe": {
     "species": "Lucario",
-    "pct": 54,
+    "pct": 100,
     "known_moves": [
      "Aura Sphere"
     ]
@@ -486,7 +513,7 @@
   }
  },
  {
-  "turn": 7,
+  "turn": 6,
   "side": "b",
   "forced": false,
   "choice": "move 1",
@@ -497,6 +524,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Aura Sphere",
+   "Extreme Speed",
+   "Shadow Ball",
+   "Stone Edge"
+  ],
   "scores": [
    270,
    80,
@@ -504,7 +537,7 @@
    80
   ],
   "knew": {
-   "turn": 7,
+   "turn": 6,
    "foe": {
     "species": "Mamoswine",
     "pct": 100
@@ -514,7 +547,7 @@
   }
  },
  {
-  "turn": 7,
+  "turn": 6,
   "side": "a",
   "forced": false,
   "choice": "move 1",
@@ -525,6 +558,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard"
+  ],
   "scores": [
    300,
    15,
@@ -532,10 +571,10 @@
    30
   ],
   "knew": {
-   "turn": 7,
+   "turn": 6,
    "foe": {
     "species": "Lucario",
-    "pct": 54,
+    "pct": 100,
     "known_moves": [
      "Aura Sphere"
     ]
@@ -545,7 +584,7 @@
   }
  },
  {
-  "turn": 7,
+  "turn": 6,
   "side": "b",
   "forced": true,
   "choice": "switch 5",
@@ -555,10 +594,86 @@
    "switch 3",
    "switch 5"
   ],
+  "labels": [
+   "Roserade",
+   "Togekiss",
+   "Milotic"
+  ],
   "scores": [
    240,
    180,
    285
+  ],
+  "knew": {
+   "turn": 6,
+   "foe": {
+    "species": "Mamoswine",
+    "pct": 100,
+    "known_moves": [
+     "Earthquake"
+    ]
+   },
+   "foe_seen": 3,
+   "foe_left": 4
+  }
+ },
+ {
+  "turn": 7,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Earthquake",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "labels": [
+   "Earthquake",
+   "Ancient Power",
+   "Ice Fang",
+   "Ice Shard"
+  ],
+  "scores": [
+   150,
+   60,
+   46.3,
+   30
+  ],
+  "knew": {
+   "turn": 7,
+   "foe": {
+    "species": "Milotic",
+    "pct": 100
+   },
+   "foe_seen": 4,
+   "foe_left": 3
+  }
+ },
+ {
+  "turn": 7,
+  "side": "b",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Surf",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Mirror Coat",
+   "Dragon Pulse"
+  ],
+  "scores": [
+   285,
+   95,
+   0,
+   90
   ],
   "knew": {
    "turn": 7,
@@ -574,128 +689,7 @@
   }
  },
  {
-  "turn": 8,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Earthquake",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4"
-  ],
-  "scores": [
-   150,
-   60,
-   46.3,
-   30
-  ],
-  "knew": {
-   "turn": 8,
-   "foe": {
-    "species": "Milotic",
-    "pct": 100
-   },
-   "foe_seen": 4,
-   "foe_left": 3
-  }
- },
- {
-  "turn": 8,
-  "side": "b",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Surf",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4"
-  ],
-  "scores": [
-   285,
-   95,
-   0,
-   90
-  ],
-  "knew": {
-   "turn": 8,
-   "foe": {
-    "species": "Mamoswine",
-    "pct": 100,
-    "known_moves": [
-     "Earthquake"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 4
-  }
- },
- {
-  "turn": 9,
-  "side": "a",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Earthquake",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4"
-  ],
-  "scores": [
-   150,
-   60,
-   46.3,
-   30
-  ],
-  "knew": {
-   "turn": 9,
-   "foe": {
-    "species": "Milotic",
-    "pct": 52,
-    "known_moves": [
-     "Surf"
-    ]
-   },
-   "foe_seen": 4,
-   "foe_left": 3
-  }
- },
- {
-  "turn": 9,
-  "side": "b",
-  "forced": false,
-  "choice": "move 1",
-  "label": "Surf",
-  "options": [
-   "move 1",
-   "move 2",
-   "move 3",
-   "move 4"
-  ],
-  "scores": [
-   285,
-   95,
-   0,
-   90
-  ],
-  "knew": {
-   "turn": 9,
-   "foe": {
-    "species": "Mamoswine",
-    "pct": 17,
-    "known_moves": [
-     "Earthquake"
-    ]
-   },
-   "foe_seen": 3,
-   "foe_left": 4
-  }
- },
- {
-  "turn": 9,
+  "turn": 7,
   "side": "a",
   "forced": true,
   "choice": "switch 6",
@@ -705,16 +699,21 @@
    "switch 4",
    "switch 6"
   ],
+  "labels": [
+   "Tyranitar",
+   "Crobat",
+   "Snorlax"
+  ],
   "scores": [
    120,
    128.3,
    150
   ],
   "knew": {
-   "turn": 9,
+   "turn": 7,
    "foe": {
     "species": "Milotic",
-    "pct": 4,
+    "pct": 38,
     "known_moves": [
      "Surf"
     ]
@@ -724,7 +723,7 @@
   }
  },
  {
-  "turn": 10,
+  "turn": 8,
   "side": "b",
   "forced": false,
   "choice": "move 1",
@@ -735,6 +734,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Surf",
+   "Ice Beam",
+   "Mirror Coat",
+   "Dragon Pulse"
+  ],
   "scores": [
    142.5,
    95,
@@ -742,7 +747,7 @@
    90
   ],
   "knew": {
-   "turn": 10,
+   "turn": 8,
    "foe": {
     "species": "Snorlax",
     "pct": 100
@@ -752,7 +757,7 @@
   }
  },
  {
-  "turn": 10,
+  "turn": 8,
   "side": "a",
   "forced": false,
   "choice": "move 3",
@@ -763,6 +768,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Body Slam",
+   "Rest",
+   "Thunder Punch",
+   "Zen Headbutt"
+  ],
   "scores": [
    127.5,
    0,
@@ -770,10 +781,10 @@
    72
   ],
   "knew": {
-   "turn": 10,
+   "turn": 8,
    "foe": {
     "species": "Milotic",
-    "pct": 4,
+    "pct": 38,
     "known_moves": [
      "Surf"
     ]
@@ -783,7 +794,7 @@
   }
  },
  {
-  "turn": 10,
+  "turn": 8,
   "side": "b",
   "forced": true,
   "choice": "switch 3",
@@ -792,25 +803,30 @@
    "switch 2",
    "switch 3"
   ],
+  "labels": [
+   "Roserade",
+   "Togekiss"
+  ],
   "scores": [
    135,
    180
   ],
   "knew": {
-   "turn": 10,
+   "turn": 8,
    "foe": {
     "species": "Snorlax",
-    "pct": 84,
+    "pct": 86,
     "known_moves": [
      "Thunder Punch"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 4,
    "foe_left": 3
   }
  },
  {
-  "turn": 11,
+  "turn": 9,
   "side": "a",
   "forced": false,
   "choice": "move 3",
@@ -821,6 +837,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Body Slam",
+   "Rest",
+   "Thunder Punch",
+   "Zen Headbutt"
+  ],
   "scores": [
    127.5,
    0,
@@ -828,7 +850,7 @@
    72
   ],
   "knew": {
-   "turn": 11,
+   "turn": 9,
    "foe": {
     "species": "Togekiss",
     "pct": 100
@@ -838,7 +860,7 @@
   }
  },
  {
-  "turn": 11,
+  "turn": 9,
   "side": "b",
   "forced": false,
   "choice": "move 2",
@@ -849,6 +871,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Air Slash",
+   "Aura Sphere",
+   "Water Pulse",
+   "Shock Wave"
+  ],
   "scores": [
    106.9,
    180,
@@ -856,20 +884,21 @@
    60
   ],
   "knew": {
-   "turn": 11,
+   "turn": 9,
    "foe": {
     "species": "Snorlax",
-    "pct": 84,
+    "pct": 86,
     "known_moves": [
      "Thunder Punch"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 4,
    "foe_left": 3
   }
  },
  {
-  "turn": 12,
+  "turn": 10,
   "side": "a",
   "forced": false,
   "choice": "move 3",
@@ -880,6 +909,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Body Slam",
+   "Rest",
+   "Thunder Punch",
+   "Zen Headbutt"
+  ],
   "scores": [
    127.5,
    0,
@@ -887,11 +922,10 @@
    72
   ],
   "knew": {
-   "turn": 12,
+   "turn": 10,
    "foe": {
     "species": "Togekiss",
-    "pct": 13,
-    "status": "par",
+    "pct": 9,
     "known_moves": [
      "Aura Sphere"
     ]
@@ -901,7 +935,7 @@
   }
  },
  {
-  "turn": 12,
+  "turn": 10,
   "side": "b",
   "forced": false,
   "choice": "move 2",
@@ -912,6 +946,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Air Slash",
+   "Aura Sphere",
+   "Water Pulse",
+   "Shock Wave"
+  ],
   "scores": [
    106.9,
    180,
@@ -919,20 +959,21 @@
    60
   ],
   "knew": {
-   "turn": 12,
+   "turn": 10,
    "foe": {
     "species": "Snorlax",
-    "pct": 61,
+    "pct": 57,
     "known_moves": [
      "Thunder Punch"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 4,
    "foe_left": 3
   }
  },
  {
-  "turn": 12,
+  "turn": 10,
   "side": "b",
   "forced": true,
   "choice": "switch 2",
@@ -940,24 +981,28 @@
   "options": [
    "switch 2"
   ],
+  "labels": [
+   "Roserade"
+  ],
   "scores": [
    135
   ],
   "knew": {
-   "turn": 12,
+   "turn": 10,
    "foe": {
     "species": "Snorlax",
-    "pct": 67,
+    "pct": 30,
     "known_moves": [
      "Thunder Punch"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 4,
    "foe_left": 3
   }
  },
  {
-  "turn": 13,
+  "turn": 11,
   "side": "a",
   "forced": false,
   "choice": "move 4",
@@ -968,6 +1013,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Body Slam",
+   "Rest",
+   "Thunder Punch",
+   "Zen Headbutt"
+  ],
   "scores": [
    127.5,
    0,
@@ -975,7 +1026,7 @@
    144
   ],
   "knew": {
-   "turn": 13,
+   "turn": 11,
    "foe": {
     "species": "Roserade",
     "pct": 100
@@ -985,7 +1036,7 @@
   }
  },
  {
-  "turn": 13,
+  "turn": 11,
   "side": "b",
   "forced": false,
   "choice": "move 2",
@@ -996,6 +1047,12 @@
    "move 3",
    "move 4"
   ],
+  "labels": [
+   "Energy Ball",
+   "Sludge Bomb",
+   "Toxic",
+   "Extrasensory"
+  ],
   "scores": [
    120,
    135,
@@ -1003,16 +1060,185 @@
    80
   ],
   "knew": {
-   "turn": 13,
+   "turn": 11,
    "foe": {
     "species": "Snorlax",
-    "pct": 67,
+    "pct": 30,
     "known_moves": [
      "Thunder Punch"
-    ]
+    ],
+    "item": "Leftovers"
    },
    "foe_seen": 4,
    "foe_left": 3
+  }
+ },
+ {
+  "turn": 11,
+  "side": "a",
+  "forced": true,
+  "choice": "switch 4",
+  "label": "Crobat",
+  "options": [
+   "switch 2",
+   "switch 4"
+  ],
+  "labels": [
+   "Tyranitar",
+   "Crobat"
+  ],
+  "scores": [
+   120,
+   256.5
+  ],
+  "knew": {
+   "turn": 11,
+   "foe": {
+    "species": "Roserade",
+    "pct": 100,
+    "known_moves": [
+     "Sludge Bomb"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 12,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Extrasensory",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "labels": [
+   "Energy Ball",
+   "Sludge Bomb",
+   "Toxic",
+   "Extrasensory"
+  ],
+  "scores": [
+   30,
+   67.5,
+   0,
+   160
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 12,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "labels": [
+   "Fly",
+   "Roost",
+   "U-turn",
+   "Toxic"
+  ],
+  "scores": [
+   256.5,
+   0,
+   70,
+   0
+  ],
+  "knew": {
+   "turn": 12,
+   "foe": {
+    "species": "Roserade",
+    "pct": 100,
+    "known_moves": [
+     "Sludge Bomb"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
+  }
+ },
+ {
+  "turn": 13,
+  "side": "b",
+  "forced": false,
+  "choice": "move 4",
+  "label": "Extrasensory",
+  "options": [
+   "move 1",
+   "move 2",
+   "move 3",
+   "move 4"
+  ],
+  "labels": [
+   "Energy Ball",
+   "Sludge Bomb",
+   "Toxic",
+   "Extrasensory"
+  ],
+  "scores": [
+   30,
+   67.5,
+   0,
+   160
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Crobat",
+    "pct": 100,
+    "known_moves": [
+     "Fly"
+    ]
+   },
+   "foe_seen": 5,
+   "foe_left": 2
+  }
+ },
+ {
+  "turn": 13,
+  "side": "a",
+  "forced": false,
+  "choice": "move 1",
+  "label": "Fly",
+  "options": [
+   "move 1"
+  ],
+  "labels": [
+   "Fly"
+  ],
+  "scores": [
+   256.5
+  ],
+  "knew": {
+   "turn": 13,
+   "foe": {
+    "species": "Roserade",
+    "pct": 100,
+    "known_moves": [
+     "Sludge Bomb",
+     "Extrasensory"
+    ]
+   },
+   "foe_seen": 6,
+   "foe_left": 1
   }
  }
 ]

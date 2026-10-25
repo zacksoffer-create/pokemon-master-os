@@ -2,14 +2,15 @@
 // Elite Four member, the Champion, the rematches, and Red for HGSS, all at 85 EVs), trainer agents on both sides with
 // each opponent's identity read from the Trainer Library. Then the paired check that answers D-072 itself: the
 // optimized team against the same six with 85 in every stat, same seeds.
-//   node cli/league.mjs [heartgold soulsilver platinum] [--n 40] [--compare-n 20]
+//   node cli/league.mjs [heartgold soulsilver platinum] [--n 40] [--compare-n 20] [--workers k]
 //   node cli/league.mjs --readme      rewrite results/league/README.md from the recorded runs, without running
 // Writes results/league/<game>.json and results/league/README.md.
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { runPool, comparePool } from '../src/compare.js';
+import { runPoolWith, comparePoolWith } from '../src/compare.js';
+import { nodeRunner } from '../src/runner-node.js';
 import { JOURNEY } from './make-fixtures.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -26,24 +27,27 @@ const OUT = path.join(ROOT, 'results', 'league');
 fs.mkdirSync(OUT, { recursive: true });
 
 const pct = (x) => `${Math.round(100 * x)}%`;
+const runner = readmeOnly ? null : nodeRunner({ workers: args.includes('--workers') ? opt('workers', undefined) : undefined });
 for (const game of readmeOnly ? [] : games.length ? games : Object.keys(leagueOf)) {
   const pool = read('pools', `${leagueOf[game]}.json`);
   const team = read('teams', `me-${game}.optimized.json`), even = read('teams', `me-${game}.even85.json`);
   const profile = profiles[`me/${game}`];
   const opponentProfile = (opp) => profiles[opp.source.version_id];
   const t0 = Date.now();
-  const league = runPool({ team, profile, pool, ruleset: 'gen4-blackthorn', n, seed: `league-${game}`, opponentProfile }, { platform });
+  const league = await runPoolWith(runner, { team, profile, pool, ruleset: 'gen4-blackthorn', n, seed: `league-${game}`, opponentProfile }, { platform });
   console.log(`\n${game}: ${league.won} of ${league.n} against ${pool.name} (${pct(league.win_rate)}, 95% ${league.win_rate_95.map(pct).join('–')}) in ${Math.round((Date.now() - t0) / 1000)} s`);
   for (const r of league.per_opponent) console.log(`  ${r.opponent.padEnd(34)} ${String(r.won).padStart(3)}/${r.n}  ${pct(r.win_rate)}`);
   const t1 = Date.now();
-  const cmp = comparePool({ x: { team: even, profile, label: '85 in every stat' }, y: { team, profile, label: 'optimized spreads' },
-                            pool, ruleset: 'gen4-blackthorn', n: cn, seed: `d072-${game}`, opponentProfile }, { platform });
+  const cmp = await comparePoolWith(runner, { x: { team: even, profile, label: '85 in every stat' }, y: { team, profile, label: 'optimized spreads' },
+                                              pool, ruleset: 'gen4-blackthorn', n: cn, seed: `d072-${game}`, opponentProfile }, { platform });
   console.log(`  D-072 check: ${cmp.reading} HP margin ${cmp.margin.y_minus_x} [${cmp.margin.ci95}] (${Math.round((Date.now() - t1) / 1000)} s)`);
   fs.writeFileSync(path.join(OUT, `${game}.json`), JSON.stringify({
     game, made_at: new Date().toISOString(), platform, team: team.id, pool: pool.id, agent: 'trainer (both sides)',
     league, d072: cmp,
   }, null, 1) + '\n');
 }
+
+runner?.close();
 
 // The README: every recorded game, in one place.
 const p = (x, d = 0) => (100 * x).toFixed(d);

@@ -4,10 +4,12 @@
 coming in later."* The rest of Blackthorn keeps building without it. This page is what the 6v6 engine gets from the
 app, what it hands back, and where its results show up, so it can plug in without rework on either side.
 
-**Status (D-071 to D-073, 2026-10-25):** Phases 0–3 are built in `sixvsix/`, still separate. That's the contract,
-the engine, the batch runner, the trainer agent, whole-league runs, paired comparisons and the D-072 EV optimizer,
-with a result in the shape below. It is not registered with `Library.setTeamEngine` yet (that's Phase 5). See
-`sixvsix/docs/TEST_REPORT.md`.
+**Status (D-071 to D-075, 2026-10-25):** Phases 0–3 and the 6v6 Lab are built in `sixvsix/`, still separate.
+That's the contract, the engine, the batch runner, the trainer agent and the cartridge AI, whole-league runs, paired
+comparisons, the D-072/D-074 EV optimizer, and the Lab's experiments, with a result in the shape below. The Lab reads
+the Trainer Library's collections as opponent pools and keeps every run as an Experiment record
+(`sixvsix/docs/DATA_CONTRACT.md`). It is not registered with `Library.setTeamEngine` yet (that's Phase 5). See
+`sixvsix/docs/HOW_IT_WORKS.md` and `sixvsix/docs/TEST_REPORT.md`.
 
 It answers master plan Q8 and narrows D-043: the scouting reports and call sheets stay the product, and the 6v6 engine
 is one more source of evidence beside the one-on-one engine, which stays the measuring stick (Trainer spec §7: "preserve
