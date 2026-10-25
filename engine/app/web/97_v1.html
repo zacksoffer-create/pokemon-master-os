@@ -1,0 +1,39 @@
+<script>
+/* ===== What's new in v1 (#/v1; D-077, docs/design/V1_PLAN.md) =================================================
+   The first whole version, explained: what each 2K idea became, where it is, and every call made while building it
+   (store/assumptions.json, A-53 to A-78), each with Keep / Change / Reject exactly as in Your calls. */
+var V1_MODES = [
+  ['MyCAREER / MyPLAYER', 'Careers: every Pokémon of yours has a player card, a signature title, an Arena record, achievements and a Chronicle you write', '#/mine', 'Your Pokémon'],
+  ['MyNBA / MyLEAGUE / MyERA', 'Leagues: any teams, a round robin, standings, leaders, awards and best-of-seven playoffs', '#/leagues', 'Leagues'],
+  ['"vs the \'96 Bulls"', 'Legends: 45 all-time teams ranked by a round robin of 7,920 battles, and a best of seven against any of them', '#/legends', 'Legends'],
+  ['MyTEAM', 'The Draft: an era\'s Pokémon on the board, five GMs with traits, a snake draft, then a league', '#/draft', 'The Draft'],
+  ['MyGM / coach settings', 'Your trainer: the nine dials every trainer is read onto, six coaching philosophies, traits', '#/trainer', 'Your trainer'],
+  ['Play Now', 'The Arena: any team against any team, six on six, every battle watchable with the reasons behind each decision', '#/arena', 'Play now'],
+  ['Badges and attributes', 'Recognition 2.0: tier names on every stat-gated badge (Quick, Swift, Blazing, Lightning) and the Hall of Fame', '#/halloffame', 'Hall of Fame'],
+  ['The trainer ecosystem', '25 new anime versions: Ash at eleven moments, Gary and Paul at four, rivals and the anime\'s champions, tagged by what they won', '#/trainers', 'Trainer Library'],
+  ['National Geographic, for real', 'Field Biology: every Gen I–IV Pokédex entry, 64 curated dossiers, a field guide for all 493', '#/biology', 'Natural history'],
+  ['Ecosystems and food webs', 'Johto as a landscape; communities and food webs for 50 places; keystones, gaps, and a Level 3 model you can perturb', '#/ecosystems', 'Ecosystems'],
+  ['The orca analogy', 'Ecotypes: egg moves read as how a lineage lives, curated and machine-made, and your Pokémon\'s', '#/ecotypes', 'Ecotypes']
+];
+function v1Page() {
+  return Promise.all([answers(), Eco.ready(['biology', 'ecology', 'dossiers']).catch(function () { return null; }), API.data('arena').catch(function () { return null; })]).then(function (r) {
+    var ans = r[0] || {}, h = S.hq, items = (h.assumptions || []).filter(function (a) { return a.decision === 'D-077'; });
+    var byPhase = {}; items.forEach(function (a) { (byPhase[a.phase] = byPhase[a.phase] || []).push(a); });
+    var open = items.filter(function (a) { var x = ans[a.id]; return !(x && x.status && x.status !== 'open'); }).length;
+    var B = Eco.D().biology, E = Eco.D().ecology, A = r[2];
+    var nums = B ? [['Pokédex entries', B.species.reduce(function (t, s) { return t + s.e.length; }, 0).toLocaleString()], ['curated dossiers', Object.keys((Eco.D().dossiers || {}).dossiers || {}).length], ['food webs', Object.keys(E.webs).length],
+      ['Legends battles', A ? (A.legends.field.length * (A.legends.field.length - 1) / 2 * A.legends.n_per_pairing).toLocaleString() : '—'], ['teams the Arena can field', A ? Object.keys(A.legal).length : '—'], ['calls for you', items.length]] : [];
+    return '<div class="eyebrow">Blackthorn OS · v1 · D-077</div><h1 style="margin:6px 0">What\'s new in v1</h1>' +
+      '<p class="lede">The first whole version: one reference world (species and their biology, ecosystems, trainers, mechanics, equipment) and many ways to play in it, the way 2K builds one league and lets you play it as a player, a GM, a coach or a fan. Everything I decided while building it is below, as a call you can keep, change or reject. Nothing here changed canon: what\'s new is proposed, labelled, and yours to approve.</p>' +
+      (nums.length ? '<div class="kpis" style="margin-top:14px">' + nums.map(function (n) { return '<div class="kpi"><div class="tiny muted">' + esc(n[0]) + '</div><b style="font-size:22px">' + esc(String(n[1])) + '</b></div>'; }).join('') + '</div>' : '') +
+      card('From 2K to Blackthorn', '<table class="t"><thead><tr><th>The idea</th><th>What it became</th><th></th></tr></thead><tbody>' + V1_MODES.map(function (m) {
+        return '<tr><td><b>' + esc(m[0]) + '</b></td><td class="small">' + esc(m[1]) + '</td><td><a class="btn sm" href="' + m[2] + '">' + esc(m[3]) + ' →</a></td></tr>'; }).join('') + '</tbody></table>', {tools: false, style: 'margin-top:18px'}) +
+      card('Where to start', '<ol class="small" style="margin:0;padding-left:18px;line-height:1.8"><li>Open <a href="#/biology/Pineco">Pineco\'s dossier</a>: that\'s the standard every dossier was written to. Tick or cross any statement.</li>' +
+        '<li>Open <a href="#/ecosystem/ilex-forest">Ilex Forest</a>, remove the trees, and run the model.</li><li>Take your HeartGold six against <a href="#/legends">a Legend</a> in a best of seven, then watch a game.</li>' +
+        '<li>Set <a href="#/trainer">your trainer</a> and see whether it changes the result against Cynthia.</li><li>Answer the biology questions the dossier writers left you (A-63 to A-78, and docs/biology_findings_v1.md).</li></ol>', {tools: false, style: 'margin-top:18px'}) +
+      '<div class="ornament" style="margin:26px 0 8px">every call I made · ' + open + ' of ' + items.length + ' waiting on you</div>' +
+      Object.keys(byPhase).map(function (ph) { return '<h2 style="margin:22px 0 10px">' + esc(ph.replace(/^v1 · /, '')) + '</h2><div class="grid">' + byPhase[ph].map(function (a) { return '<div class="c6">' + assumptionCard(a, ans[a.id]) + '</div>'; }).join('') + '</div>'; }).join('');
+  });
+}
+route(/^\/v1\/?$/, v1Page, 'What\'s new in v1', '#/v1');
+</script>

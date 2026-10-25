@@ -1,0 +1,2354 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "ash",
+ "trainer_name": "Ash",
+ "version": "lily-semifinal",
+ "title": "Ash at Lily of the Valley (semifinal against Tobias)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl (Sinnoh League Victors): Lily of the Valley semifinal with Tobias",
+ "status": "proposed",
+ "notes": [
+  "Anime canon. Teams and movesets are drafts from the show, checked against the games' learnsets.",
+  "Distinct from canon's Sinnoh version (his Diamond & Pearl core): for Tobias he brought back Sceptile, Swellow and Heracross. Tobias used only Darkrai and Latios; Ash used all six. My reading is that Sceptile was the one to bring Darkrai down and Latios finished the battle against Pikachu; the order and who beat whom need confirming against the episodes."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 70,
+   "why": "takes the fight to Darkrai and Latios from the first turn",
+   "measured": 94,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 100,
+     "members": [
+      "Heracross",
+      "Infernape",
+      "Torterra",
+      "Sceptile",
+      "Swellow",
+      "Pikachu"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Heracross",
+      "Infernape",
+      "Torterra",
+      "Sceptile",
+      "Swellow",
+      "Pikachu"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Heracross",
+      "Infernape",
+      "Sceptile",
+      "Swellow",
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 20,
+   "why": "brings back Sceptile and Swellow from Professor Oak's for an opponent nobody had beaten",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 50,
+     "members": [
+      "Torterra",
+      "Sceptile",
+      "Swellow"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": 30,
+    "team_leans": "rigid",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 50,
+      "members": [
+       "Torterra",
+       "Sceptile",
+       "Swellow"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 95,
+   "why": "partners from three regions answer his call",
+   "measured": 100,
+   "signals": [
+    {
+     "signal": "friendship",
+     "label": "high friendship",
+     "value": 100,
+     "members": [
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 75,
+   "why": "keeps sending them at Darkrai and Latios after Darkrai sweeps his first three",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Infernape",
+      "Swellow",
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Quick Attack"
+   ],
+   "members": {
+    "Quick Attack": [
+     "Sceptile",
+     "Swellow",
+     "Pikachu"
+    ]
+   }
+  },
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ]
+  },
+  {
+   "id": "region_champion",
+   "name": "Orange League Champion",
+   "detail": [
+    "Orange League"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "ash",
+  "version": "lily-semifinal",
+  "title": "Ash at Lily of the Valley (semifinal against Tobias)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:ash-lily-semifinal/heracross",
+    "species": "Heracross",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Fighting"
+    ],
+    "ability": "Guts",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 307,
+     "def": 207,
+     "spa": 137,
+     "spd": 247,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 207,
+     "spd": 247,
+     "physical_pct": 0.46,
+     "special_pct": 0.68,
+     "gap": 0.23
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Megahorn",
+     "Focus Punch",
+     "Horn Attack",
+     "Brick Break"
+    ],
+    "move_basis": [
+     {
+      "move": "Megahorn",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 55, as Heracross)"
+     },
+     {
+      "move": "Focus Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Heracross)"
+     },
+     {
+      "move": "Horn Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Heracross)"
+     },
+     {
+      "move": "Brick Break",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 19, as Heracross)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-lily-semifinal/infernape",
+    "species": "Infernape",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Fighting"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 314,
+     "atk": 265,
+     "def": 199,
+     "spa": 265,
+     "spd": 199,
+     "spe": 273
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 199,
+     "spd": 199,
+     "physical_pct": 0.4,
+     "special_pct": 0.36,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Mach Punch",
+     "Flare Blitz",
+     "Dig"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Infernape)"
+     },
+     {
+      "move": "Mach Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 14, as Infernape)"
+     },
+     {
+      "move": "Flare Blitz",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 57, as Infernape)"
+     },
+     {
+      "move": "Dig",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Infernape)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-lily-semifinal/torterra",
+    "species": "Torterra",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Ground"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 275,
+     "def": 267,
+     "spa": 207,
+     "spd": 227,
+     "spe": 169
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 267,
+     "spd": 227,
+     "physical_pct": 0.87,
+     "special_pct": 0.69,
+     "gap": 0.18
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Storm",
+     "Rock Climb",
+     "Energy Ball",
+     "Synthesis"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 57, as Torterra)"
+     },
+     {
+      "move": "Rock Climb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Energy Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Synthesis",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 39, as Torterra)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-lily-semifinal/sceptile",
+    "species": "Sceptile",
+    "nickname": null,
+    "types": [
+     "Grass"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 227,
+     "def": 187,
+     "spa": 267,
+     "spd": 227,
+     "spe": 297
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 227,
+     "physical_pct": 0.25,
+     "special_pct": 0.48,
+     "gap": 0.23
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Blade",
+     "Leaf Storm",
+     "Bullet Seed",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Blade",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Sceptile)"
+     },
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 67, as Sceptile)"
+     },
+     {
+      "move": "Bullet Seed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Sceptile)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Sceptile)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-lily-semifinal/swellow",
+    "species": "Swellow",
+    "nickname": null,
+    "types": [
+     "Normal",
+     "Flying"
+    ],
+    "ability": "Guts",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 227,
+     "def": 177,
+     "spa": 157,
+     "spd": 157,
+     "spe": 307
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 177,
+     "spd": 157,
+     "physical_pct": 0.12,
+     "special_pct": 0.04,
+     "gap": 0.07
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Brave Bird",
+     "Aerial Ace",
+     "Quick Attack",
+     "Wing Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Brave Bird",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Taillow)"
+     },
+     {
+      "move": "Aerial Ace",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 38, as Swellow)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Swellow)"
+     },
+     {
+      "move": "Wing Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Swellow)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-lily-semifinal/pikachu",
+    "species": "Pikachu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 232,
+     "atk": 167,
+     "def": 117,
+     "spa": 157,
+     "spd": 137,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 117,
+     "spd": 137,
+     "physical_pct": 0.0,
+     "special_pct": 0.0,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunderbolt",
+     "Iron Tail",
+     "Volt Tackle",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 26, as Pikachu)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Pikachu)"
+     },
+     {
+      "move": "Volt Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (light-ball-egg, as Pichu)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Pikachu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Heracross"
+     ]
+    },
+    "Flying": {
+     "weak": 3,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 4,
+     "covered": 1,
+     "weak_members": [
+      "Heracross",
+      "Infernape",
+      "Torterra",
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Pikachu"
+     ]
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Sceptile"
+     ],
+     "covered_by": []
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 3,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 4,
+     "weak_members": [
+      "Infernape",
+      "Pikachu"
+     ],
+     "covered_by": [
+      "Heracross",
+      "Torterra",
+      "Sceptile",
+      "Swellow"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Swellow"
+     ],
+     "covered_by": [
+      "Torterra"
+     ]
+    },
+    "Bug": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Torterra",
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Heracross",
+      "Infernape",
+      "Swellow"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Swellow"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Infernape",
+      "Pikachu"
+     ]
+    },
+    "Fire": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Heracross",
+      "Torterra",
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Infernape"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Infernape"
+     ],
+     "covered_by": [
+      "Sceptile"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Heracross",
+      "Infernape",
+      "Sceptile",
+      "Swellow"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Swellow"
+     ],
+     "covered_by": [
+      "Torterra",
+      "Sceptile",
+      "Pikachu"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Heracross",
+      "Infernape"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Torterra",
+      "Sceptile",
+      "Swellow"
+     ],
+     "covered_by": [
+      "Infernape"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Heracross",
+      "Infernape"
+     ]
+    }
+   },
+   "gaps": [
+    "Flying",
+    "Ice",
+    "Fire",
+    "Psychic"
+   ],
+   "strengths": [
+    "Grass"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 0,
+    "even": 1,
+    "frail": 3,
+    "sturdy": 1
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [
+     "Sceptile"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Ash comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A gambler: they'll reach for the long shot.",
+    "rule": "risk_high",
+    "trigger": "risk_band == high (here high)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Cohesive: Quick Attack on Sceptile, Swellow and Pikachu. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (18 of 23 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Heracross, Infernape, Sceptile, Swellow and Pikachu outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called flexible (20), but this team reads rigid (50): low move-type variety: Torterra, Sceptile and Swellow.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Flying: Heracross, Infernape, Torterra and Sceptile are weak to it, and only Pikachu can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Ice (3 weak), Fire (3 weak) and Psychic (2 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Heracross to Flying; Torterra to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Sceptile (physically soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Grass: 4 of 6 resist Grass.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Reckless, and it shows: Infernape's Flare Blitz (recoil); Swellow's Brave Bird (recoil); Pikachu's Iron Tail (75%) and Volt Tackle (recoil). Their misses and recoil are your free turns.",
+    "rule": "reckless",
+    "trigger": "risk_band == high (here high); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ritchie)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Kanto Gyms",
+     "kind": "gym",
+     "result": "earned the eight badges that entered him in the Indigo League",
+     "versions": [
+      "orange-league",
+      "silver-conference",
+      "johto-best",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Orange Archipelago",
+     "event": "Orange League",
+     "kind": "league",
+     "result": "won: four Orange Crew badges, then beat Drake in the Winner's Cup",
+     "title": "Orange League Champion",
+     "champion": true,
+     "versions": [
+      "orange-league",
+      "silver-conference",
+      "johto-best",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Johto Gyms",
+     "kind": "gym",
+     "result": "earned the eight Johto badges",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 8 (beat Gary in a full battle, lost to Harrison)",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "rivalry",
+     "result": "beat Gary six-on-six in the Victory Tournament",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Hoenn Gyms",
+     "kind": "gym",
+     "result": "earned the eight Hoenn badges",
+     "versions": [
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Ever Grande Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Tyson)",
+     "versions": [
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "beat all seven Frontier Brains (seven Frontier Symbols); offered a Frontier Brain post and declined",
+     "versions": [
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Gyms",
+     "kind": "gym",
+     "result": "earned the eight Sinnoh badges",
+     "versions": [
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 4 (beat Paul in the quarterfinal full battle, lost to Tobias)",
+     "versions": [
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "rivalry",
+     "result": "beat Paul six-on-six, after losing the Lake Acuity full battle to him",
+     "versions": [
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Kanto",
+      "Orange Archipelago",
+      "Johto",
+      "Hoenn",
+      "Sinnoh"
+     ]
+    },
+    {
+     "id": "region_champion",
+     "name": "Orange League Champion",
+     "detail": [
+      "Orange League"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Heracross",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6148,
+     "confidence": "solid",
+     "margin": 0.0556,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5592,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.61, solid): Megahorn (153); strong attacks (effective power 90+, with the stat it uses): Megahorn, Focus Punch, Brick Break; Attack 307 (above 91% of the field)"
+   },
+   {
+    "species": "Infernape",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7509,
+     "confidence": "strong",
+     "margin": 0.0964,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6545,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.75, strong): Mach Punch; Speed 273 (above 89% of the field); Attack 265 (above 74% of the field)"
+   },
+   {
+    "species": "Torterra",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.59,
+     "confidence": "solid",
+     "margin": 0.1236,
+     "clear": true
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.4664,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "bulky attacker (0.59, solid): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Rock Climb, Energy Ball"
+   },
+   {
+    "species": "Sceptile",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7754,
+     "confidence": "strong",
+     "margin": 0.1484,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.627,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.78, strong): Quick Attack; Speed 297 (above 95% of the field); Sp. Atk 267 (above 82% of the field)"
+   },
+   {
+    "species": "Swellow",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7293,
+     "confidence": "strong",
+     "margin": 0.1324,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5969,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.73, strong): Quick Attack; Speed 307 (above 97% of the field); attacks that use its better attacking stat: Brave Bird, Aerial Ace, Quick Attack, Wing Attack"
+   },
+   {
+    "species": "Pikachu",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6211,
+     "confidence": "solid",
+     "margin": 0.125,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.4961,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "revenge killer (0.62, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Iron Tail, Volt Tackle, Quick Attack"
+   }
+  ],
+  "ace": {
+   "derived": "Pikachu",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Pikachu",
+     "slot": 6,
+     "score": 0.617,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Infernape",
+     "slot": 2,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Heracross",
+     "slot": 1,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "lead"
+    },
+    {
+     "species": "Swellow",
+     "slot": 5,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Sceptile",
+     "slot": 4,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Torterra",
+     "slot": 3,
+     "score": 0.35,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#3"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Torterra",
+    "role": "bulky attacker",
+    "fit": 0.501
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Sceptile",
+    "role": "revenge killer",
+    "fit": 0.775
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Heracross",
+    "role": "wallbreaker",
+    "fit": 0.553,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Brave Bird",
+     "member": "Swellow",
+     "move_type": "Flying",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flare Blitz",
+     "member": "Infernape",
+     "move_type": "Fire",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Sceptile",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Dig",
+     "member": "Infernape",
+     "move_type": "Ground",
+     "power": 80,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Megahorn",
+     "member": "Heracross",
+     "move_type": "Bug",
+     "power": 153,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 225,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Sceptile",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.882,
+   "covered_n": 15,
+   "types_n": 17,
+   "holes": [
+    "Dragon",
+    "Ghost"
+   ],
+   "bring": []
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Sceptile",
+    "move": "Leaf Storm",
+    "why": "the attack it brought back for Tobias",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Pikachu",
+    "move": "Volt Tackle",
+    "why": "the finisher, by Sinnoh",
+    "status": "confirmed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 95,
+   "finishers": 18,
+   "attrition": 1,
+   "finisher_moves": [
+    "Megahorn (Heracross)",
+    "Focus Punch (Heracross)",
+    "Brick Break (Heracross)",
+    "Flamethrower (Infernape)",
+    "Mach Punch (Infernape)",
+    "Flare Blitz (Infernape)",
+    "Leaf Storm (Torterra)",
+    "Energy Ball (Torterra)",
+    "Leaf Blade (Sceptile)",
+    "Leaf Storm (Sceptile)",
+    "Quick Attack (Sceptile)",
+    "Brave Bird (Swellow)",
+    "Aerial Ace (Swellow)",
+    "Quick Attack (Swellow)",
+    "Wing Attack (Swellow)",
+    "Thunderbolt (Pikachu)",
+    "Volt Tackle (Pikachu)",
+    "Quick Attack (Pikachu)"
+   ],
+   "attrition_moves": [
+    "Synthesis (Torterra)"
+   ],
+   "offense_authored": 70,
+   "offense_measured": 94,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Heracross",
+    "usage": 2.0,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Close Combat",
+     "Megahorn",
+     "Stone Edge",
+     "Swords Dance"
+    ],
+    "item": "Choice Scarf",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 44.3
+    },
+    "checks": [
+     {
+      "species": "Dragonite",
+      "beats": 69,
+      "score": 52,
+      "n": 113
+     },
+     {
+      "species": "Gliscor",
+      "beats": 70,
+      "score": 51,
+      "n": 93
+     },
+     {
+      "species": "Jirachi",
+      "beats": 63,
+      "score": 50,
+      "n": 251
+     }
+    ]
+   },
+   {
+    "species": "Infernape",
+    "usage": 17.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "U-turn",
+     "Fire Blast",
+     "Grass Knot"
+    ],
+    "item": "Expert Belt",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 64,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 192
+     },
+     "share": 20.4
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 86,
+      "score": 77,
+      "n": 195
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 70,
+      "n": 456
+     },
+     {
+      "species": "Dragonite",
+      "beats": 80,
+      "score": 65,
+      "n": 115
+     }
+    ]
+   },
+   {
+    "species": "Torterra",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Earthquake",
+     "Wood Hammer",
+     "Stone Edge",
+     "Rock Polish"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 12.5
+    },
+    "checks": [
+     {
+      "species": "Skarmory",
+      "beats": 93,
+      "score": 77,
+      "n": 42
+     },
+     {
+      "species": "Dragonite",
+      "beats": 93,
+      "score": 72,
+      "n": 27
+     },
+     {
+      "species": "Latias",
+      "beats": 71,
+      "score": 48,
+      "n": 59
+     }
+    ]
+   },
+   {
+    "species": "Sceptile",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Leaf Storm",
+     "Focus Blast",
+     "Hidden Power Fire",
+     "Substitute"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 25.6
+    },
+    "checks": [
+     {
+      "species": "Blissey",
+      "beats": 82,
+      "score": 49,
+      "n": 22
+     },
+     {
+      "species": "Dragonite",
+      "beats": 67,
+      "score": 44,
+      "n": 69
+     },
+     {
+      "species": "Metagross",
+      "beats": 61,
+      "score": 41,
+      "n": 90
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Heracross: on 2.0% of gen4ou teams (2026-09, rated 0+), usually Close Combat, Megahorn, Stone Edge, Swords Dance @ Choice Scarf (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Dragonite 69%, Gliscor 70%, Jirachi 63%.",
+   "Infernape: on 17.3% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, U-turn, Fire Blast, Grass Knot @ Expert Belt (Naive 64 Atk / 252 SpA / 192 Spe). What beats it: Starmie 86%, Latias 78%, Dragonite 80%.",
+   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Dragonite 93%, Latias 71%.",
+   "Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 82%, Dragonite 67%, Metagross 61%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Ash has competed across 5 regions (Kanto, Orange Archipelago, Johto, Hoenn and Sinnoh): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Titles: Orange League Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Ever Grande Conference: Top 8 (lost to Tyson); Battle Frontier: beat all seven Frontier Brains (seven Frontier Symbols); offered a Frontier Brain post and declined; Lily of the Valley Conference: Top 4 (beat Paul in the quarterfinal full battle, lost to Tobias).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Pikachu (the most invested and a revenge killer).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Torterra is the workhorse (bulky attacker).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Sceptile closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Heracross (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 15 of 17 types super-effectively; nothing they carry hits Dragon or Ghost that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 2)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Sceptile's Leaf Storm (the attack it brought back for Tobias); Pikachu's Volt Tackle (the finisher, by Sinnoh).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "95% of their moves finish or set up (18 of 19); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 95)"
+    }
+   ]
+  }
+ }
+}

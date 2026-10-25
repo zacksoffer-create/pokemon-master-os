@@ -131,6 +131,7 @@ class Store:
             self.trainers[tid] = Trainer(id=tid, name=t["name"], versions=self._versions(tid, t["versions"]),
                                          notes=t.get("notes", []), career=t.get("career", []))
         self.proposed = set()          # "trainer/version" ids that come from the ecosystem file, not canon
+        self.proposed_builds = set()   # and their builds: teams use them, archetypes don't (they're proposals)
         if ecosystem and os.path.exists(ecosystem):
             self._ecosystem(ecosystem)
         self._scout = None
@@ -152,6 +153,7 @@ class Store:
         for i, b in eco.get("builds", {}).items():
             if i not in self.library:
                 self.library[i] = Build(id=i, **{**b, "status": "proposed"})
+                self.proposed_builds.add(i)
         for tid, t in eco.get("trainers", {}).items():
             raw = {vid: {**v, "status": "proposed"} for vid, v in t.get("versions", {}).items()}
             if tid in self.trainers:

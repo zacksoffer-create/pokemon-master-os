@@ -126,13 +126,13 @@ function defenses(ts) {
 /* ---- shell: rail, top bar, router ---- */
 var NAV = [   // the five spaces (docs/specs/BUILDER_UI_AND_INFORMATION_ARCHITECTURE.md §3), and the record underneath
   ['MY WORLD', [['home', '#/', 'Home'], ['mine', '#/mine', 'Your Pokémon'], ['estate', '#/estate', 'The Estate'], ['homestead', '#/homestead', 'The Homestead'], ['glass', '#/glasshouse', 'The Glasshouse'], ['breed', '#/breeding', 'Breeding & lineage']]],
-  ['THE ARENA', [['arena', '#/arena', 'Play now'], ['legends', '#/legends', 'Legends'], ['leagues', '#/leagues', 'Leagues'], ['draft', '#/draft', 'The Draft'], ['whistle', '#/trainer', 'Your trainer']]],
+  ['THE ARENA', [['arena', '#/arena', 'Play now'], ['legends', '#/legends', 'Legends'], ['leagues', '#/leagues', 'Leagues'], ['draft', '#/draft', 'The Draft'], ['whistle', '#/trainer', 'Your trainer'], ['std', '#/halloffame', 'Hall of Fame']]],
   ['BUILDER & STUDIO', [['plab', '#/pokemon', 'Pokémon Studio'], ['tlab', '#/team', 'Team lab'], ['stock', '#/stock', 'Breeding stock'], ['pkhex', '#/pkhex', 'PKHeX export']]],
   ['LABS', [['blab', '#/battlelab', 'Battle Lab'], ['slab', '#/scoutlab', 'Trainer lab'], ['field', '#/survival', 'Survival Lab'], ['lines', '#/lines', 'Breeding lab'], ['std', '#/standards', 'The standards']]],
   ['FIELD BIOLOGY', [['biology', '#/biology', 'Natural history'], ['eco', '#/ecosystems', 'Ecosystems'], ['ecotype', '#/ecotypes', 'Ecotypes'], ['atlas', '#/atlas', 'Biological atlas'], ['journal', '#/journal', 'Research journal']]],
   ['REFERENCE', [['builds', '#/builds', 'The builds book'], ['balls', '#/balls', 'Poké Balls'], ['gear', '#/equipment', 'Equipment'], ['caps', '#/capabilities', 'Capabilities']]],
   ['TRAINER LIBRARY', [['trainers', '#/trainers', 'Trainers'], ['bench', '#/bench', 'Benchmarks'], ['scout', '#/scouting', 'Scouting reports'], ['advance', '#/advance', 'Advance scouting'], ['teams', '#/teams', 'Team reports']]],
-  ['RECORD', [['calls', '#/calls', 'Your calls'], ['inbox', '#/inbox', 'The inbox'], ['record', '#/record', 'The record'], ['engine', '#/engine', 'Engine room']]]
+  ['RECORD', [['spark', '#/v1', 'What\'s new in v1'], ['calls', '#/calls', 'Your calls'], ['inbox', '#/inbox', 'The inbox'], ['record', '#/record', 'The record'], ['engine', '#/engine', 'Engine room']]]
 ];
 var ROUTES = [];
 function route(re, fn, crumb, nav) { ROUTES.push({re: re, fn: fn, crumb: crumb, nav: nav}); }

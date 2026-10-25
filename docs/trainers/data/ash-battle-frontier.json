@@ -1,0 +1,2236 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "ash",
+ "trainer_name": "Ash",
+ "version": "battle-frontier",
+ "title": "Ash at the Battle Frontier (Brandon's Battle Pyramid)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Advanced Generation (Battle Frontier): the Battle Pyramid battles with Brandon",
+ "status": "proposed",
+ "notes": [
+  "Anime canon. Teams and movesets are drafts from the show, checked against the games' learnsets.",
+  "Charizard, Bulbasaur, Squirtle and Pikachu are the four from the four-on-four rematch that won the Brave Symbol, in that order. Sceptile and Torkoal fought Brandon's Regirock and Registeel in the first Pyramid battle. The show never fields all six at once."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 70,
+   "why": "still leads with power, but sets up the finisher",
+   "measured": 72,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Charizard",
+      "Bulbasaur",
+      "Pikachu",
+      "Sceptile"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Charizard",
+      "Bulbasaur",
+      "Squirtle",
+      "Pikachu",
+      "Sceptile",
+      "Torkoal"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Charizard",
+      "Pikachu",
+      "Sceptile"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 25,
+   "why": "Pikachu's Iron Tail as a springboard into Volt Tackle; he builds on the field",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 67,
+     "members": [
+      "Bulbasaur",
+      "Squirtle",
+      "Sceptile",
+      "Torkoal"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": 42,
+    "team_leans": "rigid",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 67,
+      "members": [
+       "Bulbasaur",
+       "Squirtle",
+       "Sceptile",
+       "Torkoal"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 95,
+   "why": "calls his Kanto partners home from Professor Oak's for the Frontier",
+   "measured": 100,
+   "signals": [
+    {
+     "signal": "friendship",
+     "label": "high friendship",
+     "value": 100,
+     "members": [
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 75,
+   "why": "goes back to the Pyramid after losing and wins the four-on-four rematch",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Squirtle",
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -42,
+    "team_leans": "percentage player",
+    "because": [
+     {
+      "signal": "risky",
+      "label": "carries a gamble",
+      "value": 33,
+      "members": [
+       "Squirtle",
+       "Pikachu"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn"
+   ]
+  },
+  {
+   "id": "region_champion",
+   "name": "Orange League Champion",
+   "detail": [
+    "Orange League"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "ash",
+  "version": "battle-frontier",
+  "title": "Ash at the Battle Frontier (Brandon's Battle Pyramid)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:ash-battle-frontier/charizard",
+    "species": "Charizard",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Flying"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 318,
+     "atk": 225,
+     "def": 213,
+     "spa": 275,
+     "spd": 227,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 213,
+     "spd": 227,
+     "physical_pct": 0.47,
+     "special_pct": 0.58,
+     "gap": 0.11
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Seismic Toss",
+     "Wing Attack",
+     "Dragon Breath"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 42, as Charizard)"
+     },
+     {
+      "move": "Seismic Toss",
+      "basis": "another game",
+      "reason": "learns it in Emerald (tutor)"
+     },
+     {
+      "move": "Wing Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 36, as Charizard)"
+     },
+     {
+      "move": "Dragon Breath",
+      "basis": "another game",
+      "reason": "learns it in Crystal (machine)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-battle-frontier/bulbasaur",
+    "species": "Bulbasaur",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 252,
+     "atk": 155,
+     "def": 155,
+     "spa": 187,
+     "spd": 187,
+     "spe": 147
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 155,
+     "spd": 187,
+     "physical_pct": 0.02,
+     "special_pct": 0.06,
+     "gap": 0.04
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Solar Beam",
+     "Vine Whip",
+     "Razor Leaf",
+     "Tackle"
+    ],
+    "move_basis": [
+     {
+      "move": "Solar Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Bulbasaur)"
+     },
+     {
+      "move": "Vine Whip",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 9, as Bulbasaur)"
+     },
+     {
+      "move": "Razor Leaf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 19, as Bulbasaur)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Bulbasaur)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-battle-frontier/squirtle",
+    "species": "Squirtle",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 250,
+     "atk": 153,
+     "def": 187,
+     "spa": 157,
+     "spd": 185,
+     "spe": 143
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 187,
+     "spd": 185,
+     "physical_pct": 0.08,
+     "special_pct": 0.06,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Skull Bash",
+     "Hydro Pump",
+     "Water Gun",
+     "Withdraw"
+    ],
+    "move_basis": [
+     {
+      "move": "Skull Bash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 31, as Squirtle)"
+     },
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 40, as Squirtle)"
+     },
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Squirtle)"
+     },
+     {
+      "move": "Withdraw",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 10, as Squirtle)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-battle-frontier/pikachu",
+    "species": "Pikachu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 232,
+     "atk": 167,
+     "def": 117,
+     "spa": 157,
+     "spd": 137,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 117,
+     "spd": 137,
+     "physical_pct": 0.0,
+     "special_pct": 0.0,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Volt Tackle",
+     "Iron Tail",
+     "Thunderbolt",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Volt Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (light-ball-egg, as Pichu)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Pikachu)"
+     },
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 26, as Pikachu)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Pikachu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-battle-frontier/sceptile",
+    "species": "Sceptile",
+    "nickname": null,
+    "types": [
+     "Grass"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 227,
+     "def": 187,
+     "spa": 267,
+     "spd": 227,
+     "spe": 297
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 227,
+     "physical_pct": 0.25,
+     "special_pct": 0.48,
+     "gap": 0.23
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Blade",
+     "Bullet Seed",
+     "Quick Attack",
+     "Solar Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Blade",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Sceptile)"
+     },
+     {
+      "move": "Bullet Seed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Sceptile)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Sceptile)"
+     },
+     {
+      "move": "Solar Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Sceptile)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-battle-frontier/torkoal",
+    "species": "Torkoal",
+    "nickname": null,
+    "types": [
+     "Fire"
+    ],
+    "ability": "White Smoke",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 227,
+     "def": 337,
+     "spa": 227,
+     "spd": 197,
+     "spe": 97
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 337,
+     "spd": 197,
+     "physical_pct": 0.91,
+     "special_pct": 0.28,
+     "gap": 0.63
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Overheat",
+     "Flamethrower",
+     "Iron Defense",
+     "Body Slam"
+    ],
+    "move_basis": [
+     {
+      "move": "Overheat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torkoal)"
+     },
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Torkoal)"
+     },
+     {
+      "move": "Iron Defense",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 44, as Torkoal)"
+     },
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Torkoal)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard",
+      "Bulbasaur"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Bulbasaur",
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Pikachu"
+     ]
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Sceptile"
+     ],
+     "covered_by": []
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Pikachu",
+      "Torkoal"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Sceptile"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Charizard",
+      "Torkoal"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Torkoal"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard",
+      "Squirtle",
+      "Pikachu",
+      "Torkoal"
+     ]
+    },
+    "Fire": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Bulbasaur",
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Squirtle",
+      "Torkoal"
+     ]
+    },
+    "Water": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Charizard",
+      "Torkoal"
+     ],
+     "covered_by": [
+      "Bulbasaur",
+      "Squirtle",
+      "Sceptile"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Squirtle"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Bulbasaur",
+      "Sceptile",
+      "Torkoal"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Charizard",
+      "Squirtle"
+     ],
+     "covered_by": [
+      "Bulbasaur",
+      "Pikachu",
+      "Sceptile"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Bulbasaur"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Bulbasaur",
+      "Sceptile"
+     ],
+     "covered_by": [
+      "Squirtle",
+      "Torkoal"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Rock"
+   ],
+   "strengths": [
+    "Steel"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 1,
+    "even": 1,
+    "frail": 3,
+    "sturdy": 0
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [
+     "Sceptile"
+    ],
+    "special": [
+     "Torkoal"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Ash comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A gambler: they'll reach for the long shot.",
+    "rule": "risk_high",
+    "trigger": "risk_band == high (here high)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (13 physical, 9 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Charizard, Pikachu and Sceptile outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called flexible (25), but this team reads rigid (67): low move-type variety: Bulbasaur, Squirtle, Sceptile and Torkoal.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called gambler (75), but this team reads percentage player (33): carries a gamble: Squirtle and Pikachu.",
+    "rule": "disagree_risk",
+    "trigger": "disagree_risk nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Rock: Charizard and Torkoal are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Charizard to Rock (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Sceptile (physically soft) and Torkoal (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Steel: 4 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Reckless, and it shows: Squirtle's Hydro Pump (80%); Pikachu's Volt Tackle (recoil) and Iron Tail (75%). Their misses and recoil are your free turns.",
+    "rule": "reckless",
+    "trigger": "risk_band == high (here high); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ritchie)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Kanto Gyms",
+     "kind": "gym",
+     "result": "earned the eight badges that entered him in the Indigo League",
+     "versions": [
+      "orange-league",
+      "silver-conference",
+      "johto-best",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Orange Archipelago",
+     "event": "Orange League",
+     "kind": "league",
+     "result": "won: four Orange Crew badges, then beat Drake in the Winner's Cup",
+     "title": "Orange League Champion",
+     "champion": true,
+     "versions": [
+      "orange-league",
+      "silver-conference",
+      "johto-best",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Johto Gyms",
+     "kind": "gym",
+     "result": "earned the eight Johto badges",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 8 (beat Gary in a full battle, lost to Harrison)",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "rivalry",
+     "result": "beat Gary six-on-six in the Victory Tournament",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Hoenn Gyms",
+     "kind": "gym",
+     "result": "earned the eight Hoenn badges",
+     "versions": [
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Ever Grande Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Tyson)",
+     "versions": [
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "beat all seven Frontier Brains (seven Frontier Symbols); offered a Frontier Brain post and declined",
+     "versions": [
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Kanto",
+      "Orange Archipelago",
+      "Johto",
+      "Hoenn"
+     ]
+    },
+    {
+     "id": "region_champion",
+     "name": "Orange League Champion",
+     "detail": [
+      "Orange League"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Charizard",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5303,
+     "confidence": "solid",
+     "margin": 0.0166,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5137,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.53, solid): Flamethrower (142); Sp. Atk 275 (above 84% of the field); attacks that use its better attacking stat: Flamethrower, Dragon Breath"
+   },
+   {
+    "species": "Bulbasaur",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.369,
+     "confidence": "loose",
+     "margin": 0.369,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.37, loose): Solar Beam (120); attacks that use its better attacking stat: Vine Whip, Razor Leaf; strong attacks (effective power 90+, with the stat it uses): Solar Beam"
+   },
+   {
+    "species": "Squirtle",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.4249,
+     "confidence": "loose",
+     "margin": 0.0607,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3642,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "bulky setup (0.42, loose): Withdraw; attacking moves: Skull Bash, Hydro Pump, Water Gun; overall bulk above 5% of the field"
+   },
+   {
+    "species": "Pikachu",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6211,
+     "confidence": "solid",
+     "margin": 0.125,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.4961,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "revenge killer (0.62, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Volt Tackle, Iron Tail, Quick Attack"
+   },
+   {
+    "species": "Sceptile",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7754,
+     "confidence": "strong",
+     "margin": 0.1484,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.627,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.78, strong): Quick Attack; Speed 297 (above 95% of the field); Sp. Atk 267 (above 82% of the field)"
+   },
+   {
+    "species": "Torkoal",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.551,
+     "confidence": "solid",
+     "margin": 0.0235,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.5275,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.55, solid): attacking moves: Overheat, Flamethrower, Body Slam; overall bulk above 66% of the field; attacks that use its better attacking stat: Overheat, Flamethrower"
+   }
+  ],
+  "ace": {
+   "derived": "Pikachu",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Pikachu",
+     "slot": 4,
+     "score": 0.617,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Charizard",
+     "slot": 1,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "lead"
+    },
+    {
+     "species": "Sceptile",
+     "slot": 5,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Squirtle",
+     "slot": 3,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky setup",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Bulbasaur",
+     "slot": 2,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Torkoal",
+     "slot": 6,
+     "score": 0.41,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.8
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "last"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Torkoal",
+    "role": "tank",
+    "fit": 0.527
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Sceptile",
+    "role": "revenge killer",
+    "fit": 0.775
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Charizard",
+    "role": "wallbreaker",
+    "fit": 0.477,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Torkoal",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Breath",
+     "member": "Charizard",
+     "move_type": "Dragon",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Wing Attack",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 74,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Squirtle",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Torkoal",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Bulbasaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Torkoal",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Bulbasaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Overheat",
+     "member": "Torkoal",
+     "move_type": "Fire",
+     "power": 189,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Bulbasaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 2
+    }
+   ],
+   "coverage": 0.647,
+   "covered_n": 11,
+   "types_n": 17,
+   "holes": [
+    "Dark",
+    "Electric",
+    "Ghost",
+    "Normal",
+    "Poison",
+    "Psychic"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 2
+    },
+    {
+     "type": "Poison",
+     "their_weak": 1
+    },
+    {
+     "type": "Psychic",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Pikachu",
+    "move": "Volt Tackle",
+    "why": "learned in this era; the finisher on Brandon's Regice",
+    "status": "confirmed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Bulbasaur",
+    "move": "Solar Beam",
+    "why": "beat Brandon's Dusclops",
+    "status": "confirmed",
+    "on_team": true,
+    "in_moveset": true
+   },
+   {
+    "pokemon": "Squirtle",
+    "move": "Skull Bash",
+    "why": "beat Brandon's Ninjask",
+    "status": "confirmed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 100,
+   "finishers": 12,
+   "attrition": 0,
+   "finisher_moves": [
+    "Flamethrower (Charizard)",
+    "Solar Beam (Bulbasaur)",
+    "Hydro Pump (Squirtle)",
+    "Volt Tackle (Pikachu)",
+    "Thunderbolt (Pikachu)",
+    "Quick Attack (Pikachu)",
+    "Leaf Blade (Sceptile)",
+    "Quick Attack (Sceptile)",
+    "Solar Beam (Sceptile)",
+    "Overheat (Torkoal)",
+    "Flamethrower (Torkoal)",
+    "Body Slam (Torkoal)"
+   ],
+   "attrition_moves": [],
+   "offense_authored": 70,
+   "offense_measured": 72,
+   "flag": {
+    "gap": 30,
+    "leans": "offensive",
+    "part1_flags_it": false
+   },
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Charizard",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Hidden Power Grass",
+     "Dragon Pulse",
+     "Flamethrower",
+     "Roost"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 38.1
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 84,
+      "score": 67,
+      "n": 75
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 61,
+      "n": 99
+     }
+    ]
+   },
+   {
+    "species": "Sceptile",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Leaf Storm",
+     "Focus Blast",
+     "Hidden Power Fire",
+     "Substitute"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 25.6
+    },
+    "checks": [
+     {
+      "species": "Blissey",
+      "beats": 82,
+      "score": 49,
+      "n": 22
+     },
+     {
+      "species": "Dragonite",
+      "beats": 67,
+      "score": 44,
+      "n": 69
+     },
+     {
+      "species": "Metagross",
+      "beats": 61,
+      "score": 41,
+      "n": 90
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.",
+   "Sceptile: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Leaf Storm, Focus Blast, Hidden Power Fire, Substitute @ Life Orb (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Blissey 82%, Dragonite 67%, Metagross 61%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Ash has competed across 4 regions (Kanto, Orange Archipelago, Johto and Hoenn): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Titles: Orange League Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Silver Conference: Top 8 (beat Gary in a full battle, lost to Harrison); Ever Grande Conference: Top 8 (lost to Tyson); Battle Frontier: beat all seven Frontier Brains (seven Frontier Symbols); offered a Frontier Brain post and declined.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Pikachu (the most invested and a revenge killer).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Torkoal is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Sceptile closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Charizard (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 11 of 17 types super-effectively; nothing they carry hits Dark, Electric, Ghost, Normal, Poison or Psychic that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 6)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and two of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Poison or Psychic get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Pikachu's Volt Tackle (learned in this era; the finisher on Brandon's Regice); Bulbasaur's Solar Beam (beat Brandon's Dusclops); Squirtle's Skull Bash (beat Brandon's Ninjask).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "Every move they carry finishes or sets up (12 of 12): nothing is there to wear you down.",
+     "rule": "aggr_all",
+     "trigger": "aggression >= 100 (here 100)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 70: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
+}

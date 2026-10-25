@@ -126,7 +126,7 @@ function trainerPage(ident, vid) {
     var idn = Library.identity(ident);
     if (!idn) return '<div class="notice">No trainer called ' + esc(ident) + ' in the library.</div>';
     var vs = idn.versions.map(Library.version).filter(Boolean);
-    var v = vid ? Library.version(vid) : (vs.filter(function (x) { return x.report; })[0] || vs[0]);
+    var v = vid ? Library.version(vid) : (vs.filter(function (x) { return x.report && !x.ecosystem; })[0] || vs.filter(function (x) { return x.report; })[0] || vs[0]);   // canon first; a proposal only when there's nothing else
     if (!v || v.identity !== ident) return '<div class="notice">' + esc(idn.name) + ' has no version ' + esc(vid) + '.</div>';
     var ev = Library.evidenceOf(v), counts = Library.classCounts(v), P = Library.pack(), n = numOf(Library.aceOf(v) || idn.signature[0] || v.party[0].species);
     var byGame = {}; vs.forEach(function (x) { var g = x.mine ? 'yours' : x.kind === 'cartridge' ? x.game : x.kind; (byGame[g] = byGame[g] || []).push(x); });

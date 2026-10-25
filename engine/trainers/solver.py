@@ -566,7 +566,8 @@ class Solver:
             getattr(build, f, None) for f in a["external_requires"])
 
     def library_archetypes(self, species):
-        lib = [b for b in self.store.library.values() if b.species == species]
+        skip = getattr(self.store, "proposed_builds", set())      # the trainer ecosystem's proposals (D-077) aren't archetypes
+        lib = [b for b in self.store.library.values() if b.species == species and b.id not in skip]
         return [b for b in lib if self.trusted(b)], [b for b in lib if not self.trusted(b)]
 
     def archetypes(self, species, game, level=None, derived=True):

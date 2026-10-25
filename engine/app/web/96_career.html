@@ -1,0 +1,140 @@
+<script>
+/* ===== Careers and recognition 2.0 (v1, D-077; docs/APP.md "Careers") ===========================================
+   2K's MyCAREER for your Pokémon: every one of yours gets a player card on its profile (#/mon/<id>): its build name
+   with a signature title, its badges by their tier names (FIFA's stat-gated traits: a Gold Speed badge reads
+   "Blazing"), its Arena record (what it did in every battle you kept), achievements, and a career timeline with the
+   Chronicle, the chapters you write. The Hall of Fame (#/halloffame) keeps the titles and the leaderboards.
+   Everything here is read from your records: the Arena tab (94_arena.html), the Journal (chronicle rows), your
+   builds' versions and the Timeline. A title or achievement names what happened; it never changes a battle. */
+var Career = (function () {
+  var ROWS = null;
+  function load(fresh) {
+    if (ROWS && !fresh) return Promise.resolve(ROWS);
+    var safe = function (p) { return p.catch(function () { return []; }); };
+    return Promise.all([safe(API.tab('Arena', fresh)), safe(API.tab('Journal', fresh)), safe(API.tab('Timeline', fresh))]).then(function (r) {
+      ROWS = {arena: r[0] || [], journal: r[1] || [], timeline: r[2] || []};
+      return ROWS;
+    });
+  }
+  function parse(x) { if (!x) return []; if (Array.isArray(x)) return x; try { return JSON.parse(x); } catch (e) { return []; } }
+  function gameOfRef(ref) {   // pack:me/heartgold, lib:gen4:me/crystal, pack:heartgold-january-typhlosion → the game
+    var m = String(ref || '').match(/(heartgold|soulsilver|platinum|crystal|firered|emerald)/); return m ? m[1] : null;
+  }
+  function yoursRef(ref) { return /^pack:|^lib:(gen4:)?me\/|^mine:/.test(String(ref || '')); }
+  function plays(ind, ref, name) {   // does this result's Pokémon belong to this individual?
+    if (!ref || !name) return false;
+    if (String(ref).indexOf('mine:') === 0) { var t = ((S.store || {}).teams || {})[ref.slice(5)]; return !!(t && (t.slots || []).some(function (s) { return s && String(s.from || '').split('@')[0] === ind.id; })) && (name === ind.species || name === ind.nickname); }
+    return yoursRef(ref) && gameOfRef(ref) === ind.game && (name === ind.species || name === ind.nickname);
+  }
+  function of(ind) {
+    var R = ROWS || {arena: [], journal: [], timeline: []}, lines = [], teamRefs = {};
+    R.arena.forEach(function (row) {
+      parse(row.members).forEach(function (m) {
+        var ref = m.ref || row.a;
+        if (!plays(ind, ref, m.name)) return;
+        teamRefs[ref] = 1;
+        var mates = parse(row.members).filter(function (x) { return (x.ref || row.a) === ref; });
+        var best = mates.length > 1 && mates.every(function (x) { return x === m || (x.kos || 0) <= (m.kos || 0); });
+        lines.push({row: row, m: m, n: +m.n || +row.n || 0, ace: best});
+      });
+    });
+    var n = 0, kos = 0, dmg = 0, fnt = 0, aces = 0;
+    lines.forEach(function (l) { n += l.n; kos += (l.m.kos || 0) * l.n; dmg += (l.m.dmg || 0) * l.n; fnt += (l.m.fnt || 0) * l.n; if (l.ace && l.row.kind === 'league') aces++; });
+    var titles = R.arena.filter(function (r) { return r.winner && teamRefs[r.winner]; });
+    var ach = [];
+    var has = function (k) { return titles.some(function (r) { return r.kind === k; }); };
+    if (lines.some(function (l) { return l.row.kind === 'match' && +l.row.won > +l.row.lost; })) ach.push(['First win', 'won a match in the Arena']);
+    if (n >= 100) ach.push(['Centurion', n + ' Arena battles']);
+    if (n >= 20 && kos / n >= 1) ach.push(['The Closer', (kos / n).toFixed(2) + ' knockouts a battle over ' + n + ' battles']);
+    if (n >= 20 && fnt / n <= 0.25) ach.push(['Iron Wall', 'fainted in only ' + Math.round(100 * fnt / n) + '% of ' + n + ' battles']);
+    if (aces >= 1) ach.push(['Team Ace', 'led its team in knockouts in ' + plural(aces, 'league')]);
+    if (has('series')) ach.push(['Legend Slayer', 'its team won a series against a Legend']);
+    if (has('league')) ach.push(['League Champion', 'its team finished first in a league']);
+    if (has('playoff')) ach.push(['Champion', 'its team won the playoffs']);
+    var chron = R.journal.filter(function (j) { return j.kind === 'chronicle' && j.ref === ind.id; });
+    var tl = R.timeline.filter(function (t) { return t.ref === ind.id; });
+    return {lines: lines, n: n, kos: n ? kos / n : 0, dmg: n ? dmg / n : 0, fnt: n ? fnt / n : 0, achievements: ach, titles: titles, chronicle: chron, timeline: tl, teamRefs: Object.keys(teamRefs)};
+  }
+  function tierName(id, tier) {
+    var C = Recognize.ready() ? Recognize.config() : null, names = C && C.tier_names ? C.tier_names[id] : null;
+    if (!names || !tier) return null;
+    var i = C.tiers.indexOf(tier); return i >= 0 ? names[i] : null;
+  }
+  function title(c, rec, read) {   // the signature title: what it has done first, then what it is
+    var order = ['Champion', 'League Champion', 'Legend Slayer', 'Team Ace', 'The Closer', 'Iron Wall'];
+    var a = order.filter(function (t) { return c.achievements.some(function (x) { return x[0] === t; }); })[0];
+    var build = rec && !rec.error ? (rec.archetype.from === 'ladder' && read && read.name ? (read.name.full || read.name.name || rec.archetype.functional) : rec.archetype.functional) : null;
+    var top = rec && !rec.error ? Object.keys(rec.badges).map(function (k) { return Object.assign({id: k}, rec.badges[k]); }).filter(function (x) { return x.tier; })
+      .sort(function (x, y) { return Recognize.config().tiers.indexOf(y.tier) - Recognize.config().tiers.indexOf(x.tier); })[0] : null;
+    var adj = top ? tierName(top.id, top.tier) : null;
+    return {headline: a || (adj && build ? adj + ' ' + build : build || adj || 'Rookie'), sub: a && build ? (adj ? adj + ' ' + build : build) : null, badge: top};
+  }
+  function chronicle(ind) {
+    askText('Chronicle · ' + (ind.nickname || ind.species), 'A chapter in its story', function (t) {
+      if (!t) return;
+      API.append('Journal', {id: 'CH-' + Date.now().toString(36), at: new Date().toISOString(), kind: 'chronicle', ref: ind.id, species: ind.species, text: t, _timeline: (ind.nickname || ind.species) + ': ' + t.slice(0, 80)})
+        .then(function () { return load(true); }).then(function () { careerFill(ind.id); toast('Added to its Chronicle.'); });
+    });
+  }
+  return {load: load, of: of, title: title, tierName: tierName, chronicle: chronicle, parse: parse, gameOfRef: gameOfRef, yoursRef: yoursRef, rows: function () { return ROWS; }};
+})();
+
+/* ---- the player card and career on a profile (87_profile.html calls careerPanel) ---- */
+var CAREER_CTX = {};
+function careerPanel(ind, rec, read) {
+  CAREER_CTX[ind.id] = {rec: rec, read: read};
+  after(function () { Career.load().then(function () { careerFill(ind.id); }); });
+  return '<div id="mcareer" style="margin-bottom:16px">' + card('Career', '<div class="tiny muted">Reading your Arena record…</div>', {eyebrow: 'MyCAREER', tools: false}) + '</div>';
+}
+function careerFill(id) {
+  var el = document.getElementById('mcareer'), ind = ((S.store || {}).individuals || {})[id]; if (!el || !ind) return;
+  var ctx = CAREER_CTX[id] || {}, c = Career.of(ind), t = Career.title(c, ctx.rec, ctx.read), rec = ctx.rec;
+  var badges = rec && !rec.error ? Object.keys(rec.badges).map(function (k) { return Object.assign({id: k}, rec.badges[k]); }).filter(function (x) { return x.tier; })
+    .sort(function (a, b) { return Recognize.config().tiers.indexOf(b.tier) - Recognize.config().tiers.indexOf(a.tier); }) : [];
+  var tierCls = {Bronze: 'ember', Silver: '', Gold: 'gold', Elite: 'violet'};
+  var cardHtml = '<div class="pcard ' + (t.badge ? 't-' + t.badge.tier.toLowerCase() : '') + '"><div class="pc-top">' + Pics.imgTag(Pics.hero(ind), 'width:96px;height:96px;object-fit:contain') +
+    '<div><div class="eyebrow">' + esc(GAME_NAME[ind.game] || ind.game) + ' · ' + esc(ind.species) + '</div><div class="pc-name">' + esc(ind.nickname || ind.species) + '</div><div class="pc-title">' + esc(t.headline) + '</div>' + (t.sub ? '<div class="tiny muted">' + esc(t.sub) + '</div>' : '') + '</div></div>' +
+    '<div class="pc-badges">' + badges.slice(0, 5).map(function (b) { var nm = Career.tierName(b.id, b.tier); return chip((nm ? nm + ' · ' : '') + b.name + ' ' + b.tier, tierCls[b.tier] || ''); }).join(' ') + '</div>' +
+    '<div class="pc-stats"><div><b>' + c.n + '</b><span>battles</span></div><div><b>' + c.kos.toFixed(2) + '</b><span>KOs / battle</span></div><div><b>' + Math.round(c.dmg) + '%</b><span>damage / battle</span></div><div><b>' + Math.round(100 * c.fnt) + '%</b><span>fainted</span></div></div></div>';
+  var ach = c.achievements.length ? c.achievements.map(function (a) { return '<div class="small" style="margin:4px 0">' + chip(a[0], 'gold') + ' <span class="tiny muted">' + esc(a[1]) + '</span></div>'; }).join('') : '<div class="tiny muted">No achievements yet. Play its team in the <a href="#/arena">Arena</a>, a <a href="#/leagues">League</a> or against the <a href="#/legends">Legends</a>; every result you keep counts.</div>';
+  var events = [];
+  c.lines.forEach(function (l) { var r = l.row; events.push({at: r.at, text: (r.kind === 'match' ? 'Arena: ' + r.a_name + ' ' + r.won + '–' + r.lost + ' against ' + r.b_name : r.kind === 'series' ? 'Series against ' + r.b_name + ': ' + r.won + '–' + r.lost : r.kind === 'league' ? 'League: ' + String(r.a_name || '').split(' > ')[0] + ' finished first' : r.kind) + ' · ' + (l.m.kos || 0) + ' KOs a battle', kind: 'arena'}); });
+  c.chronicle.forEach(function (j) { events.push({at: j.at, text: j.text, kind: 'chronicle'}); });
+  (ind.build ? Records.versions(ind.build) : []).forEach(function (v) { if (v.at) events.push({at: v.at, text: 'Build v' + (v.v || 1) + (v.recognition ? ': ' + v.recognition : ''), kind: 'build'}); });
+  c.timeline.forEach(function (x) { events.push({at: x.at, text: x.text, kind: x.kind || 'record'}); });
+  events.sort(function (a, b) { return dateKey(b.at) - dateKey(a.at); });
+  var tl = events.length ? events.slice(0, 14).map(function (e) { return '<div class="small" style="padding:5px 0;border-top:1px solid var(--line)">' + (e.kind === 'chronicle' ? chip('chronicle', 'violet') + ' ' : e.kind === 'arena' ? chip('arena', 'ice') + ' ' : '') + esc(e.text) + ' <span class="tiny muted">' + esc(fmtLoose(e.at)) + '</span></div>'; }).join('') : '<div class="tiny muted">Its story starts here.</div>';
+  el.innerHTML = card('Career', cardHtml + '<div style="margin-top:12px">' + ach + '</div><div class="tiny muted" style="margin:12px 0 4px">Career timeline</div>' + tl +
+    '<div style="margin-top:10px"><button class="btn sm" onclick="Career.chronicle(S.store.individuals[\'' + esc(id) + '\'])">Write a chapter</button> <a class="btn sm" href="#/halloffame">Hall of Fame</a></div>' +
+    (c.teamRefs.length ? '' : '<p class="tiny muted" style="margin-top:8px">Arena records count for the ' + esc(ind.species) + ' of your ' + esc(GAME_NAME[ind.game] || ind.game) + ' journey team, and for any saved team it\'s on.</p>'),
+    {eyebrow: 'MyCAREER: the player card, its record and its story', tools: false});
+}
+
+/* ---- the Hall of Fame: #/halloffame ---- */
+function hallPage() {
+  return Promise.all([Career.load(true), API.data('arena').catch(function () { return null; }), recordsReady().catch(function () {})]).then(function (r) {
+    var R = r[0], A = r[1], rows = R.arena;
+    var won = rows.filter(function (x) { return x.winner && Career.yoursRef(x.winner) && /playoff|league|series/.test(x.kind); }).sort(function (a, b) { return dateKey(b.at) - dateKey(a.at); });
+    var titles = won.length ? won.map(function (x) { return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)">' + chip(x.kind === 'playoff' ? 'Champions' : x.kind === 'league' ? 'League title' : 'Legend slain', x.kind === 'playoff' ? 'gold' : x.kind === 'league' ? 'forest' : 'violet') + ' <b>' + esc(x.kind === 'series' ? x.a_name + ' beat ' + x.b_name : (x.a_name || '').split(' > ')[0]) + '</b> ' +
+      (x.kind === 'series' ? esc(x.won + '–' + x.lost) : '') + ' <span class="tiny muted">' + esc(fmtLoose(x.at)) + '</span></div>'; }).join('') : '<div class="tiny muted">No titles yet. Win a League, its playoffs, or a series against a Legend.</div>';
+    var agg = {};
+    rows.forEach(function (row) { Career.parse(row.members).forEach(function (m) { var ref = m.ref || row.a; if (!Career.yoursRef(ref)) return; var k = (Career.gameOfRef(ref) || ref) + '|' + m.name, n = +m.n || +row.n || 0;
+      var a = agg[k] || (agg[k] = {name: m.name, game: Career.gameOfRef(ref), n: 0, kos: 0, dmg: 0, fnt: 0}); a.n += n; a.kos += (m.kos || 0) * n; a.dmg += (m.dmg || 0) * n; a.fnt += (m.fnt || 0) * n; }); });
+    var list = Object.keys(agg).map(function (k) { return agg[k]; }).filter(function (a) { return a.n >= 10; });
+    var board = function (title, f, fmt, dir) {
+      var xs = list.slice().sort(function (a, b) { return dir * (f(b) - f(a)); }).slice(0, 8);
+      return card(title, xs.length ? xs.map(function (a, i) { var n = numOf(a.name);
+        return '<div class="small" style="display:flex;gap:8px;align-items:center;margin:4px 0"><b style="width:18px">' + (i + 1) + '</b>' + (n ? '<img src="' + sprite(n, a.game) + '" style="width:28px;height:28px">' : '') + esc(a.name) + ' <span class="tiny muted">' + esc(GAME_NAME[a.game] || a.game || '') + '</span><span style="margin-left:auto">' + fmt(a) + '</span></div>'; }).join('') : '<div class="tiny muted">Needs at least 10 kept battles.</div>', {tools: false});
+    };
+    var legends = A ? A.legends.players.slice().sort(function (a, b) { return b.kos_per_battle - a.kos_per_battle; }).slice(0, 10).map(function (p) { var t = A.legends.field[p.team], n = numOf(p.name);
+      return '<div class="small" style="display:flex;gap:8px;align-items:center;margin:4px 0">' + (n ? '<img src="' + sprite(n, t.game) + '" style="width:28px;height:28px">' : '') + '<b>' + esc(p.name) + '</b><span class="tiny muted">' + esc(t.name) + '</span><span style="margin-left:auto">' + p.kos_per_battle.toFixed(2) + ' KOs</span></div>'; }).join('') : '';
+    return '<div class="eyebrow">The Arena · Hall of Fame</div><h1 style="margin:6px 0">The Hall of Fame</h1>' +
+      '<p class="lede">Every title your teams have won, and your Pokémon ranked by what they did in the battles you kept. The numbers come from the battles\' own logs; nothing here is a rating someone made up.</p>' +
+      '<div class="grid" style="margin-top:16px"><div class="c6">' + card('Titles', titles, {tools: false}) + '<div style="margin-top:18px">' + card('All-time Legends: the stars', legends || '<div class="tiny muted">The Legends round robin isn\'t in this build.</div>', {tools: false}) + '</div></div>' +
+      '<div class="c6">' + board('Most knockouts a battle', function (a) { return a.kos / a.n; }, function (a) { return (a.kos / a.n).toFixed(2); }, 1) +
+        '<div style="margin-top:18px">' + board('Hardest to bring down', function (a) { return a.fnt / a.n; }, function (a) { return Math.round(100 * a.fnt / a.n) + '% fainted'; }, -1) + '</div>' +
+        '<div style="margin-top:18px">' + board('Most battles', function (a) { return a.n; }, function (a) { return a.n + ' battles'; }, 1) + '</div></div></div>';
+  });
+}
+route(/^\/halloffame\/?$/, hallPage, 'The Arena · Hall of Fame', '#/halloffame');
+</script>

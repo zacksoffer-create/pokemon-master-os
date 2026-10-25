@@ -33,7 +33,7 @@ await page.evaluate(() => { Object.keys(localStorage).filter((k) => /^bt-(previe
 
 // the directory
 await go('#/trainers', '#trf');
-expect('the directory lists every trainer', /79 trainers/.test(await text()));
+expect('the directory lists every trainer', /84 trainers/.test(await text()));   // 79 from canon and the games, 5 more with the trainer ecosystem (D-077)
 await page.fill('#trf [name=q]', 'cynthia');
 await page.waitForTimeout(200);
 expect('the search narrows it to Cynthia', /^1 trainer$/.test(await page.evaluate(() => document.getElementById('trn').textContent)));

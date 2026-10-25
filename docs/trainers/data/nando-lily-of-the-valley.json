@@ -1,0 +1,1945 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "nando",
+ "trainer_name": "Nando",
+ "version": "lily-of-the-valley",
+ "title": "Nando at Lily of the Valley",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl: Nando as trainer and coordinator, to the Lily of the Valley Conference",
+ "status": "proposed",
+ "notes": [
+  "A wandering bard who entered both Gyms and Contests (lore).",
+  "The show doesn't field these six at once. They're the Pokémon he is shown with across Diamond & Pearl; Lopunny needs confirming. Chosen over Conway because his roster is the better documented of the two."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 45,
+   "why": "a performer: Sing and Petal Dance set the tempo before the strike",
+   "measured": 72,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Sunflora",
+      "Roserade",
+      "Armaldo",
+      "Kricketune"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Sunflora",
+      "Roserade",
+      "Armaldo",
+      "Altaria",
+      "Lopunny",
+      "Kricketune"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Roserade",
+      "Altaria",
+      "Lopunny"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 35,
+   "why": "moves between battles and appeals without changing who he is",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 50,
+     "members": [
+      "Sunflora",
+      "Altaria",
+      "Kricketune"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 90,
+   "why": "plays his harp to them; they're his ensemble",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 40,
+   "why": "patient, never pressing",
+   "measured": 17,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 17,
+     "members": [
+      "Armaldo"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "nando",
+  "version": "lily-of-the-valley",
+  "title": "Nando at Lily of the Valley",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:nando-lily-of-the-valley/sunflora",
+    "species": "Sunflora",
+    "nickname": null,
+    "types": [
+     "Grass"
+    ],
+    "ability": "Chlorophyll",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 207,
+     "def": 167,
+     "spa": 267,
+     "spd": 227,
+     "spe": 117
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 167,
+     "spd": 227,
+     "physical_pct": 0.16,
+     "special_pct": 0.53,
+     "gap": 0.38
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Solar Beam",
+     "Bullet Seed",
+     "Petal Dance",
+     "Sunny Day"
+    ],
+    "move_basis": [
+     {
+      "move": "Solar Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 41, as Sunflora)"
+     },
+     {
+      "move": "Bullet Seed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 21, as Sunflora)"
+     },
+     {
+      "move": "Petal Dance",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Sunflora)"
+     },
+     {
+      "move": "Sunny Day",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Sunflora)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:nando-lily-of-the-valley/roserade",
+    "species": "Roserade",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 197,
+     "def": 167,
+     "spa": 307,
+     "spd": 267,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 167,
+     "spd": 267,
+     "physical_pct": 0.09,
+     "special_pct": 0.62,
+     "gap": 0.53
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Petal Dance",
+     "Magical Leaf",
+     "Sludge Bomb",
+     "Weather Ball"
+    ],
+    "move_basis": [
+     {
+      "move": "Petal Dance",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 40, as Roselia)"
+     },
+     {
+      "move": "Magical Leaf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Roserade)"
+     },
+     {
+      "move": "Sludge Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Roserade)"
+     },
+     {
+      "move": "Weather Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Roserade)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:nando-lily-of-the-valley/armaldo",
+    "species": "Armaldo",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Bug"
+    ],
+    "ability": "Battle Armor",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 307,
+     "def": 257,
+     "spa": 197,
+     "spd": 217,
+     "spe": 147
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 257,
+     "spd": 217,
+     "physical_pct": 0.7,
+     "special_pct": 0.47,
+     "gap": 0.24
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Ancient Power",
+     "Metal Claw",
+     "X-Scissor",
+     "Rock Blast"
+    ],
+    "move_basis": [
+     {
+      "move": "Ancient Power",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 31, as Armaldo)"
+     },
+     {
+      "move": "Metal Claw",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 19, as Armaldo)"
+     },
+     {
+      "move": "X-Scissor",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 73, as Armaldo)"
+     },
+     {
+      "move": "Rock Blast",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 55, as Armaldo)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:nando-lily-of-the-valley/altaria",
+    "species": "Altaria",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Flying"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 197,
+     "def": 237,
+     "spa": 197,
+     "spd": 267,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 237,
+     "spd": 267,
+     "physical_pct": 0.59,
+     "special_pct": 0.75,
+     "gap": 0.16
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Dragon Pulse",
+     "Sing",
+     "Aerial Ace",
+     "Dragon Breath"
+    ],
+    "move_basis": [
+     {
+      "move": "Dragon Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 54, as Altaria)"
+     },
+     {
+      "move": "Sing",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Altaria)"
+     },
+     {
+      "move": "Aerial Ace",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Altaria)"
+     },
+     {
+      "move": "Dragon Breath",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 35, as Altaria)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:nando-lily-of-the-valley/lopunny",
+    "species": "Lopunny",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Cute Charm",
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 209,
+     "def": 225,
+     "spa": 165,
+     "spd": 249,
+     "spe": 267
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 225,
+     "spd": 249,
+     "physical_pct": 0.45,
+     "special_pct": 0.59,
+     "gap": 0.14
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Cute Charm (could be Klutz)"
+    ],
+    "moves": [
+     "Bounce",
+     "Dizzy Punch",
+     "Ice Beam",
+     "Jump Kick"
+    ],
+    "move_basis": [
+     {
+      "move": "Bounce",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 46, as Lopunny)"
+     },
+     {
+      "move": "Dizzy Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 36, as Lopunny)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Lopunny)"
+     },
+     {
+      "move": "Jump Kick",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 23, as Lopunny)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:nando-lily-of-the-valley/kricketune",
+    "species": "Kricketune",
+    "nickname": null,
+    "types": [
+     "Bug"
+    ],
+    "ability": "Swarm",
+    "level": 100,
+    "stats": {
+     "hp": 316,
+     "atk": 227,
+     "def": 159,
+     "spa": 167,
+     "spd": 159,
+     "spe": 187
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 159,
+     "spd": 159,
+     "physical_pct": 0.13,
+     "special_pct": 0.09,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "X-Scissor",
+     "Fury Cutter",
+     "Sing",
+     "Bug Buzz"
+    ],
+    "move_basis": [
+     {
+      "move": "X-Scissor",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 30, as Kricketune)"
+     },
+     {
+      "move": "Fury Cutter",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 10, as Kricketune)"
+     },
+     {
+      "move": "Sing",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 18, as Kricketune)"
+     },
+     {
+      "move": "Bug Buzz",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 46, as Kricketune)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Armaldo"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Lopunny"
+     ],
+     "covered_by": [
+      "Roserade",
+      "Altaria",
+      "Kricketune"
+     ]
+    },
+    "Flying": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Sunflora",
+      "Roserade",
+      "Kricketune"
+     ],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Sunflora"
+     ],
+     "covered_by": [
+      "Armaldo"
+     ]
+    },
+    "Ground": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Sunflora",
+      "Altaria",
+      "Kricketune"
+     ]
+    },
+    "Rock": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Armaldo",
+      "Altaria",
+      "Kricketune"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Sunflora"
+     ],
+     "covered_by": [
+      "Altaria"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Lopunny"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Armaldo"
+     ],
+     "covered_by": []
+    },
+    "Fire": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Sunflora",
+      "Roserade",
+      "Kricketune"
+     ],
+     "covered_by": [
+      "Altaria"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Armaldo"
+     ],
+     "covered_by": [
+      "Sunflora",
+      "Roserade",
+      "Altaria"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Sunflora",
+      "Roserade",
+      "Altaria",
+      "Kricketune"
+     ]
+    },
+    "Electric": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Sunflora",
+      "Roserade"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Roserade"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Sunflora",
+      "Roserade",
+      "Altaria"
+     ],
+     "covered_by": []
+    },
+    "Dragon": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Altaria"
+     ],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Ice",
+    "Flying",
+    "Rock",
+    "Fire"
+   ],
+   "strengths": [
+    "Grass",
+    "Ground"
+   ],
+   "soft": {
+    "physical": 2,
+    "special": 0,
+    "even": 3,
+    "frail": 1,
+    "sturdy": 0
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Sunflora",
+     "Roserade"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Nando adapts mid-battle.",
+    "rule": "rigid_low",
+    "trigger": "rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (10 physical, 11 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Roserade, Altaria and Lopunny outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Ice: Sunflora, Roserade and Altaria are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Flying (3 weak), Rock (3 weak) and Fire (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Altaria to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Sunflora and Roserade are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Grass or Ground: 4 of 6 resist Grass; 3 of 6 resist Ground.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Armaldo's Rock Blast (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Gyms and Contests",
+     "kind": "milestone",
+     "result": "earned eight Sinnoh badges and five contest ribbons in the same journey",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "lost to Ash in the Victory Tournament (round: draft, confirm)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Grand Festival",
+     "kind": "contest",
+     "result": "competed (draft: confirm the result)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Sinnoh"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Sunflora",
+    "nickname": null,
+    "primary": {
+     "role": "weather_sweeper",
+     "name": "weather sweeper",
+     "family": "offense",
+     "score": 0.7758,
+     "confidence": "strong",
+     "margin": 0.1922,
+     "clear": true
+    },
+    "secondary": {
+     "role": "weather_setter",
+     "name": "weather setter",
+     "family": "support",
+     "score": 0.5836,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "weather sweeper (0.78, strong): Chlorophyll with sun, Sunny Day; attacking moves: Solar Beam, Bullet Seed, Petal Dance; Solar Beam"
+   },
+   {
+    "species": "Roserade",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5776,
+     "confidence": "solid",
+     "margin": 0.1186,
+     "clear": true
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.459,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.58, solid): strong attacks (effective power 90+, with the stat it uses): Petal Dance, Magical Leaf, Sludge Bomb; Sp. Atk 307 (above 93% of the field); Sludge Bomb (135)"
+   },
+   {
+    "species": "Armaldo",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6079,
+     "confidence": "solid",
+     "margin": 0.0258,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5821,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.61, solid): Attack 307 (above 91% of the field); attacking moves: Ancient Power, Metal Claw, X-Scissor, Rock Blast; overall bulk above 59% of the field"
+   },
+   {
+    "species": "Altaria",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.6794,
+     "confidence": "strong",
+     "margin": 0.0858,
+     "clear": true
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.5936,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "pivot (0.68, strong): Natural Cure; Dragon/Flying (Natural Cure); overall bulk above 68% of the field"
+   },
+   {
+    "species": "Lopunny",
+    "nickname": null,
+    "primary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.4369,
+     "confidence": "loose",
+     "margin": 0.0305,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4064,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "late-game cleaner (0.44, loose): Speed 267 (above 88% of the field); types it hits super-effectively: Dark, Dragon, Flying, Grass, Ground, Ice, Normal, Rock, Steel; attacks that use its better attacking stat: Dizzy Punch, Jump Kick"
+   },
+   {
+    "species": "Kricketune",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3774,
+     "confidence": "loose",
+     "margin": 0.0571,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_spreader",
+     "name": "status spreader",
+     "family": "support",
+     "score": 0.3203,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.38, loose): strong attacks (effective power 90+, with the stat it uses): X-Scissor, Bug Buzz; X-Scissor (120); Attack 227 (above 48% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Lopunny",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Lopunny",
+     "slot": 5,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "late-game cleaner",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Armaldo",
+     "slot": 3,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Sunflora",
+     "slot": 1,
+     "score": 0.479,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 1.0
+     },
+     "helpers": [],
+     "role": "weather sweeper",
+     "level": null,
+     "sent_out": "lead"
+    },
+    {
+     "species": "Roserade",
+     "slot": 2,
+     "score": 0.453,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Kricketune",
+     "slot": 6,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Altaria",
+     "slot": 4,
+     "score": 0.196,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": null,
+     "sent_out": "#4"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Altaria",
+    "role": "pivot",
+    "fit": 0.679
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Sunflora",
+    "role": "weather sweeper",
+    "fit": 0.543
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Sunflora",
+    "role": "weather sweeper",
+    "fit": 0.621,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Rock Blast",
+     "member": "Armaldo",
+     "move_type": "Rock",
+     "power": 90,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "X-Scissor",
+     "member": "Armaldo",
+     "move_type": "Bug",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Pulse",
+     "member": "Altaria",
+     "move_type": "Dragon",
+     "power": 135,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Aerial Ace",
+     "member": "Altaria",
+     "move_type": "Flying",
+     "power": 90,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Rock Blast",
+     "member": "Armaldo",
+     "move_type": "Rock",
+     "power": 90,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Rock Blast",
+     "member": "Armaldo",
+     "move_type": "Rock",
+     "power": 90,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Sludge Bomb",
+     "member": "Roserade",
+     "move_type": "Poison",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Sunflora",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Rock Blast",
+     "member": "Armaldo",
+     "move_type": "Rock",
+     "power": 90,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Jump Kick",
+     "member": "Lopunny",
+     "move_type": "Fighting",
+     "power": 81,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "X-Scissor",
+     "member": "Armaldo",
+     "move_type": "Bug",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Sunflora",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Jump Kick",
+     "member": "Lopunny",
+     "move_type": "Fighting",
+     "power": 81,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Sunflora",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.824,
+   "covered_n": 14,
+   "types_n": 17,
+   "holes": [
+    "Electric",
+    "Ghost",
+    "Poison"
+   ],
+   "bring": [
+    {
+     "type": "Poison",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Kricketune",
+    "move": "Sing",
+    "why": "his bard's signature",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 88,
+   "finishers": 14,
+   "attrition": 2,
+   "finisher_moves": [
+    "Solar Beam (Sunflora)",
+    "Petal Dance (Sunflora)",
+    "Petal Dance (Roserade)",
+    "Magical Leaf (Roserade)",
+    "Sludge Bomb (Roserade)",
+    "X-Scissor (Armaldo)",
+    "Rock Blast (Armaldo)",
+    "Dragon Pulse (Altaria)",
+    "Aerial Ace (Altaria)",
+    "Dragon Breath (Altaria)",
+    "Dizzy Punch (Lopunny)",
+    "Jump Kick (Lopunny)",
+    "X-Scissor (Kricketune)",
+    "Bug Buzz (Kricketune)"
+   ],
+   "attrition_moves": [
+    "Sing (Altaria)",
+    "Sing (Kricketune)"
+   ],
+   "offense_authored": 45,
+   "offense_measured": 72,
+   "flag": {
+    "gap": 43,
+    "leans": "offensive",
+    "part1_flags_it": false
+   },
+   "observed": null
+  },
+  "weather": [
+   "sun"
+  ],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Roserade",
+    "usage": 3.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Toxic Spikes",
+     "Spikes",
+     "Hidden Power Fire",
+     "Grass Knot"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 232,
+      "spa": 0,
+      "spd": 0,
+      "spe": 24
+     },
+     "share": 14.5
+    },
+    "checks": [
+     {
+      "species": "Clefable",
+      "beats": 89,
+      "score": 64,
+      "n": 23
+     },
+     {
+      "species": "Metagross",
+      "beats": 85,
+      "score": 62,
+      "n": 41
+     },
+     {
+      "species": "Jirachi",
+      "beats": 80,
+      "score": 62,
+      "n": 71
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Clefable 89%, Metagross 85%, Jirachi 80%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Lily of the Valley Conference: lost to Ash in the Victory Tournament (round: draft, confirm); Sinnoh Grand Festival: competed (draft: confirm the result).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Lopunny (the widest coverage and a late-game cleaner).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Altaria is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Sunflora closes it out (weather sweeper).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Sunflora (weather sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 14 of 17 types super-effectively; nothing they carry hits Electric, Ghost or Poison that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 3)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Poison: they can't hit it super-effectively, and one of them is weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Kricketune's Sing (his bard's signature).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "88% of their moves finish or set up (14 of 16); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 88)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 45: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,2156 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "cynthia",
+ "trainer_name": "Cynthia",
+ "version": "anime-sinnoh",
+ "title": "Cynthia, Sinnoh Champion (as the anime shows her)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl and later series: Cynthia's Pokémon as the show uses them",
+ "status": "proposed",
+ "notes": [
+  "The games' Cynthia, read from the Platinum cartridge.",
+  "Garchomp is the one she battles with in Diamond & Pearl. The other five are Pokémon the anime shows her with across Diamond & Pearl and later series; Gastrodon takes Roserade's place from her game team. The show never fields all six at once; which series shows each one: draft, confirm."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 70,
+   "why": "Garchomp ends battles fast",
+   "measured": 78,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Gastrodon",
+      "Lucario",
+      "Togekiss",
+      "Garchomp"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Spiritomb",
+      "Gastrodon",
+      "Lucario",
+      "Milotic",
+      "Togekiss",
+      "Garchomp"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 67,
+     "members": [
+      "Lucario",
+      "Milotic",
+      "Togekiss",
+      "Garchomp"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 25,
+   "why": "calm, and reads each battle on its own terms",
+   "measured": 17,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 17,
+     "members": [
+      "Gastrodon"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 90,
+   "why": "treats every Pokémon, hers or not, with care",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 30,
+   "why": "never needs to gamble",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Lucario",
+      "Milotic",
+      "Garchomp"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  },
+  {
+   "id": "role",
+   "name": "Region Champion",
+   "detail": [
+    "Region Champion"
+   ],
+   "members": {}
+  },
+  {
+   "id": "region_champion",
+   "name": "Sinnoh Champion",
+   "detail": [
+    "Sinnoh League"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "cynthia",
+  "version": "anime-sinnoh",
+  "title": "Cynthia, Sinnoh Champion (as the anime shows her)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:cynthia-anime-sinnoh/spiritomb",
+    "species": "Spiritomb",
+    "nickname": null,
+    "types": [
+     "Ghost",
+     "Dark"
+    ],
+    "ability": "Pressure",
+    "level": 100,
+    "stats": {
+     "hp": 262,
+     "atk": 241,
+     "def": 273,
+     "spa": 241,
+     "spd": 273,
+     "spe": 127
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 273,
+     "spd": 273,
+     "physical_pct": 0.55,
+     "special_pct": 0.54,
+     "gap": 0.02
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Fighting": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Dark Pulse",
+     "Shadow Ball",
+     "Psychic",
+     "Silver Wind"
+    ],
+    "move_basis": [
+     {
+      "move": "Dark Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 49, as Spiritomb)"
+     },
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Spiritomb)"
+     },
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Spiritomb)"
+     },
+     {
+      "move": "Silver Wind",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Spiritomb)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:cynthia-anime-sinnoh/gastrodon",
+    "species": "Gastrodon",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Storm Drain",
+    "level": 100,
+    "stats": {
+     "hp": 384,
+     "atk": 223,
+     "def": 193,
+     "spa": 241,
+     "spd": 221,
+     "spe": 135
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 193,
+     "spd": 221,
+     "physical_pct": 0.59,
+     "special_pct": 0.77,
+     "gap": 0.18
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Muddy Water",
+     "Mud Bomb",
+     "Water Pulse",
+     "Earthquake"
+    ],
+    "move_basis": [
+     {
+      "move": "Muddy Water",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 41, as Gastrodon)"
+     },
+     {
+      "move": "Mud Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 11, as Gastrodon)"
+     },
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Gastrodon)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Gastrodon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:cynthia-anime-sinnoh/lucario",
+    "species": "Lucario",
+    "nickname": null,
+    "types": [
+     "Fighting",
+     "Steel"
+    ],
+    "ability": "Steadfast",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 277,
+     "def": 197,
+     "spa": 287,
+     "spd": 197,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 197,
+     "spd": 197,
+     "physical_pct": 0.32,
+     "special_pct": 0.28,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Aura Sphere",
+     "Force Palm",
+     "Bone Rush",
+     "Extreme Speed"
+    ],
+    "move_basis": [
+     {
+      "move": "Aura Sphere",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Lucario)"
+     },
+     {
+      "move": "Force Palm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 11, as Lucario)"
+     },
+     {
+      "move": "Bone Rush",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 19, as Lucario)"
+     },
+     {
+      "move": "Extreme Speed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 51, as Lucario)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:cynthia-anime-sinnoh/milotic",
+    "species": "Milotic",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Marvel Scale",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 177,
+     "def": 215,
+     "spa": 257,
+     "spd": 307,
+     "spe": 219
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 215,
+     "spd": 307,
+     "physical_pct": 0.62,
+     "special_pct": 0.96,
+     "gap": 0.34
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Ice Beam",
+     "Aqua Tail",
+     "Mirror Coat"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Milotic)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Milotic)"
+     },
+     {
+      "move": "Aqua Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Milotic)"
+     },
+     {
+      "move": "Mirror Coat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Feebas)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:cynthia-anime-sinnoh/togekiss",
+    "species": "Togekiss",
+    "nickname": null,
+    "types": [
+     "Normal",
+     "Flying"
+    ],
+    "ability": "Serene Grace",
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 157,
+     "def": 247,
+     "spa": 297,
+     "spd": 287,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 247,
+     "spd": 287,
+     "physical_pct": 0.73,
+     "special_pct": 0.9,
+     "gap": 0.17
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Air Slash",
+     "Aura Sphere",
+     "Extrasensory",
+     "Sky Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Air Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
+     },
+     {
+      "move": "Aura Sphere",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
+     },
+     {
+      "move": "Extrasensory",
+      "basis": "another game",
+      "reason": "learns it in HeartGold/SoulSilver (egg)"
+     },
+     {
+      "move": "Sky Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Togekiss)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:cynthia-anime-sinnoh/garchomp",
+    "species": "Garchomp",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Ground"
+    ],
+    "ability": "Sand Veil",
+    "level": 100,
+    "stats": {
+     "hp": 378,
+     "atk": 317,
+     "def": 247,
+     "spa": 217,
+     "spd": 227,
+     "spe": 261
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 247,
+     "spd": 227,
+     "physical_pct": 0.86,
+     "special_pct": 0.8,
+     "gap": 0.06
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Dragon Rush",
+     "Giga Impact",
+     "Brick Break",
+     "Dragon Claw"
+    ],
+    "move_basis": [
+     {
+      "move": "Dragon Rush",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 55, as Garchomp)"
+     },
+     {
+      "move": "Giga Impact",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Garchomp)"
+     },
+     {
+      "move": "Brick Break",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Garchomp)"
+     },
+     {
+      "move": "Dragon Claw",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Garchomp)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Spiritomb",
+      "Lucario"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Lucario"
+     ],
+     "covered_by": [
+      "Spiritomb"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Spiritomb",
+      "Gastrodon",
+      "Lucario",
+      "Garchomp"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Lucario"
+     ],
+     "covered_by": [
+      "Togekiss"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Togekiss"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Lucario",
+      "Garchomp"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Lucario",
+      "Togekiss"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Lucario",
+      "Togekiss"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Gastrodon",
+      "Lucario",
+      "Milotic"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Lucario"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Milotic",
+      "Garchomp"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Milotic"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Gastrodon",
+      "Milotic"
+     ],
+     "covered_by": [
+      "Lucario",
+      "Togekiss"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Milotic",
+      "Togekiss"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Garchomp"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Spiritomb"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Togekiss",
+      "Garchomp"
+     ],
+     "covered_by": [
+      "Lucario",
+      "Milotic"
+     ]
+    },
+    "Dragon": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Garchomp"
+     ],
+     "covered_by": [
+      "Lucario"
+     ]
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Lucario"
+     ]
+    }
+   },
+   "gaps": [],
+   "strengths": [
+    "Poison",
+    "Steel"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 0,
+    "even": 2,
+    "frail": 1,
+    "sturdy": 3
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Cynthia comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Region Champion: the last line of the league. Expect a team with no easy answers.",
+    "rule": "role_region",
+    "trigger": "is_region_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (10 physical, 14 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Lucario, Milotic, Togekiss and Garchomp outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Gastrodon to Grass; Garchomp to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either); lone_soft_str empty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Poison or Steel: 4 of 6 resist Poison; 3 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Lucario's Bone Rush (80%); Milotic's Hydro Pump (80%); Garchomp's Dragon Rush (75%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   },
+   {
+    "section": "gap",
+    "text": "Flexible and well covered: no single trick beats them. Win the matchups one at a time.",
+    "rule": "flexible_covered",
+    "trigger": "rigidity_band == low (here low); gaps_n == 0 (here 0)"
+   }
+  ]
+ },
+ "roles": [
+  "Champion",
+  "Region Champion"
+ ],
+ "overrides": {
+  "ace": "Garchomp"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh League",
+     "kind": "league",
+     "result": "Champion",
+     "title": "Sinnoh Champion",
+     "champion": true,
+     "source": "games",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "exhibition with Paul",
+     "kind": "milestone",
+     "result": "beat Paul's team with Garchomp: a defining loss for him",
+     "versions": [
+      "anime-sinnoh"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Sinnoh Champion",
+     "detail": [
+      "Sinnoh League"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Spiritomb",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6054,
+     "confidence": "solid",
+     "margin": 0.0167,
+     "clear": false
+    },
+    "secondary": {
+     "role": "spinblocker",
+     "name": "spinblocker",
+     "family": "support",
+     "score": 0.5887,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.61, solid): Ghost/Dark (Pressure); overall bulk above 55% of the field; attacking moves: Dark Pulse, Shadow Ball, Psychic, Silver Wind"
+   },
+   {
+    "species": "Gastrodon",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6157,
+     "confidence": "solid",
+     "margin": 0.0257,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.59,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.62, solid): Water/Ground (Storm Drain); overall bulk above 72% of the field; attacking moves: Muddy Water, Mud Bomb, Water Pulse, Earthquake"
+   },
+   {
+    "species": "Lucario",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6847,
+     "confidence": "strong",
+     "margin": 0.0399,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6448,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.68, strong): Extreme Speed; Speed 237 (above 67% of the field); Sp. Atk 287 (above 89% of the field)"
+   },
+   {
+    "species": "Milotic",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6482,
+     "confidence": "solid",
+     "margin": 0.0198,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.6284,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.65, solid): Water (Marvel Scale); overall bulk above 86% of the field; attacking moves: Hydro Pump, Ice Beam, Aqua Tail"
+   },
+   {
+    "species": "Togekiss",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6176,
+     "confidence": "solid",
+     "margin": 0.0296,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.588,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.62, solid): Sp. Atk 297 (above 91% of the field); overall bulk above 85% of the field; attacking moves: Air Slash, Aura Sphere, Extrasensory, Sky Attack"
+   },
+   {
+    "species": "Garchomp",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5922,
+     "confidence": "solid",
+     "margin": 0.013,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5792,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.59, solid): Attack 317 (above 94% of the field); overall bulk above 85% of the field; attacking moves: Dragon Rush, Giga Impact, Brick Break, Dragon Claw"
+   }
+  ],
+  "ace": {
+   "derived": "Lucario",
+   "authored": "Garchomp",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Lucario",
+     "slot": 3,
+     "score": 0.52,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Garchomp",
+     "slot": 6,
+     "score": 0.487,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Togekiss",
+     "slot": 5,
+     "score": 0.451,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Gastrodon",
+     "slot": 2,
+     "score": 0.401,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Milotic",
+     "slot": 4,
+     "score": 0.229,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Spiritomb",
+     "slot": 1,
+     "score": 0.229,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Togekiss",
+    "role": "tank",
+    "fit": 0.588
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Lucario",
+    "role": "revenge killer",
+    "fit": 0.685
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Togekiss",
+    "role": "wallbreaker",
+    "fit": 0.527,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Sky Attack",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 143,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Aura Sphere",
+     "member": "Lucario",
+     "move_type": "Fighting",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Claw",
+     "member": "Garchomp",
+     "move_type": "Dragon",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Gastrodon",
+     "move_type": "Ground",
+     "power": 139,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Sky Attack",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 143,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Milotic",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Milotic",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Dark Pulse",
+     "member": "Spiritomb",
+     "move_type": "Dark",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Sky Attack",
+     "member": "Togekiss",
+     "move_type": "Flying",
+     "power": 143,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Milotic",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Aura Sphere",
+     "member": "Lucario",
+     "move_type": "Fighting",
+     "power": 135,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Aura Sphere",
+     "member": "Lucario",
+     "move_type": "Fighting",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Gastrodon",
+     "move_type": "Ground",
+     "power": 139,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Dark Pulse",
+     "member": "Spiritomb",
+     "move_type": "Dark",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Milotic",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Gastrodon",
+     "move_type": "Ground",
+     "power": 139,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 0.941,
+   "covered_n": 16,
+   "types_n": 17,
+   "holes": [
+    "Water"
+   ],
+   "bring": []
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Garchomp",
+    "move": "Dragon Rush",
+    "why": "the charge that flattened Paul's team",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 100,
+   "finishers": 18,
+   "attrition": 0,
+   "finisher_moves": [
+    "Dark Pulse (Spiritomb)",
+    "Shadow Ball (Spiritomb)",
+    "Psychic (Spiritomb)",
+    "Muddy Water (Gastrodon)",
+    "Mud Bomb (Gastrodon)",
+    "Water Pulse (Gastrodon)",
+    "Earthquake (Gastrodon)",
+    "Aura Sphere (Lucario)",
+    "Force Palm (Lucario)",
+    "Extreme Speed (Lucario)",
+    "Hydro Pump (Milotic)",
+    "Ice Beam (Milotic)",
+    "Aqua Tail (Milotic)",
+    "Air Slash (Togekiss)",
+    "Aura Sphere (Togekiss)",
+    "Extrasensory (Togekiss)",
+    "Dragon Rush (Garchomp)",
+    "Dragon Claw (Garchomp)"
+   ],
+   "attrition_moves": [],
+   "offense_authored": 70,
+   "offense_measured": 78,
+   "flag": {
+    "gap": 30,
+    "leans": "offensive",
+    "part1_flags_it": false
+   },
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Spiritomb",
+    "usage": 0.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Pursuit",
+     "Will-O-Wisp",
+     "Sucker Punch",
+     "Pain Split"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 252,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 24.6
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 80,
+      "score": 66,
+      "n": 132
+     },
+     {
+      "species": "Heatran",
+      "beats": 78,
+      "score": 60,
+      "n": 83
+     },
+     {
+      "species": "Empoleon",
+      "beats": 83,
+      "score": 55,
+      "n": 29
+     }
+    ]
+   },
+   {
+    "species": "Gastrodon",
+    "usage": 1.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Recover",
+     "Curse",
+     "Waterfall",
+     "Earthquake"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 16,
+      "spa": 0,
+      "spd": 240,
+      "spe": 0
+     },
+     "share": 71.0
+    },
+    "checks": [
+     {
+      "species": "Breloom",
+      "beats": 87,
+      "score": 71,
+      "n": 76
+     },
+     {
+      "species": "Abomasnow",
+      "beats": 85,
+      "score": 62,
+      "n": 40
+     },
+     {
+      "species": "Roserade",
+      "beats": 83,
+      "score": 55,
+      "n": 29
+     }
+    ]
+   },
+   {
+    "species": "Lucario",
+    "usage": 15.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "Extreme Speed",
+     "Swords Dance",
+     "Aura Sphere"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 32.1
+    },
+    "checks": [
+     {
+      "species": "Infernape",
+      "beats": 62,
+      "score": 46,
+      "n": 139
+     },
+     {
+      "species": "Gliscor",
+      "beats": 65,
+      "score": 42,
+      "n": 70
+     },
+     {
+      "species": "Jirachi",
+      "beats": 53,
+      "score": 41,
+      "n": 267
+     }
+    ]
+   },
+   {
+    "species": "Milotic",
+    "usage": 1.0,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Recover",
+     "Surf",
+     "Haze",
+     "Ice Beam"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 248,
+      "atk": 0,
+      "def": 252,
+      "spa": 0,
+      "spd": 8,
+      "spe": 0
+     },
+     "share": 31.0
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 68,
+      "score": 30,
+      "n": 24
+     },
+     {
+      "species": "Jirachi",
+      "beats": 50,
+      "score": 20,
+      "n": 43
+     },
+     {
+      "species": "Starmie",
+      "beats": 52,
+      "score": 9,
+      "n": 21
+     }
+    ]
+   },
+   {
+    "species": "Togekiss",
+    "usage": 1.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Air Slash",
+     "Aura Sphere",
+     "Flamethrower",
+     "Nasty Plot"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 160,
+      "atk": 0,
+      "def": 96,
+      "spa": 252,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 66.8
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 56,
+      "score": 26,
+      "n": 42
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 54,
+      "score": 25,
+      "n": 46
+     },
+     {
+      "species": "Jirachi",
+      "beats": 48,
+      "score": 10,
+      "n": 28
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Spiritomb: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Pursuit, Will-O-Wisp, Sucker Punch, Pain Split @ Leftovers (Adamant 252 HP / 252 Atk / 4 Def). What beats it: Tyranitar 80%, Heatran 78%, Empoleon 83%.",
+   "Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Roserade 83%.",
+   "Lucario: on 15.9% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Extreme Speed, Swords Dance, Aura Sphere @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Infernape 62%, Gliscor 65%, Jirachi 53%.",
+   "Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Latias 68%, Jirachi 50%, Starmie 52%.",
+   "Togekiss: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Air Slash, Aura Sphere, Flamethrower, Nasty Plot @ Leftovers (Modest 160 HP / 96 Def / 252 SpA). What beats it: Latias 56%, Tyranitar 54%, Jirachi 48%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Sinnoh Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Sinnoh League: Champion.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Garchomp; the data's is Lucario (a revenge killer). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Togekiss is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Lucario closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Togekiss (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 16 of 17 types super-effectively; nothing they carry hits Water that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 1)"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Garchomp's Dragon Rush (the charge that flattened Paul's team).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "Every move they carry finishes or sets up (18 of 18): nothing is there to wear you down.",
+     "rule": "aggr_all",
+     "trigger": "aggression >= 100 (here 100)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 70: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
+}

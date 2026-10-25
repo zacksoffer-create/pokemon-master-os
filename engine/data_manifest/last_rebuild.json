@@ -1,13 +1,399 @@
 {
- "started": "2026-10-24T15:38:39Z",
+ "started": "2026-10-25T21:55:47Z",
  "steps": [
   {
-   "step": "app",
-   "command": "-I app/build.py",
+   "step": "reports",
+   "command": "-I trainer_report.py all",
    "ok": true,
-   "seconds": 1.2,
+   "seconds": 12.5,
    "error": null
+  },
+  {
+   "step": "reports-page",
+   "command": "-I trainer_report.py page",
+   "ok": true,
+   "seconds": 69.4,
+   "error": null
+  },
+  {
+   "step": "packets",
+   "command": "-I battle/scouting_report.py",
+   "ok": true,
+   "seconds": 158.9,
+   "error": null
+  },
+  {
+   "step": "packets-page",
+   "command": "-I battle/scouting_report.py --page",
+   "ok": true,
+   "seconds": 297.6,
+   "error": null
+  },
+  {
+   "step": "studbook",
+   "command": "-I breeding/studbook_report.py",
+   "ok": true,
+   "seconds": 2.1,
+   "error": null
+  },
+  {
+   "step": "census",
+   "command": "-I ranch/report.py",
+   "ok": true,
+   "seconds": 3.3,
+   "error": null
+  },
+  {
+   "step": "dashboard",
+   "command": "-I ranch/dashboard.py",
+   "ok": true,
+   "seconds": 6.3,
+   "error": null
+  },
+  {
+   "step": "sheet-calls",
+   "command": "-I ranch/sheet.py",
+   "ok": true,
+   "seconds": 2.0,
+   "error": null
+  },
+  {
+   "step": "store",
+   "command": "-I store/migrate.py",
+   "ok": true,
+   "seconds": 0.5,
+   "error": null
+  },
+  {
+   "step": "trainer-library",
+   "command": "-I trainers/library.py",
+   "ok": true,
+   "seconds": 0.5,
+   "error": null
+  },
+  {
+   "step": "assumptions",
+   "command": "-I store/assumptions.py",
+   "ok": true,
+   "seconds": 0.0,
+   "error": null
+  },
+  {
+   "step": "balls",
+   "command": "-I equipment/balls.py",
+   "ok": true,
+   "seconds": 0.1,
+   "error": null
+  },
+  {
+   "step": "roles4",
+   "command": "-I trainers/team_roles.py --pack",
+   "ok": false,
+   "seconds": 5.6,
+   "error": "Traceback (most recent call last):\n  File \"/home/user/pokemon-project/engine/trainers/team_roles.py\", line 584, in <module>\n    main(sys.argv[1:])\n    ~~~~^^^^^^^^^^^^^^\n  File \"/home/user/pokemon-project/engine/trainers/team_roles.py\", line 540, in main\n    reads = tr.read_many(all_builds(store))\n  File \"/home/user/pokemon-project/engine/trainers/team_roles.py\", line 304, in read_many\n    fights = self.fights(by_gen)\n  File \"/home/user/pokemon-project/engine/trainers/team_roles.py\", line 105, in fights\n    res = self.ev.versus(list({c.key: c for c in ours.values()}.values()), list({c.key: c for c in field}.values()),\n                         rounds=self.cfg[\"fetch_rounds\"])\n  File \"/home/user/pokemon-project/engine/battle/evaluate.py\", line 1167, in versus\n    self.prefetch(todo)\n    ~~~~~~~~~~~~~^^^^^^\n  File \"/home/user/pokemon-project/engine/battle/evaluate.py\", line 1186, in prefetch\n    w = self.start_weather(a2, b2)\n  File \"/home/user/pokemon-project/engine/battle/evaluate.py\", line 1155, in start_weather\n    return Fight(self, a, b, Plan(), Plan()).weather or \"\"\n           ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/user/pokemon-project/engine/battle/evaluate.py\", line 275, in __init__\n    self.A, self.B = ev.side(a, \"A\", plan_a), ev.side(b, \"B\", plan_b)\n                     ~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/home/user/pokemon-project/engine/battle/evaluate.py\", line 1055, in side\n    moves = {m: self.mb.get(c.gen, m) for m in c.moves}\n                ~~~~~~~~~~~^^^^^^^^^^\n  File \"/home/user/pokemon-project/engine/battle/moves.py\", line 63, in get\n    data = rules.move(gen, name)\n  File \"/home/user/pokemon-project/engine/rules.py\", line 50, in move\n    return gen_data(gen)[\"moves\"][to_id(name)]\n           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\nKeyError: 'faintattack'\n"
   }
  ],
- "changed": []
+ "changed": [
+  {
+   "file": "docs/scouting/scouting_file.html",
+   "status": "changed"
+  },
+  {
+   "file": "docs/trainers/README.md",
+   "status": "changed",
+   "before": [],
+   "after": [
+    "| Ash | [Ash at the Orange League (Winner's Cup)](ash-orange-league.md) | heartgold | Electric, Rock | either |",
+    "| Ash | [Ash at the Silver Conference (Johto League)](ash-silver-conference.md) | heartgold | Electric | either |",
+    "| Ash | [Ash's Johto best (his Johto catches)](ash-johto-best.md) | heartgold | Ice, Flying | either |"
+   ]
+  },
+  {
+   "file": "docs/trainers/ash-battle-frontier.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/ash-ever-grande.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/ash-johto-best.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/ash-kanto-best.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/ash-lily-semifinal.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/ash-orange-league.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/ash-silver-conference.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/ash-sinnoh-best.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/barry-lily-of-the-valley.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/brandon-pyramid-king.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/brock-anime-best.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/cynthia-anime-sinnoh.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-battle-frontier.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-ever-grande.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-johto-best.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-kanto-best.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-lily-semifinal.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-orange-league.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-silver-conference.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/ash-sinnoh-best.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/barry-lily-of-the-valley.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/brandon-pyramid-king.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/brock-anime-best.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/cynthia-anime-sinnoh.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/drake-winners-cup.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/gary-indigo.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/gary-sinnoh-researcher.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/harrison-silver-conference.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/lance-anime-johto.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/misty-anime-best.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/nando-lily-of-the-valley.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/paul-battle-pyramid.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/paul-early-sinnoh.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/paul-lake-acuity.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/tyson-ever-grande.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/wallace-wallace-cup.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/data/zoey-grand-festival.json",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/drake-winners-cup.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/gary-indigo.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/gary-sinnoh-researcher.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/harrison-silver-conference.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/lance-anime-johto.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/misty-anime-best.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/nando-lily-of-the-valley.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/paul-battle-pyramid.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/paul-early-sinnoh.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/paul-lake-acuity.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/trainer_reports.html",
+   "status": "changed",
+   "before": [
+    " down.\", \"rule\": \"aggr_all\", \"trigger\": \"aggression >= 100 (here 100)\"}]}}}, {\"schema\": \"trainer-report/2\", \"trainer\": \"red\", \"trainer_name\": \"Red\", \"version\": \"mt-silver\", \"title\": \"Red on Mt. Silver (HeartGold)\", \"game\": \"heartgold\", \"gen"
+   ],
+   "after": [
+    " down.\", \"rule\": \"aggr_all\", \"trigger\": \"aggression >= 100 (here 100)\"}]}}}, {\"schema\": \"trainer-report/2\", \"trainer\": \"ash\", \"trainer_name\": \"Ash\", \"version\": \"orange-league\", \"title\": \"Ash at the Orange League (Winner's Cup)\", \"game\": \"he"
+   ]
+  },
+  {
+   "file": "docs/trainers/tyson-ever-grande.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/wallace-wallace-cup.md",
+   "status": "new"
+  },
+  {
+   "file": "docs/trainers/zoey-grand-festival.md",
+   "status": "new"
+  },
+  {
+   "file": "engine/data_manifest/blackthorn.json",
+   "status": "changed",
+   "before": [
+    " \"built\": \"2026-10-24\",",
+    "  \"decisions\": 67,",
+    "     \"Machamp (lore: Pokédex (sapphire))\","
+   ],
+   "after": [
+    " \"built\": \"2026-10-25\",",
+    "  \"decisions\": 77,",
+    "     \"Garchomp (lore: Pokédex (heartgold))\""
+   ]
+  },
+  {
+   "file": "engine/data_manifest/ranch_census.json",
+   "status": "changed",
+   "before": [
+    "     \"Machamp (lore: Pokédex (sapphire))\",",
+    "     \"Infernape (lore: Pokédex (diamond))\",",
+    "     \"Machamp (lore: Pokédex (sapphire))\","
+   ],
+   "after": [
+    "     \"Garchomp (lore: Pokédex (heartgold))\"",
+    "     \"Lucario (lore: Pokédex (platinum))\""
+   ]
+  },
+  {
+   "file": "engine/data_manifest/sheet/002_update_values_Blackthorn.json",
+   "status": "changed",
+   "before": [
+    "{\"tool\":\"update_values\",\"range\":\"'Blackthorn'!B1:B2\",\"values\":[[\"BLACKTHORN\"],[\"The Champion's Ranch · Blackthorn highlands, Johto · the journey is over; the breeding goes on · built 2026-10-24\"]]}"
+   ],
+   "after": [
+    "{\"tool\":\"update_values\",\"range\":\"'Blackthorn'!B1:B2\",\"values\":[[\"BLACKTHORN\"],[\"The Champion's Ranch · Blackthorn highlands, Johto · the journey is over; the breeding goes on · built 2026-10-25\"]]}"
+   ]
+  },
+  {
+   "file": "engine/data_manifest/sheet/008_update_values_Facilities.json",
+   "status": "changed",
+   "before": [
+    "rsery & hatchery\",\"private\",\"calming presence\",\"Snorlax\",\"hangs on one\",\"Snorlax (authored: W-015 (D-033))\",\"Venusaur, Machamp, Milotic, Meganium, Infernape, Dragonite, Lapras\",\"head breeder\"],[\"nursery & hatchery\",\"private\",\"egg care\",\"— n"
+   ],
+   "after": [
+    "rsery & hatchery\",\"private\",\"calming presence\",\"Snorlax\",\"hangs on one\",\"Snorlax (authored: W-015 (D-033))\",\"Venusaur, Milotic, Meganium, Dragonite, Lapras\",\"head breeder\"],[\"nursery & hatchery\",\"private\",\"egg care\",\"— nobody yet\",\"open\",\"\""
+   ]
+  },
+  {
+   "file": "engine/data_manifest/sheet/017_update_values_Decisions.json",
+   "status": "changed",
+   "before": [
+    "{\"tool\":\"update_values\",\"range\":\"'Decisions'!A61:G71\",\"values\":[[\"D-057\",\"2026-10-20\",\"The battle engine runs live in the app, every section of the scouting file with it."
+   ],
+   "after": [
+    "{\"tool\":\"update_values\",\"range\":\"'Decisions'!A61:G81\",\"values\":[[\"D-057\",\"2026-10-20\",\"The battle engine runs live in the app, every section of the scouting file with it."
+   ]
+  },
+  {
+   "file": "engine/data_manifest/sheet/030_update_values_Setup.json",
+   "status": "changed",
+   "before": [
+    "t. The dashboard's numbers are live formulas; they update on their own.\"],[\"\"],[\"WHERE IT COMES FROM\"],[\"Built 2026-10-24 from data_manifest/blackthorn.json (engine/ranch/dashboard.py) by engine/ranch/sheet.py. Rebuild after canon changes; "
+   ],
+   "after": [
+    "t. The dashboard's numbers are live formulas; they update on their own.\"],[\"\"],[\"WHERE IT COMES FROM\"],[\"Built 2026-10-25 from data_manifest/blackthorn.json (engine/ranch/dashboard.py) by engine/ranch/sheet.py. Rebuild after canon changes; "
+   ]
+  },
+  {
+   "file": "engine/data_manifest/sheet/045_update_spreadsheet_Decisions.json",
+   "status": "changed",
+   "before": [
+    "\":\"pixelSize\"}},{\"addBanding\":{\"bandedRange\":{\"bandedRangeId\":100,\"range\":{\"sheetId\":10,\"startRowIndex\":3,\"endRowIndex\":71,\"startColumnIndex\":0,\"endColumnIndex\":7},\"rowProperties\":{\"headerColorStyle\":{\"rgbColor\":{\"red\":0.298,\"green\":0.247,\""
+   ],
+   "after": [
+    "\":\"pixelSize\"}},{\"addBanding\":{\"bandedRange\":{\"bandedRangeId\":100,\"range\":{\"sheetId\":10,\"startRowIndex\":3,\"endRowIndex\":81,\"startColumnIndex\":0,\"endColumnIndex\":7},\"rowProperties\":{\"headerColorStyle\":{\"rgbColor\":{\"red\":0.298,\"green\":0.247,\""
+   ]
+  }
+ ]
 }

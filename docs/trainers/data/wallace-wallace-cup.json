@@ -1,0 +1,2179 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "wallace",
+ "trainer_name": "Wallace",
+ "version": "wallace-cup",
+ "title": "Wallace, Hoenn Champion (as the anime shows him)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl: the Wallace Cup; Wallace's Pokémon as the show and his games give them",
+ "status": "proposed",
+ "notes": [
+  "The Hoenn Champion and a Top Coordinator (lore); host of the Wallace Cup.",
+  "The anime shows only Milotic; the other five are his Emerald Champion team, in its order, with its moves. The show doesn't give him a full battle."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 50,
+   "why": "a Top Coordinator: beauty first, then power",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Wailord",
+      "Ludicolo",
+      "Whiscash",
+      "Gyarados"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Wailord",
+      "Tentacruel",
+      "Whiscash",
+      "Gyarados",
+      "Milotic"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Tentacruel",
+      "Gyarados",
+      "Milotic"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 40,
+   "why": "a water specialist who shows each move's best side",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Ludicolo",
+      "Milotic"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 90,
+   "why": "Milotic is his partner on the stage",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 35,
+   "why": "elegant and unhurried",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Wailord",
+      "Tentacruel",
+      "Milotic"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Surf"
+   ],
+   "members": {
+    "Surf": [
+     "Ludicolo",
+     "Whiscash",
+     "Gyarados"
+    ]
+   }
+  },
+  {
+   "id": "type_dominant",
+   "name": "Type-dominant",
+   "detail": [
+    "Water"
+   ],
+   "members": {
+    "Water": [
+     "Wailord",
+     "Tentacruel",
+     "Ludicolo",
+     "Whiscash",
+     "Gyarados",
+     "Milotic"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  },
+  {
+   "id": "role",
+   "name": "Region Champion",
+   "detail": [
+    "Region Champion"
+   ],
+   "members": {}
+  },
+  {
+   "id": "region_champion",
+   "name": "Hoenn Champion",
+   "detail": [
+    "Hoenn League"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "wallace",
+  "version": "wallace-cup",
+  "title": "Wallace, Hoenn Champion (as the anime shows him)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:wallace-wallace-cup/wailord",
+    "species": "Wailord",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Water Veil",
+    "level": 100,
+    "stats": {
+     "hp": 502,
+     "atk": 237,
+     "def": 147,
+     "spa": 237,
+     "spd": 147,
+     "spe": 177
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 147,
+     "spd": 147,
+     "physical_pct": 0.58,
+     "special_pct": 0.6,
+     "gap": 0.02
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Water Veil (could be Oblivious)"
+    ],
+    "moves": [
+     "Water Spout",
+     "Rain Dance",
+     "Double-Edge",
+     "Blizzard"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Spout",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 34, as Wailord)"
+     },
+     {
+      "move": "Rain Dance",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Wailord)"
+     },
+     {
+      "move": "Double-Edge",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Wailmer)"
+     },
+     {
+      "move": "Blizzard",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Wailord)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:wallace-wallace-cup/tentacruel",
+    "species": "Tentacruel",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Poison"
+    ],
+    "ability": "Clear Body",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 197,
+     "def": 187,
+     "spa": 217,
+     "spd": 297,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 297,
+     "physical_pct": 0.35,
+     "special_pct": 0.91,
+     "gap": 0.56
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Clear Body (could be Liquid Ooze)"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Sludge Bomb",
+     "Ice Beam",
+     "Toxic"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 49, as Tentacruel)"
+     },
+     {
+      "move": "Sludge Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Tentacruel)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Tentacruel)"
+     },
+     {
+      "move": "Toxic",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Tentacruel)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:wallace-wallace-cup/ludicolo",
+    "species": "Ludicolo",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Grass"
+    ],
+    "ability": "Swift Swim",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 197,
+     "def": 197,
+     "spa": 237,
+     "spd": 257,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 197,
+     "spd": 257,
+     "physical_pct": 0.41,
+     "special_pct": 0.73,
+     "gap": 0.33
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Giga Drain",
+     "Surf",
+     "Leech Seed",
+     "Double Team"
+    ],
+    "move_basis": [
+     {
+      "move": "Giga Drain",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ludicolo)"
+     },
+     {
+      "move": "Surf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ludicolo)"
+     },
+     {
+      "move": "Leech Seed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Lotad)"
+     },
+     {
+      "move": "Double Team",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ludicolo)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:wallace-wallace-cup/whiscash",
+    "species": "Whiscash",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Oblivious",
+    "level": 100,
+    "stats": {
+     "hp": 382,
+     "atk": 213,
+     "def": 203,
+     "spa": 209,
+     "spd": 199,
+     "spe": 177
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 203,
+     "spd": 199,
+     "physical_pct": 0.66,
+     "special_pct": 0.63,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Oblivious (could be Anticipation)"
+    ],
+    "moves": [
+     "Earthquake",
+     "Surf",
+     "Amnesia",
+     "Hyper Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 45, as Whiscash)"
+     },
+     {
+      "move": "Surf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Whiscash)"
+     },
+     {
+      "move": "Amnesia",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 18, as Whiscash)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Whiscash)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:wallace-wallace-cup/gyarados",
+    "species": "Gyarados",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Flying"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 307,
+     "def": 215,
+     "spa": 177,
+     "spd": 257,
+     "spe": 219
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 215,
+     "spd": 257,
+     "physical_pct": 0.62,
+     "special_pct": 0.84,
+     "gap": 0.22
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Dragon Dance",
+     "Earthquake",
+     "Hyper Beam",
+     "Surf"
+    ],
+    "move_basis": [
+     {
+      "move": "Dragon Dance",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 44, as Gyarados)"
+     },
+     {
+      "move": "Earthquake",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Gyarados)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 47, as Gyarados)"
+     },
+     {
+      "move": "Surf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Gyarados)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:wallace-wallace-cup/milotic",
+    "species": "Milotic",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Marvel Scale",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 177,
+     "def": 215,
+     "spa": 257,
+     "spd": 307,
+     "spe": 219
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 215,
+     "spd": 307,
+     "physical_pct": 0.62,
+     "special_pct": 0.96,
+     "gap": 0.34
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Ice Beam",
+     "Recover",
+     "Water Pulse"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Milotic)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Milotic)"
+     },
+     {
+      "move": "Recover",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 21, as Milotic)"
+     },
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 13, as Milotic)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Tentacruel",
+      "Gyarados"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Ludicolo"
+     ],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Ludicolo"
+     ],
+     "covered_by": [
+      "Tentacruel",
+      "Whiscash"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Tentacruel"
+     ],
+     "covered_by": [
+      "Ludicolo",
+      "Gyarados"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Gyarados"
+     ],
+     "covered_by": [
+      "Whiscash"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Ludicolo"
+     ],
+     "covered_by": [
+      "Tentacruel",
+      "Gyarados"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 6,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 6,
+     "weak_members": [],
+     "covered_by": [
+      "Wailord",
+      "Tentacruel",
+      "Ludicolo",
+      "Whiscash",
+      "Gyarados",
+      "Milotic"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Wailord",
+      "Tentacruel",
+      "Whiscash",
+      "Gyarados",
+      "Milotic"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Wailord",
+      "Tentacruel",
+      "Ludicolo",
+      "Gyarados",
+      "Milotic"
+     ]
+    },
+    "Grass": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Wailord",
+      "Whiscash",
+      "Milotic"
+     ],
+     "covered_by": []
+    },
+    "Electric": {
+     "weak": 3,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 4,
+     "covered": 1,
+     "weak_members": [
+      "Wailord",
+      "Tentacruel",
+      "Gyarados",
+      "Milotic"
+     ],
+     "covered_by": [
+      "Whiscash"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Tentacruel"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Wailord",
+      "Tentacruel",
+      "Milotic"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Electric",
+    "Grass"
+   ],
+   "strengths": [
+    "Steel",
+    "Fire",
+    "Water",
+    "Ice"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 0,
+    "even": 2,
+    "frail": 0,
+    "sturdy": 3
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [
+     "Tentacruel"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Wallace sits in the middle: balanced between attack and defense, a plan with some give in it.",
+    "rule": "balanced",
+    "trigger": "offense_band == mid (here mid); rigidity_band == mid (here mid)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Region Champion: the last line of the league. Expect a team with no easy answers.",
+    "rule": "role_region",
+    "trigger": "is_region_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Type-dominant: Water (6 of 6). Everything you know about that type applies to most of their team.",
+    "rule": "type_dominant",
+    "trigger": "type_dominant_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Surf on Ludicolo, Whiscash and Gyarados. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the special side (14 of 17 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Tentacruel, Gyarados and Milotic outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Electric: Wailord, Tentacruel, Gyarados and Milotic are weak to it, and only Whiscash can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Grass (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Whiscash to Grass; Gyarados to Electric (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Tentacruel (physically soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Steel, Fire or Water: 6 of 6 resist Steel; 5 of 6 resist Fire; 5 of 6 resist Water.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Wailord's Double-Edge (recoil) and Blizzard (70%); Tentacruel's Hydro Pump (80%); Milotic's Hydro Pump (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion",
+  "Region Champion"
+ ],
+ "overrides": {
+  "ace": "Milotic"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Hoenn",
+     "event": "Hoenn League",
+     "kind": "league",
+     "result": "Champion",
+     "title": "Hoenn Champion",
+     "champion": true,
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Wallace Cup",
+     "kind": "contest",
+     "result": "host and judge; Dawn won its Aqua Ribbon",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Hoenn",
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Hoenn Champion",
+     "detail": [
+      "Hoenn League"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Wailord",
+    "nickname": null,
+    "primary": {
+     "role": "weather_setter",
+     "name": "weather setter",
+     "family": "support",
+     "score": 0.6302,
+     "confidence": "solid",
+     "margin": 0.0681,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.5621,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "weather setter (0.63, solid): Rain Dance; overall bulk above 60% of the field; attacking moves: Water Spout, Double-Edge, Blizzard"
+   },
+   {
+    "species": "Tentacruel",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5525,
+     "confidence": "solid",
+     "margin": 0.0594,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.4931,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "check / counter (0.55, solid): Water/Poison (Clear Body); overall bulk above 63% of the field; attacking moves: Hydro Pump, Sludge Bomb, Ice Beam"
+   },
+   {
+    "species": "Ludicolo",
+    "nickname": null,
+    "primary": {
+     "role": "weather_sweeper",
+     "name": "weather sweeper",
+     "family": "offense",
+     "score": 0.6841,
+     "confidence": "strong",
+     "margin": 0.2586,
+     "clear": true
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.4255,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "weather sweeper (0.68, strong): Swift Swim with rain; Surf; attacking moves: Giga Drain, Surf"
+   },
+   {
+    "species": "Whiscash",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5874,
+     "confidence": "solid",
+     "margin": 0.0396,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5478,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.59, solid): Water/Ground (Oblivious); overall bulk above 65% of the field; attacking moves: Earthquake, Surf, Hyper Beam"
+   },
+   {
+    "species": "Gyarados",
+    "nickname": null,
+    "primary": {
+     "role": "mixed_setup_sweeper",
+     "name": "mixed setup sweeper",
+     "family": "offense",
+     "score": 0.6717,
+     "confidence": "strong",
+     "margin": 0.0726,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5991,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "mixed setup sweeper (0.67, strong): Dragon Dance; attacks on both sides: Earthquake, Surf; Attack 307 (above 91% of the field)"
+   },
+   {
+    "species": "Milotic",
+    "nickname": null,
+    "primary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.7534,
+     "confidence": "strong",
+     "margin": 0.1052,
+     "clear": true
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6482,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "sponge / status absorber (0.75, strong): Marvel Scale; overall bulk above 86% of the field; Recover"
+   }
+  ],
+  "ace": {
+   "derived": "Ludicolo",
+   "authored": "Milotic",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Ludicolo",
+     "slot": 3,
+     "score": 0.639,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.235,
+      "role": 1.0
+     },
+     "helpers": [
+      "Wailord"
+     ],
+     "role": "weather sweeper",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Gyarados",
+     "slot": 5,
+     "score": 0.529,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 1.0
+     },
+     "helpers": [],
+     "role": "mixed setup sweeper",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Whiscash",
+     "slot": 4,
+     "score": 0.315,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Tentacruel",
+     "slot": 2,
+     "score": 0.315,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Milotic",
+     "slot": 6,
+     "score": 0.229,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "sponge / status absorber",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Wailord",
+     "slot": 1,
+     "score": 0.229,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "weather setter",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Gyarados",
+    "role": "pivot",
+    "fit": 0.579
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Ludicolo",
+    "role": "weather sweeper",
+    "fit": 0.479
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Gyarados",
+    "role": "mixed setup sweeper",
+    "fit": 0.672,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Tentacruel",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Whiscash",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Water Spout",
+     "member": "Wailord",
+     "move_type": "Water",
+     "power": 225,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Tentacruel",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Sludge Bomb",
+     "member": "Tentacruel",
+     "move_type": "Poison",
+     "power": 135,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Water Spout",
+     "member": "Wailord",
+     "move_type": "Water",
+     "power": 225,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Whiscash",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Water Spout",
+     "member": "Wailord",
+     "move_type": "Water",
+     "power": 225,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Earthquake",
+     "member": "Whiscash",
+     "move_type": "Ground",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Giga Drain",
+     "member": "Ludicolo",
+     "move_type": "Grass",
+     "power": 90,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 0.588,
+   "covered_n": 10,
+   "types_n": 17,
+   "holes": [
+    "Bug",
+    "Dark",
+    "Fighting",
+    "Ghost",
+    "Ice",
+    "Normal",
+    "Psychic"
+   ],
+   "bring": [
+    {
+     "type": "Bug",
+     "their_weak": 1
+    },
+    {
+     "type": "Psychic",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 84,
+   "finishers": 16,
+   "attrition": 3,
+   "finisher_moves": [
+    "Water Spout (Wailord)",
+    "Double-Edge (Wailord)",
+    "Blizzard (Wailord)",
+    "Hydro Pump (Tentacruel)",
+    "Sludge Bomb (Tentacruel)",
+    "Ice Beam (Tentacruel)",
+    "Giga Drain (Ludicolo)",
+    "Surf (Ludicolo)",
+    "Earthquake (Whiscash)",
+    "Surf (Whiscash)",
+    "Dragon Dance (Gyarados)",
+    "Earthquake (Gyarados)",
+    "Surf (Gyarados)",
+    "Hydro Pump (Milotic)",
+    "Ice Beam (Milotic)",
+    "Water Pulse (Milotic)"
+   ],
+   "attrition_moves": [
+    "Toxic (Tentacruel)",
+    "Leech Seed (Ludicolo)",
+    "Recover (Milotic)"
+   ],
+   "offense_authored": 50,
+   "offense_measured": 67,
+   "flag": {
+    "gap": 34,
+    "leans": "offensive",
+    "part1_flags_it": false
+   },
+   "observed": null
+  },
+  "weather": [
+   "rain"
+  ],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Tentacruel",
+    "usage": 3.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rapid Spin",
+     "Toxic Spikes",
+     "Surf",
+     "Hydro Pump"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 40,
+      "atk": 0,
+      "def": 24,
+      "spa": 248,
+      "spd": 0,
+      "spe": 196
+     },
+     "share": 15.0
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 96,
+      "score": 81,
+      "n": 23
+     },
+     {
+      "species": "Swampert",
+      "beats": 86,
+      "score": 59,
+      "n": 28
+     },
+     {
+      "species": "Jirachi",
+      "beats": 81,
+      "score": 58,
+      "n": 52
+     }
+    ]
+   },
+   {
+    "species": "Ludicolo",
+    "usage": 0.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rain Dance",
+     "Ice Beam",
+     "Surf",
+     "Grass Knot"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 39.5
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 45,
+      "score": 6,
+      "n": 26
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 35,
+      "score": 0,
+      "n": 31
+     }
+    ]
+   },
+   {
+    "species": "Gyarados",
+    "usage": 29.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Waterfall",
+     "Dragon Dance",
+     "Earthquake",
+     "Ice Fang"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 35.4
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 65,
+      "score": 58,
+      "n": 817
+     },
+     {
+      "species": "Rotom-Wash",
+      "beats": 67,
+      "score": 54,
+      "n": 212
+     },
+     {
+      "species": "Rotom-Heat",
+      "beats": 70,
+      "score": 54,
+      "n": 136
+     }
+    ]
+   },
+   {
+    "species": "Milotic",
+    "usage": 1.0,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Recover",
+     "Surf",
+     "Haze",
+     "Ice Beam"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 248,
+      "atk": 0,
+      "def": 252,
+      "spa": 0,
+      "spd": 8,
+      "spe": 0
+     },
+     "share": 31.0
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 68,
+      "score": 30,
+      "n": 24
+     },
+     {
+      "species": "Jirachi",
+      "beats": 50,
+      "score": 20,
+      "n": 43
+     },
+     {
+      "species": "Starmie",
+      "beats": 52,
+      "score": 9,
+      "n": 21
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Tentacruel: on 3.2% of gen4ou teams (2026-09, rated 1630+), usually Rapid Spin, Toxic Spikes, Surf, Hydro Pump @ Black Sludge (Modest 40 HP / 24 Def / 248 SpA / 196 Spe). What beats it: Zapdos 96%, Swampert 86%, Jirachi 81%.",
+   "Ludicolo: on 0.9% of gen4ou teams (2026-09, rated 1630+), usually Rain Dance, Ice Beam, Surf, Grass Knot @ Life Orb (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Latias 45%, Tyranitar 35%.",
+   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Rotom-Wash 67%, Rotom-Heat 70%.",
+   "Milotic: on 1.0% of gen4ou teams (2026-09, rated 1630+), usually Recover, Surf, Haze, Ice Beam @ Leftovers (Bold 248 HP / 252 Def / 8 SpD). What beats it: Latias 68%, Jirachi 50%, Starmie 52%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Hoenn Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Hoenn League: Champion; Wallace Cup: host and judge; Dawn won its Aqua Ribbon.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Milotic; the data's is Ludicolo (set up by Wailord and a weather sweeper). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Gyarados is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Ludicolo closes it out (weather sweeper).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Gyarados (mixed setup sweeper).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 10 of 17 types super-effectively; nothing they carry hits Bug, Dark, Fighting, Ghost, Ice, Normal or Psychic that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 7)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Bug: they can't hit it super-effectively, and one of them is weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Psychic get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Wallace, Hoenn Champion (as the anime shows him).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "84% of their moves finish or set up (16 of 19); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 84)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 50: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
+}

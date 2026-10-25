@@ -1,0 +1,2113 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "zoey",
+ "trainer_name": "Zoey",
+ "version": "grand-festival",
+ "title": "Zoey (Sinnoh Grand Festival winner)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl (Sinnoh League Victors): the Sinnoh Grand Festival",
+ "status": "proposed",
+ "notes": [
+  "Coordinator; Dawn's rival and friend (lore).",
+  "A coordinator: the show never fields these six in one battle. They're the Pokémon she is shown with in Diamond & Pearl."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 55,
+   "why": "the cool appeal first, then a clean strike",
+   "measured": 89,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Glameow",
+      "Mismagius",
+      "Gastrodon",
+      "Leafeon",
+      "Gallade"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Glameow",
+      "Mismagius",
+      "Gastrodon",
+      "Lumineon",
+      "Leafeon",
+      "Gallade"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Glameow",
+      "Mismagius",
+      "Lumineon",
+      "Leafeon",
+      "Gallade"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": 34,
+    "team_leans": "offensive",
+    "because": [
+     {
+      "signal": "attack_heavy",
+      "label": "attack-heavy stats",
+      "value": 83,
+      "members": [
+       "Glameow",
+       "Mismagius",
+       "Gastrodon",
+       "Leafeon",
+       "Gallade"
+      ]
+     },
+     {
+      "signal": "damage_moves",
+      "label": "mostly attacks",
+      "value": 100,
+      "members": [
+       "Glameow",
+       "Mismagius",
+       "Gastrodon",
+       "Lumineon",
+       "Leafeon",
+       "Gallade"
+      ]
+     },
+     {
+      "signal": "fast",
+      "label": "fast",
+      "value": 83,
+      "members": [
+       "Glameow",
+       "Mismagius",
+       "Lumineon",
+       "Leafeon",
+       "Gallade"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 30,
+   "why": "contest combos: precise, and changed for each round",
+   "measured": 0,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 0,
+     "members": []
+    }
+   ],
+   "disagreement": {
+    "gap": -30,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 0,
+      "members": []
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 85,
+   "why": "close with every one of them",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 40,
+   "why": "keeps it cool under pressure",
+   "measured": 17,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 17,
+     "members": [
+      "Glameow"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "region_champion",
+   "name": "Sinnoh Top Coordinator",
+   "detail": [
+    "Sinnoh Grand Festival"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "zoey",
+  "version": "grand-festival",
+  "title": "Zoey (Sinnoh Grand Festival winner)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:zoey-grand-festival/glameow",
+    "species": "Glameow",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Limber",
+    "level": 100,
+    "stats": {
+     "hp": 260,
+     "atk": 167,
+     "def": 141,
+     "spa": 141,
+     "spd": 131,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 141,
+     "spd": 131,
+     "physical_pct": 0.01,
+     "special_pct": 0.0,
+     "gap": 0.01
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Limber (could be Own Tempo)"
+    ],
+    "moves": [
+     "Shadow Claw",
+     "Iron Tail",
+     "Fake Out",
+     "Fury Swipes"
+    ],
+    "move_basis": [
+     {
+      "move": "Shadow Claw",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Glameow)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Glameow)"
+     },
+     {
+      "move": "Fake Out",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Glameow)"
+     },
+     {
+      "move": "Fury Swipes",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Glameow)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:zoey-grand-festival/mismagius",
+    "species": "Mismagius",
+    "nickname": null,
+    "types": [
+     "Ghost"
+    ],
+    "ability": "Levitate",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 177,
+     "def": 177,
+     "spa": 267,
+     "spd": 267,
+     "spe": 267
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 177,
+     "spd": 267,
+     "physical_pct": 0.12,
+     "special_pct": 0.62,
+     "gap": 0.5
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Fighting": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Levitate",
+      "before_ability": "neutral"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Shadow Ball",
+     "Psybeam",
+     "Magical Leaf",
+     "Confuse Ray"
+    ],
+    "move_basis": [
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Mismagius)"
+     },
+     {
+      "move": "Psybeam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 23, as Misdreavus)"
+     },
+     {
+      "move": "Magical Leaf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Mismagius)"
+     },
+     {
+      "move": "Confuse Ray",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 14, as Misdreavus)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:zoey-grand-festival/gastrodon",
+    "species": "Gastrodon",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Sticky Hold",
+    "level": 100,
+    "stats": {
+     "hp": 384,
+     "atk": 223,
+     "def": 193,
+     "spa": 241,
+     "spd": 221,
+     "spe": 135
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 193,
+     "spd": 221,
+     "physical_pct": 0.59,
+     "special_pct": 0.77,
+     "gap": 0.18
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Sticky Hold (could be Storm Drain)"
+    ],
+    "moves": [
+     "Water Pulse",
+     "Mud Bomb",
+     "Body Slam",
+     "Muddy Water"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Gastrodon)"
+     },
+     {
+      "move": "Mud Bomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 11, as Gastrodon)"
+     },
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Gastrodon)"
+     },
+     {
+      "move": "Muddy Water",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 41, as Gastrodon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:zoey-grand-festival/lumineon",
+    "species": "Lumineon",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Swift Swim",
+    "level": 100,
+    "stats": {
+     "hp": 300,
+     "atk": 195,
+     "def": 209,
+     "spa": 195,
+     "spd": 229,
+     "spe": 239
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 209,
+     "spd": 229,
+     "physical_pct": 0.4,
+     "special_pct": 0.49,
+     "gap": 0.09
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Swift Swim (could be Storm Drain)"
+    ],
+    "moves": [
+     "Silver Wind",
+     "Gust",
+     "Water Pulse",
+     "Attract"
+    ],
+    "move_basis": [
+     {
+      "move": "Silver Wind",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 59, as Lumineon)"
+     },
+     {
+      "move": "Gust",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 17, as Lumineon)"
+     },
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 22, as Lumineon)"
+     },
+     {
+      "move": "Attract",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Lumineon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:zoey-grand-festival/leafeon",
+    "species": "Leafeon",
+    "nickname": null,
+    "types": [
+     "Grass"
+    ],
+    "ability": "Leaf Guard",
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 277,
+     "def": 317,
+     "spa": 177,
+     "spd": 187,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 317,
+     "spd": 187,
+     "physical_pct": 0.84,
+     "special_pct": 0.16,
+     "gap": 0.68
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Blade",
+     "Magical Leaf",
+     "Quick Attack",
+     "Shadow Ball"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Blade",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 71, as Leafeon)"
+     },
+     {
+      "move": "Magical Leaf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 36, as Leafeon)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 22, as Leafeon)"
+     },
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Leafeon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:zoey-grand-festival/gallade",
+    "species": "Gallade",
+    "nickname": null,
+    "types": [
+     "Psychic",
+     "Fighting"
+    ],
+    "ability": "Steadfast",
+    "level": 100,
+    "stats": {
+     "hp": 298,
+     "atk": 307,
+     "def": 187,
+     "spa": 187,
+     "spd": 287,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 287,
+     "physical_pct": 0.23,
+     "special_pct": 0.78,
+     "gap": 0.55
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Psycho Cut",
+     "Leaf Blade",
+     "Close Combat",
+     "Night Slash"
+    ],
+    "move_basis": [
+     {
+      "move": "Psycho Cut",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 31, as Gallade)"
+     },
+     {
+      "move": "Leaf Blade",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Gallade)"
+     },
+     {
+      "move": "Close Combat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 53, as Gallade)"
+     },
+     {
+      "move": "Night Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Gallade)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Mismagius"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Glameow"
+     ],
+     "covered_by": [
+      "Mismagius",
+      "Gallade"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Leafeon",
+      "Gallade"
+     ],
+     "covered_by": []
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Leafeon"
+     ],
+     "covered_by": [
+      "Mismagius",
+      "Gastrodon"
+     ]
+    },
+    "Ground": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Mismagius",
+      "Leafeon"
+     ]
+    },
+    "Rock": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Gastrodon",
+      "Gallade"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Leafeon"
+     ],
+     "covered_by": [
+      "Mismagius"
+     ]
+    },
+    "Ghost": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Mismagius",
+      "Gallade"
+     ],
+     "covered_by": [
+      "Glameow"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Gastrodon",
+      "Lumineon"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Leafeon"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Lumineon"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Lumineon",
+      "Leafeon"
+     ]
+    },
+    "Grass": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Gastrodon",
+      "Lumineon"
+     ],
+     "covered_by": [
+      "Leafeon"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Lumineon"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Leafeon"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Leafeon"
+     ],
+     "covered_by": [
+      "Lumineon"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Mismagius"
+     ],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Flying"
+   ],
+   "strengths": [],
+   "soft": {
+    "physical": 2,
+    "special": 1,
+    "even": 2,
+    "frail": 1,
+    "sturdy": 0
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Mismagius",
+     "Gallade"
+    ],
+    "special": [
+     "Leafeon"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Zoey adapts mid-battle.",
+    "rule": "rigid_low",
+    "trigger": "rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (11 physical, 11 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Glameow, Mismagius, Lumineon, Leafeon and Gallade outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called offensive (55), but this team reads offensive (89): attack-heavy stats: Glameow, Mismagius, Gastrodon, Leafeon and Gallade; mostly attacks: Glameow, Mismagius, Gastrodon, Lumineon, Leafeon and Gallade; fast: Glameow, Mismagius, Lumineon, Leafeon and Gallade.",
+    "rule": "disagree_offense",
+    "trigger": "disagree_offense nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called flexible (30), but this team reads flexible (0): no low move-type variety.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Flying: Leafeon and Gallade are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Gastrodon to Grass (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Mismagius and Gallade are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Mismagius's Levitate changes Ground (from neutral to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Glameow's Iron Tail (75%) and Fury Swipes (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Grand Festival",
+     "kind": "contest",
+     "result": "won (beat Dawn in the final)",
+     "title": "Sinnoh Top Coordinator",
+     "champion": true,
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh contests",
+     "kind": "rivalry",
+     "result": "Dawn's rival through Sinnoh",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Sinnoh Top Coordinator",
+     "detail": [
+      "Sinnoh Grand Festival"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Glameow",
+    "nickname": null,
+    "primary": {
+     "role": "lead_attacker",
+     "name": "lead attacker",
+     "family": "offense",
+     "score": 0.6106,
+     "confidence": "solid",
+     "margin": 0.0591,
+     "clear": false
+    },
+    "secondary": {
+     "role": "fake_out_support",
+     "name": "Fake Out support",
+     "family": "support",
+     "score": 0.5515,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "lead attacker (0.61, solid): Fake Out; attacking moves: Shadow Claw, Iron Tail, Fake Out, Fury Swipes; Speed 227 (above 61% of the field)"
+   },
+   {
+    "species": "Mismagius",
+    "nickname": null,
+    "primary": {
+     "role": "spinblocker",
+     "name": "spinblocker",
+     "family": "support",
+     "score": 0.6123,
+     "confidence": "solid",
+     "margin": 0.1873,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.425,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "spinblocker (0.61, solid): Ghost; non-attacking, non-setup moves: Confuse Ray; overall bulk above 32% of the field"
+   },
+   {
+    "species": "Gastrodon",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6157,
+     "confidence": "solid",
+     "margin": 0.0257,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.59,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.62, solid): Water/Ground (Sticky Hold); overall bulk above 72% of the field; attacking moves: Water Pulse, Mud Bomb, Body Slam, Muddy Water"
+   },
+   {
+    "species": "Lumineon",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.4274,
+     "confidence": "loose",
+     "margin": 0.067,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.3604,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "check / counter (0.43, loose): Water (Swift Swim); attacking moves: Silver Wind, Gust, Water Pulse; overall bulk above 41% of the field"
+   },
+   {
+    "species": "Leafeon",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6852,
+     "confidence": "strong",
+     "margin": 0.09,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5952,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "revenge killer (0.69, strong): Quick Attack; Speed 247 (above 75% of the field); Attack 277 (above 80% of the field)"
+   },
+   {
+    "species": "Gallade",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.6394,
+     "confidence": "solid",
+     "margin": 0.0932,
+     "clear": true
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5462,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.64, solid): Close Combat (180); strong attacks (effective power 90+, with the stat it uses): Psycho Cut, Leaf Blade, Close Combat; Attack 307 (above 91% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Gallade",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Gallade",
+     "slot": 6,
+     "score": 0.713,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.647,
+      "role": 0.9
+     },
+     "helpers": [
+      "Glameow"
+     ],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Mismagius",
+     "slot": 2,
+     "score": 0.646,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [
+      "Glameow"
+     ],
+     "role": "spinblocker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Leafeon",
+     "slot": 5,
+     "score": 0.613,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.294,
+      "role": 0.9
+     },
+     "helpers": [
+      "Glameow"
+     ],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Lumineon",
+     "slot": 4,
+     "score": 0.544,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.353,
+      "role": 0.7
+     },
+     "helpers": [
+      "Glameow"
+     ],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Gastrodon",
+     "slot": 3,
+     "score": 0.544,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.353,
+      "role": 0.7
+     },
+     "helpers": [
+      "Glameow"
+     ],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Glameow",
+     "slot": 1,
+     "score": 0.367,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "lead attacker",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Gastrodon",
+    "role": "tank",
+    "fit": 0.566
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Leafeon",
+    "role": "revenge killer",
+    "fit": 0.685
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Gallade",
+    "role": "wallbreaker",
+    "fit": 0.575,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Gallade",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dragon",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Mud Bomb",
+     "member": "Gastrodon",
+     "move_type": "Ground",
+     "power": 83,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Psycho Cut",
+     "member": "Gallade",
+     "move_type": "Psychic",
+     "power": 105,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Muddy Water",
+     "member": "Gastrodon",
+     "move_type": "Water",
+     "power": 121,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Shadow Ball",
+     "member": "Mismagius",
+     "move_type": "Ghost",
+     "power": 120,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Silver Wind",
+     "member": "Lumineon",
+     "move_type": "Bug",
+     "power": 60,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Leaf Blade",
+     "member": "Leafeon",
+     "move_type": "Grass",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Gallade",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Gallade",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Psycho Cut",
+     "member": "Gallade",
+     "move_type": "Psychic",
+     "power": 105,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Shadow Ball",
+     "member": "Mismagius",
+     "move_type": "Ghost",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Gallade",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Gallade",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Leaf Blade",
+     "member": "Leafeon",
+     "move_type": "Grass",
+     "power": 135,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 0.824,
+   "covered_n": 14,
+   "types_n": 17,
+   "holes": [
+    "Bug",
+    "Dragon",
+    "Flying"
+   ],
+   "bring": [
+    {
+     "type": "Flying",
+     "their_weak": 2
+    },
+    {
+     "type": "Bug",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 91,
+   "finishers": 10,
+   "attrition": 1,
+   "finisher_moves": [
+    "Shadow Ball (Mismagius)",
+    "Water Pulse (Gastrodon)",
+    "Mud Bomb (Gastrodon)",
+    "Muddy Water (Gastrodon)",
+    "Water Pulse (Lumineon)",
+    "Leaf Blade (Leafeon)",
+    "Quick Attack (Leafeon)",
+    "Psycho Cut (Gallade)",
+    "Leaf Blade (Gallade)",
+    "Close Combat (Gallade)"
+   ],
+   "attrition_moves": [
+    "Confuse Ray (Mismagius)"
+   ],
+   "offense_authored": 55,
+   "offense_measured": 89,
+   "flag": {
+    "gap": 36,
+    "leans": "offensive",
+    "part1_flags_it": true
+   },
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Mismagius",
+    "usage": 0.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Shadow Ball",
+     "Thunderbolt",
+     "Destiny Bond",
+     "Will-O-Wisp"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 59.2
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 72,
+      "score": 55,
+      "n": 104
+     },
+     {
+      "species": "Scizor",
+      "beats": 79,
+      "score": 50,
+      "n": 33
+     },
+     {
+      "species": "Gengar",
+      "beats": 73,
+      "score": 38,
+      "n": 26
+     }
+    ]
+   },
+   {
+    "species": "Gastrodon",
+    "usage": 1.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Recover",
+     "Curse",
+     "Waterfall",
+     "Earthquake"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 16,
+      "spa": 0,
+      "spd": 240,
+      "spe": 0
+     },
+     "share": 71.0
+    },
+    "checks": [
+     {
+      "species": "Breloom",
+      "beats": 87,
+      "score": 71,
+      "n": 76
+     },
+     {
+      "species": "Abomasnow",
+      "beats": 85,
+      "score": 62,
+      "n": 40
+     },
+     {
+      "species": "Roserade",
+      "beats": 83,
+      "score": 55,
+      "n": 29
+     }
+    ]
+   },
+   {
+    "species": "Gallade",
+    "usage": 1.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Close Combat",
+     "Ice Punch",
+     "Leaf Blade",
+     "Shadow Sneak"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 51.9
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 69,
+      "score": 40,
+      "n": 40
+     },
+     {
+      "species": "Scizor",
+      "beats": 57,
+      "score": 15,
+      "n": 22
+     },
+     {
+      "species": "Latias",
+      "beats": 43,
+      "score": 15,
+      "n": 48
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Mismagius: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Shadow Ball, Thunderbolt, Destiny Bond, Will-O-Wisp @ Leftovers (Timid 4 HP / 252 SpA / 252 Spe). What beats it: Tyranitar 72%, Scizor 79%, Gengar 73%.",
+   "Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Roserade 83%.",
+   "Gallade: on 1.4% of gen4ou teams (2026-09, rated 1630+), usually Close Combat, Ice Punch, Leaf Blade, Shadow Sneak @ Focus Sash (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Gyarados 69%, Scizor 57%, Latias 43%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Sinnoh Top Coordinator.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Sinnoh Grand Festival: won (beat Dawn in the final).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Gallade (set up by Glameow, the widest coverage and a wallbreaker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Gastrodon is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Leafeon closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Gallade (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 14 of 17 types super-effectively; nothing they carry hits Bug, Dragon or Flying that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 3)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Flying: they can't hit it super-effectively, and two of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Bug get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Zoey (Sinnoh Grand Festival winner).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "91% of their moves finish or set up (10 of 11); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 91)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset leans offensive too: the same lean the slider check flags above.",
+     "rule": "aggr_same",
+     "trigger": "aggr_same_as_part1 == True (here True)"
+    }
+   ]
+  }
+ }
+}

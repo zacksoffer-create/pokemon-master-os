@@ -1,0 +1,2229 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "lance",
+ "trainer_name": "Lance",
+ "version": "anime-johto",
+ "title": "Lance, Dragon Master (as the anime shows him)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "anime, Johto (the Lake of Rage) and later series: Lance's Pokémon as the show and his games give them",
+ "status": "proposed",
+ "notes": [
+  "The games' Lance, read from the HeartGold cartridge.",
+  "The show gives Lance only Dragonite and the red Gyarados in Johto. The others are from his game teams, and each says so: Aerodactyl, Charizard and a second Dragonite from HeartGold (which has three), Dragonair from Red/Blue. No Kingdra: that's Clair's. The Johto episodes call him a Dragon master and a G-Man; the anime names him the Champion later, so the Champion tags are proposed for this version."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 80,
+   "why": "Hyper Beam first",
+   "measured": 94,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 100,
+     "members": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard",
+      "Dragonair",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard",
+      "Dragonair",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 83,
+     "members": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard",
+      "Dragonite",
+      "Dragonite"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 55,
+   "why": "dragons, and a code of protecting Pokémon",
+   "measured": 17,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 17,
+     "members": [
+      "Dragonair"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -38,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 17,
+      "members": [
+       "Dragonair"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 85,
+   "why": "protects Pokémon from Team Rocket's experiments at the Lake of Rage",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 50,
+   "why": "will fire the big move",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Dragonair",
+      "Dragonite"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Hyper Beam"
+   ],
+   "members": {
+    "Hyper Beam": [
+     "Gyarados",
+     "Dragonair",
+     "Dragonite",
+     "Dragonite"
+    ]
+   }
+  },
+  {
+   "id": "type_dominant",
+   "name": "Type-dominant",
+   "detail": [
+    "Flying"
+   ],
+   "members": {
+    "Flying": [
+     "Gyarados",
+     "Aerodactyl",
+     "Charizard",
+     "Dragonite",
+     "Dragonite"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Champion",
+   "detail": [
+    "Champion"
+   ],
+   "members": {}
+  },
+  {
+   "id": "role",
+   "name": "Region Champion",
+   "detail": [
+    "Region Champion"
+   ],
+   "members": {}
+  },
+  {
+   "id": "region_champion",
+   "name": "Indigo Plateau Champion",
+   "detail": [
+    "Indigo Plateau"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "lance",
+  "version": "anime-johto",
+  "title": "Lance, Dragon Master (as the anime shows him)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:lance-anime-johto/gyarados",
+    "species": "Gyarados",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Flying"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 307,
+     "def": 215,
+     "spa": 177,
+     "spd": 257,
+     "spe": 219
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 215,
+     "spd": 257,
+     "physical_pct": 0.62,
+     "special_pct": 0.84,
+     "gap": 0.22
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hyper Beam",
+     "Dragon Rage",
+     "Waterfall",
+     "Ice Fang"
+    ],
+    "move_basis": [
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 47, as Gyarados)"
+     },
+     {
+      "move": "Dragon Rage",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 23, as Gyarados)"
+     },
+     {
+      "move": "Waterfall",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Gyarados)"
+     },
+     {
+      "move": "Ice Fang",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 32, as Gyarados)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:lance-anime-johto/aerodactyl",
+    "species": "Aerodactyl",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Flying"
+    ],
+    "ability": "Pressure",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 267,
+     "def": 187,
+     "spa": 177,
+     "spd": 207,
+     "spe": 317
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 187,
+     "spd": 207,
+     "physical_pct": 0.35,
+     "special_pct": 0.43,
+     "gap": 0.09
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Aerial Ace",
+     "Crunch",
+     "Rock Slide",
+     "Thunder Fang"
+    ],
+    "move_basis": [
+     {
+      "move": "Aerial Ace",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Aerodactyl)"
+     },
+     {
+      "move": "Crunch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 33, as Aerodactyl)"
+     },
+     {
+      "move": "Rock Slide",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 65, as Aerodactyl)"
+     },
+     {
+      "move": "Thunder Fang",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Aerodactyl)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:lance-anime-johto/charizard",
+    "species": "Charizard",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Flying"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 318,
+     "atk": 225,
+     "def": 213,
+     "spa": 275,
+     "spd": 227,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 213,
+     "spd": 227,
+     "physical_pct": 0.47,
+     "special_pct": 0.58,
+     "gap": 0.11
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Shadow Claw",
+     "Air Slash",
+     "Dragon Claw",
+     "Fire Fang"
+    ],
+    "move_basis": [
+     {
+      "move": "Shadow Claw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Charizard)"
+     },
+     {
+      "move": "Air Slash",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Charizard)"
+     },
+     {
+      "move": "Dragon Claw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Charizard)"
+     },
+     {
+      "move": "Fire Fang",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 28, as Charizard)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:lance-anime-johto/dragonair",
+    "species": "Dragonair",
+    "nickname": null,
+    "types": [
+     "Dragon"
+    ],
+    "ability": "Shed Skin",
+    "level": 100,
+    "stats": {
+     "hp": 284,
+     "atk": 225,
+     "def": 187,
+     "spa": 197,
+     "spd": 197,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 187,
+     "spd": 197,
+     "physical_pct": 0.16,
+     "special_pct": 0.19,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Dragon Rage",
+     "Slam",
+     "Agility",
+     "Hyper Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Dragon Rage",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 15, as Dragonair)"
+     },
+     {
+      "move": "Slam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 21, as Dragonair)"
+     },
+     {
+      "move": "Agility",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 25, as Dragonair)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 67, as Dragonair)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:lance-anime-johto/dragonite-2",
+    "species": "Dragonite",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Flying"
+    ],
+    "ability": "Inner Focus",
+    "level": 100,
+    "stats": {
+     "hp": 344,
+     "atk": 325,
+     "def": 247,
+     "spa": 257,
+     "spd": 257,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 247,
+     "spd": 257,
+     "physical_pct": 0.76,
+     "special_pct": 0.82,
+     "gap": 0.06
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunder Wave",
+     "Dragon Rush",
+     "Thunder",
+     "Hyper Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunder Wave",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Dragonite)"
+     },
+     {
+      "move": "Dragon Rush",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 39, as Dragonite)"
+     },
+     {
+      "move": "Thunder",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Dragonite)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 73, as Dragonite)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:lance-anime-johto/dragonite",
+    "species": "Dragonite",
+    "nickname": null,
+    "types": [
+     "Dragon",
+     "Flying"
+    ],
+    "ability": "Inner Focus",
+    "level": 100,
+    "stats": {
+     "hp": 344,
+     "atk": 325,
+     "def": 247,
+     "spa": 257,
+     "spd": 257,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 247,
+     "spd": 257,
+     "physical_pct": 0.76,
+     "special_pct": 0.82,
+     "gap": 0.06
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hyper Beam",
+     "Dragon Claw",
+     "Thunder Punch",
+     "Outrage"
+    ],
+    "move_basis": [
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 73, as Dragonite)"
+     },
+     {
+      "move": "Dragon Claw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Dragonite)"
+     },
+     {
+      "move": "Thunder Punch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Dragonite)"
+     },
+     {
+      "move": "Outrage",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 64, as Dragonite)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Aerodactyl"
+     ]
+    },
+    "Fighting": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Gyarados",
+      "Charizard",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Aerodactyl"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Aerodactyl"
+     ]
+    },
+    "Ground": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 5,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    "Rock": {
+     "weak": 4,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 5,
+     "covered": 0,
+     "weak_members": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard",
+      "Dragonite",
+      "Dragonite"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Aerodactyl"
+     ],
+     "covered_by": [
+      "Gyarados",
+      "Charizard"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 6,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 6,
+     "weak_members": [],
+     "covered_by": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard",
+      "Dragonair",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    "Water": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 4,
+     "weak_members": [
+      "Aerodactyl",
+      "Charizard"
+     ],
+     "covered_by": [
+      "Gyarados",
+      "Dragonair",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard",
+      "Dragonair",
+      "Dragonite",
+      "Dragonite"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Gyarados",
+      "Aerodactyl",
+      "Charizard"
+     ],
+     "covered_by": [
+      "Dragonair"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 2,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 4,
+     "covered": 0,
+     "weak_members": [
+      "Aerodactyl",
+      "Dragonair",
+      "Dragonite",
+      "Dragonite"
+     ],
+     "covered_by": []
+    },
+    "Dragon": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Dragonair",
+      "Dragonite",
+      "Dragonite"
+     ],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Rock",
+    "Ice",
+    "Electric",
+    "Dragon"
+   ],
+   "strengths": [
+    "Fire",
+    "Ground",
+    "Bug",
+    "Fighting",
+    "Grass"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 0,
+    "even": 2,
+    "frail": 1,
+    "sturdy": 3
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Lance plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Region Champion: the last line of the league. Expect a team with no easy answers.",
+    "rule": "role_region",
+    "trigger": "is_region_champion == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Type-dominant: Flying (5 of 6). Everything you know about that type applies to most of their team.",
+    "rule": "type_dominant",
+    "trigger": "type_dominant_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Hyper Beam on Gyarados, Dragonair, Dragonite and Dragonite. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (14 physical, 8 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Gyarados, Aerodactyl, Charizard, Dragonite and Dragonite outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called rigid (55), but this team reads flexible (17): low move-type variety: Dragonair.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Rock: Gyarados, Aerodactyl, Charizard, Dragonite and Dragonite are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Ice (4 weak), Electric (3 weak) and Dragon (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Gyarados to Electric; Charizard to Rock; Dragonite to Ice; Dragonite to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either); lone_soft_str empty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Fire, Ground or Bug: 6 of 6 resist Fire; 5 of 6 resist Ground; 5 of 6 resist Bug.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Dragonair's Slam (75%); Dragonite's Dragon Rush (75%) and Thunder (70%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Champion",
+  "Region Champion"
+ ],
+ "overrides": {
+  "ace": "Dragonite"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto and Johto",
+     "event": "Indigo Plateau",
+     "kind": "league",
+     "result": "Champion",
+     "title": "Indigo Plateau Champion",
+     "champion": true,
+     "source": "games",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Lake of Rage",
+     "kind": "milestone",
+     "result": "caught the red Gyarados and broke up Team Rocket's operation there, with Ash",
+     "versions": [
+      "anime-johto"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto and Johto",
+    "Johto"
+   ],
+   "tags": [
+    {
+     "id": "region_champion",
+     "name": "Indigo Plateau Champion",
+     "detail": [
+      "Indigo Plateau"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Gyarados",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.7122,
+     "confidence": "strong",
+     "margin": 0.0006,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.7116,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "pivot (0.71, strong): Intimidate; Water/Flying (Intimidate); overall bulk above 77% of the field"
+   },
+   {
+    "species": "Aerodactyl",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5538,
+     "confidence": "solid",
+     "margin": 0.0301,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.5237,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.55, solid): strong attacks (effective power 90+, with the stat it uses): Aerial Ace, Rock Slide; Attack 267 (above 76% of the field); Rock Slide (101)"
+   },
+   {
+    "species": "Charizard",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5137,
+     "confidence": "solid",
+     "margin": 0.0076,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5061,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.51, solid): Sp. Atk 275 (above 84% of the field); attacking moves: Shadow Claw, Air Slash, Dragon Claw, Fire Fang; overall bulk above 52% of the field"
+   },
+   {
+    "species": "Dragonair",
+    "nickname": null,
+    "primary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.4509,
+     "confidence": "loose",
+     "margin": 0.3938,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.0571,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "sponge / status absorber (0.45, loose): Shed Skin; Dragon (Shed Skin); overall bulk above 15% of the field"
+   },
+   {
+    "species": "Dragonite",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5981,
+     "confidence": "solid",
+     "margin": 0.0173,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.5808,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.60, solid): Attack 325 (above 96% of the field); overall bulk above 82% of the field; attacking moves: Dragon Rush, Thunder, Hyper Beam"
+   },
+   {
+    "species": "Dragonite",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6219,
+     "confidence": "solid",
+     "margin": 0.0308,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5911,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.62, solid): Attack 325 (above 96% of the field); overall bulk above 82% of the field; attacking moves: Hyper Beam, Dragon Claw, Thunder Punch, Outrage"
+   }
+  ],
+  "ace": {
+   "derived": "Aerodactyl",
+   "authored": "Dragonite",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Aerodactyl",
+     "slot": 2,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Dragonite",
+     "slot": 6,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Charizard",
+     "slot": 3,
+     "score": 0.434,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Dragonair",
+     "slot": 4,
+     "score": 0.386,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.0,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "sponge / status absorber",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Dragonite",
+     "slot": 5,
+     "score": 0.35,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Gyarados",
+     "slot": 1,
+     "score": 0.229,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Gyarados",
+    "role": "pivot",
+    "fit": 0.712
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Aerodactyl",
+    "role": "late-game cleaner",
+    "fit": 0.524
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Dragonite",
+    "role": "wallbreaker",
+    "fit": 0.532,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Outrage",
+     "member": "Dragonite",
+     "move_type": "Dragon",
+     "power": 180,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Waterfall",
+     "member": "Gyarados",
+     "move_type": "Water",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Rock Slide",
+     "member": "Aerodactyl",
+     "move_type": "Rock",
+     "power": 101,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Aerodactyl",
+     "move_type": "Dark",
+     "power": 80,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Air Slash",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 107,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Waterfall",
+     "member": "Gyarados",
+     "move_type": "Water",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Rock Slide",
+     "member": "Aerodactyl",
+     "move_type": "Rock",
+     "power": 101,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Aerodactyl",
+     "move_type": "Dark",
+     "power": 80,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Waterfall",
+     "member": "Gyarados",
+     "move_type": "Water",
+     "power": 120,
+     "their_weak_to_it": 5
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Fire Fang",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 76,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Thunder Punch",
+     "member": "Dragonite",
+     "move_type": "Electric",
+     "power": 75,
+     "their_weak_to_it": 2
+    }
+   ],
+   "coverage": 0.765,
+   "covered_n": 13,
+   "types_n": 17,
+   "holes": [
+    "Dark",
+    "Electric",
+    "Normal",
+    "Poison"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 3
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Dragonite",
+    "move": "Hyper Beam",
+    "why": "a dragon master's signature",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 90,
+   "finishers": 9,
+   "attrition": 1,
+   "finisher_moves": [
+    "Waterfall (Gyarados)",
+    "Aerial Ace (Aerodactyl)",
+    "Crunch (Aerodactyl)",
+    "Rock Slide (Aerodactyl)",
+    "Air Slash (Charizard)",
+    "Agility (Dragonair)",
+    "Dragon Rush (Dragonite)",
+    "Dragon Claw (Dragonite)",
+    "Outrage (Dragonite)"
+   ],
+   "attrition_moves": [
+    "Thunder Wave (Dragonite)"
+   ],
+   "offense_authored": 80,
+   "offense_measured": 94,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Gyarados",
+    "usage": 29.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Waterfall",
+     "Dragon Dance",
+     "Earthquake",
+     "Ice Fang"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 35.4
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 65,
+      "score": 58,
+      "n": 817
+     },
+     {
+      "species": "Rotom-Wash",
+      "beats": 67,
+      "score": 54,
+      "n": 212
+     },
+     {
+      "species": "Rotom-Heat",
+      "beats": 70,
+      "score": 54,
+      "n": 136
+     }
+    ]
+   },
+   {
+    "species": "Aerodactyl",
+    "usage": 2.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Taunt",
+     "Earthquake",
+     "Stealth Rock",
+     "Stone Edge"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 33.7
+    },
+    "checks": [
+     {
+      "species": "Donphan",
+      "beats": 91,
+      "score": 68,
+      "n": 24
+     },
+     {
+      "species": "Metagross",
+      "beats": 82,
+      "score": 57,
+      "n": 40
+     },
+     {
+      "species": "Swampert",
+      "beats": 85,
+      "score": 55,
+      "n": 21
+     }
+    ]
+   },
+   {
+    "species": "Charizard",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Hidden Power Grass",
+     "Dragon Pulse",
+     "Flamethrower",
+     "Roost"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 38.1
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 84,
+      "score": 67,
+      "n": 75
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 61,
+      "n": 99
+     }
+    ]
+   },
+   {
+    "species": "Dragonite",
+    "usage": 15.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Extreme Speed",
+     "Outrage",
+     "Dragon Dance",
+     "Fire Punch"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 24.9
+    },
+    "checks": [
+     {
+      "species": "Mamoswine",
+      "beats": 93,
+      "score": 71,
+      "n": 22
+     },
+     {
+      "species": "Lucario",
+      "beats": 65,
+      "score": 45,
+      "n": 98
+     },
+     {
+      "species": "Suicune",
+      "beats": 65,
+      "score": 45,
+      "n": 96
+     }
+    ]
+   },
+   {
+    "species": "Dragonite",
+    "usage": 15.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Extreme Speed",
+     "Outrage",
+     "Dragon Dance",
+     "Fire Punch"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 24.9
+    },
+    "checks": [
+     {
+      "species": "Mamoswine",
+      "beats": 93,
+      "score": 71,
+      "n": 22
+     },
+     {
+      "species": "Lucario",
+      "beats": 65,
+      "score": 45,
+      "n": 98
+     },
+     {
+      "species": "Suicune",
+      "beats": 65,
+      "score": 45,
+      "n": 96
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Rotom-Wash 67%, Rotom-Heat 70%.",
+   "Aerodactyl: on 2.5% of gen4ou teams (2026-09, rated 1630+), usually Taunt, Earthquake, Stealth Rock, Stone Edge @ Focus Sash (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Donphan 91%, Metagross 82%, Swampert 85%.",
+   "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%.",
+   "Dragonite: on 15.7% of gen4ou teams (2026-09, rated 1630+), usually Extreme Speed, Outrage, Dragon Dance, Fire Punch @ Life Orb (Adamant 252 Atk / 4 SpD / 252 Spe). What beats it: Mamoswine 93%, Lucario 65%, Suicune 65%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Titles: Indigo Plateau Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Indigo Plateau: Champion.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Dragonite; the data's is Aerodactyl (the widest coverage and a wallbreaker). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Gyarados is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Aerodactyl closes it out (late-game cleaner).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Dragonite (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 13 of 17 types super-effectively; nothing they carry hits Dark, Electric, Normal or Poison that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 4)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Dragonite's Hyper Beam (a dragon master's signature).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "90% of their moves finish or set up (9 of 10); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 90)"
+    }
+   ]
+  }
+ }
+}

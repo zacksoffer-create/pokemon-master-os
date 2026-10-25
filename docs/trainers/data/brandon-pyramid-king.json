@@ -1,0 +1,2041 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "brandon",
+ "trainer_name": "Brandon",
+ "version": "pyramid-king",
+ "title": "Brandon, Pyramid King (the Battle Pyramid)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Advanced Generation (Battle Frontier): the Battle Pyramid battles with Ash",
+ "status": "proposed",
+ "notes": [
+  "The Battle Frontier's chief Frontier Brain, the Pyramid King; an explorer of ruins (lore).",
+  "Dusclops, Ninjask, Solrock and Regice are his four in the four-on-four rematch with Ash, in that order, with the show's moves for the first three (Bulbapedia, Brandon (anime)). Regirock and Registeel are from the first Pyramid battle and his full battle with Paul. The show never fields all six at once."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 70,
+   "why": "the Regis' raw power",
+   "measured": 39,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 33,
+     "members": [
+      "Ninjask",
+      "Solrock"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 67,
+     "members": [
+      "Solrock",
+      "Regice",
+      "Regirock",
+      "Registeel"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 17,
+     "members": [
+      "Ninjask"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -31,
+    "team_leans": "defensive",
+    "because": [
+     {
+      "signal": "attack_heavy",
+      "label": "attack-heavy stats",
+      "value": 33,
+      "members": [
+       "Ninjask",
+       "Solrock"
+      ]
+     },
+     {
+      "signal": "damage_moves",
+      "label": "mostly attacks",
+      "value": 67,
+      "members": [
+       "Solrock",
+       "Regice",
+       "Regirock",
+       "Registeel"
+      ]
+     },
+     {
+      "signal": "fast",
+      "label": "fast",
+      "value": 17,
+      "members": [
+       "Ninjask"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 55,
+   "why": "a set gauntlet: Dusclops to wear challengers down, the Regis to finish",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Dusclops",
+      "Ninjask"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 70,
+   "why": "an explorer who protects the Pokémon of the ruins",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 30,
+   "why": "measured: tests a challenger before unleashing the Legendaries",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Solrock",
+      "Regice",
+      "Regirock"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Focus Punch",
+    "Hyper Beam"
+   ],
+   "members": {
+    "Focus Punch": [
+     "Regice",
+     "Regirock",
+     "Registeel"
+    ],
+    "Hyper Beam": [
+     "Regice",
+     "Regirock",
+     "Registeel"
+    ]
+   }
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "brandon",
+  "version": "pyramid-king",
+  "title": "Brandon, Pyramid King (the Battle Pyramid)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:brandon-pyramid-king/dusclops",
+    "species": "Dusclops",
+    "nickname": null,
+    "types": [
+     "Ghost"
+    ],
+    "ability": "Pressure",
+    "level": 100,
+    "stats": {
+     "hp": 242,
+     "atk": 197,
+     "def": 317,
+     "spa": 177,
+     "spd": 317,
+     "spe": 107
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 317,
+     "spd": 317,
+     "physical_pct": 0.64,
+     "special_pct": 0.65,
+     "gap": 0.01
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Fighting": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Will-O-Wisp",
+     "Shadow Punch",
+     "Mean Look",
+     "Confuse Ray"
+    ],
+    "move_basis": [
+     {
+      "move": "Will-O-Wisp",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Dusclops)"
+     },
+     {
+      "move": "Shadow Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Dusclops)"
+     },
+     {
+      "move": "Mean Look",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 43, as Dusclops)"
+     },
+     {
+      "move": "Confuse Ray",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 17, as Dusclops)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brandon-pyramid-king/ninjask",
+    "species": "Ninjask",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Flying"
+    ],
+    "ability": "Speed Boost",
+    "level": 100,
+    "stats": {
+     "hp": 284,
+     "atk": 237,
+     "def": 147,
+     "spa": 157,
+     "spd": 157,
+     "spe": 377
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 147,
+     "spd": 157,
+     "physical_pct": 0.05,
+     "special_pct": 0.05,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Aerial Ace",
+     "Sandstorm",
+     "Double Team",
+     "Sand Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Aerial Ace",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ninjask)"
+     },
+     {
+      "move": "Sandstorm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ninjask)"
+     },
+     {
+      "move": "Double Team",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Ninjask)"
+     },
+     {
+      "move": "Sand Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Ninjask)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brandon-pyramid-king/solrock",
+    "species": "Solrock",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Psychic"
+    ],
+    "ability": "Levitate",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 247,
+     "def": 227,
+     "spa": 167,
+     "spd": 187,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 227,
+     "spd": 187,
+     "physical_pct": 0.48,
+     "special_pct": 0.2,
+     "gap": 0.28
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Levitate",
+      "before_ability": "weak"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Psywave",
+     "Confusion",
+     "Shadow Ball",
+     "Solar Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Psywave",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 23, as Solrock)"
+     },
+     {
+      "move": "Confusion",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Solrock)"
+     },
+     {
+      "move": "Shadow Ball",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Solrock)"
+     },
+     {
+      "move": "Solar Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 53, as Solrock)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brandon-pyramid-king/regice",
+    "species": "Regice",
+    "nickname": null,
+    "types": [
+     "Ice"
+    ],
+    "ability": "Clear Body",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 157,
+     "def": 257,
+     "spa": 257,
+     "spd": 457,
+     "spe": 157
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 257,
+     "spd": 457,
+     "physical_pct": 0.74,
+     "special_pct": 0.99,
+     "gap": 0.26
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Ice Beam",
+     "Hyper Beam",
+     "Focus Punch",
+     "Zap Cannon"
+    ],
+    "move_basis": [
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 73, as Regice)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 89, as Regice)"
+     },
+     {
+      "move": "Focus Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Regice)"
+     },
+     {
+      "move": "Zap Cannon",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 65, as Regice)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brandon-pyramid-king/regirock",
+    "species": "Regirock",
+    "nickname": null,
+    "types": [
+     "Rock"
+    ],
+    "ability": "Clear Body",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 257,
+     "def": 457,
+     "spa": 157,
+     "spd": 257,
+     "spe": 157
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 457,
+     "spd": 257,
+     "physical_pct": 1.0,
+     "special_pct": 0.73,
+     "gap": 0.26
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hyper Beam",
+     "Focus Punch",
+     "Ancient Power",
+     "Stone Edge"
+    ],
+    "move_basis": [
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 89, as Regirock)"
+     },
+     {
+      "move": "Focus Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Regirock)"
+     },
+     {
+      "move": "Ancient Power",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Regirock)"
+     },
+     {
+      "move": "Stone Edge",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 73, as Regirock)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brandon-pyramid-king/registeel",
+    "species": "Registeel",
+    "nickname": null,
+    "types": [
+     "Steel"
+    ],
+    "ability": "Clear Body",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 207,
+     "def": 357,
+     "spa": 207,
+     "spd": 357,
+     "spe": 157
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 357,
+     "spd": 357,
+     "physical_pct": 0.96,
+     "special_pct": 0.96,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flash Cannon",
+     "Hyper Beam",
+     "Focus Punch",
+     "Iron Defense"
+    ],
+    "move_basis": [
+     {
+      "move": "Flash Cannon",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 73, as Registeel)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 89, as Registeel)"
+     },
+     {
+      "move": "Focus Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Registeel)"
+     },
+     {
+      "move": "Iron Defense",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 41, as Registeel)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Dusclops",
+      "Solrock",
+      "Regirock",
+      "Registeel"
+     ]
+    },
+    "Fighting": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Regice",
+      "Regirock",
+      "Registeel"
+     ],
+     "covered_by": [
+      "Dusclops",
+      "Ninjask"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Ninjask"
+     ],
+     "covered_by": [
+      "Solrock",
+      "Regirock",
+      "Registeel"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Dusclops",
+      "Solrock",
+      "Regirock",
+      "Registeel"
+     ]
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Regirock",
+      "Registeel"
+     ],
+     "covered_by": [
+      "Ninjask",
+      "Solrock"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Ninjask",
+      "Regice"
+     ],
+     "covered_by": [
+      "Registeel"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Solrock"
+     ],
+     "covered_by": [
+      "Dusclops",
+      "Ninjask",
+      "Registeel"
+     ]
+    },
+    "Ghost": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Dusclops",
+      "Solrock"
+     ],
+     "covered_by": [
+      "Registeel"
+     ]
+    },
+    "Steel": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Solrock",
+      "Regice",
+      "Regirock"
+     ],
+     "covered_by": [
+      "Registeel"
+     ]
+    },
+    "Fire": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Ninjask",
+      "Regice",
+      "Registeel"
+     ],
+     "covered_by": [
+      "Solrock",
+      "Regirock"
+     ]
+    },
+    "Water": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 0,
+     "weak_members": [
+      "Solrock",
+      "Regirock"
+     ],
+     "covered_by": []
+    },
+    "Grass": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Solrock",
+      "Regirock"
+     ],
+     "covered_by": [
+      "Ninjask",
+      "Registeel"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Ninjask"
+     ],
+     "covered_by": []
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Solrock",
+      "Registeel"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Ninjask"
+     ],
+     "covered_by": [
+      "Regice",
+      "Registeel"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Registeel"
+     ]
+    },
+    "Dark": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Dusclops",
+      "Solrock"
+     ],
+     "covered_by": [
+      "Registeel"
+     ]
+    }
+   },
+   "gaps": [
+    "Steel",
+    "Fighting",
+    "Fire",
+    "Water"
+   ],
+   "strengths": [
+    "Normal",
+    "Poison"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 1,
+    "even": 0,
+    "frail": 1,
+    "sturdy": 4
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Solrock"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Brandon plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Cohesive: Focus Punch on Regice, Regirock and Registeel; Hyper Beam on Regice, Regirock and Registeel. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (6 physical, 11 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Called offensive (70), but this team reads defensive (39): attack-heavy stats: Ninjask and Solrock; mostly attacks: Solrock, Regice, Regirock and Registeel; fast: Ninjask.",
+    "rule": "disagree_offense",
+    "trigger": "disagree_offense nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Steel: Solrock, Regice and Regirock are weak to it, and only Registeel can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Fighting (3 weak), Fire (3 weak) and Water (2 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Ninjask to Rock (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "No side of their bulk stands out across the team, so pick attackers by type. The one soft spot: Solrock (specially soft).",
+    "rule": "bring_lone",
+    "trigger": "bring == either (here either); lone_soft_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Solrock's Levitate changes Ground (from weak to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Normal or Poison: 4 of 6 resist Normal; 4 of 6 resist Poison.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Solrock's Psywave (80%); Regice's Zap Cannon (50%); Regirock's Stone Edge (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Battle Pyramid",
+     "kind": "title",
+     "result": "the Battle Pyramid's Frontier Brain; awards the Brave Symbol",
+     "title": "Pyramid King",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Battle Pyramid",
+     "kind": "frontier",
+     "result": "beat Ash in their first battle; lost the four-on-four rematch (Ash's Brave Symbol)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Battle Pyramid",
+     "kind": "frontier",
+     "result": "beat Paul in a full battle using only Regirock, Registeel and Regice",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Sinnoh"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Dusclops",
+    "nickname": null,
+    "primary": {
+     "role": "spinblocker",
+     "name": "spinblocker",
+     "family": "support",
+     "score": 0.8802,
+     "confidence": "strong",
+     "margin": 0.348,
+     "clear": true
+    },
+    "secondary": {
+     "role": "trapper",
+     "name": "trapper",
+     "family": "support",
+     "score": 0.5322,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "spinblocker (0.88, strong): Ghost; non-attacking, non-setup moves: Will-O-Wisp, Mean Look, Confuse Ray; overall bulk above 65% of the field"
+   },
+   {
+    "species": "Ninjask",
+    "nickname": null,
+    "primary": {
+     "role": "weather_setter",
+     "name": "weather setter",
+     "family": "support",
+     "score": 0.4921,
+     "confidence": "loose",
+     "margin": 0.4921,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "weather setter (0.49, loose): Sandstorm; attacking moves: Aerial Ace; overall bulk above 3% of the field"
+   },
+   {
+    "species": "Solrock",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3019,
+     "confidence": "loose",
+     "margin": 0.3019,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.30, loose): Attack 247 (above 63% of the field); attacks that use its better attacking stat: Psywave, Confusion, Shadow Ball, Solar Beam; Solar Beam (54)"
+   },
+   {
+    "species": "Regice",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.649,
+     "confidence": "solid",
+     "margin": 0.103,
+     "clear": true
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.546,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.65, solid): overall bulk above 98% of the field; Sp. Atk 257 (above 77% of the field); attacking moves: Ice Beam, Hyper Beam, Focus Punch, Zap Cannon"
+   },
+   {
+    "species": "Regirock",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6353,
+     "confidence": "solid",
+     "margin": 0.0787,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5566,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.64, solid): overall bulk above 98% of the field; attacking moves: Hyper Beam, Focus Punch, Ancient Power, Stone Edge; Attack 257 (above 70% of the field)"
+   },
+   {
+    "species": "Registeel",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.7093,
+     "confidence": "strong",
+     "margin": 0.066,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.6433,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.71, strong): Steel (Clear Body); overall bulk above 98% of the field; attacking moves: Flash Cannon, Hyper Beam, Focus Punch"
+   }
+  ],
+  "ace": {
+   "derived": "Solrock",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Solrock",
+     "slot": 3,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Regice",
+     "slot": 4,
+     "score": 0.468,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.588,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Regirock",
+     "slot": 5,
+     "score": 0.434,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Registeel",
+     "slot": 6,
+     "score": 0.298,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Ninjask",
+     "slot": 2,
+     "score": 0.179,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "weather setter",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Dusclops",
+     "slot": 1,
+     "score": 0.162,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.118,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "spinblocker",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Registeel",
+    "role": "tank",
+    "fit": 0.643
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Dusclops",
+    "role": "trapper",
+    "fit": 0.319
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Regice",
+    "role": "wallbreaker",
+    "fit": 0.474,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Stone Edge",
+     "member": "Regirock",
+     "move_type": "Rock",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Regirock",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Regice",
+     "move_type": "Ice",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Aerial Ace",
+     "member": "Ninjask",
+     "move_type": "Flying",
+     "power": 90,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Stone Edge",
+     "member": "Regirock",
+     "move_type": "Rock",
+     "power": 120,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Regice",
+     "move_type": "Ice",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Shadow Punch",
+     "member": "Dusclops",
+     "move_type": "Ghost",
+     "power": 90,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Regice",
+     "move_type": "Ice",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Regice",
+     "move_type": "Ice",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Regirock",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Regirock",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Shadow Punch",
+     "member": "Dusclops",
+     "move_type": "Ghost",
+     "power": 90,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Regirock",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Focus Punch",
+     "member": "Regirock",
+     "move_type": "Fighting",
+     "power": 150,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Solrock",
+     "move_type": "Grass",
+     "power": 135,
+     "their_weak_to_it": 2
+    }
+   ],
+   "coverage": 0.882,
+   "covered_n": 15,
+   "types_n": 17,
+   "holes": [
+    "Electric",
+    "Poison"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 62,
+   "finishers": 5,
+   "attrition": 3,
+   "finisher_moves": [
+    "Shadow Punch (Dusclops)",
+    "Aerial Ace (Ninjask)",
+    "Ice Beam (Regice)",
+    "Stone Edge (Regirock)",
+    "Flash Cannon (Registeel)"
+   ],
+   "attrition_moves": [
+    "Will-O-Wisp (Dusclops)",
+    "Mean Look (Dusclops)",
+    "Confuse Ray (Dusclops)"
+   ],
+   "offense_authored": 70,
+   "offense_measured": 39,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [
+   "sand"
+  ],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Regirock",
+    "usage": 0.4,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Curse",
+     "Stone Edge",
+     "Rest",
+     "Earthquake"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 4,
+      "def": 0,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 22.9
+    },
+    "checks": [
+     {
+      "species": "Skarmory",
+      "beats": 58,
+      "score": 18,
+      "n": 24
+     },
+     {
+      "species": "Starmie",
+      "beats": 54,
+      "score": 16,
+      "n": 28
+     },
+     {
+      "species": "Gyarados",
+      "beats": 57,
+      "score": 15,
+      "n": 23
+     }
+    ]
+   },
+   {
+    "species": "Registeel",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Stealth Rock",
+     "Seismic Toss",
+     "Thunder Wave",
+     "Shadow Claw"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 248,
+      "atk": 148,
+      "def": 0,
+      "spa": 0,
+      "spd": 88,
+      "spe": 24
+     },
+     "share": 15.7
+    },
+    "checks": [
+     {
+      "species": "Heatran",
+      "beats": 96,
+      "score": 80,
+      "n": 20
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 32,
+      "score": -2,
+      "n": 30
+     },
+     {
+      "species": "Jirachi",
+      "beats": 36,
+      "score": -2,
+      "n": 25
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Regirock: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Curse, Stone Edge, Rest, Earthquake @ Leftovers (Careful 252 HP / 4 Atk / 252 SpD). What beats it: Skarmory 58%, Starmie 54%, Gyarados 57%.",
+   "Registeel: on 1.2% of gen4ou teams (2026-09, rated 1630+), usually Stealth Rock, Seismic Toss, Thunder Wave, Shadow Claw @ Leftovers (Careful 248 HP / 148 Atk / 88 SpD / 24 Spe). What beats it: Heatran 96%, Tyranitar 32%, Jirachi 36%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Battle Pyramid: beat Ash in their first battle; lost the four-on-four rematch (Ash's Brave Symbol); Battle Pyramid: beat Paul in a full battle using only Regirock, Registeel and Regice.",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Solrock (a wallbreaker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Registeel is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Dusclops closes it out (trapper).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Regice (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 15 of 17 types super-effectively; nothing they carry hits Electric or Poison that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 2)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and one of them is weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Brandon, Pyramid King (the Battle Pyramid).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "62% of their moves finish or set up (5 of 8); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 62)"
+    }
+   ]
+  }
+ }
+}

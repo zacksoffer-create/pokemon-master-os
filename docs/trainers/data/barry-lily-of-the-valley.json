@@ -1,0 +1,2218 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "barry",
+ "trainer_name": "Barry",
+ "version": "lily-of-the-valley",
+ "title": "Barry at Lily of the Valley",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl (Sinnoh League Victors): Lily of the Valley Conference",
+ "status": "proposed",
+ "notes": [
+  "Ash's Sinnoh rival; son of the Tower Tycoon (lore). Fines people for getting in his way.",
+  "The six are my reading of his roster at the Conference; Skarmory and Snorlax need confirming. The show doesn't field them six-on-six in the episodes I can place."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 80,
+   "why": "charges in with his strongest attack",
+   "measured": 78,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Staraptor",
+      "Heracross",
+      "Roserade",
+      "Snorlax",
+      "Empoleon"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Staraptor",
+      "Heracross",
+      "Roserade",
+      "Skarmory",
+      "Snorlax",
+      "Empoleon"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Staraptor",
+      "Heracross",
+      "Roserade"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 40,
+   "why": "copies the trainers he admires, then improvises",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Roserade",
+      "Snorlax"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 80,
+   "why": "loud about his Pokémon, and loud for them",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 75,
+   "why": "impatient: rushes for the big move",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Staraptor",
+      "Empoleon"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -42,
+    "team_leans": "percentage player",
+    "because": [
+     {
+      "signal": "risky",
+      "label": "carries a gamble",
+      "value": 33,
+      "members": [
+       "Staraptor",
+       "Empoleon"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "barry",
+  "version": "lily-of-the-valley",
+  "title": "Barry at Lily of the Valley",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:barry-lily-of-the-valley/staraptor",
+    "species": "Staraptor",
+    "nickname": null,
+    "types": [
+     "Normal",
+     "Flying"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 297,
+     "def": 197,
+     "spa": 157,
+     "spd": 157,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 197,
+     "spd": 157,
+     "physical_pct": 0.45,
+     "special_pct": 0.11,
+     "gap": 0.34
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Brave Bird",
+     "Close Combat",
+     "Aerial Ace",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Brave Bird",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 49, as Staraptor)"
+     },
+     {
+      "move": "Close Combat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 34, as Staraptor)"
+     },
+     {
+      "move": "Aerial Ace",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Staraptor)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Staraptor)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:barry-lily-of-the-valley/heracross",
+    "species": "Heracross",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Fighting"
+    ],
+    "ability": "Guts",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 307,
+     "def": 207,
+     "spa": 137,
+     "spd": 247,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 207,
+     "spd": 247,
+     "physical_pct": 0.46,
+     "special_pct": 0.68,
+     "gap": 0.23
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Megahorn",
+     "Close Combat",
+     "Horn Attack",
+     "Night Slash"
+    ],
+    "move_basis": [
+     {
+      "move": "Megahorn",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 55, as Heracross)"
+     },
+     {
+      "move": "Close Combat",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 37, as Heracross)"
+     },
+     {
+      "move": "Horn Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Heracross)"
+     },
+     {
+      "move": "Night Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Heracross)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:barry-lily-of-the-valley/roserade",
+    "species": "Roserade",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 197,
+     "def": 167,
+     "spa": 307,
+     "spd": 267,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 167,
+     "spd": 267,
+     "physical_pct": 0.09,
+     "special_pct": 0.62,
+     "gap": 0.53
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Petal Dance",
+     "Poison Jab",
+     "Magical Leaf",
+     "Leaf Storm"
+    ],
+    "move_basis": [
+     {
+      "move": "Petal Dance",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 40, as Roselia)"
+     },
+     {
+      "move": "Poison Jab",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Roserade)"
+     },
+     {
+      "move": "Magical Leaf",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Roserade)"
+     },
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Roselia)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:barry-lily-of-the-valley/skarmory",
+    "species": "Skarmory",
+    "nickname": null,
+    "types": [
+     "Steel",
+     "Flying"
+    ],
+    "ability": "Keen Eye",
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 217,
+     "def": 337,
+     "spa": 137,
+     "spd": 197,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 337,
+     "spd": 197,
+     "physical_pct": 0.9,
+     "special_pct": 0.24,
+     "gap": 0.66
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Keen Eye (could be Sturdy)"
+    ],
+    "moves": [
+     "Steel Wing",
+     "Air Cutter",
+     "Swift",
+     "Drill Peck"
+    ],
+    "move_basis": [
+     {
+      "move": "Steel Wing",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 34, as Skarmory)"
+     },
+     {
+      "move": "Air Cutter",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 23, as Skarmory)"
+     },
+     {
+      "move": "Swift",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 9, as Skarmory)"
+     },
+     {
+      "move": "Drill Peck",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Skarmory)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:barry-lily-of-the-valley/snorlax",
+    "species": "Snorlax",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Thick Fat",
+    "level": 100,
+    "stats": {
+     "hp": 482,
+     "atk": 277,
+     "def": 187,
+     "spa": 187,
+     "spd": 277,
+     "spe": 117
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 187,
+     "spd": 277,
+     "physical_pct": 0.82,
+     "special_pct": 0.98,
+     "gap": 0.16
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5,
+      "ability": "Thick Fat",
+      "before_ability": "neutral"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5,
+      "ability": "Thick Fat",
+      "before_ability": "neutral"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Body Slam",
+     "Hyper Beam",
+     "Ice Punch",
+     "Rest"
+    ],
+    "move_basis": [
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 33, as Snorlax)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Snorlax)"
+     },
+     {
+      "move": "Ice Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Snorlax)"
+     },
+     {
+      "move": "Rest",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 25, as Snorlax)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:barry-lily-of-the-valley/empoleon",
+    "species": "Empoleon",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Steel"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 330,
+     "atk": 229,
+     "def": 233,
+     "spa": 279,
+     "spd": 259,
+     "spe": 177
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 233,
+     "spd": 259,
+     "physical_pct": 0.64,
+     "special_pct": 0.77,
+     "gap": 0.13
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Drill Peck",
+     "Metal Claw",
+     "Bubble Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 59, as Empoleon)"
+     },
+     {
+      "move": "Drill Peck",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 52, as Empoleon)"
+     },
+     {
+      "move": "Metal Claw",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 16, as Empoleon)"
+     },
+     {
+      "move": "Bubble Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 19, as Empoleon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Skarmory",
+      "Empoleon"
+     ]
+    },
+    "Fighting": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Snorlax",
+      "Empoleon"
+     ],
+     "covered_by": [
+      "Heracross",
+      "Roserade"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Heracross",
+      "Roserade"
+     ],
+     "covered_by": [
+      "Skarmory",
+      "Empoleon"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Skarmory",
+      "Empoleon"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 2,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Empoleon"
+     ],
+     "covered_by": [
+      "Staraptor",
+      "Heracross",
+      "Skarmory"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Staraptor"
+     ],
+     "covered_by": [
+      "Empoleon"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Staraptor",
+      "Heracross",
+      "Skarmory",
+      "Empoleon"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 2,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Staraptor",
+      "Skarmory",
+      "Snorlax",
+      "Empoleon"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Skarmory",
+      "Empoleon"
+     ]
+    },
+    "Fire": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Heracross",
+      "Roserade",
+      "Skarmory"
+     ],
+     "covered_by": [
+      "Snorlax"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Roserade",
+      "Empoleon"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Staraptor",
+      "Heracross",
+      "Roserade",
+      "Skarmory"
+     ]
+    },
+    "Electric": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Staraptor",
+      "Skarmory",
+      "Empoleon"
+     ],
+     "covered_by": [
+      "Roserade"
+     ]
+    },
+    "Psychic": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Heracross",
+      "Roserade"
+     ],
+     "covered_by": [
+      "Skarmory",
+      "Empoleon"
+     ]
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Staraptor",
+      "Roserade"
+     ],
+     "covered_by": [
+      "Snorlax",
+      "Empoleon"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Skarmory",
+      "Empoleon"
+     ]
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Heracross",
+      "Skarmory",
+      "Empoleon"
+     ]
+    }
+   },
+   "gaps": [
+    "Fire",
+    "Electric"
+   ],
+   "strengths": [
+    "Ghost",
+    "Bug",
+    "Grass",
+    "Dark"
+   ],
+   "soft": {
+    "physical": 1,
+    "special": 2,
+    "even": 1,
+    "frail": 0,
+    "sturdy": 2
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [
+     "Roserade"
+    ],
+    "special": [
+     "Staraptor",
+     "Skarmory"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Barry plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A gambler: they'll reach for the long shot.",
+    "rule": "risk_high",
+    "trigger": "risk_band == high (here high)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (15 physical, 8 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Staraptor, Heracross and Roserade outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called gambler (75), but this team reads percentage player (33): carries a gamble: Staraptor and Empoleon.",
+    "rule": "disagree_risk",
+    "trigger": "disagree_risk nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Fire: Heracross, Roserade and Skarmory are weak to it, and only Snorlax can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Electric (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Heracross to Flying (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Staraptor and Skarmory are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Snorlax's Thick Fat changes Fire and Ice (from neutral to resists).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Ghost, Bug or Grass: 4 of 6 resist Ghost; 4 of 6 resist Bug; 4 of 6 resist Grass.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Reckless, and it shows: Staraptor's Brave Bird (recoil); Empoleon's Hydro Pump (80%). Their misses and recoil are your free turns.",
+    "rule": "reckless",
+    "trigger": "risk_band == high (here high); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Gyms",
+     "kind": "gym",
+     "result": "earned the eight Sinnoh badges",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Paul)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh journey",
+     "kind": "rivalry",
+     "result": "Ash's rival through Sinnoh",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Sinnoh"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Staraptor",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7571,
+     "confidence": "strong",
+     "margin": 0.0809,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6762,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.76, strong): Quick Attack; Speed 257 (above 83% of the field); Attack 297 (above 87% of the field)"
+   },
+   {
+    "species": "Heracross",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.623,
+     "confidence": "solid",
+     "margin": 0.0638,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5592,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.62, solid): Close Combat (180); strong attacks (effective power 90+, with the stat it uses): Megahorn, Close Combat; Attack 307 (above 91% of the field)"
+   },
+   {
+    "species": "Roserade",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.594,
+     "confidence": "solid",
+     "margin": 0.135,
+     "clear": true
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.459,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.59, solid): Leaf Storm (189); strong attacks (effective power 90+, with the stat it uses): Petal Dance, Magical Leaf, Leaf Storm; Sp. Atk 307 (above 93% of the field)"
+   },
+   {
+    "species": "Skarmory",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6186,
+     "confidence": "solid",
+     "margin": 0.0652,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5534,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.62, solid): Steel/Flying (Keen Eye); overall bulk above 62% of the field; attacking moves: Steel Wing, Air Cutter, Swift, Drill Peck"
+   },
+   {
+    "species": "Snorlax",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6441,
+     "confidence": "solid",
+     "margin": 0.0014,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6427,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.64, solid): overall bulk above 97% of the field; Attack 277 (above 80% of the field); attacking moves: Body Slam, Hyper Beam, Ice Punch"
+   },
+   {
+    "species": "Empoleon",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6531,
+     "confidence": "strong",
+     "margin": 0.0348,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6183,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.65, strong): Water/Steel (Torrent); overall bulk above 76% of the field; attacking moves: Hydro Pump, Drill Peck, Metal Claw, Bubble Beam"
+   }
+  ],
+  "ace": {
+   "derived": "Heracross",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Heracross",
+     "slot": 2,
+     "score": 0.52,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Staraptor",
+     "slot": 1,
+     "score": 0.52,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "lead"
+    },
+    {
+     "species": "Roserade",
+     "slot": 3,
+     "score": 0.453,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Empoleon",
+     "slot": 6,
+     "score": 0.418,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Snorlax",
+     "slot": 5,
+     "score": 0.367,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Skarmory",
+     "slot": 4,
+     "score": 0.298,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#4"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Staraptor",
+    "role": "pivot",
+    "fit": 0.641
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Staraptor",
+    "role": "revenge killer",
+    "fit": 0.757
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Heracross",
+    "role": "wallbreaker",
+    "fit": 0.561,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Brave Bird",
+     "member": "Staraptor",
+     "move_type": "Flying",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Punch",
+     "member": "Snorlax",
+     "move_type": "Ice",
+     "power": 75,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Brave Bird",
+     "member": "Staraptor",
+     "move_type": "Flying",
+     "power": 180,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Empoleon",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Ice Punch",
+     "member": "Snorlax",
+     "move_type": "Ice",
+     "power": 75,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Heracross",
+     "move_type": "Dark",
+     "power": 70,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Brave Bird",
+     "member": "Staraptor",
+     "move_type": "Flying",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Roserade",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Megahorn",
+     "member": "Heracross",
+     "move_type": "Bug",
+     "power": 153,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Roserade",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Close Combat",
+     "member": "Heracross",
+     "move_type": "Fighting",
+     "power": 180,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Leaf Storm",
+     "member": "Roserade",
+     "move_type": "Grass",
+     "power": 189,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 0.882,
+   "covered_n": 15,
+   "types_n": 17,
+   "holes": [
+    "Electric",
+    "Poison"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 3
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 93,
+   "finishers": 14,
+   "attrition": 1,
+   "finisher_moves": [
+    "Brave Bird (Staraptor)",
+    "Close Combat (Staraptor)",
+    "Aerial Ace (Staraptor)",
+    "Quick Attack (Staraptor)",
+    "Megahorn (Heracross)",
+    "Close Combat (Heracross)",
+    "Petal Dance (Roserade)",
+    "Magical Leaf (Roserade)",
+    "Leaf Storm (Roserade)",
+    "Steel Wing (Skarmory)",
+    "Drill Peck (Skarmory)",
+    "Body Slam (Snorlax)",
+    "Hydro Pump (Empoleon)",
+    "Bubble Beam (Empoleon)"
+   ],
+   "attrition_moves": [
+    "Rest (Snorlax)"
+   ],
+   "offense_authored": 80,
+   "offense_measured": 78,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Staraptor",
+    "usage": 0.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Brave Bird",
+     "Close Combat",
+     "U-turn",
+     "Return"
+    ],
+    "item": "Choice Scarf",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 27.5
+    },
+    "checks": [
+     {
+      "species": "Jirachi",
+      "beats": 76,
+      "score": 60,
+      "n": 110
+     },
+     {
+      "species": "Metagross",
+      "beats": 77,
+      "score": 57,
+      "n": 73
+     },
+     {
+      "species": "Skarmory",
+      "beats": 77,
+      "score": 57,
+      "n": 66
+     }
+    ]
+   },
+   {
+    "species": "Heracross",
+    "usage": 2.0,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Close Combat",
+     "Megahorn",
+     "Stone Edge",
+     "Swords Dance"
+    ],
+    "item": "Choice Scarf",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 44.3
+    },
+    "checks": [
+     {
+      "species": "Dragonite",
+      "beats": 69,
+      "score": 52,
+      "n": 113
+     },
+     {
+      "species": "Gliscor",
+      "beats": 70,
+      "score": 51,
+      "n": 93
+     },
+     {
+      "species": "Jirachi",
+      "beats": 63,
+      "score": 50,
+      "n": 251
+     }
+    ]
+   },
+   {
+    "species": "Roserade",
+    "usage": 3.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Toxic Spikes",
+     "Spikes",
+     "Hidden Power Fire",
+     "Grass Knot"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 232,
+      "spa": 0,
+      "spd": 0,
+      "spe": 24
+     },
+     "share": 14.5
+    },
+    "checks": [
+     {
+      "species": "Clefable",
+      "beats": 89,
+      "score": 64,
+      "n": 23
+     },
+     {
+      "species": "Metagross",
+      "beats": 85,
+      "score": 62,
+      "n": 41
+     },
+     {
+      "species": "Jirachi",
+      "beats": 80,
+      "score": 62,
+      "n": 71
+     }
+    ]
+   },
+   {
+    "species": "Skarmory",
+    "usage": 15.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Spikes",
+     "Roost",
+     "Whirlwind",
+     "Brave Bird"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Impish",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 252,
+      "spa": 0,
+      "spd": 4,
+      "spe": 0
+     },
+     "share": 21.1
+    },
+    "checks": [
+     {
+      "species": "Heatran",
+      "beats": 92,
+      "score": 86,
+      "n": 317
+     },
+     {
+      "species": "Suicune",
+      "beats": 95,
+      "score": 85,
+      "n": 81
+     },
+     {
+      "species": "Magnezone",
+      "beats": 92,
+      "score": 83,
+      "n": 150
+     }
+    ]
+   },
+   {
+    "species": "Snorlax",
+    "usage": 2.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Body Slam",
+     "Curse",
+     "Crunch",
+     "Self-Destruct"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 33.5
+    },
+    "checks": [
+     {
+      "species": "Lucario",
+      "beats": 75,
+      "score": 59,
+      "n": 115
+     },
+     {
+      "species": "Hariyama",
+      "beats": 86,
+      "score": 57,
+      "n": 22
+     },
+     {
+      "species": "Infernape",
+      "beats": 68,
+      "score": 56,
+      "n": 246
+     }
+    ]
+   },
+   {
+    "species": "Empoleon",
+    "usage": 17.1,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Ice Beam",
+     "Surf",
+     "Grass Knot",
+     "Stealth Rock"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 13.4
+    },
+    "checks": [
+     {
+      "species": "Abomasnow",
+      "beats": 86,
+      "score": 70,
+      "n": 82
+     },
+     {
+      "species": "Lucario",
+      "beats": 79,
+      "score": 64,
+      "n": 128
+     },
+     {
+      "species": "Mamoswine",
+      "beats": 87,
+      "score": 62,
+      "n": 27
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Staraptor: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Close Combat, U-turn, Return @ Choice Scarf (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Jirachi 76%, Metagross 77%, Skarmory 77%.",
+   "Heracross: on 2.0% of gen4ou teams (2026-09, rated 0+), usually Close Combat, Megahorn, Stone Edge, Swords Dance @ Choice Scarf (Jolly 4 HP / 252 Atk / 252 Spe). What beats it: Dragonite 69%, Gliscor 70%, Jirachi 63%.",
+   "Roserade: on 3.7% of gen4ou teams (2026-09, rated 1630+), usually Toxic Spikes, Spikes, Hidden Power Fire, Grass Knot @ Black Sludge (Bold 252 HP / 232 Def / 24 Spe). What beats it: Clefable 89%, Metagross 85%, Jirachi 80%.",
+   "Skarmory: on 15.2% of gen4ou teams (2026-09, rated 1630+), usually Spikes, Roost, Whirlwind, Brave Bird @ Leftovers (Impish 252 HP / 252 Def / 4 SpD). What beats it: Heatran 92%, Suicune 95%, Magnezone 92%.",
+   "Snorlax: on 2.9% of gen4ou teams (2026-09, rated 0+), usually Body Slam, Curse, Crunch, Self-Destruct @ Leftovers (Adamant 252 Atk / 4 Def / 252 SpD). What beats it: Lucario 75%, Hariyama 86%, Infernape 68%.",
+   "Empoleon: on 17.1% of gen4ou teams (2026-09, rated 1630+), usually Ice Beam, Surf, Grass Knot, Stealth Rock @ Leftovers (Modest 252 SpA / 4 SpD / 252 Spe). What beats it: Abomasnow 86%, Lucario 79%, Mamoswine 87%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Lily of the Valley Conference: Top 16 (lost to Paul).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Heracross (the widest coverage and a wallbreaker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Staraptor is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Staraptor closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Heracross (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 15 of 17 types super-effectively; nothing they carry hits Electric or Poison that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 2)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Barry at Lily of the Valley.",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "93% of their moves finish or set up (14 of 15); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 93)"
+    }
+   ]
+  }
+ }
+}

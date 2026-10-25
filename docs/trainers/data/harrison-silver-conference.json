@@ -1,0 +1,2061 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "harrison",
+ "trainer_name": "Harrison",
+ "version": "silver-conference",
+ "title": "Harrison at the Silver Conference",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "anime, Johto (Master Quest): Silver Conference quarterfinal with Ash",
+ "status": "proposed",
+ "notes": [
+  "From Littleroot Town in Hoenn; he told Ash about Hoenn after the Silver Conference (lore).",
+  "The six are his Silver Conference full battle with Ash, as I read it; the order is my guess (Blaziken last, as in the show).",
+  "The semifinal loss is as I recall the show, which doesn't dwell on who beat him. Confirm."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 70,
+   "why": "Blaziken's kicks end the battle",
+   "measured": 61,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 50,
+     "members": [
+      "Houndoom",
+      "Sneasel",
+      "Blaziken"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Kecleon",
+      "Steelix",
+      "Houndoom",
+      "Sneasel",
+      "Blaziken"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Houndoom",
+      "Sneasel",
+      "Blaziken"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 45,
+   "why": "a plan for each matchup: Kecleon's invisibility against an opponent who can't see it",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 33,
+     "members": [
+      "Hypno",
+      "Blaziken"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 70,
+   "why": "fights as a team: each one has a job he trusts it with",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 40,
+   "why": "patient: keeps his ace for the last round",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 67,
+     "members": [
+      "Kecleon",
+      "Steelix",
+      "Houndoom",
+      "Blaziken"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Faint Attack"
+   ],
+   "members": {
+    "Faint Attack": [
+     "Kecleon",
+     "Houndoom",
+     "Sneasel"
+    ]
+   }
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "harrison",
+  "version": "silver-conference",
+  "title": "Harrison at the Silver Conference",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:harrison-silver-conference/hypno",
+    "species": "Hypno",
+    "nickname": null,
+    "types": [
+     "Psychic"
+    ],
+    "ability": "Insomnia",
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 203,
+     "def": 197,
+     "spa": 203,
+     "spd": 287,
+     "spe": 191
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 197,
+     "spd": 287,
+     "physical_pct": 0.45,
+     "special_pct": 0.9,
+     "gap": 0.45
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Insomnia (could be Forewarn)"
+    ],
+    "moves": [
+     "Psychic",
+     "Hypnosis",
+     "Headbutt",
+     "Disable"
+    ],
+    "move_basis": [
+     {
+      "move": "Psychic",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 50, as Hypno)"
+     },
+     {
+      "move": "Hypnosis",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Hypno)"
+     },
+     {
+      "move": "Headbutt",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 15, as Hypno)"
+     },
+     {
+      "move": "Disable",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Hypno)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:harrison-silver-conference/kecleon",
+    "species": "Kecleon",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Color Change",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 237,
+     "def": 197,
+     "spa": 177,
+     "spd": 297,
+     "spe": 137
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 197,
+     "spd": 297,
+     "physical_pct": 0.21,
+     "special_pct": 0.76,
+     "gap": 0.54
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Psybeam",
+     "Fury Swipes",
+     "Lick",
+     "Faint Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Psybeam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 18, as Kecleon)"
+     },
+     {
+      "move": "Fury Swipes",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 10, as Kecleon)"
+     },
+     {
+      "move": "Lick",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Kecleon)"
+     },
+     {
+      "move": "Faint Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 7, as Kecleon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:harrison-silver-conference/steelix",
+    "species": "Steelix",
+    "nickname": null,
+    "types": [
+     "Steel",
+     "Ground"
+    ],
+    "ability": "Rock Head",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 227,
+     "def": 457,
+     "spa": 167,
+     "spd": 187,
+     "spe": 117
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 457,
+     "spd": 187,
+     "physical_pct": 0.99,
+     "special_pct": 0.26,
+     "gap": 0.74
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Rock Head (could be Sturdy)"
+    ],
+    "moves": [
+     "Iron Tail",
+     "Crunch",
+     "Dig",
+     "Bind"
+    ],
+    "move_basis": [
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 41, as Steelix)"
+     },
+     {
+      "move": "Crunch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 46, as Steelix)"
+     },
+     {
+      "move": "Dig",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Steelix)"
+     },
+     {
+      "move": "Bind",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Steelix)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:harrison-silver-conference/houndoom",
+    "species": "Houndoom",
+    "nickname": null,
+    "types": [
+     "Dark",
+     "Fire"
+    ],
+    "ability": "Early Bird",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 237,
+     "def": 157,
+     "spa": 277,
+     "spd": 217,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 157,
+     "spd": 217,
+     "physical_pct": 0.11,
+     "special_pct": 0.47,
+     "gap": 0.36
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Early Bird (could be Flash Fire)"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Crunch",
+     "Smog",
+     "Faint Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 48, as Houndoom)"
+     },
+     {
+      "move": "Crunch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 54, as Houndoom)"
+     },
+     {
+      "move": "Smog",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Houndoom)"
+     },
+     {
+      "move": "Faint Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 38, as Houndoom)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:harrison-silver-conference/sneasel",
+    "species": "Sneasel",
+    "nickname": null,
+    "types": [
+     "Dark",
+     "Ice"
+    ],
+    "ability": "Inner Focus",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 247,
+     "def": 167,
+     "spa": 127,
+     "spd": 207,
+     "spe": 287
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 167,
+     "spd": 207,
+     "physical_pct": 0.08,
+     "special_pct": 0.19,
+     "gap": 0.11
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Inner Focus (could be Keen Eye)"
+    ],
+    "moves": [
+     "Icy Wind",
+     "Quick Attack",
+     "Faint Attack",
+     "Metal Claw"
+    ],
+    "move_basis": [
+     {
+      "move": "Icy Wind",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 28, as Sneasel)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 8, as Sneasel)"
+     },
+     {
+      "move": "Faint Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 14, as Sneasel)"
+     },
+     {
+      "move": "Metal Claw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 42, as Sneasel)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:harrison-silver-conference/blaziken",
+    "species": "Blaziken",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Fighting"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 297,
+     "def": 197,
+     "spa": 277,
+     "spd": 197,
+     "spe": 217
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 197,
+     "spd": 197,
+     "physical_pct": 0.41,
+     "special_pct": 0.39,
+     "gap": 0.02
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Blaze Kick",
+     "Sky Uppercut",
+     "Flamethrower",
+     "Fire Spin"
+    ],
+    "move_basis": [
+     {
+      "move": "Blaze Kick",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 36, as Blaziken)"
+     },
+     {
+      "move": "Sky Uppercut",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 59, as Blaziken)"
+     },
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Blaziken)"
+     },
+     {
+      "move": "Fire Spin",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 25, as Torchic)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Steelix"
+     ]
+    },
+    "Fighting": {
+     "weak": 3,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 4,
+     "covered": 1,
+     "weak_members": [
+      "Kecleon",
+      "Steelix",
+      "Houndoom",
+      "Sneasel"
+     ],
+     "covered_by": [
+      "Hypno"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Blaziken"
+     ],
+     "covered_by": [
+      "Steelix"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Steelix"
+     ]
+    },
+    "Ground": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Steelix",
+      "Houndoom",
+      "Blaziken"
+     ],
+     "covered_by": []
+    },
+    "Rock": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Houndoom",
+      "Sneasel"
+     ],
+     "covered_by": [
+      "Steelix"
+     ]
+    },
+    "Bug": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Hypno",
+      "Sneasel"
+     ],
+     "covered_by": [
+      "Steelix",
+      "Blaziken"
+     ]
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Hypno"
+     ],
+     "covered_by": [
+      "Kecleon",
+      "Steelix",
+      "Houndoom",
+      "Sneasel"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Sneasel"
+     ],
+     "covered_by": [
+      "Steelix",
+      "Houndoom",
+      "Blaziken"
+     ]
+    },
+    "Fire": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Steelix",
+      "Sneasel"
+     ],
+     "covered_by": [
+      "Houndoom",
+      "Blaziken"
+     ]
+    },
+    "Water": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Steelix",
+      "Houndoom",
+      "Blaziken"
+     ],
+     "covered_by": []
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Houndoom",
+      "Blaziken"
+     ]
+    },
+    "Electric": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Steelix"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 2,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Blaziken"
+     ],
+     "covered_by": [
+      "Hypno",
+      "Steelix",
+      "Houndoom",
+      "Sneasel"
+     ]
+    },
+    "Ice": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Houndoom",
+      "Sneasel",
+      "Blaziken"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Steelix"
+     ]
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Hypno"
+     ],
+     "covered_by": [
+      "Steelix",
+      "Houndoom",
+      "Sneasel",
+      "Blaziken"
+     ]
+    }
+   },
+   "gaps": [
+    "Fighting",
+    "Ground",
+    "Water"
+   ],
+   "strengths": [
+    "Ice"
+   ],
+   "soft": {
+    "physical": 2,
+    "special": 1,
+    "even": 2,
+    "frail": 1,
+    "sturdy": 0
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Kecleon",
+     "Houndoom"
+    ],
+    "special": [
+     "Steelix"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Harrison plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Cohesive: Faint Attack on Kecleon, Houndoom and Sneasel. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (15 of 22 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Houndoom, Sneasel and Blaziken outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Fighting: Kecleon, Steelix, Houndoom and Sneasel are weak to it, and only Hypno can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Ground (3 weak) and Water (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Sneasel to Fighting (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Kecleon and Houndoom are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Ice: 3 of 6 resist Ice.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Kecleon's Fury Swipes (80%); Steelix's Iron Tail (75%) and Bind (75%); Houndoom's Smog (70%); Blaziken's Fire Spin (70%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Johto",
+     "event": "Johto Gyms",
+     "kind": "gym",
+     "result": "earned the eight Johto badges",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 4 (beat Ash in the quarterfinal full battle; lost in the semifinal)",
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Johto"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Hypno",
+    "nickname": null,
+    "primary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.5603,
+     "confidence": "solid",
+     "margin": 0.0425,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_spreader",
+     "name": "status spreader",
+     "family": "support",
+     "score": 0.5178,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "sponge / status absorber (0.56, solid): Insomnia; overall bulk above 71% of the field; Psychic (Insomnia)"
+   },
+   {
+    "species": "Kecleon",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5188,
+     "confidence": "solid",
+     "margin": 0.2434,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.2754,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "bulky attacker (0.52, solid): attacking moves: Psybeam, Fury Swipes, Faint Attack; Attack 237 (above 55% of the field); attacks that use its better attacking stat: Fury Swipes, Faint Attack"
+   },
+   {
+    "species": "Steelix",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6864,
+     "confidence": "strong",
+     "margin": 0.0732,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.6132,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.69, strong): Steel/Ground (Rock Head); overall bulk above 87% of the field; attacking moves: Iron Tail, Crunch, Dig"
+   },
+   {
+    "species": "Houndoom",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5907,
+     "confidence": "solid",
+     "margin": 0.1079,
+     "clear": true
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.4828,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.59, solid): strong attacks (effective power 90+, with the stat it uses): Flamethrower, Crunch; Flamethrower (142); Sp. Atk 277 (above 86% of the field)"
+   },
+   {
+    "species": "Sneasel",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6974,
+     "confidence": "strong",
+     "margin": 0.0471,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6503,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.70, strong): Quick Attack; Speed 287 (above 94% of the field); attacks that use its better attacking stat: Quick Attack, Faint Attack, Metal Claw"
+   },
+   {
+    "species": "Blaziken",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5893,
+     "confidence": "solid",
+     "margin": 0.5893,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.59, solid): strong attacks (effective power 90+, with the stat it uses): Blaze Kick, Sky Uppercut, Flamethrower; Flamethrower (133); Attack 297 (above 87% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Blaziken",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Blaziken",
+     "slot": 6,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Sneasel",
+     "slot": 5,
+     "score": 0.487,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Houndoom",
+     "slot": 4,
+     "score": 0.487,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Kecleon",
+     "slot": 2,
+     "score": 0.453,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Steelix",
+     "slot": 3,
+     "score": 0.349,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.5
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Hypno",
+     "slot": 1,
+     "score": 0.162,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.118,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "sponge / status absorber",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Steelix",
+    "role": "tank",
+    "fit": 0.613
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Sneasel",
+    "role": "revenge killer",
+    "fit": 0.697
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Houndoom",
+    "role": "wallbreaker",
+    "fit": 0.532,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Houndoom",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Sky Uppercut",
+     "member": "Blaziken",
+     "move_type": "Fighting",
+     "power": 115,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dragon",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Psychic",
+     "member": "Hypno",
+     "move_type": "Psychic",
+     "power": 135,
+     "their_weak_to_it": 4
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Flying",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Houndoom",
+     "move_type": "Dark",
+     "power": 103,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Houndoom",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ground",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Houndoom",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Sky Uppercut",
+     "member": "Blaziken",
+     "move_type": "Fighting",
+     "power": 115,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Psychic",
+     "member": "Hypno",
+     "move_type": "Psychic",
+     "power": 135,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Crunch",
+     "member": "Houndoom",
+     "move_type": "Dark",
+     "power": 103,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Houndoom",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    }
+   ],
+   "coverage": 0.765,
+   "covered_n": 13,
+   "types_n": 17,
+   "holes": [
+    "Dragon",
+    "Flying",
+    "Ground",
+    "Water"
+   ],
+   "bring": [
+    {
+     "type": "Ground",
+     "their_weak": 3
+    },
+    {
+     "type": "Water",
+     "their_weak": 3
+    },
+    {
+     "type": "Flying",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Blaziken",
+    "move": "Sky Uppercut",
+    "why": "the uppercut that beat Ash's Charizard",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 91,
+   "finishers": 10,
+   "attrition": 1,
+   "finisher_moves": [
+    "Psychic (Hypno)",
+    "Iron Tail (Steelix)",
+    "Crunch (Steelix)",
+    "Flamethrower (Houndoom)",
+    "Crunch (Houndoom)",
+    "Quick Attack (Sneasel)",
+    "Faint Attack (Sneasel)",
+    "Blaze Kick (Blaziken)",
+    "Sky Uppercut (Blaziken)",
+    "Flamethrower (Blaziken)"
+   ],
+   "attrition_moves": [
+    "Hypnosis (Hypno)"
+   ],
+   "offense_authored": 70,
+   "offense_measured": 61,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Steelix",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Earthquake",
+     "Stealth Rock",
+     "Ice Fang",
+     "Toxic"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 4,
+      "def": 0,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 53.7
+    },
+    "checks": [
+     {
+      "species": "Jirachi",
+      "beats": 38,
+      "score": -4,
+      "n": 21
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 35,
+      "score": -6,
+      "n": 22
+     }
+    ]
+   },
+   {
+    "species": "Houndoom",
+    "usage": 0.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Dark Pulse",
+     "Sucker Punch",
+     "Flamethrower",
+     "Nasty Plot"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Hasty",
+     "evs": {
+      "hp": 0,
+      "atk": 4,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 26.0
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 89,
+      "score": 72,
+      "n": 55
+     },
+     {
+      "species": "Infernape",
+      "beats": 68,
+      "score": 37,
+      "n": 37
+     },
+     {
+      "species": "Heatran",
+      "beats": 64,
+      "score": 35,
+      "n": 42
+     }
+    ]
+   },
+   {
+    "species": "Blaziken",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Vacuum Wave",
+     "Superpower",
+     "Fire Blast",
+     "Hidden Power Ice"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 80,
+      "def": 0,
+      "spa": 176,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 16.4
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 84,
+      "score": 72,
+      "n": 140
+     },
+     {
+      "species": "Latias",
+      "beats": 77,
+      "score": 64,
+      "n": 170
+     },
+     {
+      "species": "Milotic",
+      "beats": 86,
+      "score": 57,
+      "n": 22
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Steelix: on 0.5% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Stealth Rock, Ice Fang, Toxic @ Leftovers (Careful 252 HP / 4 Atk / 252 SpD). What beats it: Jirachi 38%, Tyranitar 35%.",
+   "Houndoom: rare on gen4ou (under 0.5% of teams) (2026-09, rated 0+), usually Dark Pulse, Sucker Punch, Flamethrower, Nasty Plot @ Life Orb (Hasty 4 Atk / 252 SpA / 252 Spe). What beats it: Tyranitar 89%, Infernape 68%, Heatran 64%.",
+   "Blaziken: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Vacuum Wave, Superpower, Fire Blast, Hidden Power Ice @ Life Orb (Naive 80 Atk / 176 SpA / 252 Spe). What beats it: Starmie 84%, Latias 77%, Milotic 86%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Silver Conference: Top 4 (beat Ash in the quarterfinal full battle; lost in the semifinal).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Blaziken (a wallbreaker).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Steelix is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Sneasel closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Houndoom (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 13 of 17 types super-effectively; nothing they carry hits Dragon, Flying, Ground or Water that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 4)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Ground: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Water or Flying get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Blaziken's Sky Uppercut (the uppercut that beat Ash's Charizard).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "91% of their moves finish or set up (10 of 11); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 91)"
+    }
+   ]
+  }
+ }
+}

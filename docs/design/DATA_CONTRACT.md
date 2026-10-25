@@ -143,3 +143,14 @@ The browser (`20_core.html` `Records`) and Python (`store/personal.py`) share th
 - **D-063.** Labs never write canon. Your records aren't canon; canon changes only through approval, by Claude, in git.
 - **D-024 / D-048.** Learnability is the gate. Any stricter legality shows as information, never as a block.
 - **The existing Sheet's built tabs.** No payloads are ever sent to them (B22/B23).
+
+## v1 additions (D-077)
+
+| Where | Rows | Written by |
+|---|---|---|
+| **Arena** tab (app tab, append-only) | one row per kept result: `id, at, kind` (match, series, league, playoff, draft), `a, b, a_name, b_name, n, won, lost, drew, winner`, settings, and `members` (JSON: each of your Pokémon's team ref, battles, knockouts, damage and faint rate a battle) | the Arena pages (94_arena.html); read by careers and the Hall of Fame (96_career.html) |
+| **Journal** tab, `kind: review` | `ref` (a claim, statement, relationship or web link id), `species, verdict` (agree, disagree, note), `note` | Field Biology (Eco.review); never edits a dossier |
+| **Journal** tab, `kind: chronicle` | `ref` (an individual's id), `species, text` | a profile's Career card (Career.chronicle) |
+| `engine/trainers/ecosystem.json` | proposed trainer versions and builds beside canon/trainers.json; canon wins any id | trainers/model.py reads it; checked by trainers/ecosystem.py |
+| `engine/biology/dossiers/*.json` | curated dossiers, status draft until approved | checked by biology/dossier.py |
+

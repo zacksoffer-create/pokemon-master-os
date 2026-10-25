@@ -1,0 +1,2047 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "gary",
+ "trainer_name": "Gary",
+ "version": "indigo",
+ "title": "Gary at the Indigo League (Kanto)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "anime, Indigo League: the Viridian Gym battle and the Indigo Plateau Conference",
+ "status": "proposed",
+ "notes": [
+  "Blue is the games' counterpart of Gary; kept as its own version.",
+  "The show never fields these six at once in Kanto. They are the Pokémon he is shown with in the Indigo League era (the Viridian Gym battle with Giovanni's Mewtwo and the Indigo Plateau Conference); confirm the lineup against the episodes.",
+  "Smell ya later (lore)."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 65,
+   "why": "wins on numbers: more badges and more Pokémon than anyone at Pallet",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Nidoking",
+      "Kingler",
+      "Golem",
+      "Arcanine"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Nidoking",
+      "Kingler",
+      "Golem",
+      "Arcanine",
+      "Eevee",
+      "Blastoise"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 33,
+     "members": [
+      "Nidoking",
+      "Arcanine"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 50,
+   "why": "a set lineup he trusts more than any plan",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 50,
+     "members": [
+      "Kingler",
+      "Golem",
+      "Eevee"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 45,
+   "why": "a show-off with cheerleaders and a convertible; his Pokémon are his record",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 55,
+   "why": "walks into the Viridian Gym alone and loses everything to Giovanni's Mewtwo",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Arcanine",
+      "Blastoise"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Bite"
+   ],
+   "members": {
+    "Bite": [
+     "Arcanine",
+     "Eevee",
+     "Blastoise"
+    ]
+   }
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "gary",
+  "version": "indigo",
+  "title": "Gary at the Indigo League (Kanto)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:gary-indigo/nidoking",
+    "species": "Nidoking",
+    "nickname": null,
+    "types": [
+     "Poison",
+     "Ground"
+    ],
+    "ability": "Poison Point",
+    "level": 100,
+    "stats": {
+     "hp": 324,
+     "atk": 241,
+     "def": 211,
+     "spa": 227,
+     "spd": 207,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 211,
+     "spd": 207,
+     "physical_pct": 0.48,
+     "special_pct": 0.45,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Poison Point (could be Rivalry)"
+    ],
+    "moves": [
+     "Horn Attack",
+     "Double Kick",
+     "Thrash",
+     "Poison Sting"
+    ],
+    "move_basis": [
+     {
+      "move": "Horn Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 23, as Nidorino)"
+     },
+     {
+      "move": "Double Kick",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoking)"
+     },
+     {
+      "move": "Thrash",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 23, as Nidoking)"
+     },
+     {
+      "move": "Poison Sting",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Nidoking)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:gary-indigo/kingler",
+    "species": "Kingler",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Hyper Cutter",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 317,
+     "def": 287,
+     "spa": 157,
+     "spd": 157,
+     "spe": 207
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 287,
+     "spd": 157,
+     "physical_pct": 0.67,
+     "special_pct": 0.03,
+     "gap": 0.64
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Hyper Cutter (could be Shell Armor)"
+    ],
+    "moves": [
+     "Crabhammer",
+     "Bubble Beam",
+     "Stomp",
+     "Harden"
+    ],
+    "move_basis": [
+     {
+      "move": "Crabhammer",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 56, as Kingler)"
+     },
+     {
+      "move": "Bubble Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 15, as Kingler)"
+     },
+     {
+      "move": "Stomp",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 25, as Kingler)"
+     },
+     {
+      "move": "Harden",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 11, as Kingler)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:gary-indigo/golem",
+    "species": "Golem",
+    "nickname": null,
+    "types": [
+     "Rock",
+     "Ground"
+    ],
+    "ability": "Rock Head",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 277,
+     "def": 317,
+     "spa": 167,
+     "spd": 187,
+     "spe": 147
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 317,
+     "spd": 187,
+     "physical_pct": 0.92,
+     "special_pct": 0.29,
+     "gap": 0.62
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Rock Head (could be Sturdy)"
+    ],
+    "moves": [
+     "Rollout",
+     "Magnitude",
+     "Rock Throw",
+     "Defense Curl"
+    ],
+    "move_basis": [
+     {
+      "move": "Rollout",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 22, as Golem)"
+     },
+     {
+      "move": "Magnitude",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 15, as Golem)"
+     },
+     {
+      "move": "Rock Throw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 11, as Golem)"
+     },
+     {
+      "move": "Defense Curl",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Golem)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:gary-indigo/arcanine",
+    "species": "Arcanine",
+    "nickname": null,
+    "types": [
+     "Fire"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 277,
+     "def": 217,
+     "spa": 257,
+     "spd": 217,
+     "spe": 247
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 217,
+     "spd": 217,
+     "physical_pct": 0.6,
+     "special_pct": 0.61,
+     "gap": 0.01
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Fire Blast",
+     "Take Down",
+     "Flamethrower",
+     "Bite"
+    ],
+    "move_basis": [
+     {
+      "move": "Fire Blast",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Arcanine)"
+     },
+     {
+      "move": "Take Down",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 31, as Growlithe)"
+     },
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Arcanine)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Arcanine)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:gary-indigo/eevee",
+    "species": "Eevee",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Run Away",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 167,
+     "def": 157,
+     "spa": 147,
+     "spd": 187,
+     "spe": 167
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 157,
+     "spd": 187,
+     "physical_pct": 0.05,
+     "special_pct": 0.1,
+     "gap": 0.04
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Run Away (could be Adaptability)"
+    ],
+    "moves": [
+     "Tackle",
+     "Quick Attack",
+     "Sand Attack",
+     "Bite"
+    ],
+    "move_basis": [
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Eevee)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 22, as Eevee)"
+     },
+     {
+      "move": "Sand Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 8, as Eevee)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 29, as Eevee)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:gary-indigo/blastoise",
+    "species": "Blastoise",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 320,
+     "atk": 223,
+     "def": 257,
+     "spa": 227,
+     "spd": 267,
+     "spe": 213
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 257,
+     "spd": 267,
+     "physical_pct": 0.73,
+     "special_pct": 0.77,
+     "gap": 0.04
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Skull Bash",
+     "Bite",
+     "Withdraw"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 60, as Blastoise)"
+     },
+     {
+      "move": "Skull Bash",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 39, as Blastoise)"
+     },
+     {
+      "move": "Bite",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 16, as Blastoise)"
+     },
+     {
+      "move": "Withdraw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Blastoise)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Golem"
+     ]
+    },
+    "Fighting": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Golem",
+      "Eevee"
+     ],
+     "covered_by": [
+      "Nidoking"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Golem"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Nidoking",
+      "Golem"
+     ]
+    },
+    "Ground": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 0,
+     "weak_members": [
+      "Nidoking",
+      "Golem",
+      "Arcanine"
+     ],
+     "covered_by": []
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Arcanine"
+     ],
+     "covered_by": [
+      "Nidoking",
+      "Golem"
+     ]
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Nidoking",
+      "Arcanine"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Eevee"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Golem"
+     ],
+     "covered_by": [
+      "Kingler",
+      "Arcanine",
+      "Blastoise"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Kingler",
+      "Golem",
+      "Arcanine",
+      "Blastoise"
+     ]
+    },
+    "Water": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Nidoking",
+      "Golem",
+      "Arcanine"
+     ],
+     "covered_by": [
+      "Kingler",
+      "Blastoise"
+     ]
+    },
+    "Grass": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Kingler",
+      "Golem",
+      "Blastoise"
+     ],
+     "covered_by": [
+      "Arcanine"
+     ]
+    },
+    "Electric": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Kingler",
+      "Blastoise"
+     ],
+     "covered_by": [
+      "Nidoking",
+      "Golem"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Nidoking"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 3,
+     "weak_members": [
+      "Nidoking",
+      "Golem"
+     ],
+     "covered_by": [
+      "Kingler",
+      "Arcanine",
+      "Blastoise"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Grass",
+    "Water",
+    "Ground"
+   ],
+   "strengths": [
+    "Fire"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 2,
+    "even": 2,
+    "frail": 1,
+    "sturdy": 1
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Kingler",
+     "Golem"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Gary plays offense first.",
+    "rule": "off_high",
+    "trigger": "offense_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Keeps their Pokémon at arm's length.",
+    "rule": "bond_distant",
+    "trigger": "bond_read == distant (here distant)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Cohesive: Bite on Arcanine, Eevee and Blastoise. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (16 of 20 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Grass: Kingler, Golem and Blastoise are weak to it, and only Arcanine can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Water (3 weak) and Ground (3 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Golem to Water and Grass (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Kingler and Golem are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Fire: 4 of 6 resist Fire.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Arcanine's Take Down (recoil); Blastoise's Hydro Pump (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Pallet Town",
+     "kind": "rivalry",
+     "result": "Ash's rival from the first episode",
+     "versions": [
+      "indigo",
+      "sinnoh-researcher"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "Top 32 (EP077, The Fourth Round Rumble)",
+     "versions": [
+      "indigo",
+      "sinnoh-researcher"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Nidoking",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.385,
+     "confidence": "loose",
+     "margin": 0.0051,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.3799,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "check / counter (0.39, loose): Poison/Ground (Poison Point); attacking moves: Horn Attack, Double Kick, Thrash; overall bulk above 45% of the field"
+   },
+   {
+    "species": "Kingler",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4671,
+     "confidence": "loose",
+     "margin": 0.0135,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.4536,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.47, loose): Attack 317 (above 94% of the field); Crabhammer (115); attacks that use its better attacking stat: Crabhammer, Stomp"
+   },
+   {
+    "species": "Golem",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6035,
+     "confidence": "solid",
+     "margin": 0.0741,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.5294,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.60, solid): Attack 277 (above 80% of the field); attacking moves: Rollout, Magnitude, Rock Throw; overall bulk above 68% of the field"
+   },
+   {
+    "species": "Arcanine",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.6519,
+     "confidence": "strong",
+     "margin": 0.0714,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5805,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "pivot (0.65, strong): Intimidate; Fire (Intimidate); overall bulk above 60% of the field"
+   },
+   {
+    "species": "Eevee",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.37,
+     "confidence": "loose",
+     "margin": 0.0722,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.2978,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "revenge killer (0.37, loose): Quick Attack; attacks that use its better attacking stat: Tackle, Quick Attack, Bite; Speed 167 (above 23% of the field)"
+   },
+   {
+    "species": "Blastoise",
+    "nickname": null,
+    "primary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5573,
+     "confidence": "solid",
+     "margin": 0.0096,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.5477,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "tank (0.56, solid): attacking moves: Hydro Pump, Skull Bash, Bite; overall bulk above 79% of the field; a same-type attack: Hydro Pump"
+   }
+  ],
+  "ace": {
+   "derived": "Arcanine",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Arcanine",
+     "slot": 4,
+     "score": 0.487,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "pivot",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Golem",
+     "slot": 3,
+     "score": 0.477,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.471,
+      "role": 0.8
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Kingler",
+     "slot": 2,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Blastoise",
+     "slot": 6,
+     "score": 0.427,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.8
+     },
+     "helpers": [],
+     "role": "tank",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Eevee",
+     "slot": 5,
+     "score": 0.419,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.118,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Nidoking",
+     "slot": 1,
+     "score": 0.384,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Arcanine",
+    "role": "pivot",
+    "fit": 0.652
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Eevee",
+    "role": "revenge killer",
+    "fit": 0.37
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Arcanine",
+    "role": "wallbreaker",
+    "fit": 0.522,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Double Kick",
+     "member": "Nidoking",
+     "move_type": "Fighting",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Magnitude",
+     "member": "Golem",
+     "move_type": "Ground",
+     "power": 106,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Rock Throw",
+     "member": "Golem",
+     "move_type": "Rock",
+     "power": 68,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Bite",
+     "member": "Arcanine",
+     "move_type": "Dark",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Double Kick",
+     "member": "Nidoking",
+     "move_type": "Fighting",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Magnitude",
+     "member": "Golem",
+     "move_type": "Ground",
+     "power": 106,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Bite",
+     "member": "Arcanine",
+     "move_type": "Dark",
+     "power": 60,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Blastoise",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Fire Blast",
+     "member": "Arcanine",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    }
+   ],
+   "coverage": 0.824,
+   "covered_n": 14,
+   "types_n": 17,
+   "holes": [
+    "Dragon",
+    "Fighting",
+    "Water"
+   ],
+   "bring": [
+    {
+     "type": "Water",
+     "their_weak": 3
+    },
+    {
+     "type": "Fighting",
+     "their_weak": 2
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 100,
+   "finishers": 6,
+   "attrition": 0,
+   "finisher_moves": [
+    "Crabhammer (Kingler)",
+    "Magnitude (Golem)",
+    "Fire Blast (Arcanine)",
+    "Flamethrower (Arcanine)",
+    "Quick Attack (Eevee)",
+    "Hydro Pump (Blastoise)"
+   ],
+   "attrition_moves": [],
+   "offense_authored": 65,
+   "offense_measured": 67,
+   "flag": {
+    "gap": 35,
+    "leans": "offensive",
+    "part1_flags_it": false
+   },
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Nidoking",
+    "usage": 0.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Ice Beam",
+     "Thunderbolt",
+     "Superpower",
+     "Megahorn"
+    ],
+    "item": "Custap Berry",
+    "spread": {
+     "nature": "Naive",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 4,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 42.9
+    },
+    "checks": [
+     {
+      "species": "Starmie",
+      "beats": 82,
+      "score": 65,
+      "n": 83
+     },
+     {
+      "species": "Swampert",
+      "beats": 81,
+      "score": 58,
+      "n": 43
+     },
+     {
+      "species": "Kingdra",
+      "beats": 84,
+      "score": 55,
+      "n": 25
+     }
+    ]
+   },
+   {
+    "species": "Arcanine",
+    "usage": 0.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Extreme Speed",
+     "Flare Blitz",
+     "Thunder Fang",
+     "Morning Sun"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Hardy",
+     "evs": {
+      "hp": 4,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 13.1
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 72,
+      "score": 58,
+      "n": 167
+     },
+     {
+      "species": "Suicune",
+      "beats": 84,
+      "score": 55,
+      "n": 25
+     },
+     {
+      "species": "Heatran",
+      "beats": 73,
+      "score": 52,
+      "n": 77
+     }
+    ]
+   },
+   {
+    "species": "Blastoise",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Rapid Spin",
+     "Surf",
+     "Hidden Power Electric",
+     "Ice Beam"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Bold",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 252,
+      "spa": 4,
+      "spd": 0,
+      "spe": 0
+     },
+     "share": 26.9
+    },
+    "checks": [
+     {
+      "species": "Zapdos",
+      "beats": 86,
+      "score": 68,
+      "n": 57
+     },
+     {
+      "species": "Clefable",
+      "beats": 87,
+      "score": 67,
+      "n": 46
+     },
+     {
+      "species": "Blissey",
+      "beats": 85,
+      "score": 61,
+      "n": 34
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Nidoking: on 0.7% of gen4ou teams (2026-09, rated 0+), usually Ice Beam, Thunderbolt, Superpower, Megahorn @ Custap Berry (Naive 252 Atk / 4 SpA / 252 Spe). What beats it: Starmie 82%, Swampert 81%, Kingdra 84%.",
+   "Arcanine: on 0.9% of gen4ou teams (2026-09, rated 0+), usually Extreme Speed, Flare Blitz, Thunder Fang, Morning Sun @ Leftovers (Hardy 4 HP / 252 Atk / 252 Spe). What beats it: Tyranitar 72%, Suicune 84%, Heatran 73%.",
+   "Blastoise: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Rapid Spin, Surf, Hidden Power Electric, Ice Beam @ Leftovers (Bold 252 HP / 252 Def / 4 SpA). What beats it: Zapdos 86%, Clefable 87%, Blissey 85%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Indigo Plateau Conference: Top 32 (EP077, The Fourth Round Rumble).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Arcanine (a pivot).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Arcanine is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Eevee closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Arcanine (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 14 of 17 types super-effectively; nothing they carry hits Dragon, Fighting or Water that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 3)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Water: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Fighting get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Gary at the Indigo League (Kanto).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "Every move they carry finishes or sets up (6 of 6): nothing is there to wear you down.",
+     "rule": "aggr_all",
+     "trigger": "aggression >= 100 (here 100)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 65: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
+}

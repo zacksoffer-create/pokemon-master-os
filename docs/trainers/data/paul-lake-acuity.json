@@ -1,0 +1,2063 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "paul",
+ "trainer_name": "Paul",
+ "version": "lake-acuity",
+ "title": "Paul at Lake Acuity (full battle with Ash)",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Diamond & Pearl (Galactic Battles): the Lake Acuity full battle with Ash",
+ "status": "proposed",
+ "notes": [
+  "The acceptance test: he should read aggressive and rigid, with a bond that is demanding, not cold.",
+  "Paul won this full battle. The lineup is my reconstruction from the Pokémon he used in this arc; the show's exact six (and order) need confirming against the episode."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 85,
+   "why": "overwhelming power to win fast",
+   "measured": 78,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 100,
+     "members": [
+      "Ninjask",
+      "Weavile",
+      "Gastrodon",
+      "Ursaring",
+      "Electabuzz",
+      "Torterra"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Weavile",
+      "Gastrodon",
+      "Ursaring",
+      "Electabuzz",
+      "Torterra"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Ninjask",
+      "Weavile",
+      "Electabuzz"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 85,
+   "why": "every Pokémon trained for one job",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 50,
+     "members": [
+      "Ninjask",
+      "Ursaring",
+      "Electabuzz"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": -35,
+    "team_leans": "flexible",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 50,
+      "members": [
+       "Ninjask",
+       "Ursaring",
+       "Electabuzz"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 55,
+   "why": "demanding: praise is never part of the plan",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 30,
+   "why": "calculated, never reckless",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Ursaring",
+      "Electabuzz",
+      "Torterra"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "paul",
+  "version": "lake-acuity",
+  "title": "Paul at Lake Acuity (full battle with Ash)",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:paul-lake-acuity/ninjask",
+    "species": "Ninjask",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Flying"
+    ],
+    "ability": "Speed Boost",
+    "level": 100,
+    "stats": {
+     "hp": 284,
+     "atk": 237,
+     "def": 147,
+     "spa": 157,
+     "spd": 157,
+     "spe": 377
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 147,
+     "spd": 157,
+     "physical_pct": 0.05,
+     "special_pct": 0.05,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Fury Cutter",
+     "Agility",
+     "Double Team",
+     "Giga Drain"
+    ],
+    "move_basis": [
+     {
+      "move": "Fury Cutter",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Ninjask)"
+     },
+     {
+      "move": "Agility",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 38, as Ninjask)"
+     },
+     {
+      "move": "Double Team",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 20, as Ninjask)"
+     },
+     {
+      "move": "Giga Drain",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ninjask)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:paul-lake-acuity/weavile",
+    "species": "Weavile",
+    "nickname": null,
+    "types": [
+     "Dark",
+     "Ice"
+    ],
+    "ability": "Pressure",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 297,
+     "def": 187,
+     "spa": 147,
+     "spd": 227,
+     "spe": 307
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 187,
+     "spd": 227,
+     "physical_pct": 0.25,
+     "special_pct": 0.48,
+     "gap": 0.23
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from physical attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Ice Shard",
+     "Night Slash",
+     "Metal Claw",
+     "Ice Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Ice Shard",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 49, as Sneasel)"
+     },
+     {
+      "move": "Night Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 35, as Weavile)"
+     },
+     {
+      "move": "Metal Claw",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 42, as Weavile)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Weavile)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:paul-lake-acuity/gastrodon",
+    "species": "Gastrodon",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Sticky Hold",
+    "level": 100,
+    "stats": {
+     "hp": 384,
+     "atk": 223,
+     "def": 193,
+     "spa": 241,
+     "spd": 221,
+     "spe": 135
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 193,
+     "spd": 221,
+     "physical_pct": 0.59,
+     "special_pct": 0.77,
+     "gap": 0.18
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Sticky Hold (could be Storm Drain)"
+    ],
+    "moves": [
+     "Water Pulse",
+     "Muddy Water",
+     "Body Slam",
+     "Ice Beam"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Pulse",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Gastrodon)"
+     },
+     {
+      "move": "Muddy Water",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 41, as Gastrodon)"
+     },
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Gastrodon)"
+     },
+     {
+      "move": "Ice Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Gastrodon)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:paul-lake-acuity/ursaring",
+    "species": "Ursaring",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Guts",
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 317,
+     "def": 207,
+     "spa": 207,
+     "spd": 207,
+     "spe": 167
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 207,
+     "spd": 207,
+     "physical_pct": 0.52,
+     "special_pct": 0.52,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hammer Arm",
+     "Focus Blast",
+     "Hyper Beam",
+     "Slash"
+    ],
+    "move_basis": [
+     {
+      "move": "Hammer Arm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 67, as Ursaring)"
+     },
+     {
+      "move": "Focus Blast",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ursaring)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ursaring)"
+     },
+     {
+      "move": "Slash",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 29, as Ursaring)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:paul-lake-acuity/electabuzz",
+    "species": "Electabuzz",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 292,
+     "atk": 223,
+     "def": 171,
+     "spa": 247,
+     "spd": 227,
+     "spe": 267
+    },
+    "bulk": {
+     "lean": "physical",
+     "label": "physically soft",
+     "def": 171,
+     "spd": 227,
+     "physical_pct": 0.12,
+     "special_pct": 0.43,
+     "gap": 0.31
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from physical attackers"
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunder Punch",
+     "Brick Break",
+     "Protect",
+     "Thunder"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunder Punch",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Electabuzz)"
+     },
+     {
+      "move": "Brick Break",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Electabuzz)"
+     },
+     {
+      "move": "Protect",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Electabuzz)"
+     },
+     {
+      "move": "Thunder",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 58, as Electabuzz)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:paul-lake-acuity/torterra",
+    "species": "Torterra",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Ground"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 275,
+     "def": 267,
+     "spa": 207,
+     "spd": 227,
+     "spe": 169
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 267,
+     "spd": 227,
+     "physical_pct": 0.87,
+     "special_pct": 0.69,
+     "gap": 0.18
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Leaf Storm",
+     "Hyper Beam",
+     "Stone Edge",
+     "Frenzy Plant"
+    ],
+    "move_basis": [
+     {
+      "move": "Leaf Storm",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 57, as Torterra)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Stone Edge",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Torterra)"
+     },
+     {
+      "move": "Frenzy Plant",
+      "basis": "this game",
+      "reason": "learns it in Platinum (tutor, as Torterra)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Weavile",
+      "Ursaring"
+     ],
+     "covered_by": [
+      "Ninjask"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Ninjask",
+      "Torterra"
+     ],
+     "covered_by": [
+      "Electabuzz"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Gastrodon"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Electabuzz"
+     ],
+     "covered_by": [
+      "Ninjask",
+      "Torterra"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Ninjask",
+      "Weavile"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Torterra"
+     ]
+    },
+    "Bug": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Weavile",
+      "Torterra"
+     ],
+     "covered_by": [
+      "Ninjask"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Weavile",
+      "Ursaring"
+     ]
+    },
+    "Steel": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Weavile"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Electabuzz"
+     ]
+    },
+    "Fire": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Ninjask",
+      "Weavile",
+      "Torterra"
+     ],
+     "covered_by": [
+      "Gastrodon"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Gastrodon"
+     ],
+     "covered_by": [
+      "Ninjask"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 2,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Ninjask"
+     ],
+     "covered_by": [
+      "Gastrodon",
+      "Electabuzz",
+      "Torterra"
+     ]
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Weavile"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Ninjask",
+      "Torterra"
+     ],
+     "covered_by": [
+      "Weavile"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Weavile"
+     ]
+    }
+   },
+   "gaps": [
+    "Fire"
+   ],
+   "strengths": [],
+   "soft": {
+    "physical": 2,
+    "special": 0,
+    "even": 2,
+    "frail": 1,
+    "sturdy": 1
+   },
+   "bring": "physical",
+   "soft_members": {
+    "physical": [
+     "Weavile",
+     "Electabuzz"
+    ],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Paul comes at you with force and runs it the same way every time: one plan, executed hard.",
+    "rule": "combo_off_rigid",
+    "trigger": "offense_band == high (here high); rigidity_band == high (here high)"
+   },
+   {
+    "section": "who",
+    "text": "Close to their Pokémon, and demanding of them: tough love, not coldness.",
+    "rule": "bond_demanding",
+    "trigger": "bond_read == demanding (here demanding)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (10 physical, 11 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Ninjask, Weavile and Electabuzz outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called rigid (85), but this team reads flexible (50): low move-type variety: Ninjask, Ursaring and Electabuzz.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Fire: Ninjask, Weavile and Torterra are weak to it, and only Gastrodon can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Ninjask to Rock; Weavile to Fighting; Gastrodon to Grass; Torterra to Ice (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a physical attacker: Weavile and Electabuzz are physically soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here physical)"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Rigid, and it shows: Ninjask, Ursaring and Electabuzz can't hit back outside their attack types. Once you've seen the plan, it won't change.",
+    "rule": "rigid_types",
+    "trigger": "rigidity_band == high (here high); few_types_str nonempty"
+   },
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Ursaring's Focus Blast (70%); Electabuzz's Thunder (70%); Torterra's Stone Edge (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {
+  "ace": "Torterra"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "challenged the Battle Pyramid and lost to Brandon",
+     "source": "anime",
+     "status": "result confirmed; region open (ASK-0014)"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Ash in a full battle)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Hearthome City",
+     "kind": "milestone",
+     "result": "released Chimchar after the Tag Battle; Ash took it in",
+     "versions": [
+      "lake-acuity",
+      "battle-pyramid"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lake Acuity full battle",
+     "kind": "rivalry",
+     "result": "beat Ash six-on-six",
+     "versions": [
+      "lake-acuity"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Sinnoh"
+   ],
+   "tags": []
+  },
+  "roles": [
+   {
+    "species": "Ninjask",
+    "nickname": null,
+    "primary": {
+     "role": null,
+     "name": "no clear role",
+     "family": null,
+     "score": 0.0,
+     "confidence": "none",
+     "margin": 0.0,
+     "clear": false
+    },
+    "secondary": null,
+    "also": [],
+    "why": ""
+   },
+   {
+    "species": "Weavile",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.7366,
+     "confidence": "strong",
+     "margin": 0.0597,
+     "clear": false
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.6769,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "revenge killer (0.74, strong): Ice Shard; Speed 307 (above 97% of the field); Attack 297 (above 87% of the field)"
+   },
+   {
+    "species": "Gastrodon",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6157,
+     "confidence": "solid",
+     "margin": 0.0257,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.59,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.62, solid): Water/Ground (Sticky Hold); overall bulk above 72% of the field; attacking moves: Water Pulse, Muddy Water, Body Slam, Ice Beam"
+   },
+   {
+    "species": "Ursaring",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5916,
+     "confidence": "solid",
+     "margin": 0.037,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5546,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.59, solid): Attack 317 (above 94% of the field); attacking moves: Hammer Arm, Focus Blast, Hyper Beam, Slash; overall bulk above 53% of the field"
+   },
+   {
+    "species": "Electabuzz",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4938,
+     "confidence": "loose",
+     "margin": 0.0899,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.4039,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.49, loose): strong attacks (effective power 90+, with the stat it uses): Thunder Punch, Thunder; Thunder (126); Sp. Atk 247 (above 70% of the field)"
+   },
+   {
+    "species": "Torterra",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.6138,
+     "confidence": "solid",
+     "margin": 0.0974,
+     "clear": true
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.5164,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "bulky attacker (0.61, solid): overall bulk above 82% of the field; Attack 275 (above 78% of the field); attacking moves: Leaf Storm, Hyper Beam, Stone Edge, Frenzy Plant"
+   }
+  ],
+  "ace": {
+   "derived": "Electabuzz",
+   "authored": "Torterra",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Electabuzz",
+     "slot": 5,
+     "score": 0.503,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Weavile",
+     "slot": 2,
+     "score": 0.487,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Ursaring",
+     "slot": 4,
+     "score": 0.47,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.294,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Torterra",
+     "slot": 6,
+     "score": 0.418,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.412,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Gastrodon",
+     "slot": 3,
+     "score": 0.401,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.353,
+      "role": 0.7
+     },
+     "helpers": [],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Ninjask",
+     "slot": 1,
+     "score": 0.179,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "no clear role",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Gastrodon",
+    "role": "tank",
+    "fit": 0.566
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Weavile",
+    "role": "revenge killer",
+    "fit": 0.737
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Ursaring",
+    "role": "wallbreaker",
+    "fit": 0.499,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Stone Edge",
+     "member": "Torterra",
+     "move_type": "Rock",
+     "power": 80,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Hammer Arm",
+     "member": "Ursaring",
+     "move_type": "Fighting",
+     "power": 90,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Gastrodon",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Muddy Water",
+     "member": "Gastrodon",
+     "move_type": "Water",
+     "power": 121,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Thunder",
+     "member": "Electabuzz",
+     "move_type": "Electric",
+     "power": 126,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Weavile",
+     "move_type": "Dark",
+     "power": 105,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Ice Beam",
+     "member": "Gastrodon",
+     "move_type": "Ice",
+     "power": 95,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Torterra",
+     "move_type": "Grass",
+     "power": 152,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Hammer Arm",
+     "member": "Ursaring",
+     "move_type": "Fighting",
+     "power": 90,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Hammer Arm",
+     "member": "Ursaring",
+     "move_type": "Fighting",
+     "power": 90,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": true,
+     "move": "Night Slash",
+     "member": "Weavile",
+     "move_type": "Dark",
+     "power": 105,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Torterra",
+     "move_type": "Grass",
+     "power": 152,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Hammer Arm",
+     "member": "Ursaring",
+     "move_type": "Fighting",
+     "power": 90,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Frenzy Plant",
+     "member": "Torterra",
+     "move_type": "Grass",
+     "power": 152,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 0.824,
+   "covered_n": 14,
+   "types_n": 17,
+   "holes": [
+    "Electric",
+    "Fighting",
+    "Poison"
+   ],
+   "bring": [
+    {
+     "type": "Fighting",
+     "their_weak": 2
+    },
+    {
+     "type": "Electric",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Torterra",
+    "move": "Leaf Storm",
+    "why": "his heaviest hit",
+    "status": "proposed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 92,
+   "finishers": 12,
+   "attrition": 1,
+   "finisher_moves": [
+    "Agility (Ninjask)",
+    "Ice Shard (Weavile)",
+    "Night Slash (Weavile)",
+    "Water Pulse (Gastrodon)",
+    "Muddy Water (Gastrodon)",
+    "Ice Beam (Gastrodon)",
+    "Hammer Arm (Ursaring)",
+    "Slash (Ursaring)",
+    "Thunder Punch (Electabuzz)",
+    "Thunder (Electabuzz)",
+    "Leaf Storm (Torterra)",
+    "Stone Edge (Torterra)"
+   ],
+   "attrition_moves": [
+    "Protect (Electabuzz)"
+   ],
+   "offense_authored": 85,
+   "offense_measured": 78,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Weavile",
+    "usage": 1.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Ice Shard",
+     "Low Kick",
+     "Night Slash",
+     "Pursuit"
+    ],
+    "item": "Lum Berry",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 0,
+      "spa": 0,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 47.9
+    },
+    "checks": [
+     {
+      "species": "Scizor",
+      "beats": 74,
+      "score": 39,
+      "n": 25
+     },
+     {
+      "species": "Jirachi",
+      "beats": 69,
+      "score": 29,
+      "n": 21
+     },
+     {
+      "species": "Latias",
+      "beats": 27,
+      "score": -8,
+      "n": 27
+     }
+    ]
+   },
+   {
+    "species": "Gastrodon",
+    "usage": 1.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Recover",
+     "Curse",
+     "Waterfall",
+     "Earthquake"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 16,
+      "spa": 0,
+      "spd": 240,
+      "spe": 0
+     },
+     "share": 71.0
+    },
+    "checks": [
+     {
+      "species": "Breloom",
+      "beats": 87,
+      "score": 71,
+      "n": 76
+     },
+     {
+      "species": "Abomasnow",
+      "beats": 85,
+      "score": 62,
+      "n": 40
+     },
+     {
+      "species": "Roserade",
+      "beats": 83,
+      "score": 55,
+      "n": 29
+     }
+    ]
+   },
+   {
+    "species": "Torterra",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Earthquake",
+     "Wood Hammer",
+     "Stone Edge",
+     "Rock Polish"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 12.5
+    },
+    "checks": [
+     {
+      "species": "Skarmory",
+      "beats": 93,
+      "score": 77,
+      "n": 42
+     },
+     {
+      "species": "Dragonite",
+      "beats": 93,
+      "score": 72,
+      "n": 27
+     },
+     {
+      "species": "Latias",
+      "beats": 71,
+      "score": 48,
+      "n": 59
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Weavile: on 1.8% of gen4ou teams (2026-09, rated 1630+), usually Ice Shard, Low Kick, Night Slash, Pursuit @ Lum Berry (Jolly 252 Atk / 4 SpD / 252 Spe). What beats it: Scizor 74%, Jirachi 69%, Latias 27%.",
+   "Gastrodon: on 1.7% of gen4ou teams (2026-09, rated 0+), usually Recover, Curse, Waterfall, Earthquake @ Leftovers (Careful 252 HP / 16 Def / 240 SpD). What beats it: Breloom 87%, Abomasnow 85%, Roserade 83%.",
+   "Torterra: on 0.5% of gen4ou teams (2026-09, rated 0+), usually Earthquake, Wood Hammer, Stone Edge, Rock Polish @ Leftovers (Jolly 252 Atk / 4 Def / 252 Spe). What beats it: Skarmory 93%, Dragonite 93%, Latias 71%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Recent record: Battle Frontier: challenged the Battle Pyramid and lost to Brandon; Lily of the Valley Conference: Top 8 (lost to Ash in a full battle).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Torterra; the data's is Electabuzz (the widest coverage and a wallbreaker). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Gastrodon is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Weavile closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Ursaring (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 14 of 17 types super-effectively; nothing they carry hits Electric, Fighting or Poison that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 3)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Fighting: they can't hit it super-effectively, and two of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Electric get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Torterra's Leaf Storm (his heaviest hit).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "92% of their moves finish or set up (12 of 13); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 92)"
+    }
+   ]
+  }
+ }
+}

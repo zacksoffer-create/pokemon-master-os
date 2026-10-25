@@ -24,20 +24,21 @@ function arRecord(row) {   // the Arena tab: one row per result you keep (append
   row = Object.assign({id: 'AR-' + Date.now().toString(36), at: new Date().toISOString(), engine: (Arena.pack() || {}).engine ? Arena.pack().engine.name + ' ' + Arena.pack().engine.version : ''}, row);
   return API.append('Arena', row).then(function () { S.live.Arena = null; return row; }).catch(function (e) { console.error(e); toast('The result wasn\'t saved: ' + esc(e && e.message || e)); return null; });
 }
-function arMembersRow(m) { return {name: m.name, kos: Math.round(1000 * m.kos_per_battle) / 1000, dmg: Math.round(m.damage_dealt_per_battle || m.damage_per_battle || 0), fnt: Math.round(1000 * m.fainted_rate) / 1000, app: m.appeared != null ? Math.round(1000 * m.appeared) / 1000 : null}; }
+function arMembersRow(m, ref, n) {   // one Pokémon's numbers in a result, with the team it played for (careers read these)
+  return {ref: ref, n: n, name: m.name, kos: Math.round(1000 * m.kos_per_battle) / 1000, dmg: Math.round(m.damage_dealt_per_battle || m.damage_per_battle || 0), fnt: Math.round(1000 * m.fainted_rate) / 1000, app: m.appeared != null ? Math.round(1000 * m.appeared) / 1000 : null}; }
 function arMembers(ms, game) {
-  return '<table class="t"><thead><tr><th>Pokémon</th><th>Played</th><th>KOs / battle</th><th>Damage / battle</th><th>Fainted</th></tr></thead><tbody>' + ms.map(function (m) {
+  return '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Pokémon</th><th>Played</th><th>KOs / battle</th><th>Damage / battle</th><th>Fainted</th></tr></thead><tbody>' + ms.map(function (m) {
     var n = numOf(m.name);
     return '<tr><td>' + (n ? '<img src="' + sprite(n, game) + '" style="width:28px;height:28px;vertical-align:middle"> ' : '') + esc(m.name) + '</td><td>' + arPct(m.appeared) + '</td><td>' + (m.kos_per_battle || 0).toFixed(2) +
       '</td><td>' + Math.round(m.damage_dealt_per_battle != null ? m.damage_dealt_per_battle : m.damage_per_battle || 0) + '%</td><td>' + arPct(m.fainted_rate) + '</td></tr>';
-  }).join('') + '</tbody></table><div class="tiny muted" style="margin-top:6px">Damage is in percent of the target\'s HP (200% is two Pokémon\'s worth). A knockout from hazards, status or weather is credited to whoever caused it (sixvsix/src/analyze.js).</div>';
+  }).join('') + '</tbody></table></div><div class="tiny muted" style="margin-top:6px">Damage is in percent of the target\'s HP (200% is two Pokémon\'s worth). A knockout from hazards, status or weather is credited to whoever caused it (sixvsix/src/analyze.js).</div>';
 }
 function arNeedsEngine(e) {
   return '<div class="notice">The 6v6 engine couldn\'t start here: ' + esc(e && e.message || e) + '. It needs sixvsix.json and arena.json in the app zip (python3 -I engine/rebuild.py --only arena).</div>';
 }
 var AR_THEIRS = [['blackthorn', 'Blackthorn\'s reading'], ['game', 'As the game plays them'], ['aggressive', 'An aggressive version'], ['cautious', 'A cautious version'], ['sharp', 'At their sharpest'], ['sloppy', 'Off their game']];
 var AR_OURS = [['blackthorn', 'Your coach settings (#/trainer)'], ['plain', 'Blackthorn\'s default'], ['aggressive', 'Aggressive'], ['cautious', 'Cautious'], ['sharp', 'At your sharpest']];
-function arSelect(id, list, sel) { return '<select id="' + id + '">' + list.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === sel ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; }
+function arSelect(id, list, sel) { return '<select class="f" id="' + id + '">' + list.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === sel ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; }
 
 /* ---- the replay: one battle, turn by turn, with each decision's reasons ---- */
 function arWatch(key, i) {
@@ -83,10 +84,10 @@ function arenaPage(query) {
     return '<div class="eyebrow">The Arena · play now</div><h1 style="margin:6px 0">Any team against any team, six on six</h1>' +
       '<p class="lede">Showdown\'s Gen IV engine, with each trainer played the way the Trainer Library reads them (or as the game plays them). Battles come in mirrored pairs: each pair shares a seed with the sides swapped, so neither side gets the lucky one. You get a win rate with an honest interval, what each Pokémon did, and every battle to watch with the reasons behind each decision.</p>' +
       '<div class="slgrid" style="margin-top:16px"><div id="arin">' +
-      card('The matchup', '<label class="tiny muted">Side A</label><select id="ara" style="width:100%">' + Arena.options(st.a) + '</select><div id="arpa" style="margin:6px 0 12px"></div>' +
+      card('The matchup', '<label class="tiny muted">Side A</label><select class="f" id="ara">' + Arena.options(st.a) + '</select><div id="arpa" style="margin:6px 0 12px"></div>' +
         '<div style="text-align:center"><button class="btn sm ghost" id="arswap">⇅ swap</button></div>' +
-        '<label class="tiny muted">Side B</label><select id="arb" style="width:100%">' + Arena.options(st.b) + '</select><div id="arpb" style="margin:6px 0 12px"></div>' +
-        '<div class="row"><div><label class="tiny muted">Battles</label><select id="arn">' + [10, 20, 50, 100].map(function (n) { return '<option' + (n === st.n ? ' selected' : '') + '>' + n + '</option>'; }).join('') + '</select></div>' +
+        '<label class="tiny muted">Side B</label><select class="f" id="arb">' + Arena.options(st.b) + '</select><div id="arpb" style="margin:6px 0 12px"></div>' +
+        '<div class="row"><div><label class="tiny muted">Battles</label><select class="f" id="arn">' + [10, 20, 50, 100].map(function (n) { return '<option' + (n === st.n ? ' selected' : '') + '>' + n + '</option>'; }).join('') + '</select></div>' +
         '<div><label class="tiny muted">Lens</label>' + arSelect('arlens', [['standardized', 'Standardized (Lv 100, 85 EVs)'], ['authentic', 'As encountered (their levels)']], st.lens) + '</div></div>' +
         '<div class="row" style="margin-top:8px"><div><label class="tiny muted">How A plays</label>' + arSelect('arours', AR_OURS, st.ours) + '</div><div><label class="tiny muted">How B plays</label>' + arSelect('artheirs', AR_THEIRS, st.theirs) + '</div></div>' +
         '<label class="tiny" style="display:block;margin-top:10px"><input type="checkbox" id="arkeep"' + (arKeep() ? ' checked' : '') + '> Keep the result in the record (the Arena tab; careers and the Hall of Fame read it)</label>' +
@@ -113,7 +114,7 @@ function arPlay() {
     document.getElementById('arout').innerHTML = arResult(m, key);
     var r = m.result;
     arRecord({kind: 'match', a: o.a, b: o.b, a_name: m.a.label, b_name: m.b.label, n: r.n, won: r.won, lost: r.lost, drew: r.drew, lens: o.lens, ours: o.ours, theirs: o.theirs,
-      ruleset: r.job.ruleset, seed: r.seed, members: JSON.stringify(r.summary.members.a.map(arMembersRow)), them: JSON.stringify(r.summary.members.b.map(arMembersRow)),
+      ruleset: r.job.ruleset, seed: r.seed, members: JSON.stringify(r.summary.members.a.map(function (x) { return arMembersRow(x, o.a, r.n); })), them: JSON.stringify(r.summary.members.b.map(function (x) { return arMembersRow(x, o.b, r.n); })),
       _timeline: 'Arena: ' + m.a.label + ' ' + r.won + '–' + r.lost + (r.drew ? '–' + r.drew : '') + ' against ' + m.b.label});
   }).catch(function (e) { btn.disabled = false; arFail('arprog', e); });
 }
@@ -130,7 +131,7 @@ function arResult(m, key) {
     (r.failures.length ? '<div class="notice">' + plural(r.failures.length, 'battle') + ' ended in an error or a stall and aren\'t counted.</div>' : '') +
     '<details style="margin-top:8px"><summary class="tiny muted">What was held constant, what varied, and how it was checked</summary><div class="tiny" style="margin-top:6px"><b>Held constant:</b> ' + r.held_constant.map(esc).join('; ') + '<br><b>Varied:</b> ' + r.varied.map(esc).join('; ') +
       '<br><b>Ruleset:</b> ' + esc(r.job.ruleset) + ' · <b>legality:</b> A ' + esc(r.job.legality.a.checked_by) + '; B ' + esc(r.job.legality.b.checked_by) + '<br><b>Ran on:</b> ' + esc(r.timing.platform) + ' in ' + (r.timing.total_ms / 1000).toFixed(1) + ' s · <b>evidence class:</b> simulated</div></details>', {tools: false}) +
-    '<div class="grid" style="margin-top:18px"><div class="c6">' + card('What A\'s Pokémon did', arMembers(s.members.a, m.a.game), {tools: false}) + '</div><div class="c6">' + card('What B\'s Pokémon did', arMembers(s.members.b, m.b.game), {tools: false}) + '</div></div>' +
+    '<div style="margin-top:18px">' + card('What A\'s Pokémon did', arMembers(s.members.a, m.a.game), {tools: false}) + '</div><div style="margin-top:18px">' + card('What B\'s Pokémon did', arMembers(s.members.b, m.b.game), {tools: false}) + '</div>' +
     '<div style="margin-top:18px">' + card('The battles', '<p class="tiny muted">Watch any one: it\'s played again from its seed, exactly as it went in the batch, with its full log and every decision\'s reasons.</p><table class="t"><thead><tr><th>#</th><th>A played</th><th>Result</th><th>Turns</th><th>Left</th><th></th></tr></thead><tbody>' +
       r.battles.slice(0, 100).map(function (b) { return '<tr><td>' + (b.i + 1) + '</td><td>' + b.a_side + '</td><td>' + (b.winner === 'a' ? chip('A won', 'forest') : b.winner === 'b' ? chip('B won', 'ember') : chip(b.end === 'error' ? 'error' : 'draw', '')) + '</td><td>' + b.turns + '</td><td>' + b.left.a + '–' + b.left.b + '</td><td><button class="btn sm" onclick="arWatch(\'' + key + '\',' + b.i + ')">Watch</button></td></tr>'; }).join('') + '</tbody></table>', {tools: false}) + '</div>';
 }
@@ -156,8 +157,8 @@ function legendsPage(query) {
     var vsOpts = L.order.map(function (i) { var t = F[i]; return '<option value="' + (t.from === 'pack' ? 'pack:' : 'lib:') + esc(t.id) + '">' + esc(t.name) + '</option>'; }).join('');
     return '<div class="eyebrow">The Arena · Legends</div><h1 style="margin:6px 0">The all-time teams</h1>' +
       '<p class="lede">Every Champion at their strongest, Red, the anime\'s teams, the all-time team and your six journeys, each played against every other ' + L.n_per_pairing + ' times and ranked. Then take any of them on in a best-of-seven: the "your team against the \'96 Bulls" question.</p>' +
-      '<div class="grid" style="margin-top:16px"><div class="c5">' + card('Best of seven', '<label class="tiny muted">Your team</label><select id="lgus" style="width:100%">' + Arena.options('pack:me/heartgold', ['yours', 'saved']) + '</select>' +
-        '<label class="tiny muted" style="display:block;margin-top:8px">The Legend</label><select id="lgvs" style="width:100%">' + vsOpts + '</select>' +
+      '<div class="grid" style="margin-top:16px"><div class="c5">' + card('Best of seven', '<label class="tiny muted">Your team</label><select class="f" id="lgus">' + Arena.options('pack:me/heartgold', ['yours', 'saved']) + '</select>' +
+        '<label class="tiny muted" style="display:block;margin-top:8px">The Legend</label><select class="f" id="lgvs">' + vsOpts + '</select>' +
         '<div class="row" style="margin-top:8px"><div><label class="tiny muted">Series</label>' + arSelect('lgbest', [['7', 'Best of seven'], ['5', 'Best of five'], ['3', 'Best of three']], '7') + '</div><div><label class="tiny muted">How they play</label>' + arSelect('lgtheirs', AR_THEIRS, 'blackthorn') + '</div></div>' +
         '<div style="margin-top:12px"><button class="btn gold" id="lgrun">Play the series</button></div>' + arProgress('lgprog') + '<div id="lgout" style="margin-top:12px"></div>', {tools: false}) +
         card('The stars', '<p class="tiny muted">Across the whole round robin: knockouts per battle.</p>' + stars.map(function (p) { var t = F[p.team], n = numOf(p.name);
@@ -178,7 +179,7 @@ function lgSeries() {
         '<div style="display:flex;gap:6px;flex-wrap:wrap">' + s.games.map(function (g, k) { return '<button class="btn sm" onclick="arWatch(\'' + key + '\',' + g.i + ')">Game ' + (k + 1) + ' · ' + (g.winner === 'a' ? 'W' : g.winner === 'b' ? 'L' : 'D') + ' · ' + g.turns + ' turns</button>'; }).join('') + '</div>' +
         '<p class="tiny muted" style="margin-top:8px">Games alternate sides; each is its own seed, and a game can be watched exactly as it went.</p>';
       document.getElementById('lgout').innerHTML = html;
-      arRecord({kind: 'series', a: a, b: b, a_name: s.a.label, b_name: s.b.label, n: s.games.length, won: s.wins.a, lost: s.wins.b, drew: s.games.length - s.wins.a - s.wins.b, best: best, theirs: theirs,
+      arRecord({kind: 'series', a: a, b: b, a_name: s.a.label, b_name: s.b.label, n: s.games.length, won: s.wins.a, lost: s.wins.b, drew: s.games.length - s.wins.a - s.wins.b, best: best, theirs: theirs, winner: s.winner === 'a' ? a : b,
         _timeline: 'Legends: ' + s.a.label + (s.winner === 'a' ? ' beat ' : ' lost to ') + s.b.label + ' ' + s.wins.a + '–' + s.wins.b + ' (best of ' + best + ')'});
     }).catch(function (e) { btn.disabled = false; arFail('lgprog', e); });
   }, 30);
@@ -229,7 +230,8 @@ function lgPlay() {
     document.getElementById('lgout').innerHTML = lgRender(L);
     var top = L.table[L.order[0]];
     arRecord({kind: 'league', a: refs.join(','), a_name: L.order.map(function (i) { return L.sides[i].label; }).join(' > '), n: L.results.reduce(function (t, r) { return t + r.n; }, 0),
-      won: top.w, lost: top.l, drew: top.d, members: JSON.stringify(L.players.filter(function (p) { return L.sides[p.team].yours; }).map(function (p) { return {team: L.sides[p.team].label, name: p.name, kos: +p.kos_per_battle.toFixed(3), dmg: Math.round(p.damage_per_battle), fnt: +p.fainted_rate.toFixed(3)}; })),
+      won: top.w, lost: top.l, drew: top.d, winner: L.sides[L.order[0]].ref,
+      members: JSON.stringify(L.players.filter(function (p) { return L.sides[p.team].yours; }).map(function (p) { return arMembersRow(p, L.sides[p.team].ref, p.battles); })),
       _timeline: 'League: ' + L.sides[L.order[0]].label + ' finished first of ' + refs.length});
   }).catch(function (e) { btn.disabled = false; arFail('lgprog', e); });
 }
@@ -271,7 +273,7 @@ function lgPlayoffs() {
         var champ = f.winner === 'a' ? f.a : f.b;
         out += line(f, 'Final') + '<div class="kpi" style="margin-top:8px"><div class="eyebrow">Champions</div><b style="font-size:20px">' + esc(champ.label) + '</b><div>' + arStrip(champ.team, champ.game, 36) + '</div></div>';
         el.innerHTML = out;
-        arRecord({kind: 'playoff', a: champ.ref || champ.label, a_name: champ.label, b_name: (f.winner === 'a' ? f.b : f.a).label, n: f.games.length, won: Math.max(f.wins.a, f.wins.b), lost: Math.min(f.wins.a, f.wins.b), drew: 0,
+        arRecord({kind: 'playoff', a: champ.ref || champ.label, winner: champ.ref || '', yours: champ.yours ? 1 : 0, a_name: champ.label, b_name: (f.winner === 'a' ? f.b : f.a).label, n: f.games.length, won: Math.max(f.wins.a, f.wins.b), lost: Math.min(f.wins.a, f.wins.b), drew: 0,
           _timeline: 'Playoffs: ' + champ.label + ' won the title ' + Math.max(f.wins.a, f.wins.b) + '–' + Math.min(f.wins.a, f.wins.b)});
       });
     });
@@ -408,7 +410,7 @@ function trTraits(params) {   // GM-style traits read from the settings (descrip
   if (p.heal_line >= 60) out.push(['Medic', 'heals at ' + p.heal_line + '%']);
   return out;
 }
-function trainerPage() {
+function myTrainerPage() {
   return Arena.ready().then(function () {
     var st = store('trainer') || {philosophy: 'default', params: {}}, D = Arena.X().TRAINER_DEFAULTS;
     after(function () {
@@ -461,5 +463,5 @@ route(/^\/arena\/?(\?.*)?$/, arenaPage, 'The Arena', '#/arena');
 route(/^\/legends\/?(\?.*)?$/, legendsPage, 'The Arena · Legends', '#/legends');
 route(/^\/leagues\/?(\?.*)?$/, leaguesPage, 'The Arena · Leagues', '#/leagues');
 route(/^\/draft\/?$/, draftPage, 'The Arena · Draft', '#/draft');
-route(/^\/trainer\/?$/, trainerPage, 'The Arena · your trainer', '#/trainer');
+route(/^\/trainer\/?$/, myTrainerPage, 'The Arena · your trainer', '#/trainer');
 </script>

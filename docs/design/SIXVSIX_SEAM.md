@@ -11,6 +11,11 @@ the Trainer Library's collections as opponent pools and keeps every run as an Ex
 (`sixvsix/docs/DATA_CONTRACT.md`). It is not registered with `Library.setTeamEngine` yet (that's Phase 5). See
 `sixvsix/docs/HOW_IT_WORKS.md` and `sixvsix/docs/TEST_REPORT.md`.
 
+**Plugged in (v1, D-077, 2026-10-25):** the engine runs in the app (`docs/ARENA.md`): the battle-only build loads on
+demand, `Library.setTeamEngine` is registered and returns this page's result shape, Benchmarks links to Team vs team
+in the Arena, and every trainer profile shows how its tendencies played out in 6v6 (criterion 6). The browser plays
+exactly Node's battles (`app/test_arena.mjs`).
+
 It answers master plan Q8 and narrows D-043: the scouting reports and call sheets stay the product, and the 6v6 engine
 is one more source of evidence beside the one-on-one engine, which stays the measuring stick (Trainer spec §7: "preserve
 the existing 1v1 simulator as an established working foundation").

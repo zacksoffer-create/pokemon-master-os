@@ -1,0 +1,2166 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "ash",
+ "trainer_name": "Ash",
+ "version": "kanto-best",
+ "title": "Ash's Kanto best (his Kanto catches)",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "anime, Indigo League to Battle Frontier: the best six of the Pokémon Ash caught in Kanto",
+ "status": "proposed",
+ "notes": [
+  "Anime canon. Teams and movesets are drafts from the show, checked against the games' learnsets.",
+  "A best-of: the best six of the Pokémon Ash caught in Kanto, with their Gen I–IV-era peak moves (Pikachu's Volt Tackle, Charizard after the Charicific Valley). On the bench: Pidgeot (released in Kanto), Muk, Butterfree (released), Primeape (left to train). Snorlax and Lapras are Orange Islands catches.",
+  "Distinct from canon's Kanto version (the Indigo League team): Tauros for Pidgeotto, and later-era moves.",
+  "A best-of carries Ash's whole Gen I–IV career (through Lily of the Valley)."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 75,
+   "why": "his oldest partners at full power: Volt Tackle, Seismic Toss, Hyper Beam",
+   "measured": 78,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Pikachu",
+      "Charizard",
+      "Bulbasaur",
+      "Kingler",
+      "Tauros"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Pikachu",
+      "Charizard",
+      "Bulbasaur",
+      "Squirtle",
+      "Kingler",
+      "Tauros"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Pikachu",
+      "Charizard",
+      "Tauros"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 30,
+   "why": "every trick from Kanto to the Frontier",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 67,
+     "members": [
+      "Bulbasaur",
+      "Squirtle",
+      "Kingler",
+      "Tauros"
+     ]
+    }
+   ],
+   "disagreement": {
+    "gap": 37,
+    "team_leans": "rigid",
+    "because": [
+     {
+      "signal": "few_attack_types",
+      "label": "low move-type variety",
+      "value": 67,
+      "members": [
+       "Bulbasaur",
+       "Squirtle",
+       "Kingler",
+       "Tauros"
+      ]
+     }
+    ]
+   },
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 98,
+   "why": "the partners he started with, who came home for the Frontier",
+   "measured": 100,
+   "signals": [
+    {
+     "signal": "friendship",
+     "label": "high friendship",
+     "value": 100,
+     "members": [
+      "Pikachu"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 75,
+   "why": "will gamble for the win",
+   "measured": 50,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 50,
+     "members": [
+      "Pikachu",
+      "Squirtle",
+      "Tauros"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ]
+  },
+  {
+   "id": "region_champion",
+   "name": "Orange League Champion",
+   "detail": [
+    "Orange League"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "ash",
+  "version": "kanto-best",
+  "title": "Ash's Kanto best (his Kanto catches)",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:ash-kanto-best/pikachu",
+    "species": "Pikachu",
+    "nickname": null,
+    "types": [
+     "Electric"
+    ],
+    "ability": "Static",
+    "level": 100,
+    "stats": {
+     "hp": 232,
+     "atk": 167,
+     "def": 117,
+     "spa": 157,
+     "spd": 137,
+     "spe": 237
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 117,
+     "spd": 137,
+     "physical_pct": 0.0,
+     "special_pct": 0.0,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Thunderbolt",
+     "Volt Tackle",
+     "Iron Tail",
+     "Quick Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Thunderbolt",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 26, as Pikachu)"
+     },
+     {
+      "move": "Volt Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (light-ball-egg, as Pichu)"
+     },
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Pikachu)"
+     },
+     {
+      "move": "Quick Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 13, as Pikachu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-kanto-best/charizard",
+    "species": "Charizard",
+    "nickname": null,
+    "types": [
+     "Fire",
+     "Flying"
+    ],
+    "ability": "Blaze",
+    "level": 100,
+    "stats": {
+     "hp": 318,
+     "atk": 225,
+     "def": 213,
+     "spa": 275,
+     "spd": 227,
+     "spe": 257
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 213,
+     "spd": 227,
+     "physical_pct": 0.47,
+     "special_pct": 0.58,
+     "gap": 0.11
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Flamethrower",
+     "Seismic Toss",
+     "Dragon Breath",
+     "Wing Attack"
+    ],
+    "move_basis": [
+     {
+      "move": "Flamethrower",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 42, as Charizard)"
+     },
+     {
+      "move": "Seismic Toss",
+      "basis": "another game",
+      "reason": "learns it in Emerald (tutor)"
+     },
+     {
+      "move": "Dragon Breath",
+      "basis": "another game",
+      "reason": "learns it in Crystal (machine)"
+     },
+     {
+      "move": "Wing Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 36, as Charizard)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-kanto-best/bulbasaur",
+    "species": "Bulbasaur",
+    "nickname": null,
+    "types": [
+     "Grass",
+     "Poison"
+    ],
+    "ability": "Overgrow",
+    "level": 100,
+    "stats": {
+     "hp": 252,
+     "atk": 155,
+     "def": 155,
+     "spa": 187,
+     "spd": 187,
+     "spe": 147
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 155,
+     "spd": 187,
+     "physical_pct": 0.02,
+     "special_pct": 0.06,
+     "gap": 0.04
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Solar Beam",
+     "Razor Leaf",
+     "Vine Whip",
+     "Leech Seed"
+    ],
+    "move_basis": [
+     {
+      "move": "Solar Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Bulbasaur)"
+     },
+     {
+      "move": "Razor Leaf",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 19, as Bulbasaur)"
+     },
+     {
+      "move": "Vine Whip",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 9, as Bulbasaur)"
+     },
+     {
+      "move": "Leech Seed",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 7, as Bulbasaur)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-kanto-best/squirtle",
+    "species": "Squirtle",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 250,
+     "atk": 153,
+     "def": 187,
+     "spa": 157,
+     "spd": 185,
+     "spe": 143
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 187,
+     "spd": 185,
+     "physical_pct": 0.08,
+     "special_pct": 0.06,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Skull Bash",
+     "Hydro Pump",
+     "Water Gun",
+     "Withdraw"
+    ],
+    "move_basis": [
+     {
+      "move": "Skull Bash",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 31, as Squirtle)"
+     },
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 40, as Squirtle)"
+     },
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 13, as Squirtle)"
+     },
+     {
+      "move": "Withdraw",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 10, as Squirtle)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-kanto-best/kingler",
+    "species": "Kingler",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Hyper Cutter",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 317,
+     "def": 287,
+     "spa": 157,
+     "spd": 157,
+     "spe": 207
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 287,
+     "spd": 157,
+     "physical_pct": 0.67,
+     "special_pct": 0.03,
+     "gap": 0.64
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Hyper Cutter (could be Shell Armor)"
+    ],
+    "moves": [
+     "Crabhammer",
+     "Hyper Beam",
+     "Bubble",
+     "Stomp"
+    ],
+    "move_basis": [
+     {
+      "move": "Crabhammer",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 56, as Kingler)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (machine, as Kingler)"
+     },
+     {
+      "move": "Bubble",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Kingler)"
+     },
+     {
+      "move": "Stomp",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 25, as Kingler)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:ash-kanto-best/tauros",
+    "species": "Tauros",
+    "nickname": null,
+    "types": [
+     "Normal"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 257,
+     "def": 247,
+     "spa": 137,
+     "spd": 197,
+     "spe": 277
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 247,
+     "spd": 197,
+     "physical_pct": 0.65,
+     "special_pct": 0.34,
+     "gap": 0.31
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature",
+     "ability Intimidate (could be Anger Point)"
+    ],
+    "moves": [
+     "Take Down",
+     "Horn Attack",
+     "Tackle",
+     "Stomp"
+    ],
+    "move_basis": [
+     {
+      "move": "Take Down",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 35, as Tauros)"
+     },
+     {
+      "move": "Horn Attack",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 8, as Tauros)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Tauros)"
+     },
+     {
+      "move": "Stomp",
+      "basis": "another game",
+      "reason": "learns it in Blue Japan (level 21)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Tauros"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Bulbasaur"
+     ]
+    },
+    "Flying": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Bulbasaur"
+     ],
+     "covered_by": [
+      "Pikachu"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Pikachu"
+     ],
+     "covered_by": [
+      "Charizard"
+     ]
+    },
+    "Rock": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Charizard"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Charizard"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Tauros"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Pikachu",
+      "Charizard",
+      "Squirtle",
+      "Kingler"
+     ]
+    },
+    "Fire": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Bulbasaur"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Squirtle",
+      "Kingler"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Charizard"
+     ],
+     "covered_by": [
+      "Bulbasaur",
+      "Squirtle",
+      "Kingler"
+     ]
+    },
+    "Grass": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Squirtle",
+      "Kingler"
+     ],
+     "covered_by": [
+      "Charizard",
+      "Bulbasaur"
+     ]
+    },
+    "Electric": {
+     "weak": 3,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 2,
+     "weak_members": [
+      "Charizard",
+      "Squirtle",
+      "Kingler"
+     ],
+     "covered_by": [
+      "Pikachu",
+      "Bulbasaur"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Bulbasaur"
+     ],
+     "covered_by": []
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Bulbasaur"
+     ],
+     "covered_by": [
+      "Squirtle",
+      "Kingler"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Electric"
+   ],
+   "strengths": [
+    "Steel"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 2,
+    "even": 1,
+    "frail": 3,
+    "sturdy": 0
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Kingler",
+     "Tauros"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Ash comes at you with force and changes the plan on the fly: aggressive, and hard to read.",
+    "rule": "combo_off_flex",
+    "trigger": "offense_band == high (here high); rigidity_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A gambler: they'll reach for the long shot.",
+    "rule": "risk_high",
+    "trigger": "risk_band == high (here high)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (14 physical, 8 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Pikachu, Charizard and Tauros outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Called flexible (30), but this team reads rigid (67): low move-type variety: Bulbasaur, Squirtle, Kingler and Tauros.",
+    "rule": "disagree_rigidity",
+    "trigger": "disagree_rigidity nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Electric: Charizard, Squirtle and Kingler are weak to it, and only Pikachu and Bulbasaur can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Charizard to Rock (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Kingler and Tauros are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Steel: 4 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Reckless, and it shows: Pikachu's Volt Tackle (recoil) and Iron Tail (75%); Squirtle's Hydro Pump (80%); Tauros's Take Down (recoil). Their misses and recoil are your free turns.",
+    "rule": "reckless",
+    "trigger": "risk_band == high (here high); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [],
+ "overrides": {},
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Indigo Plateau Conference",
+     "kind": "league",
+     "result": "Top 16 (lost to Ritchie)",
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Kanto Gyms",
+     "kind": "gym",
+     "result": "earned the eight badges that entered him in the Indigo League",
+     "versions": [
+      "orange-league",
+      "silver-conference",
+      "johto-best",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Orange Archipelago",
+     "event": "Orange League",
+     "kind": "league",
+     "result": "won: four Orange Crew badges, then beat Drake in the Winner's Cup",
+     "title": "Orange League Champion",
+     "champion": true,
+     "versions": [
+      "orange-league",
+      "silver-conference",
+      "johto-best",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Johto Gyms",
+     "kind": "gym",
+     "result": "earned the eight Johto badges",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "league",
+     "result": "Top 8 (beat Gary in a full battle, lost to Harrison)",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Silver Conference",
+     "kind": "rivalry",
+     "result": "beat Gary six-on-six in the Victory Tournament",
+     "versions": [
+      "silver-conference",
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Hoenn Gyms",
+     "kind": "gym",
+     "result": "earned the eight Hoenn badges",
+     "versions": [
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Ever Grande Conference",
+     "kind": "league",
+     "result": "Top 8 (lost to Tyson)",
+     "versions": [
+      "ever-grande",
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Battle Frontier",
+     "kind": "frontier",
+     "result": "beat all seven Frontier Brains (seven Frontier Symbols); offered a Frontier Brain post and declined",
+     "versions": [
+      "battle-frontier",
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh Gyms",
+     "kind": "gym",
+     "result": "earned the eight Sinnoh badges",
+     "versions": [
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "league",
+     "result": "Top 4 (beat Paul in the quarterfinal full battle, lost to Tobias)",
+     "versions": [
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Lily of the Valley Conference",
+     "kind": "rivalry",
+     "result": "beat Paul six-on-six, after losing the Lake Acuity full battle to him",
+     "versions": [
+      "lily-semifinal",
+      "kanto-best",
+      "johto-best",
+      "sinnoh-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Kanto",
+      "Orange Archipelago",
+      "Johto",
+      "Hoenn",
+      "Sinnoh"
+     ]
+    },
+    {
+     "id": "region_champion",
+     "name": "Orange League Champion",
+     "detail": [
+      "Orange League"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Pikachu",
+    "nickname": null,
+    "primary": {
+     "role": "revenge_killer",
+     "name": "revenge killer",
+     "family": "offense",
+     "score": 0.6211,
+     "confidence": "solid",
+     "margin": 0.125,
+     "clear": true
+    },
+    "secondary": {
+     "role": "late_game_cleaner",
+     "name": "late-game cleaner",
+     "family": "offense",
+     "score": 0.4961,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "revenge killer (0.62, solid): Quick Attack; Speed 237 (above 67% of the field); attacks that use its better attacking stat: Volt Tackle, Iron Tail, Quick Attack"
+   },
+   {
+    "species": "Charizard",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.5303,
+     "confidence": "solid",
+     "margin": 0.0166,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5137,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "wallbreaker (0.53, solid): Flamethrower (142); Sp. Atk 275 (above 84% of the field); attacks that use its better attacking stat: Flamethrower, Dragon Breath"
+   },
+   {
+    "species": "Bulbasaur",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3076,
+     "confidence": "loose",
+     "margin": 0.3076,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.31, loose): Solar Beam (120); attacks that use its better attacking stat: Razor Leaf, Vine Whip; strong attacks (effective power 90+, with the stat it uses): Solar Beam"
+   },
+   {
+    "species": "Squirtle",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_setup",
+     "name": "bulky setup",
+     "family": "defense",
+     "score": 0.4249,
+     "confidence": "loose",
+     "margin": 0.0607,
+     "clear": false
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.3642,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "bulky setup (0.42, loose): Withdraw; attacking moves: Skull Bash, Hydro Pump, Water Gun; overall bulk above 5% of the field"
+   },
+   {
+    "species": "Kingler",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4671,
+     "confidence": "loose",
+     "margin": 0.2666,
+     "clear": true
+    },
+    "secondary": {
+     "role": "physical_wall",
+     "name": "physical wall",
+     "family": "defense",
+     "score": 0.2005,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.47, loose): Attack 317 (above 94% of the field); Crabhammer (115); attacks that use its better attacking stat: Crabhammer, Stomp"
+   },
+   {
+    "species": "Tauros",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4844,
+     "confidence": "loose",
+     "margin": 0.0151,
+     "clear": false
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.4693,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "wallbreaker (0.48, loose): strong attacks (effective power 90+, with the stat it uses): Take Down, Horn Attack, Stomp; Take Down (115); Attack 257 (above 70% of the field)"
+   }
+  ],
+  "ace": {
+   "derived": "Pikachu",
+   "authored": null,
+   "agree": true,
+   "ranking": [
+    {
+     "species": "Pikachu",
+     "slot": 1,
+     "score": 0.617,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.235,
+      "role": 0.9,
+      "investment": 1.0
+     },
+     "helpers": [],
+     "role": "revenge killer",
+     "level": null,
+     "sent_out": "lead"
+    },
+    {
+     "species": "Charizard",
+     "slot": 2,
+     "score": 0.537,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.529,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Kingler",
+     "slot": 5,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Squirtle",
+     "slot": 4,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "bulky setup",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Bulbasaur",
+     "slot": 3,
+     "score": 0.436,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Tauros",
+     "slot": 6,
+     "score": 0.386,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.0,
+      "role": 0.9
+     },
+     "helpers": [],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "last"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Charizard",
+    "role": "tank",
+    "fit": 0.506
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Pikachu",
+    "role": "revenge killer",
+    "fit": 0.621
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Charizard",
+    "role": "wallbreaker",
+    "fit": 0.477,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dark",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": true,
+     "move": "Dragon Breath",
+     "member": "Charizard",
+     "move_type": "Dragon",
+     "power": 60,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Wing Attack",
+     "member": "Charizard",
+     "move_type": "Flying",
+     "power": 74,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Squirtle",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Flying",
+     "covered": true,
+     "move": "Volt Tackle",
+     "member": "Pikachu",
+     "move_type": "Electric",
+     "power": 180,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Bulbasaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Bulbasaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Flamethrower",
+     "member": "Charizard",
+     "move_type": "Fire",
+     "power": 142,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Solar Beam",
+     "member": "Bulbasaur",
+     "move_type": "Grass",
+     "power": 300,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.647,
+   "covered_n": 11,
+   "types_n": 17,
+   "holes": [
+    "Dark",
+    "Electric",
+    "Ghost",
+    "Normal",
+    "Poison",
+    "Psychic"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 3
+    },
+    {
+     "type": "Psychic",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [],
+  "aggression": {
+   "ratio": 91,
+   "finishers": 10,
+   "attrition": 1,
+   "finisher_moves": [
+    "Thunderbolt (Pikachu)",
+    "Volt Tackle (Pikachu)",
+    "Quick Attack (Pikachu)",
+    "Flamethrower (Charizard)",
+    "Solar Beam (Bulbasaur)",
+    "Hydro Pump (Squirtle)",
+    "Crabhammer (Kingler)",
+    "Take Down (Tauros)",
+    "Horn Attack (Tauros)",
+    "Stomp (Tauros)"
+   ],
+   "attrition_moves": [
+    "Leech Seed (Bulbasaur)"
+   ],
+   "offense_authored": 75,
+   "offense_measured": 78,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Charizard",
+    "usage": 0.8,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Hidden Power Grass",
+     "Dragon Pulse",
+     "Flamethrower",
+     "Roost"
+    ],
+    "item": "Focus Sash",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 38.1
+    },
+    "checks": [
+     {
+      "species": "Gyarados",
+      "beats": 84,
+      "score": 67,
+      "n": 75
+     },
+     {
+      "species": "Starmie",
+      "beats": 79,
+      "score": 63,
+      "n": 96
+     },
+     {
+      "species": "Latias",
+      "beats": 78,
+      "score": 61,
+      "n": 99
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Charizard: on 0.8% of gen4ou teams (2026-09, rated 0+), usually Hidden Power Grass, Dragon Pulse, Flamethrower, Roost @ Focus Sash (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Gyarados 84%, Starmie 79%, Latias 78%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Ash has competed across 5 regions (Kanto, Orange Archipelago, Johto, Hoenn and Sinnoh): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    },
+    {
+     "section": "career",
+     "text": "Titles: Orange League Champion.",
+     "rule": "career_titles",
+     "trigger": "titles_str nonempty"
+    },
+    {
+     "section": "career",
+     "text": "Recent record: Ever Grande Conference: Top 8 (lost to Tyson); Battle Frontier: beat all seven Frontier Brains (seven Frontier Symbols); offered a Frontier Brain post and declined; Lily of the Valley Conference: Top 4 (beat Paul in the quarterfinal full battle, lost to Tobias).",
+     "rule": "career_record",
+     "trigger": "record_str nonempty"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "Ace: Pikachu (the most invested and a revenge killer).",
+     "rule": "ace_derived",
+     "trigger": "always"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Charizard is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Pikachu closes it out (revenge killer).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Charizard (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 11 of 17 types super-effectively; nothing they carry hits Dark, Electric, Ghost, Normal, Poison or Psychic that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 6)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and three of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Psychic get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "No signature moves authored for Ash's Kanto best (his Kanto catches).",
+     "rule": "sig_none",
+     "trigger": "signature_str empty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "91% of their moves finish or set up (10 of 11); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 91)"
+    }
+   ]
+  }
+ }
+}

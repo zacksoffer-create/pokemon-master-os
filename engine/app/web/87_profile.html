@@ -120,7 +120,7 @@ function monPage(id, mode) {
       '<div class="small">' + (ind.nickname ? esc(ind.species) + ' · ' : '') + types(sp.types) + (d.genus ? ' · ' + esc(d.genus) : '') + (ind.form ? ' · ' + esc(cap(ind.form)) + ' form' : '') + ' · ' + esc(Battle.GAME_TITLE[ind.game]) + '</div>' +
       (rec.error ? '<div class="tiny muted" style="margin-top:8px">' + esc(rec.error) + '</div>' :
         '<div style="margin-top:10px"><b>' + (rec.archetype.from === 'ladder' ? nameHtml(read.name) : esc(rec.archetype.functional)) + '</b>' + sigs.map(function (s) { return ' ' + chip(s.name, 'gold'); }).join('') + '</div>' +
-        '<div style="margin-top:8px">' + quals.map(function (q) { return chip(q.name, 'forest'); }).join(' ') + ' ' + top.slice(0, 4).map(function (x) { return chip(x.name + ' ' + x.tier, ''); }).join(' ') + '</div>') +
+        '<div style="margin-top:8px">' + quals.map(function (q) { return chip(q.name, 'forest'); }).join(' ') + ' ' + top.slice(0, 4).map(function (x) { var tn = Career.tierName(x.id, x.tier); return chip((tn ? tn + ' · ' : '') + x.name + ' ' + x.tier, ''); }).join(' ') + '</div>') +
       '<div class="small" style="margin-top:10px">' + [b.ability ? 'Ability <b>' + esc(b.ability) + '</b>' : null, b.nature ? 'Nature <b>' + esc(b.nature) + '</b>' : null, b.item ? 'Item <b>' + esc(b.item) + '</b>' : null, ind.ball ? '<img src="' + itemSprite(ind.ball.replace('é', 'e')) + '" alt="" style="width:20px;vertical-align:middle"> ' + esc(ind.ball) : null].filter(Boolean).join(' · ') + '</div>' +
       (show ? '' : '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><a class="btn gold" href="#/pokemon/' + encodeURIComponent(id) + '">Edit the build</a><a class="btn" href="#/compare/' + encodeURIComponent(ind.species) + '">Compare</a><button class="btn" id="mpack">Create artwork</button><a class="btn" href="#/mon/' + encodeURIComponent(id) + '/showcase">Showcase</a></div>') +
       (show ? '<div style="margin-top:14px"><a class="link" href="#/mon/' + encodeURIComponent(id) + '">← The working view</a></div>' : '') + '</div></div>';
@@ -162,7 +162,7 @@ function monPage(id, mode) {
       {eyebrow: 'Its breeding: what it hatched with and who its parents are', tools: false, style: 'margin-top:16px'}) : '';
     var bio = card('Its species', (d.dex ? '<p class="small" style="margin:0 0 8px">“' + esc(d.dex) + '”</p>' : '') + '<div class="tiny muted">' + esc([d.h ? d.h + ' m, ' + d.w + ' kg' : null, d.hab ? 'lives in ' + d.hab : null, d.eg ? 'egg groups ' + d.eg.join(', ') : null].filter(Boolean).join(' · ')) + '</div>',
       {eyebrow: 'The same for every ' + ind.species, tools: false, style: 'margin-top:16px'});
-    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + (show ? '' : capPanel(ind)) + origin + tools + bio + '</div><div class="c6">' + ballPanel(ind, show) + gallery + history + '</div></div>';
+    return hero + '<div class="grid" style="margin-top:16px"><div class="c6">' + glance + (show ? '' : capPanel(ind)) + origin + tools + bio + '</div><div class="c6">' + careerPanel(ind, rec, read) + ballPanel(ind, show) + gallery + history + '</div></div>';
   });
 }
 /* its Poké Ball (Phase 6): the ball's exterior and name, whether the games allow it, and the Pokémon at home inside it:

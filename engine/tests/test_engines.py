@@ -548,7 +548,9 @@ class TrainerReportData(unittest.TestCase):
         self.assertEqual(used, ["IVs 31"])
 
     def test_trainers_versions_and_teams(self):
-        self.assertEqual(len(self.store.trainers), 12)
+        from trainers.model import Store as _Store
+        self.assertEqual(len(_Store(ecosystem=None).trainers), 12)      # canon's own; trainers/ecosystem.json adds proposals (D-077)
+        self.assertTrue(self.store.proposed and all(k.split("/")[0] in self.store.trainers for k in self.store.proposed))
         for t in self.store.trainers.values():
             for v in t.versions.values():
                 self.assertTrue(1 <= len(self.store.team(v)) <= 6, f"{t.id}/{v.id}")
@@ -2443,6 +2445,79 @@ class Blackthorn(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
 
 
+class FieldBiology(unittest.TestCase):
+    """v1 (D-077): the Pokédex archive, claims, curated dossiers, the webs and ecotypes (engine/biology/)."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, ENGINE)
+        man = os.path.join(ENGINE, "data_manifest", "biology")
+        if not os.path.exists(os.path.join(man, "ecology.json")):
+            raise unittest.SkipTest("run python3 -I engine/biology/build.py first")
+        with open(os.path.join(man, "archive.json"), encoding="utf-8") as fh:
+            cls.archive = json.load(fh)
+        with open(os.path.join(man, "ecology.json"), encoding="utf-8") as fh:
+            cls.eco = json.load(fh)
+        with open(os.path.join(man, "ecotypes.json"), encoding="utf-8") as fh:
+            cls.et = json.load(fh)
+
+    def test_the_archive_holds_every_entry_of_every_species(self):
+        self.assertEqual(len(self.archive["species"]), 493)
+        pineco = [s for s in self.archive["species"] if s["name"] == "Pineco"][0]
+        self.assertEqual(len(pineco["entries"]), 7)                    # Gold to Platinum, de-duplicated
+        self.assertTrue(all("POKéMON" not in e["text"] and "\u00ad" not in e["text"] for s in self.archive["species"] for e in s["entries"]))
+
+    def test_every_dossier_cites_what_exists(self):
+        from biology.dossier import Checker, all_slugs, load
+        ch = Checker()
+        slugs = all_slugs()
+        self.assertGreaterEqual(len(slugs), 64)
+        for sl in slugs:
+            errs, _ = ch.check(load(sl))
+            self.assertEqual(errs, [], sl)
+
+    def test_the_checker_refuses_an_invented_citation(self):
+        from biology.dossier import Checker, load
+        d = load("pineco")
+        d["sections"]["diet"].append({"text": "x", "class": "canon", "confidence": "high", "evidence": ["999.9"]})
+        d["ecotypes"].append({"name": "z", "reading": "r", "moves": ["Tackle"], "class": "canon"})
+        errs, _ = Checker().check(d)
+        self.assertTrue(any("999.9" in e for e in errs) and any("never canon" in e for e in errs) and any("egg move" in e for e in errs))
+
+    def test_ilex_forest_is_a_web_with_its_documented_links(self):
+        w = self.eco["webs"]["ilex-forest"]
+        links = {(l["from"], l["to"]) for l in w["links"]}
+        self.assertIn(("Pineco", "flying-insects"), links)            # 204.2
+        self.assertIn(("Caterpie", "trees"), links)
+        self.assertTrue(all(l["class"] in ("canon", "mechanic", "inferred", "hypothesis", "creative", "unknown") for l in w["links"]))
+        self.assertNotIn(("Pineco", "trees"), links)                  # bark for its case is a material, not food
+        self.assertIn("trees", [k["id"] for k in w["analysis"]["keystones"]])
+
+    def test_visitors_stay_out_of_the_web(self):
+        ilex = {r["species"]: r for r in self.eco["communities"]["ilex-forest"]}
+        self.assertEqual(ilex["Carnivine"]["status"], "visitor")       # radio only
+        self.assertNotIn("Carnivine", [n["id"] for n in self.eco["webs"]["ilex-forest"]["nodes"]])
+
+    def test_the_cascade_follows_who_eats_what(self):
+        from biology.ecology import cascade
+        nodes = [{"id": "sun", "group": "abiotic"}, {"id": "leaf", "group": "producer"}, {"id": "cat", "kind": "pokemon"}, {"id": "owl", "kind": "pokemon"}]
+        links = [{"from": "leaf", "to": "sun"}, {"from": "cat", "to": "leaf"}, {"from": "owl", "to": "cat"}]
+        self.assertEqual(cascade(nodes, links, {"leaf"}), ["cat", "leaf", "owl"])
+        self.assertEqual(cascade(nodes, links, {"sun"}), ["cat", "leaf", "owl", "sun"])
+
+    def test_ecotypes_rest_on_egg_moves(self):
+        d = self.et["species"]["Dratini"]
+        self.assertIn("Extreme Speed", d["egg_moves"])
+        self.assertTrue(all(set(m["moves"]) <= set(d["egg_moves"]) for m in d["machine"]))
+        self.assertTrue(d["curated"])                                   # the dossier's own come first
+
+    def test_the_trainer_ecosystem_checks_out(self):
+        from trainers.ecosystem import check
+        errs, _, eco = check()
+        self.assertEqual(errs, [])
+        self.assertGreaterEqual(sum(len(t["versions"]) for t in eco["trainers"].values()), 20)
+
+
 class Recognition(unittest.TestCase):
     """Tags, badges, archetypes and qualifications (trainers/recognition.py, docs/specs/TAGS_BADGES_…)."""
 
@@ -2506,6 +2581,18 @@ class WebApp(unittest.TestCase):
             os.unlink(tmp.name)
             self.assertEqual(out.returncode, 0, os.path.basename(f) + ": " + out.stderr[-600:])
 
+    def test_no_two_parts_define_the_same_global(self):
+        """The parts share one page, so a function or var defined twice silently replaces the first (v1 found
+        94_arena's trainerPage replacing the Trainer Library's)."""
+        import glob as _glob
+        import re as _re
+        seen = {}
+        for f in sorted(_glob.glob(os.path.join(self.app, "web", "*.html"))):
+            with open(f, encoding="utf-8") as fh:
+                for name in _re.findall(r"^(?:function|var) ([A-Za-z0-9_$]+)", fh.read(), _re.M):
+                    self.assertNotIn(name, seen, f"{name} is defined in {seen.get(name)} and {os.path.basename(f)}")
+                    seen[name] = os.path.basename(f)
+
     def test_the_app_works_inside_apps_scripts_frame(self):
         """The web app as Apps Script serves it: written into a sandboxed frame on another origin, where following a
         link lands the window on a blank page. Every menu item, links on every page and clickable rows, at desktop and
@@ -2562,6 +2649,32 @@ class WebApp(unittest.TestCase):
         in every lab, the HeartGold six against the winter mountain, the Glasshouse's candidates, canon kept apart, two
         set-ups and two staff plans compared without a winner, one record read everywhere, and a phone."""
         out = self.sp.run(["node", os.path.join(self.app, "test_survival.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_the_arena_plays_nodes_battles_in_the_browser(self):
+        """The Arena in the preview (app/test_arena.mjs, in Chromium): the page plays exactly Node's battles for the same
+        job (the fingerprint), a battle replays with every decision's reasons, Legends, a League with playoffs, the
+        Draft, Your trainer's settings reaching your teams, criterion 6 on a trainer's profile, the seam, a phone."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_arena.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_field_biology_matches_python_in_the_browser(self):
+        """Field Biology in the preview (app/test_biology.mjs, in Chromium): the browser's food-web analysis and cascade
+        agree with biology/ecology.py on every web; a dossier, a field guide, a review kept in the Journal, the landscape,
+        a web's cascade and the Level 3 model, ecotypes, a phone."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_biology.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
+    def test_careers_read_the_arena_in_the_browser(self):
+        """Careers in the preview (app/test_career.mjs, in Chromium): a kept Arena result on the player card of the
+        Pokémon that played it, a signature title, the Chronicle, tier names and the Hall of Fame."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_career.mjs")], capture_output=True, text=True, timeout=1500)
         if "SKIP" in out.stdout:
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])

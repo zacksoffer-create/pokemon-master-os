@@ -162,6 +162,8 @@ class Catalog:
                        "report": f"{tid}-{vid}", "library": lid}
                 if v.parent:
                     rec["parent"] = f"{tid}/{v.parent}"
+                if f"{tid}/{vid}" in getattr(self.store, "proposed", set()):
+                    rec["ecosystem"] = True       # a proposal from trainers/ecosystem.json (D-077), not canon
                 if kind != "cartridge":
                     rec["evidence"] = [evidence(p, kind, cfg) for p in party]
                 out[f"{tid}/{vid}"] = rec

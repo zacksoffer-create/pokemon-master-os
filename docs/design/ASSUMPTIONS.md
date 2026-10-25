@@ -427,3 +427,229 @@ The Survival Lab replaces Field readiness under Labs (the old #/field address op
 - **Why:** MASTER_PLAN §3.1 maps Field readiness to the Survival Lab.
 - **See it:** `#/survival` (The menu)
 - **Could instead:** keep Field readiness as well; a separate Survival space
+
+## v1 · The Arena
+
+### A-53 · Arena engine (D-077)
+
+The 6v6 engine runs in the page: the battle-only build (2.8 MB, loaded only by Arena pages), Web Workers where the page allows them and the page itself where it doesn't (same battles either way). Legality is checked once in Node for every team the pack can field (393); a team you saved in My Teams is checked by the app's builder instead, and its result says so.
+
+- **Why:** The full build (6.9 MB, with learnsets) is too heavy to load in the app; the battle-only build can't check legality, so the checks travel with it. The browser test proves the page plays exactly Node's battles (the fingerprint).
+- **See it:** `#/arena` (The Arena)
+- **Could instead:** load the full build on demand to check your saved teams with Showdown's validator; run the engine on the home laptop and send results back
+
+### A-54 · Gen II-III teams (D-077)
+
+Crystal, FireRed and Emerald teams (yours and the trainers') play in the Arena under Gen IV rules, as gen4:<id>: the same Pokémon, moves, items and levels; Gen IV's physical/special split, abilities (Gen II's Pokémon get the species' first) and formulas. The original record is untouched.
+
+- **Why:** The engine plays Gen IV only, and Legends and all-time leagues need your Crystal, FireRed and Emerald sixes and Lance, Red, Blue and Wallace.
+- **See it:** `#/legends` (Legends)
+- **Could instead:** leave Gen II-III teams out of the Arena; a separate Gen III engine later
+
+## v1 · Recognition 2.0
+
+### A-55 · Tier names (D-077)
+
+Every stat-gated badge gets a name at each tier, FIFA-style: Speed Bronze-Elite reads Quick, Swift, Blazing, Lightning; Attack Hard Hitter to Titan; Defense Sturdy to Bastion; and so on (trainers/recognition.json tier_names). Display only: badges, tiers and thresholds are unchanged.
+
+- **Why:** Your 2K/FIFA brief: 'if you had a heading power of over 85, you automatically got the power header trait'. The thresholds were already stat-gated; this names them.
+- **See it:** `#/standards` (The standards)
+- **Could instead:** rename any of them; no names: tiers only
+
+## v1 · The Arena
+
+### A-56 · Legends (D-077)
+
+The Legends field is every Champion at their strongest (Crystal Lance and Red, FireRed Blue's rematch, Emerald Wallace, Platinum Cynthia's rematch, HeartGold Lance's rematch and Red), the anime's teams (25 new), the all-time team and your six journeys: 45 teams, each against every other 8 times on the standardized lens, each trainer as Blackthorn reads them. Your teams keep D-072's optimized spreads, everyone else has 85 EVs, which is part of why yours rank 1-3.
+
+- **Why:** Your '96 Bulls question needs a fixed all-time field; D-072 is how your teams fight everywhere else in the 6v6 engine.
+- **See it:** `#/legends` (Legends)
+- **Could instead:** put your teams on 85 EVs in Legends (even footing); the cartridge AI for cartridge trainers; more battles per pairing
+
+### A-57 · Your trainer (D-077)
+
+Your trainer is the same nine dials every library trainer is read onto (aggression, risk, patience, heal line, switching, preservation, harassment, set-up-first, sharpness), with six philosophies to start from (2K's coaching styles read for Pokémon: All-out offense, Momentum, Attrition, Set up and sweep, Play the percentages). They're saved in this browser and apply to your teams in every Arena mode. Traits name your style and change nothing.
+
+- **Why:** 2K's coach settings and MyGM traits; one scale means your style and Cynthia's can be compared.
+- **See it:** `#/trainer` (Your trainer)
+- **Could instead:** save your trainer in the Sheet so every device has it; settings per team
+
+### A-58 · The Draft (D-077)
+
+The Draft pool is every Pokémon an era's trainers use (HeartGold, Platinum, or the Legends), each with the build its strongest trainer used. You and five GMs (Mira, Okafor, Sato, Ferreira, Lindqvist), each with two traits that shape both how they draft and how they battle, take six picks each in a snake draft, then the six teams play a league.
+
+- **Why:** MyTEAM and MyGM: build the best six you can against GMs who think differently.
+- **See it:** `#/draft` (The Draft)
+- **Could instead:** draft from your own builds too; a salary-cap or points draft; more GMs
+
+### A-59 · Arena records (D-077)
+
+Results you play are kept by default in an append-only Arena tab (one row a match, series, league, playoff or draft, with each of your Pokémon's numbers), and careers and the Hall of Fame read it. A checkbox on Play now turns it off.
+
+- **Why:** MyCAREER needs a record; append-only is how every record of yours is kept.
+- **See it:** `#/halloffame` (Hall of Fame)
+- **Could instead:** keep only when you press Keep; a separate tab per mode
+
+## v1 · The trainer ecosystem
+
+### A-60 · Trainer ecosystem (D-077)
+
+25 new anime versions sit in trainers/ecosystem.json, outside canon: Ash at the Orange League, Silver Conference, Ever Grande, Battle Frontier, Lily of the Valley against Tobias and three best-of teams; Gary and Paul at four moments each; Harrison, Tyson, Brandon, Barry, Nando, Zoey, Drake and Wallace; and anime Cynthia, Lance, Brock and Misty. Every version and build is proposed, each says where it's unsure, and canon wins any clash. Career records give each its tags.
+
+- **Why:** Your brief: 12 versions of Ash, four of Gary and Paul, every champion, tagged by accomplishments, as the standard everything else is set against.
+- **See it:** `#/trainers` (Trainer Library)
+- **Could instead:** approve them into canon one by one; drop the low-confidence versions (early Paul, Silver Conference Ash)
+
+## v1 · The Arena
+
+### A-61 · Tendencies in battle (D-077)
+
+Trainer criterion 6 (how a trainer's tendencies show in battle) is answered on each profile by playing them six battles against your HeartGold team with every decision logged, and counting their choices by kind (attack, switch, status, set-up, heal) and how often they took the option they rated best.
+
+- **Why:** The decisions are what the engine logs; counting them shows the reading at work, not just its settings.
+- **See it:** `#/trainers` (Trainer Library)
+- **Could instead:** against a fixed reference team that isn't yours; more battles
+
+## v1 · Field Biology
+
+### A-62 · Dossiers (D-077)
+
+64 dossiers (your companions, the Ilex Forest community, the Blackthorn highlands) were drafted by the assistant from each species' evidence pack and nothing else. Every statement is canon, game data, inferred, hypothesis, Blackthorn's invention or unknown, with the ids it cites, checked by biology/dossier.py. Real-world biology appears only as a labelled analogy, never as evidence. All are drafts.
+
+- **Why:** Your biology brief ('I want this to be real'), and the other assistant's evidence classes.
+- **See it:** `#/biology` (Field Biology)
+- **Could instead:** a stricter class set; your own dossiers written alongside
+
+### A-63 · Encounter tables (D-077)
+
+Encounter tables are read as evidence-based reconstruction: a Pokémon found there unconditionally is a resident; one that comes only by radio, a swarm, the Bug-Catching Contest, the post-game or a weekday is a visitor and stays out of the web; the Safari Zone is managed, so it's described, not reconstructed. An encounter rate is how often you meet it, never how many there are.
+
+- **Why:** The open question from the ecology conversation; the other assistant recommended this one, and it keeps the games' data primary without treating it as a census.
+- **See it:** `#/ecosystems` (Ecosystems)
+- **Could instead:** strict game ecology (only what the tables show, nothing added); naturalistic first (the tables as a hint)
+
+### A-64 · Non-Pokémon life (D-077)
+
+Each habitat gets the non-Pokémon life it needs by principle, by biome: trees, leaves, flowers, fruit, moss, algae, plankton, deadwood, detritus, fungi (the decomposers), insects and other invertebrates, small fish; plus Pokémon-world energy where entries describe it (electricity, dreams). Geothermal heat is nowhere by default.
+
+- **Why:** Pokémon alone can't feed a forest; Ilex Forest has no Pokémon decomposer at all. Geothermal heat waits for your answer on Magcargo.
+- **See it:** `#/ecosystem/ilex-forest` (Ilex Forest)
+- **Could instead:** Pokémon only; geothermal ground in the highlands
+
+### A-65 · Food-web links (D-077)
+
+A link comes first from a curated dossier, then from the species' own Pokédex diet, then, for predators, from a rule: a Pokémon at most half its mass and at least a thousandth, in the same place, active at the same time (a low-confidence hypothesis, four at most). Bark for a case or a trunk to cling to is a material, not food.
+
+- **Why:** Every Pokémon-on-Pokémon link in both flagship webs is a hypothesis: no entry names a predator and its prey inside one community. The rule makes those guesses the same everywhere.
+- **See it:** `#/ecosystem/ilex-forest` (Ilex Forest)
+- **Could instead:** no rule: only links a dossier or the Pokédex gives; a stricter size window
+
+### A-66 · Johto's landscape (D-077)
+
+Johto's places connect as the games' map joins them (paths, caves, sea routes). Each place's biome, elevation and water, and its position on the drawing, are Blackthorn's reading.
+
+- **Why:** The reference data has no adjacency, so the graph was authored from the games' map.
+- **See it:** `#/ecosystems` (Ecosystems)
+- **Could instead:** add Kanto; your own biome for any place
+
+### A-67 · Flagship ecosystems (D-077)
+
+Two flagships: Ilex Forest (one web holding both versions' bug lines, as the National Park contest does) and the Blackthorn highlands (Ice Path, Blackthorn City, Dragon's Den, Route 44, Route 45 and Dark Cave). HeartGold and SoulSilver are merged; a version-only species is flagged (Delibird is SoulSilver's alone in the Ice Path).
+
+- **Why:** The dossier writers asked; one web per place is simpler to read, and the flags keep the versions visible.
+- **See it:** `#/ecosystem/blackthorn-highlands` (The highlands)
+- **Could instead:** one web per version; add Mt. Silver to the highlands
+
+### A-68 · The Level 3 model (D-077)
+
+Level 3 is an allometric trophic network (Brose, Williams and Martinez 2006, after Yodzis and Innes 1992). Metabolism scales with Pokédex weight to the -1/4 power; Bugs are invertebrates, fish-shaped Pokémon ectotherms, the rest endotherms. Non-Pokémon groups get nominal masses, detritus is refilled from outside, and starting biomass follows the encounter rate only as a place to start. Every parameter is a slider. It runs in the browser only.
+
+- **Why:** A model of a world nobody has counted is only as good as what it lets you vary.
+- **See it:** `#/ecosystem/ilex-forest` (Ilex Forest)
+- **Could instead:** logistic growth only (the simpler model in the ecology conversation); a Python copy for reports
+
+### A-69 · Ecotypes (D-077)
+
+Ecotypes for every line with egg moves: each egg move is read as an ecological function (an ambush strike, a sedative, cold, rock and soil, cooperation...), weighted by how much it says about a way of life (plain Normal attacks count least), and two functions together make a named ecotype ('Frost ice-walker'), fitted to the Johto places of its range. Machine ecotypes are hypotheses; the dossiers' curated ones come first, and your Pokémon's egg moves are read against both.
+
+- **Why:** Your orca analogy: lineages that differ by how they live, carried through the parents.
+- **See it:** `#/ecotypes` (Ecotypes)
+- **Could instead:** curated ecotypes only; read level-up moves too
+
+### A-70 · Your review (D-077)
+
+Agree, disagree or note on any statement, claim, relationship or link goes to the Journal as a review row; the dossier file stays the author's account, and a dossier's approval is a status change made when you say so.
+
+- **Why:** Your review is the evidence of a different kind, and it shouldn't overwrite what the author wrote.
+- **See it:** `#/biology` (Field Biology)
+- **Could instead:** edit the dossier in the app
+
+### A-71 · Field guide (D-077)
+
+The other 429 species get a field guide made from their own claims, grouped by domain, with the machine's diet and guild labelled as machine-made and what nobody has said listed as open questions. No prose is invented for them.
+
+- **Why:** Every species has a page now; a curated dossier replaces the guide when one is written.
+- **See it:** `#/biology/Heracross` (A field guide)
+- **Could instead:** write dossiers for every species, cohort by cohort
+
+### A-72 · Capability readings (D-077)
+
+The dossier writers found capability records that misread entries: Weedle, Oddish, Zubat and Noctowl as light sources, Kakuna as a heat source, Pineco and Machamp as fliers, Machamp as calming. Those readings are now excluded (wilderness/engine.py LORE_EXCLUDE).
+
+- **Why:** Reading every entry closely found what the pattern reading missed.
+- **See it:** `#/capabilities` (Capabilities)
+- **Could instead:** keep them and let you reject each
+
+## v1 · Careers
+
+### A-73 · Careers (D-077)
+
+An Arena result is credited to the Pokémon that played it: for your journey teams, to your individual of that species in that game; for a saved team, to the individual in the slot. Every result you keep counts toward its career.
+
+- **Why:** The journey teams fight as species with builds, not as individuals; this ties the record to the one you have.
+- **See it:** `#/mine` (Your Pokémon)
+- **Could instead:** link each journey slot to an individual explicitly
+
+### A-74 · Titles and achievements (D-077)
+
+A player card's signature title is its best achievement (Champion, League Champion, Legend Slayer, Team Ace, The Closer, Iron Wall), or else its top badge's tier name before its build name ('Blazing Swords Dance sweeper'). The achievements are: First win, Centurion (100 battles), The Closer (1 KO a battle over 20), Iron Wall (fainted 25% or less over 20), Team Ace (most KOs on its team in a league), Legend Slayer, League Champion and Champion.
+
+- **Why:** MyCAREER's identity: names earned from what happened, never a made-up rating.
+- **See it:** `#/halloffame` (Hall of Fame)
+- **Could instead:** different thresholds; more achievements
+
+### A-75 · The Chronicle (D-077)
+
+Each Pokémon's career timeline merges its Arena results, build versions and Timeline entries with the Chronicle: chapters you write, kept as Journal rows (kind chronicle).
+
+- **Why:** The automatic record says what happened; the Chronicle says what it meant.
+- **See it:** `#/mine` (Your Pokémon)
+- **Could instead:** a separate Chronicle tab
+
+## v1 · The product
+
+### A-76 · Home and the menu (D-077)
+
+Home opens with the modes (Play now, Legends, Leagues, the Draft, MyCAREER, Your trainer, Field Biology, Ecosystems, the Homestead, the Survival Lab, the Trainer Library, What's new) above the estate's dashboard. The menu gains The Arena (with the Hall of Fame) and Field Biology (the atlas and the journal move there), and Pokédex & Reference becomes Reference.
+
+- **Why:** 2K's main menu: modes first.
+- **See it:** `#/` (Home)
+- **Could instead:** the dashboard first; modes in the menu only
+
+## v1 · Field Biology
+
+### A-77 · Guilds along a line (D-077)
+
+Where two dossiers of one line file it differently, both stand and the difference is shown: Golbat as a predator, Zubat and Crobat as parasites; Dratini and Dragonair as predators, Dragonite with none; Psyduck as an omnivore, Golduck as a piscivore.
+
+- **Why:** Each writer read its species' own entries; a line can change its diet as it grows, so a forced match would hide a real question.
+- **See it:** `#/biology` (Field Biology)
+- **Could instead:** one guild for each line
+
+### A-78 · Borrowing from relatives (D-077)
+
+When a species' own entries say nothing, a dossier may lean on its line's entries and its level-up moves, labelled inferred or hypothesis (Zubat's blood-feeding comes from Golbat's entries and Leech Life).
+
+- **Why:** Without it, most young forms would have no diet at all.
+- **See it:** `#/biology/Zubat` (Zubat)
+- **Could instead:** a species' own entries only

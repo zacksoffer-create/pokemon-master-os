@@ -222,7 +222,7 @@ var Arena = (function () {
         });
       });
     });
-    var pl = Object.keys(players).map(function (k) { var p = players[k]; return {team: p.team, name: p.name, kos_per_battle: p.kos / p.battles, damage_per_battle: p.dealt / p.battles, fainted_rate: p.fainted / p.battles, appeared: p.appeared / p.battles}; });
+    var pl = Object.keys(players).map(function (k) { var p = players[k]; return {team: p.team, name: p.name, battles: p.battles, kos_per_battle: p.kos / p.battles, damage_per_battle: p.dealt / p.battles, fainted_rate: p.fainted / p.battles, appeared: p.appeared / p.battles}; });
     tab.forEach(function (t) { t.rate = t.n ? t.w / t.n : 0; t.ci = X.wilson(t.w, t.n); });
     var order = tab.map(function (t, i) { return i; }).sort(function (x, y) { return tab[y].sw - tab[x].sw || tab[y].rate - tab[x].rate; });
     return {sides: sides, table: tab, order: order, matrix: matrix, players: pl, results: results, ms: ms, platform: WORKERS};

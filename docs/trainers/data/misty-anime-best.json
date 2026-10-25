@@ -1,0 +1,2114 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "misty",
+ "trainer_name": "Misty",
+ "version": "anime-best",
+ "title": "Misty's anime best",
+ "game": "heartgold",
+ "gen": 4,
+ "source": "anime, Indigo League to Johto: Misty's best six",
+ "status": "proposed",
+ "notes": [
+  "The games' Misty, read from the HeartGold cartridge.",
+  "A best-of from her Kanto and Johto travels; the show never fields these six at once. On the bench: Togepi (left in Mirage Kingdom), Goldeen, Horsea, Azurill and Luvdisc."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 60,
+   "why": "fast water attacks and a fiery temper",
+   "measured": 78,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 83,
+     "members": [
+      "Staryu",
+      "Psyduck",
+      "Politoed",
+      "Gyarados",
+      "Starmie"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 100,
+     "members": [
+      "Staryu",
+      "Psyduck",
+      "Corsola",
+      "Politoed",
+      "Gyarados",
+      "Starmie"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 50,
+     "members": [
+      "Staryu",
+      "Gyarados",
+      "Starmie"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 50,
+   "why": "a water specialist, by choice and by pride",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 67,
+     "members": [
+      "Staryu",
+      "Corsola",
+      "Politoed",
+      "Starmie"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 90,
+   "why": "even Psyduck, who never comes out when called",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 55,
+   "why": "trusts her gut",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Gyarados",
+      "Starmie"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "cohesive",
+   "name": "Cohesive",
+   "detail": [
+    "Water Gun"
+   ],
+   "members": {
+    "Water Gun": [
+     "Staryu",
+     "Psyduck",
+     "Politoed",
+     "Starmie"
+    ]
+   }
+  },
+  {
+   "id": "type_dominant",
+   "name": "Type-dominant",
+   "detail": [
+    "Water"
+   ],
+   "members": {
+    "Water": [
+     "Staryu",
+     "Psyduck",
+     "Corsola",
+     "Politoed",
+     "Gyarados",
+     "Starmie"
+    ]
+   }
+  },
+  {
+   "id": "role",
+   "name": "Gym Leader",
+   "detail": [
+    "Gym Leader"
+   ],
+   "members": {}
+  },
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "misty",
+  "version": "anime-best",
+  "title": "Misty's anime best",
+  "game": "heartgold",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:misty-anime-best/staryu",
+    "species": "Staryu",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 222,
+     "atk": 147,
+     "def": 167,
+     "spa": 197,
+     "spd": 167,
+     "spe": 227
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 167,
+     "spd": 167,
+     "physical_pct": 0.02,
+     "special_pct": 0.01,
+     "gap": 0.01
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Gun",
+     "Tackle",
+     "Swift",
+     "Harden"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 6, as Staryu)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Staryu)"
+     },
+     {
+      "move": "Swift",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 24, as Staryu)"
+     },
+     {
+      "move": "Harden",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Staryu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:misty-anime-best/psyduck",
+    "species": "Psyduck",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Damp",
+    "level": 100,
+    "stats": {
+     "hp": 262,
+     "atk": 161,
+     "def": 153,
+     "spa": 187,
+     "spd": 157,
+     "spe": 167
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 153,
+     "spd": 157,
+     "physical_pct": 0.04,
+     "special_pct": 0.02,
+     "gap": 0.01
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Confusion",
+     "Disable",
+     "Water Gun",
+     "Scratch"
+    ],
+    "move_basis": [
+     {
+      "move": "Confusion",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 18, as Psyduck)"
+     },
+     {
+      "move": "Disable",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 14, as Psyduck)"
+     },
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 9, as Psyduck)"
+     },
+     {
+      "move": "Scratch",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Psyduck)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:misty-anime-best/corsola",
+    "species": "Corsola",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Rock"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 272,
+     "atk": 167,
+     "def": 227,
+     "spa": 187,
+     "spd": 227,
+     "spe": 127
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 227,
+     "spd": 227,
+     "physical_pct": 0.39,
+     "special_pct": 0.35,
+     "gap": 0.04
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Spike Cannon",
+     "Bubble Beam",
+     "Tackle",
+     "Recover"
+    ],
+    "move_basis": [
+     {
+      "move": "Spike Cannon",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 40, as Corsola)"
+     },
+     {
+      "move": "Bubble Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 25, as Corsola)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Corsola)"
+     },
+     {
+      "move": "Recover",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 13, as Corsola)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:misty-anime-best/politoed",
+    "species": "Politoed",
+    "nickname": null,
+    "types": [
+     "Water"
+    ],
+    "ability": "Water Absorb",
+    "level": 100,
+    "stats": {
+     "hp": 342,
+     "atk": 207,
+     "def": 207,
+     "spa": 237,
+     "spd": 257,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 207,
+     "spd": 257,
+     "physical_pct": 0.52,
+     "special_pct": 0.81,
+     "gap": 0.29
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Water Absorb",
+      "before_ability": "resists"
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Gun",
+     "Hypnosis",
+     "Body Slam",
+     "Double Slap"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 11, as Poliwhirl)"
+     },
+     {
+      "move": "Hypnosis",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Politoed)"
+     },
+     {
+      "move": "Body Slam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 21, as Poliwhirl)"
+     },
+     {
+      "move": "Double Slap",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Politoed)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:misty-anime-best/gyarados",
+    "species": "Gyarados",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Flying"
+    ],
+    "ability": "Intimidate",
+    "level": 100,
+    "stats": {
+     "hp": 352,
+     "atk": 307,
+     "def": 215,
+     "spa": 177,
+     "spd": 257,
+     "spe": 219
+    },
+    "bulk": {
+     "lean": "sturdy",
+     "label": "bulky both ways",
+     "def": 215,
+     "spd": 257,
+     "physical_pct": 0.62,
+     "special_pct": 0.84,
+     "gap": 0.22
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Hydro Pump",
+     "Hyper Beam",
+     "Dragon Rage",
+     "Twister"
+    ],
+    "move_basis": [
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 41, as Gyarados)"
+     },
+     {
+      "move": "Hyper Beam",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 47, as Gyarados)"
+     },
+     {
+      "move": "Dragon Rage",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 23, as Gyarados)"
+     },
+     {
+      "move": "Twister",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 29, as Gyarados)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:misty-anime-best/starmie",
+    "species": "Starmie",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Psychic"
+    ],
+    "ability": "Natural Cure",
+    "level": 100,
+    "stats": {
+     "hp": 282,
+     "atk": 207,
+     "def": 227,
+     "spa": 257,
+     "spd": 227,
+     "spe": 287
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 227,
+     "spd": 227,
+     "physical_pct": 0.42,
+     "special_pct": 0.39,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Grass": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Water Gun",
+     "Swift",
+     "Rapid Spin",
+     "Hydro Pump"
+    ],
+    "move_basis": [
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Starmie)"
+     },
+     {
+      "move": "Swift",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Starmie)"
+     },
+     {
+      "move": "Rapid Spin",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 1, as Starmie)"
+     },
+     {
+      "move": "Hydro Pump",
+      "basis": "this game",
+      "reason": "learns it in HeartGold/SoulSilver (level 55, as Staryu)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Corsola"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Corsola"
+     ],
+     "covered_by": [
+      "Gyarados",
+      "Starmie"
+     ]
+    },
+    "Flying": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Corsola"
+     ]
+    },
+    "Poison": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Corsola"
+     ]
+    },
+    "Ground": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 0,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Corsola"
+     ],
+     "covered_by": [
+      "Gyarados"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Gyarados"
+     ],
+     "covered_by": []
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Starmie"
+     ],
+     "covered_by": [
+      "Gyarados"
+     ]
+    },
+    "Ghost": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Starmie"
+     ],
+     "covered_by": []
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Staryu",
+      "Psyduck",
+      "Politoed",
+      "Gyarados",
+      "Starmie"
+     ]
+    },
+    "Fire": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 6,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 6,
+     "weak_members": [],
+     "covered_by": [
+      "Staryu",
+      "Psyduck",
+      "Corsola",
+      "Politoed",
+      "Gyarados",
+      "Starmie"
+     ]
+    },
+    "Water": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 1,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Staryu",
+      "Psyduck",
+      "Politoed",
+      "Gyarados",
+      "Starmie"
+     ]
+    },
+    "Grass": {
+     "weak": 4,
+     "very weak": 1,
+     "neutral": 1,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 5,
+     "covered": 0,
+     "weak_members": [
+      "Staryu",
+      "Psyduck",
+      "Corsola",
+      "Politoed",
+      "Starmie"
+     ],
+     "covered_by": []
+    },
+    "Electric": {
+     "weak": 5,
+     "very weak": 1,
+     "neutral": 0,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 6,
+     "covered": 0,
+     "weak_members": [
+      "Staryu",
+      "Psyduck",
+      "Corsola",
+      "Politoed",
+      "Gyarados",
+      "Starmie"
+     ],
+     "covered_by": []
+    },
+    "Psychic": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 1,
+     "weak_members": [],
+     "covered_by": [
+      "Starmie"
+     ]
+    },
+    "Ice": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 5,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 5,
+     "weak_members": [],
+     "covered_by": [
+      "Staryu",
+      "Psyduck",
+      "Corsola",
+      "Politoed",
+      "Starmie"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 6,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 0,
+     "weak_members": [],
+     "covered_by": []
+    },
+    "Dark": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 5,
+     "resists": 0,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 0,
+     "weak_members": [
+      "Starmie"
+     ],
+     "covered_by": []
+    }
+   },
+   "gaps": [
+    "Electric",
+    "Grass"
+   ],
+   "strengths": [
+    "Fire",
+    "Water",
+    "Steel",
+    "Ice"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 0,
+    "even": 2,
+    "frail": 3,
+    "sturdy": 1
+   },
+   "bring": "either",
+   "soft_members": {
+    "physical": [],
+    "special": []
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Misty sits in the middle: balanced between attack and defense, a plan with some give in it.",
+    "rule": "balanced",
+    "trigger": "offense_band == mid (here mid); rigidity_band == mid (here mid)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Gym Leader: a specialist's team built around one idea.",
+    "rule": "role_gym",
+    "trigger": "is_gym_leader == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "Type-dominant: Water (6 of 6). Everything you know about that type applies to most of their team.",
+    "rule": "type_dominant",
+    "trigger": "type_dominant_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Cohesive: Water Gun on Staryu, Psyduck, Politoed and Starmie. They share their tools, so one answer covers several of them.",
+    "rule": "cohesive",
+    "trigger": "cohesive_str nonempty"
+   },
+   {
+    "section": "expect",
+    "text": "Their attacks split between physical and special (7 physical, 13 special).",
+    "rule": "side_mixed",
+    "trigger": "their_side == mixed (here mixed)"
+   },
+   {
+    "section": "expect",
+    "text": "Fast where it counts: Staryu, Gyarados and Starmie outspeed the typical Pokémon of the generation.",
+    "rule": "fast",
+    "trigger": "fast_str nonempty"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Electric: Staryu, Psyduck, Corsola, Politoed, Gyarados and Starmie are weak to it, and nobody on the team resists it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Also open to Grass (5 weak).",
+    "rule": "gap_more",
+    "trigger": "more_gaps_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Corsola to Grass; Gyarados to Electric (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "No side of their bulk stands out as soft across the team: pick attackers by type, not by side.",
+    "rule": "bring_even",
+    "trigger": "bring == either (here either); lone_soft_str empty"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Politoed's Water Absorb changes Water (from resists to immune).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Fire, Water or Steel: 6 of 6 resist Fire; 5 of 6 resist Water; 5 of 6 resist Steel.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Gyarados's Hydro Pump (80%); Starmie's Hydro Pump (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here mid); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Gym Leader"
+ ],
+ "overrides": {
+  "ace": "Starmie"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Cerulean City Gym",
+     "kind": "gym",
+     "result": "Gym Leader",
+     "source": "games",
+     "status": "proposed"
+    },
+    {
+     "region": "Orange Archipelago",
+     "event": "Orange Islands journey",
+     "kind": "milestone",
+     "result": "traveled the Orange Islands with Ash",
+     "versions": [
+      "anime-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Johto journey",
+     "kind": "milestone",
+     "result": "traveled Johto with Ash",
+     "versions": [
+      "anime-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Kanto",
+     "event": "Cerulean Gym",
+     "kind": "milestone",
+     "result": "went home after Johto to run the Cerulean Gym",
+     "versions": [
+      "anime-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Orange Archipelago",
+    "Johto"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Kanto",
+      "Orange Archipelago",
+      "Johto"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Staryu",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.5635,
+     "confidence": "solid",
+     "margin": 0.1486,
+     "clear": true
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.4149,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "pivot (0.56, solid): Natural Cure; Water (Natural Cure); Speed 227 (above 61% of the field)"
+   },
+   {
+    "species": "Psyduck",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.1767,
+     "confidence": "loose",
+     "margin": 0.1767,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.18, loose): attacks that use its better attacking stat: Confusion, Water Gun; Water Gun (60); Sp. Atk 187 (above 30% of the field)"
+   },
+   {
+    "species": "Corsola",
+    "nickname": null,
+    "primary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.5982,
+     "confidence": "solid",
+     "margin": 0.4378,
+     "clear": true
+    },
+    "secondary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.1604,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "sponge / status absorber (0.60, solid): Natural Cure; Recover; overall bulk above 33% of the field"
+   },
+   {
+    "species": "Politoed",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.524,
+     "confidence": "solid",
+     "margin": 0.0021,
+     "clear": false
+    },
+    "secondary": {
+     "role": "status_spreader",
+     "name": "status spreader",
+     "family": "support",
+     "score": 0.5219,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.52, solid): Water (Water Absorb); overall bulk above 70% of the field; attacking moves: Water Gun, Body Slam"
+   },
+   {
+    "species": "Gyarados",
+    "nickname": null,
+    "primary": {
+     "role": "pivot",
+     "name": "pivot",
+     "family": "utility",
+     "score": 0.7122,
+     "confidence": "strong",
+     "margin": 0.0006,
+     "clear": false
+    },
+    "secondary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.7116,
+     "confidence": "strong"
+    },
+    "also": [],
+    "why": "pivot (0.71, strong): Intimidate; Water/Flying (Intimidate); overall bulk above 77% of the field"
+   },
+   {
+    "species": "Starmie",
+    "nickname": null,
+    "primary": {
+     "role": "hazard_remover",
+     "name": "hazard remover",
+     "family": "support",
+     "score": 0.7426,
+     "confidence": "strong",
+     "margin": 0.2465,
+     "clear": true
+    },
+    "secondary": {
+     "role": "status_absorber",
+     "name": "sponge / status absorber",
+     "family": "defense",
+     "score": 0.4961,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "hazard remover (0.74, strong): Rapid Spin; attacking moves: Water Gun, Swift, Hydro Pump; overall bulk above 38% of the field"
+   }
+  ],
+  "ace": {
+   "derived": "Corsola",
+   "authored": "Starmie",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Corsola",
+     "slot": 3,
+     "score": 0.579,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [
+      "Starmie"
+     ],
+     "role": "sponge / status absorber",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Psyduck",
+     "slot": 2,
+     "score": 0.579,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.176,
+      "role": 0.9
+     },
+     "helpers": [
+      "Starmie"
+     ],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Gyarados",
+     "slot": 5,
+     "score": 0.322,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.176,
+      "role": 0.3
+     },
+     "helpers": [
+      "Starmie"
+     ],
+     "role": "pivot",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Politoed",
+     "slot": 4,
+     "score": 0.322,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.176,
+      "role": 0.3
+     },
+     "helpers": [
+      "Starmie"
+     ],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Staryu",
+     "slot": 1,
+     "score": 0.322,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.176,
+      "role": 0.3
+     },
+     "helpers": [
+      "Starmie"
+     ],
+     "role": "pivot",
+     "level": null,
+     "sent_out": "lead"
+    },
+    {
+     "species": "Starmie",
+     "slot": 6,
+     "score": 0.179,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.176,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "hazard remover",
+     "level": null,
+     "sent_out": "last"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Gyarados",
+    "role": "pivot",
+    "fit": 0.712
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": "Starmie",
+    "role": "late-game cleaner",
+    "fit": 0.432
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Starmie",
+    "role": "wallbreaker",
+    "fit": 0.424,
+    "last_resorts": []
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dragon",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 6
+    },
+    {
+     "type": "Fighting",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Starmie",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Flying",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Grass",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 5
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Starmie",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ice",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Normal",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Psychic",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Hydro Pump",
+     "member": "Starmie",
+     "move_type": "Water",
+     "power": 144,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    }
+   ],
+   "coverage": 0.176,
+   "covered_n": 3,
+   "types_n": 17,
+   "holes": [
+    "Bug",
+    "Dark",
+    "Dragon",
+    "Electric",
+    "Fighting",
+    "Flying",
+    "Ghost",
+    "Grass",
+    "Ice",
+    "Normal",
+    "Poison",
+    "Psychic",
+    "Steel",
+    "Water"
+   ],
+   "bring": [
+    {
+     "type": "Electric",
+     "their_weak": 6
+    },
+    {
+     "type": "Grass",
+     "their_weak": 5
+    },
+    {
+     "type": "Bug",
+     "their_weak": 1
+    },
+    {
+     "type": "Dark",
+     "their_weak": 1
+    },
+    {
+     "type": "Fighting",
+     "their_weak": 1
+    },
+    {
+     "type": "Ghost",
+     "their_weak": 1
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Psyduck",
+    "move": "Confusion",
+    "why": "only when its headache gets bad enough",
+    "status": "confirmed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 60,
+   "finishers": 3,
+   "attrition": 2,
+   "finisher_moves": [
+    "Bubble Beam (Corsola)",
+    "Hydro Pump (Gyarados)",
+    "Hydro Pump (Starmie)"
+   ],
+   "attrition_moves": [
+    "Recover (Corsola)",
+    "Hypnosis (Politoed)"
+   ],
+   "offense_authored": 60,
+   "offense_measured": 78,
+   "flag": null,
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Gyarados",
+    "usage": 29.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Waterfall",
+     "Dragon Dance",
+     "Earthquake",
+     "Ice Fang"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Adamant",
+     "evs": {
+      "hp": 0,
+      "atk": 252,
+      "def": 4,
+      "spa": 0,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 35.4
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 65,
+      "score": 58,
+      "n": 817
+     },
+     {
+      "species": "Rotom-Wash",
+      "beats": 67,
+      "score": 54,
+      "n": 212
+     },
+     {
+      "species": "Rotom-Heat",
+      "beats": 70,
+      "score": 54,
+      "n": 136
+     }
+    ]
+   },
+   {
+    "species": "Starmie",
+    "usage": 22.7,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rapid Spin",
+     "Surf",
+     "Recover",
+     "Hydro Pump"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Timid",
+     "evs": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 4,
+      "spe": 252
+     },
+     "share": 14.6
+    },
+    "checks": [
+     {
+      "species": "Tyranitar",
+      "beats": 79,
+      "score": 72,
+      "n": 554
+     },
+     {
+      "species": "Abomasnow",
+      "beats": 82,
+      "score": 62,
+      "n": 62
+     },
+     {
+      "species": "Clefable",
+      "beats": 72,
+      "score": 59,
+      "n": 190
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Gyarados: on 29.7% of gen4ou teams (2026-09, rated 1630+), usually Waterfall, Dragon Dance, Earthquake, Ice Fang @ Leftovers (Adamant 252 Atk / 4 Def / 252 Spe). What beats it: Latias 65%, Rotom-Wash 67%, Rotom-Heat 70%.",
+   "Starmie: on 22.7% of gen4ou teams (2026-09, rated 1630+), usually Rapid Spin, Surf, Recover, Hydro Pump @ Leftovers (Timid 252 SpA / 4 SpD / 252 Spe). What beats it: Tyranitar 79%, Abomasnow 82%, Clefable 72%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Misty has competed across 3 regions (Kanto, Orange Archipelago and Johto): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Starmie; the data's is Corsola (set up by Starmie, the widest coverage and a sponge / status absorber). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Gyarados is the workhorse (pivot).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Ahead: Starmie closes it out (late-game cleaner).",
+     "rule": "goto_ahead",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Starmie (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 3 of 17 types super-effectively; nothing they carry hits Bug, Dark, Dragon, Electric, Fighting, Flying, Ghost, Grass, Ice, Normal, Poison, Psychic, Steel or Water that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 14)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Electric: they can't hit it super-effectively, and six of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Grass or Bug get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Psyduck's Confusion (only when its headache gets bad enough).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "60% of their moves finish or set up (3 of 5); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 60)"
+    }
+   ]
+  }
+ }
+}

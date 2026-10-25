@@ -385,5 +385,20 @@
         "why": "A fast Ghost whose special attacks 2HKO most of the field."
       }
     ]
-  }
+  },
+ "tier_names": {
+  "_note": "v1 (D-077), the FIFA/2K idea: a stat-gated badge gets a name at each tier, so a Gold Speed badge reads as 'Blazing'. Display only: the badge, its tier and its threshold are unchanged, and nothing in battle reads these names. Yours to rename (A-55).",
+  "hp": ["Hardy", "Stalwart", "Unyielding", "Colossus"],
+  "atk": ["Hard Hitter", "Heavy Hitter", "Wrecking Ball", "Titan"],
+  "def": ["Sturdy", "Bulwark", "Fortress", "Bastion"],
+  "spa": ["Spark", "Spellcaster", "Arcanist", "Archmage"],
+  "spd": ["Composed", "Warded", "Sanctum", "Aegis"],
+  "speed": ["Quick", "Swift", "Blazing", "Lightning"],
+  "physical_breaker": ["Bruiser", "Breaker", "Demolisher", "Juggernaut"],
+  "special_breaker": ["Blaster", "Breaker", "Devastator", "Cataclysm"],
+  "priority_finisher": ["Closer", "Finisher", "Executioner", "Reaper"],
+  "physical_wall": ["Shield", "Wall", "Rampart", "Citadel"],
+  "special_wall": ["Screen", "Barrier", "Bulwark", "Monolith"],
+  "mixed_wall": ["Guard", "Keep", "Stronghold", "Unbreakable"]
+ }
 }

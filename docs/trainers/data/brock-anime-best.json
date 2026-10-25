@@ -1,0 +1,2168 @@
+{
+ "schema": "trainer-report/2",
+ "trainer": "brock",
+ "trainer_name": "Brock",
+ "version": "anime-best",
+ "title": "Brock's anime best",
+ "game": "platinum",
+ "gen": 4,
+ "source": "anime, Indigo League to Diamond & Pearl: Brock's best six",
+ "status": "proposed",
+ "notes": [
+  "The games' Brock, read from the HeartGold cartridge.",
+  "A best-of from every series he traveled; the show never fields these six at once. On the bench: Sudowoodo, Geodude, Happiny, and Vulpix (given to Suzie)."
+ ],
+ "sliders": {
+  "offense": {
+   "authored": 30,
+   "why": "rock walls and status: waits for the opening",
+   "measured": 56,
+   "signals": [
+    {
+     "signal": "attack_heavy",
+     "label": "attack-heavy stats",
+     "value": 67,
+     "members": [
+      "Crobat",
+      "Ludicolo",
+      "Marshtomp",
+      "Croagunk"
+     ]
+    },
+    {
+     "signal": "damage_moves",
+     "label": "mostly attacks",
+     "value": 83,
+     "members": [
+      "Forretress",
+      "Ludicolo",
+      "Marshtomp",
+      "Croagunk",
+      "Steelix"
+     ]
+    },
+    {
+     "signal": "fast",
+     "label": "fast",
+     "value": 17,
+     "members": [
+      "Crobat"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "defensive",
+    "offensive"
+   ]
+  },
+  "rigidity": {
+   "authored": 50,
+   "why": "a Gym Leader's discipline",
+   "measured": 67,
+   "signals": [
+    {
+     "signal": "few_attack_types",
+     "label": "low move-type variety",
+     "value": 67,
+     "members": [
+      "Forretress",
+      "Crobat",
+      "Ludicolo",
+      "Croagunk"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "flexible",
+    "rigid"
+   ]
+  },
+  "bond": {
+   "authored": 95,
+   "why": "a breeder and future Pokémon Doctor who knows what each Pokémon needs",
+   "measured": null,
+   "signals": [],
+   "disagreement": null,
+   "poles": [
+    "tool",
+    "partnership"
+   ]
+  },
+  "risk": {
+   "authored": 25,
+   "why": "careful; Forretress's Self-Destruct is his one gamble",
+   "measured": 33,
+   "signals": [
+    {
+     "signal": "risky",
+     "label": "carries a gamble",
+     "value": 33,
+     "members": [
+      "Forretress",
+      "Steelix"
+     ]
+    }
+   ],
+   "disagreement": null,
+   "poles": [
+    "percentage player",
+    "gambler"
+   ]
+  }
+ },
+ "tags": [
+  {
+   "id": "role",
+   "name": "Gym Leader",
+   "detail": [
+    "Gym Leader"
+   ],
+   "members": {}
+  },
+  {
+   "id": "multi_region",
+   "name": "Multi-Region Traveler",
+   "detail": [
+    "Kanto",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ]
+  }
+ ],
+ "nature_clashes": [],
+ "matrix": {
+  "trainer": "brock",
+  "version": "anime-best",
+  "title": "Brock's anime best",
+  "game": "platinum",
+  "gen": 4,
+  "types": [
+   "Normal",
+   "Fighting",
+   "Flying",
+   "Poison",
+   "Ground",
+   "Rock",
+   "Bug",
+   "Ghost",
+   "Steel",
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric",
+   "Psychic",
+   "Ice",
+   "Dragon",
+   "Dark"
+  ],
+  "rows": [
+   {
+    "build": "eco:brock-anime-best/forretress",
+    "species": "Forretress",
+    "nickname": null,
+    "types": [
+     "Bug",
+     "Steel"
+    ],
+    "ability": "Sturdy",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 237,
+     "def": 337,
+     "spa": 177,
+     "spd": 177,
+     "spe": 137
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 337,
+     "spd": 177,
+     "physical_pct": 0.93,
+     "special_pct": 0.16,
+     "gap": 0.77
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "very weak",
+      "multiplier": 4.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Self-Destruct",
+     "Spikes",
+     "Rapid Spin",
+     "Tackle"
+    ],
+    "move_basis": [
+     {
+      "move": "Self-Destruct",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Forretress)"
+     },
+     {
+      "move": "Spikes",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 28, as Forretress)"
+     },
+     {
+      "move": "Rapid Spin",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 17, as Forretress)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Forretress)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brock-anime-best/crobat",
+    "species": "Crobat",
+    "nickname": null,
+    "types": [
+     "Poison",
+     "Flying"
+    ],
+    "ability": "Inner Focus",
+    "level": 100,
+    "stats": {
+     "hp": 332,
+     "atk": 237,
+     "def": 217,
+     "spa": 197,
+     "spd": 217,
+     "spe": 317
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 217,
+     "spd": 217,
+     "physical_pct": 0.57,
+     "special_pct": 0.55,
+     "gap": 0.01
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Rock": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Electric": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Psychic": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ice": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Wing Attack",
+     "Supersonic",
+     "Leech Life",
+     "Confuse Ray"
+    ],
+    "move_basis": [
+     {
+      "move": "Wing Attack",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 17, as Crobat)"
+     },
+     {
+      "move": "Supersonic",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Crobat)"
+     },
+     {
+      "move": "Leech Life",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Crobat)"
+     },
+     {
+      "move": "Confuse Ray",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 21, as Crobat)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brock-anime-best/ludicolo",
+    "species": "Ludicolo",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Grass"
+    ],
+    "ability": "Swift Swim",
+    "level": 100,
+    "stats": {
+     "hp": 322,
+     "atk": 197,
+     "def": 197,
+     "spa": 237,
+     "spd": 257,
+     "spe": 197
+    },
+    "bulk": {
+     "lean": "even",
+     "label": "even",
+     "def": 197,
+     "spd": 257,
+     "physical_pct": 0.41,
+     "special_pct": 0.73,
+     "gap": 0.33
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ground": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Rock": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Bug": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Water": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Bullet Seed",
+     "Water Gun",
+     "Absorb",
+     "Leech Seed"
+    ],
+    "move_basis": [
+     {
+      "move": "Bullet Seed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Ludicolo)"
+     },
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Lotad)"
+     },
+     {
+      "move": "Absorb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 5, as Lombre)"
+     },
+     {
+      "move": "Leech Seed",
+      "basis": "this game",
+      "reason": "learns it in Platinum (egg, as Lotad)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brock-anime-best/marshtomp",
+    "species": "Marshtomp",
+    "nickname": null,
+    "types": [
+     "Water",
+     "Ground"
+    ],
+    "ability": "Torrent",
+    "level": 100,
+    "stats": {
+     "hp": 302,
+     "atk": 227,
+     "def": 197,
+     "spa": 177,
+     "spd": 197,
+     "spe": 157
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 197,
+     "spd": 197,
+     "physical_pct": 0.32,
+     "special_pct": 0.28,
+     "gap": 0.03
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Flying": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Water": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Grass": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Mud Shot",
+     "Water Gun",
+     "Mud-Slap",
+     "Tackle"
+    ],
+    "move_basis": [
+     {
+      "move": "Mud Shot",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 16, as Marshtomp)"
+     },
+     {
+      "move": "Water Gun",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Marshtomp)"
+     },
+     {
+      "move": "Mud-Slap",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Marshtomp)"
+     },
+     {
+      "move": "Tackle",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 1, as Marshtomp)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brock-anime-best/croagunk",
+    "species": "Croagunk",
+    "nickname": null,
+    "types": [
+     "Poison",
+     "Fighting"
+    ],
+    "ability": "Dry Skin",
+    "level": 100,
+    "stats": {
+     "hp": 258,
+     "atk": 179,
+     "def": 137,
+     "spa": 179,
+     "spd": 137,
+     "spe": 157
+    },
+    "bulk": {
+     "lean": "frail",
+     "label": "frail both ways",
+     "def": 137,
+     "spd": 137,
+     "physical_pct": 0.01,
+     "special_pct": 0.0,
+     "gap": 0.0
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fighting": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Flying": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Poison": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Ghost": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Steel": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 1.25,
+      "ability": "Dry Skin",
+      "before_ability": "neutral"
+     },
+     "Water": {
+      "verdict": "immune",
+      "multiplier": 0.0,
+      "ability": "Dry Skin",
+      "before_ability": "neutral"
+     },
+     "Grass": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Electric": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Psychic": {
+      "verdict": "very weak",
+      "multiplier": 4.0
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Poison Jab",
+     "Brick Break",
+     "Poison Sting",
+     "Revenge"
+    ],
+    "move_basis": [
+     {
+      "move": "Poison Jab",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 38, as Croagunk)"
+     },
+     {
+      "move": "Brick Break",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Croagunk)"
+     },
+     {
+      "move": "Poison Sting",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 8, as Croagunk)"
+     },
+     {
+      "move": "Revenge",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 22, as Croagunk)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   },
+   {
+    "build": "eco:brock-anime-best/steelix",
+    "species": "Steelix",
+    "nickname": null,
+    "types": [
+     "Steel",
+     "Ground"
+    ],
+    "ability": "Sturdy",
+    "level": 100,
+    "stats": {
+     "hp": 312,
+     "atk": 227,
+     "def": 457,
+     "spa": 167,
+     "spd": 187,
+     "spe": 117
+    },
+    "bulk": {
+     "lean": "special",
+     "label": "specially soft",
+     "def": 457,
+     "spd": 187,
+     "physical_pct": 0.99,
+     "special_pct": 0.26,
+     "gap": 0.74
+    },
+    "cells": {
+     "Normal": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fighting": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Flying": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Poison": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Ground": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Rock": {
+      "verdict": "resists",
+      "multiplier": 0.25
+     },
+     "Bug": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ghost": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Steel": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Fire": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Water": {
+      "verdict": "weak",
+      "multiplier": 2.0,
+      "note": "worse from special attackers"
+     },
+     "Grass": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Electric": {
+      "verdict": "immune",
+      "multiplier": 0.0
+     },
+     "Psychic": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Ice": {
+      "verdict": "neutral",
+      "multiplier": 1.0
+     },
+     "Dragon": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     },
+     "Dark": {
+      "verdict": "resists",
+      "multiplier": 0.5
+     }
+    },
+    "defaults_used": [
+     "IVs 31",
+     "EVs 85 in every stat",
+     "neutral nature"
+    ],
+    "moves": [
+     "Iron Tail",
+     "Rock Tomb",
+     "Dig",
+     "Screech"
+    ],
+    "move_basis": [
+     {
+      "move": "Iron Tail",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 41, as Steelix)"
+     },
+     {
+      "move": "Rock Tomb",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 17, as Steelix)"
+     },
+     {
+      "move": "Dig",
+      "basis": "this game",
+      "reason": "learns it in Platinum (machine, as Steelix)"
+     },
+     {
+      "move": "Screech",
+      "basis": "this game",
+      "reason": "learns it in Platinum (level 6, as Steelix)"
+     }
+    ],
+    "flags": [],
+    "source": "anime (Blackthorn v1 reconstruction)"
+   }
+  ],
+  "summary": {
+   "per_type": {
+    "Normal": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Forretress",
+      "Steelix"
+     ]
+    },
+    "Fighting": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Steelix"
+     ],
+     "covered_by": [
+      "Crobat",
+      "Croagunk"
+     ]
+    },
+    "Flying": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 1,
+     "weak_members": [
+      "Ludicolo",
+      "Croagunk"
+     ],
+     "covered_by": [
+      "Steelix"
+     ]
+    },
+    "Poison": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 0,
+     "resists": 3,
+     "immune": 2,
+     "weak_total": 1,
+     "covered": 5,
+     "weak_members": [
+      "Ludicolo"
+     ],
+     "covered_by": [
+      "Forretress",
+      "Crobat",
+      "Marshtomp",
+      "Croagunk",
+      "Steelix"
+     ]
+    },
+    "Ground": {
+     "weak": 2,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Croagunk",
+      "Steelix"
+     ],
+     "covered_by": [
+      "Crobat",
+      "Ludicolo"
+     ]
+    },
+    "Rock": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Crobat"
+     ],
+     "covered_by": [
+      "Marshtomp",
+      "Croagunk",
+      "Steelix"
+     ]
+    },
+    "Bug": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 1,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 4,
+     "weak_members": [
+      "Ludicolo"
+     ],
+     "covered_by": [
+      "Forretress",
+      "Crobat",
+      "Croagunk",
+      "Steelix"
+     ]
+    },
+    "Ghost": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Forretress",
+      "Steelix"
+     ]
+    },
+    "Steel": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 2,
+     "resists": 4,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 4,
+     "weak_members": [],
+     "covered_by": [
+      "Forretress",
+      "Ludicolo",
+      "Marshtomp",
+      "Steelix"
+     ]
+    },
+    "Fire": {
+     "weak": 2,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 3,
+     "covered": 1,
+     "weak_members": [
+      "Forretress",
+      "Croagunk",
+      "Steelix"
+     ],
+     "covered_by": [
+      "Marshtomp"
+     ]
+    },
+    "Water": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 1,
+     "immune": 1,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Steelix"
+     ],
+     "covered_by": [
+      "Ludicolo",
+      "Croagunk"
+     ]
+    },
+    "Grass": {
+     "weak": 0,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 3,
+     "weak_members": [
+      "Marshtomp"
+     ],
+     "covered_by": [
+      "Forretress",
+      "Crobat",
+      "Croagunk"
+     ]
+    },
+    "Electric": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 0,
+     "immune": 2,
+     "weak_total": 1,
+     "covered": 2,
+     "weak_members": [
+      "Crobat"
+     ],
+     "covered_by": [
+      "Marshtomp",
+      "Steelix"
+     ]
+    },
+    "Psychic": {
+     "weak": 1,
+     "very weak": 1,
+     "neutral": 2,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 2,
+     "covered": 2,
+     "weak_members": [
+      "Crobat",
+      "Croagunk"
+     ],
+     "covered_by": [
+      "Forretress",
+      "Steelix"
+     ]
+    },
+    "Ice": {
+     "weak": 1,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 1,
+     "immune": 0,
+     "weak_total": 1,
+     "covered": 1,
+     "weak_members": [
+      "Crobat"
+     ],
+     "covered_by": [
+      "Forretress"
+     ]
+    },
+    "Dragon": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 4,
+     "resists": 2,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 2,
+     "weak_members": [],
+     "covered_by": [
+      "Forretress",
+      "Steelix"
+     ]
+    },
+    "Dark": {
+     "weak": 0,
+     "very weak": 0,
+     "neutral": 3,
+     "resists": 3,
+     "immune": 0,
+     "weak_total": 0,
+     "covered": 3,
+     "weak_members": [],
+     "covered_by": [
+      "Forretress",
+      "Croagunk",
+      "Steelix"
+     ]
+    }
+   },
+   "gaps": [
+    "Fire"
+   ],
+   "strengths": [
+    "Steel",
+    "Dark"
+   ],
+   "soft": {
+    "physical": 0,
+    "special": 2,
+    "even": 2,
+    "frail": 2,
+    "sturdy": 0
+   },
+   "bring": "special",
+   "soft_members": {
+    "physical": [],
+    "special": [
+     "Forretress",
+     "Steelix"
+    ]
+   }
+  }
+ },
+ "plan": {
+  "who": [
+   {
+    "section": "who",
+    "text": "Brock plays defense first and makes you come to them.",
+    "rule": "off_low",
+    "trigger": "offense_band == low (here low)"
+   },
+   {
+    "section": "who",
+    "text": "Their Pokémon fight as partners, not tools.",
+    "rule": "bond_partner",
+    "trigger": "bond_read == partnership (here partnership)"
+   },
+   {
+    "section": "who",
+    "text": "A percentage player: they take the safe, sure option.",
+    "rule": "risk_low",
+    "trigger": "risk_band == low (here low)"
+   }
+  ],
+  "expect": [
+   {
+    "section": "expect",
+    "text": "A Gym Leader: a specialist's team built around one idea.",
+    "rule": "role_gym",
+    "trigger": "is_gym_leader == True (here True)"
+   },
+   {
+    "section": "expect",
+    "text": "They attack mostly from the physical side (14 of 19 attacks).",
+    "rule": "side",
+    "trigger": "their_side in ['physical', 'special'] (here physical)"
+   }
+  ],
+  "beat": [
+   {
+    "section": "beat",
+    "text": "Attack with Fire: Forretress, Croagunk and Steelix are weak to it, and only Marshtomp can take it.",
+    "rule": "gap_top",
+    "trigger": "top_gap nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Biggest single openings: Forretress to Fire; Marshtomp to Grass; Croagunk to Psychic (four times the damage).",
+    "rule": "very_weak",
+    "trigger": "very_weak_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Bring a special attacker: Forretress and Steelix are specially soft.",
+    "rule": "bring_side",
+    "trigger": "bring in ['physical', 'special'] (here special)"
+   },
+   {
+    "section": "beat",
+    "text": "Watch the abilities: Croagunk's Dry Skin changes Fire and Water (from neutral to immune and weak).",
+    "rule": "abilities",
+    "trigger": "ability_str nonempty"
+   },
+   {
+    "section": "beat",
+    "text": "Don't lead with Steel or Dark: 4 of 6 resist Steel; 3 of 6 resist Dark.",
+    "rule": "strengths",
+    "trigger": "strengths_str nonempty"
+   }
+  ],
+  "gap": [
+   {
+    "section": "gap",
+    "text": "Even playing the percentages, they carry gambles: Forretress's Self-Destruct (faints); Steelix's Iron Tail (75%) and Rock Tomb (80%).",
+    "rule": "gamble_anyway",
+    "trigger": "risk_band != high (here low); gamble_str nonempty"
+   }
+  ]
+ },
+ "roles": [
+  "Gym Leader"
+ ],
+ "overrides": {
+  "ace": "Steelix"
+ },
+ "playsheet": {
+  "career": {
+   "records": [
+    {
+     "region": "Kanto",
+     "event": "Pewter City Gym",
+     "kind": "gym",
+     "result": "Gym Leader",
+     "source": "games",
+     "status": "proposed"
+    },
+    {
+     "region": "Johto",
+     "event": "Johto journey",
+     "kind": "milestone",
+     "result": "traveled Johto with Ash",
+     "versions": [
+      "anime-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Hoenn",
+     "event": "Hoenn journey",
+     "kind": "milestone",
+     "result": "traveled Hoenn and the Battle Frontier with Ash",
+     "versions": [
+      "anime-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    },
+    {
+     "region": "Sinnoh",
+     "event": "Sinnoh journey",
+     "kind": "milestone",
+     "result": "traveled Sinnoh with Ash, then chose to become a Pokémon Doctor",
+     "versions": [
+      "anime-best"
+     ],
+     "source": "anime",
+     "status": "proposed"
+    }
+   ],
+   "regions": [
+    "Kanto",
+    "Johto",
+    "Hoenn",
+    "Sinnoh"
+   ],
+   "tags": [
+    {
+     "id": "multi_region",
+     "name": "Multi-Region Traveler",
+     "detail": [
+      "Kanto",
+      "Johto",
+      "Hoenn",
+      "Sinnoh"
+     ]
+    }
+   ]
+  },
+  "roles": [
+   {
+    "species": "Forretress",
+    "nickname": null,
+    "primary": {
+     "role": "hazard_remover",
+     "name": "hazard remover",
+     "family": "support",
+     "score": 0.7486,
+     "confidence": "strong",
+     "margin": 0.1889,
+     "clear": true
+    },
+    "secondary": {
+     "role": "hazard_setter",
+     "name": "hazard setter",
+     "family": "support",
+     "score": 0.5597,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "hazard remover (0.75, strong): Rapid Spin; overall bulk above 64% of the field; Bug/Steel (Sturdy)"
+   },
+   {
+    "species": "Crobat",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.3703,
+     "confidence": "loose",
+     "margin": 0.1541,
+     "clear": true
+    },
+    "secondary": {
+     "role": "physical_wall",
+     "name": "physical wall",
+     "family": "defense",
+     "score": 0.2162,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "check / counter (0.37, loose): Poison/Flying (Inner Focus); overall bulk above 56% of the field; a same-type attack: Wing Attack"
+   },
+   {
+    "species": "Ludicolo",
+    "nickname": null,
+    "primary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.4969,
+     "confidence": "loose",
+     "margin": 0.0788,
+     "clear": false
+    },
+    "secondary": {
+     "role": "tank",
+     "name": "tank",
+     "family": "defense",
+     "score": 0.4181,
+     "confidence": "loose"
+    },
+    "also": [],
+    "why": "bulky attacker (0.50, loose): attacking moves: Bullet Seed, Water Gun, Absorb; Sp. Atk 237 (above 62% of the field); overall bulk above 57% of the field"
+   },
+   {
+    "species": "Marshtomp",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.2763,
+     "confidence": "loose",
+     "margin": 0.2763,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.28, loose): attacks that use its better attacking stat: Mud Shot, Water Gun; Attack 227 (above 48% of the field); Mud Shot (61)"
+   },
+   {
+    "species": "Croagunk",
+    "nickname": null,
+    "primary": {
+     "role": "wallbreaker",
+     "name": "wallbreaker",
+     "family": "offense",
+     "score": 0.4521,
+     "confidence": "loose",
+     "margin": 0.4521,
+     "clear": true
+    },
+    "secondary": null,
+    "also": [],
+    "why": "wallbreaker (0.45, loose): strong attacks (effective power 90+, with the stat it uses): Poison Jab, Brick Break, Revenge; Poison Jab (120); attacks that use its better attacking stat: Poison Jab, Brick Break, Revenge"
+   },
+   {
+    "species": "Steelix",
+    "nickname": null,
+    "primary": {
+     "role": "check_counter",
+     "name": "check / counter",
+     "family": "defense",
+     "score": 0.6864,
+     "confidence": "strong",
+     "margin": 0.122,
+     "clear": true
+    },
+    "secondary": {
+     "role": "bulky_attacker",
+     "name": "bulky attacker",
+     "family": "offense",
+     "score": 0.5644,
+     "confidence": "solid"
+    },
+    "also": [],
+    "why": "check / counter (0.69, strong): Steel/Ground (Sturdy); overall bulk above 87% of the field; attacking moves: Iron Tail, Rock Tomb, Dig"
+   }
+  ],
+  "ace": {
+   "derived": "Croagunk",
+   "authored": "Steelix",
+   "agree": false,
+   "ranking": [
+    {
+     "species": "Croagunk",
+     "slot": 5,
+     "score": 0.629,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [
+      "Forretress"
+     ],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#5"
+    },
+    {
+     "species": "Marshtomp",
+     "slot": 4,
+     "score": 0.629,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.353,
+      "role": 0.9
+     },
+     "helpers": [
+      "Forretress"
+     ],
+     "role": "wallbreaker",
+     "level": null,
+     "sent_out": "#4"
+    },
+    {
+     "species": "Steelix",
+     "slot": 6,
+     "score": 0.544,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.353,
+      "role": 0.7
+     },
+     "helpers": [
+      "Forretress"
+     ],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "last"
+    },
+    {
+     "species": "Ludicolo",
+     "slot": 3,
+     "score": 0.51,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.235,
+      "role": 0.7
+     },
+     "helpers": [
+      "Forretress"
+     ],
+     "role": "bulky attacker",
+     "level": null,
+     "sent_out": "#3"
+    },
+    {
+     "species": "Crobat",
+     "slot": 2,
+     "score": 0.322,
+     "parts": {
+      "support": 0.5,
+      "coverage": 0.176,
+      "role": 0.3
+     },
+     "helpers": [
+      "Forretress"
+     ],
+     "role": "check / counter",
+     "level": null,
+     "sent_out": "#2"
+    },
+    {
+     "species": "Forretress",
+     "slot": 1,
+     "score": 0.129,
+     "parts": {
+      "support": 0.0,
+      "coverage": 0.0,
+      "role": 0.3
+     },
+     "helpers": [],
+     "role": "hazard remover",
+     "level": null,
+     "sent_out": "lead"
+    }
+   ]
+  },
+  "go_to": {
+   "even": {
+    "label": "workhorse",
+    "species": "Steelix",
+    "role": "tank",
+    "fit": 0.563
+   },
+   "ahead": {
+    "label": "cleaner",
+    "species": null,
+    "role": null,
+    "fit": 0.0
+   },
+   "behind": {
+    "label": "gambit",
+    "species": "Croagunk",
+    "role": "wallbreaker",
+    "fit": 0.407,
+    "last_resorts": [
+     {
+      "species": "Forretress",
+      "moves": [
+       "Self-Destruct"
+      ],
+      "item": null
+     }
+    ]
+   }
+  },
+  "type_read": {
+   "rows": [
+    {
+     "type": "Bug",
+     "covered": true,
+     "move": "Wing Attack",
+     "member": "Crobat",
+     "move_type": "Flying",
+     "power": 90,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Dark",
+     "covered": true,
+     "move": "Brick Break",
+     "member": "Croagunk",
+     "move_type": "Fighting",
+     "power": 112,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Dragon",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Electric",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fighting",
+     "covered": true,
+     "move": "Wing Attack",
+     "member": "Crobat",
+     "move_type": "Flying",
+     "power": 90,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Fire",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 3
+    },
+    {
+     "type": "Flying",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ghost",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Grass",
+     "covered": true,
+     "move": "Poison Jab",
+     "member": "Croagunk",
+     "move_type": "Poison",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Ground",
+     "covered": true,
+     "move": "Water Gun",
+     "member": "Ludicolo",
+     "move_type": "Water",
+     "power": 60,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Ice",
+     "covered": true,
+     "move": "Brick Break",
+     "member": "Croagunk",
+     "move_type": "Fighting",
+     "power": 112,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Normal",
+     "covered": true,
+     "move": "Brick Break",
+     "member": "Croagunk",
+     "move_type": "Fighting",
+     "power": 112,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Poison",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Psychic",
+     "covered": false,
+     "move": null,
+     "member": null,
+     "move_type": null,
+     "power": 0,
+     "their_weak_to_it": 2
+    },
+    {
+     "type": "Rock",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 1
+    },
+    {
+     "type": "Steel",
+     "covered": true,
+     "move": "Dig",
+     "member": "Steelix",
+     "move_type": "Ground",
+     "power": 120,
+     "their_weak_to_it": 0
+    },
+    {
+     "type": "Water",
+     "covered": true,
+     "move": "Absorb",
+     "member": "Ludicolo",
+     "move_type": "Grass",
+     "power": 60,
+     "their_weak_to_it": 1
+    }
+   ],
+   "coverage": 0.765,
+   "covered_n": 13,
+   "types_n": 17,
+   "holes": [
+    "Dragon",
+    "Flying",
+    "Ghost",
+    "Psychic"
+   ],
+   "bring": [
+    {
+     "type": "Flying",
+     "their_weak": 2
+    },
+    {
+     "type": "Psychic",
+     "their_weak": 2
+    }
+   ]
+  },
+  "combos": [],
+  "signature_moves": [
+   {
+    "pokemon": "Croagunk",
+    "move": "Poison Jab",
+    "why": "the jab that drags Brock away from every crush",
+    "status": "confirmed",
+    "on_team": true,
+    "in_moveset": true
+   }
+  ],
+  "aggression": {
+   "ratio": 60,
+   "finishers": 6,
+   "attrition": 4,
+   "finisher_moves": [
+    "Self-Destruct (Forretress)",
+    "Wing Attack (Crobat)",
+    "Poison Jab (Croagunk)",
+    "Brick Break (Croagunk)",
+    "Revenge (Croagunk)",
+    "Iron Tail (Steelix)"
+   ],
+   "attrition_moves": [
+    "Spikes (Forretress)",
+    "Supersonic (Crobat)",
+    "Confuse Ray (Crobat)",
+    "Leech Seed (Ludicolo)"
+   ],
+   "offense_authored": 30,
+   "offense_measured": 56,
+   "flag": {
+    "gap": 30,
+    "leans": "offensive",
+    "part1_flags_it": false
+   },
+   "observed": null
+  },
+  "weather": [],
+  "observed": {
+   "n": 0,
+   "battles": [],
+   "aggression": null,
+   "by_state_aggression": null,
+   "lead": [],
+   "even": [],
+   "ahead": [],
+   "behind": [],
+   "after_faint": [],
+   "closers": [],
+   "held_back": [],
+   "sent_out": []
+  },
+  "film": [],
+  "ladder": [
+   {
+    "species": "Forretress",
+    "usage": 2.3,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rapid Spin",
+     "Spikes",
+     "Payback",
+     "Explosion"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 4,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 20.0
+    },
+    "checks": [
+     {
+      "species": "Heatran",
+      "beats": 95,
+      "score": 80,
+      "n": 35
+     },
+     {
+      "species": "Jirachi",
+      "beats": 66,
+      "score": 36,
+      "n": 40
+     },
+     {
+      "species": "Infernape",
+      "beats": 72,
+      "score": 33,
+      "n": 21
+     }
+    ]
+   },
+   {
+    "species": "Crobat",
+    "usage": 1.2,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 0,
+    "moves": [
+     "Brave Bird",
+     "Taunt",
+     "U-turn",
+     "Roost"
+    ],
+    "item": "Black Sludge",
+    "spread": {
+     "nature": "Jolly",
+     "evs": {
+      "hp": 252,
+      "atk": 0,
+      "def": 112,
+      "spa": 0,
+      "spd": 0,
+      "spe": 144
+     },
+     "share": 15.7
+    },
+    "checks": [
+     {
+      "species": "Magnezone",
+      "beats": 95,
+      "score": 81,
+      "n": 40
+     },
+     {
+      "species": "Zapdos",
+      "beats": 92,
+      "score": 79,
+      "n": 74
+     },
+     {
+      "species": "Metagross",
+      "beats": 86,
+      "score": 75,
+      "n": 139
+     }
+    ]
+   },
+   {
+    "species": "Ludicolo",
+    "usage": 0.9,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Rain Dance",
+     "Ice Beam",
+     "Surf",
+     "Grass Knot"
+    ],
+    "item": "Life Orb",
+    "spread": {
+     "nature": "Modest",
+     "evs": {
+      "hp": 4,
+      "atk": 0,
+      "def": 0,
+      "spa": 252,
+      "spd": 0,
+      "spe": 252
+     },
+     "share": 39.5
+    },
+    "checks": [
+     {
+      "species": "Latias",
+      "beats": 45,
+      "score": 6,
+      "n": 26
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 35,
+      "score": 0,
+      "n": 31
+     }
+    ]
+   },
+   {
+    "species": "Steelix",
+    "usage": 0.5,
+    "format": "gen4ou",
+    "month": "2026-09",
+    "cutoff": 1630,
+    "moves": [
+     "Earthquake",
+     "Stealth Rock",
+     "Ice Fang",
+     "Toxic"
+    ],
+    "item": "Leftovers",
+    "spread": {
+     "nature": "Careful",
+     "evs": {
+      "hp": 252,
+      "atk": 4,
+      "def": 0,
+      "spa": 0,
+      "spd": 252,
+      "spe": 0
+     },
+     "share": 53.7
+    },
+    "checks": [
+     {
+      "species": "Jirachi",
+      "beats": 38,
+      "score": -4,
+      "n": 21
+     },
+     {
+      "species": "Tyranitar",
+      "beats": 35,
+      "score": -6,
+      "n": 22
+     }
+    ]
+   }
+  ],
+  "ladder_lines": [
+   "Forretress: on 2.3% of gen4ou teams (2026-09, rated 1630+), usually Rapid Spin, Spikes, Payback, Explosion @ Leftovers (Careful 252 HP / 4 Def / 252 SpD). What beats it: Heatran 95%, Jirachi 66%, Infernape 72%.",
+   "Crobat: on 1.2% of gen4ou teams (2026-09, rated 0+), usually Brave Bird, Taunt, U-turn, Roost @ Black Sludge (Jolly 252 HP / 112 Def / 144 Spe). What beats it: Magnezone 95%, Zapdos 92%, Metagross 86%.",
+   "Ludicolo: on 0.9% of gen4ou teams (2026-09, rated 1630+), usually Rain Dance, Ice Beam, Surf, Grass Knot @ Life Orb (Modest 4 HP / 252 SpA / 252 Spe). What beats it: Latias 45%, Tyranitar 35%.",
+   "Steelix: on 0.5% of gen4ou teams (2026-09, rated 1630+), usually Earthquake, Stealth Rock, Ice Fang, Toxic @ Leftovers (Careful 252 HP / 4 Atk / 252 SpD). What beats it: Jirachi 38%, Tyranitar 35%."
+  ],
+  "text": {
+   "career": [
+    {
+     "section": "career",
+     "text": "Brock has competed across 4 regions (Kanto, Johto, Hoenn and Sinnoh): expect answers built against a wide field.",
+     "rule": "career_multi",
+     "trigger": "multi_region == True (here True)"
+    }
+   ],
+   "ace": [
+    {
+     "section": "ace",
+     "text": "The story's ace is Steelix; the data's is Croagunk (set up by Forretress, the widest coverage and a wallbreaker). Plan for both.",
+     "rule": "ace_disagree",
+     "trigger": "ace_authored nonempty"
+    }
+   ],
+   "go_to": [
+    {
+     "section": "go_to",
+     "text": "Even game: Steelix is the workhorse (tank).",
+     "rule": "goto_even",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Behind: they turn to Croagunk (wallbreaker).",
+     "rule": "goto_behind",
+     "trigger": "one_for_all empty"
+    },
+    {
+     "section": "go_to",
+     "text": "Last resorts when it's slipping away: Forretress's Self-Destruct.",
+     "rule": "goto_last",
+     "trigger": "last_resort_str nonempty"
+    }
+   ],
+   "coverage": [
+    {
+     "section": "coverage",
+     "text": "They hit 13 of 17 types super-effectively; nothing they carry hits Dragon, Flying, Ghost or Psychic that way.",
+     "rule": "cover",
+     "trigger": "holes_n > 0 (here 4)"
+    },
+    {
+     "section": "coverage",
+     "text": "Bring Flying: they can't hit it super-effectively, and two of them are weak to it.",
+     "rule": "cover_bring",
+     "trigger": "bring_type nonempty"
+    },
+    {
+     "section": "coverage",
+     "text": "Psychic get through clean too.",
+     "rule": "cover_bring_more",
+     "trigger": "bring_more nonempty"
+    }
+   ],
+   "combos": [
+    {
+     "section": "combos",
+     "text": "Nothing from the watch list.",
+     "rule": "combo_none",
+     "trigger": "combos_n == 0 (here 0)"
+    }
+   ],
+   "signature": [
+    {
+     "section": "signature",
+     "text": "Signature moves: Croagunk's Poison Jab (the jab that drags Brock away from every crush).",
+     "rule": "sig",
+     "trigger": "signature_str nonempty"
+    }
+   ],
+   "aggression": [
+    {
+     "section": "aggression",
+     "text": "60% of their moves finish or set up (6 of 10); the rest wear you down.",
+     "rule": "aggr",
+     "trigger": "aggression != None (here 60)"
+    },
+    {
+     "section": "aggression",
+     "text": "The moveset reads more offensive than the slider's 30: trust the moves.",
+     "rule": "aggr_flag",
+     "trigger": "aggr_flag == True (here True)"
+    }
+   ]
+  }
+ }
+}

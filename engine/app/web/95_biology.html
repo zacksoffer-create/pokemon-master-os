@@ -68,7 +68,7 @@ function biologyHome(query) {
       '<div class="kpi"><div class="tiny muted">Curated dossiers</div><b style="font-size:22px">' + Object.keys(DS).length + '</b><div class="tiny muted">drafts for your review</div></div><div class="kpi"><div class="tiny muted">Food webs</div><b style="font-size:22px">' + Object.keys(E.webs).length + '</b><div class="tiny muted"><a href="#/ecosystems">Ecosystems →</a></div></div>' +
       '<div class="kpi"><div class="tiny muted">Your reviews</div><b style="font-size:22px">' + nRev + '</b><div class="tiny muted">in the Journal</div></div></div>' +
       '<div class="grid" style="margin-top:18px"><div class="c8">' + card('The dossiers', '<p class="small muted">Written from each species\' evidence pack and nothing else, every statement cited. Drafts until you approve them.</p>' + groups, {tools: false}) + '</div>' +
-      '<div class="c4">' + card('Any species', '<input id="biofind" placeholder="A name or a Pokédex number, then Enter" style="width:100%"><p class="tiny muted" style="margin-top:8px">The other 429 have a field guide: every claim by domain and the machine\'s reading of diet, habitat and relationships, labelled as machine-made.</p>' +
+      '<div class="c4">' + card('Any species', '<input class="f" id="biofind" placeholder="A name or a Pokédex number, then Enter"><p class="tiny muted" style="margin-top:8px">The other 429 have a field guide: every claim by domain and the machine\'s reading of diet, habitat and relationships, labelled as machine-made.</p>' +
         '<div style="margin-top:8px"><a class="btn sm" href="#/ecosystems">Ecosystems</a> <a class="btn sm" href="#/ecotypes">Ecotypes</a></div>', {tools: false}) +
         card('Questions for you', '<p class="small">The dossier writers left the calls only you can make in <a href="#/calls">Your calls</a> (docs/biology_findings_v1.md has them in full). Two lines are filed differently from one stage to the next:</p>' + lines, {tools: false, style: 'margin-top:18px'}) + '</div></div>';
   });
@@ -218,7 +218,7 @@ function ecosystemPage(key) {
       '<div class="grid" style="margin-top:18px"><div class="c7">' + card('Who eats what, and on what evidence', linkList + (nont ? '<div class="tiny muted" style="margin:12px 0 4px">Other relationships</div>' + nont : ''), {tools: false}) + '</div>' +
       '<div class="c5">' + card('The analysis', roles + '<div class="tiny" style="margin-top:8px"><b>Nothing to eat here:</b> ' + (a.unfed.map(esc).join(', ') || 'none') + '</div><div class="tiny muted" style="margin:10px 0 4px">Keystones: take one away, and these starve after it</div>' +
         a.keystones.slice(0, 8).map(function (k) { return '<div class="tiny">' + esc(nm(k.id)) + ' → ' + k.lost.map(esc).join(', ') + '</div>'; }).join(''), {tools: false}) +
-        card('Try it: take something away', '<select id="ecorm" style="width:100%">' + opts + '</select><div style="margin-top:8px"><button class="btn sm" id="ecormb">Remove it</button> <button class="btn sm ghost" id="ecorst">Put everything back</button></div><div id="ecocas" class="tiny" style="margin-top:8px"></div>', {tools: false, style: 'margin-top:18px'}) + '</div></div>' +
+        card('Try it: take something away', '<select class="f" id="ecorm">' + opts + '</select><div style="margin-top:8px"><button class="btn sm" id="ecormb">Remove it</button> <button class="btn sm ghost" id="ecorst">Put everything back</button></div><div id="ecocas" class="tiny" style="margin-top:8px"></div>', {tools: false, style: 'margin-top:18px'}) + '</div></div>' +
       card('Level 3: the web over time', ecoModelPanel(), {tools: false, style: 'margin-top:18px', eyebrow: 'A model, with every assumption on the table'}) +
       card('The community', ecoCommunity(comm), {tools: false, style: 'margin-top:18px'});
   });
@@ -266,7 +266,7 @@ function ecoModelPanel() {
     '<div class="grid"><div class="c4">' + sl('ecoq', 'Hill exponent q', 1, 2, 0.05, D.q, '1 = saturating (type II); higher = predators ease off scarce prey (stabilising)') + sl('ecob0', 'Half-saturation B0', 0.1, 1.5, 0.05, D.B0, 'how much food a consumer needs to eat at half its maximum') +
       sl('ecoax', 'Metabolism ×', 0.25, 3, 0.05, D.ax, 'scales every consumer\'s metabolic rate') + sl('ecoe', 'Efficiency ×', 0.5, 1.3, 0.05, D.e, 'scales 0.45 (plants, detritus) and 0.85 (animals)') +
       sl('ecok', 'Producer carrying capacity', 0.25, 3, 0.05, D.K, 'how much plant biomass the place supports') + sl('ecot', 'Run for', 100, 2000, 50, D.T, 'time units') +
-      '<label class="tiny" style="display:block;margin-top:8px">Remove (comma-separated ids)<input id="ecoremove" style="width:100%" placeholder="e.g. Noctowl, flowers"></label>' +
+      '<label class="tiny" style="display:block;margin-top:8px">Remove (comma-separated ids)<input class="f" id="ecoremove" placeholder="e.g. Noctowl, flowers"></label>' +
       '<div style="margin-top:10px"><button class="btn gold sm" id="ecorun">Run the model</button></div></div><div class="c8"><div id="ecochart"><div class="empty">Run the model to see each Pokémon population over time.</div></div><div id="ecoout" class="tiny"></div></div></div>';
 }
 function ecoRun() {
