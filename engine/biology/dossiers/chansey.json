@@ -1,0 +1,92 @@
+{
+  "species": "Chansey",
+  "id": 113,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A rare, gentle, all-female Pokémon that lays nutritious eggs every day, several a day, and gives them away: it shares them with injured Pokémon and people, and won't share them with those who have evil in their hearts. The eggs are so delicious that even people who have lost their appetite eat them eagerly, which is why people try to catch it. It walks carefully so as not to break its egg, but runs away extremely fast. It is said to bring happiness to whoever catches one. In HeartGold and SoulSilver it lives on Kanto's Routes 13, 14 and 15, one encounter in a hundred, and comes to Route 13 in swarms.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright, egg-shaped animal (Gen 4 shape upright), 1.1 m and 34.6 kg, typed Normal, all female: the Egg Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:gender", "game:genus"]},
+      {"text": "It carries an egg and walks carefully to prevent it from breaking.", "class": "canon", "confidence": "high", "evidence": ["113.3", "C113.3"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Chansey eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Laying several nutritious eggs a day needs a great deal of food; what it eats to do so is a gap.", "class": "inferred", "confidence": "medium", "evidence": ["113.8", "113.11"]},
+      {"text": "Its eggs are food for others: people eat them, and it gives them to the injured.", "class": "canon", "confidence": "high", "evidence": ["113.2", "113.6", "113.12", "C113.8", "C113.10", "C113.12"]}
+    ],
+    "habitat": [
+      {"text": "It is rare and rarely found; the Gen 3 Pokédex habitat is urban.", "class": "canon", "confidence": "high", "evidence": ["113.1", "113.5", "C113.6", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 13, 14 and 15 at 1% (Lv 25), at any time, in both versions; on Route 13 it comes in swarms (40%). The Johto Safari Zone has it too.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "In Red, Blue, Yellow, FireRed and LeafGreen it lived in Kanto's Safari Zone (and in Cerulean Cave in Red, Blue and Yellow). In HeartGold and SoulSilver that Safari Zone is gone, and Chansey lives on the routes just east of Fuchsia instead.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It is extremely fast at running away.", "class": "canon", "confidence": "high", "evidence": ["113.3", "C113.4"]},
+      {"text": "It is gentle and kind-hearted, compassionate and kindly.", "class": "canon", "confidence": "high", "evidence": ["113.2", "113.10", "113.12"]},
+      {"text": "Its activity pattern is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "It shares its nutritious eggs with injured Pokémon and people.", "class": "canon", "confidence": "high", "evidence": ["113.2", "113.10", "113.12", "C113.2", "C113.15", "C113.17"]},
+      {"text": "It won't share them with those who have evil in their hearts.", "class": "canon", "confidence": "medium", "evidence": ["113.11", "C113.16"]},
+      {"text": "Feeding the injured of other species is altruism across species lines, rare in any animal; the entries give no reason.", "class": "inferred", "confidence": "medium", "evidence": ["113.2", "113.12"]}
+    ],
+    "reproduction": [
+      {"text": "It lays nutritionally excellent eggs every day, several a day.", "class": "canon", "confidence": "high", "evidence": ["113.6", "113.7", "113.8", "113.11", "C113.7", "C113.9", "C113.11"]},
+      {"text": "Fairy egg group, 40 egg cycles, all female, fast growth, base friendship 140 (high).", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth", "game:friendship"]},
+      {"text": "Eggs laid daily and given away can't all be fertile; they are better read as food the body makes, like milk.", "class": "hypothesis", "confidence": "low", "evidence": ["113.6", "113.12"], "note": "A reading; nothing says whether the eggs hatch."}
+    ],
+    "defense": [
+      {"text": "It runs: carefully walking with its egg, it is extremely fast at running away.", "class": "canon", "confidence": "high", "evidence": ["113.3"]},
+      {"text": "Natural Cure, Soft-Boiled (Lv 12), Refresh and Healing Wish make it hard to wear down, and Minimize (Lv 20) helps it hide.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Soft-Boiled", "move:Refresh", "move:Minimize"]}
+    ],
+    "senses": [
+      {"text": "It sees an injured Pokémon and shares its eggs, and it tells those with evil in their hearts, by the entries; how is not said.", "class": "canon", "confidence": "low", "evidence": ["113.2", "113.11"]}
+    ],
+    "life_cycle": [
+      {"text": "Happiny becomes Chansey when it levels up holding an Oval Stone by day, and Chansey becomes Blissey with high friendship: 0.6 m and 24.4 kg, then 1.1 m and 34.6 kg, then 1.5 m and 46.8 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Happiny", "species:Blissey"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Pound, Growl, Tail Whip, Refresh, Soft-Boiled, Double Slap, Minimize, Sing, Fling, Defense Curl, Light Screen, Egg Bomb (Lv 38), Healing Wish and Double-Edge. Soft-Boiled (heals) and Egg Bomb (throws an egg) are the egg in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Soft-Boiled", "move:Egg Bomb", "move:Healing Wish", "move:Sing"]}
+    ],
+    "ecology": [
+      {"text": "A producer of food for others: its eggs feed the injured, a resource it puts into the web every day.", "class": "inferred", "confidence": "medium", "evidence": ["113.2", "113.8"]},
+      {"text": "Its own diet is unknown; on Routes 13 to 15 it shares the grass with Nidorina, Nidorino, Hoppip and Tangela.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Tangela"]}
+    ],
+    "humans": [
+      {"text": "People try to catch it for its extremely nutritious eggs, which even those who have lost their appetite eat eagerly.", "class": "canon", "confidence": "high", "evidence": ["113.5", "113.6", "113.7"]},
+      {"text": "It is said to bring happiness to those who manage to catch it.", "class": "canon", "confidence": "medium", "evidence": ["113.1", "113.4", "113.9", "113.13", "C113.1", "C113.5", "C113.13", "C113.18"]}
+    ],
+    "homestead": [
+      {"text": "A source of nutritious eggs, laid daily, which it shares with the injured: the homestead's infirmary food.", "class": "canon", "confidence": "high", "evidence": ["113.6", "113.12"], "capability": "food_source"},
+      {"text": "A healer's companion: Soft-Boiled and Healing Wish, and a habit of seeking out the hurt.", "class": "inferred", "confidence": "medium", "evidence": ["113.2", "move:Soft-Boiled"], "capability": "field_healing"},
+      {"text": "Don't take its eggs by force: it won't share with those who have evil in their hearts.", "class": "canon", "confidence": "low", "evidence": ["113.11"]},
+      {"text": "Chansey leaving an egg on the doorstep of the house where the old man has a cold.", "class": "creative", "evidence": ["113.10"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["grass of Kanto's southern routes (rare)"], "activity": "unknown",
+            "foraging": "unknown; it lays several nutritious eggs a day, which feed others", "evidence": ["113.8", "game:encounters"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty: the machine reading's herbivore comes from the Normal type alone."},
+  "relationships": [
+    {"with": "injured Pokémon and people", "kind": "commensalism", "class": "canon", "confidence": "high", "evidence": ["113.2", "113.12"], "note": "It feeds them its eggs; they benefit."},
+    {"with": "Nidorina", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Nidorina"]},
+    {"with": "Blissey", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Bell-healer", "moves": ["Heal Bell", "Aromatherapy", "Helping Hand"], "class": "hypothesis", "confidence": "low",
+     "reading": "The caring lineage of the entries: moves that cure others and help them. A Chansey that tends to the injured beyond sharing eggs. Fits places with many hurt animals, such as busy routes.",
+     "behavior": "Seeks out the injured.", "evidence": ["113.2", "move:Heal Bell", "move:Aromatherapy", "move:Helping Hand"]},
+    {"name": "Egg-keeper", "moves": ["Counter", "Substitute", "Mud Bomb"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that protects its eggs: it hits back, leaves a decoy and blinds with mud before it runs. The Chansey that won't give its egg to the wrong hands. Fits places where people hunt it for eggs.",
+     "behavior": "Runs only after it has left a decoy.", "evidence": ["113.5", "113.11", "move:Counter", "move:Substitute", "move:Mud Bomb"]}
+  ],
+  "open_questions": [
+    "What does Chansey eat to lay several eggs a day?",
+    "Do its eggs ever hatch, or are they only food?",
+    "How does it tell those with evil in their hearts (113.11)?",
+    "Why is it so rare, if it is so useful to others?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said to bring happiness to those who manage to catch it.", "kind": "said", "evidence": ["113.1", "113.4", "C113.1", "C113.5", "C113.13", "C113.14", "C113.18"]}
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "species": "Cubone",
+  "id": 104,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small, lonely Pokémon that lost its mother after its birth and always wears her skull, so no one has ever seen its real face. Cubone pines for the mother it will never see again: when it thinks of her it cries, its cries echo inside the skull as a sad melody, and seeing her likeness in the full moon it weeps; the stains on the skull are its tears. When it is lonesome it is said to cry loudly. Marowak is the Cubone that has overcome that grief and grown tough. In HeartGold and SoulSilver it lives in Kanto's Rock Tunnel, with Marowak, Onix, Geodude and Machop.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small upright animal (Gen 4 shape upright), 0.4 m and 6.5 kg, typed Ground: the Lonely Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It wears the skull of its dead mother as a helmet and never removes it; no one has ever seen its real face.", "class": "canon", "confidence": "high", "evidence": ["104.1", "104.2", "104.4", "104.5", "104.8", "C104.1", "C104.2", "C104.5", "C104.7", "C104.13"]},
+      {"text": "The stains on the skull are made by the tears it sheds.", "class": "canon", "confidence": "high", "evidence": ["104.6", "104.7", "C104.10", "C104.12"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Cubone eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The machine reading's rock-eater comes from its Ground type alone; nothing supports it.", "class": "inferred", "confidence": "medium", "evidence": ["game:types"]}
+    ],
+    "habitat": [
+      {"text": "No entry says where it lives; the Gen 3 Pokédex habitat is mountain.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in Rock Tunnel (35%, Lv 10-13), at any time, in both versions; the Johto Safari Zone has it by day.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When it thinks of its dead mother, it cries, and its crying makes the skull rattle hollowly; its cries echo inside the skull and come out as a sad melody.", "class": "canon", "confidence": "high", "evidence": ["104.2", "104.9", "C104.3", "C104.15", "C104.16"]},
+      {"text": "If it is sad or lonely, the skull it wears shakes and emits a plaintive, mournful sound.", "class": "canon", "confidence": "high", "evidence": ["104.3", "C104.4"]},
+      {"text": "Seeing a likeness of its mother in the full moon, it cries.", "class": "canon", "confidence": "high", "evidence": ["104.6", "104.7", "C104.9"]},
+      {"text": "Its activity pattern is not stated; the full-moon crying puts it awake on moonlit nights at least.", "class": "inferred", "confidence": "low", "evidence": ["104.6"]}
+    ],
+    "social": [
+      {"text": "Lonely by name and by its entries: it lost its mother after its birth and pines for her.", "class": "canon", "confidence": "high", "evidence": ["104.5", "104.6", "C104.6", "C104.8", "C104.11"]},
+      {"text": "An orphan that grieves for its mother points to a young that normally stays with its mother for a long time.", "class": "inferred", "confidence": "medium", "evidence": ["104.5", "104.6"], "analogy": "Young elephants and great apes stay with their mothers for years, and orphans show signs of distress."},
+      {"text": "Its adult form taps out messages to others by pounding boulders with its bone (105.3): the line does talk to its own kind.", "class": "canon", "confidence": "medium", "evidence": ["105.3", "species:Marowak"]}
+    ],
+    "reproduction": [
+      {"text": "Monster egg group, 20 egg cycles, an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Every entry has its mother dead; none says whether every Cubone loses its mother, or how.", "class": "canon", "confidence": "medium", "evidence": ["104.2", "104.5"]}
+    ],
+    "defense": [
+      {"text": "The skull helmet covers its head and face.", "class": "inferred", "confidence": "medium", "evidence": ["104.1"]},
+      {"text": "Bone Club (Lv 7), Bonemerang (Lv 21) and Bone Rush (Lv 37) are bone weapons; Rock Head protects it from recoil and Lightning Rod draws in electricity.", "class": "mechanic", "confidence": "high", "evidence": ["move:Bone Club", "move:Bonemerang", "move:Bone Rush", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It sees a likeness of its mother in the full moon: it sees well enough at night to see the moon's face.", "class": "canon", "confidence": "low", "evidence": ["104.6"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Marowak at level 28: from 0.4 m and 6.5 kg to 1.0 m and 45.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Marowak"]},
+      {"text": "Marowak is the evolved form of a Cubone that has overcome its sadness at the loss of its mother and grown tough (105.6). Growing up, in its entries, is grieving.", "class": "canon", "confidence": "high", "evidence": ["105.6", "105.7", "species:Marowak"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Growl, Tail Whip, Bone Club, Headbutt, Leer, Focus Energy, Bonemerang, Rage, False Swipe, Thrash, Fling, Bone Rush, Endeavor and Double-Edge. Rage and Thrash fit an animal driven by feeling.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bone Club", "move:Rage", "move:Thrash"]}
+    ],
+    "ecology": [
+      {"text": "Its diet is unknown, so its place in the web is unset.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "In Rock Tunnel it shares the dark with Marowak, Onix, Geodude, Machop, Machoke, Zubat and Kangaskhan.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Onix", "species:Geodude"]},
+      {"text": "Its adult collects bones, rumoured to come from a Marowak graveyard (105.4, 105.5): the line uses the remains of its dead.", "class": "canon", "confidence": "low", "evidence": ["105.4", "105.5"], "note": "Rumour, in the entries' own words."}
+    ],
+    "humans": [
+      {"text": "No one has ever seen its real face.", "class": "canon", "confidence": "high", "evidence": ["104.1", "104.4"]}
+    ],
+    "homestead": [
+      {"text": "An orphan that grieves: if one is taken in, it needs company more than work.", "class": "inferred", "confidence": "medium", "evidence": ["104.3", "104.8"], "capability": "calming_presence", "note": "Inferred from its loneliness; the capability is what it needs, not what it gives."},
+      {"text": "Leave the skull alone; it never removes it.", "class": "canon", "confidence": "high", "evidence": ["104.1"]},
+      {"text": "The night of the full moon, and the sound from the barn that turns out to be singing.", "class": "creative", "evidence": ["104.2", "104.6"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["mountain caves (Rock Tunnel)"], "activity": "unknown",
+            "foraging": "unknown", "evidence": ["game:habitat", "game:encounters"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty: the machine reading's lithovore comes from the Ground type alone."},
+  "relationships": [
+    {"with": "Marowak", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Marowak"]},
+    {"with": "Onix", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Onix"]},
+    {"with": "Marowak", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Mourning singer", "moves": ["Perish Song", "Screech", "Detect"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the sad melody (104.2): songs and cries, and a wariness that sees blows coming. Fits echoing caves where its sound carries.",
+     "behavior": "Sings in the dark on moonlit nights.", "evidence": ["104.2", "104.6", "move:Perish Song", "move:Screech", "move:Detect"]},
+    {"name": "Skull-charger", "moves": ["Skull Bash", "Iron Head", "Double Kick"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that uses the helmet as a weapon: head-down charges and kicks. The Cubone already on its way to the tough Marowak of 105.6. Fits rocky ground with rivals about.",
+     "behavior": "Lowers its head and charges.", "evidence": ["104.1", "105.6", "move:Skull Bash", "move:Iron Head", "move:Double Kick"]}
+  ],
+  "open_questions": [
+    "What does Cubone eat?",
+    "Does every Cubone lose its mother? How?",
+    "Who raises an orphaned Cubone?",
+    "Where is the Marowak graveyard the rumours tell of?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "When it becomes lonesome, it is said to cry loudly.", "kind": "said", "evidence": ["104.8", "C104.14"]},
+    {"text": "A Marowak graveyard exists somewhere in the world, rumours say; Marowak get their bones from it.", "kind": "rumour", "evidence": ["105.4", "105.5"]}
+  ]
+}

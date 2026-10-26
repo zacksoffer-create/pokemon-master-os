@@ -66,6 +66,5 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 - light (move): Flash (field move)
 - air_travel (move): Fly (field move)
 - deterrence (ability): Keen Eye (overworld ability)
-- light (lore): Pokédex (heartgold)
 - night_travel (lore): Pokédex (heartgold)
 - foraging (habitat): habitat: forest

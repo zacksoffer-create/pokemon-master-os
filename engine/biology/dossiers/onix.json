@@ -1,0 +1,92 @@
+{
+  "species": "Onix",
+  "id": 95,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A rock snake nearly nine metres long that bores through the ground at 50 mph, always eating as it burrows: it feeds on large boulders and absorbs the hard objects it digs through, which is what makes its body so solid. As it grows, the stone parts of its body harden like black diamond, and with age it becomes rounder and smoother. A magnet in its brain acts as a compass so it never loses direction underground. Its tunnelling roars and shakes the ground, and the tunnels it leaves become homes for Diglett. In HeartGold and SoulSilver it lives in Union Cave, on Route 47 and Mt. Silver in Johto, and in Rock Tunnel and Victory Road in Kanto.",
+  "sections": {
+    "anatomy": [
+      {"text": "A long rock snake (Gen 4 shape squiggle), 8.8 m and 210.0 kg, typed Rock and Ground: the Rock Snake Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A massive, rugged body; its stone parts harden as it grows, becoming like black diamond.", "class": "canon", "confidence": "high", "evidence": ["95.1", "95.4", "95.9", "C95.1", "C95.6", "C95.16"]},
+      {"text": "It has a magnet in its brain that acts as a compass, so it does not lose direction while tunnelling.", "class": "canon", "confidence": "high", "evidence": ["95.6", "95.7", "C95.9", "C95.10", "C95.12"], "analogy": "Real birds, sea turtles and some mole rats sense the earth's magnetic field to find their way."}
+    ],
+    "diet": [
+      {"text": "It always eats while burrowing, searching for food as it bores through the ground, and feeds on large boulders.", "class": "canon", "confidence": "high", "evidence": ["95.2", "95.8", "95.11", "95.12", "C95.2", "C95.15", "C95.20", "C95.21"]},
+      {"text": "As it digs, it absorbs many hard objects; this is what makes its body so solid.", "class": "canon", "confidence": "high", "evidence": ["95.5", "C95.7", "C95.8"]},
+      {"text": "Its evolved form's body is thought to have changed from iron accumulating inside it from swallowing soil (208.9): the line takes in soil as well as stone.", "class": "canon", "confidence": "medium", "evidence": ["208.9", "species:Steelix"]}
+    ],
+    "habitat": [
+      {"text": "It usually lives underground; the Gen 3 Pokédex habitat is cave.", "class": "canon", "confidence": "high", "evidence": ["95.8", "C95.14", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in Union Cave (10%), on Route 47 (10%) and Mt. Silver (30%, Lv 42-48) in Johto, and in Rock Tunnel (20%) and Victory Road (15%) in Kanto, at any time, in both versions; the Johto Safari Zone has it too.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It rapidly bores through the ground at 50 mph by squirming and twisting its massive body.", "class": "canon", "confidence": "high", "evidence": ["95.4", "95.8", "95.10", "95.11", "C95.4", "C95.6", "C95.18", "C95.19"]},
+      {"text": "The thunderous roar of its tunnelling echoes a long way, and it causes rumbling and tremors when it travels underground.", "class": "canon", "confidence": "high", "evidence": ["95.3", "95.10", "C95.5", "C95.17"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Onix living with other Onix.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Mineral egg group, 25 egg cycles, an even sex ratio, medium growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its size and its solid, diamond-hard body.", "class": "canon", "confidence": "medium", "evidence": ["95.1", "95.5"]},
+      {"text": "Rock Head protects it from recoil and Sturdy from one-hit knockouts; Harden, Bind, Screech and Sandstorm (Lv 22) are in its list.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Harden", "move:Bind", "move:Sandstorm"]}
+    ],
+    "senses": [
+      {"text": "A magnetic sense of direction, from the magnet in its brain.", "class": "canon", "confidence": "high", "evidence": ["95.6", "95.7"]},
+      {"text": "Its evolved form's eyes can see in the darkness underground (208.8); Onix's own eyes are not described.", "class": "canon", "confidence": "low", "evidence": ["208.8", "species:Steelix"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Steelix when traded holding a Metal Coat: from 8.8 m and 210.0 kg to 9.2 m and 400.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Steelix"]},
+      {"text": "As it grows older, its body becomes steadily rounder and smoother.", "class": "canon", "confidence": "high", "evidence": ["95.6", "95.7", "C95.11", "C95.13"]},
+      {"text": "It is said that if an Onix lives for over 100 years, its composition changes to become diamond-like, as it evolves into Steelix (208.2, 208.10).", "class": "canon", "confidence": "low", "evidence": ["208.2", "208.10", "species:Steelix"], "note": "'It is said'."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Mud Sport, Tackle, Harden, Bind, Screech, Rock Throw, Rage, Rock Tomb, Sandstorm, Slam, Rock Polish, Dragon Breath, Curse, Iron Tail, Sand Tomb, Double-Edge and Stone Edge.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bind", "move:Rock Throw", "move:Sand Tomb", "move:Stone Edge"]}
+    ],
+    "ecology": [
+      {"text": "A rock-eater: it feeds on boulders and absorbs hard objects.", "class": "canon", "confidence": "high", "evidence": ["95.5", "95.12"]},
+      {"text": "An ecosystem engineer: the tunnels it leaves are used as homes by Diglett.", "class": "canon", "confidence": "high", "evidence": ["95.2", "C95.3"], "analogy": "Real burrows dug by one animal, such as an aardvark's, become homes for many others."},
+      {"text": "In Rock Tunnel it shares the dark with Cubone, Marowak, Geodude and Machop; on Mt. Silver with Steelix, its own adult form.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Cubone", "species:Geodude", "species:Steelix"]},
+      {"text": "Eating boulders and rock, it competes with the other rock-eaters it lives beside, Geodude among them.", "class": "hypothesis", "confidence": "low", "evidence": ["95.12", "game:encounters", "species:Geodude"]}
+    ],
+    "humans": [
+      {"text": "The thunderous roar of its tunnelling echoes a long way; its travel underground causes rumbling and tremors people would feel.", "class": "canon", "confidence": "medium", "evidence": ["95.3", "95.10"]}
+    ],
+    "homestead": [
+      {"text": "A tunneller at 50 mph that never loses its way: the homestead's road-builder through rock, if it can be steered.", "class": "inferred", "confidence": "medium", "evidence": ["95.4", "95.6"], "capability": "digging"},
+      {"text": "It eats boulders: a way to clear stony fields.", "class": "canon", "confidence": "medium", "evidence": ["95.12"], "capability": "clearing"},
+      {"text": "Keep it from tunnelling under buildings: tremors.", "class": "canon", "confidence": "medium", "evidence": ["95.10"]},
+      {"text": "The old Onix at the quarry, so smooth now with age that the children slide down its back.", "class": "creative", "evidence": ["95.6"]}
+    ]
+  },
+  "niche": {"guild": "lithovore", "trophic_level": 1, "microhabitat": ["underground", "caves and mountain tunnels"], "activity": "unknown",
+            "foraging": "eats boulders and hard objects while it burrows", "evidence": ["95.5", "95.11", "95.12"], "class": "canon", "confidence": "high"},
+  "relationships": [
+    {"with": "large boulders", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["95.12"]},
+    {"with": "Diglett", "kind": "engineers", "class": "canon", "confidence": "high", "evidence": ["95.2"], "note": "Its tunnels become Diglett homes."},
+    {"with": "Geodude", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Geodude"], "note": "Both eat rock where they meet."},
+    {"with": "Steelix", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Boulder-roller", "moves": ["Defense Curl", "Rollout", "Rock Blast"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the rounder, smoother old Onix (95.6): it curls, rolls and throws stone. Fits open mountain slopes.",
+     "behavior": "Rolls downhill rather than tunnelling when it can.", "evidence": ["95.6", "move:Defense Curl", "move:Rollout", "move:Rock Blast"]},
+    {"name": "Tunnel-sealer", "moves": ["Block", "Rock Slide", "Explosion"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of cave systems: it blocks passages, brings the roof down and, at the last, blows the rock apart. Fits deep cave networks.",
+     "behavior": "Lies across a tunnel and will not move.", "evidence": ["95.2", "move:Block", "move:Rock Slide", "move:Explosion"]}
+  ],
+  "open_questions": [
+    "Does Onix eat only rock, or soil and anything in it?",
+    "How long does it take for an Onix to become 'rounder and smoother'?",
+    "Do Onix ever meet in their tunnels?",
+    "Does the magnet in its brain respond to Magnemite and Magneton?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that if an Onix lives for over 100 years, its composition changes to become diamond-like.", "kind": "said", "evidence": ["208.2", "208.10"]}
+  ]
+}

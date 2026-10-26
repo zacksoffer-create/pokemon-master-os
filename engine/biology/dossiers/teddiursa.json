@@ -1,0 +1,91 @@
+{
+  "species": "Teddiursa",
+  "id": 216,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A little bear that always licks its paws, because they are soaked with honey; every set of paws tastes unique. When it finds honey its crescent mark glows, and it makes its own honey by blending fruits with pollen that Beedrill collected. Before food becomes scarce in winter it hoards food in many hidden places. It grows into Ursaring, a forest bear that snaps trees to eat the berries that fall and can smell food buried deep underground. In SoulSilver it lives on Route 45, the mountain road below Blackthorn, and on Mt. Silver; in HeartGold, Phanpy has its place.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small upright bear (Gen 4 shape upright), 0.6 m and 8.8 kg, typed Normal: the Little Bear Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A crescent mark, which glows when it finds honey.", "class": "canon", "confidence": "high", "evidence": ["216.1", "216.8", "C216.1"]},
+      {"text": "Its palms taste sweet from all the honey they have absorbed; every set of paws tastes unique.", "class": "canon", "confidence": "high", "evidence": ["216.3", "216.7", "C216.5", "C216.12"]}
+    ],
+    "diet": [
+      {"text": "Honey: it always licks it, letting it soak into its paws so it can lick them all the time.", "class": "canon", "confidence": "high", "evidence": ["216.1", "216.3", "216.4", "216.7", "C216.2", "C216.4", "C216.6", "C216.11", "C216.13"], "analogy": "Real bears raid bees' nests for honey and the grubs inside."},
+      {"text": "It makes its own honey by blending fruits and pollen collected by Beedrill.", "class": "canon", "confidence": "high", "evidence": ["216.4", "216.5", "C216.7", "C216.9"]},
+      {"text": "Before food becomes scarce in winter, it hoards food in many hidden places; what food is not said.", "class": "canon", "confidence": "high", "evidence": ["216.2", "216.6", "C216.3", "C216.10"]},
+      {"text": "Its adult form eats fallen berries and finds buried food by smell (217.1, 217.2): the line is a forager of sweet and stored foods.", "class": "canon", "confidence": "medium", "evidence": ["217.1", "217.2", "species:Ursaring"]}
+    ],
+    "habitat": [
+      {"text": "No entry says where it lives; the Gen 3 Pokédex habitat is mountain.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In SoulSilver it lives on Route 45 (10%, Lv 20) and Mt. Silver (10%, Lv 43-48), at any time; it is not wild in HeartGold, where Phanpy has the same places.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Phanpy"]},
+      {"text": "Its adult lives in forests with many streams and towering trees, it is said (217.4).", "class": "canon", "confidence": "low", "evidence": ["217.4", "species:Ursaring"]}
+    ],
+    "behavior": [
+      {"text": "It always licks its honey-soaked paws.", "class": "canon", "confidence": "high", "evidence": ["216.1", "216.8"]},
+      {"text": "It hoards food in many hidden locations before winter.", "class": "canon", "confidence": "high", "evidence": ["216.2", "216.6"], "analogy": "Real squirrels and jays scatter-hoard food in many small caches for winter."},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Teddiursa living together. Its adult leaves scratches on trees in its territory (217.8), so the line keeps territories.", "class": "canon", "confidence": "low", "evidence": ["217.8", "species:Ursaring"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, medium growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Fake Tears, Charm (Lv 36) and Feint Attack (Lv 15): it disarms and tricks rather than fights; Fury Swipes (Lv 8) and Slash are its claws.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Fake Tears", "move:Charm", "move:Feint Attack", "move:Fury Swipes"]},
+      {"text": "Quick Feet speeds it up when it is ailing.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It finds honey, and its mark glows when it does; how it finds it is not said. Its adult can distinguish any aroma (217.2).", "class": "canon", "confidence": "medium", "evidence": ["216.1", "217.2"]},
+      {"text": "Sweet Scent (Lv 22) is a smell move: the line deals in scent.", "class": "mechanic", "confidence": "low", "evidence": ["move:Sweet Scent"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Ursaring at level 30: from 0.6 m and 8.8 kg to 1.8 m and 125.8 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Ursaring"]},
+      {"text": "Read as development, a honey-licking cub that hoards becomes a bear that snaps trees for berries and digs up buried food.", "class": "inferred", "confidence": "medium", "evidence": ["216.2", "217.1", "217.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Covet, Scratch, Leer, Lick, Fake Tears, Fury Swipes, Feint Attack, Sweet Scent, Slash, Charm, Rest, Snore, Thrash and Fling. Covet (stealing an item) and Pickup (finding items) fit a hoarder.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Covet", "move:Lick", "move:Sweet Scent", "game:abilities"]}
+    ],
+    "ecology": [
+      {"text": "A honey and fruit feeder that takes pollen gathered by Beedrill: it lives partly on another species' work.", "class": "canon", "confidence": "medium", "evidence": ["216.4"]},
+      {"text": "Food hoarded in many hidden places and not all dug up again would plant seeds: a disperser of the fruits it stores, if they are fruits.", "class": "hypothesis", "confidence": "low", "evidence": ["216.2"], "analogy": "Forgotten squirrel and jay caches plant many of the world's oaks."},
+      {"text": "On Route 45 and Mt. Silver it shares the ground with Geodude, Graveler, Skarmory (on Route 45), Ursaring (on Mt. Silver) and the Aipom and Heracross of the trees.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ursaring", "species:Graveler"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Teddiursa and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "A honey-finder: its mark glows when it finds honey.", "class": "canon", "confidence": "medium", "evidence": ["216.1"], "capability": "foraging"},
+      {"text": "It hoards before winter: let it, and learn where it hides things.", "class": "canon", "confidence": "medium", "evidence": ["216.2"]},
+      {"text": "Keep the hives and the honey jars shut.", "class": "inferred", "confidence": "high", "evidence": ["216.3"]},
+      {"text": "Every spoon in the kitchen sticky, and one small bear with a glowing chest asleep in the larder.", "class": "creative", "evidence": ["216.1"]}
+    ]
+  },
+  "niche": {"guild": "sap and nectar feeder", "trophic_level": 2, "microhabitat": ["mountain slopes and forest edges", "food caches in hidden places"], "activity": "unknown",
+            "foraging": "licks honey, makes its own from fruit and pollen, and hoards food for winter", "evidence": ["216.3", "216.4", "216.6"], "class": "canon", "confidence": "medium"},
+  "relationships": [
+    {"with": "honey", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["216.3", "216.7"]},
+    {"with": "fruits", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["216.4"], "note": "Blended into its honey."},
+    {"with": "pollen collected by Beedrill", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["216.4", "216.5"]},
+    {"with": "fruits and seeds it hoards", "kind": "disperses", "class": "hypothesis", "confidence": "low", "evidence": ["216.2"], "note": "If forgotten caches grow."},
+    {"with": "Ursaring", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Winter sleeper", "moves": ["Yawn", "Sleep Talk", "Belly Drum"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the long sleep: drowsy, talking in its sleep and fattening up. The hoarder that sleeps the winter away beside its caches. Fits high cold places like Mt. Silver.",
+     "behavior": "Eats and hoards hard in autumn, then sleeps.", "evidence": ["216.2", "move:Yawn", "move:Sleep Talk", "move:Belly Drum"]},
+    {"name": "Hive-raider", "moves": ["Metal Claw", "Crunch", "Counter"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that takes honey and pollen from Beedrill by force: claws, jaws and a counterblow for the stings. Fits forests with Beedrill nests.",
+     "behavior": "Goes after nests and takes the stings.", "evidence": ["216.4", "move:Metal Claw", "move:Crunch", "move:Counter"]}
+  ],
+  "open_questions": [
+    "How does Teddiursa get the pollen Beedrill collected?",
+    "What does it hoard, and does it find all of it again?",
+    "Does it sleep through the winter?",
+    "Why is it in SoulSilver's wild and not HeartGold's?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

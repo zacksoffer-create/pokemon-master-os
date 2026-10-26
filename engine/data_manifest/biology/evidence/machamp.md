@@ -75,8 +75,6 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 - climbing (move): Rock Climb (field move)
 - clearing (move): Rock Smash (field move)
 - hauling (move): Strength (field move)
-- calming_presence (lore): Pokédex (sapphire)
-- air_travel (lore): Pokédex (leafgreen)
 - carrying_rider (size): 1.6 m, 130.0 kg
 - climbing (habitat): habitat: mountain
 - manipulation (lore): Pokédex (sapphire)

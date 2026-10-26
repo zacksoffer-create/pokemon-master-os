@@ -1,0 +1,91 @@
+{
+  "species": "Skarmory",
+  "id": 227,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "An armoured bird with a body and wings of steel. Its sturdy wings look heavy but its bones are hollow and light, and it flies at over 180 mph, slashing foes with wings that have sword-like cutting edges. It nests in bramble bushes, and its chicks' wings grow hard from the scratches of the thorns. Its wings are battered by battles and grow back completely once a year. The feathers it sheds are very sharp: people in the past made swords and knives from them. In SoulSilver it lives on Route 45, the mountain road below Blackthorn, rarely; in HeartGold, Gligar has its place.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged bird (Gen 4 shape wings), 1.7 m and 50.5 kg, typed Steel and Flying: the Armor Bird Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A body and wings of steel, entirely encased in hard, protective armour.", "class": "canon", "confidence": "high", "evidence": ["227.4", "227.6", "227.8", "C227.5", "C227.10", "C227.13"]},
+      {"text": "Its wings look heavy, but its bones are hollow and light, allowing it to fly freely.", "class": "canon", "confidence": "high", "evidence": ["227.1", "227.7", "C227.1", "C227.12"], "analogy": "Real birds have hollow, air-filled bones that keep them light."},
+      {"text": "Its wings have sword-like cutting edges; the feathers it sheds are very sharp.", "class": "canon", "confidence": "high", "evidence": ["227.3", "227.4", "C227.3", "C227.7"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Skarmory eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The machine reading's metal-eater comes from its Steel type alone; nothing supports it.", "class": "inferred", "confidence": "medium", "evidence": ["game:types"]},
+      {"text": "Peck, Fury Attack (Lv 17) and Slash: a bird that strikes with beak and blade, but not said to hunt.", "class": "mechanic", "confidence": "low", "evidence": ["move:Peck", "move:Fury Attack", "move:Slash"]}
+    ],
+    "habitat": [
+      {"text": "It nests in bramble bushes; the Gen 3 Pokédex habitat is rough terrain.", "class": "canon", "confidence": "high", "evidence": ["227.2", "C227.2", "game:habitat"]},
+      {"text": "In SoulSilver it lives on Route 45 (5%, Lv 27), at any time; it is not wild in HeartGold, where Gligar has that place in the table.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gligar"]}
+    ],
+    "behavior": [
+      {"text": "It flies at close to 190 mph, over 180 mph by another entry, despite its armour.", "class": "canon", "confidence": "high", "evidence": ["227.4", "227.8", "C227.6", "C227.13"]},
+      {"text": "Its activity pattern is not stated; the table has it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Skarmory living together. It raises chicks in a nest.", "class": "canon", "confidence": "medium", "evidence": ["227.2"]}
+    ],
+    "reproduction": [
+      {"text": "It nests in bramble bushes, and raises chicks there; the thorns' scratches harden their wings.", "class": "canon", "confidence": "high", "evidence": ["227.2", "C227.2"]},
+      {"text": "Flying egg group, 25 egg cycles, an even sex ratio, slow growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Choosing a thorny nest site keeps predators from the chicks as well as hardening them.", "class": "inferred", "confidence": "low", "evidence": ["227.2"], "analogy": "Real shrikes and many small birds nest in thorn bushes for protection."}
+    ],
+    "defense": [
+      {"text": "Its armour, and wings that cut like swords.", "class": "canon", "confidence": "high", "evidence": ["227.4"]},
+      {"text": "Keen Eye keeps its aim true and Sturdy guards against one-hit knockouts; Spikes (Lv 28) and Metal Sound (Lv 31) are its defences.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Spikes", "move:Metal Sound"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Keen Eye, its ability, is a game reading of sharp sight.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities"]}
+    ],
+    "life_cycle": [
+      {"text": "It does not evolve: 1.7 m and 50.5 kg as an adult.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size"]},
+      {"text": "Its steel wings become tattered and bashed in from repeated battles; once a year the battered wings grow back completely, restoring their edges.", "class": "canon", "confidence": "high", "evidence": ["227.5", "C227.8", "C227.9"], "analogy": "Real birds moult and regrow their flight feathers about once a year."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Leer, Peck, Sand Attack, Swift, Agility, Fury Attack, Feint, Air Cutter, Spikes, Metal Sound, Steel Wing, Air Slash, Slash and Night Slash: blades of air and steel.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Steel Wing", "move:Air Cutter", "move:Air Slash", "move:Agility"]}
+    ],
+    "ecology": [
+      {"text": "Its diet is unknown, so its place in the web is unset.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "It sheds sharp feathers once a year: steel left on the ground where it lives.", "class": "inferred", "confidence": "medium", "evidence": ["227.3", "227.5"]},
+      {"text": "On Route 45 it shares the slopes with Geodude, Graveler, Teddiursa, Spearow and the Aipom and Heracross of the trees.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Teddiursa", "species:Spearow"]}
+    ],
+    "humans": [
+      {"text": "People in the past used feathers fallen from Skarmory to make swords and knives.", "class": "canon", "confidence": "high", "evidence": ["227.6", "C227.11"]},
+      {"text": "It is said that people once used the feathers as swords.", "class": "canon", "confidence": "medium", "evidence": ["227.3", "C227.4"]}
+    ],
+    "homestead": [
+      {"text": "Collect its fallen feathers after the yearly moult: blades for knives and tools, as people once did.", "class": "canon", "confidence": "medium", "evidence": ["227.5", "227.6"]},
+      {"text": "Never let children near the bramble nests: the chicks, the parents and the feathers all cut.", "class": "inferred", "confidence": "medium", "evidence": ["227.2", "227.3"]},
+      {"text": "Fast and armoured, in principle a scout and a messenger over the mountain.", "class": "inferred", "confidence": "low", "evidence": ["227.4"], "capability": "scouting"},
+      {"text": "The steel feather found under the brambles above Route 45, kept on the mantel and used to cut bread.", "class": "creative", "evidence": ["227.6"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["bramble bushes (nests)", "rough mountain terrain"], "activity": "unknown",
+            "foraging": "unknown", "evidence": ["227.2", "game:habitat"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty: the machine reading's lithovore comes from the Steel type alone."},
+  "relationships": [
+    {"with": "bramble bushes", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["227.2"], "note": "Its nest sites."},
+    {"with": "Teddiursa", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Teddiursa"]}
+  ],
+  "ecotypes": [
+    {"name": "Bramble guardian", "moves": ["Whirlwind", "Curse", "Guard Swap"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that holds the nest: it blows intruders away, hardens itself and trades defences. Fits thorny scrub where the nests are.",
+     "behavior": "Stays near the brambles and drives off what comes close.", "evidence": ["227.2", "move:Whirlwind", "move:Curse", "move:Guard Swap"]},
+    {"name": "High-speed diver", "moves": ["Brave Bird", "Sky Attack", "Drill Peck"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the 180 mph flier (227.8): full-body dives and drilling strikes. Fits open high country with room to dive.",
+     "behavior": "Strikes from a long, fast dive.", "evidence": ["227.8", "move:Brave Bird", "move:Sky Attack", "move:Drill Peck"]}
+  ],
+  "open_questions": [
+    "What does Skarmory eat?",
+    "Do Skarmory pairs raise chicks together?",
+    "Does it fight Gligar or Fearow for the cliffs of Route 45?",
+    "Why is it in SoulSilver's wild and not HeartGold's?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that people once used its feathers as swords.", "kind": "said", "evidence": ["227.3", "C227.4"]}
+  ]
+}

@@ -72,7 +72,6 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 
 ## What the capability records already say (HeartGold)
 
-- heat_source (lore): Pokédex (ruby)
 - danger_sense (lore): Pokédex (leafgreen)
 - town_fit (size): 0.6 m, 10.0 kg
 - foraging (habitat): habitat: forest

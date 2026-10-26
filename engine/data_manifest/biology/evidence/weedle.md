@@ -73,7 +73,6 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 
 ## What the capability records already say (HeartGold)
 
-- light (lore): Pokédex (heartgold)
 - town_fit (size): 0.3 m, 3.2 kg
 - foraging (habitat): habitat: forest
 - tracking (lore): Pokédex (ruby)

@@ -1,0 +1,95 @@
+{
+  "species": "Nidorina",
+  "id": 30,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The female middle stage of the Nidoran line: a calm, caring, barbed animal that lives with friends and family. Nidorina keeps its barbs tucked away among its own so no one is hurt, raises them all at once when threatened, and grows nervous if separated from the others. It rests deep in a burrow, barbs retracted when relaxed, and feeds its young by chewing food into a paste and spitting it out for them. Its horn grows slowly, so it prefers not to fight. In HeartGold and SoulSilver it lives on Kanto's Routes 13, 14 and 15, beside the male Nidorino.",
+  "sections": {
+    "anatomy": [
+      {"text": "A four-legged animal (Gen 4 shape quadruped), 0.8 m and 20.0 kg, typed Poison, all female: the Poison Pin Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:gender", "game:genus"]},
+      {"text": "Barbs all over its body, which it raises when threatened; they grow more slowly than Nidorino's.", "class": "canon", "confidence": "high", "evidence": ["30.5", "30.10", "C30.9", "C30.17", "C30.18"]},
+      {"text": "The female's horn, or horns, develop slowly.", "class": "canon", "confidence": "high", "evidence": ["30.1", "30.4", "30.9", "C30.1", "C30.7", "C30.16"]}
+    ],
+    "diet": [
+      {"text": "When feeding its young, it first chews the food into a paste, then spits it out for the offspring.", "class": "canon", "confidence": "high", "evidence": ["30.3", "30.11", "C30.5", "C30.19"], "analogy": "Wolves and many birds feed their young on pre-chewed or regurgitated food."},
+      {"text": "What the food is isn't said; chewing to a paste suggests tough food, plants or meat, that the young can't manage.", "class": "inferred", "confidence": "low", "evidence": ["C30.5"]},
+      {"text": "It prefers physical attacks such as clawing and biting; Scratch, Fury Swipes (Lv 20), Bite (Lv 23), Crunch and Poison Fang are in its list.", "class": "mechanic", "confidence": "medium", "evidence": ["30.1", "move:Scratch", "move:Fury Swipes", "move:Bite", "move:Crunch", "move:Poison Fang"]}
+    ],
+    "habitat": [
+      {"text": "It rests deep in its burrow; the Gen 3 Pokédex habitat is grassland.", "class": "canon", "confidence": "high", "evidence": ["30.2", "C30.3", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 13, 14 and 15 (30%, Lv 23) at any time, in both versions; the Johto Safari Zone has it at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its young, Nidoran♀, live on Johto's Routes 35 and 36 (by the encounter tables), so the line ranges across both regions' grasslands.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters", "species:Nidoran♀"]}
+    ],
+    "behavior": [
+      {"text": "It has a calm and caring nature, a docile nature, a gentle temperament.", "class": "canon", "confidence": "high", "evidence": ["30.4", "30.5", "30.8", "C30.6", "C30.8", "C30.14"]},
+      {"text": "When resting deep in its burrow its thorns always retract, proof that it is relaxed.", "class": "canon", "confidence": "high", "evidence": ["30.2", "C30.3", "C30.4"]},
+      {"text": "Because its horn grows slowly, it prefers not to fight.", "class": "canon", "confidence": "high", "evidence": ["30.4", "C30.7"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "With friends or family, Nidorina keep their barbs tucked away to prevent hurting each other.", "class": "canon", "confidence": "high", "evidence": ["30.6", "30.7", "C30.10", "C30.12"]},
+      {"text": "It appears to become nervous if separated from the others.", "class": "canon", "confidence": "high", "evidence": ["30.6", "30.7", "C30.11", "C30.13"]},
+      {"text": "A family-living, burrow-dwelling animal that provisions its young: a social, maternal species by its entries.", "class": "inferred", "confidence": "high", "evidence": ["30.3", "30.6"]}
+    ],
+    "reproduction": [
+      {"text": "It feeds young ('the offspring') with chewed food.", "class": "canon", "confidence": "high", "evidence": ["30.3", "30.11"]},
+      {"text": "Yet in the games it is in the Undiscovered egg group and can't breed at all; only Nidoran♀ can.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "species:Nidoran♀"]},
+      {"text": "Read together, the entries describe mothers the breeding rule doesn't allow: either Nidorina raise young they didn't lay, or the game rule isn't biology.", "class": "inferred", "confidence": "medium", "evidence": ["30.3", "game:egg_groups"]}
+    ],
+    "defense": [
+      {"text": "If it is threatened with attack, or senses danger, it raises the barbs all over its body.", "class": "canon", "confidence": "high", "evidence": ["30.5", "30.10", "C30.9", "C30.17"]},
+      {"text": "It emits ultrasonic cries that have the power to befuddle foes.", "class": "canon", "confidence": "high", "evidence": ["30.8", "C30.15"]},
+      {"text": "Poison Point poisons what touches it; Toxic Spikes (Lv 35) scatters poison barbs.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Toxic Spikes"]}
+    ],
+    "senses": [
+      {"text": "It senses danger, and raises its barbs when it does; how is not said. Its male counterpart raises its big ears to check its surroundings (33.3).", "class": "canon", "confidence": "medium", "evidence": ["30.10", "33.3"]}
+    ],
+    "life_cycle": [
+      {"text": "Nidoran♀ becomes Nidorina at level 16, and Nidoqueen with a Moon Stone: 0.4 m and 7.0 kg, then 0.8 m and 20.0 kg, then 1.3 m and 60.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Nidoran♀", "species:Nidoqueen"]},
+      {"text": "Read as development, a mild young that fights only with poison becomes a caring mother in a burrow, then Nidoqueen, which seals the burrow with its body to protect its young (31.4).", "class": "inferred", "confidence": "medium", "evidence": ["29.2", "30.3", "31.4"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Growl, Scratch, Tail Whip, Double Kick, Poison Sting, Fury Swipes, Bite, Helping Hand (Lv 28), Toxic Spikes, Flatter, Crunch, Captivate and Poison Fang. Helping Hand fits a family animal.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Helping Hand", "move:Poison Sting", "move:Double Kick", "move:Captivate"]}
+    ],
+    "ecology": [
+      {"text": "A grassland omnivore or herbivore that burrows; its food is unnamed, so the web uses the machine reading.", "class": "inferred", "confidence": "low", "evidence": ["30.2", "30.3"]},
+      {"text": "On Routes 13 to 15 it shares the grass with Nidorino, Hoppip, Tangela, Chansey, Pidgeotto and Noctowl.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Nidorino", "species:Hoppip", "species:Tangela"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Nidorina and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "Keep them in families: a lone Nidorina grows nervous.", "class": "canon", "confidence": "high", "evidence": ["30.6"]},
+      {"text": "A burrow to rest in, and space; relaxed, its barbs are tucked away and it is safe to be near.", "class": "canon", "confidence": "high", "evidence": ["30.2"]},
+      {"text": "A carer: it pre-chews food for young, which could help raise orphaned Pokémon at the homestead.", "class": "hypothesis", "confidence": "low", "evidence": ["30.3"], "capability": "egg_care", "note": "Whether it would feed young of other species is untested."},
+      {"text": "Nidorina in the barn with the newly hatched, barbs flat, making the porridge.", "class": "creative", "evidence": ["30.11"]}
+    ]
+  },
+  "niche": {"guild": "generalist", "trophic_level": 2.5, "microhabitat": ["burrows in grassland", "Kanto's southern routes"], "activity": "unknown",
+            "foraging": "unknown food, chewed to a paste for its young", "evidence": ["30.3", "30.2", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "The machine reading's generalist, from 'food'; nothing names what it eats."},
+  "relationships": [
+    {"with": "Nidorino", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Nidorino"]},
+    {"with": "Hoppip", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Hoppip"]},
+    {"with": "Nidoqueen", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Burrow mother", "moves": ["Charm", "Counter", "Take Down"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that guards its young at the burrow: it disarms, returns blows and charges. The caring Nidorina of the entries at its fiercest. Fits grassland with predators about.",
+     "behavior": "Gentle at home, dangerous at the burrow mouth.", "evidence": ["30.3", "31.4", "move:Charm", "move:Counter", "move:Take Down"]},
+    {"name": "Ultrasonic warden", "moves": ["Supersonic", "Disable"], "class": "hypothesis", "confidence": "low",
+     "reading": "The befuddling ultrasonic cries of the FireRed entry, as a lineage: a confusing sound and a move that stops a move. Fits open grass where sound carries.",
+     "behavior": "Cries at intruders until they wander off confused.", "evidence": ["30.8", "move:Supersonic", "move:Disable"]}
+  ],
+  "open_questions": [
+    "What does Nidorina eat?",
+    "Whose young does it feed, if Nidorina can't breed in the games?",
+    "How big are Nidorina families, and do males live with them?",
+    "Why does its horn grow so slowly?"
+  ],
+  "contradictions": [
+    {"entries": ["30.3", "30.11"], "note": "The entries have Nidorina feeding its own young; the games' Undiscovered egg group says it can't breed."}
+  ],
+  "folklore": []
+}

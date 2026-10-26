@@ -1,0 +1,91 @@
+{
+  "species": "Tentacruel",
+  "id": 73,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult of Tentacool: a jellyfish with 80 tentacles that it keeps short and extends on hunts, stretching them almost endlessly as they absorb water to make a poisonous net that entangles prey and is difficult to escape. It can catch up to 80 prey at once, and weakens them with a harsh toxin. It lives among complex rock formations on the ocean floor. Two large red orbs on its head glow when it is excited or agitated, flash stridently to alert others to danger, and glow before it lashes the area with an ultrasonic blast that raises rough waves. In HeartGold and SoulSilver it shares Tentacool's shores in both regions, rarer and deeper, on the surf and the super rod.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tentacled sea animal (Gen 4 shape tentacles), 1.6 m and 55.0 kg, typed Water and Poison: the Jellyfish Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Eighty tentacles that it can stretch and contract freely; normally kept short, they absorb water and stretch almost endlessly.", "class": "canon", "confidence": "high", "evidence": ["73.1", "73.2", "73.3", "73.5", "73.7", "73.9", "73.13", "C73.1", "C73.3", "C73.5", "C73.11", "C73.16", "C73.21"]},
+      {"text": "Large red orbs on its head, which glow.", "class": "canon", "confidence": "high", "evidence": ["73.6", "73.8", "73.11", "C73.8", "C73.15"]}
+    ],
+    "diet": [
+      {"text": "A hunter: on hunts its tentacles are extended to ensnare and immobilize prey, then weaken it with poison.", "class": "canon", "confidence": "high", "evidence": ["73.1", "73.2", "73.7", "73.10", "C73.2", "C73.4", "C73.12", "C73.18"]},
+      {"text": "Its 80 feelers become a net to entangle prey, and it can catch up to 80 prey at the same time.", "class": "canon", "confidence": "high", "evidence": ["73.5", "73.7", "C73.7", "C73.13"]},
+      {"text": "No entry names the prey. Eighty at once suggests small animals, fish and the like, rather than large ones.", "class": "inferred", "confidence": "low", "evidence": ["73.7", "C73.13"], "analogy": "The lion's mane jellyfish trails hundreds of stinging tentacles and catches fish, shrimp and other jellyfish in them."},
+      {"text": "Constrict, Wrap (Lv 22) and Wring Out (Lv 55) are the squeezing net in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Constrict", "move:Wrap", "move:Wring Out"]}
+    ],
+    "habitat": [
+      {"text": "It lives in complex rock formations on the ocean floor; the Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["73.8", "C73.14", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is on the same shores as Tentacool in both regions, from Cherrygrove and the Whirl Islands to Pallet Town, Vermilion and the seas around Cinnabar. It is one surf encounter in ten at most places and up to three in ten at the Whirl Islands and Sea Route 41, and is hooked on the super rod at many, at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Rarer at the surface than Tentacool and on the deeper-water rod: in line with an adult that lives on the sea floor.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters", "73.8"]}
+    ],
+    "behavior": [
+      {"text": "It keeps its tentacles short and extends them on hunts.", "class": "canon", "confidence": "high", "evidence": ["73.1", "C73.1", "C73.2"]},
+      {"text": "Its red orbs glow when it grows excited or agitated, and glow before it lashes the vicinity with a harsh ultrasonic blast; its outburst creates rough waves.", "class": "canon", "confidence": "high", "evidence": ["73.6", "73.8", "C73.9", "C73.10", "C73.15"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "It alerts others to danger by stridently flashing the red orbs on its head.", "class": "canon", "confidence": "high", "evidence": ["73.11", "C73.19"]},
+      {"text": "A warning signal implies others nearby to warn: Tentacruel most likely live near each other, though no entry says how many.", "class": "inferred", "confidence": "medium", "evidence": ["73.11"]}
+    ],
+    "reproduction": [
+      {"text": "Water 3 egg group, 20 egg cycles, an even sex ratio, slow growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "In battle it extends all 80 tentacles to entrap its opponent inside an encircling poisonous net that is difficult to escape.", "class": "canon", "confidence": "high", "evidence": ["73.4", "73.12", "C73.6", "C73.20"]},
+      {"text": "Its tentacles sting, causing poisoning and sharp, stabbing pain.", "class": "canon", "confidence": "high", "evidence": ["73.9", "C73.17"]},
+      {"text": "The ultrasonic blast is a weapon too; Supersonic, Screech (Lv 42) and Barrier are in its list, with Clear Body and Liquid Ooze.", "class": "mechanic", "confidence": "medium", "evidence": ["73.6", "move:Supersonic", "move:Screech", "move:Barrier", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about how it senses prey. Its orbs are described as signals and weapons, not as eyes.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Tentacool at level 30: from 0.9 m and 45.5 kg, two long tentacles and a drifting life at the surface, to 1.6 m and 55.0 kg, 80 tentacles and the rock formations of the sea floor.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Tentacool", "72.8", "73.8"]},
+      {"text": "Read as development: a drifter at the surface that settles on the reef as it grows.", "class": "inferred", "confidence": "low", "evidence": ["72.1", "73.8"], "analogy": "Many real jellyfish alternate between a drifting form and one fixed to rock, though the other way round."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Poison Sting, Supersonic, Constrict, Acid, Toxic Spikes, Bubble Beam, Wrap, Barrier, Water Pulse, Poison Jab, Screech, Hydro Pump and Wring Out.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Poison Sting", "move:Wrap", "move:Screech", "move:Hydro Pump"]}
+    ],
+    "ecology": [
+      {"text": "A net-hunter of the reef: up to 80 prey at a time makes it a heavy predator of small sea animals where it lives.", "class": "inferred", "confidence": "medium", "evidence": ["73.7", "73.8"]},
+      {"text": "On Kanto's southern seas it shares the water with Tentacool, Chinchou, Shellder and Lanturn; on Johto's western coast with Krabby, Kingler, Staryu and Corsola.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chinchou", "species:Krabby"]},
+      {"text": "Magikarp, everywhere it lives and small, would be prey of the right size; nothing names it.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Magikarp", "game:size"], "note": "Size and co-occurrence only."}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Tentacruel and people directly; its sting causes sharp, stabbing pain.", "class": "canon", "confidence": "medium", "evidence": ["73.9"]},
+      {"text": "Its outburst creates rough waves around it: a hazard to small boats nearby, in principle.", "class": "inferred", "confidence": "low", "evidence": ["73.6"]}
+    ],
+    "homestead": [
+      {"text": "Not a highland animal: a sea-floor hunter. Met only on coastal trips.", "class": "canon", "confidence": "high", "evidence": ["73.8"]},
+      {"text": "If the orbs on its head start to glow, back away: it is agitated, and the blast comes next.", "class": "canon", "confidence": "high", "evidence": ["73.6", "73.8"]},
+      {"text": "The fishing boat that turns back when the red lights come up under the swell.", "class": "creative", "evidence": ["73.11"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["complex rock formations on the ocean floor", "coastal seas"], "activity": "unknown",
+            "foraging": "extends 80 tentacles into a poisonous net and catches up to 80 prey at a time", "evidence": ["73.5", "73.7", "73.8"], "class": "canon", "confidence": "high"},
+  "relationships": [
+    {"with": "small fish and other small sea animals", "kind": "feeds_on", "class": "inferred", "confidence": "low", "evidence": ["73.7", "73.8"], "note": "It catches up to 80 prey at once; what they are is unnamed."},
+    {"with": "Magikarp", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Magikarp"], "note": "Small, everywhere it lives; nothing names it as prey."},
+    {"with": "Tentacool", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Tentacool"]},
+    {"with": "Shellder", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Shellder"]}
+  ],
+  "ecotypes": [
+    {"name": "Reef net", "moves": ["Haze", "Acupressure", "Knock Off"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the rock formations (73.8): it clouds the water, sharpens its own strikes and strips prey of what protects it. Fits rocky sea floors.",
+     "behavior": "Waits spread among the rocks, net open.", "evidence": ["73.8", "move:Haze", "move:Acupressure", "move:Knock Off"]},
+    {"name": "Signal-orb shoal", "moves": ["Confuse Ray", "Safeguard", "Aurora Beam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of light: confusing glows, a protecting veil, a beam. The orbs that flash warnings to others (73.11), as a way of life among many. Fits open coastal water where many drift together.",
+     "behavior": "Flashes to its neighbours at the first sign of danger.", "evidence": ["73.11", "move:Confuse Ray", "move:Safeguard", "move:Aurora Beam"]}
+  ],
+  "open_questions": [
+    "What are the 80 prey it can catch at once?",
+    "When does a drifting Tentacool settle on the sea floor?",
+    "Who does it warn with its orbs: other Tentacruel, or any animal nearby?",
+    "Does the ultrasonic blast stun prey, or only drive off enemies?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

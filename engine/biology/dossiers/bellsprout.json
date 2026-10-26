@@ -1,0 +1,89 @@
+{
+  "species": "Bellsprout",
+  "id": 69,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A thin, flexible, carnivorous plant that traps and eats bugs: it ensnares tiny insects with its vines and devours them, blindingly fast when catching prey, and flings a vine at anything it notices moving. It soaks up water through its root feet planted deep in the ground, but can't escape while rooted; instead its thin body bends and sways to avoid any attack, and it spits a corrosive fluid that melts even iron. It prefers hot, humid places. Its bud looks like a human face, which is why it is rumoured to be a legendary mandrake. In HeartGold and SoulSilver it lives on Routes 31, 32 and 44 in Johto and Routes 24, 25, 5 and 6 in Kanto.",
+  "sections": {
+    "anatomy": [
+      {"text": "A thin plant with a bud for a head (Gen 4 shape humanoid), 0.7 m and 4.0 kg, typed Grass and Poison: the Flower Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A thin, flexible, extremely skinny body; root feet; vines.", "class": "canon", "confidence": "high", "evidence": ["69.1", "69.3", "69.6", "C69.2", "C69.5", "C69.9"]},
+      {"text": "From its mouth it spits, or leaks, a corrosive fluid that melts even iron.", "class": "canon", "confidence": "high", "evidence": ["69.6", "69.7", "C69.10", "C69.12"]},
+      {"text": "Its bud looks like a human face.", "class": "canon", "confidence": "high", "evidence": ["69.8", "C69.13"]}
+    ],
+    "diet": [
+      {"text": "A carnivorous Pokémon that traps and eats bugs: it ensnares tiny insects with its vines and devours them.", "class": "canon", "confidence": "high", "evidence": ["69.1", "69.2", "69.9", "C69.1", "C69.4"], "analogy": "Real carnivorous plants, such as sundews and Venus flytraps, catch insects for the nitrogen poor soil lacks."},
+      {"text": "It is blindingly fast, and quick, at capturing prey with its vines.", "class": "canon", "confidence": "high", "evidence": ["69.3", "69.10", "C69.5", "C69.17"]},
+      {"text": "It soaks up the moisture it needs through its root feet, planted deep underground.", "class": "canon", "confidence": "high", "evidence": ["69.1", "69.4", "69.9", "C69.2", "C69.6", "C69.15"]}
+    ],
+    "habitat": [
+      {"text": "Hot and humid places; the Gen 3 Pokédex habitat is forest.", "class": "canon", "confidence": "high", "evidence": ["69.2", "69.10", "C69.3", "C69.16", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 31, 32 and 44 in Johto and Routes 24, 25, 5 and 6 in Kanto (most on Route 24, 60%), at any time, in both versions; the Johto Safari Zone has it too.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "If it notices anything that moves, it immediately flings its vine at the object.", "class": "canon", "confidence": "high", "evidence": ["69.5", "C69.8"]},
+      {"text": "It plants its feet deep underground to replenish water.", "class": "canon", "confidence": "high", "evidence": ["69.4", "C69.6"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Bellsprout living together. Its final form is said to live in huge colonies deep in jungles (71.1).", "class": "canon", "confidence": "low", "evidence": ["71.1", "species:Victreebel"]}
+    ],
+    "reproduction": [
+      {"text": "Grass egg group, 20 egg cycles, an even sex ratio, medium-slow growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its thin and flexible body lets it bend and sway to avoid any attack, however strong.", "class": "canon", "confidence": "high", "evidence": ["69.6", "69.7", "C69.9", "C69.11"]},
+      {"text": "While rooted, it can't escape its enemy.", "class": "canon", "confidence": "high", "evidence": ["69.4", "C69.7"]},
+      {"text": "Sleep Powder (Lv 13), Poison Powder (Lv 15), Stun Spore (Lv 17) and Acid (Lv 23): powders and the iron-melting fluid.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sleep Powder", "move:Poison Powder", "move:Stun Spore", "move:Acid"]}
+    ],
+    "senses": [
+      {"text": "It notices anything that moves.", "class": "canon", "confidence": "high", "evidence": ["69.5"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Weepinbell at level 21 and Victreebel with a Leaf Stone: 0.7 m and 4.0 kg, then 1.0 m and 6.4 kg, then 1.7 m and 15.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Weepinbell", "species:Victreebel"]},
+      {"text": "Read as development, a bug-catcher grows into a swallower of anything that moves (70.2) and then a lure-and-swallow trap (71.2).", "class": "inferred", "confidence": "medium", "evidence": ["69.1", "70.2", "71.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Vine Whip, Growth, Wrap, Sleep Powder, Poison Powder, Stun Spore, Acid, Knock Off, Sweet Scent, Gastro Acid, Razor Leaf, Slam and Wring Out: vines, powders and acid.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Vine Whip", "move:Wrap", "move:Acid", "move:Gastro Acid"]}
+    ],
+    "ecology": [
+      {"text": "A plant that eats insects: a producer and a predator at once.", "class": "canon", "confidence": "high", "evidence": ["69.1", "69.4"]},
+      {"text": "On Kanto's Routes 24, 25, 5 and 6 it shares the grass with Oddish, Abra and Pidgey; on Route 44 with Weepinbell, Tangela, Lickitung and Poliwhirl.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Oddish", "species:Weepinbell", "species:Tangela"]}
+    ],
+    "humans": [
+      {"text": "Because its bud looks like a human face, it is rumoured to be a type of legendary mandrake plant.", "class": "canon", "confidence": "low", "evidence": ["69.8", "C69.14"]}
+    ],
+    "homestead": [
+      {"text": "A living bug-trap for the garden: it eats insects.", "class": "canon", "confidence": "high", "evidence": ["69.1"], "capability": "plant_care"},
+      {"text": "Its fluid melts even iron: keep it away from tools and the plough.", "class": "canon", "confidence": "high", "evidence": ["69.6"]},
+      {"text": "It flings a vine at anything that moves: warn children.", "class": "canon", "confidence": "medium", "evidence": ["69.5"]},
+      {"text": "The greenhouse in July, hot and wet, and three Bellsprout snapping at the whitefly.", "class": "creative", "evidence": ["69.2"]}
+    ]
+  },
+  "niche": {"guild": "insectivore", "trophic_level": 2.5, "microhabitat": ["hot, humid grass and forest edges", "rooted in moist ground"], "activity": "unknown",
+            "foraging": "ensnares tiny insects with its vines and devours them", "evidence": ["69.1", "69.2", "69.10"], "class": "canon", "confidence": "high"},
+  "relationships": [
+    {"with": "tiny insects", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["69.1", "69.2"]},
+    {"with": "Oddish", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Oddish"]},
+    {"with": "Weepinbell", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Rooted bug-trap", "moves": ["Ingrain", "Leech Life", "Synthesis"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that stays put: it roots deep, drains insects and heals in the sun. Fits hot, humid, sunny ground with many insects.",
+     "behavior": "Rarely uproots; lets the insects come.", "evidence": ["69.2", "69.4", "move:Ingrain", "move:Leech Life", "move:Synthesis"]},
+    {"name": "Swaying dodger", "moves": ["Swords Dance", "Tickle", "Magical Leaf"], "class": "hypothesis", "confidence": "low",
+     "reading": "The thin body that bends and sways out of any attack (69.6), as a way of fighting: a dance, a distraction, a leaf that never misses. Fits open windy grass.",
+     "behavior": "Sways in the wind and strikes from the sway.", "evidence": ["69.6", "move:Swords Dance", "move:Tickle", "move:Magical Leaf"]}
+  ],
+  "open_questions": [
+    "Which insects does Bellsprout eat, and how many?",
+    "Does it move about, or stay rooted most of its life?",
+    "Why does a plant that prefers hot, humid places live on cool Kanto routes?",
+    "Where are Victreebel's 'huge colonies deep in jungles'?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "Because its bud looks like a human face, it is rumoured to be a type of legendary mandrake plant.", "kind": "rumour", "evidence": ["69.8", "C69.14"]}
+  ]
+}

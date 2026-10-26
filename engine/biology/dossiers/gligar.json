@@ -1,0 +1,87 @@
+{
+  "species": "Gligar",
+  "id": 207,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A gliding scorpion of cliffs. Gligar usually clings to cliff faces and builds its nest on a steep one; when it spots prey it spreads its wings and glides down without a sound, as if sliding, flies straight at the prey's face, clamps on with its clawed hind legs and the big pincers on its forelegs, and injects poison with its barb. Done gliding, it hops along the ground back to its nest. In HeartGold it lives on Route 45, the steep mountain road south of Blackthorn; it is not in SoulSilver's wild.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged animal (Gen 4 shape wings), 1.1 m and 64.8 kg, typed Ground and Flying: the Fly Scorpion Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Wings for gliding, clawed hind legs, large pincers on its forelegs and a poison barb.", "class": "canon", "confidence": "high", "evidence": ["207.2", "207.4", "207.5", "C207.3", "C207.7", "C207.9"]}
+    ],
+    "diet": [
+      {"text": "A hunter: when it spots prey it glides down to attack, aiming for the prey's face, and injects the prey with its poison barb.", "class": "canon", "confidence": "high", "evidence": ["207.2", "207.4", "207.6", "C207.3", "C207.7", "C207.11"]},
+      {"text": "No entry names its prey.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Poison Sting, Knock Off (Lv 12), Fury Cutter (Lv 20) and X-Scissor (Lv 42) are its pincers and barb in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Poison Sting", "move:Knock Off", "move:Fury Cutter", "move:X-Scissor"]}
+    ],
+    "habitat": [
+      {"text": "Cliffs: it usually clings to them and builds its nest on a steep cliff. The Gen 3 Pokédex habitat is mountain.", "class": "canon", "confidence": "high", "evidence": ["207.2", "207.3", "C207.2", "C207.4", "game:habitat"]},
+      {"text": "In HeartGold it lives on Route 45 (20%, Lv 24), at any time; in SoulSilver, Skarmory has that place in the table instead.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Skarmory"]}
+    ],
+    "behavior": [
+      {"text": "It glides without making a single sound, as if it were sliding, sailing on the winds with its limbs extended.", "class": "canon", "confidence": "high", "evidence": ["207.4", "207.5", "207.6", "207.7", "C207.6", "C207.8", "C207.10", "C207.12"]},
+      {"text": "When it is done gliding, it hops along the ground back to its nest.", "class": "canon", "confidence": "high", "evidence": ["207.3", "C207.5"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Gligar living together. It builds a nest, so it has a home place.", "class": "canon", "confidence": "low", "evidence": ["207.3"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 20 egg cycles, an even sex ratio, medium-slow growth. It builds a nest; whether it lays in it is not said.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth", "207.3"]}
+    ],
+    "defense": [
+      {"text": "It flies straight at a target's face and clamps down on the startled victim to inject poison; it startles foes by clamping on to their faces.", "class": "canon", "confidence": "high", "evidence": ["207.1", "207.7", "C207.1", "C207.13"]},
+      {"text": "Hyper Cutter keeps its pincers' strength from being lowered and Sand Veil hides it in sandstorms; Harden (Lv 9) and Sand Attack (Lv 5) are its guards.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Harden", "move:Sand Attack"]}
+    ],
+    "senses": [
+      {"text": "It spots prey from the cliff before it glides: sight from a height.", "class": "canon", "confidence": "medium", "evidence": ["207.2", "C207.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Gliscor when it levels up at night holding a Razor Fang: from 1.1 m and 64.8 kg to 2.0 m and 42.5 kg, a bigger glider that is lighter.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Gliscor"]},
+      {"text": "Gliscor observes prey while hanging inverted from branches (472.1): the line moves from cliffs to branches as it grows, if the entries are read together.", "class": "inferred", "confidence": "low", "evidence": ["207.2", "472.1"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Poison Sting, Sand Attack, Harden, Knock Off, Quick Attack, Fury Cutter, Feint Attack, Screech, Slash, Swords Dance, U-turn, X-Scissor and Guillotine. Guillotine, the pincer closing, is its signature.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Guillotine", "move:Quick Attack", "move:U-turn"]}
+    ],
+    "ecology": [
+      {"text": "A cliff-based ambush predator that strikes by gliding down from above.", "class": "canon", "confidence": "high", "evidence": ["207.2"]},
+      {"text": "On Route 45 it shares the slopes with Geodude, Graveler, Spearow, Phanpy and the Aipom and Heracross of the trees.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude", "species:Phanpy", "species:Spearow"]},
+      {"text": "Spearow, small and common on the same road, would be prey of the right size for a 65 kg glider; nothing names it.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "game:size", "species:Spearow"], "note": "Size and co-occurrence only."}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Gligar and people; its habit of clamping onto faces makes it dangerous to walk under its cliffs.", "class": "inferred", "confidence": "medium", "evidence": ["207.1", "207.7"]}
+    ],
+    "homestead": [
+      {"text": "A Route 45 neighbour of the Blackthorn highlands: watch the cliffs above the mountain road.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "It glides silently and spots prey from a height: in principle a lookout, though nothing says it can be trained.", "class": "inferred", "confidence": "low", "evidence": ["207.2", "207.4"], "capability": "scouting"},
+      {"text": "Keep hats on under the cliffs: it aims for the face.", "class": "canon", "confidence": "medium", "evidence": ["207.6"]},
+      {"text": "The shadow that slides down the cliff at the bend in Route 45 without a sound, and the hiker who ducks.", "class": "creative", "evidence": ["207.4"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["steep cliffs", "mountain roads below them"], "activity": "unknown",
+            "foraging": "glides down from cliffs onto prey, clamps onto its face and poisons it", "evidence": ["207.2", "207.4"], "class": "canon", "confidence": "high"},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["207.2", "207.4"]},
+    {"with": "Spearow", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Spearow"], "note": "Size and co-occurrence only."},
+    {"with": "cliffs", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["207.2", "207.3"], "note": "Its nest and its launching place."},
+    {"with": "Phanpy", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Phanpy"]},
+    {"with": "Gliscor", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "High-cliff glider", "moves": ["Wing Attack", "Razor Wind", "Agility"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the air: wing strikes, cutting wind and speed. Gligar that glide farther and strike from the wing. Fits high cliffs with strong updrafts.",
+     "behavior": "Stays aloft longer before it strikes.", "evidence": ["207.6", "move:Wing Attack", "move:Razor Wind", "move:Agility"]},
+    {"name": "Face-clamp poisoner", "moves": ["Cross Poison", "Night Slash", "Feint"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the strike itself: a stronger poison, a slash and a feint before the clamp. Fits narrow ravines where prey passes close below.",
+     "behavior": "Drops short and fast onto what passes.", "evidence": ["207.1", "move:Cross Poison", "move:Night Slash", "move:Feint"]}
+  ],
+  "open_questions": [
+    "What does Gligar hunt?",
+    "Does it lay eggs in its cliff nest?",
+    "Why is it on Route 45 in HeartGold and not in SoulSilver?",
+    "Does it share Route 45's cliffs with Skarmory where both live?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}
