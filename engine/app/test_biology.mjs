@@ -1,8 +1,9 @@
 // Field Biology in the preview build (web/95_biology.html over web/36_ecology.html), in Chromium: the browser's food-web
 // analysis and extinction cascade match biology/ecology.py on every web (parity); a curated dossier shows its statements
 // with evidence classes and citations; a species without one gets a field guide from its claims; a review is kept in
-// the Journal; the landscape draws; an ecosystem's web, its cascade and the Level 3 model run; ecotypes read your
-// Pokémon's egg moves; nothing scrolls sideways on a phone.
+// the Journal; the landscape draws Johto and Kanto together and each alone (A-66), with Kanto's flagships; every
+// dossier has a tile (A-62); an ecosystem's web, its cascade and the Level 3 model run; ecotypes read your Pokémon's
+// egg moves; nothing scrolls sideways on a phone.
 // Run: python3 -I app/build.py && node app/test_biology.mjs                 (tests/test_engines.py runs it)
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -47,7 +48,13 @@ console.log(`  parity: ${parity.webs} webs, ${parity.n} differences`);
 
 // 2. home and a curated dossier
 await go('#/biology', '.biotile');
-expect('the home lists the cohort dossiers', (await page.$$('.biotile')).length >= 60);
+expect('the home lists the cohort dossiers', (await page.$$('.biotile')).length >= 127);
+// A-62: every dossier has a tile in the groups the pack carries, and the count on the page is the pack's
+const home = await page.evaluate(() => { const DS = Eco.D().dossiers, tiles = new Set([...document.querySelectorAll('.biotile b')].map((b) => b.innerText));
+  return {n: Object.keys(DS.dossiers).length, groups: Object.keys(DS.cohorts || {}).length, missing: Object.keys(DS.dossiers).filter((k) => !tiles.has(k)),
+    kanto: /Viridian Forest/.test(document.getElementById('page').innerText) && /Cinnabar and its seas/.test(document.getElementById('page').innerText)}; });
+expect(`at least 127 dossiers, each with a tile (${home.n}; missing ${home.missing.join(', ')})`, home.n >= 127 && !home.missing.length);
+expect('the home shows the Kanto dossier groups', home.groups >= 10 && home.kanto);
 await go('#/biology/Pineco', '.biost');
 const pin = await text();
 expect('Pineco\'s dossier shows its sections', /Diet and foraging/i.test(pin) && /At the homestead/i.test(pin) && /Ecotypes/i.test(pin));
@@ -69,14 +76,30 @@ await page.selectOption('#bioadd [name=domain]', 'diet'); await page.fill('#bioa
 await page.waitForFunction(() => /A test finding about what Pineco eats/.test(document.getElementById('biomine').innerText), null, { timeout: 30000 }).catch(() => fails.push('research: the finding never showed'));
 const row = await page.evaluate(() => API.tab('Journal', true).then((r) => r.filter((x) => x.kind === 'research' && x.species === 'Pineco').map((x) => [x.domain, x.status, x.source])));
 if (!row.length || row[0][0] !== 'diet' || row[0][1] !== 'proposed') fails.push('research: the Journal row ' + JSON.stringify(row));
-await go('#/biology/Heracross', '.biost');
+await go('#/biology/Lickitung', '.biost');
 const hc = await text();
-expect('Heracross gets a machine field guide from its claims', /machine-synthesized/i.test(hc) && /Feeding guild/i.test(hc) && /Every Pokédex entry/i.test(hc));
+expect('Lickitung gets a machine field guide from its claims', /machine-synthesized/i.test(hc) && /Feeding guild/i.test(hc) && /Every Pokédex entry/i.test(hc));
 expect('where it lives is read from every game', await page.evaluate(() => new Promise((r) => setTimeout(() => r(/Every game/i.test(document.getElementById('biorange').innerText)), 1500))));
 
 // 4. the landscape and an ecosystem
 await go('#/ecosystems', '.biomap circle');
-expect('the Johto map draws every place', (await page.$$('.biomap circle')).length >= 50);
+// A-66: Johto and Kanto on one map, joined by the Magnet Train and the S.S. Aqua; each region on its own
+const regionOf = await page.evaluate(() => { const N = Eco.D().ecology.landscape.nodes, c = {johto: 0, kanto: 0}; Object.keys(N).forEach((k) => { c[N[k].region]++; }); return c; });
+expect(`the map draws every place in both regions (${(await page.$$('.biomap circle')).length} of ${regionOf.johto + regionOf.kanto})`, (await page.$$('.biomap circle')).length === regionOf.johto + regionOf.kanto && regionOf.kanto >= 40);
+expect('the Magnet Train and the S.S. Aqua are drawn', (await page.$$('.biomap line.e-rail')).length === 1 && (await page.$$('.biomap line.e-ship')).length === 1);
+expect('the title names both regions', /Johto and Kanto as a living landscape/.test(await text()));
+await go('#/ecosystems?region=kanto', '.biomap circle');
+const kt = await text();
+expect(`Kanto alone draws Kanto's places (${(await page.$$('.biomap circle')).length})`, (await page.$$('.biomap circle')).length === regionOf.kanto && /Kanto as a living landscape/.test(kt) && /Viridian Forest/.test(kt) && !/Ilex Forest/.test(kt));
+await go('#/ecosystems?region=johto', '.biomap circle');
+expect('Johto alone draws Johto\'s places', (await page.$$('.biomap circle')).length === regionOf.johto && /Ilex Forest/.test(await text()));
+await go('#/ecosystem/viridian-forest', '#ecoweb svg');
+const vf = await text();
+expect('Viridian Forest, a Kanto flagship, shows its web and community', /flagship ecosystem in Kanto/i.test(vf) && /The community/i.test(vf) && /Pikachu/.test(vf) && /Who eats what/i.test(vf));
+await go('#/ecosystem/cinnabar-seas', '#ecoweb svg');
+expect('Cinnabar\'s seas carry the volcano\'s heat, from the game\'s own text', await page.evaluate(() => Eco.D().ecology.webs['cinnabar-seas'].nodes.some((n) => n.id === 'geothermal-heat')) && /eruption/.test(await text()));
+await go('#/biology/Chansey', '.biost');
+expect('a Kanto species says where it lives in Kanto', await page.waitForFunction(() => /In Kanto \(HeartGold\/SoulSilver\)/.test((document.getElementById('biorange') || {}).innerText || ''), null, { timeout: 30000 }).then(() => true, () => false));
 await go('#/ecosystem/ilex-forest', '#ecoweb svg');
 const il = await text();
 expect('Ilex Forest shows its community, links with evidence and its analysis', /The community/i.test(il) && /Who eats what/i.test(il) && /Keystones/i.test(il));
@@ -96,7 +119,7 @@ expect('the ecotypes page lists curated ecotypes', /Curated ecotypes/i.test(awai
 
 // 6. a phone
 await page.setViewportSize({ width: 390, height: 844 });
-for (const h of ['#/biology', '#/biology/Pineco', '#/ecosystems', '#/ecosystem/ilex-forest', '#/ecotypes']) {
+for (const h of ['#/biology', '#/biology/Pineco', '#/ecosystems', '#/ecosystems?region=kanto', '#/ecosystem/ilex-forest', '#/ecosystem/viridian-forest', '#/ecotypes']) {
   await go(h, '#page .card');
   expect(h + ' scrolls sideways at phone width', !(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2)));
 }

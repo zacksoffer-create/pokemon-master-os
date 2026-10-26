@@ -48,8 +48,8 @@ COHORT = {   # the dossiers, in the groups they were written for (the app's Fiel
     "The routes around Fuchsia": ["Nidorina", "Nidorino", "Chansey", "Hoppip", "Tangela", "Noctowl"],
     "Cinnabar and its seas": ["Tentacool", "Tentacruel", "Chinchou", "Lanturn", "Shellder", "Magikarp"],
     "Rock Tunnel and Diglett's Cave": ["Diglett", "Dugtrio", "Cubone", "Onix", "Geodude", "Zubat"],
-    "More of the Blackthorn highlands": ["Spearow", "Heracross", "Aipom", "Gligar", "Teddiursa", "Phanpy", "Skarmory", "Remoraid",
-                                         "Weepinbell", "Tangela", "Bellsprout", "Lickitung", "Poliwhirl"],
+    "More of the Blackthorn highlands": ["Spearow", "Heracross", "Aipom", "Gligar", "Teddiursa", "Phanpy", "Skarmory", "Bellsprout",
+                                         "Weepinbell", "Tangela"],
 }
 METHOD = {1: "level-up", 2: "egg", 3: "tutor", 4: "machine"}
 
