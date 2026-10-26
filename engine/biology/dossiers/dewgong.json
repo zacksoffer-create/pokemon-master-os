@@ -1,0 +1,87 @@
+{
+  "species": "Dewgong",
+  "id": 87,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The pure white adult of Seel, a streamlined swimmer of frigid seas with ice floes. Dewgong stores thermal energy in its body and swims a steady eight knots even in intensely cold water; the colder it gets, the friskier and more active it becomes. It sleeps under shallow water by day and looks for food at night when it is cold, loves to snooze on bitterly cold ice, and its white coat hides it from predators in snow. A mariner long ago mistook one asleep on a glacier for a mermaid. In HeartGold and SoulSilver it lives in the Seafoam Islands.",
+  "sections": {
+    "anatomy": [
+      {"text": "A sea-lion body (Gen 4 shape fish), 1.7 m and 120.0 kg, typed Water and Ice.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its body is snowy white, covered with pure white fur.", "class": "canon", "confidence": "high", "evidence": ["87.2", "87.8", "C87.3", "C87.13"]},
+      {"text": "Its streamlined body has little drag in water, and it uses its long tail to change direction quickly.", "class": "canon", "confidence": "high", "evidence": ["87.3", "87.4", "C87.5", "C87.8"]},
+      {"text": "It stores thermal energy in its body.", "class": "canon", "confidence": "high", "evidence": ["87.1", "87.9", "C87.1", "C87.15"], "analogy": "Marine mammals keep warm in icy water with blubber and a high metabolic rate."}
+    ],
+    "diet": [
+      {"text": "It looks for food at night, when it's cold.", "class": "canon", "confidence": "high", "evidence": ["87.5", "C87.9"]},
+      {"text": "The food isn't named. Seel hunts prey under ice (86.6), so the line is a cold-water predator; fish are likely but unrecorded.", "class": "inferred", "confidence": "low", "evidence": ["86.6", "87.5"]}
+    ],
+    "habitat": [
+      {"text": "Frigid seas with ice floes; it snoozes on bitterly cold ice and on glaciers. The Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["87.4", "87.6", "87.7", "C87.7", "C87.10", "C87.12", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives only in the Seafoam Islands (walking, 24%, Lv 35-38), at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It sleeps under shallow ocean waters during the day, then looks for food at night when it's cold.", "class": "canon", "confidence": "high", "evidence": ["87.5", "C87.9"]},
+      {"text": "The colder the temperature, the friskier it gets; the colder the weather, the more active it becomes.", "class": "canon", "confidence": "high", "evidence": ["87.3", "87.8", "C87.6", "C87.14"]},
+      {"text": "It swims at a steady 8 knots even in intensely cold waters and is unharmed by intense cold.", "class": "canon", "confidence": "high", "evidence": ["87.1", "87.2", "87.9", "C87.2", "C87.4", "C87.16"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "In snow, its pure white coat obscures it from predators.", "class": "canon", "confidence": "high", "evidence": ["87.10", "C87.17"], "analogy": "Harp seal pups are white, hidden on the ice for their first weeks."},
+      {"text": "Thick Fat resists fire and ice; Sheer Cold (Lv 34, learned on evolving) is its strongest blow.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Sheer Cold"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Seel at level 34, from 1.1 m and 90.0 kg to 1.7 m and 120.0 kg, gaining the Ice type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Seel"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Seel's list with Signal Beam and Sheer Cold added: Icy Wind, Encore, Ice Shard, Rest, Aqua Ring, Aurora Beam, Aqua Jet, Brine, Sheer Cold, Take Down, Dive, Aqua Tail, Ice Beam and Safeguard.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Signal Beam", "move:Sheer Cold", "move:Aqua Jet", "move:Ice Beam"]}
+    ],
+    "ecology": [
+      {"text": "A night-feeding cold-water predator at the top of Seafoam's small web, with the Gyarados.", "class": "inferred", "confidence": "low", "evidence": ["87.5", "game:encounters"]},
+      {"text": "It has predators, by its own entry (its coat hides it from them), but none is named.", "class": "canon", "confidence": "medium", "evidence": ["87.10"]}
+    ],
+    "humans": [
+      {"text": "A mariner long ago mistook a Dewgong asleep on a glacier for a mermaid.", "class": "canon", "confidence": "medium", "evidence": ["87.6", "87.7", "C87.11"]}
+    ],
+    "homestead": [
+      {"text": "Happiest in the coldest weather: the highland winter would suit it better than any summer.", "class": "canon", "confidence": "high", "evidence": ["87.3", "87.8"], "capability": "cold_tolerance"},
+      {"text": "A fast, steady swimmer in icy water: it could tow a small boat across a cold lake.", "class": "hypothesis", "confidence": "low", "evidence": ["87.1"], "capability": "water_travel", "note": "Towing untested."},
+      {"text": "It sleeps by day under shallow water; it needs a cold pool with a shallow end.", "class": "inferred", "confidence": "medium", "evidence": ["87.5"]},
+      {"text": "The 'mermaid' of the Blackthorn lake, seen once in a winter dawn by the postman.", "class": "creative", "evidence": ["87.6"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["frigid seas with ice floes", "shallow water (daytime sleep)", "Seafoam's sea caves"], "activity": "nocturnal",
+            "foraging": "looks for food at night, when it's cold", "evidence": ["87.5", "86.6", "game:encounters"], "class": "inferred", "confidence": "low",
+            "note": "Food never named; filed as a predator with Seel."},
+  "relationships": [
+    {"with": "small fish (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["87.5", "86.6"], "note": "Never named."},
+    {"with": "ice and glaciers", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["87.6"], "note": "To sleep on."},
+    {"with": "Seel", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seel"]}
+  ],
+  "ecotypes": [
+    {"name": "Floe sleeper", "moves": ["Perish Song", "Disable", "Fake Out"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that defends its sleeping place: a startling first strike, a move that stops a move, and a doom-song that ends a long fight. The 'mermaid' singing on the ice. Fits floes and glaciers.",
+     "behavior": "Sleeps in the open and drives off what wakes it.", "evidence": ["87.6", "move:Perish Song", "move:Disable", "move:Fake Out"]},
+    {"name": "Ice-hole driller", "moves": ["Horn Drill", "Icicle Spear", "Slam"], "class": "hypothesis", "confidence": "low",
+     "reading": "Seel's horn lineage, grown up: the Dewgong that keeps breathing holes open for others under the ice. Fits seas that freeze over.",
+     "behavior": "Keeps holes open all winter.", "evidence": ["86.6", "move:Horn Drill", "move:Icicle Spear", "move:Slam"]}
+  ],
+  "open_questions": [
+    "What does Dewgong eat at night?",
+    "What preys on it, that its white coat hides it from (87.10)?",
+    "How does it store thermal energy (87.1)?",
+    "Do Seel and Dewgong live together in Seafoam, or apart?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "The sight of a Dewgong sleeping on a glacier was mistaken for a mermaid by a mariner long ago.", "kind": "tale", "evidence": ["87.6", "C87.11"]}
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "species": "Seel",
+  "id": 86,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A white-and-blue sea lion of frigid, ice-covered seas. Seel loves the cold, relishing water around -10 °C and staying active at -40 °F, and wears light blue fur and a thick, tough hide against it. It hunts prey under sheets of ice and, when it needs to breathe, punches a hole through the ice with the hard, sharply protruding horn on its head. Clumsy on land, it is a graceful swimmer; by day it is often found asleep on the seabed in shallow water, nostrils closed. In HeartGold and SoulSilver it is the commonest animal of the Seafoam Islands, and lives in the Whirl Islands and off Route 47 too.",
+  "sections": {
+    "anatomy": [
+      {"text": "A sea-lion body (Gen 4 shape fish), 1.1 m and 90.0 kg, typed Water: the Sea Lion Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "The protruding horn on its head is very hard, used for bashing through thick ice or icebergs.", "class": "canon", "confidence": "high", "evidence": ["86.1", "86.9", "C86.1", "C86.2", "C86.16"]},
+      {"text": "Light blue fur covers it and keeps it protected against the cold; its hide is thick and tough.", "class": "canon", "confidence": "high", "evidence": ["86.5", "86.8", "C86.9", "C86.14"]},
+      {"text": "Its nostrils close while it swims.", "class": "canon", "confidence": "high", "evidence": ["86.4", "C86.8"], "analogy": "Seals close their nostrils when they dive, too."},
+      {"text": "Thick Fat, one of its abilities, resists fire and ice: a blubber layer in game terms.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]}
+    ],
+    "diet": [
+      {"text": "It hunts for prey in the frigid sea underneath sheets of ice.", "class": "canon", "confidence": "high", "evidence": ["86.6", "86.7", "C86.11", "C86.13"]},
+      {"text": "The prey is never named; a 90 kg sea lion hunting under ice would most likely take fish and invertebrates.", "class": "inferred", "confidence": "low", "evidence": ["C86.11", "game:size"], "analogy": "Ringed seals hunt fish and crustaceans under sea ice and keep breathing holes open with their claws."},
+      {"text": "Lick, Stockpile, Spit Up and Swallow are egg moves of the line: some lineages may store and swallow food in bulk.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Stockpile", "move:Swallow", "move:Lick"]}
+    ],
+    "habitat": [
+      {"text": "Frigid, iceberg-filled seas; it lives on icebergs. The Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["86.2", "86.3", "86.5", "86.10", "C86.3", "C86.6", "C86.10", "C86.17", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in the Seafoam Islands (60%: walking and surfing, Lv 30-40), the Whirl Islands (15%) and off Route 47 (surf 30%), at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "The games have no iceberg seas in Johto or Kanto; Seel's places are sea caves, the coldest, most sheltered water the regions have.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters", "86.5"]}
+    ],
+    "behavior": [
+      {"text": "In the daytime it is often found asleep on the seabed in shallow waters.", "class": "canon", "confidence": "high", "evidence": ["86.4", "C86.7"]},
+      {"text": "It relishes swimming in a frigid climate of around 14 °F and is active in a bitter cold of -40 °F.", "class": "canon", "confidence": "high", "evidence": ["86.2", "86.8", "C86.4", "C86.15"]},
+      {"text": "Although it can't walk well on land, it is a graceful swimmer.", "class": "canon", "confidence": "high", "evidence": ["86.3", "C86.5"]},
+      {"text": "Asleep by day suggests it hunts at night, as Dewgong does (87.5).", "class": "inferred", "confidence": "medium", "evidence": ["86.4", "87.5"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or colonies.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, an even sex ratio, medium growth. Nothing describes pups.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Nothing in its entries describes defence; a thick hide and the cold it can bear are its protection.", "class": "inferred", "confidence": "low", "evidence": ["86.8"]},
+      {"text": "Rest (Lv 21) and Aqua Ring (Lv 23) are its recovery; Safeguard (Lv 51) protects against status.", "class": "mechanic", "confidence": "low", "evidence": ["move:Rest", "move:Aqua Ring", "move:Safeguard"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Finding prey under ice, and the way back to its breathing hole, implies good underwater senses.", "class": "inferred", "confidence": "low", "evidence": ["86.6"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Dewgong at level 34, from 1.1 m and 90.0 kg to 1.7 m and 120.0 kg, gaining the Ice type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Dewgong", "game:types"]},
+      {"text": "Read as development, light blue fur becomes Dewgong's pure white coat, which hides it in snow (87.10).", "class": "inferred", "confidence": "medium", "evidence": ["86.5", "87.10"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Headbutt at level 1, the ice-breaking horn; then Growl, Water Sport, Icy Wind, Encore, Ice Shard, Rest, Aqua Ring, Aurora Beam, Aqua Jet, Brine, Take Down, Dive, Aqua Tail, Ice Beam and Safeguard.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Headbutt", "move:Icy Wind", "move:Ice Shard", "move:Dive", "move:Ice Beam", "C86.2"]}
+    ],
+    "ecology": [
+      {"text": "A cold-water predator, likely of fish and invertebrates, in the sea-cave webs.", "class": "inferred", "confidence": "low", "evidence": ["86.6", "game:encounters"]},
+      {"text": "By punching breathing holes in ice, it would open the water to other air-breathers in a frozen sea.", "class": "hypothesis", "confidence": "low", "evidence": ["86.6"], "note": "From the habit only."},
+      {"text": "In Seafoam it shares the caves with Dewgong, Horsea, Seadra, Krabby, Kingler, Slowbro, Jynx and Gyarados.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Jynx", "species:Krabby"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Seel and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "A cold-water worker for the highland lakes in winter: it breaks ice with its head.", "class": "canon", "confidence": "medium", "evidence": ["86.1", "86.10"], "capability": "clearing"},
+      {"text": "It loves bitter cold and swims in it: a companion for the Blackthorn winter.", "class": "canon", "confidence": "high", "evidence": ["86.2", "86.8"], "capability": "cold_tolerance"},
+      {"text": "Poor on land: give it water to live in, not a pen.", "class": "canon", "confidence": "high", "evidence": ["86.3"]},
+      {"text": "Seel keeping a hole open in the lake ice below Blackthorn all winter, for itself and anyone fishing.", "class": "creative", "evidence": ["86.6"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["frigid seas under ice", "shallow seabeds (daytime sleep)", "sea caves"], "activity": "nocturnal",
+            "foraging": "hunts prey under ice, punching breathing holes with its head", "evidence": ["86.6", "86.4", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named. Night activity read from its sleeping on the seabed by day (86.4)."},
+  "relationships": [
+    {"with": "small fish (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["86.6"], "note": "Its prey is never named."},
+    {"with": "aquatic invertebrates", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["86.6"]},
+    {"with": "sea ice", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["86.6", "86.10"], "note": "Lives on icebergs and breathes through holes it punches."},
+    {"with": "Dewgong", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Ice-hole driller", "moves": ["Horn Drill", "Icicle Spear", "Slam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that is all horn: a drilling horn, icicle spears and a body slam. The Seel that keeps breathing holes open through the thickest ice. Fits seas that freeze over.",
+     "behavior": "Breaks more ice than others; a hole-keeper for its neighbours.", "evidence": ["86.1", "86.6", "move:Horn Drill", "move:Icicle Spear", "move:Slam"]},
+    {"name": "Hoarding diver", "moves": ["Stockpile", "Swallow", "Spit Up"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that eats big and stores it: three moves of storing and swallowing. A Seel that gorges on rare good hunts in cold water where food comes and goes. Fits ice seas with long lean spells.",
+     "behavior": "Feeds heavily, then sleeps on the seabed for days.", "evidence": ["86.4", "move:Stockpile", "move:Swallow", "move:Spit Up"]}
+  ],
+  "open_questions": [
+    "What does Seel hunt under the ice?",
+    "Is it nocturnal, given it sleeps on the seabed by day?",
+    "Does it live in colonies?",
+    "Johto and Kanto have no iceberg seas: is Seafoam cold enough for it?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

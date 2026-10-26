@@ -1,0 +1,90 @@
+{
+  "species": "Spinarak",
+  "id": 167,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small green web-spinning spider and a sit-and-wait predator. Spinarak spins a web of fine but durable thread, then lies still in the same pose for days, waiting for unsuspecting prey to wander close; if prey gets caught, it waits motionless until dark. Its web is said to work as a second nervous system: through the tiny vibrations in the strands it can tell what kind of prey is touching it. In HeartGold and SoulSilver it is HeartGold's: walking at night on a few routes and in the headbutt trees of nearly every wooded place, Viridian Forest among them.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small spider-like bug (Gen 4 shape armor), 0.5 m and 8.5 kg, typed Bug and Poison: the String Spit Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It spins a web using fine but durable thread, thin but strong silk.", "class": "canon", "confidence": "high", "evidence": ["167.2", "167.6", "C167.2", "C167.9"]}
+    ],
+    "diet": [
+      {"text": "It sets a trap by spinning a web, then waits patiently, motionless, for prey to be trapped or to arrive.", "class": "canon", "confidence": "high", "evidence": ["167.2", "167.6", "C167.3", "C167.10"]},
+      {"text": "It lies still in the same pose for days in its web, waiting for unsuspecting prey to wander close.", "class": "canon", "confidence": "high", "evidence": ["167.1", "C167.1"]},
+      {"text": "If prey becomes ensnared, it waits motionlessly until dark before taking it.", "class": "canon", "confidence": "high", "evidence": ["167.3", "C167.4"]},
+      {"text": "The prey is never named. A 0.5 m spider's web in trees and grass would mostly catch flying insects.", "class": "inferred", "confidence": "low", "evidence": ["C167.3", "game:size"], "analogy": "Orb-weaving spiders catch mostly flying insects in their webs."},
+      {"text": "Leech Life (Lv 12) is the drinking bite; Poison Sting the venom.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Leech Life", "move:Poison Sting"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is forest; its web is its nest ('its nest of spun string').", "class": "canon", "confidence": "high", "evidence": ["game:habitat", "167.3"]},
+      {"text": "In HeartGold and SoulSilver it is HeartGold's: walking at night on Routes 30, 31 and 37, by morning and night on Route 2, and in the headbutt trees of nearly every wooded route and town in Johto and Kanto, Viridian Forest (10%) among them. SoulSilver has Ledyba in the same slots.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ledyba"]}
+    ],
+    "behavior": [
+      {"text": "A sit-and-wait predator: still for days in the same pose.", "class": "canon", "confidence": "high", "evidence": ["167.1", "167.6"]},
+      {"text": "Nocturnal in practice: it waits until dark to take what its web has caught, and the HeartGold tables have it walking at night.", "class": "inferred", "confidence": "medium", "evidence": ["167.3", "game:encounters"]},
+      {"text": "Insomnia, one of its abilities, keeps it from falling asleep: a watcher that never dozes in game terms.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities", "167.1"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Spinarak together; every entry is about a single spider on its web.", "class": "inferred", "confidence": "low", "evidence": ["167.1"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 15 egg cycles, an even sex ratio, fast growth. Nothing describes eggs or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Nothing in its entries describes defence. Its moves include Scary Face (Lv 5), Constrict, Night Shade and Shadow Sneak, and as a Poison type its sting carries venom.", "class": "mechanic", "confidence": "low", "evidence": ["move:Scary Face", "move:Constrict", "move:Night Shade", "move:Shadow Sneak", "game:types"]}
+    ],
+    "senses": [
+      {"text": "The web can be considered its second nervous system.", "class": "canon", "confidence": "high", "evidence": ["167.4", "167.5", "C167.5", "C167.7"]},
+      {"text": "It is said to tell what kind of prey is touching its web by the tiny vibrations it feels through the strands.", "class": "canon", "confidence": "medium", "evidence": ["167.4", "167.5", "C167.6", "C167.8"], "analogy": "Real web spiders read their prey's size and struggles from the vibrations in the threads."}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Ariados at level 22, from 0.5 m and 8.5 kg to 1.1 m and 33.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Ariados"]},
+      {"text": "Read as development, a web-sitter becomes a wanderer: Ariados doesn't keep a nest in one spot but roams for food after dark (168.3).", "class": "inferred", "confidence": "medium", "evidence": ["167.1", "168.3"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Poison Sting, String Shot, Scary Face, Constrict, Leech Life, Night Shade, Shadow Sneak, Fury Swipes, Sucker Punch, Spider Web (Lv 29: the target can't flee), Agility, Pin Missile, Psychic and Poison Jab. String Shot and Spider Web are the web; Sucker Punch the ambush.", "class": "mechanic", "confidence": "medium", "evidence": ["move:String Shot", "move:Spider Web", "move:Sucker Punch", "move:Constrict", "move:Leech Life"]}
+    ],
+    "ecology": [
+      {"text": "A small trap predator of trees and grass, eating whatever its web holds.", "class": "inferred", "confidence": "medium", "evidence": ["167.2", "167.4"]},
+      {"text": "As HeartGold's night counterpart to SoulSilver's morning Ledyba, it fills the same tree and grass slots at the other end of the day.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ledyba"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Spinarak and people. Its silk is fine and durable, the kind of thread people value.", "class": "inferred", "confidence": "low", "evidence": ["167.2"]}
+    ],
+    "homestead": [
+      {"text": "Insect control around barns and orchards, if it will web where it is wanted.", "class": "hypothesis", "confidence": "low", "evidence": ["167.2", "167.6"], "capability": "foraging", "note": "Its prey is unnamed."},
+      {"text": "Its silk is fine but durable: cord and thread, if it can be gathered from old webs.", "class": "hypothesis", "confidence": "low", "evidence": ["167.2"], "capability": "construction", "note": "Untested."},
+      {"text": "Leave its web alone for days; it waits motionless and shouldn't be disturbed.", "class": "inferred", "confidence": "medium", "evidence": ["167.1"]},
+      {"text": "A Spinarak web across the potting-shed door that tells it exactly who came in last night.", "class": "creative", "evidence": ["167.4"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["webs in trees and tall grass"], "activity": "nocturnal",
+            "foraging": "sit-and-wait in a web, reading prey by vibration; takes ensnared prey after dark", "evidence": ["167.1", "167.3", "167.4", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named; trophic level assumes insects."},
+  "relationships": [
+    {"with": "unnamed prey caught in its web", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["167.2", "167.3"]},
+    {"with": "flying insects (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["167.2"], "note": "What a small web in trees would catch; never named."},
+    {"with": "trees and tall grass", "kind": "uses_resource", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "167.2"], "note": "To hang its web on."},
+    {"with": "Ariados", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Toxic-floor trapper", "moves": ["Toxic Spikes", "Poison Jab"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that poisons the ground under its web as well as the web: venom spikes and a poison jab. Fits dense undergrowth where prey walks beneath the web.",
+     "behavior": "Its web and the ground under it are both a trap.", "evidence": ["167.6", "move:Toxic Spikes", "move:Poison Jab"]},
+    {"name": "Vibration hunter", "moves": ["Sonic Boom", "Signal Beam", "Disable"], "class": "hypothesis", "confidence": "low",
+     "reading": "The 'second nervous system' as a lineage: a sound blast, a signal and a move that stops a move. A Spinarak that reads and jams its prey. Fits windless forest where the web's vibrations carry cleanly.",
+     "behavior": "Strikes the instant the web tells it what has landed.", "evidence": ["167.4", "move:Sonic Boom", "move:Signal Beam", "move:Disable"]}
+  ],
+  "open_questions": [
+    "What does Spinarak catch?",
+    "Why wait until dark to take ensnared prey (167.3)?",
+    "Why only in HeartGold, with Ledyba in its place in SoulSilver?",
+    "Can its silk be gathered without harming it?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that it can determine what kind of prey is touching its web just by the tiny vibrations it feels through the strands.", "kind": "said", "evidence": ["167.4", "C167.6", "C167.8"]}
+  ]
+}

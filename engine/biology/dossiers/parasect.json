@@ -1,0 +1,95 @@
+{
+  "species": "Parasect",
+  "id": 47,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A bug that has been taken over by the mushroom on its back. In Parasect the mushroom has grown larger than the bug's body and controls it: it drains the bug's energy and appears to do all the thinking, and it is the mushroom, not the bug, that prefers dark, damp places. Parasect infest the roots and lower trunks of large trees in numbers and drain their nutrients, all moving to a new tree when one dies. When there is nothing left to take from the bug, the mushrooms leave spores on the bug's egg. Its spores are toxic, and used as herbal medicine. In HeartGold and SoulSilver it lives in Cerulean Cave, one encounter in four.",
+  "sections": {
+    "anatomy": [
+      {"text": "A bug with a mushroom (Gen 4 shape armor), 1.0 m and 29.5 kg, typed Bug and Grass: the Mushroom Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A mushroom grown larger than the host's body controls Parasect; it is a host-parasite pair in which the parasite mushroom has taken over the host bug.", "class": "canon", "confidence": "high", "evidence": ["47.1", "47.9", "47.10", "C47.1", "C47.13", "C47.15"], "analogy": "Ophiocordyceps fungi take over ants and change their behaviour before fruiting from them; the tochukaso of Paras's entries is the Japanese name for Cordyceps."},
+      {"text": "The bug host is drained of energy by the mushrooms on its back; they appear to do all the thinking.", "class": "canon", "confidence": "high", "evidence": ["47.2", "C47.3", "C47.4"]}
+    ],
+    "diet": [
+      {"text": "Parasect infest large trees en masse and drain nutrients from the lower trunk and roots.", "class": "canon", "confidence": "high", "evidence": ["47.6", "47.7", "C47.8", "C47.10"]},
+      {"text": "Its young burrow to suck tree roots and draw juice from trunks (46.1, 46.5): the adult keeps the line's diet, in numbers.", "class": "canon", "confidence": "high", "evidence": ["46.1", "46.5", "47.6"]},
+      {"text": "Leech Life (Lv 11) and Giga Drain (Lv 39) are draining moves; Growth (Lv 30) the mushroom's own growth.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Leech Life", "move:Giga Drain", "move:Growth"]},
+      {"text": "In Cerulean Cave there are no trees, so there it must live on something else: the cave's moss, roots reaching down from above, or detritus. Nothing says which.", "class": "hypothesis", "confidence": "low", "evidence": ["47.6", "game:encounters"], "note": "The games put it only in a cave in HGSS."}
+    ],
+    "habitat": [
+      {"text": "It stays mostly in dark, damp places, the preference not of the bug but of the big mushroom on its back.", "class": "canon", "confidence": "high", "evidence": ["47.1", "47.3", "47.11", "C47.2", "C47.5", "C47.17"]},
+      {"text": "Large trees, which it infests, and the Gen 3 Pokédex habitat forest.", "class": "canon", "confidence": "high", "evidence": ["47.6", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is wild only in Cerulean Cave (25%, Lv 38-47), at any time, in both versions; the Johto Safari Zone has it too.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Cerulean Cave, dark and full of water, is the darkest, dampest place in Kanto: the mushroom's preference, not a tree's.", "class": "inferred", "confidence": "medium", "evidence": ["47.3", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When an infested tree dies, they move onto another tree all at once.", "class": "canon", "confidence": "high", "evidence": ["47.6", "47.7", "C47.9"]},
+      {"text": "Its activity pattern is not stated; the cave tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "They infest trees en masse and move together, so Parasect live in groups on a shared host tree.", "class": "canon", "confidence": "high", "evidence": ["47.6", "47.7"]}
+    ],
+    "reproduction": [
+      {"text": "When nothing's left to extract from the bug, the mushrooms on its back leave spores on the bug's egg.", "class": "canon", "confidence": "high", "evidence": ["47.5", "C47.7"]},
+      {"text": "So the mushroom passes from parent to young: Paras is doused with spores when it is born (46.3). The fungus has its own life cycle riding on the bug's.", "class": "inferred", "confidence": "high", "evidence": ["47.5", "46.3"]},
+      {"text": "Bug and Grass egg groups, 20 egg cycles, an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It scatters toxic, poisonous spores from the mushroom cap; the larger the mushroom grows, the stronger the spores.", "class": "canon", "confidence": "high", "evidence": ["47.4", "47.8", "47.9", "C47.6", "C47.11", "C47.14"]},
+      {"text": "Effect Spore, its ability, can paralyse, poison or put to sleep anything that touches it; Spore (Lv 17), Stun Spore and Poison Powder are the spores in game form.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Spore", "move:Stun Spore", "move:Poison Powder"]},
+      {"text": "Dry Skin, its other ability, hurts it in heat and heals it in water: a damp-loving body in game terms.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "47.3"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses; the mushroom 'appears to do all the thinking'.", "class": "canon", "confidence": "low", "evidence": ["47.2"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Paras at level 24, from 0.3 m and 5.4 kg to 1.0 m and 29.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Paras"]},
+      {"text": "Read as development, the line is the mushroom's growth: spores at the bug's birth, mushrooms sprouting as it grows (Paras), a mushroom larger than the bug that controls it (Parasect), and spores left on the bug's egg when the host is spent.", "class": "inferred", "confidence": "high", "evidence": ["46.3", "47.9", "47.5"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Cross Poison, Scratch, Stun Spore, Poison Powder, Leech Life, Spore, Slash, Growth, Giga Drain, Aromatherapy and X-Scissor: spores and drains.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Cross Poison", "move:Spore", "move:Giga Drain", "move:Aromatherapy", "move:X-Scissor"]}
+    ],
+    "ecology": [
+      {"text": "A parasite of large trees that kills them, and moves on in a mass when they die: a cause of tree death, and of deadwood.", "class": "inferred", "confidence": "medium", "evidence": ["47.6", "47.7"]},
+      {"text": "The mushroom is a parasite of the bug, the bug a parasite of the tree: a chain of parasites, unique in Johto and Kanto's webs.", "class": "inferred", "confidence": "high", "evidence": ["47.1", "47.6"]},
+      {"text": "In Cerulean Cave it shares the dark with Golbat, Kadabra, Machoke, Magneton, Ditto, Electrode and Wobbuffet.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golbat", "species:Ditto"]}
+    ],
+    "humans": [
+      {"text": "In China its spores are used as herbal medicine.", "class": "canon", "confidence": "high", "evidence": ["47.8", "C47.12"]}
+    ],
+    "homestead": [
+      {"text": "Keep it away from the orchard and any large tree you value: it infests and drains them until they die.", "class": "canon", "confidence": "high", "evidence": ["47.6"]},
+      {"text": "It wants dark, damp quarters: a cellar or a cave, not the sun.", "class": "canon", "confidence": "high", "evidence": ["47.3"]},
+      {"text": "Its spores are medicine but also toxic: handle with care, and never on a living host without a healer's say.", "class": "canon", "confidence": "medium", "evidence": ["47.8"], "capability": "field_healing"},
+      {"text": "The homestead's one Parasect, kept in the root cellar, which seems to be thinking about something.", "class": "creative", "evidence": ["47.2"]}
+    ]
+  },
+  "niche": {"guild": "sap and nectar feeder", "trophic_level": 2, "microhabitat": ["roots and lower trunks of large trees", "dark, damp places (caves)"], "activity": "cathemeral",
+            "foraging": "infests large trees en masse and drains nutrients from roots and trunk", "evidence": ["47.6", "47.7", "47.3", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Filed with Paras as a sap feeder. Activity from the cave tables (any time)."},
+  "relationships": [
+    {"with": "roots and lower trunks of large trees (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["47.6", "47.7"]},
+    {"with": "large trees (non-Pokémon)", "kind": "parasitism", "class": "canon", "confidence": "high", "evidence": ["47.6"], "note": "It drains them until they die."},
+    {"with": "the parasitic mushroom on its back (non-Pokémon fungus)", "kind": "host_of", "class": "canon", "confidence": "high", "evidence": ["47.1", "47.9"]},
+    {"with": "Golbat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Golbat"]}
+  ],
+  "ecotypes": [
+    {"name": "Sweet-lure host", "moves": ["Sweet Scent", "Psybeam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage whose mushroom draws others in: a luring scent and a dazzling beam. The mushroom spreading itself by bringing new hosts close. Fits dark forest floors with many bugs.",
+     "behavior": "Sits still and smells sweet; things come to it.", "evidence": ["47.5", "move:Sweet Scent", "move:Psybeam"]},
+    {"name": "Root-crawler", "moves": ["Metal Claw", "Agility", "Pursuit"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage in which the bug still matters: claws, speed and a chase. The Parasect that moves fastest from a dying tree to the next. Fits old forest where big trees die often.",
+     "behavior": "First to leave a dead tree, first to the next.", "evidence": ["47.6", "move:Metal Claw", "move:Agility", "move:Pursuit"]}
+  ],
+  "open_questions": [
+    "What does Parasect live on in Cerulean Cave, where there are no trees?",
+    "How much of the bug is left in a Parasect: does it feel, choose, remember?",
+    "Do the spores left on the bug's egg (47.5) always take, or can a Paras be born free of the mushroom?",
+    "Which medicine do its spores make, and at what cost to the animal?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said to prefer damp places.", "kind": "said", "evidence": ["47.10", "C47.16"]}
+  ]
+}

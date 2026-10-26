@@ -1,0 +1,96 @@
+{
+  "species": "Clefairy",
+  "id": 35,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small, rare, moon-bound Pokémon of quiet mountains. Clefairy collects moonlight with the wings on its back, and the stored moonlight apparently lets it float in midair. It is rarely seen except on the night of a full moon, when groups come out to play; at dawn the tired Clefairy go back to their quiet mountain retreats and sleep nestled against each other. It is said that happiness comes to anyone who sees a gathering of Clefairy dancing under a full moon. Its cuteness makes it popular, even as a pet. In HeartGold and SoulSilver it lives in Mt. Moon, one encounter in twenty, in both versions.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small upright animal (Gen 4 shape upright), 0.6 m and 7.5 kg, typed Normal: the Fairy Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It has wings on its back; the moonlight it stores in them apparently gives it the ability to float in midair.", "class": "canon", "confidence": "high", "evidence": ["35.3", "C35.5"]},
+      {"text": "It flies using the wings on its back to collect moonlight.", "class": "canon", "confidence": "high", "evidence": ["35.11", "C35.17"]}
+    ],
+    "diet": [
+      {"text": "No entry says it eats food. It collects and stores moonlight, which gives it the power to float.", "class": "canon", "confidence": "medium", "evidence": ["35.3", "35.11"]},
+      {"text": "Moonlight stored as energy makes it a lunar phototroph in the web; whether it also eats is unknown.", "class": "inferred", "confidence": "low", "evidence": ["35.3", "35.11"]},
+      {"text": "Moonlight (Lv 37) and Cosmic Power (Lv 25) are in its own list.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Moonlight", "move:Cosmic Power"]}
+    ],
+    "habitat": [
+      {"text": "Quiet, deep mountains, where it is thought to live with others and where it sleeps; the Gen 3 Pokédex habitat is mountain.", "class": "canon", "confidence": "high", "evidence": ["35.6", "35.7", "35.10", "C35.10", "C35.12", "C35.16", "game:habitat"]},
+      {"text": "It is rare and found only in certain areas.", "class": "canon", "confidence": "high", "evidence": ["35.1", "35.9", "C35.2"]},
+      {"text": "In HeartGold and SoulSilver it lives in Mt. Moon (1F and 2F, 5%, Lv 8) at any time, in both versions; the Johto Safari Zone has it at night when its blocks call for it.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Mt. Moon, 'a mountain where a star fell' in the Pokégear's words, is the 'quiet mountain' of its entries in Kanto.", "class": "inferred", "confidence": "medium", "evidence": ["35.6", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "On every night of a full moon, groups of Clefairy come out to play; when dawn arrives they return to their mountain retreats and sleep nestled against each other.", "class": "canon", "confidence": "high", "evidence": ["35.6", "35.7", "C35.9", "C35.10", "C35.11", "C35.12"]},
+      {"text": "Though rarely seen, it becomes easier to spot on the night of a full moon.", "class": "canon", "confidence": "high", "evidence": ["35.5", "C35.8"]},
+      {"text": "Its activity follows the moon: out on full-moon nights, asleep by day. The HGSS tables have it at any time inside Mt. Moon, where the moon isn't visible.", "class": "inferred", "confidence": "medium", "evidence": ["35.6", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "It lives with others: groups play together on full-moon nights and sleep nestled together.", "class": "canon", "confidence": "high", "evidence": ["35.6", "35.10"]},
+      {"text": "Follow Me (Lv 16), which draws attacks to itself, and Healing Wish (Lv 46), which gives its life to heal a partner, are self-sacrificing group moves.", "class": "mechanic", "confidence": "low", "evidence": ["move:Follow Me", "move:Healing Wish"]}
+    ],
+    "reproduction": [
+      {"text": "Fairy egg group, only 10 egg cycles, 25% male (three in four are female), fast growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Its young, Cleffa, become Clefairy with high friendship.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Cleffa"]}
+    ],
+    "defense": [
+      {"text": "Rarity and retreat: it stays hidden in quiet mountains and comes out mostly on full-moon nights.", "class": "inferred", "confidence": "medium", "evidence": ["35.4", "35.6"]},
+      {"text": "Cute Charm can infatuate what touches it; Magic Guard protects it from all damage but attacks. Sing (Lv 7) and Minimize (Lv 19) are sleep and hiding.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Sing", "move:Minimize"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses; it responds to the full moon, so it senses moonlight.", "class": "inferred", "confidence": "low", "evidence": ["35.5", "35.6"]}
+    ],
+    "life_cycle": [
+      {"text": "Cleffa becomes Clefairy with high friendship, and Clefairy becomes Clefable with a Moon Stone: 0.3 m and 3.0 kg, then 0.6 m and 7.5 kg, then 1.3 m and 40.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Cleffa", "species:Clefable"]},
+      {"text": "Its whole line turns on the moon: moonlight stored in its wings, play under the full moon, and a Moon Stone to become Clefable.", "class": "inferred", "confidence": "medium", "evidence": ["35.3", "35.6", "game:evolution"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Pound, Growl, Encore, Sing, Double Slap, Defense Curl, Follow Me, Minimize, Wake-Up Slap, Cosmic Power, Lucky Chant, Metronome, Gravity, Moonlight, Light Screen, Meteor Mash and Healing Wish: song, play and the sky.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Sing", "move:Metronome", "move:Gravity", "move:Moonlight", "move:Meteor Mash"]},
+      {"text": "Meteor Mash and Gravity in a Pokémon of the mountain 'where a star fell' are a nice coincidence; nothing links them in the entries.", "class": "creative", "evidence": ["move:Meteor Mash", "move:Gravity"]}
+    ],
+    "ecology": [
+      {"text": "An energy-eater of moonlight in the web, so it competes with nothing for food, by the entries; inside Mt. Moon it shares the cave with Zubat, Geodude, Paras and Sandshrew.", "class": "inferred", "confidence": "low", "evidence": ["35.11", "game:encounters", "species:Zubat"]},
+      {"text": "Its predators are not named. Golbat feasts on the blood of people and Pokémon (42.8), and its young, Zubat, shares Mt. Moon with Clefairy.", "class": "hypothesis", "confidence": "low", "evidence": ["42.8", "game:encounters", "species:Zubat"], "note": "Co-occurrence and the line's stated diet only."}
+    ],
+    "humans": [
+      {"text": "Its magical and cute appeal has many admirers; its adorable behaviour and cry make it highly popular, and it is popular as a pet.", "class": "canon", "confidence": "high", "evidence": ["35.1", "35.2", "35.4", "35.8", "35.9", "C35.1", "C35.3", "C35.6", "C35.13", "C35.15"]},
+      {"text": "It is rare and difficult to find.", "class": "canon", "confidence": "high", "evidence": ["35.8", "35.11", "C35.7", "C35.14", "C35.18"]}
+    ],
+    "homestead": [
+      {"text": "A night companion for full-moon evenings, when it is at its most active.", "class": "canon", "confidence": "medium", "evidence": ["35.6"], "capability": "calming_presence"},
+      {"text": "It sleeps nestled with others: keep more than one, and give them a quiet, dark corner by day.", "class": "inferred", "confidence": "medium", "evidence": ["35.6", "35.10"]},
+      {"text": "It may need moonlight more than food: a clear-sky place at night.", "class": "hypothesis", "confidence": "low", "evidence": ["35.11"], "note": "Untested whether it needs food."},
+      {"text": "Clefairy dancing on the meadow above the homestead on the first full moon of the year, and everyone who watches feeling lucky.", "class": "creative", "evidence": ["35.12"]}
+    ]
+  },
+  "niche": {"guild": "lunar phototroph", "trophic_level": 1, "microhabitat": ["quiet mountains", "cave retreats (Mt. Moon)"], "activity": "nocturnal",
+            "foraging": "collects moonlight with the wings on its back", "evidence": ["35.3", "35.11", "35.6"], "class": "inferred", "confidence": "medium",
+            "note": "Moonlight is the only intake any entry names."},
+  "relationships": [
+    {"with": "moonlight", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["35.3", "35.11"]},
+    {"with": "Zubat", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat"]},
+    {"with": "Geodude", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Geodude"]},
+    {"with": "Clefable", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Moon-dancer", "moves": ["Wish", "Aromatherapy", "Present"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the full-moon gatherings: moves that heal and give to others. The Clefairy whose dances bring happiness, by the old saying. Fits open mountain meadows under clear skies.",
+     "behavior": "First out on full-moon nights, last to sleep.", "evidence": ["35.12", "move:Wish", "move:Aromatherapy", "move:Present"]},
+    {"name": "Mimic trickster", "moves": ["Mimic", "Fake Tears", "Covet"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that lives by charm and copying: it mimics, it fake-cries, and it takes what it wants. Fits places with people, where cuteness pays.",
+     "behavior": "Begs, copies and pockets things.", "evidence": ["35.4", "move:Mimic", "move:Fake Tears", "move:Covet"]}
+  ],
+  "open_questions": [
+    "Does Clefairy eat anything, or live on moonlight alone?",
+    "What do they do on full-moon nights: play, courtship, gathering moonlight?",
+    "Is Mt. Moon Square, open to the sky on top of Mt. Moon, where Kanto's Clefairy gather under the full moon?",
+    "Why are three in four Clefairy female?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that happiness will come to those who see a gathering of Clefairy dancing under a full moon.", "kind": "said", "evidence": ["35.12", "C35.19"]},
+    {"text": "They are thought to be rare, as they do not appear often.", "kind": "belief", "evidence": ["35.2", "C35.4"]}
+  ]
+}

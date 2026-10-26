@@ -1,0 +1,84 @@
+{
+  "species": "Electrode",
+  "id": 101,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A red-and-white ball that eats electricity and explodes. Electrode stores an overflowing amount of electric energy under very high pressure, and even a small shock sets it off; with too much charge and nothing to do it amuses itself by exploding. It eats electricity from the atmosphere, so on days of lightning they explode all over the place from eating too much, and they gather in great numbers at power plants to feed on fresh electricity, causing blackouts in nearby cities. Bloated with charge, it drifts on the wind. It is feared as 'The Bomb Ball'. In HeartGold and SoulSilver it lives in Cerulean Cave, one encounter in twenty.",
+  "sections": {
+    "anatomy": [
+      {"text": "A ball (Gen 4 shape ball), 1.2 m and 66.6 kg, typed Electric, genderless: the Ball Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:gender", "game:genus"]},
+      {"text": "It stores electric energy inside its body under very high pressure, an overflowing amount.", "class": "canon", "confidence": "high", "evidence": ["101.1", "101.2", "101.4", "C101.1", "C101.3", "C101.7"]}
+    ],
+    "diet": [
+      {"text": "Electrode eats electricity in the atmosphere.", "class": "canon", "confidence": "high", "evidence": ["101.6", "C101.11"]},
+      {"text": "It congregates mostly at electrical power plants to feed on electricity that has just been generated; they appear there in great numbers.", "class": "canon", "confidence": "high", "evidence": ["101.7", "101.8", "C101.13", "C101.14", "C101.15"]},
+      {"text": "On days when lightning strikes, it can be seen exploding all over the place from eating too much electricity.", "class": "canon", "confidence": "high", "evidence": ["101.6", "C101.12"]},
+      {"text": "Charge (Lv 1) and Charge Beam (Lv 26) are taking in and releasing charge.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Charge", "move:Charge Beam"]}
+    ],
+    "habitat": [
+      {"text": "Power plants, where they gather to feed; the Gen 3 Pokédex habitat is urban.", "class": "canon", "confidence": "high", "evidence": ["101.7", "101.8", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives only in Cerulean Cave (5%, Lv 40-46), at any time, in both versions; Kanto's Power Plant has no wild Pokémon in these games.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its young, Voltorb, lives on Route 10 outside the Power Plant (30%), where the entries would put it. A cave is an odd home for the adult; Cerulean Cave's Magneton and Electrode may be a power-plant community pushed out, but nothing in the games links them.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Voltorb", "species:Magneton"], "note": "Speculative beyond the encounter facts."}
+    ],
+    "behavior": [
+      {"text": "If it has too much electricity and nothing to do, it amuses itself by exploding.", "class": "canon", "confidence": "high", "evidence": ["101.3", "C101.6"]},
+      {"text": "It often explodes with little or no provocation; even a small shock makes it explode.", "class": "canon", "confidence": "high", "evidence": ["101.1", "101.2", "101.4", "101.9", "C101.2", "C101.4", "C101.8", "C101.17"]},
+      {"text": "The more energy it charges up, the faster it gets, and the more likely it is to explode.", "class": "canon", "confidence": "high", "evidence": ["101.5", "C101.9", "C101.10"]},
+      {"text": "It drifts on winds when it is bloated to bursting with stored electricity.", "class": "canon", "confidence": "high", "evidence": ["101.10", "C101.19"]}
+    ],
+    "social": [
+      {"text": "They congregate in great numbers at power plants: a feeding aggregation, not described as a social group.", "class": "inferred", "confidence": "medium", "evidence": ["101.7", "101.8"]}
+    ],
+    "reproduction": [
+      {"text": "Mineral egg group, genderless, 20 egg cycles, medium growth. In the games it breeds only with Ditto.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:gender", "game:egg_cycles"]},
+      {"text": "Its young, Voltorb, was first sighted at a Poké Ball factory and is rumoured to have been created when a Poké Ball met a powerful pulse of energy (100.6, 100.7); its components are not found in nature (100.5).", "class": "canon", "confidence": "low", "evidence": ["100.5", "100.6", "100.7"], "note": "Origin told partly as rumour."}
+    ],
+    "defense": [
+      {"text": "It is dangerous: it explodes. Self-Destruct (Lv 29) and Explosion (Lv 51) are the explosions in game form; Static paralyses what touches it.", "class": "canon", "confidence": "high", "evidence": ["101.3", "move:Self-Destruct", "move:Explosion", "game:abilities"]},
+      {"text": "Soundproof, its other ability, makes it immune to sound moves.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It is attracted to electricity, so it senses where electricity is.", "class": "canon", "confidence": "medium", "evidence": ["101.7", "C101.13"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Voltorb at level 30 (the archive also lists a later games' Leaf Stone route), from 0.5 m and 10.4 kg to 1.2 m and 66.6 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Voltorb"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Charge, Tackle, Sonic Boom, Spark, Rollout, Screech, Light Screen, Charge Beam, Self-Destruct, Swift, Magnet Rise, Gyro Ball, Explosion and Mirror Coat. Magnet Rise fits the ball that drifts on the wind; Rollout, a ball that rolls.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Magnet Rise", "move:Rollout", "move:Explosion", "C101.19"]},
+      {"text": "Voltorb's line has no egg moves, so there are no lineage moves to read as ecotypes.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "An energy-eater of electricity, the bottom of the web in its own column, like Magnezone and Pikachu's storms.", "class": "inferred", "confidence": "high", "evidence": ["101.6"]},
+      {"text": "Its explosions are a disturbance: on lightning days it blows itself and its surroundings up.", "class": "canon", "confidence": "medium", "evidence": ["101.6"]},
+      {"text": "Feeding on power plants' output, it competes with people for electricity and causes blackouts.", "class": "canon", "confidence": "high", "evidence": ["101.8", "C101.16"]}
+    ],
+    "humans": [
+      {"text": "Because they feed on electricity, they cause massive and chaotic blackouts in nearby cities.", "class": "canon", "confidence": "high", "evidence": ["101.8"]},
+      {"text": "It is feared, with the nickname 'The Bomb Ball'.", "class": "canon", "confidence": "high", "evidence": ["101.9", "C101.18"]},
+      {"text": "A problematical Pokémon, in the entries' own word.", "class": "canon", "confidence": "high", "evidence": ["101.7", "C101.5"]}
+    ],
+    "homestead": [
+      {"text": "Keep it far from the homestead's wiring and batteries: it eats electricity and causes blackouts.", "class": "canon", "confidence": "high", "evidence": ["101.7", "101.8"]},
+      {"text": "Never keep one through a thunderstorm; on lightning days it overeats and explodes.", "class": "canon", "confidence": "high", "evidence": ["101.6"]},
+      {"text": "It stores electricity under pressure: in principle a battery, in practice a bomb.", "class": "inferred", "confidence": "medium", "evidence": ["101.1"], "capability": "electricity"},
+      {"text": "The one Electrode the homestead tried, and the new shed roof.", "class": "creative", "evidence": ["101.3"]}
+    ]
+  },
+  "niche": {"guild": "electrotroph", "trophic_level": 1, "microhabitat": ["power plants (its entries)", "Cerulean Cave (HGSS)"], "activity": "unknown",
+            "foraging": "eats electricity from the atmosphere and from power plants", "evidence": ["101.6", "101.7", "game:encounters"], "class": "canon", "confidence": "high"},
+  "relationships": [
+    {"with": "electricity in the atmosphere and from power plants", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["101.6", "101.7"]},
+    {"with": "Magneton", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Magneton"], "note": "Both electricity-feeders in Cerulean Cave."},
+    {"with": "Ditto", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ditto"]}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What does Electrode live on in Cerulean Cave, far from lightning and power lines?",
+    "Does an explosion kill it, or does it recover?",
+    "Why does Kanto's Power Plant have no wild Electrode or Voltorb in HeartGold and SoulSilver?",
+    "Is Voltorb really made from Poké Balls (100.7), or is that rumour?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

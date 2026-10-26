@@ -66,7 +66,6 @@
             "note": "Predator, as for Piplup and Empoleon; prey unnamed."},
   "relationships": [
     {"with": "unnamed marine prey", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["394.2"]},
-    {"with": "Prinplup", "kind": "competes_with", "class": "inferred", "confidence": "low", "evidence": ["394.1", "394.3"], "note": "They can never form a group; read as competition for space."},
     {"with": "Empoleon", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
   ],
   "ecotypes": [

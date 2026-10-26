@@ -1,0 +1,91 @@
+{
+  "species": "Slowbro",
+  "id": 80,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A Slowpoke with a Shellder clamped on its tail, and the Pokédex's clearest case of two species making one animal. A Slowpoke went hunting in the sea, a Shellder bit its tail, and it became Slowbro. The Shellder won't let go because of the tasty flavour oozing from the tail, and is said to feed on Slowbro's leftover scraps; its seeping poison has left Slowbro unable to feel pain. With the tail no longer usable for fishing, Slowbro has to swim and catch its prey instead. If the Shellder is thrown off, it becomes an ordinary Slowpoke again. In HeartGold and SoulSilver it lives in Slowpoke Well and the Seafoam Islands.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright animal (Gen 4 shape upright), 1.6 m and 78.5 kg, typed Water and Psychic: the Hermit Crab Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its tail has a Shellder firmly attached with a bite.", "class": "canon", "confidence": "high", "evidence": ["80.6", "80.7", "C80.7", "C80.10"]},
+      {"text": "If the Shellder on its tail comes off, or is thrown off in a harsh battle, it becomes an ordinary Slowpoke again.", "class": "canon", "confidence": "high", "evidence": ["80.2", "80.3", "C80.3", "C80.4"]}
+    ],
+    "diet": [
+      {"text": "With the Shellder on its tail, the tail can't be used for fishing any more, so Slowbro grudgingly swims and catches prey instead.", "class": "canon", "confidence": "high", "evidence": ["80.6", "80.7", "C80.8", "C80.9", "C80.11"]},
+      {"text": "Its prey isn't named; Slowpoke fish with their tails in the line's entries, so fish are the likely food.", "class": "inferred", "confidence": "low", "evidence": ["C80.8", "80.8"]},
+      {"text": "The Shellder feeds on Slowbro's leftover scraps, it is said, and on the tasty flavour that oozes out of its tail.", "class": "canon", "confidence": "medium", "evidence": ["80.1", "80.5", "80.9", "C80.1", "C80.6", "C80.14"]}
+    ],
+    "habitat": [
+      {"text": "It lives lazily by the sea; the Gen 3 Pokédex habitat is waters-edge.", "class": "canon", "confidence": "high", "evidence": ["80.2", "C80.2", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in Slowpoke Well (surf 10%) and the Seafoam Islands (surf 10%, Lv 35-50), at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Slowpoke Well, a flooded well, and Seafoam, a sea cave, are both sheltered water.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "80.2"]}
+    ],
+    "behavior": [
+      {"text": "It lives lazily and is naturally dull, usually dim-witted, but it seems to become inspired when the Shellder on its tail bites down.", "class": "canon", "confidence": "high", "evidence": ["80.2", "80.4", "80.10", "C80.5", "C80.15"]},
+      {"text": "It swims and catches prey only grudgingly, reluctantly.", "class": "canon", "confidence": "high", "evidence": ["80.6", "80.7"]},
+      {"text": "Its activity pattern is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Its one partnership is with the Shellder on its tail.", "class": "canon", "confidence": "high", "evidence": ["80.5", "80.6"]},
+      {"text": "Read as symbiosis, Shellder gets food (scraps and the tail's tasty ooze) and Slowbro gets a poison that numbs pain and a bite that sharpens it, and loses its fishing tail. Whether that nets out as mutualism or parasitism is open.", "class": "inferred", "confidence": "medium", "evidence": ["80.1", "80.4", "80.5", "80.10"]}
+    ],
+    "reproduction": [
+      {"text": "Monster and Water 1 egg groups, 20 egg cycles, an even sex ratio, medium growth. Its eggs hatch as Slowpoke.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Slowpoke"]}
+    ],
+    "defense": [
+      {"text": "It lost its ability to feel pain because of Shellder's seeping poison.", "class": "canon", "confidence": "high", "evidence": ["80.4", "C80.5"]},
+      {"text": "Withdraw (Lv 37, learned on evolving) is the Shellder's shell; Own Tempo keeps it from confusion and Oblivious from infatuation.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Withdraw", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It can't feel pain, because of the Shellder's poison.", "class": "canon", "confidence": "high", "evidence": ["80.4"]}
+    ],
+    "life_cycle": [
+      {"text": "When a Slowpoke went hunting in the sea, its tail was bitten by a Shellder, and that made it evolve into Slowbro.", "class": "canon", "confidence": "high", "evidence": ["80.8", "C80.12", "C80.13"]},
+      {"text": "In the games Slowpoke becomes Slowbro at level 37: the bite isn't modelled.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "An evolution that reverses when the partner falls off is unique in the entries: Slowbro is a state, not a stage.", "class": "inferred", "confidence": "medium", "evidence": ["80.2", "80.3"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Curse, Yawn, Tackle, Growl, Water Gun, Confusion, Disable, Headbutt, Water Pulse, Zen Headbutt, Withdraw, Slack Off, Amnesia, Psychic, Rain Dance and Psych Up: a slow, psychic list, with Yawn and Slack Off for the laziness.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Yawn", "move:Slack Off", "move:Withdraw", "move:Psychic", "C80.2"]}
+    ],
+    "ecology": [
+      {"text": "A reluctant predator of fish, and a host: it carries a Shellder that eats its scraps.", "class": "inferred", "confidence": "medium", "evidence": ["80.6", "80.1"]},
+      {"text": "In Seafoam it shares the water with Seel, Dewgong, Horsea, Krabby and Gyarados.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seel", "species:Horsea"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Slowbro and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "A calm, slow companion that feels no pain: gentle with children, hard to hurt.", "class": "inferred", "confidence": "low", "evidence": ["80.2", "80.4"], "capability": "calming_presence"},
+      {"text": "Don't pull the Shellder off: it would become a Slowpoke again.", "class": "canon", "confidence": "high", "evidence": ["80.3"]},
+      {"text": "It needs water to swim and fish in, and it won't hurry.", "class": "canon", "confidence": "medium", "evidence": ["80.6"]},
+      {"text": "The homestead's Slowbro, who has never once noticed that it is standing on your foot.", "class": "creative", "evidence": ["80.4"]}
+    ]
+  },
+  "niche": {"guild": "piscivore", "trophic_level": 3, "microhabitat": ["sheltered water by the sea (Seafoam, Slowpoke Well)"], "activity": "unknown",
+            "foraging": "swims and catches prey, grudgingly, since its tail can no longer fish", "evidence": ["80.6", "80.7", "game:encounters"], "class": "inferred", "confidence": "low",
+            "note": "'Prey' is never named; fish read from the line's fishing habit."},
+  "relationships": [
+    {"with": "small fish (non-Pokémon)", "kind": "feeds_on", "class": "inferred", "confidence": "low", "evidence": ["80.6"], "note": "Its prey, read as fish."},
+    {"with": "Shellder", "kind": "host_of", "class": "canon", "confidence": "high", "evidence": ["80.5", "80.6"], "note": "The Shellder on its tail; it eats Slowbro's scraps (said) and the tail's ooze."},
+    {"with": "Seel", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seel"]}
+  ],
+  "ecotypes": [
+    {"name": "Foresight sleeper", "moves": ["Future Sight", "Sleep Talk", "Snore"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that sleeps a great deal and acts ahead: foresight and two moves used in sleep. The laziest Slowbro, and perhaps the most inspired when the Shellder bites. Fits quiet, sheltered pools.",
+     "behavior": "Dozes by the water; strikes before it is attacked.", "evidence": ["80.2", "80.10", "move:Future Sight", "move:Sleep Talk", "move:Snore"]},
+    {"name": "Mud-sport basker", "moves": ["Mud Sport", "Belly Drum", "Stomp"], "class": "hypothesis", "confidence": "low",
+     "reading": "A heavier, earthier lineage: wallowing in mud, a drum-belly display and a stamp. A Slowbro of muddy shores rather than clear caves.",
+     "behavior": "Wallows on mudflats at low tide.", "evidence": ["80.2", "move:Mud Sport", "move:Belly Drum", "move:Stomp"]}
+  ],
+  "open_questions": [
+    "Is the Shellder a parasite or a partner? It feeds on Slowbro's scraps and tail ooze; Slowbro loses pain and its fishing tail.",
+    "Does the Shellder ever let go on its own?",
+    "What does Slowbro catch when it swims?",
+    "How does a bite cause an evolution (80.8), when the games use level 37?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "The Shellder that is latched onto Slowpoke's tail is said to feed on the host's leftover scraps.", "kind": "said", "evidence": ["80.1", "80.9", "C80.1", "C80.14"]}
+  ]
+}

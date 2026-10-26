@@ -1,0 +1,91 @@
+{
+  "species": "Ledian",
+  "id": 166,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult of Ledyba, a night-flying beetle that lives on starlight. Ledian uses the light of the stars as its energy, and the star or spot patterns on its back grow larger or smaller with the number of stars in the night sky. When the stars flicker it flutters about scattering a glowing powder; on warm days it curls up inside a big leaf and sleeps deeply. It is said to live in countless numbers in lands with clean air where the stars fill the sky. In HeartGold and SoulSilver it is SoulSilver's: on Route 2 in the morning and in the trees of Viridian Forest.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged beetle (Gen 4 shape wings), 1.4 m and 35.6 kg, typed Bug and Flying: the Five Star Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "The star (or spot) patterns on its back grow larger or smaller depending on the number of stars in the night sky.", "class": "canon", "confidence": "high", "evidence": ["166.2", "166.6", "166.7", "C166.2", "C166.9", "C166.10"]},
+      {"text": "It scatters a glowing powder as it flutters.", "class": "canon", "confidence": "high", "evidence": ["166.1", "C166.1"]}
+    ],
+    "diet": [
+      {"text": "It uses the light of the stars as its energy.", "class": "canon", "confidence": "high", "evidence": ["166.4", "166.5", "166.6", "C166.5", "C166.7", "C166.8"]},
+      {"text": "Patterns that grow with the number of stars fit an energy-gathering surface that expands to catch more of a faint light.", "class": "hypothesis", "confidence": "low", "evidence": ["166.6"], "note": "The entries link the two only by timing ('when more stars appear')."},
+      {"text": "Whether it also eats food is not said; starlight is far weaker than sunlight, so it is unlikely to be its only energy.", "class": "hypothesis", "confidence": "low", "evidence": ["166.6"], "note": "Physics, not a game statement."}
+    ],
+    "habitat": [
+      {"text": "Lands with clean air where the stars fill the sky are said to hold Ledian in countless numbers; the Gen 3 Pokédex habitat is forest.", "class": "canon", "confidence": "medium", "evidence": ["166.4", "166.5", "C166.4", "C166.6", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is SoulSilver's: walking on Route 2 in the morning (9%) and in Viridian Forest's headbutt trees (10%). HeartGold has Ariados in those slots.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ariados"]},
+      {"text": "Big leaves to sleep in by day and open sky above them at night: a forest edge, which Route 2 and Viridian Forest are.", "class": "inferred", "confidence": "medium", "evidence": ["166.3", "166.1", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When the stars flicker in the night sky, it flutters about, scattering a glowing powder.", "class": "canon", "confidence": "high", "evidence": ["166.1", "C166.1"]},
+      {"text": "In the daytime when it gets warm, it curls up inside a big leaf and drifts off into a deep slumber.", "class": "canon", "confidence": "high", "evidence": ["166.3", "C166.3"]},
+      {"text": "So it is nocturnal by its entries, though the SoulSilver tables meet it in the morning on Route 2: perhaps a sleeper disturbed in its leaf.", "class": "inferred", "confidence": "medium", "evidence": ["166.1", "166.3", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "It is said to live in countless numbers where the stars fill the sky; its young can't move without a swarm (165.7).", "class": "canon", "confidence": "medium", "evidence": ["166.4", "165.7"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 15 egg cycles, an even sex ratio, fast growth. Nothing describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Nothing in its entries describes defence; it keeps its young's screens (Light Screen, Reflect, Safeguard) and fights with Comet Punch and Mach Punch.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Light Screen", "move:Reflect", "move:Mach Punch"]},
+      {"text": "Sleeping hidden inside a curled leaf by day is concealment while it is most vulnerable.", "class": "inferred", "confidence": "medium", "evidence": ["166.3"]}
+    ],
+    "senses": [
+      {"text": "It responds to the stars: its patterns and its flight follow their number and flicker, so it senses faint night light.", "class": "inferred", "confidence": "medium", "evidence": ["166.1", "166.6"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Ledyba at level 18, from 1.0 m and 10.8 kg to 1.4 m and 35.6 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Ledyba"]},
+      {"text": "The patterns on its back change through its life with the stars it sees.", "class": "canon", "confidence": "medium", "evidence": ["166.2", "C166.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its list is Ledyba's at later levels: Supersonic, Comet Punch, the screens, Mach Punch, Baton Pass, Silver Wind (Lv 29, a gust of scales like its glowing powder), Agility, Swift (Lv 41, a spray of stars), Double-Edge and Bug Buzz.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Silver Wind", "move:Swift", "move:Baton Pass", "C166.1"]}
+    ],
+    "ecology": [
+      {"text": "An energy-eater of the night sky: in the web it takes its energy from the night's light, labelled Moonlight there.", "class": "inferred", "confidence": "medium", "evidence": ["166.6"]},
+      {"text": "Its glowing powder, scattered at night, may carry or signal something to others; what it does is not said.", "class": "unknown", "confidence": "high", "evidence": ["166.1"]}
+    ],
+    "humans": [
+      {"text": "People are told it thrives where the air is clean: a Pokémon of unpolluted country.", "class": "canon", "confidence": "low", "evidence": ["166.4"]}
+    ],
+    "homestead": [
+      {"text": "The highlands' clear night skies are the kind its entries describe: Blackthorn would suit it.", "class": "inferred", "confidence": "low", "evidence": ["166.4"]},
+      {"text": "Leave big leaves (a broad-leaved hedge or a squash bed) for it to sleep in by day.", "class": "inferred", "confidence": "medium", "evidence": ["166.3"]},
+      {"text": "A glow in the dark: its powder could mark a path at night.", "class": "hypothesis", "confidence": "low", "evidence": ["166.1"], "capability": "light", "note": "How long the powder glows is unknown."},
+      {"text": "Ledian on a clear winter night over the homestead, patterns swelling as the stars come out.", "class": "creative", "evidence": ["166.6"]}
+    ]
+  },
+  "niche": {"guild": "lunar phototroph", "trophic_level": 1, "microhabitat": ["forest edges with open night sky", "big leaves (daytime sleep)"], "activity": "nocturnal",
+            "foraging": "uses starlight as its energy", "evidence": ["166.6", "166.3", "166.1"], "class": "inferred", "confidence": "medium",
+            "note": "Starlight, filed under the night sky's light (the guild for moonlight is the nearest). Its young's diet is unknown, so the line is listed as filed two ways."},
+  "relationships": [
+    {"with": "starlight (the night sky's light; moonlight in the web)", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["166.6"], "note": "Its energy."},
+    {"with": "big leaves", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["166.3"], "note": "To sleep in on warm days."},
+    {"with": "Ariados", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ariados"], "note": "The same slots in the other version."}
+  ],
+  "ecotypes": [
+    {"name": "Star dust", "moves": ["Silver Wind", "Psybeam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage whose night flights are displays: a gust of shining scales and a beam of strange light. The glowing-powder habit made into a signal. Fits open hillsides with dark, clear skies.",
+     "behavior": "Flies in loops on starry nights, trailing glow.", "evidence": ["166.1", "move:Silver Wind", "move:Psybeam"]},
+    {"name": "Leaf-roll sleeper", "moves": ["Knock Off", "Bide"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that defends its daytime leaf: it endures, then strikes back, and knocks away whatever has its leaf. Fits broad-leaved woods with few good sleeping leaves.",
+     "behavior": "Holds the same leaf for days.", "evidence": ["166.3", "move:Knock Off", "move:Bide"]}
+  ],
+  "open_questions": [
+    "Does Ledian eat anything, or live on starlight alone?",
+    "What is the glowing powder, and what is it for?",
+    "Why does it appear in the morning on Route 2 if it flies at night?",
+    "Why only in SoulSilver?"
+  ],
+  "contradictions": [
+    {"entries": ["166.2", "166.7"], "note": "Silver and FireRed call them star patterns; SoulSilver calls them spot patterns."}
+  ],
+  "folklore": [
+    {"text": "It is said that in lands with clean air, where the stars fill the sky, there live Ledian in countless numbers.", "kind": "said", "evidence": ["166.4", "166.5", "C166.4", "C166.6"]}
+  ]
+}

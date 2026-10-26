@@ -1,0 +1,91 @@
+{
+  "species": "Pidgey",
+  "id": 16,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The small, docile ground bird of every forest edge and grassy route. Pidgey hides in tall grass, forages for small bugs, and has a clever trick: it flaps its wings rapidly in the grass to raise a dust cloud that drives insect prey into the open. The same dust is its defence; it would rather kick up blinding sand than fight, though if disturbed it can strike back ferociously. It has an extremely sharp sense of direction and finds its way home to its nest from however far away. In HeartGold and SoulSilver it is one of the commonest daytime birds of Johto and Kanto, Viridian Forest among them.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tiny bird (Gen 4 shape wings), 0.3 m and 1.8 kg, typed Normal and Flying: the Tiny Bird Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It flaps its wings at ground level to kick up blinding sand.", "class": "canon", "confidence": "high", "evidence": ["16.1", "C16.2"]}
+    ],
+    "diet": [
+      {"text": "It hides in tall grass and forages for food such as small bugs.", "class": "canon", "confidence": "high", "evidence": ["16.8", "C16.14"]},
+      {"text": "It rapidly flaps its wings in the grass, stirring up a dust cloud that drives insect prey out into the open.", "class": "canon", "confidence": "high", "evidence": ["16.5", "C16.8"], "analogy": "Cattle egrets and some other birds catch insects flushed from the grass, though by following grazers, not by fanning dust themselves."},
+      {"text": "'Food such as small bugs' leaves room for other food; seeds are likely for a ground bird but never stated.", "class": "hypothesis", "confidence": "low", "evidence": ["C16.14"], "note": "The wording is open-ended."},
+      {"text": "Sand Attack (Lv 5) and Gust (Lv 9) are the dust-raising wingbeats in game form.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sand Attack", "move:Gust", "C16.8"]}
+    ],
+    "habitat": [
+      {"text": "Forests, woods and grassy areas: a common sight in forests and woods, it usually hides in tall grass. The Gen 3 Pokédex habitat is forest.", "class": "canon", "confidence": "high", "evidence": ["16.1", "16.3", "16.4", "16.10", "C16.1", "C16.5", "C16.7", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 29, 30, 31, 35, 36 and 37 and in the National Park in Johto, and on Routes 1, 2, 5, 6 and 25 and in Viridian Forest in Kanto, always by day and morning only, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "In Viridian Forest it is 15% of daytime encounters, among Caterpie or Weedle, Metapod or Kakuna, and Pikachu; at night Hoothoot and Noctowl take its slots.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Hoothoot", "species:Noctowl"]}
+    ],
+    "behavior": [
+      {"text": "Very docile; it dislikes fighting and prefers to avoid conflict.", "class": "canon", "confidence": "high", "evidence": ["16.2", "16.3", "16.9", "C16.3", "C16.13", "C16.15"]},
+      {"text": "If disturbed, however, it can ferociously strike back.", "class": "canon", "confidence": "high", "evidence": ["16.9", "C16.16"]},
+      {"text": "Diurnal: every HeartGold and SoulSilver table has it by day and morning only, and the owls take its place at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about flocks or pairs.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "It has a nest it can unerringly return to, however far it is taken from home.", "class": "canon", "confidence": "high", "evidence": ["16.6", "16.7", "C16.10", "C16.12"]},
+      {"text": "Flying egg group, 15 egg cycles (short), an even sex ratio, medium-slow growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "If attacked, it often kicks up sand to protect itself rather than fight back; it chases off enemies by flapping up sand.", "class": "canon", "confidence": "high", "evidence": ["16.2", "16.3", "16.4", "16.10", "C16.4", "C16.6", "C16.7", "C16.17"]},
+      {"text": "One trick does two jobs: the dust that flushes insects is the dust that blinds attackers.", "class": "inferred", "confidence": "high", "evidence": ["C16.8", "C16.2"]},
+      {"text": "Its predators aren't named; Pidgeotto and the owls are larger birds in the same places.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Noctowl"], "note": "Co-occurrence and size only; Noctowl hunts at night when Pidgey isn't out."}
+    ],
+    "senses": [
+      {"text": "It has an extremely sharp sense of direction.", "class": "canon", "confidence": "high", "evidence": ["16.6", "16.7", "C16.9", "C16.11"], "analogy": "Homing pigeons find their way back over hundreds of kilometres using the sun, the earth's magnetic field and smell."},
+      {"text": "Keen Eye, one of its abilities, keeps its accuracy from being lowered: good eyes in game terms.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Pidgeotto at level 18 and Pidgeot at 36: 0.3 m and 1.8 kg, then 1.1 m and 30.0 kg, then 1.5 m and 39.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Pidgeotto", "species:Pidgeot"]},
+      {"text": "Read as development, a docile insect-eater that hides in grass becomes a territorial raptor that carries prey to its nest (Pidgeotto, 17.4): the line climbs from trophic level 2-3 to the top.", "class": "inferred", "confidence": "medium", "evidence": ["16.8", "17.4"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Tackle, Sand Attack, Gust, Quick Attack (Lv 13), Whirlwind, Twister, Feather Dance, Agility, Wing Attack, Roost, Tailwind, Mirror Move and Air Slash: a bird that kicks up dust, outpaces and out-turns, and roosts to rest.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Sand Attack", "move:Gust", "move:Quick Attack", "move:Roost", "move:Mirror Move"]}
+    ],
+    "ecology": [
+      {"text": "A small daytime insectivore of grass and forest edges, active when the owls are not: Pidgey by day and Hoothoot or Noctowl by night share the same slots in the tables.", "class": "inferred", "confidence": "high", "evidence": ["16.8", "game:encounters", "species:Hoothoot"]},
+      {"text": "By flushing insects into the open with its dust, it may make prey available to other insect-eaters nearby.", "class": "hypothesis", "confidence": "low", "evidence": ["16.5"], "note": "Untested."}
+    ],
+    "humans": [
+      {"text": "Its homing is the kind people have used birds for: it returns to its nest from any distance.", "class": "inferred", "confidence": "medium", "evidence": ["16.6"]},
+      {"text": "Docile and common on the routes out of every early town, it is the first wild bird most Trainers meet.", "class": "inferred", "confidence": "medium", "evidence": ["16.2", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "A messenger: a bird that finds its way home from anywhere could carry notes between the homestead and town.", "class": "hypothesis", "confidence": "medium", "evidence": ["16.6", "16.7"], "capability": "navigation", "note": "Homing is stated; carrying messages is untested."},
+      {"text": "Insect control in the garden and fields: it flushes and eats small bugs.", "class": "inferred", "confidence": "medium", "evidence": ["16.5", "16.8"], "capability": "foraging"},
+      {"text": "Docile around people, but it can strike back if disturbed: don't corner it.", "class": "canon", "confidence": "high", "evidence": ["16.9"]},
+      {"text": "Pidgey kicking dust in the vegetable rows each morning, and the beetle population in steep decline.", "class": "creative", "evidence": ["16.5"]}
+    ]
+  },
+  "niche": {"guild": "insectivore", "trophic_level": 3, "microhabitat": ["tall grass", "forest edges and woods"], "activity": "diurnal",
+            "foraging": "flushes insects from the grass with a dust cloud raised by its wings, then eats them", "evidence": ["16.5", "16.8", "game:encounters"], "class": "inferred", "confidence": "high"},
+  "relationships": [
+    {"with": "small bugs (non-Pokémon insects)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["16.8", "16.5"]},
+    {"with": "Pidgeotto", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Hoothoot", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Hoothoot"], "note": "The same grass by day (Pidgey) and night (Hoothoot)."},
+    {"with": "tall grass", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["16.3", "16.8"]}
+  ],
+  "ecotypes": [
+    {"name": "Dust-flusher", "moves": ["Foresight", "Pursuit", "Air Cutter"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that hunts harder than the docile entries suggest: a move to find what hides, a chase, and a cutting wind. The Pidgey that runs down what its dust drives out. Fits open grassland.",
+     "behavior": "Follows the flushed insects instead of waiting for them.", "evidence": ["16.5", "move:Foresight", "move:Pursuit", "move:Air Cutter"]},
+    {"name": "Steel-wing defender", "moves": ["Steel Wing", "Brave Bird"], "class": "hypothesis", "confidence": "low",
+     "reading": "The 'ferociously strike back' side of Pidgey as a lineage: a hard wing and a full-body dive. Nest-defenders. Fits crowded forest edges where nests are raided.",
+     "behavior": "Docile until its nest is threatened, then fearless.", "evidence": ["16.9", "move:Steel Wing", "move:Brave Bird"]}
+  ],
+  "open_questions": [
+    "Does Pidgey eat anything besides small bugs?",
+    "How does it find its way home: sun, magnetism, landmarks?",
+    "Where does it nest: on the ground in tall grass, or in trees?",
+    "Does it live in flocks?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

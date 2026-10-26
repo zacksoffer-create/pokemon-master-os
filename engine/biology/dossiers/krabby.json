@@ -1,0 +1,89 @@
+{
+  "species": "Krabby",
+  "id": 98,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small red beach crab that lives in holes dug in the sand. Krabby's pincers are weapons and also its balance when it walks sideways; they break off easily but grow back fast, though one that has lost a pincer somehow can't walk sideways any more. When danger comes it cloaks itself in bubbles to look bigger. On sandy shores with little food Krabby squabble over territory, and one that can't find food will swallow a mouthful of sand for its nutrients. In HeartGold and SoulSilver it is fished all along Johto's coast and Kanto's Sea Route 19, and lives in the Seafoam Islands.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small crab (Gen 4 shape armor), 0.4 m and 6.5 kg, typed Water: the River Crab Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its pincers are powerful weapons and are used for balance when it walks sideways.", "class": "canon", "confidence": "high", "evidence": ["98.1", "98.2", "C98.1", "C98.2"]},
+      {"text": "The pincers break off easily, in battle or when torn out of their sockets, and grow back fast, fully.", "class": "canon", "confidence": "high", "evidence": ["98.2", "98.4", "98.8", "98.9", "C98.3", "C98.5", "C98.13", "C98.15"], "analogy": "Real crabs can shed a claw to escape (autotomy) and regrow it over several moults."},
+      {"text": "If it loses a pincer, it somehow becomes incapable of walking sideways.", "class": "canon", "confidence": "high", "evidence": ["98.4", "C98.6"]}
+    ],
+    "diet": [
+      {"text": "If it can't find food, it absorbs nutrients by swallowing a mouthful of sand.", "class": "canon", "confidence": "high", "evidence": ["98.5", "C98.7"]},
+      {"text": "Its usual food isn't named. On beaches 'with little in the way of food' it squabbles over territory, so food on the beach is what it competes for.", "class": "canon", "confidence": "medium", "evidence": ["98.6", "98.7", "C98.9", "C98.11"]},
+      {"text": "A beach crab that eats sand when hungry is a scavenger and sifter of the shore's detritus and small animals, by inference.", "class": "inferred", "confidence": "low", "evidence": ["C98.7"], "analogy": "Sand-bubbler and fiddler crabs sift sand for the organic matter in it."}
+    ],
+    "habitat": [
+      {"text": "Sandy beaches near the sea, in burrows dug into the sand. The Gen 3 Pokédex habitat is waters-edge.", "class": "canon", "confidence": "high", "evidence": ["98.6", "98.7", "98.8", "98.9", "C98.8", "C98.10", "C98.12", "C98.14", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is fished at Cherrygrove, Union Cave, Route 34, Olivine, Sea Route 40, the Whirl Islands and Cianwood (where Rock Smash finds it too), walks and is smashed out of rocks on Route 47, and in Kanto is fished on Sea Route 19 and in the Seafoam Islands, at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its Rock Smash encounters (Cianwood, Route 47, Sea Route 19) fit a crab that shelters under rocks as well as in sand.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It walks sideways.", "class": "canon", "confidence": "high", "evidence": ["98.1", "98.4"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "On sandy shores with little food, Krabby can be seen squabbling with each other over territory.", "class": "canon", "confidence": "high", "evidence": ["98.6", "98.7", "C98.9", "C98.11"]},
+      {"text": "Territorial fights where food is scarce suggest that where food is plentiful they tolerate each other more.", "class": "inferred", "confidence": "low", "evidence": ["98.6"]}
+    ],
+    "reproduction": [
+      {"text": "Water 3 egg group, 20 egg cycles, an even sex ratio, medium growth. Nothing describes eggs or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "If it senses danger approaching, it cloaks itself with bubbles from its mouth so it will look bigger.", "class": "canon", "confidence": "high", "evidence": ["98.3", "C98.4"]},
+      {"text": "Losing a pincer costs it little: the pincer grows back.", "class": "inferred", "confidence": "medium", "evidence": ["98.9"]},
+      {"text": "Harden (Lv 11) and Protect (Lv 29), with Shell Armor (no critical hits), are a crab's shell in game form.", "class": "mechanic", "confidence": "high", "evidence": ["move:Harden", "move:Protect", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It senses danger approaching; how is not described.", "class": "canon", "confidence": "low", "evidence": ["98.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Kingler at level 28, from 0.4 m and 6.5 kg to 1.3 m and 60.0 kg, and one claw grows massively (99.2).", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Kingler", "99.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Mud Sport, Bubble, Vise Grip (Lv 5), Leer, Harden, Bubble Beam, Mud Shot, Metal Claw, Stomp, Protect, Guillotine (Lv 31), Slam, Brine, Crabhammer (Lv 41) and Flail: bubbles, mud and pincers.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Vise Grip", "move:Bubble", "move:Mud Shot", "move:Guillotine", "move:Crabhammer"]}
+    ],
+    "ecology": [
+      {"text": "A shore scavenger and sand-sifter, close to the bottom of the web, recycling what washes up.", "class": "inferred", "confidence": "low", "evidence": ["98.5", "98.6"]},
+      {"text": "Burrows dug in sand turn over and aerate the beach.", "class": "inferred", "confidence": "low", "evidence": ["98.6"]},
+      {"text": "No entry names its predators; in Seafoam it shares the water with Seel, Dewgong and Slowbro.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seel"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Krabby and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "A beach and shore animal: the homestead's lakes have no sand beach for it.", "class": "inferred", "confidence": "medium", "evidence": ["98.6"]},
+      {"text": "A cleaner of shore detritus, if a sandy margin is made for it.", "class": "hypothesis", "confidence": "low", "evidence": ["98.5"], "note": "Its diet is barely recorded."},
+      {"text": "Lost pincers grow back: a fight costs it little, so it will fight often.", "class": "inferred", "confidence": "low", "evidence": ["98.6", "98.9"]},
+      {"text": "Krabby bubbling up to look bigger every time the homestead's Seel swims past.", "class": "creative", "evidence": ["98.3"]}
+    ]
+  },
+  "niche": {"guild": "scavenger", "trophic_level": 2.5, "microhabitat": ["burrows in sandy beaches", "rocks on the shore", "sea-cave shallows"], "activity": "unknown",
+            "foraging": "forages on the shore; swallows sand for nutrients when food is short", "evidence": ["98.5", "98.6"], "class": "inferred", "confidence": "low",
+            "note": "Its usual food is never named."},
+  "relationships": [
+    {"with": "detritus washed up on the shore", "kind": "feeds_on", "class": "inferred", "confidence": "low", "evidence": ["98.5", "98.6"]},
+    {"with": "sand and its nutrients", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["98.5"], "note": "When no other food is found."},
+    {"with": "Kingler", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Burrow digger", "moves": ["Dig", "Slam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of deep burrows: it digs and slams. The Krabby that holds the best holes on a crowded beach. Fits sandy beaches.",
+     "behavior": "Wins territory squabbles by digging in.", "evidence": ["98.6", "move:Dig", "move:Slam"]},
+    {"name": "Haze-bubbler", "moves": ["Haze", "Amnesia", "Tickle"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that avoids fights: a haze that resets them, a move to shrug off attacks, and a disarming tickle. The bubble-cloaking bluffer of the entries. Fits shores with bigger predators about.",
+     "behavior": "Bubbles and bluffs; rarely uses its pincers.", "evidence": ["98.3", "move:Haze", "move:Amnesia", "move:Tickle"]}
+  ],
+  "open_questions": [
+    "What does Krabby normally eat?",
+    "Why can't it walk sideways after losing a pincer (98.4)?",
+    "Do Krabby on rich shores still fight over territory?",
+    "What eats Krabby?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}
