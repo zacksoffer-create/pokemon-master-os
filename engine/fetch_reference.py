@@ -81,6 +81,14 @@ EXTRA = {  # independent cross-check sources, and in-game trainer teams straight
         "heartgold_battle_command_data.s": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/asm/overlay_12_battle_command.s",
         "heartgold_item_descriptions.json": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/files/msgdata/msg/msg_0221.json",
         "heartgold_items.h": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/include/constants/items.h",
+        # the equipment library (equipment/gear.py): every item each game files in its key items pocket, with its name
+        "crystal_item_attributes.asm": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/data/items/attributes.asm",
+        "crystal_item_names.asm": "pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/data/items/names.asm",
+        "emerald_items.h": "pokeemerald/731ad5bfd6e6f265508d0efcca0ba42f9dcf5881/src/data/items.h",
+        "firered_items.json": "pokefirered/ce6406d8c2eaf46d543c8a2606de0c3cb1951982/src/data/items.json",
+        "platinum_item_list.txt": "pokeplatinum/be36a9db3d2390a5009adc087c7aef550ce335e7/generated/items.txt",
+        "heartgold_item_data.csv": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/files/itemtool/itemdata/item_data.csv",
+        "heartgold_item_names.json": "pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/files/msgdata/msg/msg_0222.json",
     }.items()} | {   # how each wild Pokémon is met (rod, surf, the Safari Zone...), for which balls it could be caught in
     f"equipment/{t}.csv": POKEAPI + f"{t}.csv" for t in ("encounter_slots", "encounter_methods")} | {
     # the Gen 4 Pokédex's body shapes, for what a body can do (capability/records.py)
@@ -116,6 +124,27 @@ def fetch_smogon_sets():
     return names
 
 
+PLATINUM_ITEMS = "equipment/platinum_items.json"
+
+
+def fetch_platinum_items():
+    """Platinum keeps one JSON file per item (res/items/data/<name>.json: name, description, pocket...); they're joined
+    into one file, keyed by the item constant, in the game's item order (equipment/platinum_item_list.txt, fetched
+    first). The ITEM_UNUSED_ slots have no file in the source and none here."""
+    import json
+    base = PRET + "pokeplatinum/be36a9db3d2390a5009adc087c7aef550ce335e7/res/items/data/"
+    names = [ln.strip() for ln in open(os.path.join(RAW, "equipment", "platinum_item_list.txt")) if ln.strip()]
+    items = {}
+    for const in names:
+        if const == "MAX_ITEMS" or const.startswith("ITEM_UNUSED_"):
+            continue
+        with urllib.request.urlopen(base + const[len("ITEM_"):].lower() + ".json", timeout=120) as resp:
+            items[const] = json.loads(resp.read().decode("utf-8"))
+    with open(os.path.join(RAW, PLATINUM_ITEMS), "w", encoding="utf-8") as fh:
+        json.dump({"source": base + "<name>.json", "items": items}, fh, ensure_ascii=False, indent=1)
+    return [PLATINUM_ITEMS]
+
+
 def fetch_new_trainers(prefix="trainers/"):
     """Only the files under `prefix` not on disk yet (trainers/, equipment/); their checksums are added, nothing already
     fetched is rewritten (B30)."""
@@ -133,6 +162,11 @@ def fetch_new_trainers(prefix="trainers/"):
         if name not in have:
             lines.append(f"{hashlib.sha256(open(dest, 'rb').read()).hexdigest()}  {name}")
         print("fetched", name)
+    if PLATINUM_ITEMS.startswith(prefix) and not os.path.exists(os.path.join(RAW, PLATINUM_ITEMS)):
+        fetch_platinum_items()
+        if PLATINUM_ITEMS not in have:
+            lines.append(f"{hashlib.sha256(open(os.path.join(RAW, PLATINUM_ITEMS), 'rb').read()).hexdigest()}  {PLATINUM_ITEMS}")
+        print("fetched", PLATINUM_ITEMS)
     with open(sums, "w") as out:
         out.write("\n".join(sorted(lines, key=lambda ln: ln.split("  ", 1)[-1])) + "\n")
 
@@ -156,6 +190,7 @@ def main():
         fetch(url, os.path.join(RAW, name))
         print("fetched", name)
     targets.update({n: SMOGON_SETS for n in fetch_smogon_sets()})
+    targets.update({n: "pokeplatinum res/items/data/" for n in fetch_platinum_items()})
     with open(os.path.join(MANIFEST, "SHA256SUMS.txt"), "w") as out:
         for name in sorted(targets):
             digest = hashlib.sha256(open(os.path.join(RAW, name), "rb").read()).hexdigest()

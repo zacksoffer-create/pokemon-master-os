@@ -351,6 +351,8 @@ Support information about acquisition, purpose, game availability, and ownership
 
 Preserve connections to Survival, Homestead, and journey planning without attempting to implement those entire systems inside this module.
 
+**Settled later (A-35, Zack, 2026-10-26: "Change: include every key item.").** "Key items where appropriate" now means every key item: everything Crystal, FireRed, Emerald, Platinum and HeartGold/SoulSilver file in their Key Items pocket, read from each game's own item data, plus the four devices that aren't bag items (Running Shoes, Pokégear, PokéNav, Pokétch). Story items that only matter to the plot are in too, marked as story items. Each game gets its own name and description for an item, and how you get it comes from that game's scripts; an item a game only carries in its item table is shown as such. The build stops if the library and the games' item lists disagree (`equipment/gear.py` check()). What it looks like in the app: `docs/APP.md` (Equipment).
+
 ## 9. Apricorns and Craftsmanship
 
 Include accurate information about the seven Apricorn types and their corresponding Balls.
