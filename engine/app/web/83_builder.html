@@ -12,8 +12,8 @@ var PB = null;
 var HELD_CATS = ['held-items', 'choice', 'type-enhancement', 'type-protection', 'plates', 'species-specific', 'in-a-pinch', 'picky-healing', 'bad-held-items', 'effort-training', 'training', 'evolution'];
 function builderReady() {
   return Promise.all([labsReady(), gearReady().catch(function () { return null; }), capReady().catch(function () { return null; }), API.data('biology').catch(function () { return null; }),
-    API.data('naming').catch(function () { return null; })])
-    .then(function (r) { if (r[4]) S.naming = r[4].words; if (r[3] && !S.bioBy) { S.bioBy = {}; r[3].species.forEach(function (s) { S.bioBy[s.name] = s; }); S.bioVersions = r[3].versions; } return true; });
+    API.data('naming').catch(function () { return null; }), API.data('ranges').catch(function () { return null; })])
+    .then(function (r) { if (r[4]) S.naming = r[4].words; if (r[5]) S.ranges = r[5]; if (r[3] && !S.bioBy) { S.bioBy = {}; r[3].species.forEach(function (s) { S.bioBy[s.name] = s; }); S.bioVersions = r[3].versions; } return true; });
 }
 function proposedName(name) {   // the name the generated words would make (docs/naming/proposed_words.json; proposals, not applied)
   var W = S.naming; if (!W || !name || !name.tokens) return '';
@@ -100,7 +100,7 @@ function pbRecord(id) {   // one of yours, or a reference build (from the builds
   if (rec) return {kind: 'build', rec: rec, build: buildOf(rec, id), buildId: id, v: rec.v || 1, game: gameOf(rec), prov: rec.provenance};
   return null;
 }
-var IND_KEYS = ['nickname', 'gender', 'shiny', 'ball', 'met_location', 'caught_level', 'note'];
+var IND_KEYS = ['nickname', 'gender', 'shiny', 'ball', 'met_how', 'met_as', 'met_location', 'caught_level', 'note'];
 function pokemonLab(id) {
   return builderReady().then(function () {
     var rec = pbRecord(id);
@@ -178,6 +178,57 @@ function pbSets() {   // reference builds of this species in this generation, to
     .filter(function (b) { return b.species === PB.species && (b.generation || 4) === gen && b.provenance !== 'yours'; })
     .sort(function (a, b) { return PROV_ORDER.indexOf(a.provenance) - PROV_ORDER.indexOf(b.provenance) || String(a.name || a.id).localeCompare(String(b.name || b.id)); });
 }
+/* ---- where it came from (v2.1): the ways this species really reaches you in this game ----
+   Zack: "it can only come from a few places, so let's make where it comes from realistic." Field Biology's encounter
+   tables (app/data/ranges.json, every Gen I-IV game) give the gifts, gift eggs, in-game trades, one-time encounters and
+   wild areas for it and its earlier stages; an egg is offered if its line can breed, and a trade or transfer always. */
+var STARTERS = {heartgold: ['Chikorita', 'Cyndaquil', 'Totodile'], soulsilver: ['Chikorita', 'Cyndaquil', 'Totodile'], crystal: ['Chikorita', 'Cyndaquil', 'Totodile'],
+  firered: ['Bulbasaur', 'Charmander', 'Squirtle'], emerald: ['Treecko', 'Torchic', 'Mudkip'], platinum: ['Turtwig', 'Chimchar', 'Piplup']};
+var MET_WAYS = {walk: 'in the grass or a cave', surf: 'surfing', 'old-rod': 'with the Old Rod', 'good-rod': 'with the Good Rod', 'super-rod': 'with the Super Rod', 'rock-smash': 'with Rock Smash',
+  headbutt: 'with Headbutt', 'headbutt-low': 'with Headbutt', 'headbutt-normal': 'with Headbutt', 'headbutt-high': 'with Headbutt', 'honey-tree': 'at a Honey tree', seaweed: 'diving in the seaweed',
+  'feebas-tile-fishing': 'fishing the Feebas tiles', 'roaming-grass': 'roaming the region', 'roaming-water': 'roaming the region\'s water', static: 'met once', pokeflute: 'woken with the Poké Flute',
+  'devon-scope': 'revealed with the Devon Scope', 'squirt-bottle': 'watered with the SquirtBottle', 'wailmer-pail': 'watered with the Wailmer Pail'};
+var MET_ONCE = ['static', 'pokeflute', 'devon-scope', 'squirt-bottle', 'wailmer-pail', 'roaming-grass', 'roaming-water'];
+function metCond(c) {   // the encounter table's conditions, in words
+  return String(c || '').split(',').filter(Boolean).map(function (x) { return x.replace(/^story-progress-/, 'after: ').replace(/^other-/, '').replace(/^weekday-/, 'on ').replace(/^(swarm|radar|slot2)-/, '$1 ').replace(/-/g, ' '); }).join(', ');
+}
+function pbOrigins(sp, game) {   // [{group, label, how, as, where, level, hint}], most specific first
+  var R = S.ranges, out = [], gen = Battle.GAME_GEN[game], line = typeof Gear !== 'undefined' && Gear.ready && Gear.ready() ? Gear.lineOf(sp) : [sp];
+  var area = function (a) { return R && R.areas[a] || 'somewhere'; }, lv = function (lo, hi) { return lo === hi ? 'Lv ' + lo : 'Lv ' + lo + '–' + hi; };
+  line.forEach(function (name, depth) {
+    var es = R && (R.species[name] || {})[game] || [], as = depth ? ' as ' + name + ', then evolved' : '', wild = {};
+    es.forEach(function (e) { var where = area(e[0]), m = e[1], cond = metCond(e[6]), when = e[5] ? ' (' + e[5] + ')' : '';
+      if (m === 'gift') {
+        var starter = (STARTERS[game] || []).indexOf(name) >= 0 && /^(New Bark Town|Pallet Town|Route 101|Route 201)$/.test(where) && e[3] === 5 && !cond;   // the game's own three, at the start
+        out.push({group: starter ? 'Your starter' : 'A gift', label: (starter ? 'Your starter' : 'A gift') + as + ': ' + where + ', ' + lv(e[3], e[4]) + (cond ? ' (' + cond + ')' : ''), how: starter ? 'starter' : 'gift', as: name, where: where, level: e[3]});
+      } else if (m === 'gift-egg') out.push({group: 'A gift egg', label: 'An egg' + (depth ? ' (' + name + '), hatched and evolved' : '') + ': ' + where + ', hatches at ' + lv(e[3], e[3]) + (cond ? ' (' + cond + ')' : ''), how: 'gift-egg', as: name, where: where, level: e[3]});
+      else if (m === 'npc-trade') out.push({group: 'An in-game trade', label: 'Traded for' + as + ': ' + where + ', ' + lv(e[3], e[4]) + (cond ? ' (' + cond + ')' : ''), how: 'trade', as: name, where: where, level: e[3]});
+      else if (MET_WAYS[m]) { var key = where + '|' + MET_WAYS[m], w = wild[key] = wild[key] || {where: where, way: MET_WAYS[m], once: MET_ONCE.indexOf(m) >= 0, lo: e[3], hi: e[4], when: {}, cond: {}};
+        w.lo = Math.min(w.lo, e[3]); w.hi = Math.max(w.hi, e[4]); if (e[5]) w.when[e[5]] = 1; if (cond) w.cond[cond] = 1; }
+      else out.push({group: 'An event', label: 'An event' + as + ': ' + m.replace(/-/g, ' ') + ', ' + lv(e[3], e[4]), how: 'event', as: name, where: where, level: e[3]});
+    });
+    Object.keys(wild).forEach(function (k) { var w = wild[k], times = Object.keys(w.when), conds = Object.keys(w.cond);
+      out.push({group: w.once ? 'A one-time encounter' : 'Caught in the wild', label: w.where + ' · ' + w.way + as + ' · ' + lv(w.lo, w.hi) + (times.length && times.length < 3 ? ' · ' + times.join('/') : '') + (conds.length ? ' · ' + conds.slice(0, 2).join('; ') : ''),
+        how: w.once ? 'encounter' : 'wild', as: name, where: w.where, level: w.lo}); });
+  });
+  var base = line[line.length - 1], breeds = line.some(function (n) { var d = dexOf(n) || {}; return (d.eg || []).indexOf('No Eggs') < 0 && (d.eg || []).indexOf('Ditto') < 0 && (d.eg || []).length; });
+  if (breeds) out.push({group: 'Hatched', label: 'Hatched from an egg' + (base !== sp ? ' (as ' + base + ', then evolved)' : '') + ', Lv ' + (gen >= 4 ? 1 : 5), how: 'hatched', as: base, where: '', level: gen >= 4 ? 1 : 5, hint: 'where it hatched'});
+  out.push({group: 'From somewhere else', label: gen >= 4 ? 'Traded in, or brought over through the Pal Park' : 'Traded in from another game', how: 'transfer', as: sp, where: '', level: null, hint: 'which game, or who traded it'});
+  out.push({group: 'From somewhere else', label: 'Something else (write it in)', how: 'other', as: sp, where: '', level: null, hint: 'where you got it'});
+  var order = ['Your starter', 'A gift', 'A gift egg', 'An in-game trade', 'A one-time encounter', 'Caught in the wild', 'Hatched', 'An event', 'From somewhere else'];
+  return out.map(function (o, i) { return [o, i]; }).sort(function (a, b) { return order.indexOf(a[0].group) - order.indexOf(b[0].group) || a[1] - b[1]; }).map(function (x) { return x[0]; });
+}
+function pbOriginIndex(w) {   // the option this Pokémon's record matches
+  if (!w.met_how) return -1;
+  for (var k = 0; k < (PB.origins || []).length; k++) { var o = PB.origins[k];
+    if (o.how === w.met_how && (o.as || '') === (w.met_as || o.as || '') && (o.where === '' || o.where === (w.met_location || ''))) return k; }
+  return -1;
+}
+function pbOriginLine(o, w) {
+  if (!w.met_how) return (PB.origins || []).length > 2 ? 'Every way ' + esc(PB.species) + ' reaches you in ' + esc(GAME_NAME[PB.game]) + ', from the game\'s own encounter tables.' : 'No encounter in ' + esc(GAME_NAME[PB.game]) + '\'s tables: hatch it, trade for it, or write it in.';
+  var how = {starter: 'Your starter', gift: 'A gift', 'gift-egg': 'From a gift egg', trade: 'An in-game trade', encounter: 'A one-time encounter', wild: 'Caught in the wild', hatched: 'Hatched', transfer: 'Traded in or transferred', event: 'An event', other: 'Your own account'}[w.met_how] || w.met_how;
+  return esc(how) + (w.met_as && w.met_as !== PB.species ? ' as ' + esc(w.met_as) : '') + (w.met_location ? ' · ' + esc(w.met_location) : '') + (w.caught_level ? ' · Lv ' + w.caught_level : '');
+}
 function pbInputs() {
   var b = PB.cur, gen = PB.gen, sp = PB.species, w = PB.who, d = dexOf(sp) || {}, moves = [];
   try { moves = Battle.learnable(sp, PB.game); } catch (e) { moves = []; }
@@ -187,6 +238,10 @@ function pbInputs() {
   if (w.ball && balls.indexOf(w.ball) < 0) balls.unshift(w.ball);
   var fam = familyOf(sp).filter(function (x) { var dd = dexOf(x); return dd && dd.gen <= gen; }), sets = pbSets(), own = PB.rec.kind === 'individual';
   var opt = function (v, label, cur) { return '<option value="' + esc(v) + '"' + (v === cur ? ' selected' : '') + '>' + esc(label) + '</option>'; };
+  PB.origins = own ? pbOrigins(sp, PB.game) : [];
+  var oi = pbOriginIndex(w), ob = oi >= 0 ? PB.origins[oi] : null, groups = [];
+  PB.origins.forEach(function (o, k) { var g = groups.filter(function (x) { return x[0] === o.group; })[0]; if (!g) groups.push(g = [o.group, []]); g[1].push([o, k]); });
+  var vers = own && PB.rec.buildId ? Records.versions(PB.rec.buildId) : [];
   return (own ? card('Who it is', '<div class="row"><div style="flex:2"><label class="l">Nickname</label><input class="f" data-who="nickname" value="' + esc(w.nickname || '') + '" placeholder="' + esc(sp) + '"></div>' +
       '<div><label class="l">Species</label><select class="f" data-pb="species">' + fam.map(function (x) { return opt(x, x, sp); }).join('') + '</select></div></div>' +
       '<div class="row" style="margin-top:6px"><div><label class="l">Sex</label><select class="f" data-who="gender">' + sexes.map(function (s) { return opt(s, s === 'M' ? 'Male' : s === 'F' ? 'Female' : 'Genderless', w.gender); }).join('') + '</select></div>' +
@@ -194,29 +249,36 @@ function pbInputs() {
       '<div><label class="l">Level</label><input class="f" type="number" min="1" max="100" data-pb="level" value="' + (b.level || 100) + '"></div></div>' +
       '<div class="row" style="margin-top:6px;align-items:center"><div style="flex:2"><label class="l">Ball</label><select class="f" data-who="ball">' + balls.map(function (x) { return opt(x, x, w.ball || 'Poké Ball'); }).join('') + '</select>' +
       '<div class="tiny muted" id="pbballfit">' + pbBallFit() + '</div></div><div id="pbballpic">' + inBall(sp, PB.game, w.ball, w.shiny, 72) + '</div></div>' +
-      '<details style="margin-top:8px"><summary class="tiny">Where it came from (optional)</summary><div class="row" style="margin-top:6px"><div><label class="l">Met at</label><input class="f" data-who="met_location" value="' + esc(w.met_location || '') + '"></div>' +
+      '<label class="l" style="margin-top:10px">Where it came from</label><select class="f" data-pborigin="1"><option value="">— choose how you got it —</option>' + groups.map(function (g) {
+        return '<optgroup label="' + esc(g[0]) + '">' + g[1].map(function (x) { return '<option value="' + x[1] + '"' + (x[1] === oi ? ' selected' : '') + '>' + esc(x[0].label) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select>' +
+      '<div class="tiny muted" id="pborigin" style="margin-top:4px">' + pbOriginLine(ob, w) + '</div>' +
+      '<div class="row" style="margin-top:6px"><div style="flex:2"><label class="l">Met at</label><input class="f" data-who="met_location" value="' + esc(w.met_location || '') + '" placeholder="' + esc(ob && ob.hint || 'where you got it') + '"></div>' +
       '<div><label class="l">Level met</label><input class="f" type="number" min="1" max="100" data-who="caught_level" value="' + esc(w.caught_level == null ? '' : w.caught_level) + '"></div></div>' +
-      '<label class="l" style="margin-top:6px">Note</label><input class="f" data-who="note" value="' + esc(w.note || '') + '" placeholder="anything worth remembering"></details>',
-      {eyebrow: 'Nickname, species, sex, shiny, level, ball', tools: false}) : '') +
-    card('Moves', (sets.length ? '<label class="l">Start from a known set <span class="tiny muted">(copies its moves, nature, ability, item and spread; change anything after)</span></label><select class="f" data-pb="set"><option value="">—</option>' + sets.map(function (x) { return '<option value="' + esc(x.id) + '">' + esc((x.name || x.id) + ' · ' + x.provenance) + '</option>'; }).join('') + '</select>' : '') +
+      '<label class="l" style="margin-top:6px">Note</label><input class="f" data-who="note" value="' + esc(w.note || '') + '" placeholder="anything worth remembering">',
+      {eyebrow: 'Nickname, species, sex, shiny, level, ball, where it came from', tools: false}) : '') +
+    ((sets.length || vers.length > 1) ? card('Start from a build', '<label class="l">Pick one and everything below fills in <span class="tiny muted">(moves, ability, nature, item, IVs and EVs; change anything after)</span></label>' +
+      '<select class="f" data-pb="set"><option value="">— keep what\'s here —</option>' +
+      (vers.length > 1 ? '<optgroup label="Your earlier versions of this build">' + vers.slice().reverse().map(function (x) { return '<option value="v:' + (x.v || 1) + '">' + esc('v' + (x.v || 1) + (x.at ? ' · ' + fmtLoose(x.at) : '') + ' · ' + (x.moves || []).join(', ') + (x.note ? ' · ' + x.note : '')) + '</option>'; }).join('') + '</optgroup>' : '') +
+      (sets.length ? '<optgroup label="Known sets for ' + esc(sp) + ' (' + esc(GAME_NAME[PB.game]) + ' rules)">' + sets.map(function (x) { return '<option value="' + esc(x.id) + '">' + esc((x.name || x.id) + ' · ' + x.provenance + ((x.moves || []).length ? ' · ' + x.moves.join(', ') : '')) + '</option>'; }).join('') + '</optgroup>' : '') +
+      '</select>', {eyebrow: 'Your earlier versions · known sets', tools: false, style: own ? 'margin-top:16px' : ''}) : '') +
+    card('Moves', (gen >= 3 ? '<label class="l">Ability</label><select class="f" data-pb="ability">' + abil.map(function (x) { return '<option' + (x === (b.ability || abil[0]) ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join('') + '</select><div id="pbabx" style="margin:4px 0 10px">' + pbAbilityInfo(b.ability || abil[0], gen) + '</div>' : '') +
       [0, 1, 2, 3].map(function (i) { var cur = b.moves[i] || ''; var list = cur && moves.indexOf(cur) < 0 ? [cur].concat(moves) : moves;
         return '<div class="mvslot"><label class="l">Move ' + (i + 1) + '</label><select class="f" data-pbmove="' + i + '"><option value="">— empty —</option>' + list.map(function (m) { var taken = b.moves.indexOf(m) >= 0 && m !== cur;
           return '<option value="' + esc(m) + '"' + (m === cur ? ' selected' : '') + (taken ? ' disabled' : '') + '>' + esc(pbMoveLabel(m, gen)) + '</option>'; }).join('') + '</select><div data-pbmx="' + i + '">' + pbMoveInfo(cur, gen) + '</div></div>'; }).join('') +
       '<div class="tiny muted" style="margin-top:4px">' + moves.length + ' moves it can learn in ' + esc(GAME_NAME[PB.game]) + ' (by level, TM, HM, tutor, egg or an earlier stage; D-024: learnable is what counts).</div>' +
-      Explain.concept('stab', gen) + Explain.concept('category', gen), {eyebrow: 'Every legal move, in a dropdown', tools: false, style: own ? 'margin-top:16px' : ''}) +
-    card('Nature, ability, item', (gen >= 3 ? '<label class="l">Nature</label><select class="f" data-pb="nature"><option value="">— none —</option>' + natures.map(function (x) { var n = (Explain.data() || {natures: {}}).natures[x];
-        return '<option value="' + esc(x) + '"' + (x === b.nature ? ' selected' : '') + '>' + esc(x) + (n && n.up ? ' (+' + STAT_NAME[n.up] + ' −' + STAT_NAME[n.down] + ')' : ' (neutral)') + '</option>'; }).join('') + '</select><div id="pbnatx" style="margin:4px 0 10px">' + pbNatureInfo(b.nature, gen) + '</div>' +
-      '<label class="l">Ability</label><select class="f" data-pb="ability">' + abil.map(function (x, k) { return '<option' + (x === (b.ability || abil[0]) ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join('') + '</select><div id="pbabx" style="margin:4px 0 10px">' + pbAbilityInfo(b.ability || abil[0], gen) + '</div>'
+      Explain.concept('stab', gen) + Explain.concept('category', gen), {eyebrow: gen >= 3 ? 'Its ability, then every legal move, in a dropdown' : 'Every legal move, in a dropdown', tools: false, style: 'margin-top:16px'}) +
+    card('Nature and item', (gen >= 3 ? '<label class="l">Nature</label><select class="f" data-pb="nature"><option value="">— none —</option>' + natures.map(function (x) { var n = (Explain.data() || {natures: {}}).natures[x];
+        return '<option value="' + esc(x) + '"' + (x === b.nature ? ' selected' : '') + '>' + esc(x) + (n && n.up ? ' (+' + STAT_NAME[n.up] + ' −' + STAT_NAME[n.down] + ')' : ' (neutral)') + '</option>'; }).join('') + '</select><div id="pbnatx" style="margin:4px 0 10px">' + pbNatureInfo(b.nature, gen) + '</div>'
       : '<div class="tiny muted" style="margin-bottom:10px">Gen II has no natures or abilities.</div>') +
       '<label class="l">Held item</label><select class="f" data-pb="item"><option value="">— none —</option>' + (b.item && held.indexOf(b.item) < 0 ? '<option selected>' + esc(b.item) + '</option>' : '') + held.map(function (x) { return '<option' + (x === b.item ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join('') + '</select>' +
       '<div id="pbitx" style="margin-top:4px">' + pbItemInfo(b.item, gen) + '</div>', {eyebrow: 'With what each one does, in the game\'s words', tools: false, style: 'margin-top:16px'}) +
     card('Stats', pbStatsHtml(), {eyebrow: 'IVs, EVs and what they make', tools: false, style: 'margin-top:16px', id: 'm-pbstats'});
 }
-function pbBallFit() {
+function pbBallFit() {   // v2.1: the ball is its own choice (Zack: "treat the ball as independent"), so this says what the ball does, not whether it fits
   if (typeof Gear === 'undefined' || !Gear.ready || !Gear.ready()) return '';
   var id = Gear.ballIdOf(PB.who.ball || 'Poké Ball', PB.game); if (!id) return '';
-  var v = Gear.fits(PB.game, id, PB.species, {});
-  return (v.ok === true ? '✓ ' : v.ok === false ? 'A story choice: ' : '') + esc(v.why) + ' · <a href="#/ball/' + id + '">the ' + esc(Gear.ball(id).name) + '</a>';
+  var m = Gear.mechanics(id, PB.game);
+  return (m ? 'In ' + esc(GAME_NAME[PB.game]) + ', the ' + esc(Gear.nameIn(id, PB.game)) + ': ' + esc(String(m.says).replace(/\bx(\d)/g, '×$1')) + ' ' : '') + '<a href="#/ball/' + id + '">More on the ' + esc(Gear.ball(id).name) + ' →</a>';
 }
 function pbStats() {
   var b = PB.cur, gen = PB.gen, sp = Battle.species(gen, PB.species), base = STATS.map(function (s) { return sp.bs[s]; });
@@ -322,6 +384,10 @@ function pbBind(p) {
     var el = e.target, k;
     if ((k = el.getAttribute('data-pbmove')) != null) { var mv = [0, 1, 2, 3].map(function (i) { var x = box.querySelector('[data-pbmove="' + i + '"]'); return x ? x.value : ''; }).filter(Boolean);
       PB.cur.moves = mv; box.innerHTML = pbInputs(); }
+    else if (el.getAttribute('data-pborigin')) { var o = PB.origins[+el.value];   // where it came from: fills Met at and Level met (both still yours to edit)
+      if (!o) { ['met_how', 'met_as', 'met_location', 'caught_level'].forEach(function (x) { PB.who[x] = null; }); }
+      else { PB.who.met_how = o.how; PB.who.met_as = o.as; PB.who.met_location = o.where || null; PB.who.caught_level = o.level; }
+      box.innerHTML = pbInputs(); pbKeep(); return; }
     else if ((k = el.getAttribute('data-who'))) { if (el.tagName === 'INPUT') return; PB.who[k] = k === 'shiny' ? el.value === 'yes' : (el.value || null); portrait(); pbKeep(); return; }
     else if ((k = el.getAttribute('data-pb'))) {
       if (k === 'nature') { if (el.value) PB.cur.nature = el.value; else delete PB.cur.nature; document.getElementById('pbnatx').innerHTML = pbNatureInfo(PB.cur.nature, PB.gen); redrawStats(); }
@@ -330,7 +396,8 @@ function pbBind(p) {
       else if (k === 'species') { PB.species = el.value; PB.cur.species = el.value; var ab = Battle.abilities(PB.gen, el.value); if (PB.cur.ability && ab.indexOf(PB.cur.ability) < 0) delete PB.cur.ability;
         var ok = []; try { ok = Battle.learnable(el.value, PB.game); } catch (x) { ok = []; } PB.cur.moves = PB.cur.moves.filter(function (m) { return ok.indexOf(m) >= 0; });
         box.innerHTML = pbInputs(); portrait(); document.getElementById('pbspecies').innerHTML = pbSpecies(); }
-      else if (k === 'set') { var src = storeBuild(el.value); if (!src) return; PB.cur = pbNormal(src, PB.species, PB.cur.level); box.innerHTML = pbInputs(); toast('Loaded ' + esc(src.name || el.value) + '. Change anything, then Save.'); }
+      else if (k === 'set') { var src = /^v:/.test(el.value) ? Records.version(PB.rec.buildId, +el.value.slice(2)) : storeBuild(el.value); if (!src) return;
+        PB.cur = pbNormal(src, PB.species, PB.cur.level); box.innerHTML = pbInputs(); toast('Loaded ' + esc(/^v:/.test(el.value) ? 'your v' + el.value.slice(2) : src.name || el.value) + '. Change anything, then Save.'); }
       else return;
     } else return;
     pbKeep(); fire();
@@ -369,7 +436,9 @@ function pbSpecies() {
   var gen = PB.gen, sp = Battle.species(gen, PB.species), d = dexOf(PB.species) || {}, bio = (S.bioBy || {})[PB.species], bst = STATS.reduce(function (a, s) { return a + sp.bs[s]; }, 0);
   var abil = Battle.abilities(gen, PB.species), V = S.bioVersions || [];
   var entries = bio ? bio.e.map(function (e) { return '<div class="dexe"><p>“' + esc(e[1]) + '”</p><div class="tiny muted">' + esc(e[2].map(function (k) { return V[k]; }).filter(Boolean).join(' · ')) + '</div></div>'; }).join('') : (d.dex ? '<div class="dexe"><p>“' + esc(d.dex) + '”</p></div>' : '');
-  return card(esc(PB.species), '<div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap"><img src="' + art(numOf(PB.species)) + '" alt="" style="width:120px;height:120px;object-fit:contain"><div style="flex:1;min-width:200px">' +
+  var n = numOf(PB.species);   // v2.1: the shiny under the usual colors
+  return card(esc(PB.species), '<div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap"><div class="pbarts"><img src="' + art(n) + '" alt="' + esc(PB.species) + '" style="width:120px;height:120px;object-fit:contain">' +
+      '<img src="' + artShiny(n) + '" alt="Shiny ' + esc(PB.species) + '" style="width:120px;height:120px;object-fit:contain"><div class="tiny muted">Shiny ✦</div></div><div style="flex:1;min-width:200px">' +
       '<div class="small">' + types(sp.types) + ' · #' + (d.n || '') + (d.genus ? ' · ' + esc(d.genus) : '') + (d.h ? ' · ' + d.h + ' m · ' + d.w + ' kg' : '') + '</div>' +
       '<div style="margin-top:8px">' + statBars(sp.bs) + '</div><div class="tiny muted">Base stat total <b class="num">' + bst + '</b>' + (d.eg ? ' · egg groups: ' + esc(d.eg.join(', ')) : '') + '</div>' +
       (gen >= 3 && abil.length ? '<div style="margin-top:8px">' + abil.map(function (a) { return pbAbilityInfo(a, gen); }).join('') + '</div>' : '') + '</div></div>' +
@@ -422,12 +491,28 @@ function pbScouting(b, read, rg, rep) {
   var mvs = read.moves.map(function (m) { try { return Battle.mbGet(PB.gen, m); } catch (e) { return null; } }).filter(Boolean), phys = mvs.filter(function (m) { return m.category === 'Physical'; }).length, spec = mvs.filter(function (m) { return m.category === 'Special'; }).length, stat = mvs.length - phys - spec;
   T.push('Its moves: ' + phys + ' physical, ' + spec + ' special, ' + stat + ' status');
   if (f.boosts && (f.boosts.atk || f.boosts.spa || f.boosts.spe)) T.push('Sets up before it attacks (' + Object.keys(f.boosts).filter(function (k) { return f.boosts[k]; }).map(function (k) { return '+' + f.boosts[k] + ' ' + {atk: 'Attack', spa: 'Sp. Atk', spe: 'Speed'}[k]; }).join(', ') + ')');
+  pbFamilies(b, read).forEach(function (x) { T.push(esc(x)); });   // v2.1: its move families, and teammates doing the same job
   (rep && rep.phrases || []).filter(function (p) { return p.section === 'philosophy' || p.section === 'tendencies'; }).slice(0, 5).forEach(function (p) { T.push(esc(p.text)); });
   (rep && rep.phrases || []).filter(function (p) { return p.section === 'how_to_beat' || p.section === 'when_behind'; }).slice(0, 2).forEach(function (p) { W.push(esc(p.text)); });
   var list = function (xs, cls) { return xs.length ? '<ul class="scout ' + cls + '">' + xs.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' : '<div class="tiny muted">Nothing stands out.</div>'; };
   return card('Scouting report', '<div class="scout3"><div><div class="eyebrow" style="color:var(--forest-3)">Strengths</div>' + list(S1, 'pos') + '</div><div><div class="eyebrow" style="color:var(--ember-2)">Weaknesses</div>' + list(W, 'neg') + '</div><div><div class="eyebrow">Tendencies</div>' + list(T, '') + '</div></div>' +
     '<div class="tiny muted" style="margin-top:8px">From the same League fights as its roles, its type chart (ability included) and the battle engine\'s phrase book (lines it says about any Pokémon whose numbers trigger them).</div>',
     {eyebrow: 'Strengths · weaknesses · tendencies', tools: false});
+}
+function pbFamilies(b, read) {   // its move families (trainers/families.json), and the teammates doing the same job in another form
+  var C = Families.cfg(); if (!C) return [];
+  var abOf = function (bb, sp) { return PB.gen >= 3 ? (bb.ability || Battle.abilities(PB.gen, sp)[0] || null) : null; };
+  var own = (b.moves || []).filter(Boolean), me = Families.member(PB.species, own.length ? own : read.moves, abOf(b, PB.species), Battle.species(PB.gen, PB.species).types);
+  var mates = PB.team ? Teams.members(Teams.get(PB.team.game)).filter(function (m) { return m && m.ind.id !== PB.id; }) : [];
+  var reads = mates.map(function (m) { return {who: m.ind.nickname || m.build.species, r: Families.member(m.build.species, (m.build.moves || []).filter(Boolean), abOf(m.build, m.build.species), Battle.species(PB.gen, m.build.species).types)}; });
+  var out = [];
+  C.order.forEach(function (fid) { var F = C[fid], mine = me.sets.filter(function (x) { return x.fam === fid; }); if (!mine.length) return;
+    var theirs = []; reads.forEach(function (t) { t.r.sets.filter(function (x) { return x.fam === fid; }).forEach(function (x) { theirs.push(t.who + ', ' + F.forms[x.form].label.toLowerCase() + ' (' + x.what + ')'); }); });
+    out.push(F.label + ': ' + mine.map(function (x) { return F.forms[x.form].label.toLowerCase() + ' (' + x.what + ')'; }).join(', ') + '. ' +
+      (theirs.length ? 'On your ' + GAME_NAME[PB.team.game] + ' team the same job in another form: ' + theirs.join('; ') + (fid === 'weather' ? '. The last weather set wins.' : '.') : F.job + '.'));
+  });
+  if (me.thrive.length) out.push('Thrives in ' + uniqS(me.thrive.map(function (t) { return t.form; })).join(' and ') + ': ' + me.thrive.map(function (t) { return t.what + ' (' + t.why + ')'; }).join(', '));
+  return out;
 }
 /* ---- badges (recognition v2): six families, each measured the way competitive players measure it ---- */
 var BADGE_FAMILIES = [['Speed', 'who it outruns', ['speed']], ['Power', 'how hard it hits', ['atk', 'spa', 'physical_breaker', 'special_breaker']],

@@ -1,0 +1,64 @@
+{
+  "_note": "Move families (v2.1, Zack 2026-10-26): moves and abilities that are different expressions of one job, read together across a team. \"If you have a move like Sunny Day and Sandstorm and Hail and Rain Dance are all the same move in a sense of it's just different expressions of the same move ... all of those play into each other. I want that factored in.\" Each family names its forms; a form is set by moves or abilities. Facts are the Gen IV games' unless a field says otherwise. explain_pack.py ships this file to the app (explain.json, 'families'); the team page and the builder read it (app/web/82_labs.html, Families).",
+  "order": ["weather", "screens", "hazards", "status"],
+  "weather": {
+    "label": "Weather",
+    "job": "Set the field",
+    "explain": "Sun, rain, sand and hail are one job in four forms: each one changes the field for every Pokémon in the battle for five turns (eight with its rock). Only one weather is up at a time and the last one set wins, so a team with several setters can overwrite a rival's weather and choose its own.",
+    "forms": {
+      "sun": {"label": "Sun", "moves": ["Sunny Day"], "abilities": ["Drought"], "rock": "Heat Rock",
+              "thrive": {"abilities": {"Chlorophyll": "Speed doubled", "Solar Power": "Special Attack ×1.5 (loses 1/8 HP a turn)", "Leaf Guard": "no status conditions", "Flower Gift": "Attack and Special Defense ×1.5 for it and its partner", "Forecast": "becomes Fire type"},
+                         "moves": {"Solar Beam": "no charging turn", "Weather Ball": "Fire, power 100", "Synthesis": "heals 2/3", "Morning Sun": "heals 2/3", "Moonlight": "heals 2/3"},
+                         "types": {"Fire": "Fire moves ×1.5"}},
+              "suffer": {"abilities": {"Dry Skin": "loses 1/8 HP a turn"}, "moves": {"Thunder": "50% accuracy"}, "types": {"Water": "Water moves ×0.5"}}},
+      "rain": {"label": "Rain", "moves": ["Rain Dance"], "abilities": ["Drizzle"], "rock": "Damp Rock",
+               "thrive": {"abilities": {"Swift Swim": "Speed doubled", "Rain Dish": "heals 1/16 a turn", "Hydration": "status cured each turn", "Dry Skin": "heals 1/8 a turn", "Forecast": "becomes Water type"},
+                          "moves": {"Thunder": "never misses", "Weather Ball": "Water, power 100"},
+                          "types": {"Water": "Water moves ×1.5"}},
+               "suffer": {"moves": {"Solar Beam": "power halved", "Synthesis": "heals only 1/4", "Morning Sun": "heals only 1/4", "Moonlight": "heals only 1/4"}, "types": {"Fire": "Fire moves ×0.5"}}},
+      "sand": {"label": "Sand", "moves": ["Sandstorm"], "abilities": ["Sand Stream"], "rock": "Smooth Rock", "chip": true,
+               "thrive": {"abilities": {"Sand Veil": "evasion ×1.25, no chip", "Magic Guard": "no chip"},
+                          "moves": {"Weather Ball": "Rock, power 100"},
+                          "types": {"Rock": "Special Defense ×1.5, no chip", "Ground": "no chip", "Steel": "no chip"}},
+               "suffer": {"moves": {"Solar Beam": "power halved", "Synthesis": "heals only 1/4", "Morning Sun": "heals only 1/4", "Moonlight": "heals only 1/4"}}},
+      "hail": {"label": "Hail", "moves": ["Hail"], "abilities": ["Snow Warning"], "rock": "Icy Rock", "chip": true,
+               "thrive": {"abilities": {"Snow Cloak": "evasion ×1.25, no chip", "Ice Body": "heals 1/16 a turn, no chip", "Magic Guard": "no chip", "Forecast": "becomes Ice type"},
+                          "moves": {"Blizzard": "never misses", "Weather Ball": "Ice, power 100"},
+                          "types": {"Ice": "no chip"}},
+               "suffer": {"moves": {"Solar Beam": "power halved", "Synthesis": "heals only 1/4", "Morning Sun": "heals only 1/4", "Moonlight": "heals only 1/4"}}}
+    },
+    "together": {
+      "chip": "Sand and hail both chip every Pokémon that isn't immune for 1/16 of its HP a turn, so a team with both keeps that pressure up whichever is set, and the members immune to both take none of it."
+    }
+  },
+  "screens": {
+    "label": "Screens",
+    "job": "Halve the other side's damage",
+    "explain": "Reflect and Light Screen are one job for the two kinds of attack: five turns (eight with Light Clay) of physical or special damage halved for the whole side. A team with both covers either kind of attacker.",
+    "forms": {
+      "physical": {"label": "Reflect", "moves": ["Reflect"]},
+      "special": {"label": "Light Screen", "moves": ["Light Screen"]}
+    }
+  },
+  "hazards": {
+    "label": "Entry hazards",
+    "job": "Damage every switch-in",
+    "explain": "Stealth Rock, Spikes and Toxic Spikes are one job: the other side pays each time a Pokémon comes in. They stack with each other, so each one a team lays makes switching costlier.",
+    "forms": {
+      "rock": {"label": "Stealth Rock", "moves": ["Stealth Rock"]},
+      "spikes": {"label": "Spikes", "moves": ["Spikes"]},
+      "toxic": {"label": "Toxic Spikes", "moves": ["Toxic Spikes"]}
+    }
+  },
+  "status": {
+    "label": "Status",
+    "job": "Cripple a target for the rest of the battle",
+    "explain": "Paralysis, burns, poison and sleep are one job in four forms: each takes a Pokémon out of its best plan for good, and a Pokémon can carry only one, so they don't stack on one target. Several forms let a team pick the one that cripples each threat most.",
+    "forms": {
+      "paralysis": {"label": "Paralysis", "moves": ["Thunder Wave", "Stun Spore", "Glare"], "abilities": ["Static"]},
+      "burn": {"label": "Burn", "moves": ["Will-O-Wisp"], "abilities": ["Flame Body"]},
+      "poison": {"label": "Poison", "moves": ["Toxic", "Poison Powder", "Poison Gas", "Toxic Spikes"], "abilities": ["Poison Point"]},
+      "sleep": {"label": "Sleep", "moves": ["Spore", "Sleep Powder", "Hypnosis", "Lovely Kiss", "Sing", "Grass Whistle", "Yawn", "Dark Void"], "abilities": ["Effect Spore"]}
+    }
+  }
+}

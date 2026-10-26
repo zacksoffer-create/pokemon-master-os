@@ -1542,6 +1542,100 @@
    "instead": [
     "v1's eight open sections"
    ]
+  },
+  {
+   "id": "A-100",
+   "decision": "D-078",
+   "phase": "v2.1 · The builder",
+   "area": "Where it came from",
+   "what": "Where it came from is a list of the real ways this species reaches you in this game: your starter, gifts, gift eggs, in-game trades, one-time encounters and every wild area (with method and levels), for it and its earlier stages, read from the games' encounter tables. An egg is offered when its line can breed, a trade or the Pal Park always, and 'something else' lets you write it in. Picking one fills Met at and Level met, which you can still edit.",
+   "why": "Your call: \"it can only come from a few places, so let's make where it comes from realistic.\"",
+   "where": [
+    "#/pokemon",
+    "Any of your Pokémon, Who it is"
+   ],
+   "instead": [
+    "a short fixed list (starter, wild, egg, trade, other)",
+    "free text only, as before"
+   ]
+  },
+  {
+   "id": "A-101",
+   "decision": "D-078",
+   "phase": "v2.1 · The builder",
+   "area": "The ball",
+   "what": "The ball is its own choice: the builder shows what the ball does in this game and the Pokémon in it, and never says whether the ball fits how it was met (a starter in a Moon Ball is fine).",
+   "why": "Your call: \"I don't want to get into the legality of the ball and its starter ... treat the ball as independent.\"",
+   "where": [
+    "#/balls",
+    "Poké Balls"
+   ],
+   "instead": [
+    "a quiet note when a ball couldn't happen in the game, without blocking it"
+   ]
+  },
+  {
+   "id": "A-102",
+   "decision": "D-078",
+   "phase": "v2.1 · The builder",
+   "area": "Start from a build",
+   "what": "A Start from a build section sits between Who it is and Moves. It lists your earlier versions of this Pokémon's build and the known sets for the species under this game's rules; picking one fills in moves, ability, nature, item, IVs and EVs (not who it is). Ability is now the first dropdown in Moves; Nature and item have their own card.",
+   "why": "Your call: a section in between \"that says like, you know, previous build ... then all of the rest of it fills in\", and \"I want ability to be grouped in with moves ... the first question\".",
+   "where": [
+    "#/pokemon",
+    "Any of your Pokémon"
+   ],
+   "instead": [
+    "known sets only",
+    "fill the moves only, keeping the rest"
+   ]
+  },
+  {
+   "id": "A-103",
+   "decision": "D-078",
+   "phase": "v2.1 · Teams",
+   "area": "Move families",
+   "what": "Moves and abilities that do one job in several forms are read together across a team (trainers/families.json): Weather (Sunny Day or Drought, Rain Dance or Drizzle, Sandstorm or Sand Stream, Hail or Snow Warning), Screens (Reflect, Light Screen), Entry hazards (Stealth Rock, Spikes, Toxic Spikes) and Status (paralysis, burn, poison, sleep). The Weather shape counts any form. The team page says who sets each form, who thrives or suffers in it, and who takes no chip from sand and hail; it also says the last weather set wins, so several forms let a team overwrite a rival's weather.",
+   "why": "Your call: \"Sunny Day and Sandstorm and Hail and Rain Dance are all the same move in a sense ... all of those play into each other. I want that factored in.\" The note on overwriting is how the games resolve two weathers.",
+   "where": [
+    "#/team/heartgold",
+    "A team page, Shapes & roles"
+   ],
+   "instead": [
+    "count only one weather per team, since two different weathers replace each other in battle",
+    "add more families (setup, recovery, pivoting)"
+   ]
+  },
+  {
+   "id": "A-104",
+   "decision": "D-078",
+   "phase": "v2.1 · Natural history",
+   "area": "Research it",
+   "what": "Each natural-history page has a Research it card: the topics with nothing on record yet, links to Bulbapedia, Serebii, Pokémon Database and Smogon, a research brief to copy, and a form (or a paste of several lines, topic | finding | source | link) for what you find. A finding is a Journal row marked proposed: it shows on the page as yours, and joins the curated dossier only once you approve it.",
+   "why": "Your call: the page should be \"easily researchable, and easily enrichable through kind of research\". Proposed until approved keeps your findings apart from what the games say (D-063: labs never write canon).",
+   "where": [
+    "#/biology/Typhlosion",
+    "Typhlosion's natural history"
+   ],
+   "instead": [
+    "findings go straight into the dossier",
+    "a Research tab of their own in the Sheet"
+   ]
+  },
+  {
+   "id": "A-105",
+   "decision": "D-078",
+   "phase": "v2.1 · Your calls",
+   "area": "Your calls",
+   "what": "Your calls is second in the menu with a count of what's waiting, the count is in the top bar and in Start here, and the page opens with the newest batch. Each call is one tap: Keep, Change (say how), Reject or Later, and the card updates in place with a progress bar.",
+   "why": "Your call: \"I can't find the your calls list ... that needs to be better presented to me.\"",
+   "where": [
+    "#/calls",
+    "Your calls"
+   ],
+   "instead": [
+    "one call at a time, full screen, with next and back"
+   ]
   }
  ]
 }

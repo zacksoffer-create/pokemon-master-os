@@ -132,7 +132,19 @@ Words become real only when Zack approves them into `naming.words`.
 
 Groups below Play start folded. Home leads with your six teams and what to do next.
 
-## 9. Not reworked yet (the next updates)
+## 9. v2.1: Zack's notes on the builder, the team and the calls (2026-10-26)
+
+| Note | What changed |
+|---|---|
+| *"Where it came from ... can only come from a few places, so let's make where it comes from realistic."* | **Where it came from** is a dropdown of the real ways the species reaches you in that game: your starter, gifts, gift eggs, in-game trades, one-time encounters, and every wild area with its method and levels. It covers the species and its earlier stages ("your starter as Cyndaquil, then evolved"). Hatched is offered when the line can breed, plus a trade or the Pal Park, and "something else". Picking one fills Met at and Level met, and both stay editable. The source is Field Biology's encounter tables (`app/data/ranges.json`). Saved as `met_how`, `met_as`, `met_location` and `caught_level`. (A-100) |
+| *"Treat the ball as independent."* | The builder says what the ball does in the game, never whether it fits how the Pokémon was met. (A-101) |
+| *"A section in between that says like, you know, previous build ... then all of the rest of it fills in"*, and ability first in Moves | **Start from a build** sits between Who it is and Moves. It lists your earlier versions of the build and the known sets for the species under the game's rules. **Moves** opens with Ability; **Nature and item** have their own card. (A-102) |
+| *"Sunny Day and Sandstorm and Hail and Rain Dance are all the same move ... I want that factored in."* | **Move families** (`engine/trainers/families.json`, shipped in `explain.json`): Weather in four forms by move or ability, Screens, Entry hazards and Status. The team page's Shapes & roles has a families card showing who sets each form, who thrives or suffers in it, and the sand and hail chip. The scouting report reads them as one job, and the Weather shape counts any form. Candidates say how they play into your families, and each Pokémon's scouting report names teammates doing the same job in another form. (A-103) |
+| The shiny version under the image | The species card shows the shiny artwork under the usual one. |
+| *"Easily researchable, and easily enrichable through research"* | Every natural-history page has **Research it**:<ul><li>what's still open;</li><li>links to Bulbapedia, Serebii, Pokémon Database and Smogon;</li><li>a research brief to copy;</li><li>a form, or a paste of several lines (`topic \| finding \| source \| link`), for your findings.</li></ul>A finding is a Journal row marked proposed, shown on the page as yours. (A-104) |
+| *"I can't find the your calls list ... that needs to be better presented to me."* | **Your calls** is second in the menu, with a count. The top bar and Start here show the newest batch. The page opens with that batch. Each call is one tap (Keep, Change, Reject, Later) and updates in place, with a progress bar. (A-105) |
+
+## 10. Not reworked yet (the next updates)
 
 This update rebuilt the path from a team to one Pokémon and back. The rest still works, but some of it was built
 around the old journey.

@@ -171,6 +171,7 @@ function tmScouting(comp, live) {
   var piv = cat('pivot_move').concat(cat('baton_pass')); if (piv.length) T.push('Pivots: ' + names(uniqS(piv)));
   var pri = cat('priority_attack'); if (pri.length) T.push('Priority: ' + names(pri));
   var st = cat('status_infliction'); if (st.length) T.push('Spreads status: ' + names(st));
+  Families.lines(comp.families || {}).forEach(function (l) { (l.weak ? W : l.strong ? S1 : T).push(esc(l.text)); });   // v2.1: weather, screens, hazards, status as one job each
   var p = TM.team.profile; if (p.style && p.style !== 'default' && typeof TR_PHILOSOPHY !== 'undefined') T.push('Coached as <b>' + esc(TR_PHILOSOPHY[p.style].name) + '</b>: ' + esc(TR_PHILOSOPHY[p.style].why));
   var list = function (xs, cls) { return xs.length ? '<ul class="scout ' + cls + '">' + xs.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' : '<div class="tiny muted">Nothing stands out.</div>'; };
   return card('Scouting report', '<div class="scout3"><div><div class="eyebrow" style="color:var(--forest-3)">Strengths</div>' + list(S1, 'pos') + '</div><div><div class="eyebrow" style="color:var(--ember-2)">Weaknesses</div>' + list(W, 'neg') + '</div><div><div class="eyebrow">Tendencies</div>' + list(T, '') + '</div></div>' +
@@ -193,8 +194,29 @@ function tmShapes(comp, live) {
       '<div class="tiny muted" style="margin-top:6px">The score is 0-1; green is earned. Hover a score for the numbers behind it, or open the Pokémon for its full work.</div>' +
       (missing.length ? '<div class="small" style="margin-top:10px"><b>Missing:</b> ' + esc(join(missing.map(roleName))) + '. <a class="link" href="javascript:void 0" onclick="tmFill(\'role:' + missing[0] + '\')">Find a ' + esc(roleName(missing[0])) + '</a></div>' : '<div class="small" style="margin-top:10px">Every team role is covered.</div>') +
       '<div class="eyebrow" style="margin-top:14px">What each role asks</div>' + TeamRoles.ORDER.map(function (r) { return '<div class="tiny" style="margin:3px 0"><b>' + esc(roleName(r)) + ':</b> ' + esc(cfg.roles[r].question) + ' <span class="muted">' + esc(cfg.roles[r].explain) + '</span></div>'; }).join('') + '</div>' +
-    '<div class="c5"><div class="eyebrow">The team\'s shape: the first that fits, in this order</div><div class="shapes" style="margin-top:6px">' + shapes + '</div></div></div>',
-    {eyebrow: 'Roles · shape · what\'s missing', tools: false});
+    '<div class="c5"><div class="eyebrow">The team\'s shape: the first that fits, in this order</div><div class="shapes" style="margin-top:6px">' + shapes + '</div></div></div>' +
+    tmFamilies(comp.families || {}),
+    {eyebrow: 'Roles · shape · move families · what\'s missing', tools: false});
+}
+function tmFamilies(T) {   // v2.1: each move family as one job, its forms, and who does each (trainers/families.json)
+  var C = Families.cfg(); if (!C) return '';
+  var rows = C.order.map(function (fid) { var F = T[fid] || {forms: {}, n: 0}, D = C[fid];
+    var forms = Object.keys(D.forms).map(function (k) { var f = F.forms[k], on = !!f;
+      return '<div class="famform' + (on ? ' on' : '') + '"><b>' + esc(D.forms[k].label) + '</b> ' + (on ? esc(f.by.map(function (b) { return b.who + ' (' + b.what + ')'; }).join(', ')) : '<span class="muted">nobody</span>') + '</div>'; }).join('');
+    var extra = '';
+    if (fid === 'weather' && F.n) {
+      var th = (F.thrive || []).filter(function (x) { return F.forms[x.form]; }), su = (F.suffer || []).filter(function (x) { return F.forms[x.form]; });
+      th = th.filter(function (x) { return x.why !== 'no chip'; });   // chip immunity has its own line below
+      if (th.length) extra += '<div class="tiny" style="margin-top:4px"><span style="color:var(--forest-3)">Plays into it:</span> ' + esc(Families.byWho(th, true).join(' · ')) + '</div>';
+      if (su.length) extra += '<div class="tiny" style="margin-top:2px"><span style="color:var(--ember-2)">Works against it:</span> ' + esc(Families.byWho(su, false).join(' · ')) + '</div>';
+      Object.keys(F.chip || {}).forEach(function (k) { var c = F.chip[k];
+        extra += '<div class="tiny" style="margin-top:2px">' + esc(cap(k)) + ' chip (1/16 a turn): ' + (c.immune.length ? 'none for ' + esc(join(c.immune)) : 'nobody is immune') + (c.hurt.length ? '; ' + esc(join(c.hurt)) + ' pay' + (c.hurt.length > 1 ? '' : 's') + ' it too' : '') + '</div>'; });
+      if (F.together) extra += '<div class="tiny muted" style="margin-top:2px">' + esc(F.together) + '</div>';
+    }
+    return '<div class="famrow"><div class="small"><b>' + esc(D.label) + '</b> <span class="tiny muted">' + esc(D.job) + ' · ' + (F.n ? F.n + ' of ' + Object.keys(D.forms).length + ' forms' : 'not on this team') + '</span></div>' +
+      '<div class="famforms">' + forms + '</div>' + extra + '<div class="tiny muted" style="margin-top:3px">' + esc(D.explain) + '</div></div>'; }).join('');
+  return '<div class="eyebrow" style="margin-top:16px">Move families: one job, several forms</div><div class="famgrid">' + rows + '</div>' +
+    '<div class="tiny muted" style="margin-top:6px">Your own moves and abilities (the engine\'s set only for a Pokémon with no moves yet). The weather counts toward the Weather shape in any form: four weathers, one job.</div>';
 }
 function shapeGap(s, n) {   // what a shape still needs, in words
   var out = [], word = {sweeper: 'Sweeper', wall: 'Wall', tank: 'Tank', support: 'Support', ace: 'Ace', sweeper_or_ace: 'Sweeper or Ace', wall_or_tank: 'Wall or Tank', slow: 'slow Pokémon (base Speed 60 or less)',
@@ -325,9 +347,12 @@ function tmCandRun() {
     if (f.fills && pv && openQs(pv).indexOf(f.fills.slice(2)) >= 0) continue;
     shown.push([c, pv]);
   }
+  var fam = TM.comp && TM.comp.families || {};
   box.innerHTML = (shown.length ? shown.map(function (x) { var c = x[0], pv = x[1], a = pv ? openQs(pv) : before, closes = before.filter(function (q) { return a.indexOf(q) < 0; }), opens = a.filter(function (q) { return before.indexOf(q) < 0; });
+    var cb = buildOf(c.prov === 'yours' ? indBuild(S.store.individuals[c.id]) : storeBuild(c.id)), csp = Battle.species(TM.gen, c.species);   // v2.1: how it plays into the team's families
+    var into = Families.plays(fam, Families.member(c.species, c.read.moves, TM.gen >= 3 ? (cb.ability || Battle.abilities(TM.gen, c.species)[0] || null) : null, csp.types));
     return '<div class="cand"><img class="pix" src="' + sprite(numOf(c.species), TM.game) + '" alt="" loading="lazy"><div><div class="small"><b>' + esc(c.species) + '</b> ' + nameHtml(c.read.name) + ' ' + provChip(c.prov) + '</div>' +
-      '<div class="tiny muted">' + esc(c.label) + ' · ' + esc(c.read.moves.join(', ')) + '</div><div class="tiny">' + earnedChips(c.read) + (pv ? ' · shape ' + shapeHtml(pv.shape) + (closes.length ? ' · <span style="color:var(--forest-3)">closes ' + esc(closes.map(qName).join('; ')) + '</span>' : '') + (opens.length ? ' · <span style="color:var(--ember-2)">opens ' + esc(opens.map(qName).join('; ')) + '</span>' : '') : '') + '</div></div>' +
+      '<div class="tiny muted">' + esc(c.label) + ' · ' + esc(c.read.moves.join(', ')) + '</div>' + (into.length ? '<div class="tiny" style="color:var(--gold-2)">Plays into your families: ' + esc(into.join('; ')) + '</div>' : '') + '<div class="tiny">' + earnedChips(c.read) + (pv ? ' · shape ' + shapeHtml(pv.shape) + (closes.length ? ' · <span style="color:var(--forest-3)">closes ' + esc(closes.map(qName).join('; ')) + '</span>' : '') + (opens.length ? ' · <span style="color:var(--ember-2)">opens ' + esc(opens.map(qName).join('; ')) + '</span>' : '') : '') + '</div></div>' +
       '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><a class="btn sm" href="#/pokemon/' + encodeURIComponent(c.id) + '">Look</a><button class="btn sm gold" data-tmput="' + esc(c.id) + '">Into slot ' + (slot + 1) + '</button></div></div>'; }).join('')
     : '<div class="empty">No candidate fits these filters.</div>') +
     '<div class="tiny muted" style="margin-top:8px">' + list.length + ' fit the filters. A build from the book goes in as a new Pokémon of yours (its own record, the book unchanged). "Closes" and "opens" are the checks that change with it in slot ' + (slot + 1) + '.</div>';

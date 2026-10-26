@@ -127,20 +127,105 @@ function teamComp(members, game) {   // members: [{build, read}] -> type, move a
   var roles = {}; TeamRoles.ORDER.forEach(function (r) { roles[r] = members.filter(function (m) { return m.read && !m.read.error && m.read.earned.indexOf(r) >= 0; }).map(function (m) { return m.build.species; }); });
   var out = {gen: gen, game: game, defense: defense, offense: offense, moves: {side: side, categories: cats}, roles: roles};
   out.questions = cfg.team.questions.map(function (q) { return Object.assign({id: q.id, ask: q.ask, rule: q.rule}, teamQuestion(q, out, members, info, gen)); });
-  out.counts = teamCounts(roles, info, cats);
+  out.families = Families.team(famList(info));
+  out.counts = teamCounts(roles, info, cats, out.families);
   out.shape = teamShape(out.counts);
   return out;
 }
-var WEATHER_SET = ['Drizzle', 'Drought', 'Sand Stream', 'Snow Warning'], WEATHER_USE = ['Swift Swim', 'Chlorophyll', 'Sand Veil', 'Snow Cloak', 'Rain Dish', 'Ice Body', 'Dry Skin', 'Hydration', 'Solar Power', 'Leaf Guard', 'Flower Gift', 'Forecast'],
-  WEATHER_MOVES = ['Thunder', 'Blizzard', 'Solar Beam', 'Weather Ball', 'Hurricane'];
-function teamCounts(roles, info, cats) {   // v2: what the shapes count, roles (by who earns them) and features (by moves and abilities)
+/* ---- move families (v2.1, trainers/families.json): one job in several forms, read across the team ----
+   Zack: Sunny Day, Rain Dance, Sandstorm and Hail "are all the same move in a sense of it's just different expressions
+   of the same move ... all of those play into each other." A member sets a form with a move or an ability; for the
+   weather, the config also says who thrives in each form, who suffers, and who takes no chip from sand and hail. */
+var Families = (function () {
+  function cfg() { var x = Explain.data(); return x && x.families || null; }
+  function member(name, moves, ability, types) {   // what one Pokémon does in each family
+    var C = cfg(), out = {name: name, sets: [], thrive: [], suffer: [], noChip: {}}; if (!C) return out;
+    C.order.forEach(function (fid) { var F = C[fid];
+      Object.keys(F.forms).forEach(function (k) { var f = F.forms[k];
+        (f.moves || []).forEach(function (m) { if (moves.indexOf(m) >= 0) out.sets.push({fam: fid, form: k, how: 'move', what: m}); });
+        (f.abilities || []).forEach(function (a) { if (a === ability) out.sets.push({fam: fid, form: k, how: 'ability', what: a}); });
+        if (fid !== 'weather') return;
+        ['thrive', 'suffer'].forEach(function (side) { var t = f[side] || {};
+          Object.keys(t.abilities || {}).forEach(function (a) { if (a === ability) out[side].push({form: k, what: a, why: t.abilities[a]}); });
+          Object.keys(t.moves || {}).forEach(function (m) { if (moves.indexOf(m) >= 0) out[side].push({form: k, what: m, why: t.moves[m]}); });
+          Object.keys(t.types || {}).forEach(function (ty) { if (types.indexOf(ty) >= 0) out[side].push({form: k, what: ty + ' type', why: t.types[ty], type: true}); });
+        });
+        if (f.chip) out.noChip[k] = out.thrive.some(function (x) { return x.form === k && /no chip/.test(x.why); });
+      }); });
+    return out;
+  }
+  function team(list) {   // list: [{name, moves, ability, types}] -> {fid: {label, job, explain, forms: {k: {label, by: [...]}}, setters, n}, weather extras}
+    var C = cfg(), out = {}; if (!C) return out;
+    var reads = list.map(function (x) { return member(x.name, x.moves || [], x.ability || null, x.types || []); });
+    C.order.forEach(function (fid) { var F = C[fid], forms = {}, setters = [];
+      reads.forEach(function (r) { r.sets.filter(function (s) { return s.fam === fid; }).forEach(function (s) {
+        var f = forms[s.form] = forms[s.form] || {label: F.forms[s.form].label, by: []}; f.by.push({who: r.name, how: s.how, what: s.what}); if (setters.indexOf(r.name) < 0) setters.push(r.name); }); });
+      out[fid] = {id: fid, label: F.label, job: F.job, explain: F.explain, forms: forms, setters: setters, n: Object.keys(forms).length};
+    });
+    var W = out.weather;
+    if (W) {
+      W.thrive = []; W.suffer = []; W.chip = {}; W.users = [];
+      reads.forEach(function (r) {
+        r.thrive.forEach(function (t) { W.thrive.push({who: r.name, form: t.form, what: t.what, why: t.why, type: !!t.type}); if (!t.type && W.users.indexOf(r.name) < 0) W.users.push(r.name); });
+        r.suffer.forEach(function (t) { W.suffer.push({who: r.name, form: t.form, what: t.what, why: t.why, type: !!t.type}); });
+      });
+      ['sand', 'hail'].forEach(function (k) { if (!W.forms[k]) return;   // the chip this team sets: who takes none of it, who pays it too
+        W.chip[k] = {immune: reads.filter(function (r) { return r.noChip[k]; }).map(function (r) { return r.name; }), hurt: reads.filter(function (r) { return !r.noChip[k]; }).map(function (r) { return r.name; })}; });
+      W.together = W.forms.sand && W.forms.hail ? (C.weather.together || {}).chip : null;
+    }
+    return out;
+  }
+  function formsText(F) { return Object.keys(F.forms).map(function (k) { var f = F.forms[k];
+    return f.by.map(function (b) { return b.who + ' ' + (F.id === 'weather' ? 'sets ' + f.label.toLowerCase() : F.id === 'status' ? 'spreads ' + f.label.toLowerCase() : 'lays ' + f.label) + ' (' + b.what + ')'; }).join(', '); }).join('; '); }
+  function lines(T) {   // plain sentences for the scouting report: [{fam, text, good, bad}]
+    var out = [], C = cfg(); if (!C) return out;
+    C.order.forEach(function (fid) { var F = T[fid]; if (!F || !F.n) return;
+      var t = F.label + ', one job' + (F.n > 1 ? ' in ' + F.n + ' forms' : '') + ': ' + formsText(F) + '.';
+      if (fid === 'weather') {
+        if (F.n > 1) t += ' The last weather set wins, so this six can overwrite a rival\'s and choose its own.';
+        var th = byWho(F.thrive.filter(function (x) { return F.forms[x.form] && x.why !== 'no chip'; }), true);   // chip immunity is said once, below
+        if (th.length) t += ' Plays into it: ' + th.join('; ') + '.';
+        if (F.together) t += ' ' + F.together;
+        Object.keys(F.chip).forEach(function (k) { var c = F.chip[k]; if (c.immune.length) t += ' No ' + k + ' chip for ' + join(c.immune) + '.'; });
+      }
+      if (fid === 'screens') t += F.n > 1 ? ' Both kinds of attack are halved.' : ' Only ' + (F.forms.physical ? 'physical' : 'special') + ' attacks are halved.';
+      if (fid === 'hazards' && F.n > 1) t += ' They stack.';
+      if (fid === 'status' && F.n > 1) t += ' One per target, so the forms are a choice, not a stack.';
+      out.push({fam: fid, text: t, strong: (fid === 'weather' && F.n > 1) || (fid === 'screens' && F.n > 1) || (fid === 'hazards' && F.n > 1)});
+    });
+    var W = T.weather;
+    if (W && W.n) {
+      var against = byWho(W.suffer.filter(function (x) { return W.forms[x.form]; }), false);
+      Object.keys(W.chip).forEach(function (k) { if (W.chip[k].hurt.length) against.push('its own ' + k + ' chips ' + join(W.chip[k].hurt) + ' (1/16 a turn)'); });
+      if (against.length) out.push({fam: 'weather', weak: true, text: 'Works against its own weather: ' + against.join('; ') + '.'});
+    }
+    return out;
+  }
+  function byWho(xs, good) {   // "Typhlosion's Solar Beam (power halved in sand and hail)": one phrase per member and effect, the forms joined
+    var keys = [], by = {};
+    xs.forEach(function (x) { var why = String(x.why).replace(/, no chip$/, ''), k = x.who + '|' + x.what + '|' + why; if (!by[k]) { by[k] = {who: x.who, what: x.what, why: why, forms: []}; keys.push(k); } if (by[k].forms.indexOf(x.form) < 0) by[k].forms.push(x.form); });
+    return keys.map(function (k) { var x = by[k]; return x.who + '\'s ' + x.what + ' (' + x.why + ' in ' + join(x.forms) + ')'; });
+  }
+  function plays(T, one) {   // how one Pokémon (a candidate, or a member) plays into the team's families
+    var W = T.weather, out = [];
+    if (W && W.n) one.thrive.forEach(function (t) { if (W.forms[t.form]) out.push(t.what + ' in ' + t.form); });
+    one.sets.forEach(function (s) { var F = T[s.fam]; if (F && F.n && !F.forms[s.form]) out.push('adds ' + cfg()[s.fam].forms[s.form].label.toLowerCase() + ' to the ' + F.label.toLowerCase()); });
+    return out;
+  }
+  return {cfg: cfg, member: member, team: team, lines: lines, plays: plays, byWho: byWho};
+})();
+function famList(info) {   // teamComp's members as the families read them: your own moves (the engine's set only for an empty build)
+  return info.map(function (x) { var own = (x.m.build.moves || []).filter(Boolean); return {name: x.m.build.species, moves: own.length ? own : x.moves, ability: x.ability, types: x.sp.types}; });
+}
+function teamCounts(roles, info, cats, fam) {   // v2: what the shapes count, roles (by who earns them) and features (by moves and abilities)
   var n = {}; TeamRoles.ORDER.forEach(function (r) { n[r] = roles[r].length; });
   n.sweeper_or_ace = uniqS(roles.sweeper.concat(roles.ace)).length; n.wall_or_tank = uniqS(roles.wall.concat(roles.tank)).length;
   var who = function (c) { return uniqS((cats[c] || []).map(function (h) { return h.split(':')[0]; })); };
   n.slow = info.filter(function (x) { return x.sp.bs.spe <= 60; }).length;
   n['feature:trick_room'] = who('trick_room').length;
-  n['feature:weather_setter'] = uniqS(who('weather').concat(info.filter(function (x) { return WEATHER_SET.indexOf(x.ability) >= 0; }).map(function (x) { return x.m.build.species; }))).length;
-  n['feature:weather_user'] = info.filter(function (x) { return WEATHER_USE.indexOf(x.ability) >= 0 || x.moves.some(function (m) { return WEATHER_MOVES.indexOf(m) >= 0; }); }).length;
+  var W = (fam || {}).weather || {setters: [], users: []};   // v2.1: any form counts, the four weathers being one job (trainers/families.json)
+  n['feature:weather_setter'] = uniqS(who('weather').concat(W.setters)).length;
+  n['feature:weather_user'] = (W.users || []).length;
   n['feature:baton_pass'] = who('baton_pass').length;
   n['feature:setup'] = uniqS(['setup_physical', 'setup_special', 'setup_speed', 'setup_defense'].reduce(function (a, c) { return a.concat(who(c)); }, [])).length;
   return n;

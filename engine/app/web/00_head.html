@@ -412,6 +412,17 @@ ul.scout.pos li::marker { color: var(--forest-3); } ul.scout.neg li::marker { co
 .six .tile { position: relative; border-radius: 14px; padding: 10px 10px 12px; text-align: center; border: 1px solid var(--gold-line); background: radial-gradient(120% 90% at 50% 0%, #2a2f39 0%, var(--charcoal-2) 70%); cursor: pointer; transition: transform .15s, border-color .15s; }
 .six .tile:hover { transform: translateY(-3px); border-color: var(--gold); } .six .tile.drag { opacity: .4; } .six .tile.over { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-glow); }
 .six .tile .no { position: absolute; top: 8px; left: 10px; font: 600 11px var(--mono); color: var(--gold-3); }
+.pbarts { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.navcount { margin-left: auto; min-width: 18px; padding: 0 6px; border-radius: 9px; background: var(--ember-2, #c4572b); color: #fff; font: 600 10.5px/18px var(--mono); text-align: center; }
+.navcount:empty { display: none; }
+.callpill { background: rgba(196,87,43,.18); border-color: var(--ember-2, #c4572b); color: var(--ivory, #EDE6D9); text-decoration: none; margin-right: 8px; }
+.calltitle { font-size: 17px; line-height: 1.35; font-family: inherit; }
+.callacts { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.callmore { margin-top: 10px; }
+.famgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin-top: 6px; }
+.famrow { border: 1px solid var(--gold-line); border-radius: var(--r-sm); padding: 8px 10px; }
+.famforms { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
+.famform { font-size: 12px; color: var(--text-3, #8a8f99); } .famform.on { color: var(--text); } .famform.on b { color: var(--gold); }
 .six .tile .mv { position: absolute; top: 6px; right: 6px; display: flex; gap: 2px; z-index: 3; } .six .tile .no { z-index: 3; } .six .tile .mv button { background: var(--charcoal-3); border: 1px solid var(--gold-line); color: var(--text-2); border-radius: 6px; font-size: 11px; padding: 0 5px; cursor: pointer; }
 .six .tile .inball { margin: 4px auto; } .six .tile .nm { font: 600 17px/1.1 var(--serif); color: var(--ivory); } .six .tile .sub { font-size: 11px; color: var(--text-3); }
 .six .tile .moves { font-size: 10.5px; color: var(--text-2); margin-top: 6px; line-height: 1.35; min-height: 28px; }

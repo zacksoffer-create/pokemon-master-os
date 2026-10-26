@@ -15,7 +15,7 @@ var BIO_SECTIONS = [['anatomy', 'Anatomy'], ['diet', 'Diet and foraging'], ['hab
   ['defense', 'Defence'], ['senses', 'Senses'], ['life_cycle', 'Life cycle'], ['moves_in_the_wild', 'Moves in the wild'], ['ecology', 'Role in the ecosystem'], ['humans', 'People'], ['homestead', 'At the homestead']];
 var BIO_DOMAINS = [['anatomy', 'Anatomy'], ['diet', 'Diet'], ['habitat', 'Habitat'], ['behavior', 'Behaviour'], ['social', 'Social life'], ['reproduction', 'Reproduction'], ['defense', 'Defence'],
   ['senses', 'Senses'], ['powers', 'Powers'], ['life_cycle', 'Life cycle'], ['humans', 'People'], ['other', 'Other notes']];
-var BIO_COHORT = {'Your companions': ['Feraligatr', 'Miltank', 'Donphan', 'Ampharos', 'Umbreon', 'Espeon', 'Charizard', 'Blastoise', 'Venusaur', 'Alakazam', 'Jolteon', 'Machamp', 'Swampert', 'Milotic', 'Altaria', 'Arcanine', 'Absol', 'Meganium',
+var BIO_COHORT = {'Written first: the v1 journeys\' companions': ['Feraligatr', 'Miltank', 'Donphan', 'Ampharos', 'Umbreon', 'Espeon', 'Charizard', 'Blastoise', 'Venusaur', 'Alakazam', 'Jolteon', 'Machamp', 'Swampert', 'Milotic', 'Altaria', 'Arcanine', 'Absol', 'Meganium',
   'Infernape', 'Weavile', 'Roserade', 'Lucario', 'Garchomp', 'Magnezone', 'Pikachu', 'Dragonite', 'Empoleon', 'Gengar', 'Scizor', 'Typhlosion', 'Tyranitar', 'Mamoswine', 'Crobat', 'Lapras', 'Snorlax'],
   'Ilex Forest': ['Caterpie', 'Metapod', 'Butterfree', 'Weedle', 'Kakuna', 'Beedrill', 'Oddish', 'Paras', 'Zubat', 'Hoothoot', 'Noctowl', 'Pineco', 'Psyduck', 'Golduck', 'Poliwag', 'Magikarp'],
   'The Blackthorn highlands': ['Dratini', 'Dragonair', 'Swinub', 'Delibird', 'Jynx', 'Geodude', 'Graveler', 'Golbat', 'Wobbuffet', 'Dunsparce', 'Goldeen', 'Seaking', 'Magcargo']};
@@ -53,13 +53,16 @@ function bioReady(names) { return Promise.all([Eco.ready(names), Eco.reviews().t
 /* ---- #/biology ---- */
 function biologyHome(query) {
   var q = qparse(query);
-  return bioReady(['biology', 'dossiers', 'ecology']).then(function () {
+  return Promise.all([bioReady(['biology', 'dossiers', 'ecology']), recordsReady().catch(function () { return null; })]).then(function () {
     var B = Eco.D().biology, DS = Eco.D().dossiers.dossiers, E = Eco.D().ecology;
+    var yours = [], cohort = {};   // v2.1: your own Pokémon first (the fresh start, D-078), then the cohorts the dossiers were written for
+    Object.keys((S.store || {}).individuals || {}).forEach(function (k) { var sp = S.store.individuals[k].species; if (sp && yours.indexOf(sp) < 0) yours.push(sp); });
+    if (yours.length) cohort['Yours'] = yours; Object.keys(BIO_COHORT).forEach(function (g) { cohort[g] = BIO_COHORT[g]; });
     var nE = B.species.reduce(function (t, s) { return t + s.e.length; }, 0), nC = B.species.reduce(function (t, s) { return t + s.c.length; }, 0);
     var nRev = Object.keys(Eco.D()._reviews || {}).length;
     after(function () { var f = document.getElementById('biofind'); f.onkeydown = function (e) { if (e.key === 'Enter') { var s = Eco.species(this.value.trim()); if (s) nav('#/biology/' + encodeURIComponent(s.name)); else toast('No species called ' + esc(this.value)); } }; });
-    var groups = Object.keys(BIO_COHORT).map(function (g) {
-      return '<div class="tiny muted" style="margin:12px 0 6px">' + esc(g) + '</div><div class="biogrid">' + BIO_COHORT[g].map(function (n) { var d = DS[n];
+    var groups = Object.keys(cohort).map(function (g) {
+      return '<div class="tiny muted" style="margin:12px 0 6px">' + esc(g) + '</div><div class="biogrid">' + cohort[g].map(function (n) { var d = DS[n];
         return '<a class="biotile" href="#/biology/' + encodeURIComponent(n) + '">' + bioSpr(n, 44) + '<b>' + esc(n) + '</b><span class="tiny muted">' + (d ? esc((d.niche && d.niche.guild) || 'no guild yet') : 'field guide') + '</span></a>'; }).join('') + '</div>'; }).join('');
     var lines = (E.line_disagreements || []).map(function (l) { return '<div class="small" style="margin:4px 0">' + l.line.map(bioLink).join(' → ') + ': ' + Object.keys(l.guilds).map(function (k) { return esc(k) + ' ' + chip(l.guilds[k] || 'no guild', ''); }).join(' ') + '</div>'; }).join('');
     return '<div class="eyebrow">Field Biology</div><h1 style="margin:6px 0">The natural history of every Pokémon</h1>' +
@@ -84,12 +87,88 @@ function bioSpecies(key) {
       '<div>' + s.t.map(function (t) { return chip(t, ''); }).join(' ') + ' ' + chip(s.h + ' m · ' + s.w + ' kg', '') + ' ' + chip(s.eggs.join(', ') + ' egg group' + (s.eggs.length > 1 ? 's' : ''), '') + (s.flags.length ? ' ' + s.flags.map(function (f) { return chip(f, 'violet'); }).join(' ') : '') + '</div>' +
       '<div class="small" style="margin-top:6px">' + s.evo.chain.map(function (n) { return n === s.name ? '<b>' + esc(n) + '</b>' : bioLink(n); }).join(' → ') + (s.evo.how ? ' <span class="muted">(' + esc(s.evo.how) + ')</span>' : '') + '</div>' +
       '<div style="margin-top:6px">' + (d ? chip('Curated dossier · ' + d.status, 'gold') + ' <span class="tiny muted">by ' + esc(d.written_by) + ', ' + esc(d.date) + '</span>' : chip('Field guide · machine-synthesized from the Pokédex', 'ice')) +
-      ' <a class="tiny" href="#/atlas/' + s.n + '">Atlas →</a> <a class="tiny" href="#/capabilities">Capabilities →</a></div></div></div>';
-    var body = d ? bioDossier(s, d) : bioGuide(s);
+      ' <a class="tiny" href="#/atlas/' + s.n + '">Atlas →</a> <a class="tiny" href="#/capabilities">Capabilities →</a> <a class="tiny" href="javascript:void 0" onclick="document.getElementById(\'bio-research\').scrollIntoView({behavior:\'smooth\'})">Research it →</a></div></div></div>';
+    var body = (d ? bioDossier(s, d) : bioGuide(s)) + bioResearch(s, d);
+    after(function () { bioResearchBind(s, d); });
     var side = bioNiche(s, d) + bioWebs(s, E) + bioEcotypes(s) + card('Where it lives', '<div id="biorange" class="tiny muted">Reading every game\'s tables…</div>', {tools: false, style: 'margin-top:18px'});
     var entries = card('Every Pokédex entry, Gen I–IV', s.e.map(function (e) { return '<div class="small" style="margin:6px 0"><span class="bioev">' + esc(e[0]) + '</span> ' + esc(e[1]) + ' <span class="tiny muted">' + e[2].map(function (v) { return Eco.D().biology.versions[v]; }).join(', ') + '</span></div>'; }).join(''), {tools: false, style: 'margin-top:18px'});
     return hero + '<div class="grid" style="margin-top:16px"><div class="c8">' + body + entries + '</div><div class="c4">' + side + '</div></div>';
   });
+}
+/* ---- research it (v2.1): what's still open, where to look, and your findings ----
+   Zack: the natural-history page should be "easily researchable, and easily enrichable through research". A finding is
+   a Journal row (kind research, status proposed): it shows here as yours and joins the dossier only when approved. */
+var BIO_SOURCES = [['game', 'Seen in the games'], ['pokedex', 'A Pokédex entry'], ['anime', 'The anime'], ['manga', 'The manga'], ['tcg', 'The card game'], ['wiki', 'Bulbapedia or another wiki'], ['other', 'Somewhere else']];
+function bioTopics(d) { return d ? BIO_SECTIONS : BIO_DOMAINS; }
+function bioGaps(s, d) {   // the topics with nothing on record yet
+  if (d) return BIO_SECTIONS.filter(function (sec) { return !((d.sections || {})[sec[0]] || []).length; });
+  var have = {}; s.c.forEach(function (c) { have[c[3].filter(function (x) { return x !== 'folklore'; })[0] || 'other'] = 1; });
+  return BIO_DOMAINS.filter(function (dm) { return dm[0] !== 'other' && !have[dm[0]]; });
+}
+function bioLinks(s) {
+  var slug = s.name.toLowerCase().replace(/♀/g, '-f').replace(/♂/g, '-m').replace(/['.]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return [['Bulbapedia', 'https://bulbapedia.bulbagarden.net/wiki/' + encodeURIComponent(s.name.replace(/ /g, '_')) + '_(Pok%C3%A9mon)'], ['Serebii, Gen IV', 'https://www.serebii.net/pokedex-dp/' + String(s.n).padStart(3, '0') + '.shtml'],
+    ['Pokémon Database', 'https://pokemondb.net/pokedex/' + slug], ['Smogon, DP', 'https://www.smogon.com/dex/dp/pokemon/' + slug + '/']];
+}
+function bioBrief(s, d) {   // a research brief to hand an assistant (or yourself), asking for findings in the paste-back form
+  var gaps = bioGaps(s, d).map(function (g) { return g[1].toLowerCase(); }), topics = bioTopics(d).map(function (t) { return t[0]; });
+  var have = d ? BIO_SECTIONS.map(function (sec) { var n = ((d.sections || {})[sec[0]] || []).length; return n ? sec[1] + ' (' + n + ')' : null; }).filter(Boolean) : [];
+  return 'Research brief: ' + s.name + ' (#' + String(s.n).padStart(3, '0') + ', the ' + s.genus + '), Generations I to IV.\n\n' +
+    (d ? 'The dossier already covers: ' + (have.join(', ') || 'nothing yet') + '.\n' : 'There is no curated dossier yet: only what the Pokédex entries say.\n') +
+    (gaps.length ? 'Still open: ' + gaps.join(', ') + '.\n' : '') + ((d && d.open_questions || []).length ? 'Open questions:\n' + d.open_questions.map(function (q) { return '- ' + q; }).join('\n') + '\n' : '') +
+    '\nFind what the games say about ' + s.name + (gaps.length ? ', starting with its ' + gaps.slice(0, 4).join(', ') : '') + '. The anime, manga and card game count too, but say which. Nothing invented: if a source doesn\'t say it, leave it out.\n\n' +
+    'One finding per line, in this form:\ntopic | the finding, in one sentence | source (' + BIO_SOURCES.map(function (x) { return x[0]; }).join(', ') + ') | a link\n\nTopics: ' + topics.join(', ') + '.';
+}
+function bioResearch(s, d) {
+  var gaps = bioGaps(s, d), opt = function (xs) { return xs.map(function (x) { return '<option value="' + esc(x[0]) + '">' + esc(x[1]) + '</option>'; }).join(''); };
+  return '<div id="bio-research">' + card('Research it', '<div class="grid"><div class="c6">' +
+      '<div class="eyebrow">Still open</div><div class="small" style="margin:4px 0 10px">' + (gaps.length ? gaps.map(function (g) { return chip(g[1], 'ember'); }).join(' ') : 'Every topic has something on record.') +
+      ((d && d.open_questions || []).length ? '<div class="tiny muted" style="margin-top:4px">and ' + plural(d.open_questions.length, 'open question') + ' below</div>' : '') + '</div>' +
+      '<div class="eyebrow">Look it up</div><div class="small" style="margin:4px 0 10px">' + bioLinks(s).map(function (l) { return '<a class="link" href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a>'; }).join(' · ') + '</div>' +
+      '<div class="eyebrow">A research brief</div><div class="tiny muted" style="margin:4px 0">What\'s known, what\'s open, and the form to answer in. Hand it to an assistant, then paste the findings back here.</div>' +
+      '<textarea class="f" id="biobrief" rows="5" readonly>' + esc(bioBrief(s, d)) + '</textarea><button class="btn sm" id="biobriefcopy" style="margin-top:6px">Copy the brief</button></div>' +
+    '<div class="c6"><div class="eyebrow">Add a finding</div><form id="bioadd" style="margin-top:4px"><div class="row"><div><label class="l">Topic</label><select class="f" name="domain">' + opt(bioTopics(d)) + '</select></div>' +
+      '<div><label class="l">Where it\'s from</label><select class="f" name="source">' + opt(BIO_SOURCES) + '</select></div></div>' +
+      '<label class="l" style="margin-top:6px">What you found</label><textarea class="f" name="text" rows="2" placeholder="One sentence: what it does, eats, where it lives…"></textarea>' +
+      '<label class="l" style="margin-top:6px">Link (optional)</label><input class="f" name="url" placeholder="https://…"><button class="btn sm gold" style="margin-top:8px">Save the finding</button></form>' +
+      '<details style="margin-top:10px"><summary class="tiny">Paste several at once</summary><textarea class="f" id="biopaste" rows="4" style="margin-top:6px" placeholder="topic | finding | source | link, one per line"></textarea><button class="btn sm" id="biopastego" style="margin-top:6px">Save them</button></details>' +
+      '<div class="eyebrow" style="margin-top:14px">Your research on ' + esc(s.name) + '</div><div id="biomine" class="small"><span class="tiny muted">Reading your Journal…</span></div></div></div>' +
+    '<div class="tiny muted" style="margin-top:8px">Findings are kept in the Journal tab of your Sheet as proposed: yours, shown here, and part of the dossier only once you approve them into canon.</div>',
+    {eyebrow: 'What\'s open · where to look · your findings', tools: false, style: 'margin-top:18px'}) + '</div>';
+}
+function bioMine(s, fresh) {
+  var el = document.getElementById('biomine'); if (!el) return;
+  API.tab('Journal', fresh).then(function (rows) {
+    var mine = (rows || []).filter(function (r) { return r.kind === 'research' && r.species === s.name; }).reverse(), name = {};
+    BIO_SECTIONS.concat(BIO_DOMAINS).forEach(function (x) { name[x[0]] = x[1]; }); BIO_SOURCES.forEach(function (x) { name['src:' + x[0]] = x[1]; });
+    el.innerHTML = mine.length ? mine.map(function (r) { return '<div class="biost"><div class="small">' + esc(r.text) + '</div><div class="tiny" style="margin-top:3px">' + chip(name[r.domain] || r.domain, '') + ' ' + chip(r.status || 'proposed', 'ember') +
+      ' <span class="muted">' + esc(name['src:' + r.source] || r.source || '') + (r.at ? ' · ' + esc(fmtLoose(r.at) || r.at) : '') + '</span>' + (r.url ? ' <a class="link" href="' + esc(r.url) + '" target="_blank" rel="noopener">source ↗</a>' : '') + '</div></div>'; }).join('')
+      : '<div class="tiny muted">Nothing yet. Your first finding goes here.</div>';
+  }).catch(function () { el.innerHTML = '<div class="tiny muted">The Journal didn\'t load.</div>'; });
+}
+function bioSaveFinding(s, f) {   // f: {domain, text, source, url}
+  var id = 'RS-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  return API.append('Journal', {id: id, at: new Date().toISOString(), kind: 'research', ref: s.name + '/research/' + id, species: s.name, domain: f.domain, text: f.text, source: f.source || 'other', url: f.url || '', status: 'proposed',
+    _timeline: 'Field Biology: a finding on ' + s.name + ' (' + f.domain + ')'});
+}
+function bioResearchBind(s, d) {
+  bioMine(s);
+  var cp = document.getElementById('biobriefcopy'); if (cp) cp.onclick = function () { var t = document.getElementById('biobrief'); t.select(); try { navigator.clipboard.writeText(t.value).then(function () { toast('Copied the brief.'); }, function () { document.execCommand('copy'); toast('Copied the brief.'); }); } catch (e) { document.execCommand('copy'); toast('Copied the brief.'); } };
+  var form = document.getElementById('bioadd');
+  if (form) form.onsubmit = function (e) { e.preventDefault(); var f = {domain: form.domain.value, source: form.source.value, text: form.text.value.trim(), url: form.url.value.trim()};
+    if (!f.text) { toast('Write what you found first.'); return; }
+    bioSaveFinding(s, f).then(function () { form.text.value = ''; form.url.value = ''; toast('Saved to your research on ' + esc(s.name) + '.'); bioMine(s, true); }).catch(function (x) { toast('Couldn\'t save: ' + esc(x && x.message || x)); }); };
+  var pg = document.getElementById('biopastego');
+  if (pg) pg.onclick = function () {
+    var topics = bioTopics(d).map(function (t) { return t[0]; }), srcs = BIO_SOURCES.map(function (x) { return x[0]; }), bad = [];
+    var rows = document.getElementById('biopaste').value.split('\n').map(function (l) { return l.trim(); }).filter(Boolean).map(function (l) { var p = l.split('|').map(function (x) { return x.trim(); });
+      var dom = (p[0] || '').toLowerCase().replace(/ /g, '_'); if (!p[1] || topics.indexOf(dom) < 0) { bad.push(l); return null; }
+      return {domain: dom, text: p[1], source: srcs.indexOf((p[2] || '').toLowerCase()) >= 0 ? p[2].toLowerCase() : 'other', url: p[3] || ''}; }).filter(Boolean);
+    if (!rows.length) { toast(bad.length ? 'None of those lines read as topic | finding | source | link.' : 'Paste some findings first.'); return; }
+    rows.reduce(function (pr, f) { return pr.then(function () { return bioSaveFinding(s, f); }); }, Promise.resolve()).then(function () {
+      document.getElementById('biopaste').value = bad.join('\n'); toast('Saved ' + plural(rows.length, 'finding') + (bad.length ? '; ' + plural(bad.length, 'line') + ' left to fix' : '') + '.'); bioMine(s, true); })
+      .catch(function (x) { toast('Couldn\'t save: ' + esc(x && x.message || x)); });
+  };
 }
 function bioStatement(st, ref, sp) {
   return '<div class="biost"><div class="small">' + esc(st.text) + '</div><div class="tiny" style="margin-top:3px">' + bioClass(st['class'], st.confidence) + ' ' + bioEvidence(st.evidence) + (st.capability ? ' ' + chip('capability · ' + st.capability.replace(/_/g, ' '), 'ice') : '') + ' ' + bioReview(ref, sp) + '</div>' +

@@ -77,7 +77,8 @@ const ind = 'me:heartgold/Snorlax';
 await go('#/pokemon/' + encodeURIComponent(ind), '[data-who="ball"]', true);
 await page.selectOption('[data-who="ball"]', 'Moon Ball');
 await page.waitForTimeout(200);
-expect('5: the builder checks the ball against how Snorlax is met', /Snorlax[\s\S]{0,80}(met in the wild|no wild encounter|gift)/.test(await page.evaluate(() => document.getElementById('pbballfit').innerText)));
+const fit = await page.evaluate(() => document.getElementById('pbballfit').innerText);   // v2.1 (A-101): the ball is its own choice, so the builder says what it does, never whether it fits
+expect('5: the builder says what the Moon Ball does, with no verdict on how Snorlax was met (' + fit + ')', /Moon Ball/.test(fit) && /HeartGold/.test(fit) && !/story choice|met in the wild|no wild encounter/i.test(fit));
 expect('5: the builder shows Snorlax in its Moon Ball', await page.evaluate(() => /Moon Ball/.test((document.querySelector('#pbportrait .inball') || {}).title || '')));
 await page.click('#pbsave');
 await page.waitForFunction((id) => S.store.individuals[id].ball === 'Moon Ball', ind, { timeout: 30000 }).catch(() => {});

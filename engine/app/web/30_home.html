@@ -148,6 +148,7 @@ function home() {
     var h = S.hq, d = new Date(), hour = d.getHours(), greet = hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
     var inds = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return i.status !== 'retired'; })
       .sort(function (a, b) { return String(b.at || '').localeCompare(String(a.at || '')); });
+    after(function () { if (typeof callsBadge === 'function') callsBadge(); });   // the calls waiting, in Start here
     return '<section class="hero" style="min-height:220px">' + Art.hero() + '<div class="veil"></div><div class="say"><div class="eyebrow">Blackthorn · World Headquarters</div>' +
       '<h1>' + greet + ', ' + esc(h.champion.name || 'Trainer') + '.</h1><p class="lede">Six journeys, each its own team and its own trainer. Build them one Pokémon at a time: every move, nature and spread read live against the League; then take them into the Arena.</p></div></section>' +
       homeNext(inds) +
@@ -169,6 +170,7 @@ function homeNext(inds) {   // what to do next, from where you are
   }
   return card(inds.length ? 'Pick up where you left off' : 'Start here', steps.map(function (s) {
     return '<div class="ach"><div class="m"><b style="color:var(--gold)">' + s[0] + '</b></div><div class="small">' + (s[2] ? '<a href="' + s[2] + '">' + esc(s[1]) + '</a>' : esc(s[1])) + '</div></div>'; }).join('') +
+    '<div class="ach" id="homecallsrow" style="display:none"><div class="m"><b style="color:var(--ember-2)">!</b></div><div class="small"><a href="#/calls">Your calls</a>: <span id="homecalls"></span></div></div>' +
     (inds.length ? '' : '<div class="tiny muted" style="margin-top:6px">A fresh start (D-078): every team is blank, and your earlier records are kept in the project, not shown here.</div>'),
     {eyebrow: inds.length ? 'Next' : 'A fresh start', tools: false, style: 'margin-top:16px'});
 }

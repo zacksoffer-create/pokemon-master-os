@@ -9,7 +9,7 @@ var Records = (function () {
   var SIX = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
   var BUILD_FIELDS = ['species', 'generation', 'game', 'level', 'nature', 'ability', 'item'];
   var BUILD_TEXT = ['name', 'note', 'parent', 'individual', 'at', 'recognition', 'kind', 'purpose', 'labels'];   // kind 'blueprint': breeding stock
-  var IND_FIELDS = ['species', 'game', 'nickname', 'gender', 'shiny', 'form', 'ball', 'build', 'met_location', 'caught_level', 'friendship', 'origin', 'note', 'hero',
+  var IND_FIELDS = ['species', 'game', 'nickname', 'gender', 'shiny', 'form', 'ball', 'build', 'met_how', 'met_as', 'met_location', 'caught_level', 'friendship', 'origin', 'note', 'hero',
     'sire', 'dam', 'blueprint'];   // its parents' ids and the blueprint it was bred to; hatch_moves (a list) is kept even after it learns others
   var ART_FIELDS = ['subject', 'kind', 'file', 'url', 'title', 'class', 'status', 'note', 'at'];
   var V = null, SEED = null;

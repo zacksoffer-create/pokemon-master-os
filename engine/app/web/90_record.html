@@ -9,48 +9,111 @@ function answers() {
     return by;
   });
 }
-function callCard(c, a) {
-  var done = a && a.status && a.status !== 'open';
-  return '<div class="card call' + (done ? ' done' : '') + '" id="call-' + esc(c.id) + '"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(c.id) + ' · ' + esc(c.area) + '</div><h3 style="font-size:22px;line-height:1.25">' + esc(c.q) + '</h3></div>' + (done ? chip(a.status, 'forest') : chip('waiting on you', 'ember')) + '</div>' +
-    '<div class="bd"><p class="small" style="color:var(--text-2);margin:0">' + esc(c.why) + '</p>' + (c.blocks ? '<div class="tiny" style="color:var(--ember-2);margin-top:6px">Blocks: ' + esc(c.blocks) + '</div>' : '') +
-    (c.options && c.options.length ? '<div class="opts">' + c.options.map(function (o) { return '<button type="button" class="opt" onclick="pickOpt(this)">' + esc(o) + '</button>'; }).join('') + '</div>' : '') +
-    '<label class="l">Your call</label><textarea class="f" rows="2" data-ans="' + esc(c.id) + '" placeholder="In your words: the option you pick, or something else entirely">' + esc(a && a.text || '') + '</textarea>' +
-    '<div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap"><button class="btn sm gold" onclick="answerCall(\'' + esc(c.id) + '\',\'answered\')">Record my call</button><button class="btn sm" onclick="answerCall(\'' + esc(c.id) + '\',\'deferred\')">Not yet</button>' +
-    '<span class="tiny muted" style="flex:1;text-align:right">' + esc(c.source || '') + '</span></div></div></div>';
+/* ---- your calls (v2.1): a review queue, newest first, one tap each ----
+   Zack, 2026-10-26: "I can't find the your calls list ... that needs to be better presented to me." The calls now open
+   with the newest batch, each answered with one tap (Keep, Change, Reject, Later) and updated in place; the menu and the
+   top bar carry how many are waiting. */
+function callVerdict(ans) {
+  if (!ans || !ans.status || ans.status === 'open') return null;
+  if (ans.status === 'deferred') return ['later', ''];
+  return /^keep|^approve|^confirm(?! with)/i.test(ans.text) ? ['kept', 'forest'] : /^reject/i.test(ans.text) ? ['rejected', 'ember'] : ['changed', 'gold'];
 }
-function assumptionCard(a, ans) {   // store/assumptions.json: a call the assistant made, for you to keep, change or reject
-  var done = ans && ans.status && ans.status !== 'open', verdict = done ? (/^keep/i.test(ans.text) ? ['kept', 'forest'] : /^reject/i.test(ans.text) ? ['rejected', 'ember'] : [ans.status === 'deferred' ? 'not yet' : 'changed', 'gold']) : null;
-  return '<div class="card call' + (done ? ' done' : '') + '" id="call-' + esc(a.id) + '"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(a.id) + ' · ' + esc(a.area) + ' · ' + esc(a.decision) + '</div>' +
-    '<h3 style="font-size:17px;line-height:1.35;font-family:inherit">' + esc(a.what) + '</h3></div>' + (verdict ? chip(verdict[0], verdict[1]) : chip('assumed', 'ember')) + '</div>' +
-    '<div class="bd"><p class="small" style="color:var(--text-2);margin:0"><b>Why:</b> ' + esc(a.why) + ' <a class="link" href="' + esc(a.where[0]) + '">See it: ' + esc(a.where[1]) + ' →</a></p>' +
-    '<div class="opts">' + ['Keep'].concat(a.instead.map(function (x) { return 'Change: ' + x; }), ['Reject']).map(function (o) { return '<button type="button" class="opt" onclick="pickOpt(this)">' + esc(o) + '</button>'; }).join('') + '</div>' +
-    '<label class="l">Your call</label><textarea class="f" rows="2" data-ans="' + esc(a.id) + '" placeholder="Keep, change (how), or reject; in your words">' + esc(ans && ans.text || '') + '</textarea>' +
-    '<div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap"><button class="btn sm gold" onclick="answerCall(\'' + esc(a.id) + '\',\'answered\')">Record my call</button><button class="btn sm" onclick="answerCall(\'' + esc(a.id) + '\',\'deferred\')">Not yet</button></div></div></div>';
+function callItem(x, ans) {   // x: {id, kind: 'assumption'|'question', eyebrow, title, why, see, options, blocks}
+  var v = callVerdict(ans), done = v && v[0] !== 'later', quick = x.kind === 'assumption' ? [['Keep', '✓ Keep'], ['Reject', '✕ Reject']] : x.options.slice(0, 3).map(function (o) { return [o, o]; });
+  var change = x.kind === 'assumption' ? x.options.map(function (o) { return 'Change: ' + o; }) : [];
+  return '<div class="card call' + (done ? ' done' : '') + '" id="call-' + esc(x.id) + '" data-call="' + esc(x.id) + '"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(x.id) + ' · ' + esc(x.eyebrow) + '</div>' +
+    '<h3 class="calltitle">' + esc(x.title) + '</h3></div>' + (v ? chip(v[0], v[1]) : chip('waiting on you', 'ember')) + '</div><div class="bd">' +
+    '<p class="small" style="color:var(--text-2);margin:0">' + (x.why ? '<b>Why:</b> ' + esc(x.why) : '') + (x.see ? ' <a class="link" href="' + esc(x.see[0]) + '">See it: ' + esc(x.see[1]) + ' →</a>' : '') + '</p>' +
+    (x.blocks ? '<div class="tiny" style="color:var(--ember-2);margin-top:6px">Blocks: ' + esc(x.blocks) + '</div>' : '') +
+    (done ? '<div class="small" style="margin-top:8px"><b>You said:</b> ' + esc(ans.text) + (ans.at ? ' <span class="tiny muted">' + esc(fmtLoose(ans.at) || '') + '</span>' : '') + ' <a class="link tiny" href="javascript:void 0" data-callredo="1">change my answer</a></div>' : '') +
+    '<div class="callacts"' + (done ? ' style="display:none"' : '') + '>' + quick.map(function (q) { return '<button type="button" class="btn sm' + (/^(Keep|Approve|Confirm)$/.test(q[0]) ? ' gold' : '') + '" data-callquick="' + esc(q[0]) + '">' + esc(q[1]) + '</button>'; }).join('') +
+      '<button type="button" class="btn sm" data-callopen="1">' + (x.kind === 'assumption' ? '✎ Change…' : '✎ In my words…') + '</button><button type="button" class="btn sm" data-calllater="1">Later</button></div>' +
+    '<div class="callmore" style="display:none">' + (change.length ? '<div class="opts">' + change.map(function (o) { return '<button type="button" class="opt" onclick="pickOpt(this)">' + esc(o) + '</button>'; }).join('') + '</div>' : '') +
+      '<textarea class="f" rows="2" data-ans="' + esc(x.id) + '" placeholder="' + (x.kind === 'assumption' ? 'How it should be instead, in your words' : 'Your call, in your words') + '">' + esc(ans && ans.text || '') + '</textarea>' +
+      '<div style="margin-top:8px"><button type="button" class="btn sm gold" data-callsave="1">Record my call</button></div></div></div></div>';
 }
 function pickOpt(b) { var t = b.closest('.card').querySelector('textarea'); t.value = b.textContent; b.parentNode.querySelectorAll('.opt').forEach(function (x) { x.classList.toggle('on', x === b); }); t.focus(); }
-function answerCall(id, status) {
-  var t = document.querySelector('[data-ans="' + id + '"]'), text = t ? t.value.trim() : '';
-  if (status === 'answered' && !text) { toast('Write your call first (or tap an option).'); return; }
-  API.run('apiAnswer', id, text, status, (S.callMeta || {})[id] || {}).then(function () { S.live['Your Calls'] = null; S.live.Answers = null; toast(status === 'answered' ? 'Recorded. <b>' + esc(id) + '</b> becomes a decision when it\'s written into canon.' : 'Left open for later.'); go(); })
-    .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+function answerCall(id, status, text) {
+  if (text == null) { var t = document.querySelector('[data-ans="' + id + '"]'); text = t ? t.value.trim() : ''; }
+  if (status === 'answered' && !text) { toast('Write your call first (or tap an option).'); return Promise.resolve(); }
+  return API.run('apiAnswer', id, text, status, (S.callMeta || {})[id] || {}).then(function () {
+    S.live['Your Calls'] = null; S.live.Answers = null;
+    var a = (S.callAns = S.callAns || {})[id] = {text: text, status: status, at: new Date().toISOString()};
+    var el = document.getElementById('call-' + id), x = (S.callIdx || {})[id];
+    if (el && x) { el.outerHTML = callItem(x, a); callsProgress(); }
+    callsBadge();
+    toast(status === 'answered' ? 'Recorded: <b>' + esc(id) + '</b>. ' + (x && x.kind === 'assumption' ? 'I\'ll act on it in the next update.' : 'It becomes a decision when it\'s written into canon.') : 'Left for later.');
+  }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
 }
-function calls() {
+document.addEventListener('click', function (e) {   // the call cards' buttons, wherever a card is shown (Your calls, #/v1, #/v2)
+  var b = e.target.closest && e.target.closest('[data-callquick],[data-callopen],[data-calllater],[data-callsave],[data-callredo]'); if (!b) return;
+  var card = b.closest('[data-call]'), id = card && card.getAttribute('data-call'); if (!id) return;
+  if (b.hasAttribute('data-callquick')) answerCall(id, 'answered', b.getAttribute('data-callquick'));
+  else if (b.hasAttribute('data-calllater')) answerCall(id, 'deferred', '');
+  else if (b.hasAttribute('data-callsave')) answerCall(id, 'answered');
+  else if (b.hasAttribute('data-callopen')) { card.querySelector('.callmore').style.display = ''; card.querySelector('textarea').focus(); }
+  else if (b.hasAttribute('data-callredo')) { card.querySelector('.callacts').style.display = ''; b.parentNode.style.display = 'none'; }
+});
+function callBrow(a) { var tail = ' · ' + a.area; return a.phase.toLowerCase().slice(-tail.length) === tail.toLowerCase() ? a.phase : a.phase + tail; }   // "v2.1 · Your calls", not twice
+function assumptionCard(a, ans) {   // the same card on the v1 and v2 pages
+  var x = {id: a.id, kind: 'assumption', eyebrow: callBrow(a), title: a.what, why: a.why, see: a.where, options: a.instead || []};
+  (S.callIdx = S.callIdx || {})[a.id] = x; (S.callMeta = S.callMeta || {})[a.id] = {area: 'assumption · ' + x.eyebrow, question: x.title};
+  return callItem(x, ans);
+}
+function callsAll(h) {   // every call, newest batch first: [{section, items}]
+  var asm = (h.assumptions || []).slice(), phases = [], v2 = [], old = [];
+  asm.forEach(function (a) { if (phases.indexOf(a.phase) < 0) phases.push(a.phase); });
+  var item = function (a) { return {id: a.id, kind: 'assumption', eyebrow: callBrow(a), title: a.what, why: a.why, see: a.where, options: a.instead || []}; };
+  var latest = phases.filter(function (p) { return /^v2/.test(p); });
+  var qs = h.questions.map(function (q) { return {id: q.id, kind: 'question', eyebrow: q.area, title: q.question, why: q.why, options: q.options || [], blocks: q.blocks}; });
+  var world = h.world.filter(function (w) { return w.status === 'proposed'; }).map(function (w) { return {id: w.id, kind: 'question', eyebrow: 'world record · ' + w.species, title: w.statement, why: w.note + '. ' + w.capability.replace(/_/g, ' ') + ' for ' + w.species + ' (' + (GAME_NAME[w.game] || w.game) + ').', options: ['Approve', 'Reject', 'Approve with changes']}; });
+  var dec = h.decisions.filter(function (d) { return /^PROPOSED/.test(d.status); }).map(function (d) { return {id: d.id, kind: 'question', eyebrow: 'decision · ' + d.area, title: d.title, why: 'Proposed ' + fmtLoose(d.date) + ' and not yet confirmed. Confirming makes it working canon.', options: ['Confirm', 'Reject', 'Confirm with changes']}; });
+  var out = [];
+  latest.slice().reverse().forEach(function (ph) { out.push({id: 'new', title: ph, items: asm.filter(function (a) { return a.phase === ph; }).map(item)}); });
+  out.push({id: 'questions', title: 'Open questions: the ranch, the breeding lab and the chapters', items: qs});
+  out.push({id: 'world', title: 'World records waiting on approval', items: world});
+  out.push({id: 'decisions', title: 'Decisions proposed, not confirmed', items: dec});
+  phases.filter(function (p) { return latest.indexOf(p) < 0; }).reverse().forEach(function (ph) { out.push({id: 'earlier', title: 'Earlier · ' + ph, items: asm.filter(function (a) { return a.phase === ph; }).map(item)}); });
+  return out.filter(function (sec) { return sec.items.length; });
+}
+function callsWaiting(secs, ans) {   // {waiting, all, fresh}: fresh counts the newest batch (the sections marked new)
+  var n = 0, all = 0, fresh = 0; secs.forEach(function (s) { s.items.forEach(function (x) { all++; var v = callVerdict(ans[x.id]); if (!v || v[0] === 'later') { n++; if (s.id === 'new') fresh++; } }); });
+  return {waiting: n, all: all, fresh: fresh};
+}
+function callsBadge() {   // the count beside Your calls in the menu and the top bar
+  if (!S.hq) return;
+  answers().then(function (ans) { Object.assign(ans, S.callAns || {}); var c = callsWaiting(callsAll(S.hq), ans);
+    var lead = c.fresh || c.waiting, word = c.fresh ? 'new' : 'waiting';   // the newest batch first; the rest are counted on the page
+    document.querySelectorAll('[data-nav="#/calls"] .navcount').forEach(function (el) { el.textContent = lead || ''; el.title = c.waiting + ' waiting in all'; });
+    var top = document.getElementById('topcalls'); if (top) { top.style.display = lead ? '' : 'none'; top.textContent = lead + ' ' + word + ' call' + (lead === 1 ? '' : 's'); top.title = c.waiting + ' waiting in all'; }
+    var hr = document.getElementById('homecallsrow'), hc = document.getElementById('homecalls');
+    if (hr && hc) { hr.style.display = lead ? '' : 'none'; hc.textContent = (c.fresh ? c.fresh + ' new choice' + (c.fresh === 1 ? '' : 's') + ' from this update' : c.waiting + ' choice' + (c.waiting === 1 ? '' : 's')) + ' waiting on you' + (c.waiting > lead ? ' (' + c.waiting + ' in all)' : '') + ', newest first'; } }).catch(function () {});
+}
+function callsProgress() {
+  var all = document.querySelectorAll('#page [data-call]').length, done = document.querySelectorAll('#page [data-call].done').length, el = document.getElementById('callsprog');
+  if (el) el.innerHTML = '<div class="bar forest" style="height:6px"><i style="width:' + (all ? Math.round(100 * done / all) : 0) + '%"></i></div><div class="tiny muted" style="margin-top:4px">' + done + ' of ' + all + ' answered</div>';
+  document.querySelectorAll('[data-secn]').forEach(function (h) { var sec = h.closest('.callsec'); if (!sec) return; var n = sec.querySelectorAll('[data-call]').length, d = sec.querySelectorAll('[data-call].done').length; h.textContent = d + ' of ' + n + ' answered'; });
+}
+function calls(q) {
+  var m = /show=(\w+)/.exec(q || ""), show = m ? m[1] : "waiting";
   return answers().then(function (ans) {
-    var h = S.hq;
-    var qs = h.questions.map(function (q) { return {id: q.id, area: q.area, q: q.question, why: q.why, options: q.options, blocks: q.blocks, source: q.source}; });
-    var world = h.world.filter(function (w) { return w.status === 'proposed'; }).map(function (w) { return {id: w.id, area: 'world record · ' + w.species, q: w.statement, why: w.note + '. ' + w.capability.replace(/_/g, ' ') + ' for ' + w.species + ' (' + (GAME_NAME[w.game] || w.game) + ').', options: ['Approve', 'Reject', 'Approve with changes'], source: w.source}; });
-    var dec = h.decisions.filter(function (d) { return /^PROPOSED/.test(d.status); }).map(function (d) { return {id: d.id, area: 'decision · ' + d.area, q: d.title, why: 'Proposed ' + fmtLoose(d.date) + ' and not yet confirmed. Confirming makes it working canon.', options: ['Confirm', 'Reject', 'Confirm with changes'], source: d.status}; });
-    var asm = h.assumptions || [], all = qs.concat(world, dec);
-    S.callMeta = {}; all.forEach(function (c) { S.callMeta[c.id] = {area: c.area, question: c.q}; });
-    asm.forEach(function (a) { S.callMeta[a.id] = {area: 'assumption · ' + a.area + ' (' + a.decision + ')', question: a.what}; });
-    var open = all.filter(function (c) { return !ans[c.id] || ans[c.id].status === 'open'; }).length, aOpen = asm.filter(function (a) { return !ans[a.id] || ans[a.id].status === 'open'; }).length;
-    var phases = []; asm.forEach(function (a) { if (phases.indexOf(a.phase) < 0) phases.push(a.phase); });
-    var asmHtml = asm.length ? '<div class="ornament" style="margin:26px 0 8px" id="assumptions">Assumptions I made</div><p class="small muted" style="margin:0 0 12px">' + aOpen + ' of ' + asm.length + ' waiting on you. You asked me to make the calls I needed and keep track of them: each one says what I assumed, why, where to see it, and what it could be instead. Keep, change or reject; nothing changes until a call is written in (docs/design/ASSUMPTIONS.md).</p>' +
-      phases.map(function (ph) { return '<div class="eyebrow" style="margin:16px 0 8px">' + esc(ph) + '</div><div class="grid">' + asm.filter(function (a) { return a.phase === ph; }).map(function (a) { return '<div class="c6">' + assumptionCard(a, ans[a.id]) + '</div>'; }).join('') + '</div>'; }).join('') : '';
-    function group(title, eyebrow, list) { return list.length ? '<div class="ornament" style="margin:26px 0 14px">' + eyebrow + '</div><div class="grid">' + list.map(function (c) { return '<div class="c6">' + callCard(c, ans[c.id]) + '</div>'; }).join('') + '</div>' : ''; }
+    Object.assign(ans, S.callAns || {}); S.callAns = ans;
+    var secs = callsAll(S.hq), c = callsWaiting(secs, ans);
+    S.callMeta = {}; S.callIdx = {};
+    secs.forEach(function (sec) { sec.items.forEach(function (x) { S.callIdx[x.id] = x; S.callMeta[x.id] = {area: x.kind === 'assumption' ? 'assumption · ' + x.eyebrow : x.eyebrow, question: x.title}; }); });
+    var keep = function (x) { var v = callVerdict(ans[x.id]); return show === 'all' || (show === 'answered' ? v && v[0] !== 'later' : !v || v[0] === 'later'); };
+    after(function () { callsProgress(); });
+    var tabs = [['waiting', 'Waiting on you', c.waiting], ['answered', 'Answered', c.all - c.waiting], ['all', 'All', c.all]];
     return '<div class="eyebrow">What the estate is waiting on</div><h1 style="margin:6px 0">Your calls</h1>' +
-      '<p class="lede">' + open + ' of ' + all.length + ' open' + (asm.length ? ', and <a href="javascript:void 0" onclick="document.getElementById(\'assumptions\').scrollIntoView()">' + aOpen + ' assumptions</a> to review' : '') + '. Nothing here changes canon by itself: your answer is written to the Your Calls tab of the Sheet, and an answered call becomes a decision (a D- number) when it\'s written in. Suggestions never become locks without you.</p>' +
-      group('Open questions', 'The ranch, the breeding lab and the chapters', qs) + group('World records', 'World records waiting on approval', world) + group('Decisions', 'Decisions proposed, not confirmed', dec) + asmHtml;
+      '<p class="lede">' + (c.waiting ? '<b>' + c.waiting + '</b> waiting on you' + (c.fresh ? ', <b>' + c.fresh + '</b> of them new in this update and shown first' : '') + '.' : 'Nothing is waiting on you.') +
+      ' Each call is something I chose while building, or a question only you can answer. One tap answers it: <b>Keep</b> it, <b>Change</b> it (say how), <b>Reject</b> it, or leave it for <b>Later</b>. Your answer goes to the Your Calls tab of your Sheet; nothing changes in the app until I act on it.</p>' +
+      '<div id="callsprog" style="max-width:420px;margin:10px 0 4px"></div>' +
+      '<div class="tabs" style="margin-top:12px">' + tabs.map(function (t) { return '<a href="#/calls' + (t[0] === 'waiting' ? '' : '?show=' + t[0]) + '"' + (t[0] === show ? ' class="on"' : '') + '>' + t[1] + ' <span class="tiny muted">' + t[2] + '</span></a>'; }).join('') + '</div>' +
+      secs.map(function (sec) { var xs = sec.items.filter(keep); if (!xs.length) return '';
+        return '<div class="callsec"><div class="ornament" style="margin:22px 0 4px">' + esc(sec.title) + '</div><div class="tiny muted" style="text-align:center;margin-bottom:10px" data-secn="1"></div><div class="grid">' +
+          xs.map(function (x) { return '<div class="c6">' + callItem(x, ans[x.id]) + '</div>'; }).join('') + '</div></div>'; }).join('') +
+      (secs.every(function (sec) { return !sec.items.filter(keep).length; }) ? '<div class="empty" style="margin-top:18px">' + (show === 'answered' ? 'Nothing answered yet.' : 'Nothing waiting on you. <a href="#/calls?show=all">See every call</a>') + '</div>' : '') +
+      '<div id="assumptions"></div>';
   });
 }
 function recordPage(tab) {
@@ -77,6 +140,6 @@ function recordPage(tab) {
       {eyebrow: 'Checked against PokeAPI, Showdown and Smogon', tools: false});
   });
 }
-route(/^\/calls\/?$/, calls, 'Your calls', '#/calls');
+route(/^\/calls\/?(\?.*)?$/, calls, 'Your calls', '#/calls');
 route(/^\/record\/?(\w*)$/, recordPage, 'The record', '#/record');
 </script>

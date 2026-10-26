@@ -12,9 +12,12 @@ The whole update is described in `docs/design/V2_PLAN.md`, and in the app at `#/
 |---|---|
 | Home `#/` | Your six teams, what to do next, and recently built Pokémon. The estate's day is folded below. |
 | A team `#/team/<game>` | The team homepage: six tiles to drag into order, then the trainer, scouting report, shapes & roles, coverage, swap, candidates, achievements and battle. Implemented in `web/81_teams.html` (the model) and `web/84_teamlab.html` (the page). |
-| One Pokémon `#/pokemon/<id>` | The builder (`web/83_builder.html`): inputs on the left; on the right the species, five roles, badges, scouting report, wilderness and homestead tags. |
+| One Pokémon `#/pokemon/<id>` | The builder (`web/83_builder.html`). The inputs are on the left, in this order:<ul><li>Who it is, including where it came from, from the encounter tables (`ranges.json`);</li><li>Start from a build;</li><li>Moves, with ability first;</li><li>Nature and item;</li><li>Stats.</li></ul>On the right: the species (with its shiny), the five roles, badges, scouting report, and the wilderness and homestead tags. |
 | Add a Pokémon `#/pokemon/new/<game>/<slot>` | Pick the species. It becomes yours, in that slot. |
-| The menu | Your teams, then Build, Play and Explore. Labs, World and Record are folded. The top bar has the six teams (HG, SS, Pt, C, FR, E). |
+| The menu | Home and Your calls (with how many are new), then your teams, Build, Play and Explore. Labs, World and Record are folded. The top bar has the six teams (HG, SS, Pt, C, FR, E) and the new calls. |
+| Your calls `#/calls` | v2.1: a review queue in `web/90_record.html`, newest batch first, with Keep, Change, Reject and Later on each card, and Waiting, Answered and All tabs. |
+| Natural history `#/biology/<species>` | v2.1: the Research it card in `web/95_biology.html`. It shows what's open, where to look, a brief to copy, and your findings, which are Journal rows of kind `research`, status proposed. |
+| Move families | v2.1: `engine/trainers/families.json` ships in `explain.json`. The `Families` module in `web/82_labs.html` reads them per member and per team; the team page's Shapes & roles and the builder's scouting report show them. |
 
 The fresh start hides your old records:
 - **The packs:** `app/fresh.py` takes them out at the end of the export.

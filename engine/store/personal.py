@@ -22,7 +22,7 @@ STATS = ("hp", "atk", "def", "spa", "spd", "spe")
 BUILD_FIELDS = ("species", "generation", "game", "level", "nature", "ability", "item")
 BUILD_TEXT = ("name", "note", "parent", "individual", "at", "recognition",   # a version keeps the recognition it earned
               "kind", "purpose", "labels")       # kind "blueprint": breeding stock (its purpose and your labels with it)
-IND_FIELDS = ("species", "game", "nickname", "gender", "shiny", "form", "ball", "build", "met_location", "caught_level",
+IND_FIELDS = ("species", "game", "nickname", "gender", "shiny", "form", "ball", "build", "met_how", "met_as", "met_location", "caught_level",
               "friendship", "origin", "note", "hero",
               "sire", "dam", "blueprint")         # its parents' ids (the studbook's or yours) and the blueprint it was bred to
 # hatch_moves (a list, written like moves): the moves it hatched with, kept even after it learns others

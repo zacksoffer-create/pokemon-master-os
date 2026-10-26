@@ -12,6 +12,7 @@ var GAME_NAME = {crystal: 'Crystal', firered: 'FireRed', emerald: 'Emerald', pla
 
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]; }); }
 function art(n) { return n ? SPR + 'pokemon/other/official-artwork/' + n + '.png' : ''; }
+function artShiny(n) { return n ? SPR + 'pokemon/other/official-artwork/shiny/' + n + '.png' : ''; }
 function sprite(n, game) { return n ? SPR + 'pokemon/' + (GAME_SET[game] || GAME_SET.heartgold) + n + '.png' : ''; }
 function itemSprite(name) { return name ? SPR + 'items/' + String(name).toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/ /g, '-') + '.png' : ''; }
 function typeBadge(t) { return '<span class="type" style="background:' + (TYPE[t] || '#666') + '">' + esc(t) + '</span>'; }
@@ -135,7 +136,7 @@ function defenses(ts) {
 
 /* ---- shell: rail, top bar, router ---- */
 var NAV = [   // v2 (D-078; docs/design/V2_PLAN.md §8): your teams first, then building, playing and exploring; the labs, the world and the record folded
-  ['', [['home', '#/', 'Home']]],
+  ['', [['home', '#/', 'Home'], ['calls', '#/calls', 'Your calls']]],   // v2.1: Your calls up top, with how many are waiting
   ['YOUR TEAMS', [['ball', '#/team/heartgold', 'HeartGold'], ['ball', '#/team/soulsilver', 'SoulSilver'], ['ball', '#/team/platinum', 'Platinum'], ['ball', '#/team/crystal', 'Crystal'],
     ['ball', '#/team/firered', 'FireRed'], ['ball', '#/team/emerald', 'Emerald'], ['tlab', '#/team', 'All six teams']]],
   ['BUILD', [['plab', '#/pokemon', 'Your Pokémon'], ['stock', '#/stock', 'Breeding stock'], ['pkhex', '#/pkhex', 'PKHeX export']]],
@@ -145,7 +146,7 @@ var NAV = [   // v2 (D-078; docs/design/V2_PLAN.md §8): your teams first, then 
   ['LABS', [['blab', '#/battlelab', 'Battle Lab'], ['slab', '#/scoutlab', 'Trainer lab'], ['field', '#/survival', 'Survival Lab'], ['lines', '#/lines', 'Breeding lab'], ['bench', '#/bench', 'Benchmarks'],
     ['scout', '#/scouting', 'Scouting reports'], ['advance', '#/advance', 'Advance scouting'], ['teams', '#/teams', 'Team reports'], ['std', '#/standards', 'The standards'], ['whistle', '#/trainer', 'Default coach settings']]],
   ['WORLD', [['estate', '#/estate', 'The Estate'], ['homestead', '#/homestead', 'The Homestead'], ['glass', '#/glasshouse', 'The Glasshouse'], ['breed', '#/breeding', 'Breeding & lineage'], ['journal', '#/journal', 'Research journal']]],
-  ['RECORD', [['spark', '#/v2', 'What\'s new in v2'], ['spark', '#/v1', 'v1'], ['calls', '#/calls', 'Your calls'], ['inbox', '#/inbox', 'The inbox'], ['record', '#/record', 'The record'], ['engine', '#/engine', 'Engine room']]]
+  ['RECORD', [['spark', '#/v2', 'What\'s new in v2'], ['spark', '#/v1', 'v1'], ['inbox', '#/inbox', 'The inbox'], ['record', '#/record', 'The record'], ['engine', '#/engine', 'Engine room']]]
 ];
 var NAV_FOLDED = ['LABS', 'WORLD', 'RECORD'];   // folded until you open them (the choice is kept in this browser)
 function navOpen(g) { var o = store('nav-open') || {}; return g in o ? !!o[g] : NAV_FOLDED.indexOf(g) < 0; }
@@ -157,11 +158,11 @@ function shell() {
   document.body.innerHTML =
     '<div class="app"><aside class="rail" id="rail"><div class="crest">' + Art.crest(42) + '<div><b>Blackthorn</b><span>World Headquarters</span></div></div>' +
     '<nav class="nav">' + NAV.map(function (g) { return '<div class="nav-sec' + (navOpen(g[0]) ? '' : ' folded') + '" data-ng="' + g[0] + '">' + (g[0] ? '<div class="nav-group" onclick="navToggle(\'' + g[0] + '\')">' + g[0] + '<span class="nav-caret">▾</span></div>' : '') + '<div class="nav-items">' + g[1].map(function (n) {
-      return '<a href="' + n[1] + '" data-nav="' + n[1] + '">' + Art.icon(n[0]) + '<span>' + n[2] + '</span></a>'; }).join('') + '</div></div>'; }).join('') + '</nav>' +
+      return '<a href="' + n[1] + '" data-nav="' + n[1] + '">' + Art.icon(n[0]) + '<span>' + n[2] + '</span>' + (n[1] === '#/calls' ? '<span class="navcount"></span>' : '') + '</a>'; }).join('') + '</div></div>'; }).join('') + '</nav>' +
     '<div class="rail-foot">Luxury in presentation. Science in structure. Pokémon in identity. Life in every environment.</div></aside>' +
     '<div class="main"><header class="topbar"><button class="menu-btn" onclick="document.getElementById(\'rail\').classList.toggle(\'on\')">☰</button>' +
     '<div class="crumbs" id="crumbs"></div><div class="sp"></div>' +
-    '<span class="topteams">' + JOURNEYS.map(function (g) { return '<a href="#/team/' + g + '" title="' + GAME_NAME[g] + ' team">' + {heartgold: 'HG', soulsilver: 'SS', platinum: 'Pt', crystal: 'C', firered: 'FR', emerald: 'E'}[g] + '</a>'; }).join('') + '</span><label class="search">⌕ <input id="q" placeholder="Search Pokémon, trainers, builds…" autocomplete="off"></label>' +
+    '<span class="topteams">' + JOURNEYS.map(function (g) { return '<a href="#/team/' + g + '" title="' + GAME_NAME[g] + ' team">' + {heartgold: 'HG', soulsilver: 'SS', platinum: 'Pt', crystal: 'C', firered: 'FR', emerald: 'E'}[g] + '</a>'; }).join('') + '</span><a class="pill callpill" id="topcalls" href="#/calls" style="display:none"></a><label class="search">⌕ <input id="q" placeholder="Search Pokémon, trainers, builds…" autocomplete="off"></label>' +
     '<span class="pill">' + cap(Art.seasonNow(d)) + ' · ' + fmtDate(d) + '</span></header><main class="page" id="page"></main></div></div>' +
     '<div class="drawer-bg" id="dbg" onclick="closeDrawer()"></div><aside class="drawer" id="drawer"><div class="x"><button class="btn sm" onclick="closeDrawer()">Close ✕</button></div><div class="in" id="din"></div></aside>';
   document.getElementById('q').addEventListener('keydown', function (e) { if (e.key === 'Enter') nav('#/search/' + encodeURIComponent(this.value)); });
@@ -256,6 +257,7 @@ function boot() {
       window.addEventListener('hashchange', function () { if (location.hash !== NAVI.hash) { NAVI.hash = location.hash || '#/'; go(); } else go(); });
       NAVI.hash = location.hash || '#/'; go();
     }
+    if (typeof callsBadge === 'function') callsBadge();   // how many calls are waiting, beside Your calls
   }).catch(function (e) { document.getElementById('page').innerHTML = '<div class="notice">Couldn\'t load the estate\'s data: ' + esc(e && e.message || e) + '</div>'; });
 }
 </script>

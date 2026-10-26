@@ -2923,6 +2923,18 @@ class V2(unittest.TestCase):
             n = sum(1 for _ in fh) - 1
         self.assertEqual(n, 233886)
 
+    def test_move_families_ship_as_written(self):
+        """v2.1 (A-103): trainers/families.json reaches the app unchanged, weather in its four forms by move and ability."""
+        with open(os.path.join(ENGINE, "trainers", "families.json"), encoding="utf-8") as fh:
+            src = json.load(fh)
+        fam = self.pack("explain.json")["families"]
+        self.assertEqual(fam, src)
+        w = fam["weather"]["forms"]
+        self.assertEqual({k: (w[k]["moves"], w[k]["abilities"]) for k in w},
+                         {"sun": (["Sunny Day"], ["Drought"]), "rain": (["Rain Dance"], ["Drizzle"]),
+                          "sand": (["Sandstorm"], ["Sand Stream"]), "hail": (["Hail"], ["Snow Warning"])})
+        self.assertEqual(fam["order"], ["weather", "screens", "hazards", "status"])
+
 
 if __name__ == "__main__":
     unittest.main()

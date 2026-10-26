@@ -109,16 +109,35 @@ def moves():
     return {names[i]: {"game_text": text.get(i, {})} for i in sorted(mv, key=int) if i in names}
 
 
+def families(mv, ab):
+    """trainers/families.json (v2.1): moves and abilities that are one job in several forms (weather, screens, hazards,
+    status). Every move and ability it names must be a real one, so a typo can't make a family quietly smaller."""
+    with open(os.path.join(ENGINE, "trainers", "families.json"), encoding="utf-8") as fh:
+        fam = json.load(fh)
+    bad = []
+    for fid in fam["order"]:
+        for form in fam[fid]["forms"].values():
+            bad += [m for m in form.get("moves", []) if m not in mv] + [a for a in form.get("abilities", []) if a not in ab]
+            for side in ("thrive", "suffer"):
+                bad += [m for m in form.get(side, {}).get("moves", {}) if m not in mv]
+                bad += [a for a in form.get(side, {}).get("abilities", {}) if a not in ab]
+    if bad:
+        raise SystemExit(f"trainers/families.json names moves or abilities that don't exist: {sorted(set(bad))}")
+    return fam
+
+
 def main():
     with open(os.path.join(ENGINE, "reference", "mechanics.json"), encoding="utf-8") as fh:
         mech = json.load(fh)
+    mv, ab = moves(), abilities()
     pack = {"_note": "Built by app/explain_pack.py from PokeAPI's CSVs and reference/mechanics.json. game_text is each "
                      "game's own description (canon); summary is PokeAPI's, written for today's rules.",
-            "mechanics": mech["concepts"], "natures": natures(), "abilities": abilities(), "items": items(), "moves": moves()}
+            "mechanics": mech["concepts"], "natures": natures(), "abilities": ab, "items": items(), "moves": mv,
+            "families": families(mv, ab)}
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(pack, fh, ensure_ascii=False, separators=(",", ":"))
     print(f"{OUT}: {len(pack['natures'])} natures, {len(pack['abilities'])} abilities, {len(pack['items'])} items, {len(pack['moves'])} moves, "
-          f"{len(pack['mechanics'])} mechanics, {os.path.getsize(OUT) // 1024} KB")
+          f"{len(pack['mechanics'])} mechanics, {len(pack['families']['order'])} move families, {os.path.getsize(OUT) // 1024} KB")
 
 
 if __name__ == "__main__":

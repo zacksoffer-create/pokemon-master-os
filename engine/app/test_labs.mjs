@@ -59,6 +59,20 @@ if (!/Blaze/.test(b1.ab)) fails.push('builder: no ability description');
 if (b1.badges !== 6) fails.push('builder: ' + b1.badges + ' badge families, not 6');
 if (b1.scout !== 3) fails.push('builder: the scouting report has ' + b1.scout + ' lists');
 if (!b1.wild) fails.push('builder: no wilderness tags');
+// v2.1: where it came from is a list of the real ways (A-100); the ball is independent (A-101); start from a build, ability first (A-102); the shiny
+const v21 = await page.evaluate(() => { const box = document.getElementById('pbin'), o = [...box.querySelectorAll('[data-pborigin] option')].map((x) => x.textContent);
+  const at = (sel) => [...box.querySelectorAll('select')].indexOf(box.querySelector(sel));
+  return { starter: o.some((x) => /^Your starter as Cyndaquil, then evolved: New Bark Town, Lv 5/.test(x)), egg: o.some((x) => /^Hatched from an egg/.test(x)), set: !!box.querySelector('[data-pb="set"]'),
+    abilityFirst: at('[data-pb="ability"]') >= 0 && at('[data-pb="ability"]') < at('[data-pbmove="0"]') && at('[data-pb="set"]') < at('[data-pb="ability"]'), shiny: !!document.querySelector('.pbarts img[alt^="Shiny"]'),
+    ball: document.getElementById('pbballfit').innerText }; });
+if (!v21.starter || !v21.egg) fails.push('builder: where it came from lacks the starter or the egg ' + JSON.stringify(v21));
+if (!v21.set || !v21.abilityFirst) fails.push('builder: Start from a build, then ability, then the moves ' + JSON.stringify(v21));
+if (!v21.shiny) fails.push('builder: no shiny artwork under the species');
+if (/story choice/i.test(v21.ball)) fails.push('builder: the ball still judges how it was met: ' + v21.ball);
+await page.selectOption('[data-pborigin]', String(await page.evaluate(() => PB.origins.findIndex((o) => o.how === 'starter'))));
+await page.waitForTimeout(200);
+const met = await page.evaluate(() => ({ how: PB.who.met_how, as: PB.who.met_as, at: document.querySelector('[data-who="met_location"]').value, lv: document.querySelector('[data-who="caught_level"]').value }));
+if (met.how !== 'starter' || met.as !== 'Cyndaquil' || met.at !== 'New Bark Town' || met.lv !== '5') fails.push('builder: picking the starter fills ' + JSON.stringify(met));
 // a draft survives leaving the page
 await go('#/team/heartgold', '#tmsix');
 await go('#/pokemon/' + encodeURIComponent(id), '#pbroles .role5');
@@ -72,6 +86,8 @@ await page.selectOption('[data-pbmove="1"]', 'Focus Blast'); await page.waitForT
 await page.fill('#pbnote', 'Focus Blast for coverage'); await page.click('#pbsave');
 await page.waitForFunction(() => { const i = S.store.individuals[PB.id], b = document.getElementById('pbsave'); return i && Records.versions(i.build).length === 2 && b && !b.disabled; }, null, { timeout: 60000 }).catch(() => {});
 await settle('#pbroles .role5');
+const kept2 = await page.evaluate(() => { const i = S.store.individuals[PB.id]; return {how: i.met_how, as: i.met_as, at: i.met_location, lv: i.caught_level}; });
+if (kept2.how !== 'starter' || kept2.as !== 'Cyndaquil' || kept2.at !== 'New Bark Town' || kept2.lv !== 5) fails.push('save: where it came from wasn\'t kept ' + JSON.stringify(kept2));
 const hist = await page.evaluate(() => { const i = S.store.individuals[PB.id]; return { n: Records.versions(i.build).length, v1: Records.version(i.build, 1).moves[1], v2: Records.version(i.build, 2).moves[1], note: Records.version(i.build, 2).note }; });
 if (hist.n !== 2 || hist.v1 !== 'Extrasensory' || hist.v2 !== 'Focus Blast' || !/coverage/.test(hist.note || '')) fails.push('save: ' + JSON.stringify(hist));
 // the team: a candidate joins, the order changes, the team has its own trainer
@@ -92,6 +108,8 @@ await page.waitForFunction(() => document.querySelector('#tm-scout .scout3') && 
 const sec = await page.evaluate(() => ({ title: document.getElementById('tmtitle').textContent, scout: !!document.querySelector('#tm-scout .scout3'), shape: !!document.querySelector('#tm-shape .rmatrix'),
   shapes: document.querySelectorAll('#tm-shape .shape').length, cover: document.querySelectorAll('#tm-cover .typecell').length, badges: document.querySelectorAll('#tm-ach .gbadge').length,
   swap: !!document.getElementById('tmswf'), style: Teams.get('heartgold').profile.style, first: (document.querySelector('#tmsix .tile[data-go] .nm') || {}).textContent }));
+const fam = await page.evaluate(() => ({ rows: document.querySelectorAll('#tm-shape .famrow').length, weather: !!Families.cfg() && !!TM.comp.families.weather }));
+if (fam.rows !== 4 || !fam.weather) fails.push('team: the move families card ' + JSON.stringify(fam));
 if (sec.title !== 'Zack\'s HeartGold' || !sec.scout || !sec.shape || sec.shapes !== 9 || sec.cover < 30 || sec.badges !== 16 || !sec.swap || sec.style !== 'setup' || sec.first !== 'Tyranitar') fails.push('team sections: ' + JSON.stringify(sec));
 await page.selectOption('#tmswf [name=what]', 'nature'); await page.waitForTimeout(200);
 await page.click('#tmswgo');

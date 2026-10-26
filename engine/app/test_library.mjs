@@ -138,8 +138,8 @@ expect('8/10: the standards page tries a stricter Ace bar (' + (m && m[0]) + ')'
 // the assumptions register: every call made while building, reviewable in Your calls
 await go('#/calls', '#assumptions', true);
 t = await text();
-expect('the register lists every assumption with where to see it', /assumptions i made/i.test(t) && (t.match(/A-\d\d · /g) || []).length >= 27 && /See it: Make a version of Cynthia/.test(t));
-await page.evaluate(() => { const c = document.getElementById('call-A-19'); [...c.querySelectorAll('.opt')].find((b) => b.textContent === 'Keep').click(); [...c.querySelectorAll('button')].find((b) => /Record my call/.test(b.textContent)).click(); });
+expect('the register lists every assumption with where to see it, newest first', (t.match(/A-\d\d+ · /g) || []).length >= 27 && /See it: Make a version of Cynthia/.test(t) && await page.evaluate(() => /^v2/.test(document.querySelector('.callsec .ornament').textContent)));
+await page.evaluate(() => document.querySelector('#call-A-19 [data-callquick="Keep"]').click());   // v2.1 (A-105): one tap
 await page.waitForFunction(() => { const c = document.getElementById('call-A-19'); return c && /kept/.test(c.querySelector('.hd').innerText); }, null, { timeout: 30000 }).catch(() => {});
 expect('keeping an assumption records it', await page.evaluate(() => { const c = document.getElementById('call-A-19'); return !!c && /kept/.test(c.querySelector('.hd').innerText); }));
 

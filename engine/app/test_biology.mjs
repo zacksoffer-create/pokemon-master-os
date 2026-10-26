@@ -61,6 +61,14 @@ const rv = await page.evaluate(() => { try { return (JSON.parse(localStorage.get
 expect('an agree is a Journal row', rv.length === 1 && rv[0].verdict === 'agree' && rv[0].species === 'Pineco');
 
 // 3. a species without a dossier: the field guide
+// v2.1 (A-104): research it, from the dossier: what's open, where to look, a brief, and your findings kept as proposed
+await page.waitForFunction(() => document.getElementById('biomine') && !/Reading your Journal/.test(document.getElementById('biomine').innerText), null, { timeout: 60000 }).catch(() => fails.push('research: your findings never loaded'));
+const rs = await page.evaluate(() => ({ card: !!document.getElementById('bio-research'), links: document.querySelectorAll('#bio-research a[target=_blank]').length, brief: /Research brief: Pineco/.test(document.getElementById('biobrief').value) && /topic \| the finding/.test(document.getElementById('biobrief').value) }));
+if (!rs.card || rs.links < 4 || !rs.brief) fails.push('research: the card ' + JSON.stringify(rs));
+await page.selectOption('#bioadd [name=domain]', 'diet'); await page.fill('#bioadd [name=text]', 'A test finding about what Pineco eats.'); await page.click('#bioadd button');
+await page.waitForFunction(() => /A test finding about what Pineco eats/.test(document.getElementById('biomine').innerText), null, { timeout: 30000 }).catch(() => fails.push('research: the finding never showed'));
+const row = await page.evaluate(() => API.tab('Journal', true).then((r) => r.filter((x) => x.kind === 'research' && x.species === 'Pineco').map((x) => [x.domain, x.status, x.source])));
+if (!row.length || row[0][0] !== 'diet' || row[0][1] !== 'proposed') fails.push('research: the Journal row ' + JSON.stringify(row));
 await go('#/biology/Heracross', '.biost');
 const hc = await text();
 expect('Heracross gets a machine field guide from its claims', /machine-synthesized/i.test(hc) && /Feeding guild/i.test(hc) && /Every Pokédex entry/i.test(hc));

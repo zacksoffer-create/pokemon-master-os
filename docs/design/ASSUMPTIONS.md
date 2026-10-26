@@ -835,3 +835,59 @@ The menu leads with your six teams; Build, Play and Explore follow; Labs, World 
 - **Why:** Your call: the app should be built around your inputs and easy to navigate.
 - **See it:** `#/` (Home)
 - **Could instead:** v1's eight open sections
+
+## v2.1 · The builder
+
+### A-100 · Where it came from (D-078)
+
+Where it came from is a list of the real ways this species reaches you in this game: your starter, gifts, gift eggs, in-game trades, one-time encounters and every wild area (with method and levels), for it and its earlier stages, read from the games' encounter tables. An egg is offered when its line can breed, a trade or the Pal Park always, and 'something else' lets you write it in. Picking one fills Met at and Level met, which you can still edit.
+
+- **Why:** Your call: "it can only come from a few places, so let's make where it comes from realistic."
+- **See it:** `#/pokemon` (Any of your Pokémon, Who it is)
+- **Could instead:** a short fixed list (starter, wild, egg, trade, other); free text only, as before
+
+### A-101 · The ball (D-078)
+
+The ball is its own choice: the builder shows what the ball does in this game and the Pokémon in it, and never says whether the ball fits how it was met (a starter in a Moon Ball is fine).
+
+- **Why:** Your call: "I don't want to get into the legality of the ball and its starter ... treat the ball as independent."
+- **See it:** `#/balls` (Poké Balls)
+- **Could instead:** a quiet note when a ball couldn't happen in the game, without blocking it
+
+### A-102 · Start from a build (D-078)
+
+A Start from a build section sits between Who it is and Moves. It lists your earlier versions of this Pokémon's build and the known sets for the species under this game's rules; picking one fills in moves, ability, nature, item, IVs and EVs (not who it is). Ability is now the first dropdown in Moves; Nature and item have their own card.
+
+- **Why:** Your call: a section in between "that says like, you know, previous build ... then all of the rest of it fills in", and "I want ability to be grouped in with moves ... the first question".
+- **See it:** `#/pokemon` (Any of your Pokémon)
+- **Could instead:** known sets only; fill the moves only, keeping the rest
+
+## v2.1 · Teams
+
+### A-103 · Move families (D-078)
+
+Moves and abilities that do one job in several forms are read together across a team (trainers/families.json): Weather (Sunny Day or Drought, Rain Dance or Drizzle, Sandstorm or Sand Stream, Hail or Snow Warning), Screens (Reflect, Light Screen), Entry hazards (Stealth Rock, Spikes, Toxic Spikes) and Status (paralysis, burn, poison, sleep). The Weather shape counts any form. The team page says who sets each form, who thrives or suffers in it, and who takes no chip from sand and hail; it also says the last weather set wins, so several forms let a team overwrite a rival's weather.
+
+- **Why:** Your call: "Sunny Day and Sandstorm and Hail and Rain Dance are all the same move in a sense ... all of those play into each other. I want that factored in." The note on overwriting is how the games resolve two weathers.
+- **See it:** `#/team/heartgold` (A team page, Shapes & roles)
+- **Could instead:** count only one weather per team, since two different weathers replace each other in battle; add more families (setup, recovery, pivoting)
+
+## v2.1 · Natural history
+
+### A-104 · Research it (D-078)
+
+Each natural-history page has a Research it card: the topics with nothing on record yet, links to Bulbapedia, Serebii, Pokémon Database and Smogon, a research brief to copy, and a form (or a paste of several lines, topic | finding | source | link) for what you find. A finding is a Journal row marked proposed: it shows on the page as yours, and joins the curated dossier only once you approve it.
+
+- **Why:** Your call: the page should be "easily researchable, and easily enrichable through kind of research". Proposed until approved keeps your findings apart from what the games say (D-063: labs never write canon).
+- **See it:** `#/biology/Typhlosion` (Typhlosion's natural history)
+- **Could instead:** findings go straight into the dossier; a Research tab of their own in the Sheet
+
+## v2.1 · Your calls
+
+### A-105 · Your calls (D-078)
+
+Your calls is second in the menu with a count of what's waiting, the count is in the top bar and in Start here, and the page opens with the newest batch. Each call is one tap: Keep, Change (say how), Reject or Later, and the card updates in place with a progress bar.
+
+- **Why:** Your call: "I can't find the your calls list ... that needs to be better presented to me."
+- **See it:** `#/calls` (Your calls)
+- **Could instead:** one call at a time, full screen, with next and back
