@@ -86,6 +86,7 @@ def hq(d):
     out["champion"] = {**d.get("champion", {}), "versions": [], "frame": "A fresh start: every team is yours to build."}
     out["rival"] = {"status": "blank", "roster": []}
     out["pens"] = {g: 0 for g in d.get("pens", {})}
+    out["zones"] = {z: 0 for z in d.get("zones", {})}   # the residents' land, counted from the retired companions (v2.5: they leaked)
     out["kpis"] = {**{k: 0 for k in d.get("kpis", {})}, **{k: d["kpis"][k] for k in ("decisions", "open_questions") if k in d.get("kpis", {})}}
     out["facilities"] = [{**f, "staff": {}, "evidence": {}, "one": {}, "story": {},
                           "open": sorted(set(f.get("open", [])) | set(f.get("staff", {})))} for f in d.get("facilities", [])]

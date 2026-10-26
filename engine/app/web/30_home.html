@@ -73,7 +73,6 @@ function priorities() {
   berries.filter(function (b) { return b.done; }).forEach(function (b) { out.push({icon: '🍒', text: b.berry + ' on plot ' + b.plot + ' is ready to harvest', act: "openForm('harvest','" + b.id + "')", tone: 'forest'}); });
   if (!eggs.length) out.push({icon: '🥚', text: 'No eggs in the racks', act: "openForm('egg')", tone: 'gold'});
   if (!berries.length) out.push({icon: '🌱', text: 'The berry rings are bare. Plant the medicine crop', act: "openForm('plant')", tone: 'gold'});
-  var open = (h.questions || []).length; if (open) out.push({icon: '⚖', text: open + ' calls are waiting on you', act: "nav('#/calls')", tone: ''});
   if (h.kpis.rule_issues) out.push({icon: '⚠', text: h.kpis.rule_issues + ' studbook rule issues', act: "nav('#/breeding/studbook')", tone: 'ember'});
   return out.slice(0, 6);
 }
@@ -81,14 +80,15 @@ function priorities() {
 /* ---- quick-action forms (they write to the Canon DB Sheet) ---- */
 function openForm(kind, ref) {
   var h = S.hq, f = '', title = '';
-  var lines = h.program.filter(function (p) { return p.hatches_as; }).map(function (p) { return '<option value="' + esc(p.hatches_as) + '|' + esc(p.stud_id) + '">' + esc(p.hatches_as) + ' · ' + esc(p.target) + '</option>'; }).join('');
+  var lines = Estate.ready() ? Estate.lines().map(function (l) { return '<option value="' + esc(l.line) + '|">' + esc(l.line) + ' · ' + esc(l.why) + '</option>'; }).join('')   // v2.5: your blueprints' and teams' lines
+    : h.program.filter(function (p) { return p.hatches_as; }).map(function (p) { return '<option value="' + esc(p.hatches_as) + '|' + esc(p.stud_id) + '">' + esc(p.hatches_as) + ' · ' + esc(p.target) + '</option>'; }).join('');
   var eggs = eggsModel().map(function (e) { return '<option value="' + esc(e.id) + '"' + (e.id === ref ? ' selected' : '') + '>' + esc(e.line) + ' · ' + esc(e.id) + ' (' + e.left + ' laps left)</option>'; }).join('');
   var crops = h.glasshouse.crops.map(function (c) { return '<option>' + esc(c.berry) + '</option>'; }).join('');
   var plots = berriesModel().map(function (b) { return '<option value="' + esc(b.id) + '"' + (b.id === ref ? ' selected' : '') + '>' + esc(b.berry) + ' · plot ' + esc(b.plot) + '</option>'; }).join('');
-  var who = h.party.map(function (p) { return '<option>' + esc(p.sp) + '</option>'; }).join('') + '<option>the nursery</option><option>a hatchling</option>';
+  var who = (Estate.ready() ? estateRes().map(function (r) { return r.label; }) : h.party.map(function (p) { return p.sp; })).map(function (n) { return '<option>' + esc(n) + '</option>'; }).join('') + '<option>the nursery</option><option>a hatchling</option>';   // v2.5: the residents
   var rooms = ENV.map(function (m) { return m.room; }).filter(function (r, i, a) { return a.indexOf(r) === i; }).map(function (r) { return '<option>' + esc(r) + '</option>'; }).join('');
-  if (kind === 'egg') { title = 'Lay an egg'; f = '<label class="l">Line and its stud</label><select class="f" name="line">' + lines + '</select><label class="l">Dam (a line female)</label><input class="f" name="dam" placeholder="e.g. D-TYRANITAR"><label class="l">Note</label><input class="f" name="note">'; }
-  if (kind === 'walk') { title = 'Record an egg walk'; f = eggs ? '<label class="l">Egg</label><select class="f" name="egg">' + eggs + '</select><label class="l">Laps of the hatching loop</label><input class="f" name="laps" type="number" min="1" value="5"><label class="l"><input type="checkbox" name="magcargo" checked> Magcargo walked with it (Magma Armor: each lap counts twice)</label><label class="l">Note</label><input class="f" name="note">' : '<div class="empty">No eggs in the racks yet. Lay one first.</div>'; }
+  if (kind === 'egg') { title = 'Lay an egg'; f = '<label class="l">Line and its stud</label><select class="f" name="line">' + lines + '</select><label class="l">Dam (a line female)</label><input class="f" name="dam" placeholder="one of yours, or a note"><label class="l">Note</label><input class="f" name="note">'; }
+  if (kind === 'walk') { title = 'Record an egg walk'; f = eggs ? '<label class="l">Egg</label><select class="f" name="egg">' + eggs + '</select><label class="l">Laps of the hatching loop</label><input class="f" name="laps" type="number" min="1" value="5"><label class="l"><input type="checkbox" name="magcargo" checked> A Flame Body or Magma Armor Pokémon walked with it (each lap counts twice)</label><label class="l">Note</label><input class="f" name="note">' : '<div class="empty">No eggs in the racks yet. Lay one first.</div>'; }
   if (kind === 'plant') { title = 'Plant berries'; f = '<label class="l">Berry</label><select class="f" name="berry">' + crops + '</select><label class="l">Plot</label><input class="f" name="plot" placeholder="e.g. R2-07"><label class="l">Note</label><input class="f" name="note">'; }
   if (kind === 'harvest') { title = 'Log a harvest'; f = plots ? '<label class="l">Planting</label><select class="f" name="planting">' + plots + '</select><label class="l">Berries harvested</label><input class="f" name="yield" type="number" min="0" max="5" value="5"><label class="l">Note</label><input class="f" name="note">' : '<div class="empty">Nothing planted yet.</div>'; }
   if (kind === 'reading') { title = 'Log a reading'; f = '<label class="l">Room</label><select class="f" name="room">' + rooms + '</select><div class="row"><div><label class="l">Metric</label><select class="f" name="metric"><option>Temperature</option><option>Humidity</option><option>Light</option></select></div><div><label class="l">Value</label><input class="f" name="value" type="number" step="0.1"></div></div><label class="l">Unit</label><input class="f" name="unit" value="°C"><label class="l">Source</label><select class="f" name="source"><option>entered</option><option>simulated</option></select>'; }
@@ -180,7 +180,7 @@ var HOME_MODES = [
   ['leagues', '#/leagues', 'Leagues', 'a season, standings, awards and playoffs'], ['draft', '#/draft', 'The Draft', 'draft an era\'s Pokémon against five GMs'],
   ['biology', '#/biology', 'Field Biology', 'the natural history of all 493'], ['eco', '#/ecosystems', 'Ecosystems', 'Johto\'s communities and food webs'],
   ['trainers', '#/trainers', 'Trainer Library', 'every trainer and version, anime included'], ['builds', '#/builds', 'The builds book', 'the ladder\'s sets and the trainers\''],
-  ['homestead', '#/homestead', 'The Homestead', 'who does what at Blackthorn'], ['spark', '#/v2', 'What\'s new in v2', 'the redesign, and every call in it']
+  ['homestead', '#/estate', 'The Estate', 'who lives and works at Blackthorn'], ['spark', '#/v2', 'What\'s new in v2', 'the redesign, and every call in it']
 ];
 function homeModes() {
   return '<div class="ornament" style="margin:22px 0 12px">play · study · build</div><div class="modes">' + HOME_MODES.map(function (m) {
@@ -200,12 +200,12 @@ function homeEstate() {   // the estate's day: the Sheet's logs, folded away unt
     '<div class="c6">' + card('The living timeline', '<div class="timeline">' + timelineModel(8).map(function (t) { return '<div class="tl ' + (t.live ? 'ember' : '') + '"><div class="when">' + esc(t.live ? fmtTime(t.at) : fmtDate(t.at)) + ' · ' + esc(t.kind.toUpperCase()) + '</div><div class="small">' + esc(t.text) + '</div></div>'; }).join('') + '</div>', {eyebrow: 'Recent activity', link: ['#/record', 'The record']}) + '</div>' +
     '</div></details>';
 }
-function bindMap(el) {
+function bindMap(el) {   // the estate plate's pins: a facility opens its page, a place its own
   if (!el) return;
   el.querySelectorAll('[data-place]').forEach(function (g) {
     g.addEventListener('click', function () {
       var k = g.getAttribute('data-place');
-      nav(k === 'glasshouse' || k === 'nursery & hatchery' || k === 'climate' || k === 'cold vault' ? '#/glasshouse' : k === "dragon's den" || k === 'blackthorn city' ? '#/estate/' + encodeURIComponent(k) : '#/estate/' + encodeURIComponent(k));
+      nav(k === 'sevii' ? '#/sevii' : k === 'blackthorn-city' || k === 'geothermal' ? '#/estate/' + k : facilityHref(k));
     });
   });
 }

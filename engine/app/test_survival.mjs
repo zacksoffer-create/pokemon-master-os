@@ -31,6 +31,7 @@ await page.goto('file://' + path.join(HERE, 'dist', 'Blackthorn-HQ-preview.html'
 await settle();
 await page.evaluate(() => { Object.keys(localStorage).filter((k) => /^bt-(preview-tabs|survival|team-)/.test(k)).forEach((k) => localStorage.removeItem(k)); });
 await seedPage(page, ['heartgold', 'soulsilver', 'platinum', 'crystal', 'firered', 'emerald']); await settle();   // v2 (D-078): a seeded team (test_seed.mjs)
+await page.evaluate(() => store('estate-all', true));   // v2.5 (A-109): a facility's candidates are your teams; with this, every Pokémon of yours, as the Homestead had them
 
 // a Scizor of yours with a battle build that doesn't know Cut
 await page.evaluate(() => recordsReady());

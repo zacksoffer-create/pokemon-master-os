@@ -4,6 +4,12 @@
    team homepage, the Pokémon builder, six team roles (Pivot added in v2.3), six badge families, the generated naming list and the new menu.
    Every call made building it is below (store/assumptions.json, A-79 on), with Keep / Change / Reject as in Your calls. */
 var V2_CHANGES = [
+  ['v2.5 · The Estate', 'Your teams are the residents, each living where its own land is, at Blackthorn or on the Sevii Islands. Every facility\'s jobs show who of yours can hold them, and the map colours each one by it.', '#/estate', 'The Estate'],
+  ['v2.5 · World records', 'The records approved for the companions follow your new Pokémon of that species. Approve new ones from a facility\'s job (and withdraw them): each is a Journal row.', '#/facility/glasshouse', 'The Glasshouse\'s jobs'],
+  ['v2.5 · The Glasshouse', 'Its tabs read your records: your lines\' egg schedule, your builds\' berries, each room\'s jobs, a studbook of what you\'ve bred, the residents\' rations.', '#/glasshouse', 'The Glasshouse'],
+  ['v2.5 · The preserve and the islands', 'The Day-Care preserve with its jobs and possible clients, and the Sevii Islands with FireRed\'s wild Pokémon.', '#/preserve', 'The preserve'],
+  ['v2.5 · The opening, where you create it', 'Pick a ball in the builder and the Pokémon comes out of it beside the choice.', '#/pokemon', 'Your Pokémon'],
+  ['v2.5 · Keep it in git', 'Record → Keep it in git makes a copy of every tab; say "snapshot my records" and it goes into the project.', '#/record/git', 'Keep it in git'],
   ['v2.4 · Ball openings from the games', 'Every ball opens the way its own game sends a Pokémon out: Gen IV\'s particle bursts in HeartGold, SoulSilver and Platinum, Gen III\'s in FireRed and Emerald, Crystal\'s smoke poof. Each ball\'s page shows it for each game.', '#/ball/master?g=heartgold', 'The Master Ball'],
   ['v2.3 · Pivot', 'The sixth team role: a way to switch out on its own terms (U-turn, Baton Pass) with the bulk or speed to use it.', '#/team/heartgold', 'HeartGold'],
   ['v2.3 · Lost moves put right', 'The team page puts a Pokémon you built back in a slot held by an unbuilt copy, and saves changes left unsaved.', '#/team/heartgold', 'HeartGold'],

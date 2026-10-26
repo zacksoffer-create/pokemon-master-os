@@ -173,22 +173,26 @@ var Art = (function () {
   }
 
   /* ---- the estate map: a natural-history atlas plate ---- */
-  var PLACES = {
+  var PLACES = {   // keyed by facility id (capability/facilities.json), plus the places that aren't facilities
     'glasshouse': {x: 560, y: 410, label: 'The Glasshouse', kind: 'glass'},
-    'nursery & hatchery': {x: 615, y: 455, label: 'Nursery & hatchery', kind: 'glass'},
-    'studbook & archive': {x: 690, y: 300, label: 'Studbook & archive'},
-    'day-care preserve': {x: 905, y: 560, label: 'Day-Care preserve', kind: 'open'},
+    'nursery': {x: 625, y: 470, label: 'Nursery & hatchery'},
+    'cold-vault': {x: 205, y: 205, label: 'Cold vault (Ice Path)'},
+    'daycare': {x: 905, y: 560, label: 'Day-Care preserve'},
     'clinic': {x: 760, y: 410, label: 'Clinic'},
-    'kitchen & orchard': {x: 410, y: 520, label: 'Kitchen & orchard'},
-    'works (building & upkeep)': {x: 330, y: 640, label: 'Works'},
+    'kitchen-orchard': {x: 410, y: 520, label: 'Kitchen & orchard'},
+    'works': {x: 360, y: 640, label: 'Works'},
+    'workshop': {x: 540, y: 650, label: 'Workshop'},
     'transport': {x: 980, y: 380, label: 'Transport field'},
-    'security & watch': {x: 285, y: 300, label: 'Watchtower'},
+    'security': {x: 285, y: 300, label: 'Watchtower'},
     'climate': {x: 470, y: 340, label: 'Climate'},
-    'cold vault': {x: 205, y: 205, label: 'Cold vault (Ice Path)', kind: 'ice'},
-    "dragon's den": {x: 985, y: 160, label: "Dragon's Den", kind: 'sacred'},
-    'blackthorn city': {x: 690, y: 205, label: 'Blackthorn City', kind: 'town'}
+    'research-institute': {x: 690, y: 300, label: 'Research Institute'},
+    'habitats': {x: 140, y: 380, label: 'Habitats'},
+    'dragons-den': {x: 985, y: 160, label: "Dragon's Den", kind: 'sacred'},
+    'blackthorn-city': {x: 690, y: 205, label: 'Blackthorn City', kind: 'town', place: true},
+    'geothermal': {x: 420, y: 250, label: 'Geothermal ground', kind: 'land', place: true}
   };
-  function estateMap(facilities, onclick) {
+  var TONE = {ok: '#5E8F68', part: '#C9A96A', open: '#DE7C42'};
+  function estateMap(tones) {   // tones: {facility id: 'ok' | 'part' | 'open'} from Estate.tone
     var o = ['<svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" style="font-family:Cormorant Garamond,serif">'];
     o.push('<defs><pattern id="paper" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#F1EADB"/><circle cx="1" cy="1" r=".5" fill="#D8CCB6"/></pattern>' +
       '<linearGradient id="lk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A9CDD9"/><stop offset="1" stop-color="#7FAFC1"/></linearGradient></defs>');
@@ -222,8 +226,7 @@ var Art = (function () {
     o.push('<circle cx="560" cy="410" r="52" fill="#EDF5EF" stroke="#8E7647" stroke-width="1.6"/><circle cx="560" cy="410" r="34" fill="none" stroke="#5E8F68" stroke-width="1"/><circle cx="560" cy="410" r="12" fill="#F4AE76" stroke="#DE7C42"/>');
     // pins
     Object.keys(PLACES).forEach(function (k) {
-      var p = PLACES[k], f = (facilities || []).filter(function (x) { return x.name === k; })[0];
-      var open = f && f.open && f.open.length, c = p.kind === 'ice' ? '#4F7E92' : p.kind === 'sacred' ? '#7B2F25' : p.kind === 'open' ? '#2F4D3A' : open ? '#DE7C42' : '#8E7647';
+      var p = PLACES[k], t = (tones || {})[k], c = p.kind === 'sacred' && !t ? '#7B2F25' : p.kind === 'town' ? '#6B5B44' : p.kind === 'land' ? '#B4532A' : TONE[t] || '#8E7647';
       o.push('<g class="hot" data-place="' + k + '" transform="translate(' + p.x + ' ' + p.y + ')">' +
         '<circle r="13" fill="#FBF7EE" stroke="' + c + '" stroke-width="2"/><circle r="5" fill="' + c + '"/>' +
         '<text y="-20" text-anchor="middle" font-size="17" font-weight="700" fill="#24211C">' + p.label + '</text></g>');
@@ -233,7 +236,9 @@ var Art = (function () {
       '<text x="125" y="34" text-anchor="middle" font-size="24" font-weight="700" fill="#24211C">The Blackthorn Estate</text>' +
       '<text x="125" y="58" text-anchor="middle" font-size="13" fill="#5B554A" font-style="italic">headquarters · Johto · D-041</text></g>');
     o.push('<g transform="translate(1110 660)"><circle r="38" fill="none" stroke="#8E7647"/><path d="M0 -34 L7 0 L0 34 L-7 0Z" fill="#8E7647"/><text y="-44" text-anchor="middle" font-size="14" fill="#24211C" font-weight="700">N</text></g>');
-    o.push('<g transform="translate(1040 300)"><text font-size="13" fill="#5B554A" font-style="italic">→ satellite: Sevii Islands</text><text y="18" font-size="13" fill="#5B554A" font-style="italic">or the Battle Zone (your call)</text></g>');
+    o.push('<g class="hot" data-place="sevii" transform="translate(1030 296)"><text font-size="14" fill="#24211C" font-style="italic" font-weight="700">→ the satellite:</text><text y="18" font-size="14" fill="#24211C" font-style="italic" font-weight="700">the Sevii Islands (D-079)</text></g>');
+    o.push('<g transform="translate(340 732)" font-size="12" fill="#5B554A" font-style="italic"><circle cx="0" cy="-4" r="5" fill="' + TONE.ok + '"/><text x="9">every job held</text>' +
+      '<circle cx="110" cy="-4" r="5" fill="' + TONE.part + '"/><text x="119">some jobs open</text><circle cx="230" cy="-4" r="5" fill="' + TONE.open + '"/><text x="239">a critical job nobody holds</text></g>');
     o.push('</svg>');
     return o.join('');
   }
@@ -247,7 +252,7 @@ var Art = (function () {
     o.push('<rect width="900" height="676" rx="16" fill="#171A20"/>');
     // the rock and the cold vault, north
     o.push('<path d="M0 0 H900 V70 Q700 110 450 96 Q200 110 0 70Z" fill="#2B3138"/>');
-    o.push('<g class="hot" data-k="Cold vault"><path d="M380 18 H520 L500 92 H400Z" fill="#9CCBDD" opacity=".55" stroke="#DCEFF5"/><text x="450" y="56" text-anchor="middle" font-size="13" fill="#0F1A20" font-weight="700">COLD VAULT</text><text x="450" y="74" text-anchor="middle" font-size="11" fill="#0F1A20">seed & berry store · Mamoswine</text></g>');
+    o.push('<g class="hot" data-k="Cold vault"><path d="M380 18 H520 L500 92 H400Z" fill="#9CCBDD" opacity=".55" stroke="#DCEFF5"/><text x="450" y="56" text-anchor="middle" font-size="13" fill="#0F1A20" font-weight="700">COLD VAULT</text><text x="450" y="74" text-anchor="middle" font-size="11" fill="#0F1A20">seed & berry store · Ice Path rock</text></g>');
     // crop rings
     var crops = (g && g.crops) || [];
     var colors = {Cheri: '#E86A5B', Chesto: '#7C6FD0', Pecha: '#F2A7C3', Rawst: '#7CC7A2', Aspear: '#F2D24E', Leppa: '#E0864D', Oran: '#5C8FE0', Persim: '#E88FB7', Sitrus: '#F2C14E', Lum: '#7CC77F'};
@@ -263,7 +268,7 @@ var Art = (function () {
     o.push('<text x="' + cx + '" y="' + (cy - 196) + '" text-anchor="middle" font-size="11" fill="#E2CC98" letter-spacing="2">THE HATCHING LOOP · 1 LAP = 1 EGG CYCLE</text>');
     // egg racks
     o.push('<circle cx="' + cx + '" cy="' + cy + '" r="160" fill="#20242B" stroke="#8E7647"/>');
-    var lines = (g && g.eggs) || [];
+    var lines = ((g && g.eggs) || []).slice(0, 16);
     lines.forEach(function (e, j) {
       var a = (j / lines.length) * Math.PI * 2 - Math.PI / 2, ex = cx + Math.cos(a) * 128, ey = cy + Math.sin(a) * 128;
       o.push('<g class="hot" data-k="eggs:' + e.line + '" transform="translate(' + (ex - 13) + ' ' + (ey - 16) + ')"><path d="M13 1 C6 1 2 12 2 19 A11 11 0 0 0 24 19 C24 12 20 1 13 1Z" fill="#F3EDE2" stroke="#C9A96A"/>' +
@@ -274,12 +279,12 @@ var Art = (function () {
     o.push('<circle cx="' + cx + '" cy="' + cy + '" r="110" fill="url(#glow)"/>');
     o.push('<g class="hot" data-k="Hearth hall"><circle cx="' + cx + '" cy="' + cy + '" r="58" fill="url(#gh)" stroke="#F4AE76" stroke-width="2"/>' +
       '<text x="' + cx + '" y="' + (cy - 4) + '" text-anchor="middle" font-size="15" font-weight="700" fill="#2A1408">THE HEARTH</text>' +
-      '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="11" fill="#2A1408">Magcargo · Magma Armor</text></g>');
+      '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="11" fill="#2A1408">heat · the egg racks</text></g>');
     // Ampharos beacons
     [[cx - 300, cy - 210], [cx + 300, cy - 210], [cx - 300, cy + 230], [cx + 300, cy + 230]].forEach(function (p) {
       o.push('<g class="hot" data-k="Glasshouse rings"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="34" fill="url(#amph)"/><circle cx="' + p[0] + '" cy="' + p[1] + '" r="7" fill="#FFE9A0"/></g>');
     });
-    o.push('<text x="' + (cx - 300) + '" y="' + (cy - 172) + '" text-anchor="middle" font-size="11" fill="#E2CC98">Ampharos light</text>');
+    o.push('<text x="' + (cx - 300) + '" y="' + (cy - 172) + '" text-anchor="middle" font-size="11" fill="#E2CC98">light through winter</text>');
     // annexes: nursery yard (south), studbook office (east)
     o.push('<g class="hot" data-k="Nursery yard"><rect x="370" y="596" width="160" height="34" rx="8" fill="#2F4D3A" stroke="#5E8F68"/><text x="450" y="618" text-anchor="middle" font-size="12" fill="#D9EBD6" font-weight="700">NURSERY YARD</text></g>');
     o.push('<g class="hot" data-k="Studbook office"><rect x="770" y="300" width="112" height="60" rx="8" fill="#252932" stroke="#8E7647"/><text x="826" y="326" text-anchor="middle" font-size="12" fill="#E2CC98" font-weight="700">STUDBOOK</text><text x="826" y="344" text-anchor="middle" font-size="11" fill="#B7AF9F">office</text></g>');

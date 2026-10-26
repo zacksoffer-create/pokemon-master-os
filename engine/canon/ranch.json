@@ -7,8 +7,10 @@
     "rule": "One headquarters. Satellites only where the headquarters can't give a resident its land.",
     "headquarters": "S-JOHTO",
     "headquarters_status": "approved (D-041)",
-    "satellites": [],
-    "satellites_status": "not chosen: the census shows one is needed (Sevii Islands or the Battle Zone)"
+    "satellites": [
+      "S-KANTO"
+    ],
+    "satellites_status": "approved (D-079): Zack, 2026-10-26: \"Oh, definitely Sevii Islands.\""
   },
   "residents_policy": {
     "decision": "D-037",
@@ -65,7 +67,7 @@
     {
       "id": "S-KANTO",
       "region": "Kanto",
-      "status": "proposed",
+      "status": "approved (D-079)",
       "name": "Sevii Islands estate",
       "anchor": "One to Seven Island (FireRed postgame)",
       "offers": [
@@ -97,7 +99,7 @@
     {
       "id": "S-HOENN",
       "region": "Hoenn",
-      "status": "proposed",
+      "status": "not chosen (D-079)",
       "name": "Route 117 gardens and Lavaridge springs",
       "anchor": "Route 117 (Verdanturf) with a second parcel at Lavaridge Town and Route 112",
       "offers": [
@@ -123,7 +125,7 @@
     {
       "id": "S-SINNOH",
       "region": "Sinnoh",
-      "status": "proposed",
+      "status": "not chosen (D-079)",
       "name": "Resort Area villa and the Battle Zone",
       "anchor": "Platinum's Resort Area villa, with land across the Battle Zone (Routes 225-230, Stark Mountain)",
       "offers": [
@@ -438,8 +440,8 @@
     }
   ],
   "authoring_questions": [
-    "Which satellite: Sevii Islands or the Battle Zone? The headquarters needs one, for a volcano and the sea.",
-    "Approve W-016 (Meganium, gardener) and W-017 (Miltank, the nursery's milk) to fully staff the Glasshouse.",
-    "The Day-Care preserve: who gets invited, and what clients' Pokémon experience there (later; not urgent)."
+    "Answered (D-079): the satellite is the Sevii Islands.",
+    "Deferred (D-079): W-016 (Meganium, gardener) and W-017 (Miltank, the nursery's milk) stay blank for now.",
+    "Partly answered (D-079): the Day-Care preserve is for other great trainers, and it costs so much that only the very wealthy can bring their Pokémon. Still open: how long they stay, and what the preserve looks like."
   ]
 }

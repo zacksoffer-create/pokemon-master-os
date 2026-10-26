@@ -28,6 +28,8 @@ live.
     equipment.json the Poké Ball collection and the equipment library, each generation's catch numbers (app/equipment_pack.py)
     capability.json   the capability records, kit, scenarios and facilities for the Survival Lab and the Homestead
                    (app/capability_pack.py)
+    estate.json    the Estate's reference and design: sites, every species' land and eggs, berries, the Glasshouse, the
+                   preserve and the Sevii Islands (app/estate_pack.py; the census and staffing are the browser's)
     biology.json, dossiers.json, ecology.json, ecotypes.json, ranges.json   Field Biology (app/biology_pack.py)
 
     python3 -I app/export.py               # writes engine/app/data/*.json and prints their sizes
@@ -371,6 +373,8 @@ def main(breeder=False):
     equipment_pack.main()
     import capability_pack
     capability_pack.main()
+    import estate_pack                   # the Estate's reference and design (v2.5): sites, habitat, eggs, berries, the Glasshouse
+    estate_pack.main()
     import biology_pack                  # Field Biology (v1): the field guide, dossiers, ecology, ecotypes, ranges
     biology_pack.main()
     import field_pack

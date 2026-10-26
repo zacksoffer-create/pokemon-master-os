@@ -2884,6 +2884,7 @@ class V2(unittest.TestCase):
         self.assertNotIn("me", lib["identities"])
         hq = self.pack("hq.json")
         self.assertEqual((hq["party"], hq["residents"], hq["lineage"], hq["program"]), ([], [], [], []))
+        self.assertFalse([z for z, n in (hq.get("zones") or {}).items() if n], "the companions' land counts leaked (v2.5)")
         self.assertTrue(hq["fresh"]["on"])
         self.assertFalse([k for k in self.pack("roles4.json")["reads"] if k.startswith(("me:", "yours:"))])
         self.assertEqual(self.pack("battle.json")["lineups"], [])
@@ -2978,6 +2979,98 @@ class V2(unittest.TestCase):
                          {"sun": (["Sunny Day"], ["Drought"]), "rain": (["Rain Dance"], ["Drizzle"]),
                           "sand": (["Sandstorm"], ["Sand Stream"]), "hail": (["Hail"], ["Snow Warning"])})
         self.assertEqual(fam["order"], ["weather", "screens", "hazards", "status"])
+
+
+class Estate(unittest.TestCase):
+    """v2.5, the Estate (docs/ESTATE.md): app/estate_pack.py's reference and design, and the rules the browser's Estate
+    engine (web/39_estate.html) runs on them. app/test_estate.mjs drives the pages."""
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, os.path.join(ENGINE, "app"))
+        import estate_pack
+        cls.pack = estate_pack.build()
+
+    def test_the_headquarters_and_the_sevii_islands(self):
+        sites = {s["id"]: s for s in self.pack["sites"]}
+        self.assertEqual(sorted(sites), ["S-JOHTO", "S-KANTO"])                   # one headquarters, one satellite (D-079)
+        hq, sevii = sites["S-JOHTO"], sites["S-KANTO"]
+        self.assertEqual((hq["role"], sevii["role"]), ("headquarters", "satellite"))
+        self.assertIn("volcanic", hq["offers"])                                      # geothermal ground (A-110)
+        self.assertIn("A-110", hq["offers_note"]["volcanic"])
+        self.assertTrue(sevii["status"].startswith("approved"))
+        self.assertEqual([o for o in sevii["offers"] if o not in hq["offers"]], ["coast_sea"])
+        self.assertEqual(len(self.pack["not_chosen"]), 2)
+
+    def test_placement_is_the_planners_home_site(self):
+        """The browser ports ranch/planner.py home_site; given the pack's sites, the planner places the same way."""
+        from types import SimpleNamespace
+        from ranch.habitat import HabitatEngine
+        from ranch.planner import RanchPlanner
+        stub = SimpleNamespace(sites={s["id"]: s for s in self.pack["sites"]}, hq="S-JOHTO")
+        hab = HabitatEngine(DB)
+        got = {sp: RanchPlanner.home_site(stub, hab.profile(sp)) for sp in ("Lapras", "Wailord", "Typhlosion", "Magcargo", "Tyranitar", "Meganium")}
+        self.assertEqual(got, {"Lapras": "S-KANTO", "Wailord": "S-KANTO", "Typhlosion": "S-JOHTO", "Magcargo": "S-JOHTO", "Tyranitar": "S-JOHTO", "Meganium": "S-JOHTO"})
+        for sp in got:
+            p = hab.profile(sp)
+            self.assertEqual(self.pack["habitat"][sp], [p.zones, p.climate, p.water, p.size, p.native_region])
+        self.assertEqual(len(self.pack["habitat"]), 493)
+
+    def test_eggs_and_berries_are_gen_4s(self):
+        e = self.pack["eggs"]
+        self.assertEqual(e["Pikachu"], ["Pichu", 10, ["Field", "Fairy"], 4])         # the line's base, its cycles, the games' group names
+        self.assertEqual(e["Tyranitar"][:3], ["Larvitar", 40, ["Monster"]])
+        self.assertEqual(e["Mew"][2], ["Undiscovered"])
+        b = self.pack["berries"]
+        self.assertEqual(len(b), 64)
+        self.assertEqual(b["Cheri Berry"][0], 12)                                    # 4 × growth time 3
+        self.assertTrue(b["Lum Berry"][3] and not b["Liechi Berry"][3])              # the medicine crop, from canon/ranch.json
+        self.assertEqual(self.pack["glasshouse"]["loop"]["steps_per_cycle"], 255)
+
+    def test_the_glasshouse_rooms_carry_their_jobs(self):
+        rooms = {r["name"]: r for r in self.pack["glasshouse"]["rooms"]}
+        self.assertEqual(rooms["Hearth hall"]["requirements"], ["heat", "eggs"])
+        self.assertEqual(rooms["Hatching loop"]["requirements"], ["loop"])
+        self.assertEqual(rooms["Cold vault"]["facility"], "cold-vault")
+        with open(os.path.join(ENGINE, "capability", "facilities.json"), encoding="utf-8") as fh:
+            gh = [f for f in json.load(fh)["facilities"] if f["id"] == "glasshouse"][0]
+        placed = [q for r in rooms.values() for q in r["requirements"]]
+        self.assertEqual(sorted(placed), sorted(q["id"] for q in gh["requirements"]))   # every Glasshouse job sits in one room
+
+    def test_the_land_meets_jobs_and_built_things_dont(self):
+        """A-112: land infrastructure makes a job ready with nobody on it; a boiler that isn't built doesn't."""
+        from capability import assess
+        P = assess.load_pack(os.path.join(ENGINE, "app", "data", "capability.json"))
+        r = assess.facility_report(P, "glasshouse", [], [])
+        q = {x["id"]: x for x in r["requirements"]}
+        self.assertEqual(q["heat"]["standing"], "equipped")
+        self.assertTrue(q["heat"]["land"] and not q["heat"]["single_point"])
+        self.assertEqual(q["water"]["standing"], "equipped")
+        self.assertEqual(q["light"]["standing"], "gap")                              # electric lamps would have to be built
+        self.assertIn("heat", r["met"])
+        self.assertNotIn("heat", r["nobody"])
+        self.assertIn("plants", r["nobody"])
+        cold = assess.facility_report(P, "cold-vault", [], [])
+        self.assertIn("cold", cold["met"])
+
+    def test_the_sevii_islands_wild_pokemon_are_firereds(self):
+        wild = self.pack["sevii"]["wild"]
+        self.assertIn("Seel", wild["Icefall Cave"])                                  # the site's own game fact
+        self.assertIn("Berry Forest", wild)
+        self.assertFalse([p for p in wild if p.startswith(("Route", "Cerulean", "Viridian"))])
+
+    def test_the_estate_in_the_browser(self):
+        """app/test_estate.mjs, in Chromium: residents from the teams, world records approved and withdrawn as Journal
+        rows, a suggested staff plan, the Glasshouse tabs, the Sevii Islands and the preserve."""
+        import shutil as _sh
+        import subprocess as _sp
+        if not _sh.which("node"):
+            self.skipTest("node isn't installed")
+        app = os.path.join(ENGINE, "app")
+        _sp.run([sys.executable, "-I", os.path.join(app, "build.py")], check=True, capture_output=True)
+        out = _sp.run(["node", os.path.join(app, "test_estate.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            self.skipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
 
 if __name__ == "__main__":

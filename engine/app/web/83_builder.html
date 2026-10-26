@@ -615,14 +615,15 @@ function pbWild(b) {
     '<div class="tiny muted" style="margin-top:8px">What it can do away from battle, for the team in the wild (capability records: moves it knows, its ability, the Pokédex, its body). Bright: it does it now; dim: it would with a move, or it\'s only plausible. <a href="#/survival">The Survival Lab</a></div>',
     {eyebrow: 'Team and wilderness roles · each with why', tools: false});
 }
-function pbHome(b) {
+function pbHome(b) {   // read in HeartGold, the estate's game, with the world records on this Pokémon (v2.5): the jobs are Blackthorn's
   if (!S.cap) return '';
-  var P = Cap.pack(), best = Cap.best(PB.game, pbMember(b)), tags = [];
+  if (Estate.ready()) Estate.sync();
+  var P = Cap.pack(), best = Cap.best(P.present_game, Object.assign(pbMember(b), {ind: PB.id})), tags = [];
   (P.facilities || []).forEach(function (f) { (f.requirements || []).forEach(function (r) { var hit = (r.any || []).filter(function (c) { return best[c] && best[c][0] !== 'gap'; }), now = hit.some(function (c) { return Cap.READY.indexOf(best[c][0]) >= 0; });
     if (!hit.length) return;
     tags.push('<div class="wtag' + (now ? ' on' : '') + '"><b>' + esc(r.name) + '</b> <span class="tiny muted">' + esc(f.name) + (r.room ? ' · ' + esc(r.room) : '') + (f.status && f.status !== 'approved' ? ' · ' + esc(f.status) : '') + '</span><div class="tiny">' + esc(hit.map(function (c) { var x = best[c][1], st = best[c][0]; return Cap.capName(c) + (Cap.READY.indexOf(st) >= 0 ? '' : ' (' + Cap.ORDER_TEXT[st] + ')') + ': ' + (x.move ? 'knows ' + x.move + '. ' : x.ability ? 'has ' + x.ability + '. ' : '') + (x.source || ''); }).join('; ')) + (r.why ? ' <span class="muted">(' + esc(r.why) + ')</span>' : '') + '</div></div>'); }); });
   return card('Homestead tags', (tags.length ? '<div class="wtags">' + tags.join('') + '</div>' : '<div class="tiny muted">No job at the Estate or the Homestead it can do yet.</div>') +
-    '<div class="tiny muted" style="margin-top:8px">The jobs at Blackthorn\'s facilities it could hold, and the capability that qualifies it. Bright: it qualifies now; dim: with a move, or by its biology (plausible, not confirmed). <a href="#/homestead">The Homestead</a></div>',
+    '<div class="tiny muted" style="margin-top:8px">The jobs at Blackthorn\'s facilities it could hold, and the capability that qualifies it, read in HeartGold (the estate\'s game) with any world record you approved for it. Bright: it qualifies now; dim: with a move, or by its biology (plausible, not confirmed). <a href="#/estate">The Estate</a></div>',
     {eyebrow: 'Estate and homestead roles · each with why', tools: false});
 }
 

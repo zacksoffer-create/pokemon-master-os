@@ -1031,3 +1031,77 @@ Five places the portrait can't or doesn't copy the game exactly:
 - **Why:** These keep the opening inside the page and honest about what's known.
 - **See it:** `#/ball/fast?g=heartgold` (The Fast Ball in HeartGold, How it opens)
 - **Could instead:** show the whole DS screen with hard edges; read the Apricorn balls' battle sprites from the HeartGold archive (more work: the sprites are packed graphics, not PNGs)
+
+## v2.5 · The Estate
+
+### A-109 · Who lives on the estate (D-037)
+
+The residents are the Pokémon on your six teams. Any of them could retire to the ranch, and nobody is assigned (D-037 stays open). A toggle on the estate page adds your other Pokémon too. The census, the land counts and the nursery pens all come from them, recomputed every visit.
+
+- **Why:** The old census was 36 retired companions, and the fresh start hid them. Your teams are who you're building now, so they're who could live here.
+- **See it:** `#/estate` (The Estate, Residents)
+- **Could instead:** only Pokémon you mark as retired to the ranch; every Pokémon of yours, team or not, with no toggle
+
+### A-110 · Geothermal ground at Blackthorn (D-079)
+
+Your A-64 answer (geothermal ground in the highlands) is read two ways. It counts as volcanic land at the headquarters, so fire Pokémon like Magcargo and Typhlosion live at Blackthorn. It's also the heat for the Glasshouse and the Climate facility, as geothermal pipes. The Sevii Islands are then mostly for the sea Pokémon.
+
+- **Why:** Blackthorn had no volcanic ground, so every fire Pokémon would have gone to a satellite. Your answer gave the highlands geothermal ground.
+- **See it:** `#/estate/geothermal` (The estate map, Geothermal ground)
+- **Could instead:** geothermal heat for the buildings only: fire Pokémon still live on the Sevii Islands (Mt. Ember); no geothermal ground at all
+
+### A-111 · World records on your v2 Pokémon (D-039)
+
+The world records approved for the companions (W-001 to W-015, D-033) now follow your Pokémon of that species in that game. W-001 (heat) goes to your HeartGold Typhlosion, for example, whichever one is on the team. W-016 and W-017 wait on your Emerald Meganium and your Crystal Miltank. You can also approve new records in the app, from a facility's job: each one is a Journal row, the newest row per record wins, and you can withdraw one the same way.
+
+- **Why:** Without this, no world record could reach a v2 Pokémon, and under D-039 the jobs with no game mechanic (heat, cold, calm, plant care) couldn't be staffed at all. It's a new reading of A-49 for the fresh start.
+- **See it:** `#/facility/glasshouse` (The Glasshouse's jobs, Approve a world record)
+- **Could instead:** the old records stay with the hidden companions; you approve every record again on your new Pokémon; records follow the species in any game, not just the record's own game
+
+### A-112 · The land meets some jobs (D-039)
+
+Some jobs are met by the land itself, and that counts the same as a Pokémon covering it with kit: the Glasshouse's heat (geothermal pipes), its water (the Route 45 river and rain cisterns), the cold vault's cold (the Ice Path's own ice), and the Climate facility's heat and cold. Built things, like a boiler or electric lamps, don't count until they're built.
+
+- **Why:** The estate sits on real land with a river and a glacier; pretending a Pokémon has to make the cold in an ice cave would be odd. The facilities list says which jobs (marked land).
+- **See it:** `#/facility/cold-vault` (The cold vault, Keeping it cold)
+- **Could instead:** only Pokémon meet jobs: the land is shown but doesn't count; built infrastructure counts too
+
+### A-113 · Staffing stays a plan (D-039)
+
+Each facility page has Suggest a staff plan. It gives each job to a resident who holds it on a game mechanic or your record, spreading the work so one Pokémon doesn't do everything. Nothing is saved until you save the plan, and a plan never takes anyone off a team.
+
+- **Why:** You decide who works where; the app shows who could.
+- **See it:** `#/facility/glasshouse` (The Glasshouse's facility page, Suggest a staff plan)
+- **Could instead:** the estate staffs itself from the best candidates, with no plan to save; no suggestion: you assign every job by hand
+
+### A-114 · The preserve's clients (D-079)
+
+The Day-Care preserve page lists who could be a client: the Champions and the Elite Four from the Trainer Library, for "other amazing trainers". It's a proposal. Nobody has booked, and nothing about stays, prices or the preserve's land is made up: those stay open on the page.
+
+- **Why:** Your words for who it serves, D-079.
+- **See it:** `#/preserve` (The Day-Care preserve, Who could be a client)
+- **Could instead:** every trainer in the library; no client list until you name some
+
+### A-115 · The Sevii Islands page (D-079)
+
+The satellite's page shows its game facts, the residents whose land is only there (the sea, mostly), and every Sevii place with the wild Pokémon FireRed's encounter tables put there. HeartGold and SoulSilver have no Sevii Islands, so FireRed is the source.
+
+- **Why:** "Oh, definitely Sevii Islands." The islands are a real place in FireRed with their own wildlife.
+- **See it:** `#/sevii` (The Sevii Islands)
+- **Could instead:** LeafGreen's tables; no wild Pokémon, just the land
+
+### A-116 · The Glasshouse on your records (D-045)
+
+The Glasshouse reads your records now. The egg schedule comes from your blueprints' lines, then your teams' lines, slowest first (species that can't breed are left out). The crop plan is the medicine crop plus every berry one of your builds holds. Each room's jobs come from the facility list, with who of yours could hold them. The studbook tab lists your Pokémon with a sire, a dam, a blueprint or hatch moves. Nutrition reads the residents' body sizes. The plan's drawing no longer names Magcargo, Ampharos or Mamoswine as staff; the design text (D-045) still describes the Magcargo hearth.
+
+- **Why:** The old pages read the hidden companions' program and builds, so after the fresh start they showed people and plants that weren't there.
+- **See it:** `#/glasshouse` (The Glasshouse, every tab)
+- **Could instead:** keep the canon program's lines (the old stud lines) in the schedule; only blueprints, not team lines
+
+### A-117 · One compound (D-078)
+
+The Estate, the Homestead and the facilities are one drill-down: the estate page, then a facility, then its jobs. The old Homestead link opens the estate. The map has a pin for every facility, coloured by how well your residents cover it. The menu's World section lists the Estate, the Glasshouse, the Day-Care preserve and the Sevii Islands.
+
+- **Why:** You described it as all one thing: "It's all a part of it."
+- **See it:** `#/estate` (The Estate)
+- **Could instead:** keep a separate Homestead page for the jobs and an Estate page for the land

@@ -193,7 +193,35 @@ disassembly, number for number, at the commits the ball mechanics already use (A
 - A-106 is rewritten to match. A-108 lists the few places the portrait differs from the game, such as the throw being
   left out and the Apricorn balls' item picture standing in before the burst.
 
-## 13. Not reworked yet (the next updates)
+## 13. v2.5: the estate, the opening where you create a Pokémon, and everything in git (2026-10-26)
+
+Zack: *"Yes to all and add the animation to the page where you're creating the individual. ... I think I want you to try
+to figure out the estate/homestead/glasshouse vision. It's all a part of it so just you know kinda how it's been
+described, take the reins and build it."*
+
+**The estate is built from your teams.** The whole design is in `docs/ESTATE.md`.
+- **One compound (A-117).** The estate, then a facility, then its jobs. The old Homestead link opens the estate.
+- **The map.** It has a pin for every facility, coloured by how well your residents cover it, plus the geothermal
+  ground and the Sevii Islands.
+- **Residents (A-109).** Every Pokémon on your six teams could retire here, and nobody is assigned. Each is placed
+  where its own land is, Blackthorn or the Sevii Islands. Geothermal ground keeps the fire Pokémon at Blackthorn (A-110).
+- **Facilities.** Each job says who of yours can hold it on a game mechanic or your world record (D-039). The land
+  meets a few on its own (A-112). Suggest a staff plan fills a plan that you save (A-113).
+- **World records (A-111).** W-001 to W-017 follow your Pokémon of that species in that game. New ones are approved
+  from a job's candidate line and saved as Journal rows; you can withdraw them the same way.
+- **The Glasshouse (A-116).** Its six tabs read your records: your lines' egg schedule, the medicine crop plus your
+  builds' berries, each room's jobs, a studbook of your bred Pokémon, and the residents' rations.
+- **The Day-Care preserve (A-114) and the Sevii Islands (A-115).** Each has its own page. The preserve lists who could
+  be a client, and the islands list FireRed's wild Pokémon.
+
+**Also in v2.5:**
+- **The opening where you create a Pokémon.** It plays beside the ball you pick, and again when the ball, shiny or
+  species changes. A new nickname doesn't replay it.
+- **Everything in git (A-03).** Record → Keep it in git makes a copy of every tab in your Drive (a download in the
+  preview). Say "snapshot my records" and it goes into the project.
+- **The builder's Homestead tags** are read in HeartGold, the estate's game, with your world records.
+
+## 14. Not reworked yet (the next updates)
 
 This update rebuilt the path from a team to one Pokémon and back. The rest still works, but some of it was built
 around the old journey.
@@ -202,7 +230,7 @@ around the old journey.
 |---|---|
 | Battle Lab | Reads your six teams as its lineups (an example six until you've built one). |
 | Trainer lab, scouting reports, advance scouting, team reports | Precomputed by the Python engines from the old journey, so they're hidden while the fresh start is on. They show the library's trainers. |
-| Estate, Homestead, Glasshouse | Facilities as designed, with no staff. The builder's Homestead tags show which jobs each of your Pokémon could hold. Staffing from your teams is next. |
+| Estate, Homestead, Glasshouse | Rebuilt in v2.5 from your teams (§13). The people roles are still to author. |
 | Breeding & lineage | Blank: the studbook is hidden. |
 | Careers and the Hall of Fame | Built from Arena results kept after the fresh start. |
 | Pokémon profile (`#/mon/<id>`) | Still the v1 player card and gallery. The builder is now the main page for one Pokémon. |

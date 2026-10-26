@@ -1,0 +1,142 @@
+<script>
+/* ===== The Estate engine (v2.5, docs/ESTATE.md) ================================================================
+   The estate as your records make it, recomputed on every visit:
+   - residents: the Pokémon on your six teams, each a possible resident with its fate left open (D-037, A-109); the
+     toggle adds your other Pokémon;
+   - placement: each lives where its primary land is: Blackthorn if the headquarters offers it, else the satellite
+     that does, its home region's first (ranch/planner.py home_site, ported). Geothermal ground counts as volcanic land
+     at Blackthorn (A-110);
+   - staffing: Cap.facilityReport over the residents, read in HeartGold, the present game. A Pokémon staffs a job on a
+     game mechanic it has or a world record you approved (D-039); the land itself meets some jobs (A-112);
+   - world records: W-001 to W-017 follow your HeartGold Pokémon of their species, and the ones you approve in the app
+     are Journal rows, the newest per record winning (A-111). They reach every assessment through Cap.setWorld.
+   Reference and design come from estate.json (app/estate_pack.py). Nothing here writes: the pages save an approval or
+   a staff plan only on your tap. */
+var Estate = (function () {
+  var E = null;
+  function init(p) { E = p; return this; }
+  function hq() { return E.sites.filter(function (s) { return s.role === 'headquarters'; })[0]; }
+  function satellites() { return E.sites.filter(function (s) { return s.role === 'satellite'; }); }
+  function habitat(sp) { var h = E.habitat[sp]; return h ? {zones: h[0], climate: h[1], water: h[2], size: h[3], native_region: h[4]} : {zones: [], climate: 'any', water: 'none', size: 'medium', native_region: null}; }
+  function eggs(sp) { var e = E.eggs[sp] || [sp, 20, [], 0]; return {line: e[0], cycles: e[1], groups: e[2], gender_rate: e[3], steps: e[1] * E.glasshouse.loop.steps_per_cycle}; }
+  function homeSite(sp) {   // the headquarters if it offers the primary land; otherwise a satellite that does, its home region's first
+    var p = habitat(sp), primary = p.zones[0] || 'meadow', h = hq();
+    if (h.offers.indexOf(primary) >= 0) return h;
+    var pool = satellites().slice().sort(function (a, b) { return (a.region !== p.native_region) - (b.region !== p.native_region); });
+    for (var i = 0; i < pool.length; i++) if (pool[i].offers.indexOf(primary) >= 0) return pool[i];
+    return null;
+  }
+  function resident(ind, team) {
+    var p = habitat(ind.species);
+    return {ind: ind, id: ind.id, species: ind.species, label: ind.nickname || ind.species, game: ind.game, team: team, habitat: p, primary: p.zones[0] || 'meadow', site: homeSite(ind.species), eggs: eggs(ind.species)};
+  }
+  function residents(others) {   // your six teams in the library's order, then (with the toggle) everyone else of yours
+    var out = [], seen = {};
+    JOURNEYS.forEach(function (g) { Teams.members(Teams.get(g)).forEach(function (m) { if (!m || seen[m.ind.id]) return; seen[m.ind.id] = 1; out.push(resident(m.ind, {game: g, slot: m.slot})); }); });
+    if (others) myInds(null).forEach(function (i) { if (!seen[i.id]) { seen[i.id] = 1; out.push(resident(i, null)); } });
+    return out;
+  }
+  function census(res) {
+    var at = {}, land = {}, pens = {}, homeless = [];
+    E.sites.forEach(function (s) { at[s.id] = []; });
+    res.forEach(function (r) {
+      if (r.site) at[r.site.id].push(r); else homeless.push(r);
+      land[r.primary] = (land[r.primary] || 0) + 1;
+      r.eggs.groups.forEach(function (g) { (pens[g] = pens[g] || []).push(r); });
+    });
+    return {at: at, land: land, pens: pens, homeless: homeless};
+  }
+
+  /* ---- world records (A-111) ---- */
+  function approvals() {   // the Journal's world-record rows, the newest per record
+    var by = {};
+    ((S.L || {}).Journal || []).filter(function (r) { return r.kind === 'world-record' && r.id && r.ind && r.capability; })
+      .slice().sort(function (a, b) { return String(a.at || '') < String(b.at || '') ? -1 : 1; }).forEach(function (r) { by[r.id] = r; });
+    return Object.keys(by).map(function (k) { return by[k]; });
+  }
+  function follower(game, sp) {   // your Pokémon of that species in that game: the one on the team first
+    var on = Teams.members(Teams.get(game)).filter(function (m) { return m && m.ind.species === sp; })[0];
+    return on ? on.ind : myInds(game).filter(function (i) { return i.species === sp; })[0] || null;
+  }
+  function world() {
+    var P = Cap.pack(), out = [], app = {};
+    approvals().forEach(function (a) { app[a.id] = a; });
+    P.world.forEach(function (w) {
+      var i = follower(w.game, w.species), a = app[w.id];
+      if (a) { delete app[w.id]; if (a.status !== 'approved') return; i = S.store.individuals[a.ind] || i; }
+      if (!i) return;
+      out.push(Object.assign({}, w, {ind: i.id, follows: w.ind, status: a ? 'approved' : w.status, note: 'follows your ' + GAME_NAME[w.game] + ' ' + w.species + ' (A-111)' + (a ? '; you approved it ' + fmtDate(a.at) : '')}));
+    });
+    Object.keys(app).forEach(function (k) { var a = app[k], i = S.store.individuals[a.ind];
+      if (!i || a.status !== 'approved' || !P.model.capabilities[a.capability]) return;
+      out.push({id: a.id, ind: i.id, game: i.game, species: i.species, cap: a.capability, kind: 'world', status: 'approved', decision: null,
+        source: a.id + ' (you approved it ' + fmtDate(a.at) + ')', detail: a.text || null}); });
+    return out;
+  }
+  function sync() { Cap.setWorld(world()); }
+  function recordsOf(ind) { return world().filter(function (w) { return w.ind === ind; }); }
+  function newId() { var n = 0; approvals().concat(Cap.pack().world).forEach(function (w) { var m = /^W-(\d+)$/.exec(w.id); if (m) n = Math.max(n, +m[1]); }); return 'W-' + String(n + 1).padStart(3, '0'); }
+  function approve(ind, capability, text, id) {   // a world record you approve, as a Journal row
+    var i = S.store.individuals[ind];
+    var row = {kind: 'world-record', id: id || newId(), ind: ind, capability: capability, status: 'approved', species: i.species, title: 'World record: ' + (i.nickname || i.species) + ', ' + Cap.capName(capability).toLowerCase(),
+      text: text || '', source: 'approved in the app (A-111)', _timeline: 'You approved a world record: ' + (i.nickname || i.species) + ', ' + Cap.capName(capability).toLowerCase()};
+    return API.append('Journal', row).then(function () { return loadLive(true); }).then(function () { sync(); return row; });
+  }
+  function withdraw(rec) {
+    var row = {kind: 'world-record', id: rec.id, ind: rec.ind, capability: rec.cap, status: 'withdrawn', species: rec.species, title: 'World record withdrawn: ' + rec.id,
+      text: '', source: 'withdrawn in the app', _timeline: 'You withdrew world record ' + rec.id};
+    return API.append('Journal', row).then(function () { return loadLive(true); }).then(function () { sync(); return row; });
+  }
+
+  /* ---- staffing ---- */
+  function pool(res) { return res.map(function (r) { return capMember(r.ind); }); }
+  function report(fid, res, staff, preview) { return Cap.facilityReport(fid, staff || [], pool(res), preview || []); }
+  function suggest(fid, res) {   // a plan to start from (A-113): each job to a resident who holds it on a game mechanic or your record, the work spread (fewest jobs first)
+    var r = report(fid, res), load = {}, staff = [];
+    r.requirements.forEach(function (q) {
+      var c = q.candidates.filter(function (x) { return x.can_staff; });
+      if (!c.length) return;
+      c.sort(function (a, b) { return (load[a.i] || 0) - (load[b.i] || 0) || a.i - b.i; });
+      load[c[0].i] = (load[c[0].i] || 0) + 1;
+      staff.push({ref: 'ind:' + res[c[0].i].id, need: q.id});
+    });
+    return staff;
+  }
+  function tone(r) {   // a facility's state for the map and the cards: every critical job met or holdable, some, or none
+    var crit = r.requirements.filter(function (q) { return q.priority === 'critical'; });
+    var held = function (q) { return q.can_staff.length || q.land.length; };
+    if (crit.every(held) && r.requirements.filter(held).length === r.requirements.length) return 'ok';
+    return crit.some(function (q) { return !held(q); }) ? 'open' : 'part';
+  }
+
+  /* ---- the Glasshouse's working lists ---- */
+  function crops() {   // the medicine crop, and every berry the builds of your Pokémon hold
+    var out = [], by = {}, row = function (n, why) { var b = E.berries[n]; by[n] = {berry: n, why: why, held: [], hours_to_harvest: b[0], max_harvest: b[1], watering: b[2]}; out.push(by[n]); };
+    Object.keys(E.berries).forEach(function (n) { if (E.berries[n][3]) row(n, 'the medicine crop: the clinic and the nursery'); });
+    myInds(null).forEach(function (i) { var it = (indBuild(i) || {}).item || '';
+      if (!E.berries[it]) return;
+      if (!by[it]) row(it, 'held in a build');
+      by[it].held.push('your ' + GAME_NAME[i.game] + ' ' + (i.nickname || i.species)); });
+    out.forEach(function (c) { if (c.held.length) c.why += (c.why === 'held in a build' ? ': ' : '; held by ') + c.held.join(', '); });
+    return out;
+  }
+  function lines() {   // the egg schedule: your blueprints' lines first, then your teams' lines, slowest first
+    var out = [], seen = {}, add = function (sp, why) { var e = eggs(sp); if (seen[e.line] || e.groups.indexOf('Undiscovered') >= 0) return; seen[e.line] = 1;
+      out.push({line: e.line, cycles: e.cycles, steps: e.steps, laps: e.cycles, laps_with_flame_body: Math.ceil(e.cycles / 2), why: why}); };
+    Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k]; if (b.kind === 'blueprint' && b.status !== 'retired') add(b.species, 'a blueprint of yours'); });
+    var bp = out.length;
+    residents(false).forEach(function (r) { add(r.species, 'on your ' + GAME_NAME[r.team.game] + ' team'); });
+    return out.slice(0, bp).sort(function (a, b) { return b.cycles - a.cycles; }).concat(out.slice(bp).sort(function (a, b) { return b.cycles - a.cycles; }));
+  }
+  function studbook() {   // your Pokémon bred at Blackthorn or bred to a blueprint: parents and the moves they hatched with
+    return myInds(null).filter(function (i) { return i.sire || i.dam || i.blueprint || (i.hatch_moves || []).length; });
+  }
+  return {init: init, ready: function () { return !!E; }, pack: function () { return E; }, hq: hq, satellites: satellites, habitat: habitat, eggs: eggs, homeSite: homeSite,
+    residents: residents, census: census, world: world, sync: sync, recordsOf: recordsOf, approvals: approvals, approve: approve, withdraw: withdraw, newId: newId,
+    pool: pool, report: report, suggest: suggest, tone: tone, crops: crops, lines: lines, studbook: studbook};
+})();
+function estateReady() {   // the pack, the capability records, your records and the Sheet's logs; then the world records reach every assessment
+  return Promise.all([capReady(), recordsReady().catch(function () { return null; }), S.L ? Promise.resolve(S.L) : loadLive(),
+    Estate.ready() ? Promise.resolve() : API.data('estate').then(function (p) { Estate.init(p); })]).then(function () { Estate.sync(); return Estate; });
+}
+</script>

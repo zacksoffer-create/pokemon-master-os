@@ -1,5 +1,5 @@
 {
-  "_note": "Facilities as capability networks (spec §10-11). Each requirement is met by any of its capabilities (capability/model.json), or by the infrastructure listed with it. Staffing follows D-039: a Pokémon fills a job on a game mechanic it has or a record you approved; anything else (Pokédex readings, body, type, move uses, proposed records) shows as a candidate, never as staff. Staff plans are plans, never facts (Q13, assumed): saving one changes nobody's team. The Glasshouse and its cold vault are approved (D-045); the ranch facilities come from canon/ranch.json (D-035-D-040); the Research Institute, Workshop, Habitats and Dragon's Den operations are the spec's starting concepts, proposed until you approve them.",
+  "_note": "Facilities as capability networks (spec §10-11). Each requirement is met by any of its capabilities (capability/model.json), or by the infrastructure listed with it: what the land itself gives (marked land: the geothermal ground, the Ice Path's ice, the Route 45 river; A-112) meets its job; what would have to be built is an option that meets nothing yet. Staffing follows D-039: a Pokémon fills a job on a game mechanic it has or a record you approved; anything else (Pokédex readings, body, type, move uses, proposed records) shows as a candidate, never as staff. Staff plans are plans, never facts (Q13, assumed): saving one changes nobody's team. The Glasshouse and its cold vault are approved (D-045); the ranch facilities come from canon/ranch.json (D-035-D-040); the Research Institute, Workshop, Habitats and Dragon's Den operations are the spec's starting concepts, proposed until you approve them.",
   "facilities": [
     {"id": "glasshouse", "name": "The Glasshouse", "status": "approved", "decision": "D-045", "site": "S-JOHTO",
      "function": "The hatchery and greenhouse in one building: egg racks round a Magcargo hearth, berry beds and Apricorn trees in the rings, the hatching loop through the rows, the nursery yard.",
@@ -9,10 +9,10 @@
      "dependencies": ["cold-vault (seed and berry store)", "kitchen-orchard (hatchlings' food)"],
      "limitations": ["Blackthorn winters are long and dark; the heat and light can't stop", "eggs hatch by being walked, so the loop needs walkers"],
      "requirements": [
-       {"id": "heat", "group": "Climate management", "name": "Heat for eggs and crops", "room": "Hearth hall", "any": ["heat_source"], "priority": "critical", "why": "Blackthorn sits against the Ice Path", "infrastructure": [{"name": "a boiler or geothermal pipes", "note": "none at Blackthorn yet"}]},
+       {"id": "heat", "group": "Climate management", "name": "Heat for eggs and crops", "room": "Hearth hall", "any": ["heat_source"], "priority": "critical", "why": "Blackthorn sits against the Ice Path", "infrastructure": [{"name": "geothermal pipes from the highland ground", "note": "Blackthorn's reading of your answer on geothermal ground in the highlands (A-64, A-110)", "land": true}, {"name": "a boiler", "note": "would have to be built"}]},
        {"id": "light", "group": "Climate management", "name": "Light through the winter", "room": "Glasshouse rings", "any": ["light"], "priority": "important", "why": "short winter days", "infrastructure": [{"name": "electric lamps", "note": "needs power (electricity)"}]},
        {"id": "plants", "group": "Horticulture", "name": "Tending the berry beds and Apricorn trees", "room": "Glasshouse rings", "any": ["plant_care"], "priority": "critical", "why": "the crops are the point", "infrastructure": []},
-       {"id": "water", "group": "Horticulture", "name": "Watering", "room": "Glasshouse rings", "any": ["water_supply"], "priority": "important", "why": "beds under glass get no rain", "infrastructure": [{"name": "rain cisterns and the Route 45 river", "note": "pipes and a pump"}]},
+       {"id": "water", "group": "Horticulture", "name": "Watering", "room": "Glasshouse rings", "any": ["water_supply"], "priority": "important", "why": "beds under glass get no rain", "infrastructure": [{"name": "the Route 45 river and rain cisterns", "note": "the land's water; pipes and a pump carry it", "land": true}]},
        {"id": "harvest", "group": "Horticulture", "name": "Picking and gathering", "room": "Glasshouse rings", "any": ["foraging", "manipulation"], "priority": "useful", "why": "berries off the bush", "infrastructure": []},
        {"id": "eggs", "group": "Nursery support", "name": "Keeping eggs warm", "room": "Hearth hall", "any": ["egg_care"], "priority": "critical", "why": "the hatchery", "infrastructure": []},
        {"id": "meals", "group": "Nursery support", "name": "Hatchlings' first meals", "room": "Nursery yard", "any": ["food_source"], "priority": "important", "why": "milk and berries", "infrastructure": []},
@@ -26,7 +26,7 @@
      "people": [], "outputs": ["stored seeds and berries", "samples kept cold"], "dependencies": ["glasshouse"],
      "limitations": ["summer warms the outer rooms"],
      "requirements": [
-       {"id": "cold", "group": "Cold storage", "name": "Keeping the store cold", "any": ["cold_source"], "priority": "critical", "why": "seeds, berries and samples", "infrastructure": [{"name": "the Ice Path's own ice and rock", "note": "enough in winter; the outer rooms warm in summer"}]},
+       {"id": "cold", "group": "Cold storage", "name": "Keeping the store cold", "any": ["cold_source"], "priority": "critical", "why": "seeds, berries and samples", "infrastructure": [{"name": "the Ice Path's own ice and rock", "note": "enough in winter; the outer rooms warm in summer", "land": true}]},
        {"id": "cold-work", "group": "Cold storage", "name": "Working in the cold", "any": ["cold_tolerance"], "priority": "important", "why": "long hours below freezing", "infrastructure": []},
        {"id": "stores", "group": "Cold storage", "name": "Moving stores in and out", "any": ["hauling"], "priority": "useful", "why": "crates of berries and ice", "infrastructure": []}
      ]},
@@ -83,8 +83,8 @@
     {"id": "climate", "name": "Climate", "status": "plan", "decision": "D-039", "site": "S-JOHTO", "ranch": "climate",
      "function": "Heat and cold for every habitat; weather where it's needed.", "people": [], "outputs": [], "dependencies": [], "limitations": [],
      "requirements": [
-       {"id": "heat", "group": "Climate", "name": "Heat", "any": ["heat_source"], "priority": "critical", "why": "warm habitats in a cold place", "infrastructure": [{"name": "boilers", "note": ""}]},
-       {"id": "cold", "group": "Climate", "name": "Cold", "any": ["cold_source", "cold_tolerance"], "priority": "important", "why": "cold habitats in summer", "infrastructure": [{"name": "the Ice Path", "note": ""}]},
+       {"id": "heat", "group": "Climate", "name": "Heat", "any": ["heat_source"], "priority": "critical", "why": "warm habitats in a cold place", "infrastructure": [{"name": "geothermal ground", "note": "Blackthorn's reading of your answer on geothermal ground in the highlands (A-64, A-110)", "land": true}, {"name": "boilers", "note": "would have to be built"}]},
+       {"id": "cold", "group": "Climate", "name": "Cold", "any": ["cold_source", "cold_tolerance"], "priority": "important", "why": "cold habitats in summer", "infrastructure": [{"name": "the Ice Path", "note": "the land's own ice, next to the estate", "land": true}]},
        {"id": "weather", "group": "Climate", "name": "Weather", "any": ["weather_handling"], "priority": "useful", "why": "fog, hail and sand where a habitat needs them", "infrastructure": []}
      ]},
     {"id": "research-institute", "name": "Research Institute", "status": "proposed", "decision": null, "site": "S-JOHTO",
@@ -114,7 +114,7 @@
        {"id": "calm", "group": "Care", "name": "A settled home", "any": ["calming_presence"], "priority": "important", "why": "residents living together", "infrastructure": []},
        {"id": "watch", "group": "Care", "name": "Keeping the peace", "any": ["deterrence"], "priority": "important", "why": "predators and prey", "infrastructure": [{"name": "fences and separate pens", "note": ""}]},
        {"id": "feed", "group": "Care", "name": "Feeding", "any": ["foraging", "food_source"], "priority": "important", "why": "every resident eats", "infrastructure": [{"name": "the kitchen", "note": ""}]},
-       {"id": "water", "group": "Upkeep", "name": "Water", "any": ["water_supply"], "priority": "important", "why": "ponds and troughs", "infrastructure": [{"name": "the river", "note": ""}]},
+       {"id": "water", "group": "Upkeep", "name": "Water", "any": ["water_supply"], "priority": "important", "why": "ponds and troughs", "infrastructure": [{"name": "the river", "note": "the Route 45 river", "land": true}]},
        {"id": "plants", "group": "Upkeep", "name": "Habitat upkeep", "any": ["plant_care"], "priority": "useful", "why": "living habitats", "infrastructure": []}
      ]},
     {"id": "dragons-den", "name": "Dragon's Den research operations", "status": "proposed", "decision": null, "site": "S-JOHTO",

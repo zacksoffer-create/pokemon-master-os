@@ -4,7 +4,7 @@
    comparison, facility assessments. It reads the capability records (app/capability_pack.py → capability.json) and
    app/test_capability_parity.mjs holds it to Python case by case. Strings compare by code point, like Python. */
 var Cap = (function () {
-  var P = null;
+  var P = null, EXTRA = [];   // world records from outside the pack: the estate's (v2.5: the HeartGold records on your HeartGold Pokémon, and ones you approve in the app)
   var ORDER = ['covered', 'equipped', 'teachable', 'plausible', 'proposed', 'gap'], RANK = {}, READY = ['covered', 'equipped'], PRIORITIES = ['critical', 'important', 'useful'];
   ORDER.forEach(function (s, i) { RANK[s] = i; });
   var KINDS = {move: ['A', 'mechanic'], ability: ['A', 'mechanic'], lore: ['B', 'inferred'], type: ['B', 'inferred'], size: ['B', 'inferred'], habitat: ['B', 'inferred'], shape: ['B', 'inferred'],
@@ -46,7 +46,7 @@ var Cap = (function () {
     if (known && known.length) Object.keys(P.model.move_uses).forEach(function (cap) { if (cap.charAt(0) === '_') return;
       P.model.move_uses[cap].forEach(function (mv) { if (known.indexOf(mv) >= 0) out.push(['plausible', {cap: cap, kind: 'move_use', move: mv, source: mv + ' (a move it knows)', detail: 'put to use outside battle: a hypothesis, not a game mechanic'}]); }); });
     var ind = member.ind;
-    if (ind) P.world.forEach(function (w) { if (w.ind !== ind) return;
+    if (ind) P.world.concat(EXTRA).forEach(function (w) { if (w.ind !== ind) return;
       if (w.status === 'approved') out.push(['covered', w]);
       else if (preview.indexOf(w.id) >= 0) out.push(['covered', Object.assign({}, w, {note: 'preview: as if you approved it'})]);
       else out.push(['proposed', w]); });
@@ -211,19 +211,23 @@ var Cap = (function () {
       staff.forEach(function (s, j) { if (s.need != null && s.need !== rq.id) return; var h = standingOf(s); if (h) assigned.push(holder(s, j, h[0], h[1])); });
       assigned.sort(function (x, y) { return RANK[x.standing] - RANK[y.standing] || x.i - y.i; });
       var st = assigned.length ? assigned[0].standing : 'gap', cands = [];
+      var land = (rq.infrastructure || []).filter(function (x) { return x.land; }).map(function (x) {   // what the land itself gives (A-112)
+        return {who: x.name, standing: 'equipped', kind: 'land', layer: 'land', 'class': 'creative', source: x.name, detail: x.note || null}; });
+      if (land.length && RANK.equipped < RANK[st]) st = 'equipped';
       pool.forEach(function (m, i) { var h = standingOf(m); if (h) { var x = holder(m, i, h[0], h[1]); x.can_staff = h[0] === 'covered'; cands.push(x); } });
       cands.sort(function (x, y) { return RANK[x.standing] - RANK[y.standing] || cmp(x.who, y.who); });
       var nCov = assigned.filter(function (h) { return h.standing === 'covered'; }).length, canStaff = cands.filter(function (c) { return c.can_staff; }).map(function (c) { return c.who; });
       return {id: rq.id, name: rq.name, group: rq.group, priority: rq.priority, any: rq.any, why: rq.why, infrastructure: rq.infrastructure, standing: st, staff: assigned,
-        covered_n: nCov, single_point: nCov === 1, candidates: cands, can_staff: canStaff,
-        hires: canStaff.length ? [] : hires(game, rq.any, pool.map(function (m) { return m.species; }))}; });
+        covered_n: nCov, single_point: nCov === 1 && !land.length, candidates: cands, can_staff: canStaff, land: land,
+        hires: canStaff.length || land.length ? [] : hires(game, rq.any, pool.map(function (m) { return m.species; }))}; });
     var groups = []; reqs.forEach(function (r) { if (groups.indexOf(r.group) < 0) groups.push(r.group); });
     return {facility: fac.id, name: fac.name, status: fac.status, game: game, requirements: reqs, groups: groups,
       staffed: reqs.filter(function (r) { return r.standing === 'covered'; }).map(function (r) { return r.id; }),
-      open: reqs.filter(function (r) { return r.standing !== 'covered'; }).map(function (r) { return r.id; }),
-      open_critical: reqs.filter(function (r) { return r.standing !== 'covered' && r.priority === 'critical'; }).map(function (r) { return r.id; }),
+      met: reqs.filter(function (r) { return ready(r.standing); }).map(function (r) { return r.id; }),
+      open: reqs.filter(function (r) { return !ready(r.standing); }).map(function (r) { return r.id; }),
+      open_critical: reqs.filter(function (r) { return !ready(r.standing) && r.priority === 'critical'; }).map(function (r) { return r.id; }),
       single_points: reqs.filter(function (r) { return r.single_point; }).map(function (r) { return r.id; }),
-      nobody: reqs.filter(function (r) { return !r.can_staff.length; }).map(function (r) { return r.id; })};
+      nobody: reqs.filter(function (r) { return !r.can_staff.length && !r.land.length; }).map(function (r) { return r.id; })};
   }
   var HIRE = {};
   function hires(game, caps, have, limit) {   // species you don't have that could staff the job on a game mechanic alone
@@ -249,6 +253,7 @@ var Cap = (function () {
     return {rows: rows, a: ra, b: rb, says: says};
   }
   return {init: function (p) { P = p; HIRE = {}; return this; }, ready: function () { return !!P; }, pack: function () { return P; },
+    setWorld: function (x) { EXTRA = x || []; }, world: function () { return P.world.concat(EXTRA); },
     records: records, evidence: evidence, best: best, worldReport: worldReport, cartridgeReport: cartridgeReport, recommend: recommend, compare: compare,
     facilityReport: facilityReport, compareStaff: compareStaff, provisions: provisions, candidates: candidates, capName: capName, battleWorthy: battleWorthy,
     ORDER: ORDER, RANK: RANK, READY: READY, KINDS: KINDS, ORDER_TEXT: ORDER_TEXT};

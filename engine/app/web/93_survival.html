@@ -9,6 +9,7 @@ var STAND_CHIP = {covered: 'forest', equipped: 'ice', teachable: 'gold', plausib
 function standChip(st) { return chip(Cap.pack().model.standing.names[st], STAND_CHIP[st]); }
 function classChip(h) {   // the three axes, kept apart on screen: layer, evidence class, status
   if (h.kind === 'kit') return h['class'] === 'mechanic' ? chip('game item', 'forest') : chip('camp gear · Blackthorn', 'violet');
+  if (h.kind === 'land') return chip('the land · A-112', 'ice');
   var L = {A: 'A · game mechanic', B: 'B · biology', C: 'C · equipment'}[h.layer], c = h['class'];
   var cls = c === 'mechanic' ? chip(L, 'forest') : c === 'inferred' ? chip(L + ' · inferred', 'gold') : c === 'hypothesis' ? chip(L + ' · hypothesis', '') :
     chip((h.kind === 'world' ? 'Blackthorn' : L + ' · Blackthorn') + (h.status === 'approved' ? ' · approved' : ' · proposed'), 'violet');
@@ -57,7 +58,7 @@ function svTeams() {
 }
 function survivalPage(query) {
   var q = qparse(query);
-  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
+  return estateReady().then(function () {   // v2.5: with the world records on your Pokémon (A-111)
     var teams = svTeams(), st = store('survival') || {};
     SV = Object.assign({key: 'journey/heartgold', scenario: 'winter-mountain', kit: [], preview: [], locks: [], allMoves: false}, st);
     if (q.team) SV.key = q.team;
@@ -239,7 +240,7 @@ function capUses() {   // which scenarios and facilities read each capability (s
 }
 function capabilityPage(id, query) {
   var q = qparse(query);
-  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
+  return estateReady().then(function () {   // v2.5: with the world records on your Pokémon (A-111)
     var P = Cap.pack(), d = P.model.capabilities[id]; if (!d) return '<div class="notice">No capability ' + esc(id) + '.</div>';
     var game = q.g && P.games[q.g] ? q.g : P.present_game, recs = P.games[game].records, by = {A: [], B: [], C: []};
     Object.keys(recs).forEach(function (sp) { Cap.records(game, sp).forEach(function (r) { if (r.cap !== id) return; var L = P.kinds[r.kind][0]; by[L].push({sp: sp, r: r}); }); });
@@ -265,32 +266,17 @@ var HS = {};
 function staffPlans(fid) { return Object.keys((S.store || {}).teams || {}).map(function (k) { return S.store.teams[k]; }).filter(function (t) { return t.kind === 'staffing' && t.facility === fid && t.status !== 'retired'; })
   .sort(function (a, b) { return String(b.at || '') < String(a.at || '') ? -1 : 1; }); }
 function planStaff(plan) { return (plan.slots || []).map(function (s) { var ref = refOfSlot(s), m = memberOf(ref); return m ? Object.assign(m, {need: s.need || null, ref: ref}) : null; }).filter(Boolean); }
-function hsPool() { return myInds(null).map(capMember); }
 var FAC_STATUS = {approved: ['approved', 'forest'], plan: ['in the ranch plan', 'ice'], proposed: ['proposed concept', 'violet']};
-function homesteadPage() {
-  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
-    var P = Cap.pack(), pool = hsPool();
-    var cards = P.facilities.map(function (f) { var plan = staffPlans(f.id)[0], r = Cap.facilityReport(f.id, plan ? planStaff(plan) : [], pool), st = FAC_STATUS[f.status] || [f.status, ''];
-      var canAll = r.requirements.filter(function (x) { return x.can_staff.length; }).length;
-      return '<div class="c4"><div class="card" style="height:100%"><div class="bd"><div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><a href="#/facility/' + f.id + '" class="serif" style="font-size:19px;color:var(--ivory)">' + esc(f.name) + '</a>' + chip(st[0] + (f.decision ? ' · ' + f.decision : ''), st[1]) + '</div>' +
-        '<div class="tiny muted" style="margin:6px 0">' + esc(f.function) + '</div>' +
-        '<div class="small">' + (plan ? '<b>' + r.staffed.length + ' of ' + r.requirements.length + '</b> jobs staffed in "' + esc(plan.title || 'your plan') + '"' : 'No staff plan yet') + '</div>' +
-        '<div class="tiny" style="color:var(--text-2)">' + canAll + ' of ' + r.requirements.length + ' jobs one of yours can staff (a game mechanic or a record you approved)' + (r.nobody.length ? '; nobody of yours for ' + esc(r.nobody.map(function (id) { return r.requirements.filter(function (x) { return x.id === id; })[0].name.toLowerCase(); }).join(', ')) : '') + '</div>' +
-        '</div></div></div>'; });
-    return '<div class="eyebrow">My World · the compound</div><h1 style="margin:6px 0">The Homestead</h1>' +
-      '<p class="lede">Blackthorn as a working place: every facility is a set of jobs, each met by a Pokémon\'s capabilities or by infrastructure. A Pokémon staffs a job on a game mechanic it has or a record you approved (D-039); everything else shows as a candidate. Staff plans are plans, never facts: nobody leaves a team, and nothing happens on its own. <a href="#/estate">The estate map</a> · <a href="#/glasshouse">The Glasshouse</a></p>' +
-      '<div class="grid" style="margin-top:16px">' + cards.join('') + '</div>';
-  });
-}
+/* The Homestead's facility list is the estate's now (v2.5, A-117: web/40_estate.html); a facility page is where you staff one. */
 function facilityPage(id) {
-  return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
+  return estateReady().then(function () {
     var P = Cap.pack(), f = P.facilities.filter(function (x) { return x.id === id; })[0]; if (!f) return '<div class="notice">No facility ' + esc(id) + '.</div>';
     var plans = staffPlans(id);
     if (!HS[id]) { var p0 = plans[0]; HS[id] = {staff: p0 ? planStaff(p0).map(function (m) { return {ref: m.ref, need: m.need}; }) : [], preview: [], title: p0 ? p0.title : '', planB: null}; }
     after(function (p) { fcBind(p, f); fcRender(f); });
     var st = FAC_STATUS[f.status] || [f.status, ''];
-    return '<div class="eyebrow"><a href="#/homestead">The Homestead</a> · ' + chip(st[0] + (f.decision ? ' · ' + f.decision : ''), st[1]) + (f.part_of ? ' · part of <a href="#/facility/' + f.part_of + '">' + esc((P.facilities.filter(function (x) { return x.id === f.part_of; })[0] || {}).name || f.part_of) + '</a>' : '') + '</div>' +
-      '<h1 style="margin:6px 0">' + esc(f.name) + '</h1><p class="lede">' + esc(f.function) + '</p>' +
+    return '<div class="eyebrow"><a href="#/estate">The Estate</a>' + (id === 'glasshouse' ? ' · <a href="#/glasshouse">the building</a>' : id === 'daycare' ? ' · <a href="#/preserve">the preserve</a>' : '') + ' · ' + chip(st[0] + (f.decision ? ' · ' + f.decision : ''), st[1]) + (f.part_of ? ' · part of <a href="#/facility/' + f.part_of + '">' + esc((P.facilities.filter(function (x) { return x.id === f.part_of; })[0] || {}).name || f.part_of) + '</a>' : '') + '</div>' +
+      '<h1 style="margin:6px 0">' + esc(f.name) + '</h1><p class="lede">' + esc(f['function']) + ' Its candidates are your residents (the Pokémon on your teams' + (estateAll() ? ', and your others' : '') + '), read in ' + esc(GAME_NAME[P.present_game]) + '.</p>' +
       '<div class="tiny muted">' + (f.people && f.people.length ? 'People: ' + esc(f.people.join(', ')) + '. ' : '') + (f.outputs && f.outputs.length ? 'Gives: ' + esc(f.outputs.join(', ')) + '. ' : '') + (f.dependencies && f.dependencies.length ? 'Depends on: ' + esc(f.dependencies.join(', ')) + '. ' : '') + (f.limitations && f.limitations.length ? 'Limits: ' + esc(f.limitations.join('; ')) + '.' : '') + '</div>' +
       '<div id="fcout" style="margin-top:16px"></div>';
   });
@@ -298,24 +284,31 @@ function facilityPage(id) {
 function fcStaff(id) { return (HS[id].staff || []).map(function (s) { var m = memberOf(s.ref); return m ? Object.assign(m, {need: s.need || null}) : null; }).filter(Boolean); }
 function fcRender(f) {
   var out = document.getElementById('fcout'); if (!out) return;
-  var P = Cap.pack(), H = HS[f.id], pool = hsPool(), r = Cap.facilityReport(f.id, fcStaff(f.id), pool, H.preview), props = P.world.filter(function (w) { return w.status === 'proposed'; });
+  var P = Cap.pack(), H = HS[f.id], res = estateRes(), r = Estate.report(f.id, res, fcStaff(f.id), H.preview), props = Estate.world().filter(function (w) { return w.status !== 'approved'; });
+  var used = Estate.world().filter(function (w) { return r.requirements.some(function (q) { return q.any.indexOf(w.cap) >= 0; }) && w.status === 'approved'; });
+  H.res = res; H.report = r;
+  var pending = function (i, q) { var id = (res[i] || {}).id; return props.filter(function (w) { return w.ind === id && q.any.indexOf(w.cap) >= 0; })[0] || null; };   // a record waiting on you for this Pokémon and job
   var inds = myInds(null), opt = function (rid) { return '<select class="f" style="font-size:12px;padding:4px 6px" data-assign="' + rid + '"><option value="">+ assign one of yours…</option>' + inds.map(function (i) { return '<option value="ind:' + esc(i.id) + '">' + esc((i.nickname || i.species) + ' · ' + GAME_NAME[i.game]) + '</option>'; }).join('') + '</select>'; };
   out.innerHTML = '<div class="grid"><div class="c4">' + card('At a glance', '<div class="goal"><div class="small">Jobs staffed in this plan</div><b class="num">' + r.staffed.length + '/' + r.requirements.length + '</b></div>' +
       '<div class="goal"><div class="small">Critical jobs open</div><b class="num" style="color:' + (r.open_critical.length ? 'var(--ember-2)' : 'var(--forest-3)') + '">' + r.open_critical.length + '</b></div>' +
       '<div class="goal"><div class="small">Jobs held by one only</div><b class="num">' + r.single_points.length + '</b></div>' +
       '<div class="goal"><div class="small">Jobs none of yours can staff</div><b class="num">' + r.nobody.length + '</b></div>' +
       (props.length ? '<label class="l" style="margin-top:10px">Preview records waiting for you</label>' + props.map(function (w) { return '<label class="small" style="display:block;margin:3px 0"><input type="checkbox" data-fprev="' + w.id + '"' + (H.preview.indexOf(w.id) >= 0 ? ' checked' : '') + '> <b>' + esc(w.id) + '</b> your ' + esc(GAME_NAME[w.game]) + ' ' + esc(w.species) + ': ' + esc(Cap.capName(w.cap).toLowerCase()) + '</label>'; }).join('') : '') +
+      '<div style="margin-top:10px"><button class="btn sm" id="fcsuggest">Suggest a staff plan</button></div><div class="tiny muted" style="margin-top:4px">Fills each job with a resident who holds it on a game mechanic or your record, spreading the work. A suggestion until you save it (A-113).</div>' +
       '<label class="l" style="margin-top:10px">Save this staff plan</label><input class="f" id="fctitle" placeholder="Plan title" value="' + esc(H.title || f.name + ' staff') + '"><div style="margin-top:6px"><button class="btn gold sm" id="fcsave">Save to My Teams</button> <button class="btn sm" id="fckeepb">Keep as plan B</button></div>' +
       '<div class="tiny muted" style="margin-top:6px">A plan, never a fact (Q13): nobody leaves a team because of it.</div>', {eyebrow: 'This staff plan', tools: false}) +
+      (used.length ? '<div style="margin-top:16px">' + card('World records in play', used.map(function (w) { var i = S.store.individuals[w.ind] || {}; return '<div class="tiny" style="margin:4px 0;display:flex;gap:6px;align-items:center"><span><b>' + esc(w.id) + '</b> ' + esc(i.nickname || w.species) + ': ' + esc(Cap.capName(w.cap).toLowerCase()) + ' <span class="muted">' + esc(w.note || w.source) + '</span></span><span class="sp"></span><button class="btn sm" style="padding:1px 6px" data-wd="' + esc(w.id) + '" title="Withdraw it: a Journal row, so it can be approved again">withdraw</button></div>'; }).join(''), {eyebrow: 'Approved · they make a Pokémon staff (D-039)', tools: false}) + '</div>' : '') +
       '<div style="margin-top:16px">' + card('Compare staff plans', '<div id="fccmp">' + (H.planB ? '' : '<div class="tiny muted">Keep this plan as B, change the staff, and compare them here.</div>') + '</div>', {eyebrow: 'Test F', tools: false}) + '</div></div>' +
     '<div class="c8">' + r.groups.map(function (g) { return card(g, r.requirements.filter(function (x) { return x.group === g; }).map(function (x) {
       return '<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)" data-req="' + x.id + '"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>' + esc(x.name) + '</b> ' + standChip(x.standing) + chip(x.priority, x.priority === 'critical' ? 'ember' : '') + (x.single_point ? chip('one only', 'gold') : '') + ' <span class="tiny muted">needs ' + x.any.map(capLink).join(' or ') + ' · ' + esc(x.why) + '</span></div>' +
         (x.staff.length ? x.staff.map(function (h) { return '<div style="display:flex;gap:6px;align-items:center">' + holderLine(h) + '<button class="btn sm" style="padding:1px 6px" data-unassign="' + h.i + '" title="Take off this job">✕</button></div>'; }).join('') : '<div class="tiny muted">Nobody assigned.</div>') +
         '<div style="margin:6px 0">' + opt(x.id) + '</div>' +
         '<div class="tiny"><b>Can staff it</b> (a game mechanic or a record you approved): ' + (x.can_staff.length ? esc(x.can_staff.join(', ')) : '<span style="color:var(--ember-2)">none of yours</span>') + '</div>' +
-        (x.candidates.filter(function (c) { return !c.can_staff; }).length ? '<details style="margin-top:4px"><summary class="tiny muted">Candidates on other evidence · ' + x.candidates.filter(function (c) { return !c.can_staff; }).length + '</summary>' + x.candidates.filter(function (c) { return !c.can_staff; }).slice(0, 60).map(function (h) { return holderLine(h); }).join('') + '</details>' : '') +
+        (x.land.length ? '<div class="tiny" style="margin-top:4px;color:var(--forest-3)"><b>The land meets it</b>: ' + esc(x.land.map(function (l) { return l.who + (l.detail ? ' (' + l.detail + ')' : ''); }).join('; ')) + '</div>' : '') +
+        (x.candidates.filter(function (c) { return !c.can_staff; }).length ? '<details style="margin-top:4px"' + (x.can_staff.length || x.land.length ? '' : ' open') + '><summary class="tiny muted">Candidates on other evidence · ' + x.candidates.filter(function (c) { return !c.can_staff; }).length + ' (approve a world record to make one staff)</summary>' +
+          x.candidates.filter(function (c) { return !c.can_staff; }).slice(0, 40).map(function (h) { return '<div style="display:flex;gap:6px;align-items:center">' + holderLine(h) + '<span class="sp"></span><button class="btn sm" style="padding:1px 6px;white-space:nowrap" data-wr="' + h.i + '|' + x.id + '">' + (pending(h.i, x) ? 'Approve ' + esc(pending(h.i, x).id) : 'Approve a world record') + '</button></div>'; }).join('') + '</details>' : '') +
         (x.hires.length ? '<div class="tiny" style="margin-top:4px"><b>Could be hired</b> (a game mechanic every one of them has): ' + esc(x.hires.map(function (h) { return h.species; }).join(', ')) + ' <span class="muted">' + esc(x.hires[0].source) + '</span></div>' : '') +
-        (x.infrastructure.length ? '<div class="tiny muted" style="margin-top:4px">Or infrastructure (Blackthorn): ' + esc(x.infrastructure.map(function (i) { return i.name + (i.note ? ' (' + i.note + ')' : ''); }).join('; ')) + '</div>' : '') + '</div>'; }).join(''), {eyebrow: f.name, tools: false, style: 'margin-bottom:16px'}); }).join('') + '</div></div>';
+        (x.infrastructure.filter(function (i) { return !i.land; }).length ? '<div class="tiny muted" style="margin-top:4px">Or build it (doesn\'t count until it\'s built, A-112): ' + esc(x.infrastructure.filter(function (i) { return !i.land; }).map(function (i) { return i.name + (i.note ? ' (' + i.note + ')' : ''); }).join('; ')) + '</div>' : '') + '</div>'; }).join(''), {eyebrow: f.name, tools: false, style: 'margin-bottom:16px'}); }).join('') + '</div></div>';
   if (H.planB) fcCompare(f);
 }
 function fcCompare(f) {
@@ -333,6 +326,11 @@ function fcBind(p, f) {
     else if (t.id === 'fctitle') H.title = t.value; });
   p.addEventListener('click', function (e) { var t = e.target, k;
     if ((k = t.getAttribute('data-unassign')) != null) { H.staff.splice(+k, 1); rerender(); }
+    else if (t.id === 'fcsuggest') { H.staff = Estate.suggest(f.id, H.res); toast(H.staff.length ? 'A suggestion: ' + plural(H.staff.length, 'job') + ' filled. Save it if you like it.' : 'None of your residents holds one of these jobs on a mechanic or a record yet.'); rerender(); }
+    else if ((k = t.getAttribute('data-wr'))) { var pi = +k.split('|')[0], q = H.report.requirements.filter(function (y) { return y.id === k.split('|')[1]; })[0];
+      var w = Estate.world().filter(function (y) { return y.status !== 'approved' && y.ind === H.res[pi].id && q.any.indexOf(y.cap) >= 0; })[0] || null; wrDrawer(H.res[pi], w ? w.cap : q.any[0], q, w ? w.id : null, rerender); }
+    else if ((k = t.getAttribute('data-wd'))) { var wd = Estate.world().filter(function (y) { return y.id === k; })[0]; if (!wd) return; t.disabled = true;
+      Estate.withdraw(wd).then(function () { toast('Withdrew ' + esc(k) + '.'); rerender(); }).catch(function (err) { t.disabled = false; toast('Not saved: ' + esc(err && err.message || err)); }); }
     else if (t.id === 'fckeepb') { H.planB = H.staff.map(function (s) { return {ref: s.ref, need: s.need}; }); toast('Kept as plan B.'); rerender(); }
     else if (t.id === 'fcsave') {
       var staff = fcStaff(f.id); if (!staff.length) { toast('Assign at least one Pokémon first.'); return; }
@@ -343,6 +341,14 @@ function fcBind(p, f) {
         .catch(function (err) { t.disabled = false; t.textContent = 'Save to My Teams'; toast('Not saved: ' + esc(err && err.message || err)); });
     } });
 }
+function wrDrawer(r, capId, q, id, done) {   // approve a world record (A-111): your call, written to the Journal
+  openDrawer('<div class="eyebrow">A world record · your call (D-039)</div><h2 style="margin:6px 0 4px">' + esc(r.label) + ': ' + esc(Cap.capName(capId).toLowerCase()) + '</h2>' +
+    '<p class="small muted">' + (id ? esc(id) + ' was proposed for it. ' : '') + 'Approving it says that at Blackthorn, your ' + esc(GAME_NAME[r.game]) + ' ' + esc(r.label) + ' ' + esc(Cap.pack().model.capabilities[capId].what) + '. It can then staff “' + esc(q.name.toLowerCase()) + '” and every other job that needs it. It\'s saved as a Journal row; you can withdraw it later.</p>' +
+    '<form id="wrform"><label class="l">In a line, why (optional)</label><textarea class="f" name="text" rows="3" placeholder="e.g. it\'s kept the berry rings since it was a Chikorita"></textarea><div style="margin-top:14px"><button class="btn gold">Approve it</button> <button class="btn" type="button" onclick="closeDrawer()">Not now</button></div></form>');
+  document.getElementById('wrform').onsubmit = function (e) { e.preventDefault(); var b = e.target.querySelector('.gold'); b.disabled = true; b.textContent = 'Saving…';
+    Estate.approve(r.id, capId, e.target.elements.text.value.trim(), id).then(function (row) { closeDrawer(); toast('Approved ' + esc(row.id) + ': ' + esc(r.label) + ', ' + esc(Cap.capName(capId).toLowerCase()) + '.'); done(); })
+      .catch(function (err) { b.disabled = false; b.textContent = 'Approve it'; toast('Not saved: ' + esc(err && err.message || err)); }); };
+}
 
 /* ---- a Pokémon's capabilities, for its profile ---- */
 function capPanel(ind) {   // what one of yours can do away from battle, by area, with its evidence (read in its own game)
@@ -351,7 +357,7 @@ function capPanel(ind) {   // what one of yours can do away from battle, by area
     if (!hs.length) return '';
     return '<div style="margin:8px 0"><div class="eyebrow">' + esc(a.name) + '</div>' + hs.map(function (c) { var x = b[c], lc = P.kinds[x[1].kind] || ['B', 'creative'];
       return '<div class="tiny" style="margin:3px 0">' + standChip(x[0]) + ' ' + capLink(c) + ' ' + classChip({kind: x[1].kind, layer: lc[0], 'class': lc[1], status: x[1].status}) + ' <span class="muted">' + esc(x[1].source) + '</span></div>'; }).join('') + '</div>'; }).join('');
-  return card('Away from battle', (rows || '<div class="tiny muted">No evidence for any capability.</div>') + '<div style="margin-top:8px" class="tiny"><a href="#/survival?team=' + encodeURIComponent('journey/' + ind.game) + '">Plan an expedition</a> · <a href="#/homestead">The Homestead</a> · <a href="#/capabilities">All capabilities</a></div>',
+  return card('Away from battle', (rows || '<div class="tiny muted">No evidence for any capability.</div>') + '<div style="margin-top:8px" class="tiny"><a href="#/survival?team=' + encodeURIComponent('journey/' + ind.game) + '">Plan an expedition</a> · <a href="#/estate">The Estate</a> · <a href="#/capabilities">All capabilities</a></div>',
     {eyebrow: 'Capabilities · ' + GAME_NAME[ind.game] + (m.moves ? ' · its build' : ' · the species'), tools: false, style: 'margin-top:16px'});
 }
 
@@ -359,6 +365,5 @@ route(/^\/survival\/?(\?.*)?$/, survivalPage, 'Survival Lab', '#/survival');
 route(/^\/field\/?(\?.*)?$/, survivalPage, 'Survival Lab', '#/survival');
 route(/^\/capabilities\/?$/, capabilitiesPage, 'Capabilities', '#/capabilities');
 route(/^\/capability\/([a-z_]+)\/?(\?.*)?$/, capabilityPage, function (i) { return 'Capabilities · ' + i.replace(/_/g, ' '); }, '#/capabilities');
-route(/^\/homestead\/?$/, homesteadPage, 'The Homestead', '#/homestead');
-route(/^\/facility\/([a-z-]+)\/?$/, facilityPage, function (i) { return 'The Homestead · ' + i.replace(/-/g, ' '); }, '#/homestead');
+route(/^\/facility\/([a-z-]+)\/?$/, facilityPage, function (i) { return 'The Estate · ' + i.replace(/-/g, ' '); }, '#/estate');
 </script>

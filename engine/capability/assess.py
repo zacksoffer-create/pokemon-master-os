@@ -420,6 +420,10 @@ def facility_report(pack, facility, staff=(), pool=(), preview=(), game=None):
                 assigned.append(_holder(s, j, h[0], h[1]))
         assigned.sort(key=lambda h: (RANK[h["standing"]], h["i"]))
         st = assigned[0]["standing"] if assigned else "gap"
+        land = [{"who": x["name"], "standing": "equipped", "kind": "land", "layer": "land", "class": "creative", "source": x["name"],
+                 "detail": x.get("note") or None} for x in rq["infrastructure"] if x.get("land")]   # what the land itself gives (A-112)
+        if land and RANK["equipped"] < RANK[st]:
+            st = "equipped"
         cands = []
         for i, m in enumerate(pool):
             h = standing_of(m)
@@ -432,18 +436,19 @@ def facility_report(pack, facility, staff=(), pool=(), preview=(), game=None):
         can_staff = [c["who"] for c in cands if c["can_staff"]]
         reqs.append({"id": rq["id"], "name": rq["name"], "group": rq["group"], "priority": rq["priority"], "any": rq["any"],
                      "why": rq["why"], "infrastructure": rq["infrastructure"], "standing": st, "staff": assigned,
-                     "covered_n": n_cov, "single_point": n_cov == 1, "candidates": cands, "can_staff": can_staff,
-                     "hires": hires(pack, game, rq["any"], {m["species"] for m in pool}) if not can_staff else []})
+                     "covered_n": n_cov, "single_point": n_cov == 1 and not land, "candidates": cands, "can_staff": can_staff, "land": land,
+                     "hires": hires(pack, game, rq["any"], {m["species"] for m in pool}) if not can_staff and not land else []})
     groups = []
     for rq in reqs:
         if rq["group"] not in groups:
             groups.append(rq["group"])
     return {"facility": fac["id"], "name": fac["name"], "status": fac["status"], "game": game, "requirements": reqs, "groups": groups,
             "staffed": [r["id"] for r in reqs if r["standing"] == "covered"],
-            "open": [r["id"] for r in reqs if r["standing"] != "covered"],
-            "open_critical": [r["id"] for r in reqs if r["standing"] != "covered" and r["priority"] == "critical"],
+            "met": [r["id"] for r in reqs if r["standing"] in READY],
+            "open": [r["id"] for r in reqs if r["standing"] not in READY],
+            "open_critical": [r["id"] for r in reqs if r["standing"] not in READY and r["priority"] == "critical"],
             "single_points": [r["id"] for r in reqs if r["single_point"]],
-            "nobody": [r["id"] for r in reqs if not r["can_staff"]]}
+            "nobody": [r["id"] for r in reqs if not r["can_staff"] and not r["land"]]}
 
 
 def hires(pack, game, caps, have, limit=6):
