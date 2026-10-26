@@ -29,6 +29,7 @@ CSV_TABLES = [
     "move_flags", "move_effect_prose", "move_changelog", "move_targets",
     # the builder's explanations (reference/explain.py): each game's own ability and item text, and PokeAPI's summaries
     "ability_prose", "ability_flavor_text", "item_prose", "item_flavor_text", "item_categories", "item_pockets",
+    "move_flavor_text",   # v2 (D-078): each game's own move descriptions for the builder's move dropdowns
 ]
 # Smogon usage-stats sets (what players actually ran on Pokémon Showdown's ladder), MIT-licensed. The same package's
 # "dex" sets are Smogon's copyrighted analyses and are not kept.

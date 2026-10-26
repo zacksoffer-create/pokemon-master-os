@@ -240,3 +240,6 @@ if __name__ == "__main__":
     else:
         p = pack()
         print("wrote", p, f"{os.path.getsize(p) / 1024:.0f} KB")
+        sys.path.insert(0, HERE)
+        import fresh                     # run on its own, the pack still keeps the fresh start (D-078)
+        fresh.after("battle.json")

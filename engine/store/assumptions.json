@@ -1223,6 +1223,325 @@
    "instead": [
     "a species' own entries only"
    ]
+  },
+  {
+   "id": "A-79",
+   "decision": "D-078",
+   "phase": "v2 · The fresh start",
+   "area": "Hidden, not deleted",
+   "what": "The fresh start hides your old records in the app (journeys, builds, lineups, the party, residents, studbook, lineage, program, the journey's scouting files and Sheet rows from before 2026-10-25) rather than deleting them. canon/ and docs/ keep them; engine/store/fresh_start.json turns it off.",
+   "why": "You asked for a blank slate to learn from; keeping the archive means nothing you built is lost and it can come back with one switch.",
+   "where": [
+    "#/",
+    "Home"
+   ],
+   "instead": [
+    "delete the old records",
+    "archive them to a separate Drive file"
+   ]
+  },
+  {
+   "id": "A-80",
+   "decision": "D-078",
+   "phase": "v2 · The fresh start",
+   "area": "The world stays",
+   "what": "What the fresh start keeps: the reference world (species, moves, trainers, the builds book, Smogon sets, Field Biology), the facilities as designed (now unstaffed), the decision ledger, your calls, and your name in the greeting.",
+   "why": "They're the world and the project's record, not your playthrough; the Estate's facilities are design, their staff were your Pokémon.",
+   "where": [
+    "#/estate",
+    "The Estate"
+   ],
+   "instead": [
+    "blank the facilities too",
+    "hide the decision record"
+   ]
+  },
+  {
+   "id": "A-81",
+   "decision": "D-078",
+   "phase": "v2 · Teams",
+   "area": "One team per game, each its own trainer",
+   "what": "Each game has exactly one team (My Teams row journey:<game>), with its own trainer: name, philosophy, coaching style and the nine dials. The newest row wins; earlier lineups stay in the Sheet. The Arena plays the team with its own trainer.",
+   "why": "Your words: 'think of it as separate trainers, as separate journeys'; and 'I don't want different versions'.",
+   "where": [
+    "#/team/heartgold",
+    "HeartGold team"
+   ],
+   "instead": [
+    "several saved versions per game",
+    "one trainer across all six"
+   ]
+  },
+  {
+   "id": "A-82",
+   "decision": "D-078",
+   "phase": "v2 · Teams",
+   "area": "The region is beaten",
+   "what": "Every team's page counts the region's badges, the Elite Four and Champion, the Pokédex (National where the game has one) and the post-game as done, listed with the leaders' names.",
+   "why": "Your call: 'assume ... I've beat the region and I have the national Pokédex'.",
+   "where": [
+    "#/team/heartgold",
+    "HeartGold team"
+   ],
+   "instead": [
+    "track them as you go"
+   ]
+  },
+  {
+   "id": "A-83",
+   "decision": "D-078",
+   "phase": "v2 · Teams",
+   "area": "A candidate becomes yours",
+   "what": "Putting a build from the builds book on a team makes it a new Pokémon of yours with its own build record (the book's build is unchanged and noted as its parent).",
+   "why": "A team holds your Pokémon; a reference set shouldn't be edited in place.",
+   "where": [
+    "#/team/heartgold",
+    "HeartGold team"
+   ],
+   "instead": [
+    "link the book's build directly"
+   ]
+  },
+  {
+   "id": "A-84",
+   "decision": "D-078",
+   "phase": "v2 · Teams",
+   "area": "Legendaries left out of candidates",
+   "what": "The candidates list leaves legendary and mythical Pokémon out unless you include them.",
+   "why": "Ubers-level sets crowd the top of a sorted list, and your teams have been non-legendary (D-008's spirit).",
+   "where": [
+    "#/team/heartgold",
+    "HeartGold team"
+   ],
+   "instead": [
+    "include them by default"
+   ]
+  },
+  {
+   "id": "A-85",
+   "decision": "D-078",
+   "phase": "v2 · Teams",
+   "area": "Nine team shapes",
+   "what": "A team's shape is the first of nine competitive archetypes it fits, in this order: Trick Room, weather, Baton Pass, hyper offense, stall, semi-stall, bulky offense, offense, balance. Each shows what it still needs.",
+   "why": "Smogon's team archetypes, read from the five roles and the moves and abilities the six carry.",
+   "where": [
+    "#/team/heartgold",
+    "HeartGold team"
+   ],
+   "instead": [
+    "v1's five shapes",
+    "shapes you define"
+   ]
+  },
+  {
+   "id": "A-86",
+   "decision": "D-078",
+   "phase": "v2 · Teams",
+   "area": "Scouting report, not questions",
+   "what": "The team's scenario questions became a scouting report: strengths, weaknesses and tendencies. The same checks feed it.",
+   "why": "Your call: 'not questions, but more just strengths, weaknesses ... tendencies'.",
+   "where": [
+    "#/team/heartgold",
+    "HeartGold team"
+   ],
+   "instead": [
+    "keep the questions alongside"
+   ]
+  },
+  {
+   "id": "A-87",
+   "decision": "D-078",
+   "phase": "v2 · The builder",
+   "area": "Saving is one button",
+   "what": "Save writes a new build version and the individual together, with an optional note; nothing is asked in a drawer. Unsaved changes are kept in the browser until you save or revert.",
+   "why": "Fewer steps between choosing a move and seeing it stick.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "ask what changed on every save"
+   ]
+  },
+  {
+   "id": "A-88",
+   "decision": "D-078",
+   "phase": "v2 · The builder",
+   "area": "IVs start at 31",
+   "what": "A new build starts with 31 in every IV (Max IVs) and no EVs; EVs left blank still count as no evidence for the stat badges (B19).",
+   "why": "A 'perfect' build is the usual starting point; you lower what you want lower.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "IVs blank until set"
+   ]
+  },
+  {
+   "id": "A-89",
+   "decision": "D-078",
+   "phase": "v2 · The builder",
+   "area": "Species follows evolution",
+   "what": "The species on a Pokémon can change only within its evolution line (Cyndaquil to Typhlosion); a different species is a different Pokémon.",
+   "why": "It's the same individual when it evolves.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "any species"
+   ]
+  },
+  {
+   "id": "A-90",
+   "decision": "D-078",
+   "phase": "v2 · The builder",
+   "area": "Held items",
+   "what": "The item dropdown lists items a Pokémon can hold to effect in that generation: held items, Choice items, type boosters and resist berries, Plates, species items, berries, training and evolution items.",
+   "why": "The full item list includes balls, TMs and key items that do nothing held.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "every item"
+   ]
+  },
+  {
+   "id": "A-91",
+   "decision": "D-078",
+   "phase": "v2 · The builder",
+   "area": "Move descriptions",
+   "what": "Each move shows its type, category, power, accuracy, PP and priority, what it does (the battle pack's effect text) and the game's own description for that generation (PokeAPI's move_flavor_text, newly fetched).",
+   "why": "Your call: 'I want to see the move description in there as well'.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "the effect text only"
+   ]
+  },
+  {
+   "id": "A-92",
+   "decision": "D-078",
+   "phase": "v2 · The builder",
+   "area": "Hand-set roles left out",
+   "what": "The builder doesn't offer setting a team role by hand (D-059's overrides still apply from team_roles.json).",
+   "why": "It kept the page simpler while you rebuild; it can come back.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "keep the override menu on each role"
+   ]
+  },
+  {
+   "id": "A-93",
+   "decision": "D-078",
+   "phase": "v2 · Roles",
+   "area": "Five roles from the fights",
+   "what": "Sweeper, Support and Wall are now read from the same League one-on-ones as Ace (who moves first, how hard it hits, which hits it takes), and Tank is new. The 34-role engine stays underneath for the build name.",
+   "why": "Each role answers one competitive question with numbers you can check; v1 read two of them from composite scores.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "v1's definitions"
+   ]
+  },
+  {
+   "id": "A-94",
+   "decision": "D-078",
+   "phase": "v2 · Roles",
+   "area": "The role bars",
+   "what": "Sweeper: moves first against 80%, 2HKOs 80% and OHKOs 30% (one use of its setup applied). Wall: four hits from 80% of one side's 50 hardest attacks, with sustain. Tank: three hits from 75% of the 100 hardest, and 2HKOs 60%. Support: two support moves, and survives (80%) or outpaces (60%). Ace unchanged.",
+   "why": "Set against 1,076 builds so each role picks out about a fifth of them (246 Sweepers, 226 Walls, 195 Tanks, 181 Supports; 448 Aces at D-064's bars).",
+   "where": [
+    "#/v2",
+    "What's new in v2 (docs/roles/ROLE_SCORES.md)"
+   ],
+   "instead": [
+    "the first bars (60/60): about twice as many"
+   ]
+  },
+  {
+   "id": "A-95",
+   "decision": "D-078",
+   "phase": "v2 · Roles",
+   "area": "One boost, as an estimate",
+   "what": "A Sweeper's setup is counted as one use (capped at +2), applied as the stat stage multiplier on its Speed and its damage. Labelled an estimate.",
+   "why": "A setup sweeper is judged after its boost; the stage multiplier is the mechanic, the damage scaling is close but not exact.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "re-run the fights boosted"
+   ]
+  },
+  {
+   "id": "A-96",
+   "decision": "D-078",
+   "phase": "v2 · Roles",
+   "area": "Two-part scores",
+   "what": "Sweeper's and Tank's scores are the geometric mean of their two shares, so a Pokémon strong at one half and hopeless at the other scores low.",
+   "why": "With a plain mean, a fast frail attacker scored halfway to Tank.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "the plain mean"
+   ]
+  },
+  {
+   "id": "A-97",
+   "decision": "D-078",
+   "phase": "v2 · Badges",
+   "area": "Six badge families",
+   "what": "Badges are grouped as Speed, Power, Bulk, Finishing, Sustain and Utility. Speed names the Pokémon it outruns and how often it moves first against the League. Sustain and Utility are new.",
+   "why": "Your call: rework the badges around competitive Pokémon; these are the axes competitive players read a set on.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon"
+   ],
+   "instead": [
+    "v1's flat list"
+   ]
+  },
+  {
+   "id": "A-98",
+   "decision": "D-078",
+   "phase": "v2 · Naming",
+   "area": "Generated words, not applied",
+   "what": "Every naming slot has a generated proposal (Ember, Berserker, Rising, Crowned, Noble...), and every combination of them (233,886) is listed with the name it makes. None is applied until you put it in naming.words.",
+   "why": "Your call: 'I do want that massive list ... mainly generated'; names stay yours to approve (D-059).",
+   "where": [
+    "#/v2",
+    "What's new in v2 (docs/naming/ALL_COMBINATIONS.md)"
+   ],
+   "instead": [
+    "apply the proposals now"
+   ]
+  },
+  {
+   "id": "A-99",
+   "decision": "D-078",
+   "phase": "v2 · Navigation",
+   "area": "The menu",
+   "what": "The menu leads with your six teams; Build, Play and Explore follow; Labs, World and Record are folded until you open them. The top bar has the six teams one click away.",
+   "why": "Your call: the app should be built around your inputs and easy to navigate.",
+   "where": [
+    "#/",
+    "Home"
+   ],
+   "instead": [
+    "v1's eight open sections"
+   ]
   }
  ]
 }

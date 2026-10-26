@@ -30,7 +30,7 @@ function slRules() {   // the pack's config and roles with your rule changes on 
 }
 function slLoad(tid, vid) {
   var v = Scout.version(tid, vid);
-  SL = Object.assign(SL || {rules: {}, show: {diff: true, missed: false, ctx: false}, against: 'me/heartgold'}, {base: tid + '/' + vid, v: v, level: null, baseRep: null});
+  SL = Object.assign(SL || {rules: {}, show: {diff: true, missed: false, ctx: false}, against: 'heartgold/red'}, {base: tid + '/' + vid, v: v, level: null, baseRep: null});
   slSave();
 }
 function slSave() { store('scoutlab', {base: SL.base, v: SL.v, level: SL.level, rules: SL.rules, show: SL.show, against: SL.against}); }
@@ -56,7 +56,7 @@ function scoutLab(tid, vid) {
     S.learn = r[2]; S.variants = r[3] || [];
     var saved = store('scoutlab');
     if (tid) slLoad(tid, vid);
-    else if (saved && saved.v) SL = Object.assign({show: {diff: true, missed: false, ctx: false}, against: 'me/heartgold'}, saved, {baseRep: null});
+    else if (saved && saved.v) SL = Object.assign({show: {diff: true, missed: false, ctx: false}, against: 'heartgold/red'}, saved, {baseRep: null});
     else slLoad('cynthia', 'champion-platinum');
     if (tid) { navQuiet('#/scoutlab'); }
     after(function (p) { slBind(p); slRender(); });

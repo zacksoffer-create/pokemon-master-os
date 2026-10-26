@@ -7,6 +7,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { seedPage } from './test_seed.mjs';
 process.on('unhandledRejection', (e) => { console.log('FAIL\n' + String(e && e.stack || e).slice(0, 1500)); process.exit(1); });
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -24,7 +25,7 @@ const settle = async (sel, ms = 240000) => { const t = Date.now(); while (Date.n
     if (s && !document.querySelector(s)) return 'wait'; return 'ok'; }, sel);
   if (st === 'ok') return true; await page.waitForTimeout(200); } return false; };
 const go = async (h, sel) => { await page.evaluate((x) => nav(x), h); if (!await settle(sel)) fails.push(h + ': never settled (waiting for ' + sel + ')');
-  const n = await page.evaluate(() => [...document.querySelectorAll('#page .notice')].map((x) => x.innerText).join(' | ')); if (n) fails.push(h + ': ' + n.slice(0, 300)); };
+  const n = await page.evaluate(() => [...document.querySelectorAll('#page .notice')].map((x) => x.innerText).filter((x) => !/v2: each of your six teams/.test(x)).join(' | ')); if (n) fails.push(h + ': ' + n.slice(0, 300)); };
 const text = (sel = '#page') => page.evaluate((s) => (document.querySelector(s) || {}).innerText || '', sel);
 const expect = (what, ok) => { if (!ok) fails.push(what); };
 const waitFor = async (fn, ms = 300000) => { const t = Date.now(); while (Date.now() - t < ms) { if (await page.evaluate(fn)) return true; await page.waitForTimeout(300); } return false; };
@@ -32,27 +33,30 @@ const waitFor = async (fn, ms = 300000) => { const t = Date.now(); while (Date.n
 await page.goto('file://' + path.join(HERE, 'dist', 'Blackthorn-HQ-preview.html') + '#/');
 await settle();
 await page.evaluate(() => { Object.keys(localStorage).filter((k) => /^bt-(preview-tabs|arena|league|trainer)/.test(k)).forEach((k) => localStorage.removeItem(k)); });
+// v2 (D-078): a fresh start has no teams of yours, so the test seeds two (test_seed.mjs); Platinum's trainer coaches all-out
+await seedPage(page, ['heartgold', 'platinum'], { platinum: { style: 'allout', params: { aggression: 80, risk: 60, switching: 35, preservation: 30, patience: 35 } } });
+await settle();
 
-// 1. Play Now: HeartGold against Cynthia (rematch), 10 battles
+// 1. Play Now: your HeartGold team against Cynthia (rematch), 10 battles
 const t0 = Date.now();
-await go('#/arena?a=pack:me/heartgold&b=lib:platinum/cynthia-rematch&n=10', '#arrun');
+await go('#/arena?a=mine:journey:heartgold&b=lib:platinum/cynthia-rematch&n=10', '#arrun');
 expect('Library.setTeamEngine is registered', await page.evaluate(() => typeof Library.teamEngine() === 'function'));
 await page.click('#arrun');
 expect('the match finished', await waitFor(() => !!document.querySelector('#arout .kpis')));
 const m = await page.evaluate(() => { const k = Object.keys(window).length; const x = Arena.X(); const keys = []; return null; });
 const result = await page.evaluate(() => { const r = document.querySelector('#arout').innerText; return r; });
 expect('the result shows a win rate, a record and contributions', /A wins/.test(result) && /Record/.test(result) && /What A's Pokémon did/i.test(result));
-const fp = await page.evaluate(() => Arena.match('pack:me/heartgold', 'lib:platinum/cynthia-rematch', {n: 10}).then((mm) => ({fp: Arena.X().fingerprint(mm.result), won: mm.result.won, n: mm.result.n, platform: mm.result.timing.platform})));
+const fp = await page.evaluate(() => Arena.match('mine:journey:heartgold', 'lib:platinum/cynthia-rematch', {n: 10}).then((mm) => ({fp: Arena.X().fingerprint(mm.result), won: mm.result.won, n: mm.result.n, platform: mm.result.timing.platform,
+  job: {ruleset: mm.task.job.ruleset, seed: mm.task.job.trials.seed, a: mm.task.job.a, b: mm.task.job.b}})));
 console.log(`  match: ${fp.won}/${fp.n} on ${fp.platform} (${((Date.now() - t0) / 1000).toFixed(1)} s), fingerprint ${fp.fp}`);
-fs.writeFileSync(path.join(HERE, 'dist', 'arena-fingerprint.json'), JSON.stringify(fp));
-// the same job in Node must give the same battles
+fs.writeFileSync(path.join(HERE, 'dist', 'arena-fingerprint.json'), JSON.stringify({fp: fp.fp, won: fp.won, n: fp.n, platform: fp.platform}));
+// the same job in Node must give the same battles (your team as the page made it; Cynthia from the library in Node)
 const node = await import(path.resolve(HERE, '../../sixvsix/src/index.js'));
 const lib = node.withGen4(JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'library.json'), 'utf8')));
-const arena = JSON.parse(fs.readFileSync(path.join(HERE, 'data', 'arena.json'), 'utf8'));
-const A = arena.teams['me/heartgold'], B = node.teamFromLibrary(lib, 'platinum/cynthia-rematch', { lens: 'standardized' });
-const nodeJob = node.makeJob({ id: 'x', label: 'x', ruleset: (arena.legal[`${A.id}|${A.version}`][1] && arena.legal[`${B.id}|${B.version}`][1]) ? 'gen4-blackthorn' : 'gen4-historical', n: 10,
-  seed: 'arena|v1|pack:me/heartgold|lib:platinum/cynthia-rematch|blackthorn|blackthorn|standardized', pairing: 'mirrored', lens: 'standardized',
-  a: { team: A, profile: node.profileFromLibrary(lib, 'me/heartgold') }, b: { team: B, profile: node.profileFromLibrary(lib, 'platinum/cynthia-rematch') },
+const B = node.teamFromLibrary(lib, 'platinum/cynthia-rematch', { lens: 'standardized' });
+expect('the page fielded Cynthia exactly as Node does', JSON.stringify(fp.job.b.team) === JSON.stringify(B));
+const nodeJob = node.makeJob({ id: 'x', label: 'x', ruleset: fp.job.ruleset, n: 10, seed: fp.job.seed, pairing: 'mirrored', lens: 'standardized',
+  a: fp.job.a, b: { team: B, profile: fp.job.b.profile },
   record: { logs: 'none', decisions: 'none', input_logs: 'none', analysis: true } });
 const nodeFp = node.fingerprint(node.runJobSync(nodeJob));
 expect(`the browser played Node's battles (browser ${fp.fp}, Node ${nodeFp})`, nodeFp === fp.fp);
@@ -74,7 +78,7 @@ expect('a series is played to a winner', await waitFor(() => /win the series/.te
 
 // 3. A league: four teams, four battles a pairing, standings, awards and a playoff
 await go('#/leagues', '#lgplay');
-await page.evaluate(() => { document.querySelectorAll('.lgpick').forEach((c) => { c.checked = ['pack:me/heartgold', 'pack:me/platinum', 'lib:platinum/cynthia-rematch', 'lib:heartgold/red'].indexOf(c.value) >= 0; }); lgCount(); });
+await page.evaluate(() => { document.querySelectorAll('.lgpick').forEach((c) => { c.checked = ['mine:journey:heartgold', 'mine:journey:platinum', 'lib:platinum/cynthia-rematch', 'lib:heartgold/red'].indexOf(c.value) >= 0; }); lgCount(); });
 await page.selectOption('#lgn', '4');
 await page.click('#lgplay');
 expect('the season finished with standings', await waitFor(() => /Standings/.test(document.getElementById('lgout').innerText), 300000));
@@ -98,16 +102,17 @@ expect('no Pokémon was drafted twice', new Set(species).size === species.length
 await page.evaluate(() => drLeague());
 expect('the draft league finished', await waitFor(() => /Standings/.test((document.getElementById('drout') || {}).innerText || ''), 300000));
 
-// 5. Your trainer: settings saved and used
+// 5. each team's own trainer reaches its battles (v2); the default coach settings save
+const used = await page.evaluate(() => Arena.ready().then(() => { const s = Arena.side('mine:journey:platinum'); return Arena.profileFor(s, 'blackthorn').params.aggression; }));
+expect(`a team's own trainer reaches its battles (aggression ${used})`, used === 80);
 await go('#/trainer', '#trsave');
 await page.selectOption('#trphil', 'allout');
 await page.click('#trsave');
-const used = await page.evaluate(() => Arena.ready().then(() => { const s = Arena.side('pack:me/heartgold'); return Arena.profileFor(s, 'blackthorn').params.aggression; }));
-expect(`your settings reach your teams (aggression ${used})`, used === 80);
+expect('the default coach settings are kept', await page.evaluate(() => (store('trainer') || {}).philosophy === 'allout'));
 expect('traits name the style', /Run-and-gun/.test(await text('#trtraits')));
 
 // 6. the seam's result shape
-const seam = await page.evaluate(() => Library.teamEngine()('me/platinum', 'heartgold/red', {n: 2}).then((r) => ({kind: r.kind, a: r.a, b: r.b, n: r.n, cls: r.evidence_class})));
+const seam = await page.evaluate(() => Library.teamEngine()('journey:platinum', 'heartgold/red', {n: 2}).then((r) => ({kind: r.kind, a: r.a, b: r.b, n: r.n, cls: r.evidence_class})));
 expect('the seam returns a Simulation Result', seam.kind === 'SimulationResult' && seam.n === 2 && seam.cls === 'simulated');
 
 // 6b. criterion 6 on a trainer's profile: their decisions by kind

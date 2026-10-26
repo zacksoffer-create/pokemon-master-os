@@ -13,6 +13,16 @@ contract, with each trainer played as the Trainer Library reads them. Every call
 | MyGM / coach settings | **Your trainer.** The nine dials every library trainer is read onto, six coaching philosophies, and traits that name your style. They apply to your teams in every mode. | `#/trainer` |
 | MyCAREER | The player card on every Pokémon of yours (`#/mon/<id>`) and the Hall of Fame | `#/halloffame` |
 
+## v2: your teams (D-078)
+
+Your six teams play as `mine:journey:<game>`, read through each Pokémon's newest build. Each team has its own
+trainer: its coaching style and dials (set on the team's page) are what the agent plays it with. `#/trainer` now
+holds the default for any other team of yours.
+
+While the fresh start is on, the arena pack leaves out the journey teams and their Legends entries. They come back
+when it's turned off. Each team's page has a Battle card that plays it against any trainer here, and keeps the result
+in the Arena tab.
+
 ## How it runs
 
 - `node sixvsix/cli/arena-pack.mjs` (the rebuild's `arena` step, after `app-data`) writes two files into

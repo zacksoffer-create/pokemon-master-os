@@ -10,12 +10,12 @@ Every word the build-name ladder uses, and how many current builds use it. Fill 
 | Role nouns (the role engine's primary role) | 34 |
 | Hybrid nouns (two or three roles at 0.80 or more; only pairs builds use today) | 77 |
 | Moveset words | 8 |
-| Team-role words | 5 |
+| Team-role words | 6 |
 | Base-stat-total words | 4 |
-| Team shapes (the team lab: the first shape whose role counts fit, in this order) | 5 |
+| Team shapes (the team lab: the first shape whose role counts fit, in this order) | 9 |
 | Breeding lines (the breeding lab; one name per boutique line) | 11 |
 | One word for a build below the last band (`naming.words.unnamed`) | 1 |
-| **Total** | **162** |
+| **Total** | **167** |
 
 ## Type words (the build's first type)
 
@@ -23,21 +23,21 @@ Fill in `naming.words.type.<id>`.
 
 | id | means | builds using it | named |
 |---|---|---|---|
-| `Water` | Water | 147 |  |
-| `Normal` | Normal | 105 |  |
-| `Rock` | Rock | 63 |  |
-| `Grass` | Grass | 59 |  |
+| `Water` | Water | 153 |  |
+| `Normal` | Normal | 111 |  |
+| `Rock` | Rock | 65 |  |
+| `Grass` | Grass | 64 |  |
 | `Psychic` | Psychic | 59 |  |
 | `Fire` | Fire | 58 |  |
-| `Electric` | Electric | 51 |  |
-| `Steel` | Steel | 49 |  |
-| `Bug` | Bug | 46 |  |
+| `Electric` | Electric | 54 |  |
+| `Steel` | Steel | 54 |  |
+| `Bug` | Bug | 51 |  |
 | `Dragon` | Dragon | 45 |  |
-| `Ground` | Ground | 43 |  |
-| `Fighting` | Fighting | 30 |  |
-| `Ghost` | Ghost | 25 |  |
+| `Ground` | Ground | 42 |  |
+| `Fighting` | Fighting | 31 |  |
+| `Ghost` | Ghost | 28 |  |
 | `Dark` | Dark | 24 |  |
-| `Poison` | Poison | 24 |  |
+| `Poison` | Poison | 23 |  |
 | `Ice` | Ice | 22 |  |
 | `Flying` | Flying | 0 |  |
 
@@ -47,31 +47,31 @@ Fill in `naming.words.noun.<id>`.
 
 | id | means | builds using it | named |
 |---|---|---|---|
-| `wallbreaker` | wallbreaker | 94 |  |
-| `bulky_attacker` | bulky attacker | 64 |  |
-| `revenge_killer` | revenge killer | 54 |  |
-| `physical_setup_sweeper` | physical setup sweeper | 49 |  |
-| `bulky_setup` | bulky setup | 42 |  |
-| `hazard_remover` | hazard remover | 31 |  |
-| `special_setup_sweeper` | special setup sweeper | 30 |  |
-| `status_absorber` | sponge / status absorber | 30 |  |
+| `wallbreaker` | wallbreaker | 98 |  |
+| `bulky_attacker` | bulky attacker | 74 |  |
+| `revenge_killer` | revenge killer | 71 |  |
+| `physical_setup_sweeper` | physical setup sweeper | 45 |  |
+| `bulky_setup` | bulky setup | 41 |  |
+| `hazard_remover` | hazard remover | 32 |  |
+| `status_absorber` | sponge / status absorber | 31 |  |
+| `special_setup_sweeper` | special setup sweeper | 29 |  |
 | `baton_pass_starter` | Baton Pass chain starter | 23 |  |
+| `check_counter` | check / counter | 23 |  |
 | `hazard_setter` | hazard setter | 23 |  |
 | `stallbreaker` | stallbreaker | 20 |  |
 | `physical_wall` | physical wall | 17 |  |
-| `trapper` | trapper | 17 |  |
-| `mixed_setup_sweeper` | mixed setup sweeper | 16 |  |
-| `weather_sweeper` | weather sweeper | 16 |  |
-| `check_counter` | check / counter | 15 |  |
+| `weather_sweeper` | weather sweeper | 17 |  |
+| `trapper` | trapper | 16 |  |
+| `pivot` | pivot | 15 |  |
+| `lead_attacker` | lead attacker | 14 |  |
 | `status_spreader` | status spreader | 13 |  |
-| `lead_attacker` | lead attacker | 12 |  |
-| `pivot` | pivot | 12 |  |
 | `staller` | staller | 11 |  |
+| `mixed_setup_sweeper` | mixed setup sweeper | 10 |  |
 | `special_wall` | special wall | 10 |  |
-| `suicide_lead` | suicide lead | 10 |  |
-| `cleric` | cleric | 8 |  |
-| `spinblocker` | spinblocker | 8 |  |
+| `spinblocker` | spinblocker | 10 |  |
+| `suicide_lead` | suicide lead | 9 |  |
 | `weather_setter` | weather setter | 8 |  |
+| `cleric` | cleric | 7 |  |
 | `phazer` | phazer | 7 |  |
 | `lure` | lure | 6 |  |
 | `choice_locked_attacker` | Choice-locked attacker | 5 |  |
@@ -172,14 +172,14 @@ Fill in `naming.words.moveset.<id>`.
 
 | id | means | builds using it | named |
 |---|---|---|---|
-| `status_attack` | status + attacks | 178 |  |
-| `setup_attack` | setup + attacks | 120 |  |
-| `coverage` | attacks covering many types | 111 |  |
-| `mixed_bag` | anything else | 90 |  |
+| `status_attack` | status + attacks | 184 |  |
+| `coverage` | attacks covering many types | 118 |  |
+| `setup_attack` | setup + attacks | 109 |  |
+| `mixed_bag` | anything else | 93 |  |
+| `priority_attack` | priority + attacks | 65 |  |
 | `hazard_support` | hazards or screens + support | 59 |  |
-| `priority_attack` | priority + attacks | 51 |  |
 | `stall` | recovery + status, little offense | 50 |  |
-| `all_out_attack` | four attacks | 19 |  |
+| `all_out_attack` | four attacks | 34 |  |
 
 ## Team-role words
 
@@ -187,11 +187,12 @@ Fill in `naming.words.team_role.<id>`.
 
 | id | means | builds using it | named |
 |---|---|---|---|
-| `ace` | Ace | 157 |  |
-| `none` | no team role | 92 |  |
-| `sweeper` | Sweeper | 48 |  |
-| `wall` | Wall | 45 |  |
+| `none` | no team role | 159 |  |
+| `ace` | Ace | 121 |  |
+| `sweeper` | Sweeper | 47 |  |
 | `support` | Support | 39 |  |
+| `wall` | Wall | 38 |  |
+| `tank` | Tank | 16 |  |
 
 ## Base-stat-total words
 
@@ -210,10 +211,14 @@ Fill in `naming.words.team_shape.<id>`.
 
 | id | means | named |
 |---|---|---|
-| `hyper_offense` | hyper offense: 3+ sweeper, at most 1 wall |  |
+| `trick_room` | Trick Room: 1+ feature:trick_room, 3+ slow |  |
+| `weather` | weather: 1+ feature:weather_setter, 2+ feature:weather_user |  |
+| `baton_pass` | Baton Pass: 2+ feature:baton_pass, 2+ feature:setup |  |
+| `hyper_offense` | hyper offense: 3+ sweeper, at most 0 wall |  |
+| `stall` | stall: 3+ wall, 2+ support |  |
+| `semi_stall` | semi-stall: 3+ wall or tank |  |
+| `bulky_offense` | bulky offense: 2+ tank, 2+ sweeper or ace |  |
 | `offense` | offense: 3+ sweeper or ace |  |
-| `stall` | stall: 4+ wall |  |
-| `bulky` | bulky: 3+ wall |  |
 | `balance` | balance: anything the others don't fit |  |
 
 ## Breeding lines (the breeding lab; one name per boutique line)

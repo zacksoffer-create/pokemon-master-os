@@ -8,7 +8,9 @@ One information system for every builder, not explanations scattered across page
   summary of how it works (today's rules: the app says so, since Gens II-IV can differ);
 - the mechanics (EVs, IVs, DVs and stat experience, natures, STAB, priority, Speed ties, Hidden Power): hand-written
   in engine/reference/mechanics.json, checked against the engine's own formulas.
-Moves already carry their effect text in the battle pack.
+- moves (v2, D-078): each game's own description of every move up to Gen IV (the builder's move dropdowns show it
+  beside the battle pack's numbers and effect);
+- natures also carry the flavours they like and dislike (the games' Berries, Poffins and Pokéblocks).
 """
 import csv
 import json
@@ -21,7 +23,7 @@ ENGINE = os.path.dirname(HERE)
 RAW = os.path.join(ENGINE, "data", "raw")
 OUT = os.path.join(HERE, "data", "explain.json")
 EN = "9"
-GEN_VG = {3: ["6", "5", "7"], 4: ["10", "9", "8"]}       # the game whose text is read first, then the others of its generation
+GEN_VG = {2: ["4", "3"], 3: ["6", "5", "7"], 4: ["10", "9", "8"]}   # the game whose text is read first, then the others of its generation
 STAT_NAME = {"2": "Attack", "3": "Defense", "4": "Special Attack", "5": "Special Defense", "6": "Speed"}
 STAT_KEY = {"2": "atk", "3": "def", "4": "spa", "5": "spd", "6": "spe"}
 
@@ -38,15 +40,19 @@ def clean(s):
 
 def natures():
     names = {r["nature_id"]: r["name"] for r in rows("nature_names") if r["local_language_id"] == EN}
+    flavor = {r["contest_type_id"]: r["flavor"] for r in rows("contest_type_names") if r["local_language_id"] == EN}
     out = {}
     for r in rows("natures"):
         n = names[r["id"]]
         up, down = r["increased_stat_id"], r["decreased_stat_id"]
+        likes, hates = flavor.get(r["likes_flavor_id"]), flavor.get(r["hates_flavor_id"])
+        taste = {} if up == down else {"likes": likes, "dislikes": hates}
         if up == down:
-            out[n] = {"up": None, "down": None, "line": "Neutral: changes no stat."}
+            out[n] = {"up": None, "down": None, "line": "Neutral: changes no stat.", "taste": "No favourite flavour."}
         else:
             out[n] = {"up": STAT_KEY[up], "down": STAT_KEY[down],
-                      "line": f"{STAT_NAME[up]} +10%, {STAT_NAME[down]} −10%."}
+                      "line": f"{STAT_NAME[up]} +10%, {STAT_NAME[down]} −10%.", **taste,
+                      "taste": f"Likes {likes} food, dislikes {hates} (Berries, Poffins and Pokéblocks)."}
     for n, x in out.items():
         if x["up"]:
             x["same_up"] = sorted(m for m, y in out.items() if y["up"] == x["up"] and m != n)
@@ -95,15 +101,23 @@ def items():
                        "summary": summ.get(i)} for i in sorted(it, key=int) if i in names}
 
 
+def moves():
+    """{move name: {gen: the game's own description}} for every move up to Gen IV."""
+    mv = {r["id"]: r for r in rows("moves") if int(r["generation_id"]) <= 4}
+    names = {r["move_id"]: r["name"] for r in rows("move_names") if r["local_language_id"] == EN and r["move_id"] in mv}
+    text = by_gen("move_flavor_text", "move_id", set(mv))
+    return {names[i]: {"game_text": text.get(i, {})} for i in sorted(mv, key=int) if i in names}
+
+
 def main():
     with open(os.path.join(ENGINE, "reference", "mechanics.json"), encoding="utf-8") as fh:
         mech = json.load(fh)
     pack = {"_note": "Built by app/explain_pack.py from PokeAPI's CSVs and reference/mechanics.json. game_text is each "
                      "game's own description (canon); summary is PokeAPI's, written for today's rules.",
-            "mechanics": mech["concepts"], "natures": natures(), "abilities": abilities(), "items": items()}
+            "mechanics": mech["concepts"], "natures": natures(), "abilities": abilities(), "items": items(), "moves": moves()}
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(pack, fh, ensure_ascii=False, separators=(",", ":"))
-    print(f"{OUT}: {len(pack['natures'])} natures, {len(pack['abilities'])} abilities, {len(pack['items'])} items, "
+    print(f"{OUT}: {len(pack['natures'])} natures, {len(pack['abilities'])} abilities, {len(pack['items'])} items, {len(pack['moves'])} moves, "
           f"{len(pack['mechanics'])} mechanics, {os.path.getsize(OUT) // 1024} KB")
 
 

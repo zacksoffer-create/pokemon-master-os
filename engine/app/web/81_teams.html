@@ -1,0 +1,68 @@
+<script>
+/* ===== Your six teams (v2, D-078; docs/design/V2_PLAN.md §2) ==================================================
+   One team per game, each its own trainer: a My Teams row with id journey:<game> and kind journey. Its slots are
+   your Pokémon (individuals, My Pokémon) in order; each slot is read through its individual's newest build, so a
+   change in the Pokémon builder shows on the team at once. Its trainer (name, philosophy, coaching style, the nine
+   dials) travels with the team: the Arena plays it that way. The newest row wins; every earlier lineup stays in the
+   Sheet. The region's badges, League and post-game are counted as done (Zack: "assume ... I've beat the region"). */
+var JOURNEYS = ['heartgold', 'soulsilver', 'platinum', 'crystal', 'firered', 'emerald'];   // the order of the journeys in the library (HeartGold first)
+var REGION = {
+  johto: {name: 'Johto', badges: [['Zephyr', 'Falkner', 'Violet City'], ['Hive', 'Bugsy', 'Azalea Town'], ['Plain', 'Whitney', 'Goldenrod City'], ['Fog', 'Morty', 'Ecruteak City'],
+    ['Storm', 'Chuck', 'Cianwood City'], ['Mineral', 'Jasmine', 'Olivine City'], ['Glacier', 'Pryce', 'Mahogany Town'], ['Rising', 'Clair', 'Blackthorn City']]},
+  kanto2: {name: 'Kanto', badges: [['Boulder', 'Brock', 'Pewter City'], ['Cascade', 'Misty', 'Cerulean City'], ['Thunder', 'Lt. Surge', 'Vermilion City'], ['Rainbow', 'Erika', 'Celadon City'],
+    ['Soul', 'Janine', 'Fuchsia City'], ['Marsh', 'Sabrina', 'Saffron City'], ['Volcano', 'Blaine', 'Seafoam Islands'], ['Earth', 'Blue', 'Viridian City']]},
+  kanto3: {name: 'Kanto', badges: [['Boulder', 'Brock', 'Pewter City'], ['Cascade', 'Misty', 'Cerulean City'], ['Thunder', 'Lt. Surge', 'Vermilion City'], ['Rainbow', 'Erika', 'Celadon City'],
+    ['Soul', 'Koga', 'Fuchsia City'], ['Marsh', 'Sabrina', 'Saffron City'], ['Volcano', 'Blaine', 'Cinnabar Island'], ['Earth', 'Giovanni', 'Viridian City']]},
+  hoenn: {name: 'Hoenn', badges: [['Stone', 'Roxanne', 'Rustboro City'], ['Knuckle', 'Brawly', 'Dewford Town'], ['Dynamo', 'Wattson', 'Mauville City'], ['Heat', 'Flannery', 'Lavaridge Town'],
+    ['Balance', 'Norman', 'Petalburg City'], ['Feather', 'Winona', 'Fortree City'], ['Mind', 'Tate & Liza', 'Mossdeep City'], ['Rain', 'Juan', 'Sootopolis City']]},
+  sinnoh: {name: 'Sinnoh', badges: [['Coal', 'Roark', 'Oreburgh City'], ['Forest', 'Gardenia', 'Eterna City'], ['Relic', 'Fantina', 'Hearthome City'], ['Cobble', 'Maylene', 'Veilstone City'],
+    ['Fen', 'Crasher Wake', 'Pastoria City'], ['Mine', 'Byron', 'Canalave City'], ['Icicle', 'Candice', 'Snowpoint City'], ['Beacon', 'Volkner', 'Sunyshore City']]}
+};
+var JOURNEY = {   // each game's road: regions, League, Pokédex and post-game (the games' own, from the cartridges)
+  heartgold: {regions: ['johto', 'kanto2'], league: ['Will', 'Koga', 'Bruno', 'Karen'], champion: 'Lance', dex: [['Johto Pokédex', 256], ['National Pokédex', 493]],
+    post: ['Red, on the summit of Mt. Silver', 'The Battle Frontier', 'The Safari Zone', 'Kanto and its eight Gym Leaders'], hue: '#C9A96A'},
+  soulsilver: {regions: ['johto', 'kanto2'], league: ['Will', 'Koga', 'Bruno', 'Karen'], champion: 'Lance', dex: [['Johto Pokédex', 256], ['National Pokédex', 493]],
+    post: ['Red, on the summit of Mt. Silver', 'The Battle Frontier', 'The Safari Zone', 'Kanto and its eight Gym Leaders'], hue: '#9FB3C8'},
+  platinum: {regions: ['sinnoh'], league: ['Aaron', 'Bertha', 'Flint', 'Lucian'], champion: 'Cynthia', dex: [['Sinnoh Pokédex', 210], ['National Pokédex', 493]],
+    post: ['The Battle Zone and the Battle Frontier', 'Stark Mountain', 'The Elite Four rematch', 'Giratina, Dialga and Palkia'], hue: '#A9A1C9'},
+  crystal: {regions: ['johto', 'kanto2'], league: ['Will', 'Koga', 'Bruno', 'Karen'], champion: 'Lance', dex: [['Pokédex', 251]],
+    post: ['Red, on the summit of Mt. Silver', 'The Battle Tower', 'Kanto and its eight Gym Leaders'], hue: '#8FC1C9'},
+  firered: {regions: ['kanto3'], league: ['Lorelei', 'Bruno', 'Agatha', 'Lance'], champion: 'your rival', dex: [['Kanto Pokédex', 151], ['National Pokédex', 386]],
+    post: ['The Sevii Islands', 'The Elite Four rematch', 'Mewtwo in Cerulean Cave', 'The Trainer Tower'], hue: '#D98B6A'},
+  emerald: {regions: ['hoenn'], league: ['Sidney', 'Phoebe', 'Glacia', 'Drake'], champion: 'Wallace', dex: [['Hoenn Pokédex', 202], ['National Pokédex', 386]],
+    post: ['The Battle Frontier', 'Steven at Meteor Falls', 'The Elite Four rematch', 'Rayquaza at Sky Pillar'], hue: '#7FB38A'}
+};
+var Teams = (function () {
+  function id(game) { return 'journey:' + game; }
+  function defaultTrainer(game) { return {name: 'You', philosophy: '', style: 'default', params: {}}; }
+  function blank(game) { return {id: id(game), game: game, kind: 'journey', title: GAME_NAME[game] + ' team', slots: [null, null, null, null, null, null], profile: defaultTrainer(game), saved: false}; }
+  function get(game) {   // the team as saved, or a blank one; slots always six long
+    var t = ((S.store || {}).teams || {})[id(game)];
+    if (!t) return blank(game);
+    var slots = (t.slots || []).slice(0, 6).map(function (s) { return s && s.ind ? {ind: s.ind, species: s.species || null} : null; });
+    while (slots.length < 6) slots.push(null);
+    return {id: t.id, game: game, kind: 'journey', title: t.title || GAME_NAME[game] + ' team', slots: slots, profile: Object.assign(defaultTrainer(game), t.profile || {}), note: t.note || '', at: t.at || null, saved: true};
+  }
+  function save(t, line) {
+    var rec = {id: id(t.game), game: t.game, kind: 'journey', title: t.title, note: t.note || '', status: 'saved', profile: t.profile,
+      slots: t.slots.map(function (s) { if (!s) return null; var i = ind(s); return {ind: s.ind, species: i ? i.species : s.species}; })};
+    return Records.saveTeam(rec).then(function () { return get(t.game); });
+  }
+  function ind(s) { return s && s.ind ? ((S.store || {}).individuals || {})[s.ind] || null : null; }
+  function members(t) {   // [{slot, ind, build}] for the filled slots, in order
+    return t.slots.map(function (s, i) { var x = ind(s); return x ? {slot: i, ind: x, build: indBuild(x)} : null; });
+  }
+  function filled(t) { return members(t).filter(Boolean).length; }
+  function onTeam(indId) {   // which team a Pokémon of yours is on, and where
+    for (var k = 0; k < JOURNEYS.length; k++) { var t = get(JOURNEYS[k]); for (var i = 0; i < 6; i++) if (t.slots[i] && t.slots[i].ind === indId) return {game: JOURNEYS[k], slot: i}; }
+    return null;
+  }
+  function asSlots(t) {   // the team as the Arena and the Trainer Library read a saved team: species and build per slot
+    return members(t).filter(Boolean).map(function (m) { var b = Object.assign({}, m.build); delete b.id; return {species: m.ind.species, build: b, from: m.ind.id}; });
+  }
+  return {id: id, get: get, save: save, blank: blank, members: members, filled: filled, onTeam: onTeam, asSlots: asSlots, defaultTrainer: defaultTrainer};
+})();
+function whose(t) { var n = t && t.profile && t.profile.name; return n && n !== 'You' ? n + '\'s' : 'Your'; }   // "Zack's HeartGold" / "Your HeartGold"
+function journeyRegions(game) { return JOURNEY[game].regions.map(function (r) { return REGION[r]; }); }
+function teamsReady() { return labsReady(); }
+</script>

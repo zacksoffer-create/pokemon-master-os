@@ -5,6 +5,7 @@
 // Run: python3 -I app/build.py && node app/test_survival.mjs                  (tests/test_engines.py runs it)
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { seedPage } from './test_seed.mjs';
 process.on('unhandledRejection', (e) => { console.log('FAIL\n' + String(e && e.stack || e).slice(0, 1500)); process.exit(1); });
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +22,7 @@ const settle = async (sel, ms = 180000) => { const t = Date.now(); while (Date.n
     if (s && !document.querySelector(s)) return 'wait'; return 'ok'; }, sel);
   if (st === 'ok') return true; await page.waitForTimeout(150); } return false; };
 const go = async (h, sel) => { await page.evaluate((x) => nav(x), h); if (!await settle(sel)) fails.push(h + ': never settled (waiting for ' + sel + ')');
-  const n = await page.evaluate(() => [...document.querySelectorAll('#page .notice')].map((x) => x.innerText).join(' | ')); if (n) fails.push(h + ': ' + n.slice(0, 300)); };
+  const n = await page.evaluate(() => [...document.querySelectorAll('#page .notice')].map((x) => x.innerText).filter((x) => !/^Re-reading/.test(x)).join(' | ')); if (n) fails.push(h + ': ' + n.slice(0, 300)); };
 const text = (sel = '#page') => page.evaluate((s) => (document.querySelector(s) || {}).innerText || '', sel);
 const expect = (what, ok) => { if (!ok) fails.push(what); };
 const pick = async (sel, value) => { await page.selectOption(sel, value); await page.waitForTimeout(250); };
@@ -29,6 +30,7 @@ const pick = async (sel, value) => { await page.selectOption(sel, value); await 
 await page.goto('file://' + path.join(HERE, 'dist', 'Blackthorn-HQ-preview.html') + '#/');
 await settle();
 await page.evaluate(() => { Object.keys(localStorage).filter((k) => /^bt-(preview-tabs|survival|team-)/.test(k)).forEach((k) => localStorage.removeItem(k)); });
+await seedPage(page, ['heartgold', 'soulsilver', 'platinum', 'crystal', 'firered', 'emerald']); await settle();   // v2 (D-078): a seeded team (test_seed.mjs)
 
 // a Scizor of yours with a battle build that doesn't know Cut
 await page.evaluate(() => recordsReady());
@@ -42,7 +44,7 @@ const buildsBefore = await page.evaluate(() => Object.keys(S.store.builds).lengt
 
 // C. the HeartGold six against the winter mountain
 await go('#/survival', '#svout [data-need]');
-await pick('#svteam', 'mine/heartgold');
+await pick('#svteam', 'journey/heartgold');
 await pick('#svsc', 'winter-mountain');
 let t = await text('#svout');
 expect('C: the winter scenario reads critical, important and useful needs', /Critical[\s\S]{0,40}\d\/3/.test(t) && /Important/.test(t) && /Useful/.test(t));
@@ -69,18 +71,16 @@ expect('A: the Homestead\'s Workshop reads the same record (' + hands.slice(0, 2
 
 // B. the same build in the Studio, the team lab and the benchmarks, no duplicate
 await go('#/survival', '#svout [data-need]');
-await pick('#svteam', 'mine/heartgold');
+await pick('#svteam', 'journey/heartgold');
 await pick('[data-sv="5"]', 'ind:' + scz.id);
 const links = await page.evaluate((id) => [...document.querySelectorAll('#svout a')].map((a) => a.getAttribute('href')).filter((h) => h && h.indexOf(encodeURIComponent(id)) >= 0), scz.id);
 expect('B: the Survival Lab links Pincer to the Studio and the benchmarks (' + links.join(' ') + ')', links.some((h) => /^#\/pokemon\//.test(h)) && links.some((h) => /^#\/bench\?ind=/.test(h)));
 await page.click('#svteamlab');
-await settle('#page');
-await page.waitForTimeout(800);
-const six = await page.evaluate(() => (store('team-heartgold') || []).map((b) => b && b.id));
-expect('B: the team lab gets Pincer by its own id, not a copy (' + six.join(',') + ')', six.indexOf(scz.id) >= 0);
-await go('#/pokemon/' + encodeURIComponent(scz.id), '#plin');
-const studio = await page.evaluate(() => PL && PL.cur && PL.cur.moves);
-expect('B: the Studio opens Pincer with the same moves (' + studio + ')', JSON.stringify(studio) === JSON.stringify(['Bullet Punch', 'X-Scissor', 'Swords Dance', 'Roost']));
+await page.waitForFunction(() => NAVI.hash === '#/team/heartgold', null, { timeout: 30000 }).catch(() => {});
+expect('B: the Survival Lab opens the HeartGold team page (' + await page.evaluate(() => NAVI.hash) + ')', await page.evaluate(() => NAVI.hash) === '#/team/heartgold');
+await go('#/pokemon/' + encodeURIComponent(scz.id), '#pbin');
+const studio = await page.evaluate(() => PB && PB.cur && PB.cur.moves);
+expect('B: the builder opens Pincer with the same moves (' + studio + ')', JSON.stringify(studio) === JSON.stringify(['Bullet Punch', 'X-Scissor', 'Swords Dance', 'Roost']));
 expect('B: no build was duplicated', await page.evaluate(() => Object.keys(S.store.builds).length) === buildsBefore);
 
 // D. the Glasshouse: climate, horticulture and nursery candidates from shared capabilities and explicit requirements
@@ -128,7 +128,7 @@ await page.click('#fcsave');
 await page.waitForFunction(() => Object.keys(S.store.teams).some((k) => S.store.teams[k].kind === 'staffing' && S.store.teams[k].facility === 'glasshouse'), null, { timeout: 30000 }).catch(() => {});
 expect('F: the staff plan is saved to My Teams as a plan', await page.evaluate(() => Object.keys(S.store.teams).some((k) => S.store.teams[k].kind === 'staffing' && S.store.teams[k].facility === 'glasshouse')));
 await go('#/survival', '#svout [data-need]');
-await pick('#svteam', 'mine/heartgold');
+await pick('#svteam', 'journey/heartgold');
 await pick('#svsc', 'winter-mountain');
 await page.click('#svkeepa');
 await page.click('#svpackrec');

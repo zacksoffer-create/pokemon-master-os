@@ -57,5 +57,20 @@ def main(fresh=False):
           f"{len(sizes)} lineup files, {sum(sizes.values()) / 1024:.0f} KB")
 
 
+def movesets(lineup):
+    """The engine's fallback movesets for one lineup's first opponent sheet, from the page itself (the 6v6 fixtures read
+    this while the fresh start, D-078, keeps the app's copy empty)."""
+    for lu in read_page()["lineups"]:
+        if lu["id"] == lineup:
+            return (lu.get("sheets") or [{}])[0].get("movesets") or {}
+    return {}
+
+
+if __name__ == "__main__" and "--movesets" in sys.argv:
+    print(json.dumps(movesets(sys.argv[sys.argv.index("--movesets") + 1])))
+    sys.exit(0)
 if __name__ == "__main__":
     main("--fresh" in sys.argv)
+    sys.path.insert(0, HERE)
+    import fresh                         # run on its own, the packs still keep the fresh start (D-078)
+    fresh.after("advance.json", "advance-*.json")

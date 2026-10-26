@@ -5,6 +5,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { seedPage } from './test_seed.mjs';
 process.on('unhandledRejection', (e) => { console.log('FAIL\n' + String(e && e.stack || e).slice(0, 1500)); process.exit(1); });
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -29,14 +30,15 @@ const t0 = Date.now();
 await page.goto('file://' + path.join(HERE, 'dist', 'Blackthorn-HQ-preview.html') + '#/');
 await settle();
 await page.evaluate(() => { Object.keys(localStorage).filter((k) => /^bt-(preview-tabs|arena)/.test(k)).forEach((k) => localStorage.removeItem(k)); });
+await seedPage(page, ['heartgold']); await settle();   // v2 (D-078): a seeded team (test_seed.mjs)
 await page.evaluate(() => recordsReady());
 // one of your HeartGold Pokémon that's on the journey six
-const ind = await page.evaluate(() => Arena.ready().then(() => { const six = Arena.pack().teams['me/heartgold'].members.map((m) => m.species);
+const ind = await page.evaluate(() => Arena.ready().then(() => { const six = Teams.members(Teams.get('heartgold')).filter(Boolean).map((m) => m.ind.species);
   const x = Object.values(S.store.individuals).filter((i) => i.game === 'heartgold' && six.indexOf(i.species) >= 0)[0]; return x ? {id: x.id, species: x.species} : null; }));
 expect('a HeartGold journey Pokémon exists in the record', !!ind);
 if (ind) {
   // a kept match, as Play now records it
-  await go('#/arena?a=pack:me/heartgold&b=lib:heartgold/red&n=10', '#arrun');
+  await go('#/arena?a=mine:journey:heartgold&b=lib:heartgold/red&n=10', '#arrun');
   await page.click('#arrun');
   expect('the match was kept', await waitFor(() => { try { return (JSON.parse(localStorage.getItem('bt-preview-tabs')).Arena || []).length > 0; } catch (e) { return false; } }));
   await go('#/mon/' + encodeURIComponent(ind.id), '#mcareer .pcard');

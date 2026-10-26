@@ -3,25 +3,25 @@
   {
    "id": "Water",
    "means": "Water",
-   "builds_using_it": 147,
+   "builds_using_it": 153,
    "named": false
   },
   {
    "id": "Normal",
    "means": "Normal",
-   "builds_using_it": 105,
+   "builds_using_it": 111,
    "named": false
   },
   {
    "id": "Rock",
    "means": "Rock",
-   "builds_using_it": 63,
+   "builds_using_it": 65,
    "named": false
   },
   {
    "id": "Grass",
    "means": "Grass",
-   "builds_using_it": 59,
+   "builds_using_it": 64,
    "named": false
   },
   {
@@ -39,19 +39,19 @@
   {
    "id": "Electric",
    "means": "Electric",
-   "builds_using_it": 51,
+   "builds_using_it": 54,
    "named": false
   },
   {
    "id": "Steel",
    "means": "Steel",
-   "builds_using_it": 49,
+   "builds_using_it": 54,
    "named": false
   },
   {
    "id": "Bug",
    "means": "Bug",
-   "builds_using_it": 46,
+   "builds_using_it": 51,
    "named": false
   },
   {
@@ -63,19 +63,19 @@
   {
    "id": "Ground",
    "means": "Ground",
-   "builds_using_it": 43,
+   "builds_using_it": 42,
    "named": false
   },
   {
    "id": "Fighting",
    "means": "Fighting",
-   "builds_using_it": 30,
+   "builds_using_it": 31,
    "named": false
   },
   {
    "id": "Ghost",
    "means": "Ghost",
-   "builds_using_it": 25,
+   "builds_using_it": 28,
    "named": false
   },
   {
@@ -87,7 +87,7 @@
   {
    "id": "Poison",
    "means": "Poison",
-   "builds_using_it": 24,
+   "builds_using_it": 23,
    "named": false
   },
   {
@@ -107,54 +107,60 @@
   {
    "id": "wallbreaker",
    "means": "wallbreaker",
-   "builds_using_it": 94,
+   "builds_using_it": 98,
    "named": false
   },
   {
    "id": "bulky_attacker",
    "means": "bulky attacker",
-   "builds_using_it": 64,
+   "builds_using_it": 74,
    "named": false
   },
   {
    "id": "revenge_killer",
    "means": "revenge killer",
-   "builds_using_it": 54,
+   "builds_using_it": 71,
    "named": false
   },
   {
    "id": "physical_setup_sweeper",
    "means": "physical setup sweeper",
-   "builds_using_it": 49,
+   "builds_using_it": 45,
    "named": false
   },
   {
    "id": "bulky_setup",
    "means": "bulky setup",
-   "builds_using_it": 42,
+   "builds_using_it": 41,
    "named": false
   },
   {
    "id": "hazard_remover",
    "means": "hazard remover",
+   "builds_using_it": 32,
+   "named": false
+  },
+  {
+   "id": "status_absorber",
+   "means": "sponge / status absorber",
    "builds_using_it": 31,
    "named": false
   },
   {
    "id": "special_setup_sweeper",
    "means": "special setup sweeper",
-   "builds_using_it": 30,
-   "named": false
-  },
-  {
-   "id": "status_absorber",
-   "means": "sponge / status absorber",
-   "builds_using_it": 30,
+   "builds_using_it": 29,
    "named": false
   },
   {
    "id": "baton_pass_starter",
    "means": "Baton Pass chain starter",
+   "builds_using_it": 23,
+   "named": false
+  },
+  {
+   "id": "check_counter",
+   "means": "check / counter",
    "builds_using_it": 23,
    "named": false
   },
@@ -177,27 +183,27 @@
    "named": false
   },
   {
-   "id": "trapper",
-   "means": "trapper",
+   "id": "weather_sweeper",
+   "means": "weather sweeper",
    "builds_using_it": 17,
    "named": false
   },
   {
-   "id": "mixed_setup_sweeper",
-   "means": "mixed setup sweeper",
+   "id": "trapper",
+   "means": "trapper",
    "builds_using_it": 16,
    "named": false
   },
   {
-   "id": "weather_sweeper",
-   "means": "weather sweeper",
-   "builds_using_it": 16,
-   "named": false
-  },
-  {
-   "id": "check_counter",
-   "means": "check / counter",
+   "id": "pivot",
+   "means": "pivot",
    "builds_using_it": 15,
+   "named": false
+  },
+  {
+   "id": "lead_attacker",
+   "means": "lead attacker",
+   "builds_using_it": 14,
    "named": false
   },
   {
@@ -207,21 +213,15 @@
    "named": false
   },
   {
-   "id": "lead_attacker",
-   "means": "lead attacker",
-   "builds_using_it": 12,
-   "named": false
-  },
-  {
-   "id": "pivot",
-   "means": "pivot",
-   "builds_using_it": 12,
-   "named": false
-  },
-  {
    "id": "staller",
    "means": "staller",
    "builds_using_it": 11,
+   "named": false
+  },
+  {
+   "id": "mixed_setup_sweeper",
+   "means": "mixed setup sweeper",
+   "builds_using_it": 10,
    "named": false
   },
   {
@@ -231,27 +231,27 @@
    "named": false
   },
   {
-   "id": "suicide_lead",
-   "means": "suicide lead",
+   "id": "spinblocker",
+   "means": "spinblocker",
    "builds_using_it": 10,
    "named": false
   },
   {
-   "id": "cleric",
-   "means": "cleric",
-   "builds_using_it": 8,
-   "named": false
-  },
-  {
-   "id": "spinblocker",
-   "means": "spinblocker",
-   "builds_using_it": 8,
+   "id": "suicide_lead",
+   "means": "suicide lead",
+   "builds_using_it": 9,
    "named": false
   },
   {
    "id": "weather_setter",
    "means": "weather setter",
    "builds_using_it": 8,
+   "named": false
+  },
+  {
+   "id": "cleric",
+   "means": "cleric",
+   "builds_using_it": 7,
    "named": false
   },
   {
@@ -777,37 +777,37 @@
   {
    "id": "status_attack",
    "means": "status + attacks",
-   "builds_using_it": 178,
-   "named": false
-  },
-  {
-   "id": "setup_attack",
-   "means": "setup + attacks",
-   "builds_using_it": 120,
+   "builds_using_it": 184,
    "named": false
   },
   {
    "id": "coverage",
    "means": "attacks covering many types",
-   "builds_using_it": 111,
+   "builds_using_it": 118,
+   "named": false
+  },
+  {
+   "id": "setup_attack",
+   "means": "setup + attacks",
+   "builds_using_it": 109,
    "named": false
   },
   {
    "id": "mixed_bag",
    "means": "anything else",
-   "builds_using_it": 90,
+   "builds_using_it": 93,
+   "named": false
+  },
+  {
+   "id": "priority_attack",
+   "means": "priority + attacks",
+   "builds_using_it": 65,
    "named": false
   },
   {
    "id": "hazard_support",
    "means": "hazards or screens + support",
    "builds_using_it": 59,
-   "named": false
-  },
-  {
-   "id": "priority_attack",
-   "means": "priority + attacks",
-   "builds_using_it": 51,
    "named": false
   },
   {
@@ -819,39 +819,45 @@
   {
    "id": "all_out_attack",
    "means": "four attacks",
-   "builds_using_it": 19,
+   "builds_using_it": 34,
    "named": false
   }
  ],
  "team_role": [
   {
-   "id": "ace",
-   "means": "Ace",
-   "builds_using_it": 157,
+   "id": "none",
+   "means": "no team role",
+   "builds_using_it": 159,
    "named": false
   },
   {
-   "id": "none",
-   "means": "no team role",
-   "builds_using_it": 92,
+   "id": "ace",
+   "means": "Ace",
+   "builds_using_it": 121,
    "named": false
   },
   {
    "id": "sweeper",
    "means": "Sweeper",
-   "builds_using_it": 48,
-   "named": false
-  },
-  {
-   "id": "wall",
-   "means": "Wall",
-   "builds_using_it": 45,
+   "builds_using_it": 47,
    "named": false
   },
   {
    "id": "support",
    "means": "Support",
    "builds_using_it": 39,
+   "named": false
+  },
+  {
+   "id": "wall",
+   "means": "Wall",
+   "builds_using_it": 38,
+   "named": false
+  },
+  {
+   "id": "tank",
+   "means": "Tank",
+   "builds_using_it": 16,
    "named": false
   }
  ],
@@ -883,26 +889,50 @@
  ],
  "team_shape": [
   {
+   "id": "trick_room",
+   "means": "Trick Room: 1+ feature:trick_room, 3+ slow",
+   "builds_using_it": null,
+   "named": false
+  },
+  {
+   "id": "weather",
+   "means": "weather: 1+ feature:weather_setter, 2+ feature:weather_user",
+   "builds_using_it": null,
+   "named": false
+  },
+  {
+   "id": "baton_pass",
+   "means": "Baton Pass: 2+ feature:baton_pass, 2+ feature:setup",
+   "builds_using_it": null,
+   "named": false
+  },
+  {
    "id": "hyper_offense",
-   "means": "hyper offense: 3+ sweeper, at most 1 wall",
+   "means": "hyper offense: 3+ sweeper, at most 0 wall",
+   "builds_using_it": null,
+   "named": false
+  },
+  {
+   "id": "stall",
+   "means": "stall: 3+ wall, 2+ support",
+   "builds_using_it": null,
+   "named": false
+  },
+  {
+   "id": "semi_stall",
+   "means": "semi-stall: 3+ wall or tank",
+   "builds_using_it": null,
+   "named": false
+  },
+  {
+   "id": "bulky_offense",
+   "means": "bulky offense: 2+ tank, 2+ sweeper or ace",
    "builds_using_it": null,
    "named": false
   },
   {
    "id": "offense",
    "means": "offense: 3+ sweeper or ace",
-   "builds_using_it": null,
-   "named": false
-  },
-  {
-   "id": "stall",
-   "means": "stall: 4+ wall",
-   "builds_using_it": null,
-   "named": false
-  },
-  {
-   "id": "bulky",
-   "means": "bulky: 3+ wall",
    "builds_using_it": null,
    "named": false
   },

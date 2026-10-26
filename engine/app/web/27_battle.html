@@ -1910,6 +1910,7 @@ var Battle = (function () {
 
   return {init: init, ready: ready, engine: function (o) { return new Engine(o); }, speak: speak, resolveLineup: resolveLineup,
     species: species, move: move, abilities: abilities, learnable: learnable, strongestSet: strongestSet, memberFor: memberFor, mbGet: mbGet,
+    isLegendary: function (name) { return inA(String(name || '').split('-')[0], P.legendary || []); },
     memberReport: function (sp, game, build) { return report(sp, game, build || {}, null, P.phrasebook); }, effectiveness: effectiveness,
     fromBuild: fromBuild, Combatant: Combatant, Plan: Plan, planLabel: planLabel, outcomeValue: outcomeValue, Fight: Fight, calcRun: calcRun,
     pyRound: pyRound, mean: mean, Random: Random, SITUATIONS: SITUATIONS, SLIDERS: SLIDERS, SLIDER_NAMES: SLIDER_NAMES, POLES: POLES,

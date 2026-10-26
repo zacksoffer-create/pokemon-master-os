@@ -81,7 +81,8 @@ function minePage() {
   return labsReady().then(function () {
     var all = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return i.status !== 'retired'; });
     var byGame = {}; all.forEach(function (i) { (byGame[i.game] = byGame[i.game] || []).push(i); });
-    after(function (p) { Pics.fill(p); var f = p.querySelector('#mnew'); if (f) f.onsubmit = function (e) { e.preventDefault(); plNew(f.querySelector('[name=sp]').value.trim(), f.querySelector('[name=game]').value, f.querySelector('[name=nick]').value.trim()); return false; }; });
+    after(function (p) { Pics.fill(p); var f = p.querySelector('#mnew'); if (f) f.onsubmit = function (e) { e.preventDefault(); var v = f.querySelector('[name=sp]').value.trim(), sp = DEX.byName[v] ? v : cap(v.toLowerCase()); if (!DEX.byName[sp]) { toast(esc(v) + ' isn\'t a species the atlas knows.'); return false; }
+      addPokemon(sp, f.querySelector('[name=game]').value, null); return false; }; });
     var species = Object.keys(DEX.byName).sort();
     return '<div class="eyebrow">My World</div><h1 style="margin:6px 0">Your Pokémon</h1>' +
       '<p class="lede">Every Pokémon that\'s yours: the journey\'s companions and the ones you\'ve added. Open one for its profile (who it is, what it\'s built to do, what it has earned, its pictures and its history); build it in the Studio.</p>' +

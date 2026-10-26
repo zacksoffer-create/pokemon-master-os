@@ -19,6 +19,8 @@
 //                                        profiles (the trainer agent's reading, the cartridge AI) and the interpretations
 // Run: node cli/make-fixtures.mjs        (test/contract.test.mjs checks the committed files still match)
 import fs from 'node:fs';
+import os from 'node:os';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { teamFromLibrary, profileFromLibrary, teamFromPaste, CONTRACT_VERSION, ENGINE } from '../src/index.js';
@@ -29,6 +31,16 @@ import { poolsFromCollections, variationTeams, INTERPRETATIONS } from '../src/ad
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 export const LIBRARY = path.resolve(ROOT, '../engine/app/data/library.json');
+// The fixtures are the journey teams as the Trainer Library has them. While Blackthorn's fresh start is on (D-078) the
+// app's library.json leaves the journey out, so the whole library is read from its source instead (read-only).
+export function readLibrary() {
+  const lib = JSON.parse(fs.readFileSync(LIBRARY, 'utf8'));
+  if (lib.versions['me/heartgold']) return lib;
+  const out = path.join(os.tmpdir(), `blackthorn-library-${process.pid}.json`);
+  const r = spawnSync('python3', ['-I', path.resolve(ROOT, '../engine/app/library_pack.py'), '--out', out], { encoding: 'utf8' });
+  if (r.status !== 0) throw new Error('library_pack.py --out failed: ' + (r.stderr || '').slice(-500));
+  const full = JSON.parse(fs.readFileSync(out, 'utf8')); fs.unlinkSync(out); return full;
+}
 export const LINEUPS = path.resolve(ROOT, '../engine/canon/lineups.json');
 const ADVANCE = (id) => path.resolve(ROOT, `../engine/app/data/advance-${id}.json`);
 const SPECIES_ITEMS = path.resolve(ROOT, '../engine/battle/species_items.json');
@@ -123,7 +135,11 @@ const confirmed = (key) => {
 /** The one-on-one engine's own fallback movesets for a lineup (its advance scouting file), for builds with none. */
 function fallbackMovesets(id) {
   const f = ADVANCE(id);
-  return fs.existsSync(f) ? readJSON(f).sheets?.[0]?.movesets || {} : {};
+  const app = fs.existsSync(f) ? readJSON(f) : null;
+  if (app && !app.fresh) return app.sheets?.[0]?.movesets || {};
+  // the fresh start (D-078) empties the app's copy; the scouting file it came from is unchanged
+  const r = spawnSync('python3', ['-I', path.resolve(ROOT, '../engine/app/advance_pack.py'), '--movesets', id], { encoding: 'utf8' });
+  return r.status === 0 ? JSON.parse(r.stdout) : {};
 }
 
 export function makeFixtures(library, lineups = readJSON(LINEUPS)) {
@@ -226,7 +242,7 @@ export function labPack(library, { teams, pools }) {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const library = JSON.parse(fs.readFileSync(LIBRARY, 'utf8'));
+  const library = readLibrary();
   const fx = makeFixtures(library);
   for (const dir of ['teams', 'pools', 'optimizer', 'lab']) fs.mkdirSync(path.join(OUT, dir), { recursive: true });
   for (const f of fs.readdirSync(path.join(OUT, 'teams'))) fs.unlinkSync(path.join(OUT, 'teams', f));

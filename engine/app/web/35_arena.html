@@ -16,7 +16,7 @@ var Arena = (function () {
   var STYLE_KEYS = ['aggression', 'risk', 'patience', 'heal_line', 'switching', 'preservation', 'harassment', 'setup_first', 'competence'];
 
   function ready() {
-    if (!readyP) readyP = Promise.all([API.data('sixvsix'), API.data('arena'), libReady()]).then(function (r) {
+    if (!readyP) readyP = Promise.all([API.data('sixvsix'), API.data('arena'), libReady(), recordsReady().catch(function () { return null; })]).then(function (r) {
       CODE = r[0].code;
       if (!window.SixVSix) { var s = document.createElement('script'); s.textContent = CODE; document.head.appendChild(s); }
       X = window.SixVSix; P = r[1];
@@ -60,28 +60,34 @@ var Arena = (function () {
   /* ---- sides ---- */
   function entry(key) { return (P.team_list || []).filter(function (t) { return t.key === key; })[0] || null; }
   function myTeam(id) { return ((S.store || {}).teams || {})[id] || null; }
+  function journeyGame(id) { var m = /^journey:(\w+)$/.exec(id); return m ? m[1] : null; }
   function versionOfMine(id) {   // a My Teams row as a library version (yours unless it names a trainer)
-    var t = myTeam(id); if (!t) throw new Error('no saved team ' + id);
+    var jg = journeyGame(id), t = jg ? Teams.get(jg) : myTeam(id); if (!t || (jg && !Teams.filled(t))) throw new Error('no saved team ' + id);
+    if (jg) t = {id: t.id, game: jg, title: t.title, trainer: 'me', kind: 'journey', slots: Teams.asSlots(t), at: t.at};   // v2: one team per game, read through its Pokémon's newest builds
     var v = Library.asVersion(Object.assign({}, t, {trainer: t.trainer || 'me', kind: t.kind || 'custom'}));
     if (!v) throw new Error('team ' + id + ' couldn\'t be read');
-    v = Object.assign({}, v, {id: 'mine:' + id, name: t.title || v.name});
+    v = Object.assign({}, v, {id: 'mine:' + id, name: jg ? whose(Teams.get(jg)) + ' ' + GAME_NAME[jg] : t.title || v.name});
     if (v.generation < 4) v = X.asGen4(v, v.id) || v;
     v.party = v.party.map(function (p) { return Object.assign({}, p, {moves: (p.moves || []).filter(Boolean)}); });
     LIB.versions[v.id] = v;
     return v;
   }
   function libVersion(id) { return LIB.versions[id] || null; }
+  function yoursDefault() {   // v2: your first team with anyone on it (HeartGold first), or null
+    for (var i = 0; i < JOURNEYS.length; i++) { var t = Teams.get(JOURNEYS[i]); if (Teams.filled(t)) return 'mine:' + t.id; }
+    return null;
+  }
   function profiles(vid) {   // the trainer's two profiles: Blackthorn's reading and, for a cartridge trainer with flags, the game's AI
     var v = libVersion(vid); if (!v) return null;
     var flags = Array.isArray(v.ai_flags) ? v.ai_flags : (v.ai_flag_names || []);
     return {trainer: X.profileFromLibrary(LIB, vid), game: v.kind === 'cartridge' && flags.length ? X.profileFromLibrary(LIB, vid, {agent: 'game'}) : null};
   }
-  function coached(base) {   // your trainer's coach settings (#/trainer) on your own teams
-    var c = store('trainer') || {}, params = {};
+  function coached(base, coach) {   // your trainer's coach settings on your own teams: the team's own trainer (v2), else #/trainer
+    var c = coach || store('trainer') || {}, params = {};
     STYLE_KEYS.forEach(function (k) { if (c.params && c.params[k] != null) params[k] = +c.params[k]; });
     if (!Object.keys(params).length) return base;
     return Object.assign({}, base, {id: base.id + ':coached', params: Object.assign({}, base.params, params),
-      interpretation: {kind: 'coached', label: 'Your coach settings', note: 'your trainer as you set them (#/trainer)', from: base.id}});
+      interpretation: {kind: 'coached', label: coach ? (coach.name || 'Your') + '\'s coach settings' : 'Your coach settings', note: coach ? 'this team\'s own trainer, as you set them on its page' : 'your trainer as you set them (#/trainer)', from: base.id}});
   }
   function side(ref, opt) {
     if (ref && typeof ref === 'object') return ref;   // already a side (a drafted team)
@@ -97,11 +103,12 @@ var Arena = (function () {
       yours = v.kind === 'journey' || /^gen4:me\//.test(id) || id.indexOf('me/') === 0;
       if (v.converted_from) note.push('a Gen ' + (v.converted_from.generation === 2 ? 'II' : 'III') + ' team under Gen IV rules');
     } else if (kind === 'mine') {
-      var mv = versionOfMine(id); team = X.teamFromLibrary(LIB, mv.id, {lens: lens}); yours = !myTeam(id).trainer;
+      var mv = versionOfMine(id), jg0 = journeyGame(id); team = X.teamFromLibrary(LIB, mv.id, {lens: lens}); yours = jg0 ? true : !myTeam(id).trainer;
       prof = profiles(mv.id); prof = {trainer: Object.assign({}, prof.trainer, {name: mv.name}), game: null}; label = mv.name; game = mv.game;
       note.push('checked by the app\'s builder, not Showdown\'s validator');
     } else throw new Error('unknown side ' + ref);
-    return {ref: ref, team: team, profiles: prof, label: label, game: game, yours: yours, note: note,
+    var coach = kind === 'mine' && journeyGame(id) ? Teams.get(journeyGame(id)).profile : null;
+    return {ref: ref, team: team, profiles: prof, label: label, game: game, yours: yours, note: note, coach: coach,
       trainer: team.trainer || (prof && prof.trainer && prof.trainer.identity) || ''};
   }
   function profileFor(sd, style) {   // how a side plays: an interpretation of its trainer (yours: your coach settings)
@@ -110,7 +117,7 @@ var Arena = (function () {
     if (style === 'game') return p.game || p.trainer;
     if (style === 'plain') return p.trainer;         // yours without your coach settings (the A/B on #/trainer)
     var base = style && style !== 'blackthorn' ? X.interpret(p, style) : p.trainer;
-    return sd.yours && (!style || style === 'blackthorn' || style === 'coached') ? coached(base) : base;
+    return sd.yours && (!style || style === 'blackthorn' || style === 'coached') ? coached(base, sd.coach) : base;
   }
 
   /* ---- legality: the pack's reports, or the app's own check for a team the pack never saw ---- */
@@ -234,7 +241,7 @@ var Arena = (function () {
   function tendencies(ref, opt) {
     opt = opt || {};
     return ready().then(function () {
-      var a = side(ref, opt), b = side(opt.against || 'pack:me/heartgold', opt);
+      var a = side(ref, opt), b = side(opt.against || yoursDefault() || 'lib:heartgold/red', opt);
       var t = check(job(a, b, Object.assign({}, opt, {n: opt.n || 6, seed: 'tendencies|v1|' + ref, record: {logs: 'none', decisions: 'all', input_logs: 'none', analysis: true}})));
       return run([t], {onProgress: opt.onProgress}).then(function (out) {
         var c = {decisions: 0, attack: 0, status: 0, setup: 0, heal: 0, switch: 0, forced: 0, top: 0, close: 0, margin: 0}, rows = out[0].rows;
@@ -266,10 +273,12 @@ var Arena = (function () {
   /* ---- what the page offers ---- */
   function choices() {   // every side the Arena can field, grouped
     var g = {yours: [], saved: [], legends: [], anime: [], champions: [], cartridge: [], converted: []};
+    JOURNEYS.forEach(function (gm) { var t = Teams.get(gm), n = Teams.filled(t);   // v2: your six teams, each with its own trainer
+      if (n) g.yours.push({ref: 'mine:' + t.id, label: whose(t) + ' ' + GAME_NAME[gm] + ' (' + n + ' of 6)' + (['crystal', 'firered', 'emerald'].indexOf(gm) >= 0 ? ' · Gen IV rules' : '')}); });
     (P.team_list || []).forEach(function (t) { g.yours.push({ref: 'pack:' + t.key, label: t.name + (t.variation ? '' : ' (optimized)')}); });
     ['crystal', 'firered', 'emerald'].forEach(function (gm) { if (LIB.versions['gen4:me/' + gm]) g.yours.push({ref: 'lib:gen4:me/' + gm, label: 'Zack · ' + GAME_NAME[gm] + ' (Gen IV rules)'}); });
     Object.keys((S.store || {}).teams || {}).forEach(function (k) {   // battle teams only: plans and staffing rows aren't teams
-      var t = S.store.teams[k]; if (!Array.isArray(t.slots) || !t.slots.filter(Boolean).length || t.status === 'retired' || ['expedition', 'staffing'].indexOf(t.kind) >= 0) return;
+      var t = S.store.teams[k]; if (!Array.isArray(t.slots) || !t.slots.filter(Boolean).length || t.status === 'retired' || ['expedition', 'staffing', 'journey'].indexOf(t.kind) >= 0) return;
       g.saved.push({ref: 'mine:' + k, label: (t.title || k) + (t.game ? ' · ' + GAME_NAME[t.game] : '')}); });
     Object.keys(LIB.versions).forEach(function (id) {
       var v = LIB.versions[id]; if (v.generation !== 4 || v.mine || id.indexOf('mine:') === 0) return;
@@ -285,13 +294,13 @@ var Arena = (function () {
     return g;
   }
   function options(sel, groups) {
-    var g = choices(), names = {yours: 'Your journey teams', saved: 'Your saved teams (My Teams)', champions: 'Champions and Red', anime: 'Anime and all-time', cartridge: 'Every Gen IV trainer', converted: 'Gen II–III trainers under Gen IV rules'};
+    var g = choices(), names = {yours: 'Your teams', saved: 'Your saved teams (My Teams)', champions: 'Champions and Red', anime: 'Anime and all-time', cartridge: 'Every Gen IV trainer', converted: 'Gen II–III trainers under Gen IV rules'};
     return (groups || ['yours', 'saved', 'champions', 'anime', 'cartridge', 'converted']).filter(function (k) { return g[k].length; }).map(function (k) {
       return '<optgroup label="' + esc(names[k]) + '">' + g[k].map(function (o) { return '<option value="' + esc(o.ref) + '"' + (o.ref === sel ? ' selected' : '') + '>' + esc(o.label) + '</option>'; }).join('') + '</optgroup>';
     }).join('');
   }
 
-  return {ready: ready, match: match, replay: replay, series: series, roundRobin: roundRobin, tendencies: tendencies, side: side, choices: choices, options: options,
+  return {ready: ready, yoursDefault: yoursDefault, match: match, replay: replay, series: series, roundRobin: roundRobin, tendencies: tendencies, side: side, choices: choices, options: options,
     profileFor: profileFor, rulesetFor: rulesetFor, STYLE_KEYS: STYLE_KEYS,
     pack: function () { return P; }, lib: function () { return LIB; }, X: function () { return X; }, workers: function () { return WORKERS; },
     save: function (k, v) { if (v === undefined) return SAVED[k]; SAVED[k] = v; }};

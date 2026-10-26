@@ -1,10 +1,10 @@
 {
- "builds": 962,
- "built": "2026-10-24",
+ "builds": 1076,
+ "built": "2026-10-25",
  "qualifications": {
-  "Ace": 456,
-  "Champion Specialist": 292,
-  "Elite Four Specialist": 365
+  "Ace": 448,
+  "Champion Specialist": 291,
+  "Elite Four Specialist": 360
  },
  "tiers": {
   "atk": {
@@ -15,7 +15,7 @@
     "Silver": 60
    },
    "name": "Attack",
-   "none": 807
+   "none": 921
   },
   "def": {
    "counts": {
@@ -25,7 +25,7 @@
     "Silver": 22
    },
    "name": "Defense",
-   "none": 907
+   "none": 1021
   },
   "hp": {
    "counts": {
@@ -35,47 +35,47 @@
     "Silver": 56
    },
    "name": "HP",
-   "none": 758
+   "none": 872
   },
   "mixed_wall": {
    "counts": {
-    "Bronze": 154,
+    "Bronze": 171,
     "Elite": 2,
     "Gold": 14,
-    "Silver": 134
+    "Silver": 129
    },
    "name": "Mixed Wall",
-   "none": 658
+   "none": 760
   },
   "physical_breaker": {
    "counts": {
-    "Bronze": 136,
+    "Bronze": 147,
     "Elite": 46,
-    "Gold": 63,
-    "Silver": 92
+    "Gold": 65,
+    "Silver": 96
    },
    "name": "Physical Breaker",
-   "none": 625
+   "none": 722
   },
   "physical_wall": {
    "counts": {
-    "Bronze": 182,
-    "Elite": 34,
+    "Bronze": 216,
+    "Elite": 33,
     "Gold": 39,
-    "Silver": 181
+    "Silver": 182
    },
    "name": "Physical Wall",
-   "none": 526
+   "none": 606
   },
   "priority_finisher": {
    "counts": {
-    "Bronze": 33,
+    "Bronze": 32,
     "Elite": 5,
     "Gold": 15,
     "Silver": 24
    },
    "name": "Priority Finisher",
-   "none": 885
+   "none": 1000
   },
   "spa": {
    "counts": {
@@ -85,7 +85,7 @@
     "Silver": 37
    },
    "name": "Special Attack",
-   "none": 872
+   "none": 986
   },
   "spd": {
    "counts": {
@@ -95,27 +95,27 @@
     "Silver": 11
    },
    "name": "Special Defense",
-   "none": 915
+   "none": 1029
   },
   "special_breaker": {
    "counts": {
-    "Bronze": 137,
+    "Bronze": 142,
     "Elite": 14,
     "Gold": 17,
     "Silver": 52
    },
    "name": "Special Breaker",
-   "none": 742
+   "none": 851
   },
   "special_wall": {
    "counts": {
-    "Bronze": 104,
-    "Elite": 44,
+    "Bronze": 116,
+    "Elite": 42,
     "Gold": 119,
-    "Silver": 145
+    "Silver": 152
    },
    "name": "Special Wall",
-   "none": 550
+   "none": 647
   },
   "speed": {
    "counts": {
@@ -125,8 +125,28 @@
     "Silver": 28
    },
    "name": "Speed",
-   "none": 873
+   "none": 987
+  },
+  "sustain": {
+   "counts": {
+    "Bronze": 342,
+    "Elite": 103,
+    "Gold": 27,
+    "Silver": 90
+   },
+   "name": "Sustain",
+   "none": 514
+  },
+  "utility": {
+   "counts": {
+    "Bronze": 321,
+    "Elite": 3,
+    "Gold": 22,
+    "Silver": 136
+   },
+   "name": "Utility",
+   "none": 594
   }
  },
- "version": 1
+ "version": 2
 }

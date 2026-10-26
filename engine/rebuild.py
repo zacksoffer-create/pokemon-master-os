@@ -40,6 +40,7 @@ STEPS = [
     ("assumptions", PY + ["store/assumptions.py"], "docs/design/ASSUMPTIONS.md", []),
     ("balls", PY + ["equipment/balls.py"], "engine/data_manifest/balls.json (checked against the games' code)", []),
     ("roles4", PY + ["trainers/team_roles.py", "--pack"], "engine/app/data/roles4.json, docs/roles/*", ["store"]),
+    ("naming", PY + ["trainers/naming_list.py"], "docs/naming/ALL_COMBINATIONS.md, all_combinations.csv.gz, proposed_words.json", ["roles4"]),
     ("recognition", PY + ["trainers/recognition.py", "--calibrate"], "docs/recognition/CALIBRATION.md, engine/data_manifest/recognition_calibration.json", ["roles4", "store"]),
     ("biology", PY + ["biology/build.py"], "engine/data_manifest/biology/*.json, evidence/*.md (the archive, claims, webs, ecotypes)", []),
     ("app-data", PY + ["app/export.py"], "engine/app/data/*.json", ["reports", "packets-page", "dashboard", "roles4", "store", "recognition", "trainer-library", "assumptions", "balls", "biology"]),

@@ -36,7 +36,7 @@ function memberOf(ref) {
 }
 function refOfSlot(s) {   // a team slot (My Teams, the team lab) as a member reference
   if (!s) return null;
-  var from = s.from || s.id || '';
+  var from = s.ind || s.from || s.id || '';
   if (from && S.store.individuals[from]) return 'ind:' + from;
   if (s.build && storeBuild(s.build)) return 'b:' + s.build;
   return s.species ? 'sp:' + s.species : null;
@@ -46,18 +46,20 @@ function refOfSlot(s) {   // a team slot (My Teams, the team lab) as a member re
 var SV = null;
 function svTeams() {
   var out = [];
+  JOURNEYS.forEach(function (g) { var t = Teams.get(g), m = Teams.members(t).filter(Boolean);   // v2: your six teams first
+    if (m.length) out.push({key: 'journey/' + g, label: whose(t) + ' ' + GAME_NAME[g] + ' team', game: g, refs: m.map(function (x) { return 'ind:' + x.ind.id; })}); });
   ALL_GAMES.forEach(function (g) { var inds = myInds(g); if (inds.length) out.push({key: 'mine/' + g, label: 'Your Pokémon · ' + GAME_NAME[g], game: g, refs: inds.slice(0, 6).map(function (i) { return 'ind:' + i.id; })}); });
-  Object.keys(S.store.teams || {}).forEach(function (k) { var t = S.store.teams[k]; if (!Array.isArray(t.slots) || t.status === 'retired' || t.kind === 'staffing') return;
+  Object.keys(S.store.teams || {}).forEach(function (k) { var t = S.store.teams[k]; if (!Array.isArray(t.slots) || t.status === 'retired' || t.kind === 'staffing' || t.kind === 'journey') return;
     out.push({key: 'saved/' + k, label: (t.kind === 'expedition' ? 'Plan · ' : 'Saved · ') + (t.title || k), game: t.game, refs: t.slots.map(refOfSlot).filter(Boolean), scenario: t.scenario || null, kit: t.kit ? String(t.kit).split(',').filter(Boolean) : null}); });
-  ALL_GAMES.forEach(function (g) { var s = store('team-' + g); if (Array.isArray(s) && s.some(Boolean)) out.push({key: 'teamlab/' + g, label: 'Your team lab · ' + GAME_NAME[g], game: g,
-    refs: s.filter(Boolean).map(function (b) { return S.store.individuals[b.id] ? 'ind:' + b.id : b.id && storeBuild(b.id) ? 'b:' + b.id : 'sp:' + b.species; })}); });
+  if (!out.length) out.push({key: 'example/red', label: 'An example to start from: Red\'s six (HeartGold)', game: 'heartgold',   // a fresh start: nothing of yours yet
+    refs: ['sp:Pikachu', 'sp:Espeon', 'sp:Snorlax', 'sp:Venusaur', 'sp:Charizard', 'sp:Blastoise']});
   return out;
 }
 function survivalPage(query) {
   var q = qparse(query);
   return Promise.all([capReady(), recordsReady().catch(function () { return null; })]).then(function () {
     var teams = svTeams(), st = store('survival') || {};
-    SV = Object.assign({key: 'mine/heartgold', scenario: 'winter-mountain', kit: [], preview: [], locks: [], allMoves: false}, st);
+    SV = Object.assign({key: 'journey/heartgold', scenario: 'winter-mountain', kit: [], preview: [], locks: [], allMoves: false}, st);
     if (q.team) SV.key = q.team;
     if (q.s) SV.scenario = q.s;
     var t = teams.filter(function (x) { return x.key === SV.key; })[0] || teams[0];
@@ -161,7 +163,7 @@ function svRender() {
     '<div class="grid" style="margin-top:16px"><div class="c6">' + card('Compare two set-ups', '<p class="tiny muted" style="margin:0 0 8px">Keep this set-up as A or B, change the team, builds or kit, and compare them on this scenario. The tradeoffs are named; no winner is picked.</p><button class="btn sm" id="svkeepa">Keep as A</button> <button class="btn sm" id="svkeepb">Keep as B</button><div id="svcmp" style="margin-top:10px"></div>', {eyebrow: 'Test F', tools: false}) + '</div>' +
     '<div class="c6">' + card('The same builds everywhere', members.map(function (m, i) { return '<div class="tiny" style="margin:4px 0"><b>' + esc(m.label || m.species) + '</b>' + (m.moves ? ' <span class="muted">' + esc(m.moves.join(' / ')) + '</span>' : ' <span class="muted">no build: the species</span>') + '<br>' +
         (m.ind ? '<a href="#/pokemon/' + encodeURIComponent(m.ind) + '" data-open="studio">Studio</a> · <a href="#/mon/' + encodeURIComponent(m.ind) + '">Profile</a> · <a href="#/bench?ind=' + encodeURIComponent(m.ind) + '" data-open="bench">Benchmarks</a>' : '<span class="muted">add it as one of yours in the Studio to keep a build</span>') + '</div>'; }).join('') +
-      '<div style="margin-top:10px"><button class="btn sm" id="svteamlab">Open this six in the team lab</button></div>' +
+      '<div style="margin-top:10px"><button class="btn sm" id="svteamlab">Open your ' + esc(GAME_NAME[SV.game]) + ' team</button></div>' +
       '<label class="l" style="margin-top:12px">Save this expedition plan</label><div class="row"><input class="f" id="svtitle" placeholder="Title, e.g. Winter crossing, HeartGold six" value="' + esc(sc.name + ' · ' + GAME_NAME[SV.game]) + '"><button class="btn gold sm" id="svsaveplan">Save to My Teams</button></div><div class="tiny muted">A plan: it records the team, scenario and kit. Nobody leaves a team because of it.</div>',
       {eyebrow: 'One Pokémon, one build, every lab (Test B)', tools: false}) + '</div></div>';
   svBindOut(out, members, sc);
@@ -204,10 +206,7 @@ function svBindOut(out, members, sc) {
   };
   q('svkeepa').onclick = function () { SV.cfgA = svCfg('A'); SV.cmp = true; svSave(); toast('Kept as A.'); svCompare(); };
   q('svkeepb').onclick = function () { SV.cfgB = svCfg('B'); SV.cmp = true; svSave(); toast('Kept as B.'); svCompare(); };
-  q('svteamlab').onclick = function () {   // the team lab takes builds: your individuals keep their id, so nothing is duplicated
-    var six = members.map(function (m) { return m.ind ? indBuild(S.store.individuals[m.ind]) : m.build ? buildOf(storeBuild(m.build), m.build) : {species: m.species, moves: []}; });
-    store('team-' + SV.game, six); nav('#/team/' + SV.game);
-  };
+  q('svteamlab').onclick = function () { nav('#/team/' + SV.game); };   // v2: the team page reads your Pokémon by their own ids, so nothing is copied
   q('svsaveplan').onclick = function () {
     var btn = this, slots = members.map(function (m) { return {species: m.species, from: m.ind || '', prov: m.ind ? 'yours' : 'stock', build: m.ind ? (S.store.individuals[m.ind].build || '') : (m.build || '')}; });
     if (!slots.length) { toast('Add at least one Pokémon first.'); return; }
@@ -352,7 +351,7 @@ function capPanel(ind) {   // what one of yours can do away from battle, by area
     if (!hs.length) return '';
     return '<div style="margin:8px 0"><div class="eyebrow">' + esc(a.name) + '</div>' + hs.map(function (c) { var x = b[c], lc = P.kinds[x[1].kind] || ['B', 'creative'];
       return '<div class="tiny" style="margin:3px 0">' + standChip(x[0]) + ' ' + capLink(c) + ' ' + classChip({kind: x[1].kind, layer: lc[0], 'class': lc[1], status: x[1].status}) + ' <span class="muted">' + esc(x[1].source) + '</span></div>'; }).join('') + '</div>'; }).join('');
-  return card('Away from battle', (rows || '<div class="tiny muted">No evidence for any capability.</div>') + '<div style="margin-top:8px" class="tiny"><a href="#/survival?team=' + encodeURIComponent('mine/' + ind.game) + '">Plan an expedition</a> · <a href="#/homestead">The Homestead</a> · <a href="#/capabilities">All capabilities</a></div>',
+  return card('Away from battle', (rows || '<div class="tiny muted">No evidence for any capability.</div>') + '<div style="margin-top:8px" class="tiny"><a href="#/survival?team=' + encodeURIComponent('journey/' + ind.game) + '">Plan an expedition</a> · <a href="#/homestead">The Homestead</a> · <a href="#/capabilities">All capabilities</a></div>',
     {eyebrow: 'Capabilities · ' + GAME_NAME[ind.game] + (m.moves ? ' · its build' : ' · the species'), tools: false, style: 'margin-top:16px'});
 }
 

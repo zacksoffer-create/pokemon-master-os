@@ -56,10 +56,12 @@ var Records = (function () {
     row.hatch_moves = encMoves(i.hatch_moves); row.at = i.at || ''; return row;
   }
   var TEAM_EXTRA = ['kind', 'trainer', 'parent', 'scenario', 'kit', 'facility'];   // a trainer's version (the Trainer Library), an expedition or a staff plan (Phase 7)
+  // v2 (D-078): a journey team (kind 'journey', id journey:<game>) carries its own trainer, as JSON in 'profile'
   function decTeam(row) {
     var slots = row.slots; if (typeof slots === 'string') slots = slots.trim() ? JSON.parse(slots) : [];
     var t = {id: String(row.id), game: row.game, title: row.title || null, slots: slots || [], status: row.status || 'saved', origin: 'the app (My Teams)'};
     ['note', 'at'].concat(TEAM_EXTRA).forEach(function (k) { if (!blank(row[k])) t[k] = String(row[k]); });
+    if (!blank(row.profile)) { try { t.profile = typeof row.profile === 'string' ? JSON.parse(row.profile) : row.profile; } catch (e) { t.profile = null; } }
     return t;
   }
   function decGear(row) {   // store/personal.py dec_gear: qty 0 = you don't have it any more
@@ -132,9 +134,10 @@ var Records = (function () {
   }
   function saveTeam(t) {
     var rec = {id: t.id || 'team:' + token(), game: t.game, title: t.title || '', status: t.status || 'saved', note: t.note || '', at: new Date().toISOString(),
-      slots: JSON.stringify(t.slots || []), members: (t.slots || []).map(function (s) { return s ? s.species + (s.from ? ' @ ' + s.from : '') : '—'; }).join(' · ')};
+      slots: JSON.stringify(t.slots || []), members: (t.slots || []).map(function (s) { return s ? (s.species || '?') + (s.from ? ' @ ' + s.from : '') : '—'; }).join(' · ')};
     var old = t.id ? (view().teams || {})[t.id] : null;   // a trainer's version of your own (the Trainer Library) stays one when it's saved again
     TEAM_EXTRA.forEach(function (k) { var x = t[k] || (old && old[k]); if (x) rec[k] = x; });
+    var prof = t.profile || (old && old.profile); if (prof) rec.profile = JSON.stringify(prof);
     return append('team', rec, 'Saved the team ' + (rec.title || rec.id)).then(function () { return view().teams[rec.id]; });
   }
   function saveArtwork(a) {   // a picture's record (the file itself is in Drive, or a reference URL)

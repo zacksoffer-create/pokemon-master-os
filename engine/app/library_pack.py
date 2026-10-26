@@ -15,15 +15,23 @@ ENGINE = os.path.dirname(HERE)
 OUT = os.path.join(HERE, "data", "library.json")
 
 
-def main():
+def main(argv=None):
+    """--out PATH writes the whole pack somewhere else (the 6v6 fixtures read it there: app/data's copy has the fresh
+    start applied, D-078)."""
+    argv = sys.argv[1:] if argv is None else argv
+    out = argv[argv.index("--out") + 1] if "--out" in argv else OUT
     sys.path.insert(0, ENGINE)
     from trainers.catalog import Catalog
     pack = Catalog().pack()
-    with open(OUT, "w", encoding="utf-8") as fh:
+    with open(out, "w", encoding="utf-8") as fh:
         json.dump(pack, fh, ensure_ascii=False, separators=(",", ":"))
-    print(f"{OUT}: {len(pack['identities'])} trainers, {len(pack['versions'])} versions, {len(pack['collections'])} collections, "
-          f"{os.path.getsize(OUT) // 1024} KB")
+    print(f"{out}: {len(pack['identities'])} trainers, {len(pack['versions'])} versions, {len(pack['collections'])} collections, "
+          f"{os.path.getsize(out) // 1024} KB")
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()
+    if "--out" not in sys.argv:          # the app's copy keeps the fresh start (D-078); --out is the whole pack on purpose
+        sys.path.insert(0, HERE)
+        import fresh
+        fresh.after("library.json")

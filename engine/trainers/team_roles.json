@@ -1,5 +1,5 @@
 {
-  "_note": "The four team roles (Ace, Wall, Sweeper, Support) and the build-name ladder. Every rule and number lives here; trainers/team_roles.py and its browser copy (app/web/28_teamroles.html) only evaluate them. The 34 roles in roles.json stay as the second layer underneath. Words shown as ⟨…⟩ are placeholders until Zack names them (docs/naming/NAMES_NEEDED.md).",
+  "_note": "The five team roles (Ace, Sweeper, Support, Wall, Tank; v2, D-078) and the build-name ladder. Every rule and number lives here; trainers/team_roles.py and its browser copy (app/web/28_teamroles.html) only evaluate them. Each role answers one competitive question from the same one-on-ones against the generation's Elite Four and Champions, both sides at level 100 (docs/design/V2_PLAN.md §5). The 34 roles in roles.json stay as the second layer underneath. Words shown as ⟨…⟩ are placeholders until Zack names them (docs/naming/NAMES_NEEDED.md).",
   "level": 100,
   "fetch_rounds": 30,
   "_fetch_rounds": "How many times a fight may go back to the damage calculator for numbers it hadn't fetched (a Calm Mind set facing a booster needs one per boost stage). A fight still unsettled after this reads as an error, never a guess.",
@@ -207,6 +207,14 @@
     }
   },
   "roles": {
+    "_order": [
+      "ace",
+      "sweeper",
+      "support",
+      "wall",
+      "tank"
+    ],
+    "_v2": "v2 (D-078, Zack: 'rework kind of what goes into exactly what defines those ... take the reign'): Sweeper, Wall and Support are read from the fights themselves rather than the role engine's composite scores, Tank is new, and every role keeps its numbers so the page can show its work. Ace is unchanged (D-064). Thresholds were set against every library and competitive build (docs/roles/ROLE_SCORES.md).",
     "ace": {
       "name": "Ace",
       "rule": "Beats at least 80% of the Elite Four's Pokémon and 70% of the Champions' Pokémon one-on-one, both sides at level 100, in the battle engine (battle/evaluate.py: our best plan against their game AI).",
@@ -217,33 +225,28 @@
         "name": "Joker",
         "_note": "The tier above Ace. Zack named it Joker (2026-10-21, D-064), well below Ash's Pikachu. Off until it has a rule; Zack is fine with how many builds earn Ace.",
         "enabled": false
-      }
-    },
-    "wall": {
-      "name": "Wall",
-      "rule": "Takes four or more hits (the top damage roll under a third of its HP) from at least 60% of the 100 hardest-hitting attacks the Elite Four and Champions have against it, both at level 100; or both its physical and special bulk sit in the top 20% of its generation's fully evolved Pokémon.",
-      "hardest_attacks": 100,
-      "hits_to_take": 4,
-      "share_at_least": 0.6,
-      "_measured": "2026-10-20 over 167 builds: at 3+ hits 95 builds qualified (cartridge attackers carry no EVs, so most things take three hits); at 4+ hits 37 do, about one build in five. Hence 4.",
-      "bulk_percentile_at_least": 0.8,
-      "_why": "Zack left the thresholds to Claude. The first path is his 'survives the top 100 most powerful attacks' idea; the second is his 'HP, Defense and Special Defense over a number' idea, as a share of the field so it means the same in every generation."
+      },
+      "explain": "The one you build the run around: it beats the League one-on-one.",
+      "question": "Can you build the run around it?"
     },
     "sweeper": {
       "name": "Sweeper",
-      "rule": "Its best sweeping role in the role engine (physical, special or mixed setup sweeper, late-game cleaner, weather sweeper) scores at least 0.60.",
-      "from_roles": [
-        "physical_setup_sweeper",
-        "special_setup_sweeper",
-        "mixed_setup_sweeper",
-        "late_game_cleaner",
-        "weather_sweeper"
-      ],
-      "score_at_least": 0.6
+      "question": "Once it gets going, does it take several down in a row?",
+      "explain": "Fast and strong enough to knock out one opponent after another: it moves first, 2HKOs nearly all of the League and OHKOs a good share of it.",
+      "rule": "Moves first against at least 80% of the Elite Four's and Champions' Pokémon, its best attack is a guaranteed 2HKO on at least 80% of them, and a guaranteed OHKO on at least 30%. If it carries a setup move, one use of it is applied (an estimate: the stat stage's multiplier on its Speed and on the damage).",
+      "first_at_least": 0.8,
+      "ko_at_least": 0.8,
+      "ko_hits": 2,
+      "boost": "one use of its best setup move for each stat, capped at +2",
+      "_why": "Smogon's sense of a sweeper: after a boost it outspeeds and KOs much of the field. 'Moves first' compares Speed with items (Choice Scarf) as the fights do; a tie isn't first. Priority isn't counted here: it's the Priority Finisher badge.",
+      "ohko_at_least": 0.3,
+      "_calibrated": "2026-10-25 over 1,076 builds (library, ecosystem and Smogon sets; the League fights with no EVs): at 60/60 465 builds qualified, at 80/80 with 30% OHKOs 246 (23%). The League's Pokémon carry no EVs, so most invested builds outspeed and 2HKO them: the OHKO share is what separates a sweeper."
     },
     "support": {
       "name": "Support",
-      "rule": "Carries at least two support moves (status, hazards, hazard removal, screens, healing the team, weather, phazing, Haze, Taunt, Encore, Trick, Trick Room, Tailwind, Fake Out, Baton Pass, trapping) and its best support role in the role engine scores at least 0.40.",
+      "question": "Does it spend its turns making the team better?",
+      "explain": "Its moves set up the team rather than the scoreboard: hazards, removal, status, screens, healing the team, phazing, speed control. And it lives long enough to use them.",
+      "rule": "Carries at least two support moves, and either takes two or more hits from at least 80% of the 100 hardest-hitting Elite Four and Champion attacks against it, or moves first against at least 60% of their Pokémon.",
       "support_categories": [
         "status_infliction",
         "confuse",
@@ -266,10 +269,41 @@
         "trick"
       ],
       "moves_at_least": 2,
-      "from_family": "support",
-      "score_at_least": 0.4,
-      "_why": "Zack: 'it has to have a move associated with that' and support needs more than one; the rest is left to Claude."
-    }
+      "survive_at_least": 0.8,
+      "first_at_least": 0.6,
+      "hardest_attacks": 100,
+      "_why": "Zack: 'it has to have a move associated with that' and support needs more than one. v2 drops the role engine's score and asks instead whether it survives (or outpaces) long enough to do the job.",
+      "_calibrated": "2026-10-25 over 1,076 builds: surviving is common against the League (the median build takes two hits from 94% of them), so the two support moves decide it: 183 builds (17%)."
+    },
+    "wall": {
+      "name": "Wall",
+      "question": "Does it take hit after hit from one side, and heal it off?",
+      "explain": "Built to absorb: it takes four or more hits from most of one side's strongest attacks (physical or special) and has a way to heal.",
+      "rule": "Takes four or more hits (the top damage roll under a third of its HP) from at least 80% of the 50 hardest-hitting physical attacks the Elite Four and Champions have against it, or of the 50 hardest special ones; and carries reliable recovery, Rest or Wish, or holds Leftovers (Black Sludge for a Poison type).",
+      "hardest_attacks": 50,
+      "hits_to_take": 4,
+      "share_at_least": 0.8,
+      "sustain_items": [
+        "Leftovers",
+        "Black Sludge"
+      ],
+      "no_sustain_factor": 0.85,
+      "_why": "Competitive walls are specialised (a physical wall, a special wall) and need recovery to keep walling; v1 required both sides at once. Without sustain the score is shown at 85% and the role isn't earned.",
+      "_calibrated": "2026-10-25 over 1,076 builds: at 60% 344 qualified, at 80% 226 (21%)."
+    },
+    "tank": {
+      "name": "Tank",
+      "question": "Does it take hits from both sides, and hit back?",
+      "explain": "Bulky on both sides and still dangerous: it takes three or more hits from most of the League's hardest attacks and 2HKOs most of them back. It doesn't need to heal.",
+      "rule": "Takes three or more hits (the top roll under half its HP) from at least 75% of the 100 hardest-hitting Elite Four and Champion attacks against it, and its best attack is a guaranteed 2HKO on at least 60% of their Pokémon (no boosts).",
+      "hardest_attacks": 100,
+      "hits_to_take": 3,
+      "share_at_least": 0.75,
+      "ko_at_least": 0.6,
+      "_why": "New in v2 (Zack: 'I want to add Tank'). Smogon's tank is a bulky attacker: it trades hits rather than avoiding or healing them. Three hits rather than the Wall's four, and it has to hit back.",
+      "_calibrated": "2026-10-25 over 1,076 builds: at 60/50 334 qualified, at 75/60 195 (18%)."
+    },
+    "_score": "Each role's score is 0-1 and shown, not used to decide (each role is earned only when every bar is cleared). Ace: the mean of its two win rates. Sweeper and Tank need two things at once, so their score is the geometric mean of the two shares (a Pokémon strong at one and hopeless at the other scores low). Wall: its better side's share, at 85% without sustain. Support: its support moves (three or more count fully) times how well it lasts (half for showing up, half for surviving or moving first)."
   },
   "_overrides": "Team roles set by hand, once Zack approves them (D-059: computed, and hand-overridable). {\"<build id>\": {\"<ace|wall|sweeper|support>\": true or false, \"why\": \"...\"}}. Earned follows the override; the score stays computed and the read says it was set by hand. The Pokémon lab tries overrides in the browser and copies them out in this shape.",
   "overrides": {},
@@ -413,7 +447,7 @@
     }
   },
   "team": {
-    "_note": "The team lab's live reads. Every question is one entry; add one and the lab asks it (app/web/84_teamlab.html evaluates the kinds below). Zack: an extensible list of scenario questions.",
+    "_note": "The team homepage's reads (v2): the scouting report (strengths, weaknesses, tendencies) draws on these checks; add one and the report reads it (app/web/84_teamlab.html evaluates the kinds below). The checks were v1's scenario questions.",
     "questions": [
       {
         "id": "champions",
@@ -488,51 +522,94 @@
         "kind": "roles",
         "want": [
           "ace",
-          "wall",
           "sweeper",
-          "support"
+          "support",
+          "wall",
+          "tank"
         ],
         "rule": "at least one of the six earns each role"
       }
     ],
     "shapes": {
-      "_note": "The team's shape from how many of each team role the six earn; the first that fits names it (naming.words.team_shape until named).",
+      "_note": "The team's shape (v2): the first archetype whose needs the six meet names it, in this order. Each shows how close the team is to every other one. Roles are counted by who earns them; features (weather, Trick Room, Baton Pass, hazards) by the moves and abilities the six carry. naming.words.team_shape names them.",
       "order": [
+        "trick_room",
+        "weather",
+        "baton_pass",
         "hyper_offense",
-        "offense",
         "stall",
-        "bulky",
+        "semi_stall",
+        "bulky_offense",
+        "offense",
         "balance"
       ],
+      "trick_room": {
+        "label": "Trick Room",
+        "explain": "Slow, strong Pokémon behind a Trick Room setter: the slowest moves first for five turns.",
+        "needs": {
+          "feature:trick_room": 1,
+          "slow": 3
+        }
+      },
+      "weather": {
+        "label": "weather",
+        "explain": "A weather setter and the Pokémon that thrive in it (Swift Swim, Chlorophyll, sand or hail).",
+        "needs": {
+          "feature:weather_setter": 1,
+          "feature:weather_user": 2
+        }
+      },
+      "baton_pass": {
+        "label": "Baton Pass",
+        "explain": "Boosts built up by one Pokémon and passed to the next.",
+        "needs": {
+          "feature:baton_pass": 2,
+          "feature:setup": 2
+        }
+      },
       "hyper_offense": {
         "label": "hyper offense",
+        "explain": "Almost all attackers, hazards up front, little defence: win before they can.",
         "needs": {
           "sweeper": 3
         },
         "at_most": {
-          "wall": 1
-        }
-      },
-      "offense": {
-        "label": "offense",
-        "needs": {
-          "sweeper_or_ace": 3
+          "wall": 0
         }
       },
       "stall": {
         "label": "stall",
+        "explain": "Walls and support that wear the other side down with status and hazards.",
         "needs": {
-          "wall": 4
+          "wall": 3,
+          "support": 2
         }
       },
-      "bulky": {
-        "label": "bulky",
+      "semi_stall": {
+        "label": "semi-stall",
+        "explain": "A defensive core with one or two win conditions.",
         "needs": {
-          "wall": 3
+          "wall_or_tank": 3
+        }
+      },
+      "bulky_offense": {
+        "label": "bulky offense",
+        "explain": "Attackers that can take a hit: tanks and sweepers together.",
+        "needs": {
+          "tank": 2,
+          "sweeper_or_ace": 2
+        }
+      },
+      "offense": {
+        "label": "offense",
+        "explain": "Mostly attackers, with a little support.",
+        "needs": {
+          "sweeper_or_ace": 3
         }
       },
       "balance": {
         "label": "balance",
+        "explain": "Offence and defence in equal parts: anything the others don't fit.",
         "needs": {}
       }
     }

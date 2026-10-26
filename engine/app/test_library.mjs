@@ -6,6 +6,7 @@
 // Run: python3 -I app/build.py && node app/test_library.mjs                  (tests/test_engines.py runs it)
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { seedPage } from './test_seed.mjs';
 process.on('unhandledRejection', (e) => { console.log('FAIL\n' + String(e && e.stack || e).slice(0, 1500)); process.exit(1); });
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -30,10 +31,11 @@ const enc = encodeURIComponent;
 await page.goto('file://' + path.join(HERE, 'dist', 'Blackthorn-HQ-preview.html') + '#/');
 await settle();
 await page.evaluate(() => { Object.keys(localStorage).filter((k) => /^bt-(preview-tabs|draft:variant|lib-groups|bench-last)/.test(k)).forEach((k) => localStorage.removeItem(k)); });
+await seedPage(page, ['heartgold', 'platinum']); await settle();   // v2 (D-078): a seeded team (test_seed.mjs)
 
 // the directory
 await go('#/trainers', '#trf');
-expect('the directory lists every trainer', /84 trainers/.test(await text()));   // 79 from canon and the games, 5 more with the trainer ecosystem (D-077)
+expect('the directory lists every trainer', /83 trainers/.test(await text()));   // 79 from canon and the games, 5 more with the trainer ecosystem (D-077), less the journey trainer the fresh start hides (D-078)
 await page.fill('#trf [name=q]', 'cynthia');
 await page.waitForTimeout(200);
 expect('the search narrows it to Cynthia', /^1 trainer$/.test(await page.evaluate(() => document.getElementById('trn').textContent)));
@@ -73,10 +75,10 @@ await page.waitForTimeout(200);
 t = await text();
 expect('8: raising the bar to 80% changes the verdict and the version, not the fights', /short of the 80% bar/.test(t) && /Beats 18 of 24/.test(t) && /adjusted: published @e92ef83e/.test(t));
 const ace = await page.evaluate(() => {   // every Ace collection reproduces the stored reads' rates (a few builds per generation)
-  const out = [], picks = {2: 'me:crystal/Feraligatr', 3: 'me:emerald/Swampert', 4: 'me:platinum/Garchomp'};
+  const out = [], picks = {2: 'competitive:gen2ou/snorlax-72a6cc5a', 3: 'competitive:gen3ou/metagross-481e32a4', 4: 'competitive:gen4ou/swampert-d8015e9a'};   // v2: reference builds (the journey's are hidden)
   Object.keys(picks).forEach((g) => {
-    const read = S.r4.reads[picks[g]], a = read.roles.filter((r) => r.role === 'ace')[0].numbers, ind = S.store.individuals[picks[g]];
-    const b = Object.assign(indBuild(ind), {game: ind.game, generation: +g});
+    const read = S.r4.reads[picks[g]], a = read.roles.filter((r) => r.role === 'ace')[0].numbers, rec = storeBuild(picks[g]);
+    const b = Object.assign(buildOf(rec, picks[g]), {game: gameOf(rec), generation: +g});
     const e4 = Library.run(b, Library.collection('ace-elite-four-gen' + g).members, 'standardized', 0.8), ch = Library.run(b, Library.collection('ace-champion-gen' + g).members, 'standardized', 0.7);
     out.push([picks[g], e4.rate, a.elite_four_rate, e4.n, a.elite_four_n, ch.rate, a.champion_rate, ch.n, a.champion_n]);
   });
@@ -114,11 +116,11 @@ expect('9: the original is untouched', before === await page.evaluate(() => JSON
 expect('9: kept fields keep the game\'s evidence, changed ones are your hypothesis', await page.evaluate((id) => { const e = Library.version(id).evidence; return e[0].species[0] === 'confirmed' && e[0].moves[0] === 'hypothetical' && e[0].level[0] === 'hypothetical'; }, vid));
 
 // 10. the same records everywhere
-expect('10: the team lab can open it (My Teams)', await page.evaluate((id) => savedTeams('platinum').some((x) => x.id === id && x.trainer === 'cynthia'), vid));
+expect('10: it is kept in My Teams, where the Arena plays it', await page.evaluate((id) => { const t = (S.store.teams || {})[id]; return !!t && t.trainer === 'cynthia' && t.game === 'platinum'; }, vid));
 await go('#/bench?ind=' + enc('me:platinum/Garchomp') + '&v=' + enc(vid), '#bnres .card');
 expect('10: it benchmarks like any version', /Cynthia, optimized \(yours\)/.test(await text()) && /Beats \d of 6/.test(await text()));
-await go('#/pokemon/' + enc('me:platinum/Garchomp'), '#plname', true);
-expect('10: the Studio offers the benchmark', await page.evaluate(() => !![...document.querySelectorAll('#page a')].find((a) => /^#\/bench\?ind=/.test(a.getAttribute('href')) && /Benchmark it/.test(a.textContent))));
+await go('#/pokemon/' + enc('me:platinum/Garchomp'), '#pbin', true);
+expect('10: the builder offers the benchmark', await page.evaluate(() => !![...document.querySelectorAll('#page a')].find((a) => /^#\/bench\?ind=/.test(a.getAttribute('href')) && /Benchmark it/.test(a.textContent))));
 await go('#/scouting/cynthia-champion-platinum', '.card', true);
 await page.evaluate(() => nav([...document.querySelectorAll('#page a')].find((a) => /In the Trainer Library/.test(a.textContent)).getAttribute('href')));
 await page.waitForFunction(() => NAVI.hash === '#/trainer/cynthia/platinum%2Fcynthia', null, { timeout: 30000 }).catch(() => {});

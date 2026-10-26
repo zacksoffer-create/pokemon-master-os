@@ -1,6 +1,8 @@
-// The four labs in the preview build (app/dist/Blackthorn-HQ-preview.html): every lab page opens without an error,
-// a move changed in the Pokémon lab re-reads the build live (before and after shown), the team lab answers every
-// scenario question and lists candidates, the breeding lab opens a line offspring-first, and PKHeX export writes a set.
+// v2 (D-078) in the preview build (app/dist/Blackthorn-HQ-preview.html), from a fresh start: home leads with six blank
+// teams; a Pokémon added to HeartGold opens in the builder; its moves come from dropdowns with everything about them;
+// the five roles re-read live; a draft survives leaving the page; saves keep every version; a candidate joins the team;
+// the tiles reorder and the team keeps its own trainer; every section of the team homepage reads; a swap reads; the
+// breeding lab, PKHeX export, the Survival Lab, the profile and a picture upload all work with the new Pokémon.
 // Run: python3 -I app/build.py && node app/test_labs.mjs                  (tests/test_engines.py runs it)
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,110 +18,112 @@ const errors = [], fails = [];
 page.on('pageerror', (e) => errors.push(String(e.stack || e).slice(0, 600)));
 const settle = async (sel, ms = 240000) => { const t = Date.now(); while (Date.now() - t < ms) {
   const st = await page.evaluate((s) => { const p = document.getElementById('page'); if (!p || /^\s*Opening…\s*$/.test(p.innerText)) return 'opening';
-    if (s && !document.querySelector(s)) return 'wait'; if (document.getElementById('plbusy') || document.getElementById('tlbusy')) return 'busy';
-    return /Reading (it|the six|candidates)…/.test(p.innerText) ? 'reading' : 'ok'; }, sel); if (st === 'ok') return true; await page.waitForTimeout(200); } return false; };
+    if (s && !document.querySelector(s)) return 'wait'; if (document.getElementById('pbbusy')) return 'busy';
+    return /Reading (it|the six|candidates)/.test(p.innerText) ? 'reading' : 'ok'; }, sel); if (st === 'ok') return true; await page.waitForTimeout(200); } return false; };
 const go = async (h, sel) => { await page.evaluate((x) => nav(x), h); if (!await settle(sel)) fails.push(h + ': never settled (waiting for ' + sel + ')');
   const n = await page.evaluate(() => [...document.querySelectorAll('#page .notice')].map((x) => x.innerText).join(' | '));
-  if (n && !/Re-reading/.test(n)) fails.push(h + ': ' + n.slice(0, 300)); };
+  if (n && !/Re-reading|v2: each of your six teams/.test(n)) fails.push(h + ': ' + n.slice(0, 300)); };
 await page.goto('file://' + path.join(HERE, 'dist', 'Blackthorn-HQ-preview.html') + '#/');
-await settle();
-await go('#/pokemon', '.pickgrid .pick');
-await go('#/pokemon/' + encodeURIComponent('me:heartgold/Typhlosion'), '#plout .rrow');
-const before = await page.evaluate(() => [...document.querySelectorAll('#plout .rrow')].map((r) => r.innerText).join('|'));
-await page.fill('[data-plmove="1"]', 'Focus Blast');
-await page.waitForTimeout(800);
-await settle('#plout .rrow');
-const after = await page.evaluate(() => ({ rows: [...document.querySelectorAll('#plout .rrow')].map((r) => r.innerText).join('|'), lines: document.querySelectorAll('#plout .sent.new, #plout .sent.gone').length }));
-if (after.rows === before) fails.push('Pokémon lab: changing a move didn\'t change any team role score');
-if (!after.lines) fails.push('Pokémon lab: changing a move didn\'t change any scouting line');
-// a team role set by hand holds in the Pokémon lab and in the team lab
-await page.selectOption('[data-ov="ace"]', 'yes');
-await page.waitForTimeout(300); await settle('#plout .rrow');
-const hand = await page.evaluate(() => ({ chip: /by hand, trial/.test(document.getElementById('plout').innerText), earned: document.getElementById('plearned').innerText }));
-if (!hand.chip || !/Ace/.test(hand.earned)) fails.push('override: setting Ace by hand didn\'t show (' + JSON.stringify(hand) + ')');
-await go('#/team/heartgold', '.tslots');
-const inTeam = await page.evaluate(() => TL.comp.roles.ace.indexOf('Typhlosion') >= 0);
-if (!inTeam) fails.push('override: the team lab doesn\'t count Typhlosion as an Ace after setting it by hand');
-await page.evaluate(() => store('role-overrides', {}));
+await page.evaluate(() => { localStorage.removeItem('bt-preview-tabs'); });
+await page.reload(); await settle('.jcards');
+// a fresh start: six blank teams, nothing of yours
+const home = await page.evaluate(() => ({ cards: document.querySelectorAll('.jcards .jcard').length, start: /Start here/.test(document.getElementById('page').innerText), mine: Object.keys(S.store.individuals || {}).length }));
+if (home.cards !== 6 || !home.start || home.mine) fails.push('home: expected six blank teams and Start here, got ' + JSON.stringify(home));
+await go('#/team/heartgold', '#tmsix');
+const empty = await page.evaluate(() => document.querySelectorAll('#tmsix .tile.add').length);
+if (empty !== 6) fails.push('team: a blank HeartGold team should have six empty slots, has ' + empty);
+// add Typhlosion to slot 1: it opens in the builder
+await page.evaluate(() => addPokemon('Typhlosion', 'heartgold', 0));
+await page.waitForFunction(() => /^#\/pokemon\/me:heartgold/.test(decodeURIComponent(NAVI.hash)), null, { timeout: 30000 }).catch(() => fails.push('add: the builder never opened'));
+await settle('#pbroles .role5');
+const id = await page.evaluate(() => PB.id);
+const b0 = await page.evaluate(() => ({ roles: [...document.querySelectorAll('#pbroles .role5 b')].map((x) => x.textContent), moves: document.querySelectorAll('[data-pbmove="0"] option').length,
+  dex: document.querySelectorAll('.dexblock .dexe').length, team: PB.team }));
+if (b0.roles.join() !== 'Ace,Sweeper,Support,Wall,Tank') fails.push('builder: the roles are ' + b0.roles.join());
+if (b0.moves < 50) fails.push('builder: only ' + b0.moves + ' moves in the dropdown');
+if (b0.dex < 3) fails.push('builder: only ' + b0.dex + ' Pokédex entries');
+if (!b0.team || b0.team.game !== 'heartgold' || b0.team.slot !== 0) fails.push('builder: it isn\'t on the team in slot 1 ' + JSON.stringify(b0.team));
+const rolesBefore = await page.evaluate(() => [...document.querySelectorAll('#pbroles .role5 .num')].map((x) => x.textContent).join('|'));
+for (const [i, m] of ['Flamethrower', 'Extrasensory', 'Thunder Punch', 'Earthquake'].entries()) { await page.selectOption(`[data-pbmove="${i}"]`, m); await page.waitForTimeout(120); }
+await page.selectOption('[data-pb="nature"]', 'Modest');
+await page.click('[data-pbevmax="spa"]'); await page.click('[data-pbevmax="spe"]');
+await page.waitForTimeout(800); await settle('#pbroles .role5');
+const b1 = await page.evaluate(() => ({ roles: [...document.querySelectorAll('#pbroles .role5 .num')].map((x) => x.textContent).join('|'), info: document.querySelector('[data-pbmx="0"]').innerText,
+  nat: document.getElementById('pbnatx').innerText, evs: PB.cur.evs, ab: document.getElementById('pbabx').innerText, badges: document.querySelectorAll('#pbbadges .bfam').length,
+  scout: document.querySelectorAll('#pbscout ul.scout').length, wild: document.querySelectorAll('#pbwild .wtag').length }));
+if (b1.roles === rolesBefore) fails.push('builder: choosing moves didn\'t change any role score');
+if (!/PP/.test(b1.info) || !/Power/.test(b1.info) || !/“/.test(b1.info)) fails.push('builder: the move info lacks PP, power or the game\'s description: ' + b1.info.slice(0, 160));
+if (!/Special Attack \+10%/.test(b1.nat) || !/Likes/.test(b1.nat)) fails.push('builder: the nature description is ' + b1.nat);
+if (!b1.evs || b1.evs.spa !== 252 || b1.evs.spe !== 252) fails.push('builder: Max EVs gave ' + JSON.stringify(b1.evs));
+if (!/Blaze/.test(b1.ab)) fails.push('builder: no ability description');
+if (b1.badges !== 6) fails.push('builder: ' + b1.badges + ' badge families, not 6');
+if (b1.scout !== 3) fails.push('builder: the scouting report has ' + b1.scout + ' lists');
+if (!b1.wild) fails.push('builder: no wilderness tags');
+// a draft survives leaving the page
+await go('#/team/heartgold', '#tmsix');
+await go('#/pokemon/' + encodeURIComponent(id), '#pbroles .role5');
+const kept = await page.evaluate(() => ({ draft: /Unsaved changes/.test(document.getElementById('pbdraft').innerText), mv: document.querySelector('[data-pbmove="1"]').value }));
+if (!kept.draft || kept.mv !== 'Extrasensory') fails.push('draft: the unsaved build didn\'t survive leaving the page ' + JSON.stringify(kept));
+// save, change, save again: two versions, the first kept
+await page.click('#pbsave');
+await page.waitForFunction(() => { const i = S.store.individuals[PB.id]; return i && i.build && !document.getElementById('pbdraft').innerText; }, null, { timeout: 60000 }).catch(() => fails.push('save: the build never saved'));
+await settle('#pbroles .role5');
+await page.selectOption('[data-pbmove="1"]', 'Focus Blast'); await page.waitForTimeout(400);
+await page.fill('#pbnote', 'Focus Blast for coverage'); await page.click('#pbsave');
+await page.waitForFunction(() => { const i = S.store.individuals[PB.id], b = document.getElementById('pbsave'); return i && Records.versions(i.build).length === 2 && b && !b.disabled; }, null, { timeout: 60000 }).catch(() => {});
+await settle('#pbroles .role5');
+const hist = await page.evaluate(() => { const i = S.store.individuals[PB.id]; return { n: Records.versions(i.build).length, v1: Records.version(i.build, 1).moves[1], v2: Records.version(i.build, 2).moves[1], note: Records.version(i.build, 2).note }; });
+if (hist.n !== 2 || hist.v1 !== 'Extrasensory' || hist.v2 !== 'Focus Blast' || !/coverage/.test(hist.note || '')) fails.push('save: ' + JSON.stringify(hist));
+// the team: a candidate joins, the order changes, the team has its own trainer
+await go('#/team/heartgold', '#tmsix .tile[data-go]');
+await settle('#tmclist .cand');
+const cands = await page.evaluate(() => document.querySelectorAll('#tmclist .cand').length);
+if (!cands) fails.push('team: no candidates');
+await page.evaluate(() => { const k = Object.keys(S.store.builds).filter((x) => S.store.builds[x].species === 'Tyranitar' && (S.store.builds[x].generation || 4) === 4 && S.store.builds[x].provenance !== 'yours')[0]; tmPut(k, 1); });
+await page.waitForFunction(() => Teams.filled(Teams.get('heartgold')) === 2, null, { timeout: 60000 }).catch(() => fails.push('team: the Tyranitar candidate never joined'));
+await settle('#tmsix .tile[data-go]');
+await page.evaluate(() => tmMove(1, 0));
+await page.waitForFunction(() => { const s = Teams.get('heartgold').slots; return s[0] && s[0].species === 'Tyranitar'; }, null, { timeout: 30000 }).catch(() => fails.push('team: moving Tyranitar to the front didn\'t save'));
+await page.fill('#tmtf [name=name]', 'Zack'); await page.fill('#tmtf [name=philosophy]', 'Nothing you do matters.'); await page.selectOption('#tmtf [name=style]', 'setup');
+await page.click('#tmtf button');
+await page.waitForFunction(() => Teams.get('heartgold').profile.name === 'Zack', null, { timeout: 30000 }).catch(() => fails.push('trainer: the name never saved'));
+await go('#/team/heartgold', '#tmsix .tile[data-go]');
+await page.waitForFunction(() => document.querySelector('#tm-scout .scout3') && document.querySelector('#tm-shape .rmatrix'), null, { timeout: 240000 }).catch(() => {});
+const sec = await page.evaluate(() => ({ title: document.getElementById('tmtitle').textContent, scout: !!document.querySelector('#tm-scout .scout3'), shape: !!document.querySelector('#tm-shape .rmatrix'),
+  shapes: document.querySelectorAll('#tm-shape .shape').length, cover: document.querySelectorAll('#tm-cover .typecell').length, badges: document.querySelectorAll('#tm-ach .gbadge').length,
+  swap: !!document.getElementById('tmswf'), style: Teams.get('heartgold').profile.style, first: (document.querySelector('#tmsix .tile[data-go] .nm') || {}).textContent }));
+if (sec.title !== 'Zack\'s HeartGold' || !sec.scout || !sec.shape || sec.shapes !== 9 || sec.cover < 30 || sec.badges !== 16 || !sec.swap || sec.style !== 'setup' || sec.first !== 'Tyranitar') fails.push('team sections: ' + JSON.stringify(sec));
+await page.selectOption('#tmswf [name=what]', 'nature'); await page.waitForTimeout(200);
+await page.click('#tmswgo');
+await page.waitForFunction(() => /Its roles/.test((document.getElementById('tmswout') || {}).innerText || ''), null, { timeout: 120000 }).catch(() => fails.push('swap: no read came back'));
+// the other teams stay their own
+await go('#/team/crystal', '#tmsix');
+const crystal = await page.evaluate(() => ({ n: Teams.filled(Teams.get('crystal')), name: Teams.get('crystal').profile.name }));
+if (crystal.n !== 0 || crystal.name === 'Zack') fails.push('crystal: it should be blank with its own trainer ' + JSON.stringify(crystal));
 await go('#/compare/Garchomp', 'table.t');
 const rows = await page.evaluate(() => document.querySelectorAll('#page table.t tr').length - 1);
 if (rows < 4) fails.push('compare: only ' + rows + ' Garchomp builds');
-await go('#/team/heartgold', '.tslots');
-const team = await page.evaluate(() => ({ slots: TL.team.filter(Boolean).length, q: TL.comp.questions.filter((x) => x.ok === null).map((x) => x.id), cands: document.querySelectorAll('#tlclist .cand').length }));
-if (team.slots !== 6) fails.push('team lab: the HeartGold default has ' + team.slots + ' members, not 6');
-if (team.q.length) fails.push('team lab: unanswered question kinds ' + team.q.join(', '));
-if (!team.cands) fails.push('team lab: no candidates');
-await go('#/team/crystal', '.tslots');
-await go('#/lines', '.pickgrid .pick');
-await go('#/lines/mamoswine-ancient-power', '.chain');
-await go('#/lines/heartgold-tyranitar', '.chain');
-await go('#/pkhex/' + encodeURIComponent('me:heartgold/Typhlosion'), '.paste');
+await go('#/lines', null);
+await go('#/pkhex/' + encodeURIComponent(id), '.paste');
 const set = await page.evaluate(() => document.querySelector('.paste').innerText);
-if (!/^Typhlosion/.test(set) || !/- Flamethrower/.test(set)) fails.push('PKHeX export: unexpected set ' + set.slice(0, 120));
-// your records (Phase 1): a draft survives leaving the page, a save keeps the earlier version, every lab reads the newest
-const TY = '#/pokemon/' + encodeURIComponent('me:heartgold/Tyranitar');
-await go(TY, '#plout .rrow');
-await page.fill('[data-plmove="1"]', 'Stone Edge');
-await page.waitForTimeout(700); await settle('#plout .rrow');
-await go('#/pokemon', '.pickgrid .pick');
-await go(TY, '#plout .rrow');
-const kept = await page.evaluate(() => ({ draft: /Unsaved changes/.test(document.getElementById('pldraft').innerText), mv: document.querySelector('[data-plmove="1"]').value }));
-if (!kept.draft || kept.mv !== 'Stone Edge') fails.push('draft: the unsaved move didn\'t survive leaving the page ' + JSON.stringify(kept));
-await page.evaluate(() => plSave(false));
-await page.fill('#askt', 'Stone Edge for coverage');
-await page.click('#askf button');
-await page.waitForFunction(() => window.PL && PL.rec && PL.rec.v === 2, null, { timeout: 60000 }).catch(() => {});
-await settle('#plout .rrow');
-const hist = await page.evaluate(() => ({ n: Records.versions(PL.rec.buildId).length, cur: PL.rec.v, mv: PL.base.moves[1], draft: document.getElementById('pldraft').innerText, card: !!document.querySelector('#plhist .card, #plhist [id^="m-"]') }));
-if (hist.n !== 2 || hist.cur !== 2 || hist.mv !== 'Stone Edge' || hist.draft) fails.push('save: expected v2 of 2 with Stone Edge and no draft, got ' + JSON.stringify(hist));
-const v1 = await page.evaluate(() => Records.version(PL.rec.buildId, 1).moves[1]);
-if (v1 !== 'Crunch') fails.push('save: v1 should still have Crunch, has ' + v1);
-await page.evaluate(() => store('team-heartgold', null));
-await go('#/team/heartgold', '.tslots');
-const tmv = await page.evaluate(() => (TL.team.filter((b) => b && b.species === 'Tyranitar')[0] || {}).moves || []);
-if (tmv.indexOf('Stone Edge') < 0) fails.push('team lab: Tyranitar should open with its saved v2 moves, has ' + tmv.join(', '));
-await page.evaluate(() => tlSaveTeam());
-await page.fill('#askt', 'Winter six');
-await page.click('#askf button');
-await page.waitForFunction(() => Object.keys(S.store.teams).some((k) => S.store.teams[k].title === 'Winter six'), null, { timeout: 20000 }).catch(() => fails.push('team lab: the saved team never appeared in S.store.teams'));
+if (!/^Typhlosion/.test(set) || !/- Flamethrower/.test(set) || !/Modest Nature/.test(set)) fails.push('PKHeX export: unexpected set ' + set.slice(0, 160));
 await go('#/field', '#svteam');
 const fopts = await page.evaluate(() => [...document.querySelectorAll('#svteam option')].map((o) => o.textContent));
-if (!fopts.some((o) => /Saved · Winter six/.test(o))) fails.push('survival: the saved team isn\'t offered (' + fopts.slice(0, 4).join(' | ') + ')');
-await go('#/pokemon', '#plnew');
-for (const nick of ['Pebble', 'Gravel']) {
-  await page.evaluate((n) => plNew('Larvitar', 'heartgold', n), nick);
-  await page.waitForFunction((n) => Object.keys(S.store.individuals).some((k) => S.store.individuals[k].nickname === n), nick, { timeout: 20000 }).catch(() => {});
-  await settle('#plout .rrow');
-}
-const larv = await page.evaluate(() => Object.keys(S.store.individuals).filter((k) => S.store.individuals[k].species === 'Larvitar' && S.store.individuals[k].game === 'heartgold'));
-if (larv.length < 2) fails.push('new Pokémon: two Larvitar in HeartGold should both exist, have ' + larv.join(', '));
-// My World (Phase 3): the collection, a profile, its showcase, an image packet, a picture uploaded and set as the profile picture
-await go('#/mine', '.mgrid .mcard');
-const nMine = await page.evaluate(() => document.querySelectorAll('.mgrid .mcard').length);
-if (nMine < 36) fails.push('your Pokémon: only ' + nMine + ' cards');
-await go('#/mon/' + encodeURIComponent('me:heartgold/Tyranitar'), '.mhero');
-const prof = await page.evaluate(() => ({ h1: document.querySelector('.mhero h1').innerText, refs: document.querySelectorAll('.mgal figure').length, tools: document.querySelectorAll('.tool').length, v2: /v2/.test(document.getElementById('page').innerText) }));
-if (!/Tyranitar/.test(prof.h1) || prof.refs < 2 || prof.tools < 5 || !prof.v2) fails.push('profile: ' + JSON.stringify(prof));
-await page.click('#mpack');
-const pk = await page.evaluate(() => document.getElementById('pktext').value);
-if (!/^1\. Subject: .*Tyranitar/.test(pk) || !/10\. Use:/.test(pk) || !/don't invent a difference/.test(pk)) fails.push('image packet: ' + pk.slice(0, 200));
-await page.evaluate(() => closeDrawer());
+if (!fopts.some((o) => /Zack's HeartGold team/.test(o))) fails.push('survival: the HeartGold team isn\'t offered (' + fopts.slice(0, 4).join(' | ') + ')');
+// your Pokémon and a profile, with a picture upload
+await go('#/pokemon', '.pickgrid .pick');
+const nMine = await page.evaluate(() => document.querySelectorAll('.pickgrid .pick').length);
+if (nMine < 2) fails.push('your Pokémon: only ' + nMine);
+await go('#/mon/' + encodeURIComponent(id), '.mhero');
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVR4nGP8z8DwnwEJMDGgASwCAKS1AgFZ0iUJAAAAAElFTkSuQmCC', 'base64');
 page.once('dialog', (d) => d.dismiss());
-await page.setInputFiles('#mup', { name: 'rex.png', mimeType: 'image/png', buffer: png });
+await page.setInputFiles('#mup', { name: 'ember.png', mimeType: 'image/png', buffer: png });
 await page.waitForSelector('#askt', { timeout: 10000 }).catch(() => {});
-await page.fill('#askt', 'Rex at dawn');
+await page.fill('#askt', 'Ember at dusk');
 await page.click('#askf button');
-await page.waitForFunction(() => { const i = S.store.individuals['me:heartgold/Tyranitar']; return i && i.hero && S.store.artwork[i.hero]; }, null, { timeout: 30000 }).catch(() => fails.push('upload: the picture never became the profile picture'));
-await settle('.mhero');
-await page.waitForFunction(() => /^data:image/.test(((document.querySelector('.mhero .mart img') || {}).src) || ''), null, { timeout: 10000 }).catch(() => {});
-const heroSrc = await page.evaluate(() => (document.querySelector('.mhero .mart img') || {}).src || '');
-if (!/^data:image\/jpeg/.test(heroSrc)) fails.push('upload: the profile picture is ' + heroSrc.slice(0, 80));
-await go('#/mon/' + encodeURIComponent('me:heartgold/Tyranitar') + '/showcase', '.mhero');
-const sc = await page.evaluate(() => ({ edit: !!document.querySelector('#mpack'), up: !!document.querySelector('#mup') }));
-if (sc.edit || sc.up) fails.push('showcase: working controls are showing ' + JSON.stringify(sc));
+await page.waitForFunction((i) => { const x = S.store.individuals[i]; return x && x.hero && S.store.artwork[x.hero]; }, id, { timeout: 30000 }).catch(() => fails.push('upload: the picture never became the profile picture'));
 await page.evaluate(() => { localStorage.removeItem('bt-preview-tabs'); localStorage.removeItem('bt-preview-images'); Object.keys(localStorage).filter((k) => /^bt-(draft:|team-)/.test(k)).forEach((k) => localStorage.removeItem(k)); });
 await browser.close();
 for (const e of errors) fails.push('page error: ' + e);
 if (fails.length) { console.log(fails.join('\n')); process.exit(1); }
-console.log('labs ok: Pokémon lab live edit, compare (' + rows + ' Garchomp builds), team lab (' + team.cands + ' candidates), breeding lab, PKHeX export, saved versions, drafts, saved teams, new Pokémon, profiles, showcase, image packets, picture upload');
+console.log('labs ok: a fresh start, a Pokémon added and built (roles, move info, nature, EVs, badges, scouting, wilderness), a draft kept, two saved versions, a candidate on the team, reorder, the team\'s own trainer, every team section, a swap, compare (' + rows + ' Garchomp builds), PKHeX, the Survival Lab, your Pokémon, a profile picture');

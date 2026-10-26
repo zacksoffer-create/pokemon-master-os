@@ -1,12 +1,13 @@
 <script>
-/* ===== The four team roles and the build name, in the browser ==================================================
-   A line-for-line port of engine/trainers/team_roles.py: Ace (one-on-ones against the Elite Four and Champions,
-   both at level 100, in the battle engine), Wall (the 100 hardest-hitting attacks from those pools, or bulk),
-   Sweeper and Support (the role engine underneath), and Zack's name ladder. The rules are the pack's
-   (app/data/roles4.json → config, from trainers/team_roles.json). app/test_roles4_parity.mjs holds it to Python. */
+/* ===== The five team roles and the build name, in the browser ==================================================
+   A line-for-line port of engine/trainers/team_roles.py (v2, D-078): every role reads the same one-on-ones against
+   the Elite Four and Champions, both at level 100, in the battle engine. Ace beats enough of them; Sweeper moves
+   first and 2HKOs most (one use of its setup applied); Support carries support moves and lasts; Wall takes four hits
+   from one side and heals; Tank takes three from both and hits back. Then Zack's name ladder. The rules are the
+   pack's (app/data/roles4.json → config, from trainers/team_roles.json). app/test_roles4_parity.mjs holds it to Python. */
 var TeamRoles = (function () {
   var CFG = null, BST = {}, SETUP = ['setup_physical', 'setup_special', 'setup_speed', 'setup_defense'];
-  var GAME_OF_GEN = {2: 'crystal', 3: 'emerald', 4: 'platinum'}, ORDER = ['ace', 'wall', 'sweeper', 'support'];
+  var GAME_OF_GEN = {2: 'crystal', 3: 'emerald', 4: 'platinum'}, ORDER = ['ace', 'sweeper', 'support', 'wall', 'tank'];   // Zack's order (v2)
   var Sc = null, Bt = null, eng = null, pools = {};
   function init(pack, scout, battle) { CFG = pack.config; BST = pack.bst || {}; Sc = scout; Bt = battle; eng = null; pools = {}; }
   function engine() { return eng || (eng = Bt.engine()); }
@@ -78,21 +79,6 @@ var TeamRoles = (function () {
       numbers: {elite_four_rate: rate.elite_four, champion_rate: rate.champion, elite_four_n: n.elite_four, champion_n: n.champion, lost_to: lost}};
   }
 
-  function wall(f, sig) {
-    var r = CFG.roles.wall, hits = [];
-    ['elite_four', 'champion'].forEach(function (p) { f[p].forEach(function (x) {
-      Object.keys(x[2].incoming).forEach(function (mv) { var lh = x[2].incoming[mv]; hits.push([lh[1], lh[0], x[0].name, mv]); }); }); });
-    hits.sort(function (a, b) { return (b[0] - a[0]) || (b[1] - a[1]) || cmp(a[2], b[2]) || cmp(a[3], b[3]); });
-    var top = hits.slice(0, r.hardest_attacks), n = r.hits_to_take, under = 100 / (n - 1);
-    var share = top.length ? top.filter(function (h) { return h[0] < under; }).length / top.length : 0.0;
-    var bulk = Math.min(sig.bulk_phys || 0.0, sig.bulk_spec || 0.0), byHits = share >= r.share_at_least, byBulk = bulk >= r.bulk_percentile_at_least;
-    return {role: 'wall', score: Bt.pyRound(Math.max(share, bulk), 4), earned: byHits || byBulk,
-      why: ['takes ' + n + ' or more hits from ' + pct(share) + '% of the ' + top.length + ' hardest-hitting Elite Four and Champion attacks (needs ' + pct(r.share_at_least) + '%)',
-            'its weaker side of bulk is above ' + pct(bulk) + '% of the field (needs ' + pct(r.bulk_percentile_at_least) + '%)'],
-      numbers: {hit_share: Bt.pyRound(share, 4), hits_to_take: n, attacks_read: top.length, bulk_low_side: Bt.pyRound(bulk, 4), by_hits: byHits, by_bulk: byBulk,
-        hardest: top.slice(0, 5).map(function (h) { return {attacker: h[2], move: h[3], max: h[0], min: h[1]}; })}};
-  }
-
   function evidence(f, gen) {   // team_roles.py evidence(): what the Ace fights show, for the recognition badges
     var foes = {}, order = [];
     ['elite_four', 'champion'].forEach(function (p) { f[p].forEach(function (x) { if (!foes[x[0].key]) { foes[x[0].key] = [x[0], x[2]]; order.push(x[0].key); } }); });
@@ -126,17 +112,77 @@ var TeamRoles = (function () {
     return out;
   }
   function best(list) { var b = null; list.forEach(function (x) { if (!b || x.score > b.score) b = x; }); return b; }
-  function sweeper(cl) {
-    var r = CFG.roles.sweeper, b = best(cl.roles.filter(function (x) { return r.from_roles.indexOf(x.role) >= 0; }));
-    return {role: 'sweeper', score: b.score, earned: b.score >= r.score_at_least, why: ['best sweeping role: ' + b.name + ' ' + fx(b.score) + ' (needs ' + fx(r.score_at_least) + ')'], numbers: {from: b.role}};
+  // --- v2 (D-078): the facts every role reads, from the fights ---
+  function stageMult(stage) { var st = Math.max(0, Math.min(Math.trunc(stage || 0), 2)); return (2 + st) / 2; }
+  function boosts(moves) {
+    var out = {atk: 0, spa: 0, spe: 0};
+    moves.forEach(function (m) { if (!inter(m.categories, SETUP).length) return;
+      Object.keys(out).forEach(function (s) { out[s] = Math.max(out[s], Math.min(2, Math.trunc((m.stat_changes || {})[s] || 0))); }); });
+    return out;
   }
-  function support(cl, moves) {
+  function facts(f, gen, moves, item) {
+    var foes = {}, order = [];
+    ['elite_four', 'champion'].forEach(function (p) { f[p].forEach(function (x) { if (!foes[x[0].key]) { foes[x[0].key] = [x[0], x[2]]; order.push(x[0].key); } }); });
+    var rows = order.map(function (k) { return foes[k]; }), b = boosts(moves), smult = stageMult(b.spe);
+    var kind = function (mv) { return {Physical: 'atk', Special: 'spa'}[Bt.move(gen, mv).cat]; };
+    var c = {first: 0, firstB: 0, ko2: 0, ko2B: 0, ko1: 0, ko1B: 0}, hits = [];
+    rows.forEach(function (r) {
+      var m = r[1], ours = m.speeds[0], theirs = m.speeds[1], bestP = 0.0, bestB = 0.0;
+      if (ours > theirs) c.first++;
+      if (Math.trunc(ours * smult) > theirs) c.firstB++;
+      Object.keys(m.damage).forEach(function (mv) { var k = kind(mv); if (!k) return; var lo = m.damage[mv][0];
+        bestP = Math.max(bestP, lo); bestB = Math.max(bestB, lo * stageMult(b[k])); });
+      if (bestP >= 50) c.ko2++; if (bestP >= 100) c.ko1++; if (bestB >= 50) c.ko2B++; if (bestB >= 100) c.ko1B++;
+      Object.keys(m.incoming).forEach(function (mv) { var lh = m.incoming[mv]; hits.push([lh[1], lh[0], r[0].name, mv, String(Bt.move(gen, mv).cat || '').toLowerCase()]); });
+    });
+    hits.sort(function (a, z) { return (z[0] - a[0]) || (z[1] - a[1]) || cmp(a[2], z[2]) || cmp(a[3], z[3]); });
+    var n = rows.length || 1, r4 = function (x) { return Bt.pyRound(x, 4); };
+    var sustain = moves.filter(function (m) { return inter(m.categories, ['recovery', 'rest']).length; }).map(function (m) { return m.name; })
+      .filter(function (x, i, a) { return a.indexOf(x) === i; }).sort(cmp);
+    return {foes: rows.length, boosts: b, speed_mult: smult, first: r4(c.first / n), first_boosted: r4(c.firstB / n),
+      ko2: r4(c.ko2 / n), ko2_boosted: r4(c.ko2B / n), ko1: r4(c.ko1 / n), ko1_boosted: r4(c.ko1B / n),
+      sustain_moves: sustain, sustain_item: CFG.roles.wall.sustain_items.indexOf(item) >= 0 ? item : null, _hits: hits};
+  }
+  function takeShare(hits, n) { var under = 100 / (n - 1); return hits.length ? hits.filter(function (h) { return h[0] < under; }).length / hits.length : 0.0; }
+  var STAT_WORD = {atk: 'Attack', spa: 'Sp. Atk', spe: 'Speed'};
+  function sweeper(fx) {
+    var r = CFG.roles.sweeper, b = fx.boosts, first = fx.first_boosted, ko = fx.ko2_boosted;
+    var boosted = b.atk || b.spa || b.spe, how = Object.keys(b).filter(function (k) { return b[k]; }).map(function (k) { return '+' + b[k] + ' ' + STAT_WORD[k]; }).join(', ');
+    var why = ['moves first against ' + pct(first) + '% of ' + fx.foes + ' League Pokémon (needs ' + pct(r.first_at_least) + '%)' + (b.spe ? '; ' + pct(fx.first) + '% before its setup' : ''),
+      'its best attack is a guaranteed 2HKO on ' + pct(ko) + '% of them (needs ' + pct(r.ko_at_least) + '%)' + (b.atk || b.spa ? '; ' + pct(fx.ko2) + '% before its setup' : ''),
+      'its best attack is a guaranteed OHKO on ' + pct(fx.ko1_boosted) + '% of them (needs ' + pct(r.ohko_at_least) + '%)'];
+    if (boosted) why.push('with one use of its setup (' + how + '), an estimate from the stage multiplier');
+    return {role: 'sweeper', score: Bt.pyRound(Math.sqrt(first * ko), 4), earned: first >= r.first_at_least && ko >= r.ko_at_least && fx.ko1_boosted >= r.ohko_at_least, why: why,
+      numbers: {first: first, ko2: ko, ko1: fx.ko1_boosted, first_plain: fx.first, ko2_plain: fx.ko2, boosts: b, foes: fx.foes}};
+  }
+  function support(fx, moves) {
     var r = CFG.roles.support, sup = moves.filter(function (m) { return inter(m.categories, r.support_categories).length; }).map(function (m) { return m.name; });
-    var b = best(cl.roles.filter(function (x) { return x.family === r.from_family; }));
-    var earned = sup.length >= r.moves_at_least && b.score >= r.score_at_least;
-    return {role: 'support', score: b.score, earned: earned,
-      why: ['support moves: ' + (sup.join(', ') || 'none') + ' (needs ' + r.moves_at_least + ')', 'best support role: ' + b.name + ' ' + fx(b.score) + ' (needs ' + fx(r.score_at_least) + ')'],
-      numbers: {support_moves: sup, from: b.role}};
+    var top = fx._hits.slice(0, r.hardest_attacks), survive = takeShare(top, 2);
+    var lasts = survive >= r.survive_at_least || fx.first >= r.first_at_least;
+    var score = Math.min(1.0, sup.length / 3) * (0.5 + 0.5 * Math.max(survive, fx.first));
+    return {role: 'support', score: Bt.pyRound(score, 4), earned: sup.length >= r.moves_at_least && lasts,
+      why: ['support moves: ' + (sup.join(', ') || 'none') + ' (needs ' + r.moves_at_least + ')',
+        'takes two or more hits from ' + pct(survive) + '% of the ' + top.length + ' hardest attacks (needs ' + pct(r.survive_at_least) + '%), or moves first against ' + pct(fx.first) + '% of them (needs ' + pct(r.first_at_least) + '%)'],
+      numbers: {support_moves: sup, survive: Bt.pyRound(survive, 4), first: fx.first, attacks_read: top.length}};
+  }
+  function wall(fx) {
+    var r = CFG.roles.wall, n = r.hits_to_take, side = {};
+    ['physical', 'special'].forEach(function (k) { var top = fx._hits.filter(function (h) { return h[4] === k; }).slice(0, r.hardest_attacks); side[k] = [Bt.pyRound(takeShare(top, n), 4), top.length]; });
+    var bestSide = side.special[0] > side.physical[0] ? 'special' : 'physical', share = side[bestSide][0];
+    var sustain = fx.sustain_moves.concat(fx.sustain_item ? [fx.sustain_item] : []);
+    var score = sustain.length ? share : share * r.no_sustain_factor;
+    return {role: 'wall', score: Bt.pyRound(score, 4), earned: share >= r.share_at_least && sustain.length > 0,
+      why: ['takes ' + n + ' or more hits from ' + pct(side.physical[0]) + '% of the ' + side.physical[1] + ' hardest physical attacks and ' + pct(side.special[0]) + '% of the ' + side.special[1] + ' hardest special ones (needs ' + pct(r.share_at_least) + '% on one side)',
+        'sustain: ' + (sustain.length ? sustain.join(', ') : 'none (no recovery, Rest, Wish or Leftovers)')],
+      numbers: {physical: side.physical[0], special: side.special[0], side: bestSide, sustain: sustain, hits_to_take: n,
+        hardest: fx._hits.slice(0, 5).map(function (h) { return {attacker: h[2], move: h[3], max: h[0], min: h[1]}; })}};
+  }
+  function tank(fx) {
+    var r = CFG.roles.tank, top = fx._hits.slice(0, r.hardest_attacks), share = takeShare(top, r.hits_to_take), ko = fx.ko2;
+    return {role: 'tank', score: Bt.pyRound(Math.sqrt(share * ko), 4), earned: share >= r.share_at_least && ko >= r.ko_at_least,
+      why: ['takes ' + r.hits_to_take + ' or more hits from ' + pct(share) + '% of the ' + top.length + ' hardest-hitting attacks (needs ' + pct(r.share_at_least) + '%)',
+        'its best attack is a guaranteed 2HKO on ' + pct(ko) + '% of the League\'s Pokémon, no boosts (needs ' + pct(r.ko_at_least) + '%)'],
+      numbers: {take_share: Bt.pyRound(share, 4), ko2: ko, attacks_read: top.length}};
   }
 
   function moveset(moves, gen) {
@@ -200,14 +246,16 @@ var TeamRoles = (function () {
     var filledMoves = combatant(b, gen).moves;
     var filled = Object.assign({}, b, {moves: filledMoves.slice(), level: CFG.level});
     var cl = Sc.classify(filled, game, CFG.level), ctx = Sc.roleContext(filled, game, CFG.level, null);
-    var team = [ace(F[b.id]), wall(F[b.id], cl.signals), sweeper(cl), support(cl, ctx.moves)].map(function (r) { return override(r, b.id); });
+    var fx = facts(F[b.id], gen, ctx.moves, ctx.item);
+    var team = [ace(F[b.id]), sweeper(fx), support(fx, ctx.moves), wall(fx), tank(fx)].map(function (r) { return override(r, b.id); });
     var sorted = team.map(function (r, i) { return [r, i]; }).sort(function (p, q) { return (q[0].score - p[0].score) || cmp(p[0].role, q[0].role); }).map(function (p) { return p[0]; });
     return {build: b.id, species: b.species, game: game, gen: gen, moves: filledMoves.slice(),
       filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
       earned: sorted.filter(function (r) { return r.earned; }).map(function (r) { return r.role; }),
       second_layer: {primary: cl.primary, secondary: cl.secondary, top: cl.roles.slice(0, 5).map(function (x) { return {role: x.role, name: x.name, score: x.score}; })},
-      name: name(cl, team, ctx.moves, gen, b.species), evidence: evidence(F[b.id], gen)};
+      name: name(cl, team, ctx.moves, gen, b.species), facts: publicFacts(fx), evidence: evidence(F[b.id], gen)};
   }
+  function publicFacts(fx) { var o = {}; Object.keys(fx).forEach(function (k) { if (k.charAt(0) !== '_') o[k] = fx[k]; }); return o; }
   function read(build, game) { var id = build.id || 'lab'; var b = Object.assign({}, build, {id: id}); return readMany([{build: b, game: game}])[id]; }
   return {init: init, read: read, readMany: readMany, pool: pool, override: override, config: function () { return CFG; }, ORDER: ORDER, GAME_OF_GEN: GAME_OF_GEN};
 })();

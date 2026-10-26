@@ -7,6 +7,7 @@
 // Run: python3 -I app/build.py && node app/test_gear.mjs                  (tests/test_engines.py runs it)
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { seedPage } from './test_seed.mjs';
 process.on('unhandledRejection', (e) => { console.log('FAIL\n' + String(e && e.stack || e).slice(0, 1500)); process.exit(1); });
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -35,6 +36,7 @@ PNG = Buffer.from(await page.evaluate(() => { const c = document.createElement('
   const g = x.createLinearGradient(0, 0, 320, 180); g.addColorStop(0, '#1b2a4a'); g.addColorStop(1, '#c9a96a'); x.fillStyle = g; x.fillRect(0, 0, 320, 180);
   return c.toDataURL('image/png').split(',')[1]; }), 'base64');
 await page.evaluate(() => { Object.keys(localStorage).filter((k) => /^bt-(preview-tabs|preview-images|ball-game)/.test(k)).forEach((k) => localStorage.removeItem(k)); });
+await seedPage(page, ['heartgold', 'platinum']); await settle();   // v2 (D-078): a seeded team (test_seed.mjs)
 
 // 1. the whole library, every card with its exterior picture
 await go('#/balls', '.ballgrid');
@@ -72,11 +74,12 @@ await page.evaluate(() => closeDrawer());
 
 // 5-6. assign a Moon Ball to one of yours; its profile shows the ball
 const ind = 'me:heartgold/Snorlax';
-await go('#/pokemon/' + encodeURIComponent(ind), '#plindf', true);
-await page.selectOption('#plindf [name=ball]', 'Moon Ball');
+await go('#/pokemon/' + encodeURIComponent(ind), '[data-who="ball"]', true);
+await page.selectOption('[data-who="ball"]', 'Moon Ball');
 await page.waitForTimeout(200);
-expect('5: the Studio checks the ball against how Snorlax is met', /Snorlax[\s\S]{0,80}(met in the wild|no wild encounter|gift)/.test(await page.evaluate(() => document.getElementById('plballfit').innerText)));
-await page.evaluate(() => document.querySelector('#plindf button.gold, #plindf [type=submit], #plindf button').click());
+expect('5: the builder checks the ball against how Snorlax is met', /Snorlax[\s\S]{0,80}(met in the wild|no wild encounter|gift)/.test(await page.evaluate(() => document.getElementById('pbballfit').innerText)));
+expect('5: the builder shows Snorlax in its Moon Ball', await page.evaluate(() => /Moon Ball/.test((document.querySelector('#pbportrait .inball') || {}).title || '')));
+await page.click('#pbsave');
 await page.waitForFunction((id) => S.store.individuals[id].ball === 'Moon Ball', ind, { timeout: 30000 }).catch(() => {});
 expect('5: the ball is saved', await page.evaluate((id) => S.store.individuals[id].ball, ind) === 'Moon Ball');
 await go('#/mon/' + encodeURIComponent(ind), '[data-mod="m-its-ball"]');

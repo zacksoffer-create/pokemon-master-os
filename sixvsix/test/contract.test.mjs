@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ENGINE, CONTRACT_VERSION, RULESETS, describeFormat, check, makeJob, baselineProfile } from '../src/index.js';
-import { makeFixtures, LIBRARY } from '../cli/make-fixtures.mjs';
+import { makeFixtures, LIBRARY, readLibrary } from '../cli/make-fixtures.mjs';
 import { ROOT, loadTeam } from './helpers.mjs';
 
 test('the engine a result claims is the engine installed', () => {
@@ -83,7 +83,7 @@ test('a job writes its defaults out and carries the contract and engine versions
 
 test('the committed fixtures are what the Trainer Library produces today (read-only)', (t) => {
   if (!fs.existsSync(LIBRARY)) { t.skip('engine/app/data/library.json is not here'); return; }
-  const library = JSON.parse(fs.readFileSync(LIBRARY, 'utf8'));
+  const library = readLibrary();
   const fx = makeFixtures(library);
   const read = (...p) => JSON.parse(fs.readFileSync(path.join(ROOT, 'fixtures', ...p), 'utf8'));
   const again = (x) => JSON.parse(JSON.stringify(x));

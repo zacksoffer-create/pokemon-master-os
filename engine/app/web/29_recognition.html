@@ -144,7 +144,20 @@ var Recognize = (function () {
     return out;
   }
   function tagName(id) { var t = CFG.tags.list.filter(function (x) { return x.id === id; })[0]; return t ? t.name : id; }
-  function badgeName(id) { if (id === 'speed') return CFG.speed.name; if (CFG.stats.names[id]) return CFG.stats.names[id]; return CFG.damage.badges[id].name; }
+  function badgeName(id) { if (id === 'speed') return CFG.speed.name; if ((CFG.kit || {})[id]) return CFG.kit[id].name; if (CFG.stats.names[id]) return CFG.stats.names[id]; return CFG.damage.badges[id].name; }
+  function kitPart(moves, item, gen) {   // v2 (D-078): Sustain and Utility, from the build's own moves and item
+    var K = CFG.kit, tiers = CFG.tiers, su = K.sustain, has = function (names) { return moves.filter(function (m) { return names.indexOf(m) >= 0; }); };
+    var held = su.items.indexOf(item) >= 0 ? item : null, drain = has(su.drain), rest = has(su.rest), rel = has(su.reliable);
+    var level = rel.length && held ? 4 : rel.length ? 3 : rest.length ? 2 : (held || drain.length) ? 1 : 0, which = {4: rel, 3: rel, 2: rest, 1: drain}[level] || [];
+    var says = level ? su.says[level - 1].replace('{item}', held || 'nothing').replace('{moves}', which.join(', ') || 'no move') : su.none;
+    var out = {sustain: {name: su.name, tier: level ? tiers[level - 1] : null, level: level, says: says,
+      next: level < 4 ? {tier: tiers[level], needs: ['a passive or draining heal', 'Rest or Wish', 'a reliable recovery move', 'reliable recovery and Leftovers'][level]} : null}};
+    var ut = K.utility, jobs = Object.keys(ut.jobs).filter(function (job) { var cats = ut.jobs[job]; return moves.some(function (m) { return Sc.moveR(m, gen).categories.some(function (c) { return cats.indexOf(c) >= 0; }); }); });
+    var n = jobs.length, t = -1; ut.tiers.forEach(function (need, i) { if (n >= need) t = i; });
+    out.utility = {name: ut.name, tier: t >= 0 ? tiers[t] : null, n: n, jobs: jobs, says: n ? ut.says.replace('{n}', n).replace('{jobs}', jobs.join(', ')) : ut.none,
+      next: t + 1 < ut.tiers.length ? {tier: tiers[t + 1], needs: ut.tiers[t + 1] + ' support jobs'} : null};
+    return out;
+  }
   function archetypePart(read, types, tags, badges, quals) {
     var a = CFG.archetype, sl = read.second_layer, functional, src;
     if (read.name.match >= a.ladder_at_least) { functional = read.name.text; src = 'ladder'; }
@@ -175,6 +188,7 @@ var Recognize = (function () {
     var stats = statsPart(b, gen, level), speed = speedPart(b, gen, level, ability, b.item || null, rd.moves), badges = badgesPart(rd.evidence);
     Object.keys(stats).forEach(function (s) { var x = stats[s]; if (x && typeof x === 'object' && x.tier) badges[s] = {name: x.name, tier: x.tier, says: x.name + ' ' + x.value + ' at level ' + level, next: x.next}; });
     if (speed.tier) badges.speed = {name: speed.name, tier: speed.tier, says: 'Speed ' + speed.value + ' at level ' + level, next: speed.next};
+    if (CFG.kit) { var kp = kitPart(rd.moves.slice(), b.item || null, gen); Object.keys(kp).forEach(function (k) { badges[k] = kp[k]; }); }
     var tags = tagsPart(cl.signals), quals = qualsPart(rd), arch = archetypePart(rd, sp.types, tags, badges, quals);
     return {version: CFG.version, game: game, gen: gen, types: sp.types, stats: stats, speed: speed, badges: badges, tags: tags, qualifications: quals, archetype: arch};
   }

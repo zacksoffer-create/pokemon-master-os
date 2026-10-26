@@ -1,206 +1,459 @@
 <script>
-/* ===== The team lab: six slots, read live ======================================================================
-   docs/design/FOUR_LABS.md. Six slots per game, kept in this browser (localStorage); the default is your journey's
-   six for that game from the record store (HeartGold's opens first). Every read is the engines': each slot's four
-   team roles (28_teamroles), the type and move reads, Zack's scenario questions (trainers/team_roles.json → team.
-   questions: add one there and the lab asks it), the team's shape, candidates from the store with what each would
-   change, and nature swaps measured by the role engine. Nothing here writes to canon. */
-var TL = null;
-function tlDefault(game) {
-  var six = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return i.game === game; })
-    .sort(function (a, b) { return (a.chapter || 0) - (b.chapter || 0) || (a.species < b.species ? -1 : 1); }).slice(0, 6)
-    .map(function (i) { var b = indBuild(i); delete b.id; b._prov = 'yours'; b._from = i.id; return b; });
-  while (six.length < 6) six.push(null);
-  return six;
-}
-function tlLoad(game) { var s = store('team-' + game); var t = Array.isArray(s) && s.length === 6 ? s : tlDefault(game); return t.map(function (x) { return x ? JSON.parse(JSON.stringify(x)) : null; }); }
-function tlSave(game, t) { store('team-' + game, t); }
-function tlMembers(team, game) { return team.map(function (b) { return b ? {build: buildOf(b), read: ovRead(liveRead(b, game), b._from), src: b} : null; }); }
+/* ===== The team homepage (v2, D-078; docs/design/V2_PLAN.md §3) ===============================================
+   Zack: "I just want this page to be about the team ... like a mini dashboard where I can see all of the sections."
+   One team per game (81_teams.html), its own trainer. Six tiles you can drag (or nudge with the arrows) into order,
+   each opening that Pokémon's builder; a strip of links to every section; then, read live from each member's
+   newest build:
+   - this team's trainer;
+   - a scouting report (strengths, weaknesses, tendencies);
+   - shapes and roles;
+   - type coverage;
+   - a small swap tool;
+   - candidates;
+   - achievements;
+   - battle it in the Arena.
+   Nothing here writes canon. */
+var TM = null;
 function teamLab(game) {
   game = game || 'heartgold';
-  if (ALL_GAMES.indexOf(game) < 0) return '<div class="notice">No game called ' + esc(game) + '.</div>';
-  return labsReady().then(function () {
-    TL = {game: game, team: tlLoad(game), target: null, filters: {type: '', move: '', role: '', prov: '', answers: ''}, token: 0};
-    after(function (p) { tlBind(p); tlRender(); });
-    return '<div class="eyebrow">The team lab · six slots, read live</div><div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap"><h1 style="margin:6px 0">Your ' + esc(Battle.GAME_TITLE[game]) + ' team</h1>' +
-      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="tlReset()">Back to your journey six</button>' + tlSavedPicker(game) + '<button class="btn gold" onclick="tlSaveTeam()">Save this team</button><a class="btn" href="#/scoutlab">Trainer lab</a></div></div>' +
-      '<p class="lede">Swap a Pokémon in or out and every read below moves: each one\'s four team roles, how the six cover each other by type, the scenario questions, the team\'s shape, and the candidates that would close a gap. What you\'re trying stays in this browser; Save this team keeps it in your My Teams tab (with each slot\'s build and where it came from), so the Field page and every lab can open it. Canon doesn\'t change.</p>' +
-      '<div class="tabs" style="margin:12px 0 16px">' + ALL_GAMES.map(function (g) { return '<a' + (g === game ? ' class="on"' : '') + ' href="#/team/' + g + '">' + esc(Battle.GAME_TITLE[g]) + '</a>'; }).join('') + '</div>' +
-      '<div id="tlbody"><div class="empty">Reading the six…</div></div>';
+  if (JOURNEYS.indexOf(game) < 0) return '<div class="notice">No game called ' + esc(game) + '.</div>';
+  return Promise.all([labsReady(), gearReady().catch(function () { return null; })]).then(function () {
+    TM = {game: game, gen: Battle.GAME_GEN[game], team: Teams.get(game), reads: {}, token: 0, filters: {type: '', move: '', role: '', prov: '', fills: '', legend: ''}, target: null, saveT: null};
+    after(function (p) { tmBind(p); tmRead(); });
+    var t = TM.team, J = JOURNEY[game];
+    return '<div class="tabs" style="margin:0 0 12px">' + JOURNEYS.map(function (g) { var x = Teams.get(g), n = Teams.filled(x);
+        return '<a' + (g === game ? ' class="on"' : '') + ' href="#/team/' + g + '">' + esc(GAME_NAME[g]) + (n ? ' <span class="tiny muted">' + n + '/6</span>' : '') + '</a>'; }).join('') + '</div>' +
+      '<div class="thero" style="--hue:' + J.hue + '33"><div><div class="eyebrow">Journey · ' + esc(journeyRegions(game).map(function (r) { return r.name; }).filter(function (x, i, a) { return a.indexOf(x) === i; }).join(' and ')) + ' · ' + esc(GAME_NAME[game]) + '</div>' +
+        '<h1 id="tmtitle">' + esc(whose(t) + ' ' + GAME_NAME[game]) + '</h1><div class="small muted" id="tmphil">' + (t.profile.philosophy ? '“' + esc(t.profile.philosophy) + '”' : 'A team of its own, with its own trainer and philosophy.') + '</div></div>' +
+        '<div class="kv" id="tmkv">' + tmKV(null) + '</div></div>' +
+      '<nav class="tnav">' + [['six', 'The six'], ['trainer', 'Trainer'], ['scout', 'Scouting report'], ['shape', 'Shapes & roles'], ['cover', 'Coverage'], ['swap', 'Swap'], ['cand', 'Candidates'], ['ach', 'Achievements'], ['battle', 'Battle']]
+        .map(function (x) { return '<a href="javascript:void 0" data-jump="tm-' + x[0] + '">' + x[1] + '</a>'; }).join('') + '</nav>' +
+      '<section id="tm-six">' + tmSix() + '</section>' +
+      '<div class="grid" style="margin-top:16px"><div class="c5" id="tm-trainer">' + tmTrainer() + '</div><div class="c7" id="tm-scout">' + card('Scouting report', '<div class="empty">Reading the six against the League…</div>', {tools: false}) + '</div></div>' +
+      '<section id="tm-shape" style="margin-top:16px"></section><section id="tm-cover" style="margin-top:16px"></section>' +
+      '<div class="grid" style="margin-top:16px"><div class="c5" id="tm-swap"></div><div class="c7" id="tm-battle">' + tmBattleCard() + '</div></div>' +
+      '<section id="tm-cand" style="margin-top:16px"></section><section id="tm-ach" style="margin-top:16px"></section>';
   });
 }
-function tlReset() { TL.team = tlDefault(TL.game); tlSave(TL.game, TL.team); tlRender(); }
-function savedTeams(game) {   // your saved teams for a game (My Teams), newest first
-  return Object.keys(S.store.teams || {}).map(function (k) { return S.store.teams[k]; }).filter(function (x) { return x.game === game && Array.isArray(x.slots) && x.status !== 'retired'; })
-    .sort(function (a, b) { return String(b.at || '').localeCompare(String(a.at || '')); });
+function tmMembers() { return Teams.members(TM.team); }
+function tmKV(comp) {
+  var n = Teams.filled(TM.team), rolesN = comp ? TeamRoles.ORDER.filter(function (r) { return comp.roles[r].length; }).length : null;
+  var cover = comp ? (comp.questions.filter(function (q) { return q.id === 'champions'; })[0] || {}).answer : null;
+  return '<div><b>' + n + ' of 6</b>Pokémon</div>' + (comp ? '<div><b>' + rolesN + ' of 5</b>team roles</div><div><b>' + shapeHtml(comp.shape) + '</b>shape</div><div><b>' + esc(String(cover || '—').split(' beaten')[0]) + '</b>Champion Pokémon answered</div>' : '');
 }
-function tlSavedPicker(game) {
-  var ts = savedTeams(game); if (!ts.length) return '';
-  return '<select class="f" style="width:auto" onchange="if(this.value)tlOpenSaved(this.value)"><option value="">Open a saved team…</option>' + ts.map(function (x) { return '<option value="' + esc(x.id) + '">' + esc(x.title || x.id) + (x.at ? ' · ' + esc(fmtDate(x.at)) : '') + '</option>'; }).join('') + '</select>';
+
+/* ---- the six: tiles you can drag into order ---- */
+function tmSix() {
+  var mem = tmMembers();
+  return '<div class="six" id="tmsix">' + mem.map(function (m, i) {
+    if (!m) return '<a class="tile add" href="#/pokemon/new/' + TM.game + '/' + i + '" data-slot="' + i + '"><div><span class="no">' + (i + 1) + '</span><b>+</b>Add a Pokémon</div></a>';
+    var x = m.ind, r = TM.reads[x.id], b = m.build, gen = TM.gen;
+    var roles = r && !r.error ? (r.earned.length ? r.earned.map(function (e) { return chip(roleName(e), 'forest'); }).join(' ') : '<span class="tiny muted">no team role</span>') : r && r.error ? '<span class="tiny" style="color:var(--ember-2)">couldn\'t read</span>' : '<span class="tiny muted">reading…</span>';
+    return '<div class="tile" draggable="true" data-slot="' + i + '" data-go="' + esc(x.id) + '"><span class="no">' + (i + 1) + '</span>' +
+      '<span class="mv"><button data-nudge="' + i + ':-1" title="Move left">◀</button><button data-nudge="' + i + ':1" title="Move right">▶</button><button data-out="' + i + '" title="Take it off the team">✕</button></span>' +
+      inBall(x.species, x.game, x.ball, x.shiny, 104) + '<div class="nm">' + esc(x.nickname || x.species) + '</div><div class="sub">' + (x.nickname ? esc(x.species) + ' · ' : '') + types(Battle.species(gen, x.species).types) + '</div>' +
+      '<div class="moves">' + (b.moves && b.moves.length ? esc(b.moves.join(' · ')) : '<span class="muted">no moves yet: open it to build</span>') + (b.item ? '<div class="muted">@ ' + esc(b.item) + '</div>' : '') + '</div>' +
+      '<div style="margin-top:6px" data-roles="' + i + '">' + roles + '</div>' + (r && !r.error ? '<div class="tiny" style="margin-top:4px">' + nameHtml(r.name) + '</div>' : '') + '</div>';
+  }).join('') + '</div><div class="tiny muted" style="margin-top:6px">Click a Pokémon to build it. Drag the tiles (or use ◀ ▶) to set the order: slot 1 leads in battle. Changes save to your My Teams tab as you make them.</div>';
 }
-function slotFrom(b) { if (!b || !b._from) return null; var ind = (S.store.individuals || {})[b._from], bid = ind ? ind.build : b._from, sb = bid ? storeBuild(bid) : null; return b._from + (sb ? '@' + (sb.v || 1) : ''); }
-function tlSaveTeam() {
-  askText('Save this team', 'A name for it (what you were going for)', function (title) {
-    var slots = TL.team.map(function (b) { if (!b) return null; var x = buildOf(b); delete x.id; return {species: b.species, from: slotFrom(b), prov: b._prov || 'yours', build: x}; });
-    Records.saveTeam({id: TL.savedId || null, game: TL.game, title: title || ('My ' + Battle.GAME_TITLE[TL.game] + ' six'), slots: slots}).then(function (team) {
-      TL.savedId = team.id; toast('Saved to My Teams. Open it from the Field page or here.'); })
-      .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
-  });
+function tmSaveSoon(msg) {   // order changes come in bursts: save once they settle
+  clearTimeout(TM.saveT);
+  TM.saveT = setTimeout(function () { Teams.save(TM.team).then(function (t) { TM.team = t; if (msg) toast(msg); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); }); }, 900);
 }
-function tlOpenSaved(id) {
-  var x = (S.store.teams || {})[id]; if (!x) return;
-  TL.team = [0, 1, 2, 3, 4, 5].map(function (i) { var s = x.slots[i]; if (!s || !s.build) return null; var b = Object.assign({}, s.build, {species: s.species}); b._prov = s.prov || 'yours'; b._from = s.from ? String(s.from).split('@')[0] : null; return b; });
-  TL.savedId = id; tlSave(TL.game, TL.team); tlRender(); toast('Opened ' + esc(x.title || id) + '.');
+function tmMove(from, to) {
+  if (to < 0 || to > 5 || from === to) return;
+  var s = TM.team.slots, x = s[from]; s.splice(from, 1); s.splice(to, 0, x);
+  document.getElementById('tm-six').innerHTML = tmSix(); tmSaveSoon('Order saved.'); tmRender();
 }
-function tlRemove(i) { TL.team[i] = null; tlSave(TL.game, TL.team); TL.target = i; tlRender(); }
-function tlPut(id, i) {
-  var b = candBuild(id); if (!b) return;
-  TL.team[i] = b; tlSave(TL.game, TL.team); TL.target = null; tlRender();
-  toast(esc(b.species) + ' is in slot ' + (i + 1) + '.');
+function tmOut(i) {
+  var x = Teams.members(TM.team)[i]; TM.team.slots[i] = null;
+  document.getElementById('tm-six').innerHTML = tmSix(); tmSaveSoon(x ? esc(x.ind.nickname || x.ind.species) + ' is off the team (still in your Pokémon).' : ''); tmRender();
 }
-function tlTarget() { return TL.target != null ? TL.target : (TL.team.indexOf(null) >= 0 ? TL.team.indexOf(null) : 5); }
-function tlRender() {
-  var tok = ++TL.token, box = document.getElementById('tlbody');
-  if (!box) return;
-  if (box.firstElementChild && box.firstElementChild.className !== 'empty') box.insertAdjacentHTML('afterbegin', '<div class="notice" id="tlbusy" style="margin-bottom:12px">Re-reading…</div>');
-  setTimeout(function () {
-    if (tok !== TL.token || !document.getElementById('tlbody')) return;
-    try {
-      var mem = tlMembers(TL.team, TL.game), live = mem.filter(Boolean), comp = live.length ? teamComp(live, TL.game) : null;
-      TL.mem = mem; TL.comp = comp;
-      document.getElementById('tlbody').innerHTML = tlSlots(mem) + (comp ? tlReads(comp, live) : '<div class="empty" style="margin-top:16px">An empty team. Pick candidates below.</div>') + tlCandidates();
-      tlCandRun();
-    } catch (e) { document.getElementById('tlbody').innerHTML = '<div class="notice">The engines couldn\'t read this team: ' + esc(e && e.message || e) + '</div>'; console.error(e); }
-  }, 30);
+
+/* ---- this team's trainer ---- */
+function tmTrainer() {
+  var p = TM.team.profile, styles = typeof TR_PHILOSOPHY !== 'undefined' ? TR_PHILOSOPHY : {default: {name: 'Default', why: ''}};
+  return card('This team\'s trainer', '<form id="tmtf"><div class="row"><div><label class="l">Trainer name</label><input class="f" name="name" value="' + esc(p.name || '') + '" placeholder="You"></div>' +
+      '<div><label class="l">Coaching style</label><select class="f" name="style">' + Object.keys(styles).map(function (k) { return '<option value="' + k + '"' + (k === (p.style || 'default') ? ' selected' : '') + '>' + esc(styles[k].name) + '</option>'; }).join('') + '</select></div></div>' +
+      '<div class="tiny muted" id="tmstylewhy" style="margin-top:4px">' + esc((styles[p.style || 'default'] || {}).why || '') + '</div>' +
+      '<label class="l" style="margin-top:8px">Philosophy <span class="tiny muted">(how you approach this team, in your words)</span></label><textarea class="f" name="philosophy" style="height:74px" placeholder="What this team is about, how it wins, what it believes">' + esc(p.philosophy || '') + '</textarea>' +
+      '<details style="margin-top:8px" id="tmdials"><summary class="tiny">Fine-tune the nine dials</summary><div id="tmdialbox" class="tiny muted" style="margin-top:6px">Opening the dials loads the 6v6 engine…</div></details>' +
+      '<div id="tmtraits" style="margin-top:8px"></div><div style="margin-top:10px"><button class="btn gold sm">Save the trainer</button></div></form>' +
+    '<div class="tiny muted" style="margin-top:8px">Each team is its own trainer: the Arena plays this team with this style and these dials (the same nine every trainer in the library is read onto), whatever your other teams do.</div>',
+    {eyebrow: 'Name · style · philosophy · dials', tools: false});
 }
-function tlSlots(mem) {
-  return '<div class="tslots">' + mem.map(function (m, i) {
-    if (!m) return '<div class="slot tslot empty-slot' + (tlTarget() === i ? ' on' : '') + '" onclick="TL.target=' + i + ';tlRender()" style="' + (tlTarget() === i ? 'border-color:var(--gold)' : '') + '"><div><div class="no">' + (i + 1) + '</div>Empty: pick a candidate below</div></div>';
-    var r = m.read, n = numOf(m.build.species);
-    return '<div class="slot tslot" style="' + (tlTarget() === i ? 'border-color:var(--gold)' : '') + '" onclick="if(!event.target.closest(\'button,a\')){TL.target=' + i + ';tlRender();}"><div class="no">' + (i + 1) + '</div><button class="x" title="Take it out" onclick="tlRemove(' + i + ')">✕</button>' +
-      '<img src="' + art(n) + '" alt="" loading="lazy"><div class="nm">' + esc(m.build.species) + '</div><div class="ty">' + types(Battle.species(Battle.GAME_GEN[TL.game], m.build.species).types) + '</div>' +
-      (r.error ? '<div class="tr" style="color:var(--ember-2)">' + esc(r.error) + '</div>' : '<div class="tr">' + nameHtml(r.name) + '</div><div style="margin-top:6px">' + (r.earned.length ? r.earned.map(function (e) { return chip(roleName(e), 'forest'); }).join(' ') : '<span class="tiny muted">no team role</span>') + '</div>') +
-      '<div style="margin-top:8px">' + provChip(m.src._prov || 'yours') + ' <a class="link tiny" href="#/pokemon/team:' + TL.game + ':' + i + '">Open in the lab</a></div></div>';
-  }).join('') + '</div><div class="tiny muted" style="margin-top:6px">Slot ' + (tlTarget() + 1) + ' is the one candidates go into; click a slot to choose another.</div>';
+function tmDials() {
+  var box = document.getElementById('tmdialbox'); if (!box || box.getAttribute('data-on')) return;
+  Arena.ready().then(function () {
+    var D = Arena.X().TRAINER_DEFAULTS, p = Object.assign({}, (TR_PHILOSOPHY[TM.team.profile.style || 'default'] || {}).params || {}, TM.team.profile.params || {});
+    box.setAttribute('data-on', '1'); box.className = '';
+    box.innerHTML = Object.keys(TR_PARAMS).map(function (k) { var v = p[k] != null ? p[k] : D[k];
+      return '<div style="margin-top:8px"><div class="small"><b>' + esc(TR_PARAMS[k][0]) + '</b> <span id="tmv-' + k + '">' + v + '</span> <span class="tiny muted">(default ' + D[k] + ')</span></div><input type="range" min="0" max="100" data-dial="' + k + '" value="' + v + '" style="width:100%"><div class="tiny muted">' + esc(TR_PARAMS[k][1]) + '</div></div>'; }).join('');
+    tmTraits();
+  }).catch(function (e) { box.innerHTML = arNeedsEngine(e); });
 }
-function tlReads(comp, live) {
-  var cfgQ = TeamRoles.config().team.questions;
-  var qs = comp.questions.map(function (q) {
-    var mark = q.ok === true ? '<b class="ok">✓</b>' : q.ok === false ? '<b class="bad">✕</b>' : '<b class="na">?</b>';
-    return '<div class="q">' + mark + '<div><div class="small"><b>' + esc(q.ask) + '</b> ' + esc(q.answer) + '</div>' + (q.detail ? '<div class="tiny muted">' + esc(q.detail) + '</div>' : '') +
-      '<div class="tiny muted">Rule: ' + esc(q.rule) + (q.ok === false ? ' · <a class="link" href="javascript:void 0" onclick="tlAnswer(\'' + q.id + '\')">Find a Pokémon that answers it</a>' : '') + '</div></div></div>';
-  }).join('');
-  var side = comp.moves.side, sum = side.physical + side.special + side.status || 1;
-  var roleList = TeamRoles.ORDER.map(function (r) { return '<div class="small"><b>' + esc(roleName(r)) + '</b> <span class="num">' + comp.roles[r].length + '</span> <span class="tiny muted">' + esc(comp.roles[r].join(', ') || 'nobody') + '</span></div>'; }).join('');
+function tmDialValues() {
+  var out = {}, D = (Arena.X() || {}).TRAINER_DEFAULTS || {};
+  document.querySelectorAll('[data-dial]').forEach(function (el) { var k = el.getAttribute('data-dial'); if (+el.value !== D[k]) out[k] = +el.value; });
+  return out;
+}
+function tmTraits() {
+  var el = document.getElementById('tmtraits'); if (!el || typeof trTraits === 'undefined' || !Arena.X()) return;
+  var params = document.querySelector('[data-dial]') ? tmDialValues() : Object.assign({}, (TR_PHILOSOPHY[TM.team.profile.style || 'default'] || {}).params || {}, TM.team.profile.params || {});
+  var t = trTraits(params); el.innerHTML = t.length ? t.map(function (x) { return chip(x[0], 'gold') + ' <span class="tiny muted">' + esc(x[1]) + '</span>'; }).join(' ') : '<span class="tiny muted">No trait yet: every dial near the middle reads as a balanced trainer.</span>';
+}
+function tmSaveTrainer(f) {
+  var p = Object.assign({}, TM.team.profile, {name: f.name.value.trim() || 'You', style: f.style.value, philosophy: f.philosophy.value.trim()});
+  if (document.querySelector('[data-dial]')) p.params = tmDialValues();
+  else if (f.style.value !== (TM.team.profile.style || 'default')) p.params = Object.assign({}, (TR_PHILOSOPHY[f.style.value] || {}).params || {});
+  TM.team.profile = p;
+  Teams.save(TM.team).then(function (t) { TM.team = t; document.getElementById('tmtitle').textContent = whose({profile: p}) + ' ' + GAME_NAME[TM.game];
+    document.getElementById('tmphil').innerHTML = p.philosophy ? '“' + esc(p.philosophy) + '”' : ''; toast('Saved. The Arena plays this team this way.'); })
+    .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+}
+
+/* ---- the reads: each member through its newest build, one at a time so the page stays live ---- */
+function tmRead() {
+  var tok = ++TM.token, mem = tmMembers().filter(Boolean), k = 0;
+  var step = function () {
+    if (tok !== TM.token || !document.getElementById('tmsix')) return;
+    if (k >= mem.length) { tmRender(); return; }
+    var m = mem[k++], key = m.ind.id;
+    try { TM.reads[key] = liveRead(m.build, TM.game); } catch (e) { TM.reads[key] = {error: e && e.message || String(e)}; }
+    var el = document.querySelector('[data-roles="' + m.slot + '"]'), r = TM.reads[key];
+    if (el) el.innerHTML = r.error ? '<span class="tiny" style="color:var(--ember-2)">couldn\'t read</span>' : r.earned.length ? r.earned.map(function (e) { return chip(roleName(e), 'forest'); }).join(' ') : '<span class="tiny muted">no team role</span>';
+    setTimeout(step, 10);
+  };
+  if (!mem.length) { tmRender(); return; }
+  setTimeout(step, 30);
+}
+function tmLive() { return tmMembers().filter(Boolean).map(function (m) { return {build: Object.assign({}, m.build, {species: m.ind.species}), read: TM.reads[m.ind.id], ind: m.ind, slot: m.slot}; }).filter(function (m) { return m.read && !m.read.error; }); }
+function tmRender() {
+  var live = tmLive(), comp = live.length ? teamComp(live, TM.game) : null; TM.comp = comp; TM.live = live;
+  var set = function (id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; };
+  set('tmkv', tmKV(comp));
+  if (!comp) {
+    var empty = '<div class="empty">Add a Pokémon to the team and this fills in.</div>';
+    set('tm-scout', card('Scouting report', empty, {tools: false})); set('tm-shape', card('Shapes & roles', empty, {tools: false})); set('tm-cover', '');
+    set('tm-swap', card('Swap', empty, {tools: false})); set('tm-cand', tmCandidates()); set('tm-ach', tmAchievements(null)); tmCandRun(); return;
+  }
+  set('tm-scout', tmScouting(comp, live)); set('tm-shape', tmShapes(comp, live)); set('tm-cover', tmCoverage(comp));
+  set('tm-swap', tmSwap(live)); set('tm-cand', tmCandidates()); set('tm-ach', tmAchievements(comp)); tmSwapFields(); tmCandRun();
+}
+
+/* ---- the scouting report: strengths, weaknesses, tendencies ---- */
+function tmScouting(comp, live) {
+  var Q = {}; comp.questions.forEach(function (q) { Q[q.id] = q; });
+  var S1 = [], W = [], T = [], n = live.length, names = function (xs) { return esc(join(xs)); };
+  TeamRoles.ORDER.forEach(function (r) { if (comp.roles[r].length) S1.push('<b>' + esc(roleName(r)) + '</b>: ' + names(comp.roles[r])); });
+  if (Q.champions && Q.champions.ok) S1.push('Every Champion Pokémon is beaten one-on-one by at least one of the ' + n);
+  if (Q.elite_four && Q.elite_four.ok) S1.push('Every Elite Four Pokémon is beaten one-on-one by at least one of them');
+  var strongD = comp.defense.filter(function (r) { return r.resist.length + r.immune.length >= 3 && !r.weak.length; }).map(function (r) { return r.type; });
+  if (strongD.length) S1.push('Walls off ' + strongD.join(', ') + ' (three or more resist, nobody is weak)');
+  var se = comp.offense.filter(function (r) { return r.best > 1; }).length; if (se >= 14) S1.push('Hits ' + se + ' of ' + comp.offense.length + ' types super-effectively');
+  var fast = live.filter(function (m) { return (m.read.facts || {}).first >= 0.8; }).map(function (m) { return m.build.species; }); if (fast.length >= 3) S1.push('Speed: ' + names(fast) + ' move first against 80% or more of the League');
+  if (Q.hazards && Q.hazards.ok) S1.push('Hazards: ' + esc(Q.hazards.answer));
+  if (Q.healing && Q.healing.ok) S1.push('Healing: ' + esc(Q.healing.answer));
+  if (Q.stacked_weakness && !Q.stacked_weakness.ok) W.push('Stacked weakness: ' + esc(Q.stacked_weakness.detail));
+  if (Q.coverage_gap && !Q.coverage_gap.ok) W.push('Nobody hits ' + esc(Q.coverage_gap.answer) + ' super-effectively');
+  var who = function (q) { var xs = uniqS((q.left || []).slice()); return esc(xs.slice(0, 8).join(', ') + (xs.length > 8 ? ' and ' + (xs.length - 8) + ' more' : '')); };
+  if (Q.champions && !Q.champions.ok) W.push('Champion Pokémon nobody beats one-on-one (' + Q.champions.answer.split(' beaten')[0] + ' answered): ' + who(Q.champions));
+  if (Q.elite_four && !Q.elite_four.ok) W.push('Elite Four Pokémon nobody beats one-on-one (' + Q.elite_four.answer.split(' beaten')[0] + ' answered): ' + who(Q.elite_four));
+  var miss = TeamRoles.ORDER.filter(function (r) { return !comp.roles[r].length; }); if (miss.length) W.push('No ' + esc(join(miss.map(roleName))) + ' yet');
+  if (Q.hazards && !Q.hazards.ok) W.push('Nobody sets or clears entry hazards');
+  if (Q.setup_answer && !Q.setup_answer.ok) W.push('Nothing stops a Dragon Dance or Swords Dance sweeper (no phazing, Haze, Encore or priority)');
+  var slow = live.filter(function (m) { return (m.read.facts || {}).first < 0.35; }).map(function (m) { return m.build.species; }); if (slow.length >= 3) W.push('Slow: ' + names(slow) + ' are outsped by most of the League');
+  var side = comp.moves.side, tot = side.physical + side.special + side.status || 1;
+  T.push('Shape: <b>' + shapeHtml(comp.shape) + '</b>. ' + esc(((TeamRoles.config().team.shapes[comp.shape.id] || {}).explain) || ''));
+  T.push('Moves: ' + side.physical + ' physical, ' + side.special + ' special, ' + side.status + ' status (' + Math.round(100 * (side.physical + side.special) / tot) + '% attacking)' + (side.physical > 2 * side.special ? ': a physical team' : side.special > 2 * side.physical ? ': a special team' : ''));
+  var setup = live.filter(function (m) { var b = (m.read.facts || {}).boosts || {}; return b.atk || b.spa || b.spe; }).map(function (m) { return m.build.species; }); if (setup.length) T.push('Sets up: ' + names(setup));
+  var cat = function (c) { return uniqS((comp.moves.categories[c] || []).map(function (h) { return h.split(':')[0]; })); };
+  var piv = cat('pivot_move').concat(cat('baton_pass')); if (piv.length) T.push('Pivots: ' + names(uniqS(piv)));
+  var pri = cat('priority_attack'); if (pri.length) T.push('Priority: ' + names(pri));
+  var st = cat('status_infliction'); if (st.length) T.push('Spreads status: ' + names(st));
+  var p = TM.team.profile; if (p.style && p.style !== 'default' && typeof TR_PHILOSOPHY !== 'undefined') T.push('Coached as <b>' + esc(TR_PHILOSOPHY[p.style].name) + '</b>: ' + esc(TR_PHILOSOPHY[p.style].why));
+  var list = function (xs, cls) { return xs.length ? '<ul class="scout ' + cls + '">' + xs.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' : '<div class="tiny muted">Nothing stands out.</div>'; };
+  return card('Scouting report', '<div class="scout3"><div><div class="eyebrow" style="color:var(--forest-3)">Strengths</div>' + list(S1, 'pos') + '</div><div><div class="eyebrow" style="color:var(--ember-2)">Weaknesses</div>' + list(W, 'neg') + '</div><div><div class="eyebrow">Tendencies</div>' + list(T, '') + '</div></div>' +
+    '<div class="tiny muted" style="margin-top:8px">From each member\'s one-on-ones against the generation\'s Elite Four and Champions (level 100), the type chart (abilities included) and the moves the engines read (empty slots filled with each one\'s strongest set). The checks behind it are in trainers/team_roles.json → team.questions.</div>',
+    {eyebrow: 'Strengths · weaknesses · tendencies · ' + plural(live.length, 'Pokémon') + ' read', tools: false});
+}
+
+/* ---- shapes and roles ---- */
+function tmShapes(comp, live) {
+  var cfg = TeamRoles.config(), sh = cfg.team.shapes;
+  var head = '<tr><th>Pokémon</th>' + TeamRoles.ORDER.map(function (r) { return '<th>' + esc(roleName(r)) + '</th>'; }).join('') + '<th>Plays like</th></tr>';
+  var rows = live.map(function (m) { return '<tr><td><a href="#/pokemon/' + encodeURIComponent(m.ind.id) + '">' + esc(m.ind.nickname || m.build.species) + '</a></td>' + TeamRoles.ORDER.map(function (r) { var x = roleOf(m.read, r);
+    return '<td><span class="rcell' + (x.earned ? ' on' : '') + '" title="' + esc(x.why.join(' · ')) + '">' + x.score.toFixed(2) + '</span></td>'; }).join('') + '<td class="tiny">' + esc(m.read.second_layer.primary.name || '—') + '</td></tr>'; }).join('');
+  var tot = '<tr><td class="tiny muted">earned by</td>' + TeamRoles.ORDER.map(function (r) { return '<td><b>' + comp.roles[r].length + '</b></td>'; }).join('') + '<td></td></tr>';
+  var shapes = sh.order.map(function (id) { var s = sh[id], gap = shapeGap(s, comp.counts), fit = id === comp.shape.id;
+    return '<div class="shape' + (fit ? ' fit' : '') + '"><div class="small"><b>' + shapeHtml({id: id, label: s.label, word: (cfg.naming.words.team_shape || {})[id]}) + '</b> ' + (fit ? chip('this team', 'gold') : gap.length ? '' : chip('fits', '')) + '</div>' +
+      '<div class="tiny muted">' + esc(s.explain || '') + '</div><div class="tiny" style="margin-top:3px">' + (gap.length ? 'needs ' + esc(gap.join(', ')) : 'its needs are met') + '</div></div>'; }).join('');
+  var missing = TeamRoles.ORDER.filter(function (r) { return !comp.roles[r].length; });
+  return card('Shapes & roles', '<div class="grid"><div class="c7"><div class="eyebrow">Each Pokémon on the five team roles</div><div style="overflow-x:auto"><table class="t rmatrix">' + head + rows + tot + '</table></div>' +
+      '<div class="tiny muted" style="margin-top:6px">The score is 0-1; green is earned. Hover a score for the numbers behind it, or open the Pokémon for its full work.</div>' +
+      (missing.length ? '<div class="small" style="margin-top:10px"><b>Missing:</b> ' + esc(join(missing.map(roleName))) + '. <a class="link" href="javascript:void 0" onclick="tmFill(\'role:' + missing[0] + '\')">Find a ' + esc(roleName(missing[0])) + '</a></div>' : '<div class="small" style="margin-top:10px">Every team role is covered.</div>') +
+      '<div class="eyebrow" style="margin-top:14px">What each role asks</div>' + TeamRoles.ORDER.map(function (r) { return '<div class="tiny" style="margin:3px 0"><b>' + esc(roleName(r)) + ':</b> ' + esc(cfg.roles[r].question) + ' <span class="muted">' + esc(cfg.roles[r].explain) + '</span></div>'; }).join('') + '</div>' +
+    '<div class="c5"><div class="eyebrow">The team\'s shape: the first that fits, in this order</div><div class="shapes" style="margin-top:6px">' + shapes + '</div></div></div>',
+    {eyebrow: 'Roles · shape · what\'s missing', tools: false});
+}
+function shapeGap(s, n) {   // what a shape still needs, in words
+  var out = [], word = {sweeper: 'Sweeper', wall: 'Wall', tank: 'Tank', support: 'Support', ace: 'Ace', sweeper_or_ace: 'Sweeper or Ace', wall_or_tank: 'Wall or Tank', slow: 'slow Pokémon (base Speed 60 or less)',
+    'feature:trick_room': 'Trick Room setter', 'feature:weather_setter': 'weather setter', 'feature:weather_user': 'Pokémon that uses the weather', 'feature:baton_pass': 'Baton Pass user', 'feature:setup': 'setup user'};
+  Object.keys(s.needs || {}).forEach(function (k) { var d = s.needs[k] - (n[k] || 0); if (d > 0) out.push(d + ' more ' + (word[k] || k)); });
+  Object.keys(s.at_most || {}).forEach(function (k) { var d = (n[k] || 0) - s.at_most[k]; if (d > 0) out.push(d + ' fewer ' + (word[k] || k)); });
+  return out;
+}
+
+/* ---- coverage ---- */
+function tmCoverage(comp) {
   var defCells = comp.defense.map(function (r) {
     var hot = r.weak.length >= 3 && !r.resist.length && !r.immune.length, cool = r.resist.length + r.immune.length >= 2 && !r.weak.length;
     return '<div class="typecell' + (hot ? ' hot2' : cool ? ' cool' : '') + '" title="weak: ' + esc(r.weak.join(', ') || '—') + '; resist: ' + esc(r.resist.join(', ') || '—') + '; immune: ' + esc(r.immune.join(', ') || '—') + '">' + typeBadge(r.type) +
-      '<div class="tiny" style="margin-top:4px"><span style="color:var(--ember-2)">' + r.weak.length + ' weak</span> · <span style="color:var(--forest-3)">' + r.resist.length + ' resist</span>' + (r.immune.length ? ' · ' + r.immune.length + ' immune' : '') + ' · ' + r.neutral.length + ' neutral</div></div>';
-  }).join('');
+      '<div class="tiny" style="margin-top:4px"><span style="color:var(--ember-2)">' + r.weak.length + ' weak</span> · <span style="color:var(--forest-3)">' + r.resist.length + ' resist</span>' + (r.immune.length ? ' · ' + r.immune.length + ' immune' : '') + '</div></div>'; }).join('');
   var offCells = comp.offense.map(function (r) {
-    return '<div class="typecell' + (r.best <= 1 ? ' hot2' : '') + '" title="' + esc(r.by.join(', ') || 'nobody hits it super-effectively') + '">' + typeBadge(r.type) + '<div class="tiny" style="margin-top:4px">' + (r.best > 1 ? '<span style="color:var(--forest-3)">' + r.best + '×</span> by ' + esc(uniqS(r.by.map(function (x) { return x.split(' (')[0]; })).join(', ')) : r.best === 1 ? 'neutral at best' : r.best === 0 ? 'nothing lands' : 'resisted at best') + '</div></div>';
-  }).join('');
-  return '<div class="grid" style="margin-top:16px"><div class="c7">' + card('The questions', qs, {eyebrow: plural(cfgQ.length, 'scenario question') + ' · trainers/team_roles.json', tools: false}) + '</div>' +
-    '<div class="c5">' + card('Shape and roles', '<div class="small">Team shape: <b>' + shapeHtml(comp.shape) + '</b></div><div class="tiny muted" style="margin-bottom:10px">The first shape whose role counts fit, in this order: ' + esc(TeamRoles.config().team.shapes.order.join(', ')) + '.</div>' + roleList +
-      '<div class="eyebrow" style="margin-top:14px">Move balance</div><div class="small">' + ['physical', 'special', 'status'].map(function (k) { return cap(k) + ' <span class="num">' + side[k] + '</span> <span class="tiny muted">(' + Math.round(100 * side[k] / sum) + '%)</span>'; }).join(' · ') + '</div>' +
-      '<div class="tiny muted">Counted on the moves the engines read (open slots filled with each one\'s strongest set).</div>', {eyebrow: 'From the four team roles', tools: false}) +
-      card('Nature swaps', tlNatures(live), {eyebrow: 'Measured by the role engine', tools: false, style: 'margin-top:16px'}) + '</div></div>' +
-    card('Taking hits: each attacking type against the six', '<div class="typegrid">' + defCells + '</div><div class="tiny muted" style="margin-top:8px">Red outline: three or more weak and nobody resists. Green: two or more resist or are immune and nobody is weak. Neutral means no type advantage either way. Abilities count (Levitate, Thick Fat...).</div>', {eyebrow: 'Defensive type read', tools: false, style: 'margin-top:16px'}) +
-    card('Hitting back: the best the six can do to each type', '<div class="typegrid">' + offCells + '</div><div class="tiny muted" style="margin-top:8px">Against a single-type target. Red outline: nobody hits it super-effectively.</div>', {eyebrow: 'Offensive coverage', tools: false, style: 'margin-top:16px'});
+    return '<div class="typecell' + (r.best <= 1 ? ' hot2' : '') + '" title="' + esc(r.by.join(', ') || 'nobody hits it super-effectively') + '">' + typeBadge(r.type) + '<div class="tiny" style="margin-top:4px">' + (r.best > 1 ? '<span style="color:var(--forest-3)">' + r.best + '×</span> by ' + esc(uniqS(r.by.map(function (x) { return x.split(' (')[0]; })).join(', ')) : r.best === 1 ? 'neutral at best' : r.best === 0 ? 'nothing lands' : 'resisted at best') + '</div></div>'; }).join('');
+  return '<div class="grid"><div class="c6">' + card('Taking hits', '<div class="typegrid">' + defCells + '</div><div class="tiny muted" style="margin-top:8px">Each attacking type against the team. Red: three or more weak and nobody resists. Green: two or more resist and nobody is weak. Abilities count.</div>', {eyebrow: 'Defensive coverage', tools: false}) + '</div>' +
+    '<div class="c6">' + card('Hitting back', '<div class="typegrid">' + offCells + '</div><div class="tiny muted" style="margin-top:8px">The best the team does to each single type. Red: nobody hits it super-effectively.</div>', {eyebrow: 'Offensive coverage', tools: false}) + '</div></div>';
 }
-function tlNatures(live) {   // for each member, the natures that raise its primary role's score (role engine, level 100)
-  var gen = Battle.GAME_GEN[TL.game], level = TeamRoles.config().level;
-  if (gen < 3) return '<div class="tiny muted">Gen 2 has no natures.</div>';
-  var natures = (S.builds.natures || []).map(function (x) { return x.name; }), rows = [];
-  TL.mem.forEach(function (m, i) {
-    if (!m || m.read.error) return;
-    var b = Object.assign(buildOf(m.build), {moves: m.read.moves.slice(), level: level});
-    var base = Scout.classify(b, TL.game, level), prim = base.primary; if (!prim.role) return;
-    var score = function (cl) { return (cl.roles.filter(function (x) { return x.role === prim.role; })[0] || {score: 0}).score; }, s0 = score(base);
-    var best = natures.filter(function (n) { return n !== m.build.nature; }).map(function (n) { var cl = Scout.classify(Object.assign({}, b, {nature: n}), TL.game, level); return {nature: n, score: score(cl), primary: cl.primary}; })
-      .filter(function (x) { return x.score > s0 + 0.005; }).sort(function (a, c) { return c.score - a.score; }).slice(0, 2);
-    if (best.length) rows.push('<div class="small" style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><b>' + esc(m.build.species) + '</b> <span class="tiny muted">' + esc(prim.name) + ' ' + s0.toFixed(2) + ' as ' + esc(m.build.nature || 'no nature recorded') + '</span>' +
-      best.map(function (x) { return '<div class="tiny">' + esc(x.nature) + ': ' + x.score.toFixed(2) + ' ' + delta(s0, x.score) + (x.primary.role !== prim.role ? ' <span class="muted">(primary becomes ' + esc(x.primary.name) + ')</span>' : '') +
-        ' <a class="link" href="javascript:void 0" onclick="tlNature(' + i + ',\'' + x.nature + '\')">Try it</a></div>'; }).join('') + '</div>');
-  });
-  return rows.length ? rows.join('') + '<div class="tiny muted" style="margin-top:8px">The primary role\'s score from the role engine (trainers/roles.json) with only the nature changed. Trying one re-reads its four team roles.</div>' : '<div class="tiny muted">No nature raises anyone\'s primary role score.</div>';
-}
-function tlNature(i, n) { TL.team[i].nature = n; tlSave(TL.game, TL.team); tlRender(); }
-function tlAnswer(qid) { TL.filters.answers = qid; var el = document.querySelector('[data-tlf="answers"]'); if (el) el.value = qid; tlCandRun(); var c = document.getElementById('tlcand'); if (c) c.scrollIntoView({behavior: 'smooth', block: 'start'}); }
 
-/* ---- candidates: every build on record for this generation, with what it would change ---- */
-function candPool() {
-  var gen = Battle.GAME_GEN[TL.game], out = [];
-  var owned = {};
-  Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (i.build) owned[i.build] = true;
-    if (Battle.GAME_GEN[i.game] !== gen || i.status === 'retired') return;
-    var r = freshPackRead(k) || liveRead(indBuild(i), i.game);           // saved since the pack: read live (a handful)
-    if (r && !r.error) out.push({id: k, species: i.species, prov: 'yours', label: 'your ' + (i.nickname ? i.nickname + ' (' + i.species + ')' : i.species) + ' (' + cap(i.game) + ')', read: ovRead(r, k)}); });
-  Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k];
-    if (Battle.GAME_GEN[gameOf(b)] !== gen || owned[k] || (b.provenance === 'yours' && !/^yours:[^/]+-\w+$/.test(k))) return;
-    var r = freshPackRead(k) || (b.provenance === 'yours' ? liveRead(buildOf(b), gameOf(b)) : null);
-    if (r && !r.error) out.push({id: k, species: b.species, prov: b.provenance, label: cmpLabel(Object.assign({id: k}, b)), read: ovRead(r, k)}); });
+/* ---- swap: try one change on one member and see the team read move ---- */
+function tmSwap(live) {
+  var gen = TM.gen, opt = function (v, t) { return '<option value="' + esc(v) + '">' + esc(t) + '</option>'; };
+  return card('Swap', '<form id="tmswf" onsubmit="return false"><div class="row"><div><label class="l">Who</label><select class="f" name="who">' + live.map(function (m) { return opt(m.ind.id, m.ind.nickname || m.build.species); }).join('') + '</select></div>' +
+      '<div><label class="l">Swap its</label><select class="f" name="what">' + opt('nature', 'nature') + opt('move', 'a move') + opt('item', 'item') + (gen >= 3 ? opt('ability', 'ability') : '') + opt('set', 'whole build') + opt('role', 'role (a build that earns it)') + '</select></div></div>' +
+      '<div id="tmswx" style="margin-top:6px"></div><div style="margin-top:8px"><button class="btn sm" id="tmswgo">Try it</button></div></form><div id="tmswout" style="margin-top:10px"></div>',
+    {eyebrow: 'Nature · move · item · ability · build · role', tools: false});
+}
+function tmSwapFields() {
+  var f = document.getElementById('tmswf'); if (!f) return;
+  var m = TM.live.filter(function (x) { return x.ind.id === f.who.value; })[0]; if (!m) return;
+  var gen = TM.gen, b = m.build, w = f.what.value, box = document.getElementById('tmswx'), opt = function (v, t, cur) { return '<option value="' + esc(v) + '"' + (v === cur ? ' selected' : '') + '>' + esc(t) + '</option>'; }, html = '';
+  if (w === 'nature') html = '<select class="f" name="to">' + (S.builds.natures || []).map(function (x) { return opt(x.name, x.name + (x.up ? ' (+' + STAT_NAME[x.up] + ' −' + STAT_NAME[x.down] + ')' : ' (neutral)'), b.nature); }).join('') + '</select>';
+  else if (w === 'move') { var lm = []; try { lm = Battle.learnable(b.species, TM.game); } catch (e) {}
+    html = '<div class="row"><select class="f" name="slot">' + [0, 1, 2, 3].map(function (i) { return opt(String(i), (m.read.moves[i] || 'empty') + ' →', '0'); }).join('') + '</select><select class="f" name="to">' + lm.map(function (x) { return opt(x, pbMoveLabelT(x, gen)); }).join('') + '</select></div>'; }
+  else if (w === 'item') html = '<select class="f" name="to"><option value="">none</option>' + pbHeld(gen).map(function (x) { return opt(x, x, b.item); }).join('') + '</select>';
+  else if (w === 'ability') html = '<select class="f" name="to">' + Battle.abilities(gen, b.species).map(function (x) { return opt(x, x, b.ability); }).join('') + '</select>';
+  else if (w === 'set' || w === 'role') { var sets = Object.keys(S.store.builds || {}).map(function (k) { return Object.assign({id: k}, S.store.builds[k]); }).filter(function (x) { return x.species === b.species && (x.generation || 4) === gen && x.provenance !== 'yours'; });
+    if (w === 'role') html = '<select class="f" name="to">' + TeamRoles.ORDER.map(function (r) { return opt(r, roleName(r)); }).join('') + '</select><div class="tiny muted">The known build of ' + esc(b.species) + ' that scores highest on it.</div>';
+    else html = sets.length ? '<select class="f" name="to">' + sets.map(function (x) { return opt(x.id, (x.name || x.id) + ' · ' + x.provenance); }).join('') + '</select>' : '<div class="tiny muted">No known build of ' + esc(b.species) + ' in Gen ' + gen + '.</div>'; }
+  box.innerHTML = html;
+}
+function pbMoveLabelT(m, gen) { var d; try { d = Battle.mbGet(gen, m); } catch (e) { return m; } return m + ' · ' + d.type + ' · ' + d.category + (d.power ? ' ' + d.power : ''); }
+function tmSwapTry() {
+  var f = document.getElementById('tmswf'), out = document.getElementById('tmswout'); if (!f || !f.to) { out.innerHTML = '<div class="tiny muted">Nothing to swap to.</div>'; return; }
+  var m = TM.live.filter(function (x) { return x.ind.id === f.who.value; })[0], b = Object.assign({}, m.build), w = f.what.value, v = f.to.value, label = '';
+  if (w === 'nature') { b.nature = v; label = 'nature ' + (m.build.nature || 'none') + ' → ' + v; }
+  else if (w === 'move') { var mv = m.read.moves.slice(), i = +f.slot.value; label = (mv[i] || 'empty') + ' → ' + v; mv[i] = v; b.moves = mv; }
+  else if (w === 'item') { b.item = v || undefined; if (!v) delete b.item; label = 'item ' + (m.build.item || 'none') + ' → ' + (v || 'none'); }
+  else if (w === 'ability') { b.ability = v; label = 'ability → ' + v; }
+  else if (w === 'set') { var s = storeBuild(v); b = Object.assign(buildOf(s), {species: m.build.species}); delete b.id; label = 'build → ' + (s.name || v); }
+  else if (w === 'role') { var pool = Object.keys(S.store.builds || {}).filter(function (k) { var x = S.store.builds[k]; return x.species === m.build.species && (x.generation || 4) === TM.gen && x.provenance !== 'yours'; });
+    var best = null; pool.forEach(function (k) { var r = packRead(k); if (r && !r.error) { var sc = roleOf(r, v); if (!best || sc.score > best[1]) best = [k, sc.score]; } });
+    if (!best) { out.innerHTML = '<div class="tiny muted">No known build of ' + esc(m.build.species) + ' has a read for that role.</div>'; return; }
+    var s2 = storeBuild(best[0]); b = Object.assign(buildOf(s2), {species: m.build.species}); delete b.id; label = roleName(v) + ' build → ' + (s2.name || best[0]); }
+  out.innerHTML = '<div class="tiny muted">Reading the change…</div>';
+  setTimeout(function () {
+    try {
+      var r = liveRead(b, TM.game); if (r.error) throw new Error(r.error);
+      var live2 = TM.live.map(function (x) { return x.ind.id === m.ind.id ? {build: b, read: r, ind: x.ind, slot: x.slot} : x; }), c1 = TM.comp, c2 = teamComp(live2, TM.game);
+      var q1 = openQs(c1), q2 = openQs(c2), qName = function (id) { return (TeamRoles.config().team.questions.filter(function (q) { return q.id === id; })[0] || {}).ask || id; };
+      var lines = [];
+      lines.push('<b>' + esc(m.ind.nickname || m.build.species) + '</b>: ' + esc(label));
+      lines.push('Its roles: ' + earnedChips(m.read) + ' → ' + earnedChips(r));
+      if (c1.shape.id !== c2.shape.id) lines.push('Team shape: ' + shapeHtml(c1.shape) + ' → ' + shapeHtml(c2.shape));
+      TeamRoles.ORDER.forEach(function (x) { if (c1.roles[x].length !== c2.roles[x].length) lines.push(esc(roleName(x)) + 's on the team: ' + c1.roles[x].length + ' → ' + c2.roles[x].length); });
+      q2.filter(function (q) { return q1.indexOf(q) < 0; }).forEach(function (q) { lines.push('<span style="color:var(--ember-2)">opens: ' + esc(qName(q)) + '</span>'); });
+      q1.filter(function (q) { return q2.indexOf(q) < 0; }).forEach(function (q) { lines.push('<span style="color:var(--forest-3)">closes: ' + esc(qName(q)) + '</span>'); });
+      TM.swapDraft = {id: m.ind.id, build: b};
+      out.innerHTML = lines.map(function (l) { return '<div class="small" style="margin:3px 0">' + l + '</div>'; }).join('') +
+        '<div style="margin-top:8px"><button class="btn sm gold" onclick="tmSwapApply()">Open it in the builder with this change</button></div>';
+    } catch (e) { out.innerHTML = '<div class="notice">Couldn\'t read it: ' + esc(e && e.message || e) + '</div>'; }
+  }, 20);
+}
+function tmSwapApply() {   // the change goes in as an unsaved draft: you save it in the builder
+  var d = TM.swapDraft; if (!d) return; var ind = S.store.individuals[d.id];
+  var who = {}; IND_KEYS.forEach(function (k) { who[k] = ind[k] == null ? null : ind[k]; });
+  var b = Object.assign({}, d.build, {species: ind.species}); if (!b.ivs) b.ivs = {hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31}; b.level = b.level || 100;
+  store('draft:' + d.id, {at: new Date().toISOString(), build: b, who: who}); nav('#/pokemon/' + encodeURIComponent(d.id));
+}
+
+/* ---- candidates: who could join or replace ---- */
+function tmCandidates() {
+  var gen = TM.gen, f = TM.filters, TY = Battle.TYPES.filter(function (t) { try { Battle.effectiveness(gen, t, ['Normal'], null); return t !== '???'; } catch (e) { return false; } });
+  var sel = function (k, opts) { return '<select class="f" data-tmf="' + k + '">' + opts.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (f[k] === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; };
+  var open = TM.comp ? TM.comp.questions.filter(function (q) { return q.ok === false; }) : [];
+  var slot = TM.target != null ? TM.target : (TM.team.slots.indexOf(null) >= 0 ? TM.team.slots.indexOf(null) : 5);
+  return card('Candidates', '<div class="row" style="flex-wrap:wrap">' +
+    '<div><label class="l">Type</label>' + sel('type', [['', 'any']].concat(TY.map(function (t) { return [t, t]; }))) + '</div>' +
+    '<div><label class="l">Knows a move</label><input class="f" data-tmf="move" value="' + esc(f.move) + '" placeholder="e.g. Rapid Spin"></div>' +
+    '<div><label class="l">Earns a team role</label>' + sel('role', [['', 'any']].concat(TeamRoles.ORDER.map(function (r) { return [r, roleName(r)]; }))) + '</div>' +
+    '<div><label class="l">Source</label>' + sel('prov', [['', 'any'], ['yours', 'your Pokémon'], ['competitive', 'Smogon sets'], ['canonical', 'trainers\''], ['stock', 'stock'], ['ingested', 'ingested']]) + '</div>' +
+    '<div><label class="l">Legendaries</label>' + sel('legend', [['', 'left out'], ['yes', 'included']]) + '</div>' +
+    '<div><label class="l">Fills a gap</label>' + sel('fills', [['', 'any']].concat(open.map(function (q) { return ['q:' + q.id, q.ask]; }))) + '</div>' +
+    '<div><label class="l">Goes into</label>' + sel('slot', [0, 1, 2, 3, 4, 5].map(function (i) { var m = tmMembers()[i]; return [String(i), 'slot ' + (i + 1) + (m ? ' (replaces ' + (m.ind.nickname || m.ind.species) + ')' : ' (empty)')]; })).replace('value="' + slot + '"', 'value="' + slot + '" selected') + '</div></div>' +
+    '<div id="tmclist" style="margin-top:12px"><div class="empty">Reading candidates…</div></div>',
+    {eyebrow: 'Every Gen ' + gen + ' build on record, and your other ' + GAME_NAME[TM.game] + ' Pokémon', tools: false});
+}
+function tmFill(what) {
+  if (/^role:/.test(what)) { TM.filters.role = what.slice(5); } else TM.filters.fills = what;
+  var el = document.getElementById('tm-cand'); if (el) { el.innerHTML = tmCandidates(); tmCandRun(); el.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+}
+function tmPool() {
+  var gen = TM.gen, out = [], on = {}; TM.team.slots.forEach(function (s) { if (s) on[s.ind] = 1; });
+  Object.keys(S.store.individuals || {}).forEach(function (k) { var i = S.store.individuals[k]; if (i.game !== TM.game || on[k] || i.status === 'retired') return;
+    var r; try { r = liveRead(indBuild(i), i.game); } catch (e) { return; } if (r && !r.error) out.push({id: k, species: i.species, prov: 'yours', label: 'your ' + (i.nickname || i.species), read: r}); });
+  Object.keys(S.store.builds || {}).forEach(function (k) { var b = S.store.builds[k]; if (b.provenance === 'yours' || Battle.GAME_GEN[gameOf(b)] !== gen) return;
+    var r = packRead(k); if (r && !r.error) out.push({id: k, species: b.species, prov: b.provenance, label: cmpLabel(Object.assign({id: k}, b)), read: r}); });
   return out;
 }
-function candBuild(id) {
-  var ind = (S.store.individuals || {})[id];
-  if (ind) { var b = indBuild(ind); delete b.id; b._prov = 'yours'; b._from = id; return b; }
-  var sb = storeBuild(id); if (!sb) return null;
-  var c = buildOf(sb); delete c.id; c._prov = sb.provenance; c._from = id; return c;
-}
-function candPreview(cand) {   // the team with this candidate in the target slot, read again (pack reads only: no new fights)
-  var i = tlTarget(), mem = TL.mem.slice(); mem[i] = {build: buildOf(candBuild(cand.id)), read: cand.read, src: {}};
-  return teamComp(mem.filter(Boolean), TL.game);
-}
-function tlCandidates() {
-  var gen = Battle.GAME_GEN[TL.game], f = TL.filters, open = TL.comp ? TL.comp.questions.filter(function (q) { return q.ok === false; }) : [];
-  var TY = Battle.TYPES.filter(function (t) { try { Battle.effectiveness(gen, t, ['Normal'], null); return t !== '???'; } catch (e) { return false; } });
-  var sel = function (k, opts) { return '<select class="f" data-tlf="' + k + '">' + opts.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (f[k] === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>'; };
-  return '<div id="tlcand" style="margin-top:16px">' + card('Candidates', '<div class="row" style="flex-wrap:wrap">' +
-    '<div><label class="l">Type</label>' + sel('type', [['', 'any']].concat(TY.map(function (t) { return [t, t]; }))) + '</div>' +
-    '<div><label class="l">Knows a move</label><input class="f" data-tlf="move" value="' + esc(f.move) + '" placeholder="e.g. Rapid Spin"></div>' +
-    '<div><label class="l">Earns a team role</label>' + sel('role', [['', 'any']].concat(TeamRoles.ORDER.map(function (r) { return [r, roleName(r)]; }))) + '</div>' +
-    '<div><label class="l">Source</label>' + sel('prov', [['', 'any']].concat(PROV_ORDER.map(function (p) { return [p, p]; }))) + '</div>' +
-    '<div><label class="l">Answers an open question</label>' + sel('answers', [['', 'any']].concat(open.map(function (q) { return [q.id, q.ask]; }))) + '</div></div>' +
-    '<div id="tlclist" style="margin-top:12px"><div class="empty">Reading candidates…</div></div>',
-    {eyebrow: 'Every Gen ' + gen + ' build on record · going into slot ' + (tlTarget() + 1), tools: false}) + '</div>';
-}
-function tlCandRun() {
-  var box = document.getElementById('tlclist'); if (!box) return;
-  var f = TL.filters, mv = f.move.trim().toLowerCase(), onTeam = TL.team.map(function (b) { return b && b._from; });
-  var list = candPool().filter(function (c) {
-    if (onTeam.indexOf(c.id) >= 0) return false;
-    if (f.type && Battle.species(Battle.GAME_GEN[TL.game], c.species).types.indexOf(f.type) < 0) return false;
+function tmCandRun() {
+  var box = document.getElementById('tmclist'); if (!box) return;
+  var f = TM.filters, mv = f.move.trim().toLowerCase(), slot = +(document.querySelector('[data-tmf="slot"]') || {value: 0}).value;
+  var list = tmPool().filter(function (c) {
+    if (f.type && Battle.species(TM.gen, c.species).types.indexOf(f.type) < 0) return false;
     if (mv && !c.read.moves.some(function (m) { return m.toLowerCase().indexOf(mv) >= 0; })) return false;
     if (f.role && c.read.earned.indexOf(f.role) < 0) return false;
     if (f.prov && c.prov !== f.prov) return false;
-    return true;
-  });
+    if (!f.legend && c.prov !== 'yours' && Battle.isLegendary(c.species)) return false;
+    return true; });
   var key = function (c) { return f.role ? roleOf(c.read, f.role).score : c.read.roles.reduce(function (a, r) { return a + (r.earned ? r.score : 0); }, 0); };
   list.sort(function (a, b) { return key(b) - key(a) || (a.species < b.species ? -1 : 1); });
-  var before = TL.comp ? openQs(TL.comp) : [], shown = [], checked = 0;
-  for (var i = 0; i < list.length && shown.length < 24; i++) {
+  var before = TM.comp ? openQs(TM.comp) : [], shown = [], qName = function (id) { return (TeamRoles.config().team.questions.filter(function (q) { return q.id === id; })[0] || {}).ask || id; };
+  for (var i = 0; i < list.length && shown.length < 20; i++) {
     var c = list[i], pv = null;
-    pv = candPreview(c); checked++;
-    if (f.answers && pv && openQs(pv).indexOf(f.answers) >= 0) continue;
+    if (TM.live && TM.live.length) { var live2 = TM.live.filter(function (x) { return x.slot !== slot; }).concat([{build: buildOf(c.prov === 'yours' ? indBuild(S.store.individuals[c.id]) : storeBuild(c.id)), read: c.read}]); pv = teamComp(live2, TM.game); }
+    if (f.fills && pv && openQs(pv).indexOf(f.fills.slice(2)) >= 0) continue;
     shown.push([c, pv]);
   }
-  var qName = function (id) { return TeamRoles.config().team.questions.filter(function (q) { return q.id === id; })[0].ask; };
-  box.innerHTML = (shown.length ? shown.map(function (x) {
-    var c = x[0], pv = x[1], after_ = pv ? openQs(pv) : before, closes = before.filter(function (q) { return after_.indexOf(q) < 0; }), opens = after_.filter(function (q) { return before.indexOf(q) < 0; });
-    return '<div class="cand"><img src="' + sprite(numOf(c.species), TL.game) + '" alt="" loading="lazy"><div><div class="small"><b>' + esc(c.species) + '</b> ' + nameHtml(c.read.name) + ' ' + provChip(c.prov) + '</div>' +
-      '<div class="tiny muted">' + esc(c.label) + ' · ' + esc(c.read.moves.join(', ')) + '</div><div class="tiny">' + earnedChips(c.read) +
-      (pv ? ' · shape ' + shapeHtml(pv.shape) + (closes.length ? ' · <span style="color:var(--forest-3)">closes ' + esc(closes.map(qName).join('; ')) + '</span>' : '') + (opens.length ? ' · <span style="color:var(--ember-2)">opens ' + esc(opens.map(qName).join('; ')) + '</span>' : '') : '') + '</div></div>' +
-      '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><a class="btn sm" href="#/pokemon/' + encodeURIComponent(c.id) + '">Lab</a><button class="btn sm gold" data-tlput="' + esc(c.id) + '">Into slot ' + (tlTarget() + 1) + '</button></div></div>';
-  }).join('') : '<div class="empty">No candidate fits these filters' + (f.answers ? ' and answers that question in slot ' + (tlTarget() + 1) : '') + '.</div>') +
-    '<div class="tiny muted" style="margin-top:8px">' + list.length + ' fit the filters' + (f.answers ? '; ' + checked + ' tried in slot ' + (tlTarget() + 1) : '') + '. Sorted by ' + (f.role ? roleName(f.role) + ' score' : 'the scores of the roles each one earns') + '. "Closes" and "opens" are the questions that change with it in slot ' + (tlTarget() + 1) + ' (from the stored reads; no new fights).</div>';
+  box.innerHTML = (shown.length ? shown.map(function (x) { var c = x[0], pv = x[1], a = pv ? openQs(pv) : before, closes = before.filter(function (q) { return a.indexOf(q) < 0; }), opens = a.filter(function (q) { return before.indexOf(q) < 0; });
+    return '<div class="cand"><img class="pix" src="' + sprite(numOf(c.species), TM.game) + '" alt="" loading="lazy"><div><div class="small"><b>' + esc(c.species) + '</b> ' + nameHtml(c.read.name) + ' ' + provChip(c.prov) + '</div>' +
+      '<div class="tiny muted">' + esc(c.label) + ' · ' + esc(c.read.moves.join(', ')) + '</div><div class="tiny">' + earnedChips(c.read) + (pv ? ' · shape ' + shapeHtml(pv.shape) + (closes.length ? ' · <span style="color:var(--forest-3)">closes ' + esc(closes.map(qName).join('; ')) + '</span>' : '') + (opens.length ? ' · <span style="color:var(--ember-2)">opens ' + esc(opens.map(qName).join('; ')) + '</span>' : '') : '') + '</div></div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><a class="btn sm" href="#/pokemon/' + encodeURIComponent(c.id) + '">Look</a><button class="btn sm gold" data-tmput="' + esc(c.id) + '">Into slot ' + (slot + 1) + '</button></div></div>'; }).join('')
+    : '<div class="empty">No candidate fits these filters.</div>') +
+    '<div class="tiny muted" style="margin-top:8px">' + list.length + ' fit the filters. A build from the book goes in as a new Pokémon of yours (its own record, the book unchanged). "Closes" and "opens" are the checks that change with it in slot ' + (slot + 1) + '.</div>';
 }
-function tlBind(p) {
-  var t = null;
-  p.addEventListener('input', function (e) { var k = e.target.getAttribute && e.target.getAttribute('data-tlf'); if (!k) return; TL.filters[k] = e.target.value; clearTimeout(t); t = setTimeout(tlCandRun, 250); });
-  p.addEventListener('change', function (e) { var k = e.target.getAttribute && e.target.getAttribute('data-tlf'); if (!k) return; TL.filters[k] = e.target.value; tlCandRun(); });
-  p.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('[data-tlput]'); if (b) tlPut(b.getAttribute('data-tlput'), tlTarget()); });
+function tmPut(id, slot) {
+  var put = function (ind) { TM.team.slots[slot] = {ind: ind.id, species: ind.species}; return Teams.save(TM.team).then(function (t) { TM.team = t; toast(esc(ind.nickname || ind.species) + ' is in slot ' + (slot + 1) + '.'); nav('#/team/' + TM.game, true); }); };
+  var mine = S.store.individuals[id];
+  if (mine) { put(mine).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); }); return; }
+  var src = storeBuild(id); if (!src) return; var d = dexOf(src.species) || {};
+  var b = Object.assign(buildOf(src), {species: src.species, game: TM.game, generation: TM.gen}); delete b.id;
+  Records.saveBuild(b, {asNew: true, parent: id + '@' + (src.v || 1), note: 'from ' + id}).then(function (saved) {
+    return Records.saveIndividual({species: src.species, game: TM.game, build: saved.id, gender: d.gr === 8 ? 'F' : d.gr === -1 ? 'genderless' : 'M', shiny: false, ball: 'Poké Ball', origin: 'from ' + id, status: 'working'}, 'Added ' + src.species + ' from ' + id);
+  }).then(put).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
 }
-route(/^\/team\/?$/, function () { return teamLab('heartgold'); }, 'The team lab', '#/team');
-route(/^\/team\/(\w+)$/, teamLab, function (g) { return 'Team lab · ' + cap(g); }, '#/team');
+
+/* ---- achievements: the region (counted as done) and what the team has earned ---- */
+function tmAchievements(comp) {
+  var J = JOURNEY[TM.game], regions = journeyRegions(TM.game), Q = {}; (comp ? comp.questions : []).forEach(function (q) { Q[q.id] = q; });
+  var badges = regions.map(function (r) { return '<div class="eyebrow" style="margin-top:8px">' + esc(r.name) + ' · 8 badges</div><div class="badgerow" style="margin-top:4px">' + r.badges.map(function (b) { return '<div class="gbadge" title="' + esc(b[1] + ', ' + b[2]) + '"><i>✦</i><b>' + esc(b[0]) + '</b>' + esc(b[1]) + '</div>'; }).join('') + '</div>'; }).join('');
+  var ach = function (ok, title, why) { return '<div class="ach' + (ok ? '' : ' no') + '"><div class="m">' + (ok ? '<b style="color:var(--forest-3)">✓</b>' : '<span class="muted">○</span>') + '</div><div><div class="small"><b>' + esc(title) + '</b></div><div class="tiny muted">' + esc(why) + '</div></div></div>'; };
+  var n = Teams.filled(TM.team), live = TM.live || [];
+  var built = live.filter(function (m) { var sb = m.ind.build ? storeBuild(m.ind.build) : null; return sb && (sb.moves || []).length === 4; }).length;
+  var team = [
+    ach(n === 6, 'A full six', n + ' of 6 slots filled'),
+    ach(n === 6 && built === 6, 'Every one built', built + ' of ' + n + ' with four moves saved'),
+    ach(comp && TeamRoles.ORDER.every(function (r) { return comp.roles[r].length; }), 'All five roles', comp ? TeamRoles.ORDER.map(function (r) { return roleName(r) + ' ' + comp.roles[r].length; }).join(' · ') : 'needs a read'),
+    ach(comp && comp.roles.ace.length >= 1, 'An Ace', comp ? (comp.roles.ace.join(', ') || 'nobody beats the League one-on-one yet') : 'needs a read'),
+    ach(Q.champions && Q.champions.ok, 'Every Champion Pokémon answered', Q.champions ? Q.champions.answer : 'needs a read'),
+    ach(Q.elite_four && Q.elite_four.ok, 'Every Elite Four Pokémon answered', Q.elite_four ? Q.elite_four.answer : 'needs a read'),
+    ach(Q.stacked_weakness && Q.stacked_weakness.ok, 'No stacked weakness', Q.stacked_weakness ? (Q.stacked_weakness.ok ? 'no type hits three of them with nobody resisting' : Q.stacked_weakness.answer) : 'needs a read'),
+    ach(Q.coverage_gap && Q.coverage_gap.ok, 'Full coverage', Q.coverage_gap ? (Q.coverage_gap.ok ? 'every type is hit super-effectively by someone' : 'not yet: ' + Q.coverage_gap.answer) : 'needs a read')];
+  var arena = tmArenaLine();
+  return card('Achievements', '<div class="grid"><div class="c7"><div class="eyebrow">The journey: done</div>' + badges +
+      '<div class="eyebrow" style="margin-top:12px">The League</div><div class="small">' + esc(J.league.join(', ')) + ' and Champion ' + esc(J.champion) + ' <b style="color:var(--forest-3)">✓ beaten</b></div>' +
+      '<div class="eyebrow" style="margin-top:12px">Pokédex</div><div class="small">' + J.dex.map(function (d) { return esc(d[0]) + ' (' + d[1] + ') <b style="color:var(--forest-3)">✓</b>'; }).join(' · ') + '</div>' +
+      '<div class="eyebrow" style="margin-top:12px">After the credits</div>' + J.post.map(function (p) { return '<div class="small">✓ ' + esc(p) + '</div>'; }).join('') +
+      '<div class="tiny muted" style="margin-top:8px">Counted as done: the region is beaten and the National Pokédex is in hand (Zack, D-078).</div></div>' +
+    '<div class="c5"><div class="eyebrow">What the team has earned</div>' + team.join('') + '<div class="eyebrow" style="margin-top:10px">In the Arena</div><div id="tmarena" class="small">' + arena + '</div></div></div>',
+    {eyebrow: 'Badges · the League · Pokédex · post-game · team', tools: false});
+}
+function tmArenaLine() {
+  var ref = 'mine:' + Teams.id(TM.game), rows = (S.live.Arena && S.live.Arena._rows) || null;
+  API.tab('Arena').then(function (rs) { var mine = (rs || []).filter(function (r) { return r.a === ref; }), w = 0, l = 0, d = 0;
+    mine.forEach(function (r) { w += +r.won || 0; l += +r.lost || 0; d += +r.drew || 0; });
+    var el = document.getElementById('tmarena'); if (el) el.innerHTML = mine.length ? plural(mine.length, 'result') + ' kept: <b>' + w + '–' + l + (d ? '–' + d : '') + '</b> in ' + (w + l + d) + ' battles' : '<span class="muted">No battles kept yet. Battle below, or in the Arena.</span>'; }).catch(function () {});
+  return '<span class="muted">…</span>';
+}
+
+/* ---- battle it ---- */
+function tmBattleCard() {
+  var champ = {heartgold: 'heartgold/red', soulsilver: 'heartgold/red', platinum: 'platinum/cynthia-rematch', crystal: 'heartgold/lance-rematch', firered: 'gen4:firered/gary-rematch-he-chose-bulbasaur', emerald: 'gen4:emerald/wallace'}[TM.game];
+  return card('Battle with this team', '<div class="small">Six on six in the Arena, with this team\'s trainer making the calls.</div><div class="row" style="margin-top:8px;flex-wrap:wrap"><div style="flex:2;min-width:200px"><label class="l">Against</label><select class="f" id="tmvs"><option value="lib:' + champ + '">loading the trainers…</option></select></div>' +
+      '<div><label class="l">Battles</label><select class="f" id="tmn"><option>10</option><option selected>20</option><option>50</option><option>100</option></select></div></div>' +
+      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn gold" id="tmgo">Battle</button><a class="btn" id="tmopen" href="#/arena?a=' + encodeURIComponent('mine:' + Teams.id(TM.game)) + '">Open in the Arena</a><a class="btn" href="#/legends">Legends</a><a class="btn" href="#/leagues">Leagues</a></div>' +
+      arProgress('tmprog') + '<div id="tmbout" style="margin-top:10px"></div>',
+    {eyebrow: 'The Arena · Showdown\'s Gen IV engine', tools: false});
+}
+function tmBattleSetup() {
+  var sel = document.getElementById('tmvs'); if (!sel || sel.getAttribute('data-on')) return;
+  Arena.ready().then(function () {
+    var g = Arena.choices(), cur = sel.value, grp = [['champions', 'Champions and Red'], ['legends', 'Legends'], ['anime', 'The anime and the all-time'], ['cartridge', 'The games\' trainers'], ['converted', 'Gen II-III under Gen IV rules']];
+    sel.innerHTML = grp.filter(function (x) { return (g[x[0]] || []).length; }).map(function (x) { return '<optgroup label="' + esc(x[1]) + '">' + g[x[0]].map(function (o) { return '<option value="' + esc(o.ref) + '"' + (o.ref === cur ? ' selected' : '') + '>' + esc(o.label) + '</option>'; }).join('') + '</optgroup>'; }).join('');
+    sel.setAttribute('data-on', '1');
+    var upd = function () { var a = document.getElementById('tmopen'); if (a) a.href = '#/arena?a=' + encodeURIComponent('mine:' + Teams.id(TM.game)) + '&b=' + encodeURIComponent(sel.value); }; sel.onchange = upd; upd();
+  }).catch(function (e) { var b = document.getElementById('tmbout'); if (b) b.innerHTML = arNeedsEngine(e); });
+}
+function tmBattle() {
+  if (!Teams.filled(TM.team)) { toast('Add a Pokémon to the team first.'); return; }
+  var bare = Teams.members(TM.team).filter(function (m) { return m && !(m.build.moves || []).filter(Boolean).length; });   // the engine won't invent a set
+  if (bare.length) { document.getElementById('tmprog').innerHTML = '<div class="notice">Pick moves first: ' + bare.map(function (m) { return '<a class="link" href="#/pokemon/' + encodeURIComponent(m.ind.id) + '">' + esc(m.ind.nickname || m.ind.species) + '</a>'; }).join(', ') +
+    (bare.length > 1 ? ' have' : ' has') + ' none yet, and the Arena only plays the moves you\'ve given it.</div>'; return; }
+  var btn = document.getElementById('tmgo'), a = 'mine:' + Teams.id(TM.game), b = document.getElementById('tmvs').value, n = +document.getElementById('tmn').value; btn.disabled = true;
+  Arena.match(a, b, {n: n, lens: 'standardized', ours: 'blackthorn', theirs: 'blackthorn', onProgress: arTick('tmprog', 'Playing')}).then(function (m) {
+    btn.disabled = false; document.getElementById('tmprog').innerHTML = '';
+    var key = 'm' + Date.now(); Arena.save(key, m); document.getElementById('tmbout').innerHTML = arResult(m, key);
+    var r = m.result;
+    arRecord({kind: 'match', a: a, b: b, a_name: m.a.label, b_name: m.b.label, n: r.n, won: r.won, lost: r.lost, drew: r.drew, lens: 'standardized', ours: 'blackthorn', theirs: 'blackthorn',
+      ruleset: r.job.ruleset, seed: r.seed, members: JSON.stringify(r.summary.members.a.map(function (x) { return arMembersRow(x, a, r.n); })), them: JSON.stringify(r.summary.members.b.map(function (x) { return arMembersRow(x, b, r.n); })),
+      _timeline: 'Arena: ' + m.a.label + ' ' + r.won + '–' + r.lost + (r.drew ? '–' + r.drew : '') + ' against ' + m.b.label}).then(function () { var el = document.getElementById('tmarena'); if (el) el.innerHTML = tmArenaLine(); });
+  }).catch(function (e) { btn.disabled = false; arFail('tmprog', e); });
+}
+
+/* ---- binding ---- */
+function tmBind(p) {
+  var drag = null, t = null;
+  p.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target : null; if (!el) return;
+    var j = el.closest('[data-jump]'); if (j) { var s = document.getElementById(j.getAttribute('data-jump')); if (s) s.scrollIntoView({behavior: 'smooth', block: 'start'}); if (j.getAttribute('data-jump') === 'tm-battle') tmBattleSetup(); return; }
+    var nu = el.closest('[data-nudge]'); if (nu) { e.stopPropagation(); var a = nu.getAttribute('data-nudge').split(':'); tmMove(+a[0], +a[0] + +a[1]); return; }
+    var o = el.closest('[data-out]'); if (o) { e.stopPropagation(); tmOut(+o.getAttribute('data-out')); return; }
+    var put = el.closest('[data-tmput]'); if (put) { tmPut(put.getAttribute('data-tmput'), +(document.querySelector('[data-tmf="slot"]') || {value: 0}).value); return; }
+    if (el.closest('#tmswgo')) { tmSwapTry(); return; }
+    if (el.closest('#tmgo')) { tmBattle(); return; }
+    var tile = el.closest('[data-go]'); if (tile) nav('#/pokemon/' + encodeURIComponent(tile.getAttribute('data-go')));
+  });
+  p.addEventListener('dragstart', function (e) { var tl = e.target.closest && e.target.closest('.tile[data-slot]'); if (!tl) return; drag = +tl.getAttribute('data-slot'); tl.classList.add('drag'); try { e.dataTransfer.setData('text/plain', String(drag)); e.dataTransfer.effectAllowed = 'move'; } catch (x) {} });
+  p.addEventListener('dragend', function () { p.querySelectorAll('.tile').forEach(function (x) { x.classList.remove('drag', 'over'); }); });
+  p.addEventListener('dragover', function (e) { var tl = e.target.closest && e.target.closest('.tile[data-slot]'); if (!tl || drag == null) return; e.preventDefault(); p.querySelectorAll('.tile').forEach(function (x) { x.classList.toggle('over', x === tl); }); });
+  p.addEventListener('drop', function (e) { var tl = e.target.closest && e.target.closest('.tile[data-slot]'); if (!tl || drag == null) return; e.preventDefault(); var to = +tl.getAttribute('data-slot'), from = drag; drag = null; tmMove(from, to); });
+  p.addEventListener('submit', function (e) { if (e.target.id === 'tmtf') { e.preventDefault(); tmSaveTrainer(e.target); } });
+  p.addEventListener('toggle', function (e) { if (e.target.id === 'tmdials' && e.target.open) tmDials(); }, true);
+  p.addEventListener('input', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-dial'); if (k) { var v = document.getElementById('tmv-' + k); if (v) v.textContent = e.target.value; tmTraits(); return; }
+    var f = e.target.getAttribute && e.target.getAttribute('data-tmf'); if (f && f !== 'slot') { TM.filters[f] = e.target.value; clearTimeout(t); t = setTimeout(tmCandRun, 250); } });
+  p.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.name === 'style' && el.form && el.form.id === 'tmtf') { var w = document.getElementById('tmstylewhy'); if (w) w.textContent = (TR_PHILOSOPHY[el.value] || {}).why || '';
+      var ph = (TR_PHILOSOPHY[el.value] || {}).params || {}, D = Arena.X() ? Arena.X().TRAINER_DEFAULTS : null;
+      if (D) document.querySelectorAll('[data-dial]').forEach(function (d) { var k = d.getAttribute('data-dial'); d.value = ph[k] != null ? ph[k] : D[k]; var v = document.getElementById('tmv-' + k); if (v) v.textContent = d.value; }); tmTraits(); return; }
+    if (el.form && el.form.id === 'tmswf' && (el.name === 'who' || el.name === 'what')) { tmSwapFields(); return; }
+    var f = el.getAttribute && el.getAttribute('data-tmf'); if (f) { if (f === 'slot') TM.target = +el.value; else TM.filters[f] = el.value; tmCandRun(); }
+  });
+  if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { tmBattleSetup(); io.disconnect(); } }); }); var bb = document.getElementById('tm-battle'); if (bb) io.observe(bb); }
+}
+function teamsHome() {   // #/team: the six teams side by side
+  return labsReady().then(function () {
+    return '<div class="eyebrow">Your teams</div><h1 style="margin:6px 0">Six journeys, six trainers</h1><p class="lede">One team for each game, each with its own trainer and philosophy. Open one to build it.</p>' + journeyCards();
+  });
+}
+function journeyCards() {
+  return '<div class="jcards">' + JOURNEYS.map(function (g) { var t = Teams.get(g), mem = Teams.members(t), n = mem.filter(Boolean).length, J = JOURNEY[g];
+    return '<a class="jcard" href="#/team/' + g + '" style="--hue:' + J.hue + '"><div class="eyebrow">' + esc(journeyRegions(g).map(function (r) { return r.name; }).filter(function (x, i, a) { return a.indexOf(x) === i; }).join(' · ')) + '</div>' +
+      '<h3>' + esc(GAME_NAME[g]) + '</h3><div class="tiny muted">' + esc(n ? whose(t) + ' team · ' + n + ' of 6' : 'Not started') + '</div>' +
+      '<div class="jsix">' + mem.map(function (m) { return m ? '<img class="pix" src="' + spriteOf(numOf(m.ind.species), g, m.ind.shiny) + '" alt="' + esc(m.ind.species) + '">' : '<span></span>'; }).join('') + '</div>' +
+      '<div class="tiny" style="margin-top:6px;color:var(--gold-2)">' + (n ? 'Open the team →' : 'Start the ' + esc(GAME_NAME[g]) + ' team →') + '</div></a>'; }).join('') + '</div>';
+}
+route(/^\/team\/?$/, teamsHome, 'Your teams', '#/team');
+route(/^\/team\/(\w+)$/, teamLab, function (g) { return 'Your teams · ' + (GAME_NAME[g] || g); }, '#/team');
 </script>

@@ -1,0 +1,20 @@
+{
+  "_note": "The fresh start (D-078, docs/design/V2_PLAN.md §1). While on, the app shows none of the personal layer: engine/app/fresh.py takes it out of every pack at the end of the export, and the app skips Sheet rows dated before 'since'. Nothing is deleted: canon/ keeps the six journeys, builds, lineups, studbook and lineage as they were, and docs/ keeps their reports. To bring them back, set 'on' to false and run python3 -I engine/rebuild.py.",
+  "on": true,
+  "since": "2026-10-25T00:00:00Z",
+  "why": "Zack, 2026-10-25: \"we need to eliminate all of my personal history in the game ... everything that I could input, I want that to be blank. And I want to start new and start over and input everything myself.\"",
+  "hides": {
+    "store.json": "your Pokémon (individuals), your builds (provenance yours), the saved team drafts, the breeding lines and proposed lines",
+    "library.json": "the journey trainer (me) and its versions, and any collection entry that points at them",
+    "hq.json": "the champion's versions, the chapters, the party, the residents, the program, the studbook lineage, the fathers, the breeding roles, and the staff drawn from them",
+    "roles4.json": "the team-role reads of the journey companions (me:*)",
+    "scouting.json": "your own trainer reports",
+    "advance*.json": "the Journey Scouting File (each lineup becomes empty)",
+    "battle.json": "the journey's lineups, characters and coach settings (the Battle Lab reads your v2 teams instead)",
+    "scout.json": "the journey trainer (me) in the Trainer lab's report engine",
+    "arena.json": "your journey teams and their Legends entries (sixvsix/cli/arena-pack.mjs reads this file)",
+    "capability.json": "nothing: its world records name the old Pokémon by id, so with those Pokémon hidden the records match no one (and come back with them)",
+    "breeder.json": "nothing (it is every line's egg moves, not your records)",
+    "sheet tabs": "rows in My Pokémon, My Builds, My Teams, My Gear, My Artwork, Arena and Journal dated before 'since'"
+  }
+}

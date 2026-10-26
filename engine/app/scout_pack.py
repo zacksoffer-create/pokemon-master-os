@@ -228,7 +228,12 @@ def parity(path, variants=3, seed=7):
     rng = random.Random(seed)
     era = store.era
     out = {"reports": {}, "variants": [], "exposure": {}}
+    sys.path.insert(0, HERE)
+    import fresh                          # the pack the browser checks against: the journey trainer is hidden while it's on
+    hidden = {"me"} if fresh.on() else set()
     for tid, t in list(store.trainers.items()):
+        if tid in hidden:
+            continue
         for vid in t.versions:
             out["reports"][f"{tid}/{vid}"] = build_report(store, tid, vid)
     items = ["Leftovers", "Choice Band", "Choice Specs", "Life Orb", "Focus Sash", "Lum Berry", "Expert Belt", "Light Ball",
@@ -237,6 +242,8 @@ def parity(path, variants=3, seed=7):
     roles = list(store.config["tags"]["roles"])
     n = 0
     for tid, t in list(store.trainers.items()):
+        if tid in hidden:
+            continue
         for vid, v in list(t.versions.items()):
             team = store.team(v)
             gen = GAME_GEN[v.game]
@@ -284,8 +291,11 @@ def parity(path, variants=3, seed=7):
                 rep = build_report(store, key, key, level=level)
                 out["variants"].append({"base": f"{tid}/{vid}", "sliders": sliders, "roles": vroles, "team": new, "level": level,
                                         "report": rep})
-    for mine in [("me", "heartgold"), ("me", "platinum")]:
+    mines = [("me", "heartgold"), ("me", "platinum")] if not hidden else [("lance", "champion-hgss"), ("red", "mt-silver")]
+    for mine in mines:
         for theirs in [("cynthia", "champion-platinum"), ("lance", "champion-hgss"), ("red", "mt-silver")]:
+            if theirs == mine:
+                continue
             out["exposure"][f"{mine[0]}/{mine[1]}|{theirs[0]}/{theirs[1]}"] = exposure(store, mine, theirs)
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, default=lambda o: sorted(o) if isinstance(o, (set, frozenset)) else str(o))
@@ -320,3 +330,6 @@ if __name__ == "__main__":
         print("parity: %d reports, %d variants" % parity(sys.argv[2]))
     else:
         main()
+        sys.path.insert(0, HERE)
+        import fresh                     # run on its own, the pack still keeps the fresh start (D-078)
+        fresh.after("scout.json")

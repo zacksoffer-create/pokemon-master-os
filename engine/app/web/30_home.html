@@ -71,9 +71,9 @@ function priorities() {
   var out = [], eggs = eggsModel(), berries = berriesModel(), h = S.hq;
   eggs.filter(function (e) { return e.left <= 3; }).forEach(function (e) { out.push({icon: '🥚', text: e.line + ' egg is ' + e.left + ' laps from hatching', act: "openForm('walk','" + e.id + "')", tone: 'ember'}); });
   berries.filter(function (b) { return b.done; }).forEach(function (b) { out.push({icon: '🍒', text: b.berry + ' on plot ' + b.plot + ' is ready to harvest', act: "openForm('harvest','" + b.id + "')", tone: 'forest'}); });
-  if (!eggs.length) out.push({icon: '🥚', text: 'No eggs in the racks. Start a line from the breeding program', act: "openForm('egg')", tone: 'gold'});
+  if (!eggs.length) out.push({icon: '🥚', text: 'No eggs in the racks', act: "openForm('egg')", tone: 'gold'});
   if (!berries.length) out.push({icon: '🌱', text: 'The berry rings are bare. Plant the medicine crop', act: "openForm('plant')", tone: 'gold'});
-  var open = h.questions.length; out.push({icon: '⚖', text: open + ' calls are waiting on you, starting with the satellite', act: "nav('#/calls')", tone: ''});
+  var open = (h.questions || []).length; if (open) out.push({icon: '⚖', text: open + ' calls are waiting on you', act: "nav('#/calls')", tone: ''});
   if (h.kpis.rule_issues) out.push({icon: '⚠', text: h.kpis.rule_issues + ' studbook rule issues', act: "nav('#/breeding/studbook')", tone: 'ember'});
   return out.slice(0, 6);
 }
@@ -142,124 +142,61 @@ function partyProfile(sp) {
 }
 
 /* ---- the home dashboard ---- */
-var HOME_MODS = {
-  identity: 'c4', party: 'c8', priorities: 'c4', featured: 'c8', projects: 'c6', eggs: 'c3', berries: 'c3',
-  map: 'c7', network: 'c5', environment: 'c4', nutrition: 'c4', progress: 'c4', timeline: 'c5', journal: 'c4', calls: 'c3'
-};
-var PRESETS = {
-  champion: ['identity', 'party', 'priorities', 'featured', 'projects', 'eggs', 'berries', 'map', 'network', 'environment', 'nutrition', 'progress', 'timeline', 'journal', 'calls'],
-  breeder: ['priorities', 'featured', 'projects', 'eggs', 'berries', 'party', 'identity', 'nutrition', 'environment', 'network', 'map', 'progress', 'timeline', 'journal', 'calls'],
-  research: ['journal', 'progress', 'environment', 'timeline', 'calls', 'featured', 'projects', 'eggs', 'berries', 'party', 'identity', 'map', 'network', 'nutrition', 'priorities']
-};
+/* v2 (D-078): Home leads with your six teams and what to do next; the modes beneath; the estate's day folded below */
 function home() {
-  return Promise.all([loadLive(), API.data('journal').then(function (j) { S.journal = j; }).catch(function () {})]).then(function () {
-    var h = S.hq, d = new Date(), hour = d.getHours(), preset = store('preset') || 'champion';
-    var greet = hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    var weather = {winter: 'snow on the Ice Path, the hearth running warm', spring: 'meltwater on Route 45, blossom in the terraces', summer: 'long light over the Den, the rings in full leaf', autumn: 'mist off the lake, the orchard turning'}[Art.seasonNow(d)];
-    var mods = {};
-    // identity & legacy
-    mods.identity = card('A Champion, retired', '<div style="display:flex;gap:14px;align-items:center"><img src="' + art(157) + '" style="width:96px;height:96px;object-fit:contain"><div>' +
-      '<div class="serif" style="font-size:26px;color:var(--ivory)">' + esc(h.champion.name) + '</div><div class="small muted">' + esc(h.champion.title) + '</div>' +
-      '<div class="small" style="margin-top:6px;color:var(--text-2)">Signature partner: <b style="color:var(--ember-2)">Typhlosion</b>, the hearth of the home team</div></div></div>' +
-      '<p class="small" style="color:var(--text-2);margin:12px 0">Six chapters of one life, each answering <i>what does mastery mean?</i> differently. ' + esc(h.champion.frame) + '</p>' +
-      '<div class="timeline">' + h.chapters.map(function (c) { return '<div class="tl' + (c.locked ? '' : ' forest') + '"><div class="when">CHAPTER ' + c.order + ' · ' + esc(c.name.toUpperCase()) + '</div><div><b>' + esc(cap(c.thesis)) + '</b> <span class="muted small">' + esc(c.line) + '</span></div></div>'; }).join('') + '</div>' +
-      '<div class="small muted">The rival grew alongside: ' + esc(join(h.rival.roster)) + '.</div><p class="serif" style="font-style:italic;color:var(--gold-2);margin:10px 0 0">“' + esc(h.champion.philosophy) + '”</p>',
-      {eyebrow: 'Identity & legacy', corners: true});
-    // party
-    mods.party = card('The home team', '<div class="party">' + h.party.map(function (p, i) {
-      return '<div class="slot" style="--tint:' + (TYPE[p.t[0]] || '#333') + '33" onclick="partyProfile(\'' + esc(p.sp) + '\')"><span class="no">0' + (i + 1) + '</span><span class="lock">🔒</span>' +
-        '<img src="' + art(p.n) + '" alt="' + esc(p.sp) + '" loading="lazy"><div class="nm">' + esc(p.sp) + '</div><div class="ty">' + types(p.t) + '</div>' +
-        '<div class="life">' + esc((p.life[0] || {}).cap ? cap(p.life[0].cap) : '') + '</div><div class="hpline"><i></i></div></div>'; }).join('') + '</div>' +
-      '<p class="small muted" style="margin:12px 0 0">HeartGold\'s six: <i>“Nothing you do matters.”</i> Secure, not cruel. Tap a partner for its full profile.</p>',
-      {eyebrow: 'Current party · HeartGold', link: ['#/teams/me-heartgold', 'Team report']});
-    // priorities & quick actions
-    mods.priorities = card('Today', priorities().map(function (p) { return '<div class="line ' + p.tone + '" style="cursor:pointer" onclick="' + p.act + '">' + p.icon + ' ' + esc(p.text) + '</div>'; }).join('') +
-      '<div class="ornament" style="margin:14px 0 10px">quick actions</div><div style="display:flex;flex-wrap:wrap;gap:6px">' +
-      [['walk', 'Egg walk'], ['egg', 'Lay an egg'], ['plant', 'Plant'], ['harvest', 'Harvest'], ['feeding', 'Feeding'], ['reading', 'Reading'], ['note', 'Observation']].map(function (a) { return '<button class="btn sm" onclick="openForm(\'' + a[0] + '\')">' + a[1] + '</button>'; }).join('') + '</div>',
-      {eyebrow: 'Daily priorities'});
-    // featured: the Glasshouse
-    var eggs = eggsModel(), berries = berriesModel(), g = h.glasshouse;
-    mods.featured = card('The Glasshouse', '<div class="grid" style="gap:14px"><div class="c7 svgwrap" style="border-radius:12px;overflow:hidden">' + Art.glasshouse(g) + '</div>' +
-      '<div class="c5"><p class="small" style="color:var(--text-2);margin-top:0">' + esc(g.idea) + '</p>' +
-      '<div class="grid" style="gap:10px;margin-top:6px"><div class="c6 gauge"><span class="u">Eggs in the racks</span><span class="v num">' + eggs.length + '</span></div><div class="c6 gauge"><span class="u">Berries ready</span><span class="v num">' + berries.filter(function (b) { return b.done; }).length + '<span class="u"> / ' + berries.length + '</span></span></div>' +
-      '<div class="c6 gauge"><span class="u">Stud lines scheduled</span><span class="v num">' + g.eggs.length + '</span></div><div class="c6 gauge"><span class="u">Crops in the plan</span><span class="v num">' + g.crops.length + '</span></div></div>' +
-      '<div class="eyebrow" style="margin-top:14px">Staff on duty</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">' +
-      ['Magcargo', 'Typhlosion', 'Snorlax', 'Ampharos', 'Mamoswine'].map(function (s) { return '<span class="chip" style="padding-left:2px">' + portrait(s, 22) + esc(s) + '</span>'; }).join('') + '</div>' +
-      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">' + chip('Meganium · gardener (proposed W-016)', 'ember') + chip('Miltank · nursery milk (proposed W-017)', 'ember') + '</div></div></div>',
-      {eyebrow: 'Featured living facility · ' + g.status, link: ['#/glasshouse', 'Enter']});
-    // breeding projects
-    mods.projects = card('Breeding projects', '<table class="t"><tbody>' + h.program.map(function (p) {
-      var n = numOf(p.species), st = p.status;
-      return '<tr class="click" onclick="nav(\'#/breeding/project/' + encodeURIComponent(p.species) + '\')"><td style="width:44px"><img src="' + sprite(n) + '" style="width:40px;height:40px;image-rendering:pixelated"></td>' +
-        '<td><b>' + esc(p.target) + '</b><div class="tiny muted">' + esc(p.egg_moves.join(', ')) + '</div></td><td class="small">' + esc((p.fathers_used.length ? p.fathers_used.join(' → ') + ' → ' : '') + (p.hatches_as ? 'stud' : 'Light Ball')) + '</td>' +
-        '<td>' + chip(st, st === 'done' ? 'forest' : st === 'in progress' ? 'ember' : '') + '</td></tr>'; }).join('') + '</tbody></table>',
-      {eyebrow: 'Genetic lineages · D-038', link: ['#/breeding', 'All projects']});
-    // eggs
-    mods.eggs = card('Incubation', eggs.length ? '<div class="eggs">' + eggs.slice(0, 4).map(function (e, i) { return '<div class="egg">' + Art.egg(e.pct, TYPE[(dexOf(e.line) || {t: ['Normal']}).t[0]], 'h' + i) + '<div class="ln">' + esc(e.line) + '</div><div class="sub">' + e.laps + ' / ' + e.cycles + ' laps</div></div>'; }).join('') + '</div>'
-      : '<div class="empty">No eggs in the racks.<br><span class="tiny">Larvitar takes 40 laps of the loop, 20 with Magcargo walking along.</span></div><div style="margin-top:10px;text-align:center"><button class="btn sm gold" onclick="openForm(\'egg\')">Lay an egg</button></div>',
-      {eyebrow: 'Egg walking', link: ['#/glasshouse/eggs', 'Racks']});
-    // berries
-    mods.berries = card('Berry rings', berries.length ? berries.slice(0, 5).map(function (b) { return '<div class="berry"><img src="' + itemSprite(b.berry) + '"><div style="flex:1"><div class="small"><b>' + esc(b.berry) + '</b> <span class="muted">· plot ' + esc(b.plot) + '</span></div><div class="bar forest"><i style="width:' + (b.pct * 100).toFixed(0) + '%"></i></div></div><span class="tiny ' + (b.done ? '' : 'muted') + '">' + (b.done ? 'ready' : hrs((b.ready - Date.now()) / 3600e3)) + '</span></div>'; }).join('')
-      : h.glasshouse.crops.slice(0, 5).map(function (c) { return '<div class="berry"><img src="' + itemSprite(c.berry) + '"><div style="flex:1"><div class="small"><b>' + esc(c.berry) + '</b></div><div class="tiny muted">' + esc(c.why) + '</div></div><span class="tiny muted">' + c.hours_to_harvest + ' h</span></div>'; }).join('') + '<div style="margin-top:8px"><button class="btn sm" onclick="openForm(\'plant\')">Plant</button> <span class="tiny muted">Gen 4 growth times</span></div>',
-      {eyebrow: 'Cultivation', link: ['#/glasshouse/berries', 'All plots']});
-    // map
-    mods.map = card('The estate', '<div class="svgwrap" id="homemap" style="border-radius:12px;overflow:hidden">' + Art.estateMap(h.facilities) + '</div>', {eyebrow: 'Interactive estate & world map', link: ['#/estate', 'Explore']});
-    after(function () { bindMap(document.getElementById('homemap')); });
-    // facility network
-    mods.network = card('Facility network', '<div class="fac" style="grid-template-columns:repeat(2,minmax(0,1fr))">' + h.facilities.map(function (f) {
-      var tone = f.open.length ? 'warn' : Object.keys(f.one).length ? 'gold' : '';
-      return '<a class="f" href="#/estate/' + encodeURIComponent(f.name) + '"><div style="display:flex;justify-content:space-between;align-items:center"><span class="fn">' + esc(f.name) + '</span><span class="status-dot ' + tone + '"></span></div>' +
-        '<div class="tiny muted" style="margin-top:4px">' + esc(f.access) + ' · ' + plural(Object.keys(f.staff).length, 'job') + ' held</div>' +
-        (f.open.length ? '<div class="tiny" style="color:var(--ember-2);margin-top:4px">open: ' + esc(f.open.join(', ')) + '</div>' : '') + '</a>'; }).join('') + '</div>',
-      {eyebrow: 'Status at a glance'});
-    // environment
-    var env = envModel(), none = env.every(function (e) { return e.none; });
-    mods.environment = card('Living conditions', (none ? '<div class="tiny muted" style="margin-bottom:8px">No readings logged yet. The targets are proposals for the design, not measurements; log a reading and it shows here.</div>' : '') +
-      env.map(function (e) { return '<div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div><div class="small"><b>' + esc(e.room) + '</b></div><div class="tiny muted">' + esc(e.metric) + ' · target ' + e.target + e.unit + ' (proposed)</div></div>' + (e.series.length > 1 ? Art.spark(e.series, e.color, 90, 26) : '<span></span>') +
-        (e.none ? '<div class="tiny muted">no reading</div>' : '<div class="serif num" style="font-size:20px;color:var(--ivory)">' + e.now + '<span class="tiny muted">' + esc(e.unit) + '</span></div>') + '</div>'; }).join(''),
-      {eyebrow: 'Environmental monitoring', link: ['#/glasshouse/environment', 'Instruments']});
-    // nutrition
-    var feeds = (S.L.Feedings || []).slice(-4).reverse();
-    mods.nutrition = card('Nutrition', '<div class="line forest"><b>Miltank</b> · the nursery\'s milk <span class="tiny muted">(proposed W-017)</span><div class="tiny muted">SoulSilver Pokédex: around babies its milk carries far more nutrition.</div></div>' +
-      '<div class="line ember"><b>The berry rings</b> · medicine for the clinic and the nursery, and every berry a canon build holds</div>' +
-      (feeds.length ? '<div class="ornament" style="margin:12px 0 8px">recent feedings</div>' + feeds.map(function (f) { return '<div class="small">' + esc(f.who) + ' · ' + esc(f.food) + ' <span class="muted tiny">' + ago(f.at) + '</span></div>'; }).join('') : '<div class="empty" style="margin-top:10px">No feedings logged yet.</div>') +
-      '<div style="margin-top:10px"><button class="btn sm" onclick="openForm(\'feeding\')">Log a feeding</button></div>', {eyebrow: 'Diet & development', link: ['#/glasshouse/nutrition', 'Programs']});
-    // progress
-    mods.progress = card('World progress', progressModel().map(function (g) { return '<div class="goal"><div><div class="small"><b>' + esc(g.k) + '</b></div><div class="tiny muted">' + esc(g.note) + '</div>' + (g.of ? '<div class="bar ' + g.color + '" style="margin-top:5px"><i style="width:' + Math.round(100 * g.v / g.of) + '%"></i></div>' : '') + '</div><div class="serif num" style="font-size:22px;color:var(--ivory)">' + g.v + (g.of ? '<span class="tiny muted"> / ' + g.of + '</span>' : '') + '</div></div>'; }).join(''),
-      {eyebrow: 'Long-term goals · mastery, not money'});
-    // timeline
-    mods.timeline = card('The living timeline', '<div class="timeline">' + timelineModel(9).map(function (t) { return '<div class="tl ' + (t.live ? 'ember' : '') + '"><div class="when">' + esc(t.live ? fmtTime(t.at) : fmtDate(t.at)) + ' · ' + esc(t.kind.toUpperCase()) + '</div><div class="small">' + esc(t.text) + '</div></div>'; }).join('') + '</div>',
-      {eyebrow: 'Recent activity', link: ['#/record', 'The record']});
-    // journal
-    var notes = (S.L.Journal || []).slice(-2).reverse(), resident = h.party[d.getDate() % h.party.length], rd = dexOf(resident.sp) || {};
-    mods.journal = card('Research journal', notes.map(function (n) { return '<div class="line"><b>' + esc(n.title || 'Observation') + '</b> <span class="chip">' + esc(n.kind) + '</span><div class="small muted">' + esc(String(n.text || '').slice(0, 140)) + '</div></div>'; }).join('') +
-      '<div class="eyebrow" style="margin-top:6px">From the atlas · ' + esc(resident.sp) + '</div><p class="serif" style="font-size:17px;font-style:italic;color:var(--ivory-2);margin:6px 0">“' + esc(rd.dex || '') + '”</p><div class="tiny muted">official source · ' + esc(GAME_NAME[rd.dexg] || rd.dexg || '') + ' Pokédex</div>' +
-      '<div style="margin-top:10px"><button class="btn sm" onclick="openForm(\'note\')">Write an observation</button></div>', {eyebrow: 'Discovery', link: ['#/journal', 'Open']});
-    // calls
-    mods.calls = card('Your calls', h.questions.slice(0, 5).map(function (q) { return '<div class="line ember" style="cursor:pointer" onclick="nav(\'#/calls\')"><span class="small">' + esc(q.question) + '</span></div>'; }).join('') + '<div class="tiny muted">' + h.questions.length + ' open · nothing changes until you decide</div>', {eyebrow: 'Waiting on you', link: ['#/calls', 'Decide']});
-    var order = PRESETS[preset] || PRESETS.champion;
-    return '<section class="hero">' + Art.hero() + '<div class="veil"></div><div class="say"><div class="eyebrow">World Headquarters · Blackthorn highlands, Johto</div>' +
-      '<h1>' + greet + ', ' + esc(h.champion.name) + '.</h1><p class="lede">' + cap(Art.seasonNow(d)) + ' at the estate: ' + esc(weather) + '. ' + h.kpis.residents + ' residents, ' + h.kpis.lines + ' breeding lines, and a studbook ' + h.kpis.individuals + ' strong.</p>' +
-      '<div class="meta"><span class="pill gold">Former Blackthorn Champion</span><span class="pill">Breeder · Scientist · Conservationist</span><span class="pill">' + h.kpis.generations + ' generations on record</span></div></div>' +
-      '<div class="marks"><a href="#/estate">The estate</a><a href="#/glasshouse">The Glasshouse</a><a href="#/breeding">Breeding</a><a href="#/scouting">Scouting</a></div></section>' +
-      homeModes() +
-      '<div style="display:flex;align-items:center;gap:10px;margin:22px 0 14px"><div class="ornament" style="flex:1">the estate today</div>' +
-      '<div class="tabs" style="margin:0;border:0">' + ['champion', 'breeder', 'research'].map(function (p) { return '<a href="javascript:void 0" class="' + (p === preset ? 'on' : '') + '" onclick="store(\'preset\',\'' + p + '\');go()">' + cap(p) + ' view</a>'; }).join('') + '</div></div>' +
-      '<div class="grid">' + order.map(function (k) { return '<div class="' + HOME_MODS[k] + '">' + mods[k] + '</div>'; }).join('') + '</div>';
+  return Promise.all([recordsReady(), loadLive().catch(function () { return null; }), gearReady().catch(function () { return null; })]).then(function () {
+    var h = S.hq, d = new Date(), hour = d.getHours(), greet = hour < 5 ? 'Good night' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    var inds = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return i.status !== 'retired'; })
+      .sort(function (a, b) { return String(b.at || '').localeCompare(String(a.at || '')); });
+    return '<section class="hero" style="min-height:220px">' + Art.hero() + '<div class="veil"></div><div class="say"><div class="eyebrow">Blackthorn · World Headquarters</div>' +
+      '<h1>' + greet + ', ' + esc(h.champion.name || 'Trainer') + '.</h1><p class="lede">Six journeys, each its own team and its own trainer. Build them one Pokémon at a time: every move, nature and spread read live against the League; then take them into the Arena.</p></div></section>' +
+      homeNext(inds) +
+      '<div class="ornament" style="margin:22px 0 12px">your teams</div>' + journeyCards() +
+      (inds.length ? '<div class="ornament" style="margin:22px 0 12px">recently built</div><div class="pickgrid">' + inds.slice(0, 8).map(function (i) {
+        return '<a class="pick" href="#/pokemon/' + encodeURIComponent(i.id) + '">' + inBall(i.species, i.game, i.ball, i.shiny, 56) + '<div><b>' + esc(i.nickname || i.species) + '</b><div class="tiny muted">' + esc(GAME_NAME[i.game]) + (i.at ? ' · ' + esc(ago(i.at)) : '') + '</div></div></a>'; }).join('') + '</div>' : '') +
+      homeModes() + homeEstate();
   });
 }
-/* v1 (D-077): Home as the main menu, the 2K way: the modes first, the estate's dashboard beneath */
+function homeNext(inds) {   // what to do next, from where you are
+  var steps = [], first = JOURNEYS.filter(function (g) { return Teams.filled(Teams.get(g)); })[0];
+  if (!inds.length) steps = [['1', 'Open your HeartGold team', '#/team/heartgold'], ['2', 'Add your first Pokémon to a slot', '#/pokemon/new/heartgold/0'], ['3', 'Build it: moves, nature, ability, item, ball, EVs', null], ['4', 'Battle the team in the Arena', null]];
+  else {
+    var last = inds[0], t = first ? Teams.get(first) : null, n = t ? Teams.filled(t) : 0, unbuilt = inds.filter(function (i) { return !i.build; });
+    steps.push(['→', 'Keep building ' + (last.nickname || last.species) + ' (' + GAME_NAME[last.game] + ')', '#/pokemon/' + encodeURIComponent(last.id)]);
+    if (unbuilt.length) steps.push(['→', plural(unbuilt.length, 'Pokémon') + ' not built yet: ' + unbuilt.slice(0, 3).map(function (i) { return i.nickname || i.species; }).join(', '), '#/pokemon/' + encodeURIComponent(unbuilt[0].id)]);
+    if (t && n < 6) steps.push(['→', 'Fill the ' + GAME_NAME[first] + ' team (' + n + ' of 6)', '#/team/' + first]);
+    if (t) steps.push(['→', 'Battle ' + (t.profile.name || 'your') + '\'s ' + GAME_NAME[first] + ' in the Arena', '#/team/' + first]);
+  }
+  return card(inds.length ? 'Pick up where you left off' : 'Start here', steps.map(function (s) {
+    return '<div class="ach"><div class="m"><b style="color:var(--gold)">' + s[0] + '</b></div><div class="small">' + (s[2] ? '<a href="' + s[2] + '">' + esc(s[1]) + '</a>' : esc(s[1])) + '</div></div>'; }).join('') +
+    (inds.length ? '' : '<div class="tiny muted" style="margin-top:6px">A fresh start (D-078): every team is blank, and your earlier records are kept in the project, not shown here.</div>'),
+    {eyebrow: inds.length ? 'Next' : 'A fresh start', tools: false, style: 'margin-top:16px'});
+}
 var HOME_MODES = [
-  ['arena', '#/arena', 'Play now', 'any team against any team, six on six'], ['legends', '#/legends', 'Legends', 'the all-time teams, and a best of seven against them'],
+  ['tlab', '#/team', 'Your teams', 'six journeys, six trainers'], ['plab', '#/pokemon', 'Your Pokémon', 'every one of yours, ready to build'],
+  ['arena', '#/arena', 'The Arena', 'any team against any team, six on six'], ['legends', '#/legends', 'Legends', 'the all-time teams, and a best of seven'],
   ['leagues', '#/leagues', 'Leagues', 'a season, standings, awards and playoffs'], ['draft', '#/draft', 'The Draft', 'draft an era\'s Pokémon against five GMs'],
-  ['mine', '#/mine', 'MyCAREER', 'your Pokémon: player cards, records, their story'], ['whistle', '#/trainer', 'Your trainer', 'your philosophy and coach settings'],
   ['biology', '#/biology', 'Field Biology', 'the natural history of all 493'], ['eco', '#/ecosystems', 'Ecosystems', 'Johto\'s communities and food webs'],
-  ['homestead', '#/homestead', 'The Homestead', 'who does what at Blackthorn'], ['field', '#/survival', 'Survival Lab', 'expeditions away from home'],
-  ['trainers', '#/trainers', 'Trainer Library', 'every trainer and version, anime included'], ['spark', '#/v1', 'What\'s new in v1', 'every call made, and yours to change']
+  ['trainers', '#/trainers', 'Trainer Library', 'every trainer and version, anime included'], ['builds', '#/builds', 'The builds book', 'the ladder\'s sets and the trainers\''],
+  ['homestead', '#/homestead', 'The Homestead', 'who does what at Blackthorn'], ['spark', '#/v2', 'What\'s new in v2', 'the redesign, and every call in it']
 ];
 function homeModes() {
   return '<div class="ornament" style="margin:22px 0 12px">play · study · build</div><div class="modes">' + HOME_MODES.map(function (m) {
     return '<a class="mode" href="' + m[1] + '">' + Art.icon(m[0]) + '<b>' + esc(m[2]) + '</b><span>' + esc(m[3]) + '</span></a>'; }).join('') + '</div>';
+}
+function homeEstate() {   // the estate's day: the Sheet's logs, folded away until you want them
+  var eggs = eggsModel(), berries = berriesModel(), env = envModel(), none = env.every(function (e) { return e.none; });
+  return '<details class="estate-day" style="margin-top:22px"' + (store('home-estate') ? ' open' : '') + ' ontoggle="store(\'home-estate\', this.open)"><summary class="ornament" style="cursor:pointer">the estate today ▾</summary><div class="grid" style="margin-top:12px">' +
+    '<div class="c4">' + card('Today', priorities().map(function (p) { return '<div class="line ' + p.tone + '" style="cursor:pointer" onclick="' + p.act + '">' + p.icon + ' ' + esc(p.text) + '</div>'; }).join('') +
+      '<div class="ornament" style="margin:14px 0 10px">quick actions</div><div style="display:flex;flex-wrap:wrap;gap:6px">' +
+      [['walk', 'Egg walk'], ['egg', 'Lay an egg'], ['plant', 'Plant'], ['harvest', 'Harvest'], ['feeding', 'Feeding'], ['reading', 'Reading'], ['note', 'Observation']].map(function (a) { return '<button class="btn sm" onclick="openForm(\'' + a[0] + '\')">' + a[1] + '</button>'; }).join('') + '</div>', {eyebrow: 'Daily priorities'}) + '</div>' +
+    '<div class="c4">' + card('Incubation', eggs.length ? '<div class="eggs">' + eggs.slice(0, 4).map(function (e, i) { return '<div class="egg">' + Art.egg(e.pct, TYPE[(dexOf(e.line) || {t: ['Normal']}).t[0]], 'h' + i) + '<div class="ln">' + esc(e.line) + '</div><div class="sub">' + e.laps + ' / ' + e.cycles + ' laps</div></div>'; }).join('') + '</div>'
+      : '<div class="empty">No eggs in the racks.</div>', {eyebrow: 'Egg walking', link: ['#/glasshouse/eggs', 'Racks']}) + '</div>' +
+    '<div class="c4">' + card('Berry rings', berries.length ? berries.slice(0, 5).map(function (b) { return '<div class="berry"><img src="' + itemSprite(b.berry) + '"><div style="flex:1"><div class="small"><b>' + esc(b.berry) + '</b> <span class="muted">· plot ' + esc(b.plot) + '</span></div><div class="bar forest"><i style="width:' + (b.pct * 100).toFixed(0) + '%"></i></div></div><span class="tiny ' + (b.done ? '' : 'muted') + '">' + (b.done ? 'ready' : hrs((b.ready - Date.now()) / 3600e3)) + '</span></div>'; }).join('')
+      : '<div class="empty">Nothing planted.</div>', {eyebrow: 'Cultivation', link: ['#/glasshouse/berries', 'All plots']}) + '</div>' +
+    '<div class="c6">' + card('Living conditions', (none ? '<div class="tiny muted">No readings logged yet.</div>' : env.map(function (e) { return '<div class="small">' + esc(e.room + ' · ' + e.metric) + ': ' + (e.none ? 'no reading' : e.now + e.unit) + '</div>'; }).join('')), {eyebrow: 'Environmental monitoring', link: ['#/glasshouse/environment', 'Instruments']}) + '</div>' +
+    '<div class="c6">' + card('The living timeline', '<div class="timeline">' + timelineModel(8).map(function (t) { return '<div class="tl ' + (t.live ? 'ember' : '') + '"><div class="when">' + esc(t.live ? fmtTime(t.at) : fmtDate(t.at)) + ' · ' + esc(t.kind.toUpperCase()) + '</div><div class="small">' + esc(t.text) + '</div></div>'; }).join('') + '</div>', {eyebrow: 'Recent activity', link: ['#/record', 'The record']}) + '</div>' +
+    '</div></details>';
 }
 function bindMap(el) {
   if (!el) return;

@@ -356,6 +356,9 @@ def main(breeder=False):
     if os.path.exists(cal):
         rec["calibration"] = load(cal)
     dump("recognition.json", rec)
+    words = os.path.join(ROOT, "docs", "naming", "proposed_words.json")   # v2: the generated name proposals (trainers/naming_list.py)
+    if os.path.exists(words):
+        dump("naming.json", load(words))
     import advance_pack
     import battle_pack
     import breeding_pack
@@ -380,6 +383,9 @@ def main(breeder=False):
     room_pack.main()
     import breeder_pack                  # seconds since the search moved to breeding/stock.py; --breeder is kept, unneeded
     breeder_pack.main()
+    import fresh                         # the fresh start (D-078): the personal layer out of every pack, while it's on
+    for name, gone in fresh.apply().items():
+        print(f"fresh start: {name}: " + (", ".join(f"{k} {v}" for k, v in gone.items() if v) or "nothing personal"))
 
 
 if __name__ == "__main__":

@@ -653,3 +653,185 @@ When a species' own entries say nothing, a dossier may lean on its line's entrie
 - **Why:** Without it, most young forms would have no diet at all.
 - **See it:** `#/biology/Zubat` (Zubat)
 - **Could instead:** a species' own entries only
+
+## v2 · The fresh start
+
+### A-79 · Hidden, not deleted (D-078)
+
+The fresh start hides your old records in the app (journeys, builds, lineups, the party, residents, studbook, lineage, program, the journey's scouting files and Sheet rows from before 2026-10-25) rather than deleting them. canon/ and docs/ keep them; engine/store/fresh_start.json turns it off.
+
+- **Why:** You asked for a blank slate to learn from; keeping the archive means nothing you built is lost and it can come back with one switch.
+- **See it:** `#/` (Home)
+- **Could instead:** delete the old records; archive them to a separate Drive file
+
+### A-80 · The world stays (D-078)
+
+What the fresh start keeps: the reference world (species, moves, trainers, the builds book, Smogon sets, Field Biology), the facilities as designed (now unstaffed), the decision ledger, your calls, and your name in the greeting.
+
+- **Why:** They're the world and the project's record, not your playthrough; the Estate's facilities are design, their staff were your Pokémon.
+- **See it:** `#/estate` (The Estate)
+- **Could instead:** blank the facilities too; hide the decision record
+
+## v2 · Teams
+
+### A-81 · One team per game, each its own trainer (D-078)
+
+Each game has exactly one team (My Teams row journey:<game>), with its own trainer: name, philosophy, coaching style and the nine dials. The newest row wins; earlier lineups stay in the Sheet. The Arena plays the team with its own trainer.
+
+- **Why:** Your words: 'think of it as separate trainers, as separate journeys'; and 'I don't want different versions'.
+- **See it:** `#/team/heartgold` (HeartGold team)
+- **Could instead:** several saved versions per game; one trainer across all six
+
+### A-82 · The region is beaten (D-078)
+
+Every team's page counts the region's badges, the Elite Four and Champion, the Pokédex (National where the game has one) and the post-game as done, listed with the leaders' names.
+
+- **Why:** Your call: 'assume ... I've beat the region and I have the national Pokédex'.
+- **See it:** `#/team/heartgold` (HeartGold team)
+- **Could instead:** track them as you go
+
+### A-83 · A candidate becomes yours (D-078)
+
+Putting a build from the builds book on a team makes it a new Pokémon of yours with its own build record (the book's build is unchanged and noted as its parent).
+
+- **Why:** A team holds your Pokémon; a reference set shouldn't be edited in place.
+- **See it:** `#/team/heartgold` (HeartGold team)
+- **Could instead:** link the book's build directly
+
+### A-84 · Legendaries left out of candidates (D-078)
+
+The candidates list leaves legendary and mythical Pokémon out unless you include them.
+
+- **Why:** Ubers-level sets crowd the top of a sorted list, and your teams have been non-legendary (D-008's spirit).
+- **See it:** `#/team/heartgold` (HeartGold team)
+- **Could instead:** include them by default
+
+### A-85 · Nine team shapes (D-078)
+
+A team's shape is the first of nine competitive archetypes it fits, in this order: Trick Room, weather, Baton Pass, hyper offense, stall, semi-stall, bulky offense, offense, balance. Each shows what it still needs.
+
+- **Why:** Smogon's team archetypes, read from the five roles and the moves and abilities the six carry.
+- **See it:** `#/team/heartgold` (HeartGold team)
+- **Could instead:** v1's five shapes; shapes you define
+
+### A-86 · Scouting report, not questions (D-078)
+
+The team's scenario questions became a scouting report: strengths, weaknesses and tendencies. The same checks feed it.
+
+- **Why:** Your call: 'not questions, but more just strengths, weaknesses ... tendencies'.
+- **See it:** `#/team/heartgold` (HeartGold team)
+- **Could instead:** keep the questions alongside
+
+## v2 · The builder
+
+### A-87 · Saving is one button (D-078)
+
+Save writes a new build version and the individual together, with an optional note; nothing is asked in a drawer. Unsaved changes are kept in the browser until you save or revert.
+
+- **Why:** Fewer steps between choosing a move and seeing it stick.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** ask what changed on every save
+
+### A-88 · IVs start at 31 (D-078)
+
+A new build starts with 31 in every IV (Max IVs) and no EVs; EVs left blank still count as no evidence for the stat badges (B19).
+
+- **Why:** A 'perfect' build is the usual starting point; you lower what you want lower.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** IVs blank until set
+
+### A-89 · Species follows evolution (D-078)
+
+The species on a Pokémon can change only within its evolution line (Cyndaquil to Typhlosion); a different species is a different Pokémon.
+
+- **Why:** It's the same individual when it evolves.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** any species
+
+### A-90 · Held items (D-078)
+
+The item dropdown lists items a Pokémon can hold to effect in that generation: held items, Choice items, type boosters and resist berries, Plates, species items, berries, training and evolution items.
+
+- **Why:** The full item list includes balls, TMs and key items that do nothing held.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** every item
+
+### A-91 · Move descriptions (D-078)
+
+Each move shows its type, category, power, accuracy, PP and priority, what it does (the battle pack's effect text) and the game's own description for that generation (PokeAPI's move_flavor_text, newly fetched).
+
+- **Why:** Your call: 'I want to see the move description in there as well'.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** the effect text only
+
+### A-92 · Hand-set roles left out (D-078)
+
+The builder doesn't offer setting a team role by hand (D-059's overrides still apply from team_roles.json).
+
+- **Why:** It kept the page simpler while you rebuild; it can come back.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** keep the override menu on each role
+
+## v2 · Roles
+
+### A-93 · Five roles from the fights (D-078)
+
+Sweeper, Support and Wall are now read from the same League one-on-ones as Ace (who moves first, how hard it hits, which hits it takes), and Tank is new. The 34-role engine stays underneath for the build name.
+
+- **Why:** Each role answers one competitive question with numbers you can check; v1 read two of them from composite scores.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** v1's definitions
+
+### A-94 · The role bars (D-078)
+
+Sweeper: moves first against 80%, 2HKOs 80% and OHKOs 30% (one use of its setup applied). Wall: four hits from 80% of one side's 50 hardest attacks, with sustain. Tank: three hits from 75% of the 100 hardest, and 2HKOs 60%. Support: two support moves, and survives (80%) or outpaces (60%). Ace unchanged.
+
+- **Why:** Set against 1,076 builds so each role picks out about a fifth of them (246 Sweepers, 226 Walls, 195 Tanks, 181 Supports; 448 Aces at D-064's bars).
+- **See it:** `#/v2` (What's new in v2 (docs/roles/ROLE_SCORES.md))
+- **Could instead:** the first bars (60/60): about twice as many
+
+### A-95 · One boost, as an estimate (D-078)
+
+A Sweeper's setup is counted as one use (capped at +2), applied as the stat stage multiplier on its Speed and its damage. Labelled an estimate.
+
+- **Why:** A setup sweeper is judged after its boost; the stage multiplier is the mechanic, the damage scaling is close but not exact.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** re-run the fights boosted
+
+### A-96 · Two-part scores (D-078)
+
+Sweeper's and Tank's scores are the geometric mean of their two shares, so a Pokémon strong at one half and hopeless at the other scores low.
+
+- **Why:** With a plain mean, a fast frail attacker scored halfway to Tank.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** the plain mean
+
+## v2 · Badges
+
+### A-97 · Six badge families (D-078)
+
+Badges are grouped as Speed, Power, Bulk, Finishing, Sustain and Utility. Speed names the Pokémon it outruns and how often it moves first against the League. Sustain and Utility are new.
+
+- **Why:** Your call: rework the badges around competitive Pokémon; these are the axes competitive players read a set on.
+- **See it:** `#/pokemon` (Your Pokémon)
+- **Could instead:** v1's flat list
+
+## v2 · Naming
+
+### A-98 · Generated words, not applied (D-078)
+
+Every naming slot has a generated proposal (Ember, Berserker, Rising, Crowned, Noble...), and every combination of them (233,886) is listed with the name it makes. None is applied until you put it in naming.words.
+
+- **Why:** Your call: 'I do want that massive list ... mainly generated'; names stay yours to approve (D-059).
+- **See it:** `#/v2` (What's new in v2 (docs/naming/ALL_COMBINATIONS.md))
+- **Could instead:** apply the proposals now
+
+## v2 · Navigation
+
+### A-99 · The menu (D-078)
+
+The menu leads with your six teams; Build, Play and Explore follow; Labs, World and Record are folded until you open them. The top bar has the six teams one click away.
+
+- **Why:** Your call: the app should be built around your inputs and easy to navigate.
+- **See it:** `#/` (Home)
+- **Could instead:** v1's eight open sections

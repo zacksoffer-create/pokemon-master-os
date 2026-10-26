@@ -3,6 +3,7 @@
 // set might suggest), a blueprint saves and versions, a hatch is recorded and keeps its moves, the Mamoswine line reads
 // Ancient Power's other routes (B27), and Crystal's Swinub has no Mamoswine (B26).
 // Run: python3 -I app/build.py && node app/test_stock.mjs                  (tests/test_engines.py runs it)
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 process.on('unhandledRejection', (e) => { console.log('FAIL\n' + String(e && e.stack || e).slice(0, 1500)); process.exit(1); });
@@ -92,7 +93,10 @@ await go('#/stock/heartgold/Larvitar/design?m=' + ['Dragon Dance', 'Pursuit'].ma
 t = await text();
 expect('Dragon Dance with Pursuit: possible, not obtainable', /1 · Possible under the hatch rules[\s\S]{0,60}Yes/.test(t) && /2 · Obtainable in the generation[\s\S]{0,60}No/.test(t));
 
-// the breeding lab's Mamoswine line reads through the stock engine (B27 included)
+// the breeding lab's Mamoswine line reads through the stock engine (B27 included). v2 (D-078): the fresh start hides the
+// proposed lines, so the test puts Zack's example back from its archive (engine/store/proposed_lines.json) in this browser
+const proposed = JSON.parse(fs.readFileSync(path.join(HERE, '..', 'store', 'proposed_lines.json'), 'utf8')).lines;
+await page.evaluate((l) => { S.store.proposed_lines = l; }, proposed);
 await go('#/lines/mamoswine-ancient-power', '.card');
 t = await text();
 expect('the Mamoswine line: Ancient Power is an egg move and also the tutor', /Ancient Power[\s\S]{0,200}egg move[\s\S]{0,300}Also learnable without breeding:[^\n]*tutor/.test(t));

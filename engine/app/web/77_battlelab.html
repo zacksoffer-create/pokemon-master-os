@@ -7,14 +7,23 @@
    sentence shows the rule that wrote it and the numbers that triggered it; every call opens the fight behind it.
    Nothing here changes canon: a variant you like is saved to the Variants tab or copied as a lineups.json entry. */
 function battleReady() {
-  if (!S.battleP) S.battleP = Promise.all([API.data('calc'), API.data('battle')]).then(function (r) {
+  if (!S.battleP) S.battleP = Promise.all([API.data('calc'), API.data('battle'), recordsReady().catch(function () { return null; })]).then(function (r) {
     if (!window.calc || !window.calc.calculate) { var el = document.createElement('script'); el.text = r[0].code; document.head.appendChild(el); }
     if (!window.calc || !window.calc.calculate) throw new Error('the damage calculator didn\'t load');
+    if (freshOn() || !(r[1].lineups || []).length) r[1].lineups = v2Lineups();   // v2 (D-078): your six teams are the Battle Lab's lineups
     Battle.init(r[1], window.calc);
     S.bPack = r[1]; S.bEng = Battle.engine(); S.blBase = {};
     return Battle;
   }).catch(function (e) { S.battleP = null; throw e; });
   return S.battleP;
+}
+function v2Lineups() {   // your teams as the battle engine's lineups (slots in order; empty move slots get the strongest set); an example while none is built
+  var out = JOURNEYS.map(function (g) { var t = Teams.get(g), m = Teams.members(t).filter(Boolean); if (!m.length) return null;
+    return {id: g, chapter: g, game: g, title: whose(t) + ' ' + GAME_NAME[g], thesis: t.profile.philosophy || '', status: 'working', decision: 'D-078', variation: null,
+      members: m.map(function (x) { var b = Object.assign({}, x.build); delete b.id; delete b.species; return [x.ind.species, b]; })}; }).filter(Boolean);
+  if (!out.length) out.push({id: 'heartgold', chapter: 'heartgold', game: 'heartgold', title: 'An example: Red\'s six (until you build a team)', thesis: '', status: 'example', decision: 'D-078', variation: null,
+    members: [['Pikachu', {}], ['Espeon', {}], ['Snorlax', {}], ['Venusaur', {}], ['Charizard', {}], ['Blastoise', {}]]});
+  return out;
 }
 var BL = null, BV = null, BLRUN = {token: 0, last: null};
 var COACH_KNOBS = [
@@ -51,7 +60,7 @@ function battleLab(id) {
     var saved = store('battlelab');
     if (id) blLoad(id);
     else if (saved && saved.lu && blBaseLineup(saved.base)) BL = Object.assign({show: {diff: true, missed: false, ctx: false}, tab: 'members', opp: 0, profile: true, book: {}, off: {}}, saved);
-    else blLoad('heartgold');
+    else blLoad(S.bPack.lineups[0].id);
     if (id) { navQuiet('#/battlelab'); }
     BV = BL; BV.render = blRender; BV.save = blSave; BV.lab = true;
     after(function (p) { blBind(p); blRun(); });

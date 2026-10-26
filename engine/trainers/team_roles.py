@@ -1,4 +1,4 @@
-"""The four team roles (Ace, Wall, Sweeper, Support) and the build-name ladder (docs/design/FOUR_LABS.md §3).
+"""The five team roles (Ace, Sweeper, Support, Wall, Tank; v2, D-078) and the build-name ladder (docs/design/V2_PLAN.md §5).
 
 Every rule and number is in trainers/team_roles.json; this file only evaluates them, so the browser copy
 (app/web/28_teamroles.html) stays small and a parity test can hold the two together.
@@ -10,15 +10,19 @@ Every rule and number is in trainers/team_roles.json; this file only evaluates t
     python3 -I trainers/team_roles.py --docs                 # ROLE_SCORES.md and NAMES_NEEDED.md again from the stored pack
     python3 -I trainers/team_roles.py --words                # after naming words in team_roles.json: apply them, no fights
 
-- **Ace** plays the build one-on-one against every Pokémon of its generation's Elite Four and Champions (named pools,
-  rematches included), both sides at level 100, in the battle engine (battle/evaluate.py: our best plan against the
-  game's own AI). It's an Ace when it beats enough of each.
-- **Wall** reads the 100 attacks from those same pools that hit it hardest, or its bulk against the field.
-- **Sweeper** and **Support** read the role engine (trainers/roles.py) underneath.
+- Every role reads the same fights: the build one-on-one against every Pokémon of its generation's Elite Four and
+  Champions (named pools, rematches included), both sides at level 100, in the battle engine (battle/evaluate.py: our
+  best plan against the game's own AI).
+- **Ace** beats enough of each.
+- **Sweeper** moves first and 2HKOs most of them (with one use of its setup).
+- **Support** carries support moves and lasts long enough to use them.
+- **Wall** takes four hits from one side's hardest attacks and can heal.
+- **Tank** takes three hits from both sides and 2HKOs half of them back.
 - **The name** follows Zack's ladder over the role engine's primary score. Words Zack hasn't named yet print as
   ⟨placeholders⟩, and the pack lists every word still needed.
 """
 import json
+import math
 import os
 import sys
 from collections import Counter, defaultdict
@@ -37,6 +41,16 @@ from trainers.roles import RoleBook  # noqa: E402
 CONFIG = os.path.join(HERE, "team_roles.json")
 GAME_OF_GEN = {2: "crystal", 3: "emerald", 4: "platinum"}
 SETUP = {"setup_physical", "setup_special", "setup_speed", "setup_defense"}
+ROLE_ORDER = ("ace", "sweeper", "support", "wall", "tank")     # Zack's order (v2, D-078)
+
+
+def fresh_start():
+    """engine/store/fresh_start.json says the fresh start is on (D-078)."""
+    try:
+        with open(os.path.join(ENGINE, "store", "fresh_start.json"), encoding="utf-8") as fh:
+            return bool(json.load(fh).get("on"))
+    except FileNotFoundError:
+        return False
 
 
 def load_config():
@@ -194,47 +208,134 @@ class TeamRoles:
                             "elite_four_n": n["elite_four"], "champion_n": n["champion"],
                             "lost_to": lost}}
 
-    def wall(self, fights, sig):
-        r = self.cfg["roles"]["wall"]
-        hits = []
+    # --- v2 (D-078): the facts every role reads, from the fights ----------------------------------------------
+    @staticmethod
+    def stage_mult(stage):
+        """The stat stage's multiplier for one use of a setup move, capped at +2 (the estimate the Sweeper uses)."""
+        st = max(0, min(int(stage or 0), 2))
+        return (2 + st) / 2
+
+    def boosts(self, moves):
+        """The best one-use stage each setup move gives Attack, Special Attack and Speed: {atk, spa, spe}."""
+        out = {"atk": 0, "spa": 0, "spe": 0}
+        for m in moves:
+            if not (m["categories"] & SETUP):
+                continue
+            for s in out:
+                out[s] = max(out[s], min(2, int((m.get("stat_changes") or {}).get(s, 0) or 0)))
+        return out
+
+    def facts(self, f, gen, moves, item):
+        """Per opponent (the Elite Four and Champion Pokémon, each set once): does it move first, how hard does its best
+        attack hit (no boosts, and with one use of its setup), and every hit it takes. The five roles read only these."""
+        foes, order = {}, []
         for pool in ("elite_four", "champion"):
-            for c, _, m in fights[pool]:
-                for mv, (lo, hi) in m.incoming.items():
-                    hits.append((hi, lo, c.name, mv))
+            for c, _, m in f[pool]:
+                if c.key not in foes:
+                    foes[c.key] = (c, m)
+                    order.append(c.key)
+        rows = [foes[k] for k in order]
+        b = self.boosts(moves)
+        smult = self.stage_mult(b["spe"])
+        kind = lambda mv: {"Physical": "atk", "Special": "spa"}.get(rules.category(gen, mv))
+        first = first_boosted = ko2 = ko2_boosted = ko1 = ko1_boosted = 0
+        hits = []
+        for c, m in rows:
+            ours, theirs = m.speeds
+            first += ours > theirs
+            first_boosted += int(ours * smult) > theirs
+            best = best_b = 0.0
+            for mv, (lo, _) in m.damage.items():
+                k = kind(mv)
+                if not k:
+                    continue
+                best = max(best, lo)
+                best_b = max(best_b, lo * self.stage_mult(b[k]))
+            ko2 += best >= 50
+            ko1 += best >= 100
+            ko2_boosted += best_b >= 50
+            ko1_boosted += best_b >= 100
+            for mv, (lo, hi) in m.incoming.items():
+                hits.append((hi, lo, c.name, mv, (rules.category(gen, mv) or "").lower()))
         hits.sort(key=lambda x: (-x[0], -x[1], x[2], x[3]))
-        top = hits[:r["hardest_attacks"]]
-        n = r["hits_to_take"]
-        under = 100 / (n - 1)                     # n hits taken: n - 1 top rolls don't knock it out
-        three = sum(1 for hi, _, _, _ in top if hi < under) / len(top) if top else 0.0
-        bulk = min(sig.get("bulk_phys", 0.0), sig.get("bulk_spec", 0.0))
-        by_hits = three >= r["share_at_least"]
-        by_bulk = bulk >= r["bulk_percentile_at_least"]
-        why = [f"takes {n} or more hits from {round(100 * three)}% of the {len(top)} hardest-hitting Elite Four and "
-               f"Champion attacks (needs {round(100 * r['share_at_least'])}%)",
-               f"its weaker side of bulk is above {round(100 * bulk)}% of the field (needs "
-               f"{round(100 * r['bulk_percentile_at_least'])}%)"]
-        return {"role": "wall", "score": round(max(three, bulk), 4), "earned": by_hits or by_bulk, "why": why,
-                "numbers": {"hit_share": round(three, 4), "hits_to_take": n, "attacks_read": len(top), "bulk_low_side": round(bulk, 4),
-                            "by_hits": by_hits, "by_bulk": by_bulk,
-                            "hardest": [{"attacker": a, "move": mv, "max": hi, "min": lo} for hi, lo, a, mv in top[:5]]}}
+        n = len(rows) or 1
+        sustain = sorted({mv["name"] for mv in moves if mv["categories"] & {"recovery", "rest"}})
+        r4 = lambda x: round(x, 4)
+        return {"foes": len(rows), "boosts": b, "speed_mult": smult,
+                "first": r4(first / n), "first_boosted": r4(first_boosted / n),
+                "ko2": r4(ko2 / n), "ko2_boosted": r4(ko2_boosted / n), "ko1": r4(ko1 / n), "ko1_boosted": r4(ko1_boosted / n),
+                "sustain_moves": sustain, "sustain_item": item if item in self.cfg["roles"]["wall"]["sustain_items"] else None,
+                "_hits": hits}
 
-    def sweeper(self, cl):
+    @staticmethod
+    def take_share(hits, n_hits):
+        """The share of these hits it takes n_hits or more of: the top roll under 100/(n_hits-1)% of its HP."""
+        under = 100 / (n_hits - 1)
+        return sum(1 for h in hits if h[0] < under) / len(hits) if hits else 0.0
+
+    def sweeper(self, fx):
         r = self.cfg["roles"]["sweeper"]
-        best = max((x for x in cl["roles"] if x["role"] in r["from_roles"]), key=lambda x: x["score"])
-        return {"role": "sweeper", "score": best["score"], "earned": best["score"] >= r["score_at_least"],
-                "why": [f"best sweeping role: {best['name']} {best['score']:.2f} (needs {r['score_at_least']:.2f})"],
-                "numbers": {"from": best["role"]}}
+        boosted = any(fx["boosts"].values())
+        first, ko = fx["first_boosted"], fx["ko2_boosted"]
+        earned = first >= r["first_at_least"] and ko >= r["ko_at_least"] and fx["ko1_boosted"] >= r["ohko_at_least"]
+        b = fx["boosts"]
+        how = ", ".join(f"+{v} {k.replace('spa', 'Sp. Atk').replace('atk', 'Attack').replace('spe', 'Speed')}" for k, v in b.items() if v)
+        why = [f"moves first against {round(100 * first)}% of {fx['foes']} League Pokémon (needs {round(100 * r['first_at_least'])}%)"
+               + (f"; {round(100 * fx['first'])}% before its setup" if b["spe"] else ""),
+               f"its best attack is a guaranteed 2HKO on {round(100 * ko)}% of them (needs {round(100 * r['ko_at_least'])}%)"
+               + (f"; {round(100 * fx['ko2'])}% before its setup" if b["atk"] or b["spa"] else ""),
+               f"its best attack is a guaranteed OHKO on {round(100 * fx['ko1_boosted'])}% of them (needs {round(100 * r['ohko_at_least'])}%)"]
+        if boosted:
+            why.append(f"with one use of its setup ({how}), an estimate from the stage multiplier")
+        return {"role": "sweeper", "score": round(math.sqrt(first * ko), 4), "earned": earned, "why": why,
+                "numbers": {"first": first, "ko2": ko, "ko1": fx["ko1_boosted"], "first_plain": fx["first"], "ko2_plain": fx["ko2"],
+                            "boosts": b, "foes": fx["foes"]}}
 
-    def support(self, cl, moves):
+    def support(self, fx, moves):
         r = self.cfg["roles"]["support"]
         cats = set(r["support_categories"])
         sup = [m["name"] for m in moves if m["categories"] & cats]
-        best = max((x for x in cl["roles"] if x["family"] == r["from_family"]), key=lambda x: x["score"])
-        earned = len(sup) >= r["moves_at_least"] and best["score"] >= r["score_at_least"]
-        return {"role": "support", "score": best["score"], "earned": earned,
+        top = fx["_hits"][:r["hardest_attacks"]]
+        survive = self.take_share(top, 2)
+        lasts = survive >= r["survive_at_least"] or fx["first"] >= r["first_at_least"]
+        earned = len(sup) >= r["moves_at_least"] and lasts
+        score = min(1.0, len(sup) / 3) * (0.5 + 0.5 * max(survive, fx["first"]))
+        return {"role": "support", "score": round(score, 4), "earned": earned,
                 "why": [f"support moves: {', '.join(sup) or 'none'} (needs {r['moves_at_least']})",
-                        f"best support role: {best['name']} {best['score']:.2f} (needs {r['score_at_least']:.2f})"],
-                "numbers": {"support_moves": sup, "from": best["role"]}}
+                        f"takes two or more hits from {round(100 * survive)}% of the {len(top)} hardest attacks (needs {round(100 * r['survive_at_least'])}%), "
+                        f"or moves first against {round(100 * fx['first'])}% of them (needs {round(100 * r['first_at_least'])}%)"],
+                "numbers": {"support_moves": sup, "survive": round(survive, 4), "first": fx["first"], "attacks_read": len(top)}}
+
+    def wall(self, fx):
+        r = self.cfg["roles"]["wall"]
+        n = r["hits_to_take"]
+        side = {}
+        for k in ("physical", "special"):
+            top = [h for h in fx["_hits"] if h[4] == k][:r["hardest_attacks"]]
+            side[k] = (round(self.take_share(top, n), 4), len(top))
+        best = max(side, key=lambda k: (side[k][0], k == "physical"))
+        share = side[best][0]
+        sustain = fx["sustain_moves"] + ([fx["sustain_item"]] if fx["sustain_item"] else [])
+        earned = share >= r["share_at_least"] and bool(sustain)
+        score = share if sustain else share * r["no_sustain_factor"]
+        hardest = [{"attacker": a, "move": mv, "max": hi, "min": lo} for hi, lo, a, mv, _ in fx["_hits"][:5]]
+        return {"role": "wall", "score": round(score, 4), "earned": earned,
+                "why": [f"takes {n} or more hits from {round(100 * side['physical'][0])}% of the {side['physical'][1]} hardest physical attacks "
+                        f"and {round(100 * side['special'][0])}% of the {side['special'][1]} hardest special ones (needs {round(100 * r['share_at_least'])}% on one side)",
+                        f"sustain: {', '.join(sustain) if sustain else 'none (no recovery, Rest, Wish or Leftovers)'}"],
+                "numbers": {"physical": side["physical"][0], "special": side["special"][0], "side": best, "sustain": sustain,
+                            "hits_to_take": n, "hardest": hardest}}
+
+    def tank(self, fx):
+        r = self.cfg["roles"]["tank"]
+        top = fx["_hits"][:r["hardest_attacks"]]
+        share = self.take_share(top, r["hits_to_take"])
+        ko = fx["ko2"]
+        earned = share >= r["share_at_least"] and ko >= r["ko_at_least"]
+        return {"role": "tank", "score": round(math.sqrt(share * ko), 4), "earned": earned,
+                "why": [f"takes {r['hits_to_take']} or more hits from {round(100 * share)}% of the {len(top)} hardest-hitting attacks (needs {round(100 * r['share_at_least'])}%)",
+                        f"its best attack is a guaranteed 2HKO on {round(100 * ko)}% of the League's Pokémon, no boosts (needs {round(100 * r['ko_at_least'])}%)"],
+                "numbers": {"take_share": round(share, 4), "ko2": ko, "attacks_read": len(top)}}
 
     # --- the name ---------------------------------------------------------------------------------------------
     def moveset(self, moves, gen):
@@ -317,8 +418,8 @@ class TeamRoles:
         filled = Build(**{**b.__dict__, "moves": list(self.combatant(b, gen).moves), "level": self.cfg["level"]})
         cl = self.book.classify(filled, game, self.cfg["level"])
         ctx = self.book.context(filled, game, self.cfg["level"])
-        team = [self.ace(fights[b.id]), self.wall(fights[b.id], cl["signals"]), self.sweeper(cl),
-                self.support(cl, ctx["moves"])]
+        fx = self.facts(fights[b.id], gen, ctx["moves"], ctx["item"])
+        team = [self.ace(fights[b.id]), self.sweeper(fx), self.support(fx, ctx["moves"]), self.wall(fx), self.tank(fx)]
         team = [self.override(r, b.id) for r in team]
         team_sorted = sorted(team, key=lambda r: (-r["score"], r["role"]))
         return {"build": b.id, "species": b.species, "game": game, "gen": gen, "moves": filled.moves,
@@ -327,6 +428,7 @@ class TeamRoles:
                 "second_layer": {"primary": cl["primary"], "secondary": cl["secondary"],
                                  "top": [{"role": x["role"], "name": x["name"], "score": x["score"]} for x in cl["roles"][:5]]},
                 "name": self.name(cl, team, ctx["moves"], gen, b.species),
+                "facts": {k: v for k, v in fx.items() if not k.startswith("_")},
                 "evidence": self.evidence(fights[b.id], gen)}
 
     def read(self, build, game=None):
@@ -339,7 +441,8 @@ def all_builds(store, competitive=True):
     its chapter's game; open move slots filled by the engine) and, from the record store, every competitive set."""
     out = [(b, None) for b in store.library.values()]
     seen = set()
-    for vid, v in store.trainers["me"].versions.items():
+    personal = not fresh_start()       # the fresh start (D-078): your journey and records sit out while it's on
+    for vid, v in (store.trainers["me"].versions.items() if personal else ()):
         for b in store.team(v):
             key = (v.game, b.species)
             if key in seen:
@@ -361,7 +464,7 @@ def all_builds(store, competitive=True):
     # your records from the app (store/personal.json, merged by store/migrate.py): a journey companion's newer version
     # replaces its canon build, and Pokémon and builds made in the app are read too (docs/design/DATA_CONTRACT.md)
     ipath = os.path.join(ENGINE, "store", "out", "individuals.json")
-    if os.path.exists(ipath):
+    if personal and os.path.exists(ipath):
         with open(ipath, encoding="utf-8") as fh:
             inds = json.load(fh)["individuals"]
         at = {b.id: k for k, (b, _) in enumerate(out)}
@@ -393,7 +496,7 @@ def names_needed(cfg, reads, book):
     # every possible word, even ones no build needs yet, so the list is complete
     full = {"type": [(t, t) for t in rules.TYPES if t != "???"], "noun": [(k, v["name"]) for k, v in book.roles.items()],
             "moveset": [(k, cfg["naming"]["movesets"][k]["label"]) for k in cfg["naming"]["movesets"]["order"]],
-            "team_role": [(k, cfg["roles"][k]["name"]) for k in ("ace", "wall", "sweeper", "support")] + [("none", "no team role")],
+            "team_role": [(k, cfg["roles"][k]["name"]) for k in ROLE_ORDER] + [("none", "no team role")],
             "bst": [(b["id"], f"BST below {b['below']}" if b["below"] < 9999 else "BST 580 and up") for b in cfg["naming"]["bst_bands"]]}
     out = {}
     for slot in ("type", "noun", "hybrid", "moveset", "team_role", "bst"):
@@ -488,7 +591,7 @@ def write_docs(cfg, reads, book):
         lines.append(f"- {b['at_least']:.2f} and up{'' if not i else f' (below {hi:.2f})'}: "
                      f"{sum(1 for v in match if b['at_least'] <= v < hi)} builds, name = {' + '.join(b['parts'])}")
     lines.append(f"- below {edges[-1]:.2f}: {sum(1 for v in match if v < edges[-1])} builds, no name yet")
-    for role in ("ace", "wall", "sweeper", "support"):
+    for role in ROLE_ORDER:
         vals = [next(x for x in r["roles"] if x["role"] == role) for r in reads.values()]
         lines += ["", f"## {cfg['roles'][role]['name']}", "", f"Rule: {cfg['roles'][role]['rule']}", "",
                   f"Earned by **{sum(1 for v in vals if v['earned'])} of {len(vals)}** builds.", "",
@@ -498,7 +601,7 @@ def write_docs(cfg, reads, book):
         lines += ["", "Highest:", ""] + [f"- {r['build']} ({r['species']}, {r['game']}): "
                                          f"{next(x for x in r['roles'] if x['role'] == role)['score']:.2f}; "
                                          + "; ".join(next(x for x in r['roles'] if x['role'] == role)["why"]) for r in top]
-    order = ["ace", "wall", "sweeper", "support"]
+    order = list(ROLE_ORDER)
     combos = Counter(tuple(sorted(r["earned"], key=order.index)) for r in reads.values())
     lines += ["", "## Team roles earned together", "", "| Roles | Builds |", "|---|---|"]
     lines += [f"| {' + '.join(k) or 'none'} | {n} |" for k, n in combos.most_common()]

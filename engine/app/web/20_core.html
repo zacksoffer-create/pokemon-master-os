@@ -43,13 +43,23 @@ var API = {
     return S.cache[name];
   },
   tab: function (name, fresh) {
-    if (fresh || !S.live[name]) S.live[name] = API.run('apiTab', name);
+    if (fresh || !S.live[name]) S.live[name] = API.run('apiTab', name).then(function (rows) { return sinceFresh(name, rows); });
     return S.live[name];
   },
   append: function (tab, obj) {
+    if (obj && obj.at == null && !obj.date) obj = Object.assign({}, obj, {at: new Date().toISOString()});   // every row says when (the fresh start reads it)
     return API.run('apiAppend', tab, obj).then(function (r) { S.live[tab] = null; S.live.Timeline = null; return r; });
   }
 };
+/* the fresh start (D-078, engine/store/fresh_start.json): while it's on, a Sheet row from before it isn't read. The
+   rows stay in the Sheet; the calls you've answered are the project's record, so they're always read. */
+var FRESH_ALWAYS = ['Your Calls', 'Answers'];
+function freshOn() { return !!(S.hq && S.hq.fresh && S.hq.fresh.on); }
+function sinceFresh(name, rows) {
+  if (!freshOn() || FRESH_ALWAYS.indexOf(name) >= 0 || !Array.isArray(rows)) return rows;
+  var t = Date.parse(S.hq.fresh.since) || 0;
+  return rows.filter(function (r) { var w = r && (r.at || r.date || r.when || r.hatched || r.made_at); var d = w ? Date.parse(w) : NaN; return !isNaN(d) && d >= t; });
+}
 
 /* ---- species lookup ---- */
 var DEX = {byName: {}, byNum: {}};
@@ -124,28 +134,34 @@ function defenses(ts) {
 }
 
 /* ---- shell: rail, top bar, router ---- */
-var NAV = [   // the five spaces (docs/specs/BUILDER_UI_AND_INFORMATION_ARCHITECTURE.md §3), and the record underneath
-  ['MY WORLD', [['home', '#/', 'Home'], ['mine', '#/mine', 'Your Pokémon'], ['estate', '#/estate', 'The Estate'], ['homestead', '#/homestead', 'The Homestead'], ['glass', '#/glasshouse', 'The Glasshouse'], ['breed', '#/breeding', 'Breeding & lineage']]],
-  ['THE ARENA', [['arena', '#/arena', 'Play now'], ['legends', '#/legends', 'Legends'], ['leagues', '#/leagues', 'Leagues'], ['draft', '#/draft', 'The Draft'], ['whistle', '#/trainer', 'Your trainer'], ['std', '#/halloffame', 'Hall of Fame']]],
-  ['BUILDER & STUDIO', [['plab', '#/pokemon', 'Pokémon Studio'], ['tlab', '#/team', 'Team lab'], ['stock', '#/stock', 'Breeding stock'], ['pkhex', '#/pkhex', 'PKHeX export']]],
-  ['LABS', [['blab', '#/battlelab', 'Battle Lab'], ['slab', '#/scoutlab', 'Trainer lab'], ['field', '#/survival', 'Survival Lab'], ['lines', '#/lines', 'Breeding lab'], ['std', '#/standards', 'The standards']]],
-  ['FIELD BIOLOGY', [['biology', '#/biology', 'Natural history'], ['eco', '#/ecosystems', 'Ecosystems'], ['ecotype', '#/ecotypes', 'Ecotypes'], ['atlas', '#/atlas', 'Biological atlas'], ['journal', '#/journal', 'Research journal']]],
-  ['REFERENCE', [['builds', '#/builds', 'The builds book'], ['balls', '#/balls', 'Poké Balls'], ['gear', '#/equipment', 'Equipment'], ['caps', '#/capabilities', 'Capabilities']]],
-  ['TRAINER LIBRARY', [['trainers', '#/trainers', 'Trainers'], ['bench', '#/bench', 'Benchmarks'], ['scout', '#/scouting', 'Scouting reports'], ['advance', '#/advance', 'Advance scouting'], ['teams', '#/teams', 'Team reports']]],
-  ['RECORD', [['spark', '#/v1', 'What\'s new in v1'], ['calls', '#/calls', 'Your calls'], ['inbox', '#/inbox', 'The inbox'], ['record', '#/record', 'The record'], ['engine', '#/engine', 'Engine room']]]
+var NAV = [   // v2 (D-078; docs/design/V2_PLAN.md §8): your teams first, then building, playing and exploring; the labs, the world and the record folded
+  ['', [['home', '#/', 'Home']]],
+  ['YOUR TEAMS', [['ball', '#/team/heartgold', 'HeartGold'], ['ball', '#/team/soulsilver', 'SoulSilver'], ['ball', '#/team/platinum', 'Platinum'], ['ball', '#/team/crystal', 'Crystal'],
+    ['ball', '#/team/firered', 'FireRed'], ['ball', '#/team/emerald', 'Emerald'], ['tlab', '#/team', 'All six teams']]],
+  ['BUILD', [['plab', '#/pokemon', 'Your Pokémon'], ['stock', '#/stock', 'Breeding stock'], ['pkhex', '#/pkhex', 'PKHeX export']]],
+  ['PLAY', [['arena', '#/arena', 'The Arena'], ['legends', '#/legends', 'Legends'], ['leagues', '#/leagues', 'Leagues'], ['draft', '#/draft', 'The Draft'], ['std', '#/halloffame', 'Hall of Fame']]],
+  ['EXPLORE', [['biology', '#/biology', 'Natural history'], ['eco', '#/ecosystems', 'Ecosystems'], ['ecotype', '#/ecotypes', 'Ecotypes'], ['atlas', '#/atlas', 'Biological atlas'],
+    ['trainers', '#/trainers', 'Trainer Library'], ['builds', '#/builds', 'The builds book'], ['balls', '#/balls', 'Poké Balls'], ['gear', '#/equipment', 'Equipment'], ['caps', '#/capabilities', 'Capabilities']]],
+  ['LABS', [['blab', '#/battlelab', 'Battle Lab'], ['slab', '#/scoutlab', 'Trainer lab'], ['field', '#/survival', 'Survival Lab'], ['lines', '#/lines', 'Breeding lab'], ['bench', '#/bench', 'Benchmarks'],
+    ['scout', '#/scouting', 'Scouting reports'], ['advance', '#/advance', 'Advance scouting'], ['teams', '#/teams', 'Team reports'], ['std', '#/standards', 'The standards'], ['whistle', '#/trainer', 'Default coach settings']]],
+  ['WORLD', [['estate', '#/estate', 'The Estate'], ['homestead', '#/homestead', 'The Homestead'], ['glass', '#/glasshouse', 'The Glasshouse'], ['breed', '#/breeding', 'Breeding & lineage'], ['journal', '#/journal', 'Research journal']]],
+  ['RECORD', [['spark', '#/v2', 'What\'s new in v2'], ['spark', '#/v1', 'v1'], ['calls', '#/calls', 'Your calls'], ['inbox', '#/inbox', 'The inbox'], ['record', '#/record', 'The record'], ['engine', '#/engine', 'Engine room']]]
 ];
+var NAV_FOLDED = ['LABS', 'WORLD', 'RECORD'];   // folded until you open them (the choice is kept in this browser)
+function navOpen(g) { var o = store('nav-open') || {}; return g in o ? !!o[g] : NAV_FOLDED.indexOf(g) < 0; }
+function navToggle(g) { var o = store('nav-open') || {}; o[g] = !navOpen(g); store('nav-open', o); var el = document.querySelector('[data-ng="' + g + '"]'); if (el) el.classList.toggle('folded', !o[g]); }
 var ROUTES = [];
 function route(re, fn, crumb, nav) { ROUTES.push({re: re, fn: fn, crumb: crumb, nav: nav}); }
 function shell() {
   var d = new Date();
   document.body.innerHTML =
     '<div class="app"><aside class="rail" id="rail"><div class="crest">' + Art.crest(42) + '<div><b>Blackthorn</b><span>World Headquarters</span></div></div>' +
-    '<nav class="nav">' + NAV.map(function (g) { return '<div class="nav-group">' + g[0] + '</div>' + g[1].map(function (n) {
-      return '<a href="' + n[1] + '" data-nav="' + n[1] + '">' + Art.icon(n[0]) + '<span>' + n[2] + '</span></a>'; }).join(''); }).join('') + '</nav>' +
+    '<nav class="nav">' + NAV.map(function (g) { return '<div class="nav-sec' + (navOpen(g[0]) ? '' : ' folded') + '" data-ng="' + g[0] + '">' + (g[0] ? '<div class="nav-group" onclick="navToggle(\'' + g[0] + '\')">' + g[0] + '<span class="nav-caret">▾</span></div>' : '') + '<div class="nav-items">' + g[1].map(function (n) {
+      return '<a href="' + n[1] + '" data-nav="' + n[1] + '">' + Art.icon(n[0]) + '<span>' + n[2] + '</span></a>'; }).join('') + '</div></div>'; }).join('') + '</nav>' +
     '<div class="rail-foot">Luxury in presentation. Science in structure. Pokémon in identity. Life in every environment.</div></aside>' +
     '<div class="main"><header class="topbar"><button class="menu-btn" onclick="document.getElementById(\'rail\').classList.toggle(\'on\')">☰</button>' +
     '<div class="crumbs" id="crumbs"></div><div class="sp"></div>' +
-    '<label class="search">⌕ <input id="q" placeholder="Search Pokémon, trainers, builds…" autocomplete="off"></label>' +
+    '<span class="topteams">' + JOURNEYS.map(function (g) { return '<a href="#/team/' + g + '" title="' + GAME_NAME[g] + ' team">' + {heartgold: 'HG', soulsilver: 'SS', platinum: 'Pt', crystal: 'C', firered: 'FR', emerald: 'E'}[g] + '</a>'; }).join('') + '</span><label class="search">⌕ <input id="q" placeholder="Search Pokémon, trainers, builds…" autocomplete="off"></label>' +
     '<span class="pill">' + cap(Art.seasonNow(d)) + ' · ' + fmtDate(d) + '</span></header><main class="page" id="page"></main></div></div>' +
     '<div class="drawer-bg" id="dbg" onclick="closeDrawer()"></div><aside class="drawer" id="drawer"><div class="x"><button class="btn sm" onclick="closeDrawer()">Close ✕</button></div><div class="in" id="din"></div></aside>';
   document.getElementById('q').addEventListener('keydown', function (e) { if (e.key === 'Enter') nav('#/search/' + encodeURIComponent(this.value)); });
@@ -182,7 +198,9 @@ function go() {
   var h = NAVI.hash || '#/', path = h.slice(1) || '/', seq = ++NAVI.seq;
   var r = ROUTES.filter(function (x) { return x.re.test(path); })[0] || ROUTES[0];
   var m = path.match(r.re) || [];
-  document.querySelectorAll('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === (r.nav || '#/')); });
+  var here = '#' + path.split('?')[0], links = document.querySelectorAll('[data-nav]'), exact = Array.prototype.some.call(links, function (a) { return a.getAttribute('data-nav') === here; });
+  links.forEach(function (a) { var on = exact ? a.getAttribute('data-nav') === here : a.getAttribute('data-nav') === (r.nav || '#/'); a.classList.toggle('on', on);
+    if (on) { var sec = a.closest('.nav-sec'); if (sec) sec.classList.remove('folded'); } });
   document.getElementById('rail').classList.remove('on');
   var page = document.getElementById('page');
   page.innerHTML = '<div class="empty">Opening…</div>';

@@ -71,9 +71,10 @@ function arWatch(key, i) {
 
 /* ---- Play Now: #/arena ---- */
 function arenaPage(query) {
-  var q = qparse(query), st = Object.assign({a: 'pack:me/heartgold', b: 'lib:platinum/cynthia-rematch', n: 20, lens: 'standardized', ours: 'blackthorn', theirs: 'blackthorn'}, store('arena') || {});
+  var q = qparse(query), st = Object.assign({a: null, b: 'lib:platinum/cynthia-rematch', n: 20, lens: 'standardized', ours: 'blackthorn', theirs: 'blackthorn'}, store('arena') || {});
   ['a', 'b', 'lens', 'ours', 'theirs'].forEach(function (k) { if (q[k]) st[k] = q[k]; }); if (q.n) st.n = +q.n;
   return Arena.ready().then(function () {
+    if (!st.a || /^pack:/.test(st.a) && !(Arena.pack().teams || {})[st.a.slice(5)]) st.a = Arena.yoursDefault() || 'lib:heartgold/red';   // v2: your first team
     after(function () {
       document.getElementById('arrun').onclick = function () { arPlay(); };
       document.getElementById('arswap').onclick = function () { var a = document.getElementById('ara'), b = document.getElementById('arb'), x = a.value; a.value = b.value; b.value = x; arPreview(); };
@@ -156,15 +157,16 @@ function legendsPage(query) {
     var walls = L.players.filter(function (p) { return p.fainted_rate > 0; }).sort(function (a, b) { return a.fainted_rate - b.fainted_rate; }).slice(0, 6);
     var vsOpts = L.order.map(function (i) { var t = F[i]; return '<option value="' + (t.from === 'pack' ? 'pack:' : 'lib:') + esc(t.id) + '">' + esc(t.name) + '</option>'; }).join('');
     return '<div class="eyebrow">The Arena · Legends</div><h1 style="margin:6px 0">The all-time teams</h1>' +
-      '<p class="lede">Every Champion at their strongest, Red, the anime\'s teams, the all-time team and your six journeys, each played against every other ' + L.n_per_pairing + ' times and ranked. Then take any of them on in a best-of-seven: the "your team against the \'96 Bulls" question.</p>' +
-      '<div class="grid" style="margin-top:16px"><div class="c5">' + card('Best of seven', '<label class="tiny muted">Your team</label><select class="f" id="lgus">' + Arena.options('pack:me/heartgold', ['yours', 'saved']) + '</select>' +
+      '<p class="lede">Every Champion at their strongest, Red, the anime\'s teams and the all-time team, each played against every other ' + L.n_per_pairing + ' times and ranked (your teams play them from here, once you build them). Then take any of them on in a best-of-seven: the "your team against the \'96 Bulls" question.</p>' +
+      '<div class="grid" style="margin-top:16px"><div class="c5">' + card('Best of seven', '<label class="tiny muted">Your team</label><select class="f" id="lgus">' + (Arena.yoursDefault() ? Arena.options(Arena.yoursDefault(), ['yours', 'saved']) : Arena.options('lib:heartgold/red', ['champions'])) + '</select>' +
+        (Arena.yoursDefault() ? '' : '<div class="tiny muted" style="margin-top:4px">No team of yours yet: <a href="#/team/heartgold">build one</a> to play it here. Until then, pick any Champion.</div>') +
         '<label class="tiny muted" style="display:block;margin-top:8px">The Legend</label><select class="f" id="lgvs">' + vsOpts + '</select>' +
         '<div class="row" style="margin-top:8px"><div><label class="tiny muted">Series</label>' + arSelect('lgbest', [['7', 'Best of seven'], ['5', 'Best of five'], ['3', 'Best of three']], '7') + '</div><div><label class="tiny muted">How they play</label>' + arSelect('lgtheirs', AR_THEIRS, 'blackthorn') + '</div></div>' +
         '<div style="margin-top:12px"><button class="btn gold" id="lgrun">Play the series</button></div>' + arProgress('lgprog') + '<div id="lgout" style="margin-top:12px"></div>', {tools: false}) +
         card('The stars', '<p class="tiny muted">Across the whole round robin: knockouts per battle.</p>' + stars.map(function (p) { var t = F[p.team], n = numOf(p.name);
           return '<div class="small" style="display:flex;gap:8px;align-items:center;margin:4px 0">' + (n ? '<img src="' + sprite(n, t.game) + '" style="width:30px;height:30px">' : '') + '<b>' + esc(p.name) + '</b><span class="muted">' + esc(t.name) + '</span><span style="margin-left:auto">' + p.kos_per_battle.toFixed(2) + ' KOs</span></div>'; }).join('') +
           '<p class="tiny muted" style="margin-top:10px">Hardest to bring down (fainted least often):</p>' + walls.map(function (p) { var t = F[p.team]; return '<div class="tiny">' + esc(p.name) + ' <span class="muted">(' + esc(t.name) + ')</span> · fainted in ' + arPct(p.fainted_rate) + '</div>'; }).join(''), {tools: false, style: 'margin-top:18px'}) + '</div>' +
-      '<div class="c7">' + card('Power rankings', '<p class="tiny muted">' + esc(L.rule) + '. Series record: pairings won by more battles than lost. Played ' + esc(fmtDate(L.made_at)) + ' on the standardized lens; your teams with D-072\'s optimized spreads, everyone else on 85 EVs, which is part of why yours rank high.</p><table class="t"><thead><tr><th>#</th><th>Team</th><th>Six</th><th>Win rate</th><th>Series</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>', {tools: false}) + '</div></div>';
+      '<div class="c7">' + card('Power rankings', '<p class="tiny muted">' + esc(L.rule) + '. Series record: pairings won by more battles than lost. Played ' + esc(fmtDate(L.made_at)) + ' on the standardized lens: everyone on 85 EVs.</p><table class="t"><thead><tr><th>#</th><th>Team</th><th>Six</th><th>Win rate</th><th>Series</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>', {tools: false}) + '</div></div>';
   }).catch(function (e) { return arNeedsEngine(e); });
 }
 function lgSeries() {
@@ -187,15 +189,16 @@ function lgSeries() {
 
 /* ---- Leagues: #/leagues ---- */
 var LG_PRESETS = {
-  champions: {name: 'The Champions\' League', refs: ['pack:me/heartgold', 'lib:platinum/cynthia-rematch', 'lib:heartgold/lance-rematch', 'lib:heartgold/red', 'lib:gen4:emerald/wallace', 'lib:gen4:firered/gary-rematch-he-chose-bulbasaur', 'lib:gen4:crystal/lance', 'lib:gen4:crystal/red']},
-  journeys: {name: 'Your six journeys', refs: ['pack:me/heartgold', 'pack:me/soulsilver', 'pack:me/platinum', 'lib:gen4:me/crystal', 'lib:gen4:me/firered', 'lib:gen4:me/emerald']},
+  champions: {name: 'The Champions\' League', refs: ['yours', 'lib:platinum/cynthia-rematch', 'lib:heartgold/lance-rematch', 'lib:heartgold/red', 'lib:gen4:emerald/wallace', 'lib:gen4:firered/gary-rematch-he-chose-bulbasaur', 'lib:gen4:crystal/lance', 'lib:gen4:crystal/red']},
+  journeys: {name: 'Your six teams', refs: ['journeys']},
   anime: {name: 'The anime league', refs: null},
-  johto: {name: 'Johto\'s finest (HeartGold)', refs: ['pack:me/heartgold', 'lib:heartgold/lance-rematch', 'lib:heartgold/red', 'lib:heartgold/clair-rematch', 'lib:heartgold/will-rematch', 'lib:heartgold/koga-rematch', 'lib:heartgold/bruno-rematch', 'lib:heartgold/karen-rematch']}
+  johto: {name: 'Johto\'s finest (HeartGold)', refs: ['mine:journey:heartgold', 'lib:heartgold/lance-rematch', 'lib:heartgold/red', 'lib:heartgold/clair-rematch', 'lib:heartgold/will-rematch', 'lib:heartgold/koga-rematch', 'lib:heartgold/bruno-rematch', 'lib:heartgold/karen-rematch']}
 };
 function lgPresetRefs(k) {
   if (k === 'anime') { var g = Arena.choices(); return g.anime.slice(0, 10).map(function (o) { return o.ref; }); }
-  var lib = Arena.lib();
-  return (LG_PRESETS[k].refs || []).filter(function (r) { return r.indexOf('lib:') !== 0 || lib.versions[r.slice(4)]; });
+  var lib = Arena.lib(), mine = JOURNEYS.filter(function (g) { return Teams.filled(Teams.get(g)); }).map(function (g) { return 'mine:' + Teams.id(g); });
+  var refs = [].concat.apply([], (LG_PRESETS[k].refs || []).map(function (r) { return r === 'journeys' ? mine : r === 'yours' ? mine.slice(0, 1) : [r]; }));
+  return refs.filter(function (r) { return r.indexOf('lib:') === 0 ? !!lib.versions[r.slice(4)] : r.indexOf('mine:') === 0 ? mine.indexOf(r) >= 0 : true; });
 }
 function leaguesPage(query) {
   var q = qparse(query);
@@ -356,7 +359,7 @@ function drDraw() {
   el.innerHTML = card(done ? 'The draft is done' : 'The board', teams + board, {tools: false});
 }
 function drSide(g, k) {
-  var X = Arena.X(), lib = Arena.lib(), base = X.profileFromLibrary(lib, 'me/heartgold');
+  var X = Arena.X(), lib = Arena.lib(), base = X.profileFromLibrary(lib, lib.versions['me/heartgold'] ? 'me/heartgold' : 'heartgold/red');
   var members = g.roster.map(function (c, i) { return Object.assign({}, c.build, {id: 'draft:' + g.name + '#' + (i + 1)}); });
   var team = {kind: 'TeamVersion', id: 'draft:' + DR.era + ':' + g.name, version: 1, name: g.name + '\'s draft', trainer: g.you ? 'me' : g.name.toLowerCase(), game: DR.era === 'platinum' ? 'platinum' : 'heartgold', generation: 4,
     members: members, lead: 'first', lens: 'standardized', source: {kind: 'arena-draft', era: DR.era, gm: g.name}};
@@ -419,11 +422,12 @@ function myTrainerPage() {
       document.getElementById('trsave').onclick = trSave; document.getElementById('trtest').onclick = trTest; trShow();
     });
     var val = function (k) { return st.params && st.params[k] != null ? st.params[k] : D[k]; };
-    return '<div class="eyebrow">The Arena · your trainer</div><h1 style="margin:6px 0">How your teams play</h1>' +
+    return '<div class="eyebrow">The Arena · default coach settings</div><h1 style="margin:6px 0">How a team plays when it has no trainer of its own</h1>' +
+      '<div class="notice" style="margin:10px 0"><span>v2: each of your six teams has its own trainer, set on its page (' + JOURNEYS.map(function (g) { return '<a href="#/team/' + g + '">' + GAME_NAME[g] + '</a>'; }).join(', ') + '). These settings are the default for any other team of yours, such as one saved from a lab.</span></div>' +
       '<p class="lede">Your coaching philosophy and the settings the trainer agent plays your teams by in the Arena, Legends, Leagues and the Draft. It\'s 2K\'s coach settings for Pokémon: the same nine dials every trainer in the library is read onto, so your style and Cynthia\'s are on one scale. Traits name the style; they never change a battle on their own.</p>' +
       '<div class="grid" style="margin-top:16px"><div class="c6">' + card('Your philosophy', '<label class="tiny muted">Start from</label>' + arSelect('trphil', Object.keys(TR_PHILOSOPHY).map(function (k) { return [k, TR_PHILOSOPHY[k].name + ': ' + TR_PHILOSOPHY[k].why]; }), st.philosophy) +
         Object.keys(TR_PARAMS).map(function (k) { return '<div style="margin-top:10px"><div class="small"><b>' + esc(TR_PARAMS[k][0]) + '</b> <span id="trv-' + k + '">' + val(k) + '</span> <span class="tiny muted">(default ' + D[k] + ')</span></div><input type="range" min="0" max="100" id="trp-' + k + '" value="' + val(k) + '" style="width:100%"><div class="tiny muted">' + esc(TR_PARAMS[k][1]) + '</div></div>'; }).join('') +
-        '<div style="margin-top:14px"><button class="btn gold" id="trsave">Save my settings</button> <button class="btn" id="trtest">Test them: HeartGold vs Cynthia</button></div>' + arProgress('trprog'), {tools: false}) + '</div>' +
+        '<div style="margin-top:14px"><button class="btn gold" id="trsave">Save my settings</button> <button class="btn" id="trtest">Test them against Cynthia</button></div>' + arProgress('trprog'), {tools: false}) + '</div>' +
       '<div class="c6"><div id="trtraits"></div><div id="trout" style="margin-top:18px"></div>' + card('Where the library\'s trainers sit', trLibraryTable(), {tools: false, style: 'margin-top:18px'}) + '</div></div>';
   }).catch(function (e) { return arNeedsEngine(e); });
 }
@@ -439,23 +443,25 @@ function trSave() {
   toast('Saved. Your teams play by these settings in the Arena.');
 }
 function trTest() {
-  trSave(); var el = document.getElementById('trout'), btn = document.getElementById('trtest'); btn.disabled = true;
+  trSave(); var el = document.getElementById('trout'), btn = document.getElementById('trtest'), mine = Arena.yoursDefault();
+  if (!mine) { el.innerHTML = '<div class="notice">Build a team first: these settings are tested on your first team with anyone on it.</div>'; return; }
+  btn.disabled = true;
   var o = {n: 20, theirs: 'blackthorn'};
-  Arena.match('pack:me/heartgold', 'lib:platinum/cynthia-rematch', Object.assign({ours: 'plain', onProgress: arTick('trprog', 'Default settings')}, o)).then(function (a) {
-    return Arena.match('pack:me/heartgold', 'lib:platinum/cynthia-rematch', Object.assign({ours: 'blackthorn', onProgress: arTick('trprog', 'Your settings')}, o)).then(function (b) {
+  Arena.match(mine, 'lib:platinum/cynthia-rematch', Object.assign({ours: 'plain', onProgress: arTick('trprog', 'Default settings')}, o)).then(function (a) {
+    return Arena.match(mine, 'lib:platinum/cynthia-rematch', Object.assign({ours: 'blackthorn', onProgress: arTick('trprog', 'Your settings')}, o)).then(function (b) {
       btn.disabled = false; document.getElementById('trprog').innerHTML = '';
       var ra = a.result.summary, rb = b.result.summary;
-      el.innerHTML = card('Default against yours', '<p class="small">Your HeartGold six against Cynthia (rematch), ' + o.n + ' battles each, the same seeds for both.</p><div class="kpis"><div class="kpi"><div class="tiny muted">Default</div><b style="font-size:22px">' + arPct(ra.win_rate) + '</b><div class="tiny muted">' + arCI(ra.win_rate_95) + '</div></div><div class="kpi"><div class="tiny muted">Your settings</div><b style="font-size:22px">' + arPct(rb.win_rate) + '</b><div class="tiny muted">' + arCI(rb.win_rate_95) + '</div></div></div>' +
+      el.innerHTML = card('Default against yours', '<p class="small">Your team against Cynthia (rematch), ' + o.n + ' battles each, the same seeds for both.</p><div class="kpis"><div class="kpi"><div class="tiny muted">Default</div><b style="font-size:22px">' + arPct(ra.win_rate) + '</b><div class="tiny muted">' + arCI(ra.win_rate_95) + '</div></div><div class="kpi"><div class="tiny muted">Your settings</div><b style="font-size:22px">' + arPct(rb.win_rate) + '</b><div class="tiny muted">' + arCI(rb.win_rate_95) + '</div></div></div>' +
         '<p class="tiny muted" style="margin-top:8px">At 20 battles, a difference smaller than about 25 points can be noise; the 6v6 Lab\'s "compare" experiment pairs the battles and tests it properly.</p>', {tools: false});
     });
   }).catch(function (e) { btn.disabled = false; arFail('trprog', e); });
 }
 function trLibraryTable() {
   var lib = Arena.lib(), X = Arena.X(), ids = ['platinum/cynthia-rematch', 'heartgold/lance-rematch', 'heartgold/red', 'heartgold/karen-rematch', 'heartgold/will-rematch', 'ash/all-time', 'paul/sinnoh', 'gary/johto'].filter(function (id) { return lib.versions[id]; });
-  return '<table class="t"><thead><tr><th>Trainer</th><th>Aggr.</th><th>Risk</th><th>Switch</th><th>Sharp</th><th>Traits</th></tr></thead><tbody>' + ids.map(function (id) {
+  return '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Trainer</th><th>Aggr.</th><th>Risk</th><th>Switch</th><th>Sharp</th><th>Traits</th></tr></thead><tbody>' + ids.map(function (id) {
     var p; try { p = X.profileFromLibrary(lib, id).params; } catch (e) { return ''; }
     var full = Object.assign({}, X.TRAINER_DEFAULTS, p);
-    return '<tr><td class="small">' + esc(Library.label ? Library.label(lib.versions[id]) : id) + '</td><td>' + full.aggression + '</td><td>' + full.risk + '</td><td>' + full.switching + '</td><td>' + full.competence + '</td><td>' + trTraits(p).map(function (t) { return chip(t[0], ''); }).join(' ') + '</td></tr>'; }).join('') + '</tbody></table>' +
+    return '<tr><td class="small">' + esc(Library.label ? Library.label(lib.versions[id]) : id) + '</td><td>' + full.aggression + '</td><td>' + full.risk + '</td><td>' + full.switching + '</td><td>' + full.competence + '</td><td>' + trTraits(p).map(function (t) { return chip(t[0], ''); }).join(' ') + '</td></tr>'; }).join('') + '</tbody></table></div>' +
     '<p class="tiny muted">Read from the library: the authored sliders, the coach settings and the cartridge AI flags (sixvsix/docs/TRAINER_AI.md, "where each comes from").</p>';
 }
 

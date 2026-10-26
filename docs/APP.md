@@ -4,6 +4,24 @@
 
 > Luxury in presentation. Science in structure. Pokémon in identity. Life in every environment.
 
+## v2 (D-078): built around your inputs
+
+The whole update is described in `docs/design/V2_PLAN.md`, and in the app at `#/v2`.
+
+| Where | What |
+|---|---|
+| Home `#/` | Your six teams, what to do next, and recently built Pokémon. The estate's day is folded below. |
+| A team `#/team/<game>` | The team homepage: six tiles to drag into order, then the trainer, scouting report, shapes & roles, coverage, swap, candidates, achievements and battle. Implemented in `web/81_teams.html` (the model) and `web/84_teamlab.html` (the page). |
+| One Pokémon `#/pokemon/<id>` | The builder (`web/83_builder.html`): inputs on the left; on the right the species, five roles, badges, scouting report, wilderness and homestead tags. |
+| Add a Pokémon `#/pokemon/new/<game>/<slot>` | Pick the species. It becomes yours, in that slot. |
+| The menu | Your teams, then Build, Play and Explore. Labs, World and Record are folded. The top bar has the six teams (HG, SS, Pt, C, FR, E). |
+
+The fresh start hides your old records:
+- **The packs:** `app/fresh.py` takes them out at the end of the export.
+- **The Sheet:** `sinceFresh()` in `web/20_core.html` skips rows dated before the start.
+
+`engine/store/fresh_start.json` turns it off.
+
 ## Pages
 
 | Section | Page | What it does |

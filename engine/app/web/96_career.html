@@ -23,7 +23,7 @@ var Career = (function () {
   function yoursRef(ref) { return /^pack:|^lib:(gen4:)?me\/|^mine:/.test(String(ref || '')); }
   function plays(ind, ref, name) {   // does this result's Pokémon belong to this individual?
     if (!ref || !name) return false;
-    if (String(ref).indexOf('mine:') === 0) { var t = ((S.store || {}).teams || {})[ref.slice(5)]; return !!(t && (t.slots || []).some(function (s) { return s && String(s.from || '').split('@')[0] === ind.id; })) && (name === ind.species || name === ind.nickname); }
+    if (String(ref).indexOf('mine:') === 0) { var t = ((S.store || {}).teams || {})[ref.slice(5)]; return !!(t && (t.slots || []).some(function (s) { return s && String(s.ind || s.from || '').split('@')[0] === ind.id; })) && (name === ind.species || name === ind.nickname); }
     return yoursRef(ref) && gameOfRef(ref) === ind.game && (name === ind.species || name === ind.nickname);
   }
   function of(ind) {

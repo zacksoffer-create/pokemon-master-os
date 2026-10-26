@@ -1,6 +1,6 @@
 {
   "_note": "Tags, badges, archetypes and qualifications (docs/specs/TAGS_BADGES_ARCHETYPES_QUALIFICATIONS.md, master plan Phase 2). Every rule and number lives here; trainers/recognition.py and its browser copy (app/web/29_recognition.html) only evaluate them, and app/test_recognition_parity.mjs holds the two together. Recognition describes what the mechanics already do: no badge changes a fight (spec Part X). Status: provisional. The values are the spec's proposals, calibrated against the field in docs/recognition/CALIBRATION.md, for Zack to adjust.",
-  "version": 1,
+  "version": 2,
   "level": 100,
   "tiers": [
     "Bronze",
@@ -179,6 +179,19 @@
       }
     },
     "_tiers": "Tiers build on each other (a tier needs the ones below it) and sit near the 50th, 70th, 85th and 95th percentile of the stored builds that have that kind of attack (docs/recognition/CALIBRATION.md). The Elite Four's and Champions' Pokémon have no EVs and low IVs at level 100, so single-hit numbers saturate: walls count four hits, and a breaker's Elite tier asks for OHKOs."
+  },
+  "kit": {
+    "_note": "v2 (D-078): two badge families read from the build itself, the way competitive players read a set. Sustain: how it heals (best level reached: Bronze passive or draining, Silver Rest or Wish, Gold reliable recovery, Elite reliable recovery with Leftovers or Black Sludge). Utility: how many distinct support jobs its moves do (one job is Bronze, four is Elite). Names only, so both engines read them the same.",
+    "sustain": {"name": "Sustain", "items": ["Leftovers", "Black Sludge"],
+      "drain": ["Absorb", "Mega Drain", "Giga Drain", "Drain Punch", "Leech Life", "Dream Eater", "Leech Seed", "Ingrain", "Aqua Ring"],
+      "rest": ["Rest", "Wish"],
+      "reliable": ["Recover", "Roost", "Soft-Boiled", "Slack Off", "Milk Drink", "Synthesis", "Moonlight", "Morning Sun", "Heal Order"],
+      "says": ["holds {item} or drains ({moves})", "heals with {moves}", "heals half its HP with {moves}", "heals half its HP with {moves}, and holds {item}"],
+      "none": "no way to heal"},
+    "utility": {"name": "Utility", "jobs": {"hazards": ["hazard"], "hazard control": ["hazard_removal"], "status": ["status_infliction", "sleep", "confuse"], "screens": ["screens"],
+        "healing the team": ["cleric"], "phazing": ["phaze", "anti_setup"], "speed control": ["trick_room", "tailwind"], "disruption": ["taunt", "encore", "trick"],
+        "pivoting": ["pivot_move", "baton_pass"], "trapping": ["trap"], "weather": ["weather"]},
+      "tiers": [1, 2, 3, 4], "says": "{n} support jobs: {jobs}", "none": "no support moves"}
   },
   "tags": {
     "_note": "Machine-readable descriptions, from the role engine's signals (trainers/roles.json; blank EVs never count, B19). A tag with a level carries that signal's 0-1 value.",

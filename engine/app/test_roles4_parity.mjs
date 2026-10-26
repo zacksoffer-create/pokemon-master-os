@@ -1,4 +1,4 @@
-// The browser's four team roles and build names (web/28_teamroles.html, on top of 25_scout and 27_battle with
+// The browser's five team roles (v2) and build names (web/28_teamroles.html, on top of 25_scout and 27_battle with
 // @smogon/calc in the page) against Python's trainers/team_roles.py, build by build, number for number.
 // Run: python3 -I trainers/team_roles.py --parity py.json [ids] && node app/test_roles4_parity.mjs py.json
 import fs from 'node:fs';
@@ -38,7 +38,7 @@ const js = ctx.TeamRoles.readMany(py.builds.map((x) => ({ build: x.build, game: 
 for (const [id, p] of Object.entries(py.reads)) {
   const r = js[id];
   if (!r) { same(id + ' missing', null, true); continue; }
-  for (const f of ['species', 'game', 'gen', 'moves', 'filled_moves', 'earned', 'second_layer', 'name', 'evidence']) same(`${id} ${f}`, r[f], p[f]);
+  for (const f of ['species', 'game', 'gen', 'moves', 'filled_moves', 'earned', 'second_layer', 'name', 'facts', 'evidence']) same(`${id} ${f}`, r[f], p[f]);
   p.roles.forEach((role, i) => same(`${id} role ${role.role}`, r.roles[i], role));
 }
 console.log(`${checked - bad}/${checked} checks match Python over ${Object.keys(py.reads).length} builds; ${((Date.now() - t0) / 1000).toFixed(1)} s`);

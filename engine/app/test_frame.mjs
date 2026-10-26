@@ -58,6 +58,7 @@ for (const width of [1440, 390]) {
   const navs = await app().evaluate(() => [...document.querySelectorAll('.rail a[data-nav]')].map((a) => a.getAttribute('href')));
   for (const h of navs) {
     if (width < 800) { await app().click('.menu-btn'); await page.waitForTimeout(450); }
+    await app().evaluate(() => document.querySelectorAll('.nav-sec.folded').forEach((x) => x.classList.remove('folded')));   // v2: the menu's folded sections
     const before = errors.length;
     await app().click(`.rail a[href="${h}"]`);
     const st = await settled();

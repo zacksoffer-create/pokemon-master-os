@@ -204,6 +204,31 @@ class Recognition:
         return d["says"].format(share=f"{pct(x['share'])}%", n=x["n"], of=x["of"], move=x.get("move", ""), hp=x.get("hp", ""),
                                 measure=MEASURE.get(x.get("measure"), ""))
 
+    # --- v2 (D-078): the kit badges, read from the build's own moves and item ----------------------------------------
+    def kit_part(self, moves, item, gen):
+        K, tiers = self.cfg["kit"], self.cfg["tiers"]
+        su = K["sustain"]
+        has = lambda names: [m for m in moves if m in names]
+        held = item if item in su["items"] else None
+        drain, rest, rel = has(su["drain"]), has(su["rest"]), has(su["reliable"])
+        level = 4 if rel and held else 3 if rel else 2 if rest else 1 if (held or drain) else 0
+        which = {4: rel, 3: rel, 2: rest, 1: drain}.get(level, [])
+        says = su["says"][level - 1].format(item=held or "nothing", moves=", ".join(which) or "no move") if level else su["none"]
+        out = {"sustain": {"name": su["name"], "tier": tiers[level - 1] if level else None, "level": level, "says": says,
+                           "next": {"tier": tiers[level], "needs": ["a passive or draining heal", "Rest or Wish", "a reliable recovery move",
+                                                                     "reliable recovery and Leftovers"][level]} if level < 4 else None}}
+        ut = K["utility"]
+        jobs = []
+        for job, cats in ut["jobs"].items():
+            if any(self.book.move(m, gen)["categories"] & set(cats) for m in moves):
+                jobs.append(job)
+        n = len(jobs)
+        t = max((i for i, need in enumerate(ut["tiers"]) if n >= need), default=-1)
+        out["utility"] = {"name": ut["name"], "tier": tiers[t] if t >= 0 else None, "n": n, "jobs": jobs,
+                          "says": ut["says"].format(n=n, jobs=", ".join(jobs)) if n else ut["none"],
+                          "next": {"tier": tiers[t + 1], "needs": f"{ut['tiers'][t + 1]} support jobs"} if t + 1 < len(ut["tiers"]) else None}
+        return out
+
     # --- tags, qualifications, archetype --------------------------------------------------------------------------
     def tags_part(self, signals):
         out = []
@@ -266,6 +291,8 @@ class Recognition:
     def badge_name(self, bid):
         if bid == "speed":
             return self.cfg["speed"]["name"]
+        if bid in self.cfg.get("kit", {}):
+            return self.cfg["kit"][bid]["name"]
         if bid in self.cfg["stats"]["names"]:
             return self.cfg["stats"]["names"][bid]
         return self.cfg["damage"]["badges"][bid]["name"]
@@ -291,6 +318,8 @@ class Recognition:
                 badges[s] = {"name": x["name"], "tier": x["tier"], "says": f"{x['name']} {x['value']} at level {level}", "next": x["next"]}
         if speed.get("tier"):
             badges["speed"] = {"name": speed["name"], "tier": speed["tier"], "says": f"Speed {speed['value']} at level {level}", "next": speed["next"]}
+        for k, x in self.kit_part(list(rd["moves"]), b.item, gen).items():
+            badges[k] = x
         tags = self.tags_part(cl["signals"])
         quals = self.quals_part(rd)
         arch = self.archetype_part(rd, sp["types"], tags, badges, quals)

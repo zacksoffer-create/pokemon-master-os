@@ -20,6 +20,15 @@ CRYSTAL = ["Feraligatr", "Miltank", "Donphan", "Ampharos", "Umbreon", "Espeon"]
 PLATINUM = ["Infernape", "Weavile", "Roserade", "Lucario", "Garchomp", "Magnezone"]
 
 
+
+# the builds both browser-parity tests read (v2, D-078): stock, a trainer's and competitive sets across Gens II-IV,
+# walls, sweepers, tanks and support among them
+PARITY_BUILDS = ["stock/garchomp-sweeper", "competitive:gen41v1/azelf-c4f2f4b2", "competitive:gen4ou/blissey-13205f13",
+                 "competitive:gen4ou/swampert-d8015e9a", "competitive:gen4ou/gengar-7466fa6c", "competitive:gen4ou/tyranitar-4879c461",
+                 "competitive:gen4ou/skarmory-3a0c57d9", "competitive:gen4ou/forretress-8ab58b3b", "competitive:gen3ou/metagross-481e32a4",
+                 "competitive:gen3ou/skarmory-70825fcd", "competitive:gen2ou/snorlax-72a6cc5a", "competitive:gen2ou/forretress-bb845c3c",
+                 "ash-kanto/charizard"]
+
 class Rules(unittest.TestCase):
     def test_gen2_to_5_chart_keeps_steel_resisting_ghost_and_dark(self):
         for gen in (2, 3, 4):
@@ -2680,18 +2689,18 @@ class WebApp(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
     def test_the_browser_team_roles_match_python(self):
-        """web/28_teamroles.html against trainers/team_roles.py: every journey companion plus a stock and a competitive
-        set, with two hand overrides, every field of every read (fights, the four roles, the role engine underneath, the
-        name), number for number.
+        """web/28_teamroles.html against trainers/team_roles.py: a spread of Gen II-IV builds (stock, a trainer's,
+        competitive sets), with two hand overrides, every field of every read (fights, the facts, the five roles, the role
+        engine underneath, the name), number for number.
         Every build: python3 -I trainers/team_roles.py --parity OUT && node app/test_roles4_parity.mjs OUT"""
         import json as _json
         with open(os.path.join(self.app, "data", "roles4.json"), encoding="utf-8") as fh:
             have = _json.load(fh)["reads"]
-        ids = [k for k in have if k.startswith("me:")] + [k for k in ("stock/garchomp-sweeper", "competitive:gen41v1/azelf-c4f2f4b2") if k in have]
+        ids = [k for k in PARITY_BUILDS if k in have]   # v2 (D-078): the fresh start keeps the journey out, so a fixed spread of Gen II-IV builds
         with tempfile.TemporaryDirectory() as tmp:
             dump, over = os.path.join(tmp, "roles4.json"), os.path.join(tmp, "overrides.json")
             with open(over, "w", encoding="utf-8") as fh:        # a hand override on each side, and one setting a role off
-                _json.dump({"stock/garchomp-sweeper": {"wall": True, "why": "parity test"}, "me:heartgold/Mamoswine": {"ace": False}}, fh)
+                _json.dump({"stock/garchomp-sweeper": {"wall": True, "why": "parity test"}, "competitive:gen4ou/swampert-d8015e9a": {"ace": False}}, fh)
             out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "team_roles.py"), "--parity", dump, ",".join(ids), over],
                               capture_output=True, text=True, cwd=ENGINE)
             self.assertEqual(out.returncode, 0, out.stderr[-1500:])
@@ -2701,13 +2710,13 @@ class WebApp(unittest.TestCase):
 
     def test_the_browser_recognition_matches_python(self):
         """web/29_recognition.html against trainers/recognition.py (tags, badges, Speed milestones, stat tiers, the
-        archetype and the qualifications), over the same team-role reads with their fight evidence: the journey
-        companions, a stock set and a competitive set.
+        archetype, the qualifications, Sustain and Utility), over the same team-role reads with their fight evidence:
+        a spread of Gen II-IV builds.
         Every build: python3 -I trainers/recognition.py --parity OUT && node app/test_recognition_parity.mjs OUT"""
         import json as _json
         with open(os.path.join(self.app, "data", "roles4.json"), encoding="utf-8") as fh:
             have = _json.load(fh)["reads"]
-        ids = [k for k in have if k.startswith("me:")] + [k for k in ("stock/garchomp-sweeper", "competitive:gen41v1/azelf-c4f2f4b2") if k in have]
+        ids = [k for k in PARITY_BUILDS if k in have]   # v2 (D-078): the fresh start keeps the journey out, so a fixed spread of Gen II-IV builds
         with tempfile.TemporaryDirectory() as tmp:
             reads, dump = os.path.join(tmp, "roles4.json"), os.path.join(tmp, "rec.json")
             out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "team_roles.py"), "--parity", reads, ",".join(ids)],
@@ -2843,6 +2852,76 @@ console.log(JSON.stringify(cases.map(c => { const iv = Object.assign({hp: 31, at
             self.assertEqual(g["stats"], era.stats(c[0], c[1], c[2], c[3], ivs, c[5]), c)
         self.assertEqual(got[0]["hp"], {"type": "Dark", "power": 70})          # all 31s
         self.assertEqual(got[3]["hp"]["type"], "Ice")                         # Gen II: Atk DV 15, Def DV 13 (4*3+1), GSC's HP Ice
+
+
+class V2(unittest.TestCase):
+    """v2 (D-078; docs/design/V2_PLAN.md): the fresh start, five roles, the kit badges, the naming list."""
+    APP = os.path.join(ENGINE, "app")
+
+    def pack(self, name):
+        with open(os.path.join(self.APP, "data", name), encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_the_fresh_start_takes_the_personal_layer_out_of_every_pack(self):
+        sys.path.insert(0, self.APP)
+        import fresh
+        if not fresh.on():
+            self.skipTest("the fresh start is off (engine/store/fresh_start.json)")
+        st = self.pack("store.json")
+        self.assertEqual((st["individuals"], st["teams"], st["lines"]), ({}, {}, []))
+        self.assertFalse([k for k, b in st["builds"].items() if b.get("provenance") == "yours" or k.startswith(("yours:", "me:"))])
+        self.assertTrue(any(b.get("provenance") == "competitive" for b in st["builds"].values()))      # the reference stays
+        lib = self.pack("library.json")
+        self.assertFalse([k for k in lib["versions"] if k.startswith("me/")])
+        self.assertNotIn("me", lib["identities"])
+        hq = self.pack("hq.json")
+        self.assertEqual((hq["party"], hq["residents"], hq["lineage"], hq["program"]), ([], [], [], []))
+        self.assertTrue(hq["fresh"]["on"])
+        self.assertFalse([k for k in self.pack("roles4.json")["reads"] if k.startswith(("me:", "yours:"))])
+        self.assertEqual(self.pack("battle.json")["lineups"], [])
+        self.assertNotIn("me", self.pack("scout.json")["trainers"])
+        self.assertFalse([r for r in self.pack("scouting.json")["reports"] if r.get("mine")])
+        arena = self.pack("arena.json")
+        self.assertEqual(arena["teams"], {})
+        self.assertFalse([f for f in arena["legends"]["field"] if f["group"] == "yours"])
+        self.assertEqual(fresh.apply(write=False)["store.json"], {"builds": 0, "individuals": 0, "teams": 0, "lines": 0})   # running it again changes nothing
+
+    def test_five_roles_in_zacks_order_with_calibrated_bars(self):
+        with open(os.path.join(ENGINE, "trainers", "team_roles.json"), encoding="utf-8") as fh:
+            cfg = json.load(fh)
+        self.assertEqual(cfg["roles"]["_order"], ["ace", "sweeper", "support", "wall", "tank"])
+        for r in cfg["roles"]["_order"]:
+            self.assertTrue(cfg["roles"][r].get("explain") and cfg["roles"][r].get("question"), r)
+        self.assertEqual(len(cfg["team"]["shapes"]["order"]), 9)
+        reads = self.pack("roles4.json")["reads"]
+        earned = {r: sum(1 for x in reads.values() if r in x["earned"]) for r in cfg["roles"]["_order"]}
+        for r in ("sweeper", "support", "wall", "tank"):          # each picks out a minority of the field, not most of it
+            self.assertLess(earned[r], 0.35 * len(reads), (r, earned[r]))
+            self.assertGreater(earned[r], 0.05 * len(reads), (r, earned[r]))
+        some = next(iter(reads.values()))
+        self.assertEqual([x["role"] for x in some["roles"]].count("tank"), 1)
+        self.assertIn("first", some["facts"])
+
+    def test_the_kit_badges(self):
+        from trainers.recognition import Recognition
+        rec = Recognition()
+        k = rec.kit_part(["Soft-Boiled", "Stealth Rock", "Toxic", "Seismic Toss"], "Leftovers", 4)
+        self.assertEqual((k["sustain"]["tier"], k["utility"]["tier"]), ("Elite", "Silver"))
+        self.assertEqual(k["utility"]["jobs"], ["hazards", "status"])
+        k = rec.kit_part(["Rest", "Sleep Talk", "Body Slam", "Earthquake"], None, 4)
+        self.assertEqual((k["sustain"]["tier"], k["utility"]["tier"]), ("Silver", None))
+        k = rec.kit_part(["Close Combat", "Earthquake", "Stone Edge", "Outrage"], "Life Orb", 4)
+        self.assertEqual(k["sustain"]["tier"], None)
+
+    def test_the_naming_list(self):
+        path = os.path.join(ENGINE, "..", "docs", "naming", "ALL_COMBINATIONS.md")
+        with open(path, encoding="utf-8") as fh:
+            md = fh.read()
+        self.assertIn("233,886", md)
+        import gzip
+        with gzip.open(os.path.join(ENGINE, "..", "docs", "naming", "all_combinations.csv.gz"), "rt", encoding="utf-8") as fh:
+            n = sum(1 for _ in fh) - 1
+        self.assertEqual(n, 233886)
 
 
 if __name__ == "__main__":

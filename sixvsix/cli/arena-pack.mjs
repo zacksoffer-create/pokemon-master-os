@@ -29,6 +29,9 @@ const APPDATA = path.resolve(ROOT, '../engine/app/data');
 const LIBRARY = path.join(APPDATA, 'library.json');
 const PACK = path.join(ROOT, 'fixtures/lab/pack.json');
 const QUICK = process.argv.includes('--quick');
+// the fresh start (D-078, engine/store/fresh_start.json): while it's on, your journey teams sit out of the pack and
+// the Legends; the teams you build in the app play from My Teams instead (mine:<team id>)
+const FRESH = (() => { try { return !!JSON.parse(fs.readFileSync(path.resolve(ROOT, '../engine/store/fresh_start.json'), 'utf8')).on; } catch (e) { return false; } })();
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 const read = (f) => JSON.parse(fs.readFileSync(f, 'utf8'));
 
@@ -45,7 +48,7 @@ const YOURS = { 'me/heartgold': 'pack', 'me/soulsilver': 'pack', 'me/platinum': 
 
 function legendField(lib) {
   const field = [];
-  for (const [id, from] of Object.entries(YOURS)) field.push({ id, from, group: 'yours' });
+  if (!FRESH) for (const [id, from] of Object.entries(YOURS)) field.push({ id, from, group: 'yours' });
   for (const id of LEGEND_CARTRIDGE) if (lib.versions[id]) field.push({ id, from: 'library', group: 'champions' });
   for (const [id, v] of Object.entries(lib.versions)) {
     if ((v.kind === 'anime' || v.kind === 'all-time') && v.generation === 4) field.push({ id, from: 'library', group: v.kind === 'all-time' ? 'all-time' : 'anime' });
@@ -64,7 +67,7 @@ async function main() {
   const t0 = Date.now();
   const library = read(LIBRARY);
   const lib = withGen4(library);
-  const lab = read(PACK);
+  const lab = FRESH ? { teams: {}, team_list: [], signature_items: read(PACK).signature_items } : read(PACK);
 
   // 1. the engine, battle-only
   const tmp = path.join(ROOT, 'dist', 'sixvsix.app.js');
@@ -144,7 +147,7 @@ async function main() {
 
   const arena = {
     _note: 'Built by sixvsix/cli/arena-pack.mjs (v1, D-077). The engine itself is sixvsix.json; this is what it cannot work out in the page.',
-    kind: 'ArenaPack', contract: CONTRACT_VERSION, engine: ENGINE, build,
+    kind: 'ArenaPack', contract: CONTRACT_VERSION, engine: ENGINE, build, fresh: FRESH,
     checked_by: `Showdown TeamValidator (${ENGINE.name} ${ENGINE.version})`,
     library_versions: Object.keys(library.versions).length,
     legal, excluded,
