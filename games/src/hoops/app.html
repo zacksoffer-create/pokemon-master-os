@@ -1,0 +1,578 @@
+<title>Basketball Playground</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column of mode cards under a big painted title, like the sign on a park fence. Single night theme on purpose: the game is a court under lights. */
+:root {
+  --night: #0b0f18;
+  --asphalt: #151b27;
+  --asphalt-2: #1c2433;
+  --court: #2c5a46;
+  --key: #7c3a34;
+  --chalk: #f3f1ea;
+  --muted: #9aa3b2;
+  --sodium: #ffb547;
+  --good: #7ee2a8;
+  --bad: #ff7a66;
+  --line: rgba(243, 241, 234, 0.14);
+  --display: "Big Shoulders Display", Impact, "Arial Narrow", sans-serif;
+  --body: "Barlow", system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+html, body { background: var(--night); color: var(--chalk); }
+body { font-family: var(--body); font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+#app { max-width: 560px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 18px 40px; }
+button { font: inherit; color: inherit; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--sodium); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+.screen { display: flex; flex-direction: column; gap: 14px; }
+
+/* title */
+.mast { position: relative; padding: 18px 0 6px; overflow: hidden; }
+.mast svg { position: absolute; right: -40px; top: -30px; width: 280px; height: auto; opacity: 0.5; pointer-events: none; }
+.eyebrow { font: 700 13px/1 var(--body); letter-spacing: 0.22em; text-transform: uppercase; color: var(--sodium); }
+.mast h1 { font: 900 clamp(44px, 14vw, 92px)/0.84 var(--display); letter-spacing: 0.005em; text-transform: uppercase; margin-top: 6px; }
+.mast p { margin: 10px 0 0; color: var(--muted); max-width: 38ch; }
+.quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.pill { border: 1px solid var(--line); background: var(--asphalt); border-radius: 999px; padding: 6px 11px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.pill b { color: var(--sodium); font-weight: 700; }
+
+/* mode cards */
+.modes { display: grid; gap: 10px; }
+.mode { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; text-align: left; padding: 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--asphalt); cursor: pointer; }
+.mode:hover { background: var(--asphalt-2); }
+.mode .ico { width: 64px; height: 64px; }
+.mode h2 { font: 800 24px/1 var(--display); letter-spacing: 0.03em; text-transform: uppercase; }
+.mode p { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.35; }
+.mode .rec { margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sodium); font-variant-numeric: tabular-nums; }
+.mode.feature { background: var(--court); border-color: rgba(255,255,255,0.18); padding: 18px 16px; }
+.mode.feature:hover { background: #326650; }
+.mode.feature p { color: #d7e7dd; }
+.mode.feature h2 { font-size: 30px; }
+.row-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.link { padding: 12px 8px; border-radius: 12px; border: 1px solid var(--line); background: transparent; cursor: pointer; font: 800 15px/1.1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; }
+.link:hover { background: var(--asphalt); }
+
+/* sub screens */
+.bar { display: flex; align-items: center; gap: 10px; }
+.back { width: 40px; height: 40px; flex: none; border-radius: 50%; border: 1px solid var(--line); background: var(--asphalt); cursor: pointer; font-size: 18px; }
+.bar h2 { font: 900 34px/1 var(--display); text-transform: uppercase; letter-spacing: 0.02em; }
+.lede { color: var(--muted); margin: 0; }
+.panel { border: 1px solid var(--line); background: var(--asphalt); border-radius: 14px; padding: 14px; }
+.panel h3 { font: 800 18px/1.1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.cta { border: 0; border-radius: 12px; padding: 14px 18px; background: var(--sodium); color: #1a1206; font: 900 20px/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+.cta.ghost { background: transparent; color: var(--chalk); border: 1px solid var(--line); }
+.cta[disabled] { opacity: 0.4; cursor: default; }
+.ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+.ctas .cta { flex: 1 1 140px; }
+
+/* opponents */
+.opps { display: grid; gap: 8px; }
+.opp { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--asphalt); cursor: pointer; text-align: left; }
+.opp:hover { background: var(--asphalt-2); }
+.face { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font: 900 18px/1 var(--display); color: #1a1206; }
+.opp b { display: block; font: 800 19px/1.05 var(--display); letter-spacing: 0.03em; text-transform: uppercase; }
+.opp small { color: var(--muted); font-size: 13px; }
+.opp .wl { font: 800 16px/1 var(--display); color: var(--sodium); font-variant-numeric: tabular-nums; }
+.meter { display: inline-flex; gap: 2px; vertical-align: middle; margin-left: 4px; }
+.meter i { width: 6px; height: 10px; border-radius: 2px; background: rgba(255,255,255,0.18); }
+.meter i.on { background: var(--sodium); }
+
+/* results */
+.big { font: 900 clamp(84px, 30vw, 140px)/0.8 var(--display); font-variant-numeric: tabular-nums; }
+.result-head { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+.result-head .unit { font: 800 22px/1 var(--display); text-transform: uppercase; color: var(--muted); padding-bottom: 8px; }
+.badge { display: inline-block; padding: 5px 10px; border-radius: 8px; background: var(--sodium); color: #1a1206; font: 900 15px/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { padding: 10px; border-radius: 10px; background: var(--asphalt); border: 1px solid var(--line); }
+.stat b { display: block; font: 900 26px/1 var(--display); font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.plist { display: grid; gap: 6px; }
+.prow { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--asphalt); }
+.prow .g { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; font: 900 18px/1 var(--display); color: #0b0f18; background: var(--good); }
+.prow .g.B { background: #c5e27e; } .prow .g.C { background: #ffd166; } .prow .g.D { background: #ff9a66; } .prow .g.F { background: #ff5d4a; }
+.prow small { color: var(--muted); display: block; font-size: 12px; }
+.prow .pts { font: 900 20px/1 var(--display); font-variant-numeric: tabular-nums; }
+
+/* scouting + builder */
+.scout { display: grid; gap: 8px; }
+.scard { padding: 12px 14px; border-radius: 12px; background: var(--asphalt); border: 1px solid var(--line); }
+.scard header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.scard b { font: 800 20px/1 var(--display); letter-spacing: 0.03em; text-transform: uppercase; }
+.scard .tag { color: var(--sodium); font-size: 13px; font-weight: 700; }
+.scard p { margin: 6px 0 0; font-size: 14px; color: #cfd3dc; }
+.scard p.read { color: var(--chalk); }
+.scard .faced { margin-top: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-variant-numeric: tabular-nums; }
+.field { display: grid; gap: 6px; }
+.field > span { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: 14px; font-weight: 600; }
+.chip[aria-pressed="true"] { background: var(--sodium); border-color: var(--sodium); color: #1a1206; }
+input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--night); color: var(--chalk); font: 500 16px var(--body); }
+.saved { display: grid; gap: 8px; }
+.srow { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--asphalt); border: 1px solid var(--line); }
+.srow b { font: 800 18px/1.1 var(--display); text-transform: uppercase; letter-spacing: 0.03em; }
+.srow small { display: block; color: var(--muted); font-size: 12px; }
+.mini { padding: 8px 12px; border-radius: 9px; border: 1px solid var(--line); background: transparent; cursor: pointer; font: 800 14px/1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; }
+.mini.go { background: var(--sodium); color: #1a1206; border-color: var(--sodium); }
+.chart svg { width: 100%; height: auto; display: block; }
+.legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 8px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+.confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.note { font-size: 13px; color: var(--muted); }
+
+#game { position: fixed; inset: 0; z-index: 50; background: var(--night); }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main id="app">
+  <section class="screen" id="home">
+    <div class="mast">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><path d="M20 0 V60 A80 80 0 0 0 180 60 V0" fill="none" stroke="#f3f1ea" stroke-width="2"/><rect x="70" y="0" width="60" height="95" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="100" cy="95" r="30" fill="none" stroke="#f3f1ea" stroke-width="2"/></svg>
+      <div class="eyebrow">Basketball</div>
+      <h1>Playground</h1>
+      <p>Flick to shoot. Read the defender, then make the play.</p>
+      <div class="quick">
+        <button class="pill" type="button" data-cycle="court">Court <b id="q-court"></b></button>
+        <button class="pill" type="button" data-cycle="feel">Feel <b id="q-feel"></b></button>
+        <button class="pill" type="button" data-cycle="tags">Scouting tags <b id="q-tags"></b></button>
+      </div>
+    </div>
+    <div class="modes">
+      <button class="mode feature" type="button" data-go="rr">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="10" r="3" fill="none" stroke="#ff8a4c" stroke-width="2"/><circle cx="32" cy="34" r="5" fill="#ff7a66"/><circle cx="32" cy="54" r="5" fill="#ffb547"/><path d="M24 50 L14 38 M40 50 L50 38" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/><path d="M14 38 l1 6 M14 38 l6 1 M50 38 l-1 6 M50 38 l-6 1" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/></svg>
+        <div><h2>Read &amp; React</h2><p>Ten possessions, a different defender each time. Shoot, drive, fake or step back, depending on what he gives you.</p><div class="rec" id="rec-rr"></div></div>
+      </button>
+      <button class="mode" type="button" data-go="rack">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 6 V20 A26 26 0 0 0 58 20 V6" fill="none" stroke="#f3f1ea" stroke-width="2"/><g fill="#e0661f"><circle cx="8" cy="30" r="4"/><circle cx="16" cy="46" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="48" cy="46" r="4"/></g><circle cx="56" cy="30" r="4" fill="#e6ecf8" stroke="#2a4fb0" stroke-width="1.5"/></svg>
+        <div><h2>3-Point Contest</h2><p>Five racks, sixty seconds. Last ball on each rack is worth two.</p><div class="rec" id="rec-rack"></div></div>
+      </button>
+      <button class="mode" type="button" data-go="horse">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><text x="32" y="40" text-anchor="middle" font-family="Big Shoulders Display, Impact, sans-serif" font-weight="900" font-size="22" fill="#f3f1ea" letter-spacing="1">HOR</text><text x="32" y="56" text-anchor="middle" font-family="Big Shoulders Display, Impact, sans-serif" font-weight="900" font-size="16" fill="rgba(243,241,234,0.3)" letter-spacing="2">SE</text></svg>
+        <div><h2>HORSE</h2><p>Pick a spot and make them match it. Four opponents, each with a favorite part of the floor.</p><div class="rec" id="rec-horse"></div></div>
+      </button>
+      <button class="mode" type="button" data-go="free">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 6 V20 A26 26 0 0 0 58 20 V6" fill="none" stroke="#f3f1ea" stroke-width="2"/><g fill="#7ee2a8"><circle cx="14" cy="34" r="3"/><circle cx="32" cy="40" r="3"/><circle cx="44" cy="26" r="3"/></g><g stroke="#ff7a66" stroke-width="2" stroke-linecap="round"><path d="M22 50 l4 4 M26 50 l-4 4"/><path d="M48 44 l4 4 M52 44 l-4 4"/></g></svg>
+        <div><h2>Shootaround</h2><p>No clock, no defender. Move around the floor and build your shot chart.</p><div class="rec" id="rec-free"></div></div>
+      </button>
+      <button class="mode" type="button" data-go="builder">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="10" width="48" height="44" rx="4" fill="none" stroke="#f3f1ea" stroke-width="2"/><path d="M8 24 H56 M24 24 V54" stroke="#f3f1ea" stroke-width="2"/><circle cx="40" cy="39" r="6" fill="#ffb547"/><path d="M40 33 v-4 M40 49 v-4 M34 39 h-4 M50 39 h-4" stroke="#ffb547" stroke-width="2"/></svg>
+        <div><h2>Challenge Builder</h2><p>Pick the court, the spots, the defenders and the rules. Save it, then play it whenever you want.</p><div class="rec" id="rec-builder"></div></div>
+      </button>
+    </div>
+    <div class="row-links">
+      <button class="link" type="button" data-go="scout">Scouting book</button>
+      <button class="link" type="button" data-go="chart">Shot chart</button>
+      <button class="link" type="button" data-go="settings">Settings</button>
+    </div>
+  </section>
+
+  <section class="screen" id="horse" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>HORSE</h2></div>
+    <p class="lede">Make your shot and they have to match it from the same spot. Miss a match and you take a letter.</p>
+    <div class="opps" id="opps"></div>
+  </section>
+
+  <section class="screen" id="results" hidden></section>
+
+  <section class="screen" id="builder" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Builder</h2></div>
+    <p class="lede">Every mode in this game is a list of settings like these. Change them and you get a different game.</p>
+    <div class="panel" id="saved-panel"><h3>Your challenges</h3><div class="saved" id="saved"></div></div>
+    <div class="panel"><h3>Featured</h3><div class="saved" id="featured"></div></div>
+    <div class="panel"><h3>New challenge</h3><div class="screen" id="form"></div></div>
+  </section>
+
+  <section class="screen" id="scout" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Scouting book</h2></div>
+    <p class="lede">Every defender gives something away. Learn the tell and the answer.</p>
+    <div class="scout" id="scout-list"></div>
+  </section>
+
+  <section class="screen" id="chart" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Shot chart</h2></div>
+    <p class="lede">Every shot you take in every mode, by zone.</p>
+    <div class="panel chart" id="chart-body"></div>
+  </section>
+
+  <section class="screen" id="settings" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Settings</h2></div>
+    <div class="panel screen" id="settings-body"></div>
+  </section>
+</main>
+<div id="game" hidden></div>
+
+<script>
+<!--@include shared/gesture.js-->
+<!--@include shared/audio.js-->
+<!--@include shared/save.js-->
+<!--@include hoops/court.js-->
+<!--@include hoops/physics.js-->
+<!--@include hoops/defense.js-->
+<!--@include hoops/engine.js-->
+</script>
+<script>
+(() => {
+  const COURT_ORDER = ['park', 'gym', 'arena'];
+  const FEEL_ORDER = ['arcade', 'normal', 'pro'];
+  const OPPONENTS = [
+    { id: 'gary', name: 'Gym Rat Gary', short: 'Gary', skill: 0.7, favorites: ['le', 're', 'ft', 'lb', 'rb'], skin: '#e0ac69', sleeve: '#5a5f69', color: '#e0ac69',
+      blurb: 'Lives at the elbows. Has a bank shot older than you.', lines: ['Elbow is my office.', 'Glass is open, baby.', 'Watch the release.'] },
+    { id: 'carla', name: 'Corner Carla', short: 'Carla', skill: 0.76, favorites: ['lc', 'rc', 'lb', 'rb'], skin: '#8d5524', sleeve: '#2c5a46', color: '#7ee2a8',
+      blurb: 'Corner threes all day. The short three is her whole game.', lines: ['Corner pocket.', 'Shortest three on the floor.', 'You know where this is going.'] },
+    { id: 'lou', name: 'Big Lou', short: 'Lou', skill: 0.62, favorites: ['lbk', 'rbk', 'lane', 'le', 're'], skin: '#f1c27d', sleeve: '#7c3a34', color: '#ff9a66',
+      blurb: 'Won\'t leave the paint. Thinks a twelve-footer is a long shot.', lines: ['Nothing fancy.', 'Right here. Right here.', 'Big men need love too.'] },
+    { id: 'sam', name: 'Splash Sam', short: 'Sam', skill: 0.84, favorites: ['top', 'lw', 'rw', 'deep'], skin: '#5c3a1e', sleeve: '#2f4f8a', color: '#8fb4ff',
+      blurb: 'Range for days. Will pull up from the logo.', lines: ['Too close.', 'Step back. Further.', 'Bring a calculator.'] }
+  ];
+  const SPOT_CHOICES = [['lc', 'Left corner'], ['lw', 'Left wing'], ['top', 'Top'], ['rw', 'Right wing'], ['rc', 'Right corner'], ['le', 'Left elbow'], ['re', 'Right elbow'], ['ft', 'Free throw'], ['lb', 'Left baseline'], ['rb', 'Right baseline'], ['lbk', 'Left block'], ['rbk', 'Right block'], ['deep', 'Way downtown']];
+  const FEATURED = [
+    { id: 'f-closeouts', name: 'Closeout Gauntlet', note: 'Only defenders who fly at you. Four-second clock.', spec: { kind: 'possessions', count: 8, spots: ['lw', 'rw', 'lc', 'rc', 'top'], defenders: ['closer', 'gambler'], shotClock: 4 } },
+    { id: 'f-corners', name: 'Corner Office', note: 'Corner threes against defenders who shade you.', spec: { kind: 'possessions', count: 8, spots: ['lc', 'rc'], defenders: ['baseline', 'middle', 'sagger'], shotClock: 6 } },
+    { id: 'f-lateclock', name: 'Late Clock', note: 'Two and a half seconds. Decide now.', spec: { kind: 'possessions', count: 10, spots: ['lw', 'rw', 'top', 'le', 're'], defenders: [], shotClock: 2.5, situation: 'Shot clock winding down' } },
+    { id: 'f-prorange', name: 'Pro Range', note: 'The Arena, threes only, forty-five seconds.', spec: { kind: 'rack', court: 'arena', racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, money: true, time: 45 } },
+    { id: 'f-bigs', name: 'Little vs. Big', note: 'Only long defenders. Drive or step back.', spec: { kind: 'possessions', count: 8, spots: ['le', 're', 'top', 'lw', 'rw'], defenders: ['long'], shotClock: 6 } }
+  ];
+
+  const store = SaveStore.create('basketball-playground-v1', () => ({
+    v: 1, touchK: null,
+    settings: { feel: 'normal', court: 'park', tags: true, sound: true },
+    records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
+    zone: {}, scout: {}, challenges: []
+  }));
+  let D = store.load();
+  store.onRemote(s => { D = s; applySettings(); renderHome(); });
+
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let engine = null, lastSpec = null, lastCtx = null, current = 'home';
+
+  function applySettings() {
+    Sfx.muted = !D.settings.sound;
+    if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
+  }
+  function go(id) {
+    document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
+    current = id;
+    if (id === 'home') renderHome();
+    if (id === 'horse') renderOpps();
+    if (id === 'builder') renderBuilder();
+    if (id === 'scout') renderScout();
+    if (id === 'chart') renderChart();
+    if (id === 'settings') renderSettings();
+    window.scrollTo(0, 0);
+  }
+
+  // ---------- home ----------
+  function renderHome() {
+    $('#q-court').textContent = Court3D.COURTS[D.settings.court].name;
+    $('#q-feel').textContent = HoopsEngine.FEEL[D.settings.feel].label;
+    $('#q-tags').textContent = D.settings.tags ? 'On' : 'Off';
+    const r = D.records;
+    $('#rec-rr').textContent = r.rr.plays ? `Best ${r.rr.best} pts · Read IQ ${r.rr.iq}` : 'Start here';
+    $('#rec-rack').textContent = r.rack.plays ? `Best ${r.rack.best} of 30` : 'Not played yet';
+    const hw = Object.values(r.horse).reduce((a, x) => [a[0] + x.w, a[1] + x.l], [0, 0]);
+    $('#rec-horse').textContent = hw[0] + hw[1] ? `${hw[0]} wins · ${hw[1]} losses` : 'Not played yet';
+    $('#rec-free').textContent = r.free.attempts ? `${Math.round(r.free.makes / r.free.attempts * 100)}% on ${r.free.attempts} shots` : 'Not played yet';
+    $('#rec-builder').textContent = D.challenges.length ? `${D.challenges.length} saved` : 'Five featured to try';
+  }
+  document.addEventListener('click', e => {
+    const g = e.target.closest('[data-go]');
+    if (g) {
+      Sfx.unlock(); Sfx.play('ui');
+      const id = g.dataset.go;
+      if (id === 'rr') return play({ kind: 'possessions', count: 10, shotClock: 6, title: 'Read & React' }, { rec: 'rr' });
+      if (id === 'rack') return play({ kind: 'rack', racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, money: true, time: 60, title: '3-Point Contest' }, { rec: 'rack' });
+      if (id === 'free') return play({ kind: 'free', spot: 'top', title: 'Shootaround' }, { rec: 'free' });
+      return go(id);
+    }
+    const c = e.target.closest('[data-cycle]');
+    if (c) {
+      Sfx.unlock(); Sfx.play('ui');
+      const k = c.dataset.cycle;
+      if (k === 'court') D.settings.court = COURT_ORDER[(COURT_ORDER.indexOf(D.settings.court) + 1) % COURT_ORDER.length];
+      if (k === 'feel') D.settings.feel = FEEL_ORDER[(FEEL_ORDER.indexOf(D.settings.feel) + 1) % FEEL_ORDER.length];
+      if (k === 'tags') D.settings.tags = !D.settings.tags;
+      store.save(); applySettings(); renderHome();
+    }
+  });
+
+  // ---------- play ----------
+  function ensureEngine() {
+    if (!engine) engine = HoopsEngine.create($('#game'), { touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags, skin: '#c68642', sleeve: '#2c5a46' });
+    applySettings();
+    return engine;
+  }
+  function play(spec, ctx) {
+    if (!D.touchK && !(ctx && ctx.calibrating)) return calibrate(() => play(spec, ctx));
+    const full = Object.assign({ court: D.settings.court }, spec);
+    lastSpec = full; lastCtx = ctx || {};
+    $('#game').hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensureEngine().run(full, {
+      onEnd: res => finish(res, false),
+      onQuit: res => finish(res, true)
+    });
+  }
+  function closeGame() { $('#game').hidden = true; document.body.style.overflow = ''; }
+  function calibrate(then) {
+    lastCtx = { calibrating: true, then };
+    $('#game').hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensureEngine().run({ kind: 'shots', court: D.settings.court, calibrate: true, title: 'Find your touch', shots: [{ spot: 'ft', label: 'Free throw 1 of 3' }, { spot: 'ft', label: 'Free throw 2 of 3' }, { spot: 'ft', label: 'Free throw 3 of 3' }] }, {
+      onEnd: res => {
+        closeGame();
+        if (res.touchK) { D.touchK = res.touchK; store.save(); applySettings(); }
+        const t = lastCtx.then; lastCtx = null;
+        if (t) t(); else go('home');
+      },
+      onQuit: () => { closeGame(); go('home'); }
+    });
+  }
+
+  function recordZones(res) {
+    Object.entries(res.zone || {}).forEach(([z, v]) => {
+      D.zone[z] = D.zone[z] || [0, 0];
+      D.zone[z][0] += v[0]; D.zone[z][1] += v[1];
+    });
+  }
+  function finish(res, quit) {
+    closeGame();
+    const ctx = lastCtx || {};
+    recordZones(res);
+    if (res.kind === 'free') { D.records.free.makes += res.makes; D.records.free.attempts += res.attempts; store.save(); return go('home'); }
+    if (quit && !(res.log && res.log.length) && res.kind !== 'horse') { store.save(); return go(ctx.back || 'home'); }
+    let newBest = false;
+    if (res.kind === 'possessions') {
+      (res.log || []).forEach(l => {
+        if (!l.arch) return;
+        const s = D.scout[l.arch] = D.scout[l.arch] || { faced: 0, points: 0, a: 0 };
+        s.faced++; s.points += l.points; if (l.grade === 'A') s.a++;
+      });
+    }
+    if (!quit) {
+      if (ctx.rec === 'rr') { const r = D.records.rr; r.plays++; if (res.points > r.best) { r.best = res.points; newBest = true; } r.iq = Math.max(r.iq, res.readIQ || 0); }
+      if (ctx.rec === 'rack') { const r = D.records.rack; r.plays++; if (res.points > r.best) { r.best = res.points; newBest = true; } }
+      if (ctx.rec === 'horse' && res.letters) { const h = D.records.horse[ctx.opp] = D.records.horse[ctx.opp] || { w: 0, l: 0 }; if (res.won) h.w++; else h.l++; }
+      if (ctx.challenge) {
+        const c = D.challenges.find(x => x.id === ctx.challenge) || null;
+        const holder = c || (D.records.feat[ctx.challenge] = D.records.feat[ctx.challenge] || { best: 0, plays: 0 });
+        holder.plays = (holder.plays || 0) + 1;
+        if (res.points > (holder.best || 0)) { holder.best = res.points; newBest = holder.plays > 1 || res.points > 0; }
+      }
+    }
+    store.save();
+    if (quit && res.kind === 'horse') return go(ctx.back || 'horse');
+    renderResults(res, newBest, ctx);
+    go('results');
+  }
+
+  function renderResults(res, newBest, ctx) {
+    const el = $('#results');
+    let head = '', body = '';
+    const pct = res.attempts ? Math.round(res.makes / res.attempts * 100) : 0;
+    if (res.kind === 'possessions') {
+      head = `<div class="result-head"><div class="big">${res.points}</div><div class="unit">points</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>`;
+      body = `<div class="stats"><div class="stat"><b>${res.readIQ || 0}</b><span>Read IQ</span></div><div class="stat"><b>${res.makes}/${res.attempts}</b><span>Shots</span></div><div class="stat"><b>${res.bestStreak}</b><span>Best streak</span></div></div>
+        <div class="panel"><h3>Possession by possession</h3><div class="plist">${(res.log || []).map((l, i) => {
+          const a = l.arch ? Defense.ARCHETYPES[l.arch] : null;
+          return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${a ? esc(a.name) : 'Open look'}</b><small>${esc(Court3D.SPOTS[l.spot] ? Court3D.SPOTS[l.spot].label : '')} · ${esc(l.turnover || (l.made ? 'scored' : 'no basket'))}</small></div><span class="pts">+${l.points}</span></div>`;
+        }).join('')}</div></div>`;
+      const misreads = (res.log || []).filter(l => l.arch && (l.grade === 'C' || l.grade === 'D' || l.grade === 'F'));
+      if (misreads.length) {
+        const a = Defense.ARCHETYPES[misreads[0].arch];
+        body += `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(a.name)}.</b> ${esc(a.tell)} ${esc(a.read)}</p></div>`;
+      }
+    } else if (res.kind === 'rack') {
+      head = `<div class="result-head"><div class="big">${res.points}</div><div class="unit">of 30</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>`;
+      body = `<div class="stats"><div class="stat"><b>${res.makes}/${res.attempts}</b><span>Made</span></div><div class="stat"><b>${pct}%</b><span>Shooting</span></div><div class="stat"><b>${res.bestStreak}</b><span>Best streak</span></div></div>`;
+    } else if (res.kind === 'horse') {
+      const opp = OPPONENTS.find(o => o.id === ctx.opp) || OPPONENTS[0];
+      const rec = D.records.horse[opp.id] || { w: 0, l: 0 };
+      head = `<div class="result-head"><div class="big" style="font-size:clamp(64px,22vw,110px)">${res.won ? 'Win' : 'Loss'}</div><div class="unit">vs ${esc(opp.name)}</div></div>`;
+      body = `<div class="stats"><div class="stat"><b>${'HORSE'.slice(0, res.letters.you) || '–'}</b><span>Your letters</span></div><div class="stat"><b>${'HORSE'.slice(0, res.letters.cpu) || '–'}</b><span>Theirs</span></div><div class="stat"><b>${rec.w}-${rec.l}</b><span>All-time</span></div></div>`;
+    } else {
+      head = `<div class="result-head"><div class="big">${res.makes}/${res.attempts}</div></div>`;
+    }
+    const title = ctx.title || (lastSpec && lastSpec.title) || 'Results';
+    el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="${esc(ctx.back || 'home')}" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>${head}${body}
+      <div class="ctas"><button class="cta" type="button" id="again">Run it back</button><button class="cta ghost" type="button" data-go="${esc(ctx.back || 'home')}">Done</button></div>`;
+    $('#again').addEventListener('click', () => { Sfx.play('ui'); play(lastSpec, lastCtx); });
+  }
+
+  // ---------- HORSE ----------
+  function renderOpps() {
+    $('#opps').innerHTML = OPPONENTS.map(o => {
+      const r = D.records.horse[o.id] || { w: 0, l: 0 };
+      const bars = Math.round((o.skill - 0.55) / 0.3 * 5);
+      return `<button class="opp" type="button" data-opp="${o.id}"><span class="face" style="background:${o.color}">${o.name.split(' ').pop()[0]}</span>
+        <span><b>${esc(o.name)}</b><small>${esc(o.blurb)}</small><br><small>Shooting <span class="meter">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= bars ? 'on' : ''}"></i>`).join('')}</span></small></span>
+        <span class="wl">${r.w}-${r.l}</span></button>`;
+    }).join('');
+  }
+  $('#opps').addEventListener('click', e => {
+    const b = e.target.closest('[data-opp]'); if (!b) return;
+    const o = OPPONENTS.find(x => x.id === b.dataset.opp);
+    Sfx.unlock(); Sfx.play('ui');
+    play({ kind: 'horse', opponent: o, title: 'HORSE' }, { rec: 'horse', opp: o.id, back: 'horse', title: 'HORSE' });
+  });
+
+  // ---------- builder ----------
+  const draft = { name: '', court: null, type: 'possessions', spots: ['lw', 'rw', 'top'], defenders: ['closer', 'sagger', 'pest'], count: 8, clock: 6, racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, time: 60, money: true };
+  function specFromDraft() {
+    if (draft.type === 'rack') return { kind: 'rack', court: draft.court || D.settings.court, racks: draft.racks.length ? draft.racks : ['top'], perRack: draft.perRack, money: draft.money, time: draft.time };
+    return { kind: 'possessions', court: draft.court || D.settings.court, count: draft.count, spots: draft.spots.length ? draft.spots : ['top'], defenders: draft.defenders.includes('none') ? 'none' : draft.defenders, shotClock: draft.clock || 0 };
+  }
+  function describeSpec(s) {
+    const court = Court3D.COURTS[s.court || D.settings.court].name;
+    if (s.kind === 'rack') return `${court} · ${s.racks.length} rack${s.racks.length > 1 ? 's' : ''} of ${s.perRack} · ${s.time}s`;
+    const d = s.defenders === 'none' ? 'no defender' : (s.defenders && s.defenders.length ? s.defenders.map(x => Defense.ARCHETYPES[x].name.replace('The ', '')).join(', ') : 'any defender');
+    return `${court} · ${s.count} possessions · ${d} · ${s.shotClock ? s.shotClock + 's clock' : 'no clock'}`;
+  }
+  function chipGroup(key, options, multi) {
+    return `<div class="chips" data-key="${key}">${options.map(([v, l]) => {
+      const on = multi ? draft[key].includes(v) : String(draft[key]) === String(v);
+      return `<button class="chip" type="button" data-v="${esc(v)}" aria-pressed="${on}">${esc(l)}</button>`;
+    }).join('')}</div>`;
+  }
+  function renderBuilder() {
+    $('#saved-panel').hidden = !D.challenges.length;
+    $('#saved').innerHTML = D.challenges.map(c => `<div class="srow"><div><b>${esc(c.name)}</b><small>${esc(describeSpec(c.spec))}${c.plays ? ` · best ${c.best}` : ''}</small></div><button class="mini go" type="button" data-play="${c.id}">Play</button><button class="mini" type="button" data-del="${c.id}" aria-label="Delete ${esc(c.name)}">Delete</button></div>`).join('');
+    $('#featured').innerHTML = FEATURED.map(f => { const r = D.records.feat[f.id]; return `<div class="srow"><div><b>${esc(f.name)}</b><small>${esc(f.note)}${r && r.plays ? ` · best ${r.best}` : ''}</small></div><button class="mini go" type="button" data-feat="${f.id}">Play</button><span></span></div>`; }).join('');
+    const defOpts = Defense.IDS.map(id => [id, Defense.ARCHETYPES[id].name.replace('The ', '')]).concat([['none', 'No defender']]);
+    $('#form').innerHTML = `
+      <label class="field"><span>Name</span><input type="text" id="b-name" maxlength="40" placeholder="Wing threes vs. closers" value="${esc(draft.name)}"></label>
+      <div class="field"><span>Court</span>${chipGroup('court', [['', 'My default'], ['park', 'The Park'], ['gym', 'High school gym'], ['arena', 'The Arena']])}</div>
+      <div class="field"><span>Type</span>${chipGroup('type', [['possessions', 'Possessions vs. defenders'], ['rack', 'Timed racks']])}</div>
+      ${draft.type === 'possessions' ? `
+        <div class="field"><span>Spots</span>${chipGroup('spots', SPOT_CHOICES, true)}</div>
+        <div class="field"><span>Defenders</span>${chipGroup('defenders', defOpts, true)}</div>
+        <div class="field"><span>Possessions</span>${chipGroup('count', [[5, '5'], [8, '8'], [10, '10'], [15, '15']])}</div>
+        <div class="field"><span>Shot clock</span>${chipGroup('clock', [[0, 'Off'], [2.5, '2.5s'], [4, '4s'], [6, '6s'], [8, '8s']])}</div>` : `
+        <div class="field"><span>Racks, in order</span>${chipGroup('racks', SPOT_CHOICES, true)}</div>
+        <div class="field"><span>Balls per rack</span>${chipGroup('perRack', [[3, '3'], [5, '5'], [7, '7']])}</div>
+        <div class="field"><span>Time</span>${chipGroup('time', [[30, '30s'], [45, '45s'], [60, '60s'], [90, '90s']])}</div>
+        <div class="field"><span>Money ball</span>${chipGroup('money', [[true, 'Last ball counts double'], [false, 'Off']])}</div>`}
+      <p class="note" id="b-desc">${esc(describeSpec(specFromDraft()))}</p>
+      <div class="ctas"><button class="cta" type="button" id="b-save">Save and play</button><button class="cta ghost" type="button" id="b-try">Just play it</button></div>`;
+  }
+  $('#builder').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (chip) {
+      const key = chip.parentElement.dataset.key, v = chip.dataset.v;
+      Sfx.play('ui');
+      const num = ['count', 'clock', 'perRack', 'time'].includes(key);
+      const val = num ? Number(v) : (key === 'money' ? v === 'true' : v);
+      if (Array.isArray(draft[key])) {
+        if (key === 'defenders' && v === 'none') draft.defenders = draft.defenders.includes('none') ? [] : ['none'];
+        else {
+          if (key === 'defenders') draft.defenders = draft.defenders.filter(x => x !== 'none');
+          draft[key] = draft[key].includes(val) ? draft[key].filter(x => x !== val) : draft[key].concat([val]);
+        }
+      } else draft[key] = key === 'court' ? (v || null) : val;
+      draft.name = $('#b-name').value;
+      renderBuilder();
+      return;
+    }
+    const pl = e.target.closest('[data-play]');
+    if (pl) { const c = D.challenges.find(x => x.id === pl.dataset.play); if (c) play(Object.assign({ title: c.name }, c.spec), { challenge: c.id, back: 'builder', title: c.name }); return; }
+    const fe = e.target.closest('[data-feat]');
+    if (fe) { const f = FEATURED.find(x => x.id === fe.dataset.feat); play(Object.assign({ title: f.name }, f.spec), { challenge: f.id, back: 'builder', title: f.name }); return; }
+    const del = e.target.closest('[data-del]');
+    if (del) {
+      if (del.dataset.confirm) { D.challenges = D.challenges.filter(x => x.id !== del.dataset.del); store.save(); renderBuilder(); }
+      else { del.dataset.confirm = '1'; del.textContent = 'Sure?'; del.classList.add('go'); }
+      return;
+    }
+    if (e.target.id === 'b-save' || e.target.id === 'b-try') {
+      Sfx.play('ui');
+      draft.name = $('#b-name').value.trim();
+      const spec = specFromDraft();
+      const name = draft.name || (draft.type === 'rack' ? 'Rack challenge' : 'Custom possessions');
+      if (e.target.id === 'b-save') {
+        const c = { id: 'c' + Date.now().toString(36), name, spec, best: 0, plays: 0 };
+        D.challenges.unshift(c); store.save();
+        play(Object.assign({ title: name }, spec), { challenge: c.id, back: 'builder', title: name });
+      } else play(Object.assign({ title: name }, spec), { back: 'builder', title: name });
+    }
+  });
+  $('#builder').addEventListener('input', e => { if (e.target.id === 'b-name') draft.name = e.target.value; });
+
+  // ---------- scouting ----------
+  function renderScout() {
+    $('#scout-list').innerHTML = Defense.IDS.map(id => {
+      const a = Defense.ARCHETYPES[id], s = D.scout[id];
+      const faced = s ? `Faced ${s.faced} · ${(s.points / s.faced).toFixed(1)} pts per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not faced yet';
+      return `<article class="scard"><header><b>${esc(a.name)}</b><span class="tag">${esc(a.tag)}</span></header><p>${esc(a.tell)}</p><p class="read"><b>The answer:</b> ${esc(a.read)}</p><div class="faced">${faced}</div></article>`;
+    }).join('');
+  }
+
+  // ---------- shot chart ----------
+  function renderChart() {
+    const c = Court3D.COURTS.gym, R = Court3D.RIM;
+    const pctColor = (m, a) => { if (!a) return 'rgba(255,255,255,0.06)'; const p = m / a; return p >= 0.55 ? '#2f8a5c' : p >= 0.42 ? '#8a7a2f' : p >= 0.3 ? '#8a552f' : '#8a2f2f'; };
+    const z = id => D.zone[id] || [0, 0];
+    const label = (id, x, y) => { const [m, a] = z(id); return `<text x="${x}" y="${y}" text-anchor="middle" font-family="Big Shoulders Display, Impact, sans-serif" font-weight="800" font-size="2.6" fill="#f3f1ea">${a ? Math.round(m / a * 100) + '%' : '–'}</text><text x="${x}" y="${y + 2}" text-anchor="middle" font-family="Barlow, sans-serif" font-size="1.4" fill="#9aa3b2">${m}/${a}</text>`; };
+    const arc = (r, a0, a1) => { const p = []; for (let i = 0; i <= 30; i++) { const a = a0 + (a1 - a0) * i / 30; p.push(`${(R.x + r * Math.sin(a)).toFixed(2)},${(R.z + r * Math.cos(a)).toFixed(2)}`); } return p; };
+    const t = c.three, d = 7;
+    const wedge = (a0, a1, r0, r1) => `M${arc(r0, a0, a1).join(' L')} L${arc(r1, a1, a0).join(' L')} Z`;
+    const deg = x => x * Math.PI / 180;
+    const zones = [
+      ['rim', `M${arc(d, deg(-100), deg(100)).join(' L')} Z`],
+      ['lmid', wedge(deg(-100), deg(-35), d, t)], ['cmid', wedge(deg(-35), deg(35), d, t)], ['rmid', wedge(deg(35), deg(100), d, t)],
+      ['lc3', wedge(deg(-100), deg(-70), t, 29)], ['lw3', wedge(deg(-70), deg(-22), t, 29)], ['top3', wedge(deg(-22), deg(22), t, 29)], ['rw3', wedge(deg(22), deg(70), t, 29)], ['rc3', wedge(deg(70), deg(100), t, 29)]
+    ];
+    const pos = { rim: [0, 9], lmid: [-11, 9], cmid: [0, 18], rmid: [11, 9], lc3: [-22, 6], lw3: [-17, 22], top3: [0, 30], rw3: [17, 22], rc3: [22, 6] };
+    const total = Object.values(D.zone).reduce((a, v) => [a[0] + v[0], a[1] + v[1]], [0, 0]);
+    $('#chart-body').innerHTML = `<svg viewBox="-26 -1 52 36" role="img" aria-label="Shot chart by zone">
+      <defs><clipPath id="half"><rect x="-25" y="0" width="50" height="34"/></clipPath></defs>
+      <rect x="-25" y="0" width="50" height="34" fill="#151b27"/>
+      <g clip-path="url(#half)">${zones.map(([id, dd]) => `<path d="${dd}" fill="${pctColor(...z(id))}" stroke="#0b0f18" stroke-width="0.3"/>`).join('')}</g>
+      <rect x="-25" y="0" width="50" height="34" fill="none" stroke="#f3f1ea" stroke-width="0.25"/>
+      <circle cx="${R.x}" cy="${R.z}" r="0.75" fill="none" stroke="#e2581f" stroke-width="0.3"/>
+      ${zones.map(([id]) => label(id, pos[id][0], pos[id][1])).join('')}
+    </svg>
+    <div class="legend"><span><i style="background:#2f8a5c"></i>55%+</span><span><i style="background:#8a7a2f"></i>42–54%</span><span><i style="background:#8a552f"></i>30–41%</span><span><i style="background:#8a2f2f"></i>Under 30%</span></div>
+    <p class="note">${total[1] ? `${total[0]} of ${total[1]} overall, ${Math.round(total[0] / total[1] * 100)}%. Zones use the high school arc; threes from the Arena count in the three-point zones.` : 'No shots yet. Shootaround is the fastest way to fill this in.'}</p>`;
+  }
+
+  // ---------- settings ----------
+  function renderSettings() {
+    const seg = (key, opts) => `<div class="chips" data-set="${key}">${opts.map(([v, l]) => `<button class="chip" type="button" data-v="${v}" aria-pressed="${String(D.settings[key]) === String(v)}">${l}</button>`).join('')}</div>`;
+    $('#settings-body').innerHTML = `
+      <div class="field"><span>Feel</span>${seg('feel', [['arcade', 'Arcade'], ['normal', 'Normal'], ['pro', 'Pro']])}<p class="note">How big the green window is. Arcade forgives a lot; Pro wants your exact touch.</p></div>
+      <div class="field"><span>Default court</span>${seg('court', COURT_ORDER.map(k => [k, Court3D.COURTS[k].name]))}<p class="note">${esc(Court3D.COURTS[D.settings.court].blurb)}</p></div>
+      <div class="field"><span>Scouting tags</span>${seg('tags', [['true', 'Show who you are facing'], ['false', 'Read him yourself']])}</div>
+      <div class="field"><span>Sound</span>${seg('sound', [['true', 'On'], ['false', 'Off']])}</div>
+      <div class="field"><span>Touch</span><p class="note">Your free-throw flick sets the scale for every shot. ${D.touchK ? 'Yours is set.' : 'Not set yet.'}</p><div><button class="mini go" type="button" id="recal">Find my touch again</button></div></div>
+      <div class="field"><span>Records</span><div class="confirm"><button class="mini" type="button" id="wipe">Erase records</button><span class="note" id="wipe-note"></span></div></div>`;
+  }
+  $('#settings-body').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (chip) {
+      const key = chip.parentElement.dataset.set; let v = chip.dataset.v;
+      if (v === 'true' || v === 'false') v = v === 'true';
+      D.settings[key] = v; store.save(); applySettings(); renderSettings(); Sfx.play('ui');
+      return;
+    }
+    if (e.target.id === 'recal') { Sfx.unlock(); calibrate(() => go('settings')); return; }
+    if (e.target.id === 'wipe') {
+      const b = e.target;
+      if (b.dataset.confirm) {
+        const keep = { touchK: D.touchK, settings: D.settings, challenges: D.challenges };
+        D = store.reset(); Object.assign(D, keep); store.save(); renderSettings();
+        $('#wipe-note').textContent = 'Records erased. Your touch, settings and saved challenges are kept.';
+      } else { b.dataset.confirm = '1'; b.textContent = 'Tap again to erase'; b.classList.add('go'); }
+    }
+  });
+
+  // live updates from the viewer keep the current screen
+  if (window.claude && window.claude.hot && typeof window.claude.hot.snapshot === 'function') {
+    try { window.claude.hot.snapshot(() => ({ screen: current })); } catch (_) {}
+  }
+  const boot = data => { applySettings(); go(data && data.screen && document.getElementById(data.screen) && data.screen !== 'results' ? data.screen : 'home'); };
+  if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
+})();
+</script>

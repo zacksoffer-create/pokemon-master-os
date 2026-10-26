@@ -1,0 +1,848 @@
+<title>Living School</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Lexend:wght@300;400;500;600;700&family=Big+Shoulders+Display:wght@700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: a student planner open on ruled paper. The day's page runs down the
+   middle; your phone lives in the bottom corner. Index cards hold scenes. */
+:root {
+  --paper: #fbfbf8;
+  --paper-2: #eef2f7;
+  --rule: #dbe5f0;
+  --margin: #eaa5a5;
+  --ink: #1f2a44;
+  --ink-soft: #5b667c;
+  --hawk: #1e5b47;
+  --hawk-ink: #ffffff;
+  --gold: #c98f12;
+  --hi: #fff27a;
+  --good: #2f8a5c;
+  --bad: #c2453a;
+  --card: #ffffff;
+  --card-line: #e3e8ef;
+  --shadow: 0 1px 2px rgba(31, 42, 68, 0.08), 0 6px 18px rgba(31, 42, 68, 0.08);
+  --face-bg: #e3ebf3;
+  --phone: #141a24;
+  --phone-ink: #eef2f8;
+  --display: "Permanent Marker", "Marker Felt", "Comic Sans MS", cursive;
+  --body: "Lexend", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #10161f; --paper-2: #182231; --rule: #1a2433; --margin: #4a2626; --ink: #e7edf6; --ink-soft: #9ba7ba;
+  --hawk: #3fa57e; --hawk-ink: #08130e; --gold: #f0c45a; --hi: #6b5d12; --good: #5cc58e; --bad: #f07a6e;
+  --card: #18212d; --card-line: #273244; --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 22px rgba(0,0,0,0.35); --face-bg: #233041; --phone: #0a0e14; --phone-ink: #eef2f8; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --paper: #10161f; --paper-2: #182231; --rule: #1a2433; --margin: #4a2626; --ink: #e7edf6; --ink-soft: #9ba7ba;
+  --hawk: #3fa57e; --hawk-ink: #08130e; --gold: #f0c45a; --hi: #6b5d12; --good: #5cc58e; --bad: #f07a6e;
+  --card: #18212d; --card-line: #273244; --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 22px rgba(0,0,0,0.35); --face-bg: #233041; --phone: #0a0e14; --phone-ink: #eef2f8; color-scheme: dark;
+}
+html, body { background: var(--paper); color: var(--ink); }
+body { font: 400 15px/1.5 var(--body); -webkit-font-smoothing: antialiased; background-image: repeating-linear-gradient(to bottom, transparent 0 29px, var(--rule) 29px 30px); background-attachment: local; }
+body::after { content: ""; position: fixed; top: 0; bottom: 0; left: calc(max(16px, env(safe-area-inset-left, 0px)) - 8px); width: 1.5px; background: var(--margin); opacity: 0.7; pointer-events: none; }
+#app { max-width: 600px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 14px 110px; }
+button { font: inherit; color: inherit; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.face { display: block; width: 100%; height: 100%; }
+.av { width: 44px; height: 44px; flex: none; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2px var(--card); }
+.av.lg { width: 104px; height: 104px; box-shadow: 0 0 0 3px var(--card), var(--shadow); }
+.av.md { width: 64px; height: 64px; }
+.av.sm { width: 30px; height: 30px; }
+
+/* header */
+.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+.when { font: 400 26px/1 var(--display); color: var(--hawk); }
+.when small { display: block; font: 600 11px/1.2 var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
+.meters { display: grid; gap: 4px; min-width: 128px; }
+.meter { display: grid; grid-template-columns: 52px 1fr; gap: 6px; align-items: center; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.meter i { display: block; height: 7px; border-radius: 4px; background: var(--paper-2); overflow: hidden; }
+.meter i b { display: block; height: 100%; background: var(--hawk); border-radius: 4px; }
+.meter.low i b { background: var(--bad); }
+.slots { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.slot { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; color: var(--ink-soft); background: var(--paper-2); }
+.slot.now { background: var(--hi); color: var(--ink); }
+.slot.done { text-decoration: line-through; opacity: 0.55; }
+
+/* cards */
+.card { background: var(--card); border: 1px solid var(--card-line); border-radius: 6px; box-shadow: var(--shadow); padding: 16px; position: relative; }
+.card.index::before { content: ""; position: absolute; left: 0; right: 0; top: 40px; height: 1.5px; background: var(--margin); opacity: 0.8; }
+.card h2 { font: 400 22px/1.15 var(--display); color: var(--ink); min-height: 26px; }
+.card .lede { color: var(--ink-soft); font-size: 14px; margin-top: 2px; }
+.card.index .body { margin-top: 16px; }
+.body p + p { margin-top: 8px; }
+.faces { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.hl { background: linear-gradient(transparent 55%, var(--hi) 55%); padding: 0 2px; }
+.choices { display: grid; gap: 8px; margin-top: 14px; }
+.choice { display: flex; justify-content: space-between; align-items: center; gap: 10px; text-align: left; width: 100%; padding: 12px 14px; border-radius: 8px; border: 1.5px solid var(--card-line); background: var(--card); cursor: pointer; font-weight: 500; }
+.choice:hover { border-color: var(--hawk); }
+.choice small { color: var(--ink-soft); font-weight: 400; font-size: 12px; text-align: right; max-width: 55%; }
+.choice > span { min-width: 0; }
+.choice.primary { background: var(--hawk); border-color: var(--hawk); color: var(--hawk-ink); }
+.choice.primary small { color: inherit; opacity: 0.85; }
+.choice[disabled] { opacity: 0.45; cursor: default; }
+.notes { display: grid; gap: 6px; margin-top: 12px; }
+.note { font-size: 13px; padding: 7px 10px; border-radius: 6px; background: var(--paper-2); }
+.note b { color: var(--hawk); }
+
+/* places */
+.places { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.place { text-align: left; padding: 12px; border-radius: 8px; border: 1.5px solid var(--card-line); background: var(--card); cursor: pointer; display: flex; flex-direction: column; gap: 4px; min-height: 92px; box-shadow: var(--shadow); }
+.place:hover { border-color: var(--hawk); }
+.place b { font-weight: 600; font-size: 15px; }
+.place span { font-size: 12px; color: var(--ink-soft); line-height: 1.35; }
+.place .who { display: flex; gap: 3px; margin-top: auto; padding-top: 6px; min-height: 30px; align-items: center; }
+.place .tag { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--hawk); }
+.place.plan { border-color: var(--gold); }
+
+/* conversation */
+.convo { display: flex; flex-direction: column; gap: 12px; }
+.convo-head { display: flex; gap: 14px; align-items: center; }
+.convo-head .nm { font: 400 24px/1.1 var(--display); }
+.convo-head .rl { font-size: 13px; color: var(--ink-soft); }
+.bubble { position: relative; padding: 12px 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--card-line); box-shadow: var(--shadow); font-size: 16px; line-height: 1.45; }
+.bubble::before { content: ""; position: absolute; left: 40px; top: -8px; width: 14px; height: 14px; background: var(--card); border-left: 1px solid var(--card-line); border-top: 1px solid var(--card-line); transform: rotate(45deg); }
+.vibe { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.vibe i { flex: 1; height: 8px; border-radius: 4px; background: var(--paper-2); overflow: hidden; }
+.vibe i b { display: block; height: 100%; background: linear-gradient(90deg, var(--hawk), var(--gold)); transition: width 0.3s; }
+.hand { display: grid; gap: 8px; }
+.cardbtn { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; text-align: left; padding: 11px 14px; border-radius: 8px; border: 1.5px solid var(--card-line); background: var(--card); cursor: pointer; box-shadow: var(--shadow); }
+.cardbtn:hover { border-color: var(--hawk); transform: translateY(-1px); }
+.cardbtn b { font-weight: 500; font-size: 15px; }
+.cardbtn small { grid-column: 1; color: var(--ink-soft); font-size: 12px; }
+.mark { grid-row: 1 / span 2; grid-column: 2; align-self: center; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 3px 7px; border-radius: 999px; white-space: nowrap; }
+.mark.good { background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--good); }
+.mark.bad { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
+.mark.risky { background: color-mix(in srgb, var(--gold) 20%, transparent); color: var(--gold); }
+.mark.unknown { background: var(--paper-2); color: var(--ink-soft); }
+.react { font-size: 13px; color: var(--ink-soft); }
+.delta { font-weight: 700; }
+.delta.up { color: var(--good); } .delta.down { color: var(--bad); }
+
+/* phone */
+.phone-btn { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 20; width: 58px; height: 58px; border-radius: 18px; border: 0; background: var(--phone); color: var(--phone-ink); box-shadow: 0 8px 20px rgba(0,0,0,0.3); cursor: pointer; display: grid; place-items: center; }
+.phone-btn svg { width: 26px; height: 26px; }
+.phone-btn .badge { position: absolute; top: -5px; right: -5px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--bad); color: #fff; font: 700 12px/20px var(--body); }
+.sheet { position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; justify-content: flex-end; background: rgba(10, 14, 20, 0.45); }
+.phone { background: var(--phone); color: var(--phone-ink); border-radius: 22px 22px 0 0; max-height: 88vh; display: flex; flex-direction: column; width: 100%; max-width: 600px; margin: 0 auto; padding-bottom: env(safe-area-inset-bottom, 0px); animation: up 0.22s ease-out; }
+@keyframes up { from { transform: translateY(30px); } to { transform: none; } }
+.phone header { display: flex; align-items: center; gap: 8px; padding: 14px 16px 8px; }
+.phone header h3 { flex: 1; font: 600 17px/1 var(--body); }
+.x { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.1); color: var(--phone-ink); cursor: pointer; font-size: 16px; }
+.tabs { display: flex; gap: 6px; padding: 0 16px 10px; }
+.tab { flex: 1; padding: 8px 4px; border-radius: 10px; border: 0; background: rgba(255,255,255,0.06); color: var(--phone-ink); font-size: 13px; font-weight: 600; cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--phone-ink); color: var(--phone); }
+.pbody { overflow-y: auto; padding: 4px 16px 18px; display: grid; gap: 8px; align-content: start; }
+.msg { display: grid; grid-template-columns: 36px 1fr; gap: 10px; padding: 10px; border-radius: 12px; background: rgba(255,255,255,0.06); }
+.msg.unread { background: rgba(255,255,255,0.12); }
+.msg .from { font-weight: 600; font-size: 13px; }
+.msg .from span { font-weight: 400; opacity: 0.6; margin-left: 6px; }
+.msg p { font-size: 14px; margin-top: 2px; }
+.msg .acts { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.pbtn { padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); background: transparent; color: var(--phone-ink); font-size: 13px; font-weight: 600; cursor: pointer; }
+.pbtn.go { background: #3fa57e; border-color: #3fa57e; color: #06110c; }
+.person { display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.06); }
+.person .nm { font-weight: 600; }
+.person .rl { font-size: 12px; opacity: 0.7; }
+.bar2 { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.12); margin-top: 6px; overflow: hidden; position: relative; }
+.bar2 b { position: absolute; top: 0; bottom: 0; background: #3fa57e; }
+.bar2 b.neg { background: #f07a6e; }
+.kv { font-size: 12px; margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
+.kv span { padding: 2px 7px; border-radius: 999px; background: rgba(255,255,255,0.08); }
+.kv span.l { background: rgba(63,165,126,0.25); } .kv span.d { background: rgba(240,122,110,0.25); }
+.mem { font-size: 12px; opacity: 0.85; margin-top: 6px; font-style: italic; }
+.cal { display: grid; gap: 6px; }
+.calrow { display: grid; grid-template-columns: 74px 1fr; gap: 10px; padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,0.05); font-size: 13px; }
+.calrow.today { background: rgba(255,242,122,0.18); }
+.calrow b { font-weight: 600; }
+.statgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.st { padding: 10px; border-radius: 12px; background: rgba(255,255,255,0.06); }
+.st b { display: block; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.st span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
+
+/* microgames */
+.mg { display: flex; flex-direction: column; gap: 10px; }
+.mg-head b { display: block; font: 400 24px/1.1 var(--display); }
+.mg-head span { font-size: 13px; color: var(--ink-soft); }
+.mg-timer { height: 8px; border-radius: 4px; background: var(--paper-2); overflow: hidden; }
+.mg-timer i { display: block; height: 100%; background: var(--hawk); }
+.mg-timer i.low { background: var(--bad); }
+.mg-body { min-height: 220px; display: flex; flex-direction: column; gap: 12px; justify-content: center; border-radius: 10px; transition: background 0.2s; }
+.mg-body.ok { animation: okf 0.35s; } .mg-body.no { animation: nof 0.35s; }
+@keyframes okf { 0% { background: color-mix(in srgb, var(--good) 25%, transparent); } 100% { background: transparent; } }
+@keyframes nof { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.mg-eq { text-align: center; font: 600 34px/1.2 var(--body); font-variant-numeric: tabular-nums; }
+.mg-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.mg-opts button, .mg-list button { padding: 14px 8px; border-radius: 10px; border: 1.5px solid var(--card-line); background: var(--card); font-size: 17px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow); }
+.mg-list { display: grid; gap: 8px; }
+.mg-list button { font-size: 15px; font-weight: 500; text-align: left; }
+.mg-list button[disabled] { opacity: 0.6; background: var(--paper-2); }
+.mg-list button b { color: var(--hawk); margin-right: 6px; }
+.mg-sent { font-size: 19px; line-height: 2; text-align: center; }
+.mg-sent button { border: 0; background: transparent; padding: 2px 3px; border-radius: 4px; cursor: pointer; font-size: 19px; }
+.mg-sent button:hover { background: var(--hi); }
+.mg-beaker { display: flex; justify-content: center; color: var(--ink-soft); }
+.mg-beaker svg { width: 150px; height: auto; }
+.mg-beaker .liq { fill: color-mix(in srgb, #d94f87 70%, transparent); }
+.mg-beaker .tgt { stroke: var(--ink); }
+.mg-hold { align-self: center; padding: 16px 30px; border-radius: 999px; border: 0; background: var(--hawk); color: var(--hawk-ink); font-weight: 700; font-size: 16px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer; }
+.mg-hold.on { transform: scale(0.96); filter: brightness(1.15); }
+.mg-canvas { width: min(100%, 340px); aspect-ratio: 1; max-width: 100%; align-self: center; border-radius: 12px; background: var(--card); border: 1.5px dashed var(--card-line); touch-action: none; }
+.mg-foot { min-height: 20px; font-size: 13px; color: var(--ink-soft); text-align: center; }
+
+/* creation + title */
+.title-card { text-align: center; padding: 28px 16px; }
+.title-card h1 { font: 400 clamp(38px, 12vw, 64px)/0.95 var(--display); color: var(--hawk); }
+.title-card p { color: var(--ink-soft); margin-top: 10px; }
+.field { display: grid; gap: 6px; }
+.field > span { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--card-line); background: var(--card); cursor: pointer; font-size: 14px; }
+.chip[aria-pressed="true"] { background: var(--hawk); border-color: var(--hawk); color: var(--hawk-ink); }
+.swatch { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--card); box-shadow: 0 0 0 1.5px var(--card-line); cursor: pointer; padding: 0; }
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--hawk); }
+input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; border-radius: 8px; border: 1.5px solid var(--card-line); background: var(--card); color: var(--ink); font: 500 16px var(--body); }
+.preview { display: flex; justify-content: center; }
+
+/* yearbook */
+.yb h1 { font: 400 34px/1 var(--display); color: var(--hawk); }
+.yb .sig { font: 400 17px/1.4 var(--display); color: var(--ink); padding: 12px 14px; border-radius: 6px; background: var(--card); border: 1px solid var(--card-line); box-shadow: var(--shadow); display: grid; grid-template-columns: 44px 1fr; gap: 10px; }
+.yb .sig:nth-child(odd) { transform: rotate(-0.6deg); } .yb .sig:nth-child(even) { transform: rotate(0.5deg); }
+.yb .sig small { display: block; font: 400 12px var(--body); color: var(--ink-soft); margin-top: 4px; }
+.sup { display: grid; gap: 6px; }
+.sup div { padding: 8px 12px; border-radius: 6px; background: var(--paper-2); font-size: 14px; }
+.sup b { color: var(--hawk); }
+.statrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.statrow div { padding: 10px; border-radius: 6px; background: var(--card); border: 1px solid var(--card-line); text-align: center; }
+.statrow b { display: block; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.statrow span { font-size: 11px; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+.small { font-size: 12px; color: var(--ink-soft); }
+.linkish { border: 0; background: transparent; color: var(--ink-soft); text-decoration: underline; cursor: pointer; font-size: 13px; padding: 4px; }
+
+#hoops { position: fixed; inset: 0; z-index: 60; background: #0b0f18; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main id="app" aria-live="polite"></main>
+<button class="phone-btn" type="button" id="phone-btn" aria-label="Open your phone" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span class="badge" hidden></span></button>
+<div id="sheet" class="sheet" hidden></div>
+<div id="hoops" hidden></div>
+
+<script>
+<!--@include shared/gesture.js-->
+<!--@include shared/audio.js-->
+<!--@include shared/save.js-->
+<!--@include hoops/court.js-->
+<!--@include hoops/physics.js-->
+<!--@include hoops/defense.js-->
+<!--@include hoops/engine.js-->
+<!--@include school/faces.js-->
+<!--@include school/data.js-->
+<!--@include school/sim.js-->
+<!--@include school/convo.js-->
+<!--@include school/events.js-->
+<!--@include school/micro.js-->
+</script>
+<script>
+(() => {
+  const D = SchoolData, Sim = SchoolSim, E = SchoolEvents;
+  const store = SaveStore.create('living-school-v1', () => ({ game: null }));
+  let save = store.load();
+  let st = save.game;
+  let view = null;         // what the page is showing right now
+  let phoneTab = null;
+  let engine = null;
+  const app = document.getElementById('app');
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const N = id => D.BY_ID[id];
+  const face = (id, expr, cls, opt) => {
+    const look = id === 'me' ? st.player.look : N(id).look;
+    const name = id === 'me' ? st.player.name : N(id).first;
+    return `<span class="av ${cls || ''}">${Faces.svg(look, expr || 'neutral', Object.assign({ id: id + (cls || '') + Math.floor(Math.random() * 1e6), label: name }, opt || {}))}</span>`;
+  };
+  function persist() { save.game = st; store.state = save; store.save(); }
+  store.onRemote(s => { save = s; st = s.game; if (st) slotStart(); else titleScreen(); });
+
+  // ---------- rendering helpers ----------
+  function header() {
+    const di = Sim.dayInfo(st.day), P = st.player;
+    const ss = Sim.slots(st);
+    const cls = Sim.classToday(st);
+    const parts = [];
+    ss.forEach((s, i) => {
+      parts.push(`<span class="slot ${i < st.slot ? 'done' : i === st.slot && st.phase !== 'class' ? 'now' : ''}">${esc(s.label)}</span>`);
+      if (i === 0 && cls) parts.push(`<span class="slot ${st.phase === 'class' ? 'now' : st.slot > 0 ? 'done' : ''}">${esc(cls.name)}</span>`);
+    });
+    const meter = (label, v, low) => `<div class="meter ${v < low ? 'low' : ''}"><span>${label}</span><i><b style="width:${Math.round(v)}%"></b></i></div>`;
+    return `<div class="top"><div class="when"><small>Hollow Creek High${st.semester > 1 ? ` · Semester ${st.semester}` : ''}</small>Week ${di.week} · ${di.name}</div>
+      <div class="meters">${meter('Energy', P.energy, 25)}${meter('Mood', P.mood, 30)}</div></div>
+      <div class="slots">${parts.join('')}</div>`;
+  }
+  function show(html, opts) {
+    app.innerHTML = (opts && opts.bare ? '' : header()) + `<div class="stack" style="margin-top:14px">${html}</div>`;
+    document.getElementById('phone-btn').hidden = !st || !!(opts && opts.noPhone);
+    updateBadge();
+    if (!(opts && opts.keepScroll)) window.scrollTo(0, 0);
+  }
+  function updateBadge() {
+    const b = document.querySelector('#phone-btn .badge');
+    const n = st ? st.inbox.filter(m => !m.read).length : 0;
+    b.hidden = !n; b.textContent = n;
+  }
+  function card(title, lede, body, choices, faces, opts) {
+    const o = opts || {};
+    return `<section class="card ${o.plain ? '' : 'index'}"><h2>${esc(title)}</h2>${lede ? `<p class="lede">${esc(lede)}</p>` : ''}
+      <div class="body">${faces && faces.length ? `<div class="faces" style="margin-bottom:10px">${faces.join('')}</div>` : ''}${body}</div>
+      ${choices ? `<div class="choices">${choices}</div>` : ''}</section>`;
+  }
+  const choiceBtn = (act, label, sub, primary, extra) => `<button class="choice ${primary ? 'primary' : ''}" type="button" data-act="${act}" ${extra || ''}><span>${esc(label)}</span>${sub ? `<small>${esc(sub)}</small>` : ''}</button>`;
+
+  // ---------- title and creation ----------
+  function titleScreen() {
+    document.getElementById('phone-btn').hidden = true;
+    app.innerHTML = `<div class="stack"><section class="card title-card"><h1>Living School</h1><p>Hollow Creek High. Eight weeks. Nine people with their own lives, who remember what you do.</p></section>
+      ${save.game ? `<div class="choices">${choiceBtn('continue', 'Keep going', save.game.ended ? 'Yearbook' : Sim.dayInfo(save.game.day).label, true)}${choiceBtn('new', 'New student', 'Starts over')}</div>` : `<div class="choices">${choiceBtn('new', 'Enroll', 'Make your character', true)}</div>`}</div>`;
+    view = { type: 'title' };
+  }
+  const draft = { name: '', pro: 'they', look: { skin: Faces.SKINS[3], hair: Faces.HAIRS[1], style: 'short', shirt: Faces.SHIRTS[0] }, likes: ['sports', 'music'], focus: 'athlete', romance: true };
+  const FOCUS = { athlete: ['Athlete', { athletics: 58, smarts: 36, charm: 42, creativity: 34 }], brain: ['Brain', { smarts: 60, athletics: 34, charm: 38, creativity: 40 }], charmer: ['Charmer', { charm: 60, athletics: 40, smarts: 36, creativity: 38 }], creative: ['Creative', { creativity: 60, charm: 42, smarts: 38, athletics: 34 }] };
+  function createScreen() {
+    view = { type: 'create' };
+    document.getElementById('phone-btn').hidden = true;
+    const sw = (key, list) => `<div class="chips">${list.map(c => `<button class="swatch" type="button" data-look="${key}" data-v="${c}" style="background:${c}" aria-label="${key} ${c}" aria-pressed="${draft.look[key] === c}"></button>`).join('')}</div>`;
+    const chips = (key, opts, multi) => `<div class="chips">${opts.map(([v, l]) => `<button class="chip" type="button" data-pick="${key}" data-v="${v}" aria-pressed="${multi ? draft[key].includes(v) : String(draft[key]) === String(v)}">${esc(l)}</button>`).join('')}</div>`;
+    app.innerHTML = `<div class="stack"><section class="card"><h2>Enrollment form</h2><p class="lede">You just transferred to Hollow Creek. Fill this out in pen.</p>
+      <div class="stack" style="margin-top:14px">
+        <div class="preview"><span class="av lg">${Faces.svg(draft.look, 'happy', { id: 'prev', label: 'You' })}</span></div>
+        <label class="field"><span>Name</span><input type="text" id="c-name" maxlength="18" placeholder="First name" value="${esc(draft.name)}"></label>
+        <div class="field"><span>Pronouns</span>${chips('pro', [['he', 'he/him'], ['she', 'she/her'], ['they', 'they/them']])}</div>
+        <div class="field"><span>Skin</span>${sw('skin', Faces.SKINS)}</div>
+        <div class="field"><span>Hair</span>${chips('style', Faces.HAIR_STYLES.map(s => [s, s[0].toUpperCase() + s.slice(1)]))}${sw('hair', Faces.HAIRS)}</div>
+        <div class="field"><span>Shirt</span>${sw('shirt', Faces.SHIRTS)}</div>
+        <div class="field"><span>What are you into? Pick up to three</span>${chips('likes', Object.entries(D.TOPICS).map(([k, v]) => [k, v[0].toUpperCase() + v.slice(1)]), true)}</div>
+        <div class="field"><span>What's your thing?</span>${chips('focus', Object.entries(FOCUS).map(([k, v]) => [k, v[0]]))}</div>
+        <div class="field"><span>Romance storylines</span>${chips('romance', [['true', 'On'], ['false', 'Off']])}</div>
+      </div>
+      <div class="choices">${choiceBtn('enroll', 'Start at Hollow Creek', 'Week 1, Monday', true)}</div></section></div>`;
+  }
+  function enroll() {
+    const name = (document.getElementById('c-name').value || '').trim().slice(0, 18) || 'Alex';
+    st = Sim.newState({ name, pro: draft.pro, look: Object.assign({}, draft.look), likes: draft.likes.slice(0, 3).length ? draft.likes.slice(0, 3) : ['music'], focus: draft.focus, stats: Object.assign({}, FOCUS[draft.focus][1]) });
+    st.settings.romance = draft.romance === true || draft.romance === 'true';
+    Sim.log(st, `${name} transferred to Hollow Creek High.`, 'big');
+    persist();
+    slotStart();
+  }
+
+  // ---------- the day loop ----------
+  function slotStart(newDay, notes) {
+    if (!st) return titleScreen();
+    if (st.ended) return yearbook();
+    if (newDay) return morningCard(notes || []);
+    if (st.phase === 'class') return classCard();
+    const beat = E.beatFor(st);
+    if (beat) return beatCard(beat);
+    const slot = Sim.curSlot(st);
+    const plan = st.plans.find(p => p.day === st.day && p.slot === slot.id && p.status === 'set');
+    if (plan) return planCard(plan);
+    placesCard();
+  }
+  function morningCard(notes) {
+    const di = Sim.dayInfo(st.day);
+    const unread = st.inbox.filter(m => !m.read).length;
+    const items = notes.filter(n => n.kind !== 'life' || Math.random() < 0.5).slice(0, 3);
+    const upcoming = [];
+    if (di.week === 2 && di.dow === 1 && st.player.signedUp && !st.player.team) upcoming.push('Basketball tryouts after school.');
+    if (st.player.team && di.dow === 4 && di.week >= 3) { const o = D.OPPONENTS.find(x => x.week === di.week); upcoming.push(`Game tonight vs ${o.name}.`); }
+    if (di.week === 4 && di.dow === 5) upcoming.push(st.player.date ? `Snow Ball tonight with ${N(st.player.date).first}.` : 'The Snow Ball is tonight.');
+    if (di.week === 5 && di.dow === 3) upcoming.push('Midterms today.');
+    if (di.week === 8 && di.dow === 3) upcoming.push('Finals today.');
+    if (di.week === 8 && di.dow === 6) upcoming.push('Last day of the semester.');
+    st.plans.filter(p => p.day === st.day && p.status === 'set').forEach(p => upcoming.push(`Plans with ${N(p.with).first} at ${D.PLACES[p.place].name}.`));
+    const cls = Sim.classToday(st);
+    const body = `<p>${di.weekend ? 'No school today.' : `Today's class: <span class="hl">${esc(cls.name)}</span> with ${esc(cls.teacher)}.`}</p>
+      ${upcoming.length ? `<div class="notes">${upcoming.map(u => `<div class="note"><b>Today</b> · ${esc(u)}</div>`).join('')}</div>` : ''}
+      ${items.length ? `<div class="notes">${items.map(n => `<div class="note">${esc(n.text)}</div>`).join('')}</div>` : ''}
+      ${unread ? `<p class="small" style="margin-top:10px">${unread} new text${unread > 1 ? 's' : ''} on your phone.</p>` : ''}`;
+    show(card(di.label, di.weekend ? 'Weekend' : 'School day', body, choiceBtn('go', di.weekend ? 'Start the day' : 'Head to school', '', true)));
+    view = { type: 'morning' };
+  }
+  function placesCard() {
+    const slot = Sim.curSlot(st);
+    const di = Sim.dayInfo(st.day);
+    const tiles = slot.places.filter(p => Sim.placeOpen(st, p)).map(pid => {
+      const P = D.PLACES[pid];
+      const who = P.solo ? [] : Sim.present(st, pid, slot.id);
+      const gain = Object.entries(P.stat || {}).map(([k, v]) => `+${k[0].toUpperCase() + k.slice(1)}`).join(' ');
+      const energy = P.cost < 0 ? '+Energy' : '';
+      const money = P.money ? (P.money > 0 ? `+$${P.money}` : `−$${-P.money}`) : '';
+      const tag = [gain, energy, money, P.mood ? '+Mood' : ''].filter(Boolean).join(' · ');
+      return `<button class="place" type="button" data-act="place" data-p="${pid}"><b>${esc(P.name)}</b><span>${esc(P.blurb)}</span>${tag ? `<span class="tag">${esc(tag)}</span>` : ''}
+        <span class="who">${who.slice(0, 5).map(id => face(id, 'neutral', 'sm')).join('')}${P.solo ? '' : who.length ? '' : '<span class="small">Nobody you know</span>'}</span></button>`;
+    }).join('');
+    const tired = st.player.energy < 20 ? `<p class="note" style="margin-top:0">You're running on fumes. Everything works less well until you rest.</p>` : '';
+    show(`${tired}<section class="card"><h2>${esc(slot.label)}</h2><p class="lede">Where are you going? Faces show who's there.</p></section><div class="places">${tiles}</div>`);
+    view = { type: 'places' };
+  }
+  function beatCard(beat) {
+    const title = typeof beat.title === 'function' ? beat.title(st) : beat.title;
+    const choices = beat.choices(st);
+    view = { type: 'beat', beat, choices };
+    const faces = (beat.faces ? beat.faces(st) : []).filter(Boolean).map(id => face(id, 'neutral', 'md'));
+    show(card(title, Sim.curSlot(st) && st.phase !== 'class' ? Sim.curSlot(st).label : 'Class', `<p>${esc(beat.text(st))}</p>`, choices.map((c, i) => choiceBtn('beatpick', c.label, c.sub, i === 0, `data-i="${i}"`)).join(''), faces));
+  }
+  function planCard(plan) {
+    const P = D.PLACES[plan.place];
+    view = { type: 'plan', plan };
+    show(card('Plans', Sim.curSlot(st).label, `<p>You told ${esc(N(plan.with).first)} you'd meet at ${esc(P.name)}.</p>`,
+      choiceBtn('plango', `Meet ${N(plan.with).first}`, P.name, true) + choiceBtn('planbail', 'Bail', 'They will remember'), [face(plan.with, 'happy', 'md')]));
+  }
+
+  function goPlace(pid, opts) {
+    const slot = Sim.curSlot(st), P = D.PLACES[pid];
+    if (P.texting) return textPicker();
+    if (P.solo && !(opts && opts.noEvent)) {
+      const ev = E.eventFor(st, { place: pid, slot: slot.id, present: [], day: st.day });
+      if (ev) return eventCard(ev, { place: pid, slot: slot.id, present: [] });
+    }
+    if (P.solo) {
+      const lines = doActivity(pid, 1);
+      if (pid === 'gaming' && st.npcs.eli.met && st.npcs.eli.friend >= 5) { Sim.adjust(st, 'eli', { friend: 3 }); lines.push('Eli is online. He destroys you in Smash, then sends a GIF.'); }
+      return result(P.name, soloText(pid), lines, []);
+    }
+    const present = Sim.present(st, pid, slot.id);
+    const ctx = { place: pid, slot: slot.id, present, day: st.day };
+    if (!(opts && opts.noEvent)) {
+      const ev = E.eventFor(st, ctx);
+      if (ev) return eventCard(ev, ctx);
+    }
+    sceneCard(pid, present, opts);
+  }
+  function soloText(pid) {
+    return ({
+      sleep: 'You hit snooze twice and make it to homeroom with wet hair.', lunch_alone: 'You find a quiet corner and read. It\'s honestly great.',
+      home: 'You lie on your bed and stare at the ceiling. Recharged.', homework: 'Two hours, one existential crisis, and the worksheet is done.',
+      gaming: 'One more round turns into eleven.', sleep_early: 'Lights out by ten. Tomorrow-you says thanks.'
+    })[pid] || 'Done.';
+  }
+  function doActivity(pid, scale) {
+    const P = D.PLACES[pid], pl = st.player;
+    const ef = pl.energy < 20 ? 0.5 : 1;
+    const lines = [];
+    Object.entries(P.stat || {}).forEach(([k, v]) => { const before = pl.stats[k]; Sim.stat(st, k, v * scale * ef); const d = pl.stats[k] - before; if (d >= 0.3) lines.push(`+${d.toFixed(1)} ${k}`); });
+    if (P.grade) { const k = Sim.study(st, P.grade * scale * ef); lines.push(`${({ math: 'Algebra', chem: 'Chemistry', hist: 'History', eng: 'English' })[k]} grade up`); }
+    if (P.money) { pl.money = Math.max(0, pl.money + P.money); lines.push(P.money > 0 ? `+$${P.money}` : `−$${-P.money}`); }
+    if (P.mood) Sim.mood(st, P.mood);
+    const cost = P.cost < 0 ? P.cost : P.cost * (scale < 1 ? 0.6 : 1);
+    Sim.energy(st, -cost);
+    if (pid === 'sleep_early') pl.flags.sleptEarly = true;
+    if (P.cost < 0) lines.push('+Energy');
+    return lines;
+  }
+
+  function sceneCard(pid, present, opts) {
+    const P = D.PLACES[pid];
+    view = { type: 'scene', pid, present };
+    const people = present.map(id => {
+      const n = st.npcs[id];
+      return `<button class="choice" type="button" data-act="talk" data-id="${id}"><span style="display:flex;gap:10px;align-items:center">${face(id, n.mood < -0.35 ? 'sad' : n.friend < -24 ? 'annoyed' : n.friend > 24 ? 'happy' : 'neutral', 'sm')}Talk to ${esc(N(id).first)}</span><small>${esc(Sim.relLabel(st, id))}</small></button>`;
+    }).join('');
+    let acts = choiceBtn('act', P.act, Object.entries(P.stat || {}).map(([k]) => '+' + k).join(' ') || '', !present.length);
+    if (P.hoops) {
+      acts = choiceBtn('drill', pid === 'practice' ? 'Scrimmage' : 'Shooting drill', 'Play it · builds athletics', true) + choiceBtn('act', pid === 'practice' ? 'Run the drills' : P.act, 'Skip the game');
+      present.filter(id => N(id).hoops && N(id).hoops.skill >= 0.45).slice(0, 2).forEach(id => { acts += choiceBtn('horse', `Challenge ${N(id).first} to HORSE`, st.rivalry[id] ? `${st.rivalry[id].w}-${st.rivalry[id].l}` : 'First game', false, `data-id="${id}"`); });
+    }
+    const body = `<p>${esc(P.blurb)}</p>${present.length ? '' : '<p class="small" style="margin-top:6px">Nobody you know is here.</p>'}`;
+    show(card(P.name, Sim.curSlot(st).label, body, people + acts, present.map(id => face(id, 'neutral', 'md'))));
+  }
+  function eventCard(ev, ctx) {
+    st.seen[ev.e.id] = st.day;
+    const choices = ev.e.choices(st, ev.x);
+    view = { type: 'event', ev, ctx, choices };
+    const faces = (ev.e.faces ? ev.e.faces(ev.x, st) : []).filter(Boolean).map(id => face(id, 'neutral', 'md'));
+    show(card(typeof ev.e.title === 'function' ? ev.e.title(st, ev.x) : ev.e.title, D.PLACES[ctx.place].name, `<p>${esc(ev.e.text(st, ev.x))}</p>`, choices.map((c, i) => choiceBtn('evpick', c.label, c.sub, i === 0, `data-i="${i}"`)).join(''), faces));
+  }
+  function runOutcome(out, title, faceIds) {
+    if (out.hoops) {
+      const h = out.hoops;
+      return playHoops(h.spec, res => {
+        if (h.then && !res.quit) {
+          return playHoops(h.then, res2 => { const o2 = h.done(st, res, res2); result(title, out.text + ' ' + o2.text, [], faceIds); });
+        }
+        const o2 = h.done(st, res);
+        result(title, (out.text ? out.text + ' ' : '') + o2.text, [], faceIds);
+      });
+    }
+    if (out.exam) return runExam(out.exam, out.text);
+    result(title, out.text, [], faceIds);
+  }
+  function result(title, text, lines, faceIds, opts) {
+    view = { type: 'result', next: opts && opts.next };
+    const notes = (lines || []).filter(Boolean);
+    persist();
+    show(card(title, opts && opts.lede || '', `<p>${esc(text)}</p>${notes.length ? `<div class="notes">${notes.map(n => `<div class="note">${n}</div>`).join('')}</div>` : ''}`, choiceBtn('done', opts && opts.cta || 'Continue', '', true), (faceIds || []).map(id => face(id, 'happy', 'md'))));
+  }
+  function endSlot() {
+    const P = st.player;
+    const wasMorning = Sim.curSlot(st).id === 'morning';
+    const r = Sim.advance(st);
+    if (!r.newDay && wasMorning && !Sim.dayInfo(st.day).weekend) st.phase = 'class';
+    persist();
+    if (r.ended) return yearbook();
+    slotStart(r.newDay, r.notes);
+  }
+
+  // ---------- conversation ----------
+  function startConvo(id, opts) {
+    const s = Convo.start(st, id, opts);
+    if (opts && opts.vibe) s.vibe = opts.vibe;
+    view = { type: 'convo', s, last: null, opts: opts || {} };
+    renderConvo();
+  }
+  function renderConvo() {
+    const { s, last } = view;
+    const c = N(s.id), n = st.npcs[s.id];
+    const marks = { good: 'They like this', bad: 'They hate this', risky: 'Risky', unknown: '?' };
+    const hand = s.done ? '' : `<div class="hand">${s.hand.map((h, i) => `<button class="cardbtn" type="button" data-act="card" data-i="${i}"><b>${esc(h.label)}</b>${h.sub ? `<small>${esc(h.sub)}</small>` : '<small>&nbsp;</small>'}${h.mark ? `<span class="mark ${h.mark}">${marks[h.mark]}</span>` : ''}</button>`).join('')}</div>`;
+    const lastLine = last ? `<p class="react">${last.notes.map(x => esc(x)).join(' ')} <span class="delta ${last.delta >= 0 ? 'up' : 'down'}">${last.delta >= 0 ? '+' : ''}${Math.round(last.delta)}</span></p>` : '';
+    const lede = s.mode === 'text' ? 'Texting' : D.PLACES[view.opts.place || 'hall'] ? '' : '';
+    show(`<section class="convo">
+      <div class="convo-head">${face(s.id, s.expr, 'lg', { blush: n.romance >= 55 })}<div><div class="nm">${esc(c.first)}</div><div class="rl">${esc(Sim.relLabel(st, s.id))}${s.mode === 'text' ? ' · texting' : ''}</div><div class="rl">${esc(c.bio)}</div></div></div>
+      <div class="bubble">${esc(s.line)}</div>
+      ${lastLine}
+      <div class="vibe"><span>Vibe</span><i><b style="width:${Math.round((s.vibe - 0.6) / 1.6 * 100)}%"></b></i><span>${s.round}/${s.rounds}</span></div>
+      ${s.done ? choiceBtn('endconvo', 'Wrap it up', '', true) : hand}
+    </section>`, { keepScroll: false });
+  }
+  function playCard(i) {
+    const { s } = view;
+    const h = s.hand[i];
+    if (!h) return;
+    const rec = Convo.play(st, s, h);
+    view.last = rec;
+    try { Sfx.play(rec.tier === 'love' ? 'great' : rec.tier === 'like' ? 'good' : rec.tier === 'meh' ? 'pop' : 'bad'); } catch (_) {}
+    renderConvo();
+  }
+  function endConvo() {
+    const { s, opts } = view;
+    const r = Convo.finish(st, s);
+    const c = N(s.id);
+    const lines = [];
+    lines.push(`<b>${esc(c.first)}</b> ${r.df >= 0 ? '+' : ''}${r.df} · ${esc(r.tier)}`);
+    if (r.change) lines.push(`${esc(c.first)}: ${esc(r.change.from)} → <b>${esc(r.change.to)}</b>`);
+    if (r.romance > 0) lines.push(`Something's there with ${esc(c.first)}.`);
+    if (r.number) lines.push(`${esc(c.first)} gave you their number.`);
+    r.notes.forEach(n => lines.push(esc(n)));
+    if (opts.place) doActivity(opts.place, 0.5); else if (s.mode === 'text') Sim.energy(st, -2);
+    Sim.energy(st, -3);
+    const tone = r.df >= 10 ? 'That went really well.' : r.df >= 3 ? 'That went fine.' : r.df > -3 ? 'That was a little flat.' : 'That did not go great.';
+    result(s.mode === 'text' ? `Texting ${c.first}` : `Talking to ${c.first}`, tone, lines, [s.id]);
+  }
+
+  // ---------- texting from home ----------
+  function textPicker() {
+    const ids = D.CAST.filter(c => st.npcs[c.id].gaveNumber).map(c => c.id);
+    view = { type: 'textpick' };
+    if (!ids.length) {
+      const lines = doActivity('phone', 1);
+      Sim.mood(st, 3);
+      return result('Your phone', 'Nobody\'s given you their number yet, so you scroll videos until your eyes hurt. Talk to people at school and they will.', lines, []);
+    }
+    show(card('Text somebody', 'Tonight', '<p>Who are you texting?</p>', ids.map(id => `<button class="choice" type="button" data-act="textwho" data-id="${id}"><span style="display:flex;gap:10px;align-items:center">${face(id, 'neutral', 'sm')}${esc(N(id).first)}</span><small>${esc(Sim.relLabel(st, id))}</small></button>`).join('') + choiceBtn('back', 'Never mind', '')));
+  }
+
+  // ---------- class ----------
+  function classCard() {
+    const beat = E.beatFor(st);
+    if (beat) return beatCard(beat);
+    const cls = Sim.classToday(st);
+    view = { type: 'class', cls };
+    const g = st.player.grades[cls.id];
+    const help = { algebra: 'Solve for x, fast.', titration: 'Pour to the line.', timeline: 'Put history in order.', proofread: 'Catch the typos.', freethrows: 'Three free throws.', sketch: 'Draw a perfect circle.' }[cls.game];
+    show(card(`Period 2 · ${cls.name}`, cls.teacher, `<p>${esc(help)} ${g != null ? `Current grade: <span class="hl">${Math.round(g)}</span>.` : ''}</p>`,
+      choiceBtn('classplay', 'Pay attention', 'Play it', true) + choiceBtn('classskip', 'Zone out', 'Coast on what you know')));
+  }
+  function microOpts() {
+    const e = st.player.energy;
+    return { seconds: 13 * (e < 20 ? 0.75 : e < 40 ? 0.9 : 1), hard: st.player.stats.smarts > 60, rand: () => Sim.live(st) };
+  }
+  function runMicro(cls, done) {
+    if (cls.game === 'freethrows') {
+      return playHoops({ kind: 'shots', court: 'gym', title: 'Gym class', shots: [{ spot: 'ft', label: 'Free throw 1 of 3' }, { spot: 'ft', label: 'Free throw 2 of 3' }, { spot: 'ft', label: 'Free throw 3 of 3' }] }, res => done(res.quit ? 0.3 : res.makes / 3, `${res.makes}/3 free throws`));
+    }
+    view = { type: 'micro' };
+    show('<section class="card" id="mg"></section>', { noPhone: true });
+    Micro.run(cls.game, document.getElementById('mg'), microOpts(), done);
+  }
+  function gradeFrom(cls, score, label, examWeight) {
+    const g = st.player.grades;
+    const before = g[cls.id];
+    const w = examWeight || 0.22;
+    g[cls.id] = Sim.clamp(before * (1 - w) + (55 + score * 45) * w, 0, 100);
+    Sim.stat(st, cls.id === 'pe' ? 'athletics' : cls.id === 'art' ? 'creativity' : 'smarts', 0.6 + score);
+    return `${cls.name}: ${label}. Grade ${Math.round(before)} → ${Math.round(g[cls.id])}.`;
+  }
+  function finishClass(lines) {
+    st.phase = 'slot';
+    persist();
+    result('Class', lines.length > 1 ? 'Exams done. Your brain is soup.' : 'Bell rings.', lines, []);
+    view.next = 'slot';
+  }
+  function runExam(n, intro) {
+    const pool = D.CLASSES.slice(0, 4);
+    const order = pool.slice().sort(() => Sim.live(st) - 0.5).slice(0, n);
+    const lines = [];
+    const step = i => {
+      if (i >= order.length) return finishClass(lines);
+      runMicro(order[i], (score, label) => { lines.push(gradeFrom(order[i], score, label, 0.35)); step(i + 1); });
+    };
+    step(0);
+  }
+
+  // ---------- basketball ----------
+  function hoopsSettings() {
+    const a = st.player.stats.athletics;
+    return { touchK: st.hoops.touchK || 1.75, feel: st.settings.feel, showTags: true, skin: st.player.look.skin, sleeve: st.player.team ? '#1e5b47' : st.player.look.shirt, rating: { shooting: Math.round(25 + a * 0.75), handle: Math.round(25 + a * 0.7) } };
+  }
+  function playHoops(spec, done) {
+    const el = document.getElementById('hoops');
+    if (!engine) engine = HoopsEngine.create(el, hoopsSettings());
+    engine.setSettings(hoopsSettings());
+    const open = () => { el.hidden = false; document.body.style.overflow = 'hidden'; };
+    const close = () => { el.hidden = true; document.body.style.overflow = ''; };
+    const run = () => {
+      open();
+      const full = Object.assign({ fatigue: Math.max(0, (35 - st.player.energy) / 70) }, spec);
+      engine.run(full, { onEnd: r => { close(); done(r); }, onQuit: r => { close(); r.quit = true; done(r); } });
+    };
+    if (!st.hoops.touchK) {
+      open();
+      engine.run({ kind: 'shots', court: spec.court || 'gym', calibrate: true, title: 'Find your touch', shots: [{ spot: 'ft', label: 'Free throw 1 of 3' }, { spot: 'ft', label: 'Free throw 2 of 3' }, { spot: 'ft', label: 'Free throw 3 of 3' }] }, {
+        onEnd: r => { if (r.touchK) { st.hoops.touchK = r.touchK; persist(); } run(); },
+        onQuit: () => { close(); done({ quit: true, points: 0, makes: 0, attempts: 0, log: [] }); }
+      });
+      return;
+    }
+    run();
+  }
+  function drill(pid) {
+    const team = pid === 'practice';
+    const spec = team
+      ? { kind: 'possessions', court: 'gym', count: 3, shotClock: 6, title: 'Scrimmage', situation: 'Coach Dwyer is running live reps' }
+      : { kind: 'shots', court: pid === 'park' ? 'park' : 'gym', title: 'Shooting drill', shots: ['le', 'top', 're', 'lw', 'rw'].map((s, i) => ({ spot: s, label: `Shot ${i + 1} of 5` })) };
+    playHoops(spec, res => {
+      if (res.quit) { doActivity(pid, 0.5); return result('Drill', 'You cut it short.', [], []); }
+      const lines = doActivity(pid, 1);
+      const bonus = team ? (res.readIQ || 0) / 40 : res.makes / 2.5;
+      Sim.stat(st, 'athletics', bonus);
+      lines.push(team ? `Read IQ ${res.readIQ || 0}, ${res.points} points` : `${res.makes}/${res.attempts} made`);
+      if (team) ['marcus', 'tyler', 'hannah'].forEach(id => Sim.adjust(st, id, { friend: res.points >= 4 ? 2 : 1 }));
+      result(team ? 'Scrimmage' : 'Shooting drill', team ? (res.points >= 4 ? 'Coach Dwyer nods once. From him, that\'s a parade.' : 'Coach Dwyer makes you run a suicide. Character building.') : (res.makes >= 4 ? 'Stroke feels pure today.' : 'Some days the rim is a bottle cap.'), lines, []);
+    });
+  }
+
+  // ---------- phone ----------
+  function openPhone(tab) {
+    phoneTab = tab || phoneTab || 'msgs';
+    const sheet = document.getElementById('sheet');
+    sheet.hidden = false;
+    renderPhone();
+  }
+  function closePhone() { document.getElementById('sheet').hidden = true; updateBadge(); }
+  function renderPhone() {
+    const sheet = document.getElementById('sheet');
+    const tabs = [['msgs', 'Messages'], ['people', 'People'], ['cal', 'Calendar'], ['me', 'Me']];
+    let body = '';
+    if (phoneTab === 'msgs') {
+      const msgs = st.inbox.slice().reverse();
+      body = msgs.length ? msgs.map(m => {
+        const c = N(m.from);
+        let acts = '';
+        if (m.invite && !m.answered && m.invite.day === st.day && Sim.slots(st).findIndex(s => s.id === m.invite.slot) >= st.slot) acts = `<div class="acts"><button class="pbtn go" type="button" data-act="inv-yes" data-m="${m.id}">I'm in</button><button class="pbtn" type="button" data-act="inv-no" data-m="${m.id}">Can't today</button></div>`;
+        else if ((m.vent || m.crush) && !m.answered && m.day >= st.day - 1 && ['evening', 'night'].includes(Sim.curSlot(st).id) && st.phase === 'slot' && view && view.type === 'places') acts = `<div class="acts"><button class="pbtn go" type="button" data-act="reply" data-m="${m.id}">Text back</button></div>`;
+        return `<div class="msg ${m.read ? '' : 'unread'}">${face(m.from, 'neutral', 'sm')}<div><div class="from">${esc(c.first)}<span>${esc(Sim.dayInfo(m.day).label.replace('Week ', 'Wk '))}</span></div><p>${esc(m.body)}</p>${acts}</div></div>`;
+      }).join('') : '<p class="small" style="opacity:.7">No texts yet. People give you their number once you\'re friends.</p>';
+      st.inbox.forEach(m => { m.read = true; });
+    } else if (phoneTab === 'people') {
+      const met = D.CAST.filter(c => st.npcs[c.id].met);
+      body = met.length ? met.sort((a, b) => st.npcs[b.id].friend - st.npcs[a.id].friend).map(c => {
+        const n = st.npcs[c.id];
+        const w = Math.abs(n.friend) / 2;
+        const known = n.known.likes.map(t => `<span class="l">${esc(D.TOPICS[t])}</span>`).concat(n.known.dislikes.map(t => `<span class="d">no ${esc(D.TOPICS[t])}</span>`)).concat(n.known.humor ? [`<span>${n.known.humor} humor</span>`] : []).join('');
+        const m = Sim.strongest(st, c.id);
+        const partner = n.partner ? `<span>with ${esc(N(n.partner).first)}</span>` : '';
+        const riv = st.rivalry[c.id] ? `<span>HORSE ${st.rivalry[c.id].w}-${st.rivalry[c.id].l}</span>` : '';
+        return `<div class="person">${face(c.id, n.friend > 24 ? 'happy' : n.friend < -24 ? 'annoyed' : 'neutral', 'md')}<div><div class="nm">${esc(c.name)}</div><div class="rl">${esc(Sim.relLabel(st, c.id))}${n.gaveNumber ? '' : ' · no number yet'}</div>
+          <div class="bar2"><b class="${n.friend < 0 ? 'neg' : ''}" style="left:${n.friend < 0 ? 50 - w : 50}%;width:${w}%"></b></div>
+          <div class="kv">${known || '<span>Haven\'t figured them out yet</span>'}${partner}${riv}</div>
+          ${m ? `<div class="mem">Remembers: ${esc(m.t || m.recall)}</div>` : ''}</div></div>`;
+      }).join('') : '<p class="small" style="opacity:.7">You haven\'t met anyone yet.</p>';
+    } else if (phoneTab === 'cal') {
+      const rows = [];
+      const start = st.day - (st.day % 7);
+      for (let d = start; d < Math.min(start + 14, Sim.lastDay() + 1); d++) {
+        const di = Sim.dayInfo(d);
+        const ev = [];
+        if (di.week === 2 && di.dow === 1) ev.push('Basketball tryouts');
+        if (di.dow === 4 && di.week >= 3 && st.player.team) { const o = D.OPPONENTS.find(x => x.week === di.week); const g = st.season.games.find(x => x.week === di.week); ev.push(g ? `${g.won ? 'W' : 'L'} vs ${o.name} ${g.us}-${g.them}` : `Game vs ${o.name}`); }
+        if (di.week === 4 && di.dow === 5) ev.push('Snow Ball');
+        if (di.week === 5 && di.dow === 3) ev.push('Midterms');
+        if (di.week === 8 && di.dow === 3) ev.push('Finals');
+        if (Sim.partyTonight(st, d)) ev.push('Party at Sofia\'s');
+        st.plans.filter(p => p.day === d && p.status === 'set').forEach(p => ev.push(`${N(p.with).first} · ${D.PLACES[p.place].name}`));
+        const cls = di.weekend ? null : (di.dow === 4 ? (di.week % 2 ? D.CLASSES[4] : D.ART_CLASS) : D.CLASSES[di.dow]);
+        rows.push(`<div class="calrow ${d === st.day ? 'today' : ''}"><b>${di.name.slice(0, 3)} · W${di.week}</b><span>${esc([cls ? cls.name : 'No school'].concat(ev).join(' · '))}</span></div>`);
+      }
+      body = `<div class="cal">${rows.join('')}</div>`;
+    } else {
+      const P = st.player;
+      const g = P.grades;
+      body = `<div class="person">${face('me', 'happy', 'md')}<div><div class="nm">${esc(P.name)}</div><div class="rl">${P.team ? (P.team === 'varsity' ? 'Varsity basketball' : 'JV basketball') : 'Not on a team'} · $${Math.round(P.money)}</div></div></div>
+        <div class="statgrid">${Object.entries(P.stats).map(([k, v]) => `<div class="st"><b>${Math.round(v)}</b><span>${k}</span></div>`).join('')}
+        <div class="st"><b>${Sim.gpa(st)}</b><span>GPA</span></div><div class="st"><b>${st.season.w}-${st.season.l}</b><span>Season</span></div></div>
+        <div class="kv">${['math', 'chem', 'hist', 'eng'].map(k => `<span>${({ math: 'Algebra', chem: 'Chem', hist: 'History', eng: 'English' })[k]} ${Math.round(g[k])}</span>`).join('')}</div>
+        <div class="kv"><span>Feel: ${HoopsEngine.FEEL[st.settings.feel].label}</span></div>
+        <div class="acts" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button class="pbtn" type="button" data-act="feel">Change basketball feel</button><button class="pbtn" type="button" data-act="retouch">Find my touch again</button><button class="pbtn" type="button" data-act="sound">Sound ${st.settings.sound ? 'on' : 'off'}</button><button class="pbtn" type="button" data-act="quit-title">Main menu</button></div>
+        <div class="kv" style="margin-top:10px">${st.journal.slice(-6).reverse().map(j => `<span>${esc(Sim.dayInfo(j.day).label.replace('Week ', 'W'))}: ${esc(j.body)}</span>`).join('')}</div>`;
+    }
+    sheet.innerHTML = `<div class="phone" role="dialog" aria-label="Your phone"><header><h3>${esc(tabs.find(t => t[0] === phoneTab)[1])}</h3><button class="x" type="button" data-act="phone-close" aria-label="Close phone">&#x2715;</button></header>
+      <div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button class="tab" type="button" role="tab" data-act="tab" data-t="${k}" aria-selected="${k === phoneTab}">${l}</button>`).join('')}</div>
+      <div class="pbody">${body}</div></div>`;
+    updateBadge();
+  }
+
+  // ---------- yearbook ----------
+  function yearbook() {
+    view = { type: 'yearbook' };
+    const P = st.player;
+    const met = D.CAST.filter(c => st.npcs[c.id].met);
+    const usedRecall = new Set();
+    const sigs = met.sort((a, b) => st.npcs[b.id].friend - st.npcs[a.id].friend).map(c => {
+      const n = st.npcs[c.id];
+      // each signature reaches for its own memory, so the page isn't ten copies of one game
+      const ms = Sim.memories(st, c.id).filter(x => !x.resolved || x.v > 0).sort((a, b) => Math.abs(b.v) * b.w - Math.abs(a.v) * a.w);
+      const m = ms.find(x => !usedRecall.has(x.recall)) || null;
+      if (m) usedRecall.add(m.recall);
+      const t = Sim.tierOf(n.friend).key;
+      let msg;
+      if (t === 'best') msg = `${P.name}! Best semester ever, mostly because of you.`;
+      else if (t === 'good') msg = `${P.name}, so glad you transferred here.`;
+      else if (t === 'friend') msg = `Hey ${P.name}, glad we got to hang out.`;
+      else if (t === 'acq') msg = `${P.name} - have a good break.`;
+      else if (t === 'stranger') msg = `Have a great break!`;
+      else msg = `Have a break, I guess.`;
+      if (m && m.v > 0 && n.friend > 5) msg += ` Never forgetting ${m.recall || 'that'}.`;
+      if (m && m.v < 0) msg += ` Still not over ${m.recall || 'what happened'}.`;
+      if (st.player.date === c.id && n.romance >= 40) msg += ' Call me.';
+      return `<div class="sig">${face(c.id, t === 'best' || t === 'good' ? 'happy' : n.friend < -24 ? 'annoyed' : 'neutral', '')}<div>${esc(msg)} <br>- ${esc(c.first)}<small>${esc(Sim.relLabel(st, c.id))}</small></div></div>`;
+    }).join('');
+    const sup = [];
+    const best = met.slice().sort((a, b) => st.npcs[b.id].friend - st.npcs[a.id].friend)[0];
+    if (st.season.games.some(g => g.pts >= 4)) sup.push(['Most likely to hit a game-winner', 'Your fourth quarters were must-see.']);
+    const topStat = Object.entries(P.stats).sort((a, b) => b[1] - a[1])[0][0];
+    sup.push({ smarts: ['Most likely to cure something', 'Top of the class.'], athletics: ['Most athletic', 'Nobody outworked you.'], charm: ['Class charmer', 'Everybody knows your name.'], creativity: ['Most likely to be famous', 'Ms. Okafor saved your sketches.'] }[topStat]);
+    const secretsKept = st.gossip.filter(g => g.secret && !D.CAST.some(c => st.npcs[c.id].mem.some(m => m.k === 'betrayed'))).length;
+    if (secretsKept) sup.push(['Vault', `Kept ${secretsKept} secret${secretsKept > 1 ? 's' : ''}.`]);
+    if (D.CAST.some(c => st.npcs[c.id].mem.some(m => m.k === 'betrayed'))) sup.push(['Loose lips', 'Some secrets got out. People noticed.']);
+    if (best && st.npcs[best.id].friend >= 50) sup.push(['Best duo', `You and ${best.first}.`]);
+    const big = st.journal.filter(j => ['big', 'win', 'hoops'].includes(j.kind)).slice(-8);
+    document.getElementById('phone-btn').hidden = true;
+    app.innerHTML = `<div class="stack yb"><section class="card"><p class="small">Hollow Creek High · ${st.semester > 1 ? 'Semester ' + st.semester : 'Winter'} yearbook</p>
+      <div style="display:flex;gap:14px;align-items:center;margin-top:10px">${face('me', 'happy', 'lg')}<div><h1>${esc(P.name)}</h1><p class="small">${P.team ? (P.team === 'varsity' ? 'Varsity basketball' : 'JV basketball') : 'Transfer student'}${st.player.date ? ` · Snow Ball with ${esc(N(st.player.date).first)}` : ''}</p></div></div>
+      <div class="statrow" style="margin-top:14px"><div><b>${Sim.gpa(st)}</b><span>GPA</span></div><div><b>${st.season.w}-${st.season.l}</b><span>Season</span></div><div><b>${met.filter(c => st.npcs[c.id].friend >= 24).length}</b><span>Friends</span></div></div></section>
+      <section class="card"><h2>Superlatives</h2><div class="sup" style="margin-top:10px">${sup.map(([a, b]) => `<div><b>${esc(a)}</b> · ${esc(b)}</div>`).join('')}</div></section>
+      ${big.length ? `<section class="card"><h2>The semester</h2><div class="notes">${big.map(j => `<div class="note"><b>W${Sim.dayInfo(j.day).week}</b> · ${esc(j.body)}</div>`).join('')}</div></section>` : ''}
+      <h2 style="font:400 24px var(--display);margin-top:6px">Signatures</h2>${sigs || '<p class="small">Nobody signed it. Next semester, talk to people.</p>'}
+      <div class="choices">${choiceBtn('nextsem', 'Start next semester', 'Same people, new weeks. They remember everything.', true)}${choiceBtn('new', 'New student', 'Start over')}</div></div>`;
+    window.scrollTo(0, 0);
+  }
+  function nextSemester() {
+    st.semester++; st.day = 0; st.slot = 0; st.phase = 'slot'; st.ended = false;
+    st.season = { w: 0, l: 0, games: [] }; st.plans = []; st.player.date = null; st.player.flags = {}; st.player.energy = 90;
+    st.seen = { first_day: 0 };
+    D.CAST.forEach(c => { const n = st.npcs[c.id]; n.coming = null; n.askedDance = false; n.noteSent = false; n.told = []; });
+    Sim.log(st, `Semester ${st.semester} started.`, 'big');
+    persist(); slotStart(true, []);
+  }
+
+  // ---------- input ----------
+  app.addEventListener('click', e => {
+    const b = e.target.closest('[data-act], [data-pick], [data-look]');
+    if (!b) return;
+    Sfx.unlock();
+    if (b.dataset.look) { draft.look[b.dataset.look] = b.dataset.v; draft.name = (document.getElementById('c-name') || {}).value || draft.name; Sfx.play('ui'); return createScreen(); }
+    if (b.dataset.pick) {
+      const k = b.dataset.pick, v = b.dataset.v;
+      draft.name = (document.getElementById('c-name') || {}).value || draft.name;
+      if (k === 'likes') draft.likes = draft.likes.includes(v) ? draft.likes.filter(x => x !== v) : draft.likes.concat([v]).slice(-3);
+      else if (k === 'style') draft.look.style = v;
+      else if (k === 'romance') draft.romance = v === 'true';
+      else draft[k] = v;
+      Sfx.play('ui');
+      return createScreen();
+    }
+    const act = b.dataset.act;
+    Sfx.play('ui');
+    switch (act) {
+      case 'new': return createScreen();
+      case 'continue': return slotStart();
+      case 'enroll': return enroll();
+      case 'go': return slotStart();
+      case 'place': return goPlace(b.dataset.p);
+      case 'beatpick': { const c = view.choices[Number(b.dataset.i)]; const beat = view.beat; st.seen[beat.id] = st.day; const out = c.run(st); return runOutcome(out, typeof beat.title === 'function' ? beat.title(st) : beat.title, []); }
+      case 'evpick': { const c = view.choices[Number(b.dataset.i)]; const ev = view.ev; const out = c.run(st, ev.x); return runOutcome(out, typeof ev.e.title === 'function' ? ev.e.title(st, ev.x) : ev.e.title, (ev.e.faces ? ev.e.faces(ev.x, st) : []).filter(Boolean)); }
+      case 'plango': { const p = view.plan; p.status = 'done'; Sim.adjust(st, p.with, { friend: 4 }); Sim.remember(st, p.with, { k: 'hang' + p.day, v: 1.5, recall: `hanging out at ${D.PLACES[p.place].name}`, line: `That was fun at ${D.PLACES[p.place].name}. We should do it again.`, t: `We hung out at ${D.PLACES[p.place].name}.` }); return startConvo(p.with, { place: p.place, vibe: 1.3 }); }
+      case 'planbail': { const p = view.plan; p.status = 'bailed'; Sim.adjust(st, p.with, { friend: -10, mood: -0.3 }); Sim.remember(st, p.with, { k: 'bailed', v: -2, recall: 'standing me up', line: 'Oh, you showed up. That\'s new.', t: 'You stood me up.' }); Sim.text(st, p.with, Sim.pickLive(st, ['so i guess you\'re not coming', 'cool. waited 40 min', 'ok then'])); return placesCard(); }
+      case 'talk': return startConvo(b.dataset.id, { place: view.pid });
+      case 'card': return playCard(Number(b.dataset.i));
+      case 'endconvo': return endConvo();
+      case 'act': { const pid = view.pid; const lines = doActivity(pid, 1); return result(D.PLACES[pid].name, actText(pid), lines, []); }
+      case 'drill': return drill(view.pid);
+      case 'horse': { const id = b.dataset.id, pid = view.pid; return playHoops({ kind: 'horse', court: D.PLACES[pid].outdoor ? 'park' : 'gym', title: 'HORSE', opponent: E.hoopsOpponent(st, id) }, res => { doActivity(pid, 0.6); const o = E.horseResult(st, id, res); result('HORSE', o.text, [], [id]); }); }
+      case 'done': { if (view && view.next === 'slot') { view = null; return slotStart(); } return endSlot(); }
+      case 'textwho': return startConvo(b.dataset.id, { mode: 'text' });
+      case 'back': return placesCard();
+      case 'classplay': { const cls = view.cls; return runMicro(cls, (score, label) => finishClass([gradeFrom(cls, score, label)])); }
+      case 'classskip': { const cls = view.cls; const s = Sim.clamp(st.player.stats.smarts / 100 * 0.75 + (Sim.live(st) - 0.5) * 0.2, 0, 1); return finishClass([gradeFrom(cls, s, 'zoned out')]); }
+      case 'nextsem': return nextSemester();
+    }
+  });
+  function actText(pid) {
+    return ({
+      hall: 'You lean on your locker and people-watch. Half the school walks by.', gym: 'You get up a couple hundred shots before the bell.', library: 'You actually get ahead on reading. Weird feeling.',
+      courtyard: 'You fill two pages of your sketchbook.', practice: 'Defensive slides until your legs give out.', drama: 'You help paint a backdrop of a lighthouse.',
+      robotics: 'You hold a flashlight for three hours. Gerald moves an inch.', art: 'You start a painting you will probably never finish.', park: 'You run pickup until the streetlights come on.',
+      diner: 'Disco fries and a booth by the window.', job: 'Six hours of popcorn. You smell like butter for two days.', mall: 'You walk laps around the Galleria and buy a pretzel.',
+      library_w: 'Saturday study session. You and the librarian, alone.', party: 'You stand in Sofia\'s kitchen holding a cup and having a great time, somehow.', movies: 'The movie is bad. The popcorn is good.'
+    })[pid] || 'Done.';
+  }
+  document.getElementById('phone-btn').addEventListener('click', () => { Sfx.unlock(); Sfx.play('page'); openPhone(); });
+  document.getElementById('sheet').addEventListener('click', e => {
+    if (e.target.id === 'sheet') return closePhone();
+    const b = e.target.closest('[data-act]'); if (!b) return;
+    const act = b.dataset.act;
+    Sfx.play('ui');
+    if (act === 'phone-close') return closePhone();
+    if (act === 'tab') { phoneTab = b.dataset.t; return renderPhone(); }
+    const m = st.inbox.find(x => x.id === b.dataset.m);
+    if (act === 'inv-yes' && m) { m.answered = true; st.plans.push({ day: m.invite.day, slot: m.invite.slot, with: m.from, place: m.invite.place, status: 'set' }); Sim.adjust(st, m.from, { friend: 2 }); Sim.text(st, m.from, 'yay ok see you there'); persist(); closePhone(); return slotStart(); }
+    if (act === 'inv-no' && m) { m.answered = true; Sim.adjust(st, m.from, { friend: -1 }); persist(); return renderPhone(); }
+    if (act === 'reply' && m) { m.answered = true; closePhone(); return startConvo(m.from, { mode: 'text', vibe: m.vent ? 1.3 : 1.1 }); }
+    if (act === 'feel') { const order = ['arcade', 'normal', 'pro']; st.settings.feel = order[(order.indexOf(st.settings.feel) + 1) % 3]; persist(); return renderPhone(); }
+    if (act === 'retouch') { st.hoops.touchK = null; persist(); closePhone(); return; }
+    if (act === 'sound') { st.settings.sound = !st.settings.sound; Sfx.muted = !st.settings.sound; persist(); return renderPhone(); }
+    if (act === 'quit-title') { closePhone(); persist(); return titleScreen(); }
+  });
+
+  // boot
+  if (window.claude && window.claude.hot && typeof window.claude.hot.snapshot === 'function') {
+    try { window.claude.hot.snapshot(() => ({ v: 1 })); } catch (_) {}
+  }
+  const boot = () => { if (st) Sfx.muted = !st.settings.sound; titleScreen(); };
+  if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot();
+  window.__school = { get st() { return st; }, get view() { return view; }, refresh: () => slotStart() };
+})();
+</script>

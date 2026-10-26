@@ -1,0 +1,202 @@
+/* Ball physics and the shot model.
+   The flick decides intent (aim and touch); the physics decides the outcome,
+   so a near-miss rattles around the rim instead of being a coin flip. */
+const HoopPhysics = (() => {
+  const { RIM, BOARD, BALL_R, V } = Court3D;
+  const G = 32.17;
+  const RIM_TUBE = 0.035;
+  const STEP = 1 / 240;
+
+  function newBall(p, v, opts) {
+    return Object.assign({
+      p: p.slice(), v: v.slice(), rot: 0, spin: -9, prevY: p[1], t: 0,
+      rimHits: 0, boardHits: 0, bounces: 0, scored: false, done: false, result: null, events: []
+    }, opts || {});
+  }
+
+  function step(b, dt, court) {
+    const e = court.rimE, fr = court.rimFr;
+    b.prevY = b.p[1];
+    b.v[1] -= G * dt;
+    b.p[0] += b.v[0] * dt; b.p[1] += b.v[1] * dt; b.p[2] += b.v[2] * dt;
+    b.rot += b.spin * dt;
+    b.t += dt;
+
+    // rim: a thin ring; collide with the closest point on it
+    const rx = b.p[0] - RIM.x, rz = b.p[2] - RIM.z;
+    const hd = Math.hypot(rx, rz);
+    if (hd > 1e-5 && Math.abs(b.p[1] - RIM.y) < 1) {
+      const qx = RIM.x + rx / hd * RIM.r, qz = RIM.z + rz / hd * RIM.r, qy = RIM.y;
+      const dx = b.p[0] - qx, dy = b.p[1] - qy, dz = b.p[2] - qz;
+      const dist = Math.hypot(dx, dy, dz), minD = BALL_R + RIM_TUBE;
+      if (dist < minD && dist > 1e-6) {
+        const n = [dx / dist, dy / dist, dz / dist];
+        b.p = [qx + n[0] * minD, qy + n[1] * minD, qz + n[2] * minD];
+        const vn = V.dot(b.v, n);
+        if (vn < 0) {
+          const vt = V.sub(b.v, V.mul(n, vn));
+          b.v = V.add(V.mul(vt, 1 - fr), V.mul(n, -vn * e));
+          b.rimHits++;
+          b.spin *= -0.6;
+          if (-vn > 2) b.events.push({ type: 'rim', s: Math.min(1, -vn / 14) });
+        }
+      }
+    }
+    // backboard face (and the back of it, for shots from behind)
+    const inBoard = b.p[0] > BOARD.x0 - BALL_R * 0.5 && b.p[0] < BOARD.x1 + BALL_R * 0.5 && b.p[1] > BOARD.y0 - BALL_R * 0.5 && b.p[1] < BOARD.y1 + BALL_R * 0.5;
+    if (inBoard && b.v[2] < 0 && b.p[2] - BALL_R < BOARD.z && b.p[2] > BOARD.z - 0.4) {
+      b.p[2] = BOARD.z + BALL_R;
+      b.v[2] = -b.v[2] * 0.6; b.v[0] *= 0.88; b.v[1] *= 0.88;
+      b.boardHits++;
+      b.events.push({ type: 'board' });
+    }
+    // floor
+    if (b.p[1] < BALL_R) {
+      b.p[1] = BALL_R;
+      if (b.v[1] < 0) {
+        const s = -b.v[1];
+        b.v[1] = s * 0.66; b.v[0] *= 0.82; b.v[2] *= 0.82;
+        b.bounces++;
+        if (s > 3) b.events.push({ type: 'bounce', s: Math.min(1, s / 25) });
+      }
+    }
+    // through the hoop
+    if (!b.scored && b.prevY >= RIM.y && b.p[1] < RIM.y && b.v[1] < 0 && hd < RIM.r) {
+      b.scored = true;
+      b.swish = b.rimHits === 0 && b.boardHits === 0;
+      b.events.push({ type: 'score', swish: b.swish });
+    }
+    // net drag pulls a made ball straight down
+    if (b.scored && b.p[1] < RIM.y && b.p[1] > RIM.y - 1.7) {
+      const k = Math.min(1, 7 * dt);
+      b.v[0] *= 1 - k; b.v[2] *= 1 - k; b.v[1] *= 1 - k * 0.5;
+      b.p[0] += (RIM.x - b.p[0]) * k; b.p[2] += (RIM.z - b.p[2]) * k;
+    }
+  }
+
+  function advance(b, dt, court) {
+    let t = dt;
+    while (t > 1e-6) { const h = Math.min(STEP, t); step(b, h, court); t -= h; }
+    if (!b.result) {
+      if (b.scored && b.p[1] < RIM.y - 2.2) b.result = 'made';
+      else if (!b.scored && (b.bounces > 0 || b.t > 4.5 || b.p[2] < -8)) b.result = 'miss';
+      else if (!b.scored && b.p[1] < RIM.y - 1.5 && Math.hypot(b.p[0] - RIM.x, b.p[2] - RIM.z) > RIM.r + 0.3 && b.v[1] < 0 && b.rimHits + b.boardHits > 0) b.result = 'miss';
+    }
+    if (b.result && !b.doneAt) b.doneAt = b.t;
+    if (b.doneAt && b.t - b.doneAt > 1.6) b.done = true;
+  }
+
+  // Initial velocity that carries the ball from `from` to `to` at launch angle theta (radians).
+  function solve(from, to, theta) {
+    const dx = to[0] - from[0], dz = to[2] - from[2];
+    const D = Math.hypot(dx, dz), h = to[1] - from[1];
+    const c = Math.cos(theta), tn = Math.tan(theta);
+    const den = 2 * c * c * (D * tn - h);
+    if (den <= 0) return null;
+    const v = Math.sqrt(G * D * D / den);
+    const hx = dx / D, hz = dz / D;
+    return { v, vec: [hx * v * c, v * Math.sin(theta), hz * v * c], D };
+  }
+  function rotateY(vec, ang) {
+    const c = Math.cos(ang), s = Math.sin(ang);
+    return [vec[0] * c + vec[2] * s, vec[1], -vec[0] * s + vec[2] * c];
+  }
+
+  // Where the ball leaves the hand: up at the top of the jump, a step toward the rim.
+  function releasePoint(shooter, type) {
+    const dir = Court3D.dirToRim(shooter);
+    return [shooter[0] + dir[0] * 0.6, type.from, shooter[2] + dir[2] * 0.6];
+  }
+
+  // Shot types by distance from the rim.
+  function shotType(dist) {
+    if (dist < 5.5) return { id: 'layup', label: 'Layup', theta: 58, from: 8.4, aimBack: 0.08 };
+    if (dist < 11) return { id: 'floater', label: 'Floater', theta: 56, from: 7.8, aimBack: 0.12 };
+    return { id: 'jumper', label: 'Jumper', theta: 50, from: 7.5, aimBack: 0.14 };
+  }
+
+  // The touch curve: how hard you flick, relative to your free throw, for each distance.
+  const FT_DIST = 13.75;
+  function idealFlick(dist) { return 0.5 + 0.5 * (dist / FT_DIST); }
+
+  // gauss
+  function gauss(rand) { const r = rand || Math.random; let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+
+  /* Turn a flick into a launched ball.
+     q: { shooter, flickSpeed, angle (rad), touchK,
+          window, aimDead, contest, rating (0..100), fatigue (0..1), rand } */
+  function shoot(q) {
+    const { RIM } = Court3D;
+    const dist = Math.hypot(q.shooter[0] - RIM.x, q.shooter[2] - RIM.z);
+    const type = shotType(dist);
+    const dir = Court3D.dirToRim(q.shooter);
+    const release = releasePoint(q.shooter, type);
+    const target = [RIM.x + dir[0] * type.aimBack, RIM.y, RIM.z + dir[2] * type.aimBack];
+    const sol = solve(release, target, type.theta * Math.PI / 180);
+    const ideal = q.touchK * idealFlick(dist);
+    const ratio = q.flickSpeed / ideal;
+    const e = ratio - 1;
+    const w = q.window;
+    // inside the window the flick snaps toward perfect; outside it, error grows quickly
+    // close shots have more room for error in the arc, so the slope is steeper there
+    const slope = 0.11 * Math.max(1, FT_DIST / Math.max(4, dist)) * (e > 0 ? 1.25 : 1);
+    let ve;
+    if (Math.abs(e) <= w) ve = e * 0.0045 / w;
+    else ve = Math.sign(e) * (0.0045 + (Math.abs(e) - w) * slope);
+    const angDeg = q.angle * 180 / Math.PI;
+    const dead = q.aimDead;
+    let yawDeg = Math.abs(angDeg) <= dead ? angDeg * 0.08 : Math.sign(angDeg) * (dead * 0.08 + (Math.abs(angDeg) - dead) * 0.42);
+    const contest = q.contest || 0;
+    const skill = Math.max(0, Math.min(1, (q.rating == null ? 60 : q.rating) / 100));
+    const sigV = 0.0012 + contest * 0.0065 + (1 - skill) * 0.0025 + (q.fatigue || 0) * 0.004;
+    const sigYaw = 0.12 + contest * 1.1 + (1 - skill) * 0.5 + (q.fatigue || 0) * 0.6;
+    const rand = q.rand || Math.random;
+    ve += gauss(rand) * sigV;
+    yawDeg += gauss(rand) * sigYaw;
+    let vec = V.mul(sol.vec, 1 + ve);
+    // yaw: positive flick angle (right) sends the ball right on screen
+    vec = rotateY(vec, -yawDeg * Math.PI / 180);
+    const green = Math.abs(e) <= w && Math.abs(angDeg) <= dead;
+    return {
+      vel: vec, release, type, dist, ratio, error: e, green,
+      aimDeg: angDeg, yawDeg, window: w, idealSpeed: ideal,
+      feedback: describe(e, w, angDeg, dead)
+    };
+  }
+
+  function describe(e, w, ang, dead) {
+    const parts = [];
+    if (Math.abs(e) <= w) parts.push(Math.abs(e) < w * 0.35 ? 'Pure touch' : 'Good touch');
+    else if (e > 0) parts.push(e > w + 0.2 ? 'Way too hard' : 'A bit strong');
+    else parts.push(e < -w - 0.2 ? 'Way too soft' : 'A bit short');
+    if (Math.abs(ang) > dead) parts.push(ang > 0 ? 'pulled right' : 'pulled left');
+    return parts.join(', ');
+  }
+
+  /* A computer shooter's version of the same shot. Errors come straight from
+     skill and distance; physics still decides make or miss. */
+  function cpuShot(shooter, skill, rand) {
+    const dist = Math.hypot(shooter[0] - RIM.x, shooter[2] - RIM.z);
+    const type = shotType(dist);
+    const dir = Court3D.dirToRim(shooter);
+    const release = releasePoint(shooter, type);
+    const target = [RIM.x + dir[0] * type.aimBack, RIM.y, RIM.z + dir[2] * type.aimBack];
+    const sol = solve(release, target, type.theta * Math.PI / 180);
+    const r = rand || Math.random;
+    const sigV = 0.002 + (1 - skill) * 0.016 + Math.max(0, dist - 8) * 0.00028;
+    const sigY = 0.25 + (1 - skill) * 1.6 + Math.max(0, dist - 8) * 0.02;
+    let vec = V.mul(sol.vec, 1 + gauss(r) * sigV);
+    vec = rotateY(vec, gauss(r) * sigY * Math.PI / 180);
+    return { vel: vec, release, type, dist };
+  }
+
+  // Run a ball to completion without drawing (used for tests and quick sims).
+  function simulate(release, vel, court) {
+    const b = newBall(release, vel);
+    let n = 0;
+    while (!b.result && n++ < 2000) advance(b, 1 / 120, court);
+    return b;
+  }
+
+  return { G, newBall, advance, solve, shoot, cpuShot, simulate, shotType, releasePoint, idealFlick, FT_DIST, gauss };
+})();

@@ -1,0 +1,80 @@
+/* Engine 1 · Gesture
+   One recognizer for every touch game: flicks, swipes, taps.
+   Speeds come out in screen-heights per second and lengths in screen-heights,
+   so a flick means the same thing on a small phone, a big phone, or a laptop. */
+const Gesture = (() => {
+  const TAP_PX = 12;
+  const FLICK_MIN_PX = 24;
+  const RELEASE_WINDOW_MS = 110;
+
+  function classify(start, samples) {
+    const last = samples[samples.length - 1];
+    const dx = last.x - start.x, dy = last.y - start.y;
+    const dist = Math.hypot(dx, dy);
+    const dur = Math.max(1, last.t - start.t);
+    const h = Math.max(320, window.innerHeight || 800);
+    if (dist < TAP_PX) return dur < 380 ? { type: 'tap', x: last.x, y: last.y } : { type: 'hold', dur };
+
+    // Release speed: displacement over the last ~110 ms, the part of a flick that throws.
+    let k = samples.length - 1;
+    while (k > 0 && last.t - samples[k - 1].t <= RELEASE_WINDOW_MS) k--;
+    const ref = k === samples.length - 1 ? start : samples[k];
+    const rdt = Math.max(8, last.t - ref.t) / 1000;
+    const release = Math.hypot(last.x - ref.x, last.y - ref.y) / h / rdt;
+    const avg = dist / h / (dur / 1000);
+    const speed = Math.max(release, avg * 0.85);
+    // Power blends how fast and how far the finger travelled. Length is easy to
+    // repeat; speed is what "flick harder" feels like. Together they jitter less
+    // than either alone.
+    const power = Math.sqrt(speed * 4 * (dist / h));
+
+    const base = { dx, dy, dist, dur, speed, power, startX: start.x, startY: start.y };
+    if (-dy > Math.abs(dx) * 0.7 && dist >= FLICK_MIN_PX) {
+      return Object.assign(base, { type: 'flick', angle: Math.atan2(dx, -dy) });
+    }
+    if (Math.abs(dx) >= Math.abs(dy)) return Object.assign(base, { type: 'swipe', dir: dx < 0 ? 'left' : 'right' });
+    if (dy > 0) return Object.assign(base, { type: 'swipe', dir: 'down' });
+    return Object.assign(base, { type: 'flick', angle: Math.atan2(dx, -dy) });
+  }
+
+  function attach(el, on) {
+    let id = null, start = null, samples = null;
+    const pt = e => ({ x: e.clientX, y: e.clientY, t: performance.now() });
+    function down(e) {
+      if (id !== null) return;
+      id = e.pointerId;
+      try { el.setPointerCapture(id); } catch (_) {}
+      start = pt(e); samples = [start];
+      on.down && on.down(start);
+      e.preventDefault();
+    }
+    function move(e) {
+      if (e.pointerId !== id) return;
+      const p = pt(e);
+      samples.push(p);
+      if (samples.length > 48) samples.splice(1, 1);
+      on.move && on.move(p, start);
+    }
+    function up(e) {
+      if (e.pointerId !== id) return;
+      samples.push(pt(e));
+      const g = classify(start, samples);
+      id = null;
+      on.gesture && on.gesture(g);
+    }
+    function cancel(e) { if (e.pointerId === id) { id = null; on.cancel && on.cancel(); } }
+    el.addEventListener('pointerdown', down);
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', cancel);
+    el.style.touchAction = 'none';
+    return () => {
+      el.removeEventListener('pointerdown', down);
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerup', up);
+      el.removeEventListener('pointercancel', cancel);
+    };
+  }
+
+  return { attach, classify };
+})();
