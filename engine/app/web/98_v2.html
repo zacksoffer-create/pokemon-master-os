@@ -1,7 +1,7 @@
 <script>
 /* ===== What's new in v2 (#/v2; D-078, docs/design/V2_PLAN.md) ===================================================
    The first update after v1, built around your inputs: the fresh start, one team per game with its own trainer, the
-   team homepage, the Pokémon builder, five roles, six badge families, the generated naming list and the new menu.
+   team homepage, the Pokémon builder, six team roles (Pivot added in v2.3), six badge families, the generated naming list and the new menu.
    Every call made building it is below (store/assumptions.json, A-79 on), with Keep / Change / Reject as in Your calls. */
 var V2_CHANGES = [
   ['v2.1 · Where it came from', 'A list of the real ways your Pokémon reaches you in its game (starter, gift, egg, trade, every wild area), filling Met at and Level met. The ball is its own choice now.', '#/pokemon', 'Your Pokémon'],
@@ -12,17 +12,18 @@ var V2_CHANGES = [
   ['A fresh start', 'Your old journeys, builds, party, studbook and Sheet rows are out of the app (kept in the project). Every team is blank.', '#/', 'Home'],
   ['One team per game', 'Six teams, no versions. Each is its own trainer: a name, a philosophy, a coaching style and the nine dials, which the Arena plays it with.', '#/team', 'Your teams'],
   ['The team homepage', 'Six tiles you can drag into order, then the trainer, a scouting report, shapes and roles, coverage, a swap tool, candidates, achievements and a battle button.', '#/team/heartgold', 'HeartGold'],
-  ['The Pokémon builder', 'Moves from dropdowns of every legal move with everything about them, the nature, ability and item explained, the ball with the Pokémon in it, IVs and EVs with Max buttons, the stats. On the right, in your order: the species and its Pokédex, the five roles, badges, its scouting report, wilderness and homestead tags.', '#/pokemon', 'Your Pokémon'],
-  ['Five roles', 'Ace, Sweeper, Support, Wall and Tank (new), each answering one competitive question from the same League fights, with the work shown under each.', '#/pokemon', 'Build one'],
+  ['The Pokémon builder', 'Moves from dropdowns of every legal move with everything about them, the nature, ability and item explained, the ball with the Pokémon in it, IVs and EVs with Max buttons, the stats. On the right, in your order: the species and its Pokédex, the six team roles, badges, its scouting report, wilderness and homestead tags.', '#/pokemon', 'Your Pokémon'],
+  ['Six team roles', 'Ace, Sweeper, Support, Wall, Tank (new) and Pivot (new in v2.3), each answering one competitive question from the same League fights, with the work shown under each.', '#/pokemon', 'Build one'],
   ['Six badge families', 'Speed (with the Pokémon it outruns), Power, Bulk, Finishing, Sustain (new) and Utility (new).', '#/pokemon', 'Build one'],
-  ['The naming list', 'Every combination of the name ladder\'s words (233,886), each with a generated name, and a generated word for every slot. docs/naming/ALL_COMBINATIONS.md.', '#/calls', 'Your calls'],
+  ['The naming list', 'Every combination of the name ladder\'s words (257,006), each with a generated name, and a generated word for every slot. docs/naming/ALL_COMBINATIONS.md.', '#/calls', 'Your calls'],
   ['The menu', 'Your six teams first; Build, Play and Explore; the labs, the world and the record folded. The six teams are one click away in the top bar.', '#/', 'Home']
 ];
 var V2_ROLES = [['Ace', 'Can you build the run around it?', 'wins 80% of its one-on-ones against the Elite Four\'s Pokémon and 70% against the Champions\''],
   ['Sweeper', 'Once it gets going, does it take several down in a row?', 'moves first against 80%, 2HKOs 80% and OHKOs 30% of them (one use of its setup applied)'],
   ['Support', 'Does it spend its turns making the team better?', 'two or more support moves, and it survives (two hits from 80% of the hardest attacks) or moves first (60%)'],
   ['Wall', 'Does it take hit after hit from one side, and heal it off?', 'four or more hits from 80% of one side\'s 50 hardest attacks, and recovery, Rest, Wish or Leftovers'],
-  ['Tank', 'Does it take hits from both sides, and hit back?', 'three or more hits from 75% of the 100 hardest attacks, and 2HKOs 60% of the League']];
+  ['Tank', 'Does it take hits from both sides, and hit back?', 'three or more hits from 75% of the 100 hardest attacks, and 2HKOs 60% of the League'],
+  ['Pivot (v2.3)', 'Does it keep the team\'s momentum, coming in safely and handing off to the right teammate?', 'U-turn or Baton Pass, and two hits from 80% of the hardest attacks or moves first against 80%; or Intimidate or Natural Cure, and those two hits']];
 function v2Page() {
   return Promise.all([answers(), recordsReady().catch(function () { return null; })]).then(function (r) {
     var ans = r[0] || {}, items = (S.hq.assumptions || []).filter(function (a) { return a.decision === 'D-078'; });
@@ -38,7 +39,7 @@ function v2Page() {
         '<li>Back on the team page: drag the tiles into order, read the scouting report and the shape, try a swap, look through the candidates.</li>' +
         '<li>Battle it: pick an opponent at the bottom of the team page and play 20 battles. The result goes on the team\'s achievements.</li></ol>', {tools: false, style: 'margin-top:18px'}) +
       card('What changed', '<table class="t"><tbody>' + V2_CHANGES.map(function (c) { return '<tr><td style="width:170px"><b>' + esc(c[0]) + '</b></td><td class="small">' + esc(c[1]) + '</td><td><a class="btn sm" href="' + c[2] + '">' + esc(c[3]) + ' →</a></td></tr>'; }).join('') + '</tbody></table>', {tools: false, style: 'margin-top:18px'}) +
-      card('The five team roles', '<table class="t"><thead><tr><th>Role</th><th>The question</th><th>Earned when it</th></tr></thead><tbody>' + V2_ROLES.map(function (x) { return '<tr><td><b>' + x[0] + '</b></td><td class="small">' + esc(x[1]) + '</td><td class="small">' + esc(x[2]) + '</td></tr>'; }).join('') + '</tbody></table>' +
+      card('The six team roles', '<table class="t"><thead><tr><th>Role</th><th>The question</th><th>Earned when it</th></tr></thead><tbody>' + V2_ROLES.map(function (x) { return '<tr><td><b>' + x[0] + '</b></td><td class="small">' + esc(x[1]) + '</td><td class="small">' + esc(x[2]) + '</td></tr>'; }).join('') + '</tbody></table>' +
         '<div class="tiny muted" style="margin-top:8px">Every number comes from one-on-ones against the generation\'s Elite Four and Champions, both at level 100. The bars were set against 1,076 builds so each role picks out roughly a fifth of them (Ace kept at your D-064 bars).</div>', {tools: false, style: 'margin-top:18px'}) +
       card('The fresh start', '<p class="small" style="margin-top:0">Nothing was deleted. Your six journeys, the builds, lineups, the party, residents, the studbook, lineage and breeding program are all still in the project (<span class="mono">engine/canon/</span>, and their reports in <span class="mono">docs/</span>), and the Sheet still has every row you wrote. The app simply doesn\'t show them while the fresh start is on.</p>' +
         '<p class="small">To bring them back: set <span class="mono">on</span> to <span class="mono">false</span> in <span class="mono">engine/store/fresh_start.json</span> and rebuild (<span class="mono">python3 -I engine/rebuild.py</span>).</p>', {tools: false, style: 'margin-top:18px'}) +

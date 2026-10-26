@@ -916,7 +916,7 @@ Badges are grouped as Speed, Power, Bulk, Finishing, Sustain and Utility. Speed 
 
 ### A-98 · Generated words, not applied (D-078)
 
-Every naming slot has a generated proposal (Ember, Berserker, Rising, Crowned, Noble...), and every combination of them (233,886) is listed with the name it makes. None is applied until you put it in naming.words.
+Every naming slot has a generated proposal (Ember, Berserker, Rising, Crowned, Noble...), and every combination of them (257,006) is listed with the name it makes. None is applied until you put it in naming.words.
 
 - **Why:** Your call: 'I do want that massive list ... mainly generated'; names stay yours to approve (D-059).
 - **See it:** `#/v2` (What's new in v2 (docs/naming/ALL_COMBINATIONS.md))
@@ -988,3 +988,23 @@ Your calls is second in the menu with a count of what's waiting, the count is in
 - **Why:** Your call: "I can't find the your calls list ... that needs to be better presented to me."
 - **See it:** `#/calls` (Your calls)
 - **Could instead:** one call at a time, full screen, with next and back
+
+## v2.3 · The builder
+
+### A-106 · Each ball's own opening (D-078)
+
+Every one of the 25 balls opens its own way when your Pokémon comes out: the ball rocks, flashes in its own color, and lets out its own particles. Love Ball hearts, Moon Ball crescents and stars, Dive Ball bubbles, the Net Ball's mesh, Nest and Friend Ball leaves, the Timer Ball's clock, Dusk Ball smoke, Quick and Fast Ball streaks, Repeat Ball rings, a Heavy Ball thud, a Lure Ball splash, Level Ball chevrons, Cherish and Premier confetti, Heal Ball crosses, and sparks in each standard ball's colors. It plays in the builder's portrait (tap it to send the Pokémon out again) and on the team's six. These are Blackthorn's designs after each ball's look and purpose, not frame-by-frame copies of the games' effects.
+
+- **Why:** Your call: "the animation specific to the ball in question."
+- **See it:** `#/pokemon` (Any of your Pokémon, its portrait)
+- **Could instead:** recreate each game's own ball effect as closely as the sprites allow; play it only in the builder, not on the team page
+
+## v2.3 · Roles
+
+### A-107 · Pivot (D-078)
+
+Pivot is the sixth team role. It's earned with a pivoting move (U-turn or Baton Pass) and either takes two or more hits from 80% of the 100 hardest-hitting League attacks or moves first against 80% of the League's Pokémon; or with Intimidate or Natural Cure and those two hits. 130 of 1,076 builds earn it (12%). The League carries no EVs, so nearly every U-turn or Baton Pass user clears the bulk-or-speed bar: the move or ability is what separates a Pivot.
+
+- **Why:** Your call: "pivot needs to be added to the list of team roles." Smogon's pivot keeps momentum: it comes in safely and brings the right teammate in.
+- **See it:** `#/team/heartgold` (A team page, Shapes & roles)
+- **Could instead:** moves only (no switch-in abilities); also count Roar and Whirlwind, which force switches

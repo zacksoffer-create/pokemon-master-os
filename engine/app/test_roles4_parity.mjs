@@ -1,4 +1,4 @@
-// The browser's five team roles (v2) and build names (web/28_teamroles.html, on top of 25_scout and 27_battle with
+// The browser's six team roles (v2; Pivot v2.3) and build names (web/28_teamroles.html, on top of 25_scout and 27_battle with
 // @smogon/calc in the page) against Python's trainers/team_roles.py, build by build, number for number.
 // Run: python3 -I trainers/team_roles.py --parity py.json [ids] && node app/test_roles4_parity.mjs py.json
 import fs from 'node:fs';

@@ -1,6 +1,6 @@
 // v2 (D-078) in the preview build (app/dist/Blackthorn-HQ-preview.html), from a fresh start: home leads with six blank
 // teams; a Pokémon added to HeartGold opens in the builder; its moves come from dropdowns with everything about them;
-// the five roles re-read live; a draft survives leaving the page; saves keep every version; a candidate joins the team;
+// the six roles re-read live; a draft survives leaving the page; saves keep every version; a candidate joins the team;
 // the tiles reorder and the team keeps its own trainer; every section of the team homepage reads; a swap reads; the
 // breeding lab, PKHeX export, the Survival Lab, the profile and a picture upload all work with the new Pokémon.
 // Run: python3 -I app/build.py && node app/test_labs.mjs                  (tests/test_engines.py runs it)
@@ -39,7 +39,7 @@ await settle('#pbroles .role5');
 const id = await page.evaluate(() => PB.id);
 const b0 = await page.evaluate(() => ({ roles: [...document.querySelectorAll('#pbroles .role5 b')].map((x) => x.textContent), moves: document.querySelectorAll('[data-pbmove="0"] option').length,
   dex: document.querySelectorAll('.dexblock .dexe').length, team: PB.team }));
-if (b0.roles.join() !== 'Ace,Sweeper,Support,Wall,Tank') fails.push('builder: the roles are ' + b0.roles.join());
+if (b0.roles.join() !== 'Ace,Sweeper,Support,Wall,Tank,Pivot') fails.push('builder: the roles are ' + b0.roles.join());
 if (b0.moves < 50) fails.push('builder: only ' + b0.moves + ' moves in the dropdown');
 if (b0.dex < 3) fails.push('builder: only ' + b0.dex + ' Pokédex entries');
 if (!b0.team || b0.team.game !== 'heartgold' || b0.team.slot !== 0) fails.push('builder: it isn\'t on the team in slot 1 ' + JSON.stringify(b0.team));

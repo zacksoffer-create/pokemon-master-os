@@ -364,16 +364,39 @@ table.board td, table.board th { padding: 6px 8px; }
 .inball .ib-plain { border-radius: 50%; background: radial-gradient(circle at 50% 35%, #3a3f4a 0 48%, #1c1f26 49% 52%, #2b2f38 53%); }
 .inball .ib-mon { position: relative; width: 86% !important; height: 86% !important; object-fit: contain; filter: drop-shadow(0 6px 8px rgba(0,0,0,.5)); }
 .inball .ib-shiny { position: absolute; top: 2px; right: 4px; color: var(--gold-2); font-size: 14px; text-shadow: 0 0 6px rgba(226,204,152,.8); }
-/* v2.2 (A-30): the Pokémon comes out of its ball: the ball rocks, a flash, the Pokémon pops out (the builder's portrait and the team's six) */
+/* v2.2-v2.3 (A-30): the Pokémon comes out of its ball: the ball rocks, flashes in its own color, lets out its own particles (BALL_FX in 83_builder), and the Pokémon pops out */
 @keyframes ib-rock { 0% { transform: rotate(0) scale(1); opacity: 1; } 20% { transform: rotate(-14deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(0) scale(1.06); opacity: 1; } 100% { transform: rotate(0) scale(1); opacity: .55; } }
 @keyframes ib-out { 0%, 55% { transform: scale(.1); opacity: 0; } 80% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
 @keyframes ib-flash { 0%, 50% { opacity: 0; transform: scale(.2); } 62% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(1.35); } }
-#pbportrait .inball .ib-ball, .six .tile .inball .ib-ball { animation: ib-rock .9s ease-out var(--ibd, 0s) both; }
-#pbportrait .inball .ib-mon, .six .tile .inball .ib-mon { animation: ib-out 1s ease-out var(--ibd, 0s) both; }
-#pbportrait .inball::after, .six .tile .inball::after { content: ''; position: absolute; inset: 8%; border-radius: 50%; pointer-events: none; opacity: 0;
-  background: radial-gradient(circle, rgba(255,255,255,.95), rgba(255,236,190,.45) 45%, transparent 70%); animation: ib-flash 1s ease-out var(--ibd, 0s) both; }
+.inball.release .ib-ball { animation: ib-rock .9s ease-out var(--ibd, 0s) both; }
+.inball.release .ib-mon { animation: ib-out 1s ease-out var(--ibd, 0s) both; }
+.inball.release::after { content: ''; position: absolute; inset: 8%; border-radius: 50%; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.95), var(--fc, #FFECBE) 40%, transparent 70%); animation: ib-flash 1s ease-out var(--ibd, 0s) both; }
+#pbportrait { cursor: pointer; }
 .six .tile:nth-child(2) { --ibd: .08s; } .six .tile:nth-child(3) { --ibd: .16s; } .six .tile:nth-child(4) { --ibd: .24s; } .six .tile:nth-child(5) { --ibd: .32s; } .six .tile:nth-child(6) { --ibd: .4s; }
-@media (prefers-reduced-motion: reduce) { #pbportrait .inball *, .six .tile .inball *, #pbportrait .inball::after, .six .tile .inball::after { animation: none !important; } }
+.ibfx { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.ibp { position: absolute; left: 50%; top: 50%; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); color: var(--c); font-size: var(--s); line-height: 1; text-align: center; opacity: 0;
+  text-shadow: 0 0 6px var(--c); animation: ibp-burst 1.1s cubic-bezier(.2,.7,.3,1) calc(var(--ibd, 0s) + .5s + var(--dl, 0s)) both; }
+@keyframes ibp-burst { 0% { opacity: 0; transform: rotate(var(--a)) translateY(0) scale(.3); } 15% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--a)) translateY(calc(-1 * var(--r))) scale(1); } }
+@keyframes ibp-rise { 0% { opacity: 0; transform: translate(0, 10px) scale(.4); } 20% { opacity: .9; } 100% { opacity: 0; transform: translate(var(--x), calc(-1 * var(--r) - 10px)) scale(1.1); } }
+@keyframes ibp-fall { 0% { opacity: 0; transform: rotate(var(--a)) translateY(0) rotate(0); } 15% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--a)) translateY(calc(-1 * var(--r))) rotate(540deg) translateY(30px); } }
+@keyframes ibp-grow { 0% { opacity: 0; transform: scale(.2); } 25% { opacity: .9; } 100% { opacity: 0; transform: scale(1.6); } }
+@keyframes ibp-sweep { 0% { opacity: 0; transform: scale(.6) rotate(0); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.25) rotate(360deg); } }
+@keyframes ibp-puff { 0% { opacity: 0; transform: translate(0, 18px) scale(.3); } 25% { opacity: .8; } 100% { opacity: 0; transform: translate(calc(var(--x) * 3), 22px) scale(2.2); } }
+.ibp-bubble { border: 1.5px solid var(--c); border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.8), transparent 45%); text-shadow: none; animation-name: ibp-rise; }
+.ibp-leaf { border-radius: 0 100% 0 100%; background: var(--c); text-shadow: none; animation-name: ibp-fall; }
+.ibp-confetti { width: calc(var(--s) * .5); background: var(--c); border-radius: 1px; text-shadow: none; animation-name: ibp-fall; }
+.ibp-splash { border-radius: 50% 50% 50% 0; background: var(--c); text-shadow: none; }
+.ibp-streak { width: 2px; height: calc(var(--s) * 2); margin-left: -1px; background: linear-gradient(to top, transparent, var(--c)); text-shadow: none; }
+.ibp-dust { width: calc(var(--s) * 2); height: calc(var(--s) * 2); border-radius: 50%; background: radial-gradient(circle, var(--c), transparent 70%); text-shadow: none; top: auto; bottom: 6%; animation-name: ibp-puff; }
+.ibp-smoke { width: calc(var(--s) * 2.4); height: calc(var(--s) * 2.4); border-radius: 50%; background: radial-gradient(circle, var(--c), transparent 70%); text-shadow: none; animation-name: ibp-grow; }
+.ibp-net { width: 88%; height: 88%; left: 6%; top: 6%; margin: 0; border-radius: 50%; text-shadow: none;
+  background: repeating-linear-gradient(45deg, var(--c) 0 1.5px, transparent 1.5px 9px), repeating-linear-gradient(-45deg, var(--c) 0 1.5px, transparent 1.5px 9px); animation-name: ibp-grow; }
+.ibp-ring { width: 80%; height: 80%; left: 10%; top: 10%; margin: 0; border: 3px solid var(--c); border-radius: 50%; text-shadow: none; animation-name: ibp-grow; }
+.ibp-clock { width: 86%; height: 86%; left: 7%; top: 7%; margin: 0; border-radius: 50%; text-shadow: none;
+  background: conic-gradient(var(--c) 0 25%, transparent 25% 50%, var(--c) 50% 75%, transparent 75%); -webkit-mask: radial-gradient(circle, transparent 58%, #000 60%); mask: radial-gradient(circle, transparent 58%, #000 60%); animation-name: ibp-sweep; }
+.ibp-chevron { animation-name: ibp-rise; }
+@media (prefers-reduced-motion: reduce) { .inball.release *, .inball.release::after { animation: none !important; } .ibfx { display: none; } }
 .pix { image-rendering: pixelated; }
 .pbtop { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .teamstrip { display: flex; gap: 6px; }

@@ -827,31 +827,37 @@
   {
    "id": "none",
    "means": "no team role",
-   "builds_using_it": 159,
+   "builds_using_it": 137,
    "named": false
   },
   {
    "id": "ace",
    "means": "Ace",
-   "builds_using_it": 121,
+   "builds_using_it": 119,
    "named": false
   },
   {
    "id": "sweeper",
    "means": "Sweeper",
-   "builds_using_it": 47,
-   "named": false
-  },
-  {
-   "id": "support",
-   "means": "Support",
-   "builds_using_it": 39,
+   "builds_using_it": 46,
    "named": false
   },
   {
    "id": "wall",
    "means": "Wall",
-   "builds_using_it": 38,
+   "builds_using_it": 36,
+   "named": false
+  },
+  {
+   "id": "pivot",
+   "means": "Pivot",
+   "builds_using_it": 34,
+   "named": false
+  },
+  {
+   "id": "support",
+   "means": "Support",
+   "builds_using_it": 32,
    "named": false
   },
   {

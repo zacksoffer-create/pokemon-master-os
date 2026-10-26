@@ -55,7 +55,34 @@ await until(() => document.querySelector('[data-back]'), null, 30000).catch(() =
 await page.evaluate(() => document.querySelector('[data-back]').click());
 await until(() => Object.values(S.store.individuals).filter((x) => x.game === 'soulsilver' && x.status === 'retired').length === 1, null, 30000).catch(() => fails.push('tidy: Bring back didn\'t'));
 
+// v2.3 (Zack: "the move sets didn't save ... or they like went away"): the bug's leftovers. A built Typhlosion off the
+// team behind an unbuilt copy in its slot, put back with one tap; then a change left unsaved, saved from the team page.
+const ids = await page.evaluate(async () => {
+  const a = await Records.saveIndividual({species: 'Typhlosion', game: 'heartgold', gender: 'M', shiny: false, ball: 'Love Ball', origin: 'added in the app', status: 'working'});
+  const b = await Records.saveBuild({species: 'Typhlosion', game: 'heartgold', generation: 4, ability: 'Blaze', moves: ['Flamethrower', 'Sunny Day', 'Solar Beam', 'Focus Blast'], individual: a.id}, {asNew: true});
+  await Records.saveIndividual(Object.assign({}, S.store.individuals[a.id], {build: b.id}));
+  const c = await Records.saveIndividual({species: 'Typhlosion', game: 'heartgold', gender: 'M', shiny: false, ball: 'Poké Ball', origin: 'added in the app', status: 'working'});
+  await Teams.update('heartgold', (t) => { t.slots[0] = {ind: c.id, species: 'Typhlosion'}; return t; });
+  return {built: a.id, copy: c.id};
+});
+await page.evaluate(() => nav('#/team/heartgold'));
+await until(() => document.querySelector('[data-tmfix="swap"]'), null, 30000).catch(() => fails.push('swap: the team page didn\'t offer to put the built Typhlosion back'));
+await page.click('[data-tmfix="swap"]');
+await until((id) => (Teams.get('heartgold').slots[0] || {}).ind === id, ids.built, 30000).catch(() => fails.push('swap: slot 1 still holds the unbuilt copy'));
+await page.evaluate((id) => nav('#/pokemon/' + encodeURIComponent(id)), ids.built);
+await until(() => document.querySelector('#pbportrait .ibfx'), null, 60000).catch(() => fails.push('ball: no opening on the portrait'));
+const fx = await page.evaluate(() => ({ball: (document.querySelector('#pbportrait .ibfx') || {getAttribute: () => null}).getAttribute('data-fx'), hearts: document.querySelectorAll('#pbportrait .ibp-heart').length}));
+if (fx.ball !== 'love' || !fx.hearts) fails.push('ball: a Love Ball should open with hearts, got ' + JSON.stringify(fx));
+await page.selectOption('[data-pbmove="3"]', 'Earthquake');
+await page.waitForTimeout(400);
+await page.evaluate(() => nav('#/team/heartgold'));
+await until(() => document.querySelector('[data-tmfix="drafts"]'), null, 30000).catch(() => fails.push('drafts: the team page didn\'t offer to save the unsaved change'));
+await page.click('[data-tmfix="drafts"]');
+await until((id) => !Records.draft(id) && Records.versions(S.store.individuals[id].build).length === 2, ids.built, 60000).catch(() => fails.push('drafts: Save it now didn\'t save a second version'));
+const saved = await page.evaluate((id) => (Records.version(S.store.individuals[id].build, 2) || {}).moves, ids.built);
+if (!saved || saved[3] !== 'Earthquake') fails.push('drafts: saved moves ' + JSON.stringify(saved));
+
 await browser.close();
 if (errors.length) fails.push('page errors: ' + errors.join(' || '));
-console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back');
+console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back; the built one back in its slot; a Love Ball opens with hearts; an unsaved change saved from the team page');
 process.exit(fails.length ? 1 : 0);

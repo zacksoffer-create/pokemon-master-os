@@ -10,12 +10,12 @@ Every word the build-name ladder uses, and how many current builds use it. Fill 
 | Role nouns (the role engine's primary role) | 34 |
 | Hybrid nouns (two or three roles at 0.80 or more; only pairs builds use today) | 77 |
 | Moveset words | 8 |
-| Team-role words | 6 |
+| Team-role words | 7 |
 | Base-stat-total words | 4 |
 | Team shapes (the team lab: the first shape whose role counts fit, in this order) | 9 |
 | Breeding lines (the breeding lab; one name per boutique line) | 11 |
 | One word for a build below the last band (`naming.words.unnamed`) | 1 |
-| **Total** | **167** |
+| **Total** | **168** |
 
 ## Type words (the build's first type)
 
@@ -187,11 +187,12 @@ Fill in `naming.words.team_role.<id>`.
 
 | id | means | builds using it | named |
 |---|---|---|---|
-| `none` | no team role | 159 |  |
-| `ace` | Ace | 121 |  |
-| `sweeper` | Sweeper | 47 |  |
-| `support` | Support | 39 |  |
-| `wall` | Wall | 38 |  |
+| `none` | no team role | 137 |  |
+| `ace` | Ace | 119 |  |
+| `sweeper` | Sweeper | 46 |  |
+| `wall` | Wall | 36 |  |
+| `pivot` | Pivot | 34 |  |
+| `support` | Support | 32 |  |
 | `tank` | Tank | 16 |  |
 
 ## Base-stat-total words

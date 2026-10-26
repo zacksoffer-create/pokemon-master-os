@@ -1,4 +1,4 @@
-"""The five team roles (Ace, Sweeper, Support, Wall, Tank; v2, D-078) and the build-name ladder (docs/design/V2_PLAN.md §5).
+"""The six team roles (Ace, Sweeper, Support, Wall, Tank, Pivot; v2, D-078; Pivot v2.3) and the build-name ladder (docs/design/V2_PLAN.md §5).
 
 Every rule and number is in trainers/team_roles.json; this file only evaluates them, so the browser copy
 (app/web/28_teamroles.html) stays small and a parity test can hold the two together.
@@ -41,7 +41,7 @@ from trainers.roles import RoleBook  # noqa: E402
 CONFIG = os.path.join(HERE, "team_roles.json")
 GAME_OF_GEN = {2: "crystal", 3: "emerald", 4: "platinum"}
 SETUP = {"setup_physical", "setup_special", "setup_speed", "setup_defense"}
-ROLE_ORDER = ("ace", "sweeper", "support", "wall", "tank")     # Zack's order (v2, D-078)
+ROLE_ORDER = ("ace", "sweeper", "support", "wall", "tank", "pivot")     # Zack's order (v2, D-078; Pivot added in v2.3)
 
 
 def fresh_start():
@@ -227,7 +227,7 @@ class TeamRoles:
 
     def facts(self, f, gen, moves, item):
         """Per opponent (the Elite Four and Champion Pokémon, each set once): does it move first, how hard does its best
-        attack hit (no boosts, and with one use of its setup), and every hit it takes. The five roles read only these."""
+        attack hit (no boosts, and with one use of its setup), and every hit it takes. The six roles read only these."""
         foes, order = {}, []
         for pool in ("elite_four", "champion"):
             for c, _, m in f[pool]:
@@ -337,6 +337,22 @@ class TeamRoles:
                         f"its best attack is a guaranteed 2HKO on {round(100 * ko)}% of the League's Pokémon, no boosts (needs {round(100 * r['ko_at_least'])}%)"],
                 "numbers": {"take_share": round(share, 4), "ko2": ko, "attacks_read": len(top)}}
 
+    def pivot(self, fx, moves, ability):
+        r = self.cfg["roles"]["pivot"]
+        cats = set(r["pivot_categories"])
+        piv = [m["name"] for m in moves if m["categories"] & cats]
+        ab = ability if ability in r["switch_in_abilities"] else None
+        top = fx["_hits"][:r["hardest_attacks"]]
+        survive = self.take_share(top, 2)
+        by_move = bool(piv) and (survive >= r["survive_at_least"] or fx["first"] >= r["first_at_least"])
+        by_ability = bool(ab) and survive >= r["survive_at_least"]
+        score = max(max(survive, fx["first"]) if piv else 0.0, 0.8 * survive if ab else 0.0)
+        return {"role": "pivot", "score": round(score, 4), "earned": by_move or by_ability,
+                "why": [f"pivoting moves: {', '.join(piv) or 'none'}; switch-in ability: {ab or 'none'} (needs one)",
+                        f"takes two or more hits from {round(100 * survive)}% of the {len(top)} hardest attacks (needs {round(100 * r['survive_at_least'])}%), "
+                        f"or, with a pivoting move, moves first against {round(100 * fx['first'])}% of them (needs {round(100 * r['first_at_least'])}%)"],
+                "numbers": {"pivot_moves": piv, "switch_in_ability": ab, "survive": round(survive, 4), "first": fx["first"], "attacks_read": len(top)}}
+
     # --- the name ---------------------------------------------------------------------------------------------
     def moveset(self, moves, gen):
         n = self.cfg["naming"]["movesets"]
@@ -419,7 +435,8 @@ class TeamRoles:
         cl = self.book.classify(filled, game, self.cfg["level"])
         ctx = self.book.context(filled, game, self.cfg["level"])
         fx = self.facts(fights[b.id], gen, ctx["moves"], ctx["item"])
-        team = [self.ace(fights[b.id]), self.sweeper(fx), self.support(fx, ctx["moves"]), self.wall(fx), self.tank(fx)]
+        team = [self.ace(fights[b.id]), self.sweeper(fx), self.support(fx, ctx["moves"]), self.wall(fx), self.tank(fx),
+                self.pivot(fx, ctx["moves"], ctx["ability"])]
         team = [self.override(r, b.id) for r in team]
         team_sorted = sorted(team, key=lambda r: (-r["score"], r["role"]))
         return {"build": b.id, "species": b.species, "game": game, "gen": gen, "moves": filled.moves,

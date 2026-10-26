@@ -212,7 +212,8 @@
       "sweeper",
       "support",
       "wall",
-      "tank"
+      "tank",
+      "pivot"
     ],
     "_v2": "v2 (D-078, Zack: 'rework kind of what goes into exactly what defines those ... take the reign'): Sweeper, Wall and Support are read from the fights themselves rather than the role engine's composite scores, Tank is new, and every role keeps its numbers so the page can show its work. Ace is unchanged (D-064). Thresholds were set against every library and competitive build (docs/roles/ROLE_SCORES.md).",
     "ace": {
@@ -302,6 +303,25 @@
       "ko_at_least": 0.6,
       "_why": "New in v2 (Zack: 'I want to add Tank'). Smogon's tank is a bulky attacker: it trades hits rather than avoiding or healing them. Three hits rather than the Wall's four, and it has to hit back.",
       "_calibrated": "2026-10-25 over 1,076 builds: at 60/50 334 qualified, at 75/60 195 (18%)."
+    },
+    "pivot": {
+      "name": "Pivot",
+      "question": "Does it keep the team's momentum, coming in safely and handing off to the right teammate?",
+      "explain": "It switches in on an attack it can take and goes out with something to show for it: U-turn or Baton Pass to bring a teammate in safely, or a switch-in ability (Intimidate, Natural Cure) that makes every entry pay. Smogon's pivot.",
+      "rule": "Carries a pivoting move (U-turn, Baton Pass) and either takes two or more hits from at least 80% of the 100 hardest-hitting Elite Four and Champion attacks against it or moves first against at least 80% of their Pokémon; or has Intimidate or Natural Cure and takes those two hits.",
+      "pivot_categories": [
+        "pivot_move",
+        "baton_pass"
+      ],
+      "switch_in_abilities": [
+        "Intimidate",
+        "Natural Cure"
+      ],
+      "hardest_attacks": 100,
+      "survive_at_least": 0.8,
+      "first_at_least": 0.8,
+      "_why": "New in v2.3 (Zack, 2026-10-26: 'I also think pivot needs to be added to the list of team roles'). The role engine's own pivot archetype (trainers/roles.json) reads the same tools; this one asks the League fights whether it can make the entry.",
+      "_calibrated": "2026-10-26 over 1,076 builds: 66 carry a pivoting move and 60 a switch-in ability; 130 earn it at these bars (12%; switch-in abilities include each species' default first ability). The League carries no EVs, so nearly every pivoting-move user clears the bulk-or-speed bar: the tool is what separates a Pivot, the bar keeps out the frail ones."
     },
     "_score": "Each role's score is 0-1 and shown, not used to decide (each role is earned only when every bar is cleared). Ace: the mean of its two win rates. Sweeper and Tank need two things at once, so their score is the geometric mean of the two shares (a Pokémon strong at one and hopeless at the other scores low). Wall: its better side's share, at 85% without sustain. Support: its support moves (three or more count fully) times how well it lasts (half for showing up, half for surviving or moving first)."
   },

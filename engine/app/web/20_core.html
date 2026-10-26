@@ -206,6 +206,7 @@ function go() {
   // a fresh page element for every page: listeners a page binds to #page (the team page, the species picker, a
   // facility) go with it, instead of piling up and firing once per earlier visit (v2.1 fix: one tap on a species
   // added it once per visit to the picker, and the copies overwrote each other's team slots)
+  if (S.onLeave) { var leave = S.onLeave; S.onLeave = null; try { leave(); } catch (e) {} }   // a page's last word as you go (the builder: unsaved changes)
   var old = document.getElementById('page'), page = old.cloneNode(false);
   old.parentNode.replaceChild(page, old);
   page.innerHTML = '<div class="empty">Opening…</div>';

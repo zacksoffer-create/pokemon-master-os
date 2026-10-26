@@ -165,7 +165,15 @@ Groups below Play start folded. Home leads with your six teams and what to do ne
 | A-62 | More dossiers. Your teams' species first. |
 | A-66 | Add Kanto to the landscape, since HeartGold covers both regions. |
 
-## 11. Not reworked yet (the next updates)
+## 11. v2.3: the lost moves, Pivot, and each ball's own opening (2026-10-26)
+
+| Zack | Done |
+|---|---|
+| *"The move sets didn't save when I was done creating the Pokémon, or they like went away."* | Two causes, both repaired from the team page.<ul><li>**Copies.** The v2.2 bug made extra copies of each Pokémon. A slot can hold a copy that was never built while the one you built sits off the team, so the team showed no moves. The team page now names each case, and **Put the ones you built in their slots** swaps them back. The spare copies can then be set aside from Your Pokémon.</li><li>**Unsaved changes.** A build left without pressing Save is kept only in that browser. Leaving the builder with unsaved changes now says so. The team page marks those Pokémon *unsaved*, with **Save them now**, and the builder has **Save now** on its unsaved line. Both use the builder's own save.</li></ul> |
+| *"Pivot needs to be added to the list of team roles."* | **Pivot** is the sixth team role (`trainers/team_roles.json`, read the same way in the app and the engines). A Pivot carries a way to switch out on its own terms (U-turn, Baton Pass) and either takes the hardest hits well or moves first. Intimidate or Natural Cure counts towards it. 130 of the League's 1,076 Pokémon earn it (12%). The naming list's word for it is proposed as *Tactical*, giving 257,006 combinations. (A-107) |
+| *"The animation specific to the ball in question."* | **Each ball has its own opening**: hearts for the Love Ball, bubbles for the Dive Ball, a net for the Net Ball, moons and stars for the Moon Ball, a clock for the Timer Ball, smoke for the Dusk Ball, a purple ring for the Master Ball, and so on for all 25. These are Blackthorn's designs after each ball's colours and purpose, not copies of the games' frames. The opening plays on the builder's portrait (tap it to replay) and on the team's six. (A-106) |
+
+## 12. Not reworked yet (the next updates)
 
 This update rebuilt the path from a team to one Pokémon and back. The rest still works, but some of it was built
 around the old journey.

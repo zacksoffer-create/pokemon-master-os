@@ -28,7 +28,7 @@ function teamLab(game) {
         '<div class="kv" id="tmkv">' + tmKV(null) + '</div></div>' +
       '<nav class="tnav">' + [['six', 'The six'], ['trainer', 'Trainer'], ['scout', 'Scouting report'], ['shape', 'Shapes & roles'], ['cover', 'Coverage'], ['swap', 'Swap'], ['cand', 'Candidates'], ['ach', 'Achievements'], ['battle', 'Battle']]
         .map(function (x) { return '<a href="javascript:void 0" data-jump="tm-' + x[0] + '">' + x[1] + '</a>'; }).join('') + '</nav>' +
-      '<section id="tm-six">' + tmSix() + '</section>' +
+      '<div id="tmfix">' + tmFixes() + '</div><section id="tm-six">' + tmSix() + '</section>' +
       '<div class="grid" style="margin-top:16px"><div class="c5" id="tm-trainer">' + tmTrainer() + '</div><div class="c7" id="tm-scout">' + card('Scouting report', '<div class="empty">Reading the six against the League…</div>', {tools: false}) + '</div></div>' +
       '<section id="tm-shape" style="margin-top:16px"></section><section id="tm-cover" style="margin-top:16px"></section>' +
       '<div class="grid" style="margin-top:16px"><div class="c5" id="tm-swap"></div><div class="c7" id="tm-battle">' + tmBattleCard() + '</div></div>' +
@@ -36,10 +36,25 @@ function teamLab(game) {
   });
 }
 function tmMembers() { return Teams.members(TM.team); }
+function tmFixes() {   // v2.3: what to put right first: built Pokémon sitting off the team behind an unbuilt copy, and changes left unsaved
+  var sw = pbSwaps(TM.game), dr = pbDrafts(TM.game), out = '';
+  if (sw.length) out += '<div class="notice" style="margin-bottom:10px"><span>' + sw.map(function (x) { return 'Slot ' + (x.slot + 1) + ' holds a ' + esc(x.from.species) + ' that was never built, and the ' + esc(x.to.nickname || x.to.species) + ' you built isn\'t on the team'; }).join('; ') +
+    ' (copies an add bug made, fixed in v2.2). <button class="btn sm gold" data-tmfix="swap" style="margin-left:6px">Put the ones you built in their slots</button></span></div>';
+  if (dr.length) out += '<div class="notice" style="margin-bottom:10px"><span>Unsaved changes on ' + esc(join(dr.map(function (i) { return i.nickname || i.species; }))) + ', kept only in this browser. <button class="btn sm gold" data-tmfix="drafts" style="margin-left:6px">Save ' + (dr.length > 1 ? 'them' : 'it') + ' now</button></span></div>';
+  return out;
+}
+function tmFix(kind) {
+  var game = TM.game, done = function (msg) { toast(msg); nav('#/team/' + game, true); }, fail = function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); };
+  if (kind === 'swap') { var sw = pbSwaps(game);
+    Teams.update(game, function (t) { sw.forEach(function (x) { if (t.slots[x.slot] && t.slots[x.slot].ind === x.from.id) t.slots[x.slot] = {ind: x.to.id, species: x.to.species}; }); return t; })
+      .then(function () { done('Your built ' + esc(join(sw.map(function (x) { return x.to.nickname || x.to.species; }))) + ' ' + (sw.length > 1 ? 'are' : 'is') + ' back in ' + (sw.length > 1 ? 'their slots' : 'its slot') + '. The unbuilt copies can be set aside from Your Pokémon.'); }).catch(fail); }
+  if (kind === 'drafts') { var ids = pbDrafts(game).map(function (i) { return i.id; }); toast('Saving ' + plural(ids.length, 'Pokémon') + '…');
+    pbSaveDrafts(ids).then(function () { done('Saved ' + plural(ids.length, 'Pokémon') + ' to your Sheet.'); }).catch(fail); }
+}
 function tmKV(comp) {
   var n = Teams.filled(TM.team), rolesN = comp ? TeamRoles.ORDER.filter(function (r) { return comp.roles[r].length; }).length : null;
   var cover = comp ? (comp.questions.filter(function (q) { return q.id === 'champions'; })[0] || {}).answer : null;
-  return '<div><b>' + n + ' of 6</b>Pokémon</div>' + (comp ? '<div><b>' + rolesN + ' of 5</b>team roles</div><div><b>' + shapeHtml(comp.shape) + '</b>shape</div><div><b>' + esc(String(cover || '—').split(' beaten')[0]) + '</b>Champion Pokémon answered</div>' : '');
+  return '<div><b>' + n + ' of 6</b>Pokémon</div>' + (comp ? '<div><b>' + rolesN + ' of ' + TeamRoles.ORDER.length + '</b>team roles</div><div><b>' + shapeHtml(comp.shape) + '</b>shape</div><div><b>' + esc(String(cover || '—').split(' beaten')[0]) + '</b>Champion Pokémon answered</div>' : '');
 }
 
 /* ---- the six: tiles you can drag into order ---- */
@@ -51,7 +66,7 @@ function tmSix() {
     var roles = r && !r.error ? (r.earned.length ? r.earned.map(function (e) { return chip(roleName(e), 'forest'); }).join(' ') : '<span class="tiny muted">no team role</span>') : r && r.error ? '<span class="tiny" style="color:var(--ember-2)">couldn\'t read</span>' : '<span class="tiny muted">reading…</span>';
     return '<div class="tile" draggable="true" data-slot="' + i + '" data-go="' + esc(x.id) + '"><span class="no">' + (i + 1) + '</span>' +
       '<span class="mv"><button data-nudge="' + i + ':-1" title="Move left">◀</button><button data-nudge="' + i + ':1" title="Move right">▶</button><button data-out="' + i + '" title="Take it off the team">✕</button></span>' +
-      inBall(x.species, x.game, x.ball, x.shiny, 104) + '<div class="nm">' + esc(x.nickname || x.species) + '</div><div class="sub">' + (x.nickname ? esc(x.species) + ' · ' : '') + types(Battle.species(gen, x.species).types) + '</div>' +
+      inBall(x.species, x.game, x.ball, x.shiny, 104, true) + '<div class="nm">' + esc(x.nickname || x.species) + (Records.draft(x.id) ? ' ' + chip('unsaved', 'ember') : '') + '</div><div class="sub">' + (x.nickname ? esc(x.species) + ' · ' : '') + types(Battle.species(gen, x.species).types) + '</div>' +
       '<div class="moves">' + (b.moves && b.moves.length ? esc(b.moves.join(' · ')) : '<span class="muted">no moves yet: open it to build</span>') + (b.item ? '<div class="muted">@ ' + esc(b.item) + '</div>' : '') + '</div>' +
       '<div style="margin-top:6px" data-roles="' + i + '">' + roles + '</div>' + (r && !r.error ? '<div class="tiny" style="margin-top:4px">' + nameHtml(r.name) + '</div>' : '') + '</div>';
   }).join('') + '</div><div class="tiny muted" style="margin-top:6px">Click a Pokémon to build it. Drag the tiles (or use ◀ ▶) to set the order: slot 1 leads in battle. Changes save to your My Teams tab as you make them.</div>';
@@ -191,7 +206,7 @@ function tmShapes(comp, live) {
     return '<div class="shape' + (fit ? ' fit' : '') + '"><div class="small"><b>' + shapeHtml({id: id, label: s.label, word: (cfg.naming.words.team_shape || {})[id]}) + '</b> ' + (fit ? chip('this team', 'gold') : gap.length ? '' : chip('fits', '')) + '</div>' +
       '<div class="tiny muted">' + esc(s.explain || '') + '</div><div class="tiny" style="margin-top:3px">' + (gap.length ? 'needs ' + esc(gap.join(', ')) : 'its needs are met') + '</div></div>'; }).join('');
   var missing = TeamRoles.ORDER.filter(function (r) { return !comp.roles[r].length; });
-  return card('Shapes & roles', '<div class="grid"><div class="c7"><div class="eyebrow">Each Pokémon on the five team roles</div><div style="overflow-x:auto"><table class="t rmatrix">' + head + rows + tot + '</table></div>' +
+  return card('Shapes & roles', '<div class="grid"><div class="c7"><div class="eyebrow">Each Pokémon on the ' + TeamRoles.ORDER.length + ' team roles</div><div style="overflow-x:auto"><table class="t rmatrix">' + head + rows + tot + '</table></div>' +
       '<div class="tiny muted" style="margin-top:6px">The score is 0-1; green is earned. Hover a score for the numbers behind it, or open the Pokémon for its full work.</div>' +
       (missing.length ? '<div class="small" style="margin-top:10px"><b>Missing:</b> ' + esc(join(missing.map(roleName))) + '. <a class="link" href="javascript:void 0" onclick="tmFill(\'role:' + missing[0] + '\')">Find a ' + esc(roleName(missing[0])) + '</a></div>' : '<div class="small" style="margin-top:10px">Every team role is covered.</div>') +
       '<div class="eyebrow" style="margin-top:14px">What each role asks</div>' + TeamRoles.ORDER.map(function (r) { return '<div class="tiny" style="margin:3px 0"><b>' + esc(roleName(r)) + ':</b> ' + esc(cfg.roles[r].question) + ' <span class="muted">' + esc(cfg.roles[r].explain) + '</span></div>'; }).join('') + '</div>' +
@@ -379,7 +394,7 @@ function tmAchievements(comp) {
   var team = [
     ach(n === 6, 'A full six', n + ' of 6 slots filled'),
     ach(n === 6 && built === 6, 'Every one built', built + ' of ' + n + ' with four moves saved'),
-    ach(comp && TeamRoles.ORDER.every(function (r) { return comp.roles[r].length; }), 'All five roles', comp ? TeamRoles.ORDER.map(function (r) { return roleName(r) + ' ' + comp.roles[r].length; }).join(' · ') : 'needs a read'),
+    ach(comp && TeamRoles.ORDER.every(function (r) { return comp.roles[r].length; }), 'All ' + TeamRoles.ORDER.length + ' roles', comp ? TeamRoles.ORDER.map(function (r) { return roleName(r) + ' ' + comp.roles[r].length; }).join(' · ') : 'needs a read'),
     ach(comp && comp.roles.ace.length >= 1, 'An Ace', comp ? (comp.roles.ace.join(', ') || 'nobody beats the League one-on-one yet') : 'needs a read'),
     ach(Q.champions && Q.champions.ok, 'Every Champion Pokémon answered', Q.champions ? Q.champions.answer : 'needs a read'),
     ach(Q.elite_four && Q.elite_four.ok, 'Every Elite Four Pokémon answered', Q.elite_four ? Q.elite_four.answer : 'needs a read'),
@@ -444,6 +459,7 @@ function tmBind(p) {
     var j = el.closest('[data-jump]'); if (j) { var s = document.getElementById(j.getAttribute('data-jump')); if (s) s.scrollIntoView({behavior: 'smooth', block: 'start'}); if (j.getAttribute('data-jump') === 'tm-battle') tmBattleSetup(); return; }
     var nu = el.closest('[data-nudge]'); if (nu) { e.stopPropagation(); var a = nu.getAttribute('data-nudge').split(':'); tmMove(+a[0], +a[0] + +a[1]); return; }
     var o = el.closest('[data-out]'); if (o) { e.stopPropagation(); tmOut(+o.getAttribute('data-out')); return; }
+    var fx = el.closest('[data-tmfix]'); if (fx) { tmFix(fx.getAttribute('data-tmfix')); return; }
     var put = el.closest('[data-tmput]'); if (put) { tmPut(put.getAttribute('data-tmput'), +(document.querySelector('[data-tmf="slot"]') || {value: 0}).value); return; }
     if (el.closest('#tmswgo')) { tmSwapTry(); return; }
     if (el.closest('#tmgo')) { tmBattle(); return; }

@@ -175,34 +175,80 @@ Highest:
 - competitive:gen2ubers/mewtwo-063e6970 (Mewtwo, crystal): 0.97; takes 3 or more hits from 98% of the 63 hardest-hitting attacks (needs 75%); its best attack is a guaranteed 2HKO on 96% of the League's Pokémon, no boosts (needs 60%)
 - competitive:gen2uu/ampharos-a2111681 (Ampharos, crystal): 0.97; takes 3 or more hits from 98% of the 63 hardest-hitting attacks (needs 75%); its best attack is a guaranteed 2HKO on 96% of the League's Pokémon, no boosts (needs 60%)
 
+## Pivot
+
+Rule: Carries a pivoting move (U-turn, Baton Pass) and either takes two or more hits from at least 80% of the 100 hardest-hitting Elite Four and Champion attacks against it or moves first against at least 80% of their Pokémon; or has Intimidate or Natural Cure and takes those two hits.
+
+Earned by **130 of 1076** builds.
+
+| Score | Builds |
+|---|---|
+| 0.0–0.1 | 937 |
+| 0.1–0.2 | 0 |
+| 0.2–0.3 | 0 |
+| 0.3–0.4 | 2 |
+| 0.4–0.5 | 1 |
+| 0.5–0.6 | 1 |
+| 0.6–0.7 | 21 |
+| 0.7–0.8 | 43 |
+| 0.8–0.9 | 10 |
+| 0.9–1.0 | 61 |
+
+Highest:
+
+- stock/ninjask (Ninjask, platinum): 1.00; pivoting moves: Baton Pass; switch-in ability: none (needs one); takes two or more hits from 63% of the 100 hardest attacks (needs 80%), or, with a pivoting move, moves first against 100% of them (needs 80%)
+- stock/uxie (Uxie, platinum): 1.00; pivoting moves: U-turn; switch-in ability: none (needs one); takes two or more hits from 100% of the 100 hardest attacks (needs 80%), or, with a pivoting move, moves first against 83% of them (needs 80%)
+- stock/ambipom (Ambipom, platinum): 1.00; pivoting moves: U-turn; switch-in ability: none (needs one); takes two or more hits from 83% of the 100 hardest attacks (needs 80%), or, with a pivoting move, moves first against 100% of them (needs 80%)
+- ingested/jirachi-79e0ce789e (Jirachi, platinum): 1.00; pivoting moves: U-turn; switch-in ability: none (needs one); takes two or more hits from 100% of the 100 hardest attacks (needs 80%), or, with a pivoting move, moves first against 100% of them (needs 80%)
+- competitive:gen2ou/espeon-e36a25ca (Espeon, crystal): 1.00; pivoting moves: Baton Pass; switch-in ability: none (needs one); takes two or more hits from 98% of the 63 hardest attacks (needs 80%), or, with a pivoting move, moves first against 100% of them (needs 80%)
+- competitive:gen2ou/jolteon-ccf34153 (Jolteon, crystal): 1.00; pivoting moves: Baton Pass; switch-in ability: none (needs one); takes two or more hits from 98% of the 63 hardest attacks (needs 80%), or, with a pivoting move, moves first against 100% of them (needs 80%)
+- competitive:gen2ou/umbreon-59a543c8 (Umbreon, crystal): 1.00; pivoting moves: Baton Pass; switch-in ability: none (needs one); takes two or more hits from 100% of the 63 hardest attacks (needs 80%), or, with a pivoting move, moves first against 84% of them (needs 80%)
+- competitive:gen2ubers/jolteon-8adc7194 (Jolteon, crystal): 1.00; pivoting moves: Baton Pass; switch-in ability: none (needs one); takes two or more hits from 98% of the 63 hardest attacks (needs 80%), or, with a pivoting move, moves first against 100% of them (needs 80%)
+
 ## Team roles earned together
 
 | Roles | Builds |
 |---|---|
-| none | 387 |
-| ace + sweeper | 116 |
-| ace | 86 |
-| support | 79 |
-| sweeper | 66 |
-| ace + wall + tank | 59 |
-| ace + wall | 45 |
-| ace + tank | 42 |
-| ace + sweeper + wall + tank | 28 |
-| support + wall | 25 |
-| ace + support + wall | 24 |
-| tank | 21 |
-| wall | 20 |
-| ace + support | 19 |
-| ace + sweeper + tank | 16 |
+| none | 344 |
+| ace + sweeper | 98 |
+| ace | 78 |
+| sweeper | 60 |
+| ace + wall + tank | 58 |
+| support | 57 |
+| pivot | 43 |
+| ace + wall | 42 |
+| ace + tank | 40 |
+| ace + sweeper + wall + tank | 26 |
+| support + pivot | 22 |
+| support + wall | 19 |
+| ace + support + wall | 19 |
+| ace + sweeper + pivot | 18 |
+| wall | 18 |
+| tank | 17 |
+| ace + sweeper + tank | 15 |
+| ace + support | 14 |
 | sweeper + support | 10 |
+| ace + pivot | 8 |
 | ace + support + wall + tank | 7 |
 | support + wall + tank | 7 |
+| sweeper + pivot | 6 |
+| support + wall + pivot | 6 |
+| ace + support + pivot | 5 |
 | support + tank | 5 |
-| ace + sweeper + wall | 4 |
+| ace + support + wall + pivot | 5 |
+| tank + pivot | 4 |
 | wall + tank | 3 |
+| ace + sweeper + wall | 3 |
+| ace + wall + pivot | 3 |
 | sweeper + support + wall + tank | 2 |
+| ace + tank + pivot | 2 |
+| ace + sweeper + wall + tank + pivot | 2 |
+| wall + pivot | 2 |
 | ace + sweeper + support + wall + tank | 1 |
+| ace + sweeper + wall + pivot | 1 |
+| ace + wall + tank + pivot | 1 |
 | sweeper + support + tank | 1 |
-| sweeper + tank | 1 |
+| sweeper + tank + pivot | 1 |
+| ace + sweeper + tank + pivot | 1 |
 | ace + support + tank | 1 |
 | sweeper + wall + tank | 1 |

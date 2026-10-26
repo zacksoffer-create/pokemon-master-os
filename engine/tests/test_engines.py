@@ -2698,7 +2698,7 @@ class WebApp(unittest.TestCase):
 
     def test_the_browser_team_roles_match_python(self):
         """web/28_teamroles.html against trainers/team_roles.py: a spread of Gen II-IV builds (stock, a trainer's,
-        competitive sets), with two hand overrides, every field of every read (fights, the facts, the five roles, the role
+        competitive sets), with two hand overrides, every field of every read (fights, the facts, the six roles, the role
         engine underneath, the name), number for number.
         Every build: python3 -I trainers/team_roles.py --parity OUT && node app/test_roles4_parity.mjs OUT"""
         import json as _json
@@ -2863,7 +2863,7 @@ console.log(JSON.stringify(cases.map(c => { const iv = Object.assign({hp: 31, at
 
 
 class V2(unittest.TestCase):
-    """v2 (D-078; docs/design/V2_PLAN.md): the fresh start, five roles, the kit badges, the naming list."""
+    """v2 (D-078; docs/design/V2_PLAN.md): the fresh start, the team roles (six since v2.3), the kit badges, the naming list."""
     APP = os.path.join(ENGINE, "app")
 
     def pack(self, name):
@@ -2894,20 +2894,21 @@ class V2(unittest.TestCase):
         self.assertFalse([f for f in arena["legends"]["field"] if f["group"] == "yours"])
         self.assertEqual(fresh.apply(write=False)["store.json"], {"builds": 0, "individuals": 0, "teams": 0, "lines": 0})   # running it again changes nothing
 
-    def test_five_roles_in_zacks_order_with_calibrated_bars(self):
+    def test_six_roles_in_zacks_order_with_calibrated_bars(self):
         with open(os.path.join(ENGINE, "trainers", "team_roles.json"), encoding="utf-8") as fh:
             cfg = json.load(fh)
-        self.assertEqual(cfg["roles"]["_order"], ["ace", "sweeper", "support", "wall", "tank"])
+        self.assertEqual(cfg["roles"]["_order"], ["ace", "sweeper", "support", "wall", "tank", "pivot"])   # Pivot added in v2.3
         for r in cfg["roles"]["_order"]:
             self.assertTrue(cfg["roles"][r].get("explain") and cfg["roles"][r].get("question"), r)
         self.assertEqual(len(cfg["team"]["shapes"]["order"]), 9)
         reads = self.pack("roles4.json")["reads"]
         earned = {r: sum(1 for x in reads.values() if r in x["earned"]) for r in cfg["roles"]["_order"]}
-        for r in ("sweeper", "support", "wall", "tank"):          # each picks out a minority of the field, not most of it
+        for r in ("sweeper", "support", "wall", "tank", "pivot"):          # each picks out a minority of the field, not most of it
             self.assertLess(earned[r], 0.35 * len(reads), (r, earned[r]))
             self.assertGreater(earned[r], 0.05 * len(reads), (r, earned[r]))
         some = next(iter(reads.values()))
         self.assertEqual([x["role"] for x in some["roles"]].count("tank"), 1)
+        self.assertEqual([x["role"] for x in some["roles"]].count("pivot"), 1)
         self.assertIn("first", some["facts"])
 
     def test_the_kit_badges(self):
@@ -2925,11 +2926,11 @@ class V2(unittest.TestCase):
         path = os.path.join(ENGINE, "..", "docs", "naming", "ALL_COMBINATIONS.md")
         with open(path, encoding="utf-8") as fh:
             md = fh.read()
-        self.assertIn("233,886", md)
+        self.assertIn("257,006", md)
         import gzip
         with gzip.open(os.path.join(ENGINE, "..", "docs", "naming", "all_combinations.csv.gz"), "rt", encoding="utf-8") as fh:
             n = sum(1 for _ in fh) - 1
-        self.assertEqual(n, 233886)
+        self.assertEqual(n, 257006)   # six team roles (v2.3) and "none"
 
     def test_move_families_ship_as_written(self):
         """v2.1 (A-103): trainers/families.json reaches the app unchanged, weather in its four forms by move and ability."""

@@ -20,12 +20,37 @@ function proposedName(name) {   // the name the generated words would make (docs
   return name.tokens.map(function (t) { return t.word || (t.slot === 'unnamed' ? W.unnamed : (W[t.slot] || {})[t.id]) || t.placeholder; }).join(' ');
 }
 function spriteOf(n, game, shiny) { return n ? SPR + 'pokemon/' + (GAME_SET[game] || GAME_SET.heartgold) + (shiny ? 'shiny/' : '') + n + '.png' : ''; }
-function inBall(species, game, ballName, shiny, size) {   // the Pokémon shown in its ball: the ball behind, the game's sprite in front
+/* each ball's own opening (v2.3; Zack: "the animation specific to the ball in question"): Blackthorn's design after the
+   ball's colors and what it's for, not a copy of the games' frames. kind: the particles; c: their colors; n: how many. */
+var BALL_FX = {
+  poke: {kind: 'spark', c: ['#E3350D', '#FFFFFF'], n: 10}, great: {kind: 'spark', c: ['#3B7BE0', '#E3350D'], n: 10}, ultra: {kind: 'spark', c: ['#F6C343', '#2B2B2B'], n: 12},
+  master: {kind: 'spark', c: ['#9B59B6', '#E85FA8', '#FFFFFF'], n: 16, ring: '#9B59B6'}, safari: {kind: 'leaf', c: ['#6B8E3A', '#C8B27A'], n: 10},
+  level: {kind: 'chevron', c: ['#E0452F', '#F2C14E'], n: 8}, lure: {kind: 'splash', c: ['#2F7FD1', '#9FD3FF'], n: 12}, moon: {kind: 'moon', c: ['#F2D45C', '#C9D6FF'], n: 10},
+  friend: {kind: 'leaf', c: ['#52A447', '#E3350D'], n: 10}, love: {kind: 'heart', c: ['#F48FB1', '#FFFFFF', '#E3507A'], n: 12}, heavy: {kind: 'dust', c: ['#8C99A6', '#5C6B7A'], n: 8},
+  fast: {kind: 'streak', c: ['#F39C34', '#F6E05E'], n: 10}, sport: {kind: 'spark', c: ['#E67E22', '#F6C343'], n: 10}, park: {kind: 'spark', c: ['#F2A93B', '#7CB342'], n: 10},
+  net: {kind: 'net', c: ['#2BA3A3', '#B7F0F0'], n: 6}, dive: {kind: 'bubble', c: ['#2E86DE', '#BFE3FF'], n: 12}, nest: {kind: 'leaf', c: ['#8DBF4B', '#F2D45C'], n: 10},
+  repeat: {kind: 'ring', c: ['#F39C12', '#E3350D'], n: 2}, timer: {kind: 'clock', c: ['#E3350D', '#FFFFFF'], n: 8}, luxury: {kind: 'spark', c: ['#D4AF37', '#F5E6A8'], n: 12, glyph: '✧'},
+  premier: {kind: 'confetti', c: ['#FFFFFF', '#E3350D'], n: 14}, dusk: {kind: 'smoke', c: ['#2F4F2F', '#8BC34A'], n: 8}, heal: {kind: 'cross', c: ['#F7A8C4', '#FFFFFF'], n: 10},
+  quick: {kind: 'streak', c: ['#2B6CB0', '#F6E05E'], n: 10}, cherish: {kind: 'confetti', c: ['#C0392B', '#F2C14E', '#FFFFFF'], n: 16}
+};
+var FX_GLYPH = {spark: '✦', heart: '♥', moon: '☾', chevron: '▲', cross: '✚'};
+function ballFx(id) {   // the particles one ball lets out, as spans the CSS animates (see .ibp in 00_head)
+  var f = BALL_FX[id] || BALL_FX.poke, out = '', n = f.n;
+  for (var k = 0; k < n; k++) {
+    var a = Math.round(360 * k / n + (k % 2 ? 12 : -8)), c = f.c[k % f.c.length], r = 38 + (k * 7) % 18, dl = ((k * 37) % 9) / 60, sz = 8 + (k * 5) % 7;
+    var g = f.kind === 'moon' && k % 2 ? '★' : f.glyph || FX_GLYPH[f.kind] || '';
+    out += '<span class="ibp ibp-' + f.kind + '" style="--a:' + a + 'deg;--r:' + r + 'px;--dl:' + dl.toFixed(2) + 's;--s:' + sz + 'px;--c:' + c + ';--x:' + ((k % 5) - 2) * 9 + 'px">' + g + '</span>';
+  }
+  if (f.ring) out += '<span class="ibp ibp-ring" style="--c:' + f.ring + ';--dl:0s"></span>';
+  return '<span class="ibfx" data-fx="' + esc(id || 'poke') + '">' + out + '</span>';
+}
+function inBall(species, game, ballName, shiny, size, release) {   // the Pokémon shown in its ball: the ball behind, the game's sprite in front; release: play the ball's own opening
   size = size || 96;
   var n = numOf(species), G = typeof Gear !== 'undefined' && Gear.ready && Gear.ready() ? Gear : null, id = G && ballName ? G.ballIdOf(ballName, game) : null, b = id ? G.ball(id) : null;
   var ball = b ? '<div class="ib-ball">' + ballArt(b, Math.round(size * 0.92), {sprite: false}) + '</div>' : '<div class="ib-ball ib-plain"></div>';
-  return '<div class="inball" style="width:' + size + 'px;height:' + size + 'px" title="' + esc((ballName || 'no ball') + (shiny ? ', shiny' : '')) + '">' + ball +
-    (n ? '<img class="ib-mon pix" src="' + spriteOf(n, game, shiny) + '" alt="' + esc(species) + '" loading="lazy">' : '') + (shiny ? '<span class="ib-shiny">✦</span>' : '') + '</div>';
+  var fc = release ? (BALL_FX[id] || BALL_FX.poke).c[0] : null;
+  return '<div class="inball' + (release ? ' release' : '') + '" style="width:' + size + 'px;height:' + size + 'px' + (fc ? ';--fc:' + fc : '') + '" title="' + esc((ballName || 'no ball') + (shiny ? ', shiny' : '')) + '"' + (release ? ' data-ball="' + esc(id || 'poke') + '"' : '') + '>' + ball +
+    (release ? ballFx(id) : '') + (n ? '<img class="ib-mon pix" src="' + spriteOf(n, game, shiny) + '" alt="' + esc(species) + '" loading="lazy">' : '') + (shiny ? '<span class="ib-shiny">✦</span>' : '') + '</div>';
 }
 function familyOf(species) {   // its evolution line, base first (for changing species as it evolves)
   var all = S.atlas && S.atlas.species || [], d = dexOf(species); if (!d) return [species];
@@ -65,6 +90,22 @@ function pokemonIndex() {
   });
 }
 
+function pbSwaps(game) {   // slots holding a never-built copy while the one you built of that species is off the team: [{slot, from, to}]
+  var t = Teams.get(game), all = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }), used = {}, out = [];
+  t.slots.forEach(function (s) { if (s) used[s.ind] = 1; });
+  t.slots.forEach(function (s, k) { var cur = s && S.store.individuals[s.ind]; if (!cur || cur.build) return;
+    var built = all.filter(function (i) { return i.game === game && i.species === cur.species && i.build && i.status !== 'retired' && !used[i.id]; })
+      .sort(function (a, b) { return String(b.at || '').localeCompare(String(a.at || '')); })[0];
+    if (built) { used[built.id] = 1; out.push({slot: k, from: cur, to: built}); } });
+  return out;
+}
+function pbDrafts(game) {   // your Pokémon in this game with changes kept only in this browser (left unsaved in the builder)
+  return Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; })
+    .filter(function (i) { return i.game === game && i.status !== 'retired' && Records.draft(i.id); });
+}
+function pbSaveDrafts(ids) {   // save each left-behind draft as the builder would
+  return ids.reduce(function (pr, id) { return pr.then(function () { var d = Records.draft(id); if (!d || !d.build) return; return saveBuilt(id, d.build, d.who, 'saved from the team page'); }); }, Promise.resolve());
+}
 function pbSpares(game) {   // never built, not on the team, added in the app: what to tidy up
   return Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; })
     .filter(function (i) { return i.game === game && i.status !== 'retired' && !i.build && i.origin === 'added in the app' && !Teams.onTeam(i.id); });
@@ -130,6 +171,7 @@ function pokemonLab(id) {
     var ind = rec.kind === 'individual' ? rec.ind : null, dr = Records.draft(id);
     var who = {}; IND_KEYS.forEach(function (k) { who[k] = ind ? (ind[k] == null ? null : ind[k]) : null; });
     var saved = pbNormal(rec.build, rec.build.species, rec.kind === 'individual' ? (storeBuild(rec.buildId) || {}).level : rec.rec.level);
+    S.onLeave = function () { if (PB && PB.id === id && !PB.saving && pbDirty()) toast('Unsaved changes on ' + esc(PB.who.nickname || PB.species) + ' are kept in this browser. Save them in the builder, or from its team page.'); };
     PB = {id: id, rec: rec, game: rec.game, gen: Battle.GAME_GEN[rec.game], baseCur: saved, cur: dr && dr.build ? pbNormal(dr.build, dr.build.species || saved.species, dr.build.level) : JSON.parse(JSON.stringify(saved)),
       who: Object.assign({}, who, dr && dr.who || {}), whoBase: who, token: 0, draftAt: dr ? dr.at : null, team: ind ? Teams.onTeam(ind.id) : null};
     PB.species = PB.cur.species;
@@ -151,7 +193,7 @@ function pbShell() {
         '<a href="javascript:void 0" onclick="pbSetAside([PB.id], true)">Set it aside (out of view, not deleted)</a>') + '</div></details>'
     : '<button class="btn gold" id="pbmine">Make it mine (' + esc(GAME_NAME[PB.game]) + ')</button><a class="btn" href="#/compare/' + encodeURIComponent(PB.species) + '">Every build of ' + esc(PB.species) + '</a>';
   return '<div class="pbtop">' + back + strip + '</div>' +
-    '<div class="pbhead"><div id="pbportrait">' + inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112) + '</div><div style="flex:1;min-width:220px">' +
+    '<div class="pbhead"><div id="pbportrait" title="Tap to send it out again">' + inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112, true) + '</div><div style="flex:1;min-width:220px">' +
       '<div class="eyebrow">' + (ind ? 'Your ' + esc(GAME_NAME[PB.game]) + ' Pokémon' + (PB.team ? ' · slot ' + (PB.team.slot + 1) : '') : 'A reference build · ' + esc(rec.prov || '')) + (rec.v ? ' · build v' + rec.v : '') + '</div>' +
       '<h1 style="margin:4px 0" id="pbtitle">' + esc(PB.who.nickname || PB.species) + (PB.who.nickname ? ' <span class="muted" style="font-size:.6em">' + esc(PB.species) + '</span>' : '') + '</h1>' +
       '<div class="small" id="pbname"></div><div id="pbearned" style="margin-top:6px"></div></div>' +
@@ -332,6 +374,7 @@ function pbNormal(b, species, level) {   // a build as the builder holds it: spe
 function pbDirty() { return JSON.stringify(PB.cur) !== JSON.stringify(PB.baseCur) || JSON.stringify(PB.who) !== JSON.stringify(PB.whoBase); }
 function pbDraftLine() {
   if (!PB || !pbDirty()) return '';
+  if (PB.rec.kind === 'individual') return '<div class="draftline" style="margin-top:10px">Unsaved changes' + (PB.draftAt ? ', kept in this browser since ' + esc(ago(PB.draftAt)) : ', kept in this browser') + '. <b>They aren\'t on your Sheet until you save.</b> <button class="btn sm gold" onclick="pbSave()">Save now</button></div>';
   return '<div class="draftline" style="margin-top:10px">Unsaved changes' + (PB.draftAt ? ', kept in this browser since ' + esc(ago(PB.draftAt)) : ', kept in this browser') + '. ' + (PB.rec.kind === 'individual' ? 'Save keeps them as a new version; Revert goes back to the last one.' : 'Make it yours to keep them.') + '</div>';
 }
 function pbKeep() {
@@ -340,19 +383,25 @@ function pbKeep() {
   var el = document.getElementById('pbdraft'); if (el) el.innerHTML = pbDraftLine();
 }
 function pbBuildToSave() { var b = Object.assign(buildOf(PB.cur), {species: PB.species, game: PB.game, generation: PB.gen}); delete b.id; if (PB.cur.level && PB.cur.level !== 100) b.level = PB.cur.level; return b; }
+function saveBuilt(id, cur, who, note, extra) {   // one of your Pokémon and its build, saved together: the builder's Save, and the team page's Save for changes left as a draft
+  var ind = (S.store.individuals || {})[id]; if (!ind) return Promise.reject(new Error('no Pokémon of yours called ' + id));
+  var buildId = ind.build || null, sb = buildId ? storeBuild(buildId) : null, mine = !!buildId && /^yours:/.test(buildId), species = cur.species || ind.species;
+  var b = Object.assign(buildOf(cur), {species: species, game: ind.game, generation: Battle.GAME_GEN[ind.game]}, extra || {}); delete b.id;
+  if (cur.level && cur.level !== 100) b.level = cur.level;
+  if (mine) b.id = buildId;
+  return Records.saveBuild(b, {asNew: !mine, parent: buildId && !mine ? buildId + '@' + ((sb && sb.v) || 1) : null, note: note || ''}).then(function (saved) {
+    var i = Object.assign({}, ind, {species: species, build: saved.id}); IND_KEYS.forEach(function (k) { if (who && k in who) i[k] = who[k]; });
+    i.shiny = i.shiny === true || i.shiny === 'yes';
+    return Records.saveIndividual(i, 'Built ' + (i.nickname || i.species) + ' (' + GAME_NAME[ind.game] + ', v' + saved.v + ')');
+  }).then(function () { Records.clearDraft(id); return id; });
+}
 function pbSave() {
-  var rec = PB.rec, ind = rec.ind, note = (document.getElementById('pbnote') || {}).value || '';
-  var b = pbBuildToSave(); if (PB.recog && !PB.recog.error) b.recognition = Recognize.summary(PB.recog);
-  var mine = rec.buildId && /^yours:/.test(rec.buildId);
-  if (mine) b.id = rec.buildId;
+  var note = (document.getElementById('pbnote') || {}).value || '', extra = PB.recog && !PB.recog.error ? {recognition: Recognize.summary(PB.recog)} : null;
   var btn = document.getElementById('pbsave'); if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
-  var id = PB.id, species = PB.species, who = PB.who, game = PB.game, here = NAVI.hash;   // the save finishes even if you've moved on
-  Records.saveBuild(b, {asNew: !mine, parent: rec.buildId && !mine ? rec.buildId + '@' + (rec.v || 1) : null, note: note}).then(function (saved) {
-    var i = Object.assign({}, ind, {species: species, build: saved.id}); IND_KEYS.forEach(function (k) { i[k] = who[k]; });
-    i.shiny = who.shiny === true || who.shiny === 'yes';
-    return Records.saveIndividual(i, 'Built ' + (i.nickname || i.species) + ' (' + GAME_NAME[game] + ', v' + saved.v + ')');
-  }).then(function () { Records.clearDraft(id); toast('Saved. Every earlier version stays in its history.'); if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(id), true); })
-    .catch(function (e) { if (btn) { btn.disabled = false; btn.textContent = 'Save'; } toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+  var id = PB.id, here = NAVI.hash, cur = Object.assign({}, PB.cur, {species: PB.species});   // the save finishes even if you've moved on
+  PB.saving = true;
+  saveBuilt(id, cur, PB.who, note, extra).then(function () { PB.saving = false; toast('Saved. Every earlier version stays in its history.'); if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(id), true); })
+    .catch(function (e) { PB.saving = false; if (btn) { btn.disabled = false; btn.textContent = 'Save'; } toast('Couldn\'t save: ' + esc(e && e.message || e)); });
 }
 function pbMakeMine() {   // a reference build becomes one of yours, in this game, on the team if there's room
   var b = pbBuildToSave(), sp = PB.species, game = PB.game, from = PB.rec.buildId, d = dexOf(sp) || {}, here = NAVI.hash;
@@ -374,10 +423,11 @@ function pbOnTeam() {
 function pbBind(p) {
   var box = p.querySelector('#pbin'), t = null, fire = function () { clearTimeout(t); t = setTimeout(pbRun, 400); };
   var save = p.querySelector('#pbsave'); if (save) save.onclick = pbSave;
+  var pic = p.querySelector('#pbportrait'); if (pic) pic.onclick = function () { pic.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112, true); };   // send it out again
   var rev = p.querySelector('#pbrevert'); if (rev) rev.onclick = function () { Records.clearDraft(PB.id); nav('#/pokemon/' + encodeURIComponent(PB.id), true); };
   var mk = p.querySelector('#pbmine'); if (mk) mk.onclick = pbMakeMine;
   var redrawStats = function () { var c = box.querySelector('[data-mod="m-pbstats"] .bd'); if (c) c.innerHTML = pbStatsHtml(); };
-  var portrait = function () { var el = document.getElementById('pbportrait'); if (el) el.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112);
+  var portrait = function () { var el = document.getElementById('pbportrait'); if (el) el.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112, true);
     var bp = document.getElementById('pbballpic'); if (bp) bp.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 72);
     var bf = document.getElementById('pbballfit'); if (bf) bf.innerHTML = pbBallFit();
     var tt = document.getElementById('pbtitle'); if (tt) tt.innerHTML = esc(PB.who.nickname || PB.species) + (PB.who.nickname ? ' <span class="muted" style="font-size:.6em">' + esc(PB.species) + '</span>' : ''); };

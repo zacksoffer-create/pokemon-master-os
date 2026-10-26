@@ -7,7 +7,7 @@ A build's name is one word per slot of its band (`engine/trainers/team_roles.jso
 2. how many combinations each band makes;
 3. every combination in use among today's builds.
 
-Every combination, **233,886** of them, is in `all_combinations.csv.gz`, with the name these proposals make. It opens in Excel once unzipped.
+Every combination, **257,006** of them, is in `all_combinations.csv.gz`, with the name these proposals make. It opens in Excel once unzipped.
 
 The proposals are Blackthorn's (class creative). A word becomes real only when you put it in `naming.words`; then `python3 -I engine/trainers/team_roles.py --words` names every build in seconds.
 
@@ -17,8 +17,8 @@ The proposals are Blackthorn's (class creative). A word becomes real only when y
 |---|---|---|
 | 0.9 and up | type + noun | 10,574 |
 | 0.8 and up | moveset + type + noun | 84,592 |
-| 0.7 and up | team_role + moveset + type + noun | 27,744 |
-| 0.6 and up | bst + team_role + moveset + type + noun | 110,976 |
+| 0.7 and up | team_role + moveset + type + noun | 32,368 |
+| 0.6 and up | bst + team_role + moveset + type + noun | 129,472 |
 | below 0.6 | one word for any build not yet named | 1 |
 
 Nouns are the 34 roles of the role engine. Hybrids (two or three roles at 0.80 or more) are only possible in the top two bands; all 561 pairs are listed, and the 27 triples builds use today.
@@ -108,6 +108,7 @@ Nouns are the 34 roles of the role engine. Hybrids (two or three roles at 0.80 o
 | `support` | Support | Steadfast |  |
 | `wall` | Wall | Unyielding |  |
 | `tank` | Tank | Battle-Hardened |  |
+| `pivot` | Pivot | Tactical |  |
 | `none` | no team role | Untested |  |
 
 ### Base-stat-total band
@@ -219,7 +220,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 
 ## Every combination in use today
 
-680 different names across 1076 builds (the build library, the trainer ecosystem and Smogon's sets), most used first.
+681 different names across 1076 builds (the build library, the trainer ecosystem and Smogon's sets), most used first.
 
 | Generated name | What it means | Builds | For example |
 |---|---|---|---|
@@ -237,6 +238,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Tidal Stormrider | Water · weather sweeper | 4 | Kingdra (stock/kingdra) |
 | Tactical Iron Sapper-Banisher | hazards or screens + support · Steel · hazard setter + phazer | 4 | Skarmory (ingested/skarmory-54a0d3394b) |
 | Crowned Wildcard Tidal Absorber | Ace · anything else · Water · sponge / status absorber | 4 | Milotic (eco:wallace-wallace-cup/milotic) |
+| Tactical Wildcard Hive Relay | Pivot · anything else · Bug · Baton Pass chain starter | 4 | Ariados (competitive:gen2nu/ariados-7e354a90) |
 | Versatile Tidal Siegebreaker | attacks covering many types · Water · wallbreaker | 4 | Crawdaunt (competitive:gen3nu/crawdaunt-54d1ece7) |
 | Versatile Stone Siegebreaker | attacks covering many types · Rock · wallbreaker | 4 | Graveler (competitive:gen3nu/graveler-8718b779) |
 | Swift Wild Avenger | priority + attacks · Normal · revenge killer | 4 | Pidgeot (competitive:gen3nu/pidgeot-0d9ce984) |
@@ -246,8 +248,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Crippling Volt Avenger-Disruptor | status + attacks · Electric · revenge killer + stallbreaker | 4 | Rotom-Wash (competitive:gen41v1/rotomwash-e3611973) |
 | Wyrm Avenger | Dragon · revenge killer | 3 | Garchomp (stock/garchomp-earthquake) |
 | Sweeping Swift Wild Avenger | Sweeper · priority + attacks · Normal · revenge killer | 3 | Staraptor (ash-sinnoh/staraptor) |
-| Noble Untested Relentless Ember Rover | BST below 580 · no team role · four attacks · Fire · pivot | 3 | Arcanine (gary-johto/arcanine) |
-| Untested Crippling Tidal Groundskeeper | no team role · status + attacks · Water · hazard remover | 3 | Wartortle (may-grand-festival/wartortle) |
+| Noble Tactical Relentless Ember Rover | BST below 580 · Pivot · four attacks · Fire · pivot | 3 | Arcanine (gary-johto/arcanine) |
 | Iron Sapper-Banisher-Bulwark | Steel · hazard setter + phazer + physical wall | 3 | Skarmory (stock/skarmory) |
 | Tactical Mind Martyr | hazards or screens + support · Psychic · suicide lead | 3 | Azelf (stock/azelf) |
 | Martial Closer-Berserker | Fighting · late-game cleaner + physical setup sweeper | 3 | Lucario (stock/lucario) |
@@ -272,6 +273,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Noble Untested Relentless Verdant Juggernaut | BST below 580 · no team role · four attacks · Grass · bulky attacker | 2 | Torterra (paul-sinnoh/torterra) |
 | Noble Untested Swift Hive Avenger | BST below 580 · no team role · priority + attacks · Bug · revenge killer | 2 | Scizor (gary-johto/scizor) |
 | Wild Cleric-Aegis-Absorber | Normal · cleric + special wall + sponge / status absorber | 2 | Blissey (stock/blissey) |
+| Tactical Crippling Tidal Groundskeeper | Pivot · status + attacks · Water · hazard remover | 2 | Starmie (stock/starmie) |
 | Earthen Avenger-Hunter | Ground · revenge killer + trapper | 2 | Dugtrio (stock/dugtrio) |
 | Earthen Sapper-Banisher-Bulwark | Ground · hazard setter + phazer + physical wall | 2 | Hippowdon (stock/hippowdon) |
 | Seasoned Untested Crippling Verdant Avenger | BST below 500 · no team role · status + attacks · Grass · revenge killer | 2 | Breloom (stock/breloom) |
@@ -287,10 +289,8 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Noble Unyielding Wildcard Wild Juggernaut | BST below 580 · Wall · anything else · Normal · bulky attacker | 2 | Snorlax (eco:ash-silver-conference/snorlax) |
 | Noble Untested Relentless Hive Siegebreaker | BST below 580 · no team role · four attacks · Bug · wallbreaker | 2 | Heracross (eco:ash-silver-conference/heracross) |
 | Noble Untested Versatile Hive Siegebreaker | BST below 580 · no team role · attacks covering many types · Bug · wallbreaker | 2 | Heracross (eco:ash-johto-best/heracross) |
-| Untested Swift Wild Avenger | no team role · priority + attacks · Normal · revenge killer | 2 | Swellow (eco:ash-lily-semifinal/swellow) |
 | Seasoned Untested Relentless Martial Juggernaut | BST below 500 · no team role · four attacks · Fighting · bulky attacker | 2 | Hariyama (eco:paul-battle-pyramid/hariyama) |
 | Noble Untested Versatile Iron Warden | BST below 580 · no team role · attacks covering many types · Steel · check / counter | 2 | Steelix (eco:harrison-silver-conference/steelix) |
-| Steadfast Wildcard Hive Relay | Support · anything else · Bug · Baton Pass chain starter | 2 | Ariados (competitive:gen2nu/ariados-7e354a90) |
 | Seasoned Crowned Enduring Wild Colossus | BST below 500 · Ace · recovery + status, little offense · Normal · bulky setup | 2 | Wigglytuff (competitive:gen2nu/wigglytuff-fd268e2a) |
 | Unyielding Enduring Wild Cleric | Wall · recovery + status, little offense · Normal · cleric | 2 | Blissey (competitive:gen2ou/blissey-5e9d68ef) |
 | Noble Unyielding Versatile Tidal Juggernaut | BST below 580 · Wall · attacks covering many types · Water · bulky attacker | 2 | Feraligatr (competitive:gen2ou/feraligatr-f24d4ed7) |
@@ -313,7 +313,6 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Rising Hive Berserker | setup + attacks · Bug · physical setup sweeper | 2 | Beedrill (competitive:gen3nu/beedrill-d0ffbf71) |
 | Seasoned Untested Crippling Verdant Sapper | BST below 500 · no team role · status + attacks · Grass · hazard setter | 2 | Cacturne (competitive:gen3nu/cacturne-6d2535ee) |
 | Wild Relay | Normal · Baton Pass chain starter | 2 | Delcatty (competitive:gen3nu/delcatty-3af57718) |
-| Untested Crippling Martial Groundskeeper | no team role · status + attacks · Fighting · hazard remover | 2 | Hitmonchan (competitive:gen3nu/hitmonchan-91e5f6fe) |
 | Rising Tidal Spellblade-Berserker | setup + attacks · Water · mixed setup sweeper + physical setup sweeper | 2 | Kingler (competitive:gen3nu/kingler-c249eec8) |
 | Seasoned Crowned Crippling Tidal Siegebreaker | BST below 500 · Ace · status + attacks · Water · wallbreaker | 2 | Octillery (competitive:gen3nu/octillery-de7a0f2e) |
 | Crippling Volt Disruptor | status + attacks · Electric · stallbreaker | 2 | Plusle (competitive:gen3nu/plusle-1b7c9316) |
@@ -363,6 +362,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Seasoned Untested Rising Hive Spellblade | BST below 500 · no team role · setup + attacks · Bug · mixed setup sweeper | 1 | Ninjask (paul-sinnoh/ninjask) |
 | Seasoned Untested Crippling Frost Avenger | BST below 500 · no team role · status + attacks · Ice · revenge killer | 1 | Froslass (paul-sinnoh/froslass) |
 | Seasoned Untested Versatile Stone Siegebreaker | BST below 500 · no team role · attacks covering many types · Rock · wallbreaker | 1 | Golem (gary-johto/golem) |
+| Untested Crippling Tidal Groundskeeper | no team role · status + attacks · Water · hazard remover | 1 | Wartortle (may-grand-festival/wartortle) |
 | Noble Untested Swift Frost Avenger | BST below 580 · no team role · priority + attacks · Ice · revenge killer | 1 | Mamoswine (dawn-grand-festival/mamoswine) |
 | Phantom Sorcerer | Ghost · special setup sweeper | 1 | Mismagius (stock/mismagius-np) |
 | Shadow Closer-Avenger-Hunter | Dark · late-game cleaner + revenge killer + trapper | 1 | Weavile (stock/weavile) |
@@ -413,6 +413,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Mythic Battle-Hardened Crippling Wild Juggernaut | BST 580 and up · Tank · status + attacks · Normal · bulky attacker | 1 | Regigigas (ingested/regigigas-72817d55da) |
 | Seasoned Untested Swift Verdant Avenger | BST below 500 · no team role · priority + attacks · Grass · revenge killer | 1 | Grovyle (eco:ash-ever-grande/grovyle) |
 | Seasoned Untested Swift Wild Avenger | BST below 500 · no team role · priority + attacks · Normal · revenge killer | 1 | Swellow (eco:ash-ever-grande/swellow) |
+| Untested Swift Wild Avenger | no team role · priority + attacks · Normal · revenge killer | 1 | Swellow (eco:ash-lily-semifinal/swellow) |
 | Seasoned Untested Rising Stone Juggernaut | BST below 500 · no team role · setup + attacks · Rock · bulky attacker | 1 | Golem (eco:gary-indigo/golem) |
 | Noble Steadfast Crippling Shadow Absorber | BST below 580 · Support · status + attacks · Dark · sponge / status absorber | 1 | Umbreon (eco:gary-sinnoh-researcher/umbreon) |
 | Untested Swift Shadow Avenger | no team role · priority + attacks · Dark · revenge killer | 1 | Weavile (eco:paul-lake-acuity/weavile) |
@@ -425,7 +426,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Seasoned Untested Relentless Iron Warden | BST below 500 · no team role · four attacks · Steel · check / counter | 1 | Skarmory (eco:barry-lily-of-the-valley/skarmory) |
 | Noble Untested Relentless Tidal Warden | BST below 580 · no team role · four attacks · Water · check / counter | 1 | Empoleon (eco:barry-lily-of-the-valley/empoleon) |
 | Seasoned Untested Versatile Stone Juggernaut | BST below 500 · no team role · attacks covering many types · Rock · bulky attacker | 1 | Armaldo (eco:nando-lily-of-the-valley/armaldo) |
-| Seasoned Untested Crippling Wyrm Rover | BST below 500 · no team role · status + attacks · Dragon · pivot | 1 | Altaria (eco:nando-lily-of-the-valley/altaria) |
+| Seasoned Tactical Crippling Wyrm Rover | BST below 500 · Pivot · status + attacks · Dragon · pivot | 1 | Altaria (eco:nando-lily-of-the-valley/altaria) |
 | Humble Untested Crippling Wild Vanguard | BST below 400 · no team role · status + attacks · Normal · lead attacker | 1 | Glameow (eco:zoey-grand-festival/glameow) |
 | Seasoned Untested Crippling Phantom Gatekeeper | BST below 500 · no team role · status + attacks · Ghost · spinblocker | 1 | Mismagius (eco:zoey-grand-festival/mismagius) |
 | Noble Untested Swift Verdant Avenger | BST below 580 · no team role · priority + attacks · Grass · revenge killer | 1 | Leafeon (eco:zoey-grand-festival/leafeon) |
@@ -439,13 +440,13 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Crowned Wildcard Tidal Rover | Ace · anything else · Water · pivot | 1 | Gyarados (eco:lance-anime-johto/gyarados) |
 | Mythic Crowned Relentless Wyrm Juggernaut | BST 580 and up · Ace · four attacks · Dragon · bulky attacker | 1 | Dragonite (eco:lance-anime-johto/dragonite) |
 | Noble Crowned Crippling Tidal Stormcaller | BST below 580 · Ace · status + attacks · Water · weather setter | 1 | Wailord (eco:wallace-wallace-cup/wailord) |
-| Noble Untested Rising Tidal Spellblade | BST below 580 · no team role · setup + attacks · Water · mixed setup sweeper | 1 | Gyarados (eco:wallace-wallace-cup/gyarados) |
+| Noble Tactical Rising Tidal Spellblade | BST below 580 · Pivot · setup + attacks · Water · mixed setup sweeper | 1 | Gyarados (eco:wallace-wallace-cup/gyarados) |
 | Battle-Hardened Tactical Hive Groundskeeper | Tank · hazards or screens + support · Bug · hazard remover | 1 | Forretress (eco:brock-anime-best/forretress) |
-| Untested Wildcard Tidal Rover | no team role · anything else · Water · pivot | 1 | Gyarados (eco:misty-anime-best/gyarados) |
+| Tactical Wildcard Tidal Rover | Pivot · anything else · Water · pivot | 1 | Gyarados (eco:misty-anime-best/gyarados) |
 | Humble Crowned Rising Tidal Colossus | BST below 400 · Ace · setup + attacks · Water · bulky setup | 1 | Corsola (competitive:gen2nu/corsola-30421383) |
 | Seasoned Crowned Wildcard Tidal Absorber | BST below 500 · Ace · anything else · Water · sponge / status absorber | 1 | Dewgong (competitive:gen2nu/dewgong-43eb30a1) |
-| Sweeping Wildcard Wild Relay | Sweeper · anything else · Normal · Baton Pass chain starter | 1 | Farfetch’d (competitive:gen2nu/farfetchd-848b2302) |
-| Unyielding Rising Ember Relay | Wall · setup + attacks · Fire · Baton Pass chain starter | 1 | Flareon (competitive:gen2nu/flareon-14561c1d) |
+| Tactical Wildcard Wild Relay | Pivot · anything else · Normal · Baton Pass chain starter | 1 | Farfetch’d (competitive:gen2nu/farfetchd-848b2302) |
+| Tactical Rising Ember Relay | Pivot · setup + attacks · Fire · Baton Pass chain starter | 1 | Flareon (competitive:gen2nu/flareon-14561c1d) |
 | Humble Steadfast Enduring Verdant Plaguebearer | BST below 400 · Support · recovery + status, little offense · Grass · status spreader | 1 | Gloom (competitive:gen2nu/gloom-90728acd) |
 | Humble Battle-Hardened Crippling Stone Groundskeeper | BST below 400 · Tank · status + attacks · Rock · hazard remover | 1 | Graveler (competitive:gen2nu/graveler-0d2e179c) |
 | Crowned Crippling Martial Groundskeeper | Ace · status + attacks · Fighting · hazard remover | 1 | Hitmonchan (competitive:gen2nu/hitmonchan-4a1e1c31) |
@@ -472,7 +473,6 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Noble Crowned Rising Venom Colossus | BST below 580 · Ace · setup + attacks · Poison · bulky setup | 1 | Muk (competitive:gen2ou/muk-5841359b) |
 | Crowned Swift Volt Avenger | Ace · priority + attacks · Electric · revenge killer | 1 | Pikachu (competitive:gen2ou/pikachu-234da01b) |
 | Crowned Crippling Wild Stonewall | Ace · status + attacks · Normal · staller | 1 | Porygon2 (competitive:gen2ou/porygon2-c232180d) |
-| Unyielding Wildcard Hive Relay | Wall · anything else · Bug · Baton Pass chain starter | 1 | Scizor (competitive:gen2ou/scizor-b8f6ae36) |
 | Steadfast Tactical Wild Relay | Support · hazards or screens + support · Normal · Baton Pass chain starter | 1 | Smeargle (competitive:gen2ou/smeargle-402e61ca) |
 | Seasoned Crowned Wildcard Wild Absorber | BST below 500 · Ace · anything else · Normal · sponge / status absorber | 1 | Tauros (competitive:gen2ou/tauros-df9287c2) |
 | Crowned Crippling Stone Hunter | Ace · status + attacks · Rock · trapper | 1 | Tyranitar (competitive:gen2ou/tyranitar-13983e2e) |
@@ -520,20 +520,21 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Sweeping Rising Stone Siegebreaker | Sweeper · setup + attacks · Rock · wallbreaker | 1 | Tyranitar (competitive:gen31v1/tyranitar-c9368337) |
 | Crowned Crippling Frost Disruptor | Ace · status + attacks · Ice · stallbreaker | 1 | Walrein (competitive:gen31v1/walrein-a58262f3) |
 | Crowned Wildcard Volt Aegis | Ace · anything else · Electric · special wall | 1 | Zapdos (competitive:gen31v1/zapdos-27a29b60) |
-| Humble Steadfast Crippling Hive Hunter | BST below 400 · Support · status + attacks · Bug · trapper | 1 | Ariados (competitive:gen3nu/ariados-8408204f) |
+| Humble Tactical Crippling Hive Hunter | BST below 400 · Pivot · status + attacks · Bug · trapper | 1 | Ariados (competitive:gen3nu/ariados-8408204f) |
 | Humble Crowned Wildcard Tidal Siegebreaker | BST below 400 · Ace · anything else · Water · wallbreaker | 1 | Clamperl (competitive:gen3nu/clamperl-f1cc32dd) |
-| Untested Rising Tidal Colossus | no team role · setup + attacks · Water · bulky setup | 1 | Corsola (competitive:gen3nu/corsola-9600c4e4) |
+| Tactical Rising Tidal Colossus | Pivot · setup + attacks · Water · bulky setup | 1 | Corsola (competitive:gen3nu/corsola-9600c4e4) |
 | Wildcard Tidal Absorber | anything else · Water · sponge / status absorber | 1 | Dewgong (competitive:gen3nu/dewgong-ddf81f0a) |
 | Seasoned Untested Crippling Wild Bulwark | BST below 500 · no team role · status + attacks · Normal · physical wall | 1 | Dunsparce (competitive:gen3nu/dunsparce-3ae41c61) |
 | Ember Cleric-Aegis | Fire · cleric + special wall | 1 | Flareon (competitive:gen3nu/flareon-450a6202) |
 | Sweeping Crippling Wild Disruptor | Sweeper · status + attacks · Normal · stallbreaker | 1 | Furret (competitive:gen3nu/furret-43a5b283) |
 | Seasoned Sweeping Tactical Frost Disruptor | BST below 500 · Sweeper · hazards or screens + support · Ice · stallbreaker | 1 | Glalie (competitive:gen3nu/glalie-bf87c49a) |
+| Untested Crippling Martial Groundskeeper | no team role · status + attacks · Fighting · hazard remover | 1 | Hitmonchan (competitive:gen3nu/hitmonchan-91e5f6fe) |
 | Wildcard Wild Disruptor | anything else · Normal · stallbreaker | 1 | Kecleon (competitive:gen3nu/kecleon-14c80d38) |
 | Wild Cleric-Aegis | Normal · cleric + special wall | 1 | Lickitung (competitive:gen3nu/lickitung-2a3cc66a) |
 | Crippling Ember Plaguebearer | status + attacks · Fire · status spreader | 1 | Magcargo (competitive:gen3nu/magcargo-d1c8cc2d) |
 | Wildcard Iron Relay | anything else · Steel · Baton Pass chain starter | 1 | Mawile (competitive:gen3nu/mawile-6b7558fc) |
 | Seasoned Untested Crippling Iron Siegebreaker | BST below 500 · no team role · status + attacks · Steel · wallbreaker | 1 | Metang (competitive:gen3nu/metang-f19ef890) |
-| Steadfast Wildcard Volt Disruptor | Support · anything else · Electric · stallbreaker | 1 | Minun (competitive:gen3nu/minun-12479a6d) |
+| Tactical Wildcard Volt Disruptor | Pivot · anything else · Electric · stallbreaker | 1 | Minun (competitive:gen3nu/minun-12479a6d) |
 | Sweeping Versatile Shadow Siegebreaker | Sweeper · attacks covering many types · Dark · wallbreaker | 1 | Murkrow (competitive:gen3nu/murkrow-24244256) |
 | Seasoned Steadfast Wildcard Hive Bulwark | BST below 500 · Support · anything else · Bug · physical wall | 1 | Parasect (competitive:gen3nu/parasect-be717a96) |
 | Seasoned Untested Crippling Tidal Siegebreaker | BST below 500 · no team role · status + attacks · Water · wallbreaker | 1 | Pelipper (competitive:gen3nu/pelipper-d0aecb06) |
@@ -547,11 +548,10 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Versatile Stone Juggernaut-Siegebreaker | attacks covering many types · Rock · bulky attacker + wallbreaker | 1 | Sudowoodo (competitive:gen3nu/sudowoodo-146f631f) |
 | Relentless Venom Bastion | four attacks · Poison · tank | 1 | Swalot (competitive:gen3nu/swalot-c77a9541) |
 | Untested Crippling Ember Juggernaut | no team role · status + attacks · Fire · bulky attacker | 1 | Torkoal (competitive:gen3nu/torkoal-f4aee897) |
-| Untested Wildcard Hive Relay | no team role · anything else · Bug · Baton Pass chain starter | 1 | Volbeat (competitive:gen3nu/volbeat-11809a1a) |
 | Crowned Relentless Tidal Juggernaut | Ace · four attacks · Water · bulky attacker | 1 | Wailord (competitive:gen3nu/wailord-099c296b) |
 | Untested Crippling Tidal Bulwark | no team role · status + attacks · Water · physical wall | 1 | Wartortle (competitive:gen3nu/wartortle-88091b61) |
 | Untested Versatile Tidal Bastion | no team role · attacks covering many types · Water · tank | 1 | Whiscash (competitive:gen3nu/whiscash-1166f062) |
-| Untested Swift Ember Juggernaut | no team role · priority + attacks · Fire · bulky attacker | 1 | Arcanine (competitive:gen3ou/arcanine-1c625ef9) |
+| Tactical Swift Ember Juggernaut | Pivot · priority + attacks · Fire · bulky attacker | 1 | Arcanine (competitive:gen3ou/arcanine-1c625ef9) |
 | Versatile Ember Ambusher | attacks covering many types · Fire · lure | 1 | Blaziken (competitive:gen3ou/blaziken-84dc532b) |
 | Unyielding Enduring Wild Absorber | Wall · recovery + status, little offense · Normal · sponge / status absorber | 1 | Blissey (competitive:gen3ou/blissey-bc89048c) |
 | Untested Crippling Verdant Plaguebearer | no team role · status + attacks · Grass · status spreader | 1 | Breloom (competitive:gen3ou/breloom-9d605673) |
@@ -573,14 +573,14 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Rising Volt Sorcerer | setup + attacks · Electric · special setup sweeper | 1 | Raikou (competitive:gen3ou/raikou-eaf14b3c) |
 | Crippling Frost Juggernaut | status + attacks · Ice · bulky attacker | 1 | Regice (competitive:gen3ou/regice-4e1cbd28) |
 | Stone Juggernaut | Rock · bulky attacker | 1 | Regirock (competitive:gen3ou/regirock-298e6e57) |
-| Untested Versatile Wyrm Siegebreaker | no team role · attacks covering many types · Dragon · wallbreaker | 1 | Salamence (competitive:gen3ou/salamence-f369fcb9) |
+| Tactical Versatile Wyrm Siegebreaker | Pivot · attacks covering many types · Dragon · wallbreaker | 1 | Salamence (competitive:gen3ou/salamence-f369fcb9) |
 | Wildcard Wild Siegebreaker | anything else · Normal · wallbreaker | 1 | Slaking (competitive:gen3ou/slaking-bc55d354) |
 | Steadfast Tactical Wild Plaguebearer | Support · hazards or screens + support · Normal · status spreader | 1 | Smeargle (competitive:gen3ou/smeargle-bca9692a) |
 | Relentless Wild Juggernaut | four attacks · Normal · bulky attacker | 1 | Snorlax (competitive:gen3ou/snorlax-ccc03364) |
 | Crippling Iron Warden | status + attacks · Steel · check / counter | 1 | Steelix (competitive:gen3ou/steelix-f3594c56) |
 | Versatile Tidal Juggernaut-Bastion | attacks covering many types · Water · bulky attacker + tank | 1 | Swampert (competitive:gen3ou/swampert-8b98333a) |
 | Stone Berserker-Stormcaller | Rock · physical setup sweeper + weather setter | 1 | Tyranitar (competitive:gen3ou/tyranitar-a1bd82db) |
-| Crowned Crippling Tidal Juggernaut | Ace · status + attacks · Water · bulky attacker | 1 | Vaporeon (competitive:gen3ou/vaporeon-63b29478) |
+| Tactical Crippling Tidal Juggernaut | Pivot · status + attacks · Water · bulky attacker | 1 | Vaporeon (competitive:gen3ou/vaporeon-63b29478) |
 | Crowned Crippling Verdant Plaguebearer | Ace · status + attacks · Grass · status spreader | 1 | Venusaur (competitive:gen3ou/venusaur-7f44bf0c) |
 | Unyielding Wildcard Venom Bulwark | Wall · anything else · Poison · physical wall | 1 | Weezing (competitive:gen3ou/weezing-a0c6c78d) |
 | Mind Relay-Colossus-Absorber | Psychic · Baton Pass chain starter + bulky setup + sponge / status absorber | 1 | Celebi (competitive:gen3ubers/celebi-c5f85632) |
@@ -597,7 +597,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Battle-Hardened Crippling Mind Absorber | Tank · status + attacks · Psychic · sponge / status absorber | 1 | Mew (competitive:gen3ubers/mew-d8fb0a67) |
 | Seasoned Steadfast Tactical Stone Siegebreaker | BST below 500 · Support · hazards or screens + support · Rock · wallbreaker | 1 | Omastar (competitive:gen3ubers/omastar-c5b52af4) |
 | Humble Untested Wildcard Hive Relay | BST below 400 · no team role · anything else · Bug · Baton Pass chain starter | 1 | Shedinja (competitive:gen3ubers/shedinja-994ab72e) |
-| Steadfast Enduring Wild Plaguebearer | Support · recovery + status, little offense · Normal · status spreader | 1 | Smeargle (competitive:gen3ubers/smeargle-66584bc8) |
+| Tactical Enduring Wild Plaguebearer | Pivot · recovery + status, little offense · Normal · status spreader | 1 | Smeargle (competitive:gen3ubers/smeargle-66584bc8) |
 | Unyielding Rising Wild Colossus | Wall · setup + attacks · Normal · bulky setup | 1 | Snorlax (competitive:gen3ubers/snorlax-060d4372) |
 | Untested Wildcard Mind Absorber | no team role · anything else · Psychic · sponge / status absorber | 1 | Wobbuffet (competitive:gen3ubers/wobbuffet-330eb1a3) |
 | Crippling Iron Juggernaut-Warden | status + attacks · Steel · bulky attacker + check / counter | 1 | Aggron (competitive:gen3uu/aggron-5a5483a4) |
@@ -610,7 +610,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Seasoned Steadfast Tactical Frost Martyr | BST below 500 · Support · hazards or screens + support · Ice · suicide lead | 1 | Glalie (competitive:gen3uu/glalie-76cda899) |
 | Earthen Berserker | Ground · physical setup sweeper | 1 | Gligar (competitive:gen3uu/gligar-36dffe53) |
 | Versatile Stone Juggernaut | attacks covering many types · Rock · bulky attacker | 1 | Golem (competitive:gen3uu/golem-9943c1a3) |
-| Untested Crippling Wild Juggernaut | no team role · status + attacks · Normal · bulky attacker | 1 | Granbull (competitive:gen3uu/granbull-23aca289) |
+| Tactical Crippling Wild Juggernaut | Pivot · status + attacks · Normal · bulky attacker | 1 | Granbull (competitive:gen3uu/granbull-23aca289) |
 | Unyielding Rising Mind Colossus | Wall · setup + attacks · Psychic · bulky setup | 1 | Grumpig (competitive:gen3uu/grumpig-3a0803cd) |
 | Swift Martial Avenger | priority + attacks · Fighting · revenge killer | 1 | Hitmonlee (competitive:gen3uu/hitmonlee-e57bd151) |
 | Crippling Martial Groundskeeper-Bastion | status + attacks · Fighting · hazard remover + tank | 1 | Hitmontop (competitive:gen3uu/hitmontop-76c256fb) |
@@ -628,7 +628,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Unyielding Enduring Shadow Gatekeeper | Wall · recovery + status, little offense · Dark · spinblocker | 1 | Sableye (competitive:gen3uu/sableye-86a39a44) |
 | Rising Hive Avenger | setup + attacks · Bug · revenge killer | 1 | Scyther (competitive:gen3uu/scyther-e7a50927) |
 | Seasoned Crowned Versatile Tidal Siegebreaker | BST below 500 · Ace · attacks covering many types · Water · wallbreaker | 1 | Sharpedo (competitive:gen3uu/sharpedo-5705b692) |
-| Seasoned Untested Versatile Wild Siegebreaker | BST below 500 · no team role · attacks covering many types · Normal · wallbreaker | 1 | Stantler (competitive:gen3uu/stantler-77447b13) |
+| Seasoned Tactical Versatile Wild Siegebreaker | BST below 500 · Pivot · attacks covering many types · Normal · wallbreaker | 1 | Stantler (competitive:gen3uu/stantler-77447b13) |
 | Rising Tidal Spellblade | setup + attacks · Water · mixed setup sweeper | 1 | Tentacruel (competitive:gen3uu/tentacruel-dc6a3ada) |
 | Seasoned Untested Crippling Verdant Siegebreaker | BST below 500 · no team role · status + attacks · Grass · wallbreaker | 1 | Victreebel (competitive:gen3uu/victreebel-819cdb69) |
 | Frost Juggernaut-Disruptor | Ice · bulky attacker + stallbreaker | 1 | Walrein (competitive:gen3uu/walrein-f0899dd2) |
@@ -690,7 +690,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Rising Stone Berserker-Stormcaller | setup + attacks · Rock · physical setup sweeper + weather setter | 1 | Tyranitar (competitive:gen4anythinggoes/tyranitar-0973456c) |
 | Seasoned Unyielding Wildcard Mind Aegis | BST below 500 · Wall · anything else · Psychic · special wall | 1 | Wobbuffet (competitive:gen4anythinggoes/wobbuffet-e4c82ced) |
 | Untested Versatile Mind Siegebreaker | no team role · attacks covering many types · Psychic · wallbreaker | 1 | Abra (competitive:gen4lc/abra-e5e9d4c4) |
-| Untested Crippling Wild Vanguard | no team role · status + attacks · Normal · lead attacker | 1 | Aipom (competitive:gen4lc/aipom-6990ccf3) |
+| Tactical Crippling Wild Vanguard | Pivot · status + attacks · Normal · lead attacker | 1 | Aipom (competitive:gen4lc/aipom-6990ccf3) |
 | Sweeping Crippling Stone Siegebreaker | Sweeper · status + attacks · Rock · wallbreaker | 1 | Anorith (competitive:gen4lc/anorith-c6f7a910) |
 | Humble Untested Versatile Iron Siegebreaker | BST below 400 · no team role · attacks covering many types · Steel · wallbreaker | 1 | Aron (competitive:gen4lc/aron-3bcafcca) |
 | Untested Wildcard Wild Siegebreaker | no team role · anything else · Normal · wallbreaker | 1 | Azurill (competitive:gen4lc/azurill-1d46f060) |
@@ -712,7 +712,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Versatile Volt Ambusher | attacks covering many types · Electric · lure | 1 | Elekid (competitive:gen4lc/elekid-73d2c80f) |
 | Untested Wildcard Phantom Avenger | no team role · anything else · Ghost · revenge killer | 1 | Gastly (competitive:gen4lc/gastly-7e1ad013) |
 | Untested Versatile Wyrm Zealot | no team role · attacks covering many types · Dragon · Choice-locked attacker | 1 | Gible (competitive:gen4lc/gible-f775183f) |
-| Untested Crippling Wild Avenger | no team role · status + attacks · Normal · revenge killer | 1 | Glameow (competitive:gen4lc/glameow-50be5bd3) |
+| Tactical Crippling Wild Avenger | Pivot · status + attacks · Normal · revenge killer | 1 | Glameow (competitive:gen4lc/glameow-50be5bd3) |
 | Versatile Earthen Rover | attacks covering many types · Ground · pivot | 1 | Gligar (competitive:gen4lc/gligar-729ce1af) |
 | Untested Crippling Earthen Stormcaller | no team role · status + attacks · Ground · weather setter | 1 | Hippopotas (competitive:gen4lc/hippopotas-75e5620d) |
 | Untested Crippling Shadow Ambusher | no team role · status + attacks · Dark · lure | 1 | Houndour (competitive:gen4lc/houndour-8c6b825d) |
@@ -724,8 +724,8 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Untested Crippling Tidal Stormrider | no team role · status + attacks · Water · weather sweeper | 1 | Lotad (competitive:gen4lc/lotad-20dd5964) |
 | Untested Relentless Ember Avenger | no team role · four attacks · Fire · revenge killer | 1 | Magby (competitive:gen4lc/magby-7117045e) |
 | Wildcard Volt Hunter | anything else · Electric · trapper | 1 | Magnemite (competitive:gen4lc/magnemite-f9255a90) |
-| Untested Versatile Martial Zealot | no team role · attacks covering many types · Fighting · Choice-locked attacker | 1 | Mankey (competitive:gen4lc/mankey-2ad09c3e) |
-| Steadfast Crippling Wild Disruptor | Support · status + attacks · Normal · stallbreaker | 1 | Meowth (competitive:gen4lc/meowth-062787fc) |
+| Tactical Versatile Martial Zealot | Pivot · attacks covering many types · Fighting · Choice-locked attacker | 1 | Mankey (competitive:gen4lc/mankey-2ad09c3e) |
+| Tactical Crippling Wild Disruptor | Pivot · status + attacks · Normal · stallbreaker | 1 | Meowth (competitive:gen4lc/meowth-062787fc) |
 | Untested Versatile Wild Siegebreaker | no team role · attacks covering many types · Normal · wallbreaker | 1 | Munchlax (competitive:gen4lc/munchlax-0b1d0d26) |
 | Humble Sweeping Crippling Stone Sapper | BST below 400 · Sweeper · status + attacks · Rock · hazard setter | 1 | Onix (competitive:gen4lc/onix-a9cc58e5) |
 | Humble Untested Swift Earthen Siegebreaker | BST below 400 · no team role · priority + attacks · Ground · wallbreaker | 1 | Phanpy (competitive:gen4lc/phanpy-0f674707) |
@@ -736,6 +736,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Humble Untested Crippling Tidal Closer | BST below 400 · no team role · status + attacks · Water · late-game cleaner | 1 | Squirtle (competitive:gen4lc/squirtle-1b4e0dee) |
 | Untested Crippling Tidal Siegebreaker | no team role · status + attacks · Water · wallbreaker | 1 | Staryu (competitive:gen4lc/staryu-75419a11) |
 | Swift Venom Avenger | priority + attacks · Poison · revenge killer | 1 | Stunky (competitive:gen4lc/stunky-c15feb7a) |
+| Tactical Swift Wild Avenger | Pivot · priority + attacks · Normal · revenge killer | 1 | Taillow (competitive:gen4lc/taillow-53fc2082) |
 | Humble Steadfast Tactical Tidal Groundskeeper | BST below 400 · Support · hazards or screens + support · Water · hazard remover | 1 | Tentacool (competitive:gen4lc/tentacool-9cb218b9) |
 | Humble Untested Swift Tidal Avenger | BST below 400 · no team role · priority + attacks · Water · revenge killer | 1 | Totodile (competitive:gen4lc/totodile-89256e28) |
 | Versatile Earthen Hunter-Siegebreaker | attacks covering many types · Ground · trapper + wallbreaker | 1 | Trapinch (competitive:gen4lc/trapinch-ada283d2) |
@@ -749,7 +750,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Frost Cleric-Aegis-Stonewall | Ice · cleric + special wall + staller | 1 | Articuno (competitive:gen4nu/articuno-4d56b057) |
 | Stone Sapper-Banisher-Bulwark | Rock · hazard setter + phazer + physical wall | 1 | Bastiodon (competitive:gen4nu/bastiodon-b94f3624) |
 | Crowned Rising Wild Berserker | Ace · setup + attacks · Normal · physical setup sweeper | 1 | Bibarel (competitive:gen4nu/bibarel-71e6e80e) |
-| Steadfast Crippling Hive Vanguard | Support · status + attacks · Bug · lead attacker | 1 | Butterfree (competitive:gen4nu/butterfree-154d139a) |
+| Tactical Crippling Hive Vanguard | Pivot · status + attacks · Bug · lead attacker | 1 | Butterfree (competitive:gen4nu/butterfree-154d139a) |
 | Noble Sweeping Versatile Ember Siegebreaker | BST below 580 · Sweeper · attacks covering many types · Fire · wallbreaker | 1 | Charizard (competitive:gen4nu/charizard-c46e3281) |
 | Enduring Stone Sapper-Aegis-Stonewall | recovery + status, little offense · Rock · hazard setter + special wall + staller | 1 | Cradily (competitive:gen4nu/cradily-827a1450) |
 | Tidal Vanguard-Berserker | Water · lead attacker + physical setup sweeper | 1 | Crawdaunt (competitive:gen4nu/crawdaunt-10c3766e) |
@@ -779,7 +780,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Crippling Wild Trickster-Vanguard | status + attacks · Normal · Fake Out support + lead attacker | 1 | Purugly (competitive:gen4nu/purugly-8f18246a) |
 | Versatile Stone Zealot-Avenger | attacks covering many types · Rock · Choice-locked attacker + revenge killer | 1 | Rampardos (competitive:gen4nu/rampardos-e9fb5ac5) |
 | Noble Untested Crippling Ember Stonewall | BST below 580 · no team role · status + attacks · Fire · staller | 1 | Rapidash (competitive:gen4nu/rapidash-32672e4c) |
-| Seasoned Untested Wildcard Wild Rover | BST below 500 · no team role · anything else · Normal · pivot | 1 | Raticate (competitive:gen4nu/raticate-d82b9763) |
+| Seasoned Tactical Wildcard Wild Rover | BST below 500 · Pivot · anything else · Normal · pivot | 1 | Raticate (competitive:gen4nu/raticate-d82b9763) |
 | Crippling Frost Bulwark | status + attacks · Ice · physical wall | 1 | Regice (competitive:gen4nu/regice-412c2d11) |
 | Crippling Tidal Siegebreaker | status + attacks · Water · wallbreaker | 1 | Relicanth (competitive:gen4nu/relicanth-ed912e46) |
 | Untested Rising Earthen Juggernaut | no team role · setup + attacks · Ground · bulky attacker | 1 | Rhydon (competitive:gen4nu/rhydon-d4c1c4ff) |
@@ -800,7 +801,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Crippling Verdant Juggernaut | status + attacks · Grass · bulky attacker | 1 | Abomasnow (competitive:gen4ou/abomasnow-4e076e69) |
 | Tactical Stone Vanguard-Disruptor-Martyr | hazards or screens + support · Rock · lead attacker + stallbreaker + suicide lead | 1 | Aerodactyl (competitive:gen4ou/aerodactyl-64578873) |
 | Seasoned Untested Versatile Mind Siegebreaker | BST below 500 · no team role · attacks covering many types · Psychic · wallbreaker | 1 | Alakazam (competitive:gen4ou/alakazam-a412a9a4) |
-| Noble Untested Crippling Ember Rover | BST below 580 · no team role · status + attacks · Fire · pivot | 1 | Arcanine (competitive:gen4ou/arcanine-e70b0005) |
+| Noble Tactical Crippling Ember Rover | BST below 580 · Pivot · status + attacks · Fire · pivot | 1 | Arcanine (competitive:gen4ou/arcanine-e70b0005) |
 | Tactical Mind Disruptor-Martyr | hazards or screens + support · Psychic · stallbreaker + suicide lead | 1 | Azelf (competitive:gen4ou/azelf-307b8cf9) |
 | Crippling Tidal Groundskeeper-Bastion | status + attacks · Water · hazard remover + tank | 1 | Blastoise (competitive:gen4ou/blastoise-bc61b29a) |
 | Wild Sapper-Bulwark-Absorber | Normal · hazard setter + physical wall + sponge / status absorber | 1 | Blissey (competitive:gen4ou/blissey-13205f13) |
@@ -809,7 +810,7 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Battle-Hardened Tactical Earthen Groundskeeper | Tank · hazards or screens + support · Ground · hazard remover | 1 | Claydol (competitive:gen4ou/claydol-919a1ba7) |
 | Wildcard Wild Aegis-Absorber | anything else · Normal · special wall + sponge / status absorber | 1 | Clefable (competitive:gen4ou/clefable-bd5d4669) |
 | Crippling Mind Aegis | status + attacks · Psychic · special wall | 1 | Cresselia (competitive:gen4ou/cresselia-e7ce5a7f) |
-| Untested Crippling Venom Rover | no team role · status + attacks · Poison · pivot | 1 | Crobat (competitive:gen4ou/crobat-140fd6cb) |
+| Tactical Crippling Venom Rover | Pivot · status + attacks · Poison · pivot | 1 | Crobat (competitive:gen4ou/crobat-140fd6cb) |
 | Tactical Earthen Groundskeeper-Sapper | hazards or screens + support · Ground · hazard remover + hazard setter | 1 | Donphan (competitive:gen4ou/donphan-6a1de41d) |
 | Crowned Crippling Tidal Vanguard | Ace · status + attacks · Water · lead attacker | 1 | Empoleon (competitive:gen4ou/empoleon-5a430f5c) |
 | Versatile Earthen Rover-Avenger | attacks covering many types · Ground · pivot + revenge killer | 1 | Flygon (competitive:gen4ou/flygon-87146dcd) |
@@ -880,10 +881,11 @@ One word for a build below the last band (`naming.words.unnamed`): proposal **Pr
 | Crowned Crippling Martial Juggernaut | Ace · status + attacks · Fighting · bulky attacker | 1 | Hariyama (competitive:gen4uu/hariyama-6fbb9cc7) |
 | Enduring Earthen Sapper-Bulwark | recovery + status, little offense · Ground · hazard setter + physical wall | 1 | Hippopotas (competitive:gen4uu/hippopotas-0bdf6038) |
 | Crippling Martial Avenger | status + attacks · Fighting · revenge killer | 1 | Hitmonlee (competitive:gen4uu/hitmonlee-3b59cc8c) |
+| Tactical Crippling Martial Groundskeeper | Pivot · status + attacks · Fighting · hazard remover | 1 | Hitmontop (competitive:gen4uu/hitmontop-dc7345e1) |
 | Shadow Closer-Spellblade-Sorcerer | Dark · late-game cleaner + mixed setup sweeper + special setup sweeper | 1 | Houndoom (competitive:gen4uu/houndoom-55b4d4f2) |
 | Crippling Wild Vanguard-Avenger | status + attacks · Normal · lead attacker + revenge killer | 1 | Kangaskhan (competitive:gen4uu/kangaskhan-bf6ac959) |
 | Seasoned Crowned Crippling Tidal Warden | BST below 500 · Ace · status + attacks · Water · check / counter | 1 | Lanturn (competitive:gen4uu/lanturn-850f89bd) |
-| Crowned Crippling Mind Juggernaut | Ace · status + attacks · Psychic · bulky attacker | 1 | Mesprit (competitive:gen4uu/mesprit-4c4fb2e5) |
+| Tactical Crippling Mind Juggernaut | Pivot · status + attacks · Psychic · bulky attacker | 1 | Mesprit (competitive:gen4uu/mesprit-4c4fb2e5) |
 | Wild Cleric-Sapper-Aegis | Normal · cleric + hazard setter + special wall | 1 | Miltank (competitive:gen4uu/miltank-26640e3e) |
 | Rising Phantom Sorcerer-Disruptor | setup + attacks · Ghost · special setup sweeper + stallbreaker | 1 | Mismagius (competitive:gen4uu/mismagius-4b60d055) |
 | Seasoned Sweeping Crippling Venom Siegebreaker | BST below 500 · Sweeper · status + attacks · Poison · wallbreaker | 1 | Nidoking (competitive:gen4uu/nidoking-5afb3fc6) |

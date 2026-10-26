@@ -59,7 +59,7 @@ PROPOSED = {
              "spinblocker": "Gatekeeper", "pivot": "Rover", "baton_pass_starter": "Relay", "lure": "Ambusher", "suicide_lead": "Martyr"},
     "moveset": {"setup_attack": "Rising", "stall": "Enduring", "hazard_support": "Tactical", "status_attack": "Crippling",
                 "priority_attack": "Swift", "coverage": "Versatile", "all_out_attack": "Relentless", "mixed_bag": "Wildcard"},
-    "team_role": {"ace": "Crowned", "sweeper": "Sweeping", "support": "Steadfast", "wall": "Unyielding", "tank": "Battle-Hardened",
+    "team_role": {"ace": "Crowned", "sweeper": "Sweeping", "support": "Steadfast", "wall": "Unyielding", "tank": "Battle-Hardened", "pivot": "Tactical",
                   "none": "Untested"},
     "bst": {"bst_low": "Humble", "bst_mid": "Seasoned", "bst_high": "Noble", "bst_top": "Mythic"},
     "team_shape": {"trick_room": "Inversion", "weather": "Tempest", "baton_pass": "Relay", "hyper_offense": "Blitz",

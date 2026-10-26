@@ -1,5 +1,5 @@
 <script>
-/* ===== The five team roles and the build name, in the browser ==================================================
+/* ===== The six team roles and the build name, in the browser ==================================================
    A line-for-line port of engine/trainers/team_roles.py (v2, D-078): every role reads the same one-on-ones against
    the Elite Four and Champions, both at level 100, in the battle engine. Ace beats enough of them; Sweeper moves
    first and 2HKOs most (one use of its setup applied); Support carries support moves and lasts; Wall takes four hits
@@ -7,7 +7,7 @@
    pack's (app/data/roles4.json → config, from trainers/team_roles.json). app/test_roles4_parity.mjs holds it to Python. */
 var TeamRoles = (function () {
   var CFG = null, BST = {}, SETUP = ['setup_physical', 'setup_special', 'setup_speed', 'setup_defense'];
-  var GAME_OF_GEN = {2: 'crystal', 3: 'emerald', 4: 'platinum'}, ORDER = ['ace', 'sweeper', 'support', 'wall', 'tank'];   // Zack's order (v2)
+  var GAME_OF_GEN = {2: 'crystal', 3: 'emerald', 4: 'platinum'}, ORDER = ['ace', 'sweeper', 'support', 'wall', 'tank', 'pivot'];   // Zack's order (v2; Pivot added in v2.3)
   var Sc = null, Bt = null, eng = null, pools = {};
   function init(pack, scout, battle) { CFG = pack.config; BST = pack.bst || {}; Sc = scout; Bt = battle; eng = null; pools = {}; }
   function engine() { return eng || (eng = Bt.engine()); }
@@ -165,6 +165,17 @@ var TeamRoles = (function () {
         'takes two or more hits from ' + pct(survive) + '% of the ' + top.length + ' hardest attacks (needs ' + pct(r.survive_at_least) + '%), or moves first against ' + pct(fx.first) + '% of them (needs ' + pct(r.first_at_least) + '%)'],
       numbers: {support_moves: sup, survive: Bt.pyRound(survive, 4), first: fx.first, attacks_read: top.length}};
   }
+  function pivot(fx, moves, ability) {   // trainers/team_roles.py pivot
+    var r = CFG.roles.pivot, piv = moves.filter(function (m) { return inter(m.categories, r.pivot_categories).length; }).map(function (m) { return m.name; });
+    var ab = r.switch_in_abilities.indexOf(ability) >= 0 ? ability : null;
+    var top = fx._hits.slice(0, r.hardest_attacks), survive = takeShare(top, 2);
+    var byMove = piv.length > 0 && (survive >= r.survive_at_least || fx.first >= r.first_at_least), byAbility = !!ab && survive >= r.survive_at_least;
+    var score = Math.max(piv.length ? Math.max(survive, fx.first) : 0.0, ab ? 0.8 * survive : 0.0);
+    return {role: 'pivot', score: Bt.pyRound(score, 4), earned: byMove || byAbility,
+      why: ['pivoting moves: ' + (piv.join(', ') || 'none') + '; switch-in ability: ' + (ab || 'none') + ' (needs one)',
+        'takes two or more hits from ' + pct(survive) + '% of the ' + top.length + ' hardest attacks (needs ' + pct(r.survive_at_least) + '%), or, with a pivoting move, moves first against ' + pct(fx.first) + '% of them (needs ' + pct(r.first_at_least) + '%)'],
+      numbers: {pivot_moves: piv, switch_in_ability: ab, survive: Bt.pyRound(survive, 4), first: fx.first, attacks_read: top.length}};
+  }
   function wall(fx) {
     var r = CFG.roles.wall, n = r.hits_to_take, side = {};
     ['physical', 'special'].forEach(function (k) { var top = fx._hits.filter(function (h) { return h[4] === k; }).slice(0, r.hardest_attacks); side[k] = [Bt.pyRound(takeShare(top, n), 4), top.length]; });
@@ -247,7 +258,7 @@ var TeamRoles = (function () {
     var filled = Object.assign({}, b, {moves: filledMoves.slice(), level: CFG.level});
     var cl = Sc.classify(filled, game, CFG.level), ctx = Sc.roleContext(filled, game, CFG.level, null);
     var fx = facts(F[b.id], gen, ctx.moves, ctx.item);
-    var team = [ace(F[b.id]), sweeper(fx), support(fx, ctx.moves), wall(fx), tank(fx)].map(function (r) { return override(r, b.id); });
+    var team = [ace(F[b.id]), sweeper(fx), support(fx, ctx.moves), wall(fx), tank(fx), pivot(fx, ctx.moves, ctx.ability)].map(function (r) { return override(r, b.id); });
     var sorted = team.map(function (r, i) { return [r, i]; }).sort(function (p, q) { return (q[0].score - p[0].score) || cmp(p[0].role, q[0].role); }).map(function (p) { return p[0]; });
     return {build: b.id, species: b.species, game: game, gen: gen, moves: filledMoves.slice(),
       filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
