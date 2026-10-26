@@ -22,14 +22,18 @@ The Elite Four's and Champions' Pokémon fight with no EVs (the games give train
 - **Could instead:** give their side 85 each too (every Ace number would move)
 - **Your call** (2026-10-26, chat): Keep
 
+## v2.5 · Everything in git
+
 ### A-03 · Storage (D-066)
 
-Reference data and definitions live in git; your own records (My Pokémon, My Builds, My Teams) in append-only Sheet tabs; pictures in a Drive folder the app makes. D-025's 'canon lives in the Sheet' is read as 'your data lives in the Sheet'.
+Everything is kept in git. The app still saves to your Sheet as you go (it can only write to the Sheet and Drive), and Record → Keep it in git makes the bridge: one tap saves a copy of every app tab and your unsaved changes (a new file in the Drive folder "Blackthorn HQ records", or a download in the preview), and engine/store/personal.py --from files it into the project: store/personal.json, store/tabs.json, store/drafts.json. A copy only adds rows, so nothing in git is lost if a later copy lacks it. The app starts from git and lays the live Sheet over it; pictures stay in the Drive folder, listed in git through My Artwork.
 
-- **Why:** Q3, read as approved by D-065 (use the old framework, build the new plan).
-- **See it:** `#/record` (The record)
-- **Could instead:** everything in the Sheet; everything in git
+- **Why:** Your call: "We should probably keep everything in Git."
+- **See it:** `#/record/git` (The record, Keep it in git)
+- **Could instead:** copy only your Pokémon, builds and teams, not the logs; take the copy straight from the Sheet with the Sheets connector instead of a file (needs the Sheet the app writes to)
 - **Your call** (2026-10-26, chat): Change: everything in git. "We should probably keep everything in Git."
+
+## Master plan defaults
 
 ### A-04 · Your Pokémon (D-066)
 

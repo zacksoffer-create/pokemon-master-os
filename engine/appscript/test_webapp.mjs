@@ -42,10 +42,11 @@ function world(sheets) {
     DriveApp: {
       searchFiles: () => { let i = 0; const list = [zipFile, { getName: () => 'Blackthorn-HQ-app notes.txt' }]; return { hasNext: () => i < list.length, next: () => list[i++] }; },
       getFileById: id => { if (id === 'zip1') return zipFile; if (drive.files[id]) return drive.files[id]; throw new Error('no file'); },
-      createFolder: name => { const f = { name, getId: () => 'folder1', createFile: blob => { const fid = 'pic' + (++drive.n);
-        const file = { getId: () => fid, getBlob: () => ({ getContentType: () => blob.mime, getBytes: () => blob.bytes }), getParents: () => { let i = 0; return { hasNext: () => i < 1, next: () => { i++; return f; } }; } };
-        drive.files[fid] = file; return file; } }; drive.folder = f; drive.folders++; return f; },
-      getFolderById: id => { if (drive.folder && id === 'folder1') return drive.folder; throw new Error('no folder'); },
+      createFolder: name => { const fidr = 'folder' + (++drive.folders), f = { name, getId: () => fidr, createFile: (blob, text, mime) => { const fid = 'pic' + (++drive.n);
+        if (typeof blob === 'string') blob = { name: blob, text, mime };   // createFile(name, content, mimeType)
+        const file = { getId: () => fid, getName: () => blob.name, text: blob.text, getUrl: () => 'https://drive.google.com/file/d/' + fid, getBlob: () => ({ getContentType: () => blob.mime, getBytes: () => blob.bytes }), getParents: () => { let i = 0; return { hasNext: () => i < 1, next: () => { i++; return f; } }; } };
+        drive.files[fid] = file; return file; } }; (drive.byId = drive.byId || {})[fidr] = f; drive.folder = drive.folder || f; return f; },
+      getFolderById: id => { if (drive.byId && drive.byId[id]) return drive.byId[id]; throw new Error('no folder'); },
     },
     PropertiesService: { getScriptProperties: () => ({ getProperty: k => drive.props[k] || null, setProperty: (k, v) => { drive.props[k] = v; } }) },
     Utilities: { newBlob: (bytes, mime, name) => ({ bytes, mime, name }), base64Decode: s => Buffer.from(s, 'base64'), base64Encode: b => Buffer.from(b).toString('base64'),
@@ -156,6 +157,20 @@ test('a picture goes into the one artwork folder and comes back as a data URL; n
   assert.ok(b.id !== a.id);
   assert.throws(() => w.ctx.apiImage('zip1'), /only shows pictures it saved/);
   assert.throws(() => w.ctx.apiUpload('x.txt', 'text/plain', png), /Only pictures/);
+});
+
+test('apiKeep saves every app tab and the drafts as a new file in its own folder, never overwriting (A-03)', () => {
+  const w = world({});
+  w.ctx.apiAppend('My Pokémon', { id: 'me:heartgold/Typhlosion-a1', species: 'Typhlosion', game: 'heartgold', at: '2026-10-27T10:00:00Z' });
+  w.ctx.apiAppend('Journal', { at: '2026-10-27T10:00:00Z', kind: 'note', text: 'first light' });
+  const a = w.ctx.apiKeep(JSON.stringify({ 'me:heartgold/Typhlosion-a1': { build: { moves: ['Eruption'] } } })), b = w.ctx.apiKeep('{}');
+  assert.ok(a.id !== b.id, 'a new file each time');
+  assert.match(a.name, /^Blackthorn records \d{4}-\d{2}-\d{2} \d{4}\.json$/);
+  same(a.counts, { Journal: 1, 'My Pokémon': 1 });   // in APP_TABS order
+  const copy = JSON.parse(w.drive.files[a.id].text);
+  assert.equal(copy.tabs['My Pokémon'][0].species, 'Typhlosion');
+  same(copy.drafts['me:heartgold/Typhlosion-a1'].build.moves, ['Eruption']);
+  assert.equal(w.drive.folders, 1, 'one records folder, made once and remembered');
 });
 
 test('apiAppend refuses tabs outside the app', () => {

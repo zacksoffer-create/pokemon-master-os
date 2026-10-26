@@ -5,7 +5,7 @@
 
 While engine/store/fresh_start.json says "on", every pack the export writes is passed through here, and the parts
 that are your records come out:
-- your Pokémon, builds and teams;
+- your Pokémon, builds and teams from before it (ones made since, kept in git by store/personal.py, stay: A-03);
 - the journey trainer and its versions;
 - the party, residents, studbook and program;
 - the journey's scouting files.
@@ -41,14 +41,24 @@ def personal_build(bid, b):
     return b.get("provenance") == "yours" or bid.startswith(("yours:", "me:"))
 
 
+def since_start(rec):
+    """Made on or after the fresh start: your v2 records, kept in git (A-03, store/personal.py), stay in the packs, the
+    same rule the app applies to the Sheet's rows (sinceFresh in web/20_core.html)."""
+    t = str((rec or {}).get("at") or "")
+    return bool(t) and t >= str(config().get("since") or "")
+
+
 def store(d):
     out = dict(d)
-    out["builds"] = {k: b for k, b in d.get("builds", {}).items() if not personal_build(k, b)}
-    out["versions"] = {k: v for k, v in d.get("versions", {}).items() if k in out["builds"]}
+    out["builds"] = {k: b for k, b in d.get("builds", {}).items() if not personal_build(k, b) or since_start(b)}
+    out["versions"] = {k: [x for x in v if since_start(x)] if personal_build(k, d["builds"][k]) else v
+                       for k, v in d.get("versions", {}).items() if k in out["builds"]}
     out["aliases"] = {k: v for k, v in d.get("aliases", {}).items() if v in out["builds"]}
-    out["individuals"], out["teams"], out["lines"], out["proposed_lines"] = {}, {}, [], []
-    return out, {"builds": len(d.get("builds", {})) - len(out["builds"]), "individuals": len(d.get("individuals", {})),
-                 "teams": len(d.get("teams", {})), "lines": len(d.get("lines", [])) + len(d.get("proposed_lines", []))}
+    out["individuals"] = {k: i for k, i in d.get("individuals", {}).items() if since_start(i)}
+    out["teams"] = {k: t for k, t in d.get("teams", {}).items() if since_start(t)}
+    out["lines"], out["proposed_lines"] = [], []
+    return out, {"builds": len(d.get("builds", {})) - len(out["builds"]), "individuals": len(d.get("individuals", {})) - len(out["individuals"]),
+                 "teams": len(d.get("teams", {})) - len(out["teams"]), "lines": len(d.get("lines", [])) + len(d.get("proposed_lines", []))}
 
 
 def mine(vid, v):

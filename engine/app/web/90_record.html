@@ -120,11 +120,26 @@ function calls(q) {
 function recordPage(tab) {
   tab = tab || 'decisions';
   var h = S.hq, k = h.kpis || {};
-  var tabs = [['decisions', 'Decisions', h.decisions.length], ['locks', 'Locks', h.locks.length], ['world', 'World records', h.world.length], ['evidence', 'Verified mechanics', null]];
+  var tabs = [['decisions', 'Decisions', h.decisions.length], ['locks', 'Locks', h.locks.length], ['world', 'World records', h.world.length], ['evidence', 'Verified mechanics', null], ['git', 'Keep it in git', null]];
   var head = '<div class="eyebrow">Canon, decisions and evidence</div><h1 style="margin:6px 0">The record</h1><p class="lede">Every decision with its number, every lock and the rule that guards it, every world record and what it rests on. Locked means Claude refuses to change it without a decision that reopens it.</p>' +
     '<div class="kpis" style="margin-top:14px">' + [['Decisions', k.decisions], ['Locked', h.decisions.filter(function (d) { return /^LOCKED/.test(d.status); }).length], ['World records', k.world_records], ['Open questions', k.open_questions], ['Rule issues', k.rule_issues]].map(function (x) {
       return '<div class="kpi"><div class="eyebrow">' + x[0] + '</div><div class="serif num" style="font-size:34px;color:var(--ivory)">' + (x[1] == null ? '—' : x[1]) + '</div></div>'; }).join('') + '</div>' +
     '<div class="tabs" style="margin-top:18px">' + tabs.map(function (t) { return '<a href="#/record/' + t[0] + '"' + (t[0] === tab ? ' class="on"' : '') + '>' + t[1] + (t[2] != null ? ' <span class="tiny muted">' + t[2] + '</span>' : '') + '</a>'; }).join('') + '</div>';
+  if (tab === 'git') {   // A-03 (Zack: "We should probably keep everything in Git.")
+    after(function (p) { var b = p.querySelector('#keepgit'), out = p.querySelector('#keepout'); if (!b) return;
+      b.onclick = function () { b.disabled = true; out.innerHTML = '<span class="muted">Copying every tab…</span>';
+        Records.keep().then(function (r) {
+          var n = Object.keys(r.counts || {}).map(function (k) { return esc(k) + ' ' + r.counts[k]; }).join(' · ') || 'no rows yet';
+          if (r.preview) { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([r.text], {type: 'application/json'})); a.download = r.name; document.body.appendChild(a); a.click(); a.remove(); }
+          out.innerHTML = '<div class="notice"><span><b>' + esc(r.name) + '</b> ' + (r.preview ? 'downloaded' : 'saved in your Drive folder "Blackthorn HQ records"' + (r.url ? ' (<a href="' + esc(r.url) + '" target="_blank" rel="noopener">open it</a>)' : '')) +
+            '. ' + n + '. Tell Claude "snapshot my records" (or hand over the file) and it goes into the project.</span></div>';
+          b.disabled = false; }).catch(function (e) { out.innerHTML = '<div class="notice"><span>Couldn\'t make the copy: ' + esc(e && e.message || e) + '</span></div>'; b.disabled = false; }); }; });
+    return head + card('Everything in git', '<p class="small">The app saves to your Sheet as you go; the project keeps everything in git. This makes the bridge: a copy of every tab (your Pokémon, builds and teams, artwork, gear, the logs, the studbook and your calls) and the changes you\'ve left unsaved, as one file.</p>' +
+      '<ol class="small"><li>Tap the button. In the web app the copy goes into a "Blackthorn HQ records" folder in your Drive, a new file each time; in the preview it downloads.</li>' +
+      '<li>Tell Claude "snapshot my records". It runs <span class="mono">engine/store/personal.py --from</span> on the newest copy and commits it.</li>' +
+      '<li>From then on the app starts from what\'s in git, with the Sheet laid over it, so nothing lives only in the Sheet.</li></ol>' +
+      '<button class="btn gold" id="keepgit">Save a copy for git</button><div id="keepout" style="margin-top:10px"></div>', {eyebrow: 'A-03 · your records', tools: false, style: 'margin-top:16px'});
+  }
   if (tab === 'decisions') {
     after(function (p) { bindFilter(p); });
     return head + card('All decisions', '<input class="f" data-filter="#dt" placeholder="Filter: a number, a word, a status (LOCKED, WORKING, PROPOSED)…" style="margin-bottom:10px"><table class="t" id="dt"><thead><tr><th>#</th><th>Date</th><th>Decision</th><th>Area</th><th>Status</th><th>Who</th></tr></thead><tbody>' +

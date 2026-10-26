@@ -103,6 +103,7 @@ Ids are opaque strings; nothing parses meaning out of them except the prefix.
 | Your equipment, per game | the Sheet's **My Gear** tab (append-only: `id` `<game>:<item>`, `owned` yes/no, `item`, `game`, `qty`, `note`, `at`) | the app (`apiAppend`) |
 | Your pictures | the Drive folder **Blackthorn HQ artwork** (the files) and the **My Artwork** tab (one row per picture: `id`, `subject`, `kind`, `file` or `url`, `title`, `class` creative or reference, `status`, `note`, `at`); an individual's `hero` names its profile picture | the app (`apiUpload`, `apiAppend`) |
 | A snapshot of those tabs for engine runs | `engine/store/personal.json` | `store/personal.py`, from the tabs' rows |
+| **Everything in git (A-03, v2.5)**: a copy of every app tab and the unsaved drafts | `engine/store/personal.json` (My tabs), `engine/store/tabs.json` (the logs, the studbook, your calls, the Arena, the Variants), `engine/store/drafts.json` | the app makes the copy (Record → Keep it in git: `apiKeep`, a new file in the Drive folder **Blackthorn HQ records**, or a download in the preview); `store/personal.py --from <copy>` files it into git, adding rows and never dropping one |
 
 **Append-only rules for the four tabs (My Gear too):**
 
@@ -130,6 +131,8 @@ Ids are opaque strings; nothing parses meaning out of them except the prefix.
 **Breeding stock (Phase 4).** A blueprint is a build with `kind` `blueprint`, plus `purpose` (competitive, environment, versatility, personal, other) and `labels` (comma-separated). Its `moves` are the whole starting set in hatch slot order, the order PKHeX checks. An individual made from one has `blueprint` (the build id), `hatch_moves`, `origin` "hatched (blueprint …)", and its own build: a variant whose `parent` is the blueprint's `<id>@<v>`, so editing the Pokémon never changes the design. `sire` and `dam` name its parents by id: a studbook id (`S-TYRANITAR`, `D-TYRANITAR`) or one of yours. This is how studbook ids link to individuals (X3).
 
 The browser (`20_core.html` `Records`) and Python (`store/personal.py`) share these formats, held together by a test.
+
+**Everything in git (A-03; Zack, 2026-10-26: "We should probably keep everything in Git.").** The app can only write to the Sheet and Drive, so the Sheet is where a save lands first and git is where it's kept. The bridge is the copy: one tap saves every tab's rows, and `store/personal.py --from` puts them in git. A copy only adds: a row already in git stays even if a later copy doesn't have it, so moving to a new Sheet can't lose anything. The app then starts from git and lays the live Sheet over it. Under the fresh start, records made since it began come through; older ones stay hidden, the same rule the app applies to the Sheet's rows.
 
 **How the store is built:**
 

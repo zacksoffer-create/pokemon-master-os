@@ -289,7 +289,7 @@ function pbInputs() {
       '<div><label class="l">Shiny</label><select class="f" data-who="shiny">' + opt('no', 'No', w.shiny ? 'yes' : 'no') + opt('yes', 'Yes ✦', w.shiny ? 'yes' : 'no') + '</select></div>' +
       '<div><label class="l">Level</label><input class="f" type="number" min="1" max="100" data-pb="level" value="' + (b.level || 100) + '"></div></div>' +
       '<div class="row" style="margin-top:6px;align-items:center"><div style="flex:2"><label class="l">Ball</label><select class="f" data-who="ball">' + balls.map(function (x) { return opt(x, x, w.ball || 'Poké Ball'); }).join('') + '</select>' +
-      '<div class="tiny muted" id="pbballfit">' + pbBallFit() + '</div></div><div id="pbballpic">' + inBall(sp, PB.game, w.ball, w.shiny, 72) + '</div></div>' +
+      '<div class="tiny muted" id="pbballfit">' + pbBallFit() + '</div></div><div id="pbballpic" title="Tap to see it come out of this ball" style="cursor:pointer">' + inBall(sp, PB.game, w.ball, w.shiny, 72) + '</div></div>' +
       '<label class="l" style="margin-top:10px">Where it came from</label><select class="f" data-pborigin="1"><option value="">— choose how you got it —</option>' + groups.map(function (g) {
         return '<optgroup label="' + esc(g[0]) + '">' + g[1].map(function (x) { return '<option value="' + x[1] + '"' + (x[1] === oi ? ' selected' : '') + '>' + esc(x[0].label) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select>' +
       '<div class="tiny muted" id="pborigin" style="margin-top:4px">' + pbOriginLine(ob, w) + '</div>' +
@@ -400,11 +400,14 @@ function pbBind(p) {
   var box = p.querySelector('#pbin'), t = null, fire = function () { clearTimeout(t); t = setTimeout(pbRun, 400); };
   var save = p.querySelector('#pbsave'); if (save) save.onclick = pbSave;
   var pic = p.querySelector('#pbportrait'); if (pic) pic.onclick = function () { pic.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112, true); };   // send it out again
+  box.addEventListener('click', function (e) { var bp = e.target.closest && e.target.closest('#pbballpic'); if (bp) bp.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 72, true); });
   var rev = p.querySelector('#pbrevert'); if (rev) rev.onclick = function () { Records.clearDraft(PB.id); nav('#/pokemon/' + encodeURIComponent(PB.id), true); };
   var mk = p.querySelector('#pbmine'); if (mk) mk.onclick = pbMakeMine;
   var redrawStats = function () { var c = box.querySelector('[data-mod="m-pbstats"] .bd'); if (c) c.innerHTML = pbStatsHtml(); };
-  var portrait = function () { var el = document.getElementById('pbportrait'); if (el) el.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112, true);
-    var bp = document.getElementById('pbballpic'); if (bp) bp.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 72);
+  var portrait = function (play) {   // play: the ball, shiny or species changed, so it comes out again beside the ball you picked (v2.5); a new nickname only retitles
+    var bp = document.getElementById('pbballpic');
+    if (play !== 'name') { var el = document.getElementById('pbportrait'); if (el) el.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112);
+      if (bp) bp.innerHTML = inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 72, !!play); }
     var bf = document.getElementById('pbballfit'); if (bf) bf.innerHTML = pbBallFit();
     var tt = document.getElementById('pbtitle'); if (tt) tt.innerHTML = esc(PB.who.nickname || PB.species) + (PB.who.nickname ? ' <span class="muted" style="font-size:.6em">' + esc(PB.species) + '</span>' : ''); };
   box.addEventListener('click', function (e) {
@@ -421,7 +424,7 @@ function pbBind(p) {
     var el = e.target, k;
     if ((k = el.getAttribute('data-pbev'))) { var ev = Object.assign({}, PB.cur.evs || {}); ev[k] = Math.max(0, Math.min(PB.gen >= 3 ? 252 : 255, +el.value || 0)); if (!ev[k]) delete ev[k]; if (Object.keys(ev).length) PB.cur.evs = ev; else delete PB.cur.evs; }
     else if ((k = el.getAttribute('data-pbiv'))) { var iv = Object.assign({}, PB.cur.ivs || {}); iv[k] = Math.max(0, Math.min(31, +el.value || 0)); PB.cur.ivs = iv; }
-    else if ((k = el.getAttribute('data-who')) && el.tagName === 'INPUT') { PB.who[k] = el.type === 'number' ? (el.value ? +el.value : null) : (el.value.trim() || null); if (k === 'nickname') portrait(); pbKeep(); return; }
+    else if ((k = el.getAttribute('data-who')) && el.tagName === 'INPUT') { PB.who[k] = el.type === 'number' ? (el.value ? +el.value : null) : (el.value.trim() || null); if (k === 'nickname') portrait('name'); pbKeep(); return; }
     else if (el.getAttribute('data-pb') === 'level') { PB.cur.level = Math.max(1, Math.min(100, +el.value || 100)); }
     else return;
     var stats = box.querySelector('[data-mod="m-pbstats"] .bd'), at = document.activeElement && document.activeElement.getAttribute('data-pbev') || document.activeElement.getAttribute && document.activeElement.getAttribute('data-pbiv');
@@ -436,14 +439,14 @@ function pbBind(p) {
       if (!o) { ['met_how', 'met_as', 'met_location', 'caught_level'].forEach(function (x) { PB.who[x] = null; }); }
       else { PB.who.met_how = o.how; PB.who.met_as = o.as; PB.who.met_location = o.where || null; PB.who.caught_level = o.level; }
       box.innerHTML = pbInputs(); pbKeep(); return; }
-    else if ((k = el.getAttribute('data-who'))) { if (el.tagName === 'INPUT') return; PB.who[k] = k === 'shiny' ? el.value === 'yes' : (el.value || null); portrait(); pbKeep(); return; }
+    else if ((k = el.getAttribute('data-who'))) { if (el.tagName === 'INPUT') return; PB.who[k] = k === 'shiny' ? el.value === 'yes' : (el.value || null); portrait(k === 'ball' || k === 'shiny'); pbKeep(); return; }
     else if ((k = el.getAttribute('data-pb'))) {
       if (k === 'nature') { if (el.value) PB.cur.nature = el.value; else delete PB.cur.nature; document.getElementById('pbnatx').innerHTML = pbNatureInfo(PB.cur.nature, PB.gen); redrawStats(); }
       else if (k === 'ability') { PB.cur.ability = el.value; document.getElementById('pbabx').innerHTML = pbAbilityInfo(el.value, PB.gen); }
       else if (k === 'item') { if (el.value) PB.cur.item = el.value; else delete PB.cur.item; document.getElementById('pbitx').innerHTML = pbItemInfo(PB.cur.item, PB.gen); }
       else if (k === 'species') { PB.species = el.value; PB.cur.species = el.value; var ab = Battle.abilities(PB.gen, el.value); if (PB.cur.ability && ab.indexOf(PB.cur.ability) < 0) delete PB.cur.ability;
         var ok = []; try { ok = Battle.learnable(el.value, PB.game); } catch (x) { ok = []; } PB.cur.moves = PB.cur.moves.filter(function (m) { return ok.indexOf(m) >= 0; });
-        box.innerHTML = pbInputs(); portrait(); document.getElementById('pbspecies').innerHTML = pbSpecies(); }
+        box.innerHTML = pbInputs(); portrait(true); document.getElementById('pbspecies').innerHTML = pbSpecies(); }
       else if (k === 'set') { var src = /^v:/.test(el.value) ? Records.version(PB.rec.buildId, +el.value.slice(2)) : storeBuild(el.value); if (!src) return;
         PB.cur = pbNormal(src, PB.species, PB.cur.level); box.innerHTML = pbInputs(); toast('Loaded ' + esc(/^v:/.test(el.value) ? 'your v' + el.value.slice(2) : src.name || el.value) + '. Change anything, then Save.'); }
       else return;

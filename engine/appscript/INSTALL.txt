@@ -78,3 +78,8 @@ What the app writes, and where
 
 Try it first without installing anything: open Blackthorn-HQ-preview.html in any browser. It's the whole app with
 the data inside; what you save stays in that browser only.
+
+If you installed before v2.5 (Record → Keep it in git): that button needs the new WebApp.gs. Paste it over the old one
+(step 4), Save, then Deploy → Manage deployments → the pencil → Version: New version → Deploy. The URL stays the same.
+The first copy asks for nothing new: it uses the Drive access the pictures already have, and makes one folder,
+"Blackthorn HQ records", where every copy is a new file.

@@ -149,12 +149,16 @@ var Records = (function () {
     return append('gear', encGear(rec), (rec.owned ? 'Has ' : 'No longer has ') + g.item + ' in ' + g.game).then(function () { return view().gear[rec.id]; });
   }
   function draft(id) { return store('draft:' + id) || null; }
+  function keep() {   // A-03, everything in git: every tab's rows and the unsaved drafts, as one file (WebApp.gs apiKeep)
+    var drafts = {}; try { Object.keys(localStorage).filter(function (k) { return /^bt-draft:/.test(k); }).forEach(function (k) { drafts[k.slice(9)] = JSON.parse(localStorage.getItem(k)); }); } catch (e) {}
+    return API.run('apiKeep', JSON.stringify(drafts));
+  }
   function setDraft(id, b) { store('draft:' + id, {at: new Date().toISOString(), build: b}); }
   function clearDraft(id) { try { localStorage.removeItem('bt-draft:' + id); } catch (e) {} }
   return {TABS: TABS, init: init, seedV: seedV, seedInd: seedInd, encStats: encStats, decStats: decStats, encMoves: encMoves, decMoves: decMoves, decBuild: decBuild, encBuild: encBuild,
     decIndividual: decIndividual, encIndividual: encIndividual, decTeam: decTeam, token: token, build: build, load: load, view: view,
     versions: versions, version: version, saveBuild: saveBuild, saveIndividual: saveIndividual, saveTeam: saveTeam, saveArtwork: saveArtwork, decArtwork: decArtwork, saveGear: saveGear, decGear: decGear, encGear: encGear,
-    draft: draft, setDraft: setDraft, clearDraft: clearDraft};
+    draft: draft, setDraft: setDraft, clearDraft: clearDraft, keep: keep};
 })();
 function recordsReady() {   // store.json and your three tabs, merged into S.store (cached; Records.load(true) to re-read)
   if (!S.recordsP) S.recordsP = API.data('store').then(function (seed) { Records.init(seed); return Records.load(); })

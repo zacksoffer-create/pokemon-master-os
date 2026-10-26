@@ -2894,6 +2894,41 @@ class V2(unittest.TestCase):
         self.assertFalse([f for f in arena["legends"]["field"] if f["group"] == "yours"])
         self.assertEqual(fresh.apply(write=False)["store.json"], {"builds": 0, "individuals": 0, "teams": 0, "lines": 0})   # running it again changes nothing
 
+    def test_everything_in_git_a_copy_is_added_never_put_in_place(self):
+        """A-03 (Zack: "We should probably keep everything in Git."): the app's copy (Record → Keep it in git) goes into
+        store/personal.json, store/tabs.json and store/drafts.json; a later copy adds rows and never drops one; and the
+        fresh start keeps records made since it began, so what's in git shows in the app."""
+        from store import personal
+        sys.path.insert(0, self.APP)
+        import fresh
+        since = fresh.config().get("since") or "2026-10-25T00:00:00Z"
+        later = "2026-10-27T10:00:00Z"
+        ind = {"id": "me:heartgold/Typhlosion-a1", "status": "working", "species": "Typhlosion", "game": "heartgold", "ball": "Love Ball", "at": later}
+        copy1 = {"made": later, "tabs": {"My Pokémon": [ind], "Journal": [{"at": later, "kind": "note", "text": "first light"}]},
+                 "drafts": {"me:heartgold/Typhlosion-a1": {"build": {"moves": ["Eruption"]}}}}
+        copy2 = {"made": "2026-10-28T09:00:00Z", "tabs": {"Journal": [{"at": "2026-10-28T09:00:00Z", "kind": "note", "text": "second"}]}}
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = [os.path.join(tmp, n) for n in ("personal.json", "tabs.json", "drafts.json")]
+            for i, c in enumerate((copy1, copy2)):
+                src = os.path.join(tmp, f"copy{i}.json")
+                with open(src, "w", encoding="utf-8") as fh:
+                    json.dump(c, fh)
+                personal.write_snapshot(src, *paths)
+            mine = personal.load(paths[0])
+            with open(paths[1], encoding="utf-8") as fh:
+                rest = json.load(fh)
+            with open(paths[2], encoding="utf-8") as fh:
+                drafts = json.load(fh)
+        self.assertEqual(mine["individuals"]["me:heartgold/Typhlosion-a1"]["ball"], "Love Ball", "the second copy had no My Pokémon rows; the first's stay")
+        self.assertEqual([r["text"] for r in rest["Journal"]], ["first light", "second"])
+        self.assertIn("me:heartgold/Typhlosion-a1", drafts["drafts"])
+        out, gone = fresh.store({"builds": {}, "individuals": {ind["id"]: ind, "me:old": {"id": "me:old", "at": "2026-07-01T00:00:00Z"}},
+                                 "teams": {"journey:heartgold": {"id": "journey:heartgold", "at": later}}, "lines": []})
+        self.assertGreater(later, since)
+        self.assertEqual(list(out["individuals"]), [ind["id"]], "kept: made after the fresh start; hidden: before it")
+        self.assertEqual(list(out["teams"]), ["journey:heartgold"])
+        self.assertEqual(gone["individuals"], 1)
+
     def test_six_roles_in_zacks_order_with_calibrated_bars(self):
         with open(os.path.join(ENGINE, "trainers", "team_roles.json"), encoding="utf-8") as fh:
             cfg = json.load(fh)

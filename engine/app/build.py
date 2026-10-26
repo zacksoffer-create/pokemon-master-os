@@ -37,6 +37,10 @@ var google = {script: {run: (function () {
       var id = 'preview-' + Date.now().toString(36); m[id] = 'data:' + mime + ';base64,' + b64;
       try { localStorage.setItem('bt-preview-images', JSON.stringify(m)); } catch (e) { throw new Error('this browser has no room left for pictures'); } return {id: id}; },
     apiImage: function (id) { try { return JSON.parse(localStorage.getItem('bt-preview-images') || '{}')[id] || ''; } catch (e) { return ''; } },
+    apiKeep: function (drafts) { var t = tabs(), out = {}, counts = {}, made = new Date().toISOString(), d = {}; try { d = JSON.parse(drafts || '{}'); } catch (e) {}
+      Object.keys(t).forEach(function (k) { if (t[k] && t[k].length) { out[k] = t[k]; counts[k] = t[k].length; } });
+      return {name: 'Blackthorn records ' + made.slice(0, 16).replace('T', ' ').replace(':', '') + '.json', counts: counts, preview: true,
+        text: JSON.stringify({_about: 'Blackthorn HQ (preview): a copy of your records for the project (engine/store/personal.py --from this file).', made: made, tabs: out, drafts: d}, null, 1)}; },
     apiAnswer: function (id, text, status) { var t = tabs(), at = new Date().toISOString(); (t.Answers = t.Answers || []).push({id: id, text: text, status: status, at: at});
       if (status === 'answered') (t.Timeline = t.Timeline || []).push({at: at, kind: 'your call', text: id + ': ' + text}); save(t); return {ok: true}; }
   };

@@ -203,6 +203,31 @@ function artFolder_() {
   return f;
 }
 
+// --- everything in git (A-03; Zack: "We should probably keep everything in Git.") ------------------------------------
+// A copy of every app tab's rows, and the changes you've left unsaved, as one JSON file in a "Blackthorn HQ records"
+// folder in your Drive. Each copy is a new file; nothing is overwritten or deleted. engine/store/personal.py --from
+// files it into the project, where the app reads it under the Sheet.
+var RECORDS_FOLDER = 'Blackthorn HQ records';
+
+/** Saves a copy of your records; drafts is the browser's unsaved changes, as JSON text. Returns the new file's name and link. */
+function apiKeep(drafts) {
+  var tabs = {}, counts = {}, made = new Date().toISOString();
+  APP_TABS.concat(['Studbook', CALLS]).forEach(function (t) { var rows = apiTab(t); if (rows.length) { tabs[t] = rows; counts[t] = rows.length; } });
+  var d = {}; try { d = JSON.parse(String(drafts || '{}')); } catch (e) {}
+  var text = JSON.stringify({_about: 'Blackthorn HQ: a copy of your records for the project (engine/store/personal.py --from this file).', made: made, tabs: tabs, drafts: d}, null, 1);
+  var name = 'Blackthorn records ' + made.slice(0, 16).replace('T', ' ').replace(':', '') + '.json';
+  var file = recordsFolder_().createFile(name, text, 'application/json');
+  return {name: name, id: file.getId(), url: file.getUrl(), counts: counts};
+}
+
+function recordsFolder_() {
+  var props = PropertiesService.getScriptProperties(), id = props.getProperty('RECORDS_FOLDER_ID');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (e) {} }
+  var f = DriveApp.createFolder(RECORDS_FOLDER);
+  props.setProperty('RECORDS_FOLDER_ID', f.getId());
+  return f;
+}
+
 /** Writes your call (and its status) into the Your Calls tab; a call that isn't there yet gets a row. */
 function apiAnswer(id, text, status, meta) {
   meta = meta || {};

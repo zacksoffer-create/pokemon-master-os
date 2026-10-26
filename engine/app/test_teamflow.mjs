@@ -84,6 +84,23 @@ await until((id) => !Records.draft(id) && Records.versions(S.store.individuals[i
 const saved = await page.evaluate((id) => (Records.version(S.store.individuals[id].build, 2) || {}).moves, ids.built);
 if (!saved || saved[3] !== 'Earthquake') fails.push('drafts: saved moves ' + JSON.stringify(saved));
 
+// v2.5: where you create it, the opening plays again beside the ball you pick; a nickname doesn't replay it
+await page.evaluate((id) => nav('#/pokemon/' + encodeURIComponent(id)), ids.built);
+await until(() => document.querySelector('#pbportrait .inball.opened'), null, 60000).catch(() => fails.push('who: the portrait never finished opening'));
+await page.fill('[data-who="nickname"]', 'Ember');
+if (await page.evaluate(() => !!document.querySelector('#pbportrait canvas.ibo'))) fails.push('who: typing a nickname replayed the opening');
+await page.selectOption('[data-who="ball"]', 'Master Ball');
+await until(() => (document.querySelector('#pbballpic canvas.ibo') || {dataset: {}}).dataset.scene === 'g4:master', null, 30000).catch(() => fails.push('who: picking the Master Ball didn\'t play its opening beside the ball'));
+
+// v2.5 (A-03): Record → Keep it in git makes a copy of every tab (a download in the preview)
+await page.evaluate(() => nav('#/record/git'));
+await until(() => document.querySelector('#keepgit'), null, 30000).catch(() => fails.push('git: no Keep it in git button'));
+const [dl] = await Promise.all([page.waitForEvent('download', { timeout: 30000 }).catch(() => null), page.click('#keepgit')]);
+if (!dl) fails.push('git: the copy didn\'t download in the preview');
+else { const copy = JSON.parse(await (await import('node:fs/promises')).readFile(await dl.path(), 'utf8'));
+  if (!copy.tabs || !(copy.tabs['My Pokémon'] || []).length || !(copy.tabs['My Teams'] || []).length) fails.push('git: the copy is missing My Pokémon or My Teams rows');
+  if (!/^Blackthorn records /.test(dl.suggestedFilename())) fails.push('git: copy named ' + dl.suggestedFilename()); }
+
 // every generation's opening, from the ball pages: Emerald (Gen III), Crystal (Gen II), Platinum (Gen IV)
 for (const [hash, scene] of [['#/ball/dive?g=emerald', 'g3:dive'], ['#/ball/poke?g=crystal', 'g2:poke'], ['#/ball/dusk?g=platinum', 'g4:dusk']]) {
   await page.evaluate((h) => nav(h), hash);
@@ -96,5 +113,5 @@ for (const [hash, scene] of [['#/ball/dive?g=emerald', 'g3:dive'], ['#/ball/poke
 
 await browser.close();
 if (errors.length) fails.push('page errors: ' + errors.join(' || '));
-console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back; the built one back in its slot; a HeartGold Love Ball opens as Gen IV does; Emerald, Crystal and Platinum openings from the ball pages; an unsaved change saved from the team page');
+console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back; the built one back in its slot; a HeartGold Love Ball opens as Gen IV does; Emerald, Crystal and Platinum openings from the ball pages; an unsaved change saved from the team page; the opening beside the ball choice; a copy of every tab for git');
 process.exit(fails.length ? 1 : 0);

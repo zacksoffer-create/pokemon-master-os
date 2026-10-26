@@ -6,9 +6,15 @@ The app appends rows to those tabs and never rewrites one. This file is the engi
   engines (team roles, the app's packs) read your saved versions too.
 
     python3 -I engine/store/personal.py --from rows.json      # rows.json: {"My Builds": [[header…], [row…]…] | [{…}], …}
+                                                              # or the app's copy (Record → Keep it in git): {"tabs": {…}, "drafts": {…}}
     python3 -I engine/store/personal.py --fixture out.json    # the format test's fixture (rows and what they decode to)
 
 The snapshot is taken from the tabs (with the Sheets connector or a download); nothing here writes to the Sheet.
+
+Everything in git (A-03; Zack, 2026-10-26: "We should probably keep everything in Git."): the app's copy carries every
+tab, so the other tabs (the logs, the studbook, your calls, the Arena, the Variants) go into engine/store/tabs.json and
+the unsaved changes into engine/store/drafts.json. A copy is added to what git holds, never put in its place: rows are
+append-only, so a row already in git stays even if a later copy (a new Sheet, say) doesn't have it.
 """
 import json
 import os
@@ -16,6 +22,8 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SNAPSHOT = os.path.join(HERE, "personal.json")
+OTHER_TABS = os.path.join(HERE, "tabs.json")     # every other app tab's rows (A-03)
+DRAFTS = os.path.join(HERE, "drafts.json")       # changes left unsaved in the browser when the copy was made
 TABS = {"individual": "My Pokémon", "build": "My Builds", "team": "My Teams", "artwork": "My Artwork", "gear": "My Gear"}
 GEAR_FIELDS = ("item", "game", "qty", "note", "at")   # your equipment (Phase 6): one row per item per game, the newest wins
 STATS = ("hp", "atk", "def", "spa", "spd", "spe")
@@ -221,18 +229,53 @@ def merge(builds, individuals, teams, mine=None):
     return versions
 
 
-def write_snapshot(src, path=SNAPSHOT):
+def union(old, new):
+    """Rows already kept, then the new ones not among them, in the order they were made (append-only, A-03)."""
+    seen, out = set(), []
+    for r in list(old or []) + list(new or []):
+        k = json.dumps(r, sort_keys=True, ensure_ascii=False)
+        if k not in seen:
+            seen.add(k)
+            out.append(r)
+    return sorted(out, key=lambda r: str(r.get("at") or r.get("date") or r.get("when") or ""))
+
+
+def read_json(path, default):
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return default
+
+
+def write_snapshot(src, path=SNAPSHOT, other=OTHER_TABS, drafts=DRAFTS):
     with open(src, encoding="utf-8") as fh:
         data = json.load(fh)
+    made = data.get("made") if isinstance(data, dict) else None
+    tabs = data.get("tabs", data) if isinstance(data, dict) else data
+    old = read_json(path, {})
     snap = {"_note": "A snapshot of the Sheet's My Pokémon, My Builds and My Teams tabs (append-only; the newest row "
                      "wins). Taken with store/personal.py --from; merged by store/migrate.py. Don't edit by hand."}
     for tab in TABS.values():
-        snap[tab] = rows_of(data.get(tab))
+        snap[tab] = union(old.get(tab), rows_of(tabs.get(tab)))
+    snap["taken"] = made or old.get("taken")
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(snap, fh, ensure_ascii=False, indent=1)
+    rest = read_json(other, {"_note": "Every other app tab's rows (the logs, the studbook, your calls, the Arena, the Variants), "
+                                      "from the app's copies (Record → Keep it in git; store/personal.py --from). Append-only."})
+    for tab, rows in tabs.items():
+        if tab not in TABS.values() and not tab.startswith("_"):
+            rest[tab] = union(rest.get(tab), rows_of(rows))
+    with open(other, "w", encoding="utf-8") as fh:
+        json.dump(rest, fh, ensure_ascii=False, indent=1)
+    if isinstance(data, dict) and data.get("drafts") is not None:
+        with open(drafts, "w", encoding="utf-8") as fh:
+            json.dump({"_note": "Changes left unsaved in the browser when the copy was made (not your records until saved).",
+                       "made": made, "drafts": data["drafts"]}, fh, ensure_ascii=False, indent=1)
     mine = load(path)
     print(f"{path}: {sum(len(v) for v in mine['builds'].values())} build versions, {len(mine['individuals'])} "
-          f"individuals, {len(mine['teams'])} teams")
+          f"individuals, {len(mine['teams'])} teams; {other}: "
+          + (", ".join(f"{k} {len(v)}" for k, v in rest.items() if not k.startswith("_")) or "no other rows"))
 
 
 def fixture(path):
