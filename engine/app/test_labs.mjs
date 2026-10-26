@@ -20,9 +20,10 @@ const settle = async (sel, ms = 240000) => { const t = Date.now(); while (Date.n
   const st = await page.evaluate((s) => { const p = document.getElementById('page'); if (!p || /^\s*Opening…\s*$/.test(p.innerText)) return 'opening';
     if (s && !document.querySelector(s)) return 'wait'; if (document.getElementById('pbbusy')) return 'busy';
     return /Reading (it|the six|candidates)/.test(p.innerText) ? 'reading' : 'ok'; }, sel); if (st === 'ok') return true; await page.waitForTimeout(200); } return false; };
-const go = async (h, sel) => { await page.evaluate((x) => nav(x), h); if (!await settle(sel)) fails.push(h + ': never settled (waiting for ' + sel + ')');
-  const n = await page.evaluate(() => [...document.querySelectorAll('#page .notice')].map((x) => x.innerText).join(' | '));
-  if (n && !/Re-reading|v2: each of your six teams/.test(n)) fails.push(h + ': ' + n.slice(0, 300)); };
+const go = async (h, sel, allow) => { await page.evaluate((x) => nav(x), h); if (!await settle(sel)) fails.push(h + ': never settled (waiting for ' + sel + ')');
+  const n = await page.evaluate(() => [...document.querySelectorAll('#page .notice')].map((x) => x.innerText).filter(Boolean).join(' | '));
+  const bad = n.split(' | ').filter((x) => x && !/Re-reading|v2: each of your six teams/.test(x) && !(allow && allow.test(x)));
+  if (bad.length) fails.push(h + ': ' + bad.join(' | ').slice(0, 300)); };
 await page.goto('file://' + path.join(HERE, 'dist', 'Blackthorn-HQ-preview.html') + '#/');
 await page.evaluate(() => { localStorage.removeItem('bt-preview-tabs'); });
 await page.reload(); await settle('.jcards');
@@ -73,8 +74,9 @@ await page.selectOption('[data-pborigin]', String(await page.evaluate(() => PB.o
 await page.waitForTimeout(200);
 const met = await page.evaluate(() => ({ how: PB.who.met_how, as: PB.who.met_as, at: document.querySelector('[data-who="met_location"]').value, lv: document.querySelector('[data-who="caught_level"]').value }));
 if (met.how !== 'starter' || met.as !== 'Cyndaquil' || met.at !== 'New Bark Town' || met.lv !== '5') fails.push('builder: picking the starter fills ' + JSON.stringify(met));
-// a draft survives leaving the page
-await go('#/team/heartgold', '#tmsix');
+// a draft survives leaving the page, and the team page offers to save it (v2.3)
+await go('#/team/heartgold', '#tmsix', /Unsaved changes on Typhlosion/);
+if (!await page.evaluate(() => !!document.querySelector('[data-tmfix="drafts"]'))) fails.push('team: no offer to save the unsaved Typhlosion');
 await go('#/pokemon/' + encodeURIComponent(id), '#pbroles .role5');
 const kept = await page.evaluate(() => ({ draft: /Unsaved changes/.test(document.getElementById('pbdraft').innerText), mv: document.querySelector('[data-pbmove="1"]').value }));
 if (!kept.draft || kept.mv !== 'Extrasensory') fails.push('draft: the unsaved build didn\'t survive leaving the page ' + JSON.stringify(kept));
