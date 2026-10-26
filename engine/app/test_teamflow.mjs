@@ -96,5 +96,5 @@ for (const [hash, scene] of [['#/ball/dive?g=emerald', 'g3:dive'], ['#/ball/poke
 
 await browser.close();
 if (errors.length) fails.push('page errors: ' + errors.join(' || '));
-console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back; the built one back in its slot; a HeartGold Love Ball opens as Gen IV's does; Emerald, Crystal and Platinum openings from the ball pages; an unsaved change saved from the team page');
+console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back; the built one back in its slot; a HeartGold Love Ball opens as Gen IV does; Emerald, Crystal and Platinum openings from the ball pages; an unsaved change saved from the team page');
 process.exit(fails.length ? 1 : 0);

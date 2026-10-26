@@ -1644,17 +1644,17 @@
   {
    "id": "A-106",
    "decision": "D-078",
-   "phase": "v2.3 · The builder",
-   "area": "Each ball's own opening",
-   "what": "Every one of the 25 balls opens its own way when your Pokémon comes out: the ball rocks, flashes in its own color, and lets out its own particles. Love Ball hearts, Moon Ball crescents and stars, Dive Ball bubbles, the Net Ball's mesh, Nest and Friend Ball leaves, the Timer Ball's clock, Dusk Ball smoke, Quick and Fast Ball streaks, Repeat Ball rings, a Heavy Ball thud, a Lure Ball splash, Level Ball chevrons, Cherish and Premier confetti, Heal Ball crosses, and sparks in each standard ball's colors. It plays in the builder's portrait (tap it to send the Pokémon out again) and on the team's six. These are Blackthorn's designs after each ball's look and purpose, not frame-by-frame copies of the games' effects.",
-   "why": "Your call: \"the animation specific to the ball in question.\"",
+   "phase": "v2.4 · Ball openings",
+   "area": "Ball openings, as the games play them",
+   "what": "Every ball opens the way its own game sends a Pokémon out, rebuilt from the game's code at the pinned commits (app/web/31_ballopen.html; docs/design/BALL_OPENINGS.md):\n- HeartGold, SoulSilver and Platinum play each ball's own particle file, simulated as the game's particle library runs it. The seven Apricorn balls and the Sport Ball play the Poké Ball's burst, because HeartGold and SoulSilver give them a copy of it.\n- FireRed and Emerald play each ball's particle routine, with its fade colour and the ball's own open frames.\n- Crystal plays a grey smoke poof with no ball, the same for every ball, as Gen II does.\nThe game's pictures are loaded from the disassemblies when the opening plays; none are copied into the project. It plays on the builder's portrait (tap to replay), on the team's six, and on each ball's page.",
+   "why": "Your call: \"I want all of the ball to have the animation from the game, not a custom one.\" It replaces v2.3's custom openings.",
    "where": [
-    "#/pokemon",
-    "Any of your Pokémon, its portrait"
+    "#/ball/master?g=heartgold",
+    "Any ball's page, How it opens"
    ],
    "instead": [
-    "recreate each game's own ball effect as closely as the sprites allow",
-    "play it only in the builder, not on the team page"
+    "keep the v2.3 custom openings for the balls whose game opening looks the same (Apricorn balls in HeartGold)",
+    "play only one generation's openings for every game"
    ]
   },
   {
@@ -1671,6 +1671,22 @@
    "instead": [
     "moves only (no switch-in abilities)",
     "also count Roar and Whirlwind, which force switches"
+   ]
+  },
+  {
+   "id": "A-108",
+   "decision": "D-078",
+   "phase": "v2.4 · Ball openings",
+   "area": "Where the portrait differs from the game",
+   "what": "Five places the portrait can't or doesn't copy the game exactly:\n- The throw is left out; the ball has already landed.\n- Gen IV's burst is shown in a DS-screen-sized window around the Pokémon, with its edges faded rather than cut off hard.\n- The front sprite is shown, so Gen II and IV use the enemy side's positions.\n- Gen IV Pokémon grow from a pivot at the sprite's feet, not the species' own offset, which the app doesn't have.\n- HeartGold and SoulSilver's Apricorn and Sport balls show their item picture before the burst, because their battle sprites are packed in an archive the app doesn't read. The Platinum Park Ball's tint reads past the end of the game's table, so white (HeartGold's value) is used.",
+   "why": "These keep the opening inside the page and honest about what's known.",
+   "where": [
+    "#/ball/fast?g=heartgold",
+    "The Fast Ball in HeartGold, How it opens"
+   ],
+   "instead": [
+    "show the whole DS screen with hard edges",
+    "read the Apricorn balls' battle sprites from the HeartGold archive (more work: the sprites are packed graphics, not PNGs)"
    ]
   }
  ]

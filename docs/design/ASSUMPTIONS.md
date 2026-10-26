@@ -989,15 +989,19 @@ Your calls is second in the menu with a count of what's waiting, the count is in
 - **See it:** `#/calls` (Your calls)
 - **Could instead:** one call at a time, full screen, with next and back
 
-## v2.3 · The builder
+## v2.4 · Ball openings
 
-### A-106 · Each ball's own opening (D-078)
+### A-106 · Ball openings, as the games play them (D-078)
 
-Every one of the 25 balls opens its own way when your Pokémon comes out: the ball rocks, flashes in its own color, and lets out its own particles. Love Ball hearts, Moon Ball crescents and stars, Dive Ball bubbles, the Net Ball's mesh, Nest and Friend Ball leaves, the Timer Ball's clock, Dusk Ball smoke, Quick and Fast Ball streaks, Repeat Ball rings, a Heavy Ball thud, a Lure Ball splash, Level Ball chevrons, Cherish and Premier confetti, Heal Ball crosses, and sparks in each standard ball's colors. It plays in the builder's portrait (tap it to send the Pokémon out again) and on the team's six. These are Blackthorn's designs after each ball's look and purpose, not frame-by-frame copies of the games' effects.
+Every ball opens the way its own game sends a Pokémon out, rebuilt from the game's code at the pinned commits (app/web/31_ballopen.html; docs/design/BALL_OPENINGS.md):
+- HeartGold, SoulSilver and Platinum play each ball's own particle file, simulated as the game's particle library runs it. The seven Apricorn balls and the Sport Ball play the Poké Ball's burst, because HeartGold and SoulSilver give them a copy of it.
+- FireRed and Emerald play each ball's particle routine, with its fade colour and the ball's own open frames.
+- Crystal plays a grey smoke poof with no ball, the same for every ball, as Gen II does.
+The game's pictures are loaded from the disassemblies when the opening plays; none are copied into the project. It plays on the builder's portrait (tap to replay), on the team's six, and on each ball's page.
 
-- **Why:** Your call: "the animation specific to the ball in question."
-- **See it:** `#/pokemon` (Any of your Pokémon, its portrait)
-- **Could instead:** recreate each game's own ball effect as closely as the sprites allow; play it only in the builder, not on the team page
+- **Why:** Your call: "I want all of the ball to have the animation from the game, not a custom one." It replaces v2.3's custom openings.
+- **See it:** `#/ball/master?g=heartgold` (Any ball's page, How it opens)
+- **Could instead:** keep the v2.3 custom openings for the balls whose game opening looks the same (Apricorn balls in HeartGold); play only one generation's openings for every game
 
 ## v2.3 · Roles
 
@@ -1008,3 +1012,18 @@ Pivot is the sixth team role. It's earned with a pivoting move (U-turn or Baton 
 - **Why:** Your call: "pivot needs to be added to the list of team roles." Smogon's pivot keeps momentum: it comes in safely and brings the right teammate in.
 - **See it:** `#/team/heartgold` (A team page, Shapes & roles)
 - **Could instead:** moves only (no switch-in abilities); also count Roar and Whirlwind, which force switches
+
+## v2.4 · Ball openings
+
+### A-108 · Where the portrait differs from the game (D-078)
+
+Five places the portrait can't or doesn't copy the game exactly:
+- The throw is left out; the ball has already landed.
+- Gen IV's burst is shown in a DS-screen-sized window around the Pokémon, with its edges faded rather than cut off hard.
+- The front sprite is shown, so Gen II and IV use the enemy side's positions.
+- Gen IV Pokémon grow from a pivot at the sprite's feet, not the species' own offset, which the app doesn't have.
+- HeartGold and SoulSilver's Apricorn and Sport balls show their item picture before the burst, because their battle sprites are packed in an archive the app doesn't read. The Platinum Park Ball's tint reads past the end of the game's table, so white (HeartGold's value) is used.
+
+- **Why:** These keep the opening inside the page and honest about what's known.
+- **See it:** `#/ball/fast?g=heartgold` (The Fast Ball in HeartGold, How it opens)
+- **Could instead:** show the whole DS screen with hard edges; read the Apricorn balls' battle sprites from the HeartGold archive (more work: the sprites are packed graphics, not PNGs)

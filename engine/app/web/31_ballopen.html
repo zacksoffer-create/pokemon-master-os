@@ -266,7 +266,274 @@ var BallOpen = (function () {
     });
   }
 
-  var SCENES = {2: g2Scene, 3: g3Scene};
+  /* ---- Gen IV: Platinum, HeartGold and SoulSilver ----
+     Each ball's opening is a NitroParticle (SPL) effect: 3-5 emitters in one .spa file. Platinum keeps one file per
+     ball (res/graphics/battle/particles/pokeballs/open_<ball>_ball.spa); HeartGold and SoulSilver pack theirs in the
+     archive files/a/0/9/5, where the seven Apricorn balls and the Sport Ball are copies of the Poké Ball's. The files
+     are read here as the game reads them (lib/spl/include/spl_resource.h, spl_texture.h), and the emitters run as
+     lib/spl/src/spl_manager.c, spl_emitter.c, spl_emit.c, spl_anim.c and spl_behavior.c run them, at the game's 30
+     frames a second, then drawn as spl_draw.c draws them (1 world unit = 24 px; ordinary alpha blending). The send-out
+     around it is src/battle/battle_display.c: the Pokémon appears with the burst as a silhouette in the ball's colour
+     (sFadeColors), grows from its feet over 8 frames, then fades back to its own colours, a step every 2 frames. */
+  var PRET_PT = 'https://raw.githubusercontent.com/pret/pokeplatinum/be36a9db3d2390a5009adc087c7aef550ce335e7/';
+  var PRET_HG = 'https://raw.githubusercontent.com/pret/pokeheartgold/6988158691eb6178cff697cda0428045ddcba5fb/';
+  var G4_TINT = {master: [23, 20, 28], ultra: [31, 31, 15], great: [16, 23, 30], poke: [31, 22, 30], safari: [23, 30, 20], net: [21, 31, 25], dive: [12, 25, 30],
+    nest: [30, 27, 10], repeat: [31, 24, 16], timer: [29, 30, 30], luxury: [31, 17, 10], premier: [31, 9, 10], dusk: [14, 14, 17], heal: [31, 24, 28], quick: [17, 26, 31],
+    cherish: [30, 8, 5], park: [31, 31, 31]};   // sFadeColors (Pt) / ov12_0226D15A (HGSS); Apricorn and Sport use the Poké Ball's; Park reads past the table (white in HGSS)
+  var G4_HG_MEMBER = {master: 1, ultra: 2, great: 3, poke: 4, safari: 5, net: 6, dive: 7, nest: 8, repeat: 9, timer: 10, luxury: 11, premier: 12, dusk: 13, heal: 14, quick: 15,
+    cherish: 16, fast: 17, level: 18, lure: 19, heavy: 20, love: 21, friend: 22, moon: 23, sport: 24, park: 4};   // ov07_0223251C: IDs past 24 fall back to the Poké Ball
+  var G4_PT_BALLS = ['master', 'ultra', 'great', 'poke', 'safari', 'net', 'dive', 'nest', 'repeat', 'timer', 'luxury', 'premier', 'dusk', 'heal', 'quick', 'cherish', 'park'];
+  function bytes(url) { return CACHE['b:' + url] || (CACHE['b:' + url] = fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(function (b) { return new Uint8Array(b); })); }
+  function narc(u8) {   // NARC: BTAF (the file table), BTNF, GMIF (the files)
+    var dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength), tag = function (o) { return String.fromCharCode(u8[o], u8[o + 1], u8[o + 2], u8[o + 3]); };
+    var o = dv.getUint16(12, true); if (tag(o) !== 'BTAF') throw new Error('not a NARC');
+    var size = dv.getUint32(o + 4, true), n = dv.getUint16(o + 8, true), fat = [];
+    for (var i = 0; i < n; i++) fat.push([dv.getUint32(o + 12 + 8 * i, true), dv.getUint32(o + 16 + 8 * i, true)]);
+    o += size; o += dv.getUint32(o + 4, true); var img = o + 8;
+    return fat.map(function (f) { return u8.subarray(img + f[0], img + f[1]); });
+  }
+  function rgb5(v) { return [v & 31, (v >> 5) & 31, (v >> 10) & 31]; }
+  function spa(u8) {   // a .spa: resources (emitters) then textures
+    var dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength), U16 = function (o) { return dv.getUint16(o, true); }, S16 = function (o) { return dv.getInt16(o, true); },
+      U32 = function (o) { return dv.getUint32(o, true); }, S32 = function (o) { return dv.getInt32(o, true); }, FX = 4096, bit = function (v, lo, n) { return (v >>> lo) & ((1 << n) - 1); };
+    if (u8[0] !== 0x20 || u8[1] !== 0x41 || u8[2] !== 0x50 || u8[3] !== 0x53) throw new Error('not a .spa');
+    var nRes = U16(8), nTex = U16(10), o = 32, res = [], tex = [];
+    for (var i = 0; i < nRes; i++) {
+      var fl = U32(o), m0 = U32(o + 68), m1 = U32(o + 72), m2 = U32(o + 76), ra = U32(o + 64);
+      var h = {emit: bit(fl, 0, 4), draw: bit(fl, 4, 2), circleAxis: bit(fl, 6, 2), hasScale: bit(fl, 8, 1), hasColor: bit(fl, 9, 1), hasAlpha: bit(fl, 10, 1), hasTexAnim: bit(fl, 11, 1),
+        hasRot: bit(fl, 12, 1), randAngle: bit(fl, 13, 1), hasChild: bit(fl, 16, 1), polyRotAxis: bit(fl, 17, 2), polyPlane: bit(fl, 19, 1), randLoop: bit(fl, 20, 1),
+        childFirst: bit(fl, 21, 1), hideParent: bit(fl, 22, 1), gravity: bit(fl, 24, 1), random: bit(fl, 25, 1), magnet: bit(fl, 26, 1), spin: bit(fl, 27, 1), collision: bit(fl, 28, 1), convergence: bit(fl, 29, 1),
+        base: [S32(o + 4) / FX, S32(o + 8) / FX, S32(o + 12) / FX], count: S32(o + 16) / FX, radius: S32(o + 20) / FX, length: S32(o + 24) / FX,
+        axis: [S16(o + 28) / FX, S16(o + 30) / FX, S16(o + 32) / FX], color: rgb5(U16(o + 34)), velPos: S32(o + 36) / FX, velAxis: S32(o + 40) / FX, scale: S32(o + 44) / FX,
+        aspect: S16(o + 48) / FX, delay: U16(o + 50), minRot: S16(o + 52), maxRot: S16(o + 54), angle: U16(o + 56), emitterLife: U16(o + 60), life: U16(o + 62),
+        rScale: bit(ra, 0, 8), rLife: bit(ra, 8, 8), rVel: bit(ra, 16, 8), interval: bit(m0, 0, 8) || 1, alpha: bit(m0, 8, 8), air: bit(m0, 16, 8), tex: bit(m0, 24, 8),
+        loopFrames: bit(m1, 0, 8), dbb: bit(m1, 8, 16), tileS: bit(m1, 24, 2), tileT: bit(m1, 26, 2), scaleDir: bit(m1, 28, 3), flipS: bit(m2, 0, 1), flipT: bit(m2, 1, 1),
+        polyX: S16(o + 80) / FX, polyY: S16(o + 82) / FX};
+      o += 88;
+      var r = {h: h};
+      if (h.hasScale) { var c = U16(o + 6); r.scale = {start: S16(o) / FX, mid: S16(o + 2) / FX, end: S16(o + 4) / FX, cin: c & 255, cout: c >> 8, loop: U16(o + 8) & 1}; o += 12; }
+      if (h.hasColor) { var cc = U32(o + 4), cf = U16(o + 8); r.color = {start: rgb5(U16(o)), end: rgb5(U16(o + 2)), cin: cc & 255, peak: (cc >> 8) & 255, cout: (cc >> 16) & 255, randStart: cf & 1, loop: (cf >> 1) & 1, lerp: (cf >> 2) & 1}; o += 12; }
+      if (h.hasAlpha) { var a = U16(o), af = U16(o + 2), ac = U16(o + 4); r.alpha = {start: a & 31, mid: (a >> 5) & 31, end: (a >> 10) & 31, rand: af & 255, loop: (af >> 8) & 1, cin: ac & 255, cout: ac >> 8}; o += 8; }
+      if (h.hasTexAnim) { var tp = U32(o + 8); r.texAnim = {textures: Array.prototype.slice.call(u8.subarray(o, o + 8)), n: tp & 255, step: (tp >> 8) & 255, randInit: (tp >> 16) & 1, loop: (tp >> 17) & 1}; o += 12; }
+      if (h.hasChild) { var f = U16(o), k0 = U32(o + 12), k1 = U32(o + 16);
+        r.child = {behaviors: f & 1, hasScale: (f >> 1) & 1, hasAlpha: (f >> 2) & 1, rotType: (f >> 3) & 3, ownColor: (f >> 6) & 1, draw: (f >> 7) & 3, polyRotAxis: (f >> 9) & 3, polyPlane: (f >> 11) & 1,
+          randVel: S16(o + 2) / FX, endScale: S16(o + 4) / FX, life: U16(o + 6), velRatio: u8[o + 8], scaleRatio: u8[o + 9], color: rgb5(U16(o + 10)),
+          count: k0 & 255, delay: (k0 >> 8) & 255, interval: ((k0 >> 16) & 255) || 1, tex: k0 >>> 24, tileS: k1 & 3, tileT: (k1 >> 2) & 3, flipS: (k1 >> 4) & 1, flipT: (k1 >> 5) & 1};
+        o += 20; }
+      r.beh = [];
+      if (h.gravity) { r.beh.push({type: 'gravity', v: [S16(o) / FX, S16(o + 2) / FX, S16(o + 4) / FX]}); o += 8; }
+      if (h.random) { r.beh.push({type: 'random', v: [S16(o) / FX, S16(o + 2) / FX, S16(o + 4) / FX], every: U16(o + 6)}); o += 8; }
+      if (h.magnet) { r.beh.push({type: 'magnet', t: [S32(o) / FX, S32(o + 4) / FX, S32(o + 8) / FX], force: S16(o + 12) / FX}); o += 16; }
+      if (h.spin) { r.beh.push({type: 'spin', angle: U16(o), axis: U16(o + 2)}); o += 4; }
+      if (h.collision) o += 8;
+      if (h.convergence) { r.beh.push({type: 'converge', t: [S32(o) / FX, S32(o + 4) / FX, S32(o + 8) / FX], force: S16(o + 12) / FX}); o += 16; }
+      res.push(r);
+    }
+    for (var t = 0; t < nTex; t++) {   // ' TPS' headers: A3I5 and A5I3 are the formats the ball effects use
+      var p = U32(o + 4), size = U32(o + 8), palOff = U32(o + 12), palSize = U32(o + 16), rs = U32(o + 28), fmt = p & 15, w = 1 << (((p >> 4) & 15) + 3), hh = 1 << (((p >> 8) & 15) + 3);
+      var pal = []; for (var q = 0; q + 1 < palSize; q += 2) pal.push(rgb5(U16(o + palOff + q)));
+      var data = u8.subarray(o + 32, o + 32 + size), px = new Uint8ClampedArray(w * hh * 4);
+      for (var n = 0; n < w * hh; n++) {
+        var b = data[n], ix, al;
+        if (fmt === 1) { ix = b & 31; var a3 = b >> 5; al = ((a3 << 2) + (a3 >> 1)) * 255 / 31; } else if (fmt === 6) { ix = b & 7; al = (b >> 3) * 255 / 31; } else { ix = 0; al = 0; }
+        var cl = pal[ix] || [31, 31, 31]; px[n * 4] = (cl[0] << 3) | (cl[0] >> 2); px[n * 4 + 1] = (cl[1] << 3) | (cl[1] >> 2); px[n * 4 + 2] = (cl[2] << 3) | (cl[2] >> 2); px[n * 4 + 3] = al;
+      }
+      tex.push({w: w, h: hh, px: px, repS: (p >> 12) & 1, repT: (p >> 13) & 1, mirS: (p >> 14) & 1, mirT: (p >> 15) & 1, shared: (p >> 18) & 1, sharedId: (p >> 19) & 255});
+      o += rs;
+    }
+    tex.forEach(function (x) { if (x.shared && tex[x.sharedId]) x.px = tex[x.sharedId].px; });
+    return {res: res, tex: tex};
+  }
+
+  /* the SPL random numbers (spl_random.h) */
+  function Rng(seed) { this.s = seed >>> 0; }
+  Rng.prototype.next = function () { this.s = (Math.imul(this.s, 0x5eedf715) + 0x1b0cb173) >>> 0; return this.s; };
+  Rng.prototype.u = function (bits) { return this.next() >>> (32 - bits); };
+  Rng.prototype.fx = function (bits) { return ((this.next() | 0) >> (32 - bits)) / 4096; };                         // SPLRandom_FX32
+  Rng.prototype.range = function (num) { return num * (this.u(9) - 256) / 256; };                                   // [-num, num)
+  Rng.prototype.dscaled = function (num, r) { return num * (255 + r - ((r * this.u(8)) >> 7)) / 256; };            // DoubleScaledRange
+  Rng.prototype.scaled = function (num, r) { return num * (255 - ((r * this.u(8)) >> 8)) / 256; };                 // ScaledRange
+  Rng.prototype.vec = function (xy) { var x = this.fx(24), y = this.fx(24), z = xy ? 0 : this.fx(24); return norm([x, y, z]); };   // SPLRandom_VecFx32(_XY)
+  function norm(v) { var l = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]); return l ? [v[0] / l, v[1] / l, v[2] / l] : [0, 0, 0]; }
+  function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+  function sinIdx(i) { return Math.sin((i & 65535) * Math.PI / 32768); }
+  function cosIdx(i) { return Math.cos((i & 65535) * Math.PI / 32768); }
+
+  function G4Emitter(r, rng) {   // SPLEmitter_Init
+    this.r = r; this.h = r.h; this.rng = rng; this.pos = r.h.base.slice(); this.age = 0; this.started = false; this.frac = 0; this.parts = []; this.kids = [];
+    var ax = [[0, 0, 1], [0, 1, 0], [1, 0, 0]][r.h.circleAxis] || norm(r.h.axis), up = [0, 1, 0], d = up[0] * ax[0] + up[1] * ax[1] + up[2] * ax[2];
+    if (Math.abs(d) > 0.9999) up = [1, 0, 0];
+    this.c1 = norm(cross(ax, up)); this.c2 = norm(cross(ax, this.c1)); this.c3 = norm(cross(this.c1, this.c2));   // SPLEmitter_ComputeOrthogonalAxes
+  }
+  G4Emitter.prototype.tilt = function (p) { var a = this.c1, b = this.c2, c = this.c3; return [p[0] * a[0] + p[1] * b[0] + p[2] * c[0], p[0] * a[1] + p[1] * b[1] + p[2] * c[1], p[0] * a[2] + p[1] * b[2] + p[2] * c[2]]; };
+  G4Emitter.prototype.emit = function () {   // SPLEmitter_EmitParticles
+    var h = this.h, R = this.rng, total = Math.floor(h.count + this.frac); this.frac = h.count + this.frac - total;
+    for (var i = 0; i < total; i++) {
+      var p = {}, pos;
+      if (h.emit === 1) pos = R.vec().map(function (x) { return x * h.radius; });                                  // sphere surface
+      else if (h.emit === 2) { var v = R.vec(true); pos = this.tilt([v[0] * h.radius, v[1] * h.radius, 0]); }   // circle border
+      else if (h.emit === 3) { var k = Math.floor(i * 65536 / total); pos = this.tilt([sinIdx(k) * h.radius, cosIdx(k) * h.radius, 0]); }   // circle border, evenly spaced
+      else if (h.emit === 4) { var s = R.vec(); pos = [s[0] * h.radius * R.range(1), s[1] * h.radius * R.range(1), s[2] * h.radius * R.range(1)]; }   // sphere
+      else if (h.emit === 5) { var c = R.vec(true); pos = this.tilt([c[0] * h.radius * R.range(1), c[1] * h.radius * R.range(1), 0]); }       // circle
+      else pos = [0, 0, 0];                                                                                         // point (and shapes the balls don't use)
+      var mp = R.dscaled(h.velPos, h.rVel), ma = R.dscaled(h.velAxis, h.rVel), dir = pos[0] || pos[1] || pos[2] ? norm(pos) : R.vec();
+      p.pos = pos; p.vel = [dir[0] * mp + h.axis[0] * ma, dir[1] * mp + h.axis[1] * ma, dir[2] * mp + h.axis[2] * ma]; p.epos = this.pos.slice();
+      p.base = R.dscaled(h.scale, h.rScale); p.anim = 1;
+      if (h.hasColor && this.r.color.randStart) p.color = [this.r.color.start, h.color, this.r.color.end][R.u(12) % 3]; else p.color = h.color;
+      p.balpha = h.alpha; p.aalpha = 31;
+      p.rot = h.randAngle ? R.u(32) & 65535 : h.angle;
+      p.spin = h.hasRot ? h.minRot + Math.floor((h.maxRot - h.minRot) * R.u(12) / 4096) : 0;
+      p.life = Math.floor(h.life * (255 - ((h.rLife * R.u(8)) >> 8)) / 256) + 1; p.age = 0;
+      p.tex = h.tex; p.loopF = h.loopFrames ? Math.floor(65535 / h.loopFrames) : 0; p.lifeF = Math.floor(65535 / p.life); p.off = h.randLoop ? R.u(8) & 255 : 0;
+      this.parts.unshift(p);
+    }
+  };
+  function lerp5(a, b, n, d) { return [a[0] + Math.trunc(n * (b[0] - a[0]) / d), a[1] + Math.trunc(n * (b[1] - a[1]) / d), a[2] + Math.trunc(n * (b[2] - a[2]) / d)]; }
+  G4Emitter.prototype.update = function () {   // SPLEmitter_Update, once a 30 Hz frame
+    var h = this.h, r = this.r, R = this.rng, air = (h.air + 384) / 512, self = this;
+    if (!this.started && this.age >= h.delay) { this.started = true; this.age = 0; }
+    if ((h.emitterLife === 0 || this.age < h.emitterLife) && this.age % h.interval === 0 && this.started) this.emit();
+    var move = function (p, kid) {
+      p.vel = [p.vel[0] * air, p.vel[1] * air, p.vel[2] * air];
+      p.pos = [p.pos[0] + p.vel[0], p.pos[1] + p.vel[1], p.pos[2] + p.vel[2]];
+      p.rot = (p.rot + p.spin) & 65535;
+    };
+    var spins = (r.beh || []).filter(function (b) { return b.type === 'spin'; });
+    this.parts = this.parts.filter(function (p) {
+      var lr = ((p.lifeF * p.age) >> 8) & 255, ll = (p.off + ((p.loopF * p.age) >> 8)) & 255;
+      if (r.scale) { var S = r.scale, t = S.loop ? ll : lr;   // SPLAnim_Scale
+        p.anim = t < S.cin ? S.start + t * (S.mid - S.start) / S.cin : t < S.cout ? S.mid : (S.cout >= 255 ? S.end : S.end + (t - 255) * (S.end - S.mid) / (255 - S.cout)); }
+      if (r.color && !r.color.randStart) { var C = r.color, tc = C.loop ? ll : lr;   // SPLAnim_Color
+        p.color = tc < C.cin ? C.start : tc < C.peak ? (C.lerp ? lerp5(C.start, h.color, tc - C.cin, C.peak - C.cin) : h.color) : tc < C.cout ? (C.lerp ? lerp5(h.color, C.end, tc - C.peak, C.cout - C.peak) : C.end) : C.end; }
+      if (r.alpha) { var A = r.alpha, ta = A.loop ? ll : lr, v;   // SPLAnim_Alpha
+        v = ta < A.cin ? A.start + Math.trunc(ta * (A.mid - A.start) / A.cin) : ta < A.cout ? A.mid : (A.cout >= 255 ? A.end : A.end + Math.trunc((ta - 255) * (A.end - A.mid) / (255 - A.cout)));
+        p.aalpha = A.rand ? Math.floor(v * (255 - ((A.rand * R.u(8)) >> 8)) / 256) : v; }
+      spins.forEach(function (b) { var s = sinIdx(b.angle), c = cosIdx(b.angle), x = p.pos[0], y = p.pos[1], z = p.pos[2];   // SPLBehavior_ApplySpin
+        if (b.axis === 2) p.pos = [x * c - y * s, x * s + y * c, z]; else if (b.axis === 1) p.pos = [x * c + z * s, y, -x * s + z * c]; else p.pos = [x, y * c - z * s, y * s + z * c]; });
+      move(p);
+      if (r.child) { var K = r.child, d = p.age - p.life * K.delay / 256;
+        if (d >= 0 && Math.floor(d) % K.interval === 0) for (var i = 0; i < K.count; i++) self.kids.unshift({   // SPLEmitter_EmitChildren
+          pos: p.pos.slice(), vel: [p.vel[0] * K.velRatio / 256 + R.range(K.randVel), p.vel[1] * K.velRatio / 256 + R.range(K.randVel), p.vel[2] * K.velRatio / 256 + R.range(K.randVel)],
+          epos: p.epos, base: p.base * p.anim * (K.scaleRatio + 1) / 64, anim: 1, color: K.ownColor ? K.color : p.color, balpha: (p.balpha * (p.aalpha + 1)) >> 5, aalpha: 31,
+          rot: K.rotType ? p.rot : 0, spin: K.rotType === 2 ? p.spin : 0, life: K.life, age: 0, tex: K.tex}); }
+      p.age++; return p.age <= p.life;
+    });
+    if (r.child) { var K = r.child;
+      this.kids = this.kids.filter(function (p) {
+        var t = Math.floor((p.age << 8) / p.life);
+        if (K.hasScale) p.anim = K.endScale + (K.endScale - 1) * (t - 255) / 255;   // SPLAnim_ChildScale
+        if (K.hasAlpha) p.aalpha = Math.floor((255 - t) * 31 / 255);                // SPLAnim_ChildAlpha
+        if (K.behaviors) spins.forEach(function (b) { var s = sinIdx(b.angle), c = cosIdx(b.angle), x = p.pos[0], y = p.pos[1]; if (b.axis === 2) p.pos = [x * c - y * s, x * s + y * c, p.pos[2]]; });
+        move(p, true); p.age++; return p.age <= p.life;
+      });
+    }
+    this.age++;
+  };
+  G4Emitter.prototype.alive = function () { return !this.started || this.parts.length || this.kids.length || this.age <= this.h.emitterLife; };   // EMITTER_SHOULD_TERMINATE
+
+  /* drawing (spl_draw.c): a quad from -1..1 in its own units, textured with the texture tiled and mirrored as its flags say,
+     coloured by the particle (the DS's modulate mode) and see-through by the particle's alpha */
+  function quadTex(set, ti, s, t, fs, ft) {   // the texture laid over the quad: 2^s by 2^t copies, with its own repeat/mirror rules
+    var T = set.tex[ti]; if (!T) return null;
+    var key = ti + ':' + s + ':' + t + ':' + fs + ':' + ft, cache = set.quads || (set.quads = {}); if (cache[key]) return cache[key];
+    var ns = 1 << s, nt = 1 << t, W = T.w * ns, H = T.h * nt, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    var g = cv.getContext('2d'), id = g.createImageData(W, H), wrap = function (u, n, rep, mir) { if (!rep) return Math.max(0, Math.min(n - 1, u)); if (mir) { var m = ((u % (2 * n)) + 2 * n) % (2 * n); return m < n ? m : 2 * n - 1 - m; } return ((u % n) + n) % n; };
+    for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) {
+      var u = fs ? -x - 1 : x, v = ft ? -y - 1 : y, sx = wrap(u, T.w, T.repS, T.mirS), sy = wrap(v, T.h, T.repT, T.mirT), si = (sy * T.w + sx) * 4, di = (y * W + x) * 4;
+      id.data[di] = T.px[si]; id.data[di + 1] = T.px[si + 1]; id.data[di + 2] = T.px[si + 2]; id.data[di + 3] = T.px[si + 3];
+    }
+    g.putImageData(id, 0, 0); return (cache[key] = {cv: cv, data: id});
+  }
+  function colored(q, c) {   // modulate: texel colour times the particle's colour
+    var key = c.join(','), cache = q.tints || (q.tints = {}); if (cache[key]) return cache[key];
+    var cv = document.createElement('canvas'); cv.width = q.cv.width; cv.height = q.cv.height;
+    var g = cv.getContext('2d'), src = q.data.data, id = g.createImageData(cv.width, cv.height), o = id.data, m = [(c[0] + 1) / 32, (c[1] + 1) / 32, (c[2] + 1) / 32];
+    for (var i = 0; i < src.length; i += 4) { o[i] = src[i] * m[0]; o[i + 1] = src[i + 1] * m[1]; o[i + 2] = src[i + 2] * m[2]; o[i + 3] = src[i + 3]; }
+    g.putImageData(id, 0, 0); return (cache[key] = cv);
+  }
+  function g4Draw(g, set, em, p, kid, OX, OY) {
+    var h = em.h, K = em.r.child, alpha = (p.balpha * (p.aalpha + 1)) >> 5; if (!alpha) return;
+    var draw = kid ? K.draw : h.draw, q = kid ? quadTex(set, p.tex, K.tileS, K.tileT, K.flipS, K.flipT) : quadTex(set, p.tex, h.tileS, h.tileT, h.flipS, h.flipT); if (!q) return;
+    var sy = p.base, sx = sy * h.aspect;
+    if (h.scaleDir === 0) { sx *= p.anim; sy *= p.anim; } else if (h.scaleDir === 1) sx *= p.anim; else sy *= p.anim;
+    var T = [p.pos[0] + p.epos[0], p.pos[1] + p.epos[1]], m0, m1, px = kid ? 0 : h.polyX, py = kid ? 0 : h.polyY;
+    if (draw === 1) {   // directional billboard: the length along the velocity
+      var d = [p.vel[1], -p.vel[0]], dl = Math.hypot(d[0], d[1]); if (!dl) return; d = [d[0] / dl, d[1] / dl];
+      var vl = Math.hypot(p.vel[0], p.vel[1], p.vel[2]), dot = vl ? Math.abs(p.vel[2] / vl) : 0, L = sy * ((1 - dot) * h.dbb / 4096 + 1);
+      m0 = [d[0] * sx, d[1] * sx]; m1 = [-d[1] * L, d[0] * L];
+    } else if (draw === 2) {   // polygon about the Y axis (seen edge-on as it turns)
+      var cy = cosIdx(p.rot); m0 = [cy * sx, 0]; m1 = [0, sy];
+    } else { var s = sinIdx(p.rot), c = cosIdx(p.rot); m0 = [c * sx, s * sx]; m1 = [-s * sy, c * sy]; }   // billboard
+    var img = colored(q, p.color), IW = img.width, IH = img.height, U = 24;
+    g.save(); g.globalAlpha = alpha / 31;
+    g.setTransform(U * m0[0] * 2 / IW, -U * m0[1] * 2 / IW, -U * m1[0] * 2 / IH, U * m1[1] * 2 / IH,
+      OX + U * (T[0] + (px - 1) * m0[0] + (py + 1) * m1[0]), OY - U * (T[1] + (px - 1) * m0[1] + (py + 1) * m1[1]));
+    g.drawImage(img, 0, 0); g.restore();
+  }
+
+  function edge(W, H) {   // an alpha mask, solid in the middle, fading over the outer 28 px
+    var k = 'edge:' + W + 'x' + H; if (CACHE[k]) return CACHE[k];
+    var cv = document.createElement('canvas'); cv.width = W; cv.height = H; var g = cv.getContext('2d'), id = g.createImageData(W, H), F = 28;
+    for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) { var d = Math.min(x, y, W - 1 - x, H - 1 - y), a = d >= F ? 1 : d / F; id.data[(y * W + x) * 4 + 3] = Math.round(255 * a * a); }
+    g.putImageData(id, 0, 0); return (CACHE[k] = cv);
+  }
+  function g4Scene(ball, sprUrl, shiny, game) {
+    var hg = game === 'heartgold' || game === 'soulsilver', inPt = G4_PT_BALLS.indexOf(ball) >= 0, known = hg ? ball in G4_HG_MEMBER : inPt, id = known ? ball : 'poke';
+    var file = hg ? bytes(PRET_HG + 'files/a/0/9/5').then(function (u) { return narc(u)[G4_HG_MEMBER[id]]; }) : bytes(PRET_PT + 'res/graphics/battle/particles/pokeballs/open_' + id + '_ball.spa');
+    var ptBall = G4_PT_BALLS.indexOf(id) >= 0, G = typeof Gear !== 'undefined' && Gear.ready && Gear.ready() ? Gear : null, gb = G && G.ball(id);
+    return Promise.all([
+      file.then(spa),
+      ptBall ? png(PRET_PT + 'res/graphics/battle/ball_throws/' + id + '_ball.png').catch(function () { return null; }) : null,   // the ball as it sits in battle; Apricorn and Sport balls have no picture file, so their item picture stands in
+      !ptBall && gb ? sprite(Gear.pack().art + gb.art.sprite).catch(function () { return null; }) : null,
+      sprite(sprUrl).catch(function () { return null; })
+    ]).then(function (got) {
+      var set = got[0], bsheet = got[1], icon = got[2], mon = got[3], rng = new Rng(0x2D3E1F07), ems = null, frame = -5, tint = G4_TINT[hg && !G4_TINT[id] ? 'poke' : id] || G4_TINT.poke;
+      var bf = bsheet ? [0, 8, 9].map(function (k) { var w = k === 9 ? 32 : 16, y0 = k === 9 ? 153 : 17 * k, cv = document.createElement('canvas'); cv.width = w; cv.height = w;
+        var g = cv.getContext('2d'), d = g.createImageData(w, w);
+        for (var y = 0; y < w; y++) for (var x = 0; x < w; x++) { var ix = bsheet.px[(y0 + y) * bsheet.w + x], o = (y * w + x) * 4; if (!ix) continue; var c = bsheet.pal[ix]; d.data[o] = c[0]; d.data[o + 1] = c[1]; d.data[o + 2] = c[2]; d.data[o + 3] = 255; }
+        g.putImageData(d, 0, 0); var dd = g.getImageData(0, 0, w, w); return {cv: cv, data: dd}; }) : null;
+      var W = 256, H = 192, cx = 128, cy = 70, OX = cx + 1, OY = cy + 37, peak = 0;   // the enemy slot: the burst starts at (+1, +37) from the sprite's centre, the ball 38 px below it
+      return {
+        gen: 4, ball: id, fell: !known, W: W, H: H, cx: cx, cy: cy, native: 80, fps: 30, done: false, assets: true, maxParticles: 0,
+        step: function () {
+          var f = frame++;
+          if (f === 0) ems = set.res.map(function (r) { return new G4Emitter(r, rng); });
+          if (ems) { ems.forEach(function (e) { e.update(); }); ems = ems.filter(function (e) { return e.alive(); });
+            var n = ems.reduce(function (s, e) { return s + e.parts.length; }, 0); this.maxParticles = Math.max(this.maxParticles, n); }
+          if (f > 41 && (!ems || !ems.length)) this.done = true;
+          return f;
+        },
+        draw: function (g) {
+          var f = frame - 1; g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H);
+          // the ball: sequence 1 of shared_anim (closed 10, half-open 10, then open), whitening from opening frame 5; gone when it would open fully
+          var of = f + 5, bx = cx, by = cy + 38;
+          if (of < 20) { var fr = of < 10 ? 0 : 1, wf = of < 5 ? 0 : Math.min(14, (of - 5) * 2);
+            var b = bf ? bf[fr] : icon; if (b && b.data) { var bw = bf ? 16 : 20; g.drawImage(tinted(b, [31, 31, 31], wf), bx - bw / 2, by - bw / 2, bw, bw); } }
+          // the Pokémon: scale 0 at f0, +1/8 a frame to full at f8, from its feet; the ball's colour, fading out a step every 2 frames from f9
+          if (f >= 0 && mon) { var s = Math.min(1, f / 8), frac = f < 9 ? 16 : Math.max(0, 16 - ((f - 9) >> 1));
+            if (s > 0) { var im = tinted(mon, tint, frac), mw = mon.cv.width * s, mh = mon.cv.height * s, foot = cy + 40; g.drawImage(im, cx - mw / 2, foot - 40 * s - mh / 2, mw, mh); } }
+          // the particles, over the Pokémon: emitters in reverse creation order (emitter 0 last, on top), newest particles first
+          if (ems) for (var i = ems.length - 1; i >= 0; i--) { var e = ems[i], h = e.h;
+            var parents = function () { if (!h.hideParent) e.parts.forEach(function (p) { g4Draw(g, set, e, p, false, OX, OY); }); }, kids = function () { e.kids.forEach(function (p) { g4Draw(g, set, e, p, true, OX, OY); }); };
+            if (h.childFirst) { kids(); parents(); } else { parents(); kids(); } }
+          // the DS screen's edges cut the burst off; on a page they're softened rather than drawn as a hard box (not the game)
+          g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = 'destination-in'; g.drawImage(edge(W, H), 0, 0); g.globalCompositeOperation = 'source-over';
+        }
+      };
+    });
+  }
+
+  var SCENES = {2: g2Scene, 3: g3Scene, 4: g4Scene};
+  var G4_WORDS = {   // what each .spa draws, in words (docs/design/BALL_OPENINGS.md has the numbers)
+    poke: 'a gold glow, ten pale-yellow rays and eighteen sparks going yellow to peach to red', park: 'a gold glow, ten pale-yellow rays and eighteen sparks going yellow to peach to red',
+    great: 'a blue glow, blue rays and blue sparks', safari: 'a green glow, green rays and green sparks', ultra: 'a yellow glow with a white starburst core, rays, yellow sparks and two expanding rings',
+    master: 'a spinning pink starburst, two sets of pink rays, twenty-one comet streaks with white halos, and two shockwave rings that fill the screen',
+    net: 'a dark net that spreads and turns, a lavender glow, rays and lavender sparks', dive: 'aqua bubbles trailing blue glow, a blue glow with a starburst core, and rays',
+    nest: 'nine leaf strokes swirling outward, a green glow, rays and orange sparks', repeat: 'an orange glow, rays and small orange hoops with grey cores',
+    timer: 'a clock face of twelve ticks with a red hand sweeping round, over the gold glow, rays and sparks', luxury: 'twenty twinkling gold stars around a warm glow, rays and sparks',
+    premier: 'a pale glow with a white starburst, rays running red to white, and red sparks', dusk: 'a dark purple vortex turning, dark rays and purple sparks',
+    heal: 'eight large stars orbiting outward from pink to blue, a pink glow and rays', quick: 'four spinning cyan crescents, a cyan glow, rays and orange sparks',
+    cherish: 'three halo rings spinning like coins, rays shimmering through purple, pink and gold, and gold sparks'};
 
   /* ---- in words, for the ball pages ---- */
   var G3_WORDS = {poke: 'the spinning white-and-orange streaks', great: 'the spinning streaks, in two waves', safari: 'the spinning streaks, slowly turning', ultra: 'ten green sparkles in a slow spiral',
@@ -280,14 +547,18 @@ var BallOpen = (function () {
       if (!b) return 'There\'s no ' + id + ' ball in ' + name + ', so the Poké Ball\'s opening plays.';
       var c = b.fade.map(function (v) { return (v << 3) | (v >> 2); });
       return 'In ' + name + ' the ball pops open and lets out ' + G3_WORDS[id] + ' (' + G3_COUNT[id] + ' particles). The background flashes white, and the Pokémon grows out of the ball in its colour, rgb(' + c.join(', ') + '), before its own colours come back.'; }
-    return SCENES[4] && SCENES[4].describe ? SCENES[4].describe(game, id) : 'In ' + name + ': this generation\'s opening is still being read from the game\'s code.';
+    var hg = game === 'heartgold' || game === 'soulsilver', own = hg ? id in G4_HG_MEMBER : G4_PT_BALLS.indexOf(id) >= 0;
+    if (!own) return 'There\'s no ' + id + ' ball in ' + name + ', so the Poké Ball\'s opening plays.';
+    var w = G4_WORDS[id] || G4_WORDS.poke, same = hg && (G4_PT_BALLS.indexOf(id) < 0 || id === 'park');
+    return 'In ' + name + ' the ball whitens and bursts: ' + (same ? 'the Poké Ball\'s own burst (HeartGold and SoulSilver give ' + (id === 'park' ? 'the Park Ball' : 'every Apricorn ball and the Sport Ball') + ' a copy of it): ' + G4_WORDS.poke : w) +
+      '. The Pokémon grows up from its feet as a silhouette in the ball\'s colour, then its own colours come back over about a second.';
   }
   function start(img) {   // called from the Pokémon's <img onload>: play the opening over its portrait, once
     var host = img.closest && img.closest('.inball.release'); if (!host || host.dataset.opened) return;
     host.dataset.opened = '1';
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var gen = genOf(host.dataset.game), make = SCENES[gen] || SCENES[3], ball = host.dataset.ball || 'poke', shiny = host.dataset.shiny === '1';
-    make(ball, img.currentSrc || img.src, shiny).then(function (sc) {
+    var gen = genOf(host.dataset.game), make = SCENES[gen], ball = host.dataset.ball || 'poke', shiny = host.dataset.shiny === '1';
+    make(ball, img.currentSrc || img.src, shiny, host.dataset.game).then(function (sc) {
       host.classList.add('opening');
       var k = img.getBoundingClientRect().width / sc.native || 1.5, cv = document.createElement('canvas');
       cv.className = 'ibo'; cv.width = sc.W; cv.height = sc.H;
@@ -301,7 +572,7 @@ var BallOpen = (function () {
         if (!cv.isConnected) return;
         if (last == null) last = now + delay;
         acc += Math.max(0, now - last); last = Math.max(last, now);
-        var n = 0; while (acc >= 1000 / 60 && n < 4) { sc.step(); acc -= 1000 / 60; n++; }
+        var dt = 1000 / (sc.fps || 60), n = 0; while (acc >= dt && n < 4) { sc.step(); acc -= dt; n++; }   // Gen II and III step at 60 a second, Gen IV at 30
         if (n) sc.draw(g);
         if (sc.done) { cv.dataset.particles = sc.maxParticles; host.classList.remove('opening'); host.classList.add('opened'); cv.remove(); host.dataset.peak = sc.maxParticles; return; }
         requestAnimationFrame(tick);

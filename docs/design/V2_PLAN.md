@@ -171,9 +171,29 @@ Groups below Play start folded. Home leads with your six teams and what to do ne
 |---|---|
 | *"The move sets didn't save when I was done creating the Pokémon, or they like went away."* | Two causes, both repaired from the team page.<ul><li>**Copies.** The v2.2 bug made extra copies of each Pokémon. A slot can hold a copy that was never built while the one you built sits off the team, so the team showed no moves. The team page now names each case, and **Put the ones you built in their slots** swaps them back. The spare copies can then be set aside from Your Pokémon.</li><li>**Unsaved changes.** A build left without pressing Save is kept only in that browser. Leaving the builder with unsaved changes now says so. The team page marks those Pokémon *unsaved*, with **Save them now**, and the builder has **Save now** on its unsaved line. Both use the builder's own save.</li></ul> |
 | *"Pivot needs to be added to the list of team roles."* | **Pivot** is the sixth team role (`trainers/team_roles.json`, read the same way in the app and the engines). A Pivot carries a way to switch out on its own terms (U-turn, Baton Pass) and either takes the hardest hits well or moves first. Intimidate or Natural Cure counts towards it. 130 of the League's 1,076 Pokémon earn it (12%). The naming list's word for it is proposed as *Tactical*, giving 257,006 combinations. (A-107) |
-| *"The animation specific to the ball in question."* | **Each ball has its own opening**: hearts for the Love Ball, bubbles for the Dive Ball, a net for the Net Ball, moons and stars for the Moon Ball, a clock for the Timer Ball, smoke for the Dusk Ball, a purple ring for the Master Ball, and so on for all 25. These are Blackthorn's designs after each ball's colours and purpose, not copies of the games' frames. The opening plays on the builder's portrait (tap it to replay) and on the team's six. (A-106) |
+| *"The animation specific to the ball in question."* | *(Replaced in v2.4 by the games' own openings, §12.)* **Each ball has its own opening**: hearts for the Love Ball, bubbles for the Dive Ball, a net for the Net Ball, moons and stars for the Moon Ball, a clock for the Timer Ball, smoke for the Dusk Ball, a purple ring for the Master Ball, and so on for all 25. These are Blackthorn's designs after each ball's colours and purpose, not copies of the games' frames. The opening plays on the builder's portrait (tap it to replay) and on the team's six. (A-106) |
 
-## 12. Not reworked yet (the next updates)
+## 12. v2.4: ball openings as the games play them (2026-10-26)
+
+Zack: *"I want all of the ball to have the animation from the game, not a custom one."*
+
+**Every ball now opens the way its own game sends a Pokémon out.** Each generation is rebuilt from that game's
+disassembly, number for number, at the commits the ball mechanics already use (A-30). The player is
+`engine/app/web/31_ballopen.html`; the sources are cited file by file in `docs/design/BALL_OPENINGS.md`.
+
+| Games | What plays |
+|---|---|
+| HeartGold, SoulSilver, Platinum | **Each ball's own particle file**, read and simulated as the game's particle library runs it, at 30 frames a second. The Pokémon grows from its feet as a silhouette in the ball's colour, then its colours come back. HeartGold and SoulSilver give the seven Apricorn balls and the Sport Ball a copy of the Poké Ball's burst, so that's what they play. |
+| FireRed, Emerald | **Each ball's particle routine**: the count, path, speed and life of its particles, the ball's own open frames, the white background flash, and the Pokémon growing out in the ball's colour. |
+| Crystal | **A grey smoke poof with no ball**, the same for every ball, while the picture builds in from its own tiles. A shiny gets the inverted flash and ring of sparkles. |
+
+- The game's pictures are loaded from the disassemblies when an opening plays. None are copied into the project.
+- It plays on the builder's portrait (tap to replay) and on the team's six. Each ball's page has a new **How it opens**
+  card for the chosen game.
+- A-106 is rewritten to match. A-108 lists the few places the portrait differs from the game, such as the throw being
+  left out and the Apricorn balls' item picture standing in before the burst.
+
+## 13. Not reworked yet (the next updates)
 
 This update rebuilt the path from a team to one Pokémon and back. The rest still works, but some of it was built
 around the old journey.
